@@ -185,6 +185,12 @@ protected:
         Done = 1,
     };
 
+    enum class IsSpecialJobTypeResult {
+        No = 0,
+        Yes = 1,
+        _2 = 2,
+    };
+
     struct InitContext {
         InitResult result;
         bool sleep_after_init;
@@ -241,7 +247,7 @@ protected:
     /// Called to actually pre-delete (first callback).
     virtual void preDelete1_();
 
-    virtual bool isSpecialJobType_(JobType type);
+    virtual IsSpecialJobTypeResult isSpecialJobType_(JobType type);
     virtual bool canWakeUp_();
     virtual void queueExtraJobPush_(JobType type);
     virtual bool hasJobType_(JobType type);

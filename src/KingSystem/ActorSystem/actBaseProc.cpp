@@ -156,9 +156,11 @@ void BaseProc::preDelete2_(bool*) {}
 
 void BaseProc::preDelete1_() {}
 
-// NON_MATCHING: branching
-bool BaseProc::isSpecialJobType_(JobType type) {
-    return BaseProcMgr::instance()->isSpecialJobType(type) || isSpecialJobTypeForThisActor_(type);
+BaseProc::IsSpecialJobTypeResult BaseProc::isSpecialJobType_(JobType type) {
+    if (BaseProcMgr::instance()->isSpecialJobType(type) || isSpecialJobTypeForThisActor_(type))
+        return IsSpecialJobTypeResult::Yes;
+
+    return IsSpecialJobTypeResult::No;
 }
 
 bool BaseProc::canWakeUp_() {
