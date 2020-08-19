@@ -1,9 +1,9 @@
 [submodule "sead"]
 	path = lib/sead
-	url = git@github.com:open-ead/sead
+	url = https://github.com/open-ead/sead
 [submodule "NintendoSDK"]
 	path = lib/NintendoSDK
-	url = git@github.com:open-ead/nnheaders
+	url = https://github.com/open-ead/nnheaders
 [submodule "agl"]
 	path = lib/agl
-	url = git@github.com:open-ead/agl
+	url = https://github.com/open-ead/agl
