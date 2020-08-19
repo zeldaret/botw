@@ -106,13 +106,36 @@ public:
     void wakeUp(SleepWakeReason reason);
     /// Delete this actor. The request is queued.
     bool deleteLater(DeleteReason reason);
+    void freeLinkData();
 
     u8 getPriority() const { return mPriority; }
     void setPriority(u8 priority) { mPriority = priority; }
 
+    State getState() const { return mState; }
     bool isDeletedOrDeleting() const {
         return mState == State::Delete || mStateFlags.isOn(StateFlags::RequestDelete);
     }
+
+    /// For BaseProcLink or ActorLinkConstDataAccess.
+    bool acquire(ActorLinkConstDataAccess& accessor);
+    /// For BaseProcLink or ActorLinkConstDataAccess.
+    void release();
+
+    BaseProc* getConnectedCalcParent() const;
+    void setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_delete);
+    void resetConnectedCalcParent(bool clear_existing_set_request);
+
+    BaseProc* getConnectedCalcChild() const;
+    void setConnectedCalcChild(BaseProc* child, bool delete_child_on_delete);
+    void resetConnectedCalcChild(bool clear_existing_set_request);
+
+    bool isSpecialJobType(JobType type);
+    bool shouldSkipJobPush(JobType type);
+    void setJobPriority(u8 actorparam_priority, JobType type);
+    void setJobPriority2(u8 actorparam_priority, JobType type);
+
+    void setCreatePriorityState2();
+    bool setStateFlag(u8 idx);
 
 protected:
     friend class BaseProcLinkDataMgr;
@@ -237,9 +260,14 @@ protected:
     void doPreDelete(bool* do_not_destruct_immediately);
     void startDelete_();
 
+    /// Called from BaseProcMgr when a job for this process is invoked.
+    void jobInvoked(JobType type);
+
     bool isSpecialJobTypeForThisActor_(JobType type) const {
         return mSpecialJobTypesMask.isOnBit(int(type));
     }
+
+    bool x00000071011ba9fc();
 
     sead::FixedSafeString<64> mName;
     u32 mId = -1;
