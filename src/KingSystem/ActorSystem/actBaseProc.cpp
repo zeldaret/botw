@@ -206,7 +206,7 @@ bool BaseProc::processStateUpdate(u8 counter) {
             return true;
         }
         // Try the deletion again later.
-        mStateFlags.setDirect(StateFlags::RequestDelete);
+        mStateFlags = StateFlags::RequestDelete;
         return false;
     }
 
@@ -220,7 +220,7 @@ bool BaseProc::processStateUpdate(u8 counter) {
             if (shouldClearStateFlag4000_())
                 new_flags.makeAllZero();
             else
-                new_flags.setDirect(StateFlags::_4000);
+                new_flags = StateFlags::_4000;
         } else {
             new_flags.makeAllZero();
         }
@@ -263,7 +263,7 @@ bool BaseProc::processStateUpdate(u8 counter) {
 
         if (mStateFlags.isOn(StateFlags::RequestDelete)) {
             new_flags.set(StateFlags::RequestDelete);
-            mStateFlags.setDirect(new_flags.getDirect());
+            mStateFlags = new_flags;
             return false;
         }
 
