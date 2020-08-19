@@ -160,6 +160,7 @@ protected:
         _2 = 2,
         RequestSleep = 4,
         RequestWakeUp = 8,
+        _a = _2 | RequestWakeUp,
         RequestChangeCalcJobPriority = 0x10,
         _20 = 0x20,
         _40 = 0x40,

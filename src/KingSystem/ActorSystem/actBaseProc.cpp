@@ -408,4 +408,23 @@ void BaseProc::handleJobPriorityChangeRequest_() {
     }
 }
 
+bool BaseProc::x00000071011ba9fc() {
+    if (BaseProcMgr::instance()->getStatus() != BaseProcMgr::Status::ProcessingUpdateStateList)
+        return false;
+
+    if (mFlags.isOn(Flags::_80))
+        return mFlags.isOn(Flags::_100);
+
+    mFlags.set(Flags::_80);
+
+    if (mFlags.isOff(Flags::Initialized) || mStateFlags.isOn(StateFlags::RequestDelete) ||
+        mStateFlags.isOn(StateFlags::RequestSleep) || mStateFlags.isOff(StateFlags::_a) ||
+        !canWakeUp_()) {
+        return false;
+    }
+
+    mFlags.set(Flags::_100);
+    return true;
+}
+
 }  // namespace ksys::act

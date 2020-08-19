@@ -159,6 +159,7 @@ public:
     void incrementPendingDeletions() { mNumPendingDeletions.increment(); }
     void decrementPendingDeletions() { mNumPendingDeletions.decrement(); }
 
+    Status getStatus() const { return mStatus; }
     u32 getNumJobTypes() const { return mNumJobTypes; }
 
 private:
