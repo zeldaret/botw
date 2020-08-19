@@ -11,6 +11,8 @@ public:
     Actor();  // FIXME
     ~Actor() override;
 
+    SEAD_RTTI_OVERRIDE(Actor, BaseProc)
+
     void emitBasicSigOn();
     void emitBasicSigOff();
 };
