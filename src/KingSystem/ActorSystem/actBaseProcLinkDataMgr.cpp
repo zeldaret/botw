@@ -2,10 +2,29 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 
 namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(BaseProcLinkDataMgr)
+
+BaseProc* BaseProcLinkData::getProc(u32 id, bool allow_deleted) const {
+    if (id == u32(-1) || mId != id)
+        return nullptr;
+
+    if (!allow_deleted && mProc && mProc->getState() == BaseProc::State::Delete)
+        return nullptr;
+
+    return mProc;
+}
+
+sead::CriticalSection* BaseProcLinkData::lockIfNeeded() {
+    if (BaseProcMgr::instance()->isHighPriorityThread())
+        return nullptr;
+
+    mCS.lock();
+    return &mCS;
+}
 
 bool BaseProcLinkDataMgr::acquireLink(BaseProc* proc) {
     auto lock = sead::makeScopedLock(mCS);
