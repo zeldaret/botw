@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Utils/Debug.h"
 
 namespace ksys::act {
 
@@ -20,9 +22,7 @@ bool ActorLinkConstDataAccess::acquire(BaseProc* proc) {
         mProc = nullptr;
     }
 
-    if (proc)
-        return proc->acquire(*this);
-    return false;
+    return proc && proc->acquire(*this);
 }
 
 bool ActorLinkConstDataAccess::hasProc(BaseProc* proc) const {
@@ -31,6 +31,26 @@ bool ActorLinkConstDataAccess::hasProc(BaseProc* proc) const {
 
 void ActorLinkConstDataAccess::debugLog(s32, const sead::SafeString&) {
     // Intentionally left empty.
+}
+
+bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from) {
+    bool acquired = false;
+
+    if (accessor) {
+        acquired = accessor->acquire(proc);
+        if (!acquired)
+            return false;
+    }
+
+    if (acquired || BaseProcMgr::instance()->isHighPriorityThread())
+        return true;
+
+    sead::FixedSafeString<256> message;
+    // (%s)Acquiring from a low priority thread. Please change via ActorLinkConstDataAccess
+    message.format("(%s)低スレッドからの取得です。ActorLinkConstDataAccess経由に変更お願いします",
+                   from.cstr());
+    util::PrintDebug(message);
+    return false;
 }
 
 }  // namespace ksys::act

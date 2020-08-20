@@ -48,6 +48,7 @@ add_executable(uking
 
   src/KingSystem/Terrain/teraSystem.h
 
+  src/KingSystem/Utils/Debug.h
   src/KingSystem/Utils/StrTreeMap.h
   src/KingSystem/Utils/Types.h
 )

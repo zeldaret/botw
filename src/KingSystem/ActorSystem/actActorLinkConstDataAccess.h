@@ -21,15 +21,21 @@ public:
     /// If an actor was already acquired, it is released.
     bool acquire(BaseProc* proc);
 
+    void release() { acquire(nullptr); }
+
     /// Checks whether the acquired BaseProc is `proc`.
     bool hasProc(BaseProc* proc) const;
 
-private:
     void debugLog(s32, const sead::SafeString& method_name);
 
+private:
     bool mAcquired = false;
     BaseProc* mProc = nullptr;
 };
+
+/// Acquire the specified BaseProc using `accessor`. Using ActorLinkConstDataAccess is mandatory
+/// when acquiring from a low priority thread (see BaseProcMgr for a definition).
+bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from);
 
 }  // namespace act
 
