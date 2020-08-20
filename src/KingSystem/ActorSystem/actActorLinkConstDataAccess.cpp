@@ -4,8 +4,11 @@
 namespace ksys::act {
 
 ActorLinkConstDataAccess::~ActorLinkConstDataAccess() {
-    if (mAcquired)
-        acquire(nullptr);
+    if (mAcquired && mProc)
+        mProc->release();
+
+    mAcquired = false;
+    mProc = nullptr;
 }
 
 bool ActorLinkConstDataAccess::acquire(BaseProc* proc) {
