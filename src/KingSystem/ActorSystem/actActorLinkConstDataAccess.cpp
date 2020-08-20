@@ -33,7 +33,8 @@ void ActorLinkConstDataAccess::debugLog(s32, const sead::SafeString&) {
     // Intentionally left empty.
 }
 
-bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from) {
+bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from,
+                 s32) {
     bool acquired = false;
 
     if (accessor) {

@@ -22,25 +22,6 @@ class ActorLinkConstDataAccess;
 class BaseProc;
 class BaseProcLinkData;
 class BaseProcJobHandler;
-
-class BaseProcLink {
-public:
-    BaseProcLink();
-    ~BaseProcLink() { reset(); }
-    BaseProcLink& operator=(const BaseProcLink&);
-    bool operator==(const BaseProcLink&) const;
-    bool operator!=(const BaseProcLink& rhs) const { return !operator==(rhs); }
-    BaseProc* fromAccessorAndActor(ActorLinkConstDataAccess&, BaseProc*);
-    BaseProc* fromAccessor(ActorLinkConstDataAccess&);
-    void reset();
-
-private:
-    BaseProcLinkData* mData = nullptr;
-    u32 mId = -1;
-    bool mAcquired = false;
-};
-KSYS_CHECK_SIZE_NX150(BaseProcLink, 0x10);
-
 class BaseProcUnit;
 
 class BaseProcHandle {
@@ -108,6 +89,9 @@ public:
     bool deleteLater(DeleteReason reason);
     void freeLinkData();
 
+    u32 getId() const { return mId; }
+    const sead::SafeString& getName() const { return mName; }
+
     u8 getPriority() const { return mPriority; }
     void setPriority(u8 priority) { mPriority = priority; }
 
@@ -118,6 +102,7 @@ public:
 
     /// For BaseProcLink or ActorLinkConstDataAccess.
     bool acquire(ActorLinkConstDataAccess& accessor);
+    BaseProcLinkData* getBaseProcLinkData() const { return mBaseProcLinkData; }
     /// For BaseProcLink or ActorLinkConstDataAccess.
     void release();
 

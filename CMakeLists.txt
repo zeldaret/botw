@@ -35,8 +35,8 @@ add_executable(uking
   src/KingSystem/ActorSystem/actBaseProcJob.h
   src/KingSystem/ActorSystem/actBaseProcJobHandler.cpp
   src/KingSystem/ActorSystem/actBaseProcJobHandler.h
-  src/KingSystem/ActorSystem/actBaseProcLinkDataMgr.cpp
-  src/KingSystem/ActorSystem/actBaseProcLinkDataMgr.h
+  src/KingSystem/ActorSystem/actBaseProcLink.cpp
+  src/KingSystem/ActorSystem/actBaseProcLink.h
   src/KingSystem/ActorSystem/actBaseProcMap.cpp
   src/KingSystem/ActorSystem/actBaseProcMap.h
   src/KingSystem/ActorSystem/actBaseProcMgr.cpp

@@ -1,13 +1,11 @@
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
-#include "KingSystem/ActorSystem/actBaseProcLinkDataMgr.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actBaseProcUnit.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
 namespace ksys::act {
-
-BaseProcLink::BaseProcLink() = default;
 
 BaseProc::BaseProc(const CreateArg& arg)
     : mName(arg.actor_name), mPriority(arg.class_info->priority) {

@@ -6,6 +6,7 @@
 #include <prim/seadSafeString.h>
 
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/MessageSystem/mesTransceiver.h"
 #include "KingSystem/Utils/Types.h"
 

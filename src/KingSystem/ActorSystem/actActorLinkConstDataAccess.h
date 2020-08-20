@@ -35,7 +35,8 @@ private:
 
 /// Acquire the specified BaseProc using `accessor`. Using ActorLinkConstDataAccess is mandatory
 /// when acquiring from a low priority thread (see BaseProcMgr for a definition).
-bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from);
+bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from,
+                 s32 = 2);
 
 }  // namespace act
 
