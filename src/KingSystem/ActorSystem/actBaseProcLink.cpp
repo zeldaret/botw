@@ -39,7 +39,7 @@ bool BaseProcLink::hasProcById(BaseProc* proc) const {
     return proc != nullptr & mId != cInvalidId && mId == proc->getId();
 }
 
-BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor, BaseProc* other_proc) {
+BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor, BaseProc* other_proc) const {
     return getProcInContext([&](BaseProc* proc) -> BaseProc* {
         if (proc && acquireProc(accessor, proc, "frm::BaseProcLink") &&
             BaseProcMgr::instance()->isAccessingProcSafe(proc, other_proc)) {
@@ -49,7 +49,7 @@ BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor, BaseProc* ot
     });
 }
 
-BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor) {
+BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor) const {
     return getProcInContext([&](BaseProc* proc) -> BaseProc* {
         if (proc && acquireProc(accessor, proc, "frm::BaseProcLink"))
             return proc;

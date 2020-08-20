@@ -29,8 +29,8 @@ public:
     bool hasProcInCalcState() const;
     bool hasProcById(BaseProc* proc) const;
 
-    BaseProc* getProc(ActorLinkConstDataAccess* accessor, BaseProc* other_proc);
-    BaseProc* getProc(ActorLinkConstDataAccess* accessor);
+    BaseProc* getProc(ActorLinkConstDataAccess* accessor, BaseProc* other_proc) const;
+    BaseProc* getProc(ActorLinkConstDataAccess* accessor) const;
 
     /// Acquire the specified BaseProc.
     /// If a BaseProc has already been specified, it is released.
