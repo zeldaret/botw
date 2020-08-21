@@ -69,7 +69,7 @@ public:
     void unregisterProc(BaseProc& proc);
 
     void addToPreDeleteList(BaseProc& proc);
-    bool addToUpdateStateList(BaseProc& proc);
+    bool addToUpdateStateList(BaseProc& proc, BaseProc::StateFlags flags);
     void eraseFromPreDeleteList(BaseProc& proc);
     void eraseFromUpdateStateList(BaseProc& proc);
     void processPreDeleteList();
@@ -210,11 +210,10 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(BaseProcMgr, 0x21a0);
 
-inline bool BaseProcMgr::addToUpdateStateList(BaseProc& proc) {
+inline bool BaseProcMgr::addToUpdateStateList(BaseProc& proc, BaseProc::StateFlags flag) {
     auto lock = sead::makeScopedLock(mProcUpdateStateListCS);
     doAddToUpdateStateList_(proc);
-    return (proc.mStateFlags.set(BaseProc::StateFlags::RequestDelete) &
-            u32(BaseProc::StateFlags::RequestDelete)) != 0;
+    return (proc.mStateFlags.set(flag) & u32(flag)) != 0;
 }
 
 }  // namespace ksys::act
