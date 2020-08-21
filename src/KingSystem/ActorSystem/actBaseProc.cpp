@@ -425,6 +425,13 @@ bool BaseProc::x00000071011ba9fc() {
     return true;
 }
 
+void BaseProc::release()
+{
+    if (this->mRefCount >= 1) {
+        this->mRefCount--;
+    }
+}
+
 BaseProc* BaseProc::getConnectedCalcParent() const {
     if (!this->mConnectedCalcParent || this->mConnectedCalcParent->mState == State::Delete) {
         return NULL;
