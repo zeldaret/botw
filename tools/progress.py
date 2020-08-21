@@ -13,6 +13,11 @@ parser.add_argument("--print-ok", "-m", action="store_true",
 args = parser.parse_args()
 
 
+code_size_total = 0
+code_size_matching = 0
+code_size_equivalent = 0
+code_size_nonmatching = 0
+
 num_total = 0
 num_matching = 0
 num_equivalent = 0
@@ -30,6 +35,7 @@ num_ai_behavior = 0
 num_ai_query = 0
 
 for info in utils.get_functions():
+    code_size_total += info.size
     num_total += 1
 
     if info.name.startswith("AI_F_Action_"):
@@ -50,14 +56,17 @@ for info in utils.get_functions():
 
     if info.status == utils.FunctionStatus.NonMatching:
         num_nonmatching += 1
+        code_size_nonmatching += info.size
         if args.print_nm:
             print(f"{Fore.RED}NM{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
     elif info.status == utils.FunctionStatus.Equivalent:
         num_equivalent += 1
+        code_size_equivalent += info.size
         if args.print_eq:
             print(f"{Fore.YELLOW}EQ{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
     elif info.status == utils.FunctionStatus.Matching:
         num_matching += 1
+        code_size_matching += info.size
         if args.print_ok:
             print(f"{Fore.GREEN}OK{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
     elif info.status == utils.FunctionStatus.Wip:
@@ -65,8 +74,10 @@ for info in utils.get_functions():
         print(f"{Back.RED}{Style.BRIGHT}{Fore.WHITE} WIP {Style.RESET_ALL} {utils.format_symbol_name(info.decomp_name)}{Style.RESET_ALL}")
 
 print()
-print(f"{num_total} functions")
-print(f"{num_matching + num_equivalent} {Fore.CYAN}matching or equivalent{Fore.RESET} ({round(100 * (num_matching + num_equivalent) / num_total, 3)}%)")
+print(f"{num_total} functions (size: ~{code_size_total} bytes)")
+print(f"{num_matching + num_equivalent} {Fore.CYAN}matching or equivalent{Fore.RESET} \
+({round(100 * (num_matching + num_equivalent) / num_total, 3)}%) \
+(size: {round(100 * (code_size_matching + code_size_equivalent) / code_size_total, 3)}%)")
 print(f"{num_matching} {Fore.GREEN}matching{Fore.RESET} ({round(100 * num_matching / num_total, 3)}%)")
 print(f"{num_equivalent} {Fore.YELLOW}equivalent{Fore.RESET} ({round(100 * num_equivalent / num_total, 3)}%)")
 print(f"{num_nonmatching} {Fore.RED}non-matching{Fore.RESET} ({round(100 * num_nonmatching / num_total, 3)}%)")
