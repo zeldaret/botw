@@ -111,7 +111,7 @@ public:
     void resetConnectedCalcParent(bool clear_existing_set_request);
 
     BaseProc* getConnectedCalcChild() const;
-    void setConnectedCalcChild(BaseProc* child, bool delete_child_on_delete);
+    bool setConnectedCalcChild(BaseProc* child, bool delete_child_on_delete);
     void resetConnectedCalcChild(bool clear_existing_set_request);
 
     bool isSpecialJobType(JobType type);
