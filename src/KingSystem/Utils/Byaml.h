@@ -33,7 +33,7 @@ enum class ByamlType {
 
 class ByamlIter {
 public:
-    ByamlIter() = default;
+    ByamlIter();
     explicit ByamlIter(const u8* data);
     ByamlIter(const u8* data, const u8* root_node);
     ByamlIter(const ByamlIter& other);

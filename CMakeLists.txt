@@ -52,6 +52,7 @@ add_executable(uking
   src/KingSystem/Utils/Byaml.h
   src/KingSystem/Utils/ByamlLocal.cpp
   src/KingSystem/Utils/ByamlLocal.h
+  src/KingSystem/Utils/ByamlUtil.cpp
   src/KingSystem/Utils/Debug.h
   src/KingSystem/Utils/StrTreeMap.h
   src/KingSystem/Utils/Types.h
