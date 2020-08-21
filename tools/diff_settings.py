@@ -5,4 +5,4 @@ def apply(config, args):
     config['baseimg'] = 'data/main.elf'
     config['myimg'] = 'build/uking'
     config['source_directories'] = ['src']
-    config['objdump_executable'] = 'aarch64-linux-gnu-objdump'
+    config['objdump_executable'] = 'tools/aarch64-none-elf-objdump'

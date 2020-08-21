@@ -38,7 +38,6 @@ Using a decompiler such as Hex-Rays or Ghidra is strongly recommended.
 
 You'll also need:
 
-* aarch64 binutils (Debian/Ubuntu package: `binutils-aarch64-linux-gnu`)
 * pip (for the diff script)
 * The original 1.5.0 `main` executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
     * Copy it to data/main.elf -- it is used for the diff script and other tools.
