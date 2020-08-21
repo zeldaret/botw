@@ -282,7 +282,7 @@ protected:
     sead::ListNode mDeleteListNode;
     BaseProcMapNode mMapNode{this};
     BaseProcUnit* mProcUnit = nullptr;
-    sead::Atomic<u32> mRefCount = 0;
+    sead::Atomic<s32> mRefCount = 0;
 
 private:
     void unlinkProcUnit_();
