@@ -11,19 +11,25 @@ Currently, the focus is on decompiling AI classes and other small, mostly self-c
 Building this project requires:
 
 - A C++17 capable compiler (or >= Clang 4.0)
-- CMake 3.10+
+- Ninja (Ubuntu/Debian package: `ninja-build`)
+- CMake 3.13+
+
+If you are on Ubuntu 18.04, you can [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
 
 ### Building a matching version for Switch
 
 1. Download [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and extract the archive.
 2. Set the UKING_CLANG environment variable to point to the extracted archive, such that `$UKING_CLANG/bin/clang` exists.
 3. You'll also need devkitA64. Set the DEVKITA64 environment variable. For Linux, $DEVKITA64 is typically `/opt/devkitpro/devkitA64`.
+    * Also add devkitA64 to your PATH: `export PATH=${DEVKITPRO}/devkitA64/bin:$PATH`
 4. In the root of this repository, run: `mkdir build`
 5. `cd build`
 6. `cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=../ToolchainNX64.cmake ..`
 7. `ninja` to start the build
 
 On subsequent builds, just run `ninja -C build` from the project root.
+
+If you are using Visual Studio Code, installing the CMake Tools extension is recommended to make includes, compiler flags, etc. work automatically.
 
 ## Contributing
 
