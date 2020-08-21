@@ -7,3 +7,6 @@
 [submodule "agl"]
 	path = lib/agl
 	url = https://github.com/open-ead/agl
+[submodule "asm-differ"]
+	path = tools/asm-differ
+	url = https://github.com/simonlindholm/asm-differ

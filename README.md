@@ -18,6 +18,7 @@ If you are on Ubuntu 18.04, you can [update CMake by using the official CMake AP
 
 ### Building a matching version for Switch
 
+0. After cloning this repo, run: `git submodule update --init --recursive`
 1. Download [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and extract the archive.
 2. Set the UKING_CLANG environment variable to point to the extracted archive, such that `$UKING_CLANG/bin/clang` exists.
 3. You'll also need devkitA64. Set the DEVKITA64 environment variable. For Linux, $DEVKITA64 is typically `/opt/devkitpro/devkitA64`.
@@ -35,6 +36,12 @@ If you are using Visual Studio Code, installing the CMake Tools extension is rec
 
 Using a decompiler such as Hex-Rays or Ghidra is strongly recommended.
 
+You'll also need:
+
+* pip (for the diff script)
+* The original 1.5.0 `main` executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
+    * Copy it to data/main.elf -- it is used for the diff script and other tools.
+
 ### Resources
 
 * The [ZeldaMods](https://zeldamods.org/wiki/Main_Page) wiki
@@ -44,8 +51,8 @@ Using a decompiler such as Hex-Rays or Ghidra is strongly recommended.
 ### Project tools
 
 * To compare assembly: `./diff.py <mangled function name>`
-    * The function must be listed in data/uking_functions.csv first.
-    * [asm-differ](https://github.com/simonlindholm/asm-differ) must be in your $PATH, such that running `asm-differ` works.
+    * The function **must be listed in data/uking_functions.csv first**.
+        * To do so, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
     * Pass the `--source` flag to show source code interleaved with assembly code.
     * Add the `--inlines` flag to show inline function calls. This is not enabled by default because it usually produces too much output to be useful.
     * For more options, see [asm-differ](https://github.com/simonlindholm/asm-differ).

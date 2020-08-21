@@ -18,7 +18,7 @@ for info in utils.get_functions():
         if not info.decomp_name:
             utils.fail(f"{args.function} has not been decompiled")
 
-        subprocess.call(["asm-differ", "-e", info.decomp_name, "0x%016x" %
+        subprocess.call(["tools/asm-differ/diff.py", "-e", info.decomp_name, "0x%016x" %
                          info.addr, "0x%016x" % addr_end] + unknown)
 
         if info.status == utils.FunctionStatus.NonMatching:
