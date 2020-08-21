@@ -23,7 +23,7 @@ config: dict = dict()
 diff_settings.apply(config, {})
 myimg: str = config["myimg"]
 
-entries = [x.strip().split() for x in subprocess.check_output(["nm", myimg], text=True).split("\n")]
+entries = [x.strip().split() for x in subprocess.check_output(["nm", myimg], universal_newlines=True).split("\n")]
 
 for entry in entries:
     if len(entry) == 3:
