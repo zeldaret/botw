@@ -66,7 +66,7 @@ bool BaseProc::deleteLater(DeleteReason reason) {
         }
     }
 
-    if (!BaseProcMgr::instance()->addToUpdateStateList(*this))
+    if (!BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestDelete))
         onDeleteRequested_(reason);
 
     if (!is_high_prio)
@@ -422,6 +422,30 @@ bool BaseProc::x00000071011ba9fc() {
     }
 
     mFlags.set(Flags::_100);
+    return true;
+}
+
+BaseProc* BaseProc::getConnectedCalcParent() const {
+    if (mConnectedCalcParent == nullptr || mConnectedCalcParent->mState == State::Delete)
+        return nullptr;
+
+    return mConnectedCalcParent;
+}
+
+bool BaseProc::setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_delete) {
+    if (parent == nullptr)
+        return false;
+
+    if (isDeletedOrDeleting() || parent->isDeletedOrDeleting())
+        return false;
+
+    if (BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestSetParent))
+        return false;
+
+    mConnectedCalcParentNew = parent;
+
+    mFlags.change(Flags::DeleteParentOnDelete, delete_parent_on_delete);
+
     return true;
 }
 

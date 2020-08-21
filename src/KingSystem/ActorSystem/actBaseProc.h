@@ -107,7 +107,7 @@ public:
     void release();
 
     BaseProc* getConnectedCalcParent() const;
-    void setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_delete);
+    bool setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_delete);
     void resetConnectedCalcParent(bool clear_existing_set_request);
 
     BaseProc* getConnectedCalcChild() const;
