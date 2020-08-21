@@ -453,4 +453,60 @@ bool BaseProc::setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_de
     return true;
 }
 
+void BaseProc::resetConnectedCalcParent(bool clear_existing_set_request) {
+
+    if (!this->isDeletedOrDeleting()) {
+        if (clear_existing_set_request) {
+            this->mStateFlags.change(StateFlags::RequestSetParent, false);
+            this->mConnectedCalcParentNew = NULL;
+        }
+        if (this->mConnectedCalcParent) {
+            BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestResetParent);
+        }
+    }
+}
+
+BaseProc* BaseProc::getConnectedCalcChild() const {
+    if (!this->mConnectedCalcChild || this->mConnectedCalcChild->mState == State::Delete) {
+        return NULL;
+    } else {
+        return this->mConnectedCalcChild;
+    }
+}
+
+bool BaseProc::setConnectedCalcChild(BaseProc* child, bool delete_child_on_delete) {
+    if (child == NULL)
+        return false;
+    
+    if (this->isDeletedOrDeleting() || child->isDeletedOrDeleting()) {
+        return false;
+    }
+
+    if (BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestSetChild)) {
+        return false;
+    }
+
+    this->mConnectedCalcChildNew = child;
+    
+    this->mFlags.change(Flags::DeleteChildOnDelete, delete_child_on_delete);
+
+    return true;
+}
+
+void BaseProc::resetConnectedCalcChild(bool clear_existing_set_request) {
+    if (!this->isDeletedOrDeleting()) {
+        if (clear_existing_set_request) {
+            this->mStateFlags.change(StateFlags::RequestSetChild, false);
+            this->mConnectedCalcChildNew = NULL;
+        }
+        if (this->mConnectedCalcChild) {
+            BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestResetChild);
+        }
+    }
+}
+
+bool BaseProc::isSpecialJobType(JobType type) {
+    return this->mSpecialJobTypesMask.isOnBit(u32(type));
+}
+
 }  // namespace ksys::act
