@@ -6,4 +6,4 @@ namespace ksys::util {
 
 inline void PrintDebug([[maybe_unused]] const sead::SafeString& message) {}
 
-}
+}  // namespace ksys::util
