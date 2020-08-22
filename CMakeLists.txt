@@ -64,7 +64,8 @@ target_compile_options(uking PRIVATE -Wall -Wextra)
 target_compile_options(uking PRIVATE -fno-strict-aliasing)
 target_compile_options(uking PRIVATE -Wno-invalid-offsetof)
 
-include_directories(lib/NintendoSDK/include)
+add_subdirectory(lib/NintendoSDK)
+target_link_libraries(uking PUBLIC NintendoSDK)
 
 add_subdirectory(lib/sead)
 target_link_libraries(uking PUBLIC sead)
