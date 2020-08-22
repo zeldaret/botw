@@ -107,11 +107,11 @@ public:
     void release();
 
     BaseProc* getConnectedCalcParent() const;
-    void setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_delete);
+    bool setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_delete);
     void resetConnectedCalcParent(bool clear_existing_set_request);
 
     BaseProc* getConnectedCalcChild() const;
-    void setConnectedCalcChild(BaseProc* child, bool delete_child_on_delete);
+    bool setConnectedCalcChild(BaseProc* child, bool delete_child_on_delete);
     void resetConnectedCalcChild(bool clear_existing_set_request);
 
     bool isSpecialJobType(JobType type);
@@ -282,7 +282,7 @@ protected:
     sead::ListNode mDeleteListNode;
     BaseProcMapNode mMapNode{this};
     BaseProcUnit* mProcUnit = nullptr;
-    sead::Atomic<u32> mRefCount = 0;
+    sead::Atomic<s32> mRefCount = 0;
 
 private:
     void unlinkProcUnit_();
