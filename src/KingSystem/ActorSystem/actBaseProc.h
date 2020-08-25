@@ -11,6 +11,7 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/ActorSystem/actBaseProcMap.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Utils/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -23,17 +24,7 @@ class BaseProc;
 class BaseProcLinkData;
 class BaseProcJobHandler;
 class BaseProcUnit;
-
-class BaseProcHandle {
-public:
-    BaseProcHandle();
-    ~BaseProcHandle();
-
-private:
-    BaseProcUnit* mUnit;
-    u8 mFlag;
-};
-KSYS_CHECK_SIZE_NX150(BaseProcHandle, 0x10);
+class BaseProcHandle;
 
 /// Actor base class that encapsulates all the low-level actor lifetime logic.
 class BaseProc {
@@ -100,6 +91,7 @@ public:
         return mState == State::Delete || mStateFlags.isOn(StateFlags::RequestDelete);
     }
 
+    bool isInitialized() const { return mFlags.isOn(Flags::Initialized); }
     /// For BaseProcLink or ActorLinkConstDataAccess.
     bool acquire(ActorLinkConstDataAccess& accessor);
     BaseProcLinkData* getBaseProcLinkData() const { return mBaseProcLinkData; }

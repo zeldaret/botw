@@ -2,7 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include <thread/seadCriticalSection.h>
-
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include <thread/seadAtomic.h>
 namespace ksys::act {
 
 class BaseProc;
@@ -18,7 +19,7 @@ public:
 
 private:
     u32 mFlags;
-    BaseProcHandle* mHandle;
+    sead::Atomic<BaseProcHandle*> mHandle;
     BaseProc* mProc;
     // FIXME:
     // BaseProcRequest mRequest;
