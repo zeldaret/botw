@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(uking
+  src/Game/Action/actionSetInstEventFlag.cpp
+  src/Game/Action/actionSetInstEventFlag.h
   src/Game/Action/actionSetLinkTagBasic.cpp
   src/Game/Action/actionSetLinkTagBasic.h
 
@@ -31,6 +33,8 @@ add_executable(uking
   src/KingSystem/ActorSystem/actAiParam.h
   src/KingSystem/ActorSystem/actBaseProc.cpp
   src/KingSystem/ActorSystem/actBaseProc.h
+  src/KingSystem/ActorSystem/actBaseProcHandle.cpp
+  src/KingSystem/ActorSystem/actBaseProcHandle.h
   src/KingSystem/ActorSystem/actBaseProcJob.cpp
   src/KingSystem/ActorSystem/actBaseProcJob.h
   src/KingSystem/ActorSystem/actBaseProcJobHandler.cpp
