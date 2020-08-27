@@ -1,19 +1,26 @@
 #pragma once
 
 #include <basis/seadTypes.h>
-#include "actBaseProcUnit.h"
+#include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actBaseProcUnit.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
 
 class BaseProcUnit;
+class BaseProc;
 
 class BaseProcHandle {
 public:
     BaseProcHandle();
     ~BaseProcHandle();
 
-    static BaseProcHandle sDummyBaseProcHandle;
+    bool procReady();
+
+    BaseProc* getProc();
+
+    static BaseProcHandle sDummyHandle;
+
 private:
     BaseProcUnit* mUnit;
     u8 mFlag;

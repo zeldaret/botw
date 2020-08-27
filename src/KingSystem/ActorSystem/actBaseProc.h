@@ -9,9 +9,9 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/ActorSystem/actBaseProcMap.h"
-#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Utils/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 

@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/Utils/Debug.h"
+
 namespace ksys::act {
 
 // NON_MATCHING: Equivalent but branches are off.
@@ -15,7 +16,7 @@ bool BaseProcUnit::setProc(BaseProc* proc) {
     if (mProc)
         mProc = nullptr;
 
-    if (mHandle == &BaseProcHandle::sDummyBaseProcHandle)
+    if (mHandle == &BaseProcHandle::sDummyHandle)
         return false;
 
     if (mHandle) {
@@ -51,7 +52,7 @@ bool BaseProcUnit::setProc(BaseProc* proc) {
 }
 
 bool BaseProcUnit::isParentHandleDefault() const {
-    return mHandle == &BaseProcHandle::sDummyBaseProcHandle;
+    return mHandle == &BaseProcHandle::sDummyHandle;
 }
 
 }  // namespace ksys::act

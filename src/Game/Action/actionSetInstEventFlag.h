@@ -12,7 +12,6 @@ public:
     ~SetInstEventFlagAction() override;
 
     void oneShot() override;
-
 };
 KSYS_CHECK_SIZE_NX150(SetInstEventFlagAction, 0x20);
 
