@@ -11,6 +11,8 @@ public:
 
     virtual void enter() {}
     virtual void loadParams() {}
+
+    virtual void oneShot() {}
 };
 KSYS_CHECK_SIZE_NX150(Action, 0x20);
 

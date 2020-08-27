@@ -26,3 +26,6 @@ main.elf
 perf.mData
 perf.mData.old
 .gdb_history
+
+.DS_Store
+tools/aarch64-none-elf-objdump
