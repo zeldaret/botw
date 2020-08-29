@@ -4,7 +4,15 @@ This is a decompilation of U-King v1.5.0 (Switch).
 
 File names, class or function names and the file organization come from leftover strings. Unlike some other first-party games such as *Super Mario Odyssey*, all known public versions of U-King are completely stripped, so most names are just more or less educated guesses.
 
+This repository only contains source code; it cannot be used to play *Breath of the Wild* and does *not* include any RomFS content.
+
+## Status
+
 Currently, the focus is on decompiling AI classes and other small, mostly self-contained components (e.g. LevelSensor).
+
+*Note to contributors:* *Breath of the Wild* heavily relies on software libraries like [sead](https://github.com/open-ead/sead) which are statically linked. Given that most of BotW's dependencies have not been fully decompiled yet, decompiling any non-trivial part of the game requires working on those libraries first.
+
+Because meaningfully splitting the code is not feasible, the built executable currently only contains functions that have been decompiled and no effort is being made to put functions and data at the correct addresses.
 
 ## Building
 
