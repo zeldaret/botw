@@ -4,7 +4,7 @@ This is a decompilation of U-King v1.5.0 (Switch).
 
 File names, class or function names and the file organization come from leftover strings. Unlike some other first-party games such as *Super Mario Odyssey*, all known public versions of U-King are completely stripped, so most names are just more or less educated guesses.
 
-This repository only contains source code; it cannot be used to play *Breath of the Wild* and does *not* include any RomFS content.
+**This repository only contains source code; it cannot be used to play *Breath of the Wild* and does *not* include any RomFS content.**
 
 ## Status
 
