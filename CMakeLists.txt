@@ -50,6 +50,9 @@ add_executable(uking
 
   src/KingSystem/MessageSystem/mesTransceiver.h
 
+  src/KingSystem/Resource/resResource.cpp
+  src/KingSystem/Resource/resResource.h
+
   src/KingSystem/Terrain/teraSystem.h
 
   src/KingSystem/Utils/Byaml.cpp
