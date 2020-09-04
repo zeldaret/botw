@@ -34,6 +34,8 @@ public:
     bool finishParsing();
     bool m7();
 
+    static constexpr size_t cLoadDataAlignment = 4;
+
 protected:
     virtual void onDestroy_() {}
     virtual bool parse_(u8* data, size_t size, sead::Heap* heap);

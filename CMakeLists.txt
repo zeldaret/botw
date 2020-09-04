@@ -50,6 +50,8 @@ add_executable(uking
 
   src/KingSystem/MessageSystem/mesTransceiver.h
 
+  src/KingSystem/Resource/resEntryFactory.cpp
+  src/KingSystem/Resource/resEntryFactory.h
   src/KingSystem/Resource/resResource.cpp
   src/KingSystem/Resource/resResource.h
 
@@ -61,6 +63,8 @@ add_executable(uking
   src/KingSystem/Utils/ByamlLocal.h
   src/KingSystem/Utils/ByamlUtil.cpp
   src/KingSystem/Utils/Debug.h
+  src/KingSystem/Utils/HeapUtil.cpp
+  src/KingSystem/Utils/HeapUtil.h
   src/KingSystem/Utils/StrTreeMap.h
   src/KingSystem/Utils/Types.h
 )
