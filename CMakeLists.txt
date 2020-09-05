@@ -47,6 +47,7 @@ add_executable(uking
   src/KingSystem/ActorSystem/actBaseProcMgr.h
   src/KingSystem/ActorSystem/actBaseProcUnit.cpp
   src/KingSystem/ActorSystem/actBaseProcUnit.h
+  src/KingSystem/ActorSystem/actTag.h
 
   src/KingSystem/MessageSystem/mesTransceiver.h
 
@@ -54,6 +55,8 @@ add_executable(uking
   src/KingSystem/Resource/resEntryFactory.h
   src/KingSystem/Resource/resResource.cpp
   src/KingSystem/Resource/resResource.h
+  src/KingSystem/Resource/resResourceActorLink.cpp
+  src/KingSystem/Resource/resResourceActorLink.h
   src/KingSystem/Resource/resResourceDemo.cpp
   src/KingSystem/Resource/resResourceDemo.h
   src/KingSystem/Resource/resResourceLod.cpp
@@ -67,6 +70,7 @@ add_executable(uking
   src/KingSystem/Utils/ByamlLocal.h
   src/KingSystem/Utils/ByamlUtil.cpp
   src/KingSystem/Utils/Debug.h
+  src/KingSystem/Utils/HashUtil.h
   src/KingSystem/Utils/HeapUtil.cpp
   src/KingSystem/Utils/HeapUtil.h
   src/KingSystem/Utils/ParamIO.h
