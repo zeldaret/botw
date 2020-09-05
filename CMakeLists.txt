@@ -55,7 +55,7 @@ add_executable(uking
   src/KingSystem/Resource/resResource.cpp
   src/KingSystem/Resource/resResource.h
   src/KingSystem/Resource/resResourceDemo.cpp
-  src/KingSystem/Resource/resResourceDemo.cpp
+  src/KingSystem/Resource/resResourceDemo.h
   src/KingSystem/Resource/resResourceLod.cpp
   src/KingSystem/Resource/resResourceLod.h
 

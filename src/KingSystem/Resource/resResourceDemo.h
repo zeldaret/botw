@@ -4,6 +4,7 @@
 #include <agl/Utils/aglParameterIO.h>
 #include <agl/Utils/aglParameterObj.h>
 #include <resource/seadResource.h>
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {
 
@@ -81,5 +82,6 @@ public:
     agl::utl::Parameter<f32> mTraverseInnerCutRadius2;
     agl::utl::Parameter<s32> mDisableTraverseTime;
 };
+KSYS_CHECK_SIZE_NX150(Demo, 0xb20);
 
 }  // namespace ksys::res
