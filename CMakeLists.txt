@@ -54,6 +54,8 @@ add_executable(uking
   src/KingSystem/Resource/resEntryFactory.h
   src/KingSystem/Resource/resResource.cpp
   src/KingSystem/Resource/resResource.h
+  src/KingSystem/Resource/resResourceLod.cpp
+  src/KingSystem/Resource/resResourceLod.h
 
   src/KingSystem/Terrain/teraSystem.h
 
@@ -65,6 +67,7 @@ add_executable(uking
   src/KingSystem/Utils/Debug.h
   src/KingSystem/Utils/HeapUtil.cpp
   src/KingSystem/Utils/HeapUtil.h
+  src/KingSystem/Utils/ParamIO.h
   src/KingSystem/Utils/StrTreeMap.h
   src/KingSystem/Utils/Types.h
 )
