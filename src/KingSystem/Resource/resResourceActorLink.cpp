@@ -80,7 +80,7 @@ bool ActorLink::parse_(u8* data, size_t, sead::Heap* heap) {
     return true;
 }
 
-void ActorLink::m5_() {
+void ActorLink::finalize_() {
     if (!mTags.isBufferReady())
         return;
 

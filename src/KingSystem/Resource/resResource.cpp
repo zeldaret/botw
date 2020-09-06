@@ -20,8 +20,8 @@ void Resource::parse(Context*, sead::Heap* heap) {
     parse_(mRawData, mRawSize, heap);
 }
 
-bool Resource::m5() {
-    m5_();
+bool Resource::finalize() {
+    finalize_();
     return true;
 }
 

@@ -30,7 +30,7 @@ public:
 
     void onDestroy();
     void parse(Context*, sead::Heap* heap);
-    bool m5();
+    bool finalize();
     bool finishParsing();
     bool m7();
 
@@ -39,7 +39,7 @@ public:
 protected:
     virtual void onDestroy_() {}
     virtual bool parse_(u8* data, size_t size, sead::Heap* heap);
-    virtual void m5_() {}
+    virtual void finalize_() {}
     virtual bool finishParsing_() { return true; }
     virtual bool m7_() { return true; }
     virtual void m8_() {}

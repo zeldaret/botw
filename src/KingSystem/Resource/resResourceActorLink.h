@@ -60,7 +60,7 @@ public:
 
 private:
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
-    void m5_() override;
+    void finalize_() override;
 
     Users mUsers;
     agl::utl::Parameter<sead::SafeString> mActorNameJpn;
