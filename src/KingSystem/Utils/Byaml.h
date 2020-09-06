@@ -4,6 +4,7 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include <prim/seadSizedEnum.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace al {
@@ -162,7 +163,7 @@ struct ByamlData {
     void set(u8, u32, bool byteswap);
 
     u32 value = 0;
-    ksys::util::SizedEnum<ByamlType, u8> type = ByamlType::Invalid;
+    sead::SizedEnum<ByamlType, u8> type = ByamlType::Invalid;
 };
 
 bool tryGetByamlS32(s32* value, const ByamlIter& iter, const char* key);

@@ -7,6 +7,7 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadScopedLock.h>
+#include <prim/seadSizedEnum.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
@@ -176,7 +177,7 @@ private:
     static u32 sConstant4;
 
     Status mStatus = Status::Idle;
-    util::SizedEnum<JobType, u8> mJobType = JobType::Invalid;
+    sead::SizedEnum<JobType, u8> mJobType = JobType::Invalid;
     u8 mCurrentlyProcessingPrio = 8;
     u8 mCounter = 0;
     sead::CriticalSection mProcMapCS;
