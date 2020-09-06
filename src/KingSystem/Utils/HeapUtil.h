@@ -4,11 +4,12 @@
 #include <heap/seadExpHeap.h>
 #include <heap/seadFrameHeap.h>
 #include <heap/seadHeap.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::util {
 
-class DualHeap : public sead::ExpHeap {
+class DualHeap final : public sead::ExpHeap {
     SEAD_RTTI_OVERRIDE(DualHeap, sead::ExpHeap)
 
 public:
@@ -33,12 +34,14 @@ public:
     void genInformation_(sead::hostio::Context* context) override;
     void makeMetaString_(sead::BufferedSafeString* string) override;
 
+    sead::Heap* getHeap2() const { return mHeap2; }
+
 protected:
     DualHeap(size_t size, const sead::SafeString& name, Heap* parent1, Heap* parent2, s32 alignment,
              HeapDirection direction, bool b);
     ~DualHeap() override;
 
-    sead::Heap* mHeap;
+    sead::Heap* mHeap2;
     void* _118;
     u8 _120;
     void* _128;
@@ -46,7 +49,7 @@ protected:
 KSYS_CHECK_SIZE_NX150(sead::ExpHeap, 0x110);
 KSYS_CHECK_SIZE_NX150(DualHeap, 0x130);
 
-class DualFrameHeap : public sead::FrameHeap {
+class DualFrameHeap final : public sead::FrameHeap {
     SEAD_RTTI_OVERRIDE(DualFrameHeap, sead::FrameHeap)
 
 public:
@@ -66,6 +69,8 @@ public:
     void genInformation_(sead::hostio::Context* context) override;
     void makeMetaString_(sead::BufferedSafeString* string) override;
 
+    sead::Heap* getHeap2() const { return mHeap2; }
+
 protected:
     DualFrameHeap(size_t size, const sead::SafeString& name, Heap* parent1, Heap* parent2,
                   s32 alignment, HeapDirection direction, bool b);
@@ -81,6 +86,9 @@ KSYS_CHECK_SIZE_NX150(DualFrameHeap, 0x108);
 sead::Heap* tryCreateDualHeap(size_t size, const sead::SafeString& name, sead::Heap* heap1,
                               sead::Heap* heap2, sead::Heap::HeapDirection direction);
 
+/// Creates a dual heap that is as large as possible.
+sead::Heap* tryCreateDualHeap(sead::Heap* parent);
+
 /// Same as tryCreateDualHeap, but asserts on failure.
 sead::Heap* createDualHeap(size_t size, const sead::SafeString& name, sead::Heap* heap1,
                            sead::Heap* heap2, sead::Heap::HeapDirection direction);
@@ -93,5 +101,29 @@ void adjustHeapOrCurrentHeap(sead::Heap* heap);
 sead::Heap* getCurrentHeap();
 sead::Heap* getDebugHeap();
 sead::Heap* getDebugHeap2();
+
+[[gnu::always_inline]] inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
+    size_t size;
+    sead::Heap* heap2;
+
+    if (const auto* parent_ex = sead::DynamicCast<DualHeap>(parent)) {
+        if (parent_ex->getMaxAllocatableSize(sizeof(void*)) >= sizeof(DualFrameHeap))
+            size = parent_ex->getMaxAllocatableSize(sizeof(void*));
+        else
+            size = sizeof(DualFrameHeap);
+
+        heap2 = parent_ex->getHeap2();
+    } else {
+        if (parent->getMaxAllocatableSize(sizeof(void*)) >= sizeof(DualFrameHeap))
+            size = parent->getMaxAllocatableSize(sizeof(void*));
+        else
+            size = sizeof(DualFrameHeap);
+
+        heap2 = getDebugHeap();
+    }
+
+    return tryCreateDualHeap(size, parent->getName(), parent, heap2,
+                             sead::Heap::cHeapDirection_Forward);
+}
 
 }  // namespace ksys::util
