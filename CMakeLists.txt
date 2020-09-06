@@ -51,6 +51,8 @@ add_executable(uking
 
   src/KingSystem/MessageSystem/mesTransceiver.h
 
+  src/KingSystem/Resource/resCurrentResNameMgr.cpp
+  src/KingSystem/Resource/resCurrentResNameMgr.h
   src/KingSystem/Resource/resEntryFactory.cpp
   src/KingSystem/Resource/resEntryFactory.h
   src/KingSystem/Resource/resResource.cpp
