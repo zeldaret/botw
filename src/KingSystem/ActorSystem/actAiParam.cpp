@@ -8,38 +8,38 @@ ParamPack::~ParamPack() {
     auto* param = mParams;
     while (param) {
         if (param->data) {
-            switch (Param::Type(param->type)) {
-            case Param::Type::String:
+            switch (param->type) {
+            case AIDefParamType::String:
                 delete static_cast<sead::SafeString*>(param->data);
                 break;
-            case Param::Type::Int:
+            case AIDefParamType::Int:
                 delete static_cast<int*>(param->data);
                 break;
-            case Param::Type::Float:
+            case AIDefParamType::Float:
                 delete static_cast<float*>(param->data);
                 break;
-            case Param::Type::Vec3:
+            case AIDefParamType::Vec3:
                 delete static_cast<sead::Vector3f*>(param->data);
                 break;
-            case Param::Type::Bool:
+            case AIDefParamType::Bool:
                 delete static_cast<bool*>(param->data);
                 break;
-            case Param::Type::AITreeVariablePointer:
+            case AIDefParamType::AITreeVariablePointer:
                 delete static_cast<void**>(param->data);
                 break;
-            case Param::Type::UInt:
+            case AIDefParamType::UInt:
                 delete static_cast<u32*>(param->data);
                 break;
-            case Param::Type::MesTransceiverId:
+            case AIDefParamType::MesTransceiverId:
                 delete static_cast<mes::TransceiverId*>(param->data);
                 break;
-            case Param::Type::BaseProcHandle:
+            case AIDefParamType::BaseProcHandle:
                 delete static_cast<BaseProcHandle**>(param->data);
                 break;
-            case Param::Type::Rail:
+            case AIDefParamType::Rail:
                 delete static_cast<Rail**>(param->data);
                 break;
-            case Param::Type::BaseProcLink:
+            case AIDefParamType::BaseProcLink:
                 delete static_cast<BaseProcLink*>(param->data);
                 break;
             default:
@@ -58,47 +58,47 @@ void InlineParamPack::copyToParamPack(ParamPack& pack) const {
     const InlineParam* param = params;
     for (u32 i = 0; i < n; ++i, ++param) {
         switch (param->type) {
-        case Param::Type::String: {
+        case AIDefParamType::String: {
             const sead::SafeString src = param->cstr;
             const sead::SafeString key = param->key;
-            auto* dst = pack.getVariable<sead::BufferedSafeString>(key, Param::Type::String);
+            auto* dst = pack.getVariable<sead::BufferedSafeString>(key, AIDefParamType::String);
             if (dst)
                 dst->copy(src);
             break;
         }
-        case Param::Type::Int:
-            pack.setVariable(param->key, Param::Type::Int, param->i);
+        case AIDefParamType::Int:
+            pack.setVariable(param->key, AIDefParamType::Int, param->i);
             break;
-        case Param::Type::Float:
-            pack.setVariable(param->key, Param::Type::Float, param->f);
+        case AIDefParamType::Float:
+            pack.setVariable(param->key, AIDefParamType::Float, param->f);
             break;
-        case Param::Type::Vec3:
-            if (auto* dst = pack.getVariable<sead::Vector3f>(param->key, Param::Type::Vec3)) {
+        case AIDefParamType::Vec3:
+            if (auto* dst = pack.getVariable<sead::Vector3f>(param->key, AIDefParamType::Vec3)) {
                 dst->x = param->vec3.x;
                 dst->y = param->vec3.y;
                 dst->z = param->vec3.z;
             }
             break;
-        case Param::Type::Bool:
-            pack.setVariable(param->key, Param::Type::Bool, param->b);
+        case AIDefParamType::Bool:
+            pack.setVariable(param->key, AIDefParamType::Bool, param->b);
             break;
-        case Param::Type::UInt:
-            pack.setVariable(param->key, Param::Type::UInt, param->u);
+        case AIDefParamType::UInt:
+            pack.setVariable(param->key, AIDefParamType::UInt, param->u);
             break;
-        case Param::Type::BaseProcLink:
-            pack.setVariable(param->key, Param::Type::BaseProcLink, param->baseProcLink);
+        case AIDefParamType::BaseProcLink:
+            pack.setVariable(param->key, AIDefParamType::BaseProcLink, param->baseProcLink);
             break;
-        case Param::Type::MesTransceiverId:
-            pack.setVariable(param->key, Param::Type::MesTransceiverId, param->mesTransceiverId);
+        case AIDefParamType::MesTransceiverId:
+            pack.setVariable(param->key, AIDefParamType::MesTransceiverId, param->mesTransceiverId);
             break;
-        case Param::Type::BaseProcHandle: {
+        case AIDefParamType::BaseProcHandle: {
             auto* baseProcHandle = static_cast<BaseProcHandle*>(param->ptr);
-            pack.setVariable(param->key, Param::Type::BaseProcHandle, baseProcHandle);
+            pack.setVariable(param->key, AIDefParamType::BaseProcHandle, baseProcHandle);
             break;
         }
-        case Param::Type::Rail: {
+        case AIDefParamType::Rail: {
             auto* rail = static_cast<Rail*>(param->ptr);
-            pack.setVariable(param->key, Param::Type::Rail, rail);
+            pack.setVariable(param->key, AIDefParamType::Rail, rail);
             break;
         }
         default:

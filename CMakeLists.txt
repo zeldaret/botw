@@ -59,6 +59,8 @@ add_executable(uking
   src/KingSystem/Resource/resResource.h
   src/KingSystem/Resource/resResourceActorLink.cpp
   src/KingSystem/Resource/resResourceActorLink.h
+  src/KingSystem/Resource/resResourceAIProgram.cpp
+  src/KingSystem/Resource/resResourceAIProgram.h
   src/KingSystem/Resource/resResourceArchive.cpp
   src/KingSystem/Resource/resResourceArchive.h
   src/KingSystem/Resource/resResourceDemo.cpp

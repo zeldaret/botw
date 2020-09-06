@@ -4,7 +4,9 @@
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadSizedEnum.h>
 
+#include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/MessageSystem/mesTransceiver.h"
@@ -17,27 +19,11 @@ class Rail;
 namespace act::ai {
 
 struct Param {
-    enum class Type {
-        String = 0,
-        Int = 1,
-        Float = 2,
-        Vec3 = 3,
-        Bool = 4,
-        Tree = 5,
-        AITreeVariablePointer = 6,
-        UInt = 7,
-        BaseProcLink = 8,
-        MesTransceiverId = 9,
-        BaseProcHandle = 10,
-        Rail = 11,
-        Other = 12,
-    };
-
     Param* next;
     u32 hash;
     const char* name;
     void* data;
-    u16 type;
+    sead::SizedEnum<AIDefParamType, u16> type;
     bool used;
     u8 _23;
 };
@@ -49,12 +35,12 @@ public:
     ~ParamPack();
 
     template <typename T>
-    T* getVariable(const sead::SafeString& key, Param::Type type, bool a4 = true) const {
+    T* getVariable(const sead::SafeString& key, AIDefParamType type, bool a4 = true) const {
         const u32 hash = agl::utl::ParameterBase::calcHash(key);
         auto* param = mParams;
         if (!param)
             return nullptr;
-        while (param->hash != hash || Param::Type(param->type) != type) {
+        while (param->hash != hash || param->type != type) {
             param = param->next;
             if (!param)
                 return nullptr;
@@ -65,7 +51,7 @@ public:
     }
 
     template <typename T>
-    void setVariable(const sead::SafeString& key, Param::Type type, const T& val) const {
+    void setVariable(const sead::SafeString& key, AIDefParamType type, const T& val) const {
         T* variable = getVariable<T>(key, type, true);
         if (variable)
             *variable = val;
@@ -87,7 +73,7 @@ struct InlineParam {
     BaseProcLink baseProcLink;
     sead::Vector3f vec3;
     mes::TransceiverId mesTransceiverId;
-    Param::Type type;
+    AIDefParamType type;
     const char* key;
 };
 KSYS_CHECK_SIZE_NX150(InlineParam, 0x50);
