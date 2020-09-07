@@ -1,89 +1,98 @@
 #!/usr/bin/env python3
 import argparse
+from collections import defaultdict
 from colorama import Back, Fore, Style
+import enum
 import utils
+from utils import FunctionStatus
+import typing as tp
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--print-nm", "-n", action="store_true",
-                    help="Print non-matching functions")
+                    help="Print non-matching functions with major issues")
 parser.add_argument("--print-eq", "-e", action="store_true",
-                    help="Print non-matching, semantically equivalent functions")
+                    help="Print non-matching functions with minor issues")
 parser.add_argument("--print-ok", "-m", action="store_true",
                     help="Print matching functions")
 args = parser.parse_args()
 
+class AIClassType(enum.Enum):
+    Action = 0
+    AI = 1
+    Behavior = 2
+    Query = 3
 
 code_size_total = 0
-code_size_matching = 0
-code_size_equivalent = 0
-code_size_nonmatching = 0
-
 num_total = 0
-num_matching = 0
-num_equivalent = 0
-num_nonmatching = 0
-num_wip = 0
-
-num_ai_action_done = 0
-num_ai_ai_done = 0
-num_ai_behavior_done = 0
-num_ai_query_done = 0
-
-num_ai_action = 0
-num_ai_ai = 0
-num_ai_behavior = 0
-num_ai_query = 0
+code_size: tp.DefaultDict[FunctionStatus, int] = defaultdict(int)
+counts: tp.DefaultDict[FunctionStatus, int] = defaultdict(int)
+ai_counts: tp.DefaultDict[AIClassType, int] = defaultdict(int)
+ai_counts_done: tp.DefaultDict[AIClassType, int] = defaultdict(int)
 
 for info in utils.get_functions():
     code_size_total += info.size
     num_total += 1
 
+    ai_class_type: tp.Optional[AIClassType] = None
     if info.name.startswith("AI_F_Action_"):
-        num_ai_action += 1
-        num_ai_action_done += bool(info.decomp_name)
-    if info.name.startswith("AI_F_AI_"):
-        num_ai_ai += 1
-        num_ai_ai_done += bool(info.decomp_name)
-    if info.name.startswith("AI_F_Behavior_"):
-        num_ai_behavior += 1
-        num_ai_behavior_done += bool(info.decomp_name)
-    if info.name.startswith("AI_F_Query_"):
-        num_ai_query += 1
-        num_ai_query_done += bool(info.decomp_name)
+        ai_class_type = AIClassType.Action
+    elif info.name.startswith("AI_F_AI_"):
+        ai_class_type = AIClassType.AI
+    elif info.name.startswith("AI_F_Behavior_"):
+        ai_class_type = AIClassType.Behavior
+    elif info.name.startswith("AI_F_Query_"):
+        ai_class_type = AIClassType.Query
+
+    if ai_class_type is not None:
+        ai_counts[ai_class_type] += 1
+        if info.decomp_name:
+            ai_counts_done[ai_class_type] += 1
 
     if not info.decomp_name:
         continue
 
-    if info.status == utils.FunctionStatus.NonMatching:
-        num_nonmatching += 1
-        code_size_nonmatching += info.size
+    counts[info.status] += 1
+    code_size[info.status] += info.size
+
+    if info.status == FunctionStatus.NonMatching:
         if args.print_nm:
             print(f"{Fore.RED}NM{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
-    elif info.status == utils.FunctionStatus.Equivalent:
-        num_equivalent += 1
-        code_size_equivalent += info.size
+    elif info.status == FunctionStatus.Equivalent:
         if args.print_eq:
             print(f"{Fore.YELLOW}EQ{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
-    elif info.status == utils.FunctionStatus.Matching:
-        num_matching += 1
-        code_size_matching += info.size
+    elif info.status == FunctionStatus.Matching:
         if args.print_ok:
             print(f"{Fore.GREEN}OK{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
-    elif info.status == utils.FunctionStatus.Wip:
-        num_wip += 1
+    elif info.status == FunctionStatus.Wip:
         print(f"{Back.RED}{Style.BRIGHT}{Fore.WHITE} WIP {Style.RESET_ALL} {utils.format_symbol_name(info.decomp_name)}{Style.RESET_ALL}")
 
-print()
-print(f"{num_total} functions (size: ~{code_size_total} bytes)")
-print(f"{num_matching + num_equivalent} {Fore.CYAN}matching or equivalent{Fore.RESET} \
-({round(100 * (num_matching + num_equivalent) / num_total, 3)}%) \
-(size: {round(100 * (code_size_matching + code_size_equivalent) / code_size_total, 3)}%)")
-print(f"{num_matching} {Fore.GREEN}matching{Fore.RESET} ({round(100 * num_matching / num_total, 3)}%)")
-print(f"{num_equivalent} {Fore.YELLOW}equivalent{Fore.RESET} ({round(100 * num_equivalent / num_total, 3)}%)")
-print(f"{num_nonmatching} {Fore.RED}non-matching{Fore.RESET} ({round(100 * num_nonmatching / num_total, 3)}%)")
+
+def format_progress(label: str, num: int, size: int):
+    percentage = round(100 * num / num_total, 3)
+    size_percentage = round(100 * size / code_size_total, 3)
+    return f"{num:>7d} {label}{Fore.RESET} ({percentage}% | size: {size_percentage}%)"
+
+def format_progress_for_status(label: str, status: FunctionStatus):
+    return format_progress(label, counts[status], code_size[status])
+
+def format_ai_progress(label: str, class_type: AIClassType):
+    percentage = round(100 * ai_counts_done[class_type] / ai_counts[class_type], 3)
+    return f"{ai_counts_done[class_type]:>7d} {label}{Fore.RESET} ({percentage}%)"
 
 print()
-print(f"{num_ai_action_done}/{num_ai_action} actions ({round(100 * num_ai_action_done / num_ai_action, 3)}%)")
-print(f"{num_ai_ai_done}/{num_ai_ai} AIs ({round(100 * num_ai_ai_done / num_ai_ai, 3)}%)")
-print(f"{num_ai_behavior_done}/{num_ai_behavior} behaviors ({round(100 * num_ai_behavior_done / num_ai_behavior, 3)}%)")
-print(f"{num_ai_query_done}/{num_ai_query} queries ({round(100 * num_ai_query_done / num_ai_query, 3)}%)")
+
+print(f"{num_total:>7d} functions (size: ~{code_size_total} bytes)")
+
+count_decompiled = counts[FunctionStatus.Matching] + counts[FunctionStatus.Equivalent] + counts[FunctionStatus.NonMatching]
+code_size_decompiled = code_size[FunctionStatus.Matching] + code_size[FunctionStatus.Equivalent] + code_size[FunctionStatus.NonMatching]
+
+print(format_progress(f"{Fore.CYAN}decompiled", count_decompiled, code_size_decompiled))
+print(format_progress_for_status(f"{Fore.GREEN}matching", FunctionStatus.Matching))
+print(format_progress_for_status(f"{Fore.YELLOW}non-matching (minor issues)", FunctionStatus.Equivalent))
+print(format_progress_for_status(f"{Fore.RED}non-matching (major issues)", FunctionStatus.NonMatching))
+
+print()
+print(format_ai_progress("actions", AIClassType.Action))
+print(format_ai_progress("AIs", AIClassType.AI))
+print(format_ai_progress("behaviors", AIClassType.Behavior))
+print(format_ai_progress("queries", AIClassType.Query))
