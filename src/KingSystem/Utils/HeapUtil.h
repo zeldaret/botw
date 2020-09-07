@@ -84,14 +84,14 @@ KSYS_CHECK_SIZE_NX150(sead::FrameHeap, 0xf0);
 KSYS_CHECK_SIZE_NX150(DualFrameHeap, 0x108);
 
 sead::Heap* tryCreateDualHeap(size_t size, const sead::SafeString& name, sead::Heap* heap1,
-                              sead::Heap* heap2, sead::Heap::HeapDirection direction);
+                              sead::Heap* heap2, sead::Heap::HeapDirection direction, bool b);
 
 /// Creates a dual heap that is as large as possible.
 sead::Heap* tryCreateDualHeap(sead::Heap* parent);
 
 /// Same as tryCreateDualHeap, but asserts on failure.
 sead::Heap* createDualHeap(size_t size, const sead::SafeString& name, sead::Heap* heap1,
-                           sead::Heap* heap2, sead::Heap::HeapDirection direction);
+                           sead::Heap* heap2, sead::Heap::HeapDirection direction, bool b);
 
 /// Returns the specified heap if it is not null. Otherwise, this returns the current heap.
 sead::Heap* getHeapOrCurrentHeap(sead::Heap* heap);
@@ -104,26 +104,24 @@ sead::Heap* getDebugHeap2();
 
 [[gnu::always_inline]] inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
     size_t size;
-    sead::Heap* heap2;
 
     if (const auto* parent_ex = sead::DynamicCast<DualHeap>(parent)) {
-        if (parent_ex->getMaxAllocatableSize(sizeof(void*)) >= sizeof(DualFrameHeap))
+        if (parent_ex->getMaxAllocatableSize(sizeof(void*)) < sizeof(DualFrameHeap))
+            size = sizeof(DualFrameHeap);
+        else
             size = parent_ex->getMaxAllocatableSize(sizeof(void*));
-        else
-            size = sizeof(DualFrameHeap);
 
-        heap2 = parent_ex->getHeap2();
-    } else {
-        if (parent->getMaxAllocatableSize(sizeof(void*)) >= sizeof(DualFrameHeap))
-            size = parent->getMaxAllocatableSize(sizeof(void*));
-        else
-            size = sizeof(DualFrameHeap);
-
-        heap2 = getDebugHeap();
+        return tryCreateDualHeap(size, parent->getName(), parent, parent_ex->getHeap2(),
+                                 sead::Heap::cHeapDirection_Forward, false);
     }
 
-    return tryCreateDualHeap(size, parent->getName(), parent, heap2,
-                             sead::Heap::cHeapDirection_Forward);
+    if (parent->getMaxAllocatableSize(sizeof(void*)) < sizeof(DualFrameHeap))
+        size = sizeof(DualFrameHeap);
+    else
+        size = parent->getMaxAllocatableSize(sizeof(void*));
+
+    return tryCreateDualHeap(size, parent->getName(), parent, getDebugHeap(),
+                             sead::Heap::cHeapDirection_Forward, false);
 }
 
 }  // namespace ksys::util
