@@ -65,6 +65,8 @@ add_executable(uking
   src/KingSystem/Resource/resResourceArchive.h
   src/KingSystem/Resource/resResourceDemo.cpp
   src/KingSystem/Resource/resResourceDemo.h
+  src/KingSystem/Resource/resResourceDrop.cpp
+  src/KingSystem/Resource/resResourceDrop.h
   src/KingSystem/Resource/resResourceLod.cpp
   src/KingSystem/Resource/resResourceLod.h
 
