@@ -76,6 +76,16 @@ add_executable(uking
 
   src/KingSystem/Utils/Thread/Event.cpp
   src/KingSystem/Utils/Thread/Event.h
+  src/KingSystem/Utils/Thread/Task.cpp
+  src/KingSystem/Utils/Thread/Task.h
+  src/KingSystem/Utils/Thread/TaskQueueBase.cpp
+  src/KingSystem/Utils/Thread/TaskQueueBase.h
+  src/KingSystem/Utils/Thread/TaskQueue.cpp
+  src/KingSystem/Utils/Thread/TaskQueue.h
+  src/KingSystem/Utils/Thread/TaskQueueLock.cpp
+  src/KingSystem/Utils/Thread/TaskQueueLock.h
+  src/KingSystem/Utils/Thread/TaskThread.cpp
+  src/KingSystem/Utils/Thread/TaskThread.h
   src/KingSystem/Utils/Byaml.cpp
   src/KingSystem/Utils/Byaml.h
   src/KingSystem/Utils/ByamlLocal.cpp
