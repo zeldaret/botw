@@ -10,51 +10,135 @@ File names, class or function names and the file organization come from leftover
 
 Currently, the focus is on decompiling AI classes and other small, mostly self-contained components (e.g. LevelSensor).
 
-*Note to contributors:* *Breath of the Wild* heavily relies on software libraries like [sead](https://github.com/open-ead/sead) which are statically linked. Given that most of BotW's dependencies have not been fully decompiled yet, decompiling any non-trivial part of the game requires working on those libraries first.
-
 Because meaningfully splitting the code is not feasible, the built executable currently only contains functions that have been decompiled and no effort is being made to put functions and data at the correct addresses.
 
 ## Building
 
-Building this project requires:
+### Dependencies
 
-- A C++17 capable compiler (or >= Clang 4.0)
-- Ninja (Ubuntu/Debian package: `ninja-build`)
-- CMake 3.13+
+* Clang 4.0.1
+    * Download [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and extract the archive to a convenient location of your choice.
+    * You might also need libtinfo5. For Ubuntu or Debian users, install it with `sudo apt install libtinfo5`
+* Ninja
+    * For Ubuntu or Debian users, install it with `sudo apt install ninja-build`
+* CMake 3.13+
+    * If you are on Ubuntu 18.04, you must [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
+* devkitA64
+    * [Follow this guide to set it up.](https://switchbrew.org/wiki/Setting_up_Development_Environment#Setup)
 
-If you are on Ubuntu 18.04, you can [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
+Using Linux (or WSL) is recommended but not required. The rest of this guide assumes that you are using a Linux environment, though.
 
-### Building a matching version for Switch
+### Building for Switch
 
-0. After cloning this repo, run: `git submodule update --init --recursive`
-1. Download [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and extract the archive.
-2. Set the UKING_CLANG environment variable to point to the extracted archive, such that `$UKING_CLANG/bin/clang` exists.
-3. You'll also need devkitA64. Set the DEVKITA64 environment variable. For Linux, $DEVKITA64 is typically `/opt/devkitpro/devkitA64`.
-    * Also add devkitA64 to your PATH: `export PATH=${DEVKITPRO}/devkitA64/bin:$PATH`
-4. In the root of this repository, run: `mkdir build`
-5. `cd build`
-6. `cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=../ToolchainNX64.cmake ..`
-7. `ninja` to start the build
+1. After cloning this repository, run: `git submodule update --init --recursive`
+2. `env UKING_CLANG=$1 DEVKITA64=$2 cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=../ToolchainNX64.cmake -B build`
+    * Replace `$1` with the path to the extracted Clang archive, such that `$1/bin/clang` exists.
+    * Replace `$2` with the path to devkitA64. On Linux, this is typically `/opt/devkitpro/devkitA64`.
+3. `ninja -C build` to start the build
 
 On subsequent builds, just run `ninja -C build` from the project root.
 
-If you are using Visual Studio Code, installing the CMake Tools extension is recommended to make includes, compiler flags, etc. work automatically.
-
 ## Contributing
 
-Using a decompiler such as Hex-Rays or Ghidra is strongly recommended.
+To contribute to the project, you will also need:
 
-You'll also need:
-
-* pip (for the diff script)
-* The original 1.5.0 `main` executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
+* A disassembler or a decompiler such as Hex-Rays or Ghidra.
+* Python 3 and pip for the diff script
+* The original 1.5.0 `main` NSO executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
     * Copy it to data/main.elf -- it is used for the diff script and other tools.
 
-### Resources
+Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
-* The [ZeldaMods](https://zeldamods.org/wiki/Main_Page) wiki
-* [MrCheeze's botw-tools](https://github.com/MrCheeze/botw-tools)
-* [botw-re-notes](https://github.com/leoetlino/botw-re-notes)
+Using a decompiler is strongly recommended for efficiency reasons. If you have IDA 7.0+, ping @leoetlino to get a copy of the IDC which will make decompilation easier and help with understanding the code more generally.
+
+Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discord server if you have any questions.
+
+*Note to contributors:* *Breath of the Wild* heavily relies on software libraries like [sead](https://github.com/open-ead/sead) which are statically linked. Given that most of BotW's dependencies have not been fully decompiled yet, decompiling any non-trivial part of the game might require working on those libraries first.
+
+### Workflow
+
+0. Open the executable in the disassembler of your choice.
+
+1. **Pick a function that you want to decompile.**
+    * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
+    * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
+    * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
+
+2. **Decompile it** using Hex-Rays or Ghidra.
+    * Rename variables, add structures, do everything you can to make the output as clean as possible.
+    * Again, understanding the function is very important.
+    * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
+
+3. **Implement the function in C++.**
+    * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
+    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
+    * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
+    * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
+
+4. **Build**.
+5. **Get the mangled name** of your function. For example, if you are decompiling BaseProcMgr::createInstance:
+
+      ```
+      $ tools/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
+      UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
+      ```
+
+6. **Add the mangled function name to the list of decompiled functions.**
+    * To do so, open data/uking_functions.csv and search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
+    * Example: `0x00000071010c0d60,sub_71010C0D60,136,_ZN4ksys4util13TaskQueueBaseD1Ev`
+
+7. **Compare the assembly** with `./diff.py --source <mangled function name>`
+    * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
+    * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
+
+8. **Tweak the code to get a perfectly matching function**.
+    * Clang is usually quite reasonable so it is very common for functions -- even complicated code -- to match on the first try.
+    * If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
+    * This is usually the most difficult part of matching decomp. Please ask on Discord if you need help!
+
+9. **Update the list of decompiled functions**.
+    * If you have a function that matches perfectly, great!
+    * If there are still minor differences left, add a `// NON_MATCHING: ` comment to explain what is wrong and add a `?` at the end of the mangled function name in the CSV.
+    * For major differences (lots of entirely red/green/blue lines in the diff), add a `!` at the end of the function name.
+
+10. Reformat the code with clang-format.
+
+### Non-inlined functions
+
+When **implementing non-inlined functions**, please compare the assembly output against the original function and make it match the original code. At this scale, that is pretty much the only reliable way to ensure accuracy and functional equivalency.
+
+However, given the large number of functions, certain kinds of small differences can be ignored when a function would otherwise be equivalent:
+
+* Regalloc differences.
+
+* Instruction reorderings when it is obvious the function is still semantically equivalent (e.g. two add/mov instructions that operate on entirely different registers being reordered)
+
+### Header utilities or inlined functions
+
+For **header-only utilities** (like container classes), use pilot/debug builds, assertion messages and common sense to try to undo function inlining. For example, if you see the same assertion appear in many functions and the file name is a header file, or if you see identical snippets of code in many different places, chances are that you are dealing with an inlined function. In that case, you should refactor the inlined code into its own function.
+
+Also note that introducing inlined functions is sometimes necessary to get the desired codegen.
+
+If a function is inlined, you should try as hard as possible to make it match perfectly. For inlined functions, it is better to use weird code or small hacks to force a match as differences would otherwise appear in every single function that inlines the non-matching code, which drastically complicates matching other functions. If a hack is used, wrap it inside a `#ifdef MATCHING_HACK_{PLATFORM}` (see below for a list of defines).
+
+### Matching hacks
+
+This project sometimes uses small hacks to force particular code to be generated by the compiler. Those have no semantic effects but can help with matching assembly code especially when the hacks are used for functions that are inlined.
+
+* `MATCHING_HACK_NX_CLANG`: Hacks for Switch, when compiling with Clang.
+
+### For people who are familiar with C matching decomp
+
+It is recommended to be familiar with the following C++ features or conventions:
+
+* namespaces
+* const correctness
+* classes, including inheritance, polymorphism, virtual functions
+    * The difference between regular functions, non-virtual member functions and virtual member functions.
+    * How virtual member functions are implemented (with a virtual function table or "vtable").
+    * const correctness for member functions.
+* using nullptr instead of NULL
+* C++11 / C++14 / C++17 features more generally
 
 ### Project tools
 
@@ -76,28 +160,8 @@ You'll also need:
       UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
         ```
 
-### Non-inlined functions
-When **implementing non-inlined functions**, please compare the assembly output against the original function and make it match the original code. At this scale, that is pretty much the only reliable way to ensure accuracy and functional equivalency.
+### Resources
 
-However, given the large number of functions, certain kinds of small differences can be ignored when a function would otherwise be equivalent:
-
-* Regalloc differences.
-
-* Instruction reorderings when it is obvious the function is still semantically equivalent (e.g. two add/mov instructions that operate on entirely different registers being reordered)
-
-When ignoring minor differences, add a `// NOT_MATCHING: explanation` comment and explain what does not match.
-
-Finally, add the mangled name of each function you have decompiled to data/uking_functions.csv to make it easier to track progress.
-
-### Header utilities or inlined functions
-For **header-only utilities** (like container classes), use pilot/debug builds, assertion messages and common sense to try to undo function inlining. For example, if you see the same assertion appear in many functions and the file name is a header file, or if you see identical snippets of code in many different places, chances are that you are dealing with an inlined function. In that case, you should refactor the inlined code into its own function.
-
-Also note that introducing inlined functions is sometimes necessary to get the desired codegen.
-
-If a function is inlined, you should try as hard as possible to make it match perfectly. For inlined functions, it is better to use weird code or small hacks to force a match as differences would otherwise appear in every single function that inlines the non-matching code, which drastically complicates matching other functions. If a hack is used, wrap it inside a `#ifdef MATCHING_HACK_{PLATFORM}` (see below for a list of defines).
-
-### Matching hacks
-
-This project sometimes uses small hacks to force particular code to be generated by the compiler. Those have no semantic effects but can help with matching assembly code especially when the hacks are used for functions that are inlined.
-
-* `MATCHING_HACK_NX_CLANG`: Hacks for Switch, when compiling with Clang.
+* The [ZeldaMods](https://zeldamods.org/wiki/Main_Page) wiki
+* [MrCheeze's botw-tools](https://github.com/MrCheeze/botw-tools)
+* [botw-re-notes](https://github.com/leoetlino/botw-re-notes)
