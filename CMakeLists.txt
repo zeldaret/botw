@@ -72,6 +72,8 @@ add_executable(uking
 
   src/KingSystem/Terrain/teraSystem.h
 
+  src/KingSystem/Utils/Thread/Event.cpp
+  src/KingSystem/Utils/Thread/Event.h
   src/KingSystem/Utils/Byaml.cpp
   src/KingSystem/Utils/Byaml.h
   src/KingSystem/Utils/ByamlLocal.cpp
