@@ -69,6 +69,8 @@ add_executable(uking
   src/KingSystem/Resource/resResourceDrop.h
   src/KingSystem/Resource/resResourceLod.cpp
   src/KingSystem/Resource/resResourceLod.h
+  src/KingSystem/Resource/resResourceRecipe.cpp
+  src/KingSystem/Resource/resResourceRecipe.h
 
   src/KingSystem/Terrain/teraSystem.h
 
