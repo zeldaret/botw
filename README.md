@@ -55,7 +55,7 @@ Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discor
 
 *Note to contributors:* *Breath of the Wild* heavily relies on software libraries like [sead](https://github.com/open-ead/sead) which are statically linked. Given that most of BotW's dependencies have not been fully decompiled yet, decompiling any non-trivial part of the game might require working on those libraries first.
 
-### Workflow
+### How to decompile
 
 0. Open the executable in the disassembler of your choice.
 
@@ -110,6 +110,7 @@ When **implementing non-inlined functions**, please compare the assembly output 
 However, given the large number of functions, certain kinds of small differences can be ignored when a function would otherwise be equivalent:
 
 * Regalloc differences.
+    * Warning: ensure that the return type of the function is correct. Differences that involve the X0-X7, W0-W7 or S0-S3 registers at the end of a function are suspicious.
 
 * Instruction reorderings when it is obvious the function is still semantically equivalent (e.g. two add/mov instructions that operate on entirely different registers being reordered)
 
@@ -127,16 +128,24 @@ This project sometimes uses small hacks to force particular code to be generated
 
 * `MATCHING_HACK_NX_CLANG`: Hacks for Switch, when compiling with Clang.
 
-### For people who are familiar with C matching decomp
+### For people who are familiar with C or other decomp projects
 
-It is recommended to be familiar with the following C++ features or conventions:
+Given the impossibility of automatically splitting the assembly and generating a matching binary, the sheer size of the main executable and the usage of many software libraries, this project takes a different and somewhat experimental approach to matching decompilation.
 
-* namespaces
-* const correctness
-* classes, including inheritance, polymorphism, virtual functions
-    * The difference between regular functions, non-virtual member functions and virtual member functions.
-    * How virtual member functions are implemented (with a virtual function table or "vtable").
-    * const correctness for member functions.
+Instead of trying to match the entire executable, each function is matched individually and source code is organized in whichever way makes the most sense. Libraries are not treated as being part of the game code, but as external dependencies. The result is that the codebase looks a lot more like a regular software project than a decompilation codebase. Since C++ code makes heavy use of inline functions and zero-cost abstractions that disappear in compiled code, contributors have a lot more leeway when it comes to organizing files and adding abstractions.
+
+Unlike most other decompilation projects, this one targets a large modern game that is written in C++. While C and C++ have similar syntax, C++ is somewhat more complex than C and has many more language features. To avoid getting lost in C++ code, please familiarize yourself with the following, preferably *before* decompiling:
+
+* [namespaces](https://en.cppreference.com/w/cpp/language/namespace)
+    * Instead of using prefixes such as `z_` to avoid name conflicts, C++ code instead relies on namespaces.
+* [classes](https://en.cppreference.com/w/cpp/language/class), including inheritance, polymorphism, virtual functions
+    * C++ classes/structs are basically C structs on steroids. Notably, C++ classes can contain member functions.
+    * Member functions get an implicit `this` argument, which is passed as if it were the first argument.
+    * [Virtual member functions](https://en.cppreference.com/w/cpp/language/virtual) are member functions that can be overridden in derived classes.
+    * Virtual member functions are usually implemented with a virtual function table or "vtable", which is a table of function pointers.
+* [const correctness](https://isocpp.org/wiki/faq/const-correctness) for member functions
+* iterators
+* range-based for loops
 * using nullptr instead of NULL
 * C++11 / C++14 / C++17 features more generally
 
