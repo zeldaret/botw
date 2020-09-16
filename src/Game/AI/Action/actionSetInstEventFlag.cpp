@@ -1,4 +1,4 @@
-#include "Game/Action/actionSetInstEventFlag.h"
+#include "Game/AI/Action/actionSetInstEventFlag.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {

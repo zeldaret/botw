@@ -1,4 +1,4 @@
-#include "Game/Action/actionSetLinkTagBasic.h"
+#include "Game/AI/Action/actionSetLinkTagBasic.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
