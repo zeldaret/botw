@@ -18,6 +18,9 @@ add_executable(uking
   src/Game/AI/Action/actionSetLinkTagBasic.cpp
   src/Game/AI/Action/actionSetLinkTagBasic.h
 
+  src/Game/DLC/aoc2.cpp
+  src/Game/DLC/aoc2.h
+
   src/KingSystem/ActorSystem/actActor.h
   src/KingSystem/ActorSystem/actActorCreator.cpp
   src/KingSystem/ActorSystem/actActorCreator.h
