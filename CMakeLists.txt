@@ -52,6 +52,8 @@ add_executable(uking
   src/KingSystem/Map/mapTypes.h
   src/KingSystem/Map/mapMubinIter.cpp
   src/KingSystem/Map/mapMubinIter.h
+  src/KingSystem/Map/mapObject.cpp
+  src/KingSystem/Map/mapObject.h
 
   src/KingSystem/MessageSystem/mesTransceiver.h
 
