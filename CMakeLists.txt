@@ -49,6 +49,10 @@ add_executable(uking
   src/KingSystem/ActorSystem/actBaseProcUnit.h
   src/KingSystem/ActorSystem/actTag.h
 
+  src/KingSystem/Map/mapTypes.h
+  src/KingSystem/Map/mapMubinIter.cpp
+  src/KingSystem/Map/mapMubinIter.h
+
   src/KingSystem/MessageSystem/mesTransceiver.h
 
   src/KingSystem/Resource/resCurrentResNameMgr.cpp
