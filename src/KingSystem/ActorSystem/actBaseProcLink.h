@@ -43,13 +43,13 @@ public:
 
     bool isAccessingSpecifiedProcUnsafe(BaseProc* other) const;
 
+    template <typename Function>
+    auto getProcInContext(const Function& function) const;
+
 private:
     static constexpr u32 cInvalidId = -1;
 
     BaseProc* getProc() const;
-
-    template <typename Function>
-    auto getProcInContext(const Function& function) const;
 
     BaseProcLinkData* mData = nullptr;
     u32 mId = cInvalidId;
@@ -106,14 +106,14 @@ inline BaseProc* BaseProcLink::getProc() const {
 template <typename Function>
 inline auto BaseProcLink::getProcInContext(const Function& function) const {
     if (mId == cInvalidId)
-        return function(nullptr);
+        return function(nullptr, false);
 
     const auto guard = sead::makeScopeGuard([crit_section = mData->lockIfNeeded()] {
         if (crit_section)
             crit_section->unlock();
     });
 
-    return function(getProc());
+    return function(getProc(), true);
 }
 
 }  // namespace ksys::act

@@ -23,12 +23,9 @@ public:
 
     void release() { acquire(nullptr); }
 
-    /// Checks whether the acquired BaseProc is `proc`.
-    bool hasProc(BaseProc* proc) const;
+protected:
+    friend class ActorConstDataAccess;
 
-    void debugLog(s32, const sead::SafeString& method_name);
-
-private:
     bool mAcquired = false;
     BaseProc* mProc = nullptr;
 };

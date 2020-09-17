@@ -25,14 +25,6 @@ bool ActorLinkConstDataAccess::acquire(BaseProc* proc) {
     return proc && proc->acquire(*this);
 }
 
-bool ActorLinkConstDataAccess::hasProc(BaseProc* proc) const {
-    return mProc == proc;
-}
-
-void ActorLinkConstDataAccess::debugLog(s32, const sead::SafeString&) {
-    // Intentionally left empty.
-}
-
 bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from,
                  s32) {
     bool acquired = false;

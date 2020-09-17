@@ -32,7 +32,7 @@ bool BaseProcLink::hasProc() const {
 
 bool BaseProcLink::hasProcInCalcState() const {
     return getProcInContext(
-        [](BaseProc* proc) { return proc && proc->getState() == BaseProc::State::Calc; });
+        [](BaseProc* proc, bool) { return proc && proc->getState() == BaseProc::State::Calc; });
 }
 
 bool BaseProcLink::hasProcById(BaseProc* proc) const {
@@ -40,7 +40,7 @@ bool BaseProcLink::hasProcById(BaseProc* proc) const {
 }
 
 BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor, BaseProc* other_proc) const {
-    return getProcInContext([&](BaseProc* proc) -> BaseProc* {
+    return getProcInContext([&](BaseProc* proc, bool) -> BaseProc* {
         if (proc && acquireProc(accessor, proc, "frm::BaseProcLink") &&
             BaseProcMgr::instance()->isAccessingProcSafe(proc, other_proc)) {
             return proc;
@@ -50,7 +50,7 @@ BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor, BaseProc* ot
 }
 
 BaseProc* BaseProcLink::getProc(ActorLinkConstDataAccess* accessor) const {
-    return getProcInContext([&](BaseProc* proc) -> BaseProc* {
+    return getProcInContext([&](BaseProc* proc, bool) -> BaseProc* {
         if (proc && acquireProc(accessor, proc, "frm::BaseProcLink"))
             return proc;
         return nullptr;
@@ -90,7 +90,7 @@ void BaseProcLink::reset() {
 }
 
 bool BaseProcLink::isAccessingSpecifiedProcUnsafe(BaseProc* other) const {
-    return getProcInContext([&](BaseProc* proc) {
+    return getProcInContext([&](BaseProc* proc, bool) {
         return proc && !BaseProcMgr::instance()->isAccessingProcSafe(proc, other);
     });
 }

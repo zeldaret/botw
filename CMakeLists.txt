@@ -22,6 +22,8 @@ add_executable(uking
   src/Game/DLC/aoc2.h
 
   src/KingSystem/ActorSystem/actActor.h
+  src/KingSystem/ActorSystem/actActorConstDataAccess.cpp
+  src/KingSystem/ActorSystem/actActorConstDataAccess.h
   src/KingSystem/ActorSystem/actActorCreator.cpp
   src/KingSystem/ActorSystem/actActorCreator.h
   src/KingSystem/ActorSystem/actActorFactory.cpp
