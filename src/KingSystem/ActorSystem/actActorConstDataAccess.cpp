@@ -44,6 +44,43 @@ void ActorConstDataAccess::debugLog(s32, const sead::SafeString&) const {
     // Intentionally left empty.
 }
 
+const sead::SafeString& ActorConstDataAccess::getName() const {
+    auto* proc = getProcIfActor(mProc);
+    if (!proc)
+        return sead::SafeString::cEmptyString;
+    return proc->getName();
+}
+
+u32 ActorConstDataAccess::getId() const {
+    auto* proc = getProcIfActor(mProc);
+    if (!proc)
+        return 0xffffffff;
+    return proc->getId();
+}
+
+bool ActorConstDataAccess::acquireConnectedCalcParent(ActorLinkConstDataAccess* accessor) const {
+    auto* proc = getProcIfActor(mProc);
+    if (!proc)
+        return false;
+
+    accessor->acquire(sead::DynamicCast<Actor>(proc->getConnectedCalcParent()));
+    return accessor->mProc != nullptr;
+}
+
+bool ActorConstDataAccess::acquireConnectedCalcChild(ActorLinkConstDataAccess* accessor) const {
+    auto* proc = getProcIfActor(mProc);
+    if (!proc)
+        return false;
+
+    accessor->acquire(sead::DynamicCast<Actor>(proc->getConnectedCalcChild()));
+    return accessor->mProc != nullptr;
+}
+
+bool ActorConstDataAccess::hasConnectedCalcParent() const {
+    auto* proc = getProcIfActor(mProc);
+    return proc && sead::DynamicCast<Actor>(proc->getConnectedCalcParent()) != nullptr;
+}
+
 bool acquireActor(BaseProcLink* link, ActorConstDataAccess* accessor) {
     return link->getProcInContext([accessor](BaseProc* proc, bool valid) {
         if (!proc) {

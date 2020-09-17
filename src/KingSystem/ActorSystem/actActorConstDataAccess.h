@@ -20,6 +20,12 @@ public:
     bool linkAcquireImmediately(BaseProcLink* link) const;
 
     void debugLog(s32, const sead::SafeString& method_name) const;
+
+    const sead::SafeString& getName() const;
+    u32 getId() const;
+    bool acquireConnectedCalcParent(ActorLinkConstDataAccess* accessor) const;
+    bool acquireConnectedCalcChild(ActorLinkConstDataAccess* accessor) const;
+    bool hasConnectedCalcParent() const;
 };
 
 bool acquireActor(BaseProcLink* link, ActorConstDataAccess* accessor);
