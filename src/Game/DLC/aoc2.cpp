@@ -2,7 +2,45 @@
 
 namespace uking {
 
-using namespace ksys;
+bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+
+    ksys::act::ActorConstDataAccess parent;
+    if (accessor.hasConnectedCalcParent() && accessor.acquireConnectedCalcParent(&parent))
+        return shouldApplyMasterModeDamageMultiplier(parent);
+
+    if (accessor.hasTag(ksys::act::tags::IsMasterModeDamageMultiplierActor) ||
+        (aoc2::instance() && aoc2::instance()->isTestOfStrengthShrine() &&
+         accessor.hasTag(ksys::act::tags::AncientGuardTarget))) {
+        return true;
+    }
+
+    const sead::SafeString& profile = accessor.getProfile();
+    const sead::SafeString& name = accessor.getName();
+
+    if (profile == "LastBoss" || profile == "SiteBoss")
+        return true;
+
+    if (name == "Enemy_GanonBeast" || name == "GanonShockWave" || name == "EnemyGanonShockWave" ||
+        name == "GanonSeaOfFlame" || name == "GanonFlameBall" || name == "GanonPillarOfFlame" ||
+        name == "GanonNormalArrow" || name == "GanonSpearForThrowing" || name == "CurseGanonBeam" ||
+        name == "GanonBeam" || name == "GanonIceBullet" || name == "GanonThunder" ||
+        name == "GanonIronPile" || name == "GanonTornado" || name == "GanonBeastBeam" ||
+        name == "SiteBossSeaOfFlame" || name == "SiteBossSeaOfFlameRotate" ||
+        name == "SiteBossFlameBall" || name == "SiteBossBigFlameBall" ||
+        name == "SiteBossPillarOfFlame" || name == "SiteBossWearFlame" ||
+        name == "SiteBossDrawingFlameTornado" || name == "SiteBossGaleArrow" ||
+        name == "SiteBossNormalArrow" || name == "SiteBossSpearForThrowing" ||
+        name == "SiteBossReflectArrow" || name == "ArrowRainChild" ||
+        name == "SiteBossSpearIceBullet" || name == "SiteBossTornado" ||
+        name == "LastBossThunder" || name == "Enemy_Assassin_Senior" ||
+        name == "AssassinRockBall" || name == "AssassinIronBall") {
+        return true;
+    }
+
+    return false;
+}
 
 bool aoc2::rankUpEnemy(const sead::SafeString& actor_name, const ksys::map::Object& obj,
                        const char** new_name) {

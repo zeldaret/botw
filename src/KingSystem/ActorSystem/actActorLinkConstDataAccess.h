@@ -23,6 +23,8 @@ public:
 
     void release() { acquire(nullptr); }
 
+    bool hasProc() const { return mProc != nullptr; }
+
 protected:
     friend class ActorConstDataAccess;
 
