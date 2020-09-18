@@ -102,7 +102,7 @@ sead::Heap* getCurrentHeap();
 sead::Heap* getDebugHeap();
 sead::Heap* getDebugHeap2();
 
-[[gnu::always_inline]] inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
+KSYS_ALWAYS_INLINE inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
     size_t size;
 
     if (const auto* parent_ex = sead::DynamicCast<DualHeap>(parent)) {
