@@ -62,6 +62,10 @@ add_executable(uking
 
   src/KingSystem/MessageSystem/mesTransceiver.h
 
+  src/KingSystem/Resource/GeneralParamList/resGParamListObject.cpp
+  src/KingSystem/Resource/GeneralParamList/resGParamListObject.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.cpp
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h
   src/KingSystem/Resource/resCurrentResNameMgr.cpp
   src/KingSystem/Resource/resCurrentResNameMgr.h
   src/KingSystem/Resource/resEntryFactory.cpp
@@ -78,6 +82,8 @@ add_executable(uking
   src/KingSystem/Resource/resResourceDemo.h
   src/KingSystem/Resource/resResourceDrop.cpp
   src/KingSystem/Resource/resResourceDrop.h
+  src/KingSystem/Resource/resResourceGParamList.cpp
+  src/KingSystem/Resource/resResourceGParamList.h
   src/KingSystem/Resource/resResourceLod.cpp
   src/KingSystem/Resource/resResourceLod.h
   src/KingSystem/Resource/resResourceRecipe.cpp
