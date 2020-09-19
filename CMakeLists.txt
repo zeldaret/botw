@@ -68,6 +68,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.cpp
