@@ -26,6 +26,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLumberjackTree.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h"
@@ -113,6 +114,8 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Bullet>(archive.getRootList(), "Bullet", heap, dummy_list);
     add<GParamListObjType::CureItem>(archive.getRootList(), "CureItem", heap, dummy_list);
     add<GParamListObjType::CookSpice>(archive.getRootList(), "CookSpice", heap, dummy_list);
+    add<GParamListObjType::LumberjackTree>(archive.getRootList(), "LumberjackTree", heap,
+                                           dummy_list);
 
     // TODO: the rest
 
