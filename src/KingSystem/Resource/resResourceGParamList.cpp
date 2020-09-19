@@ -43,6 +43,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponOption.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponThrow.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectZora.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListTraits.h"
 
 namespace ksys::res {
@@ -120,6 +121,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
                                            dummy_list);
     add<GParamListObjType::Npc>(archive.getRootList(), "Npc", heap, dummy_list);
     add<GParamListObjType::NpcEquipment>(archive.getRootList(), "NpcEquipment", heap, dummy_list);
+    add<GParamListObjType::Zora>(archive.getRootList(), "Zora", heap, dummy_list);
 
     // TODO: the rest
 
