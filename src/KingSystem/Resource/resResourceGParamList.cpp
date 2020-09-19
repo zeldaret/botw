@@ -3,6 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
@@ -47,6 +48,8 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Enemy>(archive.getRootList(), "Enemy", heap, dummy_list);
     add<GParamListObjType::EnemyLevel>(archive.getRootList(), "EnemyLevel", heap, dummy_list);
     add<GParamListObjType::EnemyRace>(archive.getRootList(), "EnemyRace", heap, dummy_list);
+    add<GParamListObjType::AttackInterval>(archive.getRootList(), "AttackInterval", heap,
+                                           dummy_list);
 
     // TODO: the rest
 
