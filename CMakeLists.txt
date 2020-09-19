@@ -74,6 +74,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h
