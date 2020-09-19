@@ -20,6 +20,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h"
@@ -99,6 +100,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::ArmorUpper>(archive.getRootList(), "ArmorUpper", heap, dummy_list);
     add<GParamListObjType::ShiekerStone>(archive.getRootList(), "ShiekerStone", heap, dummy_list);
     add<GParamListObjType::SeriesArmor>(archive.getRootList(), "SeriesArmor", heap, dummy_list);
+    add<GParamListObjType::Liftable>(archive.getRootList(), "Liftable", heap, dummy_list);
 
     // TODO: the rest
 
