@@ -89,6 +89,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectLumberjackTree.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectRupee.h
