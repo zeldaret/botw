@@ -7,6 +7,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorEffect.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorHead.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorUpper.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectArrow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBindBone.h"
@@ -105,6 +106,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Liftable>(archive.getRootList(), "Liftable", heap, dummy_list);
     add<GParamListObjType::Item>(archive.getRootList(), "Item", heap, dummy_list);
     add<GParamListObjType::Rupee>(archive.getRootList(), "Rupee", heap, dummy_list);
+    add<GParamListObjType::Arrow>(archive.getRootList(), "Arrow", heap, dummy_list);
 
     // TODO: the rest
 
