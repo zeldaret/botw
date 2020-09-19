@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListTraits.h"
@@ -43,6 +44,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::System>(archive.getRootList(), "System", heap, dummy_list);
     add<GParamListObjType::General>(archive.getRootList(), "General", heap, dummy_list);
     add<GParamListObjType::Enemy>(archive.getRootList(), "Enemy", heap, dummy_list);
+    add<GParamListObjType::EnemyLevel>(archive.getRootList(), "EnemyLevel", heap, dummy_list);
 
     // TODO: the rest
 
