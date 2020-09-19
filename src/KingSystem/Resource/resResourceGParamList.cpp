@@ -12,6 +12,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBindBone.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
@@ -107,6 +108,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Item>(archive.getRootList(), "Item", heap, dummy_list);
     add<GParamListObjType::Rupee>(archive.getRootList(), "Rupee", heap, dummy_list);
     add<GParamListObjType::Arrow>(archive.getRootList(), "Arrow", heap, dummy_list);
+    add<GParamListObjType::Bullet>(archive.getRootList(), "Bullet", heap, dummy_list);
 
     // TODO: the rest
 

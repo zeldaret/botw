@@ -73,6 +73,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBindBone.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h
