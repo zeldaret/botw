@@ -76,6 +76,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSandworm.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.cpp
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h
