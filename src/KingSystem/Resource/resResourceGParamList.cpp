@@ -12,6 +12,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListTraits.h"
 
 namespace ksys::res {
@@ -56,6 +57,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::EnemyShown>(archive.getRootList(), "EnemyShown", heap, dummy_list);
     add<GParamListObjType::BindBone>(archive.getRootList(), "BindBone", heap, dummy_list);
     add<GParamListObjType::Attack>(archive.getRootList(), "Attack", heap, dummy_list);
+    add<GParamListObjType::WeaponCommon>(archive.getRootList(), "WeaponCommon", heap, dummy_list);
 
     // TODO: the rest
 
