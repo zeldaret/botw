@@ -30,6 +30,7 @@ add_executable(uking
   src/KingSystem/ActorSystem/actActorFactory.h
   src/KingSystem/ActorSystem/actActorLinkConstDataAccess.cpp
   src/KingSystem/ActorSystem/actActorLinkConstDataAccess.h
+  src/KingSystem/ActorSystem/actActorParamMgr.h
   src/KingSystem/ActorSystem/actAiAction.cpp
   src/KingSystem/ActorSystem/actAiAction.h
   src/KingSystem/ActorSystem/actAiClass.cpp
@@ -62,10 +63,10 @@ add_executable(uking
 
   src/KingSystem/MessageSystem/mesTransceiver.h
 
-  src/KingSystem/Resource/GeneralParamList/resGParamListObject.cpp
   src/KingSystem/Resource/GeneralParamList/resGParamListObject.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.cpp
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListTraits.h
   src/KingSystem/Resource/resCurrentResNameMgr.cpp
   src/KingSystem/Resource/resCurrentResNameMgr.h
   src/KingSystem/Resource/resEntryFactory.cpp

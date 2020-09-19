@@ -87,12 +87,15 @@ enum class GParamListObjType {
     AirWall = 0x4D,
     Motorcycle = 0x4E,
 };
+inline constexpr size_t NumGParamListObjTypes = 1 + 0x4E;
 
 /// Base class for GeneralParamList parameter objects.
 /// @bug This should have a virtual destructor...
 class GParamListObject : public sead::hostio::Node {
 public:
     virtual const char* getName() const = 0;
+
+    agl::utl::ParameterObj& getObj() { return mObj; }
 
 protected:
     agl::utl::ParameterObj mObj;
