@@ -64,6 +64,7 @@ add_executable(uking
   src/KingSystem/MessageSystem/mesTransceiver.h
 
   src/KingSystem/Resource/GeneralParamList/resGParamListObject.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBindBone.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h
