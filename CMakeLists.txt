@@ -64,6 +64,8 @@ add_executable(uking
   src/KingSystem/MessageSystem/mesTransceiver.h
 
   src/KingSystem/Resource/GeneralParamList/resGParamListObject.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.cpp
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h
   src/KingSystem/Resource/GeneralParamList/resGParamListTraits.h
