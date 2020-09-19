@@ -80,6 +80,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h
