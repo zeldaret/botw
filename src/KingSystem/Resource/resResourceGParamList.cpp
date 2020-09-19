@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectBindBone.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
@@ -52,6 +53,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::AttackInterval>(archive.getRootList(), "AttackInterval", heap,
                                            dummy_list);
     add<GParamListObjType::EnemyShown>(archive.getRootList(), "EnemyShown", heap, dummy_list);
+    add<GParamListObjType::BindBone>(archive.getRootList(), "BindBone", heap, dummy_list);
 
     // TODO: the rest
 
