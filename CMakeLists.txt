@@ -85,6 +85,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSandworm.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectShiekerStone.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h
