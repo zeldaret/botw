@@ -67,6 +67,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmor.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmorEffect.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmorHead.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmorUpper.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBindBone.h
