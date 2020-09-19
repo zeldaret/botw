@@ -83,6 +83,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.cpp
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponOption.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponThrow.h
   src/KingSystem/Resource/GeneralParamList/resGParamListTraits.h
   src/KingSystem/Resource/resCurrentResNameMgr.cpp
