@@ -77,6 +77,17 @@ def main() -> None:
 
     class_name = f"GParamListObject{args.object}"
 
+    # Includes
+    print("""\
+#pragma once
+
+#include <agl/Utils/aglParameter.h>
+#include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"
+#include "KingSystem/Utils/Types.h"
+
+namespace ksys::res {
+""")
+
     # Generate the class definition.
     print(f"class {class_name} : public GParamListObject {{")
     print(f"public:")
@@ -101,6 +112,9 @@ def main() -> None:
         default_value_repr = _get_value_repr(value)
         print(f'    m{name}.init({default_value_repr}, "{name}", "", obj);')
     print("}")
+
+    print()
+    print("}  // namespace ksys::res")
 
 
 if __name__ == "__main__":
