@@ -42,6 +42,13 @@ def _aamp_type_to_agl_utl_parameter_type(type_: oead.aamp.Parameter.Type) -> str
     return _AampTypeToAglUtlParameterType[type_]
 
 
+def _represent_float(value: float) -> str:
+    s = f'{value:g}'
+    if 'e' not in s and '.' not in s:
+        s += '.0'
+    return s
+
+
 def _get_value_repr(value) -> str:
     v = value.v
 
@@ -52,13 +59,16 @@ def _get_value_repr(value) -> str:
         return json.dumps(str(v))
 
     if isinstance(v, oead.Vector2f):
-        return f"{{{v.x}, {v.y}}}"
+        return f"{{{_represent_float(v.x)}, {_represent_float(v.y)}}}"
 
     if isinstance(v, oead.Vector3f):
-        return f"{{{v.x}, {v.y}, {v.z}}}"
+        return f"{{{_represent_float(v.x)}, {_represent_float(v.y)}, {_represent_float(v.z)}}}"
 
     if isinstance(v, oead.Vector4f):
-        return f"{{{v.x}, {v.y}, {v.z}, {v.t}}}"
+        return f"{{{_represent_float(v.x)}, {_represent_float(v.y)}, {_represent_float(v.z)}, {_represent_float(v.t)}}}"
+
+    if isinstance(v, float):
+        return _represent_float(v)
 
     return repr(v)
 
