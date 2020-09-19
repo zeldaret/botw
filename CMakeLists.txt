@@ -75,6 +75,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectCureItem.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h
