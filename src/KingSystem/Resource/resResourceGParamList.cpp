@@ -75,6 +75,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponOption.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponThrow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWizzrobe.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectZora.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListTraits.h"
 
@@ -190,6 +191,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Golem>(archive.getRootList(), "Golem", heap, dummy_list);
     add<GParamListObjType::HorseTargetedInfo>(archive.getRootList(), "HorseTargetedInfo", heap,
                                               dummy_list);
+    add<GParamListObjType::WolfLink>(archive.getRootList(), "WolfLink", heap, dummy_list);
 
     // TODO: the rest
 
