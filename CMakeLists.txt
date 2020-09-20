@@ -119,6 +119,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectNest.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectPictureBook.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectPrey.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h

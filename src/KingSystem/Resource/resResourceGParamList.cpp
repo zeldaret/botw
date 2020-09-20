@@ -58,6 +58,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNest.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPictureBook.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPrey.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h"
@@ -196,6 +197,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::WolfLink>(archive.getRootList(), "WolfLink", heap, dummy_list);
     add<GParamListObjType::Event>(archive.getRootList(), "Event", heap, dummy_list);
     add<GParamListObjType::GolemIK>(archive.getRootList(), "GolemIK", heap, dummy_list);
+    add<GParamListObjType::PictureBook>(archive.getRootList(), "PictureBook", heap, dummy_list);
 
     // TODO: the rest
 
