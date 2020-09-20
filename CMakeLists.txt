@@ -105,6 +105,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseCreator.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseObject.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseTargetedInfo.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectInsect.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h

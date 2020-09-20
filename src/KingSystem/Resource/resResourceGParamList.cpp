@@ -44,6 +44,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseCreator.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseObject.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseTargetedInfo.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectInsect.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
@@ -187,6 +188,8 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::AutoGen>(archive.getRootList(), "AutoGen", heap, dummy_list);
     add<GParamListObjType::ChemicalType>(archive.getRootList(), "ChemicalType", heap, dummy_list);
     add<GParamListObjType::Golem>(archive.getRootList(), "Golem", heap, dummy_list);
+    add<GParamListObjType::HorseTargetedInfo>(archive.getRootList(), "HorseTargetedInfo", heap,
+                                              dummy_list);
 
     // TODO: the rest
 
