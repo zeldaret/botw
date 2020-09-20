@@ -45,6 +45,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLumberjackTree.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMonsterShop.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNest.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
@@ -167,6 +168,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::MonsterShop>(archive.getRootList(), "MonsterShop", heap, dummy_list);
     add<GParamListObjType::Swarm>(archive.getRootList(), "Swarm", heap, dummy_list);
     add<GParamListObjType::GelEnemy>(archive.getRootList(), "GelEnemy", heap, dummy_list);
+    add<GParamListObjType::Nest>(archive.getRootList(), "Nest", heap, dummy_list);
 
     // TODO: the rest
 
