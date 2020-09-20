@@ -65,6 +65,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponOption.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponThrow.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWizzrobe.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectZora.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListTraits.h"
 
@@ -169,6 +170,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Swarm>(archive.getRootList(), "Swarm", heap, dummy_list);
     add<GParamListObjType::GelEnemy>(archive.getRootList(), "GelEnemy", heap, dummy_list);
     add<GParamListObjType::Nest>(archive.getRootList(), "Nest", heap, dummy_list);
+    add<GParamListObjType::Wizzrobe>(archive.getRootList(), "Wizzrobe", heap, dummy_list);
 
     // TODO: the rest
 
