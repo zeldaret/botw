@@ -3,6 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalFollowOffset.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmor.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorEffect.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorHead.h"
@@ -126,6 +127,8 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Zora>(archive.getRootList(), "Zora", heap, dummy_list);
     add<GParamListObjType::Traveler>(archive.getRootList(), "Traveler", heap, dummy_list);
     add<GParamListObjType::Prey>(archive.getRootList(), "Prey", heap, dummy_list);
+    add<GParamListObjType::AnimalFollowOffset>(archive.getRootList(), "AnimalFollowOffset", heap,
+                                               dummy_list);
 
     // TODO: the rest
 
