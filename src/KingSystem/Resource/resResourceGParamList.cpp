@@ -40,6 +40,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponOption.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponThrow.h"
@@ -122,6 +123,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Npc>(archive.getRootList(), "Npc", heap, dummy_list);
     add<GParamListObjType::NpcEquipment>(archive.getRootList(), "NpcEquipment", heap, dummy_list);
     add<GParamListObjType::Zora>(archive.getRootList(), "Zora", heap, dummy_list);
+    add<GParamListObjType::Traveler>(archive.getRootList(), "Traveler", heap, dummy_list);
 
     // TODO: the rest
 
