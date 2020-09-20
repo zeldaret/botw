@@ -64,6 +64,7 @@ add_executable(uking
   src/KingSystem/MessageSystem/mesTransceiver.h
 
   src/KingSystem/Resource/GeneralParamList/resGParamListObject.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectAirWall.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalFollowOffset.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmor.h

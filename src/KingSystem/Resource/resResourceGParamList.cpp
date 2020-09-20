@@ -3,6 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAirWall.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalFollowOffset.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmor.h"
@@ -198,6 +199,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Event>(archive.getRootList(), "Event", heap, dummy_list);
     add<GParamListObjType::GolemIK>(archive.getRootList(), "GolemIK", heap, dummy_list);
     add<GParamListObjType::PictureBook>(archive.getRootList(), "PictureBook", heap, dummy_list);
+    add<GParamListObjType::AirWall>(archive.getRootList(), "AirWall", heap, dummy_list);
 
     // TODO: the rest
 
