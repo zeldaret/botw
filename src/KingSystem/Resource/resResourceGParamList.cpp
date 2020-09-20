@@ -56,6 +56,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLumberjackTree.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMonsterShop.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectMotorcycle.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNest.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
@@ -200,8 +201,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::GolemIK>(archive.getRootList(), "GolemIK", heap, dummy_list);
     add<GParamListObjType::PictureBook>(archive.getRootList(), "PictureBook", heap, dummy_list);
     add<GParamListObjType::AirWall>(archive.getRootList(), "AirWall", heap, dummy_list);
-
-    // TODO: the rest
+    add<GParamListObjType::Motorcycle>(archive.getRootList(), "Motorcycle", heap, dummy_list);
 
     if (data)
         applyResParameterArchive(archive);
