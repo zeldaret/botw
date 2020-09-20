@@ -57,6 +57,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSwarm.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
@@ -163,6 +164,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::GiantArmor>(archive.getRootList(), "GiantArmor", heap, dummy_list);
     add<GParamListObjType::Guardian>(archive.getRootList(), "Guardian", heap, dummy_list);
     add<GParamListObjType::MonsterShop>(archive.getRootList(), "MonsterShop", heap, dummy_list);
+    add<GParamListObjType::Swarm>(archive.getRootList(), "Swarm", heap, dummy_list);
 
     // TODO: the rest
 

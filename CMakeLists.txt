@@ -118,6 +118,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectSwarm.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.cpp
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h
