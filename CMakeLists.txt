@@ -80,6 +80,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectChemicalType.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectClothReaction.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCookSpice.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCureItem.h

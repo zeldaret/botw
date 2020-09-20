@@ -19,6 +19,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectChemicalType.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectClothReaction.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCookSpice.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCureItem.h"
@@ -183,6 +184,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Global>(archive.getRootList(), "Global", heap, dummy_list);
     add<GParamListObjType::Beam>(archive.getRootList(), "Beam", heap, dummy_list);
     add<GParamListObjType::AutoGen>(archive.getRootList(), "AutoGen", heap, dummy_list);
+    add<GParamListObjType::ChemicalType>(archive.getRootList(), "ChemicalType", heap, dummy_list);
 
     // TODO: the rest
 
