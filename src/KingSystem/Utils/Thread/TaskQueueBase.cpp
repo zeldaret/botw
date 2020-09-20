@@ -57,7 +57,6 @@ void TaskQueueBase::clear() {
         mQueueEmptyEvent.wait();
 }
 
-// NON_MATCHING: swapped operands for a csel. The arg.set_flag1 check looks suspicious.
 bool TaskQueueBase::init(const InitArg& arg) {
     if (arg.max_num_threads == 0)
         return false;
@@ -65,10 +64,7 @@ bool TaskQueueBase::init(const InitArg& arg) {
     if (!mThreads.tryAllocBuffer(arg.max_num_threads, arg.heap))
         return false;
 
-    if (!arg.enable_locks)
-        mFlags.reset(Flag::Lock);
-    else
-        mFlags.set(Flag::Lock);
+    mFlags.change(Flag::Lock, arg.enable_locks);
 
     if (arg.num_lanes <= 0 || arg.num_lanes > 0x100)
         return false;

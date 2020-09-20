@@ -86,6 +86,8 @@ target_sources(uking PRIVATE
   resCurrentResNameMgr.h
   resEntryFactory.cpp
   resEntryFactory.h
+  resHandle.cpp
+  resHandle.h
 
   resResource.cpp
   resResource.h
@@ -105,4 +107,6 @@ target_sources(uking PRIVATE
   resResourceLod.h
   resResourceRecipe.cpp
   resResourceRecipe.h
+
+  resSystem.h
 )

@@ -1,5 +1,9 @@
 #pragma once
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys::tera {
 
 // TODO:
@@ -23,6 +27,9 @@ class Scene {
     void exportFileBinary();
 };
 class System {
+public:
+    static System* instance();
+    void allocateApertureMapsCollectorImage(sead::Heap* heap);
     void loadScene();
 };
 class Water {

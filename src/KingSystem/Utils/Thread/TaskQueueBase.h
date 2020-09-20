@@ -88,7 +88,7 @@ public:
     void fetchTask(Task** out_task);
 
 protected:
-    enum class Flag {
+    enum class Flag : u8 {
         Lock = 0x1,
         PreventThreadPoolChanges = 0x2,
     };
@@ -145,7 +145,7 @@ protected:
 
     void notifyThreadsForNewTasks();
 
-    sead::TypedBitFlag<Flag, u8> mFlags;
+    sead::TypedBitFlag<Flag> mFlags;
     sead::OffsetList<Task> mActiveTasks;
     sead::Buffer<Lane> mLanes;
     Event mQueueEmptyEvent;

@@ -131,7 +131,7 @@ protected:
     friend class TaskQueueBase;
     friend class TaskThread;
 
-    enum class Flag {
+    enum class Flag : u8 {
         DeleteDelegate = 0x1,
         DoNotDeleteDelegate = 0x2,
         NeedsToSignalEvent = 0x4,
@@ -173,7 +173,7 @@ protected:
     }
 
     u8 mLaneId = 0;
-    sead::TypedBitFlag<Flag, u8> mFlags = Flag::DoNotDeleteDelegate;
+    sead::TypedBitFlag<Flag> mFlags = Flag::DoNotDeleteDelegate;
     bool mDelegateResult = false;
     TaskDelegate* mDelegate = nullptr;
     void* mUserData = nullptr;
