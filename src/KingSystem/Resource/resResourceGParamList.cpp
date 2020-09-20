@@ -35,6 +35,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmor.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGolem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
@@ -185,6 +186,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Beam>(archive.getRootList(), "Beam", heap, dummy_list);
     add<GParamListObjType::AutoGen>(archive.getRootList(), "AutoGen", heap, dummy_list);
     add<GParamListObjType::ChemicalType>(archive.getRootList(), "ChemicalType", heap, dummy_list);
+    add<GParamListObjType::Golem>(archive.getRootList(), "Golem", heap, dummy_list);
 
     // TODO: the rest
 
