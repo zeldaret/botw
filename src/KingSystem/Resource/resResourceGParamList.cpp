@@ -17,6 +17,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectClothReaction.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCookSpice.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCureItem.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEatTarget.h"
@@ -175,6 +176,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Wizzrobe>(archive.getRootList(), "Wizzrobe", heap, dummy_list);
     add<GParamListObjType::StalEnemy>(archive.getRootList(), "StalEnemy", heap, dummy_list);
     add<GParamListObjType::GuardianMini>(archive.getRootList(), "GuardianMini", heap, dummy_list);
+    add<GParamListObjType::ClothReaction>(archive.getRootList(), "ClothReaction", heap, dummy_list);
 
     // TODO: the rest
 
