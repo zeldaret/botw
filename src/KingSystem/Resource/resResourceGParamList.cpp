@@ -26,6 +26,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectExtendedEntity.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectFish.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGelEnemy.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmor.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
@@ -165,6 +166,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Guardian>(archive.getRootList(), "Guardian", heap, dummy_list);
     add<GParamListObjType::MonsterShop>(archive.getRootList(), "MonsterShop", heap, dummy_list);
     add<GParamListObjType::Swarm>(archive.getRootList(), "Swarm", heap, dummy_list);
+    add<GParamListObjType::GelEnemy>(archive.getRootList(), "GelEnemy", heap, dummy_list);
 
     // TODO: the rest
 
