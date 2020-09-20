@@ -37,6 +37,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGolem.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGolemIK.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
@@ -194,6 +195,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
                                               dummy_list);
     add<GParamListObjType::WolfLink>(archive.getRootList(), "WolfLink", heap, dummy_list);
     add<GParamListObjType::Event>(archive.getRootList(), "Event", heap, dummy_list);
+    add<GParamListObjType::GolemIK>(archive.getRootList(), "GolemIK", heap, dummy_list);
 
     // TODO: the rest
 
