@@ -1,0 +1,36 @@
+target_sources(uking PRIVATE
+  Thread/Event.cpp
+  Thread/Event.h
+  Thread/GameTaskThread.cpp
+  Thread/GameTaskThread.h
+  Thread/ManagedTask.cpp
+  Thread/ManagedTask.h
+  Thread/ManagedTaskHandle.cpp
+  Thread/ManagedTaskHandle.h
+  Thread/Task.cpp
+  Thread/Task.h
+  Thread/TaskMgr.cpp
+  Thread/TaskMgr.h
+  Thread/TaskQueueBase.cpp
+  Thread/TaskQueueBase.h
+  Thread/TaskQueue.cpp
+  Thread/TaskQueue.h
+  Thread/TaskQueueLock.cpp
+  Thread/TaskQueueLock.h
+  Thread/TaskThread.cpp
+  Thread/TaskThread.h
+
+  Byaml.cpp
+  Byaml.h
+  ByamlLocal.cpp
+  ByamlLocal.h
+  ByamlUtil.cpp
+  Debug.h
+  FixedString.h
+  HashUtil.h
+  HeapUtil.cpp
+  HeapUtil.h
+  ParamIO.h
+  StrTreeMap.h
+  Types.h
+)
