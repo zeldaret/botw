@@ -65,6 +65,7 @@ add_executable(uking
 
   src/KingSystem/Resource/GeneralParamList/resGParamListObject.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalFollowOffset.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmor.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmorEffect.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArmorHead.h

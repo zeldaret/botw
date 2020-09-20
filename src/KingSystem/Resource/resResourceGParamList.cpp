@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalFollowOffset.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmor.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorEffect.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectArmorHead.h"
@@ -136,6 +137,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
                                            dummy_list);
     add<GParamListObjType::BindActor>(archive.getRootList(), "BindActor", heap, dummy_list);
     add<GParamListObjType::EatTarget>(archive.getRootList(), "EatTarget", heap, dummy_list);
+    add<GParamListObjType::AnimalUnit>(archive.getRootList(), "AnimalUnit", heap, dummy_list);
 
     // TODO: the rest
 
