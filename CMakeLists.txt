@@ -92,6 +92,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseObject.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectInsect.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h
