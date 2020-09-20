@@ -31,6 +31,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPrey.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRupee.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSandworm.h"
@@ -124,6 +125,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::NpcEquipment>(archive.getRootList(), "NpcEquipment", heap, dummy_list);
     add<GParamListObjType::Zora>(archive.getRootList(), "Zora", heap, dummy_list);
     add<GParamListObjType::Traveler>(archive.getRootList(), "Traveler", heap, dummy_list);
+    add<GParamListObjType::Prey>(archive.getRootList(), "Prey", heap, dummy_list);
 
     // TODO: the rest
 
