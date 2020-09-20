@@ -30,6 +30,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseObject.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectInsect.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
@@ -148,6 +149,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::Rope>(archive.getRootList(), "Rope", heap, dummy_list);
     add<GParamListObjType::Horse>(archive.getRootList(), "Horse", heap, dummy_list);
     add<GParamListObjType::HorseUnit>(archive.getRootList(), "HorseUnit", heap, dummy_list);
+    add<GParamListObjType::HorseObject>(archive.getRootList(), "HorseObject", heap, dummy_list);
 
     // TODO: the rest
 
