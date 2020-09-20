@@ -28,6 +28,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEvent.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectExtendedEntity.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectFish.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGelEnemy.h"
@@ -192,6 +193,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::HorseTargetedInfo>(archive.getRootList(), "HorseTargetedInfo", heap,
                                               dummy_list);
     add<GParamListObjType::WolfLink>(archive.getRootList(), "WolfLink", heap, dummy_list);
+    add<GParamListObjType::Event>(archive.getRootList(), "Event", heap, dummy_list);
 
     // TODO: the rest
 

@@ -89,6 +89,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyShown.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectEvent.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectExtendedEntity.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectFish.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGelEnemy.h
