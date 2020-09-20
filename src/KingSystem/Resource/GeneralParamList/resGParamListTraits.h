@@ -11,6 +11,8 @@ struct GParamListObjTypeTraits;
     template <>                                                                                    \
     struct GParamListObjTypeTraits<GParamListObjType::NAME> {                                      \
         using type = class GParamListObject##NAME;                                                 \
+        static inline constexpr auto enum_value = GParamListObjType::NAME;                         \
+        static inline constexpr auto index = static_cast<s32>(enum_value);                         \
     };
 
 KSYS_DECLARE_GPARAM_TRAIT_(System)

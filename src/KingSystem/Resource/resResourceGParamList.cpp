@@ -88,25 +88,6 @@ namespace ksys::res {
 
 void GParamList::doCreate_(u8*, u32, sead::Heap*) {}
 
-template <GParamListObjType Type>
-KSYS_ALWAYS_INLINE void GParamList::add(const agl::utl::ResParameterList& list,
-                                        const sead::SafeString& name, sead::Heap* heap,
-                                        GParamList* dummy_list) {
-    const auto pobj = agl::utl::getResParameterObj(list, name);
-    if (pobj.ptr()) {
-        using T = typename GParamListObjTypeTraits<Type>::type;
-
-        auto* obj = new (heap) T;
-        if (obj)
-            addObj(&obj->getObj(), obj->getName());
-
-        mObjects[s32(Type)] = obj;
-
-    } else {
-        mObjects[s32(Type)] = dummy_list ? dummy_list->mObjects[s32(Type)] : nullptr;
-    }
-}
-
 bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     GParamList* dummy_list = nullptr;
     if (!sead::IsDerivedFrom<DummyGParamList>(this) && act::ActorParamMgr::instance())
@@ -116,92 +97,103 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
 
     const agl::utl::ResParameterArchive archive{data};
 
-    add<GParamListObjType::System>(archive.getRootList(), "System", heap, dummy_list);
-    add<GParamListObjType::General>(archive.getRootList(), "General", heap, dummy_list);
-    add<GParamListObjType::Enemy>(archive.getRootList(), "Enemy", heap, dummy_list);
-    add<GParamListObjType::EnemyLevel>(archive.getRootList(), "EnemyLevel", heap, dummy_list);
-    add<GParamListObjType::EnemyRace>(archive.getRootList(), "EnemyRace", heap, dummy_list);
-    add<GParamListObjType::AttackInterval>(archive.getRootList(), "AttackInterval", heap,
-                                           dummy_list);
-    add<GParamListObjType::EnemyShown>(archive.getRootList(), "EnemyShown", heap, dummy_list);
-    add<GParamListObjType::BindBone>(archive.getRootList(), "BindBone", heap, dummy_list);
-    add<GParamListObjType::Attack>(archive.getRootList(), "Attack", heap, dummy_list);
-    add<GParamListObjType::WeaponCommon>(archive.getRootList(), "WeaponCommon", heap, dummy_list);
-    add<GParamListObjType::WeaponThrow>(archive.getRootList(), "WeaponThrow", heap, dummy_list);
-    add<GParamListObjType::Sandworm>(archive.getRootList(), "Sandworm", heap, dummy_list);
-    add<GParamListObjType::SmallSword>(archive.getRootList(), "SmallSword", heap, dummy_list);
-    add<GParamListObjType::Rod>(archive.getRootList(), "Rod", heap, dummy_list);
-    add<GParamListObjType::LargeSword>(archive.getRootList(), "LargeSword", heap, dummy_list);
-    add<GParamListObjType::Spear>(archive.getRootList(), "Spear", heap, dummy_list);
-    add<GParamListObjType::Shield>(archive.getRootList(), "Shield", heap, dummy_list);
-    add<GParamListObjType::Bow>(archive.getRootList(), "Bow", heap, dummy_list);
-    add<GParamListObjType::WeaponOption>(archive.getRootList(), "WeaponOption", heap, dummy_list);
-    add<GParamListObjType::MasterSword>(archive.getRootList(), "MasterSword", heap, dummy_list);
-    add<GParamListObjType::GuardianMiniWeapon>(archive.getRootList(), "GuardianMiniWeapon", heap,
-                                               dummy_list);
-    add<GParamListObjType::Player>(archive.getRootList(), "Player", heap, dummy_list);
-    add<GParamListObjType::Camera>(archive.getRootList(), "Camera", heap, dummy_list);
-    add<GParamListObjType::Grab>(archive.getRootList(), "Grab", heap, dummy_list);
-    add<GParamListObjType::Armor>(archive.getRootList(), "Armor", heap, dummy_list);
-    add<GParamListObjType::ArmorEffect>(archive.getRootList(), "ArmorEffect", heap, dummy_list);
-    add<GParamListObjType::ArmorHead>(archive.getRootList(), "ArmorHead", heap, dummy_list);
-    add<GParamListObjType::ArmorUpper>(archive.getRootList(), "ArmorUpper", heap, dummy_list);
-    add<GParamListObjType::ShiekerStone>(archive.getRootList(), "ShiekerStone", heap, dummy_list);
-    add<GParamListObjType::SeriesArmor>(archive.getRootList(), "SeriesArmor", heap, dummy_list);
-    add<GParamListObjType::Liftable>(archive.getRootList(), "Liftable", heap, dummy_list);
-    add<GParamListObjType::Item>(archive.getRootList(), "Item", heap, dummy_list);
-    add<GParamListObjType::Rupee>(archive.getRootList(), "Rupee", heap, dummy_list);
-    add<GParamListObjType::Arrow>(archive.getRootList(), "Arrow", heap, dummy_list);
-    add<GParamListObjType::Bullet>(archive.getRootList(), "Bullet", heap, dummy_list);
-    add<GParamListObjType::CureItem>(archive.getRootList(), "CureItem", heap, dummy_list);
-    add<GParamListObjType::CookSpice>(archive.getRootList(), "CookSpice", heap, dummy_list);
-    add<GParamListObjType::LumberjackTree>(archive.getRootList(), "LumberjackTree", heap,
-                                           dummy_list);
-    add<GParamListObjType::Npc>(archive.getRootList(), "Npc", heap, dummy_list);
-    add<GParamListObjType::NpcEquipment>(archive.getRootList(), "NpcEquipment", heap, dummy_list);
-    add<GParamListObjType::Zora>(archive.getRootList(), "Zora", heap, dummy_list);
-    add<GParamListObjType::Traveler>(archive.getRootList(), "Traveler", heap, dummy_list);
-    add<GParamListObjType::Prey>(archive.getRootList(), "Prey", heap, dummy_list);
-    add<GParamListObjType::AnimalFollowOffset>(archive.getRootList(), "AnimalFollowOffset", heap,
-                                               dummy_list);
-    add<GParamListObjType::ExtendedEntity>(archive.getRootList(), "ExtendedEntity", heap,
-                                           dummy_list);
-    add<GParamListObjType::BindActor>(archive.getRootList(), "BindActor", heap, dummy_list);
-    add<GParamListObjType::EatTarget>(archive.getRootList(), "EatTarget", heap, dummy_list);
-    add<GParamListObjType::AnimalUnit>(archive.getRootList(), "AnimalUnit", heap, dummy_list);
-    add<GParamListObjType::Insect>(archive.getRootList(), "Insect", heap, dummy_list);
-    add<GParamListObjType::Fish>(archive.getRootList(), "Fish", heap, dummy_list);
-    add<GParamListObjType::Rope>(archive.getRootList(), "Rope", heap, dummy_list);
-    add<GParamListObjType::Horse>(archive.getRootList(), "Horse", heap, dummy_list);
-    add<GParamListObjType::HorseUnit>(archive.getRootList(), "HorseUnit", heap, dummy_list);
-    add<GParamListObjType::HorseObject>(archive.getRootList(), "HorseObject", heap, dummy_list);
-    add<GParamListObjType::HorseRider>(archive.getRootList(), "HorseRider", heap, dummy_list);
-    add<GParamListObjType::HorseCreator>(archive.getRootList(), "HorseCreator", heap, dummy_list);
-    add<GParamListObjType::GiantArmorSlot>(archive.getRootList(), "GiantArmorSlot", heap,
-                                           dummy_list);
-    add<GParamListObjType::GiantArmor>(archive.getRootList(), "GiantArmor", heap, dummy_list);
-    add<GParamListObjType::Guardian>(archive.getRootList(), "Guardian", heap, dummy_list);
-    add<GParamListObjType::MonsterShop>(archive.getRootList(), "MonsterShop", heap, dummy_list);
-    add<GParamListObjType::Swarm>(archive.getRootList(), "Swarm", heap, dummy_list);
-    add<GParamListObjType::GelEnemy>(archive.getRootList(), "GelEnemy", heap, dummy_list);
-    add<GParamListObjType::Nest>(archive.getRootList(), "Nest", heap, dummy_list);
-    add<GParamListObjType::Wizzrobe>(archive.getRootList(), "Wizzrobe", heap, dummy_list);
-    add<GParamListObjType::StalEnemy>(archive.getRootList(), "StalEnemy", heap, dummy_list);
-    add<GParamListObjType::GuardianMini>(archive.getRootList(), "GuardianMini", heap, dummy_list);
-    add<GParamListObjType::ClothReaction>(archive.getRootList(), "ClothReaction", heap, dummy_list);
-    add<GParamListObjType::Global>(archive.getRootList(), "Global", heap, dummy_list);
-    add<GParamListObjType::Beam>(archive.getRootList(), "Beam", heap, dummy_list);
-    add<GParamListObjType::AutoGen>(archive.getRootList(), "AutoGen", heap, dummy_list);
-    add<GParamListObjType::ChemicalType>(archive.getRootList(), "ChemicalType", heap, dummy_list);
-    add<GParamListObjType::Golem>(archive.getRootList(), "Golem", heap, dummy_list);
-    add<GParamListObjType::HorseTargetedInfo>(archive.getRootList(), "HorseTargetedInfo", heap,
-                                              dummy_list);
-    add<GParamListObjType::WolfLink>(archive.getRootList(), "WolfLink", heap, dummy_list);
-    add<GParamListObjType::Event>(archive.getRootList(), "Event", heap, dummy_list);
-    add<GParamListObjType::GolemIK>(archive.getRootList(), "GolemIK", heap, dummy_list);
-    add<GParamListObjType::PictureBook>(archive.getRootList(), "PictureBook", heap, dummy_list);
-    add<GParamListObjType::AirWall>(archive.getRootList(), "AirWall", heap, dummy_list);
-    add<GParamListObjType::Motorcycle>(archive.getRootList(), "Motorcycle", heap, dummy_list);
+#define KSYS_GPARAM_ADD_(NAME)                                                                     \
+    do {                                                                                           \
+        using Traits = GParamListObjTypeTraits<GParamListObjType::NAME>;                           \
+        const auto pobj = agl::utl::getResParameterObj(archive.getRootList(), #NAME);              \
+        if (pobj.ptr()) {                                                                          \
+            auto* obj = new (heap) Traits::type;                                                   \
+            if (obj)                                                                               \
+                addObj(&obj->getObj(), obj->getName());                                            \
+                                                                                                   \
+            mObjects[Traits::index] = obj;                                                         \
+                                                                                                   \
+        } else {                                                                                   \
+            mObjects[Traits::index] = dummy_list ? dummy_list->mObjects[Traits::index] : nullptr;  \
+        }                                                                                          \
+    } while (0)
+
+    KSYS_GPARAM_ADD_(System);
+    KSYS_GPARAM_ADD_(General);
+    KSYS_GPARAM_ADD_(Enemy);
+    KSYS_GPARAM_ADD_(EnemyLevel);
+    KSYS_GPARAM_ADD_(EnemyRace);
+    KSYS_GPARAM_ADD_(AttackInterval);
+    KSYS_GPARAM_ADD_(EnemyShown);
+    KSYS_GPARAM_ADD_(BindBone);
+    KSYS_GPARAM_ADD_(Attack);
+    KSYS_GPARAM_ADD_(WeaponCommon);
+    KSYS_GPARAM_ADD_(WeaponThrow);
+    KSYS_GPARAM_ADD_(Sandworm);
+    KSYS_GPARAM_ADD_(SmallSword);
+    KSYS_GPARAM_ADD_(Rod);
+    KSYS_GPARAM_ADD_(LargeSword);
+    KSYS_GPARAM_ADD_(Spear);
+    KSYS_GPARAM_ADD_(Shield);
+    KSYS_GPARAM_ADD_(Bow);
+    KSYS_GPARAM_ADD_(WeaponOption);
+    KSYS_GPARAM_ADD_(MasterSword);
+    KSYS_GPARAM_ADD_(GuardianMiniWeapon);
+    KSYS_GPARAM_ADD_(Player);
+    KSYS_GPARAM_ADD_(Camera);
+    KSYS_GPARAM_ADD_(Grab);
+    KSYS_GPARAM_ADD_(Armor);
+    KSYS_GPARAM_ADD_(ArmorEffect);
+    KSYS_GPARAM_ADD_(ArmorHead);
+    KSYS_GPARAM_ADD_(ArmorUpper);
+    KSYS_GPARAM_ADD_(ShiekerStone);
+    KSYS_GPARAM_ADD_(SeriesArmor);
+    KSYS_GPARAM_ADD_(Liftable);
+    KSYS_GPARAM_ADD_(Item);
+    KSYS_GPARAM_ADD_(Rupee);
+    KSYS_GPARAM_ADD_(Arrow);
+    KSYS_GPARAM_ADD_(Bullet);
+    KSYS_GPARAM_ADD_(CureItem);
+    KSYS_GPARAM_ADD_(CookSpice);
+    KSYS_GPARAM_ADD_(LumberjackTree);
+    KSYS_GPARAM_ADD_(Npc);
+    KSYS_GPARAM_ADD_(NpcEquipment);
+    KSYS_GPARAM_ADD_(Zora);
+    KSYS_GPARAM_ADD_(Traveler);
+    KSYS_GPARAM_ADD_(Prey);
+    KSYS_GPARAM_ADD_(AnimalFollowOffset);
+    KSYS_GPARAM_ADD_(ExtendedEntity);
+    KSYS_GPARAM_ADD_(BindActor);
+    KSYS_GPARAM_ADD_(EatTarget);
+    KSYS_GPARAM_ADD_(AnimalUnit);
+    KSYS_GPARAM_ADD_(Insect);
+    KSYS_GPARAM_ADD_(Fish);
+    KSYS_GPARAM_ADD_(Rope);
+    KSYS_GPARAM_ADD_(Horse);
+    KSYS_GPARAM_ADD_(HorseUnit);
+    KSYS_GPARAM_ADD_(HorseObject);
+    KSYS_GPARAM_ADD_(HorseRider);
+    KSYS_GPARAM_ADD_(HorseCreator);
+    KSYS_GPARAM_ADD_(GiantArmorSlot);
+    KSYS_GPARAM_ADD_(GiantArmor);
+    KSYS_GPARAM_ADD_(Guardian);
+    KSYS_GPARAM_ADD_(MonsterShop);
+    KSYS_GPARAM_ADD_(Swarm);
+    KSYS_GPARAM_ADD_(GelEnemy);
+    KSYS_GPARAM_ADD_(Nest);
+    KSYS_GPARAM_ADD_(Wizzrobe);
+    KSYS_GPARAM_ADD_(StalEnemy);
+    KSYS_GPARAM_ADD_(GuardianMini);
+    KSYS_GPARAM_ADD_(ClothReaction);
+    KSYS_GPARAM_ADD_(Global);
+    KSYS_GPARAM_ADD_(Beam);
+    KSYS_GPARAM_ADD_(AutoGen);
+    KSYS_GPARAM_ADD_(ChemicalType);
+    KSYS_GPARAM_ADD_(Golem);
+    KSYS_GPARAM_ADD_(HorseTargetedInfo);
+    KSYS_GPARAM_ADD_(WolfLink);
+    KSYS_GPARAM_ADD_(Event);
+    KSYS_GPARAM_ADD_(GolemIK);
+    KSYS_GPARAM_ADD_(PictureBook);
+    KSYS_GPARAM_ADD_(AirWall);
+    KSYS_GPARAM_ADD_(Motorcycle);
+
+#undef KSYS_GPARAM_ADD_
 
     if (data)
         applyResParameterArchive(archive);

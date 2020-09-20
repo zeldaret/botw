@@ -23,10 +23,6 @@ protected:
     void finalize_() override;
 
 private:
-    template <GParamListObjType Type>
-    void add(const agl::utl::ResParameterList& list, const sead::SafeString& name, sead::Heap* heap,
-             GParamList* dummy_list);
-
     sead::Buffer<GParamListObject*> mObjects;
 };
 KSYS_CHECK_SIZE_NX150(GParamList, 0x2c0);
