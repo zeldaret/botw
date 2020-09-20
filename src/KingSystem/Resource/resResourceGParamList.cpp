@@ -18,6 +18,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCookSpice.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCureItem.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEatTarget.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
@@ -134,6 +135,7 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
     add<GParamListObjType::ExtendedEntity>(archive.getRootList(), "ExtendedEntity", heap,
                                            dummy_list);
     add<GParamListObjType::BindActor>(archive.getRootList(), "BindActor", heap, dummy_list);
+    add<GParamListObjType::EatTarget>(archive.getRootList(), "EatTarget", heap, dummy_list);
 
     // TODO: the rest
 

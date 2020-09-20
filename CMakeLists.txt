@@ -79,6 +79,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCookSpice.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectCureItem.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectEatTarget.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h
