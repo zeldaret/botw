@@ -101,6 +101,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectPrey.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectRope.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectRupee.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSandworm.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectSeriesArmor.h
