@@ -72,6 +72,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectArrow.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectBindActor.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBindBone.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h
