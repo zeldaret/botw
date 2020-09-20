@@ -92,6 +92,7 @@ add_executable(uking
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmor.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h
+  src/KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h
   src/KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h
