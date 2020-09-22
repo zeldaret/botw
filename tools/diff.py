@@ -33,7 +33,7 @@ if info is not None:
 
     print(f"diffing: {Style.BRIGHT}{Fore.BLUE}{cxxfilt.demangle(info.decomp_name)}{Style.RESET_ALL} {Style.DIM}({info.decomp_name}){Style.RESET_ALL}")
     addr_end = info.addr + info.size
-    subprocess.call(["tools/asm-differ/diff.py", "-e", info.decomp_name, "0x%016x" %
+    subprocess.call(["tools/asm-differ/diff.py", "-I", "-e", info.decomp_name, "0x%016x" %
                      info.addr, "0x%016x" % addr_end] + unknown)
 
     if info.status == utils.FunctionStatus.NonMatching:
