@@ -88,6 +88,8 @@ target_sources(uking PRIVATE
   resEntryFactory.h
   resHandle.cpp
   resHandle.h
+  resLoadRequest.cpp
+  resLoadRequest.h
 
   resResource.cpp
   resResource.h
