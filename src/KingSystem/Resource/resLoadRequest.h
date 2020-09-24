@@ -29,7 +29,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ILoadRequest, 0x20);
 
-// FIXME: incomplete
 class LoadRequest : public ILoadRequest {
     SEAD_RTTI_OVERRIDE(LoadRequest, ILoadRequest)
 public:
@@ -59,5 +58,27 @@ public:
     sead::SafeString mPath;
 };
 KSYS_CHECK_SIZE_NX150(LoadRequest, 0x80);
+
+class SimpleLoadRequest : public ILoadRequest {
+    SEAD_RTTI_OVERRIDE(SimpleLoadRequest, ILoadRequest)
+public:
+    SimpleLoadRequest();
+    ~SimpleLoadRequest() override = default;
+
+    sead::SafeString mPath;
+    void* _30 = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(SimpleLoadRequest, 0x38);
+
+class SimplePackedLoadRequest : public ILoadRequest {
+    SEAD_RTTI_OVERRIDE(SimplePackedLoadRequest, ILoadRequest)
+public:
+    SimplePackedLoadRequest();
+    ~SimplePackedLoadRequest() override = default;
+
+    Handle* mPack = nullptr;
+    void* _30 = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(SimplePackedLoadRequest, 0x30);
 
 }  // namespace ksys::res

@@ -13,4 +13,8 @@ LoadRequest::LoadRequest(s32 load_data_alignment, u32 arg_c, bool arg_20)
     _c = arg_c;
 }
 
+SimpleLoadRequest::SimpleLoadRequest() = default;
+
+SimplePackedLoadRequest::SimplePackedLoadRequest() = default;
+
 }  // namespace ksys::res
