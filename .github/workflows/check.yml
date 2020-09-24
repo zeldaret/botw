@@ -23,5 +23,6 @@ jobs:
       uses: dawidd6/action-download-artifact@3cd20b2b63293848b29e22223f515baf725ed98f
       with:
         workflow: build.yml
+        name: build
     - name: Check matchings
       run: tools/check.py
