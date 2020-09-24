@@ -27,7 +27,7 @@ private:
     u32 mHash;
 };
 
-#define KSYS_ACT_DEFINE_TAG(NAME) inline constexpr Tag NAME{#NAME}
+#define KSYS_ACT_DEFINE_TAG(NAME) inline constexpr Tag NAME(#NAME)
 
 namespace tags {
 
