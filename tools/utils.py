@@ -68,6 +68,10 @@ def warn(msg: str):
     sys.stderr.write(f"{Fore.MAGENTA}{Style.BRIGHT}warning:{Fore.RESET} {msg}{Style.RESET_ALL}\n")
 
 
-def fail(msg: str):
+def print_error(msg: str):
     sys.stderr.write(f"{Fore.RED}{Style.BRIGHT}error:{Fore.RESET} {msg}{Style.RESET_ALL}\n")
+
+
+def fail(msg: str):
+    print_error(msg)
     sys.exit(1)

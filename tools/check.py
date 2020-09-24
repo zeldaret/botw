@@ -4,6 +4,7 @@ import capstone as cs
 from elftools.elf.elffile import ELFFile
 import diff_settings
 from pathlib import Path
+import sys
 from typing import Any, Dict, Set
 import utils
 
@@ -49,7 +50,7 @@ def check_function(addr: int, size: int, name: str) -> bool:
     try:
         base_fn = get_fn_from_base_elf(addr, size)
     except KeyError:
-        utils.fail(f"couldn't find base function 0x{addr:016x} for {name}")
+        utils.print_error(f"couldn't find base function 0x{addr:016x} for {name}")
         return False
 
     try:
@@ -127,14 +128,18 @@ def check_function(addr: int, size: int, name: str) -> bool:
 
 
 def main() -> None:
+    failed = False
     for func in utils.get_functions():
         if not func.decomp_name:
             continue
 
         if func.status == utils.FunctionStatus.Matching:
             if not check_function(func.addr, func.size, func.decomp_name):
-                utils.fail(f"{func.decomp_name} was marked as matching but does not match")
-                return
+                utils.print_error(f"{func.decomp_name} was marked as matching but does not match")
+                failed = True
+
+    if failed:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
