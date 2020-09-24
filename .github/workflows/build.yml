@@ -25,3 +25,9 @@ jobs:
       working-directory: ./build
     - name: Build
       run: ninja -C build
+    - uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: |
+          build/uking
+          data/uking_functions.csv

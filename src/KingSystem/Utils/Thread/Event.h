@@ -1,8 +1,8 @@
 #pragma once
 
+#include <thread/seadAtomic.h>
 #include <thread/seadEvent.h>
 #include "KingSystem/Utils/Types.h"
-#include <thread/seadAtomic.h>
 
 namespace ksys::util {
 
