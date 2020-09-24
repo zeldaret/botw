@@ -3,32 +3,66 @@
 
 namespace ksys::map {
 
-static const u32 sCrc32_SRTHash = sead::HashCRC32::calcStringHash("SRTHash");
-static const u32 sCrc32_Index = sead::HashCRC32::calcStringHash("Index");
-static const u32 sCrc32_HashId = sead::HashCRC32::calcStringHash("HashId");
-static const u32 sCrc32_DestUnitHashId = sead::HashCRC32::calcStringHash("DestUnitHashId");
-static const u32 sCrc32_LocationPosX = sead::HashCRC32::calcStringHash("LocationPosX");
-static const u32 sCrc32_LocationPosZ = sead::HashCRC32::calcStringHash("LocationPosZ");
-static const u32 sCrc32_NextDistance = sead::HashCRC32::calcStringHash("NextDistance");
-static const u32 sCrc32_PrevDistance = sead::HashCRC32::calcStringHash("PrevDistance");
-static const u32 sCrc32_IsClosed = sead::HashCRC32::calcStringHash("IsClosed");
-static const u32 sCrc32_OnlyOne = sead::HashCRC32::calcStringHash("OnlyOne");
-static const u32 sCrc32_RailType = sead::HashCRC32::calcStringHash("RailType");
-static const u32 sCrc32_UniqueName = sead::HashCRC32::calcStringHash("UniqueName");
-static const u32 sCrc32_UnitConfigName = sead::HashCRC32::calcStringHash("UnitConfigName");
-static const u32 sCrc32_CheckPointName = sead::HashCRC32::calcStringHash("CheckPointName");
-static const u32 sCrc32_EntryPointName = sead::HashCRC32::calcStringHash("EntryPointName");
-static const u32 sCrc32_DefinitionName = sead::HashCRC32::calcStringHash("DefinitionName");
-static const u32 sCrc32_Objs = sead::HashCRC32::calcStringHash("Objs");
-static const u32 sCrc32_Rails = sead::HashCRC32::calcStringHash("Rails");
-static const u32 sCrc32_LinksToObj = sead::HashCRC32::calcStringHash("LinksToObj");
-static const u32 sCrc32_LinksToRail = sead::HashCRC32::calcStringHash("LinksToRail");
-static const u32 sCrc32_Rotate = sead::HashCRC32::calcStringHash("Rotate");
-static const u32 sCrc32_Scale = sead::HashCRC32::calcStringHash("Scale");
-static const u32 sCrc32_Translate = sead::HashCRC32::calcStringHash("Translate");
-static const u32 sCrc32_RailPoints = sead::HashCRC32::calcStringHash("RailPoints");
-static const u32 sCrc32_ControlPoints = sead::HashCRC32::calcStringHash("ControlPoints");
-static const u32 sCrc32_Junctions = sead::HashCRC32::calcStringHash("Junctions");
+namespace {
+struct KeyHashes {
+    KeyHashes() {
+        SRTHash = sead::HashCRC32::calcStringHash("SRTHash");
+        Index = sead::HashCRC32::calcStringHash("Index");
+        HashId = sead::HashCRC32::calcStringHash("HashId");
+        DestUnitHashId = sead::HashCRC32::calcStringHash("DestUnitHashId");
+        LocationPosX = sead::HashCRC32::calcStringHash("LocationPosX");
+        LocationPosZ = sead::HashCRC32::calcStringHash("LocationPosZ");
+        NextDistance = sead::HashCRC32::calcStringHash("NextDistance");
+        PrevDistance = sead::HashCRC32::calcStringHash("PrevDistance");
+        IsClosed = sead::HashCRC32::calcStringHash("IsClosed");
+        OnlyOne = sead::HashCRC32::calcStringHash("OnlyOne");
+        RailType = sead::HashCRC32::calcStringHash("RailType");
+        UniqueName = sead::HashCRC32::calcStringHash("UniqueName");
+        UnitConfigName = sead::HashCRC32::calcStringHash("UnitConfigName");
+        CheckPointName = sead::HashCRC32::calcStringHash("CheckPointName");
+        EntryPointName = sead::HashCRC32::calcStringHash("EntryPointName");
+        DefinitionName = sead::HashCRC32::calcStringHash("DefinitionName");
+        Objs = sead::HashCRC32::calcStringHash("Objs");
+        Rails = sead::HashCRC32::calcStringHash("Rails");
+        LinksToObj = sead::HashCRC32::calcStringHash("LinksToObj");
+        LinksToRail = sead::HashCRC32::calcStringHash("LinksToRail");
+        Rotate = sead::HashCRC32::calcStringHash("Rotate");
+        Scale = sead::HashCRC32::calcStringHash("Scale");
+        Translate = sead::HashCRC32::calcStringHash("Translate");
+        RailPoints = sead::HashCRC32::calcStringHash("RailPoints");
+        ControlPoints = sead::HashCRC32::calcStringHash("ControlPoints");
+        Junctions = sead::HashCRC32::calcStringHash("Junctions");
+    }
+
+    u32 SRTHash;
+    u32 Index;
+    u32 HashId;
+    u32 DestUnitHashId;
+    u32 IsClosed;
+    u32 OnlyOne;
+    u32 LocationPosX;
+    u32 LocationPosZ;
+    u32 NextDistance;
+    u32 PrevDistance;
+    u32 RailType;
+    u32 UniqueName;
+    u32 UnitConfigName;
+    u32 CheckPointName;
+    u32 EntryPointName;
+    u32 DefinitionName;
+    u32 Objs;
+    u32 Rails;
+    u32 LinksToObj;
+    u32 LinksToRail;
+    u32 Rotate;
+    u32 Scale;
+    u32 Translate;
+    u32 RailPoints;
+    u32 ControlPoints;
+    u32 Junctions;
+};
+const KeyHashes sHashes;
+}  // namespace
 
 MubinIter::MubinIter() : ByamlIter() {}
 
@@ -37,7 +71,7 @@ MubinIter::MubinIter(const u8* data) : ByamlIter(data) {}
 bool MubinIter::tryGetParamUInt8ByKey(u8* value, const sead::SafeString& key) const {
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
 
-    if (sCrc32_SRTHash == hash || sCrc32_Index == hash) {
+    if (sHashes.SRTHash == hash || sHashes.Index == hash) {
         s32 x = 0;
         if (!tryGetIntByKey(&x, key.cstr()))
             return false;
@@ -57,7 +91,7 @@ bool MubinIter::tryGetParamUInt8ByKey(u8* value, const sead::SafeString& key) co
 
 bool MubinIter::tryGetParamIntByKey(s32* value, const sead::SafeString& key) const {
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
-    if (sCrc32_SRTHash == hash || sCrc32_Index == hash)
+    if (sHashes.SRTHash == hash || sHashes.Index == hash)
         return tryGetIntByKey(value, key.cstr());
 
     al::ByamlIter iter;
@@ -66,7 +100,7 @@ bool MubinIter::tryGetParamIntByKey(s32* value, const sead::SafeString& key) con
 
 bool MubinIter::tryGetParamUIntByKey(u32* value, const sead::SafeString& key) const {
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
-    if (sCrc32_HashId == hash || sCrc32_DestUnitHashId == hash)
+    if (sHashes.HashId == hash || sHashes.DestUnitHashId == hash)
         return tryGetUIntByKey(value, key.cstr());
 
     al::ByamlIter iter;
@@ -75,8 +109,8 @@ bool MubinIter::tryGetParamUIntByKey(u32* value, const sead::SafeString& key) co
 
 bool MubinIter::tryGetParamFloatByKey(f32* value, const sead::SafeString& key) const {
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
-    if (sCrc32_LocationPosX == hash || sCrc32_LocationPosZ == hash || sCrc32_NextDistance == hash ||
-        sCrc32_PrevDistance == hash) {
+    if (sHashes.LocationPosX == hash || sHashes.LocationPosZ == hash ||
+        sHashes.NextDistance == hash || sHashes.PrevDistance == hash) {
         return tryGetFloatByKey(value, key.cstr());
     }
 
@@ -86,7 +120,7 @@ bool MubinIter::tryGetParamFloatByKey(f32* value, const sead::SafeString& key) c
 
 bool MubinIter::tryGetParamBoolByKey(bool* value, const sead::SafeString& key) const {
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
-    if (sCrc32_IsClosed == hash || sCrc32_OnlyOne == hash)
+    if (sHashes.IsClosed == hash || sHashes.OnlyOne == hash)
         return tryGetBoolByKey(value, key.cstr());
 
     al::ByamlIter iter;
@@ -95,9 +129,9 @@ bool MubinIter::tryGetParamBoolByKey(bool* value, const sead::SafeString& key) c
 
 bool MubinIter::tryGetParamStringByKey(const char** value, const sead::SafeString& key) const {
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
-    if (sCrc32_RailType == hash || sCrc32_UniqueName == hash || sCrc32_UnitConfigName == hash ||
-        sCrc32_CheckPointName == hash || sCrc32_EntryPointName == hash ||
-        sCrc32_DefinitionName == hash) {
+    if (sHashes.RailType == hash || sHashes.UniqueName == hash || sHashes.UnitConfigName == hash ||
+        sHashes.CheckPointName == hash || sHashes.EntryPointName == hash ||
+        sHashes.DefinitionName == hash) {
         return tryGetStringByKey(value, key.cstr());
     }
 
@@ -111,10 +145,10 @@ bool MubinIter::tryGetIterByIndex(MubinIter* iter, s32 index) const {
 
 bool MubinIter::tryGetParamIterByKey(MubinIter* value, const sead::SafeString& key) const {
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
-    if (sCrc32_Objs == hash || sCrc32_Rails == hash || sCrc32_LinksToObj == hash ||
-        sCrc32_LinksToRail == hash || sCrc32_Rotate == hash || sCrc32_Scale == hash ||
-        sCrc32_Translate == hash || sCrc32_RailPoints == hash || sCrc32_ControlPoints == hash ||
-        sCrc32_Junctions == hash) {
+    if (sHashes.Objs == hash || sHashes.Rails == hash || sHashes.LinksToObj == hash ||
+        sHashes.LinksToRail == hash || sHashes.Rotate == hash || sHashes.Scale == hash ||
+        sHashes.Translate == hash || sHashes.RailPoints == hash || sHashes.ControlPoints == hash ||
+        sHashes.Junctions == hash) {
         return tryGetIterByKey(value, key.cstr());
     }
 
@@ -133,10 +167,10 @@ bool MubinIter::isValid() const {
 bool MubinIter::tryGetFloatArrayByKey(f32* value, const sead::SafeString& key) const {
     al::ByamlIter iter;
     const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
-    if (sCrc32_Objs == hash || sCrc32_Rails == hash || sCrc32_LinksToObj == hash ||
-        sCrc32_LinksToRail == hash || sCrc32_Rotate == hash || sCrc32_Scale == hash ||
-        sCrc32_Translate == hash || sCrc32_RailPoints == hash || sCrc32_ControlPoints == hash ||
-        sCrc32_Junctions == hash) {
+    if (sHashes.Objs == hash || sHashes.Rails == hash || sHashes.LinksToObj == hash ||
+        sHashes.LinksToRail == hash || sHashes.Rotate == hash || sHashes.Scale == hash ||
+        sHashes.Translate == hash || sHashes.RailPoints == hash || sHashes.ControlPoints == hash ||
+        sHashes.Junctions == hash) {
         if (!tryGetIterByKey(&iter, key.cstr()))
             return false;
     } else {
