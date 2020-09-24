@@ -307,13 +307,11 @@ void OverlayArenaSystem::createTeraWorkHeap() {
 
 void OverlayArenaSystem::createPlacementTreeHeap() {
     res::stubbedLogFunction();
-
-    if (mPlacementTreeHeap)
-        return;
-
-    mPlacementTreeHeap =
-        sead::ExpHeap::tryCreate(0x700000, "PlacementTree", mFixedHeap, sizeof(void*),
-                                 sead::Heap::cHeapDirection_Forward, false);
+    if (!mPlacementTreeHeap) {
+        mPlacementTreeHeap =
+            sead::ExpHeap::tryCreate(0x700000, "PlacementTree", mFixedHeap, sizeof(void*),
+                                     sead::Heap::cHeapDirection_Forward, false);
+    }
     res::stubbedLogFunction();
 }
 
