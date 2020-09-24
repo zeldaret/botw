@@ -12,9 +12,9 @@ jobs:
     - uses: actions/checkout@v2
     - run: git submodule update --init --recursive
     - name: Install pip
-      run: sudo apt update && sudo apt install -y python3-pip python3-setuptools gpg
+      run: sudo apt update && sudo apt install -y python3-pip python3-setuptools gpg wget
     - name: Install tool dependencies
-      run: sudo python3 -m pip install capstone colorama cxxfilt pyelftools wget
+      run: sudo python3 -m pip install capstone colorama cxxfilt pyelftools
     - name: Download executable
       run: wget https://static.zeldamods.org/botw/16A91992BBA71201E98756F3BC8F5D2F.elf.gpg
     - name: Decrypt executable
