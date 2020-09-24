@@ -90,6 +90,8 @@ target_sources(uking PRIVATE
   resHandle.h
   resLoadRequest.cpp
   resLoadRequest.h
+  resOffsetReadFileDevice.cpp
+  resOffsetReadFileDevice.h
 
   resResource.cpp
   resResource.h
