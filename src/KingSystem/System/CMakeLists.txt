@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  Account.cpp
+  Account.h
   OverlayArena.cpp
   OverlayArena.h
   OverlayArenaSystem.cpp
