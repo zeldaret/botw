@@ -17,8 +17,9 @@ TaskThread::~TaskThread() {
         return;
 
     mTaskQueue->removeThread(this);
-    if (mFlags.isOff(Flag::DoesNotOwnTaskQueue) && mTaskQueue) {
-        delete mTaskQueue;
+    if (mFlags.isOff(Flag::DoesNotOwnTaskQueue)) {
+        if (mTaskQueue)
+            delete mTaskQueue;
         mTaskQueue = nullptr;
     }
 }
