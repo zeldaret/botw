@@ -32,6 +32,7 @@ private:
 
 class StrTreeMapNode : public sead::TreeMapNode<StrTreeMapKey> {
 public:
+    using KeyType = StrTreeMapKey;
     ~StrTreeMapNode() override { ; }
     void erase_() override { mLeft = mRight = nullptr; }
 };

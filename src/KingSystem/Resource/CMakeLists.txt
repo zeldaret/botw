@@ -82,6 +82,10 @@ target_sources(uking PRIVATE
   GeneralParamList/resGParamListObjectZora.h
   GeneralParamList/resGParamListTraits.h
 
+  resCache.cpp
+  resCache.h
+  resCacheCriticalSection.cpp
+  resCacheCriticalSection.h
   resCurrentResNameMgr.cpp
   resCurrentResNameMgr.h
   resEntryFactory.cpp
@@ -92,6 +96,9 @@ target_sources(uking PRIVATE
   resLoadRequest.h
   resOffsetReadFileDevice.cpp
   resOffsetReadFileDevice.h
+  resSystem.h
+  resUnit.cpp
+  resUnit.h
 
   resResource.cpp
   resResource.h
@@ -111,6 +118,4 @@ target_sources(uking PRIVATE
   resResourceLod.h
   resResourceRecipe.cpp
   resResourceRecipe.h
-
-  resSystem.h
 )

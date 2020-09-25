@@ -30,6 +30,7 @@ target_sources(uking PRIVATE
   HashUtil.h
   HeapUtil.cpp
   HeapUtil.h
+  InitTimeInfo.h
   ParamIO.h
   StrTreeMap.h
   Types.h

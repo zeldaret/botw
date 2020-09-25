@@ -105,6 +105,7 @@ public:
 
     explicit Task(sead::Heap* heap);
     Task(sead::Heap* heap, sead::IDisposer::HeapNullOption heap_null_option);
+    Task() : Task(nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified) {}
     virtual ~Task();
 
     bool setDelegate(const TaskDelegateSetter& setter);

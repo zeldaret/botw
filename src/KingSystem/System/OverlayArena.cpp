@@ -2,13 +2,13 @@
 #include <heap/seadExpHeap.h>
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/Resource/resUnit.h"
 
 namespace ksys {
 
 OverlayArena::OverlayArena() {
-    // FIXME: these should use offsetof()
-    mUnits.initOffset(0xc0);
-    mOffsetList2.initOffset(0xd0);
+    mUnits.initOffset(res::ResourceUnit::getArenaUnitListNodeOffset());
+    mOffsetList2.initOffset(res::ResourceUnit::getArenaUnitListNode2Offset());
 }
 
 OverlayArena::~OverlayArena() {

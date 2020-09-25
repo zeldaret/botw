@@ -46,7 +46,7 @@ public:
     bool _27 = true;
     bool _28 = true;
     s32 mLoadDataAlignment = 0;
-    u32 mAllocSize = 0;
+    u32 mBufferSize = 0;
     u32 _34 = 0;
     sead::FileDevice* mFileDevice = nullptr;
     EntryFactoryBase* mEntryFactory = nullptr;

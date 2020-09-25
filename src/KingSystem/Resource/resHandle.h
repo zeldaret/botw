@@ -1,12 +1,18 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class DirectResource;
+}
+
 namespace ksys::res {
 
+class ILoadRequest;
 class ResourceUnit;
 
 // FIXME: incomplete
@@ -21,6 +27,13 @@ public:
     virtual ~Handle();
 
     Status getStatus() const;
+
+    sead::DirectResource* load(const sead::SafeString& path, const ILoadRequest& request,
+                               Status* out_status = nullptr);
+
+    void unload();
+
+    void setUnit(ResourceUnit* unit) { mUnit = unit; }
 
 private:
     enum class Flag : u8 {
