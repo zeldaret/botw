@@ -28,7 +28,7 @@ private:
         HasOpenedUserSuccessfully = 0x2,
     };
 
-    void* _28 = nullptr;
+    [[maybe_unused]] void* _28 = nullptr;
     sead::TypedBitFlag<Flag> mFlags;
     nn::account::UserHandle* mUserHandle = nullptr;
 };
