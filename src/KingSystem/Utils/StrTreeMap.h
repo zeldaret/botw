@@ -8,16 +8,13 @@ namespace ksys::util {
 
 class StrTreeMapKey {
 public:
+    StrTreeMapKey() = default;
+    StrTreeMapKey(u32 key_hash, const sead::SafeString& key) : mKeyHash(key_hash), mKey(key) {}
+
     const sead::SafeString& key() const { return mKey; }
 
-    // NON_MATCHING: stack
-    void setKey(u32 hash, sead::SafeString key) {
-        mKeyHash = hash;
-        mKey = key;
-    }
-
     void setKey(const sead::SafeString& key) {
-        setKey(sead::HashCRC32::calcStringHash(key.cstr()), key);
+        *this = {sead::HashCRC32::calcStringHash(key.cstr()), key};
     }
 
     s32 compare(const StrTreeMapKey& rhs) const {
