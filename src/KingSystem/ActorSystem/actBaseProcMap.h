@@ -11,14 +11,8 @@ public:
     explicit BaseProcMapNode(BaseProc* proc) : mProc(proc) {}
     ~BaseProcMapNode() override;
 
-    // NON_MATCHING: addressing mode for mPrev
     void erase_() override {
-        if (mPrev)
-            mPrev->mNext = mNext;
-
-        if (mNext)
-            mNext->mPrev = mPrev;
-
+        unlink_();
         StrTreeMapNode::erase_();
         mInserted = false;
         mPrev = mNext = nullptr;
@@ -36,6 +30,14 @@ public:
     void setInserted() { mInserted = true; }
 
 private:
+    void unlink_() {
+        if (mPrev)
+            mPrev->mNext = mNext;
+
+        if (mNext)
+            mNext->mPrev = mPrev;
+    }
+
     BaseProc* mProc = nullptr;
     BaseProcMapNode* mPrev = nullptr;
     BaseProcMapNode* mNext = nullptr;
