@@ -9,6 +9,7 @@ target_sources(uking PRIVATE
   Thread/ManagedTaskHandle.h
   Thread/Task.cpp
   Thread/Task.h
+  Thread/TaskData.h
   Thread/TaskMgr.cpp
   Thread/TaskMgr.h
   Thread/TaskQueueBase.cpp

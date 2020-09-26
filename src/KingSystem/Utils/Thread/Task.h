@@ -73,6 +73,8 @@ KSYS_CHECK_SIZE_NX150(TaskDelegateSetter, 0x10);
 class TaskRequest {
     SEAD_RTTI_BASE(TaskRequest)
 public:
+    // TODO: initialize the members
+    TaskRequest() = default;
     virtual ~TaskRequest() = default;
 
     bool mHasHandle;

@@ -1,8 +1,16 @@
 #pragma once
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys {
 class OverlayArena;
+
+namespace util {
+class TaskThread;
 }
+}  // namespace ksys
 
 namespace ksys::res {
 
@@ -13,6 +21,8 @@ public:
 
     void insertOverlayArena(OverlayArena* arena);
     OverlayArena* getSomeArena() const;
+
+    util::TaskThread* makeResourceLoadingThread(sead::Heap* heap, bool use_game_task_thread);
 
 private:
     static ResourceMgrTask* sInstance;

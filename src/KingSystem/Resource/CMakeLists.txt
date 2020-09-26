@@ -94,9 +94,15 @@ target_sources(uking PRIVATE
   resHandle.h
   resLoadRequest.cpp
   resLoadRequest.h
+  resControlTask.cpp
+  resControlTask.h
   resOffsetReadFileDevice.cpp
   resOffsetReadFileDevice.h
+  resResourceMgrTask.cpp
+  resResourceMgrTask.h
   resSystem.h
+  resTaskRequest.cpp
+  resTaskRequest.h
   resUnit.cpp
   resUnit.h
 
