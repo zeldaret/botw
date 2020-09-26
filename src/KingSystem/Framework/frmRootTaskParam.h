@@ -16,8 +16,9 @@ public:
 
     RootTaskParam() = default;
 
-    u16 _8 = 1;
-    u8 _a = 1;
+    bool _8 = true;
+    bool _9 = false;
+    bool _a = true;
     void* _10 = nullptr;
     void* _18 = nullptr;
     sead::SafeString app_name;
@@ -34,6 +35,7 @@ public:
     u32 heap_size = 0;
     u32 constant_c = 0;
     u32 constant_d = 0;
+    u32 _dc = 0;
 };
 KSYS_CHECK_SIZE_NX150(RootTaskParam::ThreadIdArray, 0x60);
 KSYS_CHECK_SIZE_NX150(RootTaskParam, 0xe0);
