@@ -39,7 +39,6 @@ protected:
 
     bool mIsIdle = true;
     TaskMgr* mMgr = nullptr;
-    // FIXME: rename
     ManagedTaskHandle* mHandle = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ManagedTask, 0xc0);
