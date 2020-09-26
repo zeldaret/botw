@@ -10,12 +10,12 @@ class StrTreeMapKey {
 public:
     StrTreeMapKey() = default;
     StrTreeMapKey(u32 key_hash, const sead::SafeString& key) : mKeyHash(key_hash), mKey(key) {}
+    explicit StrTreeMapKey(const sead::SafeString& key)
+        : StrTreeMapKey(sead::HashCRC32::calcStringHash(key.cstr()), key) {}
 
     const sead::SafeString& key() const { return mKey; }
 
-    void setKey(const sead::SafeString& key) {
-        *this = {sead::HashCRC32::calcStringHash(key.cstr()), key};
-    }
+    void setKey(const sead::SafeString& key) { *this = StrTreeMapKey{key}; }
 
     s32 compare(const StrTreeMapKey& rhs) const {
         if (mKeyHash < rhs.mKeyHash)
