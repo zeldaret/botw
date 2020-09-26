@@ -84,11 +84,8 @@ bool Task::submitRequest(TaskRequest& request) {
         request.mQueue = mQueue;
     }
     mUserData = request.mUserData;
-    if (auto* delegate = request.mDelegate) {
-        deleteDelegate_();
-        mFlags.set(Flag::DoNotDeleteDelegate);
-        mDelegate = delegate;
-    }
+    if (request.mDelegate)
+        setDelegateInternal_(request.mDelegate);
     mRemoveCallback = request.mRemoveCallback;
     mPostRunCallback = request.mPostRunCallback;
     mName = request.mName;
@@ -124,6 +121,17 @@ bool Task::canSubmitRequest() const {
         mThread == sead::ThreadMgr::instance()->getCurrentThread();
     const bool cond2 = isInactive();
     return run_finished_on_current_thread || cond2;
+}
+
+void Task::setUserData(void* user_data) {
+    mUserData = user_data;
+}
+
+bool Task::setDelegateInternal_(TaskDelegate* delegate) {
+    deleteDelegate_();
+    mFlags.set(Flag::DoNotDeleteDelegate);
+    mDelegate = delegate;
+    return delegate != nullptr;
 }
 
 void Task::processOnCurrentThreadDirectly(TaskThread* thread) {

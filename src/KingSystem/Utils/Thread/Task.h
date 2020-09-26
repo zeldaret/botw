@@ -150,7 +150,9 @@ protected:
     virtual void preRemove_() {}
     virtual void postRemove_() {}
 
+    bool setDelegateInternal_(TaskDelegate* delegate);
     void setLaneId(u8 id);
+    void setUserData(void* user_data);
     void setThread(TaskThread* thread);
     void setStatusPushed();
     void setStatusFetched();
