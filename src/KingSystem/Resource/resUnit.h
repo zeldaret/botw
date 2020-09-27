@@ -18,12 +18,15 @@ class DirectResource;
 class FileDevice;
 }  // namespace sead
 
+namespace ksys {
+class OverlayArena;
+}
+
 namespace ksys::res {
 
 class Cache;
 class Handle;
 class LoadRequest;
-class OverlayArena;
 class ResourceUnit;
 
 class ResourceUnitMapNode : public util::StrTreeMapNode {
@@ -32,6 +35,7 @@ public:
     ~ResourceUnitMapNode() override { ; }
     void erase_() override { util::StrTreeMapNode::erase_(); }
 
+    ResourceUnit*& getUnit() { return mUnit; }
     ResourceUnit* getUnit() const { return mUnit; }
     util::StrTreeMapKey& key() { return mKey; }
     const util::StrTreeMapKey& key() const { return mKey; }
@@ -63,21 +67,37 @@ public:
     };
 
     struct InitArg {
-        bool set_flag_1;
-        bool set_flag_2;
-        bool set_flag_4;
-        sead::Atomic<bool> load_req_field_26;
-        sead::Atomic<bool> load_req_field_28;
-        Handle* handle;
-        Cache* cache;
-        void* _18;
-        sead::Heap* heap;
-        LoadRequest* load_req;
-        OverlayArena* arena;
-        u32 alloc_size;
+        InitArg() = default;
+        InitArg(bool set_flag_1, bool set_flag_2, bool set_flag_4, bool load_req_field_26,
+                bool load_req_field_28, Handle* handle, Cache* cache, void* _18, sead::Heap* heap,
+                const LoadRequest* load_req, OverlayArena* arena, u32 alloc_size,
+                sead::SafeString path)
+            : set_flag_1(set_flag_1), set_flag_2(set_flag_2), set_flag_4(set_flag_4),
+              load_req_field_26(load_req_field_26), load_req_field_28(load_req_field_28),
+              handle(handle), cache(cache), _18(_18), heap(heap), load_req(load_req), arena(arena),
+              alloc_size(alloc_size), path(path) {}
+
+        bool set_flag_1 = false;
+        bool set_flag_2 = false;
+        bool set_flag_4 = false;
+        bool load_req_field_26 = false;
+        bool load_req_field_28 = false;
+        Handle* handle = nullptr;
+        Cache* cache = nullptr;
+        void* _18 = nullptr;
+        sead::Heap* heap = nullptr;
+        const LoadRequest* load_req = nullptr;
+        OverlayArena* arena = nullptr;
+        u32 alloc_size = 0;
         sead::SafeString path;
     };
     KSYS_CHECK_SIZE_NX150(InitArg, 0x50);
+
+    struct RequestLoadArg {
+        u8 lane_id;
+        bool has_handle;
+    };
+    KSYS_CHECK_SIZE_NX150(RequestLoadArg, 0x2);
 
     explicit ResourceUnit(const InitArg& arg);
     ResourceUnit();
@@ -107,10 +127,15 @@ public:
 
     bool isLinkedToCache() const;
     void setIsLinkedToCache(bool linked);
+    Cache* getCache() const { return mCache; }
     const auto& getCacheKey() const { return mMapNode.key(); }
     void removeFromCache();
 
     bool removeTask3FromQueue();
+
+    void requestLoad(const RequestLoadArg& arg);
+
+    bool isStatusFlag1000Set() const;
 
     static size_t getArenaUnitListNodeOffset() {
         return offsetof(ResourceUnit, mArenaUnitListNode);
@@ -125,6 +150,7 @@ public:
     }
 
 private:
+    friend class Cache;
     friend class Handle;
 
     enum class CacheFlag : u8 {
@@ -142,6 +168,7 @@ private:
         BufferSizeIsNonZero = 0x10,
         LoadFromArchive = 0x20,
         LoadReqField24IsTrue = 0x40,
+        _80 = 0x80,
         FailedMaybe = 0x100,
         FileSizeIsZero = 0x200,
         FileSizeExceedsAllocSize = 0x800,

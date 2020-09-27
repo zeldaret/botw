@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <codec/seadHashCRC32.h>
 #include <container/seadTreeMap.h>
+#include <prim/seadDelegate.h>
 
 namespace ksys::util {
 
@@ -10,7 +11,7 @@ class StrTreeMapKey {
 public:
     StrTreeMapKey() = default;
     StrTreeMapKey(u32 key_hash, const sead::SafeString& key) : mKeyHash(key_hash), mKey(key) {}
-    explicit StrTreeMapKey(const sead::SafeString& key)
+    StrTreeMapKey(const sead::SafeString& key)
         : StrTreeMapKey(sead::HashCRC32::calcStringHash(key.cstr()), key) {}
 
     const sead::SafeString& key() const { return mKey; }

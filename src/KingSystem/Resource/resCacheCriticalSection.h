@@ -6,4 +6,7 @@ namespace ksys::res {
 
 extern sead::CriticalSection gCacheCriticalSection;
 
+void lockCacheCriticalSection();
+void unlockCacheCriticalSection();
+
 }  // namespace ksys::res

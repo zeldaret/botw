@@ -78,7 +78,13 @@ bool ResourceUnit::init(const ResourceUnit::InitArg& arg) {
     mFlags.change(Flag::_2, arg.set_flag_2);
     mFlags.change(Flag::_4, arg.set_flag_4);
 
+#ifdef MATCHING_HACK_NX_CLANG
+    mStatusFlags.change(StatusFlag::_20000,
+                        arg.load_req_field_26 &&
+                            !*static_cast<const volatile bool*>(&arg.load_req_field_28));
+#else
     mStatusFlags.change(StatusFlag::_20000, arg.load_req_field_26 && !arg.load_req_field_28);
+#endif
     mStatusFlags.change(StatusFlag::_40000, arg.load_req->_27);
     mStatusFlags.change(StatusFlag::HasHeap, arg.heap != nullptr);
     mStatusFlags.change(StatusFlag::_80000, arg.load_req_field_28);

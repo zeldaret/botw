@@ -1,13 +1,14 @@
 #pragma once
 
 #include <hostio/seadHostIONode.h>
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resUnit.h"
 #include "KingSystem/Utils/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {
 
-struct LoadContext;
+class ControlTaskData;
 
 class Cache : public sead::hostio::Node {
 public:
@@ -15,14 +16,16 @@ public:
     virtual ~Cache() = default;
 
     void init();
-
     ResourceUnit* findUnit(const ResourceUnitMapNode::KeyType& key) const;
-    void eraseUnit(ResourceUnit* unit);
+    Handle::Status loadResource(const ControlTaskData& data);
 
-    // FIXME: return type
-    s32 loadResource(const LoadContext& context);
+    void eraseUnit(ResourceUnit* unit);
+    void eraseUnits();
 
 private:
+    void removeUnitAndClearCache_(ResourceUnit* unit);
+
+    // This seems to be unused.
     [[maybe_unused]] u8 _8 = 2;
     util::StrTreeMap<ResourceUnitMapNode> mMap;
 };
