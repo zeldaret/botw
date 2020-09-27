@@ -86,6 +86,8 @@ target_sources(uking PRIVATE
   resCache.h
   resCacheCriticalSection.cpp
   resCacheCriticalSection.h
+  resControlTask.cpp
+  resControlTask.h
   resCurrentResNameMgr.cpp
   resCurrentResNameMgr.h
   resEntryFactory.cpp
@@ -94,8 +96,8 @@ target_sources(uking PRIVATE
   resHandle.h
   resLoadRequest.cpp
   resLoadRequest.h
-  resControlTask.cpp
-  resControlTask.h
+  resMemoryTask.cpp
+  resMemoryTask.h
   resOffsetReadFileDevice.cpp
   resOffsetReadFileDevice.h
   resResourceMgrTask.cpp
