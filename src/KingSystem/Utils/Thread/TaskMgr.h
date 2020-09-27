@@ -1,5 +1,6 @@
 #pragma once
 
+#include <basis/seadRawPrint.h>
 #include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
 #include <container/seadSafeArray.h>
@@ -9,12 +10,13 @@
 #include <prim/seadScopedLock.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/Thread/Event.h"
+#include "KingSystem/Utils/Thread/ManagedTask.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::util {
 
-class ManagedTask;
 class ManagedTaskHandle;
 class TaskRequest;
 struct TaskMgrRequest;
@@ -38,6 +40,12 @@ public:
     virtual ~TaskMgr();
 
     void init(s32 num_tasks, sead::Heap* heap, ManagedTaskFactory& factory);
+
+    template <typename TaskType>
+    void init(s32 num_tasks, sead::Heap* heap) {
+        initImpl_<TaskType>(num_tasks, heap);
+    }
+
     void finalize();
 
     void submitRequest(TaskMgrRequest& request);
@@ -71,6 +79,25 @@ protected:
         const bool ret = fetchIdleTaskForRequest_(request, b);
         mTasksCS.unlock();
         return ret;
+    }
+
+    template <typename TaskType>
+    void makeTaskType_(ManagedTask** task) {
+        *task = new TaskType(getCurrentHeap());
+    }
+
+    template <typename TaskType>
+    void initImpl_(s32 num_tasks, sead::Heap* heap) {
+        sead::Delegate1<TaskMgr, ManagedTask**> factory{this, &TaskMgr::makeTaskType_<TaskType>};
+        init(num_tasks, heap, factory);
+
+        if (hasTasks()) {
+            Task* task = nullptr;
+            if (mFreeTaskLists[0].size() >= 1)
+                task = mFreeTaskLists[0].front();
+            const bool is_derived_from_managed_task = sead::IsDerivedFrom<ManagedTask>(task);
+            SEAD_ASSERT(is_derived_from_managed_task);
+        }
     }
 
     sead::TypedBitFlag<Flag, u8> mFlags;
