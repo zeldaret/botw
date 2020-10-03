@@ -31,7 +31,7 @@ for entry in entries:
         symbol_type: str = entry[1]
         name = entry[2]
 
-        if (symbol_type == "T" or symbol_type == "W") and (args.all or name not in listed_decomp_symbols):
+        if (symbol_type == "t" or symbol_type == "T" or symbol_type == "W") and (args.all or name not in listed_decomp_symbols):
             c1_name = name.replace("C2", "C1")
             is_c2_ctor = "C2" in name and c1_name in listed_decomp_symbols and utils.are_demangled_names_equal(
                 c1_name, name)
