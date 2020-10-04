@@ -1,5 +1,7 @@
 #pragma once
 
+#include <framework/seadCalculateTask.h>
+#include <hostio/seadHostIONode.h>
 #include "KingSystem/Resource/resUnit.h"
 
 namespace sead {
@@ -17,7 +19,7 @@ class TaskThread;
 namespace ksys::res {
 
 // FIXME: very, very incomplete.
-class ResourceMgrTask {
+class ResourceMgrTask : public sead::CalculateTask, public sead::hostio::Node {
 public:
     static ResourceMgrTask* instance() { return sInstance; }
 
@@ -46,5 +48,7 @@ public:
 private:
     static ResourceMgrTask* sInstance;
 };
+KSYS_CHECK_SIZE_NX150(sead::TaskBase, 0xd0);
+KSYS_CHECK_SIZE_NX150(sead::MethodTreeNode, 0x98);
 
 }  // namespace ksys::res
