@@ -7,19 +7,29 @@
 namespace ksys::res {
 
 class LifeCondition : public ParamIO, public Resource {
+    SEAD_RTTI_OVERRIDE(LifeCondition, Resource)
+public:
+    LifeCondition();
+    ~LifeCondition() override = default;
+
+    bool needsParse() const override { return true; }
+    bool ParamIO_m0() override { return true; }
+
+private:
+    void doCreate_(u8*, u32, sead::Heap*) override {}
     void parseArray(const agl::utl::ResParameterObj* data, agl::utl::IParameterObj* obj,
                     sead::Buffer<agl::utl::Parameter<sead::SafeString>>* buffer,
                     const sead::SafeString& key, const sead::SafeString& desc, sead::Heap* heap);
 
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
-    agl::utl::IParameterObj mInvalidWeathersObj;
-    agl::utl::IParameterObj mInvalidTimesObj;
-    agl::utl::IParameterObj mDisplayDistanceObj;
-    agl::utl::IParameterObj mDeleteWeathersObj;
-    agl::utl::IParameterObj mDeleteTimesObj;
-    agl::utl::IParameterObj mBoundingYObj;
-    agl::utl::IParameterObj mYLimitAlgorithmObj;
+    agl::utl::ParameterObj mInvalidWeathersObj;
+    agl::utl::ParameterObj mInvalidTimesObj;
+    agl::utl::ParameterObj mDisplayDistanceObj;
+    agl::utl::ParameterObj mDeleteWeathersObj;
+    agl::utl::ParameterObj mDeleteTimesObj;
+    agl::utl::ParameterObj mBoundingYObj;
+    agl::utl::ParameterObj mYLimitAlgorithmObj;
 
     sead::Buffer<agl::utl::Parameter<sead::SafeString>> mInvalidWeathersBuffer;
     sead::Buffer<agl::utl::Parameter<sead::SafeString>> mInvalidTimesBuffer;

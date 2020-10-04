@@ -1,7 +1,8 @@
 #include "KingSystem/Resource/resResourceLifeCondition.h"
-#include <codec/seadHashCRC32.h>
 
 namespace ksys::res {
+
+LifeCondition::LifeCondition() : ParamIO("lifecondition", 0) {}
 
 // NON_MATCHING: two instructions swapped
 bool LifeCondition::parse_(u8* data, size_t, sead::Heap* heap) {
