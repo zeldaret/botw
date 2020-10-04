@@ -50,14 +50,10 @@ def check_function(addr: int, size: int, name: str) -> bool:
     try:
         base_fn = get_fn_from_base_elf(addr, size)
     except KeyError:
-        utils.print_error(f"couldn't find base function 0x{addr:016x} for {name}")
+        utils.print_error(f"couldn't find base function 0x{addr:016x} for {utils.format_symbol_name_for_msg(name)}")
         return False
 
-    try:
-        my_fn = get_fn_from_my_elf(name, size)
-    except KeyError:
-        utils.warn(f"couldn't find decompiled function {name}")
-        return True
+    my_fn = get_fn_from_my_elf(name, size)
 
     md = cs.Cs(cs.CS_ARCH_ARM64, cs.CS_MODE_ARM)
     md.detail = True
@@ -133,10 +129,21 @@ def main() -> None:
         if not func.decomp_name:
             continue
 
+        try:
+            get_fn_from_my_elf(func.decomp_name, 0)
+        except KeyError:
+            utils.warn(f"couldn't find {utils.format_symbol_name_for_msg(func.decomp_name)}")
+            continue
+
         if func.status == utils.FunctionStatus.Matching:
             if not check_function(func.addr, func.size, func.decomp_name):
-                utils.print_error(f"{func.decomp_name} was marked as matching but does not match")
+                utils.print_error(
+                    f"function {utils.format_symbol_name_for_msg(func.decomp_name)} is marked as matching but does not match")
                 failed = True
+        elif func.status == utils.FunctionStatus.Equivalent or func.status == utils.FunctionStatus.NonMatching:
+            if check_function(func.addr, func.size, func.decomp_name):
+                utils.print_note(
+                    f"function {utils.format_symbol_name_for_msg(func.decomp_name)} is marked as non-matching but matches")
 
     if failed:
         sys.exit(1)
