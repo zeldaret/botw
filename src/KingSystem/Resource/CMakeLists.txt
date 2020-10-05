@@ -122,6 +122,8 @@ target_sources(uking PRIVATE
   resResourceDrop.h
   resResourceGParamList.cpp
   resResourceGParamList.h
+  resResourceLifeCondition.cpp
+  resResourceLifeCondition.h
   resResourceLod.cpp
   resResourceLod.h
   resResourceRecipe.cpp
