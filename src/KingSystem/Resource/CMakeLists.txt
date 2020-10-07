@@ -86,6 +86,8 @@ target_sources(uking PRIVATE
   resCache.h
   resCacheCriticalSection.cpp
   resCacheCriticalSection.h
+  resCompactedHeap.cpp
+  resCompactedHeap.h
   resControlTask.cpp
   resControlTask.h
   resCounter.cpp
@@ -110,6 +112,10 @@ target_sources(uking PRIVATE
   resSystem.h
   resTaskRequest.cpp
   resTaskRequest.h
+  resTextureHandleList.cpp
+  resTextureHandleList.h
+  resTextureHandleMgr.cpp
+  resTextureHandleMgr.h
   resUnit.cpp
   resUnit.h
   resUnitPool.cpp

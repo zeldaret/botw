@@ -45,6 +45,8 @@ public:
     bool init(const InitArg& arg);
     void destroy();
 
+    static constexpr size_t getListNodeOffset() { return offsetof(OverlayArena, mListNode); }
+
 private:
     friend class OverlayArenaSystem;
 

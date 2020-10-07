@@ -33,6 +33,7 @@ target_sources(uking PRIVATE
   HeapUtil.h
   InitTimeInfo.h
   ParamIO.h
+  SafeDelete.h
   StrTreeMap.h
   Types.h
 )

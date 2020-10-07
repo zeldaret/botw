@@ -2,7 +2,7 @@
 
 namespace ksys::res {
 
-CounterBase::CounterBase() = default;
+CounterBase::CounterBase(sead::Heap*) {}
 
 CounterBase::~CounterBase() = default;
 

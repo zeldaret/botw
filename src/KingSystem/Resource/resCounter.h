@@ -5,6 +5,10 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys::res {
 
 class CounterBase {
@@ -21,7 +25,7 @@ public:
         void* mData;
     };
 
-    CounterBase();
+    explicit CounterBase(sead::Heap* heap);
     virtual ~CounterBase();
 
     bool setData(const Data& data);
@@ -42,7 +46,7 @@ private:
 
 class Counter : public CounterBase {
 public:
-    Counter() = default;
+    using CounterBase::CounterBase;
     ~Counter() override = default;
 
 private:
