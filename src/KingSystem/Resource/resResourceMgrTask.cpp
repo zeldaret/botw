@@ -4,6 +4,7 @@
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Resource/resCompactedHeap.h"
 #include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resTextureHandleList.h"
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/Utils/SafeDelete.h"
@@ -74,6 +75,14 @@ ResourceMgrTask::~ResourceMgrTask() {
     util::safeDelete(mEntryFactoryBase);
 
     mResSystemHeap->destroy();
+}
+
+void ResourceMgrTask::insertOverlayArena(OverlayArena* arena) {
+    auto lock = sead::makeScopedLock(mArenasCS);
+    if (!mArenas.isNodeLinked(arena)) {
+        mArenas.pushBack(arena);
+        stubbedLogFunction();
+    }
 }
 
 util::TaskThread* ResourceMgrTask::makeResourceLoadingThread(sead::Heap* heap,
