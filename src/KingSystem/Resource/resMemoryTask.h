@@ -44,5 +44,6 @@ public:
     s32 mData_c = -1;
     sead::SafeString mData_mStr;
 };
+KSYS_CHECK_SIZE_NX150(MemoryTaskRequest, 0x68);
 
 }  // namespace ksys::res
