@@ -50,7 +50,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(TaskRemoveCallbackContext, 0x18);
 
-using TaskDelegate = sead::AnyDelegate1R<void*, bool>;
+using TaskDelegate = sead::IDelegate1R<void*, bool>;
 using TaskPostRunCallback = sead::IDelegate2<TaskPostRunResult*, const TaskPostRunContext&>;
 using TaskRemoveCallback = sead::IDelegate1<const TaskRemoveCallbackContext&>;
 
@@ -73,20 +73,19 @@ KSYS_CHECK_SIZE_NX150(TaskDelegateSetter, 0x10);
 class TaskRequest {
     SEAD_RTTI_BASE(TaskRequest)
 public:
-    // TODO: initialize the members
     TaskRequest() = default;
     virtual ~TaskRequest() = default;
 
-    bool mHasHandle;
+    bool mHasHandle = true;
     /// If true, request submissions will block until the request is processed.
-    bool mSynchronous;
-    u8 mLaneId;
-    TaskThread* mThread;
-    TaskQueueBase* mQueue;
-    TaskDelegate* mDelegate;
-    void* mUserData;
-    TaskRemoveCallback* mRemoveCallback;
-    TaskPostRunCallback* mPostRunCallback;
+    bool mSynchronous = true;
+    u8 mLaneId = 0;
+    TaskThread* mThread = nullptr;
+    TaskQueueBase* mQueue = nullptr;
+    TaskDelegate* mDelegate = nullptr;
+    void* mUserData = nullptr;
+    TaskRemoveCallback* mRemoveCallback = nullptr;
+    TaskPostRunCallback* mPostRunCallback = nullptr;
     sead::SafeString mName;
 };
 KSYS_CHECK_SIZE_NX150(TaskRequest, 0x50);

@@ -102,6 +102,14 @@ private:
 
     };
 
+    enum class CacheControlFlag : u8 {
+        ClearAllCachesRequested = 1,
+    };
+
+    enum class LaneId {
+        _9 = 9,
+    };
+
     using ResourceUnitDelegate = sead::Delegate1RFunc<void*, bool>;
     using TaskCallback =
         sead::Delegate2Func<util::TaskPostRunResult*, const util::TaskPostRunContext&>;
@@ -115,7 +123,9 @@ private:
     explicit ResourceMgrTask(const sead::TaskConstructArg& arg);
     ~ResourceMgrTask();
 
+    bool calc_(void* userdata);
     bool callSystemCalc_(void* userdata);
+    void clearUnits_();
     static void setInstance(ResourceMgrTask* task);
 
     static ResourceMgrTask* sInstance;
@@ -131,7 +141,7 @@ private:
     InstancePtrClearer mInstancePtrClearer;
 
     sead::TypedBitFlag<Flag> mFlags;
-    bool mClearAllCachesRequested = false;
+    sead::TypedBitFlag<CacheControlFlag> mCacheControlFlags;
     u32 _17c = 0;
     sead::Heap* mResSystemHeap = nullptr;
     util::TaskThread* mResourceLoadingThread = nullptr;

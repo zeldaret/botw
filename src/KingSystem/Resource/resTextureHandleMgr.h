@@ -6,6 +6,8 @@ namespace ksys::res {
 class TextureHandleMgr {
 public:
     virtual ~TextureHandleMgr();
+
+    void clearAllCache();
 };
 
 }  // namespace ksys::res

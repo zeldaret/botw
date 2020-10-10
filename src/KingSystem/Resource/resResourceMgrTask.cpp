@@ -4,6 +4,7 @@
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Resource/resCompactedHeap.h"
 #include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resMemoryTask.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resTextureHandleList.h"
 #include "KingSystem/Resource/resTextureHandleMgr.h"
@@ -96,6 +97,28 @@ util::TaskThread* ResourceMgrTask::makeResourceLoadingThread(sead::Heap* heap,
     return new (heap) util::TaskThread(
         "Resource Loading", heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(19),
         sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0xa000, 32);
+}
+
+bool ResourceMgrTask::calc_(void*) {
+    if (mCacheControlFlags.testAndClear(CacheControlFlag::ClearAllCachesRequested)) {
+        MemoryTaskRequest req;
+        req.mLaneId = u8(LaneId::_9);
+        req.mHasHandle = true;
+        req.mSynchronous = true;
+        req.mThread = mResourceMemoryThread;
+        req.mDelegate = &mClearAllCachesFn;
+        req.mName = "ClearAllCaches";
+        req.mData_8 = false;
+        req.mData_c = -1;
+
+        util::TaskMgrRequest request;
+        request.request = &req;
+        mResourceMemoryTaskMgr->submitRequest(request);
+        mTexHandleMgr->clearAllCache();
+        stubbedLogFunction();
+    }
+    clearUnits_();
+    return true;
 }
 
 }  // namespace ksys::res

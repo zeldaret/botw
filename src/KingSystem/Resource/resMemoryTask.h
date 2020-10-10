@@ -42,7 +42,7 @@ public:
 
     bool mData_8 = false;
     s32 mData_c = -1;
-    sead::FixedSafeString<128> mData_mStr;
+    sead::SafeString mData_mStr;
 };
 
 }  // namespace ksys::res

@@ -25,11 +25,11 @@ using ManagedTaskFactory = sead::IDelegate1<ManagedTask**>;
 
 struct TaskMgrRequest {
     /// Optional. If null, a task from the internal buffer will be used.
-    ManagedTask* task;
+    ManagedTask* task = nullptr;
     /// Must not be null.
-    TaskRequest* request;
+    TaskRequest* request = nullptr;
     /// Optional.
-    ManagedTaskHandle* handle;
+    ManagedTaskHandle* handle = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(TaskMgrRequest, 0x18);
 

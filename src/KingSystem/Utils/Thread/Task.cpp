@@ -29,7 +29,7 @@ Task::~Task() {
 
 void Task::deleteDelegate_() {
     if (mDelegate && mFlags.isOn(Flag::DeleteDelegate) && mFlags.isOff(Flag::DoNotDeleteDelegate)) {
-        delete mDelegate;
+        ::operator delete(mDelegate);
         mDelegate = nullptr;
     }
 }
@@ -170,7 +170,7 @@ void Task::removeFromQueue2() {
 
 void Task::run_() {
     if (mDelegate)
-        mDelegateResult = (*mDelegate)(mUserData);
+        mDelegateResult = mDelegate->invoke(mUserData);
 }
 
 bool Task::wait() {
