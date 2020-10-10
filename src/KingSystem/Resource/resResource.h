@@ -29,9 +29,9 @@ public:
     void setContext(Context* context);
 
     void onDestroy();
-    void parse(Context*, sead::Heap* heap);
+    bool parse(Context*, sead::Heap* heap);
     bool finalize();
-    bool finishParsing();
+    bool finishParsing(Context* context);
     bool m7();
 
     static constexpr size_t cLoadDataAlignment = 4;

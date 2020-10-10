@@ -43,7 +43,7 @@ Handle::Status Cache::loadResource(const ControlTaskData& data) {
                     return false;
                 }
 
-                if (unit->isStatusFlag1000Set()) {
+                if (unit->isStatusFlag10000Set()) {
                     unit->removeFromCache();
                     return false;
                 }
@@ -130,10 +130,10 @@ Handle::Status Cache::loadResource(const ControlTaskData& data) {
         lane_id = 2 * data.mResLoadReq._c + (x ? 1 : 2);
     }
 
-    ResourceUnit::RequestLoadArg load_arg;
+    ResourceUnit::RequestInitLoadArg load_arg;
     load_arg.lane_id = lane_id;
     load_arg.has_handle = data.mResLoadReq._8;
-    result->requestLoad(load_arg);
+    result->requestInitLoad(load_arg);
     return Handle::Status::_7;
 }
 

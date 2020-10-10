@@ -2,8 +2,10 @@
 #include <filedevice/seadArchiveFileDevice.h>
 #include <resource/seadArchiveRes.h>
 #include "KingSystem/Resource/resCache.h"
+#include "KingSystem/Resource/resControlTask.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
 
 namespace ksys::res {
@@ -222,6 +224,171 @@ void ResourceUnit::removeFromCache() {
 bool ResourceUnit::removeTask3FromQueue() {
     mTask3.removeFromQueue();
     return true;
+}
+
+void ResourceUnit::requestInitLoad(const RequestInitLoadArg& arg) {
+    mStatus = Status::_7;
+
+    util::TaskRequest req;
+    req.mHasHandle = arg.has_handle;
+    req.mSynchronous = false;
+    req.mLaneId = arg.lane_id;
+    req.mThread = ResourceMgrTask::instance()->getResourceMemoryThread();
+    req.mDelegate = &ResourceMgrTask::instance()->getUnitInitLoadFn().fn;
+    req.mUserData = this;
+    req.mPostRunCallback = &ResourceMgrTask::instance()->getUnitInitLoadFn().cb;
+    req.mName = mPath;
+    mTask1.submitRequest(req);
+
+    if (returnFalse2(sead::SafeString(mPath)))
+        stubbedLogFunction();
+}
+
+bool ResourceUnit::waitForResourceAndParse(Context* context) {
+    const auto adjust_heap_and_dec_ref = [&] {
+        adjustHeapAndArena();
+        if (mStatusFlags.isOn(StatusFlag::_80000)) {
+            mRefCount.decrement();
+            mStatusFlags.reset(StatusFlag::_80000);
+            ksys::res::stubbedLogFunction();
+        }
+    };
+
+    if (isParseOk())
+        return true;
+
+    if (mCounter.increment() >= 1) {
+        mEvent.wait();
+        if (mStatus != Status::_15 && mStatus != Status::_12)
+            return true;
+        ksys::res::stubbedLogFunction();
+        return false;
+    }
+
+    mTask1.wait();
+    bool set_status_12 = true;
+    if (mResource) {
+        auto* res = sead::DynamicCast<ksys::res::Resource>(mResource);
+        if (!res || !res->needsParse()) {
+            mEvent.setSignal();
+            return true;
+        }
+
+        bool finish_parsing = mStatus != Status::_8;
+        if (!finish_parsing) {
+            auto* heap = mHeap;
+            mStatus = Status::_10;
+            if (context)
+                res->setContext(context);
+
+            if (res->parse(context, heap)) {
+                mStatus = Status::_11;
+                finish_parsing = true;
+            } else {
+                adjust_heap_and_dec_ref();
+            }
+        }
+
+        if (finish_parsing) {
+            mStatus = Status::_13;
+            if (mResource) {
+                bool ok = true;
+                if (auto* ksys_res = sead::DynamicCast<ksys::res::Resource>(mResource)) {
+                    if (context)
+                        ksys_res->setContext(context);
+                    ok = ksys_res->finishParsing(context);
+                }
+                mStatus = ok ? Status::_14 : Status::_15;
+                if (ok) {
+                    adjustHeapAndArena();
+                    mEvent.setSignal();
+                    return true;
+                }
+            }
+            adjust_heap_and_dec_ref();
+            set_status_12 = false;
+        }
+    }
+
+    if (set_status_12)
+        mStatus = Status::_12;
+
+    mEvent.setSignal();
+
+    ksys::res::stubbedLogFunction();
+    return false;
+}
+
+bool ResourceUnit::waitForTask1() {
+    mTask1.wait();
+    return true;
+}
+
+void ResourceUnit::adjustHeapAndArena() {
+    if (mStatusFlags.isOn(StatusFlag::HasHeap)) {
+        mStatusFlags.set(StatusFlag::_8);
+        return;
+    }
+
+    if (mStatusFlags.isOn(StatusFlag::_8)) {
+        auto* arena = mArena1;
+
+        if (mStatusFlags.isOff(StatusFlag::_2)) {
+            arena->addSize(mHeap ? mHeap->getSize() : 0);
+            mStatusFlags.set(StatusFlag::_2);
+        }
+
+        if (mStatusFlags.isOff(StatusFlag::_4) &&
+            mStatusFlags.isOff(StatusFlag::NeedToIncrementRefCount)) {
+            arena->addSize2(mHeap ? mHeap->getSize() : 0);
+            mStatusFlags.set(StatusFlag::_4);
+            return;
+        }
+
+    } else {
+        if (mStatusFlags.isOn(StatusFlag::_40000)) {
+            ControlTaskRequest req{false};
+            req.mHasHandle = false;
+            req.mSynchronous = false;
+            req.mLaneId = u8(res::ResourceMgrTask::LaneId::_10);
+            req.mThread = res::ResourceMgrTask::instance()->getResourceMemoryThread();
+            req.mDelegate = &res::ResourceMgrTask::instance()->getUnitAdjustHeapFn();
+            req.mUserData = this;
+            req.mName = "HeapAdjust";
+            mTask2.submitRequest(req);
+            return;
+        }
+
+        auto* arena = mArena1;
+
+        if (mStatusFlags.isOff(StatusFlag::_2)) {
+            arena->addSize(mHeap ? mHeap->getSize() : 0);
+            mStatusFlags.set(StatusFlag::_2);
+        }
+
+        if (mStatusFlags.isOff(StatusFlag::_4) &&
+            mStatusFlags.isOff(StatusFlag::NeedToIncrementRefCount)) {
+            arena->addSize2(mHeap ? mHeap->getSize() : 0);
+            mStatusFlags.set(StatusFlag::_4);
+            return;
+        }
+    }
+}
+
+bool ResourceUnit::waitForTask1(const sead::TickSpan& span) {
+    return mTask1.wait(span);
+}
+
+void ResourceUnit::detachFromHandle_(Handle* handle) {
+    handle->setUnit(nullptr);
+}
+
+void ResourceUnit::setStatusFlag10000() {
+    mStatusFlags.set(StatusFlag::_10000);
+}
+
+bool ResourceUnit::isStatusFlag10000Set() const {
+    return mStatusFlags.isOn(StatusFlag::_10000);
 }
 
 }  // namespace ksys::res

@@ -71,6 +71,21 @@ KSYS_CHECK_SIZE_NX150(FileDevicePrefix, 0x28);
 class ResourceMgrTask : public sead::CalculateTask, public sead::hostio::Node {
     SEAD_RTTI_OVERRIDE(ResourceMgrTask, sead::CalculateTask)
 public:
+    enum class LaneId {
+        _9 = 9,
+        _10 = 10,
+    };
+
+    using ResourceUnitDelegate = sead::Delegate1RFunc<void*, bool>;
+    using TaskCallback =
+        sead::Delegate2Func<util::TaskPostRunResult*, const util::TaskPostRunContext&>;
+    using MemoryTaskDelegate = sead::Delegate1R<ResourceMgrTask, void*, bool>;
+
+    struct ResourceUnitDelegatePair {
+        ResourceUnitDelegate fn;
+        TaskCallback cb;
+    };
+
     static ResourceMgrTask* instance() { return sInstance; }
 
     void prepare() override;
@@ -97,6 +112,14 @@ public:
                                     sead::BufferedSafeString& new_path, s32 dot_idx,
                                     const sead::SafeString& extension);
 
+    util::TaskThread* getResourceLoadingThread() const { return mResourceLoadingThread; }
+    util::TaskThread* getResourceControlThread() const { return mResourceControlThread; }
+    util::TaskThread* getResourceMemoryThread() const { return mResourceMemoryThread; }
+    util::TaskThread* getMovableMemoryThread() const { return mMovableMemoryThread; }
+
+    ResourceUnitDelegatePair& getUnitInitLoadFn() { return mUnitInitLoadFn; }
+    auto& getUnitAdjustHeapFn() { return mUnitAdjustHeapFn; }
+
 private:
     enum class Flag {
 
@@ -104,20 +127,6 @@ private:
 
     enum class CacheControlFlag : u8 {
         ClearAllCachesRequested = 1,
-    };
-
-    enum class LaneId {
-        _9 = 9,
-    };
-
-    using ResourceUnitDelegate = sead::Delegate1RFunc<void*, bool>;
-    using TaskCallback =
-        sead::Delegate2Func<util::TaskPostRunResult*, const util::TaskPostRunContext&>;
-    using MemoryTaskDelegate = sead::Delegate1R<ResourceMgrTask, void*, bool>;
-
-    struct ResourceUnitDelegatePair {
-        ResourceUnitDelegate fn;
-        TaskCallback cb;
     };
 
     explicit ResourceMgrTask(const sead::TaskConstructArg& arg);
@@ -168,7 +177,7 @@ private:
     ResourceUnitDelegatePair mUnitInitLoadFn;
     ResourceUnitDelegate mUnitPrepareLoadFn;
     ResourceUnitDelegate mUnitAdjustHeapFn;
-    ResourceUnitDelegatePair mDelegate2;  // TODO: rename
+    ResourceUnitDelegatePair mUnitUnloadForSyncFn;
     ResourceUnitDelegatePair mUnitUnloadFn;
     ResourceUnitDelegatePair mUnitClearCacheForSyncFn;
     ResourceUnitDelegatePair mUnitClearCacheFn;

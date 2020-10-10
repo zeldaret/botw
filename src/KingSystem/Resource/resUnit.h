@@ -25,6 +25,7 @@ class OverlayArena;
 namespace ksys::res {
 
 class Cache;
+class Context;
 class Handle;
 class LoadRequest;
 class ResourceUnit;
@@ -93,11 +94,11 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(InitArg, 0x50);
 
-    struct RequestLoadArg {
+    struct RequestInitLoadArg {
         u8 lane_id;
         bool has_handle;
     };
-    KSYS_CHECK_SIZE_NX150(RequestLoadArg, 0x2);
+    KSYS_CHECK_SIZE_NX150(RequestInitLoadArg, 0x2);
 
     explicit ResourceUnit(const InitArg& arg);
     ResourceUnit();
@@ -133,9 +134,21 @@ public:
 
     bool removeTask3FromQueue();
 
-    void requestLoad(const RequestLoadArg& arg);
+    void requestInitLoad(const RequestInitLoadArg& arg);
+    bool waitForResourceAndParse(Context* context);
+    bool waitForTask1();
+    bool waitForTask1(const sead::TickSpan& span);
 
-    bool isStatusFlag1000Set() const;
+    void setStatusFlag10000();
+    bool isStatusFlag10000Set() const;
+
+    /// Destroys the underlying resource and reallocates it for defragmentation purposes.
+    void reallocate();
+
+    u32 determineFileBufferSize();
+    u32 determineFileBufferSize(const sead::SafeString& path, bool flag4, bool flag1, bool flag2);
+
+    void detachFromHandle_(Handle* handle);
 
     static size_t getArenaUnitListNodeOffset() {
         return offsetof(ResourceUnit, mArenaUnitListNode);
@@ -165,21 +178,44 @@ private:
 
     enum class StatusFlag {
         HasHeap = 0x1,
+        _2 = 0x2,
+        _4 = 0x4,
+        _8 = 0x8,
         BufferSizeIsNonZero = 0x10,
         LoadFromArchive = 0x20,
         LoadReqField24IsTrue = 0x40,
         _80 = 0x80,
         FailedMaybe = 0x100,
         FileSizeIsZero = 0x200,
+        _400 = 0x400,
         FileSizeExceedsAllocSize = 0x800,
         _1000 = 0x1000,
         FileOrResInstanceTooLargeForHeap = 0x2000,
         LoadFailed = 0x4000,
         NeedToIncrementRefCount = 0x8000,
+        _10000 = 0x10000,
         _20000 = 0x20000,
         _40000 = 0x40000,
         _80000 = 0x80000,
     };
+
+    void adjustHeapAndArena();
+
+    void doLoad();
+    void doRetryLoad();
+
+    void prepareUnload();
+
+    void initLoad(void* x = nullptr);
+    void prepareLoad();
+    void requestPrepareLoad(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+
+    void unloadForSync();
+    void clearCacheForSync();
+
+    void unload();
+    void clearCache();
+    void requestClearCache(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
 
     sead::TypedBitFlag<CacheFlag> mCacheFlags;
     sead::TypedBitFlag<Flag> mFlags;

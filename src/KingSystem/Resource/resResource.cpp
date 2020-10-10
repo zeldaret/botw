@@ -16,8 +16,8 @@ void Resource::onDestroy() {
     onDestroy_();
 }
 
-void Resource::parse(Context*, sead::Heap* heap) {
-    parse_(mRawData, mRawSize, heap);
+bool Resource::parse(Context*, sead::Heap* heap) {
+    return parse_(mRawData, mRawSize, heap);
 }
 
 bool Resource::finalize() {
@@ -25,7 +25,7 @@ bool Resource::finalize() {
     return true;
 }
 
-bool Resource::finishParsing() {
+bool Resource::finishParsing(Context*) {
     const bool ret = finishParsing_();
     mContext = nullptr;
     return ret;

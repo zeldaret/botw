@@ -45,6 +45,9 @@ public:
     bool init(const InitArg& arg);
     void destroy();
 
+    void addSize(s32 size);
+    void addSize2(s32 size);
+
     static constexpr size_t getListNodeOffset() { return offsetof(OverlayArena, mListNode); }
 
 private:

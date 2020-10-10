@@ -43,6 +43,7 @@ class ControlTaskRequest : public util::TaskRequest {
     SEAD_RTTI_OVERRIDE(ControlTaskRequest, util::TaskRequest)
 public:
     ControlTaskRequest() = default;
+    ControlTaskRequest(bool has_handle) : TaskRequest(has_handle) {}
 
     bool mHasResLoadReq = false;
     ResourceUnit* mPackResUnit = nullptr;

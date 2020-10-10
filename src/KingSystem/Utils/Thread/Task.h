@@ -74,6 +74,7 @@ class TaskRequest {
     SEAD_RTTI_BASE(TaskRequest)
 public:
     TaskRequest() = default;
+    explicit TaskRequest(bool has_handle) : mHasHandle(has_handle) {}
     virtual ~TaskRequest() = default;
 
     bool mHasHandle = true;
