@@ -1,6 +1,5 @@
 #include "KingSystem/Resource/resControlTask.h"
 #include "KingSystem/Resource/resSystem.h"
-#include "KingSystem/Resource/resTaskRequest.h"
 
 namespace ksys::res {
 
@@ -9,7 +8,7 @@ ControlTask::ControlTask(sead::Heap* heap) : util::ManagedTask(heap) {}
 void ControlTask::onRun_() {}
 
 void ControlTask::prepareImpl_(util::TaskRequest* req_) {
-    auto* req = static_cast<TaskRequest*>(req_);
+    auto* req = static_cast<ControlTaskRequest*>(req_);
 
     mData.mHasResLoadReq = req->mHasResLoadReq;
     mData.mPackResUnit = req->mPackResUnit;

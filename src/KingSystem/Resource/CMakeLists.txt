@@ -110,8 +110,6 @@ target_sources(uking PRIVATE
   resResourceMgrTask.h
   resSystem.cpp
   resSystem.h
-  resTaskRequest.cpp
-  resTaskRequest.h
   resTextureHandleList.cpp
   resTextureHandleList.h
   resTextureHandleMgr.cpp

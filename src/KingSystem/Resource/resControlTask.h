@@ -3,6 +3,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Thread/ManagedTask.h"
+#include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -37,5 +38,18 @@ private:
     ControlTaskData mData;
 };
 KSYS_CHECK_SIZE_NX150(ControlTask, 0x1f8);
+
+class ControlTaskRequest : public util::TaskRequest {
+    SEAD_RTTI_OVERRIDE(ControlTaskRequest, util::TaskRequest)
+public:
+    ControlTaskRequest() = default;
+
+    bool mHasResLoadReq = false;
+    ResourceUnit* mPackResUnit = nullptr;
+    Handle* mResHandle = nullptr;
+    sead::FixedSafeString<128> mResPath;
+    LoadRequest mResLoadReq;
+};
+KSYS_CHECK_SIZE_NX150(ControlTaskRequest, 0x180);
 
 }  // namespace ksys::res
