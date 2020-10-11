@@ -212,10 +212,10 @@ private:
     void requestPrepareLoad(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
 
     void unloadForSync();
-    void clearCacheForSync();
+    void clearCacheForSync(bool x);
 
     void unload();
-    void clearCache();
+    void clearCache(void* x);
     void requestClearCache(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
 
     sead::TypedBitFlag<CacheFlag> mCacheFlags;

@@ -247,6 +247,80 @@ void ResourceMgrTask::deregisterUnit(ResourceUnit* unit) {
     }
 }
 
+void ResourceMgrTask::requestClearCache(ResourceUnit** p_unit, util::Task* task) {
+    if (!p_unit || !*p_unit || !(*p_unit)->isStatusFlag8000Set()) {
+        stubbedLogFunction();
+        return;
+    }
+
+    if ((*p_unit)->getRefCount() > 0 || (*p_unit)->isStatus1() || (*p_unit)->isStatusFlag10000Set())
+        return;
+
+    (*p_unit)->setStatusFlag10000();
+
+    {
+        ControlTaskRequest req;
+        req.mHasHandle = true;
+        req.mSynchronous = false;
+        req.mLaneId = u8(LaneId::_4);
+        req.mThread = mResourceControlThread;
+        req.mDelegate = &mUnitClearCacheForSyncFn.fn;
+        req.mPostRunCallback = &mUnitClearCacheForSyncFn.cb;
+        req.mUserData = *p_unit;
+        req.mName = "ClearCache";
+        if (task)
+            task->submitRequest(req);
+        else
+            (*p_unit)->mTask3.submitRequest(req);
+    }
+    *p_unit = nullptr;
+}
+
+void ResourceMgrTask::requestClearCacheForSync(ResourceUnit** p_unit, bool clear_immediately,
+                                               bool delete_immediately) {
+    if (!p_unit || !*p_unit || !(*p_unit)->isStatusFlag8000Set()) {
+        goto fail;
+    }
+
+    if ((*p_unit)->isStatus1() || !(*p_unit)->mCache || (*p_unit)->getRefCount() > 0)
+        return;
+
+    if ((*p_unit)->isStatusFlag10000Set()) {
+    fail:
+        stubbedLogFunction();
+        return;
+    }
+
+    (*p_unit)->setStatusFlag10000();
+
+    if (clear_immediately) {
+        (*p_unit)->removeTask3FromQueue();
+        (*p_unit)->clearCacheForSync(true);
+        (*p_unit)->clearCache(nullptr);
+        static_cast<void>((*p_unit)->getStatus());
+        ResourceUnit* ptr = *p_unit;
+        if (delete_immediately)
+            deleteUnit(ptr, true);
+        else
+            requestDeleteUnit(&ptr);
+
+    } else {
+        ControlTaskRequest req;
+        req.mHasHandle = true;
+        req.mSynchronous = true;
+        req.mLaneId = u8(LaneId::_4);
+        req.mThread = mResourceControlThread;
+        req.mDelegate = &mUnitClearCacheForSyncFn.fn;
+        req.mUserData = *p_unit;
+        req.mName = "ClearCache(ForSync)";
+        (*p_unit)->mTask3.submitRequest(req);
+    }
+    *p_unit = nullptr;
+}
+
+#ifdef MATCHING_HACK_NX_CLANG
+[[gnu::noinline]]
+#endif
 void ResourceMgrTask::deleteUnit(ResourceUnit*& unit, bool sync) {
     if (!unit)
         return;

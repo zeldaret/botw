@@ -149,7 +149,7 @@ void Cache::removeUnitAndClearCache_(ResourceUnit* unit) {
     unit->mStatusFlags.reset(ResourceUnit::StatusFlag::_20000);
     if (unit->isStatusFlag8000Set()) {
         ResourceMgrTask::instance()->deregisterUnit(unit);
-        ResourceMgrTask::instance()->requestClearCache(unit);
+        ResourceMgrTask::instance()->requestClearCache(&unit);
     }
 }
 

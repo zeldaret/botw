@@ -77,7 +77,7 @@ void OverlayArena::clearUnits() {
         res::ResourceUnit* unit = std::addressof(*it);
         res::stubbedLogFunction();
         res::ResourceMgrTask::instance()->deregisterUnit(unit);
-        res::ResourceMgrTask::instance()->requestClearCacheForSync(unit, true, false);
+        res::ResourceMgrTask::instance()->requestClearCacheForSync(&unit, true, false);
     }
     res::stubbedLogFunction();
 }

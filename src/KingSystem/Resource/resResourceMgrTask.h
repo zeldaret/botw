@@ -146,8 +146,8 @@ public:
     void registerUnit(ResourceUnit* unit);
     void deregisterUnit(ResourceUnit* unit);
 
-    void requestClearCache(ResourceUnit*& unit, void* x = nullptr);
-    void requestClearCacheForSync(ResourceUnit*& unit, bool clear_immediately,
+    void requestClearCache(ResourceUnit** p_unit, util::Task* task = nullptr);
+    void requestClearCacheForSync(ResourceUnit** p_unit, bool clear_immediately,
                                   bool delete_immediately);
 
     void deleteUnit(ResourceUnit*& unit, bool sync);
