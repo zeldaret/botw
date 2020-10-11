@@ -2,6 +2,8 @@
 #include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
 #include <time/seadTickTime.h>
+#include "KingSystem/Resource/resResourceMgrTask.h"
+#include "KingSystem/Resource/resSystem.h"
 
 namespace ksys::res {
 
@@ -39,5 +41,32 @@ const sead::SafeString sStatusStrings_[0x11] = {
 const sead::Buffer<const sead::SafeString> sStatusStrings{0x11, sStatusStrings_};
 
 Handle::Handle() = default;
+
+Handle::~Handle() {
+    unload();
+}
+
+void Handle::unload() {
+    if (!mFlags.isOn(Flag::_2))
+        return;
+
+    mFlags.reset(Flag::_7);
+    mFlags.set(Flag::_4);
+
+    if (mTaskHandle.hasTask()) {
+        mTaskHandle.removeTaskFromQueue();
+        if (!mUnit) {
+            stubbedLogFunction();
+            mStatus = Status::_14;
+            return;
+        }
+    }
+
+    if (!mUnit)
+        return;
+
+    if (ResourceMgrTask::instance())
+        ResourceMgrTask::instance()->requestUnload(this);
+}
 
 }  // namespace ksys::res

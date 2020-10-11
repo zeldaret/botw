@@ -30,6 +30,12 @@ public:
         _6 = 6,
         _7 = 7,
         _8 = 8,
+        _9 = 9,
+        _10 = 10,
+        _11 = 11,
+        _12 = 12,
+        _13 = 13,
+        _14 = 14,
     };
 
     Handle();
@@ -51,6 +57,10 @@ public:
 private:
     enum class Flag : u8 {
         _1 = 0x1,
+        _2 = 0x2,
+        _4 = 0x4,
+        _7 = 0x7,
+        _8 = 0x8,
     };
 
     sead::TypedBitFlag<Flag> mFlags = Flag::_1;

@@ -141,7 +141,7 @@ public:
     void addSExtensionPrefix(sead::StringBuilder& builder) const;
     s32 requestLoadForSync(Handle* handle, const sead::SafeString& path,
                            const ILoadRequest& request);
-    s32 requestUnload(Handle* handle, const sead::SafeString& path, const ILoadRequest& request);
+    s32 requestUnload(Handle* handle);
 
     void registerUnit(ResourceUnit* unit);
     void deregisterUnit(ResourceUnit* unit);
