@@ -10,6 +10,8 @@
 #include <framework/seadCalculateTask.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadDelegate.h>
+#include <prim/seadSafeString.h>
+#include <prim/seadStringBuilder.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
@@ -25,7 +27,9 @@
 
 namespace sead {
 class Heap;
-}
+class Resource;
+class SZSDecompressor;
+}  // namespace sead
 
 namespace ksys {
 class OverlayArena;
@@ -52,11 +56,14 @@ class FileDevicePrefix {
 public:
     FileDevicePrefix() = default;
 
-    sead::FileDevice* getFileDevice() { return mFileDevice; }
+    sead::FileDevice* getFileDevice() const { return mFileDevice; }
     void setFileDevice(sead::FileDevice* device) { mFileDevice = device; }
 
-    const sead::SafeString& getPrefix() { return mPrefix; }
+    const sead::SafeString& getPrefix() const { return mPrefix; }
     void setPrefix(const sead::SafeString& prefix) { mPrefix = prefix; }
+
+    bool getField28() const { return _28; }
+    void setField28(bool value) { _28 = value; }
 
     static constexpr size_t getListNodeOffset() { return offsetof(FileDevicePrefix, mListNode); }
 
@@ -64,14 +71,24 @@ private:
     sead::ListNode mListNode;
     sead::FileDevice* mFileDevice = nullptr;
     sead::SafeString mPrefix;
+    bool _28 = false;
 };
-KSYS_CHECK_SIZE_NX150(FileDevicePrefix, 0x28);
+KSYS_CHECK_SIZE_NX150(FileDevicePrefix, 0x30);
 
-// FIXME: very, very incomplete.
+// FIXME: very incomplete.
 class ResourceMgrTask : public sead::CalculateTask, public sead::hostio::Node {
     SEAD_RTTI_OVERRIDE(ResourceMgrTask, sead::CalculateTask)
 public:
     enum class LaneId {
+        _0 = 0,
+        _1 = 1,
+        _2 = 2,
+        _3 = 3,
+        _4 = 4,
+        _5 = 5,
+        _6 = 6,
+        _7 = 7,
+        _8 = 8,
         _9 = 9,
         _10 = 10,
     };
@@ -91,9 +108,85 @@ public:
     void prepare() override;
 
     void insertOverlayArena(OverlayArena* arena);
-    OverlayArena* getSomeArena() const;
 
     util::TaskThread* makeResourceLoadingThread(sead::Heap* heap, bool use_game_task_thread);
+
+    void clearAllCaches(OverlayArena* arena);
+    OverlayArena* getTexHandleMgrArena() const;
+
+    void requestDefragAllMemoryMgr();
+    bool isDefragDone() const;
+    f32 getDefragProgress() const;
+
+    s32 getCacheIdx(const sead::SafeString& path) const;
+
+    void cancelTasks();
+    void waitForTaskQueuesToEmpty();
+    s32 getNumActiveTasksOnResLoadingThread() const;
+
+    OffsetReadFileDevice* getOffsetReadFileDevice() const;
+    sead::ArchiveFileDevice* getArchiveFileDev1();
+
+    void controlField9c0d88(bool off);
+    void setFlag2000Or5000(s32 type);
+
+    void copyLoadRequest(ILoadRequest* request, const sead::SafeString& path,
+                         const ILoadRequest& source_request);
+
+    EntryFactoryBase* getFactoryForPath(const sead::SafeString& path) const;
+
+    bool isFlag4Set() const;
+
+    s32 requestLoad(Handle* handle, const sead::SafeString& path, const ILoadRequest& request);
+    void addSExtensionPrefix(sead::StringBuilder& builder) const;
+    s32 requestLoadForSync(Handle* handle, const sead::SafeString& path,
+                           const ILoadRequest& request);
+    s32 requestUnload(Handle* handle, const sead::SafeString& path, const ILoadRequest& request);
+
+    void registerUnit(ResourceUnit* unit);
+    void deregisterUnit(ResourceUnit* unit);
+
+    void requestClearCache(ResourceUnit*& unit, void* x = nullptr);
+    void requestClearCacheForSync(ResourceUnit*& unit, bool clear_immediately,
+                                  bool delete_immediately);
+
+    void deleteUnit(ResourceUnit*& unit, bool sync);
+    void requestDeleteUnit(ResourceUnit** p_unit);
+
+    struct DirectLoadArg {
+        LoadRequest req;
+        sead::Heap* heap;
+    };
+    sead::DirectResource* load(const DirectLoadArg& arg);
+
+    bool canUseSdCard() const;
+    bool returnFalse() const;
+
+    bool dropSFromExtensionIfNeeded(const sead::SafeString& path,
+                                    sead::BufferedSafeString& new_path, s32 dot_idx,
+                                    const sead::SafeString& extension) const;
+
+    void unloadSeadResource(sead::Resource* resource);
+
+    u32 getResourceSize(const sead::SafeString& name, sead::FileDevice* file_device) const;
+
+    void registerFileDevicePrefix(FileDevicePrefix& prefix);
+    void deregisterFileDevicePrefix(FileDevicePrefix& prefix);
+
+    void callStubbedFunctionOnArenas();
+    void updateResourceArenasFlag8();
+
+    struct MakeHeapArg {
+        bool _0 = false;
+        u32 heap_size = 0;
+        ResourceUnit* unit = nullptr;
+        sead::SafeString path;
+        OverlayArena* arena = nullptr;
+        OverlayArena** out_arena1 = nullptr;
+        OverlayArena** out_arena2 = nullptr;
+    };
+    KSYS_CHECK_SIZE_NX150(MakeHeapArg, 0x38);
+    sead::Heap* makeHeapForUnit(const MakeHeapArg& arg);
 
     struct GetUnitArg {
         const ResourceUnit::InitArg* unit_init_arg;
@@ -101,16 +194,55 @@ public:
     };
     ResourceUnit* clearCachesAndGetUnit(const GetUnitArg& arg);
 
-    void eraseUnit(ResourceUnit* unit);
-
-    struct ClearCacheArg {
-        ResourceUnit* unit;
+    struct SetActorCreateInitializerThreadsArg {
+        sead::PtrArray<util::TaskThread>* threads;
     };
-    void clearCache(ClearCacheArg& arg, void* x = nullptr);
+    void setActorCreateInitializerThreads(const SetActorCreateInitializerThreadsArg& arg);
+    void clearActorCreateInitializerThreads();
 
-    bool dropSFromExtensionIfNeeded(const sead::SafeString& path,
-                                    sead::BufferedSafeString& new_path, s32 dot_idx,
-                                    const sead::SafeString& extension);
+    void pauseThreads();
+    void resumeThreads();
+
+    sead::SZSDecompressor* getSzsDecompressor();
+    void unlockSzsDecompressorCS();
+    bool getUncompressedSize(u32* size, const sead::SafeString& path,
+                             sead::FileDevice* device) const;
+
+    void setCompactionStopped(bool stopped);
+    bool isCompactionStopped() const;
+
+    bool returnTrue1();
+
+    void clearCacheWithFileExtension(const sead::SafeString& extension);
+    void clearAllCachesSynchronously(OverlayArena* arena);
+
+    bool returnTrue();
+
+    struct ResourceSizeInfo {
+        bool is_archive_file_dev2;
+        u32 buffer_size;
+        u32 alloc_size;
+        sead::FileDevice* file_device;
+    };
+    KSYS_CHECK_SIZE_NX150(ResourceSizeInfo, 0x18);
+
+    struct GetResourceSizeInfoArg {
+        bool flag1;
+        bool flag4_try_decomp;
+        bool flag2;
+        u32 alloc_size;
+        sead::ArchiveRes* archive_res;
+        sead::FileDevice* file_device;
+        EntryFactoryBase* factory;
+        u32 load_data_alignment;
+        sead::SafeString str;  // TODO: rename
+        sead::SafeString path;
+    };
+    KSYS_CHECK_SIZE_NX150(GetResourceSizeInfoArg, 0x48);
+
+    void getResourceSizeInfo(ResourceSizeInfo* info, const GetResourceSizeInfoArg& arg);
+
+    void removeOverlayArena(OverlayArena* arena);
 
     util::TaskThread* getResourceLoadingThread() const { return mResourceLoadingThread; }
     util::TaskThread* getResourceControlThread() const { return mResourceControlThread; }
@@ -122,7 +254,14 @@ public:
 
 private:
     enum class Flag {
-
+        _1 = 1,
+        _2 = 2,
+        _4 = 4,
+        _8 = 8,
+        _400 = 0x400,
+        _1000 = 0x1000,
+        _2000 = 0x2000,
+        _4000 = 0x4000,
     };
 
     enum class CacheControlFlag : u8 {
@@ -168,10 +307,10 @@ private:
     EntryFactoryBase* mEntryFactoryBase = nullptr;
     EntryFactoryBase* mDefaultEntryFactory = nullptr;
 
-    sead::Buffer<Cache> mCaches;
+    sead::Buffer<Cache*> mCaches;
     sead::FixedObjArray<s32, 4> mThreadIds;
     u8* mOffsetReadBuf = nullptr;
-    sead::CriticalSection mSzsDecompressorCS;
+    mutable sead::CriticalSection mSzsDecompressorCS;
     sead::CriticalSection mFactoryCS;
 
     ResourceUnitDelegatePair mUnitInitLoadFn;
@@ -197,10 +336,10 @@ private:
     ResourceUnitDelegate mUnitDeleteFn;
 
     s32 _4c8 = -1;
-    u32 _4cc = 0;
+    s32 _4cc = 0;
 
     ResourceUnitPool mUnitPool;
-    sead::CriticalSection mCritSection;
+    sead::CriticalSection mUnitsCS;
     sead::OffsetList<ResourceUnit> mUnits;
     sead::OffsetList<bool> mSomeList;  // TODO: fix the type and rename
 
@@ -217,7 +356,7 @@ private:
     sead::ObjArray<sead::SafeString> mExtensions2;  // TODO: rename
 
     sead::OffsetList<OverlayArena> mArenas;
-    sead::CriticalSection mArenasCS;
+    mutable sead::CriticalSection mArenasCS;
 
     OverlayArena mArenaForResourceS;
     OverlayArena mArenaForResourceL;
@@ -225,7 +364,7 @@ private:
     ResourceInfoContainer mResourceInfoContainer;
 
     sead::OffsetList<FileDevicePrefix> mFileDevicePrefixes;
-    sead::ReadWriteLock mFileDevicePrefixesLock;
+    mutable sead::ReadWriteLock mFileDevicePrefixesLock;
 
     TextureHandleMgr* mTexHandleMgr = nullptr;
     TextureHandleList* mTexHandleList = nullptr;
@@ -237,16 +376,16 @@ private:
     u8* mCompactedHeapMip0Buffer = nullptr;
     CompactedHeap* mCompactedHeapMip0 = nullptr;
     u8* mCompactedHeapMainBuffer2 = nullptr;
-    sead::Atomic<u32> mCompactionStopped = 0;
+    sead::Atomic<u32> mCompactionCounter = 0;
     sead::Atomic<u32> _9c0d3c = 0;
     sead::Atomic<u32> _9c0d40 = 0;
     sead::AnyDelegate2<sead::Thread*, sead::MessageQueue::Element> mCompactionThreadFn;
     sead::DelegateThread* mCompactionThread = nullptr;
     Counter mCounter;
 
-    u32 _9c0d88 = 1;
+    sead::Atomic<s32> _9c0d88 = 1;
     u32 _9c0d8c = 0;
-    u32 _9c0d90 = 0;
+    u32 mArenaIdx = 0;
     u32 _9c0d94;
     u8 _9c0d98 = 1;
     size_t _9c0da0 = 500;

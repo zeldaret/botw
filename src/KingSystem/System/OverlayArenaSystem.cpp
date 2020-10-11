@@ -319,9 +319,9 @@ void OverlayArenaSystem::createStubbed() {}
 
 void OverlayArenaSystem::createMovieHeap() {
     res::stubbedLogFunction();
-    mMovieHeap = sead::ExpHeap::tryCreate(0x8c00000, "MovieHeap",
-                                          res::ResourceMgrTask::instance()->getSomeArena()->mHeap,
-                                          sizeof(void*), sead::Heap::cHeapDirection_Forward, false);
+    mMovieHeap = sead::ExpHeap::tryCreate(
+        0x8c00000, "MovieHeap", res::ResourceMgrTask::instance()->getTexHandleMgrArena()->mHeap,
+        sizeof(void*), sead::Heap::cHeapDirection_Forward, false);
     res::stubbedLogFunction();
 }
 

@@ -145,8 +145,8 @@ public:
     /// Destroys the underlying resource and reallocates it for defragmentation purposes.
     void reallocate();
 
-    u32 determineFileBufferSize();
-    u32 determineFileBufferSize(const sead::SafeString& path, bool flag4, bool flag1, bool flag2);
+    u32 determineHeapSize();
+    u32 determineHeapSize(const sead::SafeString& path, bool flag4, bool flag1, bool flag2);
 
     void detachFromHandle_(Handle* handle);
 
@@ -165,6 +165,7 @@ public:
 private:
     friend class Cache;
     friend class Handle;
+    friend class ResourceMgrTask;
 
     enum class CacheFlag : u8 {
         IsLinkedToCache = 0x1,

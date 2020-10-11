@@ -14,7 +14,13 @@ public:
     virtual ~ResourceInfoContainer();
 
     bool loadResourceSizeTable();
-    u32 getResourceSize(const sead::SafeString& name);
+
+    u32 getResourceSize(const sead::SafeString& name) const;
+
+    u32 getResourceSize(const sead::SafeString& prefix, const sead::SafeString& name) const {
+        sead::FormatFixedSafeString<128> canonical_name{"%s%s", prefix.cstr(), name.cstr()};
+        return getResourceSize(canonical_name);
+    }
 
 private:
     struct ResEntry {

@@ -10,8 +10,12 @@ bool returnFalse() {
     return false;
 }
 
-bool returnFalse2() {
+bool returnFalse2(const sead::SafeString&) {
     return false;
+}
+
+s32 getDefaultAlignment() {
+    return 8;
 }
 
 }  // namespace ksys::res

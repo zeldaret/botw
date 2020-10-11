@@ -3,12 +3,13 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resUnit.h"
+#include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys {
 
 OverlayArena::OverlayArena() {
     mUnits.initOffset(res::ResourceUnit::getArenaUnitListNodeOffset());
-    mOffsetList2.initOffset(res::ResourceUnit::getArenaUnitListNode2Offset());
+    mUnits2.initOffset(res::ResourceUnit::getArenaUnitListNode2Offset());
 }
 
 OverlayArena::~OverlayArena() {
@@ -57,6 +58,112 @@ bool OverlayArena::init(const OverlayArena::InitArg& arg) {
     mFlags.change(Flag::_8, arg.set_flag_8);
 
     return true;
+}
+
+void OverlayArena::stubbed() {}
+
+void OverlayArena::updateFlag8(bool on) {
+    if (on != mFlags.isOn(Flag::_8) && mHeap)
+        mFlags.change(Flag::_8, on);
+}
+
+void OverlayArena::clearUnits() {
+    if (!mHeap)
+        return;
+
+    res::stubbedLogFunction();
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto it = mUnits.robustBegin(), end = mUnits.robustEnd(); it != end; ++it) {
+        res::ResourceUnit* unit = std::addressof(*it);
+        res::stubbedLogFunction();
+        res::ResourceMgrTask::instance()->deregisterUnit(unit);
+        res::ResourceMgrTask::instance()->requestClearCacheForSync(unit, true, false);
+    }
+    res::stubbedLogFunction();
+}
+
+bool OverlayArena::isFlag1Set() const {
+    return mFlags.isOn(Flag::_1);
+}
+
+bool OverlayArena::hasNoUnits() const {
+    return mUnits.isEmpty();
+}
+
+s32 OverlayArena::getNumUnits() const {
+    return mUnits.size();
+}
+
+bool OverlayArena::isFlag10Set() const {
+    return mFlags.isOn(Flag::_10);
+}
+
+bool OverlayArena::isFlag8Set() const {
+    return mFlags.isOn(Flag::_8);
+}
+
+bool OverlayArena::checkIsOom() const {
+    if (!mHeap)
+        return false;
+
+    const f32 used_size = mUsage1 + mUsage2;
+    const size_t heap_size = mHeap->getSize();
+    const f32 free_percentage =
+        100.0f *
+        std::max<f32>(1.0 - used_size / (heap_size - sead::ExpHeap::getManagementAreaSize(8)), 0);
+
+    if (free_percentage < mMinFreePercentage) {
+        if (res::returnFalse())
+            res::stubbedLogFunction();
+
+        setBloodyMoonReasonForOom_();
+        return true;
+    }
+
+    return false;
+}
+
+// FIXME: figure out what sead function this is
+bool seadCheckPointer(void* ptr);
+
+// NON_MATCHING: branching
+util::DualHeap* OverlayArena::makeDualHeap(u32 size, const sead::SafeString& name,
+                                           sead::Heap::HeapDirection direction,
+                                           res::ResourceUnit* unit, bool) {
+    if (!mHeap)
+        return nullptr;
+
+    const auto alignment = res::getDefaultAlignment();
+    const auto lock = sead::makeScopedLock(mCS);
+
+    auto* heap = util::DualHeap::tryCreate(size, name, mHeap, mHeap2, alignment, direction, false);
+    if (!heap) {
+        if (res::returnFalse())
+            res::stubbedLogFunction();
+
+        if (!x_1(size))
+            return nullptr;
+
+        heap = util::DualHeap::tryCreate(size, name, mHeap, mHeap2, alignment, direction, false);
+        if (!heap)
+            return nullptr;
+    }
+
+    if (unit && !seadCheckPointer(unit)) {
+        mUnits.pushBack(unit);
+        mFlags.set(Flag::_2);
+    }
+
+    mFlags.set(Flag::_4);
+    return heap;
+}
+
+void OverlayArena::addSize(s32 size) {
+    mSize += size;
+}
+
+void OverlayArena::addSize2(s32 size) {
+    mUsage1 += size;
 }
 
 }  // namespace ksys

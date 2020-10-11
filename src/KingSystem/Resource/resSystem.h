@@ -16,4 +16,6 @@ bool returnFalse();
 // TODO: figure out what this is used for. Stubbed log function?
 bool returnFalse2(const sead::SafeString&);
 
+s32 getDefaultAlignment();
+
 }  // namespace ksys::res
