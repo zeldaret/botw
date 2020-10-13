@@ -34,7 +34,7 @@ bool ResourceInfoContainer::loadResourceSizeTable() {
         req.mRequester = "ResourceInfoContainer";
         req.mPath = "System/Resource/ResourceSizeTable.product.rsizetable";
         req._c = 1;
-        return sead::DynamicCast<Resource>(mRstbHandle.load(req.mPath, req));
+        return sead::DynamicCast<Resource>(mRstbHandle.load(req.mPath, &req));
     };
 
     const Resource* resource = load_res();

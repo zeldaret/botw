@@ -100,7 +100,6 @@ target_sources(uking PRIVATE
   resHandle.h
   resInfoContainer.cpp
   resInfoContainer.h
-  resLoadRequest.cpp
   resLoadRequest.h
   resMemoryTask.cpp
   resMemoryTask.h

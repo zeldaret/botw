@@ -137,11 +137,13 @@ public:
 
     bool isFlag4Set() const;
 
-    s32 requestLoad(Handle* handle, const sead::SafeString& path, const ILoadRequest& request);
+    Handle::Status requestLoad(Handle* handle, const sead::SafeString& path,
+                               const ILoadRequest& request);
     void addSExtensionPrefix(sead::StringBuilder& builder) const;
-    s32 requestLoadForSync(Handle* handle, const sead::SafeString& path,
-                           const ILoadRequest& request);
-    s32 requestUnload(Handle* handle);
+    Handle::Status requestLoadForSync(Handle* handle, const sead::SafeString& path,
+                                      const ILoadRequest& request);
+    void requestUnload(Handle* handle);
+    void requestUnloadForSync(Handle* handle);
 
     void registerUnit(ResourceUnit* unit);
     void deregisterUnit(ResourceUnit* unit);

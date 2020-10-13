@@ -13,6 +13,7 @@ class DirectResource;
 
 namespace ksys::res {
 
+class Context;
 class ILoadRequest;
 class ResourceUnit;
 
@@ -43,14 +44,41 @@ public:
 
     Status getStatus() const;
 
-    sead::DirectResource* load(const sead::SafeString& path, const ILoadRequest& request,
-                               Status* out_status = nullptr);
+    sead::DirectResource* getResource() const;
+    bool isSuccess() const;
+    sead::DirectResource* getResourceUnchecked() const;
 
+    sead::DirectResource* load(const sead::SafeString& path, const ILoadRequest* request,
+                               Status* out_status = nullptr);
+    bool isFlag2Set() const;
+    bool requestLoad(const sead::SafeString& path, const ILoadRequest* request,
+                     Status* out_status = nullptr);
+
+    bool waitForReady();
+    bool waitForReady(const sead::TickSpan& span);
+
+    bool parseResource(Context* context);
+    bool isFlag8Set() const;
+
+    void requestUnload();
     void unload();
+    // TODO: how does this differ?
+    void requestUnload2();
+    void unloadAndResetUnitFlag20000();
+    void resetUnitFlag20000IfSuccess();
+
+    bool isBusy() const;
+    bool isReadyOrNeedsParse() const;
+    bool isReady() const;
+    bool checkLoadStatus() const;
+
+    sead::SafeString makeEmptyString();
 
     void setUnit(ResourceUnit* unit) { mUnit = unit; }
 
     bool isLinked() const { return mListNode.isLinked(); }
+
+    void setStatusForResourceMgr_(const Status& status);
 
     static size_t getListNodeOffset() { return offsetof(Handle, mListNode); }
 
@@ -61,7 +89,14 @@ private:
         _4 = 0x4,
         _7 = 0x7,
         _8 = 0x8,
+        _F = 0xF,
     };
+
+    void updateResourceMgrFlag_();
+    void updateStatusAndUnload_();
+    void waitForResourceAndParse_(Context* context);
+
+    inline bool checkPathChange_(const sead::SafeString& path);
 
     sead::TypedBitFlag<Flag> mFlags = Flag::_1;
     Status mStatus = Status::_0;

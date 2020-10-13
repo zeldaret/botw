@@ -50,7 +50,7 @@ bool ResourceUnit::init(const ResourceUnit::InitArg& arg) {
         request.mRequester = "ResourceUnit";
         request._c = 2;
         request.mPack = arg.load_req->mPackHandle;
-        mArchiveRes = sead::DynamicCast<sead::ArchiveRes>(mArchiveResHandle.load("", request));
+        mArchiveRes = sead::DynamicCast<sead::ArchiveRes>(mArchiveResHandle.load("", &request));
     }
 
     mMapNode.key().setKey(mPath);
@@ -123,7 +123,7 @@ ResourceUnit::~ResourceUnit() {
 void ResourceUnit::unloadArchiveRes() {
     if (mArchiveRes) {
         mArchiveRes = nullptr;
-        mArchiveResHandle.unload();
+        mArchiveResHandle.requestUnload();
     }
 }
 
@@ -141,11 +141,16 @@ ResourceUnit::Status ResourceUnit::getStatus() const {
     return mStatus;
 }
 
+static const ResourceUnit::Status sUnitStatusTransitionTable[] = {
+    ResourceUnit::Status::_8,  ResourceUnit::Status::_11, ResourceUnit::Status::_11,
+    ResourceUnit::Status::_14, ResourceUnit::Status::_14,
+};
+
 // NON_MATCHING: ldr + sxtw -> ldrsw
 void ResourceUnit::updateStatus() {
-    static const Status sMap[] = {Status::_8, Status::_11, Status::_11, Status::_14, Status::_14};
-    if (Status::_2 <= mStatus && mStatus <= Status::_6)
-        mStatus = sMap[s32(mStatus)];
+    const s32 idx = mStatus;
+    if (Status::_2 <= idx && idx <= Status::_6)
+        mStatus = sUnitStatusTransitionTable[idx];
 }
 
 bool ResourceUnit::isTask1NotQueued() const {
@@ -168,6 +173,13 @@ bool ResourceUnit::isStatus1() const {
     return mStatus == Status::_1;
 }
 
+bool ResourceUnit::needsParse() const {
+    auto* res = sead::DynamicCast<Resource>(mResource);
+    if (mStatus != Status::_8 && mStatus != Status::_11)
+        return false;
+    return res && res->needsParse();
+}
+
 bool ResourceUnit::isStatus9_12_15() const {
     return mStatus == Status::_9 || mStatus == Status::_12 || mStatus == Status::_15;
 }
@@ -176,13 +188,15 @@ bool ResourceUnit::isStatus9_12_15() const {
 bool ResourceUnit::isParseOk() const {
     auto* ksys_res = sead::DynamicCast<res::Resource>(mResource);
 
-    if (mStatus == Status::_14)
+    const auto status = mStatus.value();
+
+    if (status == Status::_14)
         return true;
 
-    if (mStatus == Status::_8 && !ksys_res)
+    if (status == Status::_8 && !ksys_res)
         return mResource != nullptr;
 
-    if (mStatus == Status::_8 && ksys_res)
+    if (status == Status::_8 && ksys_res)
         return !ksys_res->needsParse();
 
     return false;
