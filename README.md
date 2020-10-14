@@ -44,6 +44,7 @@ To contribute to the project, you will also need:
 
 * A disassembler or a decompiler such as Hex-Rays or Ghidra.
 * Python 3 and pip for the diff script
+* These Python modules: `capstone colorama cxxfilt pyelftools` (install them with `pip install ...`)
 * The original 1.5.0 `main` NSO executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
     * Copy it to data/main.elf -- it is used for the diff script and other tools.
 
@@ -101,7 +102,7 @@ Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discor
     * If there are still minor differences left, add a `// NON_MATCHING: ` comment to explain what is wrong and add a `?` at the end of the mangled function name in the CSV.
     * For major differences (lots of entirely red/green/blue lines in the diff), add a `!` at the end of the function name.
 
-10. Reformat the code with clang-format.
+10. Before opening a PR, reformat the code with clang-format and run `tools/check.py`.
 
 ### Non-inlined functions
 
@@ -151,6 +152,7 @@ Unlike most other decompilation projects, this one targets a large modern game t
 
 ### Project tools
 
+* Check all decompiled functions for issues: `tools/check.py`
 * To compare assembly: `./diff.py <mangled function name>`
     * The function **must be listed in data/uking_functions.csv first**.
         * To do so, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
