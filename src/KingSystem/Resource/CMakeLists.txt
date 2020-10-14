@@ -121,6 +121,8 @@ target_sources(uking PRIVATE
 
   resResource.cpp
   resResource.h
+  resResourceActorCapture.cpp
+  resResourceActorCapture.h
   resResourceActorLink.cpp
   resResourceActorLink.h
   resResourceAIProgram.cpp
