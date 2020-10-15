@@ -17,7 +17,6 @@ class Context;
 class ILoadRequest;
 class ResourceUnit;
 
-// FIXME: incomplete
 class Handle {
     SEAD_RTTI_BASE(Handle)
 public:
