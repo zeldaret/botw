@@ -56,7 +56,7 @@ public:
     bool getByamlDataByKeyIndex(ByamlData* data, s32 index) const;
     ByamlIter getIterByIndex(s32 index) const;
     ByamlIter getIterByKey(const char* key) const;
-    bool getKeyName(const char** key, s32 index);
+    bool getKeyName(const char** key, s32 index) const;
 
     bool tryGetIterByIndex(ByamlIter* iter, s32 index) const;
     bool tryGetIterByKey(ByamlIter* iter, const char* key) const;
