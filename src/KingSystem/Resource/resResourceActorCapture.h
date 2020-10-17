@@ -1,3 +1,5 @@
+#pragma once
+
 #include <agl/Utils/aglParameter.h>
 #include <agl/Utils/aglParameterObj.h>
 #include <math/seadVector.h>
