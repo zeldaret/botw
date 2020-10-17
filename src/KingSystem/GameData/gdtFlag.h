@@ -186,6 +186,7 @@ public:
     virtual bool setValue(T value);
 
     virtual FlagDebugData* getDebugData() const;
+    void setDebugData(FlagDebugData* data);
 
 private:
     sead::SizedEnum<typename FlagType::ValueType, u8> mType = FlagType::Invalid;
@@ -379,6 +380,11 @@ inline bool Flag<T>::setValue(T value) {
 template <typename T>
 inline FlagDebugData* Flag<T>::getDebugData() const {
     return mDebugData;
+}
+
+template <typename T>
+inline void Flag<T>::setDebugData(FlagDebugData* data) {
+    mDebugData = data;
 }
 
 }  // namespace ksys::gdt

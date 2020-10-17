@@ -132,6 +132,8 @@ target_sources(uking PRIVATE
   resResourceDemo.h
   resResourceDrop.cpp
   resResourceDrop.h
+  resResourceGameData.cpp
+  resResourceGameData.h
   resResourceGParamList.cpp
   resResourceGParamList.h
   resResourceLifeCondition.cpp
