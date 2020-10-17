@@ -140,4 +140,6 @@ target_sources(uking PRIVATE
   resResourceLod.h
   resResourceRecipe.cpp
   resResourceRecipe.h
+  resResourceShop.cpp
+  resResourceShop.h
 )
