@@ -2,6 +2,9 @@
 
 namespace uking {
 
+SEAD_ENUM_IMPL(aoc2::Flags1)
+SEAD_ENUM_IMPL(aoc2::Flags2)
+
 bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
@@ -178,6 +181,13 @@ bool aoc2::rankUpEnemy(const sead::SafeString& actor_name, const ksys::map::Obje
 
     *new_name = next.cstr();
     return true;
+}
+
+void aoc2::buffDamage(s32& damage) {
+    damage = damage * 1.5f;
+    if (damage == 1) {
+        damage = 2;
+    }
 }
 
 }  // namespace uking
