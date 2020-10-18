@@ -1,5 +1,6 @@
 add_subdirectory(ActorSystem)
 add_subdirectory(Ecosystem)
+add_subdirectory(Damage)
 add_subdirectory(Framework)
 add_subdirectory(GameData)
 add_subdirectory(Map)
