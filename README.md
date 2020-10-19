@@ -47,6 +47,7 @@ To contribute to the project, you will also need:
 * These Python modules: `capstone colorama cxxfilt pyelftools` (install them with `pip install ...`)
 * The original 1.5.0 `main` NSO executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
     * Copy it to data/main.elf -- it is used for the diff script and other tools.
+    * The uncompressed NSO has the following SHA256 hash: `d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106`
 
 Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
