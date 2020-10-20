@@ -128,6 +128,8 @@ target_sources(uking PRIVATE
   resResourceAIProgram.h
   resResourceArchive.cpp
   resResourceArchive.h
+  resResourceAwareness.cpp
+  resResourceAwareness.h
   resResourceDemo.cpp
   resResourceDemo.h
   resResourceDrop.cpp
