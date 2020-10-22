@@ -3,4 +3,6 @@ target_sources(uking PRIVATE
   gdtFlag.h
   gdtManager.cpp
   gdtManager.h
+  gdtTriggerParam.cpp
+  gdtTriggerParam.h
 )
