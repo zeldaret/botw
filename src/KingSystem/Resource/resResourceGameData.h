@@ -23,6 +23,27 @@ public:
 
     s32 getField14() const { return _14; }
 
+    sead::Buffer<gdt::FlagBool>& getBoolFlags() { return mBoolFlags; }
+    sead::Buffer<gdt::FlagS32>& getS32Flags() { return mS32Flags; }
+    sead::Buffer<gdt::FlagF32>& getF32Flags() { return mF32Flags; }
+    sead::Buffer<gdt::FlagString>& getStringFlags() { return mStringFlags; }
+    sead::Buffer<gdt::FlagString64>& getString64Flags() { return mString64Flags; }
+    sead::Buffer<gdt::FlagString256>& getString256Flags() { return mString256Flags; }
+    sead::Buffer<gdt::FlagVector2f>& getVector2fFlags() { return mVector2fFlags; }
+    sead::Buffer<gdt::FlagVector3f>& getVector3fFlags() { return mVector3fFlags; }
+    sead::Buffer<gdt::FlagVector4f>& getVector4fFlags() { return mVector4fFlags; }
+    sead::PtrArray<gdt::FlagBoolArray>& getBoolArrayFlags() { return mBoolArrayFlags; }
+    sead::PtrArray<gdt::FlagS32Array>& getS32ArrayFlags() { return mS32ArrayFlags; }
+    sead::PtrArray<gdt::FlagF32Array>& getF32ArrayFlags() { return mF32ArrayFlags; }
+    sead::PtrArray<gdt::FlagStringArray>& getStringArrayFlags() { return mStringArrayFlags; }
+    sead::PtrArray<gdt::FlagString64Array>& getString64ArrayFlags() { return mString64ArrayFlags; }
+    sead::PtrArray<gdt::FlagString256Array>& getString256ArrayFlags() {
+        return mString256ArrayFlags;
+    }
+    sead::PtrArray<gdt::FlagVector2fArray>& getVector2fArrayFlags() { return mVector2fArrayFlags; }
+    sead::PtrArray<gdt::FlagVector3fArray>& getVector3fArrayFlags() { return mVector3fArrayFlags; }
+    sead::PtrArray<gdt::FlagVector4fArray>& getVector4fArrayFlags() { return mVector4fArrayFlags; }
+
     const sead::Buffer<gdt::FlagBool>& getBoolFlags() const { return mBoolFlags; }
     const sead::Buffer<gdt::FlagS32>& getS32Flags() const { return mS32Flags; }
     const sead::Buffer<gdt::FlagF32>& getF32Flags() const { return mF32Flags; }

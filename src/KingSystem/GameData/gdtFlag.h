@@ -7,6 +7,7 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadSizedEnum.h>
 #include <type_traits>
+#include "KingSystem/Utils/TypeTraits.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace al {
@@ -27,6 +28,10 @@ enum class ResetType {
     /// The flag is reset every time the Lord of the Mountain makes an appearance.
     ResetOnAnimalMasterAppearance = 4,
 };
+
+constexpr bool isResettableFlag(ResetType type) {
+    return type > ResetType::NoReset;
+}
 
 struct FlagDebugData {
     sead::SafeString name;
@@ -87,6 +92,27 @@ SEAD_ENUM(FlagType, Bool = 0, S32 = 1, F32 = 2, String = 3, String64 = 4, String
           StringArray = 12, String64Array = 13, String256Array = 14, Vector2fArray = 15,
           Vector3fArray = 16, Vector4fArray = 17, Invalid = 18)
 
+template <typename T>
+constexpr bool isValidFlagArrayType() {
+    return IsAnyOfType<T, sead::Buffer<bool>, sead::Buffer<s32>, sead::Buffer<f32>,
+                       sead::Buffer<sead::FixedSafeString<32>>,
+                       sead::Buffer<sead::FixedSafeString<64>>,
+                       sead::Buffer<sead::FixedSafeString<256>>, sead::Buffer<sead::Vector2f>,
+                       sead::Buffer<sead::Vector3f>, sead::Buffer<sead::Vector4f>>();
+}
+
+template <typename T>
+constexpr bool isValidFlagValueType() {
+    return IsAnyOfType<T, bool, s32, f32, sead::FixedSafeString<32>, sead::FixedSafeString<64>,
+                       sead::FixedSafeString<256>, sead::Vector2f, sead::Vector3f,
+                       sead::Vector4f>();
+}
+
+template <typename T>
+constexpr bool isValidFlagType() {
+    return isValidFlagValueType<T>() || isValidFlagArrayType<T>();
+}
+
 class FlagBase {
 public:
     virtual ~FlagBase() = 0;
@@ -108,6 +134,15 @@ public:
 
     virtual const sead::SafeString& getName() const = 0;
     virtual s32 getDeleteRev() const = 0;
+
+    virtual u32 getRandomResetData() const = 0;
+
+    bool isResettable() const { return isResettableFlag(getProperties().getResetType()); }
+
+    bool isPermanent() const {
+        return getProperties().isSave() && getProperties().getResetType() == ResetType::NoReset &&
+               getRandomResetData() == 0;
+    }
 
 protected:
     s32 clampValue_(const s32& min_value, s32* value, const s32& max_value);
@@ -151,7 +186,7 @@ public:
     using ConfigType = FlagConfig<T>;
     using RawValueType = std::conditional_t<std::is_same_v<T, bool>, u8, T>;
 
-    virtual u32 getRandomResetData() const;
+    u32 getRandomResetData() const override;
 
     virtual const ConfigType& getConfig() const = 0;
     virtual void setConfig(const ConfigType& config) = 0;

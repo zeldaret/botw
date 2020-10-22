@@ -35,5 +35,6 @@ target_sources(uking PRIVATE
   ParamIO.h
   SafeDelete.h
   StrTreeMap.h
+  TypeTraits.h
   Types.h
 )

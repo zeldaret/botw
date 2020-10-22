@@ -26,6 +26,8 @@ public:
 
     void calc();
 
+    void reportDebug(const sead::SafeString& message, const sead::SafeString& data);
+
     ProductReporter* getReporter() const { return mReporter; }
 
     bool get30() const { return _30; }
