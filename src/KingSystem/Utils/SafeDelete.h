@@ -27,4 +27,11 @@ inline void safeDeleteThread(T*& thread, bool is_jam = false) {
     safeDelete(thread);
 }
 
+inline void safeDeleteHeap(sead::Heap*& heap) {
+    if (heap) {
+        heap->destroy();
+        heap = nullptr;
+    }
+}
+
 }  // namespace ksys::util
