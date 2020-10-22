@@ -130,6 +130,8 @@ target_sources(uking PRIVATE
   resResourceArchive.h
   resResourceAwareness.cpp
   resResourceAwareness.h
+  resResourceDamageParam.cpp
+  resResourceDamageParam.h
   resResourceDemo.cpp
   resResourceDemo.h
   resResourceDrop.cpp
