@@ -146,7 +146,29 @@ struct FlagConfig<bool> {
 };
 
 template <typename T>
-class Flag : public FlagBase {
+class FlagT : public FlagBase {
+public:
+    using ConfigType = FlagConfig<T>;
+    using RawValueType = std::conditional_t<std::is_same_v<T, bool>, u8, T>;
+
+    virtual u32 getRandomResetData() const;
+
+    virtual const ConfigType& getConfig() const = 0;
+    virtual void setConfig(const ConfigType& config) = 0;
+
+    virtual T getValue() const = 0;
+
+    virtual RawValueType& getValueRef() = 0;
+    virtual const RawValueType& getValueRef() const = 0;
+
+    virtual bool hasValue(const T& value) const = 0;
+    virtual bool setValue(T value) = 0;
+
+    virtual FlagDebugData* getDebugData() const = 0;
+};
+
+template <typename T>
+class Flag : public FlagT<T> {
 public:
     using ConfigType = FlagConfig<T>;
     using RawValueType = std::conditional_t<std::is_same_v<T, bool>, u8, T>;
@@ -172,20 +194,18 @@ public:
     const sead::SafeString& getName() const override;
     s32 getDeleteRev() const override;
 
-    virtual u32 getRandomResetData() const;
+    const ConfigType& getConfig() const override;
+    void setConfig(const ConfigType& config) override;
 
-    virtual const ConfigType& getConfig() const;
-    virtual void setConfig(const ConfigType& config);
+    T getValue() const override;
 
-    virtual T getValue() const;
+    RawValueType& getValueRef() override;
+    const RawValueType& getValueRef() const override;
 
-    virtual RawValueType& getValueRef();
-    virtual const RawValueType& getValueRef() const;
+    bool hasValue(const T& value) const override;
+    bool setValue(T value) override;
 
-    virtual bool hasValue(const T& value) const;
-    virtual bool setValue(T value);
-
-    virtual FlagDebugData* getDebugData() const;
+    FlagDebugData* getDebugData() const override;
     void setDebugData(FlagDebugData* data);
 
 private:
@@ -284,16 +304,16 @@ inline bool Flag<T>::isInitialValue() const {
 
 template <typename T>
 inline u32 Flag<T>::getCategory() const {
-    if (!isBoolean_())
+    if (!this->isBoolean_())
         return 0;
-    return getCategoryForBool_(&mValue);
+    return this->getCategoryForBool_(&mValue);
 }
 
 template <typename T>
 inline void Flag<T>::setCategory(u32 category) {
-    if (!isBoolean_())
+    if (!this->isBoolean_())
         return;
-    setCategoryForBool_(&mValue, category);
+    this->setCategoryForBool_(&mValue, category);
 }
 
 template <typename T>
@@ -307,7 +327,7 @@ inline s32 Flag<T>::getDeleteRev() const {
 }
 
 template <typename T>
-inline u32 Flag<T>::getRandomResetData() const {
+inline u32 FlagT<T>::getRandomResetData() const {
     const auto& initial_value = getConfig().initial_value;
     if constexpr (std::is_same<T, bool>())
         return initial_value >> 1;
@@ -367,7 +387,7 @@ inline bool Flag<T>::setValue(T value) {
         T max_value;
         min_value = getConfig().min_value;
         max_value = getConfig().max_value;
-        clampValue_(min_value, &value, max_value);
+        this->clampValue_(min_value, &value, max_value);
 
         if (mValue != value) {
             mValue = value;
