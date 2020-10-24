@@ -12,7 +12,7 @@ public:
     StrTreeMapKey() = default;
     StrTreeMapKey(u32 key_hash, const sead::SafeString& key) : mKeyHash(key_hash), mKey(key) {}
     StrTreeMapKey(const sead::SafeString& key)
-        : StrTreeMapKey(sead::HashCRC32::calcStringHash(key.cstr()), key) {}
+        : StrTreeMapKey(sead::HashCRC32::calcStringHash(key), key) {}
 
     const sead::SafeString& key() const { return mKey; }
 

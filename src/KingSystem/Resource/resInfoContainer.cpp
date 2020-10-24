@@ -81,7 +81,7 @@ bool ResourceInfoContainer::loadResourceSizeTable() {
 
 // NON_MATCHING: missing mStringEntries(string_entry_idx).res_size > 0 check
 u32 ResourceInfoContainer::getResourceSize(const sead::SafeString& name) const {
-    const u32 name_hash = sead::HashCRC32::calcStringHash(name.cstr());
+    const u32 name_hash = sead::HashCRC32::calcStringHash(name);
 
     const s32 entry_idx = mEntries.binarySearch({name_hash, 0}, ResEntry::compareT);
     if (entry_idx >= 1 && mEntries(entry_idx).res_size > 0)

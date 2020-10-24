@@ -69,7 +69,7 @@ MubinIter::MubinIter() : ByamlIter() {}
 MubinIter::MubinIter(const u8* data) : ByamlIter(data) {}
 
 bool MubinIter::tryGetParamUInt8ByKey(u8* value, const sead::SafeString& key) const {
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
 
     if (sHashes.SRTHash == hash || sHashes.Index == hash) {
         s32 x = 0;
@@ -90,7 +90,7 @@ bool MubinIter::tryGetParamUInt8ByKey(u8* value, const sead::SafeString& key) co
 }
 
 bool MubinIter::tryGetParamIntByKey(s32* value, const sead::SafeString& key) const {
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
     if (sHashes.SRTHash == hash || sHashes.Index == hash)
         return tryGetIntByKey(value, key.cstr());
 
@@ -99,7 +99,7 @@ bool MubinIter::tryGetParamIntByKey(s32* value, const sead::SafeString& key) con
 }
 
 bool MubinIter::tryGetParamUIntByKey(u32* value, const sead::SafeString& key) const {
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
     if (sHashes.HashId == hash || sHashes.DestUnitHashId == hash)
         return tryGetUIntByKey(value, key.cstr());
 
@@ -108,7 +108,7 @@ bool MubinIter::tryGetParamUIntByKey(u32* value, const sead::SafeString& key) co
 }
 
 bool MubinIter::tryGetParamFloatByKey(f32* value, const sead::SafeString& key) const {
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
     if (sHashes.LocationPosX == hash || sHashes.LocationPosZ == hash ||
         sHashes.NextDistance == hash || sHashes.PrevDistance == hash) {
         return tryGetFloatByKey(value, key.cstr());
@@ -119,7 +119,7 @@ bool MubinIter::tryGetParamFloatByKey(f32* value, const sead::SafeString& key) c
 }
 
 bool MubinIter::tryGetParamBoolByKey(bool* value, const sead::SafeString& key) const {
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
     if (sHashes.IsClosed == hash || sHashes.OnlyOne == hash)
         return tryGetBoolByKey(value, key.cstr());
 
@@ -128,7 +128,7 @@ bool MubinIter::tryGetParamBoolByKey(bool* value, const sead::SafeString& key) c
 }
 
 bool MubinIter::tryGetParamStringByKey(const char** value, const sead::SafeString& key) const {
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
     if (sHashes.RailType == hash || sHashes.UniqueName == hash || sHashes.UnitConfigName == hash ||
         sHashes.CheckPointName == hash || sHashes.EntryPointName == hash ||
         sHashes.DefinitionName == hash) {
@@ -144,7 +144,7 @@ bool MubinIter::tryGetIterByIndex(MubinIter* iter, s32 index) const {
 }
 
 bool MubinIter::tryGetParamIterByKey(MubinIter* value, const sead::SafeString& key) const {
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
     if (sHashes.Objs == hash || sHashes.Rails == hash || sHashes.LinksToObj == hash ||
         sHashes.LinksToRail == hash || sHashes.Rotate == hash || sHashes.Scale == hash ||
         sHashes.Translate == hash || sHashes.RailPoints == hash || sHashes.ControlPoints == hash ||
@@ -166,7 +166,7 @@ bool MubinIter::isValid() const {
 
 bool MubinIter::tryGetFloatArrayByKey(f32* value, const sead::SafeString& key) const {
     al::ByamlIter iter;
-    const u32 hash = sead::HashCRC32::calcStringHash(key.cstr());
+    const u32 hash = sead::HashCRC32::calcStringHash(key);
     if (sHashes.Objs == hash || sHashes.Rails == hash || sHashes.LinksToObj == hash ||
         sHashes.LinksToRail == hash || sHashes.Rotate == hash || sHashes.Scale == hash ||
         sHashes.Translate == hash || sHashes.RailPoints == hash || sHashes.ControlPoints == hash ||
