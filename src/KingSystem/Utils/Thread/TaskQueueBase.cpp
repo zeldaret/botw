@@ -336,7 +336,6 @@ void TaskQueueBase::notifyThreadsForNewTasks() {
         PrintDebug(sead::FormatFixedSafeString<128>("↓↓↓\nリトライ回数 %d 回\n↑↑↑\n", retry_count));
 }
 
-// NON_MATCHING: regalloc for max_idx
 bool TaskQueueBase::push(const PushArg& arg) {
     lock();
 
@@ -346,8 +345,7 @@ bool TaskQueueBase::push(const PushArg& arg) {
     }
 
     const auto num_tasks = mActiveTasks.size();
-    const u8 max_idx = mLanes.size() - 1;
-    const u8 id = arg.lane_id <= max_idx ? arg.lane_id : max_idx;
+    const u8 id = arg.lane_id <= u8(mLanes.size() - 1) ? arg.lane_id : u8(mLanes.size() - 1);
     arg.task->setLaneId(id);
 
     bool added = false;
