@@ -95,7 +95,8 @@ Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discor
 
 8. **Tweak the code to get a perfectly matching function**.
     * Clang is usually quite reasonable so it is very common for functions -- even complicated code -- to match on the first try.
-    * If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
+    * **Focus on large differences.** If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
+    * **Regalloc:** If you only have regalloc differences left in a function that *looks* semantically equivalent, double-check whether it is truly equivalent: such differences are typically caused by using the wrong variable. It is rare for LLVM to use a different set of registers if the code is equivalent.
     * This is usually the most difficult part of matching decomp. Please ask on Discord if you need help!
 
 9. **Update the list of decompiled functions**.
