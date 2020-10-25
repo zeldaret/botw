@@ -1,8 +1,11 @@
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include <algorithm>
+#include <devenv/seadStackTrace.h>
 #include <mc/seadCoreInfo.h>
 #include "KingSystem/GameData/gdtFlagProxy.h"
 #include "KingSystem/Resource/resResourceGameData.h"
+#include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
@@ -81,11 +84,15 @@ inline s32 getFlagIndex(const sead::PtrArray<sead::PtrArray<FlagBase>>& flags, u
     return -1;
 }
 
-template <typename T>
-inline Flag<T>* getFlagByIndex(const sead::PtrArray<FlagBase>& flags, s32 index) {
+inline FlagBase* getFlagByIndexBase(const sead::PtrArray<FlagBase>& flags, s32 index) {
     if (index < 0 || index >= flags.size())
         return nullptr;
-    return static_cast<Flag<T>*>(flags[index]);
+    return flags[index];
+}
+
+template <typename T>
+inline Flag<T>* getFlagByIndex(const sead::PtrArray<FlagBase>& flags, s32 index) {
+    return static_cast<Flag<T>*>(getFlagByIndexBase(flags, index));
 }
 
 template <typename T>
@@ -145,6 +152,219 @@ inline bool getFlagValue(const sead::PtrArray<sead::PtrArray<FlagBase>>& arrays,
         *out_value = flag->getValue();
 
     return true;
+}
+
+/// Modifies the value of a flag.
+/// @param success A non-null pointer to a boolean that is set to true if an attempt was made to
+///                change the value.
+/// @return whether the flag contains the specified value at the end of this function.
+template <typename T>
+bool doSetFlagValue(bool* success, const T& value, const sead::PtrArray<FlagBase>& flags, s32 idx,
+                    bool check_permissions, bool bypass_one_trigger_check) {
+    *success = false;
+
+    auto* flag = getFlagByIndex<T>(flags, idx);
+    if (!flag)
+        return false;
+
+    if (check_permissions && !flags[idx]->isProgramWritable())
+        return false;
+
+    if constexpr (IsAnyOfType<T, s32, f32>()) {
+        if (!flags[idx]->isOneTrigger() || bypass_one_trigger_check || flag->isInitialValue())
+            *success = flag->setValue(value);
+        else if (!flag->hasValue(value))
+            return false;
+        return true;
+    } else {
+        bool can_set_value = false;
+        if (!flags[idx]->isOneTrigger() || bypass_one_trigger_check || flag->isInitialValue()) {
+            can_set_value = true;
+            *success = flag->setValue(value);
+        } else if (flag->hasValue(value)) {
+            return true;
+        }
+        return can_set_value;
+    }
+}
+
+void sendFlagChangePlayReport(const sead::SafeString& name, const FlagBase* flag) {
+    if (!PlayReportMgr::instance())
+        return;
+
+    for (s32 i = 0; i < sConfig.num_current_rupee_flag_name_changes; ++i) {
+        if (name == sConfig.current_rupee_flag_name) {
+            sead::FixedSafeString<64> value_str;
+            switch (s32(flag->getType())) {
+            case FlagType::Bool:
+            case FlagType::BoolArray:
+                if (static_cast<const FlagBool*>(flag)->getValue())
+                    value_str.format("true");
+                else
+                    value_str.format("false");
+                break;
+            case FlagType::S32:
+            case FlagType::S32Array:
+                value_str.format("%d", static_cast<const FlagS32*>(flag)->getValue());
+                break;
+            case FlagType::F32:
+            case FlagType::F32Array:
+                value_str.format("%f", static_cast<const FlagF32*>(flag)->getValue());
+                break;
+            case FlagType::String:
+            case FlagType::StringArray:
+                value_str.format("%s", static_cast<const FlagString*>(flag)->getValueRef().cstr());
+                break;
+            case FlagType::String64:
+            case FlagType::String64Array:
+                value_str.format("%s",
+                                 static_cast<const FlagString64*>(flag)->getValueRef().cstr());
+                break;
+            case FlagType::String256:
+            case FlagType::String256Array:
+                value_str.format("%s",
+                                 static_cast<const FlagString256*>(flag)->getValueRef().cstr());
+                break;
+            case FlagType::Vector2f:
+            case FlagType::Vector2fArray: {
+                const auto& vector = static_cast<const FlagVector2f*>(flag)->getValueRef();
+                value_str.format("%f %f", vector.x, vector.y);
+                break;
+            }
+            case FlagType::Vector3f:
+            case FlagType::Vector3fArray: {
+                const auto& vector = static_cast<const FlagVector3f*>(flag)->getValueRef();
+                value_str.format("%f %f %f", vector.x, vector.y, vector.z);
+                break;
+            }
+            case FlagType::Vector4f:
+            case FlagType::Vector4fArray: {
+                const auto& vector = static_cast<const FlagVector4f*>(flag)->getValueRef();
+                value_str.format("%f %f %f %f", vector.x, vector.y, vector.z, vector.w);
+                break;
+            }
+            default:
+                break;
+            }
+            PlayReportMgr::instance()->reportDebug(name, value_str);
+            break;
+        }
+    }
+}
+
+template <typename T>
+void reportFlagChange(const FlagBase* flag, s32 sub_idx = -1) {
+    auto* flag_ = static_cast<const Flag<T>*>(flag);
+
+    const sead::SafeString& name = flag->getName();
+    const FlagType type = flag->getType();
+
+    if constexpr (std::is_same<T, bool>()) {
+        if ((s32(type) == FlagType::Bool || s32(type) == FlagType::BoolArray) &&
+            PlayReportMgr::instance()) {
+            if (flag_->getValue())
+                PlayReportMgr::instance()->reportDebug("FlagOn", name);
+            else
+                PlayReportMgr::instance()->reportDebug("FlagOff", name);
+        }
+    } else {
+        sendFlagChangePlayReport(name, flag);
+    }
+
+    if (sConfig.shouldPrintStackTrace(name)) {
+        sead::StackTrace<50> stack_trace;
+        stack_trace.trace(nullptr);
+    }
+
+    if (!shouldLogFlagChange(name, type))
+        return;
+
+    if constexpr (std::is_same<T, bool>()) {
+        sead::FixedSafeString<128> message;
+        const char* name_cstr = flag->getName().cstr();
+        const auto type_ = flag->getType();
+        if (sub_idx < 0 || type_ != FlagType::BoolArray)
+            message.format("%s", name_cstr);
+        else
+            message.format("%s [%3d]", name_cstr, sub_idx);
+
+        switch (s32(flag->getType())) {
+        case FlagType::Bool:
+        case FlagType::BoolArray:
+            if (flag_->getValue())
+                message.append(" : true");
+            else
+                message.append(" : false");
+            break;
+        default:
+            break;
+        }
+        util::PrintDebug(message);
+    } else {
+        const char* name_cstr = flag->getName().cstr();
+        sead::FixedSafeString<128> message;
+        const s32 type_ = flag->getType();
+        if (sub_idx >= 0 && type_ >= FlagType::BoolArray)
+            message.format("%s [%3d] :", name_cstr, sub_idx);
+        else
+            message.format("%s :", name_cstr);
+
+        sead::FixedSafeString<64> value_str;
+        switch (s32(flag->getType())) {
+        case FlagType::Bool:
+        case FlagType::BoolArray:
+            if (static_cast<const FlagBool*>(flag)->getValue())
+                value_str.format("true");
+            else
+                value_str.format("false");
+            break;
+        case FlagType::S32:
+        case FlagType::S32Array:
+            value_str.format("%d", static_cast<const FlagS32*>(flag)->getValue());
+            break;
+        case FlagType::F32:
+        case FlagType::F32Array:
+            value_str.format("%f", static_cast<const FlagF32*>(flag)->getValue());
+            break;
+        case FlagType::String:
+        case FlagType::StringArray:
+            value_str.format("%s", static_cast<const FlagString*>(flag)->getValueRef().cstr());
+            break;
+        case FlagType::String64:
+        case FlagType::String64Array:
+            value_str.format("%s", static_cast<const FlagString64*>(flag)->getValueRef().cstr());
+            break;
+        case FlagType::String256:
+        case FlagType::String256Array:
+            value_str.format("%s", static_cast<const FlagString256*>(flag)->getValueRef().cstr());
+            break;
+        case FlagType::Vector2f:
+        case FlagType::Vector2fArray: {
+            const auto& vector = static_cast<const FlagVector2f*>(flag)->getValueRef();
+            value_str.format("%f %f", vector.x, vector.y);
+            break;
+        }
+        case FlagType::Vector3f:
+        case FlagType::Vector3fArray: {
+            const auto& vector = static_cast<const FlagVector3f*>(flag)->getValueRef();
+            value_str.format("%f %f %f", vector.x, vector.y, vector.z);
+            break;
+        }
+        case FlagType::Vector4f:
+        case FlagType::Vector4fArray: {
+            const auto& vector = static_cast<const FlagVector4f*>(flag)->getValueRef();
+            value_str.format("%f %f %f %f", vector.x, vector.y, vector.z, vector.w);
+            break;
+        }
+        default:
+            break;
+        }
+        message.append(value_str);
+        util::PrintDebug(message);
+    }
+
+    static_cast<void>(getFlagColor(type));
+    sConfig.index = sConfig.index >= 32 ? 0 : sConfig.index + 1;
 }
 
 bool getFlagArraySize(const sead::PtrArray<sead::PtrArray<FlagBase>>& arrays, s32 index, s32* out) {
@@ -885,7 +1105,93 @@ bool TriggerParam::getMaxValueForS32(s32* max, const sead::SafeString& name) con
     return true;
 }
 
-void TriggerParam::recordFlagChange(const FlagBase* flag, s32 idx, s16 sub_idx) {
+#define SET_FLAG_VALUE_IMPL_(FUNCTION_NAME, ARG_VALUE_TYPE, FLAGS, T, VALUE)                       \
+    bool FUNCTION_NAME(ARG_VALUE_TYPE value, s32 idx, bool check_permissions,                      \
+                       bool bypass_one_trigger_check) {                                            \
+        bool success = false;                                                                      \
+        const bool ret = doSetFlagValue<T>(&success, VALUE, FLAGS, idx, check_permissions,         \
+                                           bypass_one_trigger_check);                              \
+        if (!success)                                                                              \
+            return ret;                                                                            \
+                                                                                                   \
+        recordFlagChange(FLAGS[idx], idx);                                                         \
+        reportFlagChange<T>(FLAGS[idx]);                                                           \
+                                                                                                   \
+        if constexpr (std::is_same<T, bool>()) {                                                   \
+            if (FLAGS[idx]->getProperties().isEventAssociated())                                   \
+                mBitFlags.ref().set(BitFlag::EventAssociatedFlagModified);                         \
+        }                                                                                          \
+                                                                                                   \
+        return ret;                                                                                \
+    }
+
+#define SET_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, GET_INDEX_FN, ARG_VALUE_TYPE)                   \
+    bool FUNCTION_NAME(ARG_VALUE_TYPE value, const sead::SafeString& name, bool check_permissions, \
+                       bool, bool bypass_one_trigger_check) {                                      \
+        return FUNCTION_NAME(value, GET_INDEX_FN(name), check_permissions,                         \
+                             bypass_one_trigger_check);                                            \
+    }
+
+#define SET_ARRAY_FLAG_VALUE_IMPL_(FUNCTION_NAME, ARG_VALUE_TYPE, FLAGS, T, VALUE)                 \
+    bool FUNCTION_NAME(ARG_VALUE_TYPE value, s32 idx, s32 sub_idx, bool check_permissions,         \
+                       bool bypass_one_trigger_check) {                                            \
+        bool success = false;                                                                      \
+                                                                                                   \
+        if (idx < 0 || idx >= FLAGS.size())                                                        \
+            return false;                                                                          \
+                                                                                                   \
+        const auto* array = FLAGS[idx];                                                            \
+        if (!array)                                                                                \
+            return false;                                                                          \
+                                                                                                   \
+        const bool ret = doSetFlagValue<T>(&success, VALUE, *array, sub_idx, check_permissions,    \
+                                           bypass_one_trigger_check);                              \
+        if (!success)                                                                              \
+            return ret;                                                                            \
+                                                                                                   \
+        const auto* flag = (*FLAGS[idx])[sub_idx];                                                 \
+        recordFlagChange(flag, idx, sub_idx);                                                      \
+        reportFlagChange<T>(flag, sub_idx);                                                        \
+                                                                                                   \
+        return ret;                                                                                \
+    }
+
+#define SET_STRING_ARRAY_FLAG_VALUE_IMPL_(FUNCTION_NAME, FLAGS, T)                                 \
+    bool FUNCTION_NAME(const char* value, s32 idx, s32 sub_idx, bool check_permissions,            \
+                       bool bypass_one_trigger_check) {                                            \
+        bool success = false;                                                                      \
+        T value_{value};                                                                           \
+        success = false;                                                                           \
+                                                                                                   \
+        if (idx < 0 || idx >= FLAGS.size())                                                        \
+            return false;                                                                          \
+                                                                                                   \
+        const auto* array = FLAGS[idx];                                                            \
+        if (!array)                                                                                \
+            return false;                                                                          \
+                                                                                                   \
+        const bool ret = doSetFlagValue<T>(&success, value_, *array, sub_idx, check_permissions,   \
+                                           bypass_one_trigger_check);                              \
+        if (!success)                                                                              \
+            return ret;                                                                            \
+                                                                                                   \
+        const auto* flag = (*FLAGS[idx])[sub_idx];                                                 \
+        recordFlagChange(flag, idx, sub_idx);                                                      \
+        reportFlagChange<T>(flag, sub_idx);                                                        \
+                                                                                                   \
+        return ret;                                                                                \
+    }
+
+#define SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, GET_INDEX_FN, ARG_VALUE_TYPE)             \
+    bool FUNCTION_NAME(ARG_VALUE_TYPE value, const sead::SafeString& name, s32 sub_idx,            \
+                       bool check_permissions, bool, bool bypass_one_trigger_check) {              \
+        return FUNCTION_NAME(value, GET_INDEX_FN(name), sub_idx, check_permissions,                \
+                             bypass_one_trigger_check);                                            \
+    }
+
+SET_FLAG_VALUE_IMPL_(TriggerParam::setBool, bool, mBoolFlags, bool, value)
+
+void TriggerParam::recordFlagChange(const FlagBase* flag, s32 idx, s32 sub_idx) {
     const auto core = sead::CoreInfo::getCurrentCoreId();
     const u32 platform_core_id = sead::CoreInfo::getPlatformCoreId(core);
 
@@ -902,6 +1208,214 @@ void TriggerParam::recordFlagChange(const FlagBase* flag, s32 idx, s16 sub_idx) 
 
     if (flag->getType() == FlagType::Bool)
         mBitFlags.ref().set(BitFlag::_8);
+}
+
+SET_FLAG_VALUE_IMPL_(TriggerParam::setS32, s32, mS32Flags, s32, value)
+SET_FLAG_VALUE_IMPL_(TriggerParam::setF32, f32, mF32Flags, f32, value)
+SET_FLAG_VALUE_IMPL_(TriggerParam::setStr, const char*, mStringFlags, sead::FixedSafeString<32>,
+                     sead::FixedSafeString<32>(value))
+SET_FLAG_VALUE_IMPL_(TriggerParam::setStr64, const char*, mString64Flags, sead::FixedSafeString<64>,
+                     sead::FixedSafeString<64>(value))
+SET_FLAG_VALUE_IMPL_(TriggerParam::setStr256, const char*, mString256Flags,
+                     sead::FixedSafeString<256>, sead::FixedSafeString<256>(value))
+SET_FLAG_VALUE_IMPL_(TriggerParam::setVec2f, const sead::Vector2f&, mVector2fFlags, sead::Vector2f,
+                     value)
+SET_FLAG_VALUE_IMPL_(TriggerParam::setVec3f, const sead::Vector3f&, mVector3fFlags, sead::Vector3f,
+                     value)
+SET_FLAG_VALUE_IMPL_(TriggerParam::setVec4f, const sead::Vector4f&, mVector4fFlags, sead::Vector4f,
+                     value)
+
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setBool, getBoolIdx, bool)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setS32, getS32Idx, s32)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setF32, getF32Idx, f32)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setStr, getStrIdx, const char*)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setStr64, getStr64Idx, const char*)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setStr256, getStr256Idx, const char*)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec2f, getVec2fIdx, const sead::Vector2f&)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec3f, getVec3fIdx, const sead::Vector3f&)
+SET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec4f, getVec4fIdx, const sead::Vector4f&)
+
+SET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setBool, bool, mBoolArrayFlags, bool, value)
+SET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setS32, s32, mS32ArrayFlags, s32, value)
+SET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setF32, f32, mF32ArrayFlags, f32, value)
+SET_STRING_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setStr, mStringArrayFlags,
+                                  sead::FixedSafeString<32>)
+SET_STRING_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setStr64, mString64ArrayFlags,
+                                  sead::FixedSafeString<64>)
+SET_STRING_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setStr256, mString256ArrayFlags,
+                                  sead::FixedSafeString<256>)
+SET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setVec2f, const sead::Vector2f&, mVector2fArrayFlags,
+                           sead::Vector2f, value)
+SET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setVec3f, const sead::Vector3f&, mVector3fArrayFlags,
+                           sead::Vector3f, value)
+SET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::setVec4f, const sead::Vector4f&, mVector4fArrayFlags,
+                           sead::Vector4f, value)
+
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setBool, getBoolArrayIdx, bool)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setS32, getS32ArrayIdx, s32)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setF32, getF32ArrayIdx, f32)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setStr, getStrArrayIdx, const char*)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setStr64, getStr64ArrayIdx, const char*)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setStr256, getStr256ArrayIdx, const char*)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec2f, getVec2fArrayIdx, const sead::Vector2f&)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec3f, getVec3fArrayIdx, const sead::Vector3f&)
+SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec4f, getVec4fArrayIdx, const sead::Vector4f&)
+
+#define RESET_FLAG_VALUE_IMPL_(FUNCTION_NAME, FLAGS, T)                                            \
+    bool FUNCTION_NAME(s32 idx, bool check_permissions) {                                          \
+        auto* flag = getFlagByIndexBase(FLAGS, idx);                                               \
+        if (!flag)                                                                                 \
+            return false;                                                                          \
+                                                                                                   \
+        if (check_permissions && !flag->isProgramWritable())                                       \
+            return false;                                                                          \
+                                                                                                   \
+        if (flag->isInitialValue())                                                                \
+            return true;                                                                           \
+                                                                                                   \
+        flag->resetToInitialValue();                                                               \
+        recordFlagChange(FLAGS[idx], idx);                                                         \
+        reportFlagChange<T>(FLAGS[idx]);                                                           \
+                                                                                                   \
+        return true;                                                                               \
+    }
+
+#define RESET_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, FLAGS, GET_IDX_FN)                            \
+    bool FUNCTION_NAME(const sead::SafeString& name, bool check_permissions) {                     \
+        return FUNCTION_NAME(GET_IDX_FN(name), check_permissions);                                 \
+    }
+
+#define RESET_ARRAY_FLAG_VALUE_IMPL_(FUNCTION_NAME, ARRAYS, T)                                     \
+    bool FUNCTION_NAME(s32 idx, s32 sub_idx, bool check_permissions) {                             \
+        if (idx < 0 || idx >= ARRAYS.size())                                                       \
+            return false;                                                                          \
+                                                                                                   \
+        const auto* array = ARRAYS[idx];                                                           \
+        if (!array)                                                                                \
+            return false;                                                                          \
+                                                                                                   \
+        auto* flag = getFlagByIndexBase(*array, sub_idx);                                          \
+        if (!flag)                                                                                 \
+            return false;                                                                          \
+                                                                                                   \
+        if (check_permissions && !flag->isProgramWritable())                                       \
+            return false;                                                                          \
+                                                                                                   \
+        if (flag->isInitialValue())                                                                \
+            return true;                                                                           \
+                                                                                                   \
+        flag->resetToInitialValue();                                                               \
+        const auto* flag_ = [&] { return ARRAYS.at(idx)->at(sub_idx); }();                         \
+        recordFlagChange(flag_, idx, sub_idx);                                                     \
+        reportFlagChange<T>(flag_, sub_idx);                                                       \
+                                                                                                   \
+        return true;                                                                               \
+    }
+
+#define RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, FLAGS, GET_IDX_FN)                      \
+    bool FUNCTION_NAME(const sead::SafeString& name, s32 sub_idx, bool check_permissions) {        \
+        return FUNCTION_NAME(GET_IDX_FN(name), sub_idx, check_permissions);                        \
+    }
+
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetBool, mBoolFlags, bool)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetS32, mS32Flags, s32)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetF32, mF32Flags, f32)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetStr, mStringFlags, sead::FixedSafeString<32>)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetStr64, mString64Flags, sead::FixedSafeString<64>)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetStr256, mString256Flags, sead::FixedSafeString<256>)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetVec2f, mVector2fFlags, sead::Vector2f)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetVec3f, mVector3fFlags, sead::Vector3f)
+RESET_FLAG_VALUE_IMPL_(TriggerParam::resetVec4f, mVector4fFlags, sead::Vector4f)
+
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetBool, mBoolFlags, getBoolIdx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetS32, mS32Flags, getS32Idx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetF32, mF32Flags, getF32Idx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetStr, mStringFlags, getStrIdx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetStr64, mString64Flags, getStr64Idx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetStr256, mString256Flags, getStr256Idx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetVec2f, mVector2fFlags, getVec2fIdx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetVec3f, mVector3fFlags, getVec3fIdx)
+RESET_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetVec4f, mVector4fFlags, getVec4fIdx)
+
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetBool, mBoolArrayFlags, bool)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetS32, mS32ArrayFlags, s32)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetF32, mF32ArrayFlags, f32)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetStr, mStringArrayFlags, sead::FixedSafeString<32>)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetStr64, mString64ArrayFlags,
+                             sead::FixedSafeString<64>)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetStr256, mString256ArrayFlags,
+                             sead::FixedSafeString<256>)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetVec2f, mVector2fArrayFlags, sead::Vector2f)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetVec3f, mVector3fArrayFlags, sead::Vector3f)
+RESET_ARRAY_FLAG_VALUE_IMPL_(TriggerParam::resetVec4f, mVector4fArrayFlags, sead::Vector4f)
+
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetBool, mBoolArrayFlags, getBoolArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetS32, mS32ArrayFlags, getS32ArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetF32, mF32ArrayFlags, getF32ArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetStr, mStringArrayFlags, getStrArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetStr64, mString64ArrayFlags, getStr64ArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetStr256, mString256ArrayFlags,
+                                    getStr256ArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetVec2f, mVector2fArrayFlags, getVec2fArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetVec3f, mVector3fArrayFlags, getVec3fArrayIdx)
+RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::resetVec4f, mVector4fArrayFlags, getVec4fArrayIdx)
+
+void TriggerParam::resetAllFlagsToInitialValues() {
+    for (s32 i = 0; i < mBoolFlags.size(); ++i)
+        resetBool(i, false);
+    for (s32 i = 0; i < mS32Flags.size(); ++i)
+        resetS32(i, false);
+    for (s32 i = 0; i < mF32Flags.size(); ++i)
+        resetF32(i, false);
+    for (s32 i = 0; i < mStringFlags.size(); ++i)
+        resetStr(i, false);
+    for (s32 i = 0; i < mString64Flags.size(); ++i)
+        resetStr64(i, false);
+    for (s32 i = 0; i < mString256Flags.size(); ++i)
+        resetStr256(i, false);
+    for (s32 i = 0; i < mVector2fFlags.size(); ++i)
+        resetVec2f(i, false);
+    for (s32 i = 0; i < mVector3fFlags.size(); ++i)
+        resetVec3f(i, false);
+    for (s32 i = 0; i < mVector4fFlags.size(); ++i)
+        resetVec4f(i, false);
+
+    for (s32 i = 0; i < mBoolArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mBoolArrayFlags[i]->size(); ++j)
+            resetBool(i, j, false);
+    }
+    for (s32 i = 0; i < mS32ArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mS32ArrayFlags[i]->size(); ++j)
+            resetS32(i, j, false);
+    }
+    for (s32 i = 0; i < mF32ArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mF32ArrayFlags[i]->size(); ++j)
+            resetF32(i, j, false);
+    }
+    for (s32 i = 0; i < mStringArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mStringArrayFlags[i]->size(); ++j)
+            resetStr(i, j, false);
+    }
+    for (s32 i = 0; i < mString64ArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mString64ArrayFlags[i]->size(); ++j)
+            resetStr64(i, j, false);
+    }
+    for (s32 i = 0; i < mString256ArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mString256ArrayFlags[i]->size(); ++j)
+            resetStr256(i, j, false);
+    }
+    for (s32 i = 0; i < mVector2fArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mVector2fArrayFlags[i]->size(); ++j)
+            resetVec2f(i, j, false);
+    }
+    for (s32 i = 0; i < mVector3fArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mVector3fArrayFlags[i]->size(); ++j)
+            resetVec3f(i, j, false);
+    }
+    for (s32 i = 0; i < mVector4fArrayFlags.size(); ++i) {
+        for (s32 j = 0; j < mVector4fArrayFlags[i]->size(); ++j)
+            resetVec4f(i, j, false);
+    }
 }
 
 s32 TriggerParam::getBoolIdx(u32 name) const {
@@ -974,6 +1488,82 @@ s32 TriggerParam::getVec3fArrayIdx(u32 name) const {
 
 s32 TriggerParam::getVec4fArrayIdx(u32 name) const {
     return getFlagIndex(mVector4fArrayFlags, name);
+}
+
+FlagBool* TriggerParam::getBoolFlag(s32 idx) const {
+    return static_cast<FlagBool*>(mBoolFlags[idx]);
+}
+
+FlagS32* TriggerParam::getS32Flag(s32 idx) const {
+    return static_cast<FlagS32*>(mS32Flags[idx]);
+}
+
+FlagF32* TriggerParam::getF32Flag(s32 idx) const {
+    return static_cast<FlagF32*>(mF32Flags[idx]);
+}
+
+FlagString* TriggerParam::getStrFlag(s32 idx) const {
+    return static_cast<FlagString*>(mStringFlags[idx]);
+}
+
+FlagString64* TriggerParam::getStr64Flag(s32 idx) const {
+    return static_cast<FlagString64*>(mString64Flags[idx]);
+}
+
+FlagString256* TriggerParam::getStr256Flag(s32 idx) const {
+    return static_cast<FlagString256*>(mString256Flags[idx]);
+}
+
+FlagVector2f* TriggerParam::getVec2fFlag(s32 idx) const {
+    return static_cast<FlagVector2f*>(mVector2fFlags[idx]);
+}
+
+FlagVector3f* TriggerParam::getVec3fFlag(s32 idx) const {
+    return static_cast<FlagVector3f*>(mVector3fFlags[idx]);
+}
+
+FlagVector4f* TriggerParam::getVec4fFlag(s32 idx) const {
+    return static_cast<FlagVector4f*>(mVector4fFlags[idx]);
+}
+
+FlagBool* TriggerParam::getBoolFlag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagBool*>(mBoolArrayFlags[idx]->at(sub_idx));
+}
+
+FlagS32* TriggerParam::getS32Flag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagS32*>(mS32ArrayFlags[idx]->at(sub_idx));
+}
+
+FlagF32* TriggerParam::getF32Flag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagF32*>(mF32ArrayFlags[idx]->at(sub_idx));
+}
+
+FlagString* TriggerParam::getStrFlag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagString*>(mStringArrayFlags[idx]->at(sub_idx));
+}
+
+FlagString64* TriggerParam::getStr64Flag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagString64*>(mString64ArrayFlags[idx]->at(sub_idx));
+}
+
+FlagString256* TriggerParam::getStr256Flag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagString256*>(mString256ArrayFlags[idx]->at(sub_idx));
+}
+
+FlagVector2f* TriggerParam::getVec2fFlag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagVector2f*>(mVector2fArrayFlags[idx]->at(sub_idx));
+}
+
+FlagVector3f* TriggerParam::getVec3fFlag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagVector3f*>(mVector3fArrayFlags[idx]->at(sub_idx));
+}
+
+FlagVector4f* TriggerParam::getVec4fFlag(s32 idx, s32 sub_idx) const {
+    return static_cast<FlagVector4f*>(mVector4fArrayFlags[idx]->at(sub_idx));
+}
+
+void TriggerParam::onResetBoolFlagForRadarMgr(FlagBase* flag, s32 sub_idx) {
+    reportFlagChange<bool>(flag, sub_idx);
 }
 
 void TriggerParam::setCurrentRupeeFlagName(const sead::SafeString& name) {

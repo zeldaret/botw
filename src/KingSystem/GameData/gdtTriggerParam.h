@@ -225,9 +225,170 @@ public:
     bool getMinValueForS32(s32* min, const sead::SafeString& name) const;
     bool getMaxValueForS32(s32* max, const sead::SafeString& name) const;
 
+    // region Value setters
+
+    bool setBool(bool value, s32 idx, bool check_permissions, bool bypass_one_trigger_check);
+    bool setS32(s32 value, s32 idx, bool check_permissions, bool bypass_one_trigger_check);
+    bool setF32(f32 value, s32 idx, bool check_permissions, bool bypass_one_trigger_check);
+    bool setStr(const char* value, s32 idx, bool check_permissions, bool bypass_one_trigger_check);
+    bool setStr64(const char* value, s32 idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+    bool setStr256(const char* value, s32 idx, bool check_permissions,
+                   bool bypass_one_trigger_check);
+    bool setVec2f(const sead::Vector2f& value, s32 idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+    bool setVec3f(const sead::Vector3f& value, s32 idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+    bool setVec4f(const sead::Vector4f& value, s32 idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+
+    bool setBool(bool value, const sead::SafeString& name, bool check_permissions, bool,
+                 bool bypass_one_trigger_check);
+    bool setS32(s32 value, const sead::SafeString& name, bool check_permissions, bool,
+                bool bypass_one_trigger_check);
+    bool setF32(f32 value, const sead::SafeString& name, bool check_permissions, bool,
+                bool bypass_one_trigger_check);
+    bool setStr(const char* value, const sead::SafeString& name, bool check_permissions, bool,
+                bool bypass_one_trigger_check);
+    bool setStr64(const char* value, const sead::SafeString& name, bool check_permissions, bool,
+                  bool bypass_one_trigger_check);
+    bool setStr256(const char* value, const sead::SafeString& name, bool check_permissions, bool,
+                   bool bypass_one_trigger_check);
+    bool setVec2f(const sead::Vector2f& value, const sead::SafeString& name, bool check_permissions,
+                  bool, bool bypass_one_trigger_check);
+    bool setVec3f(const sead::Vector3f& value, const sead::SafeString& name, bool check_permissions,
+                  bool, bool bypass_one_trigger_check);
+    bool setVec4f(const sead::Vector4f& value, const sead::SafeString& name, bool check_permissions,
+                  bool, bool bypass_one_trigger_check);
+
+    // endregion
+
+    // region Value setters (array)
+
+    bool setBool(bool value, s32 idx, s32 sub_idx, bool check_permissions,
+                 bool bypass_one_trigger_check);
+    bool setS32(s32 value, s32 idx, s32 sub_idx, bool check_permissions,
+                bool bypass_one_trigger_check);
+    bool setF32(f32 value, s32 idx, s32 sub_idx, bool check_permissions,
+                bool bypass_one_trigger_check);
+    bool setStr(const char* value, s32 idx, s32 sub_idx, bool check_permissions,
+                bool bypass_one_trigger_check);
+    bool setStr64(const char* value, s32 idx, s32 sub_idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+    bool setStr256(const char* value, s32 idx, s32 sub_idx, bool check_permissions,
+                   bool bypass_one_trigger_check);
+    bool setVec2f(const sead::Vector2f& value, s32 idx, s32 sub_idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+    bool setVec3f(const sead::Vector3f& value, s32 idx, s32 sub_idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+    bool setVec4f(const sead::Vector4f& value, s32 idx, s32 sub_idx, bool check_permissions,
+                  bool bypass_one_trigger_check);
+
+    bool setBool(bool value, const sead::SafeString& name, s32 sub_idx, bool check_permissions,
+                 bool, bool bypass_one_trigger_check);
+    bool setS32(s32 value, const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool,
+                bool bypass_one_trigger_check);
+    bool setF32(f32 value, const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool,
+                bool bypass_one_trigger_check);
+    bool setStr(const char* value, const sead::SafeString& name, s32 sub_idx,
+                bool check_permissions, bool, bool bypass_one_trigger_check);
+    bool setStr64(const char* value, const sead::SafeString& name, s32 sub_idx,
+                  bool check_permissions, bool, bool bypass_one_trigger_check);
+    bool setStr256(const char* value, const sead::SafeString& name, s32 sub_idx,
+                   bool check_permissions, bool, bool bypass_one_trigger_check);
+    bool setVec2f(const sead::Vector2f& value, const sead::SafeString& name, s32 sub_idx,
+                  bool check_permissions, bool, bool bypass_one_trigger_check);
+    bool setVec3f(const sead::Vector3f& value, const sead::SafeString& name, s32 sub_idx,
+                  bool check_permissions, bool, bool bypass_one_trigger_check);
+    bool setVec4f(const sead::Vector4f& value, const sead::SafeString& name, s32 sub_idx,
+                  bool check_permissions, bool, bool bypass_one_trigger_check);
+
+    // endregion
+
+    // region Resetting values
+
+    bool resetBool(s32 idx, bool check_permissions);
+    bool resetS32(s32 idx, bool check_permissions);
+    bool resetF32(s32 idx, bool check_permissions);
+    bool resetStr(s32 idx, bool check_permissions);
+    bool resetStr64(s32 idx, bool check_permissions);
+    bool resetStr256(s32 idx, bool check_permissions);
+    bool resetVec2f(s32 idx, bool check_permissions);
+    bool resetVec3f(s32 idx, bool check_permissions);
+    bool resetVec4f(s32 idx, bool check_permissions);
+
+    bool resetBool(const sead::SafeString& name, bool check_permissions);
+    bool resetS32(const sead::SafeString& name, bool check_permissions);
+    bool resetF32(const sead::SafeString& name, bool check_permissions);
+    bool resetStr(const sead::SafeString& name, bool check_permissions);
+    bool resetStr64(const sead::SafeString& name, bool check_permissions);
+    bool resetStr256(const sead::SafeString& name, bool check_permissions);
+    bool resetVec2f(const sead::SafeString& name, bool check_permissions);
+    bool resetVec3f(const sead::SafeString& name, bool check_permissions);
+    bool resetVec4f(const sead::SafeString& name, bool check_permissions);
+
+    // endregion
+
+    // region Resetting values (array)
+
+    bool resetBool(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetS32(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetF32(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetStr(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetStr64(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetStr256(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetVec2f(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetVec3f(s32 idx, s32 sub_idx, bool check_permissions);
+    bool resetVec4f(s32 idx, s32 sub_idx, bool check_permissions);
+
+    bool resetBool(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetS32(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetF32(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetStr(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetStr64(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetStr256(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetVec2f(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetVec3f(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetVec4f(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+
+    // endregion
+
+    void resetAllFlagsToInitialValues();
+
+    // region Flag getters
+
+    FlagBool* getBoolFlag(s32 idx) const;
+    FlagS32* getS32Flag(s32 idx) const;
+    FlagF32* getF32Flag(s32 idx) const;
+    FlagString* getStrFlag(s32 idx) const;
+    FlagString64* getStr64Flag(s32 idx) const;
+    FlagString256* getStr256Flag(s32 idx) const;
+    FlagVector2f* getVec2fFlag(s32 idx) const;
+    FlagVector3f* getVec3fFlag(s32 idx) const;
+    FlagVector4f* getVec4fFlag(s32 idx) const;
+
+    // endregion
+
+    // region Flag getters (array)
+
+    FlagBool* getBoolFlag(s32 idx, s32 sub_idx) const;
+    FlagS32* getS32Flag(s32 idx, s32 sub_idx) const;
+    FlagF32* getF32Flag(s32 idx, s32 sub_idx) const;
+    FlagString* getStrFlag(s32 idx, s32 sub_idx) const;
+    FlagString64* getStr64Flag(s32 idx, s32 sub_idx) const;
+    FlagString256* getStr256Flag(s32 idx, s32 sub_idx) const;
+    FlagVector2f* getVec2fFlag(s32 idx, s32 sub_idx) const;
+    FlagVector3f* getVec3fFlag(s32 idx, s32 sub_idx) const;
+    FlagVector4f* getVec4fFlag(s32 idx, s32 sub_idx) const;
+
+    // endregion
+
+    void onResetBoolFlagForRadarMgr(FlagBase* flag, s32 sub_idx = -1);
+
 private:
     enum class BitFlag : u8 {
         _8 = 8,
+        EventAssociatedFlagModified = 0x10,
     };
 
     void allocCombinedFlagArrays(sead::Heap* heap);
@@ -235,7 +396,7 @@ private:
     void initResetData(sead::Heap* heap);
     void initRevivalRandomBools(sead::Heap* heap);
 
-    void recordFlagChange(const FlagBase* flag, s32 idx, s16 sub_idx);
+    void recordFlagChange(const FlagBase* flag, s32 idx, s32 sub_idx = -1);
 
     u32 mResourceFlags = 0;
 
