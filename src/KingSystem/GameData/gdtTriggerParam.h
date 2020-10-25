@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <basis/seadTypes.h>
 #include <codec/seadHashCRC32.h>
 #include <container/seadBuffer.h>
@@ -25,6 +26,17 @@ public:
         s32 index;
     };
     KSYS_CHECK_SIZE_NX150(ResetEntry, 0x8);
+
+    struct FlagChangeRecord {
+        sead::SizedEnum<FlagType::ValueType, u8> type;
+        sead::SizedEnum<ResetType, u8> reset_type;
+        /// If the flag that was modified was an array, this is the index of the modified element.
+        /// Otherwise, this is -1.
+        s16 sub_index;
+        /// Index of the flag that was modified.
+        s32 index;
+    };
+    KSYS_CHECK_SIZE_NX150(FlagChangeRecord, 0x8);
 
     TriggerParam();
 
@@ -212,7 +224,7 @@ public:
 
 private:
     enum class BitFlag : u8 {
-
+        _8 = 8,
     };
 
     void allocCombinedFlagArrays(sead::Heap* heap);
@@ -220,11 +232,7 @@ private:
     void initResetData(sead::Heap* heap);
     void initRevivalRandomBools(sead::Heap* heap);
 
-    sead::TypedBitFlag<BitFlag>& getBitFlags() { return *mBitFlags.data(); }
-    const sead::TypedBitFlag<BitFlag>& getBitFlags() const { return *mBitFlags.data(); }
-    sead::SafeArray<sead::CriticalSection, 3>& getCriticalSections() {
-        return *mCriticalSections.data();
-    }
+    void recordFlagChange(const FlagBase* flag, s32 idx, s16 sub_idx);
 
     u32 mResourceFlags = 0;
 
@@ -248,7 +256,7 @@ private:
     sead::PtrArray<sead::PtrArray<FlagBase>> mVector3fArrayFlags;
     sead::PtrArray<sead::PtrArray<FlagBase>> mVector4fArrayFlags;
 
-    sead::StorageFor<sead::SafeArray<sead::Buffer<ResetEntry>, 3>> mUnkArray{};
+    sead::SafeArray<sead::StorageFor<sead::Buffer<FlagChangeRecord>>, 3> mFlagChangeRecords{};
 
     sead::ObjArray<FlagBase> mCombinedBoolFlags;
     sead::ObjArray<FlagBase> mCombinedS32Flags;
@@ -265,9 +273,9 @@ private:
 
     sead::Heap* mHeap = nullptr;
 
-    sead::SafeArray<s32, 18> mCounts;
+    std::array<s32, 18> mFlagChangeRecordIndices;
     sead::SafeArray<s32, 15> mNumBoolFlagsPerCategory;
-    sead::StorageFor<sead::SafeArray<sead::CriticalSection, 3>> mCriticalSections{};
+    sead::SafeArray<sead::StorageFor<sead::CriticalSection>, 3> mCriticalSections{};
     sead::StorageFor<sead::TypedBitFlag<BitFlag>> mBitFlags;
 };
 KSYS_CHECK_SIZE_NX150(TriggerParam, 0x3f0);

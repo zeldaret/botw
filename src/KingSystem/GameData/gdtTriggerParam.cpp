@@ -1,5 +1,6 @@
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include <algorithm>
+#include <mc/seadCoreInfo.h>
 #include "KingSystem/GameData/gdtFlagProxy.h"
 #include "KingSystem/Resource/resResourceGameData.h"
 #include "KingSystem/Utils/SafeDelete.h"
@@ -7,10 +8,12 @@
 namespace ksys::gdt {
 
 TriggerParam::TriggerParam() {
-    mUnkArray.constructDefault();
-    mCriticalSections.constructDefault();
+    for (auto& buffer : mFlagChangeRecords)
+        buffer.constructDefault();
+    for (auto& cs : mCriticalSections)
+        cs.constructDefault();
     mBitFlags.constructDefault();
-    mCounts.fill(0);
+    mFlagChangeRecordIndices.fill(0);
     mNumBoolFlagsPerCategory.fill(0);
 }
 
@@ -459,8 +462,8 @@ void TriggerParam::copyAllFlags(const TriggerParam& src, sead::Heap* heap, bool 
 #undef COPY_ARRAY_
 
     if (init_reset_data) {
-        for (auto& array : *mUnkArray.data())
-            array.allocBufferAssert(num_flags, heap);
+        for (auto& array : mFlagChangeRecords)
+            array.ref().allocBufferAssert(num_flags, heap);
         initResetData(heap);
         initRevivalRandomBools(heap);
     }
@@ -853,6 +856,25 @@ bool TriggerParam::getMaxValueForS32(s32* max, const sead::SafeString& name) con
         return false;
     *max = flag->getConfig().max_value;
     return true;
+}
+
+void TriggerParam::recordFlagChange(const FlagBase* flag, s32 idx, s16 sub_idx) {
+    const auto core = sead::CoreInfo::getCurrentCoreId();
+    const u32 platform_core_id = sead::CoreInfo::getPlatformCoreId(core);
+
+    auto& buffer = mFlagChangeRecords[platform_core_id].ref();
+    if (buffer.size() < 1)
+        return;
+
+    auto lock = sead::makeScopedLock(mCriticalSections[platform_core_id].ref());
+
+    buffer[mFlagChangeRecordIndices[platform_core_id]].type.mValue = u8(flag->getType());
+    buffer[mFlagChangeRecordIndices[platform_core_id]].index = idx;
+    buffer[mFlagChangeRecordIndices[platform_core_id]].sub_index = sub_idx;
+    ++mFlagChangeRecordIndices[platform_core_id];
+
+    if (flag->getType() == FlagType::Bool)
+        mBitFlags.ref().set(BitFlag::_8);
 }
 
 s32 TriggerParam::getBoolIdx(u32 name) const {
