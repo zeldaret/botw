@@ -137,12 +137,18 @@ public:
 
     virtual u32 getRandomResetData() const = 0;
 
-    bool isResettable() const { return isResettableFlag(getProperties().getResetType()); }
+    bool isResettable() const { return isResettableFlag(getResetType()); }
 
     bool isPermanent() const {
-        return getProperties().isSave() && getProperties().getResetType() == ResetType::NoReset &&
-               getRandomResetData() == 0;
+        return isSave() && getResetType() == ResetType::NoReset && getRandomResetData() == 0;
     }
+
+    bool isProgramReadable() const { return getProperties().isProgramReadable(); }
+    bool isProgramWritable() const { return getProperties().isProgramWritable(); }
+    bool isSave() const { return getProperties().isSave(); }
+    bool isOneTrigger() const { return getProperties().isOneTrigger(); }
+    bool isEventAssociated() const { return getProperties().isEventAssociated(); }
+    ResetType getResetType() const { return getProperties().getResetType(); }
 
 protected:
     s32 clampValue_(const s32& min_value, s32* value, const s32& max_value);

@@ -81,7 +81,7 @@ inline bool getFlagValue(const sead::PtrArray<FlagBase>& array, T* out_value, s3
     if (!flag)
         return false;
 
-    if (check_permissions && !flag->getProperties().isProgramReadable())
+    if (check_permissions && !flag->isProgramReadable())
         return false;
 
     if constexpr (std::is_same<T, const char*>())
@@ -108,7 +108,7 @@ inline bool getFlagValue(const sead::PtrArray<sead::PtrArray<FlagBase>>& arrays,
     if (!flag)
         return false;
 
-    if (check_permissions && !flag->getProperties().isProgramReadable())
+    if (check_permissions && !flag->isProgramReadable())
         return false;
 
     if constexpr (std::is_same<T, const char*>())
@@ -354,8 +354,7 @@ void TriggerParam::initResetData(sead::Heap* heap) {
             else                                                                                   \
                 mResetEntries[reset_entry_idx].index = i;                                          \
                                                                                                    \
-            mResetEntries[reset_entry_idx].reset_type =                                            \
-                (*ARRAYS[i])[0]->getProperties().getResetType();                                   \
+            mResetEntries[reset_entry_idx].reset_type = (*ARRAYS[i])[0]->getResetType();           \
                                                                                                    \
             ++reset_entry_idx;                                                                     \
             if (reset_entry_idx == num_reset_entries)                                              \
