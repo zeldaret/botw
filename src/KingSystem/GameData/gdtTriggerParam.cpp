@@ -3,6 +3,7 @@
 #include <mc/seadCoreInfo.h>
 #include "KingSystem/GameData/gdtFlagProxy.h"
 #include "KingSystem/Resource/resResourceGameData.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::gdt {
@@ -18,6 +19,33 @@ TriggerParam::TriggerParam() {
 }
 
 namespace {
+struct TriggerParamConfig {
+    bool shouldLog(const sead::SafeString& flag_name, u8 event_type) const {
+        if (enabled_events.isOffBit(event_type))
+            return false;
+
+        return flag_to_log.isEmpty() || flag_name.include(flag_to_log);
+    }
+
+    bool shouldPrintStackTrace(const sead::SafeString& flag_name) const {
+        return !flag_to_log.isEmpty() && flag_name.include(flag_to_log) &&
+               enabled_events.isOnBit(5);
+    }
+
+    sead::SafeString& getCurrentRupeeFlagName() { return current_rupee_flag_name; }
+
+    sead::BitFlag8 enabled_events;
+    s32 foo = 90;
+    s32 index = 32;
+    sead::FixedSafeString<128> flag_to_log{""};
+    s32 num_current_rupee_flag_name_changes = 0;
+    sead::SafeString current_rupee_flag_name;
+};
+KSYS_CHECK_SIZE_NX150(TriggerParamConfig, 0xc0);
+
+util::InitTimeInfoEx sInitTimeInfo;
+TriggerParamConfig sConfig;
+
 // TODO (low-priority): implement this without using <algorithm> to match the original code
 // The original code appears to perform a heapsort.
 [[gnu::noinline]] void sortFlagPtrArray(sead::PtrArray<FlagBase>& array) {
@@ -946,6 +974,60 @@ s32 TriggerParam::getVec3fArrayIdx(u32 name) const {
 
 s32 TriggerParam::getVec4fArrayIdx(u32 name) const {
     return getFlagIndex(mVector4fArrayFlags, name);
+}
+
+void TriggerParam::setCurrentRupeeFlagName(const sead::SafeString& name) {
+    if (sConfig.num_current_rupee_flag_name_changes <= 0) {
+        sConfig.getCurrentRupeeFlagName() = name;
+        ++sConfig.num_current_rupee_flag_name_changes;
+    }
+}
+
+bool shouldLogFlagChange(const sead::SafeString& flag_name, FlagType type) {
+    u8 event_type;
+
+    if (s32(type) == FlagType::Bool || s32(type) == FlagType::BoolArray)
+        event_type = 0;
+
+    else if (s32(type) == FlagType::S32 || s32(type) == FlagType::S32Array)
+        event_type = 1;
+
+    else if (s32(type) == FlagType::F32 || s32(type) == FlagType::F32Array)
+        event_type = 2;
+
+    else if (s32(type) == FlagType::Vector2f || s32(type) == FlagType::Vector2fArray ||
+             s32(type) == FlagType::Vector3f || s32(type) == FlagType::Vector3fArray ||
+             s32(type) == FlagType::Vector4f || s32(type) == FlagType::Vector4fArray)
+        event_type = 4;
+
+    else if (s32(type) == FlagType::String || s32(type) == FlagType::StringArray ||
+             s32(type) == FlagType::String64 || s32(type) == FlagType::String64Array ||
+             s32(type) == FlagType::String256 || s32(type) == FlagType::String256Array)
+        event_type = 3;
+
+    else
+        event_type = 7;
+
+    return sConfig.shouldLog(flag_name, event_type);
+}
+
+// NON_MATCHING: reorderings (which result in other small differences)
+sead::Color4f getFlagColor(FlagType type) {
+    if (s32(type) == FlagType::Bool || s32(type) == FlagType::BoolArray)
+        return sead::Color4f::cRed;
+
+    if (s32(type) == FlagType::F32 || s32(type) == FlagType::F32Array ||
+        s32(type) == FlagType::Vector2f || s32(type) == FlagType::Vector2fArray ||
+        s32(type) == FlagType::Vector3f || s32(type) == FlagType::Vector3fArray ||
+        s32(type) == FlagType::Vector4f || s32(type) == FlagType::Vector4fArray)
+        return sead::Color4f::cYellow;
+
+    if (s32(type) == FlagType::String || s32(type) == FlagType::StringArray ||
+        s32(type) == FlagType::String64 || s32(type) == FlagType::String64Array ||
+        s32(type) == FlagType::String256 || s32(type) == FlagType::String256Array)
+        return sead::Color4f::cWhite;
+
+    return sead::Color4f::cBlue;
 }
 
 }  // namespace ksys::gdt

@@ -7,6 +7,7 @@
 #include <container/seadObjArray.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
+#include <gfx/seadColor.h>
 #include <prim/seadStorageFor.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/GameData/gdtFlag.h"
@@ -49,6 +50,8 @@ public:
     void copyPermanentFlags(const TriggerParam& src, sead::Heap* heap);
 
     FlagType getFlagType(const sead::SafeString& name) const;
+
+    void setCurrentRupeeFlagName(const sead::SafeString& name);
 
     // region Value getters (by hash)
 
@@ -279,5 +282,8 @@ private:
     sead::StorageFor<sead::TypedBitFlag<BitFlag>> mBitFlags;
 };
 KSYS_CHECK_SIZE_NX150(TriggerParam, 0x3f0);
+
+bool shouldLogFlagChange(const sead::SafeString& flag_name, FlagType flag_type);
+sead::Color4f getFlagColor(FlagType type);
 
 }  // namespace ksys::gdt
