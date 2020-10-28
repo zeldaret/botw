@@ -1526,6 +1526,76 @@ FlagVector4f* TriggerParam::getVec4fFlag(s32 idx) const {
     return static_cast<FlagVector4f*>(mVector4fFlags[idx]);
 }
 
+FlagBool* TriggerParam::getBoolFlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getBoolIdx(name_hash);
+    if (*idx < 0 || mBoolFlags.size() <= *idx)
+        return nullptr;
+    return getBoolFlag(*idx);
+}
+
+FlagS32* TriggerParam::getS32FlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getS32Idx(name_hash);
+    if (*idx < 0 || mS32Flags.size() <= *idx)
+        return nullptr;
+    return getS32Flag(*idx);
+}
+
+FlagF32* TriggerParam::getF32FlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getF32Idx(name_hash);
+    if (*idx < 0 || mF32Flags.size() <= *idx)
+        return nullptr;
+    return getF32Flag(*idx);
+}
+
+FlagString* TriggerParam::getStrFlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getStrIdx(name_hash);
+    if (*idx < 0 || mStringFlags.size() <= *idx)
+        return nullptr;
+    return getStrFlag(*idx);
+}
+
+FlagString64* TriggerParam::getStr64FlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getStr64Idx(name_hash);
+    if (*idx < 0 || mString64Flags.size() <= *idx)
+        return nullptr;
+    return getStr64Flag(*idx);
+}
+
+FlagString256* TriggerParam::getStr256FlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getStr256Idx(name_hash);
+    if (*idx < 0 || mString256Flags.size() <= *idx)
+        return nullptr;
+    return getStr256Flag(*idx);
+}
+
+FlagVector2f* TriggerParam::getVec2fFlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getVec2fIdx(name_hash);
+    if (*idx < 0 || mVector2fFlags.size() <= *idx)
+        return nullptr;
+    return getVec2fFlag(*idx);
+}
+
+FlagVector3f* TriggerParam::getVec3fFlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getVec3fIdx(name_hash);
+    if (*idx < 0 || mVector3fFlags.size() <= *idx)
+        return nullptr;
+    return getVec3fFlag(*idx);
+}
+
+FlagVector4f* TriggerParam::getVec4fFlagAndIdx(s32* idx, u32 name_hash) const {
+    *idx = getVec4fIdx(name_hash);
+    if (*idx < 0 || mVector4fFlags.size() <= *idx)
+        return nullptr;
+    return getVec4fFlag(*idx);
+}
+
+FlagS32* TriggerParam::getS32FlagByHash(u32 name_hash) const {
+    const s32 idx = getS32Idx(name_hash);
+    if (idx < 0 || mS32Flags.size() <= idx)
+        return nullptr;
+    return getS32Flag(idx);
+}
+
 FlagBool* TriggerParam::getBoolFlag(s32 idx, s32 sub_idx) const {
     return static_cast<FlagBool*>(mBoolArrayFlags[idx]->at(sub_idx));
 }
@@ -1560,6 +1630,69 @@ FlagVector3f* TriggerParam::getVec3fFlag(s32 idx, s32 sub_idx) const {
 
 FlagVector4f* TriggerParam::getVec4fFlag(s32 idx, s32 sub_idx) const {
     return static_cast<FlagVector4f*>(mVector4fArrayFlags[idx]->at(sub_idx));
+}
+
+FlagBool* TriggerParam::getBoolFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getBoolArrayIdx(name_hash);
+    if (*idx < 0 || mBoolArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<bool>(*mBoolArrayFlags[*idx], sub_idx);
+}
+
+FlagS32* TriggerParam::getS32FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getS32ArrayIdx(name_hash);
+    if (*idx < 0 || mS32ArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<s32>(*mS32ArrayFlags[*idx], sub_idx);
+}
+
+FlagF32* TriggerParam::getF32FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getF32ArrayIdx(name_hash);
+    if (*idx < 0 || mF32ArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<f32>(*mF32ArrayFlags[*idx], sub_idx);
+}
+
+FlagString* TriggerParam::getStrFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getStrArrayIdx(name_hash);
+    if (*idx < 0 || mStringArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<sead::FixedSafeString<32>>(*mStringArrayFlags[*idx], sub_idx);
+}
+
+FlagString64* TriggerParam::getStr64FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getStr64ArrayIdx(name_hash);
+    if (*idx < 0 || mString64ArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<sead::FixedSafeString<64>>(*mString64ArrayFlags[*idx], sub_idx);
+}
+
+FlagString256* TriggerParam::getStr256FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getStr256ArrayIdx(name_hash);
+    if (*idx < 0 || mString256ArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<sead::FixedSafeString<256>>(*mString256ArrayFlags[*idx], sub_idx);
+}
+
+FlagVector2f* TriggerParam::getVec2fFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getVec2fArrayIdx(name_hash);
+    if (*idx < 0 || mVector2fArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<sead::Vector2f>(*mVector2fArrayFlags[*idx], sub_idx);
+}
+
+FlagVector3f* TriggerParam::getVec3fFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getVec3fArrayIdx(name_hash);
+    if (*idx < 0 || mVector3fArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<sead::Vector3f>(*mVector3fArrayFlags[*idx], sub_idx);
+}
+
+FlagVector4f* TriggerParam::getVec4fFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const {
+    *idx = getVec4fArrayIdx(name_hash);
+    if (*idx < 0 || mVector4fArrayFlags.size() <= *idx || sub_idx < 0)
+        return nullptr;
+    return getFlagByIndex<sead::Vector4f>(*mVector4fArrayFlags[*idx], sub_idx);
 }
 
 void TriggerParam::onResetBoolFlagForRadarMgr(FlagBase* flag, s32 sub_idx) {

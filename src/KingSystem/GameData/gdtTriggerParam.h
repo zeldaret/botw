@@ -383,6 +383,35 @@ public:
 
     // endregion
 
+    // region Flag + index getters
+
+    FlagBool* getBoolFlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagS32* getS32FlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagF32* getF32FlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagString* getStrFlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagString64* getStr64FlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagString256* getStr256FlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagVector2f* getVec2fFlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagVector3f* getVec3fFlagAndIdx(s32* idx, u32 name_hash) const;
+    FlagVector4f* getVec4fFlagAndIdx(s32* idx, u32 name_hash) const;
+
+    // endregion
+
+    // region Flag + index getters (array)
+
+    FlagBool* getBoolFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagS32* getS32FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagF32* getF32FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagString* getStrFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagString64* getStr64FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagString256* getStr256FlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagVector2f* getVec2fFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagVector3f* getVec3fFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+    FlagVector4f* getVec4fFlagAndIdx(s32* idx, u32 name_hash, s32 sub_idx) const;
+
+    // endregion
+
+    FlagS32* getS32FlagByHash(u32 name_hash) const;
     void onResetBoolFlagForRadarMgr(FlagBase* flag, s32 sub_idx = -1);
 
 private:
