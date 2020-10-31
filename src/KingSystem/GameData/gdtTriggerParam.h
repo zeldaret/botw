@@ -39,6 +39,21 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(FlagChangeRecord, 0x8);
 
+    struct FlagCopyRecord {
+        enum class BitFlag : u8 {
+            _1 = 1,
+            _2 = 2,
+            _4 = 4,
+            _7 = _1 | _2 | _4,
+            _8 = 8,
+        };
+
+        sead::TypedBitFlag<BitFlag> bit_flag;
+        s16 sub_index;
+        u32 name_hash;
+    };
+    KSYS_CHECK_SIZE_NX150(FlagCopyRecord, 0x8);
+
     TriggerParam();
 
     void copyFromGameDataRes(res::GameData* gdata, sead::Heap* heap);
@@ -414,13 +429,23 @@ public:
     FlagS32* getS32FlagByHash(u32 name_hash) const;
     void onResetBoolFlagForRadarMgr(FlagBase* flag, s32 sub_idx = -1);
 
+    bool getBoolIfChanged(bool* value, const sead::SafeString& name, bool x, bool y) const;
+    bool getS32IfChanged(s32* value, const sead::SafeString& name, bool x, bool y) const;
+    bool getF32IfChanged(f32* value, const sead::SafeString& name, bool x, bool y) const;
+
+    void copyChangedFlags(TriggerParam& other, bool set_all_flags, bool y, bool z);
+
 private:
     enum class BitFlag : u8 {
+        _1 = 1,
+        _2 = 2,
+        _4 = 4,
+        _7 = _1 | _2 | _4,
         _8 = 8,
         EventAssociatedFlagModified = 0x10,
     };
 
-    void allocCombinedFlagArrays(sead::Heap* heap);
+    void allocCopyRecordArrays(sead::Heap* heap);
     void updateBoolFlagCounts();
     void initResetData(sead::Heap* heap);
     void initRevivalRandomBools(sead::Heap* heap);
@@ -451,15 +476,15 @@ private:
 
     sead::SafeArray<sead::StorageFor<sead::Buffer<FlagChangeRecord>>, 3> mFlagChangeRecords{};
 
-    sead::ObjArray<FlagBase> mCombinedBoolFlags;
-    sead::ObjArray<FlagBase> mCombinedS32Flags;
-    sead::ObjArray<FlagBase> mCombinedF32Flags;
-    sead::ObjArray<FlagBase> mCombinedStringFlags;
-    sead::ObjArray<FlagBase> mCombinedString64Flags;
-    sead::ObjArray<FlagBase> mCombinedString256Flags;
-    sead::ObjArray<FlagBase> mCombinedVector2fFlags;
-    sead::ObjArray<FlagBase> mCombinedVector3fFlags;
-    sead::ObjArray<FlagBase> mCombinedVector4fFlags;
+    sead::ObjArray<FlagCopyRecord> mCopiedBoolFlags;
+    sead::ObjArray<FlagCopyRecord> mCopiedS32Flags;
+    sead::ObjArray<FlagCopyRecord> mCopiedF32Flags;
+    sead::ObjArray<FlagCopyRecord> mCopiedStringFlags;
+    sead::ObjArray<FlagCopyRecord> mCopiedString64Flags;
+    sead::ObjArray<FlagCopyRecord> mCopiedString256Flags;
+    sead::ObjArray<FlagCopyRecord> mCopiedVector2fFlags;
+    sead::ObjArray<FlagCopyRecord> mCopiedVector3fFlags;
+    sead::ObjArray<FlagCopyRecord> mCopiedVector4fFlags;
 
     sead::Buffer<ResetEntry> mResetEntries;
     sead::PtrArray<FlagBool> mRevivalRandomBools;

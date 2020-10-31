@@ -430,6 +430,36 @@ void makeFlagProxies(sead::PtrArray<FlagBase>& dest, const sead::PtrArray<FlagBa
         }
     }
 }
+
+// TODO: remove noinline
+template <typename T>
+[[gnu::noinline]] void addFlagCopyRecord(sead::ObjArray<TriggerParam::FlagCopyRecord>& records,
+                                         Flag<T>* flag, s32 sub_index, bool find_existing_record) {
+    if (records.isFull())
+        return;
+
+    TriggerParam::FlagCopyRecord* record;
+
+    s32 record_idx = -1;
+    if (find_existing_record) {
+        const u32 hash = flag->getHash();
+        for (s32 i = 0; i < records.size(); ++i) {
+            if (records[i]->name_hash == hash && records[i]->sub_index == s16(sub_index)) {
+                record_idx = i;
+                break;
+            }
+        }
+    }
+
+    if (record_idx != -1) {
+        record = records[record_idx];
+    } else {
+        record = records.emplaceBack();
+        record->name_hash = flag->getHash();
+        record->sub_index = sub_index;
+    }
+    record->bit_flag.makeAllZero();
+}
 }  // namespace
 
 void TriggerParam::copyFromGameDataRes(res::GameData* gdata, sead::Heap* heap) {
@@ -469,13 +499,13 @@ void TriggerParam::init(sead::Heap* heap) {
     sortFlagPtrArray(mVector2fFlags);
     sortFlagPtrArray(mVector3fFlags);
     sortFlagPtrArray(mVector4fFlags);
-    allocCombinedFlagArrays(heap);
+    allocCopyRecordArrays(heap);
     updateBoolFlagCounts();
     mHeap = heap;
 }
 
-void TriggerParam::allocCombinedFlagArrays(sead::Heap* heap) {
-#define ALLOC_COMBINED_ARRAY_(FLAGS, FLAG_ARRAYS, DEST)                                            \
+void TriggerParam::allocCopyRecordArrays(sead::Heap* heap) {
+#define ALLOC_ARRAY_(FLAGS, FLAG_ARRAYS, DEST)                                                     \
     {                                                                                              \
         s32 size = FLAGS.size();                                                                   \
         for (s32 i = 0; i < FLAG_ARRAYS.size(); ++i)                                               \
@@ -484,17 +514,17 @@ void TriggerParam::allocCombinedFlagArrays(sead::Heap* heap) {
         DEST.allocBuffer(size, heap);                                                              \
     }
 
-    ALLOC_COMBINED_ARRAY_(mBoolFlags, mBoolArrayFlags, mCombinedBoolFlags);
-    ALLOC_COMBINED_ARRAY_(mS32Flags, mS32ArrayFlags, mCombinedS32Flags);
-    ALLOC_COMBINED_ARRAY_(mF32Flags, mF32ArrayFlags, mCombinedF32Flags);
-    ALLOC_COMBINED_ARRAY_(mStringFlags, mStringArrayFlags, mCombinedStringFlags);
-    ALLOC_COMBINED_ARRAY_(mString64Flags, mString64ArrayFlags, mCombinedString64Flags);
-    ALLOC_COMBINED_ARRAY_(mString256Flags, mString256ArrayFlags, mCombinedString256Flags);
-    ALLOC_COMBINED_ARRAY_(mVector2fFlags, mVector2fArrayFlags, mCombinedVector2fFlags);
-    ALLOC_COMBINED_ARRAY_(mVector3fFlags, mVector3fArrayFlags, mCombinedVector3fFlags);
-    ALLOC_COMBINED_ARRAY_(mVector4fFlags, mVector4fArrayFlags, mCombinedVector4fFlags);
+    ALLOC_ARRAY_(mBoolFlags, mBoolArrayFlags, mCopiedBoolFlags);
+    ALLOC_ARRAY_(mS32Flags, mS32ArrayFlags, mCopiedS32Flags);
+    ALLOC_ARRAY_(mF32Flags, mF32ArrayFlags, mCopiedF32Flags);
+    ALLOC_ARRAY_(mStringFlags, mStringArrayFlags, mCopiedStringFlags);
+    ALLOC_ARRAY_(mString64Flags, mString64ArrayFlags, mCopiedString64Flags);
+    ALLOC_ARRAY_(mString256Flags, mString256ArrayFlags, mCopiedString256Flags);
+    ALLOC_ARRAY_(mVector2fFlags, mVector2fArrayFlags, mCopiedVector2fFlags);
+    ALLOC_ARRAY_(mVector3fFlags, mVector3fArrayFlags, mCopiedVector3fFlags);
+    ALLOC_ARRAY_(mVector4fFlags, mVector4fArrayFlags, mCopiedVector4fFlags);
 
-#undef ALLOC_COMBINED_ARRAY_
+#undef ALLOC_ARRAY_
 }
 
 void TriggerParam::updateBoolFlagCounts() {
@@ -1415,6 +1445,59 @@ void TriggerParam::resetAllFlagsToInitialValues() {
     for (s32 i = 0; i < mVector4fArrayFlags.size(); ++i) {
         for (s32 j = 0; j < mVector4fArrayFlags[i]->size(); ++j)
             resetVec4f(i, j, false);
+    }
+}
+
+// FIXME: very incomplete
+void TriggerParam::copyChangedFlags(TriggerParam& other, bool set_all_flags, bool y, bool z) {
+    if (!set_all_flags) {
+        for (s32 i = 0; i < 3; ++i) {
+            auto lock = sead::makeScopedLock(other.mCriticalSections[i].ref());
+
+            for (s32 j = 0; j < mFlagChangeRecordIndices[i]; ++i) {
+                const FlagChangeRecord& record = mFlagChangeRecords[i].ref()[j];
+                switch (record.type) {
+                case FlagType::Bool: {
+                    auto* flag = static_cast<FlagBool*>(mBoolFlags[record.index]);
+                    const bool find_existing = mBitFlags.ref().isOn(BitFlag::_7);
+                    flag->setValue(
+                        static_cast<FlagBool*>(other.mBoolFlags[record.index])->getValue());
+                    const auto category = flag->getCategory();
+                    addFlagCopyRecord(mCopiedBoolFlags, flag, -1, find_existing);
+
+                    if (category > 0) {
+                        if (flag->getValue())
+                            ++mNumBoolFlagsPerCategory[category - 1];
+                        else
+                            --mNumBoolFlagsPerCategory[category - 1];
+                    }
+                    break;
+                }
+                case FlagType::BoolArray: {
+                    auto* flag =
+                        static_cast<FlagBool*>((*mBoolArrayFlags[record.index])[record.sub_index]);
+                    const bool find_existing = mBitFlags.ref().isOn(BitFlag::_7);
+                    flag->setValue(static_cast<FlagBool*>(
+                                       (*other.mBoolArrayFlags[record.index])[record.sub_index])
+                                       ->getValue());
+                    const auto category = flag->getCategory();
+                    addFlagCopyRecord(mCopiedBoolFlags, flag, record.sub_index, find_existing);
+
+                    if (category > 0) {
+                        if (flag->getValue())
+                            ++mNumBoolFlagsPerCategory[category - 1];
+                        else
+                            --mNumBoolFlagsPerCategory[category - 1];
+                    }
+                    break;
+                }
+                }
+            }
+
+            mFlagChangeRecordIndices[i] = 0;
+            other.mBitFlags.ref().reset(BitFlag::_8);
+        }
+        return;
     }
 }
 
