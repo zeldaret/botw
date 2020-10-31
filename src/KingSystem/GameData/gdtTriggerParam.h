@@ -48,7 +48,12 @@ public:
             _8 = 8,
         };
 
-        sead::TypedBitFlag<BitFlag> bit_flag;
+        bool checkBitFlags(bool x, bool y) const {
+            return bf.isOn(BitFlag::_8) || !(bf.isOn(BitFlag::_4) || (bf.isOn(BitFlag::_1) && !x) ||
+                                             (bf.isOn(BitFlag::_2) && !y));
+        }
+
+        sead::TypedBitFlag<BitFlag> bf;
         s16 sub_index;
         u32 name_hash;
     };
@@ -429,11 +434,11 @@ public:
     FlagS32* getS32FlagByHash(u32 name_hash) const;
     void onResetBoolFlagForRadarMgr(FlagBase* flag, s32 sub_idx = -1);
 
-    bool getBoolIfChanged(bool* value, const sead::SafeString& name, bool x, bool y) const;
-    bool getS32IfChanged(s32* value, const sead::SafeString& name, bool x, bool y) const;
-    bool getF32IfChanged(f32* value, const sead::SafeString& name, bool x, bool y) const;
+    bool getBoolIfCopied(bool* value, const sead::SafeString& name, bool x, bool y) const;
+    bool getS32IfCopied(s32* value, const sead::SafeString& name, bool x, bool y) const;
+    bool getF32IfCopied(f32* value, const sead::SafeString& name, bool x, bool y) const;
 
-    void copyChangedFlags(TriggerParam& other, bool set_all_flags, bool y, bool z);
+    void copyChangedFlags(TriggerParam& other, bool set_all_flags, bool record_copies, bool ignore_temp_flags);
 
 private:
     enum class BitFlag : u8 {
@@ -451,6 +456,8 @@ private:
     void initRevivalRandomBools(sead::Heap* heap);
 
     void recordFlagChange(const FlagBase* flag, s32 idx, s32 sub_idx = -1);
+
+    bool shouldFindExistingCopyRecord() const { return mBitFlags.ref().isOn(BitFlag::_7); }
 
     u32 mResourceFlags = 0;
 
@@ -491,7 +498,8 @@ private:
 
     sead::Heap* mHeap = nullptr;
 
-    std::array<s32, 18> mFlagChangeRecordIndices;
+    std::array<s32, 3> mFlagChangeRecordIndices;
+    sead::SafeArray<s32, 15> mNumBoolFlagsPerCategory0;
     sead::SafeArray<s32, 15> mNumBoolFlagsPerCategory;
     sead::SafeArray<sead::StorageFor<sead::CriticalSection>, 3> mCriticalSections{};
     sead::StorageFor<sead::TypedBitFlag<BitFlag>> mBitFlags;
