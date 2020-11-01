@@ -18,6 +18,9 @@ my_symtab = my_elf.get_section_by_name(".symtab")
 if not my_symtab:
     utils.fail(f'{config["myimg"]} has no symbol table')
 
+md = cs.Cs(cs.CS_ARCH_ARM64, cs.CS_MODE_ARM)
+md.detail = True
+
 
 def get_file_offset(elf, addr: int) -> int:
     for seg in elf.iter_segments():
@@ -48,8 +51,6 @@ def get_fn_from_my_elf(name: str, size: int) -> bytes:
 
 
 def check_function_ex(addr: int, size: int, base_fn: bytes, my_fn: bytes) -> bool:
-    md = cs.Cs(cs.CS_ARCH_ARM64, cs.CS_MODE_ARM)
-    md.detail = True
     adrp_pair_registers: Set[int] = set()
 
     for i1, i2 in zip(md.disasm(base_fn, addr), md.disasm(my_fn, addr)):
