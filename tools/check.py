@@ -54,6 +54,20 @@ def check_function_ex(addr: int, size: int, base_fn: bytes, my_fn: bytes) -> boo
 
     for i1, i2 in zip(md.disasm(base_fn, addr), md.disasm(my_fn, addr)):
         if i1.bytes == i2.bytes:
+            if i1.mnemonic == 'adrp':
+                adrp_pair_registers.add(i1.operands[0].reg)
+            elif i1.mnemonic == 'ldr':
+                reg = i1.operands[1].value.mem.base
+                if reg in adrp_pair_registers:
+                    adrp_pair_registers.remove(reg)
+            elif i1.mnemonic == 'ldp':
+                reg = i1.operands[2].value.mem.base
+                if reg in adrp_pair_registers:
+                    adrp_pair_registers.remove(reg)
+            elif i1.mnemonic == 'add':
+                reg = i1.operands[1].reg
+                if reg in adrp_pair_registers:
+                    adrp_pair_registers.remove(reg)
             continue
 
         if i1.mnemonic != i2.mnemonic:
