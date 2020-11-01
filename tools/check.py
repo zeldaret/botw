@@ -11,8 +11,9 @@ import utils
 config: Dict[str, Any] = {}
 diff_settings.apply(config, {})
 
-base_elf = ELFFile((Path(__file__).parent.parent / config["baseimg"]).open("rb"))
-my_elf = ELFFile((Path(__file__).parent.parent / config["myimg"]).open("rb"))
+root = Path(__file__).parent.parent
+base_elf = ELFFile((root / config["baseimg"]).open("rb"))
+my_elf = ELFFile((root / config["myimg"]).open("rb"))
 my_symtab = my_elf.get_section_by_name(".symtab")
 if not my_symtab:
     utils.fail(f'{config["myimg"]} has no symbol table')
@@ -46,15 +47,7 @@ def get_fn_from_my_elf(name: str, size: int) -> bytes:
     return my_elf.stream.read(size)
 
 
-def check_function(addr: int, size: int, name: str) -> bool:
-    try:
-        base_fn = get_fn_from_base_elf(addr, size)
-    except KeyError:
-        utils.print_error(f"couldn't find base function 0x{addr:016x} for {utils.format_symbol_name_for_msg(name)}")
-        return False
-
-    my_fn = get_fn_from_my_elf(name, size)
-
+def check_function_ex(addr: int, size: int, base_fn: bytes, my_fn: bytes) -> bool:
     md = cs.Cs(cs.CS_ARCH_ARM64, cs.CS_MODE_ARM)
     md.detail = True
     adrp_pair_registers: Set[int] = set()
@@ -123,8 +116,23 @@ def check_function(addr: int, size: int, name: str) -> bool:
     return True
 
 
+def check_function(addr: int, size: int, name: str, base_fn=None) -> bool:
+    if base_fn is None:
+        try:
+            base_fn = get_fn_from_base_elf(addr, size)
+        except KeyError:
+            utils.print_error(f"couldn't find base function 0x{addr:016x} for {utils.format_symbol_name_for_msg(name)}")
+            return False
+
+    my_fn = get_fn_from_my_elf(name, size)
+    return check_function_ex(addr, size, base_fn, my_fn)
+
+
 def main() -> None:
     failed = False
+
+    nonmatching_fns_with_dump = {p.stem: p.read_bytes() for p in (root / "expected").glob("*.bin")}
+
     for func in utils.get_functions():
         if not func.decomp_name:
             continue
@@ -144,6 +152,12 @@ def main() -> None:
             if check_function(func.addr, func.size, func.decomp_name):
                 utils.print_note(
                     f"function {utils.format_symbol_name_for_msg(func.decomp_name)} is marked as non-matching but matches")
+
+            fn_dump = nonmatching_fns_with_dump.get(func.decomp_name, None)
+            if fn_dump is not None and not check_function(func.addr, len(fn_dump), func.decomp_name, fn_dump):
+                utils.print_error(
+                    f"function {utils.format_symbol_name_for_msg(func.decomp_name)} does not match expected output")
+                failed = True
 
     if failed:
         sys.exit(1)
