@@ -16,11 +16,13 @@ parser.add_argument("--print-ok", "-m", action="store_true",
                     help="Print matching functions")
 args = parser.parse_args()
 
+
 class AIClassType(enum.Enum):
     Action = 0
     AI = 1
     Behavior = 2
     Query = 3
+
 
 code_size_total = 0
 num_total = 0
@@ -64,7 +66,8 @@ for info in utils.get_functions():
         if args.print_ok:
             print(f"{Fore.GREEN}OK{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
     elif info.status == FunctionStatus.Wip:
-        print(f"{Back.RED}{Style.BRIGHT}{Fore.WHITE} WIP {Style.RESET_ALL} {utils.format_symbol_name(info.decomp_name)}{Style.RESET_ALL}")
+        print(
+            f"{Back.RED}{Style.BRIGHT}{Fore.WHITE} WIP {Style.RESET_ALL} {utils.format_symbol_name(info.decomp_name)}{Style.RESET_ALL}")
 
 
 def format_progress(label: str, num: int, size: int):
@@ -72,19 +75,24 @@ def format_progress(label: str, num: int, size: int):
     size_percentage = round(100 * size / code_size_total, 3)
     return f"{num:>7d} {label}{Fore.RESET} ({percentage}% | size: {size_percentage}%)"
 
+
 def format_progress_for_status(label: str, status: FunctionStatus):
     return format_progress(label, counts[status], code_size[status])
+
 
 def format_ai_progress(label: str, class_type: AIClassType):
     percentage = round(100 * ai_counts_done[class_type] / ai_counts[class_type], 3)
     return f"{ai_counts_done[class_type]:>7d} {label}{Fore.RESET} ({percentage}%)"
 
+
 print()
 
 print(f"{num_total:>7d} functions (size: ~{code_size_total} bytes)")
 
-count_decompiled = counts[FunctionStatus.Matching] + counts[FunctionStatus.Equivalent] + counts[FunctionStatus.NonMatching]
-code_size_decompiled = code_size[FunctionStatus.Matching] + code_size[FunctionStatus.Equivalent] + code_size[FunctionStatus.NonMatching]
+count_decompiled = counts[FunctionStatus.Matching] + counts[FunctionStatus.Equivalent] + counts[
+    FunctionStatus.NonMatching]
+code_size_decompiled = code_size[FunctionStatus.Matching] + code_size[FunctionStatus.Equivalent] + code_size[
+    FunctionStatus.NonMatching]
 
 print(format_progress(f"{Fore.CYAN}decompiled", count_decompiled, code_size_decompiled))
 print(format_progress_for_status(f"{Fore.GREEN}matching", FunctionStatus.Matching))
