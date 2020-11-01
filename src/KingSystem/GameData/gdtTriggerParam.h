@@ -374,6 +374,7 @@ public:
     // endregion
 
     void resetAllFlagsToInitialValues();
+    void resetFlagsAccordingToPolicy();
 
     // region Flag getters
 
@@ -438,7 +439,8 @@ public:
     bool getS32IfCopied(s32* value, const sead::SafeString& name, bool x, bool y) const;
     bool getF32IfCopied(f32* value, const sead::SafeString& name, bool x, bool y) const;
 
-    void copyChangedFlags(TriggerParam& other, bool set_all_flags, bool record_copies, bool ignore_temp_flags);
+    void copyChangedFlags(TriggerParam& other, bool set_all_flags, bool record_copies,
+                          bool ignore_temp_flags);
 
 private:
     enum class BitFlag : u8 {
@@ -458,6 +460,10 @@ private:
     void recordFlagChange(const FlagBase* flag, s32 idx, s32 sub_idx = -1);
 
     bool shouldFindExistingCopyRecord() const { return mBitFlags.ref().isOn(BitFlag::_7); }
+
+    bool shouldSkipRevivingShopItem(bool* is_shop_item, u32 flag_hash, bool is_main_field,
+                                    const sead::Buffer<s32>& arrow_counts, s32 col1, s32 row1,
+                                    s32 col2, s32 row2) const;
 
     u32 mResourceFlags = 0;
 
