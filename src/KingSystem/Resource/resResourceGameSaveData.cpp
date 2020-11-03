@@ -1,4 +1,5 @@
 #include "KingSystem/Resource/resResourceGameSaveData.h"
+#include <algorithm>
 #include <codec/seadHashCRC32.h>
 #include <prim/seadContainerIterator.h>
 #include "KingSystem/GameData/gdtManager.h"
