@@ -76,6 +76,8 @@ public:
         return mVector4fArrayFlags;
     }
 
+    static constexpr size_t cLoadDataAlignment = 4;
+
 private:
     s32 _14 = -1;
 
