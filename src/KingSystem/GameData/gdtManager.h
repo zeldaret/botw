@@ -17,8 +17,8 @@ inline IManager::~IManager() = default;
 /// GameDataMgr communication.
 class ManagerCom {
 public:
-    virtual const char* getName() const { return "GameData"; }
-    virtual void syncData();
+    virtual const char* getName() const = 0;
+    virtual void syncData() = 0;
 
     void* _8 = nullptr;
     void* _10 = nullptr;
@@ -29,7 +29,9 @@ KSYS_CHECK_SIZE_NX150(ManagerCom, 0x18);
 class Manager : public IManager, public ManagerCom {
     SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
-    virtual ~Manager();
+    ~Manager() override;
+    const char* getName() const override { return "GameData"; }
+    void syncData() override;
 
 public:
     sead::Heap* getGameDataHeap() const { return mGameDataHeap; }
