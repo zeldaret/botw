@@ -3,7 +3,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorTemplate.h"
-#include "KingSystem/Utils/Byaml.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::act {
 

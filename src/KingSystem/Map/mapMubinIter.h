@@ -2,7 +2,7 @@
 
 #include <prim/seadSafeString.h>
 #include "KingSystem/Map/mapTypes.h"
-#include "KingSystem/Utils/Byaml.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::map {
 

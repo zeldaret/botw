@@ -12,7 +12,7 @@
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/System/KingEditor.h"
-#include "KingSystem/Utils/Byaml.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
