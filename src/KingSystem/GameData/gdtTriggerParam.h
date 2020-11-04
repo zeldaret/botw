@@ -73,7 +73,7 @@ public:
 
     void setCurrentRupeeFlagName(const sead::SafeString& name);
 
-    // region Value getters (by hash)
+    // region Value getters (by index)
 
     bool getBool(bool* value, s32 index, bool check_permissions) const;
     bool getS32(s32* value, s32 index, bool check_permissions) const;
