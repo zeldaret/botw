@@ -113,10 +113,8 @@ void Manager::init(sead::Heap* heap, sead::Framework* framework) {
     shop_gamedata_info_path.format("%s/%s.byml", "GameData", "ShopGameDataInfo");
     loadShopGameDataInfo(shop_gamedata_info_path);
 
-    mParam.param1 = &mFlagBuffer1;
-    mParam.param = &mFlagBuffer;
-    mParamBypassPerm.param1 = &mFlagBuffer1;
-    mParamBypassPerm.param = &mFlagBuffer;
+    mParam.setBuffers(&mFlagBuffer1, &mFlagBuffer);
+    mParamBypassPerm.setBuffers(&mFlagBuffer1, &mFlagBuffer);
 
     mMethodTreeNode.method_tree_mgr = framework->getMethodTreeMgr();
     mMethodTreeNode.node.setPauseFlag(sead::MethodTreeNode::cPause_None);
@@ -125,6 +123,13 @@ void Manager::init(sead::Heap* heap, sead::Framework* framework) {
     unloadResources();
     mBitFlags.set(BitFlag::_1000);
     mNumFlagsToReset = 0;
+}
+
+void Manager::unloadResources() {
+    for (s32 i = 0; i < mBgdataHandles.size(); ++i)
+        mBgdataHandles[i].requestUnload();
+
+    mGameDataArcHandle.requestUnload();
 }
 
 }  // namespace ksys::gdt
