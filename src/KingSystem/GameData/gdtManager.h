@@ -22,6 +22,8 @@ namespace ksys::gdt {
 
 enum class FlagHandle : u32 {};
 
+constexpr FlagHandle InvalidHandle = FlagHandle(-1);
+
 class TriggerParamRef {
 public:
     TriggerParamRef(TriggerParam** param_1, TriggerParam** param, bool check_permissions,
