@@ -21,22 +21,28 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(InitTimeInfo, 0x10);
 
-class InitTimeInfoEx {
-public:
-    explicit InitTimeInfoEx(sead::TickTime start_time = {}) : mInfo(start_time) {
+struct InitConstants {
+    InitConstants() {
         _0 = 0;
         _4 = 0x8004EF;
     }
 
-    u32 getField0() const { return _0; }
-    u32 getField4() const { return _4; }
+    u32 _0;
+    u32 _4;
+};
+
+class InitTimeInfoEx {
+public:
+    explicit InitTimeInfoEx(sead::TickTime start_time = {}) : mInfo(start_time) {
+        mConstants._0 = 0;
+        mConstants._4 = 0x8004EF;
+    }
 
     InitTimeInfo& getInfo() { return mInfo; }
     const InitTimeInfo& getInfo() const { return mInfo; }
 
 private:
-    u32 _0 = 0;
-    u32 _4 = 0;
+    InitConstants mConstants;
     InitTimeInfo mInfo;
 };
 KSYS_CHECK_SIZE_NX150(InitTimeInfoEx, 0x18);

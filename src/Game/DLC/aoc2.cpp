@@ -1,9 +1,78 @@
 #include "Game/DLC/aoc2.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking {
 
-SEAD_ENUM_IMPL(aoc2::Flags1)
-SEAD_ENUM_IMPL(aoc2::Flags2)
+SEAD_ENUM_IMPL(aoc2::HardModeChange)
+SEAD_ENUM_IMPL(aoc2::Flag)
+SEAD_ENUM_IMPL(aoc2::MultiplierType)
+SEAD_SINGLETON_DISPOSER_IMPL(aoc2)
+
+namespace {
+struct aoc2StaticData {
+    ksys::util::InitConstants init_constants;
+    sead::SafeString flag_name_HardMode_HighScore{"HardMode_HighScore"};
+    sead::SafeString flag_name_AoC_HardMode_Enabled{"AoC_HardMode_Enabled"};
+    sead::SafeString flag_name_IsLastPlayHardMode{"IsLastPlayHardMode"};
+};
+
+aoc2StaticData sData;
+sead::FixedSafeString<64> sStr{""};
+}  // namespace
+
+aoc2::aoc2()
+    : mGdtResetSlot{sead::Delegate1<aoc2, ksys::gdt::Manager::ResetEvent*>(
+          this, &aoc2::setHardModeEnabledFlag)},
+      mGdtReinitSlot{
+          sead::Delegate1<aoc2, ksys::gdt::Manager::ReinitEvent*>(this, &aoc2::initFlagHandles)} {
+    mMultipliers.fill(0.5);
+
+    setHardModeChange(HardModeChange::IsLastPlayHardMode, true);
+    setHardModeChange(HardModeChange::EnableShorterEnemyNotice, true);
+    setHardModeChange(HardModeChange::EnableLifeRegen, true);
+    setHardModeChange(HardModeChange::DisableNoDeathDamage, true);
+    setHardModeChange(HardModeChange::PatchGanonStunLock, true);
+    setHardModeChange(HardModeChange::RandomizeGuardianChargeBeam, true);
+    setHardModeChange(HardModeChange::ApplyDamageMultiplier, true);
+}
+
+void aoc2::initFlagHandles(ksys::gdt::Manager::ReinitEvent*) {
+    auto* gdm = ksys::gdt::Manager::instance();
+    mHardModeHighScoreFlag = gdm->getS32Handle(sData.flag_name_HardMode_HighScore);
+    mAoCHardModeEnabledFlag = gdm->getS32Handle(sData.flag_name_AoC_HardMode_Enabled);
+    mIsLastPlayHardModeFlag = gdm->getS32Handle(sData.flag_name_IsLastPlayHardMode);
+}
+
+aoc2::~aoc2() {
+    mFileHandle.requestUnload2();
+    if (_120) {
+        // TODO: use the normal operator delete once we figure out what _120 is
+        ::operator delete(_120);
+        _120 = nullptr;
+    }
+}
+
+void aoc2::init(sead::Heap*) {
+    init_();
+}
+
+void aoc2::init_() {
+    initFlagHandles();
+    ksys::gdt::Manager::instance()->addReinitCallback(mGdtReinitSlot);
+}
+
+void aoc2::nerfHpRestore(f32* hp) const {
+    *hp = sead::Mathf::max(*hp * getMultiplier(MultiplierType::HpRestore), 1.0f);
+}
+
+void aoc2::nerfHpRestore(s32* hp) const {
+    *hp = sead::Mathi::max(*hp * getMultiplier(MultiplierType::HpRestore), 1);
+}
+
+void aoc2::modifyEnemyNoticeDuration(f32* value) const {
+    *value = sead::Mathf::max(*value * getMultiplier(MultiplierType::EnemyNoticeDuration), 0);
+}
 
 bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstDataAccess& accessor) {
     if (!accessor.hasProc())
@@ -41,6 +110,21 @@ bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstData
         name == "AssassinRockBall" || name == "AssassinIronBall") {
         return true;
     }
+
+    return false;
+}
+
+bool aoc2::isTestOfStrengthShrine() const {
+    if (mMapType != "CDungeon")
+        return false;
+
+    // There are 20 ToS shrines in the base game (070-089).
+    if (mMapName.startsWith("Dungeon07") || mMapName.startsWith("Dungeon08"))
+        return true;
+
+    // Ruvo Korbah
+    if (mMapName == "Dungeon135")
+        return true;
 
     return false;
 }

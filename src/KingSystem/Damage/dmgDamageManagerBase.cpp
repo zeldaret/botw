@@ -139,11 +139,12 @@ void DamageManagerBase::tryBuffDamage(s32& damage) {
         return;
     }
 
-    if (!uking::aoc2::instance()->checkFlag2(uking::aoc2::Flags2::EnableHardMode)) {
+    if (!uking::aoc2::instance()->checkFlag(uking::aoc2::Flag::EnableHardMode)) {
         return;
     }
 
-    if (!uking::aoc2::instance()->checkFlag1(uking::aoc2::Flags1::ApplyDamageMultiplier)) {
+    if (!uking::aoc2::instance()->isHardModeChangeOn(
+            uking::aoc2::HardModeChange::ApplyDamageMultiplier)) {
         return;
     }
 
@@ -159,11 +160,12 @@ void DamageManagerBase::tryApplyDamageRecovery(s32& damage) {
         return;
     }
 
-    if (!uking::aoc2::instance()->checkFlag2(uking::aoc2::Flags2::EnableHardMode)) {
+    if (!uking::aoc2::instance()->checkFlag(uking::aoc2::Flag::EnableHardMode)) {
         return;
     }
 
-    if (!uking::aoc2::instance()->checkFlag1(uking::aoc2::Flags1::EnableLifeRegen)) {
+    if (!uking::aoc2::instance()->isHardModeChangeOn(
+            uking::aoc2::HardModeChange::EnableLifeRegen)) {
         return;
     }
 

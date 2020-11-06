@@ -199,6 +199,8 @@ public:
 
     void init(sead::Heap* heap, sead::Framework* framework);
 
+    void addReinitCallback(ReinitSignal::Slot& slot);
+
 private:
     enum class BitFlag {
         _1 = 0x1,

@@ -132,4 +132,8 @@ void Manager::unloadResources() {
     mGameDataArcHandle.requestUnload();
 }
 
+void Manager::addReinitCallback(sead::DelegateEvent<ReinitEvent*>::Slot&) {
+    // Stubbed in release builds.
+}
+
 }  // namespace ksys::gdt
