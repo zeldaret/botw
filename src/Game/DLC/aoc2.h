@@ -29,6 +29,14 @@ public:
 
     void init(sead::Heap* heap);
 
+    void loadIsLastPlayHardModeFlag();
+    void loadIsHardModeFlag();
+
+    void storeIsLastPlayHardModeFlag();
+    void resetIsLastPlayHardModeFlag();
+
+    void calc();
+
     void nerfHpRestore(f32* hp) const;
     void nerfHpRestore(s32* hp) const;
     void modifyEnemyNoticeDuration(f32* value) const;
@@ -44,7 +52,10 @@ public:
 
     void setHardModeChange(HardModeChange flag, bool on) { mHardModeChanges.changeBit(flag, on); }
     bool isHardModeChangeOn(HardModeChange flag) const { return mHardModeChanges.isOnBit(flag); }
+
+    void setFlag(Flag flag, bool on) { mFlags.changeBit(flag, on); }
     bool checkFlag(Flag flag) const { return mFlags.isOnBit(flag); }
+
     f32 getMultiplier(MultiplierType type) const { return mMultipliers[type]; }
 
 private:

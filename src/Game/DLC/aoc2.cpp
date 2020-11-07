@@ -37,6 +37,11 @@ aoc2::aoc2()
     setHardModeChange(HardModeChange::ApplyDamageMultiplier, true);
 }
 
+void aoc2::setHardModeEnabledFlag(ksys::gdt::Manager::ResetEvent*) {
+    ksys::gdt::Manager::instance()->setBool(true, mAoCHardModeEnabledFlag);
+    mGdtResetSlot.release();
+}
+
 void aoc2::initFlagHandles(ksys::gdt::Manager::ReinitEvent*) {
     auto* gdm = ksys::gdt::Manager::instance();
     mHardModeHighScoreFlag = gdm->getS32Handle(sData.flag_name_HardMode_HighScore);
@@ -114,6 +119,42 @@ bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstData
     return false;
 }
 
+void aoc2::buffDamage(s32& damage) {
+    damage = damage * 1.5f;
+    if (damage == 1) {
+        damage = 2;
+    }
+}
+
+void aoc2::loadIsLastPlayHardModeFlag() {
+    bool value{};
+    ksys::gdt::Manager::instance()->getBool(mIsLastPlayHardModeFlag, &value);
+    const bool x = value;
+#ifdef MATCHING_HACK_NX_CLANG
+    asm("");
+#endif
+    setFlag(Flag::EnableHardMode, x);
+}
+
+void aoc2::loadIsHardModeFlag() {
+    bool value{};
+    ksys::gdt::Manager::instance()->getBool(mAoCHardModeEnabledFlag, &value);
+    const bool x = value;
+#ifdef MATCHING_HACK_NX_CLANG
+    asm("");
+#endif
+    setFlag(Flag::EnableHardMode, x);
+}
+
+void aoc2::storeIsLastPlayHardModeFlag() {
+    ksys::gdt::Manager::instance()->setBool(checkFlag(Flag::EnableHardMode),
+                                            mIsLastPlayHardModeFlag);
+}
+
+void aoc2::resetIsLastPlayHardModeFlag() {
+    ksys::gdt::Manager::instance()->setBool(false, "IsLastPlayHardMode");
+}
+
 bool aoc2::isTestOfStrengthShrine() const {
     if (mMapType != "CDungeon")
         return false;
@@ -127,6 +168,11 @@ bool aoc2::isTestOfStrengthShrine() const {
         return true;
 
     return false;
+}
+
+void aoc2::calc() {
+    volatile u32 unused = 0;
+    static_cast<void>(unused);
 }
 
 bool aoc2::rankUpEnemy(const sead::SafeString& actor_name, const ksys::map::Object& obj,
@@ -265,13 +311,6 @@ bool aoc2::rankUpEnemy(const sead::SafeString& actor_name, const ksys::map::Obje
 
     *new_name = next.cstr();
     return true;
-}
-
-void aoc2::buffDamage(s32& damage) {
-    damage = damage * 1.5f;
-    if (damage == 1) {
-        damage = 2;
-    }
 }
 
 }  // namespace uking
