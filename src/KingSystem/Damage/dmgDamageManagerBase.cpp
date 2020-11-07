@@ -2,7 +2,7 @@
 #include "Game/DLC/aoc2.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
-#include "KingSystem/ActorSystem/actActorParamMgr.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/Resource/resResourceGParamList.h"
@@ -104,7 +104,7 @@ void DamageManagerBase::removeDamageCallback(DamageCallback* callback) {
 }
 
 bool DamageManagerBase::applyDamage(s32& life) {
-    auto* param_list = mActor->mActorParam->mData.mGParamList;
+    auto* param_list = mActor->mActorParam->mRes.mGParamList;
 
     const res::GParamListObjectGeneral& params = param_list->getGeneral();
     if (params.mIsLifeInfinite.ref()) {

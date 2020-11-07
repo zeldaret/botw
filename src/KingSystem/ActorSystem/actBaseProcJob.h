@@ -7,7 +7,7 @@ namespace ksys::act {
 
 class BaseProc;
 
-enum class Priority : u8 {
+enum class Priority {
     PlayerBefore = 0,
     Player = 2,
     PlayerAfter = 2,
