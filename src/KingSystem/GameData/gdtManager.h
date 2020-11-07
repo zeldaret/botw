@@ -36,6 +36,8 @@ public:
     class Proxy {
     public:
         TriggerParam* getBuffer() const { return mUseParam1 ? *mRef.mParam1 : *mRef.mParam; }
+        TriggerParam* getBuffer0() const { return *mRef.mParam; }
+        TriggerParam* getBuffer1() const { return *mRef.mParam1; }
 
         // region Value getters
 
@@ -56,29 +58,47 @@ public:
     bool SET_NAME(TYPE const& value, s32 idx, bool bypass_one_trigger_check = false) {             \
         if (mRef.mChangeOnlyOne)                                                                   \
             return false;                                                                          \
-        return getBuffer()->SET_NAME(value, idx, mRef.mCheckPermissions,                           \
-                                     bypass_one_trigger_check);                                    \
+        if (!getBuffer1()->SET_NAME(value, idx, mRef.mCheckPermissions, bypass_one_trigger_check)) \
+            return false;                                                                          \
+        if (mRef.mPropagateParam1Changes)                                                          \
+            getBuffer0()->SET_NAME(value, idx, mRef.mCheckPermissions, bypass_one_trigger_check);  \
+        return true;                                                                               \
     }                                                                                              \
     bool SET_NAME(TYPE const& value, s32 array_idx, s32 idx,                                       \
                   bool bypass_one_trigger_check = false) {                                         \
         if (mRef.mChangeOnlyOne)                                                                   \
             return false;                                                                          \
-        return getBuffer()->SET_NAME(value, array_idx, idx, mRef.mCheckPermissions,                \
-                                     bypass_one_trigger_check);                                    \
+        if (!getBuffer1()->SET_NAME(value, array_idx, idx, mRef.mCheckPermissions,                 \
+                                    bypass_one_trigger_check))                                     \
+            return false;                                                                          \
+        if (mRef.mPropagateParam1Changes)                                                          \
+            getBuffer0()->SET_NAME(value, array_idx, idx, mRef.mCheckPermissions,                  \
+                                   bypass_one_trigger_check);                                      \
+        return true;                                                                               \
     }                                                                                              \
     bool SET_NAME(TYPE const& value, const sead::SafeString& name,                                 \
                   bool bypass_one_trigger_check = false) {                                         \
         if (mRef.mChangeOnlyOne)                                                                   \
             return false;                                                                          \
-        return getBuffer()->SET_NAME(value, name, mRef.mCheckPermissions, true,                    \
-                                     bypass_one_trigger_check);                                    \
+        if (!getBuffer1()->SET_NAME(value, name, mRef.mCheckPermissions, true,                     \
+                                    bypass_one_trigger_check))                                     \
+            return false;                                                                          \
+        if (mRef.mPropagateParam1Changes)                                                          \
+            getBuffer0()->SET_NAME(value, name, mRef.mCheckPermissions, true,                      \
+                                   bypass_one_trigger_check);                                      \
+        return true;                                                                               \
     }                                                                                              \
     bool SET_NAME(TYPE const& value, const sead::SafeString& name, s32 idx,                        \
                   bool bypass_one_trigger_check = false) {                                         \
         if (mRef.mChangeOnlyOne)                                                                   \
             return false;                                                                          \
-        return getBuffer()->SET_NAME(value, name, idx, mRef.mCheckPermissions, true,               \
-                                     bypass_one_trigger_check);                                    \
+        if (!getBuffer1()->SET_NAME(value, name, idx, mRef.mCheckPermissions, true,                \
+                                    bypass_one_trigger_check))                                     \
+            return false;                                                                          \
+        if (mRef.mPropagateParam1Changes)                                                          \
+            getBuffer0()->SET_NAME(value, name, idx, mRef.mCheckPermissions, true,                 \
+                                   bypass_one_trigger_check);                                      \
+        return true;                                                                               \
     }
 
         PROXY_GET_SET_IMPL_(getBool, setBool, bool)
@@ -199,8 +219,10 @@ public:
 
 #define GDT_GET_(NAME, T)                                                                          \
     void NAME(FlagHandle handle, T* value, bool debug = false) {                                   \
-        unwrapHandle(handle, debug,                                                                \
-                     [&](u32 idx, TriggerParamRef& ref) { ref.get().NAME(value, idx); });          \
+        unwrapHandle<false>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {                    \
+            ref.get().NAME(value, idx);                                                            \
+            return true;                                                                           \
+        });                                                                                        \
     }
 
     GDT_GET_(getBool, bool)
@@ -214,6 +236,48 @@ public:
     GDT_GET_(getVec4f, sead::Vector4f)
 
 #undef GDT_GET_
+
+#define GDT_SET_(NAME, T)                                                                          \
+    KSYS_ALWAYS_INLINE bool NAME(T value, FlagHandle handle, bool debug, bool force) {             \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        return unwrapHandle<true>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {              \
+            return ref.get().NAME(value, idx, force);                                              \
+        });                                                                                        \
+    }                                                                                              \
+    bool NAME(T value, FlagHandle handle) { return NAME(value, handle, false, false); }            \
+    bool NAME##NoCheck(T value, FlagHandle handle) { return NAME(value, handle, true, false); }    \
+    bool NAME##NoCheckForce(T value, FlagHandle handle) {                                          \
+        return NAME(value, handle, true, true);                                                    \
+    }                                                                                              \
+                                                                                                   \
+    KSYS_ALWAYS_INLINE bool NAME(T value, const sead::SafeString& name, bool debug, bool force) {  \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        auto& ref = debug ? getParamBypassPerm() : getParam();                                     \
+        return ref.get().NAME(value, name, force);                                                 \
+    }                                                                                              \
+    [[gnu::noinline]] bool NAME(T value, const sead::SafeString& name) {                           \
+        return NAME(value, name, false, false);                                                    \
+    }                                                                                              \
+    [[gnu::noinline]] bool NAME##NoCheck(T value, const sead::SafeString& name) {                  \
+        return NAME(value, name, true, false);                                                     \
+    }                                                                                              \
+    [[gnu::noinline]] bool NAME##NoCheckForce(T value, const sead::SafeString& name) {             \
+        return NAME(value, name, true, true);                                                      \
+    }
+
+    GDT_SET_(setBool, bool)
+    GDT_SET_(setS32, s32)
+    GDT_SET_(setF32, f32)
+    GDT_SET_(setStr, char const*)
+    GDT_SET_(setStr64, char const*)
+    GDT_SET_(setStr256, char const*)
+    GDT_SET_(setVec2f, const sead::Vector2f&)
+    GDT_SET_(setVec3f, const sead::Vector3f&)
+    GDT_SET_(setVec4f, const sead::Vector4f&)
+
+#undef GDT_SET_
 
     void init(sead::Heap* heap, sead::Framework* framework);
 
@@ -237,6 +301,9 @@ private:
         _2000 = 0x2000,
         _4000 = 0x4000,
         _8000 = 0x8000,
+        _10000 = 0x10000,
+        _20000 = 0x20000,
+        _40000 = 0x40000,
     };
 
     enum class ResetFlag {
@@ -268,28 +335,25 @@ private:
     }
 
     /// Extracts a flag index out of a FlagHandle and passes it to the specified callable.
-    /// fn must be callable with a u32
-    template <typename Fn>
-    void unwrapHandle(FlagHandle handle, const Fn& fn) {
-        u32 idx = static_cast<u32>(handle);
-        bool is_valid_idx = mBitFlags.isOff(BitFlag::_8000);
-        is_valid_idx &= handle != InvalidHandle;
-        if (!is_valid_idx) {
-            if (idx >> 24 != mCurrentFlagHandlePrefix)
-                return;
-            idx &= 0xFFFFFF;
-        }
-        fn(idx);
+    /// fn must be callable with a u32 + TriggerParamRef&
+    template <bool Write, bool BypassPerm, typename Fn>
+    KSYS_ALWAYS_INLINE bool unwrapHandle(FlagHandle handle, const Fn& fn) {
+        const u32 idx = static_cast<u32>(handle);
+        auto& ref = BypassPerm ? getParamBypassPerm() : getParam();
+        const auto check = [&] { return !Write || !ref.shouldChangeOnlyOne(); };
+
+        if (mBitFlags.isOff(BitFlag::_8000) && handle != InvalidHandle)
+            return check() && fn(idx, ref);
+
+        return idx >> 24 == mCurrentFlagHandlePrefix && check() && fn(idx & 0xFFFFFF, ref);
     }
 
     /// Extracts a flag index out of a FlagHandle and passes it to the specified callable.
     /// fn must be callable with a u32 + TriggerParamRef&
-    template <typename Fn>
-    void unwrapHandle(FlagHandle handle, bool debug, const Fn& fn) {
-        if (debug)
-            unwrapHandle(handle, [&](u32 idx) { fn(idx, getParamBypassPerm()); });
-        else
-            unwrapHandle(handle, [&](u32 idx) { fn(idx, getParam()); });
+    template <bool Write, typename Fn>
+    KSYS_ALWAYS_INLINE bool unwrapHandle(FlagHandle handle, bool debug, const Fn& fn) {
+        return debug ? unwrapHandle<Write, true>(handle, fn) :
+                       unwrapHandle<Write, false>(handle, fn);
     }
 
     void loadGameData(const sead::SafeString& path);
