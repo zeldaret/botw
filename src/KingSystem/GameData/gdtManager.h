@@ -101,8 +101,8 @@ public:
         const TriggerParamRef& mRef;
     };
 
-    Proxy getParam() const { return Proxy(*this, false); }
-    Proxy getParam1() const { return Proxy(*this, true); }
+    Proxy get() const { return Proxy(*this, false); }
+    Proxy get1() const { return Proxy(*this, true); }
 
     void setBuffers(TriggerParam** param1, TriggerParam** param) {
         mParam1 = param1;
@@ -172,7 +172,7 @@ public:
     FlagHandle NAME(const sead::SafeString& name) const {                                          \
         const auto prefix = mCurrentFlagHandlePrefix;                                              \
         const auto hash = sead::HashCRC32::calcStringHash(name);                                   \
-        return makeFlagHandle(prefix, mParam.getParam1().getBuffer()->GET_IDX_NAME(hash));         \
+        return makeFlagHandle(prefix, mParam.get1().getBuffer()->GET_IDX_NAME(hash));              \
     }
 
     GDT_GET_HANDLE_(getBoolHandle, TriggerParam::getBoolIdx)
@@ -197,6 +197,24 @@ public:
 
 #undef GDT_GET_HANDLE_
 
+#define GDT_GET_(NAME, T)                                                                          \
+    void NAME(FlagHandle handle, T* value, bool debug = false) {                                   \
+        unwrapHandle(handle, debug,                                                                \
+                     [&](u32 idx, TriggerParamRef& ref) { ref.get().NAME(value, idx); });          \
+    }
+
+    GDT_GET_(getBool, bool)
+    GDT_GET_(getS32, s32)
+    GDT_GET_(getF32, f32)
+    GDT_GET_(getStr, char const*)
+    GDT_GET_(getStr64, char const*)
+    GDT_GET_(getStr256, char const*)
+    GDT_GET_(getVec2f, sead::Vector2f)
+    GDT_GET_(getVec3f, sead::Vector3f)
+    GDT_GET_(getVec4f, sead::Vector4f)
+
+#undef GDT_GET_
+
     void init(sead::Heap* heap, sead::Framework* framework);
 
     void addReinitCallback(ReinitSignal::Slot& slot);
@@ -216,6 +234,9 @@ private:
         _400 = 0x400,
         _800 = 0x800,
         _1000 = 0x1000,
+        _2000 = 0x2000,
+        _4000 = 0x4000,
+        _8000 = 0x8000,
     };
 
     enum class ResetFlag {
@@ -244,6 +265,31 @@ private:
 
     static FlagHandle makeFlagHandle(u32 prefix, s32 idx) {
         return FlagHandle(idx | (prefix << 24));
+    }
+
+    /// Extracts a flag index out of a FlagHandle and passes it to the specified callable.
+    /// fn must be callable with a u32
+    template <typename Fn>
+    void unwrapHandle(FlagHandle handle, const Fn& fn) {
+        u32 idx = static_cast<u32>(handle);
+        bool is_valid_idx = mBitFlags.isOff(BitFlag::_8000);
+        is_valid_idx &= handle != InvalidHandle;
+        if (!is_valid_idx) {
+            if (idx >> 24 != mCurrentFlagHandlePrefix)
+                return;
+            idx &= 0xFFFFFF;
+        }
+        fn(idx);
+    }
+
+    /// Extracts a flag index out of a FlagHandle and passes it to the specified callable.
+    /// fn must be callable with a u32 + TriggerParamRef&
+    template <typename Fn>
+    void unwrapHandle(FlagHandle handle, bool debug, const Fn& fn) {
+        if (debug)
+            unwrapHandle(handle, [&](u32 idx) { fn(idx, getParamBypassPerm()); });
+        else
+            unwrapHandle(handle, [&](u32 idx) { fn(idx, getParam()); });
     }
 
     void loadGameData(const sead::SafeString& path);
