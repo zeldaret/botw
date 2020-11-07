@@ -91,7 +91,7 @@ def check_function_ex(addr: int, size: int, base_fn: bytes, my_fn: bytes) -> boo
             adrp_pair_registers.add(i1.operands[0].reg)
             continue
 
-        if i1.mnemonic == 'ldr':
+        if i1.mnemonic == 'ldr' or i1.mnemonic == 'str':
             if i1.operands[0].reg != i2.operands[0].reg:
                 return False
             if i1.operands[1].value.mem.base != i2.operands[1].value.mem.base:
@@ -102,7 +102,7 @@ def check_function_ex(addr: int, size: int, base_fn: bytes, my_fn: bytes) -> boo
             adrp_pair_registers.remove(reg)
             continue
 
-        if i1.mnemonic == 'ldp':
+        if i1.mnemonic == 'ldp' or i1.mnemonic == 'stp':
             if i1.operands[0].reg != i2.operands[0].reg:
                 return False
             if i1.operands[1].reg != i2.operands[1].reg:
