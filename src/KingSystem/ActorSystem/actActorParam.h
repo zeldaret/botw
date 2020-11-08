@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
@@ -112,10 +113,8 @@ public:
     Priority mPriority = Priority::AllAfter;
     u32 _74 = 2;
     Resources mRes;
-    sead::Buffer<res::Handle> mHandles1;
-    sead::Buffer<res::Handle> mHandles2;
-    s32 mNumHandles1;
-    s32 mNumHandles2;
+    std::array<sead::Buffer<res::Handle>, 2> mHandles;
+    std::array<s32, 2> mNumHandles;
     u32 _168{};
 
     static void resetDummyResources();

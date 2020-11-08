@@ -11,7 +11,7 @@ void ActorParam::resetDummyResources() {
 
 ActorParam::ActorParam() {
     mRes = {};
-    mNumHandles1 = mNumHandles2 = 0;
+    mNumHandles = {};
     mEvent.resetSignal();
 }
 
@@ -26,13 +26,11 @@ void ActorParam::deleteData() {
     if (mActorName.isEmpty())
         return;
 
-    for (s32 i = 0; i < mNumHandles1; ++i)
-        mHandles1[i].requestUnload();
-    mNumHandles1 = 0;
-
-    for (s32 i = 0; i < mNumHandles2; ++i)
-        mHandles2[i].requestUnload();
-    mNumHandles2 = 0;
+    for (size_t i = 0; i < mNumHandles.size(); ++i) {
+        for (s32 handle_idx = 0; handle_idx < mNumHandles[i]; ++handle_idx)
+            mHandles[i][handle_idx].requestUnload();
+        mNumHandles[i] = 0;
+    }
 
     deleteResHandles();
 
@@ -44,8 +42,8 @@ void ActorParam::deleteData() {
 }
 
 void ActorParam::deleteResHandles() {
-    mHandles1.freeBuffer();
-    mHandles2.freeBuffer();
+    for (auto& handles : mHandles)
+        handles.freeBuffer();
 }
 
 bool ActorParam::isDummyParam(res::ActorLink::Users::User user) const {
