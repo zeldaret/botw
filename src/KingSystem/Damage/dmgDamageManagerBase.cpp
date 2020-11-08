@@ -104,7 +104,7 @@ void DamageManagerBase::removeDamageCallback(DamageCallback* callback) {
 }
 
 bool DamageManagerBase::applyDamage(s32& life) {
-    auto* param_list = mActor->mActorParam->getRes().mGParamList;
+    auto* param_list = mActor->getParam()->getRes().mGParamList;
 
     const res::GParamListObjectGeneral& params = param_list->getGeneral();
     if (params.mIsLifeInfinite.ref()) {

@@ -16,6 +16,10 @@ public:
 
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)
 
+    const ActorParam* getParam() const { return mActorParam; }
+
+    virtual s32 getMaxLife();
+
     virtual LifeRecoverInfo* getLifeRecoverInfo();
 
     void emitBasicSigOn();
@@ -23,6 +27,7 @@ public:
 
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
+protected:
     u8 TEMP1[0x3F4];  // FIXME
     ActorParam* mActorParam;
     u8 TEMP2[0x2C0];  // FIXME

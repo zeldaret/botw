@@ -36,7 +36,7 @@ void ActorCaptureMgr::setCamera(Camera* camera) {
 }
 
 void ActorCaptureMgr::loadCaptureParam() {
-    if (!mActor || !mActor->mActorParam)
+    if (!mActor || !mActor->getParam())
         return;
 
     const char* name = getCapturedActorName();
