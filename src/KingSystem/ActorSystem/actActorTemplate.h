@@ -23,6 +23,8 @@ public:
     s32 getNumProfiles() const;
     const char* getProfileName(s32 idx) const;
 
+    al::ByamlIter* getRootIter() const { return mIter; }
+
 private:
     al::ByamlIter* mIter = nullptr;
 };

@@ -1,6 +1,9 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include <basis/seadRawPrint.h>
 #include <prim/seadScopedLock.h>
+#include "KingSystem/ActorSystem/actActorParamMgr.h"
+#include "KingSystem/ActorSystem/actActorTemplate.h"
+#include "KingSystem/Utils/Byaml.h"
 
 namespace ksys::act {
 
@@ -123,6 +126,32 @@ bool ActorParam::setPriority(const sead::SafeString& priority) {
     }
 
     return false;
+}
+
+void ActorParam::setProfileAndPriority(const char* profile, const char* priority) {
+    mProfile = profile;
+
+    al::ByamlIter* root = ActorTemplate::instance()->getRootIter();
+    al::ByamlIter iter;
+    if (root->tryGetIterByKey(&iter, profile)) {
+        const char* profile_priority;
+        iter.tryGetStringByKey(&mClassName, "class");
+        iter.tryGetStringByKey(&profile_priority, "priority");
+
+        if (setPriority(priority))
+            return;
+
+        if (setPriority(profile_priority))
+            return;
+
+        ActorParamMgr::instance()->getDebugMessage().log(
+            "[%s] アクタテンプレート %s の 処理順指定[%s:%s]は定義されていません",
+            mActorName.cstr(), profile, priority, profile_priority);
+    } else {
+        ActorParamMgr::instance()->getDebugMessage().log(
+            "[%s] アクタテンプレートに %s は定義されていません", mActorName.cstr(), profile);
+        setProfileAndPriority("Dummy", priority);
+    }
 }
 
 }  // namespace ksys::act

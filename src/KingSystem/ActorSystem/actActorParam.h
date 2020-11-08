@@ -139,6 +139,7 @@ private:
 
     void setResource(ResourceType type, ParamIO* param_io);
     bool setPriority(const sead::SafeString& priority);
+    void setProfileAndPriority(const char* profile, const char* priority);
 
     u16 _8 = 0;
     u8 _a = 0;
