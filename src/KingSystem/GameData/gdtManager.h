@@ -153,20 +153,12 @@ public:
 
 inline IManager::~IManager() = default;
 
-/// GameDataMgr communication.
-class ManagerCom : public KingEditorComponent {
-public:
-    void* _8 = nullptr;
-    void* _10 = nullptr;
-};
-KSYS_CHECK_SIZE_NX150(ManagerCom, 0x18);
-
-class Manager : public IManager, public ManagerCom {
+class Manager : public IManager, public KingEditorComponent {
     SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
     ~Manager() override;
     const char* getName() const override { return "GameData"; }
-    void syncData() override;
+    void syncData(const char* data) override;
 
 public:
     struct ResetEvent {

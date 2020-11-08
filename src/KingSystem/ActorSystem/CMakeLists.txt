@@ -10,6 +10,7 @@ target_sources(uking PRIVATE
   actActorLinkConstDataAccess.h
   actActorParam.cpp
   actActorParam.h
+  actActorParamMgr.cpp
   actActorParamMgr.h
   actAiAction.cpp
   actAiAction.h

@@ -7,7 +7,10 @@ namespace ksys {
 class KingEditorComponent {
 public:
     virtual const char* getName() const = 0;
-    virtual void syncData() = 0;
+    virtual void syncData(const char* data) = 0;
+
+    void* _8 = nullptr;
+    void* _10 = nullptr;
 };
 
 // FIXME
