@@ -8,8 +8,8 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/Resource/resHandle.h"
-#include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Resource/resResourceActorLink.h"
+#include "KingSystem/Utils/Thread/Event.h"
 
 namespace ksys {
 
@@ -103,7 +103,24 @@ public:
     ActorParam();
     virtual ~ActorParam();
 
+    const sead::SafeString& getActorName() const { return mActorName; }
+    const sead::SafeString& getProfile() const { return mProfile; }
+    const char* getClassName() const { return mClassName; }
+    Priority getPriority() const { return mPriority; }
+    u32 get74() const { return _74; }
+    const Resources& getRes() const { return mRes; }
+
     bool isDummyParam(res::ActorLink::Users::User user) const;
+
+    static void resetDummyResources();
+
+    static Resources sDummyResources;
+
+private:
+    friend class ActorParamMgr;
+
+    void deleteData();
+    void deleteResHandles();
 
     u16 _8 = 0;
     u8 _a = 0;
@@ -116,17 +133,6 @@ public:
     std::array<sead::Buffer<res::Handle>, 2> mHandles;
     std::array<s32, 2> mNumHandles;
     u32 _168{};
-
-    static void resetDummyResources();
-
-    static Resources sDummyResources;
-
-private:
-    friend class ActorParamMgr;
-
-    void deleteData();
-    void deleteResHandles();
-
     sead::CriticalSection mCS{nullptr};
     util::Event mEvent{nullptr,
                        sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified, true};
