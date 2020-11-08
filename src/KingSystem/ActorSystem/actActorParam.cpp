@@ -19,7 +19,6 @@ ActorParam::~ActorParam() {
     deleteData();
 }
 
-// NON_MATCHING: b.le -> b.lt
 void ActorParam::deleteData() {
     auto lock = sead::makeScopedLock(mCS);
 
