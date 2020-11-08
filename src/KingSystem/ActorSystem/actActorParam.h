@@ -71,32 +71,35 @@ public:
         AnimationInfo = 24,
     };
 
-    struct Resources {
-        res::ActorLink* mActorLink;
-        res::ModelList* mModelList;
-        res::ASList* mASList;
-        res::AIProgram* mAIProgram;
-        res::GParamList* mGParamList;
-        res::Physics* mPhysics;
-        res::Chemical* mChemical;
-        res::AttClientList* mAttClientList;
-        res::AISchedule* mAISchedule;
-        res::EventFlow* mEventFlow;
-        res::DamageParam* mDamageParam;
-        res::RagdollConfigList* mRagdollConfigList;
-        res::RagdollBlendWeight* mRagdollBlendWeight;
-        res::Awareness* mAwareness;
-        void* mResource14;
-        void* mResource15;
-        void* mResource16;
-        res::Drop* mDropTable;
-        res::Shop* mShopData;
-        res::Recipe* mRecipe;
-        res::Lod* mLod;
-        res::BoneControl* mBoneControl;
-        res::LifeCondition* mLifeCondition;
-        res::UMii* mUMii;
-        res::AnimationInfo* mAnimationInfo;
+    union Resources {
+        struct {
+            res::ActorLink* mActorLink;
+            res::ModelList* mModelList;
+            res::ASList* mASList;
+            res::AIProgram* mAIProgram;
+            res::GParamList* mGParamList;
+            res::Physics* mPhysics;
+            res::Chemical* mChemical;
+            res::AttClientList* mAttClientList;
+            res::AISchedule* mAISchedule;
+            res::EventFlow* mEventFlow;
+            res::DamageParam* mDamageParam;
+            res::RagdollConfigList* mRagdollConfigList;
+            res::RagdollBlendWeight* mRagdollBlendWeight;
+            res::Awareness* mAwareness;
+            void* mResource14;
+            void* mResource15;
+            void* mResource16;
+            res::Drop* mDropTable;
+            res::Shop* mShopData;
+            res::Recipe* mRecipe;
+            res::Lod* mLod;
+            res::BoneControl* mBoneControl;
+            res::LifeCondition* mLifeCondition;
+            res::UMii* mUMii;
+            res::AnimationInfo* mAnimationInfo;
+        };
+        sead::SafeArray<void*, 25> mArray;
     };
     KSYS_CHECK_SIZE_NX150(Resources, 0xc8);
 
@@ -107,7 +110,6 @@ public:
     const sead::SafeString& getProfile() const { return mProfile; }
     const char* getClassName() const { return mClassName; }
     Priority getPriority() const { return mPriority; }
-    u32 get74() const { return _74; }
     const Resources& getRes() const { return mRes; }
 
     bool isDummyParam(res::ActorLink::Users::User user) const;
@@ -122,17 +124,33 @@ private:
     void deleteData();
     void deleteResHandles();
 
+    void allocResHandles(sead::Heap* heap, u32 buffer_idx, s32 count);
+
+    s32 incrementRef();
+    s32 decrementRef();
+
+    void setEventSignal();
+    void waitForEvent();
+    bool isSignalSet() const;
+    void updateResource(const char* name, const char* data, const char* data1);
+
+    res::Handle* allocHandle();
+    void freeLastHandle();
+
+    void setResource(ResourceType type, ParamIO* param_io);
+    bool setPriority(const sead::SafeString& priority);
+
     u16 _8 = 0;
     u8 _a = 0;
     sead::FixedSafeString<64> mActorName;
     sead::SafeString mProfile;
     const char* mClassName{};
     Priority mPriority = Priority::AllAfter;
-    u32 _74 = 2;
+    u32 mActiveBufferIdx = 2;
     Resources mRes;
     std::array<sead::Buffer<res::Handle>, 2> mHandles;
     std::array<s32, 2> mNumHandles;
-    u32 _168{};
+    s32 mRefCount{};
     sead::CriticalSection mCS{nullptr};
     util::Event mEvent{nullptr,
                        sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified, true};

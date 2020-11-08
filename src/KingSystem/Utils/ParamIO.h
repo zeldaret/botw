@@ -13,9 +13,15 @@ public:
 
     virtual bool ParamIO_m0() { return false; }
 
+    bool applyResourceUpdate(const char* data, const char* data1);
+
+    u32 getIdx() const { return mIdx; }
+    const sead::SafeString& getId() const { return mId; }
+    void setIndex(u32 idx) { mIdx = idx; }
+
 protected:
-    u32 _1d8 = 0x1c;
-    sead::FixedSafeString<128> _1e0;
+    u32 mIdx = 0x1c;
+    sead::FixedSafeString<128> mId;
 };
 KSYS_CHECK_SIZE_NX150(ParamIO, 0x278);
 
