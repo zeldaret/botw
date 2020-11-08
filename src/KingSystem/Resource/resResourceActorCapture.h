@@ -52,6 +52,7 @@ public:
 
     ActorCapture();
 
+    void doCreate_(u8*, u32, sead::Heap*) override {}
     bool needsParse() const override { return true; }
     bool ParamIO_m0() override { return true; }
 
@@ -64,7 +65,6 @@ public:
     LightInfo mLightInfoObj;
 
 private:
-    void doCreate_(u8*, u32, sead::Heap*) override{};
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 };
 KSYS_CHECK_SIZE_NX150(ActorCapture, 0x538);
