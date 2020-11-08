@@ -40,4 +40,22 @@ bool ActorCapture::parse_(u8* data, size_t, sead::Heap*) {
     return true;
 }
 
+void ActorCapture::reset() {
+    mCameraInfoObj.position.ref() = sConstants.camera_position;
+    mCameraInfoObj.direction.ref() = sConstants.camera_direction;
+    mCameraInfoObj.fov.ref() = 50;
+    mCameraInfoObj.tilt.ref() = 0;
+
+    mActorInfoObj.position.ref() = sConstants.actor_position;
+    mActorInfoObj.rotation.ref() = sConstants.actor_rotation;
+    mActorInfoObj.as_name.ref().copy(sead::FixedSafeString<32>(sead::SafeString::cEmptyString));
+    mActorInfoObj.apply_skel_anim.ref() = false;
+    mActorInfoObj.frame.ref() = 0;
+    mActorInfoObj.bounding_adjustment.ref() = false;
+    mActorInfoObj.force_idle.ref() = false;
+    mActorInfoObj.disable_cloth.ref() = false;
+
+    mLightInfoObj.direction.ref() = sConstants.light_direction;
+}
+
 }  // namespace ksys::res

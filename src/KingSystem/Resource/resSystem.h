@@ -7,6 +7,7 @@ namespace ksys::res {
 class EntryFactoryBase;
 
 void registerEntryFactory(EntryFactoryBase* factory, const sead::SafeString& name);
+void unregisterEntryFactory(EntryFactoryBase* factory);
 
 // In release builds, the only thing this function does is return 1.
 // TODO: figure out what this is used for. Stubbed log function?

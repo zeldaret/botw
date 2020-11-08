@@ -55,6 +55,8 @@ public:
     bool needsParse() const override { return true; }
     bool ParamIO_m0() override { return true; }
 
+    void reset();
+
     static const ActorCaptureConstants& getConstants();
 
     CameraInfo mCameraInfoObj;

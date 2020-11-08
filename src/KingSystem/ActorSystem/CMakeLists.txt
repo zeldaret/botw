@@ -1,5 +1,7 @@
 target_sources(uking PRIVATE
   actActor.h
+  actActorCaptureMgr.cpp
+  actActorCaptureMgr.h
   actActorConstDataAccess.cpp
   actActorConstDataAccess.h
   actActorCreator.cpp
