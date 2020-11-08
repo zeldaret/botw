@@ -15,4 +15,6 @@ target_sources(uking PRIVATE
   StringBoard.h
   SystemPauseMgr.cpp
   SystemPauseMgr.h
+  Timer.cpp
+  Timer.h
 )
