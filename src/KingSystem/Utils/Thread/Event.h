@@ -22,6 +22,8 @@ public:
     void setSignal();
     void resetSignal();
 
+    bool isSignalSet() const;
+
 private:
     bool mManualReset = false;
     sead::Atomic<u32> mSignalSet = 0;

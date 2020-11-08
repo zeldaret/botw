@@ -47,4 +47,8 @@ void Event::resetSignal() {
     mSignalSet.exchange(0);
 }
 
+bool Event::isSignalSet() const {
+    return mSignalSet == 1;
+}
+
 }  // namespace ksys::util
