@@ -14,6 +14,41 @@ class ActorLink : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ActorLink, Resource)
 public:
     struct Users {
+        enum class User {
+            Profile = 0,
+            ActorCapture = 1,
+            AS = 2,
+            Model = 3,
+            Anim = 4,
+            AIProgram = 5,
+            GParam = 6,
+            DamageParam = 7,
+            RgConfigList = 8,
+            RgBlendWeight = 9,
+            Awareness = 10,
+            Physics = 11,
+            Chemical = 12,
+            Attention = 13,
+            ELink = 14,
+            SLink = 15,
+            XLink = 16,
+            DropTable = 17,
+            ShopData = 18,
+            Recipe = 19,
+            LOD = 20,
+            BoneControl = 21,
+            AISchedule = 22,
+            LifeCondition = 23,
+            UMii = 24,
+            AnimationInfo = 25,
+        };
+
+        const agl::utl::Parameter<sead::SafeString>& getUser(User user) const {
+            return *(&profile + u32(user));
+        }
+
+        sead::SafeString getUserName(User user) const { return getUser(user).ref().cstr(); }
+
         agl::utl::Parameter<sead::SafeString> profile;
         agl::utl::Parameter<sead::SafeString> actor_capture;
         agl::utl::Parameter<sead::SafeString> as;

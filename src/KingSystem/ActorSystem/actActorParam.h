@@ -8,11 +8,11 @@
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Thread/Event.h"
+#include "KingSystem/Resource/resResourceActorLink.h"
 
 namespace ksys {
 
 namespace res {
-class ActorLink;
 class AIProgram;
 class AISchedule;
 class AnimationInfo;
@@ -42,6 +42,34 @@ namespace act {
 // FIXME: incomplete
 class ActorParam : public sead::hostio::Node {
 public:
+    enum class ResourceType {
+        ActorLink = 0,
+        ModelList = 1,
+        ASList = 2,
+        AIProgram = 3,
+        GParamList = 4,
+        Physics = 5,
+        Chemical = 6,
+        AttClientList = 7,
+        AISchedule = 8,
+        EventFlow = 9,
+        DamageParam = 10,
+        RagdollConfigList = 11,
+        RagdollBlendWeight = 12,
+        Awareness = 13,
+        Unknown14 = 14,
+        Unknown15 = 15,
+        Unknown16 = 16,
+        DropTable = 17,
+        ShopData = 18,
+        Recipe = 19,
+        Lod = 20,
+        BoneControl = 21,
+        LifeCondition = 22,
+        UMii = 23,
+        AnimationInfo = 24,
+    };
+
     struct Resources {
         res::ActorLink* mActorLink;
         res::ModelList* mModelList;
@@ -74,6 +102,8 @@ public:
     ActorParam();
     virtual ~ActorParam();
 
+    bool isDummyParam(res::ActorLink::Users::User user) const;
+
     u16 _8 = 0;
     u8 _a = 0;
     sead::FixedSafeString<64> mActorName;
@@ -93,7 +123,10 @@ public:
     static Resources sDummyResources;
 
 private:
-    void finalize();
+    friend class ActorParamMgr;
+
+    void deleteData();
+    void deleteResHandles();
 
     sead::CriticalSection mCS{nullptr};
     util::Event mEvent{nullptr,

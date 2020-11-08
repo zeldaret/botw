@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include <prim/seadScopedLock.h>
 
 namespace ksys::act {
 
@@ -15,7 +16,40 @@ ActorParam::ActorParam() {
 }
 
 ActorParam::~ActorParam() {
-    finalize();
+    deleteData();
+}
+
+// NON_MATCHING: b.le -> b.lt
+void ActorParam::deleteData() {
+    auto lock = sead::makeScopedLock(mCS);
+
+    if (mActorName.isEmpty())
+        return;
+
+    for (s32 i = 0; i < mNumHandles1; ++i)
+        mHandles1[i].requestUnload();
+    mNumHandles1 = 0;
+
+    for (s32 i = 0; i < mNumHandles2; ++i)
+        mHandles2[i].requestUnload();
+    mNumHandles2 = 0;
+
+    deleteResHandles();
+
+    mActorName = "";
+    _168 = 0;
+    _a = 0;
+    mRes = {};
+    mEvent.resetSignal();
+}
+
+void ActorParam::deleteResHandles() {
+    mHandles1.freeBuffer();
+    mHandles2.freeBuffer();
+}
+
+bool ActorParam::isDummyParam(res::ActorLink::Users::User user) const {
+    return mRes.mActorLink->getUsers().getUserName(user) == "Dummy";
 }
 
 }  // namespace ksys::act
