@@ -1,6 +1,7 @@
 target_sources(uking PRIVATE
   gdtCommonFlags.cpp
   gdtCommonFlags.h
+  gdtCommonFlagsUtils.cpp
   gdtCommonFlagsUtils.h
   gdtFlag.cpp
   gdtFlag.h
