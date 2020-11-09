@@ -233,6 +233,9 @@ namespace ksys::gdt {
 
 // clang-format off
 
+bool getFlagGenericBool(FlagHandle handle, bool debug = false);
+s32 getFlagGenericS32(FlagHandle handle, bool debug = false);
+
 """)
         for i, name in enumerate(exe_flag_list):
             info = flag_type_info[flag_types[name]]
@@ -264,6 +267,9 @@ namespace ksys::gdt {
 namespace ksys::gdt {
 
 // clang-format off
+
+bool getFlagGenericBool(FlagHandle handle, bool debug) { return getBool(handle, debug); }
+s32 getFlagGenericS32(FlagHandle handle, bool debug) { return getS32(handle, debug); }
 
 """)
         for i, name in enumerate(exe_flag_list):

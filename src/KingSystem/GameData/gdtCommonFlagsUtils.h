@@ -9,6 +9,9 @@ namespace ksys::gdt {
 
 // clang-format off
 
+bool getFlagGenericBool(FlagHandle handle, bool debug = false);
+s32 getFlagGenericS32(FlagHandle handle, bool debug = false);
+
 bool getFlag_100enemy_Activated(bool debug = false);
 void setFlag_100enemy_Activated(bool const& value, bool debug = false);
 bool getFlag_100enemy_Battle(bool debug = false);
