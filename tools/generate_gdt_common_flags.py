@@ -24,37 +24,37 @@ class FlagTypeInfo(tp.NamedTuple):
         return self.arg_type in ("bool", "s32", "f32")
 
     def is_value_array(self) -> bool:
-        return self.arg_type.endswith("_array_data")
+        return self.is_array
 
     def get_setter_arg_type(self) -> str:
-        if self.arg_type == "const char*":
-            return "sead::SafeString"
-        return self.arg_type
+        return self.setter_arg_type if self.setter_arg_type else self.arg_type
 
     getter_fn_name: str
     arg_type: str
+    setter_arg_type: str = ""
+    is_array: bool = False
 
 
 flag_type_info = {
     "bool_data": FlagTypeInfo("getBool", "bool"),
     "s32_data": FlagTypeInfo("getS32", "s32"),
     "f32_data": FlagTypeInfo("getF32", "f32"),
-    "string_data": FlagTypeInfo("getStr", "char const*"),
-    "string64_data": FlagTypeInfo("getStr64", "char const*"),
-    "string256_data": FlagTypeInfo("getStr256", "char const*"),
-    "vector2f_data": FlagTypeInfo("getVec2f", "sead::Vector2f"),
-    "vector3f_data": FlagTypeInfo("getVec3f", "sead::Vector3f"),
-    "vector4f_data": FlagTypeInfo("getVec4f", "sead::Vector4f"),
+    "string_data": FlagTypeInfo("getStr", "char const*", "const sead::SafeString&"),
+    "string64_data": FlagTypeInfo("getStr64", "char const*", "const sead::SafeString&"),
+    "string256_data": FlagTypeInfo("getStr256", "char const*", "const sead::SafeString&"),
+    "vector2f_data": FlagTypeInfo("getVec2f", "sead::Vector2f", "const sead::Vector2f&"),
+    "vector3f_data": FlagTypeInfo("getVec3f", "sead::Vector3f", "const sead::Vector3f&"),
+    "vector4f_data": FlagTypeInfo("getVec4f", "sead::Vector4f", "const sead::Vector4f&"),
 
-    "bool_array_data": FlagTypeInfo("getBool", "bool"),
-    "s32_array_data": FlagTypeInfo("getS32", "s32"),
-    "f32_array_data": FlagTypeInfo("getF32", "f32"),
-    "string_array_data": FlagTypeInfo("getStr", "char const*"),
-    "string64_array_data": FlagTypeInfo("getStr64", "char const*"),
-    "string256_array_data": FlagTypeInfo("getStr256", "char const*"),
-    "vector2f_array_data": FlagTypeInfo("getVec2f", "sead::Vector2f"),
-    "vector3f_array_data": FlagTypeInfo("getVec3f", "sead::Vector3f"),
-    "vector4f_array_data": FlagTypeInfo("getVec4f", "sead::Vector4f"),
+    "bool_array_data": FlagTypeInfo("getBool", "bool", is_array=True),
+    "s32_array_data": FlagTypeInfo("getS32", "s32", is_array=True),
+    "f32_array_data": FlagTypeInfo("getF32", "f32", is_array=True),
+    "string_array_data": FlagTypeInfo("getStr", "char const*", "const sead::SafeString&", is_array=True),
+    "string64_array_data": FlagTypeInfo("getStr64", "char const*", "const sead::SafeString&", is_array=True),
+    "string256_array_data": FlagTypeInfo("getStr256", "char const*", "const sead::SafeString&", is_array=True),
+    "vector2f_array_data": FlagTypeInfo("getVec2f", "sead::Vector2f", "const sead::Vector2f&", is_array=True),
+    "vector3f_array_data": FlagTypeInfo("getVec3f", "sead::Vector3f", "const sead::Vector3f&", is_array=True),
+    "vector4f_array_data": FlagTypeInfo("getVec4f", "sead::Vector4f", "const sead::Vector4f&", is_array=True),
 }
 
 
@@ -247,7 +247,7 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug = false);
                 f.write(
                     f"void getFlag_{name}({info.arg_type}* value, bool debug = false);\n")
             # Setter
-            f.write(f"void setFlag_{name}({info.get_setter_arg_type()} const& value, bool debug = false);\n")
+            f.write(f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug = false);\n")
             # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
 
         f.write("""\
@@ -283,7 +283,7 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug) { return getS32(handle, deb
                     f"void getFlag_{name}({info.arg_type}* value, bool debug) {{ {info.get_getter_fn_name()}(flag_{name}(), value, debug); }}\n")
             # Setter
             f.write(
-                f"void setFlag_{name}({info.get_setter_arg_type()} const& value, bool debug) {{ "
+                f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug) {{ "
                 f"{info.get_setter_fn_name()}(value, flag_{name}(), debug); }}\n")
             # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
 
