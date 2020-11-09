@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import argparse
-from colorama import Fore, Style
-import cxxfilt
 import subprocess
-import sys
-import utils
+
+import cxxfilt
+from colorama import Fore, Style
+
+from util import utils
 
 parser = argparse.ArgumentParser(description="Diff assembly")
 parser.add_argument(
@@ -31,7 +32,8 @@ if info is not None:
     if not info.decomp_name:
         utils.fail(f"{args.function} has not been decompiled")
 
-    print(f"diffing: {Style.BRIGHT}{Fore.BLUE}{cxxfilt.demangle(info.decomp_name)}{Style.RESET_ALL} {Style.DIM}({info.decomp_name}){Style.RESET_ALL}")
+    print(
+        f"diffing: {Style.BRIGHT}{Fore.BLUE}{cxxfilt.demangle(info.decomp_name)}{Style.RESET_ALL} {Style.DIM}({info.decomp_name}){Style.RESET_ALL}")
     addr_end = info.addr + info.size
     subprocess.call(["tools/asm-differ/diff.py", "-I", "-e", info.decomp_name, "0x%016x" %
                      info.addr, "0x%016x" % addr_end] + unknown)

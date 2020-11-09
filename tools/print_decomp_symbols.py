@@ -3,7 +3,7 @@ import argparse
 from colorama import Fore, Style
 import diff_settings
 import subprocess
-import utils
+from util import utils
 
 parser = argparse.ArgumentParser(description="Prints build/uking.elf symbols")
 parser.add_argument("--print-undefined", "-u",
@@ -14,7 +14,6 @@ parser.add_argument("--hide-unknown", "-H",
                     help="Hide symbols that are not present in the original game", action="store_true")
 parser.add_argument("--all", "-a", action="store_true")
 args = parser.parse_args()
-
 
 listed_decomp_symbols = {info.decomp_name for info in utils.get_functions()}
 original_symbols = {info.name for info in utils.get_functions()}
@@ -31,7 +30,8 @@ for entry in entries:
         symbol_type: str = entry[1]
         name = entry[2]
 
-        if (symbol_type == "t" or symbol_type == "T" or symbol_type == "W") and (args.all or name not in listed_decomp_symbols):
+        if (symbol_type == "t" or symbol_type == "T" or symbol_type == "W") and (
+                args.all or name not in listed_decomp_symbols):
             c1_name = name.replace("C2", "C1")
             is_c2_ctor = "C2" in name and c1_name in listed_decomp_symbols and utils.are_demangled_names_equal(
                 c1_name, name)

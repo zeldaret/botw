@@ -47,8 +47,10 @@ def parse_function_csv_entry(row) -> FunctionInfo:
     return FunctionInfo(addr, name, int(size, 0), decomp_name, status)
 
 
-def get_functions() -> tp.Iterable[FunctionInfo]:
-    with (Path(__file__).parent.parent / "data" / "uking_functions.csv").open() as f:
+def get_functions(path: tp.Optional[Path] = None) -> tp.Iterable[FunctionInfo]:
+    if path is None:
+        path = get_repo_root() / "data" / "uking_functions.csv"
+    with path.open() as f:
         for row in csv.reader(f):
             yield parse_function_csv_entry(row)
 
@@ -86,3 +88,7 @@ def print_error(msg: str, prefix: str = ""):
 def fail(msg: str, prefix: str = ""):
     print_error(msg, prefix)
     sys.exit(1)
+
+
+def get_repo_root() -> Path:
+    return Path(__file__).parent.parent.parent

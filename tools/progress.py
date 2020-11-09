@@ -4,8 +4,8 @@ from collections import defaultdict
 from colorama import Back, Fore, Style
 import enum
 from pathlib import Path
-import utils
-from utils import FunctionStatus
+from util import utils
+from util.utils import FunctionStatus
 import typing as tp
 
 parser = argparse.ArgumentParser()
