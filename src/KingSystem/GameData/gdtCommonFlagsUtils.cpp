@@ -99,26 +99,26 @@ void getFlag_ActorName_SeakSensor_Slot1(char const** value, bool debug) { getStr
 void setFlag_ActorName_SeakSensor_Slot1(const sead::SafeString& value, bool debug) { setStr64(value, flag_ActorName_SeakSensor_Slot1(), debug); }
 void getFlag_ActorName_SeakSensor_Slot2(char const** value, bool debug) { getStr64(flag_ActorName_SeakSensor_Slot2(), value, debug); }
 void setFlag_ActorName_SeakSensor_Slot2(const sead::SafeString& value, bool debug) { setStr64(value, flag_ActorName_SeakSensor_Slot2(), debug); }
-void getFlag_AlbumPictureActorName(char const** value, bool debug) { getStr64(flag_AlbumPictureActorName(), value, debug); }
-void setFlag_AlbumPictureActorName(const sead::SafeString& value, bool debug) { setStr64(value, flag_AlbumPictureActorName(), debug); }
-s32 getFlag_AlbumPictureIndex(bool debug) { return getS32(flag_AlbumPictureIndex(), debug); }
-void setFlag_AlbumPictureIndex(s32 value, bool debug) { setS32(value, flag_AlbumPictureIndex(), debug); }
-s32 getFlag_AlbumPictureSize(bool debug) { return getS32(flag_AlbumPictureSize(), debug); }
-void setFlag_AlbumPictureSize(s32 value, bool debug) { setS32(value, flag_AlbumPictureSize(), debug); }
-void getFlag_AlbumSaveDistrictName(char const** value, bool debug) { getStr256(flag_AlbumSaveDistrictName(), value, debug); }
-void setFlag_AlbumSaveDistrictName(const sead::SafeString& value, bool debug) { setStr256(value, flag_AlbumSaveDistrictName(), debug); }
-void getFlag_AlbumSaveLocationName(char const** value, bool debug) { getStr256(flag_AlbumSaveLocationName(), value, debug); }
-void setFlag_AlbumSaveLocationName(const sead::SafeString& value, bool debug) { setStr256(value, flag_AlbumSaveLocationName(), debug); }
+void getFlag_AlbumPictureActorName(char const** value, s32 idx, bool debug) { getStr64(flag_AlbumPictureActorName(), value, idx, debug); }
+void setFlag_AlbumPictureActorName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_AlbumPictureActorName(), idx, debug); }
+s32 getFlag_AlbumPictureIndex(s32 idx, bool debug) { return getS32(flag_AlbumPictureIndex(), idx, debug); }
+void setFlag_AlbumPictureIndex(s32 value, s32 idx, bool debug) { setS32(value, flag_AlbumPictureIndex(), idx, debug); }
+s32 getFlag_AlbumPictureSize(s32 idx, bool debug) { return getS32(flag_AlbumPictureSize(), idx, debug); }
+void setFlag_AlbumPictureSize(s32 value, s32 idx, bool debug) { setS32(value, flag_AlbumPictureSize(), idx, debug); }
+void getFlag_AlbumSaveDistrictName(char const** value, s32 idx, bool debug) { getStr256(flag_AlbumSaveDistrictName(), value, idx, debug); }
+void setFlag_AlbumSaveDistrictName(const sead::SafeString& value, s32 idx, bool debug) { setStr256(value, flag_AlbumSaveDistrictName(), idx, debug); }
+void getFlag_AlbumSaveLocationName(char const** value, s32 idx, bool debug) { getStr256(flag_AlbumSaveLocationName(), value, idx, debug); }
+void setFlag_AlbumSaveLocationName(const sead::SafeString& value, s32 idx, bool debug) { setStr256(value, flag_AlbumSaveLocationName(), idx, debug); }
 s32 getFlag_AllMaterialValue(bool debug) { return getS32(flag_AllMaterialValue(), debug); }
 void setFlag_AllMaterialValue(s32 value, bool debug) { setS32(value, flag_AllMaterialValue(), debug); }
 bool getFlag_AmiiboItemOnOff(bool debug) { return getBool(flag_AmiiboItemOnOff(), debug); }
 void setFlag_AmiiboItemOnOff(bool value, bool debug) { setBool(value, flag_AmiiboItemOnOff(), debug); }
 s32 getFlag_AmiiboLastTouchDate(bool debug) { return getS32(flag_AmiiboLastTouchDate(), debug); }
 void setFlag_AmiiboLastTouchDate(s32 value, bool debug) { setS32(value, flag_AmiiboLastTouchDate(), debug); }
-void getFlag_AmiiboTouchHistory(char const** value, bool debug) { getStr64(flag_AmiiboTouchHistory(), value, debug); }
-void setFlag_AmiiboTouchHistory(const sead::SafeString& value, bool debug) { setStr64(value, flag_AmiiboTouchHistory(), debug); }
-void getFlag_AmiiboTouchHistoryTotal(char const** value, bool debug) { getStr64(flag_AmiiboTouchHistoryTotal(), value, debug); }
-void setFlag_AmiiboTouchHistoryTotal(const sead::SafeString& value, bool debug) { setStr64(value, flag_AmiiboTouchHistoryTotal(), debug); }
+void getFlag_AmiiboTouchHistory(char const** value, s32 idx, bool debug) { getStr64(flag_AmiiboTouchHistory(), value, idx, debug); }
+void setFlag_AmiiboTouchHistory(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_AmiiboTouchHistory(), idx, debug); }
+void getFlag_AmiiboTouchHistoryTotal(char const** value, s32 idx, bool debug) { getStr64(flag_AmiiboTouchHistoryTotal(), value, idx, debug); }
+void setFlag_AmiiboTouchHistoryTotal(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_AmiiboTouchHistoryTotal(), idx, debug); }
 s32 getFlag_AmountRupeeForNextRevivalFountain(bool debug) { return getS32(flag_AmountRupeeForNextRevivalFountain(), debug); }
 void setFlag_AmountRupeeForNextRevivalFountain(s32 value, bool debug) { setS32(value, flag_AmountRupeeForNextRevivalFountain(), debug); }
 s32 getFlag_AmountRupeeForRevivalFountain1(bool debug) { return getS32(flag_AmountRupeeForRevivalFountain1(), debug); }
@@ -175,8 +175,8 @@ f32 getFlag_App_Map_Scale(bool debug) { return getF32(flag_App_Map_Scale(), debu
 void setFlag_App_Map_Scale(f32 value, bool debug) { setF32(value, flag_App_Map_Scale(), debug); }
 void getFlag_App_Map_WarpLocationName(char const** value, bool debug) { getStr64(flag_App_Map_WarpLocationName(), value, debug); }
 void setFlag_App_Map_WarpLocationName(const sead::SafeString& value, bool debug) { setStr64(value, flag_App_Map_WarpLocationName(), debug); }
-s32 getFlag_App_Menu_ButtonOrder(bool debug) { return getS32(flag_App_Menu_ButtonOrder(), debug); }
-void setFlag_App_Menu_ButtonOrder(s32 value, bool debug) { setS32(value, flag_App_Menu_ButtonOrder(), debug); }
+s32 getFlag_App_Menu_ButtonOrder(s32 idx, bool debug) { return getS32(flag_App_Menu_ButtonOrder(), idx, debug); }
+void setFlag_App_Menu_ButtonOrder(s32 value, s32 idx, bool debug) { setS32(value, flag_App_Menu_ButtonOrder(), idx, debug); }
 s32 getFlag_App_Menu_NewFlag(bool debug) { return getS32(flag_App_Menu_NewFlag(), debug); }
 void setFlag_App_Menu_NewFlag(s32 value, bool debug) { setS32(value, flag_App_Menu_NewFlag(), debug); }
 s32 getFlag_App_Pedometer_StepCount(bool debug) { return getS32(flag_App_Pedometer_StepCount(), debug); }
@@ -451,12 +451,12 @@ bool getFlag_ClearTutorial_SpinAttack(bool debug) { return getBool(flag_ClearTut
 void setFlag_ClearTutorial_SpinAttack(bool value, bool debug) { setBool(value, flag_ClearTutorial_SpinAttack(), debug); }
 bool getFlag_climateFirst(bool debug) { return getBool(flag_climateFirst(), debug); }
 void setFlag_climateFirst(bool value, bool debug) { setBool(value, flag_climateFirst(), debug); }
-s32 getFlag_climateWeather(bool debug) { return getS32(flag_climateWeather(), debug); }
-void setFlag_climateWeather(s32 value, bool debug) { setS32(value, flag_climateWeather(), debug); }
-s32 getFlag_climateWeather2(bool debug) { return getS32(flag_climateWeather2(), debug); }
-void setFlag_climateWeather2(s32 value, bool debug) { setS32(value, flag_climateWeather2(), debug); }
-s32 getFlag_climateWeather3(bool debug) { return getS32(flag_climateWeather3(), debug); }
-void setFlag_climateWeather3(s32 value, bool debug) { setS32(value, flag_climateWeather3(), debug); }
+s32 getFlag_climateWeather(s32 idx, bool debug) { return getS32(flag_climateWeather(), idx, debug); }
+void setFlag_climateWeather(s32 value, s32 idx, bool debug) { setS32(value, flag_climateWeather(), idx, debug); }
+s32 getFlag_climateWeather2(s32 idx, bool debug) { return getS32(flag_climateWeather2(), idx, debug); }
+void setFlag_climateWeather2(s32 value, s32 idx, bool debug) { setS32(value, flag_climateWeather2(), idx, debug); }
+s32 getFlag_climateWeather3(s32 idx, bool debug) { return getS32(flag_climateWeather3(), idx, debug); }
+void setFlag_climateWeather3(s32 value, s32 idx, bool debug) { setS32(value, flag_climateWeather3(), idx, debug); }
 bool getFlag_CollaborationShootingStar_Xenoblade2_1_1_fallout(bool debug) { return getBool(flag_CollaborationShootingStar_Xenoblade2_1_1_fallout(), debug); }
 void setFlag_CollaborationShootingStar_Xenoblade2_1_1_fallout(bool value, bool debug) { setBool(value, flag_CollaborationShootingStar_Xenoblade2_1_1_fallout(), debug); }
 bool getFlag_CollaborationShootingStar_Xenoblade2_1_1_open(bool debug) { return getBool(flag_CollaborationShootingStar_Xenoblade2_1_1_open(), debug); }
@@ -749,20 +749,20 @@ bool getFlag_CompleteTreasure_Dungeon135(bool debug) { return getBool(flag_Compl
 void setFlag_CompleteTreasure_Dungeon135(bool value, bool debug) { setBool(value, flag_CompleteTreasure_Dungeon135(), debug); }
 bool getFlag_CompleteTreasure_Dungeon136(bool debug) { return getBool(flag_CompleteTreasure_Dungeon136(), debug); }
 void setFlag_CompleteTreasure_Dungeon136(bool value, bool debug) { setBool(value, flag_CompleteTreasure_Dungeon136(), debug); }
-void getFlag_CookEffect0(sead::Vector2f* value, bool debug) { getVec2f(flag_CookEffect0(), value, debug); }
-void setFlag_CookEffect0(const sead::Vector2f& value, bool debug) { setVec2f(value, flag_CookEffect0(), debug); }
-void getFlag_CookEffect1(sead::Vector2f* value, bool debug) { getVec2f(flag_CookEffect1(), value, debug); }
-void setFlag_CookEffect1(const sead::Vector2f& value, bool debug) { setVec2f(value, flag_CookEffect1(), debug); }
-void getFlag_CookMaterialName0(char const** value, bool debug) { getStr64(flag_CookMaterialName0(), value, debug); }
-void setFlag_CookMaterialName0(const sead::SafeString& value, bool debug) { setStr64(value, flag_CookMaterialName0(), debug); }
-void getFlag_CookMaterialName1(char const** value, bool debug) { getStr64(flag_CookMaterialName1(), value, debug); }
-void setFlag_CookMaterialName1(const sead::SafeString& value, bool debug) { setStr64(value, flag_CookMaterialName1(), debug); }
-void getFlag_CookMaterialName2(char const** value, bool debug) { getStr64(flag_CookMaterialName2(), value, debug); }
-void setFlag_CookMaterialName2(const sead::SafeString& value, bool debug) { setStr64(value, flag_CookMaterialName2(), debug); }
-void getFlag_CookMaterialName3(char const** value, bool debug) { getStr64(flag_CookMaterialName3(), value, debug); }
-void setFlag_CookMaterialName3(const sead::SafeString& value, bool debug) { setStr64(value, flag_CookMaterialName3(), debug); }
-void getFlag_CookMaterialName4(char const** value, bool debug) { getStr64(flag_CookMaterialName4(), value, debug); }
-void setFlag_CookMaterialName4(const sead::SafeString& value, bool debug) { setStr64(value, flag_CookMaterialName4(), debug); }
+void getFlag_CookEffect0(sead::Vector2f* value, s32 idx, bool debug) { getVec2f(flag_CookEffect0(), value, idx, debug); }
+void setFlag_CookEffect0(const sead::Vector2f& value, s32 idx, bool debug) { setVec2f(value, flag_CookEffect0(), idx, debug); }
+void getFlag_CookEffect1(sead::Vector2f* value, s32 idx, bool debug) { getVec2f(flag_CookEffect1(), value, idx, debug); }
+void setFlag_CookEffect1(const sead::Vector2f& value, s32 idx, bool debug) { setVec2f(value, flag_CookEffect1(), idx, debug); }
+void getFlag_CookMaterialName0(char const** value, s32 idx, bool debug) { getStr64(flag_CookMaterialName0(), value, idx, debug); }
+void setFlag_CookMaterialName0(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_CookMaterialName0(), idx, debug); }
+void getFlag_CookMaterialName1(char const** value, s32 idx, bool debug) { getStr64(flag_CookMaterialName1(), value, idx, debug); }
+void setFlag_CookMaterialName1(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_CookMaterialName1(), idx, debug); }
+void getFlag_CookMaterialName2(char const** value, s32 idx, bool debug) { getStr64(flag_CookMaterialName2(), value, idx, debug); }
+void setFlag_CookMaterialName2(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_CookMaterialName2(), idx, debug); }
+void getFlag_CookMaterialName3(char const** value, s32 idx, bool debug) { getStr64(flag_CookMaterialName3(), value, idx, debug); }
+void setFlag_CookMaterialName3(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_CookMaterialName3(), idx, debug); }
+void getFlag_CookMaterialName4(char const** value, s32 idx, bool debug) { getStr64(flag_CookMaterialName4(), value, idx, debug); }
+void setFlag_CookMaterialName4(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_CookMaterialName4(), idx, debug); }
 s32 getFlag_Counter_TerminalElectric(bool debug) { return getS32(flag_Counter_TerminalElectric(), debug); }
 void setFlag_Counter_TerminalElectric(s32 value, bool debug) { setS32(value, flag_Counter_TerminalElectric(), debug); }
 s32 getFlag_Counter_TerminalFinalTrial(bool debug) { return getS32(flag_Counter_TerminalFinalTrial(), debug); }
@@ -797,28 +797,28 @@ bool getFlag_DarkWoods_Giant_Clear(bool debug) { return getBool(flag_DarkWoods_G
 void setFlag_DarkWoods_Giant_Clear(bool value, bool debug) { setBool(value, flag_DarkWoods_Giant_Clear(), debug); }
 bool getFlag_DarkWoods_Necklace_Active(bool debug) { return getBool(flag_DarkWoods_Necklace_Active(), debug); }
 void setFlag_DarkWoods_Necklace_Active(bool value, bool debug) { setBool(value, flag_DarkWoods_Necklace_Active(), debug); }
-void getFlag_DeadHorse_ActorName(char const** value, bool debug) { getStr64(flag_DeadHorse_ActorName(), value, debug); }
-void setFlag_DeadHorse_ActorName(const sead::SafeString& value, bool debug) { setStr64(value, flag_DeadHorse_ActorName(), debug); }
-void getFlag_DeadHorse_AmiiboUidHash(char const** value, bool debug) { getStr64(flag_DeadHorse_AmiiboUidHash(), value, debug); }
-void setFlag_DeadHorse_AmiiboUidHash(const sead::SafeString& value, bool debug) { setStr64(value, flag_DeadHorse_AmiiboUidHash(), debug); }
-s32 getFlag_DeadHorse_CollarType(bool debug) { return getS32(flag_DeadHorse_CollarType(), debug); }
-void setFlag_DeadHorse_CollarType(s32 value, bool debug) { setS32(value, flag_DeadHorse_CollarType(), debug); }
-s32 getFlag_DeadHorse_DeadCause(bool debug) { return getS32(flag_DeadHorse_DeadCause(), debug); }
-void setFlag_DeadHorse_DeadCause(s32 value, bool debug) { setS32(value, flag_DeadHorse_DeadCause(), debug); }
-f32 getFlag_DeadHorse_Familiarity(bool debug) { return getF32(flag_DeadHorse_Familiarity(), debug); }
-void setFlag_DeadHorse_Familiarity(f32 value, bool debug) { setF32(value, flag_DeadHorse_Familiarity(), debug); }
-s32 getFlag_DeadHorse_FootType(bool debug) { return getS32(flag_DeadHorse_FootType(), debug); }
-void setFlag_DeadHorse_FootType(s32 value, bool debug) { setS32(value, flag_DeadHorse_FootType(), debug); }
-void getFlag_DeadHorse_ManeName(char const** value, bool debug) { getStr64(flag_DeadHorse_ManeName(), value, debug); }
-void setFlag_DeadHorse_ManeName(const sead::SafeString& value, bool debug) { setStr64(value, flag_DeadHorse_ManeName(), debug); }
-void getFlag_DeadHorse_ReinsName(char const** value, bool debug) { getStr64(flag_DeadHorse_ReinsName(), value, debug); }
-void setFlag_DeadHorse_ReinsName(const sead::SafeString& value, bool debug) { setStr64(value, flag_DeadHorse_ReinsName(), debug); }
-s32 getFlag_DeadHorse_RideTimeSec(bool debug) { return getS32(flag_DeadHorse_RideTimeSec(), debug); }
-void setFlag_DeadHorse_RideTimeSec(s32 value, bool debug) { setS32(value, flag_DeadHorse_RideTimeSec(), debug); }
-void getFlag_DeadHorse_SaddleName(char const** value, bool debug) { getStr64(flag_DeadHorse_SaddleName(), value, debug); }
-void setFlag_DeadHorse_SaddleName(const sead::SafeString& value, bool debug) { setStr64(value, flag_DeadHorse_SaddleName(), debug); }
-void getFlag_DeadHorse_UserName(char const** value, bool debug) { getStr64(flag_DeadHorse_UserName(), value, debug); }
-void setFlag_DeadHorse_UserName(const sead::SafeString& value, bool debug) { setStr64(value, flag_DeadHorse_UserName(), debug); }
+void getFlag_DeadHorse_ActorName(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_ActorName(), value, idx, debug); }
+void setFlag_DeadHorse_ActorName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_ActorName(), idx, debug); }
+void getFlag_DeadHorse_AmiiboUidHash(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_AmiiboUidHash(), value, idx, debug); }
+void setFlag_DeadHorse_AmiiboUidHash(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_AmiiboUidHash(), idx, debug); }
+s32 getFlag_DeadHorse_CollarType(s32 idx, bool debug) { return getS32(flag_DeadHorse_CollarType(), idx, debug); }
+void setFlag_DeadHorse_CollarType(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_CollarType(), idx, debug); }
+s32 getFlag_DeadHorse_DeadCause(s32 idx, bool debug) { return getS32(flag_DeadHorse_DeadCause(), idx, debug); }
+void setFlag_DeadHorse_DeadCause(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_DeadCause(), idx, debug); }
+f32 getFlag_DeadHorse_Familiarity(s32 idx, bool debug) { return getF32(flag_DeadHorse_Familiarity(), idx, debug); }
+void setFlag_DeadHorse_Familiarity(f32 value, s32 idx, bool debug) { setF32(value, flag_DeadHorse_Familiarity(), idx, debug); }
+s32 getFlag_DeadHorse_FootType(s32 idx, bool debug) { return getS32(flag_DeadHorse_FootType(), idx, debug); }
+void setFlag_DeadHorse_FootType(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_FootType(), idx, debug); }
+void getFlag_DeadHorse_ManeName(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_ManeName(), value, idx, debug); }
+void setFlag_DeadHorse_ManeName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_ManeName(), idx, debug); }
+void getFlag_DeadHorse_ReinsName(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_ReinsName(), value, idx, debug); }
+void setFlag_DeadHorse_ReinsName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_ReinsName(), idx, debug); }
+s32 getFlag_DeadHorse_RideTimeSec(s32 idx, bool debug) { return getS32(flag_DeadHorse_RideTimeSec(), idx, debug); }
+void setFlag_DeadHorse_RideTimeSec(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_RideTimeSec(), idx, debug); }
+void getFlag_DeadHorse_SaddleName(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_SaddleName(), value, idx, debug); }
+void setFlag_DeadHorse_SaddleName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_SaddleName(), idx, debug); }
+void getFlag_DeadHorse_UserName(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_UserName(), value, idx, debug); }
+void setFlag_DeadHorse_UserName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_UserName(), idx, debug); }
 f32 getFlag_DebugMoveDistance(bool debug) { return getF32(flag_DebugMoveDistance(), debug); }
 void setFlag_DebugMoveDistance(f32 value, bool debug) { setF32(value, flag_DebugMoveDistance(), debug); }
 bool getFlag_Defeat_OneHitDungeon001(bool debug) { return getBool(flag_Defeat_OneHitDungeon001(), debug); }
@@ -1101,8 +1101,8 @@ f32 getFlag_DRC_AppBatteryValue(bool debug) { return getF32(flag_DRC_AppBatteryV
 void setFlag_DRC_AppBatteryValue(f32 value, bool debug) { setF32(value, flag_DRC_AppBatteryValue(), debug); }
 void getFlag_dummy_string256(char const** value, bool debug) { getStr256(flag_dummy_string256(), value, debug); }
 void setFlag_dummy_string256(const sead::SafeString& value, bool debug) { setStr256(value, flag_dummy_string256(), debug); }
-void getFlag_dummy_string64_array(char const** value, bool debug) { getStr64(flag_dummy_string64_array(), value, debug); }
-void setFlag_dummy_string64_array(const sead::SafeString& value, bool debug) { setStr64(value, flag_dummy_string64_array(), debug); }
+void getFlag_dummy_string64_array(char const** value, s32 idx, bool debug) { getStr64(flag_dummy_string64_array(), value, idx, debug); }
+void setFlag_dummy_string64_array(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_dummy_string64_array(), idx, debug); }
 void getFlag_dummy_vec2(sead::Vector2f* value, bool debug) { getVec2f(flag_dummy_vec2(), value, debug); }
 void setFlag_dummy_vec2(const sead::Vector2f& value, bool debug) { setVec2f(value, flag_dummy_vec2(), debug); }
 bool getFlag_Dungeon008_BallExist_1(bool debug) { return getBool(flag_Dungeon008_BallExist_1(), debug); }
@@ -1275,8 +1275,8 @@ bool getFlag_Enemy_Dragon_Ice_DoorOpen(bool debug) { return getBool(flag_Enemy_D
 void setFlag_Enemy_Dragon_Ice_DoorOpen(bool value, bool debug) { setBool(value, flag_Enemy_Dragon_Ice_DoorOpen(), debug); }
 bool getFlag_Enemy_Dragon_Ice_DropItem(bool debug) { return getBool(flag_Enemy_Dragon_Ice_DropItem(), debug); }
 void setFlag_Enemy_Dragon_Ice_DropItem(bool value, bool debug) { setBool(value, flag_Enemy_Dragon_Ice_DropItem(), debug); }
-bool getFlag_Enemy_Dragon_Ice_GrudgeAlive(bool debug) { return getBool(flag_Enemy_Dragon_Ice_GrudgeAlive(), debug); }
-void setFlag_Enemy_Dragon_Ice_GrudgeAlive(bool value, bool debug) { setBool(value, flag_Enemy_Dragon_Ice_GrudgeAlive(), debug); }
+bool getFlag_Enemy_Dragon_Ice_GrudgeAlive(s32 idx, bool debug) { return getBool(flag_Enemy_Dragon_Ice_GrudgeAlive(), idx, debug); }
+void setFlag_Enemy_Dragon_Ice_GrudgeAlive(bool value, s32 idx, bool debug) { setBool(value, flag_Enemy_Dragon_Ice_GrudgeAlive(), idx, debug); }
 bool getFlag_Enemy_Dragon_Ice_GrudgeDestroyComplete(bool debug) { return getBool(flag_Enemy_Dragon_Ice_GrudgeDestroyComplete(), debug); }
 void setFlag_Enemy_Dragon_Ice_GrudgeDestroyComplete(bool value, bool debug) { setBool(value, flag_Enemy_Dragon_Ice_GrudgeDestroyComplete(), debug); }
 bool getFlag_Enemy_Dragon_Ice_GrudgeDestroyDemoEnd(bool debug) { return getBool(flag_Enemy_Dragon_Ice_GrudgeDestroyDemoEnd(), debug); }
@@ -1579,30 +1579,30 @@ bool getFlag_Enter_RemainsWind(bool debug) { return getBool(flag_Enter_RemainsWi
 void setFlag_Enter_RemainsWind(bool value, bool debug) { setBool(value, flag_Enter_RemainsWind(), debug); }
 bool getFlag_EnterDungeonProhibition(bool debug) { return getBool(flag_EnterDungeonProhibition(), debug); }
 void setFlag_EnterDungeonProhibition(bool value, bool debug) { setBool(value, flag_EnterDungeonProhibition(), debug); }
-s32 getFlag_EquipStandBow_FlagSp(bool debug) { return getS32(flag_EquipStandBow_FlagSp(), debug); }
-void setFlag_EquipStandBow_FlagSp(s32 value, bool debug) { setS32(value, flag_EquipStandBow_FlagSp(), debug); }
-s32 getFlag_EquipStandBow_Life_Slot(bool debug) { return getS32(flag_EquipStandBow_Life_Slot(), debug); }
-void setFlag_EquipStandBow_Life_Slot(s32 value, bool debug) { setS32(value, flag_EquipStandBow_Life_Slot(), debug); }
-void getFlag_EquipStandBow_Slot(char const** value, bool debug) { getStr64(flag_EquipStandBow_Slot(), value, debug); }
-void setFlag_EquipStandBow_Slot(const sead::SafeString& value, bool debug) { setStr64(value, flag_EquipStandBow_Slot(), debug); }
-s32 getFlag_EquipStandBow_ValueSp(bool debug) { return getS32(flag_EquipStandBow_ValueSp(), debug); }
-void setFlag_EquipStandBow_ValueSp(s32 value, bool debug) { setS32(value, flag_EquipStandBow_ValueSp(), debug); }
-s32 getFlag_EquipStandShield_FlagSp(bool debug) { return getS32(flag_EquipStandShield_FlagSp(), debug); }
-void setFlag_EquipStandShield_FlagSp(s32 value, bool debug) { setS32(value, flag_EquipStandShield_FlagSp(), debug); }
-s32 getFlag_EquipStandShield_Life_Slot(bool debug) { return getS32(flag_EquipStandShield_Life_Slot(), debug); }
-void setFlag_EquipStandShield_Life_Slot(s32 value, bool debug) { setS32(value, flag_EquipStandShield_Life_Slot(), debug); }
-void getFlag_EquipStandShield_Slot(char const** value, bool debug) { getStr64(flag_EquipStandShield_Slot(), value, debug); }
-void setFlag_EquipStandShield_Slot(const sead::SafeString& value, bool debug) { setStr64(value, flag_EquipStandShield_Slot(), debug); }
-s32 getFlag_EquipStandShield_ValueSp(bool debug) { return getS32(flag_EquipStandShield_ValueSp(), debug); }
-void setFlag_EquipStandShield_ValueSp(s32 value, bool debug) { setS32(value, flag_EquipStandShield_ValueSp(), debug); }
-s32 getFlag_EquipStandSword_FlagSp(bool debug) { return getS32(flag_EquipStandSword_FlagSp(), debug); }
-void setFlag_EquipStandSword_FlagSp(s32 value, bool debug) { setS32(value, flag_EquipStandSword_FlagSp(), debug); }
-s32 getFlag_EquipStandSword_Life_Slot(bool debug) { return getS32(flag_EquipStandSword_Life_Slot(), debug); }
-void setFlag_EquipStandSword_Life_Slot(s32 value, bool debug) { setS32(value, flag_EquipStandSword_Life_Slot(), debug); }
-void getFlag_EquipStandSword_Slot(char const** value, bool debug) { getStr64(flag_EquipStandSword_Slot(), value, debug); }
-void setFlag_EquipStandSword_Slot(const sead::SafeString& value, bool debug) { setStr64(value, flag_EquipStandSword_Slot(), debug); }
-s32 getFlag_EquipStandSword_ValueSp(bool debug) { return getS32(flag_EquipStandSword_ValueSp(), debug); }
-void setFlag_EquipStandSword_ValueSp(s32 value, bool debug) { setS32(value, flag_EquipStandSword_ValueSp(), debug); }
+s32 getFlag_EquipStandBow_FlagSp(s32 idx, bool debug) { return getS32(flag_EquipStandBow_FlagSp(), idx, debug); }
+void setFlag_EquipStandBow_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandBow_FlagSp(), idx, debug); }
+s32 getFlag_EquipStandBow_Life_Slot(s32 idx, bool debug) { return getS32(flag_EquipStandBow_Life_Slot(), idx, debug); }
+void setFlag_EquipStandBow_Life_Slot(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandBow_Life_Slot(), idx, debug); }
+void getFlag_EquipStandBow_Slot(char const** value, s32 idx, bool debug) { getStr64(flag_EquipStandBow_Slot(), value, idx, debug); }
+void setFlag_EquipStandBow_Slot(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_EquipStandBow_Slot(), idx, debug); }
+s32 getFlag_EquipStandBow_ValueSp(s32 idx, bool debug) { return getS32(flag_EquipStandBow_ValueSp(), idx, debug); }
+void setFlag_EquipStandBow_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandBow_ValueSp(), idx, debug); }
+s32 getFlag_EquipStandShield_FlagSp(s32 idx, bool debug) { return getS32(flag_EquipStandShield_FlagSp(), idx, debug); }
+void setFlag_EquipStandShield_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandShield_FlagSp(), idx, debug); }
+s32 getFlag_EquipStandShield_Life_Slot(s32 idx, bool debug) { return getS32(flag_EquipStandShield_Life_Slot(), idx, debug); }
+void setFlag_EquipStandShield_Life_Slot(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandShield_Life_Slot(), idx, debug); }
+void getFlag_EquipStandShield_Slot(char const** value, s32 idx, bool debug) { getStr64(flag_EquipStandShield_Slot(), value, idx, debug); }
+void setFlag_EquipStandShield_Slot(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_EquipStandShield_Slot(), idx, debug); }
+s32 getFlag_EquipStandShield_ValueSp(s32 idx, bool debug) { return getS32(flag_EquipStandShield_ValueSp(), idx, debug); }
+void setFlag_EquipStandShield_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandShield_ValueSp(), idx, debug); }
+s32 getFlag_EquipStandSword_FlagSp(s32 idx, bool debug) { return getS32(flag_EquipStandSword_FlagSp(), idx, debug); }
+void setFlag_EquipStandSword_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandSword_FlagSp(), idx, debug); }
+s32 getFlag_EquipStandSword_Life_Slot(s32 idx, bool debug) { return getS32(flag_EquipStandSword_Life_Slot(), idx, debug); }
+void setFlag_EquipStandSword_Life_Slot(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandSword_Life_Slot(), idx, debug); }
+void getFlag_EquipStandSword_Slot(char const** value, s32 idx, bool debug) { getStr64(flag_EquipStandSword_Slot(), value, idx, debug); }
+void setFlag_EquipStandSword_Slot(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_EquipStandSword_Slot(), idx, debug); }
+s32 getFlag_EquipStandSword_ValueSp(s32 idx, bool debug) { return getS32(flag_EquipStandSword_ValueSp(), idx, debug); }
+void setFlag_EquipStandSword_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandSword_ValueSp(), idx, debug); }
 bool getFlag_FairyCountCheck(bool debug) { return getBool(flag_FairyCountCheck(), debug); }
 void setFlag_FairyCountCheck(bool value, bool debug) { setBool(value, flag_FairyCountCheck(), debug); }
 s32 getFlag_FairyRevivalNum(bool debug) { return getS32(flag_FairyRevivalNum(), debug); }
@@ -1877,10 +1877,10 @@ bool getFlag_giant_dungeon(bool debug) { return getBool(flag_giant_dungeon(), de
 void setFlag_giant_dungeon(bool value, bool debug) { setBool(value, flag_giant_dungeon(), debug); }
 s32 getFlag_GiveItemNumber(bool debug) { return getS32(flag_GiveItemNumber(), debug); }
 void setFlag_GiveItemNumber(s32 value, bool debug) { setS32(value, flag_GiveItemNumber(), debug); }
-f32 getFlag_GodBless_LastUseTime(bool debug) { return getF32(flag_GodBless_LastUseTime(), debug); }
-void setFlag_GodBless_LastUseTime(f32 value, bool debug) { setF32(value, flag_GodBless_LastUseTime(), debug); }
-s32 getFlag_GodBless_LastUseWeek(bool debug) { return getS32(flag_GodBless_LastUseWeek(), debug); }
-void setFlag_GodBless_LastUseWeek(s32 value, bool debug) { setS32(value, flag_GodBless_LastUseWeek(), debug); }
+f32 getFlag_GodBless_LastUseTime(s32 idx, bool debug) { return getF32(flag_GodBless_LastUseTime(), idx, debug); }
+void setFlag_GodBless_LastUseTime(f32 value, s32 idx, bool debug) { setF32(value, flag_GodBless_LastUseTime(), idx, debug); }
+s32 getFlag_GodBless_LastUseWeek(s32 idx, bool debug) { return getS32(flag_GodBless_LastUseWeek(), idx, debug); }
+void setFlag_GodBless_LastUseWeek(s32 value, s32 idx, bool debug) { setS32(value, flag_GodBless_LastUseWeek(), idx, debug); }
 bool getFlag_GodTree_Finish(bool debug) { return getBool(flag_GodTree_Finish(), debug); }
 void setFlag_GodTree_Finish(bool value, bool debug) { setBool(value, flag_GodTree_Finish(), debug); }
 s32 getFlag_GoronCamp_BestScore(bool debug) { return getS32(flag_GoronCamp_BestScore(), debug); }
@@ -2131,30 +2131,30 @@ bool getFlag_HigakkareMini_RedDragon_Activated(bool debug) { return getBool(flag
 void setFlag_HigakkareMini_RedDragon_Activated(bool value, bool debug) { setBool(value, flag_HigakkareMini_RedDragon_Activated(), debug); }
 s32 getFlag_Horse_ActiveIndex(bool debug) { return getS32(flag_Horse_ActiveIndex(), debug); }
 void setFlag_Horse_ActiveIndex(s32 value, bool debug) { setS32(value, flag_Horse_ActiveIndex(), debug); }
-void getFlag_Horse_ActorName(char const** value, bool debug) { getStr64(flag_Horse_ActorName(), value, debug); }
-void setFlag_Horse_ActorName(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_ActorName(), debug); }
-void getFlag_Horse_AmiiboUidHash(char const** value, bool debug) { getStr64(flag_Horse_AmiiboUidHash(), value, debug); }
-void setFlag_Horse_AmiiboUidHash(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_AmiiboUidHash(), debug); }
-s32 getFlag_Horse_CollarType(bool debug) { return getS32(flag_Horse_CollarType(), debug); }
-void setFlag_Horse_CollarType(s32 value, bool debug) { setS32(value, flag_Horse_CollarType(), debug); }
+void getFlag_Horse_ActorName(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_ActorName(), value, idx, debug); }
+void setFlag_Horse_ActorName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_ActorName(), idx, debug); }
+void getFlag_Horse_AmiiboUidHash(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_AmiiboUidHash(), value, idx, debug); }
+void setFlag_Horse_AmiiboUidHash(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_AmiiboUidHash(), idx, debug); }
+s32 getFlag_Horse_CollarType(s32 idx, bool debug) { return getS32(flag_Horse_CollarType(), idx, debug); }
+void setFlag_Horse_CollarType(s32 value, s32 idx, bool debug) { setS32(value, flag_Horse_CollarType(), idx, debug); }
 s32 getFlag_Horse_CurrentChargeNum(bool debug) { return getS32(flag_Horse_CurrentChargeNum(), debug); }
 void setFlag_Horse_CurrentChargeNum(s32 value, bool debug) { setS32(value, flag_Horse_CurrentChargeNum(), debug); }
 s32 getFlag_Horse_CurrentExtraChargeNum(bool debug) { return getS32(flag_Horse_CurrentExtraChargeNum(), debug); }
 void setFlag_Horse_CurrentExtraChargeNum(s32 value, bool debug) { setS32(value, flag_Horse_CurrentExtraChargeNum(), debug); }
 s32 getFlag_Horse_Extra_Charge_Num(bool debug) { return getS32(flag_Horse_Extra_Charge_Num(), debug); }
 void setFlag_Horse_Extra_Charge_Num(s32 value, bool debug) { setS32(value, flag_Horse_Extra_Charge_Num(), debug); }
-f32 getFlag_Horse_Familiarity(bool debug) { return getF32(flag_Horse_Familiarity(), debug); }
-void setFlag_Horse_Familiarity(f32 value, bool debug) { setF32(value, flag_Horse_Familiarity(), debug); }
-s32 getFlag_Horse_FootType(bool debug) { return getS32(flag_Horse_FootType(), debug); }
-void setFlag_Horse_FootType(s32 value, bool debug) { setS32(value, flag_Horse_FootType(), debug); }
+f32 getFlag_Horse_Familiarity(s32 idx, bool debug) { return getF32(flag_Horse_Familiarity(), idx, debug); }
+void setFlag_Horse_Familiarity(f32 value, s32 idx, bool debug) { setF32(value, flag_Horse_Familiarity(), idx, debug); }
+s32 getFlag_Horse_FootType(s32 idx, bool debug) { return getS32(flag_Horse_FootType(), idx, debug); }
+void setFlag_Horse_FootType(s32 value, s32 idx, bool debug) { setS32(value, flag_Horse_FootType(), idx, debug); }
 bool getFlag_Horse_Is_LastRidden_Owned(bool debug) { return getBool(flag_Horse_Is_LastRidden_Owned(), debug); }
 void setFlag_Horse_Is_LastRidden_Owned(bool value, bool debug) { setBool(value, flag_Horse_Is_LastRidden_Owned(), debug); }
 bool getFlag_Horse_Is_Registration(bool debug) { return getBool(flag_Horse_Is_Registration(), debug); }
 void setFlag_Horse_Is_Registration(bool value, bool debug) { setBool(value, flag_Horse_Is_Registration(), debug); }
 bool getFlag_Horse_IsAssociated(bool debug) { return getBool(flag_Horse_IsAssociated(), debug); }
 void setFlag_Horse_IsAssociated(bool value, bool debug) { setBool(value, flag_Horse_IsAssociated(), debug); }
-bool getFlag_Horse_IsFamiliarityChecked(bool debug) { return getBool(flag_Horse_IsFamiliarityChecked(), debug); }
-void setFlag_Horse_IsFamiliarityChecked(bool value, bool debug) { setBool(value, flag_Horse_IsFamiliarityChecked(), debug); }
+bool getFlag_Horse_IsFamiliarityChecked(s32 idx, bool debug) { return getBool(flag_Horse_IsFamiliarityChecked(), idx, debug); }
+void setFlag_Horse_IsFamiliarityChecked(bool value, s32 idx, bool debug) { setBool(value, flag_Horse_IsFamiliarityChecked(), idx, debug); }
 bool getFlag_Horse_IsInHyruleCastleArea(bool debug) { return getBool(flag_Horse_IsInHyruleCastleArea(), debug); }
 void setFlag_Horse_IsInHyruleCastleArea(bool value, bool debug) { setBool(value, flag_Horse_IsInHyruleCastleArea(), debug); }
 bool getFlag_Horse_IsNewNameEntered(bool debug) { return getBool(flag_Horse_IsNewNameEntered(), debug); }
@@ -2169,30 +2169,30 @@ bool getFlag_Horse_Large_Exists(bool debug) { return getBool(flag_Horse_Large_Ex
 void setFlag_Horse_Large_Exists(bool value, bool debug) { setBool(value, flag_Horse_Large_Exists(), debug); }
 s32 getFlag_Horse_LastActiveIndex(bool debug) { return getS32(flag_Horse_LastActiveIndex(), debug); }
 void setFlag_Horse_LastActiveIndex(s32 value, bool debug) { setS32(value, flag_Horse_LastActiveIndex(), debug); }
-void getFlag_Horse_ManeName(char const** value, bool debug) { getStr64(flag_Horse_ManeName(), value, debug); }
-void setFlag_Horse_ManeName(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_ManeName(), debug); }
+void getFlag_Horse_ManeName(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_ManeName(), value, idx, debug); }
+void setFlag_Horse_ManeName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_ManeName(), idx, debug); }
 void getFlag_Horse_NewName(char const** value, bool debug) { getStr64(flag_Horse_NewName(), value, debug); }
 void setFlag_Horse_NewName(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_NewName(), debug); }
 void getFlag_Horse_Pos(sead::Vector3f* value, bool debug) { getVec3f(flag_Horse_Pos(), value, debug); }
 void setFlag_Horse_Pos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_Horse_Pos(), debug); }
 void getFlag_Horse_Pos_For_Map(sead::Vector3f* value, bool debug) { getVec3f(flag_Horse_Pos_For_Map(), value, debug); }
 void setFlag_Horse_Pos_For_Map(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_Horse_Pos_For_Map(), debug); }
-void getFlag_Horse_ReinsName(char const** value, bool debug) { getStr64(flag_Horse_ReinsName(), value, debug); }
-void setFlag_Horse_ReinsName(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_ReinsName(), debug); }
-s32 getFlag_Horse_RideTimeSec(bool debug) { return getS32(flag_Horse_RideTimeSec(), debug); }
-void setFlag_Horse_RideTimeSec(s32 value, bool debug) { setS32(value, flag_Horse_RideTimeSec(), debug); }
+void getFlag_Horse_ReinsName(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_ReinsName(), value, idx, debug); }
+void setFlag_Horse_ReinsName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_ReinsName(), idx, debug); }
+s32 getFlag_Horse_RideTimeSec(s32 idx, bool debug) { return getS32(flag_Horse_RideTimeSec(), idx, debug); }
+void setFlag_Horse_RideTimeSec(s32 value, s32 idx, bool debug) { setS32(value, flag_Horse_RideTimeSec(), idx, debug); }
 f32 getFlag_Horse_RotY(bool debug) { return getF32(flag_Horse_RotY(), debug); }
 void setFlag_Horse_RotY(f32 value, bool debug) { setF32(value, flag_Horse_RotY(), debug); }
-void getFlag_Horse_SaddleName(char const** value, bool debug) { getStr64(flag_Horse_SaddleName(), value, debug); }
-void setFlag_Horse_SaddleName(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_SaddleName(), debug); }
+void getFlag_Horse_SaddleName(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_SaddleName(), value, idx, debug); }
+void setFlag_Horse_SaddleName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_SaddleName(), idx, debug); }
 s32 getFlag_Horse_SelectedIndex(bool debug) { return getS32(flag_Horse_SelectedIndex(), debug); }
 void setFlag_Horse_SelectedIndex(s32 value, bool debug) { setS32(value, flag_Horse_SelectedIndex(), debug); }
 s32 getFlag_Horse_UnreachableCause(bool debug) { return getS32(flag_Horse_UnreachableCause(), debug); }
 void setFlag_Horse_UnreachableCause(s32 value, bool debug) { setS32(value, flag_Horse_UnreachableCause(), debug); }
-void getFlag_Horse_UsedAmiiboUidHash(char const** value, bool debug) { getStr64(flag_Horse_UsedAmiiboUidHash(), value, debug); }
-void setFlag_Horse_UsedAmiiboUidHash(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_UsedAmiiboUidHash(), debug); }
-void getFlag_Horse_UserName(char const** value, bool debug) { getStr64(flag_Horse_UserName(), value, debug); }
-void setFlag_Horse_UserName(const sead::SafeString& value, bool debug) { setStr64(value, flag_Horse_UserName(), debug); }
+void getFlag_Horse_UsedAmiiboUidHash(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_UsedAmiiboUidHash(), value, idx, debug); }
+void setFlag_Horse_UsedAmiiboUidHash(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_UsedAmiiboUidHash(), idx, debug); }
+void getFlag_Horse_UserName(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_UserName(), value, idx, debug); }
+void setFlag_Horse_UserName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_UserName(), idx, debug); }
 bool getFlag_Horse_Zelda_Exists(bool debug) { return getBool(flag_Horse_Zelda_Exists(), debug); }
 void setFlag_Horse_Zelda_Exists(bool value, bool debug) { setBool(value, flag_Horse_Zelda_Exists(), debug); }
 bool getFlag_HorseAssociationCustum001_DispNameFlag(bool debug) { return getBool(flag_HorseAssociationCustum001_DispNameFlag(), debug); }
@@ -4419,8 +4419,8 @@ bool getFlag_IsLogicalDelete(bool debug) { return getBool(flag_IsLogicalDelete()
 void setFlag_IsLogicalDelete(bool value, bool debug) { setBool(value, flag_IsLogicalDelete(), debug); }
 bool getFlag_IsOpenAppCamera(bool debug) { return getBool(flag_IsOpenAppCamera(), debug); }
 void setFlag_IsOpenAppCamera(bool value, bool debug) { setBool(value, flag_IsOpenAppCamera(), debug); }
-bool getFlag_IsOpenItemCategory(bool debug) { return getBool(flag_IsOpenItemCategory(), debug); }
-void setFlag_IsOpenItemCategory(bool value, bool debug) { setBool(value, flag_IsOpenItemCategory(), debug); }
+bool getFlag_IsOpenItemCategory(s32 idx, bool debug) { return getBool(flag_IsOpenItemCategory(), idx, debug); }
+void setFlag_IsOpenItemCategory(bool value, s32 idx, bool debug) { setBool(value, flag_IsOpenItemCategory(), idx, debug); }
 bool getFlag_IsOpenShopInfo_Demo(bool debug) { return getBool(flag_IsOpenShopInfo_Demo(), debug); }
 void setFlag_IsOpenShopInfo_Demo(bool value, bool debug) { setBool(value, flag_IsOpenShopInfo_Demo(), debug); }
 bool getFlag_IsOtherFairyRevivalForGreatFairy1(bool debug) { return getBool(flag_IsOtherFairyRevivalForGreatFairy1(), debug); }
@@ -5171,18 +5171,18 @@ bool getFlag_MamonoShop_Start_D(bool debug) { return getBool(flag_MamonoShop_Sta
 void setFlag_MamonoShop_Start_D(bool value, bool debug) { setBool(value, flag_MamonoShop_Start_D(), debug); }
 bool getFlag_MamonoShop_Start_First(bool debug) { return getBool(flag_MamonoShop_Start_First(), debug); }
 void setFlag_MamonoShop_Start_First(bool value, bool debug) { setBool(value, flag_MamonoShop_Start_First(), debug); }
-s32 getFlag_MapApp_MapIconNo(bool debug) { return getS32(flag_MapApp_MapIconNo(), debug); }
-void setFlag_MapApp_MapIconNo(s32 value, bool debug) { setS32(value, flag_MapApp_MapIconNo(), debug); }
-void getFlag_MapApp_MapIconPos(sead::Vector3f* value, bool debug) { getVec3f(flag_MapApp_MapIconPos(), value, debug); }
-void setFlag_MapApp_MapIconPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapApp_MapIconPos(), debug); }
-void getFlag_MapApp_PointGuideInvisibleKey(char const** value, bool debug) { getStr64(flag_MapApp_PointGuideInvisibleKey(), value, debug); }
-void setFlag_MapApp_PointGuideInvisibleKey(const sead::SafeString& value, bool debug) { setStr64(value, flag_MapApp_PointGuideInvisibleKey(), debug); }
+s32 getFlag_MapApp_MapIconNo(s32 idx, bool debug) { return getS32(flag_MapApp_MapIconNo(), idx, debug); }
+void setFlag_MapApp_MapIconNo(s32 value, s32 idx, bool debug) { setS32(value, flag_MapApp_MapIconNo(), idx, debug); }
+void getFlag_MapApp_MapIconPos(sead::Vector3f* value, s32 idx, bool debug) { getVec3f(flag_MapApp_MapIconPos(), value, idx, debug); }
+void setFlag_MapApp_MapIconPos(const sead::Vector3f& value, s32 idx, bool debug) { setVec3f(value, flag_MapApp_MapIconPos(), idx, debug); }
+void getFlag_MapApp_PointGuideInvisibleKey(char const** value, s32 idx, bool debug) { getStr64(flag_MapApp_PointGuideInvisibleKey(), value, idx, debug); }
+void setFlag_MapApp_PointGuideInvisibleKey(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_MapApp_PointGuideInvisibleKey(), idx, debug); }
 void getFlag_MapApp_PointGuidePoint(sead::Vector3f* value, bool debug) { getVec3f(flag_MapApp_PointGuidePoint(), value, debug); }
 void setFlag_MapApp_PointGuidePoint(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapApp_PointGuidePoint(), debug); }
-void getFlag_MapApp_PointGuidePos(sead::Vector3f* value, bool debug) { getVec3f(flag_MapApp_PointGuidePos(), value, debug); }
-void setFlag_MapApp_PointGuidePos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapApp_PointGuidePos(), debug); }
-void getFlag_MapApp_PointGuideVisibleKey(char const** value, bool debug) { getStr64(flag_MapApp_PointGuideVisibleKey(), value, debug); }
-void setFlag_MapApp_PointGuideVisibleKey(const sead::SafeString& value, bool debug) { setStr64(value, flag_MapApp_PointGuideVisibleKey(), debug); }
+void getFlag_MapApp_PointGuidePos(sead::Vector3f* value, s32 idx, bool debug) { getVec3f(flag_MapApp_PointGuidePos(), value, idx, debug); }
+void setFlag_MapApp_PointGuidePos(const sead::Vector3f& value, s32 idx, bool debug) { setVec3f(value, flag_MapApp_PointGuidePos(), idx, debug); }
+void getFlag_MapApp_PointGuideVisibleKey(char const** value, s32 idx, bool debug) { getStr64(flag_MapApp_PointGuideVisibleKey(), value, idx, debug); }
+void setFlag_MapApp_PointGuideVisibleKey(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_MapApp_PointGuideVisibleKey(), idx, debug); }
 bool getFlag_MapTower_01(bool debug) { return getBool(flag_MapTower_01(), debug); }
 void setFlag_MapTower_01(bool value, bool debug) { setBool(value, flag_MapTower_01(), debug); }
 void getFlag_MapTower_01_OpenCenterPos(sead::Vector3f* value, bool debug) { getVec3f(flag_MapTower_01_OpenCenterPos(), value, debug); }
@@ -5283,10 +5283,10 @@ f32 getFlag_MasterSwordRecoverTime(bool debug) { return getF32(flag_MasterSwordR
 void setFlag_MasterSwordRecoverTime(f32 value, bool debug) { setF32(value, flag_MasterSwordRecoverTime(), debug); }
 s32 getFlag_MaxHartValue(bool debug) { return getS32(flag_MaxHartValue(), debug); }
 void setFlag_MaxHartValue(s32 value, bool debug) { setS32(value, flag_MaxHartValue(), debug); }
-void getFlag_MemoryPhotoSaveDistrictName(char const** value, bool debug) { getStr256(flag_MemoryPhotoSaveDistrictName(), value, debug); }
-void setFlag_MemoryPhotoSaveDistrictName(const sead::SafeString& value, bool debug) { setStr256(value, flag_MemoryPhotoSaveDistrictName(), debug); }
-void getFlag_MemoryPhotoSaveLocationName(char const** value, bool debug) { getStr256(flag_MemoryPhotoSaveLocationName(), value, debug); }
-void setFlag_MemoryPhotoSaveLocationName(const sead::SafeString& value, bool debug) { setStr256(value, flag_MemoryPhotoSaveLocationName(), debug); }
+void getFlag_MemoryPhotoSaveDistrictName(char const** value, s32 idx, bool debug) { getStr256(flag_MemoryPhotoSaveDistrictName(), value, idx, debug); }
+void setFlag_MemoryPhotoSaveDistrictName(const sead::SafeString& value, s32 idx, bool debug) { setStr256(value, flag_MemoryPhotoSaveDistrictName(), idx, debug); }
+void getFlag_MemoryPhotoSaveLocationName(char const** value, s32 idx, bool debug) { getStr256(flag_MemoryPhotoSaveLocationName(), value, idx, debug); }
+void setFlag_MemoryPhotoSaveLocationName(const sead::SafeString& value, s32 idx, bool debug) { setStr256(value, flag_MemoryPhotoSaveLocationName(), idx, debug); }
 bool getFlag_MinakkareHatago_NPC002_Ichikara(bool debug) { return getBool(flag_MinakkareHatago_NPC002_Ichikara(), debug); }
 void setFlag_MinakkareHatago_NPC002_Ichikara(bool value, bool debug) { setBool(value, flag_MinakkareHatago_NPC002_Ichikara(), debug); }
 f32 getFlag_MiniGame_BirdMan_HillTower_CurrentDistance(bool debug) { return getF32(flag_MiniGame_BirdMan_HillTower_CurrentDistance(), debug); }
@@ -6889,24 +6889,24 @@ s32 getFlag_PlayReport_PlayTime_Console(bool debug) { return getS32(flag_PlayRep
 void setFlag_PlayReport_PlayTime_Console(s32 value, bool debug) { setS32(value, flag_PlayReport_PlayTime_Console(), debug); }
 s32 getFlag_PlayReport_PlayTime_Handheld(bool debug) { return getS32(flag_PlayReport_PlayTime_Handheld(), debug); }
 void setFlag_PlayReport_PlayTime_Handheld(s32 value, bool debug) { setS32(value, flag_PlayReport_PlayTime_Handheld(), debug); }
-s32 getFlag_PorchBow_FlagSp(bool debug) { return getS32(flag_PorchBow_FlagSp(), debug); }
-void setFlag_PorchBow_FlagSp(s32 value, bool debug) { setS32(value, flag_PorchBow_FlagSp(), debug); }
-s32 getFlag_PorchBow_ValueSp(bool debug) { return getS32(flag_PorchBow_ValueSp(), debug); }
-void setFlag_PorchBow_ValueSp(s32 value, bool debug) { setS32(value, flag_PorchBow_ValueSp(), debug); }
-void getFlag_PorchItem(char const** value, bool debug) { getStr64(flag_PorchItem(), value, debug); }
-void setFlag_PorchItem(const sead::SafeString& value, bool debug) { setStr64(value, flag_PorchItem(), debug); }
-bool getFlag_PorchItem_EquipFlag(bool debug) { return getBool(flag_PorchItem_EquipFlag(), debug); }
-void setFlag_PorchItem_EquipFlag(bool value, bool debug) { setBool(value, flag_PorchItem_EquipFlag(), debug); }
-s32 getFlag_PorchItem_Value1(bool debug) { return getS32(flag_PorchItem_Value1(), debug); }
-void setFlag_PorchItem_Value1(s32 value, bool debug) { setS32(value, flag_PorchItem_Value1(), debug); }
-s32 getFlag_PorchShield_FlagSp(bool debug) { return getS32(flag_PorchShield_FlagSp(), debug); }
-void setFlag_PorchShield_FlagSp(s32 value, bool debug) { setS32(value, flag_PorchShield_FlagSp(), debug); }
-s32 getFlag_PorchShield_ValueSp(bool debug) { return getS32(flag_PorchShield_ValueSp(), debug); }
-void setFlag_PorchShield_ValueSp(s32 value, bool debug) { setS32(value, flag_PorchShield_ValueSp(), debug); }
-s32 getFlag_PorchSword_FlagSp(bool debug) { return getS32(flag_PorchSword_FlagSp(), debug); }
-void setFlag_PorchSword_FlagSp(s32 value, bool debug) { setS32(value, flag_PorchSword_FlagSp(), debug); }
-s32 getFlag_PorchSword_ValueSp(bool debug) { return getS32(flag_PorchSword_ValueSp(), debug); }
-void setFlag_PorchSword_ValueSp(s32 value, bool debug) { setS32(value, flag_PorchSword_ValueSp(), debug); }
+s32 getFlag_PorchBow_FlagSp(s32 idx, bool debug) { return getS32(flag_PorchBow_FlagSp(), idx, debug); }
+void setFlag_PorchBow_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchBow_FlagSp(), idx, debug); }
+s32 getFlag_PorchBow_ValueSp(s32 idx, bool debug) { return getS32(flag_PorchBow_ValueSp(), idx, debug); }
+void setFlag_PorchBow_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchBow_ValueSp(), idx, debug); }
+void getFlag_PorchItem(char const** value, s32 idx, bool debug) { getStr64(flag_PorchItem(), value, idx, debug); }
+void setFlag_PorchItem(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_PorchItem(), idx, debug); }
+bool getFlag_PorchItem_EquipFlag(s32 idx, bool debug) { return getBool(flag_PorchItem_EquipFlag(), idx, debug); }
+void setFlag_PorchItem_EquipFlag(bool value, s32 idx, bool debug) { setBool(value, flag_PorchItem_EquipFlag(), idx, debug); }
+s32 getFlag_PorchItem_Value1(s32 idx, bool debug) { return getS32(flag_PorchItem_Value1(), idx, debug); }
+void setFlag_PorchItem_Value1(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchItem_Value1(), idx, debug); }
+s32 getFlag_PorchShield_FlagSp(s32 idx, bool debug) { return getS32(flag_PorchShield_FlagSp(), idx, debug); }
+void setFlag_PorchShield_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchShield_FlagSp(), idx, debug); }
+s32 getFlag_PorchShield_ValueSp(s32 idx, bool debug) { return getS32(flag_PorchShield_ValueSp(), idx, debug); }
+void setFlag_PorchShield_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchShield_ValueSp(), idx, debug); }
+s32 getFlag_PorchSword_FlagSp(s32 idx, bool debug) { return getS32(flag_PorchSword_FlagSp(), idx, debug); }
+void setFlag_PorchSword_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchSword_FlagSp(), idx, debug); }
+s32 getFlag_PorchSword_ValueSp(s32 idx, bool debug) { return getS32(flag_PorchSword_ValueSp(), idx, debug); }
+void setFlag_PorchSword_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchSword_ValueSp(), idx, debug); }
 bool getFlag_PortableUnit_PowerOn(bool debug) { return getBool(flag_PortableUnit_PowerOn(), debug); }
 void setFlag_PortableUnit_PowerOn(bool value, bool debug) { setBool(value, flag_PortableUnit_PowerOn(), debug); }
 s32 getFlag_PosTrackEndPointBlockNumber(bool debug) { return getS32(flag_PosTrackEndPointBlockNumber(), debug); }
@@ -7047,10 +7047,10 @@ bool getFlag_SaveProhibitionArea(bool debug) { return getBool(flag_SaveProhibiti
 void setFlag_SaveProhibitionArea(bool value, bool debug) { setBool(value, flag_SaveProhibitionArea(), debug); }
 void getFlag_ScoreStringBuffer(char const** value, bool debug) { getStr(flag_ScoreStringBuffer(), value, debug); }
 void setFlag_ScoreStringBuffer(const sead::SafeString& value, bool debug) { setStr(value, flag_ScoreStringBuffer(), debug); }
-s32 getFlag_SeakSensorPictureIndex(bool debug) { return getS32(flag_SeakSensorPictureIndex(), debug); }
-void setFlag_SeakSensorPictureIndex(s32 value, bool debug) { setS32(value, flag_SeakSensorPictureIndex(), debug); }
-s32 getFlag_SeakSensorPictureSize(bool debug) { return getS32(flag_SeakSensorPictureSize(), debug); }
-void setFlag_SeakSensorPictureSize(s32 value, bool debug) { setS32(value, flag_SeakSensorPictureSize(), debug); }
+s32 getFlag_SeakSensorPictureIndex(s32 idx, bool debug) { return getS32(flag_SeakSensorPictureIndex(), idx, debug); }
+void setFlag_SeakSensorPictureIndex(s32 value, s32 idx, bool debug) { setS32(value, flag_SeakSensorPictureIndex(), idx, debug); }
+s32 getFlag_SeakSensorPictureSize(s32 idx, bool debug) { return getS32(flag_SeakSensorPictureSize(), idx, debug); }
+void setFlag_SeakSensorPictureSize(s32 value, s32 idx, bool debug) { setS32(value, flag_SeakSensorPictureSize(), idx, debug); }
 bool getFlag_Self_HorseAssociationCustum_DispNameFlag(bool debug) { return getBool(flag_Self_HorseAssociationCustum_DispNameFlag(), debug); }
 void setFlag_Self_HorseAssociationCustum_DispNameFlag(bool value, bool debug) { setBool(value, flag_Self_HorseAssociationCustum_DispNameFlag(), debug); }
 s32 getFlag_SetItemCurrentNo(bool debug) { return getS32(flag_SetItemCurrentNo(), debug); }
@@ -7109,8 +7109,8 @@ s32 getFlag_ShopTradePrice(bool debug) { return getS32(flag_ShopTradePrice(), de
 void setFlag_ShopTradePrice(s32 value, bool debug) { setS32(value, flag_ShopTradePrice(), debug); }
 bool getFlag_ShowLocationProhibitionInDemo(bool debug) { return getBool(flag_ShowLocationProhibitionInDemo(), debug); }
 void setFlag_ShowLocationProhibitionInDemo(bool value, bool debug) { setBool(value, flag_ShowLocationProhibitionInDemo(), debug); }
-s32 getFlag_SmallKey(bool debug) { return getS32(flag_SmallKey(), debug); }
-void setFlag_SmallKey(s32 value, bool debug) { setS32(value, flag_SmallKey(), debug); }
+s32 getFlag_SmallKey(s32 idx, bool debug) { return getS32(flag_SmallKey(), idx, debug); }
+void setFlag_SmallKey(s32 value, s32 idx, bool debug) { setS32(value, flag_SmallKey(), idx, debug); }
 bool getFlag_SnowMountainRescue_Activated(bool debug) { return getBool(flag_SnowMountainRescue_Activated(), debug); }
 void setFlag_SnowMountainRescue_Activated(bool value, bool debug) { setBool(value, flag_SnowMountainRescue_Activated(), debug); }
 bool getFlag_SnowMountainRescue_Finished(bool debug) { return getBool(flag_SnowMountainRescue_Finished(), debug); }
@@ -7141,8 +7141,8 @@ f32 getFlag_StaminaCurrentMax(bool debug) { return getF32(flag_StaminaCurrentMax
 void setFlag_StaminaCurrentMax(f32 value, bool debug) { setF32(value, flag_StaminaCurrentMax(), debug); }
 f32 getFlag_StaminaMax(bool debug) { return getF32(flag_StaminaMax(), debug); }
 void setFlag_StaminaMax(f32 value, bool debug) { setF32(value, flag_StaminaMax(), debug); }
-void getFlag_StaminaRecover(sead::Vector2f* value, bool debug) { getVec2f(flag_StaminaRecover(), value, debug); }
-void setFlag_StaminaRecover(const sead::Vector2f& value, bool debug) { setVec2f(value, flag_StaminaRecover(), debug); }
+void getFlag_StaminaRecover(sead::Vector2f* value, s32 idx, bool debug) { getVec2f(flag_StaminaRecover(), value, idx, debug); }
+void setFlag_StaminaRecover(const sead::Vector2f& value, s32 idx, bool debug) { setVec2f(value, flag_StaminaRecover(), idx, debug); }
 s32 getFlag_STErrorCode(bool debug) { return getS32(flag_STErrorCode(), debug); }
 void setFlag_STErrorCode(s32 value, bool debug) { setS32(value, flag_STErrorCode(), debug); }
 s32 getFlag_StickSensitivity(bool debug) { return getS32(flag_StickSensitivity(), debug); }

@@ -239,16 +239,29 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug = false);
 """)
         for i, name in enumerate(exe_flag_list):
             info = flag_type_info[flag_types[name]]
-            # Getter
-            if info.is_value_inline():
-                f.write(
-                    f"{info.arg_type} getFlag_{name}(bool debug = false);\n")
+            if info.is_value_array():
+                # Getter
+                if info.is_value_inline():
+                    f.write(
+                        f"{info.arg_type} getFlag_{name}(s32 idx, bool debug = false);\n")
+                else:
+                    f.write(
+                        f"void getFlag_{name}({info.arg_type}* value, s32 idx, bool debug = false);\n")
+                # Setter
+                f.write(f"void setFlag_{name}({info.get_setter_arg_type()} value, s32 idx, bool debug = false);\n")
+                # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
             else:
-                f.write(
-                    f"void getFlag_{name}({info.arg_type}* value, bool debug = false);\n")
-            # Setter
-            f.write(f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug = false);\n")
-            # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
+                # Getter
+                if info.is_value_inline():
+                    f.write(
+                        f"{info.arg_type} getFlag_{name}(bool debug = false);\n")
+                else:
+                    f.write(
+                        f"void getFlag_{name}({info.arg_type}* value, bool debug = false);\n")
+                # Setter
+                f.write(f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug = false);\n")
+                # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
+
 
         f.write("""\
 
@@ -274,18 +287,32 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug) { return getS32(handle, deb
 """)
         for i, name in enumerate(exe_flag_list):
             info = flag_type_info[flag_types[name]]
-            # Getter
-            if info.is_value_inline():
+            if info.is_value_array():
+                # Getter
+                if info.is_value_inline():
+                    f.write(
+                        f"{info.arg_type} getFlag_{name}(s32 idx, bool debug) {{ return {info.get_getter_fn_name()}(flag_{name}(), idx, debug); }}\n")
+                else:
+                    f.write(
+                        f"void getFlag_{name}({info.arg_type}* value, s32 idx, bool debug) {{ {info.get_getter_fn_name()}(flag_{name}(), value, idx, debug); }}\n")
+                # Setter
                 f.write(
-                    f"{info.arg_type} getFlag_{name}(bool debug) {{ return {info.get_getter_fn_name()}(flag_{name}(), debug); }}\n")
+                    f"void setFlag_{name}({info.get_setter_arg_type()} value, s32 idx, bool debug) {{ "
+                    f"{info.get_setter_fn_name()}(value, flag_{name}(), idx, debug); }}\n")
+                # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
             else:
+                # Getter
+                if info.is_value_inline():
+                    f.write(
+                        f"{info.arg_type} getFlag_{name}(bool debug) {{ return {info.get_getter_fn_name()}(flag_{name}(), debug); }}\n")
+                else:
+                    f.write(
+                        f"void getFlag_{name}({info.arg_type}* value, bool debug) {{ {info.get_getter_fn_name()}(flag_{name}(), value, debug); }}\n")
+                # Setter
                 f.write(
-                    f"void getFlag_{name}({info.arg_type}* value, bool debug) {{ {info.get_getter_fn_name()}(flag_{name}(), value, debug); }}\n")
-            # Setter
-            f.write(
-                f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug) {{ "
-                f"{info.get_setter_fn_name()}(value, flag_{name}(), debug); }}\n")
-            # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
+                    f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug) {{ "
+                    f"{info.get_setter_fn_name()}(value, flag_{name}(), debug); }}\n")
+                # TODO: resetter (see resetFlag_ActorName_SeakSensor_Slot0 for an example)
 
         f.write("""\
 
