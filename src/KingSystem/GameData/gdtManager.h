@@ -235,7 +235,7 @@ public:
 
 #undef GDT_GET_
 
-#define GDT_SET_(NAME, T)                                                                          \
+#define GDT_SET_(NAME, T, WRAPPER_T, WRAPPER_VALUE)                                                \
     /* Setters (by handle) */                                                                      \
     KSYS_ALWAYS_INLINE bool NAME(T value, FlagHandle handle, bool debug, bool force) {             \
         if (mBitFlags.isOn(BitFlag::_40000))                                                       \
@@ -302,49 +302,49 @@ public:
         return NAME(value, name, true, true, sub_idx);                                             \
     }                                                                                              \
                                                                                                    \
-    bool NAME(T value, FlagHandle handle, bool debug) {                                            \
+    bool NAME(WRAPPER_T value, FlagHandle handle, bool debug) {                                    \
         if (debug) {                                                                               \
             setBool(true, "IsChangedByDebug");                                                     \
             mBitFlags.set(BitFlag::_800);                                                          \
-            return NAME##NoCheckForce(value, handle);                                              \
+            return NAME##NoCheckForce(WRAPPER_VALUE, handle);                                      \
         }                                                                                          \
-        return NAME(value, handle);                                                                \
+        return NAME(WRAPPER_VALUE, handle);                                                        \
     }                                                                                              \
-    bool NAME(T value, const sead::SafeString& name, bool debug) {                                 \
+    bool NAME(WRAPPER_T value, const sead::SafeString& name, bool debug) {                         \
         if (debug) {                                                                               \
             setBool(true, "IsChangedByDebug");                                                     \
             mBitFlags.set(BitFlag::_800);                                                          \
-            return NAME##NoCheckForce(value, name);                                                \
+            return NAME##NoCheckForce(WRAPPER_VALUE, name);                                        \
         }                                                                                          \
-        return NAME(value, name);                                                                  \
+        return NAME(WRAPPER_VALUE, name);                                                          \
     }                                                                                              \
                                                                                                    \
-    bool NAME(T value, FlagHandle handle, bool debug, s32 sub_idx) {                               \
+    bool NAME(WRAPPER_T value, FlagHandle handle, bool debug, s32 sub_idx) {                       \
         if (debug) {                                                                               \
             setBool(true, "IsChangedByDebug");                                                     \
             mBitFlags.set(BitFlag::_800);                                                          \
-            return NAME##NoCheckForce(value, handle, sub_idx);                                     \
+            return NAME##NoCheckForce(WRAPPER_VALUE, handle, sub_idx);                             \
         }                                                                                          \
-        return NAME(value, handle, sub_idx);                                                       \
+        return NAME(WRAPPER_VALUE, handle, sub_idx);                                               \
     }                                                                                              \
-    bool NAME(T value, const sead::SafeString& name, bool debug, s32 sub_idx) {                    \
+    bool NAME(WRAPPER_T value, const sead::SafeString& name, bool debug, s32 sub_idx) {            \
         if (debug) {                                                                               \
             setBool(true, "IsChangedByDebug");                                                     \
             mBitFlags.set(BitFlag::_800);                                                          \
-            return NAME##NoCheckForce(value, name, sub_idx);                                       \
+            return NAME##NoCheckForce(WRAPPER_VALUE, name, sub_idx);                               \
         }                                                                                          \
-        return NAME(value, name, sub_idx);                                                         \
+        return NAME(WRAPPER_VALUE, name, sub_idx);                                                 \
     }
 
-    GDT_SET_(setBool, bool)
-    GDT_SET_(setS32, s32)
-    GDT_SET_(setF32, f32)
-    GDT_SET_(setStr, char const*)
-    GDT_SET_(setStr64, char const*)
-    GDT_SET_(setStr256, char const*)
-    GDT_SET_(setVec2f, const sead::Vector2f&)
-    GDT_SET_(setVec3f, const sead::Vector3f&)
-    GDT_SET_(setVec4f, const sead::Vector4f&)
+    GDT_SET_(setBool, bool, bool, value)
+    GDT_SET_(setS32, s32, s32, value)
+    GDT_SET_(setF32, f32, f32, value)
+    GDT_SET_(setStr, char const*, const sead::SafeString&, value.cstr())
+    GDT_SET_(setStr64, char const*, const sead::SafeString&, value.cstr())
+    GDT_SET_(setStr256, char const*, const sead::SafeString&, value.cstr())
+    GDT_SET_(setVec2f, const sead::Vector2f&, const sead::Vector2f&, value)
+    GDT_SET_(setVec3f, const sead::Vector3f&, const sead::Vector3f&, value)
+    GDT_SET_(setVec4f, const sead::Vector4f&, const sead::Vector4f&, value)
 
 #undef GDT_SET_
 

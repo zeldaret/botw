@@ -148,29 +148,16 @@ inline void getVec4f(FlagHandle handle, sead::Vector4f* value, s32 idx, bool deb
             mgr->NAME(value, handle, debug, sub_idx);                                              \
     }
 
-#define GDT_SET_FLAG_STR_(NAME, T)                                                                 \
-    inline void NAME(T value, FlagHandle handle, bool debug = false) {                             \
-        auto* mgr = Manager::instance();                                                           \
-        if (mgr)                                                                                   \
-            mgr->NAME(value.cstr(), handle, debug);                                                \
-    }                                                                                              \
-    inline void NAME(T value, FlagHandle handle, s32 sub_idx, bool debug = false) {                \
-        auto* mgr = Manager::instance();                                                           \
-        if (mgr)                                                                                   \
-            mgr->NAME(value.cstr(), handle, debug, sub_idx);                                       \
-    }
-
 GDT_SET_FLAG_(setBool, bool)
 GDT_SET_FLAG_(setS32, s32)
 GDT_SET_FLAG_(setF32, f32)
-GDT_SET_FLAG_STR_(setStr, const sead::SafeString&)
-GDT_SET_FLAG_STR_(setStr64, const sead::SafeString&)
-GDT_SET_FLAG_STR_(setStr256, const sead::SafeString&)
+GDT_SET_FLAG_(setStr, const sead::SafeString&)
+GDT_SET_FLAG_(setStr64, const sead::SafeString&)
+GDT_SET_FLAG_(setStr256, const sead::SafeString&)
 GDT_SET_FLAG_(setVec2f, const sead::Vector2f&)
 GDT_SET_FLAG_(setVec3f, const sead::Vector3f&)
 GDT_SET_FLAG_(setVec4f, const sead::Vector4f&)
 
 #undef GDT_SET_FLAG_
-#undef GDT_SET_FLAG_STR_
 
 }  // namespace ksys::gdt
