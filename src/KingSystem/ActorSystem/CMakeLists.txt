@@ -38,7 +38,8 @@ target_sources(uking PRIVATE
   actBaseProcMgr.h
   actBaseProcUnit.cpp
   actBaseProcUnit.h
-  actLifeRecoveryInfo.h
+  actDebug.cpp
+  actDebug.h
   actInstParamPack.cpp
   actInstParamPack.h
   actTag.h

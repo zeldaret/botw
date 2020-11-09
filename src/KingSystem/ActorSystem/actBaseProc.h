@@ -87,6 +87,8 @@ public:
     void setPriority(u8 priority) { mPriority = priority; }
 
     State getState() const { return mState; }
+    bool isInit() const { return mState == State::Init; }
+    bool isCalc() const { return mState == State::Calc; }
     bool isDeletedOrDeleting() const {
         return mState == State::Delete || mStateFlags.isOn(StateFlags::RequestDelete);
     }
