@@ -215,6 +215,12 @@ public:
             ref.get().NAME(value, idx);                                                            \
             return true;                                                                           \
         });                                                                                        \
+    }                                                                                              \
+    void NAME(FlagHandle handle, T* value, s32 sub_idx, bool debug = false) {                      \
+        unwrapHandle<false>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {                    \
+            ref.get().NAME(value, idx, sub_idx);                                                   \
+            return true;                                                                           \
+        });                                                                                        \
     }
 
     GDT_GET_(getBool, bool)
@@ -230,6 +236,7 @@ public:
 #undef GDT_GET_
 
 #define GDT_SET_(NAME, T)                                                                          \
+    /* Setters (by handle) */                                                                      \
     KSYS_ALWAYS_INLINE bool NAME(T value, FlagHandle handle, bool debug, bool force) {             \
         if (mBitFlags.isOn(BitFlag::_40000))                                                       \
             return false;                                                                          \
@@ -242,7 +249,25 @@ public:
     bool NAME##NoCheckForce(T value, FlagHandle handle) {                                          \
         return NAME(value, handle, true, true);                                                    \
     }                                                                                              \
-                                                                                                   \
+    /* Setters for arrays (by handle) */                                                           \
+    KSYS_ALWAYS_INLINE bool NAME(T value, FlagHandle handle, bool debug, bool force,               \
+                                 s32 sub_idx) {                                                    \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        return unwrapHandle<true>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {              \
+            return ref.get().NAME(value, idx, sub_idx, force);                                     \
+        });                                                                                        \
+    }                                                                                              \
+    bool NAME(T value, FlagHandle handle, s32 sub_idx) {                                           \
+        return NAME(value, handle, false, false, sub_idx);                                         \
+    }                                                                                              \
+    bool NAME##NoCheck(T value, FlagHandle handle, s32 sub_idx) {                                  \
+        return NAME(value, handle, true, false, sub_idx);                                          \
+    }                                                                                              \
+    bool NAME##NoCheckForce(T value, FlagHandle handle, s32 sub_idx) {                             \
+        return NAME(value, handle, true, true, sub_idx);                                           \
+    }                                                                                              \
+    /* Setters (by name) */                                                                        \
     KSYS_ALWAYS_INLINE bool NAME(T value, const sead::SafeString& name, bool debug, bool force) {  \
         if (mBitFlags.isOn(BitFlag::_40000))                                                       \
             return false;                                                                          \
@@ -257,6 +282,58 @@ public:
     }                                                                                              \
     [[gnu::noinline]] bool NAME##NoCheckForce(T value, const sead::SafeString& name) {             \
         return NAME(value, name, true, true);                                                      \
+    }                                                                                              \
+    /* Setters for arrays (by name) */                                                             \
+    KSYS_ALWAYS_INLINE bool NAME(T value, const sead::SafeString& name, bool debug, bool force,    \
+                                 s32 sub_idx) {                                                    \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        auto& ref = debug ? getParamBypassPerm() : getParam();                                     \
+        return ref.get().NAME(value, name, sub_idx, force);                                        \
+    }                                                                                              \
+    [[gnu::noinline]] bool NAME(T value, const sead::SafeString& name, s32 sub_idx) {              \
+        return NAME(value, name, false, false, sub_idx);                                           \
+    }                                                                                              \
+    [[gnu::noinline]] bool NAME##NoCheck(T value, const sead::SafeString& name, s32 sub_idx) {     \
+        return NAME(value, name, true, false, sub_idx);                                            \
+    }                                                                                              \
+    [[gnu::noinline]] bool NAME##NoCheckForce(T value, const sead::SafeString& name,               \
+                                              s32 sub_idx) {                                       \
+        return NAME(value, name, true, true, sub_idx);                                             \
+    }                                                                                              \
+                                                                                                   \
+    bool NAME(T value, FlagHandle handle, bool debug) {                                            \
+        if (debug) {                                                                               \
+            setBool(true, "IsChangedByDebug");                                                     \
+            mBitFlags.set(BitFlag::_800);                                                          \
+            return NAME##NoCheckForce(value, handle);                                              \
+        }                                                                                          \
+        return NAME(value, handle);                                                                \
+    }                                                                                              \
+    bool NAME(T value, const sead::SafeString& name, bool debug) {                                 \
+        if (debug) {                                                                               \
+            setBool(true, "IsChangedByDebug");                                                     \
+            mBitFlags.set(BitFlag::_800);                                                          \
+            return NAME##NoCheckForce(value, name);                                                \
+        }                                                                                          \
+        return NAME(value, name);                                                                  \
+    }                                                                                              \
+                                                                                                   \
+    bool NAME(T value, FlagHandle handle, bool debug, s32 sub_idx) {                               \
+        if (debug) {                                                                               \
+            setBool(true, "IsChangedByDebug");                                                     \
+            mBitFlags.set(BitFlag::_800);                                                          \
+            return NAME##NoCheckForce(value, handle, sub_idx);                                     \
+        }                                                                                          \
+        return NAME(value, handle, sub_idx);                                                       \
+    }                                                                                              \
+    bool NAME(T value, const sead::SafeString& name, bool debug, s32 sub_idx) {                    \
+        if (debug) {                                                                               \
+            setBool(true, "IsChangedByDebug");                                                     \
+            mBitFlags.set(BitFlag::_800);                                                          \
+            return NAME##NoCheckForce(value, name, sub_idx);                                       \
+        }                                                                                          \
+        return NAME(value, name, sub_idx);                                                         \
     }
 
     GDT_SET_(setBool, bool)
