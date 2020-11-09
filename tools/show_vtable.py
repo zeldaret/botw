@@ -27,7 +27,7 @@ def bold(s) -> str:
 
 def dump_table(name: str) -> None:
     try:
-        symbols = util.elf.build_symbol_table(util.elf.my_symtab)
+        symbols = util.elf.build_addr_to_symbol_table(util.elf.my_symtab)
         decomp_symbols = {fn.decomp_name for fn in utils.get_functions() if fn.decomp_name}
 
         offset, size = util.elf.get_symbol_file_offset_and_size(util.elf.my_elf, util.elf.my_symtab, name)

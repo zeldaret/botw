@@ -21,6 +21,7 @@ class FunctionInfo(tp.NamedTuple):
     size: int
     decomp_name: str
     status: FunctionStatus
+    raw_row: tp.List[str]
 
 
 _markers = {
@@ -44,7 +45,7 @@ def parse_function_csv_entry(row) -> FunctionInfo:
         status = FunctionStatus.NotDecompiled
 
     addr = int(ea, 16) - 0x7100000000
-    return FunctionInfo(addr, name, int(size, 0), decomp_name, status)
+    return FunctionInfo(addr, name, int(size, 0), decomp_name, status, row)
 
 
 def get_functions(path: tp.Optional[Path] = None) -> tp.Iterable[FunctionInfo]:

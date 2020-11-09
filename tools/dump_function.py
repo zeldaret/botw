@@ -12,7 +12,7 @@ def dump_fn(name: str) -> None:
         fn = util.elf.get_fn_from_my_elf(name)
         path = expected_dir / f"{name}.bin"
         path.parent.mkdir(exist_ok=True)
-        path.write_bytes(fn)
+        path.write_bytes(fn.data)
     except KeyError:
         utils.fail("could not find function")
 

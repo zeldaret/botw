@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
 import sys
+from typing import Optional
 
 import util.elf
 import util.checker
 from util import utils
 
 
-def check_function(checker: util.checker.FunctionChecker, addr: int, size: int, name: str, base_fn=None) -> bool:
+def check_function(checker: util.checker.FunctionChecker, addr: int, size: int, name: str,
+                   base_fn: Optional[util.elf.Function] = None) -> bool:
     if base_fn is None:
         try:
             base_fn = util.elf.get_fn_from_base_elf(addr, size)
@@ -16,13 +18,14 @@ def check_function(checker: util.checker.FunctionChecker, addr: int, size: int, 
             return False
 
     my_fn = util.elf.get_fn_from_my_elf(name)
-    return checker.check(addr, size, base_fn, my_fn)
+    return checker.check(base_fn, my_fn)
 
 
 def main() -> None:
     failed = False
 
-    nonmatching_fns_with_dump = {p.stem: p.read_bytes() for p in (utils.get_repo_root() / "expected").glob("*.bin")}
+    nonmatching_fns_with_dump = {p.stem: util.elf.Function(p.read_bytes(), 0) for p in
+                                 (utils.get_repo_root() / "expected").glob("*.bin")}
 
     checker = util.checker.FunctionChecker()
 
