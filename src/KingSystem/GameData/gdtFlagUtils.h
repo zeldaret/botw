@@ -160,4 +160,28 @@ GDT_SET_FLAG_(setVec4f, const sead::Vector4f&)
 
 #undef GDT_SET_FLAG_
 
+#define GDT_RESET_FLAG_(NAME)                                                                      \
+    [[gnu::noinline]] inline void NAME(FlagHandle handle, bool debug = false) {                    \
+        auto* mgr = Manager::instance();                                                           \
+        if (mgr)                                                                                   \
+            mgr->NAME(handle, debug);                                                              \
+    }                                                                                              \
+    [[gnu::noinline]] inline void NAME(FlagHandle handle, s32 sub_idx, bool debug = false) {       \
+        auto* mgr = Manager::instance();                                                           \
+        if (mgr)                                                                                   \
+            mgr->NAME(handle, debug, sub_idx);                                                     \
+    }
+
+GDT_RESET_FLAG_(resetBool)
+GDT_RESET_FLAG_(resetS32)
+GDT_RESET_FLAG_(resetF32)
+GDT_RESET_FLAG_(resetStr)
+GDT_RESET_FLAG_(resetStr64)
+GDT_RESET_FLAG_(resetStr256)
+GDT_RESET_FLAG_(resetVec2f)
+GDT_RESET_FLAG_(resetVec3f)
+GDT_RESET_FLAG_(resetVec4f)
+
+#undef GDT_SET_FLAG_
+
 }  // namespace ksys::gdt

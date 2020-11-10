@@ -145,6 +145,30 @@ public:
 
 #undef PROXY_GET_SET_IMPL_
 
+#define PROXY_RESET_IMPL_(NAME)                                                                    \
+    bool NAME(s32 idx) { return getBuffer1()->NAME(idx, mRef.mCheckPermissions); }                 \
+    bool NAME(s32 idx, s32 sub_idx) {                                                              \
+        return getBuffer1()->NAME(idx, sub_idx, mRef.mCheckPermissions);                           \
+    }                                                                                              \
+    bool NAME(const sead::SafeString& name) {                                                      \
+        return getBuffer1()->NAME(name, mRef.mCheckPermissions);                                   \
+    }                                                                                              \
+    bool NAME(const sead::SafeString& name, s32 sub_idx) {                                         \
+        return getBuffer1()->NAME(name, sub_idx, mRef.mCheckPermissions);                          \
+    }
+
+        PROXY_RESET_IMPL_(resetBool)
+        PROXY_RESET_IMPL_(resetS32)
+        PROXY_RESET_IMPL_(resetF32)
+        PROXY_RESET_IMPL_(resetStr)
+        PROXY_RESET_IMPL_(resetStr64)
+        PROXY_RESET_IMPL_(resetStr256)
+        PROXY_RESET_IMPL_(resetVec2f)
+        PROXY_RESET_IMPL_(resetVec3f)
+        PROXY_RESET_IMPL_(resetVec4f)
+
+#undef PROXY_RESET_IMPL_
+
     private:
         friend class TriggerParamRef;
         Proxy(const TriggerParamRef& ref, bool param1) : mUseParam1(param1), mRef(ref) {}
@@ -345,16 +369,14 @@ public:
                                                                                                    \
     bool NAME(TRAITS::WrapperArgType value, FlagHandle handle, bool debug) {                       \
         if (debug) {                                                                               \
-            setBool(true, "IsChangedByDebug");                                                     \
-            mBitFlags.set(BitFlag::_800);                                                          \
+            onChangedByDebug();                                                                    \
             return NAME##NoCheckForce(TRAITS::convertValue(value), handle);                        \
         }                                                                                          \
         return NAME(TRAITS::convertValue(value), handle);                                          \
     }                                                                                              \
     bool NAME(TRAITS::WrapperArgType value, const sead::SafeString& name, bool debug) {            \
         if (debug) {                                                                               \
-            setBool(true, "IsChangedByDebug");                                                     \
-            mBitFlags.set(BitFlag::_800);                                                          \
+            onChangedByDebug();                                                                    \
             return NAME##NoCheckForce(TRAITS::convertValue(value), name);                          \
         }                                                                                          \
         return NAME(TRAITS::convertValue(value), name);                                            \
@@ -362,8 +384,7 @@ public:
                                                                                                    \
     bool NAME(TRAITS::WrapperArgType value, FlagHandle handle, bool debug, s32 sub_idx) {          \
         if (debug) {                                                                               \
-            setBool(true, "IsChangedByDebug");                                                     \
-            mBitFlags.set(BitFlag::_800);                                                          \
+            onChangedByDebug();                                                                    \
             return NAME##NoCheckForce(TRAITS::convertValue(value), handle, sub_idx);               \
         }                                                                                          \
         return NAME(TRAITS::convertValue(value), handle, sub_idx);                                 \
@@ -371,8 +392,7 @@ public:
     bool NAME(TRAITS::WrapperArgType value, const sead::SafeString& name, bool debug,              \
               s32 sub_idx) {                                                                       \
         if (debug) {                                                                               \
-            setBool(true, "IsChangedByDebug");                                                     \
-            mBitFlags.set(BitFlag::_800);                                                          \
+            onChangedByDebug();                                                                    \
             return NAME##NoCheckForce(TRAITS::convertValue(value), name, sub_idx);                 \
         }                                                                                          \
         return NAME(TRAITS::convertValue(value), name, sub_idx);                                   \
@@ -389,6 +409,55 @@ public:
     GDT_SET_(setVec4f, detail::SetterTraits<sead::Vector4f>)
 
 #undef GDT_SET_
+
+#define GDT_RESET_(NAME)                                                                           \
+    KSYS_ALWAYS_INLINE bool NAME##_(FlagHandle handle, bool debug) {                               \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        return unwrapHandle<false>(                                                                \
+            handle, debug, [&](u32 idx, TriggerParamRef& ref) { return ref.get().NAME(idx); });    \
+    }                                                                                              \
+    inline bool NAME(FlagHandle handle) { return NAME##_(handle, false); }                         \
+    inline bool NAME##NoCheck(FlagHandle handle) { return NAME##_(handle, true); }                 \
+                                                                                                   \
+    KSYS_ALWAYS_INLINE bool NAME##_(FlagHandle handle, bool debug, s32 sub_idx) {                  \
+        if (mBitFlags.isOn(BitFlag::_40000))                                                       \
+            return false;                                                                          \
+        return unwrapHandle<false>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {             \
+            return ref.get().NAME(idx, sub_idx);                                                   \
+        });                                                                                        \
+    }                                                                                              \
+    inline bool NAME(FlagHandle handle, s32 sub_idx) { return NAME##_(handle, false, sub_idx); }   \
+    inline bool NAME##NoCheck(FlagHandle handle, s32 sub_idx) {                                    \
+        return NAME##_(handle, true, sub_idx);                                                     \
+    }                                                                                              \
+                                                                                                   \
+    inline bool NAME(FlagHandle handle, bool debug) {                                              \
+        if (debug) {                                                                               \
+            onChangedByDebug();                                                                    \
+            return NAME##NoCheck(handle);                                                          \
+        }                                                                                          \
+        return NAME(handle);                                                                       \
+    }                                                                                              \
+    inline bool NAME(FlagHandle handle, bool debug, s32 sub_idx) {                                 \
+        if (debug) {                                                                               \
+            onChangedByDebug();                                                                    \
+            return NAME##NoCheck(handle, sub_idx);                                                 \
+        }                                                                                          \
+        return NAME(handle, sub_idx);                                                              \
+    }
+
+    GDT_RESET_(resetBool)
+    GDT_RESET_(resetS32)
+    GDT_RESET_(resetF32)
+    GDT_RESET_(resetStr)
+    GDT_RESET_(resetStr64)
+    GDT_RESET_(resetStr256)
+    GDT_RESET_(resetVec2f)
+    GDT_RESET_(resetVec3f)
+    GDT_RESET_(resetVec4f)
+
+#undef GDT_RESET_
 
     void init(sead::Heap* heap, sead::Framework* framework);
 
@@ -465,6 +534,11 @@ private:
     KSYS_ALWAYS_INLINE bool unwrapHandle(FlagHandle handle, bool debug, const Fn& fn) {
         return debug ? unwrapHandle<Write, true>(handle, fn) :
                        unwrapHandle<Write, false>(handle, fn);
+    }
+
+    void onChangedByDebug() {
+        setBool(true, "IsChangedByDebug");
+        mBitFlags.set(BitFlag::_800);
     }
 
     void loadGameData(const sead::SafeString& path);
