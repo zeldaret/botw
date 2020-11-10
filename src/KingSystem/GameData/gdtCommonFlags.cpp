@@ -92,7 +92,7 @@ void initCommonFlags_() {
     flag_AnimalMaster_Existence() = mgr->getBoolHandle("AnimalMaster_Existence");
     flag_AoC_DragonFireChallengeRing_Advent() = mgr->getBoolHandle("AoC_DragonFireChallengeRing_Advent");
     flag_AoC_HardMode_Enabled() = mgr->getBoolHandle("AoC_HardMode_Enabled");
-    flag_AoC_RandomSpawnTreasure_Contents() = mgr->getStr64Handle("AoC_RandomSpawnTreasure_Contents");
+    flag_AoC_RandomSpawnTreasure_Contents() = mgr->getStr64ArrayHandle("AoC_RandomSpawnTreasure_Contents");
     flag_AoC_RandomSpawnTreasure_IsRandomized() = mgr->getBoolHandle("AoC_RandomSpawnTreasure_IsRandomized");
     flag_AoC_TestProg_Imoto_Flag_00() = mgr->getBoolHandle("AoC_TestProg_Imoto_Flag_00");
     flag_AoC_TestProg_Imoto_TagCount_00() = mgr->getS32Handle("AoC_TestProg_Imoto_TagCount_00");
