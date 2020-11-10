@@ -31,8 +31,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ARCH} -isystem ${DEVKITA64}/aarch64-none-e
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem ${UKING_CLANG}/include/c++/v1 -D _LIBCPP_HAS_THREAD_API_PTHREAD ${CMAKE_C_FLAGS}")
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -x assembler-with-cpp ${ARCH}")
 
-add_compile_options(-B ${DEVKITA64}/bin -fPIC -stdlib=libc++ -mno-implicit-float)
-add_link_options(-fPIC -Wl,-Bsymbolic-functions -shared -nodefaultlibs)
+add_compile_options(-fPIC -stdlib=libc++ -mno-implicit-float)
+add_link_options(-B ${DEVKITA64}/bin -fPIC -Wl,-Bsymbolic-functions -shared -nodefaultlibs)
 add_definitions(-D SWITCH -D __DEVKITA64__ -D __ELF__)
 add_definitions(-D NNSDK)
 add_definitions(-D MATCHING_HACK_NX_CLANG)
