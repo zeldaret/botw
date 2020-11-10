@@ -40,7 +40,6 @@ def main() -> None:
 
     new_matches: Dict[int, str] = dict()
     checker = util.checker.FunctionChecker()
-    checker.get_data_symtab().load_from_csv(utils.get_repo_root() / "data" / "data_symbols.csv")
 
     # Given a list L of functions to identify and a small list of candidates C, this tool will attempt to
     # automatically identify matches by checking each function in L against each function in C.
