@@ -4,6 +4,8 @@ namespace ksys::res {
 
 Resource::Resource() = default;
 
+Resource::~Resource() = default;
+
 Context* Resource::getContext() const {
     return mContext;
 }

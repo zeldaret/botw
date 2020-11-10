@@ -19,6 +19,7 @@ class Resource : public sead::DirectResource, public IResource {
     SEAD_RTTI_OVERRIDE(Resource, sead::DirectResource)
 public:
     Resource();
+    ~Resource() override;
 
     void doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) override;
 
