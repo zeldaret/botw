@@ -27,7 +27,7 @@ def main() -> None:
     nonmatching_fns_with_dump = {p.stem: util.elf.Function(p.read_bytes(), 0) for p in
                                  (utils.get_repo_root() / "expected").glob("*.bin")}
 
-    checker = util.checker.FunctionChecker()
+    checker = util.checker.FunctionChecker(log_mismatch_cause=True)
 
     for func in utils.get_functions():
         if not func.decomp_name:
@@ -43,6 +43,8 @@ def main() -> None:
             if not check_function(checker, func.addr, func.size, func.decomp_name):
                 utils.print_error(
                     f"function {utils.format_symbol_name_for_msg(func.decomp_name)} is marked as matching but does not match")
+                a1, a2, reason = checker.get_mismatch()
+                sys.stderr.write(f"       at {a1|0x7100000000:#x} : {reason}\n")
                 failed = True
         elif func.status == utils.FunctionStatus.Equivalent or func.status == utils.FunctionStatus.NonMatching:
             if check_function(checker, func.addr, func.size, func.decomp_name):
