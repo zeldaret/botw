@@ -44,7 +44,8 @@ def main() -> None:
                 utils.print_error(
                     f"function {utils.format_symbol_name_for_msg(func.decomp_name)} is marked as matching but does not match")
                 a1, a2, reason = checker.get_mismatch()
-                sys.stderr.write(f"       at {a1|0x7100000000:#x} : {reason}\n")
+                if a1 != -1:
+                    sys.stderr.write(f"       at {a1|0x7100000000:#x} : {reason}\n")
                 failed = True
         elif func.status == utils.FunctionStatus.Equivalent or func.status == utils.FunctionStatus.NonMatching:
             if check_function(checker, func.addr, func.size, func.decomp_name):
