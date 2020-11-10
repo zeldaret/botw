@@ -61,7 +61,7 @@ public:
     TriggerParamRef(TriggerParam** param_1, TriggerParam** param, bool check_permissions,
                     bool propagate_param_1_changes, bool change_only_once)
         : mParam1(param_1), mParam(param), mCheckPermissions(check_permissions),
-          mPropagateParam1Changes(propagate_param_1_changes), mChangeOnlyOne(change_only_once) {}
+          mPropagateParam1Changes(propagate_param_1_changes), mChangeOnlyOnce(change_only_once) {}
 
     virtual ~TriggerParamRef() = default;
 
@@ -88,7 +88,7 @@ public:
     }                                                                                              \
                                                                                                    \
     bool SET_NAME(TYPE const& value, s32 idx, bool bypass_one_trigger_check = false) {             \
-        if (mRef.mChangeOnlyOne)                                                                   \
+        if (mRef.mChangeOnlyOnce)                                                                  \
             return false;                                                                          \
         if (!getBuffer1()->SET_NAME(value, idx, mRef.mCheckPermissions, bypass_one_trigger_check)) \
             return false;                                                                          \
@@ -98,7 +98,7 @@ public:
     }                                                                                              \
     bool SET_NAME(TYPE const& value, s32 array_idx, s32 idx,                                       \
                   bool bypass_one_trigger_check = false) {                                         \
-        if (mRef.mChangeOnlyOne)                                                                   \
+        if (mRef.mChangeOnlyOnce)                                                                  \
             return false;                                                                          \
         if (!getBuffer1()->SET_NAME(value, array_idx, idx, mRef.mCheckPermissions,                 \
                                     bypass_one_trigger_check))                                     \
@@ -110,7 +110,7 @@ public:
     }                                                                                              \
     bool SET_NAME(TYPE const& value, const sead::SafeString& name,                                 \
                   bool bypass_one_trigger_check = false) {                                         \
-        if (mRef.mChangeOnlyOne)                                                                   \
+        if (mRef.mChangeOnlyOnce)                                                                  \
             return false;                                                                          \
         if (!getBuffer1()->SET_NAME(value, name, mRef.mCheckPermissions, true,                     \
                                     bypass_one_trigger_check))                                     \
@@ -122,7 +122,7 @@ public:
     }                                                                                              \
     bool SET_NAME(TYPE const& value, const sead::SafeString& name, s32 idx,                        \
                   bool bypass_one_trigger_check = false) {                                         \
-        if (mRef.mChangeOnlyOne)                                                                   \
+        if (mRef.mChangeOnlyOnce)                                                                  \
             return false;                                                                          \
         if (!getBuffer1()->SET_NAME(value, name, idx, mRef.mCheckPermissions, true,                \
                                     bypass_one_trigger_check))                                     \
@@ -163,18 +163,18 @@ public:
 
     bool shouldCheckPermissions() const { return mCheckPermissions; }
     bool shouldPropagateParam1Changes() const { return mPropagateParam1Changes; }
-    bool shouldChangeOnlyOne() const { return mChangeOnlyOne; }
+    bool shouldChangeOnlyOnce() const { return mChangeOnlyOnce; }
 
     void setCheckPermissions(bool on) { mCheckPermissions = on; }
     void setPropagateParam1Changes(bool on) { mPropagateParam1Changes = on; }
-    void setChangeOnlyOne(bool on) { mChangeOnlyOne = on; }
+    void setChangeOnlyOnce(bool on) { mChangeOnlyOnce = on; }
 
 private:
     TriggerParam** mParam1;
     TriggerParam** mParam;
     bool mCheckPermissions;
     bool mPropagateParam1Changes;
-    bool mChangeOnlyOne;
+    bool mChangeOnlyOnce;
 };
 KSYS_CHECK_SIZE_NX150(TriggerParamRef, 0x20);
 
@@ -451,7 +451,7 @@ private:
     KSYS_ALWAYS_INLINE bool unwrapHandle(FlagHandle handle, const Fn& fn) {
         const u32 idx = static_cast<u32>(handle);
         auto& ref = BypassPerm ? getParamBypassPerm() : getParam();
-        const auto check = [&] { return !Write || !ref.shouldChangeOnlyOne(); };
+        const auto check = [&] { return !Write || !ref.shouldChangeOnlyOnce(); };
 
         if (mBitFlags.isOff(BitFlag::_8000) && handle != InvalidHandle)
             return check() && fn(idx, ref);
