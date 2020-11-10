@@ -61,7 +61,7 @@ flag_type_info = {
 def add_development_remnant_flags(flags: tp.Dict[str, str]):
     _flags = {
         "AoC_DragonFireChallengeRing_Advent": "bool_data",
-        "AoC_RandomSpawnTreasure_Contents": "string64_data",
+        "AoC_RandomSpawnTreasure_Contents": "string64_array_data",
         "AoC_RandomSpawnTreasure_IsRandomized": "bool_data",
         "AoC_TestProg_Imoto_Flag_00": "bool_data",
         "AoC_TestProg_Imoto_TagCount_00": "s32_data",

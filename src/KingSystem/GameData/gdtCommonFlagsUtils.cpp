@@ -141,8 +141,8 @@ bool getFlag_AoC_DragonFireChallengeRing_Advent(bool debug) { return getBool(fla
 void setFlag_AoC_DragonFireChallengeRing_Advent(bool value, bool debug) { setBool(value, flag_AoC_DragonFireChallengeRing_Advent(), debug); }
 bool getFlag_AoC_HardMode_Enabled(bool debug) { return getBool(flag_AoC_HardMode_Enabled(), debug); }
 void setFlag_AoC_HardMode_Enabled(bool value, bool debug) { setBool(value, flag_AoC_HardMode_Enabled(), debug); }
-void getFlag_AoC_RandomSpawnTreasure_Contents(char const** value, bool debug) { getStr64(flag_AoC_RandomSpawnTreasure_Contents(), value, debug); }
-void setFlag_AoC_RandomSpawnTreasure_Contents(const sead::SafeString& value, bool debug) { setStr64(value, flag_AoC_RandomSpawnTreasure_Contents(), debug); }
+void getFlag_AoC_RandomSpawnTreasure_Contents(char const** value, s32 idx, bool debug) { getStr64(flag_AoC_RandomSpawnTreasure_Contents(), value, idx, debug); }
+void setFlag_AoC_RandomSpawnTreasure_Contents(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_AoC_RandomSpawnTreasure_Contents(), idx, debug); }
 bool getFlag_AoC_RandomSpawnTreasure_IsRandomized(bool debug) { return getBool(flag_AoC_RandomSpawnTreasure_IsRandomized(), debug); }
 void setFlag_AoC_RandomSpawnTreasure_IsRandomized(bool value, bool debug) { setBool(value, flag_AoC_RandomSpawnTreasure_IsRandomized(), debug); }
 bool getFlag_AoC_TestProg_Imoto_Flag_00(bool debug) { return getBool(flag_AoC_TestProg_Imoto_Flag_00(), debug); }

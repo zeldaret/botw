@@ -26,7 +26,7 @@ void BaseProcMgr::unregisterProc(BaseProc& proc) {
 
 void BaseProcMgr::addToPreDeleteList(BaseProc& proc) {
     auto lock = sead::makeScopedLock(mProcPreDeleteListCS);
-    mProcPreDeleteList.pushBack(&proc);
+    mProcPreDeleteList.pushFront(&proc);
 }
 
 void BaseProcMgr::doAddToUpdateStateList_(BaseProc& proc) {

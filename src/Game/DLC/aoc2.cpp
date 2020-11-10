@@ -45,8 +45,8 @@ void aoc2::setHardModeEnabledFlag(ksys::gdt::Manager::ResetEvent*) {
 void aoc2::initFlagHandles(ksys::gdt::Manager::ReinitEvent*) {
     auto* gdm = ksys::gdt::Manager::instance();
     mHardModeHighScoreFlag = gdm->getS32Handle(sData.flag_name_HardMode_HighScore);
-    mAoCHardModeEnabledFlag = gdm->getS32Handle(sData.flag_name_AoC_HardMode_Enabled);
-    mIsLastPlayHardModeFlag = gdm->getS32Handle(sData.flag_name_IsLastPlayHardMode);
+    mAoCHardModeEnabledFlag = gdm->getBoolHandle(sData.flag_name_AoC_HardMode_Enabled);
+    mIsLastPlayHardModeFlag = gdm->getBoolHandle(sData.flag_name_IsLastPlayHardMode);
 }
 
 aoc2::~aoc2() {

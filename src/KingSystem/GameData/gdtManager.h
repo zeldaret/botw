@@ -7,6 +7,7 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadDelegateEventSlot.h>
 #include <prim/seadTypedBitFlag.h>
+#include <thread/seadMutex.h>
 #include <type_traits>
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Resource/resHandle.h"
@@ -510,7 +511,7 @@ private:
     sead::FixedSafeString<64> mStr;  // TODO: rename
     u32 mTrackerBlockSaveNumberFlagCrc32 = 0;
     u32 mSyncStep = 0;
-    sead::CriticalSection mCriticalSection;
+    sead::Mutex mMutex;
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0xdc8);
 

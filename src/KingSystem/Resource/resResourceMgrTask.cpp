@@ -69,7 +69,7 @@ ResourceMgrTask::~ResourceMgrTask() {
     }
 
     util::safeDeleteArray(mCompactedHeapMainBuffer2);
-    util::safeDeleteArray(mOffsetReadBuf);
+    util::safeDelete(mOffsetReadBuf);
     mExtensions2.freeBuffer();
     mExtensions1.freeBuffer();
 
@@ -547,7 +547,7 @@ ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
             ++it;
         }
 
-        unit = mUnitPool.tryAlloc();
+        unit = mUnitPool.alloc();
     }
 
     if (!unit->init(*arg.unit_init_arg))
