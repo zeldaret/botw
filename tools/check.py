@@ -3,6 +3,8 @@
 import sys
 from typing import Optional
 
+from colorama import Fore
+
 import util.elf
 import util.checker
 from util import utils
@@ -45,7 +47,7 @@ def main() -> None:
                     f"function {utils.format_symbol_name_for_msg(func.decomp_name)} is marked as matching but does not match")
                 a1, a2, reason = checker.get_mismatch()
                 if a1 != -1:
-                    sys.stderr.write(f"       at {a1|0x7100000000:#x} : {reason}\n")
+                    sys.stderr.write(f"       at {a1 | 0x7100000000:#x} : {Fore.CYAN}{reason}{Fore.RESET}\n")
                 failed = True
         elif func.status == utils.FunctionStatus.Equivalent or func.status == utils.FunctionStatus.NonMatching:
             if check_function(checker, func.addr, func.size, func.decomp_name):
