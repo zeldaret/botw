@@ -82,6 +82,8 @@ target_sources(uking PRIVATE
   GeneralParamList/resGParamListObjectZora.h
   GeneralParamList/resGParamListTraits.h
 
+  resArchiveWork.cpp
+  resArchiveWork.h
   resCache.cpp
   resCache.h
   resCacheCriticalSection.cpp
