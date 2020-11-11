@@ -247,6 +247,9 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug = false);
                 else:
                     f.write(
                         f"void getFlag_{name}({info.arg_type}* value, s32 idx, bool debug = false);\n")
+                # Increase function
+                if info.arg_type == "s32":
+                    f.write(f"void increaseFlag_{name}(s32 value, s32 idx, bool debug = false);\n")
                 # Setter
                 f.write(f"void setFlag_{name}({info.get_setter_arg_type()} value, s32 idx, bool debug = false);\n")
                 # Resetter
@@ -259,6 +262,9 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug = false);
                 else:
                     f.write(
                         f"void getFlag_{name}({info.arg_type}* value, bool debug = false);\n")
+                # Increase function
+                if info.arg_type == "s32":
+                    f.write(f"void increaseFlag_{name}(s32 value, bool debug = false);\n")
                 # Setter
                 f.write(f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug = false);\n")
                 # Resetter
@@ -296,6 +302,10 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug) { return getS32(handle, deb
                 else:
                     f.write(
                         f"void getFlag_{name}({info.arg_type}* value, s32 idx, bool debug) {{ {info.get_getter_fn_name()}(flag_{name}(), value, idx, debug); }}\n")
+                # Increase function
+                if info.arg_type == "s32":
+                    f.write(f"void increaseFlag_{name}(s32 value, s32 idx, bool debug) {{ "
+                            f"increaseS32CommonFlag(value, \"{name}\", idx, debug); }}\n")
                 # Setter
                 f.write(
                     f"void setFlag_{name}({info.get_setter_arg_type()} value, s32 idx, bool debug) {{ "
@@ -312,6 +322,10 @@ s32 getFlagGenericS32(FlagHandle handle, bool debug) { return getS32(handle, deb
                 else:
                     f.write(
                         f"void getFlag_{name}({info.arg_type}* value, bool debug) {{ {info.get_getter_fn_name()}(flag_{name}(), value, debug); }}\n")
+                # Increase function
+                if info.arg_type == "s32":
+                    f.write(f"void increaseFlag_{name}(s32 value, bool debug) {{ "
+                            f"increaseS32CommonFlag(value, \"{name}\", -1, debug); }}\n")
                 # Setter
                 f.write(
                     f"void setFlag_{name}({info.get_setter_arg_type()} value, bool debug) {{ "

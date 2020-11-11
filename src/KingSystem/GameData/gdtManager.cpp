@@ -1,6 +1,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include <devenv/seadEnvUtil.h>
 #include <framework/seadFramework.h>
+#include <mc/seadCoreInfo.h>
 #include <thread/seadThreadUtil.h>
 #include <time/seadTickTime.h>
 #include "KingSystem/GameData/gdtSaveMgr.h"
@@ -70,7 +71,7 @@ void Manager::init(sead::Heap* heap, sead::Framework* framework) {
 
     mGameDataHeap = util::DualHeap::create(0xf00000, "GameDataHeap", heap, nullptr, sizeof(void*),
                                            sead::Heap::cHeapDirection_Forward, true);
-    mIncrementLogger = new (mGameDataHeap) IncrementLogger;
+    mIncreaseLogger = new (mGameDataHeap) IncreaseLogger;
     SaveMgr::createInstance(mGameDataHeap);
 
     SaveMgr::InitArg arg;
@@ -134,6 +135,20 @@ void Manager::unloadResources() {
 
 void Manager::addReinitCallback(sead::DelegateEvent<ReinitEvent*>::Slot&) {
     // Stubbed in release builds.
+}
+
+void Manager::IncreaseLogger::addRecord(s32 value, const sead::SafeString& name, s32 sub_idx,
+                                        bool debug) {
+    const u32 name_hash = sead::HashCRC32::calcStringHash(name);
+    const auto core = sead::CoreInfo::getCurrentCoreId();
+    const u32 platform_core_id = sead::CoreInfo::getPlatformCoreId(core);
+
+    Record record;
+    record.debug = debug;
+    record.name_hash = name_hash;
+    record.sub_idx = sub_idx;
+    record.value = value;
+    ring_buffers[0][platform_core_id].pushBack(record);
 }
 
 }  // namespace ksys::gdt

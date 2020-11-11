@@ -184,4 +184,11 @@ GDT_RESET_FLAG_(resetVec4f)
 
 #undef GDT_SET_FLAG_
 
+inline void increaseS32CommonFlag(s32 value, const sead::SafeString& name, s32 sub_idx,
+                                  bool debug) {
+    auto* mgr = Manager::instance();
+    if (mgr)
+        mgr->increaseS32CommonFlag(value, name, sub_idx, debug);
+}
+
 }  // namespace ksys::gdt

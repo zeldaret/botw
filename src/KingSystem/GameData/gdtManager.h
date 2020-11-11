@@ -459,6 +459,15 @@ public:
 
 #undef GDT_RESET_
 
+    void increaseS32CommonFlag(s32 value, const sead::SafeString& name, s32 sub_idx, bool debug) {
+        if (!mIncreaseLogger)
+            return;
+
+        mIncreaseLogger->addRecord(value, name, sub_idx, debug);
+        if (debug)
+            onChangedByDebug();
+    }
+
     void init(sead::Heap* heap, sead::Framework* framework);
 
     void addReinitCallback(ReinitSignal::Slot& slot);
@@ -496,17 +505,19 @@ private:
         sead::MethodTreeMgr* method_tree_mgr = nullptr;
     };
 
-    struct IncrementLogger {
+    struct IncreaseLogger {
         struct Record {
-            u8 _0 = 0;
-            u32 _4 = 0;
-            s32 _8 = -1;
-            u32 _c = 0;
+            bool debug = false;
+            u32 name_hash = 0;
+            s32 sub_idx = -1;
+            s32 value = 0;
         };
         KSYS_CHECK_SIZE_NX150(Record, 0x10);
 
+        void addRecord(s32 value, const sead::SafeString& name, s32 sub_idx, bool debug);
+
         u64 _0 = 0;
-        sead::FixedRingBuffer<Record, 64> ring_buffers[6]{};
+        sead::SafeArray<sead::FixedRingBuffer<Record, 64>, 3> ring_buffers[2];
         sead::SafeArray<Record, 0xc0> arrays[2]{};
     };
 
@@ -561,7 +572,7 @@ private:
     TriggerParamRef mParamBypassPerm{&mFlagBuffer1, &mFlagBuffer, false, false, false};
     TriggerParamRef mParam{&mFlagBuffer1, &mFlagBuffer, true, false, false};
 
-    IncrementLogger* mIncrementLogger = nullptr;
+    IncreaseLogger* mIncreaseLogger = nullptr;
 
     TriggerParam* mFlagBuffer1;
     TriggerParam* mFlagBuffer;

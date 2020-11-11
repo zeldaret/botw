@@ -67,6 +67,7 @@ bool getFlag_100enemy_ClearScene_9(bool debug) { return getBool(flag_100enemy_Cl
 void setFlag_100enemy_ClearScene_9(bool value, bool debug) { setBool(value, flag_100enemy_ClearScene_9(), debug); }
 void resetFlag_100enemy_ClearScene_9(bool debug) { resetBool(flag_100enemy_ClearScene_9(), debug); }
 s32 getFlag_100enemy_CurrentCourse(bool debug) { return getS32(flag_100enemy_CurrentCourse(), debug); }
+void increaseFlag_100enemy_CurrentCourse(s32 value, bool debug) { increaseS32CommonFlag(value, "100enemy_CurrentCourse", -1, debug); }
 void setFlag_100enemy_CurrentCourse(s32 value, bool debug) { setS32(value, flag_100enemy_CurrentCourse(), debug); }
 void resetFlag_100enemy_CurrentCourse(bool debug) { resetS32(flag_100enemy_CurrentCourse(), debug); }
 bool getFlag_100enemy_CurrentCourse_Junior(bool debug) { return getBool(flag_100enemy_CurrentCourse_Junior(), debug); }
@@ -88,12 +89,14 @@ bool getFlag_100enemy_KillMasterSwordBaseAttention(bool debug) { return getBool(
 void setFlag_100enemy_KillMasterSwordBaseAttention(bool value, bool debug) { setBool(value, flag_100enemy_KillMasterSwordBaseAttention(), debug); }
 void resetFlag_100enemy_KillMasterSwordBaseAttention(bool debug) { resetBool(flag_100enemy_KillMasterSwordBaseAttention(), debug); }
 s32 getFlag_100enemy_Now_Floor_Number(bool debug) { return getS32(flag_100enemy_Now_Floor_Number(), debug); }
+void increaseFlag_100enemy_Now_Floor_Number(s32 value, bool debug) { increaseS32CommonFlag(value, "100enemy_Now_Floor_Number", -1, debug); }
 void setFlag_100enemy_Now_Floor_Number(s32 value, bool debug) { setS32(value, flag_100enemy_Now_Floor_Number(), debug); }
 void resetFlag_100enemy_Now_Floor_Number(bool debug) { resetS32(flag_100enemy_Now_Floor_Number(), debug); }
 bool getFlag_100enemy_Sheath_BindUpdateSkip(bool debug) { return getBool(flag_100enemy_Sheath_BindUpdateSkip(), debug); }
 void setFlag_100enemy_Sheath_BindUpdateSkip(bool value, bool debug) { setBool(value, flag_100enemy_Sheath_BindUpdateSkip(), debug); }
 void resetFlag_100enemy_Sheath_BindUpdateSkip(bool debug) { resetBool(flag_100enemy_Sheath_BindUpdateSkip(), debug); }
 s32 getFlag_100enemy_SwordPower_StartTmp(bool debug) { return getS32(flag_100enemy_SwordPower_StartTmp(), debug); }
+void increaseFlag_100enemy_SwordPower_StartTmp(s32 value, bool debug) { increaseS32CommonFlag(value, "100enemy_SwordPower_StartTmp", -1, debug); }
 void setFlag_100enemy_SwordPower_StartTmp(s32 value, bool debug) { setS32(value, flag_100enemy_SwordPower_StartTmp(), debug); }
 void resetFlag_100enemy_SwordPower_StartTmp(bool debug) { resetS32(flag_100enemy_SwordPower_StartTmp(), debug); }
 bool getFlag_100enemy_VanishPreist(bool debug) { return getBool(flag_100enemy_VanishPreist(), debug); }
@@ -148,9 +151,11 @@ void getFlag_AlbumPictureActorName(char const** value, s32 idx, bool debug) { ge
 void setFlag_AlbumPictureActorName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_AlbumPictureActorName(), idx, debug); }
 void resetFlag_AlbumPictureActorName(s32 idx, bool debug) { resetStr64(flag_AlbumPictureActorName(), idx, debug); }
 s32 getFlag_AlbumPictureIndex(s32 idx, bool debug) { return getS32(flag_AlbumPictureIndex(), idx, debug); }
+void increaseFlag_AlbumPictureIndex(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "AlbumPictureIndex", idx, debug); }
 void setFlag_AlbumPictureIndex(s32 value, s32 idx, bool debug) { setS32(value, flag_AlbumPictureIndex(), idx, debug); }
 void resetFlag_AlbumPictureIndex(s32 idx, bool debug) { resetS32(flag_AlbumPictureIndex(), idx, debug); }
 s32 getFlag_AlbumPictureSize(s32 idx, bool debug) { return getS32(flag_AlbumPictureSize(), idx, debug); }
+void increaseFlag_AlbumPictureSize(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "AlbumPictureSize", idx, debug); }
 void setFlag_AlbumPictureSize(s32 value, s32 idx, bool debug) { setS32(value, flag_AlbumPictureSize(), idx, debug); }
 void resetFlag_AlbumPictureSize(s32 idx, bool debug) { resetS32(flag_AlbumPictureSize(), idx, debug); }
 void getFlag_AlbumSaveDistrictName(char const** value, s32 idx, bool debug) { getStr256(flag_AlbumSaveDistrictName(), value, idx, debug); }
@@ -160,12 +165,14 @@ void getFlag_AlbumSaveLocationName(char const** value, s32 idx, bool debug) { ge
 void setFlag_AlbumSaveLocationName(const sead::SafeString& value, s32 idx, bool debug) { setStr256(value, flag_AlbumSaveLocationName(), idx, debug); }
 void resetFlag_AlbumSaveLocationName(s32 idx, bool debug) { resetStr256(flag_AlbumSaveLocationName(), idx, debug); }
 s32 getFlag_AllMaterialValue(bool debug) { return getS32(flag_AllMaterialValue(), debug); }
+void increaseFlag_AllMaterialValue(s32 value, bool debug) { increaseS32CommonFlag(value, "AllMaterialValue", -1, debug); }
 void setFlag_AllMaterialValue(s32 value, bool debug) { setS32(value, flag_AllMaterialValue(), debug); }
 void resetFlag_AllMaterialValue(bool debug) { resetS32(flag_AllMaterialValue(), debug); }
 bool getFlag_AmiiboItemOnOff(bool debug) { return getBool(flag_AmiiboItemOnOff(), debug); }
 void setFlag_AmiiboItemOnOff(bool value, bool debug) { setBool(value, flag_AmiiboItemOnOff(), debug); }
 void resetFlag_AmiiboItemOnOff(bool debug) { resetBool(flag_AmiiboItemOnOff(), debug); }
 s32 getFlag_AmiiboLastTouchDate(bool debug) { return getS32(flag_AmiiboLastTouchDate(), debug); }
+void increaseFlag_AmiiboLastTouchDate(s32 value, bool debug) { increaseS32CommonFlag(value, "AmiiboLastTouchDate", -1, debug); }
 void setFlag_AmiiboLastTouchDate(s32 value, bool debug) { setS32(value, flag_AmiiboLastTouchDate(), debug); }
 void resetFlag_AmiiboLastTouchDate(bool debug) { resetS32(flag_AmiiboLastTouchDate(), debug); }
 void getFlag_AmiiboTouchHistory(char const** value, s32 idx, bool debug) { getStr64(flag_AmiiboTouchHistory(), value, idx, debug); }
@@ -175,21 +182,27 @@ void getFlag_AmiiboTouchHistoryTotal(char const** value, s32 idx, bool debug) { 
 void setFlag_AmiiboTouchHistoryTotal(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_AmiiboTouchHistoryTotal(), idx, debug); }
 void resetFlag_AmiiboTouchHistoryTotal(s32 idx, bool debug) { resetStr64(flag_AmiiboTouchHistoryTotal(), idx, debug); }
 s32 getFlag_AmountRupeeForNextRevivalFountain(bool debug) { return getS32(flag_AmountRupeeForNextRevivalFountain(), debug); }
+void increaseFlag_AmountRupeeForNextRevivalFountain(s32 value, bool debug) { increaseS32CommonFlag(value, "AmountRupeeForNextRevivalFountain", -1, debug); }
 void setFlag_AmountRupeeForNextRevivalFountain(s32 value, bool debug) { setS32(value, flag_AmountRupeeForNextRevivalFountain(), debug); }
 void resetFlag_AmountRupeeForNextRevivalFountain(bool debug) { resetS32(flag_AmountRupeeForNextRevivalFountain(), debug); }
 s32 getFlag_AmountRupeeForRevivalFountain1(bool debug) { return getS32(flag_AmountRupeeForRevivalFountain1(), debug); }
+void increaseFlag_AmountRupeeForRevivalFountain1(s32 value, bool debug) { increaseS32CommonFlag(value, "AmountRupeeForRevivalFountain1", -1, debug); }
 void setFlag_AmountRupeeForRevivalFountain1(s32 value, bool debug) { setS32(value, flag_AmountRupeeForRevivalFountain1(), debug); }
 void resetFlag_AmountRupeeForRevivalFountain1(bool debug) { resetS32(flag_AmountRupeeForRevivalFountain1(), debug); }
 s32 getFlag_AmountRupeeForRevivalFountain2(bool debug) { return getS32(flag_AmountRupeeForRevivalFountain2(), debug); }
+void increaseFlag_AmountRupeeForRevivalFountain2(s32 value, bool debug) { increaseS32CommonFlag(value, "AmountRupeeForRevivalFountain2", -1, debug); }
 void setFlag_AmountRupeeForRevivalFountain2(s32 value, bool debug) { setS32(value, flag_AmountRupeeForRevivalFountain2(), debug); }
 void resetFlag_AmountRupeeForRevivalFountain2(bool debug) { resetS32(flag_AmountRupeeForRevivalFountain2(), debug); }
 s32 getFlag_AmountRupeeForRevivalFountain3(bool debug) { return getS32(flag_AmountRupeeForRevivalFountain3(), debug); }
+void increaseFlag_AmountRupeeForRevivalFountain3(s32 value, bool debug) { increaseS32CommonFlag(value, "AmountRupeeForRevivalFountain3", -1, debug); }
 void setFlag_AmountRupeeForRevivalFountain3(s32 value, bool debug) { setS32(value, flag_AmountRupeeForRevivalFountain3(), debug); }
 void resetFlag_AmountRupeeForRevivalFountain3(bool debug) { resetS32(flag_AmountRupeeForRevivalFountain3(), debug); }
 s32 getFlag_AmountRupeeForRevivalFountain4(bool debug) { return getS32(flag_AmountRupeeForRevivalFountain4(), debug); }
+void increaseFlag_AmountRupeeForRevivalFountain4(s32 value, bool debug) { increaseS32CommonFlag(value, "AmountRupeeForRevivalFountain4", -1, debug); }
 void setFlag_AmountRupeeForRevivalFountain4(s32 value, bool debug) { setS32(value, flag_AmountRupeeForRevivalFountain4(), debug); }
 void resetFlag_AmountRupeeForRevivalFountain4(bool debug) { resetS32(flag_AmountRupeeForRevivalFountain4(), debug); }
 s32 getFlag_AmountRupeeForRevivalFountain5(bool debug) { return getS32(flag_AmountRupeeForRevivalFountain5(), debug); }
+void increaseFlag_AmountRupeeForRevivalFountain5(s32 value, bool debug) { increaseS32CommonFlag(value, "AmountRupeeForRevivalFountain5", -1, debug); }
 void setFlag_AmountRupeeForRevivalFountain5(s32 value, bool debug) { setS32(value, flag_AmountRupeeForRevivalFountain5(), debug); }
 void resetFlag_AmountRupeeForRevivalFountain5(bool debug) { resetS32(flag_AmountRupeeForRevivalFountain5(), debug); }
 bool getFlag_AncientLabo_NPC002_Son(bool debug) { return getBool(flag_AncientLabo_NPC002_Son(), debug); }
@@ -217,6 +230,7 @@ bool getFlag_AoC_TestProg_Imoto_Flag_00(bool debug) { return getBool(flag_AoC_Te
 void setFlag_AoC_TestProg_Imoto_Flag_00(bool value, bool debug) { setBool(value, flag_AoC_TestProg_Imoto_Flag_00(), debug); }
 void resetFlag_AoC_TestProg_Imoto_Flag_00(bool debug) { resetBool(flag_AoC_TestProg_Imoto_Flag_00(), debug); }
 s32 getFlag_AoC_TestProg_Imoto_TagCount_00(bool debug) { return getS32(flag_AoC_TestProg_Imoto_TagCount_00(), debug); }
+void increaseFlag_AoC_TestProg_Imoto_TagCount_00(s32 value, bool debug) { increaseS32CommonFlag(value, "AoC_TestProg_Imoto_TagCount_00", -1, debug); }
 void setFlag_AoC_TestProg_Imoto_TagCount_00(s32 value, bool debug) { setS32(value, flag_AoC_TestProg_Imoto_TagCount_00(), debug); }
 void resetFlag_AoC_TestProg_Imoto_TagCount_00(bool debug) { resetS32(flag_AoC_TestProg_Imoto_TagCount_00(), debug); }
 bool getFlag_AocTestEx_Omosako_IsPastWorld(bool debug) { return getBool(flag_AocTestEx_Omosako_IsPastWorld(), debug); }
@@ -229,27 +243,32 @@ f32 getFlag_AocTestEx_Omosako_ReturnToMainField_Rotation(bool debug) { return ge
 void setFlag_AocTestEx_Omosako_ReturnToMainField_Rotation(f32 value, bool debug) { setF32(value, flag_AocTestEx_Omosako_ReturnToMainField_Rotation(), debug); }
 void resetFlag_AocTestEx_Omosako_ReturnToMainField_Rotation(bool debug) { resetF32(flag_AocTestEx_Omosako_ReturnToMainField_Rotation(), debug); }
 s32 getFlag_AocTestEx_Omosako_SandOfTime_Num(bool debug) { return getS32(flag_AocTestEx_Omosako_SandOfTime_Num(), debug); }
+void increaseFlag_AocTestEx_Omosako_SandOfTime_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "AocTestEx_Omosako_SandOfTime_Num", -1, debug); }
 void setFlag_AocTestEx_Omosako_SandOfTime_Num(s32 value, bool debug) { setS32(value, flag_AocTestEx_Omosako_SandOfTime_Num(), debug); }
 void resetFlag_AocTestEx_Omosako_SandOfTime_Num(bool debug) { resetS32(flag_AocTestEx_Omosako_SandOfTime_Num(), debug); }
 f32 getFlag_AocTestEx_Omosako_SandOfTime_Rate(bool debug) { return getF32(flag_AocTestEx_Omosako_SandOfTime_Rate(), debug); }
 void setFlag_AocTestEx_Omosako_SandOfTime_Rate(f32 value, bool debug) { setF32(value, flag_AocTestEx_Omosako_SandOfTime_Rate(), debug); }
 void resetFlag_AocTestEx_Omosako_SandOfTime_Rate(bool debug) { resetF32(flag_AocTestEx_Omosako_SandOfTime_Rate(), debug); }
 s32 getFlag_AoCVerAtLastPlay(bool debug) { return getS32(flag_AoCVerAtLastPlay(), debug); }
+void increaseFlag_AoCVerAtLastPlay(s32 value, bool debug) { increaseS32CommonFlag(value, "AoCVerAtLastPlay", -1, debug); }
 void setFlag_AoCVerAtLastPlay(s32 value, bool debug) { setS32(value, flag_AoCVerAtLastPlay(), debug); }
 void resetFlag_AoCVerAtLastPlay(bool debug) { resetS32(flag_AoCVerAtLastPlay(), debug); }
 bool getFlag_App_ActiveMenu(bool debug) { return getBool(flag_App_ActiveMenu(), debug); }
 void setFlag_App_ActiveMenu(bool value, bool debug) { setBool(value, flag_App_ActiveMenu(), debug); }
 void resetFlag_App_ActiveMenu(bool debug) { resetBool(flag_App_ActiveMenu(), debug); }
 s32 getFlag_App_Award_StepCountTotal(bool debug) { return getS32(flag_App_Award_StepCountTotal(), debug); }
+void increaseFlag_App_Award_StepCountTotal(s32 value, bool debug) { increaseS32CommonFlag(value, "App_Award_StepCountTotal", -1, debug); }
 void setFlag_App_Award_StepCountTotal(s32 value, bool debug) { setS32(value, flag_App_Award_StepCountTotal(), debug); }
 void resetFlag_App_Award_StepCountTotal(bool debug) { resetS32(flag_App_Award_StepCountTotal(), debug); }
 void getFlag_App_DungeonRadar_DungeonDistance(char const** value, bool debug) { getStr(flag_App_DungeonRadar_DungeonDistance(), value, debug); }
 void setFlag_App_DungeonRadar_DungeonDistance(const sead::SafeString& value, bool debug) { setStr(value, flag_App_DungeonRadar_DungeonDistance(), debug); }
 void resetFlag_App_DungeonRadar_DungeonDistance(bool debug) { resetStr(flag_App_DungeonRadar_DungeonDistance(), debug); }
 s32 getFlag_App_ExtendUsePoint(bool debug) { return getS32(flag_App_ExtendUsePoint(), debug); }
+void increaseFlag_App_ExtendUsePoint(s32 value, bool debug) { increaseS32CommonFlag(value, "App_ExtendUsePoint", -1, debug); }
 void setFlag_App_ExtendUsePoint(s32 value, bool debug) { setS32(value, flag_App_ExtendUsePoint(), debug); }
 void resetFlag_App_ExtendUsePoint(bool debug) { resetS32(flag_App_ExtendUsePoint(), debug); }
 s32 getFlag_App_Map_ForceSetScaleLevelWhenMiniMap(bool debug) { return getS32(flag_App_Map_ForceSetScaleLevelWhenMiniMap(), debug); }
+void increaseFlag_App_Map_ForceSetScaleLevelWhenMiniMap(s32 value, bool debug) { increaseS32CommonFlag(value, "App_Map_ForceSetScaleLevelWhenMiniMap", -1, debug); }
 void setFlag_App_Map_ForceSetScaleLevelWhenMiniMap(s32 value, bool debug) { setS32(value, flag_App_Map_ForceSetScaleLevelWhenMiniMap(), debug); }
 void resetFlag_App_Map_ForceSetScaleLevelWhenMiniMap(bool debug) { resetS32(flag_App_Map_ForceSetScaleLevelWhenMiniMap(), debug); }
 f32 getFlag_App_Map_Scale(bool debug) { return getF32(flag_App_Map_Scale(), debug); }
@@ -259,21 +278,26 @@ void getFlag_App_Map_WarpLocationName(char const** value, bool debug) { getStr64
 void setFlag_App_Map_WarpLocationName(const sead::SafeString& value, bool debug) { setStr64(value, flag_App_Map_WarpLocationName(), debug); }
 void resetFlag_App_Map_WarpLocationName(bool debug) { resetStr64(flag_App_Map_WarpLocationName(), debug); }
 s32 getFlag_App_Menu_ButtonOrder(s32 idx, bool debug) { return getS32(flag_App_Menu_ButtonOrder(), idx, debug); }
+void increaseFlag_App_Menu_ButtonOrder(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "App_Menu_ButtonOrder", idx, debug); }
 void setFlag_App_Menu_ButtonOrder(s32 value, s32 idx, bool debug) { setS32(value, flag_App_Menu_ButtonOrder(), idx, debug); }
 void resetFlag_App_Menu_ButtonOrder(s32 idx, bool debug) { resetS32(flag_App_Menu_ButtonOrder(), idx, debug); }
 s32 getFlag_App_Menu_NewFlag(bool debug) { return getS32(flag_App_Menu_NewFlag(), debug); }
+void increaseFlag_App_Menu_NewFlag(s32 value, bool debug) { increaseS32CommonFlag(value, "App_Menu_NewFlag", -1, debug); }
 void setFlag_App_Menu_NewFlag(s32 value, bool debug) { setS32(value, flag_App_Menu_NewFlag(), debug); }
 void resetFlag_App_Menu_NewFlag(bool debug) { resetS32(flag_App_Menu_NewFlag(), debug); }
 s32 getFlag_App_Pedometer_StepCount(bool debug) { return getS32(flag_App_Pedometer_StepCount(), debug); }
+void increaseFlag_App_Pedometer_StepCount(s32 value, bool debug) { increaseS32CommonFlag(value, "App_Pedometer_StepCount", -1, debug); }
 void setFlag_App_Pedometer_StepCount(s32 value, bool debug) { setS32(value, flag_App_Pedometer_StepCount(), debug); }
 void resetFlag_App_Pedometer_StepCount(bool debug) { resetS32(flag_App_Pedometer_StepCount(), debug); }
 bool getFlag_App_SeakSensor_IsEnabled(bool debug) { return getBool(flag_App_SeakSensor_IsEnabled(), debug); }
 void setFlag_App_SeakSensor_IsEnabled(bool value, bool debug) { setBool(value, flag_App_SeakSensor_IsEnabled(), debug); }
 void resetFlag_App_SeakSensor_IsEnabled(bool debug) { resetBool(flag_App_SeakSensor_IsEnabled(), debug); }
 s32 getFlag_App_SeakSensor_SearchMode(bool debug) { return getS32(flag_App_SeakSensor_SearchMode(), debug); }
+void increaseFlag_App_SeakSensor_SearchMode(s32 value, bool debug) { increaseS32CommonFlag(value, "App_SeakSensor_SearchMode", -1, debug); }
 void setFlag_App_SeakSensor_SearchMode(s32 value, bool debug) { setS32(value, flag_App_SeakSensor_SearchMode(), debug); }
 void resetFlag_App_SeakSensor_SearchMode(bool debug) { resetS32(flag_App_SeakSensor_SearchMode(), debug); }
 s32 getFlag_App_SeakSensor_SlotIdx(bool debug) { return getS32(flag_App_SeakSensor_SlotIdx(), debug); }
+void increaseFlag_App_SeakSensor_SlotIdx(s32 value, bool debug) { increaseS32CommonFlag(value, "App_SeakSensor_SlotIdx", -1, debug); }
 void setFlag_App_SeakSensor_SlotIdx(s32 value, bool debug) { setS32(value, flag_App_SeakSensor_SlotIdx(), debug); }
 void resetFlag_App_SeakSensor_SlotIdx(bool debug) { resetS32(flag_App_SeakSensor_SlotIdx(), debug); }
 bool getFlag_App_Slowtimer_OnOff(bool debug) { return getBool(flag_App_Slowtimer_OnOff(), debug); }
@@ -331,12 +355,14 @@ bool getFlag_AutoSaveOnOff(bool debug) { return getBool(flag_AutoSaveOnOff(), de
 void setFlag_AutoSaveOnOff(bool value, bool debug) { setBool(value, flag_AutoSaveOnOff(), debug); }
 void resetFlag_AutoSaveOnOff(bool debug) { resetBool(flag_AutoSaveOnOff(), debug); }
 s32 getFlag_BalladOfHero_ChallengClearCount(bool debug) { return getS32(flag_BalladOfHero_ChallengClearCount(), debug); }
+void increaseFlag_BalladOfHero_ChallengClearCount(s32 value, bool debug) { increaseS32CommonFlag(value, "BalladOfHero_ChallengClearCount", -1, debug); }
 void setFlag_BalladOfHero_ChallengClearCount(s32 value, bool debug) { setS32(value, flag_BalladOfHero_ChallengClearCount(), debug); }
 void resetFlag_BalladOfHero_ChallengClearCount(bool debug) { resetS32(flag_BalladOfHero_ChallengClearCount(), debug); }
 bool getFlag_BalladOfHeroes_Activated(bool debug) { return getBool(flag_BalladOfHeroes_Activated(), debug); }
 void setFlag_BalladOfHeroes_Activated(bool value, bool debug) { setBool(value, flag_BalladOfHeroes_Activated(), debug); }
 void resetFlag_BalladOfHeroes_Activated(bool debug) { resetBool(flag_BalladOfHeroes_Activated(), debug); }
 s32 getFlag_BalladOfHeroes_ChainRing_Running(bool debug) { return getS32(flag_BalladOfHeroes_ChainRing_Running(), debug); }
+void increaseFlag_BalladOfHeroes_ChainRing_Running(s32 value, bool debug) { increaseS32CommonFlag(value, "BalladOfHeroes_ChainRing_Running", -1, debug); }
 void setFlag_BalladOfHeroes_ChainRing_Running(s32 value, bool debug) { setS32(value, flag_BalladOfHeroes_ChainRing_Running(), debug); }
 void resetFlag_BalladOfHeroes_ChainRing_Running(bool debug) { resetS32(flag_BalladOfHeroes_ChainRing_Running(), debug); }
 bool getFlag_BalladOfHeroes_FinalShutter_Close(bool debug) { return getBool(flag_BalladOfHeroes_FinalShutter_Close(), debug); }
@@ -541,6 +567,7 @@ bool getFlag_bf2_collabo_open03(bool debug) { return getBool(flag_bf2_collabo_op
 void setFlag_bf2_collabo_open03(bool value, bool debug) { setBool(value, flag_bf2_collabo_open03(), debug); }
 void resetFlag_bf2_collabo_open03(bool debug) { resetBool(flag_bf2_collabo_open03(), debug); }
 s32 getFlag_bf2_collabo_remaining(bool debug) { return getS32(flag_bf2_collabo_remaining(), debug); }
+void increaseFlag_bf2_collabo_remaining(s32 value, bool debug) { increaseS32CommonFlag(value, "bf2_collabo_remaining", -1, debug); }
 void setFlag_bf2_collabo_remaining(s32 value, bool debug) { setS32(value, flag_bf2_collabo_remaining(), debug); }
 void resetFlag_bf2_collabo_remaining(bool debug) { resetS32(flag_bf2_collabo_remaining(), debug); }
 bool getFlag_BloodyMoonProhibition(bool debug) { return getBool(flag_BloodyMoonProhibition(), debug); }
@@ -550,18 +577,22 @@ bool getFlag_Bokoblin_Complete(bool debug) { return getBool(flag_Bokoblin_Comple
 void setFlag_Bokoblin_Complete(bool value, bool debug) { setBool(value, flag_Bokoblin_Complete(), debug); }
 void resetFlag_Bokoblin_Complete(bool debug) { resetBool(flag_Bokoblin_Complete(), debug); }
 s32 getFlag_Bokoblin_Red_DeathCount(bool debug) { return getS32(flag_Bokoblin_Red_DeathCount(), debug); }
+void increaseFlag_Bokoblin_Red_DeathCount(s32 value, bool debug) { increaseS32CommonFlag(value, "Bokoblin_Red_DeathCount", -1, debug); }
 void setFlag_Bokoblin_Red_DeathCount(s32 value, bool debug) { setS32(value, flag_Bokoblin_Red_DeathCount(), debug); }
 void resetFlag_Bokoblin_Red_DeathCount(bool debug) { resetS32(flag_Bokoblin_Red_DeathCount(), debug); }
 s32 getFlag_BokoblinSeries_Counter(bool debug) { return getS32(flag_BokoblinSeries_Counter(), debug); }
+void increaseFlag_BokoblinSeries_Counter(s32 value, bool debug) { increaseS32CommonFlag(value, "BokoblinSeries_Counter", -1, debug); }
 void setFlag_BokoblinSeries_Counter(s32 value, bool debug) { setS32(value, flag_BokoblinSeries_Counter(), debug); }
 void resetFlag_BokoblinSeries_Counter(bool debug) { resetS32(flag_BokoblinSeries_Counter(), debug); }
 bool getFlag_BottomComebackProhibitation(bool debug) { return getBool(flag_BottomComebackProhibitation(), debug); }
 void setFlag_BottomComebackProhibitation(bool value, bool debug) { setBool(value, flag_BottomComebackProhibitation(), debug); }
 void resetFlag_BottomComebackProhibitation(bool debug) { resetBool(flag_BottomComebackProhibitation(), debug); }
 s32 getFlag_BowPorchStockNum(bool debug) { return getS32(flag_BowPorchStockNum(), debug); }
+void increaseFlag_BowPorchStockNum(s32 value, bool debug) { increaseS32CommonFlag(value, "BowPorchStockNum", -1, debug); }
 void setFlag_BowPorchStockNum(s32 value, bool debug) { setS32(value, flag_BowPorchStockNum(), debug); }
 void resetFlag_BowPorchStockNum(bool debug) { resetS32(flag_BowPorchStockNum(), debug); }
 s32 getFlag_BreakHartValue(bool debug) { return getS32(flag_BreakHartValue(), debug); }
+void increaseFlag_BreakHartValue(s32 value, bool debug) { increaseS32CommonFlag(value, "BreakHartValue", -1, debug); }
 void setFlag_BreakHartValue(s32 value, bool debug) { setS32(value, flag_BreakHartValue(), debug); }
 void resetFlag_BreakHartValue(bool debug) { resetS32(flag_BreakHartValue(), debug); }
 bool getFlag_CameraRLReverse(bool debug) { return getBool(flag_CameraRLReverse(), debug); }
@@ -577,6 +608,7 @@ bool getFlag_CantAutoWallDashUp(bool debug) { return getBool(flag_CantAutoWallDa
 void setFlag_CantAutoWallDashUp(bool value, bool debug) { setBool(value, flag_CantAutoWallDashUp(), debug); }
 void resetFlag_CantAutoWallDashUp(bool debug) { resetBool(flag_CantAutoWallDashUp(), debug); }
 s32 getFlag_CaptionPictSize(bool debug) { return getS32(flag_CaptionPictSize(), debug); }
+void increaseFlag_CaptionPictSize(s32 value, bool debug) { increaseS32CommonFlag(value, "CaptionPictSize", -1, debug); }
 void setFlag_CaptionPictSize(s32 value, bool debug) { setS32(value, flag_CaptionPictSize(), debug); }
 void resetFlag_CaptionPictSize(bool debug) { resetS32(flag_CaptionPictSize(), debug); }
 bool getFlag_CarryingBlueFireEXMini_Activated(bool debug) { return getBool(flag_CarryingBlueFireEXMini_Activated(), debug); }
@@ -673,12 +705,15 @@ bool getFlag_climateFirst(bool debug) { return getBool(flag_climateFirst(), debu
 void setFlag_climateFirst(bool value, bool debug) { setBool(value, flag_climateFirst(), debug); }
 void resetFlag_climateFirst(bool debug) { resetBool(flag_climateFirst(), debug); }
 s32 getFlag_climateWeather(s32 idx, bool debug) { return getS32(flag_climateWeather(), idx, debug); }
+void increaseFlag_climateWeather(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "climateWeather", idx, debug); }
 void setFlag_climateWeather(s32 value, s32 idx, bool debug) { setS32(value, flag_climateWeather(), idx, debug); }
 void resetFlag_climateWeather(s32 idx, bool debug) { resetS32(flag_climateWeather(), idx, debug); }
 s32 getFlag_climateWeather2(s32 idx, bool debug) { return getS32(flag_climateWeather2(), idx, debug); }
+void increaseFlag_climateWeather2(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "climateWeather2", idx, debug); }
 void setFlag_climateWeather2(s32 value, s32 idx, bool debug) { setS32(value, flag_climateWeather2(), idx, debug); }
 void resetFlag_climateWeather2(s32 idx, bool debug) { resetS32(flag_climateWeather2(), idx, debug); }
 s32 getFlag_climateWeather3(s32 idx, bool debug) { return getS32(flag_climateWeather3(), idx, debug); }
+void increaseFlag_climateWeather3(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "climateWeather3", idx, debug); }
 void setFlag_climateWeather3(s32 value, s32 idx, bool debug) { setS32(value, flag_climateWeather3(), idx, debug); }
 void resetFlag_climateWeather3(s32 idx, bool debug) { resetS32(flag_climateWeather3(), idx, debug); }
 bool getFlag_CollaborationShootingStar_Xenoblade2_1_1_fallout(bool debug) { return getBool(flag_CollaborationShootingStar_Xenoblade2_1_1_fallout(), debug); }
@@ -703,6 +738,7 @@ bool getFlag_ColorChange_EnablePreview(bool debug) { return getBool(flag_ColorCh
 void setFlag_ColorChange_EnablePreview(bool value, bool debug) { setBool(value, flag_ColorChange_EnablePreview(), debug); }
 void resetFlag_ColorChange_EnablePreview(bool debug) { resetBool(flag_ColorChange_EnablePreview(), debug); }
 s32 getFlag_ColorChange_MaterialIndex(bool debug) { return getS32(flag_ColorChange_MaterialIndex(), debug); }
+void increaseFlag_ColorChange_MaterialIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "ColorChange_MaterialIndex", -1, debug); }
 void setFlag_ColorChange_MaterialIndex(s32 value, bool debug) { setS32(value, flag_ColorChange_MaterialIndex(), debug); }
 void resetFlag_ColorChange_MaterialIndex(bool debug) { resetS32(flag_ColorChange_MaterialIndex(), debug); }
 bool getFlag_CompleteDungeon_Finish(bool debug) { return getBool(flag_CompleteDungeon_Finish(), debug); }
@@ -1141,45 +1177,58 @@ void getFlag_CookMaterialName4(char const** value, s32 idx, bool debug) { getStr
 void setFlag_CookMaterialName4(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_CookMaterialName4(), idx, debug); }
 void resetFlag_CookMaterialName4(s32 idx, bool debug) { resetStr64(flag_CookMaterialName4(), idx, debug); }
 s32 getFlag_Counter_TerminalElectric(bool debug) { return getS32(flag_Counter_TerminalElectric(), debug); }
+void increaseFlag_Counter_TerminalElectric(s32 value, bool debug) { increaseS32CommonFlag(value, "Counter_TerminalElectric", -1, debug); }
 void setFlag_Counter_TerminalElectric(s32 value, bool debug) { setS32(value, flag_Counter_TerminalElectric(), debug); }
 void resetFlag_Counter_TerminalElectric(bool debug) { resetS32(flag_Counter_TerminalElectric(), debug); }
 s32 getFlag_Counter_TerminalFinalTrial(bool debug) { return getS32(flag_Counter_TerminalFinalTrial(), debug); }
+void increaseFlag_Counter_TerminalFinalTrial(s32 value, bool debug) { increaseS32CommonFlag(value, "Counter_TerminalFinalTrial", -1, debug); }
 void setFlag_Counter_TerminalFinalTrial(s32 value, bool debug) { setS32(value, flag_Counter_TerminalFinalTrial(), debug); }
 void resetFlag_Counter_TerminalFinalTrial(bool debug) { resetS32(flag_Counter_TerminalFinalTrial(), debug); }
 s32 getFlag_Counter_TerminalFire(bool debug) { return getS32(flag_Counter_TerminalFire(), debug); }
+void increaseFlag_Counter_TerminalFire(s32 value, bool debug) { increaseS32CommonFlag(value, "Counter_TerminalFire", -1, debug); }
 void setFlag_Counter_TerminalFire(s32 value, bool debug) { setS32(value, flag_Counter_TerminalFire(), debug); }
 void resetFlag_Counter_TerminalFire(bool debug) { resetS32(flag_Counter_TerminalFire(), debug); }
 s32 getFlag_Counter_TerminalWater(bool debug) { return getS32(flag_Counter_TerminalWater(), debug); }
+void increaseFlag_Counter_TerminalWater(s32 value, bool debug) { increaseS32CommonFlag(value, "Counter_TerminalWater", -1, debug); }
 void setFlag_Counter_TerminalWater(s32 value, bool debug) { setS32(value, flag_Counter_TerminalWater(), debug); }
 void resetFlag_Counter_TerminalWater(bool debug) { resetS32(flag_Counter_TerminalWater(), debug); }
 s32 getFlag_Counter_TerminalWind(bool debug) { return getS32(flag_Counter_TerminalWind(), debug); }
+void increaseFlag_Counter_TerminalWind(s32 value, bool debug) { increaseS32CommonFlag(value, "Counter_TerminalWind", -1, debug); }
 void setFlag_Counter_TerminalWind(s32 value, bool debug) { setS32(value, flag_Counter_TerminalWind(), debug); }
 void resetFlag_Counter_TerminalWind(bool debug) { resetS32(flag_Counter_TerminalWind(), debug); }
 bool getFlag_CourageFirstDemoKill(bool debug) { return getBool(flag_CourageFirstDemoKill(), debug); }
 void setFlag_CourageFirstDemoKill(bool value, bool debug) { setBool(value, flag_CourageFirstDemoKill(), debug); }
 void resetFlag_CourageFirstDemoKill(bool debug) { resetBool(flag_CourageFirstDemoKill(), debug); }
 s32 getFlag_CurrentHart(bool debug) { return getS32(flag_CurrentHart(), debug); }
+void increaseFlag_CurrentHart(s32 value, bool debug) { increaseS32CommonFlag(value, "CurrentHart", -1, debug); }
 void setFlag_CurrentHart(s32 value, bool debug) { setS32(value, flag_CurrentHart(), debug); }
 void resetFlag_CurrentHart(bool debug) { resetS32(flag_CurrentHart(), debug); }
 s32 getFlag_CurrentMamo(bool debug) { return getS32(flag_CurrentMamo(), debug); }
+void increaseFlag_CurrentMamo(s32 value, bool debug) { increaseS32CommonFlag(value, "CurrentMamo", -1, debug); }
 void setFlag_CurrentMamo(s32 value, bool debug) { setS32(value, flag_CurrentMamo(), debug); }
 void resetFlag_CurrentMamo(bool debug) { resetS32(flag_CurrentMamo(), debug); }
 s32 getFlag_CurrentRupee(bool debug) { return getS32(flag_CurrentRupee(), debug); }
+void increaseFlag_CurrentRupee(s32 value, bool debug) { increaseS32CommonFlag(value, "CurrentRupee", -1, debug); }
 void setFlag_CurrentRupee(s32 value, bool debug) { setS32(value, flag_CurrentRupee(), debug); }
 void resetFlag_CurrentRupee(bool debug) { resetS32(flag_CurrentRupee(), debug); }
 s32 getFlag_CurrentTotalGetRupeeInMiniGame(bool debug) { return getS32(flag_CurrentTotalGetRupeeInMiniGame(), debug); }
+void increaseFlag_CurrentTotalGetRupeeInMiniGame(s32 value, bool debug) { increaseS32CommonFlag(value, "CurrentTotalGetRupeeInMiniGame", -1, debug); }
 void setFlag_CurrentTotalGetRupeeInMiniGame(s32 value, bool debug) { setS32(value, flag_CurrentTotalGetRupeeInMiniGame(), debug); }
 void resetFlag_CurrentTotalGetRupeeInMiniGame(bool debug) { resetS32(flag_CurrentTotalGetRupeeInMiniGame(), debug); }
 s32 getFlag_CurseR_Electric_Challenge(bool debug) { return getS32(flag_CurseR_Electric_Challenge(), debug); }
+void increaseFlag_CurseR_Electric_Challenge(s32 value, bool debug) { increaseS32CommonFlag(value, "CurseR_Electric_Challenge", -1, debug); }
 void setFlag_CurseR_Electric_Challenge(s32 value, bool debug) { setS32(value, flag_CurseR_Electric_Challenge(), debug); }
 void resetFlag_CurseR_Electric_Challenge(bool debug) { resetS32(flag_CurseR_Electric_Challenge(), debug); }
 s32 getFlag_CurseR_Fire_Challenge(bool debug) { return getS32(flag_CurseR_Fire_Challenge(), debug); }
+void increaseFlag_CurseR_Fire_Challenge(s32 value, bool debug) { increaseS32CommonFlag(value, "CurseR_Fire_Challenge", -1, debug); }
 void setFlag_CurseR_Fire_Challenge(s32 value, bool debug) { setS32(value, flag_CurseR_Fire_Challenge(), debug); }
 void resetFlag_CurseR_Fire_Challenge(bool debug) { resetS32(flag_CurseR_Fire_Challenge(), debug); }
 s32 getFlag_CurseR_Water_Challenge(bool debug) { return getS32(flag_CurseR_Water_Challenge(), debug); }
+void increaseFlag_CurseR_Water_Challenge(s32 value, bool debug) { increaseS32CommonFlag(value, "CurseR_Water_Challenge", -1, debug); }
 void setFlag_CurseR_Water_Challenge(s32 value, bool debug) { setS32(value, flag_CurseR_Water_Challenge(), debug); }
 void resetFlag_CurseR_Water_Challenge(bool debug) { resetS32(flag_CurseR_Water_Challenge(), debug); }
 s32 getFlag_CurseR_Wind_Challenge(bool debug) { return getS32(flag_CurseR_Wind_Challenge(), debug); }
+void increaseFlag_CurseR_Wind_Challenge(s32 value, bool debug) { increaseS32CommonFlag(value, "CurseR_Wind_Challenge", -1, debug); }
 void setFlag_CurseR_Wind_Challenge(s32 value, bool debug) { setS32(value, flag_CurseR_Wind_Challenge(), debug); }
 void resetFlag_CurseR_Wind_Challenge(bool debug) { resetS32(flag_CurseR_Wind_Challenge(), debug); }
 bool getFlag_DarkWoods_Finish(bool debug) { return getBool(flag_DarkWoods_Finish(), debug); }
@@ -1198,15 +1247,18 @@ void getFlag_DeadHorse_AmiiboUidHash(char const** value, s32 idx, bool debug) { 
 void setFlag_DeadHorse_AmiiboUidHash(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_AmiiboUidHash(), idx, debug); }
 void resetFlag_DeadHorse_AmiiboUidHash(s32 idx, bool debug) { resetStr64(flag_DeadHorse_AmiiboUidHash(), idx, debug); }
 s32 getFlag_DeadHorse_CollarType(s32 idx, bool debug) { return getS32(flag_DeadHorse_CollarType(), idx, debug); }
+void increaseFlag_DeadHorse_CollarType(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "DeadHorse_CollarType", idx, debug); }
 void setFlag_DeadHorse_CollarType(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_CollarType(), idx, debug); }
 void resetFlag_DeadHorse_CollarType(s32 idx, bool debug) { resetS32(flag_DeadHorse_CollarType(), idx, debug); }
 s32 getFlag_DeadHorse_DeadCause(s32 idx, bool debug) { return getS32(flag_DeadHorse_DeadCause(), idx, debug); }
+void increaseFlag_DeadHorse_DeadCause(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "DeadHorse_DeadCause", idx, debug); }
 void setFlag_DeadHorse_DeadCause(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_DeadCause(), idx, debug); }
 void resetFlag_DeadHorse_DeadCause(s32 idx, bool debug) { resetS32(flag_DeadHorse_DeadCause(), idx, debug); }
 f32 getFlag_DeadHorse_Familiarity(s32 idx, bool debug) { return getF32(flag_DeadHorse_Familiarity(), idx, debug); }
 void setFlag_DeadHorse_Familiarity(f32 value, s32 idx, bool debug) { setF32(value, flag_DeadHorse_Familiarity(), idx, debug); }
 void resetFlag_DeadHorse_Familiarity(s32 idx, bool debug) { resetF32(flag_DeadHorse_Familiarity(), idx, debug); }
 s32 getFlag_DeadHorse_FootType(s32 idx, bool debug) { return getS32(flag_DeadHorse_FootType(), idx, debug); }
+void increaseFlag_DeadHorse_FootType(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "DeadHorse_FootType", idx, debug); }
 void setFlag_DeadHorse_FootType(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_FootType(), idx, debug); }
 void resetFlag_DeadHorse_FootType(s32 idx, bool debug) { resetS32(flag_DeadHorse_FootType(), idx, debug); }
 void getFlag_DeadHorse_ManeName(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_ManeName(), value, idx, debug); }
@@ -1216,6 +1268,7 @@ void getFlag_DeadHorse_ReinsName(char const** value, s32 idx, bool debug) { getS
 void setFlag_DeadHorse_ReinsName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_DeadHorse_ReinsName(), idx, debug); }
 void resetFlag_DeadHorse_ReinsName(s32 idx, bool debug) { resetStr64(flag_DeadHorse_ReinsName(), idx, debug); }
 s32 getFlag_DeadHorse_RideTimeSec(s32 idx, bool debug) { return getS32(flag_DeadHorse_RideTimeSec(), idx, debug); }
+void increaseFlag_DeadHorse_RideTimeSec(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "DeadHorse_RideTimeSec", idx, debug); }
 void setFlag_DeadHorse_RideTimeSec(s32 value, s32 idx, bool debug) { setS32(value, flag_DeadHorse_RideTimeSec(), idx, debug); }
 void resetFlag_DeadHorse_RideTimeSec(s32 idx, bool debug) { resetS32(flag_DeadHorse_RideTimeSec(), idx, debug); }
 void getFlag_DeadHorse_SaddleName(char const** value, s32 idx, bool debug) { getStr64(flag_DeadHorse_SaddleName(), value, idx, debug); }
@@ -1240,258 +1293,343 @@ bool getFlag_Defeat_OneHitDungeon004(bool debug) { return getBool(flag_Defeat_On
 void setFlag_Defeat_OneHitDungeon004(bool value, bool debug) { setBool(value, flag_Defeat_OneHitDungeon004(), debug); }
 void resetFlag_Defeat_OneHitDungeon004(bool debug) { resetBool(flag_Defeat_OneHitDungeon004(), debug); }
 s32 getFlag_Defeated_Enemy_AirOctarock_Num(bool debug) { return getS32(flag_Defeated_Enemy_AirOctarock_Num(), debug); }
+void increaseFlag_Defeated_Enemy_AirOctarock_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_AirOctarock_Num", -1, debug); }
 void setFlag_Defeated_Enemy_AirOctarock_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_AirOctarock_Num(), debug); }
 void resetFlag_Defeated_Enemy_AirOctarock_Num(bool debug) { resetS32(flag_Defeated_Enemy_AirOctarock_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Assassin_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Assassin_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Assassin_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Assassin_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Assassin_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Assassin_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Assassin_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Assassin_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Assassin_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Assassin_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Assassin_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Assassin_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Assassin_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Assassin_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Assassin_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Assassin_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Assassin_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Assassin_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Assassin_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Assassin_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Assassin_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Assassin_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Assassin_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Assassin_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Bokoblin_Bone_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Bokoblin_Bone_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Bokoblin_Bone_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Bokoblin_Bone_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Bokoblin_Bone_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Bokoblin_Bone_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Bokoblin_Bone_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Bokoblin_Bone_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Bokoblin_Dark_Num(bool debug) { return getS32(flag_Defeated_Enemy_Bokoblin_Dark_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Bokoblin_Dark_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Bokoblin_Dark_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Bokoblin_Dark_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Bokoblin_Dark_Num(), debug); }
 void resetFlag_Defeated_Enemy_Bokoblin_Dark_Num(bool debug) { resetS32(flag_Defeated_Enemy_Bokoblin_Dark_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Bokoblin_Gold_Num(bool debug) { return getS32(flag_Defeated_Enemy_Bokoblin_Gold_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Bokoblin_Gold_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Bokoblin_Gold_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Bokoblin_Gold_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Bokoblin_Gold_Num(), debug); }
 void resetFlag_Defeated_Enemy_Bokoblin_Gold_Num(bool debug) { resetS32(flag_Defeated_Enemy_Bokoblin_Gold_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Bokoblin_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Bokoblin_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Bokoblin_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Bokoblin_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Bokoblin_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Bokoblin_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Bokoblin_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Bokoblin_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Bokoblin_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Bokoblin_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Bokoblin_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Bokoblin_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Bokoblin_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Bokoblin_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Bokoblin_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Bokoblin_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Bokoblin_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Bokoblin_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Bokoblin_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Bokoblin_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Bokoblin_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Bokoblin_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Bokoblin_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Bokoblin_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Chuchu_Electric_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Chuchu_Electric_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Chuchu_Electric_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Chuchu_Electric_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Chuchu_Electric_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Chuchu_Electric_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Chuchu_Electric_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Chuchu_Electric_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Chuchu_Fire_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Chuchu_Fire_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Chuchu_Fire_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Chuchu_Fire_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Chuchu_Fire_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Chuchu_Fire_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Chuchu_Fire_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Chuchu_Fire_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Chuchu_Ice_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Chuchu_Ice_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Chuchu_Ice_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Chuchu_Ice_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Chuchu_Ice_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Chuchu_Ice_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Chuchu_Ice_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Chuchu_Ice_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Chuchu_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Chuchu_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Chuchu_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Chuchu_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Chuchu_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Chuchu_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Chuchu_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Chuchu_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_GanonBeast_Num(bool debug) { return getS32(flag_Defeated_Enemy_GanonBeast_Num(), debug); }
+void increaseFlag_Defeated_Enemy_GanonBeast_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_GanonBeast_Num", -1, debug); }
 void setFlag_Defeated_Enemy_GanonBeast_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_GanonBeast_Num(), debug); }
 void resetFlag_Defeated_Enemy_GanonBeast_Num(bool debug) { resetS32(flag_Defeated_Enemy_GanonBeast_Num(), debug); }
 s32 getFlag_Defeated_Enemy_GanonGrudge_01_Num(bool debug) { return getS32(flag_Defeated_Enemy_GanonGrudge_01_Num(), debug); }
+void increaseFlag_Defeated_Enemy_GanonGrudge_01_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_GanonGrudge_01_Num", -1, debug); }
 void setFlag_Defeated_Enemy_GanonGrudge_01_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_GanonGrudge_01_Num(), debug); }
 void resetFlag_Defeated_Enemy_GanonGrudge_01_Num(bool debug) { resetS32(flag_Defeated_Enemy_GanonGrudge_01_Num(), debug); }
 s32 getFlag_Defeated_Enemy_GanonGrudge_02_Num(bool debug) { return getS32(flag_Defeated_Enemy_GanonGrudge_02_Num(), debug); }
+void increaseFlag_Defeated_Enemy_GanonGrudge_02_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_GanonGrudge_02_Num", -1, debug); }
 void setFlag_Defeated_Enemy_GanonGrudge_02_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_GanonGrudge_02_Num(), debug); }
 void resetFlag_Defeated_Enemy_GanonGrudge_02_Num(bool debug) { resetS32(flag_Defeated_Enemy_GanonGrudge_02_Num(), debug); }
 s32 getFlag_Defeated_Enemy_GanonGrudge_Num(bool debug) { return getS32(flag_Defeated_Enemy_GanonGrudge_Num(), debug); }
+void increaseFlag_Defeated_Enemy_GanonGrudge_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_GanonGrudge_Num", -1, debug); }
 void setFlag_Defeated_Enemy_GanonGrudge_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_GanonGrudge_Num(), debug); }
 void resetFlag_Defeated_Enemy_GanonGrudge_Num(bool debug) { resetS32(flag_Defeated_Enemy_GanonGrudge_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Giant_Bone_Num(bool debug) { return getS32(flag_Defeated_Enemy_Giant_Bone_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Giant_Bone_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Giant_Bone_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Giant_Bone_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Giant_Bone_Num(), debug); }
 void resetFlag_Defeated_Enemy_Giant_Bone_Num(bool debug) { resetS32(flag_Defeated_Enemy_Giant_Bone_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Giant_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Giant_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Giant_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Giant_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Giant_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Giant_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Giant_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Giant_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Giant_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Giant_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Giant_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Giant_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Giant_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Giant_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Giant_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Giant_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Giant_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Giant_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Giant_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Giant_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Giant_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Giant_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Giant_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Giant_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Fire_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Fire_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Fire_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Fire_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Fire_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Fire_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Fire_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Fire_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Fire_R_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Fire_R_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Fire_R_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Fire_R_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Fire_R_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Fire_R_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Fire_R_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Fire_R_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Ice_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Ice_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Ice_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Ice_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Ice_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Ice_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Ice_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Ice_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Little_Fire_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Little_Fire_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Little_Fire_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Little_Fire_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Little_Fire_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Little_Fire_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Little_Fire_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Little_Fire_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Little_Ice_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Little_Ice_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Little_Ice_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Little_Ice_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Little_Ice_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Little_Ice_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Little_Ice_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Little_Ice_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Little_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Little_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Little_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Little_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Little_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Little_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Little_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Little_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Golem_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Golem_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Golem_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Golem_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Golem_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Golem_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Golem_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Golem_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_A_Fixed_Moss_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_A_Fixed_Moss_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_A_Fixed_Moss_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_A_Fixed_Moss_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_A_Fixed_Moss_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_A_Fixed_Moss_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_A_Fixed_Moss_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_A_Fixed_Moss_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_A_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_A_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_A_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_A_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_A_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_A_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_A_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_A_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_B_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_B_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_B_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_B_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_B_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_B_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_B_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_B_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_C_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_C_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_C_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_C_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_C_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_C_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_C_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_C_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_Mini_Baby_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_Mini_Baby_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_Mini_Baby_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_Mini_Baby_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_Mini_Baby_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_Mini_Baby_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_Mini_Baby_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_Mini_Baby_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_Mini_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_Mini_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_Mini_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_Mini_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_Mini_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_Mini_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_Mini_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_Mini_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_Mini_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_Mini_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_Mini_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_Mini_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_Mini_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_Mini_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_Mini_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_Mini_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Guardian_Mini_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Guardian_Mini_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Guardian_Mini_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Guardian_Mini_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Guardian_Mini_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Guardian_Mini_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Guardian_Mini_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Guardian_Mini_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Keese_Electric_Num(bool debug) { return getS32(flag_Defeated_Enemy_Keese_Electric_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Keese_Electric_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Keese_Electric_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Keese_Electric_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Keese_Electric_Num(), debug); }
 void resetFlag_Defeated_Enemy_Keese_Electric_Num(bool debug) { resetS32(flag_Defeated_Enemy_Keese_Electric_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Keese_Fire_Num(bool debug) { return getS32(flag_Defeated_Enemy_Keese_Fire_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Keese_Fire_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Keese_Fire_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Keese_Fire_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Keese_Fire_Num(), debug); }
 void resetFlag_Defeated_Enemy_Keese_Fire_Num(bool debug) { resetS32(flag_Defeated_Enemy_Keese_Fire_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Keese_Ice_Num(bool debug) { return getS32(flag_Defeated_Enemy_Keese_Ice_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Keese_Ice_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Keese_Ice_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Keese_Ice_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Keese_Ice_Num(), debug); }
 void resetFlag_Defeated_Enemy_Keese_Ice_Num(bool debug) { resetS32(flag_Defeated_Enemy_Keese_Ice_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Keese_Num(bool debug) { return getS32(flag_Defeated_Enemy_Keese_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Keese_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Keese_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Keese_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Keese_Num(), debug); }
 void resetFlag_Defeated_Enemy_Keese_Num(bool debug) { resetS32(flag_Defeated_Enemy_Keese_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Bone_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Bone_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Bone_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Bone_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Bone_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Bone_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Bone_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Bone_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Dark_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Dark_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Dark_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Dark_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Dark_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Dark_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Dark_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Dark_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Electric_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Electric_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Electric_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Electric_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Electric_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Electric_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Electric_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Electric_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Fire_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Fire_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Fire_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Fire_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Fire_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Fire_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Fire_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Fire_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Gold_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Gold_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Gold_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Gold_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Gold_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Gold_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Gold_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Gold_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Ice_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Ice_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Ice_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Ice_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Ice_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Ice_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Ice_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Ice_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lizalfos_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lizalfos_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lizalfos_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lizalfos_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lizalfos_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lizalfos_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lizalfos_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lizalfos_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lynel_Dark_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lynel_Dark_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lynel_Dark_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lynel_Dark_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lynel_Dark_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lynel_Dark_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lynel_Dark_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lynel_Dark_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lynel_Gold_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lynel_Gold_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lynel_Gold_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lynel_Gold_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lynel_Gold_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lynel_Gold_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lynel_Gold_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lynel_Gold_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lynel_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lynel_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lynel_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lynel_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lynel_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lynel_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lynel_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lynel_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lynel_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lynel_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lynel_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lynel_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lynel_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lynel_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lynel_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lynel_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Lynel_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Lynel_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Lynel_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Lynel_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Lynel_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Lynel_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Lynel_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Lynel_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Moriblin_Bone_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Moriblin_Bone_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Moriblin_Bone_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Moriblin_Bone_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Moriblin_Bone_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Moriblin_Bone_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Moriblin_Bone_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Moriblin_Bone_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Moriblin_Dark_Num(bool debug) { return getS32(flag_Defeated_Enemy_Moriblin_Dark_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Moriblin_Dark_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Moriblin_Dark_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Moriblin_Dark_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Moriblin_Dark_Num(), debug); }
 void resetFlag_Defeated_Enemy_Moriblin_Dark_Num(bool debug) { resetS32(flag_Defeated_Enemy_Moriblin_Dark_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Moriblin_Gold_Num(bool debug) { return getS32(flag_Defeated_Enemy_Moriblin_Gold_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Moriblin_Gold_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Moriblin_Gold_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Moriblin_Gold_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Moriblin_Gold_Num(), debug); }
 void resetFlag_Defeated_Enemy_Moriblin_Gold_Num(bool debug) { resetS32(flag_Defeated_Enemy_Moriblin_Gold_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Moriblin_Junior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Moriblin_Junior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Moriblin_Junior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Moriblin_Junior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Moriblin_Junior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Moriblin_Junior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Moriblin_Junior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Moriblin_Junior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Moriblin_Middle_Num(bool debug) { return getS32(flag_Defeated_Enemy_Moriblin_Middle_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Moriblin_Middle_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Moriblin_Middle_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Moriblin_Middle_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Moriblin_Middle_Num(), debug); }
 void resetFlag_Defeated_Enemy_Moriblin_Middle_Num(bool debug) { resetS32(flag_Defeated_Enemy_Moriblin_Middle_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Moriblin_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Moriblin_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Moriblin_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Moriblin_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Moriblin_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Moriblin_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Moriblin_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Moriblin_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Octarock_Desert_Num(bool debug) { return getS32(flag_Defeated_Enemy_Octarock_Desert_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Octarock_Desert_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Octarock_Desert_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Octarock_Desert_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Octarock_Desert_Num(), debug); }
 void resetFlag_Defeated_Enemy_Octarock_Desert_Num(bool debug) { resetS32(flag_Defeated_Enemy_Octarock_Desert_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Octarock_Forest_Num(bool debug) { return getS32(flag_Defeated_Enemy_Octarock_Forest_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Octarock_Forest_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Octarock_Forest_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Octarock_Forest_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Octarock_Forest_Num(), debug); }
 void resetFlag_Defeated_Enemy_Octarock_Forest_Num(bool debug) { resetS32(flag_Defeated_Enemy_Octarock_Forest_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Octarock_Num(bool debug) { return getS32(flag_Defeated_Enemy_Octarock_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Octarock_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Octarock_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Octarock_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Octarock_Num(), debug); }
 void resetFlag_Defeated_Enemy_Octarock_Num(bool debug) { resetS32(flag_Defeated_Enemy_Octarock_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Octarock_Snow_Num(bool debug) { return getS32(flag_Defeated_Enemy_Octarock_Snow_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Octarock_Snow_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Octarock_Snow_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Octarock_Snow_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Octarock_Snow_Num(), debug); }
 void resetFlag_Defeated_Enemy_Octarock_Snow_Num(bool debug) { resetS32(flag_Defeated_Enemy_Octarock_Snow_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Octarock_Stone_Num(bool debug) { return getS32(flag_Defeated_Enemy_Octarock_Stone_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Octarock_Stone_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Octarock_Stone_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Octarock_Stone_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Octarock_Stone_Num(), debug); }
 void resetFlag_Defeated_Enemy_Octarock_Stone_Num(bool debug) { resetS32(flag_Defeated_Enemy_Octarock_Stone_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Sandworm_Num(bool debug) { return getS32(flag_Defeated_Enemy_Sandworm_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Sandworm_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Sandworm_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Sandworm_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Sandworm_Num(), debug); }
 void resetFlag_Defeated_Enemy_Sandworm_Num(bool debug) { resetS32(flag_Defeated_Enemy_Sandworm_Num(), debug); }
 s32 getFlag_Defeated_Enemy_SandwormR_Num(bool debug) { return getS32(flag_Defeated_Enemy_SandwormR_Num(), debug); }
+void increaseFlag_Defeated_Enemy_SandwormR_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_SandwormR_Num", -1, debug); }
 void setFlag_Defeated_Enemy_SandwormR_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_SandwormR_Num(), debug); }
 void resetFlag_Defeated_Enemy_SandwormR_Num(bool debug) { resetS32(flag_Defeated_Enemy_SandwormR_Num(), debug); }
 s32 getFlag_Defeated_Enemy_SiteBoss_Bow_Num(bool debug) { return getS32(flag_Defeated_Enemy_SiteBoss_Bow_Num(), debug); }
+void increaseFlag_Defeated_Enemy_SiteBoss_Bow_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_SiteBoss_Bow_Num", -1, debug); }
 void setFlag_Defeated_Enemy_SiteBoss_Bow_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_SiteBoss_Bow_Num(), debug); }
 void resetFlag_Defeated_Enemy_SiteBoss_Bow_Num(bool debug) { resetS32(flag_Defeated_Enemy_SiteBoss_Bow_Num(), debug); }
 s32 getFlag_Defeated_Enemy_SiteBoss_Lsword_Num(bool debug) { return getS32(flag_Defeated_Enemy_SiteBoss_Lsword_Num(), debug); }
+void increaseFlag_Defeated_Enemy_SiteBoss_Lsword_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_SiteBoss_Lsword_Num", -1, debug); }
 void setFlag_Defeated_Enemy_SiteBoss_Lsword_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_SiteBoss_Lsword_Num(), debug); }
 void resetFlag_Defeated_Enemy_SiteBoss_Lsword_Num(bool debug) { resetS32(flag_Defeated_Enemy_SiteBoss_Lsword_Num(), debug); }
 s32 getFlag_Defeated_Enemy_SiteBoss_Spear_Num(bool debug) { return getS32(flag_Defeated_Enemy_SiteBoss_Spear_Num(), debug); }
+void increaseFlag_Defeated_Enemy_SiteBoss_Spear_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_SiteBoss_Spear_Num", -1, debug); }
 void setFlag_Defeated_Enemy_SiteBoss_Spear_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_SiteBoss_Spear_Num(), debug); }
 void resetFlag_Defeated_Enemy_SiteBoss_Spear_Num(bool debug) { resetS32(flag_Defeated_Enemy_SiteBoss_Spear_Num(), debug); }
 s32 getFlag_Defeated_Enemy_SiteBoss_Sword_Num(bool debug) { return getS32(flag_Defeated_Enemy_SiteBoss_Sword_Num(), debug); }
+void increaseFlag_Defeated_Enemy_SiteBoss_Sword_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_SiteBoss_Sword_Num", -1, debug); }
 void setFlag_Defeated_Enemy_SiteBoss_Sword_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_SiteBoss_Sword_Num(), debug); }
 void resetFlag_Defeated_Enemy_SiteBoss_Sword_Num(bool debug) { resetS32(flag_Defeated_Enemy_SiteBoss_Sword_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Wizzrobe_Electric_Num(bool debug) { return getS32(flag_Defeated_Enemy_Wizzrobe_Electric_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Wizzrobe_Electric_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Wizzrobe_Electric_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Wizzrobe_Electric_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Wizzrobe_Electric_Num(), debug); }
 void resetFlag_Defeated_Enemy_Wizzrobe_Electric_Num(bool debug) { resetS32(flag_Defeated_Enemy_Wizzrobe_Electric_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Wizzrobe_Electric_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Wizzrobe_Electric_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Wizzrobe_Electric_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Wizzrobe_Electric_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Wizzrobe_Electric_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Wizzrobe_Electric_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Wizzrobe_Electric_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Wizzrobe_Electric_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Wizzrobe_Fire_Num(bool debug) { return getS32(flag_Defeated_Enemy_Wizzrobe_Fire_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Wizzrobe_Fire_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Wizzrobe_Fire_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Wizzrobe_Fire_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Wizzrobe_Fire_Num(), debug); }
 void resetFlag_Defeated_Enemy_Wizzrobe_Fire_Num(bool debug) { resetS32(flag_Defeated_Enemy_Wizzrobe_Fire_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Wizzrobe_Fire_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Wizzrobe_Fire_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Wizzrobe_Fire_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Wizzrobe_Fire_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Wizzrobe_Fire_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Wizzrobe_Fire_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Wizzrobe_Fire_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Wizzrobe_Fire_Senior_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Wizzrobe_Ice_Num(bool debug) { return getS32(flag_Defeated_Enemy_Wizzrobe_Ice_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Wizzrobe_Ice_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Wizzrobe_Ice_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Wizzrobe_Ice_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Wizzrobe_Ice_Num(), debug); }
 void resetFlag_Defeated_Enemy_Wizzrobe_Ice_Num(bool debug) { resetS32(flag_Defeated_Enemy_Wizzrobe_Ice_Num(), debug); }
 s32 getFlag_Defeated_Enemy_Wizzrobe_Ice_Senior_Num(bool debug) { return getS32(flag_Defeated_Enemy_Wizzrobe_Ice_Senior_Num(), debug); }
+void increaseFlag_Defeated_Enemy_Wizzrobe_Ice_Senior_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Enemy_Wizzrobe_Ice_Senior_Num", -1, debug); }
 void setFlag_Defeated_Enemy_Wizzrobe_Ice_Senior_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Enemy_Wizzrobe_Ice_Senior_Num(), debug); }
 void resetFlag_Defeated_Enemy_Wizzrobe_Ice_Senior_Num(bool debug) { resetS32(flag_Defeated_Enemy_Wizzrobe_Ice_Senior_Num(), debug); }
 s32 getFlag_Defeated_Priest_Boss_Normal_Num(bool debug) { return getS32(flag_Defeated_Priest_Boss_Normal_Num(), debug); }
+void increaseFlag_Defeated_Priest_Boss_Normal_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_Priest_Boss_Normal_Num", -1, debug); }
 void setFlag_Defeated_Priest_Boss_Normal_Num(s32 value, bool debug) { setS32(value, flag_Defeated_Priest_Boss_Normal_Num(), debug); }
 void resetFlag_Defeated_Priest_Boss_Normal_Num(bool debug) { resetS32(flag_Defeated_Priest_Boss_Normal_Num(), debug); }
 s32 getFlag_Defeated_RemainsFire_Drone_A_01_Num(bool debug) { return getS32(flag_Defeated_RemainsFire_Drone_A_01_Num(), debug); }
+void increaseFlag_Defeated_RemainsFire_Drone_A_01_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Defeated_RemainsFire_Drone_A_01_Num", -1, debug); }
 void setFlag_Defeated_RemainsFire_Drone_A_01_Num(s32 value, bool debug) { setS32(value, flag_Defeated_RemainsFire_Drone_A_01_Num(), debug); }
 void resetFlag_Defeated_RemainsFire_Drone_A_01_Num(bool debug) { resetS32(flag_Defeated_RemainsFire_Drone_A_01_Num(), debug); }
 s32 getFlag_DefeatedForestGiantNum(bool debug) { return getS32(flag_DefeatedForestGiantNum(), debug); }
+void increaseFlag_DefeatedForestGiantNum(s32 value, bool debug) { increaseS32CommonFlag(value, "DefeatedForestGiantNum", -1, debug); }
 void setFlag_DefeatedForestGiantNum(s32 value, bool debug) { setS32(value, flag_DefeatedForestGiantNum(), debug); }
 void resetFlag_DefeatedForestGiantNum(bool debug) { resetS32(flag_DefeatedForestGiantNum(), debug); }
 s32 getFlag_DefeatedGolemNum(bool debug) { return getS32(flag_DefeatedGolemNum(), debug); }
+void increaseFlag_DefeatedGolemNum(s32 value, bool debug) { increaseS32CommonFlag(value, "DefeatedGolemNum", -1, debug); }
 void setFlag_DefeatedGolemNum(s32 value, bool debug) { setS32(value, flag_DefeatedGolemNum(), debug); }
 void resetFlag_DefeatedGolemNum(bool debug) { resetS32(flag_DefeatedGolemNum(), debug); }
 s32 getFlag_DefeatedSandwormNum(bool debug) { return getS32(flag_DefeatedSandwormNum(), debug); }
+void increaseFlag_DefeatedSandwormNum(s32 value, bool debug) { increaseS32CommonFlag(value, "DefeatedSandwormNum", -1, debug); }
 void setFlag_DefeatedSandwormNum(s32 value, bool debug) { setS32(value, flag_DefeatedSandwormNum(), debug); }
 void resetFlag_DefeatedSandwormNum(bool debug) { resetS32(flag_DefeatedSandwormNum(), debug); }
 f32 getFlag_Demo_PlayerAngle(bool debug) { return getF32(flag_Demo_PlayerAngle(), debug); }
@@ -1810,9 +1948,11 @@ bool getFlag_Dungeon133_Elec_4(bool debug) { return getBool(flag_Dungeon133_Elec
 void setFlag_Dungeon133_Elec_4(bool value, bool debug) { setBool(value, flag_Dungeon133_Elec_4(), debug); }
 void resetFlag_Dungeon133_Elec_4(bool debug) { resetBool(flag_Dungeon133_Elec_4(), debug); }
 s32 getFlag_DungeonClearCounter(bool debug) { return getS32(flag_DungeonClearCounter(), debug); }
+void increaseFlag_DungeonClearCounter(s32 value, bool debug) { increaseS32CommonFlag(value, "DungeonClearCounter", -1, debug); }
 void setFlag_DungeonClearCounter(s32 value, bool debug) { setS32(value, flag_DungeonClearCounter(), debug); }
 void resetFlag_DungeonClearCounter(bool debug) { resetS32(flag_DungeonClearCounter(), debug); }
 s32 getFlag_DungeonClearSealNum(bool debug) { return getS32(flag_DungeonClearSealNum(), debug); }
+void increaseFlag_DungeonClearSealNum(s32 value, bool debug) { increaseS32CommonFlag(value, "DungeonClearSealNum", -1, debug); }
 void setFlag_DungeonClearSealNum(s32 value, bool debug) { setS32(value, flag_DungeonClearSealNum(), debug); }
 void resetFlag_DungeonClearSealNum(bool debug) { resetS32(flag_DungeonClearSealNum(), debug); }
 bool getFlag_EatProhibition(bool debug) { return getBool(flag_EatProhibition(), debug); }
@@ -1837,18 +1977,23 @@ bool getFlag_Electric_Relic_RunningStop(bool debug) { return getBool(flag_Electr
 void setFlag_Electric_Relic_RunningStop(bool value, bool debug) { setBool(value, flag_Electric_Relic_RunningStop(), debug); }
 void resetFlag_Electric_Relic_RunningStop(bool debug) { resetBool(flag_Electric_Relic_RunningStop(), debug); }
 s32 getFlag_Electric_Relic_ThrownOutStepMemory(bool debug) { return getS32(flag_Electric_Relic_ThrownOutStepMemory(), debug); }
+void increaseFlag_Electric_Relic_ThrownOutStepMemory(s32 value, bool debug) { increaseS32CommonFlag(value, "Electric_Relic_ThrownOutStepMemory", -1, debug); }
 void setFlag_Electric_Relic_ThrownOutStepMemory(s32 value, bool debug) { setS32(value, flag_Electric_Relic_ThrownOutStepMemory(), debug); }
 void resetFlag_Electric_Relic_ThrownOutStepMemory(bool debug) { resetS32(flag_Electric_Relic_ThrownOutStepMemory(), debug); }
 s32 getFlag_Electric_Relic_WeakPointLife_BL(bool debug) { return getS32(flag_Electric_Relic_WeakPointLife_BL(), debug); }
+void increaseFlag_Electric_Relic_WeakPointLife_BL(s32 value, bool debug) { increaseS32CommonFlag(value, "Electric_Relic_WeakPointLife_BL", -1, debug); }
 void setFlag_Electric_Relic_WeakPointLife_BL(s32 value, bool debug) { setS32(value, flag_Electric_Relic_WeakPointLife_BL(), debug); }
 void resetFlag_Electric_Relic_WeakPointLife_BL(bool debug) { resetS32(flag_Electric_Relic_WeakPointLife_BL(), debug); }
 s32 getFlag_Electric_Relic_WeakPointLife_BR(bool debug) { return getS32(flag_Electric_Relic_WeakPointLife_BR(), debug); }
+void increaseFlag_Electric_Relic_WeakPointLife_BR(s32 value, bool debug) { increaseS32CommonFlag(value, "Electric_Relic_WeakPointLife_BR", -1, debug); }
 void setFlag_Electric_Relic_WeakPointLife_BR(s32 value, bool debug) { setS32(value, flag_Electric_Relic_WeakPointLife_BR(), debug); }
 void resetFlag_Electric_Relic_WeakPointLife_BR(bool debug) { resetS32(flag_Electric_Relic_WeakPointLife_BR(), debug); }
 s32 getFlag_Electric_Relic_WeakPointLife_FL(bool debug) { return getS32(flag_Electric_Relic_WeakPointLife_FL(), debug); }
+void increaseFlag_Electric_Relic_WeakPointLife_FL(s32 value, bool debug) { increaseS32CommonFlag(value, "Electric_Relic_WeakPointLife_FL", -1, debug); }
 void setFlag_Electric_Relic_WeakPointLife_FL(s32 value, bool debug) { setS32(value, flag_Electric_Relic_WeakPointLife_FL(), debug); }
 void resetFlag_Electric_Relic_WeakPointLife_FL(bool debug) { resetS32(flag_Electric_Relic_WeakPointLife_FL(), debug); }
 s32 getFlag_Electric_Relic_WeakPointLife_FR(bool debug) { return getS32(flag_Electric_Relic_WeakPointLife_FR(), debug); }
+void increaseFlag_Electric_Relic_WeakPointLife_FR(s32 value, bool debug) { increaseS32CommonFlag(value, "Electric_Relic_WeakPointLife_FR", -1, debug); }
 void setFlag_Electric_Relic_WeakPointLife_FR(s32 value, bool debug) { setS32(value, flag_Electric_Relic_WeakPointLife_FR(), debug); }
 void resetFlag_Electric_Relic_WeakPointLife_FR(bool debug) { resetS32(flag_Electric_Relic_WeakPointLife_FR(), debug); }
 f32 getFlag_ElectricSupportReuseTimeInCastle(bool debug) { return getF32(flag_ElectricSupportReuseTimeInCastle(), debug); }
@@ -1858,6 +2003,7 @@ f32 getFlag_ElectricSupportReuseTimeInField(bool debug) { return getF32(flag_Ele
 void setFlag_ElectricSupportReuseTimeInField(f32 value, bool debug) { setF32(value, flag_ElectricSupportReuseTimeInField(), debug); }
 void resetFlag_ElectricSupportReuseTimeInField(bool debug) { resetF32(flag_ElectricSupportReuseTimeInField(), debug); }
 s32 getFlag_ElectricSupportUseNum(bool debug) { return getS32(flag_ElectricSupportUseNum(), debug); }
+void increaseFlag_ElectricSupportUseNum(s32 value, bool debug) { increaseS32CommonFlag(value, "ElectricSupportUseNum", -1, debug); }
 void setFlag_ElectricSupportUseNum(s32 value, bool debug) { setS32(value, flag_ElectricSupportUseNum(), debug); }
 void resetFlag_ElectricSupportUseNum(bool debug) { resetS32(flag_ElectricSupportUseNum(), debug); }
 bool getFlag_Enable_Surfing(bool debug) { return getBool(flag_Enable_Surfing(), debug); }
@@ -2365,48 +2511,59 @@ bool getFlag_EnterDungeonProhibition(bool debug) { return getBool(flag_EnterDung
 void setFlag_EnterDungeonProhibition(bool value, bool debug) { setBool(value, flag_EnterDungeonProhibition(), debug); }
 void resetFlag_EnterDungeonProhibition(bool debug) { resetBool(flag_EnterDungeonProhibition(), debug); }
 s32 getFlag_EquipStandBow_FlagSp(s32 idx, bool debug) { return getS32(flag_EquipStandBow_FlagSp(), idx, debug); }
+void increaseFlag_EquipStandBow_FlagSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandBow_FlagSp", idx, debug); }
 void setFlag_EquipStandBow_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandBow_FlagSp(), idx, debug); }
 void resetFlag_EquipStandBow_FlagSp(s32 idx, bool debug) { resetS32(flag_EquipStandBow_FlagSp(), idx, debug); }
 s32 getFlag_EquipStandBow_Life_Slot(s32 idx, bool debug) { return getS32(flag_EquipStandBow_Life_Slot(), idx, debug); }
+void increaseFlag_EquipStandBow_Life_Slot(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandBow_Life_Slot", idx, debug); }
 void setFlag_EquipStandBow_Life_Slot(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandBow_Life_Slot(), idx, debug); }
 void resetFlag_EquipStandBow_Life_Slot(s32 idx, bool debug) { resetS32(flag_EquipStandBow_Life_Slot(), idx, debug); }
 void getFlag_EquipStandBow_Slot(char const** value, s32 idx, bool debug) { getStr64(flag_EquipStandBow_Slot(), value, idx, debug); }
 void setFlag_EquipStandBow_Slot(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_EquipStandBow_Slot(), idx, debug); }
 void resetFlag_EquipStandBow_Slot(s32 idx, bool debug) { resetStr64(flag_EquipStandBow_Slot(), idx, debug); }
 s32 getFlag_EquipStandBow_ValueSp(s32 idx, bool debug) { return getS32(flag_EquipStandBow_ValueSp(), idx, debug); }
+void increaseFlag_EquipStandBow_ValueSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandBow_ValueSp", idx, debug); }
 void setFlag_EquipStandBow_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandBow_ValueSp(), idx, debug); }
 void resetFlag_EquipStandBow_ValueSp(s32 idx, bool debug) { resetS32(flag_EquipStandBow_ValueSp(), idx, debug); }
 s32 getFlag_EquipStandShield_FlagSp(s32 idx, bool debug) { return getS32(flag_EquipStandShield_FlagSp(), idx, debug); }
+void increaseFlag_EquipStandShield_FlagSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandShield_FlagSp", idx, debug); }
 void setFlag_EquipStandShield_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandShield_FlagSp(), idx, debug); }
 void resetFlag_EquipStandShield_FlagSp(s32 idx, bool debug) { resetS32(flag_EquipStandShield_FlagSp(), idx, debug); }
 s32 getFlag_EquipStandShield_Life_Slot(s32 idx, bool debug) { return getS32(flag_EquipStandShield_Life_Slot(), idx, debug); }
+void increaseFlag_EquipStandShield_Life_Slot(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandShield_Life_Slot", idx, debug); }
 void setFlag_EquipStandShield_Life_Slot(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandShield_Life_Slot(), idx, debug); }
 void resetFlag_EquipStandShield_Life_Slot(s32 idx, bool debug) { resetS32(flag_EquipStandShield_Life_Slot(), idx, debug); }
 void getFlag_EquipStandShield_Slot(char const** value, s32 idx, bool debug) { getStr64(flag_EquipStandShield_Slot(), value, idx, debug); }
 void setFlag_EquipStandShield_Slot(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_EquipStandShield_Slot(), idx, debug); }
 void resetFlag_EquipStandShield_Slot(s32 idx, bool debug) { resetStr64(flag_EquipStandShield_Slot(), idx, debug); }
 s32 getFlag_EquipStandShield_ValueSp(s32 idx, bool debug) { return getS32(flag_EquipStandShield_ValueSp(), idx, debug); }
+void increaseFlag_EquipStandShield_ValueSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandShield_ValueSp", idx, debug); }
 void setFlag_EquipStandShield_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandShield_ValueSp(), idx, debug); }
 void resetFlag_EquipStandShield_ValueSp(s32 idx, bool debug) { resetS32(flag_EquipStandShield_ValueSp(), idx, debug); }
 s32 getFlag_EquipStandSword_FlagSp(s32 idx, bool debug) { return getS32(flag_EquipStandSword_FlagSp(), idx, debug); }
+void increaseFlag_EquipStandSword_FlagSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandSword_FlagSp", idx, debug); }
 void setFlag_EquipStandSword_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandSword_FlagSp(), idx, debug); }
 void resetFlag_EquipStandSword_FlagSp(s32 idx, bool debug) { resetS32(flag_EquipStandSword_FlagSp(), idx, debug); }
 s32 getFlag_EquipStandSword_Life_Slot(s32 idx, bool debug) { return getS32(flag_EquipStandSword_Life_Slot(), idx, debug); }
+void increaseFlag_EquipStandSword_Life_Slot(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandSword_Life_Slot", idx, debug); }
 void setFlag_EquipStandSword_Life_Slot(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandSword_Life_Slot(), idx, debug); }
 void resetFlag_EquipStandSword_Life_Slot(s32 idx, bool debug) { resetS32(flag_EquipStandSword_Life_Slot(), idx, debug); }
 void getFlag_EquipStandSword_Slot(char const** value, s32 idx, bool debug) { getStr64(flag_EquipStandSword_Slot(), value, idx, debug); }
 void setFlag_EquipStandSword_Slot(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_EquipStandSword_Slot(), idx, debug); }
 void resetFlag_EquipStandSword_Slot(s32 idx, bool debug) { resetStr64(flag_EquipStandSword_Slot(), idx, debug); }
 s32 getFlag_EquipStandSword_ValueSp(s32 idx, bool debug) { return getS32(flag_EquipStandSword_ValueSp(), idx, debug); }
+void increaseFlag_EquipStandSword_ValueSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "EquipStandSword_ValueSp", idx, debug); }
 void setFlag_EquipStandSword_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_EquipStandSword_ValueSp(), idx, debug); }
 void resetFlag_EquipStandSword_ValueSp(s32 idx, bool debug) { resetS32(flag_EquipStandSword_ValueSp(), idx, debug); }
 bool getFlag_FairyCountCheck(bool debug) { return getBool(flag_FairyCountCheck(), debug); }
 void setFlag_FairyCountCheck(bool value, bool debug) { setBool(value, flag_FairyCountCheck(), debug); }
 void resetFlag_FairyCountCheck(bool debug) { resetBool(flag_FairyCountCheck(), debug); }
 s32 getFlag_FairyRevivalNum(bool debug) { return getS32(flag_FairyRevivalNum(), debug); }
+void increaseFlag_FairyRevivalNum(s32 value, bool debug) { increaseS32CommonFlag(value, "FairyRevivalNum", -1, debug); }
 void setFlag_FairyRevivalNum(s32 value, bool debug) { setS32(value, flag_FairyRevivalNum(), debug); }
 void resetFlag_FairyRevivalNum(bool debug) { resetS32(flag_FairyRevivalNum(), debug); }
 s32 getFlag_FamouseValue(bool debug) { return getS32(flag_FamouseValue(), debug); }
+void increaseFlag_FamouseValue(s32 value, bool debug) { increaseS32CommonFlag(value, "FamouseValue", -1, debug); }
 void setFlag_FamouseValue(s32 value, bool debug) { setS32(value, flag_FamouseValue(), debug); }
 void resetFlag_FamouseValue(bool debug) { resetS32(flag_FamouseValue(), debug); }
 bool getFlag_FinalTrial_BossField_Demo(bool debug) { return getBool(flag_FinalTrial_BossField_Demo(), debug); }
@@ -2671,6 +2828,7 @@ f32 getFlag_FireSupportReuseTimeInField(bool debug) { return getF32(flag_FireSup
 void setFlag_FireSupportReuseTimeInField(f32 value, bool debug) { setF32(value, flag_FireSupportReuseTimeInField(), debug); }
 void resetFlag_FireSupportReuseTimeInField(bool debug) { resetF32(flag_FireSupportReuseTimeInField(), debug); }
 s32 getFlag_FireSupportUseNum(bool debug) { return getS32(flag_FireSupportUseNum(), debug); }
+void increaseFlag_FireSupportUseNum(s32 value, bool debug) { increaseS32CommonFlag(value, "FireSupportUseNum", -1, debug); }
 void setFlag_FireSupportUseNum(s32 value, bool debug) { setS32(value, flag_FireSupportUseNum(), debug); }
 void resetFlag_FireSupportUseNum(bool debug) { resetS32(flag_FireSupportUseNum(), debug); }
 bool getFlag_FironeMini_HorseEnemy_Indoor(bool debug) { return getBool(flag_FironeMini_HorseEnemy_Indoor(), debug); }
@@ -2746,21 +2904,26 @@ bool getFlag_FldObj_Mound_Off(bool debug) { return getBool(flag_FldObj_Mound_Off
 void setFlag_FldObj_Mound_Off(bool value, bool debug) { setBool(value, flag_FldObj_Mound_Off(), debug); }
 void resetFlag_FldObj_Mound_Off(bool debug) { resetBool(flag_FldObj_Mound_Off(), debug); }
 s32 getFlag_FreezeHartValue(bool debug) { return getS32(flag_FreezeHartValue(), debug); }
+void increaseFlag_FreezeHartValue(s32 value, bool debug) { increaseS32CommonFlag(value, "FreezeHartValue", -1, debug); }
 void setFlag_FreezeHartValue(s32 value, bool debug) { setS32(value, flag_FreezeHartValue(), debug); }
 void resetFlag_FreezeHartValue(bool debug) { resetS32(flag_FreezeHartValue(), debug); }
 bool getFlag_GameClear(bool debug) { return getBool(flag_GameClear(), debug); }
 void setFlag_GameClear(bool value, bool debug) { setBool(value, flag_GameClear(), debug); }
 void resetFlag_GameClear(bool debug) { resetBool(flag_GameClear(), debug); }
 s32 getFlag_Gerudo_CarryIce_Angry(bool debug) { return getS32(flag_Gerudo_CarryIce_Angry(), debug); }
+void increaseFlag_Gerudo_CarryIce_Angry(s32 value, bool debug) { increaseS32CommonFlag(value, "Gerudo_CarryIce_Angry", -1, debug); }
 void setFlag_Gerudo_CarryIce_Angry(s32 value, bool debug) { setS32(value, flag_Gerudo_CarryIce_Angry(), debug); }
 void resetFlag_Gerudo_CarryIce_Angry(bool debug) { resetS32(flag_Gerudo_CarryIce_Angry(), debug); }
 s32 getFlag_Gerudo_CarryIce_m(bool debug) { return getS32(flag_Gerudo_CarryIce_m(), debug); }
+void increaseFlag_Gerudo_CarryIce_m(s32 value, bool debug) { increaseS32CommonFlag(value, "Gerudo_CarryIce_m", -1, debug); }
 void setFlag_Gerudo_CarryIce_m(s32 value, bool debug) { setS32(value, flag_Gerudo_CarryIce_m(), debug); }
 void resetFlag_Gerudo_CarryIce_m(bool debug) { resetS32(flag_Gerudo_CarryIce_m(), debug); }
 s32 getFlag_Gerudo_CarryIce_minute(bool debug) { return getS32(flag_Gerudo_CarryIce_minute(), debug); }
+void increaseFlag_Gerudo_CarryIce_minute(s32 value, bool debug) { increaseS32CommonFlag(value, "Gerudo_CarryIce_minute", -1, debug); }
 void setFlag_Gerudo_CarryIce_minute(s32 value, bool debug) { setS32(value, flag_Gerudo_CarryIce_minute(), debug); }
 void resetFlag_Gerudo_CarryIce_minute(bool debug) { resetS32(flag_Gerudo_CarryIce_minute(), debug); }
 s32 getFlag_Gerudo_CarryIce_s(bool debug) { return getS32(flag_Gerudo_CarryIce_s(), debug); }
+void increaseFlag_Gerudo_CarryIce_s(s32 value, bool debug) { increaseS32CommonFlag(value, "Gerudo_CarryIce_s", -1, debug); }
 void setFlag_Gerudo_CarryIce_s(s32 value, bool debug) { setS32(value, flag_Gerudo_CarryIce_s(), debug); }
 void resetFlag_Gerudo_CarryIce_s(bool debug) { resetS32(flag_Gerudo_CarryIce_s(), debug); }
 bool getFlag_Gerudo_Ch_Helmet_Finish(bool debug) { return getBool(flag_Gerudo_Ch_Helmet_Finish(), debug); }
@@ -2809,18 +2972,21 @@ bool getFlag_giant_dungeon(bool debug) { return getBool(flag_giant_dungeon(), de
 void setFlag_giant_dungeon(bool value, bool debug) { setBool(value, flag_giant_dungeon(), debug); }
 void resetFlag_giant_dungeon(bool debug) { resetBool(flag_giant_dungeon(), debug); }
 s32 getFlag_GiveItemNumber(bool debug) { return getS32(flag_GiveItemNumber(), debug); }
+void increaseFlag_GiveItemNumber(s32 value, bool debug) { increaseS32CommonFlag(value, "GiveItemNumber", -1, debug); }
 void setFlag_GiveItemNumber(s32 value, bool debug) { setS32(value, flag_GiveItemNumber(), debug); }
 void resetFlag_GiveItemNumber(bool debug) { resetS32(flag_GiveItemNumber(), debug); }
 f32 getFlag_GodBless_LastUseTime(s32 idx, bool debug) { return getF32(flag_GodBless_LastUseTime(), idx, debug); }
 void setFlag_GodBless_LastUseTime(f32 value, s32 idx, bool debug) { setF32(value, flag_GodBless_LastUseTime(), idx, debug); }
 void resetFlag_GodBless_LastUseTime(s32 idx, bool debug) { resetF32(flag_GodBless_LastUseTime(), idx, debug); }
 s32 getFlag_GodBless_LastUseWeek(s32 idx, bool debug) { return getS32(flag_GodBless_LastUseWeek(), idx, debug); }
+void increaseFlag_GodBless_LastUseWeek(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "GodBless_LastUseWeek", idx, debug); }
 void setFlag_GodBless_LastUseWeek(s32 value, s32 idx, bool debug) { setS32(value, flag_GodBless_LastUseWeek(), idx, debug); }
 void resetFlag_GodBless_LastUseWeek(s32 idx, bool debug) { resetS32(flag_GodBless_LastUseWeek(), idx, debug); }
 bool getFlag_GodTree_Finish(bool debug) { return getBool(flag_GodTree_Finish(), debug); }
 void setFlag_GodTree_Finish(bool value, bool debug) { setBool(value, flag_GodTree_Finish(), debug); }
 void resetFlag_GodTree_Finish(bool debug) { resetBool(flag_GodTree_Finish(), debug); }
 s32 getFlag_GoronCamp_BestScore(bool debug) { return getS32(flag_GoronCamp_BestScore(), debug); }
+void increaseFlag_GoronCamp_BestScore(s32 value, bool debug) { increaseS32CommonFlag(value, "GoronCamp_BestScore", -1, debug); }
 void setFlag_GoronCamp_BestScore(s32 value, bool debug) { setS32(value, flag_GoronCamp_BestScore(), debug); }
 void resetFlag_GoronCamp_BestScore(bool debug) { resetS32(flag_GoronCamp_BestScore(), debug); }
 bool getFlag_GoronCamp_HardCourseGenerateFlag(bool debug) { return getBool(flag_GoronCamp_HardCourseGenerateFlag(), debug); }
@@ -2833,6 +2999,7 @@ bool getFlag_GoronCamp_NormalCourseGenerateFlag(bool debug) { return getBool(fla
 void setFlag_GoronCamp_NormalCourseGenerateFlag(bool value, bool debug) { setBool(value, flag_GoronCamp_NormalCourseGenerateFlag(), debug); }
 void resetFlag_GoronCamp_NormalCourseGenerateFlag(bool debug) { resetBool(flag_GoronCamp_NormalCourseGenerateFlag(), debug); }
 s32 getFlag_GreatFairy_ArmorRank(bool debug) { return getS32(flag_GreatFairy_ArmorRank(), debug); }
+void increaseFlag_GreatFairy_ArmorRank(s32 value, bool debug) { increaseS32CommonFlag(value, "GreatFairy_ArmorRank", -1, debug); }
 void setFlag_GreatFairy_ArmorRank(s32 value, bool debug) { setS32(value, flag_GreatFairy_ArmorRank(), debug); }
 void resetFlag_GreatFairy_ArmorRank(bool debug) { resetS32(flag_GreatFairy_ArmorRank(), debug); }
 bool getFlag_GreatFairy1_ChoiceExclude1(bool debug) { return getBool(flag_GreatFairy1_ChoiceExclude1(), debug); }
@@ -3073,6 +3240,7 @@ bool getFlag_GyroTiltControlGuide(bool debug) { return getBool(flag_GyroTiltCont
 void setFlag_GyroTiltControlGuide(bool value, bool debug) { setBool(value, flag_GyroTiltControlGuide(), debug); }
 void resetFlag_GyroTiltControlGuide(bool debug) { resetBool(flag_GyroTiltControlGuide(), debug); }
 s32 getFlag_HardMode_HighScore(bool debug) { return getS32(flag_HardMode_HighScore(), debug); }
+void increaseFlag_HardMode_HighScore(s32 value, bool debug) { increaseS32CommonFlag(value, "HardMode_HighScore", -1, debug); }
 void setFlag_HardMode_HighScore(s32 value, bool debug) { setS32(value, flag_HardMode_HighScore(), debug); }
 void resetFlag_HardMode_HighScore(bool debug) { resetS32(flag_HardMode_HighScore(), debug); }
 bool getFlag_HasAoCVer1(bool debug) { return getBool(flag_HasAoCVer1(), debug); }
@@ -3184,12 +3352,14 @@ bool getFlag_HeroSoulProhibition(bool debug) { return getBool(flag_HeroSoulProhi
 void setFlag_HeroSoulProhibition(bool value, bool debug) { setBool(value, flag_HeroSoulProhibition(), debug); }
 void resetFlag_HeroSoulProhibition(bool debug) { resetBool(flag_HeroSoulProhibition(), debug); }
 s32 getFlag_HiddenKorok_Number(bool debug) { return getS32(flag_HiddenKorok_Number(), debug); }
+void increaseFlag_HiddenKorok_Number(s32 value, bool debug) { increaseS32CommonFlag(value, "HiddenKorok_Number", -1, debug); }
 void setFlag_HiddenKorok_Number(s32 value, bool debug) { setS32(value, flag_HiddenKorok_Number(), debug); }
 void resetFlag_HiddenKorok_Number(bool debug) { resetS32(flag_HiddenKorok_Number(), debug); }
 bool getFlag_HigakkareMini_RedDragon_Activated(bool debug) { return getBool(flag_HigakkareMini_RedDragon_Activated(), debug); }
 void setFlag_HigakkareMini_RedDragon_Activated(bool value, bool debug) { setBool(value, flag_HigakkareMini_RedDragon_Activated(), debug); }
 void resetFlag_HigakkareMini_RedDragon_Activated(bool debug) { resetBool(flag_HigakkareMini_RedDragon_Activated(), debug); }
 s32 getFlag_Horse_ActiveIndex(bool debug) { return getS32(flag_Horse_ActiveIndex(), debug); }
+void increaseFlag_Horse_ActiveIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "Horse_ActiveIndex", -1, debug); }
 void setFlag_Horse_ActiveIndex(s32 value, bool debug) { setS32(value, flag_Horse_ActiveIndex(), debug); }
 void resetFlag_Horse_ActiveIndex(bool debug) { resetS32(flag_Horse_ActiveIndex(), debug); }
 void getFlag_Horse_ActorName(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_ActorName(), value, idx, debug); }
@@ -3199,21 +3369,26 @@ void getFlag_Horse_AmiiboUidHash(char const** value, s32 idx, bool debug) { getS
 void setFlag_Horse_AmiiboUidHash(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_AmiiboUidHash(), idx, debug); }
 void resetFlag_Horse_AmiiboUidHash(s32 idx, bool debug) { resetStr64(flag_Horse_AmiiboUidHash(), idx, debug); }
 s32 getFlag_Horse_CollarType(s32 idx, bool debug) { return getS32(flag_Horse_CollarType(), idx, debug); }
+void increaseFlag_Horse_CollarType(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "Horse_CollarType", idx, debug); }
 void setFlag_Horse_CollarType(s32 value, s32 idx, bool debug) { setS32(value, flag_Horse_CollarType(), idx, debug); }
 void resetFlag_Horse_CollarType(s32 idx, bool debug) { resetS32(flag_Horse_CollarType(), idx, debug); }
 s32 getFlag_Horse_CurrentChargeNum(bool debug) { return getS32(flag_Horse_CurrentChargeNum(), debug); }
+void increaseFlag_Horse_CurrentChargeNum(s32 value, bool debug) { increaseS32CommonFlag(value, "Horse_CurrentChargeNum", -1, debug); }
 void setFlag_Horse_CurrentChargeNum(s32 value, bool debug) { setS32(value, flag_Horse_CurrentChargeNum(), debug); }
 void resetFlag_Horse_CurrentChargeNum(bool debug) { resetS32(flag_Horse_CurrentChargeNum(), debug); }
 s32 getFlag_Horse_CurrentExtraChargeNum(bool debug) { return getS32(flag_Horse_CurrentExtraChargeNum(), debug); }
+void increaseFlag_Horse_CurrentExtraChargeNum(s32 value, bool debug) { increaseS32CommonFlag(value, "Horse_CurrentExtraChargeNum", -1, debug); }
 void setFlag_Horse_CurrentExtraChargeNum(s32 value, bool debug) { setS32(value, flag_Horse_CurrentExtraChargeNum(), debug); }
 void resetFlag_Horse_CurrentExtraChargeNum(bool debug) { resetS32(flag_Horse_CurrentExtraChargeNum(), debug); }
 s32 getFlag_Horse_Extra_Charge_Num(bool debug) { return getS32(flag_Horse_Extra_Charge_Num(), debug); }
+void increaseFlag_Horse_Extra_Charge_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Horse_Extra_Charge_Num", -1, debug); }
 void setFlag_Horse_Extra_Charge_Num(s32 value, bool debug) { setS32(value, flag_Horse_Extra_Charge_Num(), debug); }
 void resetFlag_Horse_Extra_Charge_Num(bool debug) { resetS32(flag_Horse_Extra_Charge_Num(), debug); }
 f32 getFlag_Horse_Familiarity(s32 idx, bool debug) { return getF32(flag_Horse_Familiarity(), idx, debug); }
 void setFlag_Horse_Familiarity(f32 value, s32 idx, bool debug) { setF32(value, flag_Horse_Familiarity(), idx, debug); }
 void resetFlag_Horse_Familiarity(s32 idx, bool debug) { resetF32(flag_Horse_Familiarity(), idx, debug); }
 s32 getFlag_Horse_FootType(s32 idx, bool debug) { return getS32(flag_Horse_FootType(), idx, debug); }
+void increaseFlag_Horse_FootType(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "Horse_FootType", idx, debug); }
 void setFlag_Horse_FootType(s32 value, s32 idx, bool debug) { setS32(value, flag_Horse_FootType(), idx, debug); }
 void resetFlag_Horse_FootType(s32 idx, bool debug) { resetS32(flag_Horse_FootType(), idx, debug); }
 bool getFlag_Horse_Is_LastRidden_Owned(bool debug) { return getBool(flag_Horse_Is_LastRidden_Owned(), debug); }
@@ -3247,6 +3422,7 @@ bool getFlag_Horse_Large_Exists(bool debug) { return getBool(flag_Horse_Large_Ex
 void setFlag_Horse_Large_Exists(bool value, bool debug) { setBool(value, flag_Horse_Large_Exists(), debug); }
 void resetFlag_Horse_Large_Exists(bool debug) { resetBool(flag_Horse_Large_Exists(), debug); }
 s32 getFlag_Horse_LastActiveIndex(bool debug) { return getS32(flag_Horse_LastActiveIndex(), debug); }
+void increaseFlag_Horse_LastActiveIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "Horse_LastActiveIndex", -1, debug); }
 void setFlag_Horse_LastActiveIndex(s32 value, bool debug) { setS32(value, flag_Horse_LastActiveIndex(), debug); }
 void resetFlag_Horse_LastActiveIndex(bool debug) { resetS32(flag_Horse_LastActiveIndex(), debug); }
 void getFlag_Horse_ManeName(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_ManeName(), value, idx, debug); }
@@ -3265,6 +3441,7 @@ void getFlag_Horse_ReinsName(char const** value, s32 idx, bool debug) { getStr64
 void setFlag_Horse_ReinsName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_ReinsName(), idx, debug); }
 void resetFlag_Horse_ReinsName(s32 idx, bool debug) { resetStr64(flag_Horse_ReinsName(), idx, debug); }
 s32 getFlag_Horse_RideTimeSec(s32 idx, bool debug) { return getS32(flag_Horse_RideTimeSec(), idx, debug); }
+void increaseFlag_Horse_RideTimeSec(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "Horse_RideTimeSec", idx, debug); }
 void setFlag_Horse_RideTimeSec(s32 value, s32 idx, bool debug) { setS32(value, flag_Horse_RideTimeSec(), idx, debug); }
 void resetFlag_Horse_RideTimeSec(s32 idx, bool debug) { resetS32(flag_Horse_RideTimeSec(), idx, debug); }
 f32 getFlag_Horse_RotY(bool debug) { return getF32(flag_Horse_RotY(), debug); }
@@ -3274,9 +3451,11 @@ void getFlag_Horse_SaddleName(char const** value, s32 idx, bool debug) { getStr6
 void setFlag_Horse_SaddleName(const sead::SafeString& value, s32 idx, bool debug) { setStr64(value, flag_Horse_SaddleName(), idx, debug); }
 void resetFlag_Horse_SaddleName(s32 idx, bool debug) { resetStr64(flag_Horse_SaddleName(), idx, debug); }
 s32 getFlag_Horse_SelectedIndex(bool debug) { return getS32(flag_Horse_SelectedIndex(), debug); }
+void increaseFlag_Horse_SelectedIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "Horse_SelectedIndex", -1, debug); }
 void setFlag_Horse_SelectedIndex(s32 value, bool debug) { setS32(value, flag_Horse_SelectedIndex(), debug); }
 void resetFlag_Horse_SelectedIndex(bool debug) { resetS32(flag_Horse_SelectedIndex(), debug); }
 s32 getFlag_Horse_UnreachableCause(bool debug) { return getS32(flag_Horse_UnreachableCause(), debug); }
+void increaseFlag_Horse_UnreachableCause(s32 value, bool debug) { increaseS32CommonFlag(value, "Horse_UnreachableCause", -1, debug); }
 void setFlag_Horse_UnreachableCause(s32 value, bool debug) { setS32(value, flag_Horse_UnreachableCause(), debug); }
 void resetFlag_Horse_UnreachableCause(bool debug) { resetS32(flag_Horse_UnreachableCause(), debug); }
 void getFlag_Horse_UsedAmiiboUidHash(char const** value, s32 idx, bool debug) { getStr64(flag_Horse_UsedAmiiboUidHash(), value, idx, debug); }
@@ -3310,6 +3489,7 @@ void getFlag_HorseCustom_ShopSaddleName(char const** value, bool debug) { getStr
 void setFlag_HorseCustom_ShopSaddleName(const sead::SafeString& value, bool debug) { setStr64(value, flag_HorseCustom_ShopSaddleName(), debug); }
 void resetFlag_HorseCustom_ShopSaddleName(bool debug) { resetStr64(flag_HorseCustom_ShopSaddleName(), debug); }
 s32 getFlag_HorseCustom_ShopState(bool debug) { return getS32(flag_HorseCustom_ShopState(), debug); }
+void increaseFlag_HorseCustom_ShopState(s32 value, bool debug) { increaseS32CommonFlag(value, "HorseCustom_ShopState", -1, debug); }
 void setFlag_HorseCustom_ShopState(s32 value, bool debug) { setS32(value, flag_HorseCustom_ShopState(), debug); }
 void resetFlag_HorseCustom_ShopState(bool debug) { resetS32(flag_HorseCustom_ShopState(), debug); }
 bool getFlag_HorseGod001_DispNameFlag(bool debug) { return getBool(flag_HorseGod001_DispNameFlag(), debug); }
@@ -6877,18 +7057,21 @@ bool getFlag_IsTempAddBowPouch(bool debug) { return getBool(flag_IsTempAddBowPou
 void setFlag_IsTempAddBowPouch(bool value, bool debug) { setBool(value, flag_IsTempAddBowPouch(), debug); }
 void resetFlag_IsTempAddBowPouch(bool debug) { resetBool(flag_IsTempAddBowPouch(), debug); }
 s32 getFlag_Item_AttackRate(bool debug) { return getS32(flag_Item_AttackRate(), debug); }
+void increaseFlag_Item_AttackRate(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_AttackRate", -1, debug); }
 void setFlag_Item_AttackRate(s32 value, bool debug) { setS32(value, flag_Item_AttackRate(), debug); }
 void resetFlag_Item_AttackRate(bool debug) { resetS32(flag_Item_AttackRate(), debug); }
 f32 getFlag_Item_AttackTime(bool debug) { return getF32(flag_Item_AttackTime(), debug); }
 void setFlag_Item_AttackTime(f32 value, bool debug) { setF32(value, flag_Item_AttackTime(), debug); }
 void resetFlag_Item_AttackTime(bool debug) { resetF32(flag_Item_AttackTime(), debug); }
 s32 getFlag_Item_BurnLevelAdd(bool debug) { return getS32(flag_Item_BurnLevelAdd(), debug); }
+void increaseFlag_Item_BurnLevelAdd(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_BurnLevelAdd", -1, debug); }
 void setFlag_Item_BurnLevelAdd(s32 value, bool debug) { setS32(value, flag_Item_BurnLevelAdd(), debug); }
 void resetFlag_Item_BurnLevelAdd(bool debug) { resetS32(flag_Item_BurnLevelAdd(), debug); }
 f32 getFlag_Item_BurnLevelAddTime(bool debug) { return getF32(flag_Item_BurnLevelAddTime(), debug); }
 void setFlag_Item_BurnLevelAddTime(f32 value, bool debug) { setF32(value, flag_Item_BurnLevelAddTime(), debug); }
 void resetFlag_Item_BurnLevelAddTime(bool debug) { resetF32(flag_Item_BurnLevelAddTime(), debug); }
 s32 getFlag_Item_ClimbVelRate(bool debug) { return getS32(flag_Item_ClimbVelRate(), debug); }
+void increaseFlag_Item_ClimbVelRate(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_ClimbVelRate", -1, debug); }
 void setFlag_Item_ClimbVelRate(s32 value, bool debug) { setS32(value, flag_Item_ClimbVelRate(), debug); }
 void resetFlag_Item_ClimbVelRate(bool debug) { resetS32(flag_Item_ClimbVelRate(), debug); }
 f32 getFlag_Item_ClimbVelTime(bool debug) { return getF32(flag_Item_ClimbVelTime(), debug); }
@@ -6898,15 +7081,18 @@ f32 getFlag_Item_ColdLevelAddTime(bool debug) { return getF32(flag_Item_ColdLeve
 void setFlag_Item_ColdLevelAddTime(f32 value, bool debug) { setF32(value, flag_Item_ColdLevelAddTime(), debug); }
 void resetFlag_Item_ColdLevelAddTime(bool debug) { resetF32(flag_Item_ColdLevelAddTime(), debug); }
 s32 getFlag_Item_ColdResistLevelAdd(bool debug) { return getS32(flag_Item_ColdResistLevelAdd(), debug); }
+void increaseFlag_Item_ColdResistLevelAdd(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_ColdResistLevelAdd", -1, debug); }
 void setFlag_Item_ColdResistLevelAdd(s32 value, bool debug) { setS32(value, flag_Item_ColdResistLevelAdd(), debug); }
 void resetFlag_Item_ColdResistLevelAdd(bool debug) { resetS32(flag_Item_ColdResistLevelAdd(), debug); }
 s32 getFlag_Item_DefenceRate(bool debug) { return getS32(flag_Item_DefenceRate(), debug); }
+void increaseFlag_Item_DefenceRate(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_DefenceRate", -1, debug); }
 void setFlag_Item_DefenceRate(s32 value, bool debug) { setS32(value, flag_Item_DefenceRate(), debug); }
 void resetFlag_Item_DefenceRate(bool debug) { resetS32(flag_Item_DefenceRate(), debug); }
 f32 getFlag_Item_DefenceTime(bool debug) { return getF32(flag_Item_DefenceTime(), debug); }
 void setFlag_Item_DefenceTime(f32 value, bool debug) { setF32(value, flag_Item_DefenceTime(), debug); }
 void resetFlag_Item_DefenceTime(bool debug) { resetF32(flag_Item_DefenceTime(), debug); }
 s32 getFlag_Item_ElectricLevelAdd(bool debug) { return getS32(flag_Item_ElectricLevelAdd(), debug); }
+void increaseFlag_Item_ElectricLevelAdd(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_ElectricLevelAdd", -1, debug); }
 void setFlag_Item_ElectricLevelAdd(s32 value, bool debug) { setS32(value, flag_Item_ElectricLevelAdd(), debug); }
 void resetFlag_Item_ElectricLevelAdd(bool debug) { resetS32(flag_Item_ElectricLevelAdd(), debug); }
 f32 getFlag_Item_ElectricLevelAddTime(bool debug) { return getF32(flag_Item_ElectricLevelAddTime(), debug); }
@@ -6919,45 +7105,53 @@ f32 getFlag_Item_EnergyMaxAddTime(bool debug) { return getF32(flag_Item_EnergyMa
 void setFlag_Item_EnergyMaxAddTime(f32 value, bool debug) { setF32(value, flag_Item_EnergyMaxAddTime(), debug); }
 void resetFlag_Item_EnergyMaxAddTime(bool debug) { resetF32(flag_Item_EnergyMaxAddTime(), debug); }
 s32 getFlag_Item_FreezeLevelAdd(bool debug) { return getS32(flag_Item_FreezeLevelAdd(), debug); }
+void increaseFlag_Item_FreezeLevelAdd(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_FreezeLevelAdd", -1, debug); }
 void setFlag_Item_FreezeLevelAdd(s32 value, bool debug) { setS32(value, flag_Item_FreezeLevelAdd(), debug); }
 void resetFlag_Item_FreezeLevelAdd(bool debug) { resetS32(flag_Item_FreezeLevelAdd(), debug); }
 f32 getFlag_Item_FreezeLevelAddTime(bool debug) { return getF32(flag_Item_FreezeLevelAddTime(), debug); }
 void setFlag_Item_FreezeLevelAddTime(f32 value, bool debug) { setF32(value, flag_Item_FreezeLevelAddTime(), debug); }
 void resetFlag_Item_FreezeLevelAddTime(bool debug) { resetF32(flag_Item_FreezeLevelAddTime(), debug); }
 s32 getFlag_Item_Fruit_A_GetCount(bool debug) { return getS32(flag_Item_Fruit_A_GetCount(), debug); }
+void increaseFlag_Item_Fruit_A_GetCount(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_Fruit_A_GetCount", -1, debug); }
 void setFlag_Item_Fruit_A_GetCount(s32 value, bool debug) { setS32(value, flag_Item_Fruit_A_GetCount(), debug); }
 void resetFlag_Item_Fruit_A_GetCount(bool debug) { resetS32(flag_Item_Fruit_A_GetCount(), debug); }
 s32 getFlag_Item_HotLevelAdd(bool debug) { return getS32(flag_Item_HotLevelAdd(), debug); }
+void increaseFlag_Item_HotLevelAdd(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_HotLevelAdd", -1, debug); }
 void setFlag_Item_HotLevelAdd(s32 value, bool debug) { setS32(value, flag_Item_HotLevelAdd(), debug); }
 void resetFlag_Item_HotLevelAdd(bool debug) { resetS32(flag_Item_HotLevelAdd(), debug); }
 f32 getFlag_Item_HotLevelAddTime(bool debug) { return getF32(flag_Item_HotLevelAddTime(), debug); }
 void setFlag_Item_HotLevelAddTime(f32 value, bool debug) { setF32(value, flag_Item_HotLevelAddTime(), debug); }
 void resetFlag_Item_HotLevelAddTime(bool debug) { resetF32(flag_Item_HotLevelAddTime(), debug); }
 s32 getFlag_Item_LifeMaxAdd(bool debug) { return getS32(flag_Item_LifeMaxAdd(), debug); }
+void increaseFlag_Item_LifeMaxAdd(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_LifeMaxAdd", -1, debug); }
 void setFlag_Item_LifeMaxAdd(s32 value, bool debug) { setS32(value, flag_Item_LifeMaxAdd(), debug); }
 void resetFlag_Item_LifeMaxAdd(bool debug) { resetS32(flag_Item_LifeMaxAdd(), debug); }
 f32 getFlag_Item_LifeMaxAddTime(bool debug) { return getF32(flag_Item_LifeMaxAddTime(), debug); }
 void setFlag_Item_LifeMaxAddTime(f32 value, bool debug) { setF32(value, flag_Item_LifeMaxAddTime(), debug); }
 void resetFlag_Item_LifeMaxAddTime(bool debug) { resetF32(flag_Item_LifeMaxAddTime(), debug); }
 s32 getFlag_Item_LightningLevelAdd(bool debug) { return getS32(flag_Item_LightningLevelAdd(), debug); }
+void increaseFlag_Item_LightningLevelAdd(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_LightningLevelAdd", -1, debug); }
 void setFlag_Item_LightningLevelAdd(s32 value, bool debug) { setS32(value, flag_Item_LightningLevelAdd(), debug); }
 void resetFlag_Item_LightningLevelAdd(bool debug) { resetS32(flag_Item_LightningLevelAdd(), debug); }
 f32 getFlag_Item_LightningLevelAddTime(bool debug) { return getF32(flag_Item_LightningLevelAddTime(), debug); }
 void setFlag_Item_LightningLevelAddTime(f32 value, bool debug) { setF32(value, flag_Item_LightningLevelAddTime(), debug); }
 void resetFlag_Item_LightningLevelAddTime(bool debug) { resetF32(flag_Item_LightningLevelAddTime(), debug); }
 s32 getFlag_Item_NoiseRate(bool debug) { return getS32(flag_Item_NoiseRate(), debug); }
+void increaseFlag_Item_NoiseRate(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_NoiseRate", -1, debug); }
 void setFlag_Item_NoiseRate(s32 value, bool debug) { setS32(value, flag_Item_NoiseRate(), debug); }
 void resetFlag_Item_NoiseRate(bool debug) { resetS32(flag_Item_NoiseRate(), debug); }
 f32 getFlag_Item_NoiseTime(bool debug) { return getF32(flag_Item_NoiseTime(), debug); }
 void setFlag_Item_NoiseTime(f32 value, bool debug) { setF32(value, flag_Item_NoiseTime(), debug); }
 void resetFlag_Item_NoiseTime(bool debug) { resetF32(flag_Item_NoiseTime(), debug); }
 s32 getFlag_Item_SwimVelRate(bool debug) { return getS32(flag_Item_SwimVelRate(), debug); }
+void increaseFlag_Item_SwimVelRate(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_SwimVelRate", -1, debug); }
 void setFlag_Item_SwimVelRate(s32 value, bool debug) { setS32(value, flag_Item_SwimVelRate(), debug); }
 void resetFlag_Item_SwimVelRate(bool debug) { resetS32(flag_Item_SwimVelRate(), debug); }
 f32 getFlag_Item_SwimVelTime(bool debug) { return getF32(flag_Item_SwimVelTime(), debug); }
 void setFlag_Item_SwimVelTime(f32 value, bool debug) { setF32(value, flag_Item_SwimVelTime(), debug); }
 void resetFlag_Item_SwimVelTime(bool debug) { resetF32(flag_Item_SwimVelTime(), debug); }
 s32 getFlag_Item_VelRate(bool debug) { return getS32(flag_Item_VelRate(), debug); }
+void increaseFlag_Item_VelRate(s32 value, bool debug) { increaseS32CommonFlag(value, "Item_VelRate", -1, debug); }
 void setFlag_Item_VelRate(s32 value, bool debug) { setS32(value, flag_Item_VelRate(), debug); }
 void resetFlag_Item_VelRate(bool debug) { resetS32(flag_Item_VelRate(), debug); }
 f32 getFlag_Item_VelTime(bool debug) { return getF32(flag_Item_VelTime(), debug); }
@@ -6967,6 +7161,7 @@ bool getFlag_ItemLockStartUp_Demo(bool debug) { return getBool(flag_ItemLockStar
 void setFlag_ItemLockStartUp_Demo(bool value, bool debug) { setBool(value, flag_ItemLockStartUp_Demo(), debug); }
 void resetFlag_ItemLockStartUp_Demo(bool debug) { resetBool(flag_ItemLockStartUp_Demo(), debug); }
 s32 getFlag_JoyConWirelessStyleWarningCount(bool debug) { return getS32(flag_JoyConWirelessStyleWarningCount(), debug); }
+void increaseFlag_JoyConWirelessStyleWarningCount(s32 value, bool debug) { increaseS32CommonFlag(value, "JoyConWirelessStyleWarningCount", -1, debug); }
 void setFlag_JoyConWirelessStyleWarningCount(s32 value, bool debug) { setS32(value, flag_JoyConWirelessStyleWarningCount(), debug); }
 void resetFlag_JoyConWirelessStyleWarningCount(bool debug) { resetS32(flag_JoyConWirelessStyleWarningCount(), debug); }
 bool getFlag_JumpButtonChange(bool debug) { return getBool(flag_JumpButtonChange(), debug); }
@@ -7015,9 +7210,11 @@ bool getFlag_Kakariko_Cha_003_Finish(bool debug) { return getBool(flag_Kakariko_
 void setFlag_Kakariko_Cha_003_Finish(bool value, bool debug) { setBool(value, flag_Kakariko_Cha_003_Finish(), debug); }
 void resetFlag_Kakariko_Cha_003_Finish(bool debug) { resetBool(flag_Kakariko_Cha_003_Finish(), debug); }
 s32 getFlag_Kakariko_Kokko_Counter(bool debug) { return getS32(flag_Kakariko_Kokko_Counter(), debug); }
+void increaseFlag_Kakariko_Kokko_Counter(s32 value, bool debug) { increaseS32CommonFlag(value, "Kakariko_Kokko_Counter", -1, debug); }
 void setFlag_Kakariko_Kokko_Counter(s32 value, bool debug) { setS32(value, flag_Kakariko_Kokko_Counter(), debug); }
 void resetFlag_Kakariko_Kokko_Counter(bool debug) { resetS32(flag_Kakariko_Kokko_Counter(), debug); }
 s32 getFlag_Kakariko_Plum_Count(bool debug) { return getS32(flag_Kakariko_Plum_Count(), debug); }
+void increaseFlag_Kakariko_Plum_Count(s32 value, bool debug) { increaseS32CommonFlag(value, "Kakariko_Plum_Count", -1, debug); }
 void setFlag_Kakariko_Plum_Count(s32 value, bool debug) { setS32(value, flag_Kakariko_Plum_Count(), debug); }
 void resetFlag_Kakariko_Plum_Count(bool debug) { resetS32(flag_Kakariko_Plum_Count(), debug); }
 bool getFlag_KillTimeProhibition(bool debug) { return getBool(flag_KillTimeProhibition(), debug); }
@@ -7036,9 +7233,11 @@ bool getFlag_Kokko_Event_Running(bool debug) { return getBool(flag_Kokko_Event_R
 void setFlag_Kokko_Event_Running(bool value, bool debug) { setBool(value, flag_Kokko_Event_Running(), debug); }
 void resetFlag_Kokko_Event_Running(bool debug) { resetBool(flag_Kokko_Event_Running(), debug); }
 s32 getFlag_KorokNutsNum(bool debug) { return getS32(flag_KorokNutsNum(), debug); }
+void increaseFlag_KorokNutsNum(s32 value, bool debug) { increaseS32CommonFlag(value, "KorokNutsNum", -1, debug); }
 void setFlag_KorokNutsNum(s32 value, bool debug) { setS32(value, flag_KorokNutsNum(), debug); }
 void resetFlag_KorokNutsNum(bool debug) { resetS32(flag_KorokNutsNum(), debug); }
 s32 getFlag_Last_Ridden_Horse_Extra_Charge_Num(bool debug) { return getS32(flag_Last_Ridden_Horse_Extra_Charge_Num(), debug); }
+void increaseFlag_Last_Ridden_Horse_Extra_Charge_Num(s32 value, bool debug) { increaseS32CommonFlag(value, "Last_Ridden_Horse_Extra_Charge_Num", -1, debug); }
 void setFlag_Last_Ridden_Horse_Extra_Charge_Num(s32 value, bool debug) { setS32(value, flag_Last_Ridden_Horse_Extra_Charge_Num(), debug); }
 void resetFlag_Last_Ridden_Horse_Extra_Charge_Num(bool debug) { resetS32(flag_Last_Ridden_Horse_Extra_Charge_Num(), debug); }
 void getFlag_Last_Ridden_Horse_Pos(sead::Vector3f* value, bool debug) { getVec3f(flag_Last_Ridden_Horse_Pos(), value, debug); }
@@ -7066,12 +7265,15 @@ bool getFlag_LastBossIncompleteGanonGenerateFlag(bool debug) { return getBool(fl
 void setFlag_LastBossIncompleteGanonGenerateFlag(bool value, bool debug) { setBool(value, flag_LastBossIncompleteGanonGenerateFlag(), debug); }
 void resetFlag_LastBossIncompleteGanonGenerateFlag(bool debug) { resetBool(flag_LastBossIncompleteGanonGenerateFlag(), debug); }
 s32 getFlag_LastSaveTime_Lower(bool debug) { return getS32(flag_LastSaveTime_Lower(), debug); }
+void increaseFlag_LastSaveTime_Lower(s32 value, bool debug) { increaseS32CommonFlag(value, "LastSaveTime_Lower", -1, debug); }
 void setFlag_LastSaveTime_Lower(s32 value, bool debug) { setS32(value, flag_LastSaveTime_Lower(), debug); }
 void resetFlag_LastSaveTime_Lower(bool debug) { resetS32(flag_LastSaveTime_Lower(), debug); }
 s32 getFlag_LastSaveTime_Upper(bool debug) { return getS32(flag_LastSaveTime_Upper(), debug); }
+void increaseFlag_LastSaveTime_Upper(s32 value, bool debug) { increaseS32CommonFlag(value, "LastSaveTime_Upper", -1, debug); }
 void setFlag_LastSaveTime_Upper(s32 value, bool debug) { setS32(value, flag_LastSaveTime_Upper(), debug); }
 void resetFlag_LastSaveTime_Upper(bool debug) { resetS32(flag_LastSaveTime_Upper(), debug); }
 s32 getFlag_LatestAoCVerPlayed(bool debug) { return getS32(flag_LatestAoCVerPlayed(), debug); }
+void increaseFlag_LatestAoCVerPlayed(s32 value, bool debug) { increaseS32CommonFlag(value, "LatestAoCVerPlayed", -1, debug); }
 void setFlag_LatestAoCVerPlayed(s32 value, bool debug) { setS32(value, flag_LatestAoCVerPlayed(), debug); }
 void resetFlag_LatestAoCVerPlayed(bool debug) { resetS32(flag_LatestAoCVerPlayed(), debug); }
 bool getFlag_LetterErrand_Activated(bool debug) { return getBool(flag_LetterErrand_Activated(), debug); }
@@ -7087,618 +7289,822 @@ bool getFlag_Lizarfos_Complete(bool debug) { return getBool(flag_Lizarfos_Comple
 void setFlag_Lizarfos_Complete(bool value, bool debug) { setBool(value, flag_Lizarfos_Complete(), debug); }
 void resetFlag_Lizarfos_Complete(bool debug) { resetBool(flag_Lizarfos_Complete(), debug); }
 s32 getFlag_LizarfosSeries_Counter(bool debug) { return getS32(flag_LizarfosSeries_Counter(), debug); }
+void increaseFlag_LizarfosSeries_Counter(s32 value, bool debug) { increaseS32CommonFlag(value, "LizarfosSeries_Counter", -1, debug); }
 void setFlag_LizarfosSeries_Counter(s32 value, bool debug) { setS32(value, flag_LizarfosSeries_Counter(), debug); }
 void resetFlag_LizarfosSeries_Counter(bool debug) { resetS32(flag_LizarfosSeries_Counter(), debug); }
 bool getFlag_LoadProhibition(bool debug) { return getBool(flag_LoadProhibition(), debug); }
 void setFlag_LoadProhibition(bool value, bool debug) { setBool(value, flag_LoadProhibition(), debug); }
 void resetFlag_LoadProhibition(bool debug) { resetBool(flag_LoadProhibition(), debug); }
 s32 getFlag_Location_AdeyaVillage(bool debug) { return getS32(flag_Location_AdeyaVillage(), debug); }
+void increaseFlag_Location_AdeyaVillage(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_AdeyaVillage", -1, debug); }
 void setFlag_Location_AdeyaVillage(s32 value, bool debug) { setS32(value, flag_Location_AdeyaVillage(), debug); }
 void resetFlag_Location_AdeyaVillage(bool debug) { resetS32(flag_Location_AdeyaVillage(), debug); }
 s32 getFlag_Location_AkkareBigBridge(bool debug) { return getS32(flag_Location_AkkareBigBridge(), debug); }
+void increaseFlag_Location_AkkareBigBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_AkkareBigBridge", -1, debug); }
 void setFlag_Location_AkkareBigBridge(s32 value, bool debug) { setS32(value, flag_Location_AkkareBigBridge(), debug); }
 void resetFlag_Location_AkkareBigBridge(bool debug) { resetS32(flag_Location_AkkareBigBridge(), debug); }
 s32 getFlag_Location_AkkareGarrison(bool debug) { return getS32(flag_Location_AkkareGarrison(), debug); }
+void increaseFlag_Location_AkkareGarrison(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_AkkareGarrison", -1, debug); }
 void setFlag_Location_AkkareGarrison(s32 value, bool debug) { setS32(value, flag_Location_AkkareGarrison(), debug); }
 void resetFlag_Location_AkkareGarrison(bool debug) { resetS32(flag_Location_AkkareGarrison(), debug); }
 s32 getFlag_Location_AkkareZhai(bool debug) { return getS32(flag_Location_AkkareZhai(), debug); }
+void increaseFlag_Location_AkkareZhai(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_AkkareZhai", -1, debug); }
 void setFlag_Location_AkkareZhai(s32 value, bool debug) { setS32(value, flag_Location_AkkareZhai(), debug); }
 void resetFlag_Location_AkkareZhai(bool debug) { resetS32(flag_Location_AkkareZhai(), debug); }
 s32 getFlag_Location_AkkareZhaiBridge(bool debug) { return getS32(flag_Location_AkkareZhaiBridge(), debug); }
+void increaseFlag_Location_AkkareZhaiBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_AkkareZhaiBridge", -1, debug); }
 void setFlag_Location_AkkareZhaiBridge(s32 value, bool debug) { setS32(value, flag_Location_AkkareZhaiBridge(), debug); }
 void resetFlag_Location_AkkareZhaiBridge(bool debug) { resetS32(flag_Location_AkkareZhaiBridge(), debug); }
 s32 getFlag_Location_AncientLabo(bool debug) { return getS32(flag_Location_AncientLabo(), debug); }
+void increaseFlag_Location_AncientLabo(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_AncientLabo", -1, debug); }
 void setFlag_Location_AncientLabo(s32 value, bool debug) { setS32(value, flag_Location_AncientLabo(), debug); }
 void resetFlag_Location_AncientLabo(bool debug) { resetS32(flag_Location_AncientLabo(), debug); }
 s32 getFlag_Location_AnoleTunnel(bool debug) { return getS32(flag_Location_AnoleTunnel(), debug); }
+void increaseFlag_Location_AnoleTunnel(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_AnoleTunnel", -1, debug); }
 void setFlag_Location_AnoleTunnel(s32 value, bool debug) { setS32(value, flag_Location_AnoleTunnel(), debug); }
 void resetFlag_Location_AnoleTunnel(bool debug) { resetS32(flag_Location_AnoleTunnel(), debug); }
 s32 getFlag_Location_Assassin(bool debug) { return getS32(flag_Location_Assassin(), debug); }
+void increaseFlag_Location_Assassin(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Assassin", -1, debug); }
 void setFlag_Location_Assassin(s32 value, bool debug) { setS32(value, flag_Location_Assassin(), debug); }
 void resetFlag_Location_Assassin(bool debug) { resetS32(flag_Location_Assassin(), debug); }
 s32 getFlag_Location_BigBrotherBridge(bool debug) { return getS32(flag_Location_BigBrotherBridge(), debug); }
+void increaseFlag_Location_BigBrotherBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_BigBrotherBridge", -1, debug); }
 void setFlag_Location_BigBrotherBridge(s32 value, bool debug) { setS32(value, flag_Location_BigBrotherBridge(), debug); }
 void resetFlag_Location_BigBrotherBridge(bool debug) { resetS32(flag_Location_BigBrotherBridge(), debug); }
 s32 getFlag_Location_BigTree(bool debug) { return getS32(flag_Location_BigTree(), debug); }
+void increaseFlag_Location_BigTree(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_BigTree", -1, debug); }
 void setFlag_Location_BigTree(s32 value, bool debug) { setS32(value, flag_Location_BigTree(), debug); }
 void resetFlag_Location_BigTree(bool debug) { resetS32(flag_Location_BigTree(), debug); }
 s32 getFlag_Location_BlindForest(bool debug) { return getS32(flag_Location_BlindForest(), debug); }
+void increaseFlag_Location_BlindForest(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_BlindForest", -1, debug); }
 void setFlag_Location_BlindForest(s32 value, bool debug) { setS32(value, flag_Location_BlindForest(), debug); }
 void resetFlag_Location_BlindForest(bool debug) { resetS32(flag_Location_BlindForest(), debug); }
 s32 getFlag_Location_BraveFountain(bool debug) { return getS32(flag_Location_BraveFountain(), debug); }
+void increaseFlag_Location_BraveFountain(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_BraveFountain", -1, debug); }
 void setFlag_Location_BraveFountain(s32 value, bool debug) { setS32(value, flag_Location_BraveFountain(), debug); }
 void resetFlag_Location_BraveFountain(bool debug) { resetS32(flag_Location_BraveFountain(), debug); }
 s32 getFlag_Location_BrosRock(bool debug) { return getS32(flag_Location_BrosRock(), debug); }
+void increaseFlag_Location_BrosRock(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_BrosRock", -1, debug); }
 void setFlag_Location_BrosRock(s32 value, bool debug) { setS32(value, flag_Location_BrosRock(), debug); }
 void resetFlag_Location_BrosRock(bool debug) { resetS32(flag_Location_BrosRock(), debug); }
 s32 getFlag_Location_CelebrationPark(bool debug) { return getS32(flag_Location_CelebrationPark(), debug); }
+void increaseFlag_Location_CelebrationPark(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_CelebrationPark", -1, debug); }
 void setFlag_Location_CelebrationPark(s32 value, bool debug) { setS32(value, flag_Location_CelebrationPark(), debug); }
 void resetFlag_Location_CelebrationPark(bool debug) { resetS32(flag_Location_CelebrationPark(), debug); }
 s32 getFlag_Location_CentralExchange(bool debug) { return getS32(flag_Location_CentralExchange(), debug); }
+void increaseFlag_Location_CentralExchange(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_CentralExchange", -1, debug); }
 void setFlag_Location_CentralExchange(s32 value, bool debug) { setS32(value, flag_Location_CentralExchange(), debug); }
 void resetFlag_Location_CentralExchange(bool debug) { resetS32(flag_Location_CentralExchange(), debug); }
 s32 getFlag_Location_ChirakaVillage(bool debug) { return getS32(flag_Location_ChirakaVillage(), debug); }
+void increaseFlag_Location_ChirakaVillage(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ChirakaVillage", -1, debug); }
 void setFlag_Location_ChirakaVillage(s32 value, bool debug) { setS32(value, flag_Location_ChirakaVillage(), debug); }
 void resetFlag_Location_ChirakaVillage(bool debug) { resetS32(flag_Location_ChirakaVillage(), debug); }
 s32 getFlag_Location_Cohorint(bool debug) { return getS32(flag_Location_Cohorint(), debug); }
+void increaseFlag_Location_Cohorint(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Cohorint", -1, debug); }
 void setFlag_Location_Cohorint(s32 value, bool debug) { setS32(value, flag_Location_Cohorint(), debug); }
 void resetFlag_Location_Cohorint(bool debug) { resetS32(flag_Location_Cohorint(), debug); }
 s32 getFlag_Location_Cokiri(bool debug) { return getS32(flag_Location_Cokiri(), debug); }
+void increaseFlag_Location_Cokiri(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Cokiri", -1, debug); }
 void setFlag_Location_Cokiri(s32 value, bool debug) { setS32(value, flag_Location_Cokiri(), debug); }
 void resetFlag_Location_Cokiri(bool debug) { resetS32(flag_Location_Cokiri(), debug); }
 s32 getFlag_Location_Corosseo(bool debug) { return getS32(flag_Location_Corosseo(), debug); }
+void increaseFlag_Location_Corosseo(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Corosseo", -1, debug); }
 void setFlag_Location_Corosseo(s32 value, bool debug) { setS32(value, flag_Location_Corosseo(), debug); }
 void resetFlag_Location_Corosseo(bool debug) { resetS32(flag_Location_Corosseo(), debug); }
 s32 getFlag_Location_DarkDungeon01(bool debug) { return getS32(flag_Location_DarkDungeon01(), debug); }
+void increaseFlag_Location_DarkDungeon01(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DarkDungeon01", -1, debug); }
 void setFlag_Location_DarkDungeon01(s32 value, bool debug) { setS32(value, flag_Location_DarkDungeon01(), debug); }
 void resetFlag_Location_DarkDungeon01(bool debug) { resetS32(flag_Location_DarkDungeon01(), debug); }
 s32 getFlag_Location_DarkDungeon02(bool debug) { return getS32(flag_Location_DarkDungeon02(), debug); }
+void increaseFlag_Location_DarkDungeon02(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DarkDungeon02", -1, debug); }
 void setFlag_Location_DarkDungeon02(s32 value, bool debug) { setS32(value, flag_Location_DarkDungeon02(), debug); }
 void resetFlag_Location_DarkDungeon02(bool debug) { resetS32(flag_Location_DarkDungeon02(), debug); }
 s32 getFlag_Location_DarkDungeon03(bool debug) { return getS32(flag_Location_DarkDungeon03(), debug); }
+void increaseFlag_Location_DarkDungeon03(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DarkDungeon03", -1, debug); }
 void setFlag_Location_DarkDungeon03(s32 value, bool debug) { setS32(value, flag_Location_DarkDungeon03(), debug); }
 void resetFlag_Location_DarkDungeon03(bool debug) { resetS32(flag_Location_DarkDungeon03(), debug); }
 s32 getFlag_Location_DarkDungeon04(bool debug) { return getS32(flag_Location_DarkDungeon04(), debug); }
+void increaseFlag_Location_DarkDungeon04(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DarkDungeon04", -1, debug); }
 void setFlag_Location_DarkDungeon04(s32 value, bool debug) { setS32(value, flag_Location_DarkDungeon04(), debug); }
 void resetFlag_Location_DarkDungeon04(bool debug) { resetS32(flag_Location_DarkDungeon04(), debug); }
 s32 getFlag_Location_DeathMountain_Entrance(bool debug) { return getS32(flag_Location_DeathMountain_Entrance(), debug); }
+void increaseFlag_Location_DeathMountain_Entrance(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DeathMountain_Entrance", -1, debug); }
 void setFlag_Location_DeathMountain_Entrance(s32 value, bool debug) { setS32(value, flag_Location_DeathMountain_Entrance(), debug); }
 void resetFlag_Location_DeathMountain_Entrance(bool debug) { resetS32(flag_Location_DeathMountain_Entrance(), debug); }
 s32 getFlag_Location_DeathMountainHatago(bool debug) { return getS32(flag_Location_DeathMountainHatago(), debug); }
+void increaseFlag_Location_DeathMountainHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DeathMountainHatago", -1, debug); }
 void setFlag_Location_DeathMountainHatago(s32 value, bool debug) { setS32(value, flag_Location_DeathMountainHatago(), debug); }
 void resetFlag_Location_DeathMountainHatago(bool debug) { resetS32(flag_Location_DeathMountainHatago(), debug); }
 s32 getFlag_Location_DodoraBridge(bool debug) { return getS32(flag_Location_DodoraBridge(), debug); }
+void increaseFlag_Location_DodoraBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DodoraBridge", -1, debug); }
 void setFlag_Location_DodoraBridge(s32 value, bool debug) { setS32(value, flag_Location_DodoraBridge(), debug); }
 void resetFlag_Location_DodoraBridge(bool debug) { resetS32(flag_Location_DodoraBridge(), debug); }
 s32 getFlag_Location_DragonAltar(bool debug) { return getS32(flag_Location_DragonAltar(), debug); }
+void increaseFlag_Location_DragonAltar(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DragonAltar", -1, debug); }
 void setFlag_Location_DragonAltar(s32 value, bool debug) { setS32(value, flag_Location_DragonAltar(), debug); }
 void resetFlag_Location_DragonAltar(bool debug) { resetS32(flag_Location_DragonAltar(), debug); }
 s32 getFlag_Location_DragonMarsh(bool debug) { return getS32(flag_Location_DragonMarsh(), debug); }
+void increaseFlag_Location_DragonMarsh(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_DragonMarsh", -1, debug); }
 void setFlag_Location_DragonMarsh(s32 value, bool debug) { setS32(value, flag_Location_DragonMarsh(), debug); }
 void resetFlag_Location_DragonMarsh(bool debug) { resetS32(flag_Location_DragonMarsh(), debug); }
 s32 getFlag_Location_EastDam(bool debug) { return getS32(flag_Location_EastDam(), debug); }
+void increaseFlag_Location_EastDam(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_EastDam", -1, debug); }
 void setFlag_Location_EastDam(s32 value, bool debug) { setS32(value, flag_Location_EastDam(), debug); }
 void resetFlag_Location_EastDam(bool debug) { resetS32(flag_Location_EastDam(), debug); }
 s32 getFlag_Location_EastGerudoRuins(bool debug) { return getS32(flag_Location_EastGerudoRuins(), debug); }
+void increaseFlag_Location_EastGerudoRuins(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_EastGerudoRuins", -1, debug); }
 void setFlag_Location_EastGerudoRuins(s32 value, bool debug) { setS32(value, flag_Location_EastGerudoRuins(), debug); }
 void resetFlag_Location_EastGerudoRuins(bool debug) { resetS32(flag_Location_EastGerudoRuins(), debug); }
 s32 getFlag_Location_EastPostTownRuin(bool debug) { return getS32(flag_Location_EastPostTownRuin(), debug); }
+void increaseFlag_Location_EastPostTownRuin(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_EastPostTownRuin", -1, debug); }
 void setFlag_Location_EastPostTownRuin(s32 value, bool debug) { setS32(value, flag_Location_EastPostTownRuin(), debug); }
 void resetFlag_Location_EastPostTownRuin(bool debug) { resetS32(flag_Location_EastPostTownRuin(), debug); }
 s32 getFlag_Location_Execution(bool debug) { return getS32(flag_Location_Execution(), debug); }
+void increaseFlag_Location_Execution(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Execution", -1, debug); }
 void setFlag_Location_Execution(s32 value, bool debug) { setS32(value, flag_Location_Execution(), debug); }
 void resetFlag_Location_Execution(bool debug) { resetS32(flag_Location_Execution(), debug); }
 s32 getFlag_Location_EzzuBridge(bool debug) { return getS32(flag_Location_EzzuBridge(), debug); }
+void increaseFlag_Location_EzzuBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_EzzuBridge", -1, debug); }
 void setFlag_Location_EzzuBridge(s32 value, bool debug) { setS32(value, flag_Location_EzzuBridge(), debug); }
 void resetFlag_Location_EzzuBridge(bool debug) { resetS32(flag_Location_EzzuBridge(), debug); }
 s32 getFlag_Location_FaronHatago000(bool debug) { return getS32(flag_Location_FaronHatago000(), debug); }
+void increaseFlag_Location_FaronHatago000(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FaronHatago000", -1, debug); }
 void setFlag_Location_FaronHatago000(s32 value, bool debug) { setS32(value, flag_Location_FaronHatago000(), debug); }
 void resetFlag_Location_FaronHatago000(bool debug) { resetS32(flag_Location_FaronHatago000(), debug); }
 s32 getFlag_Location_FaronHatago001(bool debug) { return getS32(flag_Location_FaronHatago001(), debug); }
+void increaseFlag_Location_FaronHatago001(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FaronHatago001", -1, debug); }
 void setFlag_Location_FaronHatago001(s32 value, bool debug) { setS32(value, flag_Location_FaronHatago001(), debug); }
 void resetFlag_Location_FaronHatago001(bool debug) { resetS32(flag_Location_FaronHatago001(), debug); }
 s32 getFlag_Location_FaronHatago002(bool debug) { return getS32(flag_Location_FaronHatago002(), debug); }
+void increaseFlag_Location_FaronHatago002(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FaronHatago002", -1, debug); }
 void setFlag_Location_FaronHatago002(s32 value, bool debug) { setS32(value, flag_Location_FaronHatago002(), debug); }
 void resetFlag_Location_FaronHatago002(bool debug) { resetS32(flag_Location_FaronHatago002(), debug); }
 s32 getFlag_Location_FironeForestEntrance(bool debug) { return getS32(flag_Location_FironeForestEntrance(), debug); }
+void increaseFlag_Location_FironeForestEntrance(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FironeForestEntrance", -1, debug); }
 void setFlag_Location_FironeForestEntrance(s32 value, bool debug) { setS32(value, flag_Location_FironeForestEntrance(), debug); }
 void resetFlag_Location_FironeForestEntrance(bool debug) { resetS32(flag_Location_FironeForestEntrance(), debug); }
 s32 getFlag_Location_FirstColony(bool debug) { return getS32(flag_Location_FirstColony(), debug); }
+void increaseFlag_Location_FirstColony(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FirstColony", -1, debug); }
 void setFlag_Location_FirstColony(s32 value, bool debug) { setS32(value, flag_Location_FirstColony(), debug); }
 void resetFlag_Location_FirstColony(bool debug) { resetS32(flag_Location_FirstColony(), debug); }
 s32 getFlag_Location_FlamingoSpa(bool debug) { return getS32(flag_Location_FlamingoSpa(), debug); }
+void increaseFlag_Location_FlamingoSpa(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FlamingoSpa", -1, debug); }
 void setFlag_Location_FlamingoSpa(s32 value, bool debug) { setS32(value, flag_Location_FlamingoSpa(), debug); }
 void resetFlag_Location_FlamingoSpa(bool debug) { resetS32(flag_Location_FlamingoSpa(), debug); }
 s32 getFlag_Location_FloriaBridge(bool debug) { return getS32(flag_Location_FloriaBridge(), debug); }
+void increaseFlag_Location_FloriaBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FloriaBridge", -1, debug); }
 void setFlag_Location_FloriaBridge(s32 value, bool debug) { setS32(value, flag_Location_FloriaBridge(), debug); }
 void resetFlag_Location_FloriaBridge(bool debug) { resetS32(flag_Location_FloriaBridge(), debug); }
 s32 getFlag_Location_FlowerSandbank(bool debug) { return getS32(flag_Location_FlowerSandbank(), debug); }
+void increaseFlag_Location_FlowerSandbank(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FlowerSandbank", -1, debug); }
 void setFlag_Location_FlowerSandbank(s32 value, bool debug) { setS32(value, flag_Location_FlowerSandbank(), debug); }
 void resetFlag_Location_FlowerSandbank(bool debug) { resetS32(flag_Location_FlowerSandbank(), debug); }
 s32 getFlag_Location_ForestHatago(bool debug) { return getS32(flag_Location_ForestHatago(), debug); }
+void increaseFlag_Location_ForestHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ForestHatago", -1, debug); }
 void setFlag_Location_ForestHatago(s32 value, bool debug) { setS32(value, flag_Location_ForestHatago(), debug); }
 void resetFlag_Location_ForestHatago(bool debug) { resetS32(flag_Location_ForestHatago(), debug); }
 s32 getFlag_Location_FrontGatePosttown(bool debug) { return getS32(flag_Location_FrontGatePosttown(), debug); }
+void increaseFlag_Location_FrontGatePosttown(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FrontGatePosttown", -1, debug); }
 void setFlag_Location_FrontGatePosttown(s32 value, bool debug) { setS32(value, flag_Location_FrontGatePosttown(), debug); }
 void resetFlag_Location_FrontGatePosttown(bool debug) { resetS32(flag_Location_FrontGatePosttown(), debug); }
 s32 getFlag_Location_FrozenCave(bool debug) { return getS32(flag_Location_FrozenCave(), debug); }
+void increaseFlag_Location_FrozenCave(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_FrozenCave", -1, debug); }
 void setFlag_Location_FrozenCave(s32 value, bool debug) { setS32(value, flag_Location_FrozenCave(), debug); }
 void resetFlag_Location_FrozenCave(bool debug) { resetS32(flag_Location_FrozenCave(), debug); }
 s32 getFlag_Location_GameBalling(bool debug) { return getS32(flag_Location_GameBalling(), debug); }
+void increaseFlag_Location_GameBalling(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GameBalling", -1, debug); }
 void setFlag_Location_GameBalling(s32 value, bool debug) { setS32(value, flag_Location_GameBalling(), debug); }
 void resetFlag_Location_GameBalling(bool debug) { resetS32(flag_Location_GameBalling(), debug); }
 s32 getFlag_Location_GameBitalockGolf(bool debug) { return getS32(flag_Location_GameBitalockGolf(), debug); }
+void increaseFlag_Location_GameBitalockGolf(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GameBitalockGolf", -1, debug); }
 void setFlag_Location_GameBitalockGolf(s32 value, bool debug) { setS32(value, flag_Location_GameBitalockGolf(), debug); }
 void resetFlag_Location_GameBitalockGolf(bool debug) { resetS32(flag_Location_GameBitalockGolf(), debug); }
 s32 getFlag_Location_GameGutsCriff(bool debug) { return getS32(flag_Location_GameGutsCriff(), debug); }
+void increaseFlag_Location_GameGutsCriff(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GameGutsCriff", -1, debug); }
 void setFlag_Location_GameGutsCriff(s32 value, bool debug) { setS32(value, flag_Location_GameGutsCriff(), debug); }
 void resetFlag_Location_GameGutsCriff(bool debug) { resetS32(flag_Location_GameGutsCriff(), debug); }
 s32 getFlag_Location_GameMarathon(bool debug) { return getS32(flag_Location_GameMarathon(), debug); }
+void increaseFlag_Location_GameMarathon(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GameMarathon", -1, debug); }
 void setFlag_Location_GameMarathon(s32 value, bool debug) { setS32(value, flag_Location_GameMarathon(), debug); }
 void resetFlag_Location_GameMarathon(bool debug) { resetS32(flag_Location_GameMarathon(), debug); }
 s32 getFlag_Location_GameShiledSurf(bool debug) { return getS32(flag_Location_GameShiledSurf(), debug); }
+void increaseFlag_Location_GameShiledSurf(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GameShiledSurf", -1, debug); }
 void setFlag_Location_GameShiledSurf(s32 value, bool debug) { setS32(value, flag_Location_GameShiledSurf(), debug); }
 void resetFlag_Location_GameShiledSurf(bool debug) { resetS32(flag_Location_GameShiledSurf(), debug); }
 s32 getFlag_Location_GameYabusame(bool debug) { return getS32(flag_Location_GameYabusame(), debug); }
+void increaseFlag_Location_GameYabusame(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GameYabusame", -1, debug); }
 void setFlag_Location_GameYabusame(s32 value, bool debug) { setS32(value, flag_Location_GameYabusame(), debug); }
 void resetFlag_Location_GameYabusame(bool debug) { resetS32(flag_Location_GameYabusame(), debug); }
 s32 getFlag_Location_GameZarashiRace(bool debug) { return getS32(flag_Location_GameZarashiRace(), debug); }
+void increaseFlag_Location_GameZarashiRace(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GameZarashiRace", -1, debug); }
 void setFlag_Location_GameZarashiRace(s32 value, bool debug) { setS32(value, flag_Location_GameZarashiRace(), debug); }
 void resetFlag_Location_GameZarashiRace(bool debug) { resetS32(flag_Location_GameZarashiRace(), debug); }
 s32 getFlag_Location_GarakishiVillage(bool debug) { return getS32(flag_Location_GarakishiVillage(), debug); }
+void increaseFlag_Location_GarakishiVillage(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GarakishiVillage", -1, debug); }
 void setFlag_Location_GarakishiVillage(s32 value, bool debug) { setS32(value, flag_Location_GarakishiVillage(), debug); }
 void resetFlag_Location_GarakishiVillage(bool debug) { resetS32(flag_Location_GarakishiVillage(), debug); }
 s32 getFlag_Location_GatakaraGarrison(bool debug) { return getS32(flag_Location_GatakaraGarrison(), debug); }
+void increaseFlag_Location_GatakaraGarrison(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GatakaraGarrison", -1, debug); }
 void setFlag_Location_GatakaraGarrison(s32 value, bool debug) { setS32(value, flag_Location_GatakaraGarrison(), debug); }
 void resetFlag_Location_GatakaraGarrison(bool debug) { resetS32(flag_Location_GatakaraGarrison(), debug); }
 s32 getFlag_Location_Gerudo(bool debug) { return getS32(flag_Location_Gerudo(), debug); }
+void increaseFlag_Location_Gerudo(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Gerudo", -1, debug); }
 void setFlag_Location_Gerudo(s32 value, bool debug) { setS32(value, flag_Location_Gerudo(), debug); }
 void resetFlag_Location_Gerudo(bool debug) { resetS32(flag_Location_Gerudo(), debug); }
 s32 getFlag_Location_GerudoCanyon_Entrance(bool debug) { return getS32(flag_Location_GerudoCanyon_Entrance(), debug); }
+void increaseFlag_Location_GerudoCanyon_Entrance(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GerudoCanyon_Entrance", -1, debug); }
 void setFlag_Location_GerudoCanyon_Entrance(s32 value, bool debug) { setS32(value, flag_Location_GerudoCanyon_Entrance(), debug); }
 void resetFlag_Location_GerudoCanyon_Entrance(bool debug) { resetS32(flag_Location_GerudoCanyon_Entrance(), debug); }
 s32 getFlag_Location_GerudoDesert_Entrance(bool debug) { return getS32(flag_Location_GerudoDesert_Entrance(), debug); }
+void increaseFlag_Location_GerudoDesert_Entrance(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GerudoDesert_Entrance", -1, debug); }
 void setFlag_Location_GerudoDesert_Entrance(s32 value, bool debug) { setS32(value, flag_Location_GerudoDesert_Entrance(), debug); }
 void resetFlag_Location_GerudoDesert_Entrance(bool debug) { resetS32(flag_Location_GerudoDesert_Entrance(), debug); }
 s32 getFlag_Location_GerudoFossil(bool debug) { return getS32(flag_Location_GerudoFossil(), debug); }
+void increaseFlag_Location_GerudoFossil(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GerudoFossil", -1, debug); }
 void setFlag_Location_GerudoFossil(s32 value, bool debug) { setS32(value, flag_Location_GerudoFossil(), debug); }
 void resetFlag_Location_GerudoFossil(bool debug) { resetS32(flag_Location_GerudoFossil(), debug); }
 s32 getFlag_Location_GerudoHatago(bool debug) { return getS32(flag_Location_GerudoHatago(), debug); }
+void increaseFlag_Location_GerudoHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GerudoHatago", -1, debug); }
 void setFlag_Location_GerudoHatago(s32 value, bool debug) { setS32(value, flag_Location_GerudoHatago(), debug); }
 void resetFlag_Location_GerudoHatago(bool debug) { resetS32(flag_Location_GerudoHatago(), debug); }
 s32 getFlag_Location_Goron(bool debug) { return getS32(flag_Location_Goron(), debug); }
+void increaseFlag_Location_Goron(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Goron", -1, debug); }
 void setFlag_Location_Goron(s32 value, bool debug) { setS32(value, flag_Location_Goron(), debug); }
 void resetFlag_Location_Goron(bool debug) { resetS32(flag_Location_Goron(), debug); }
 s32 getFlag_Location_GoronBridge(bool debug) { return getS32(flag_Location_GoronBridge(), debug); }
+void increaseFlag_Location_GoronBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GoronBridge", -1, debug); }
 void setFlag_Location_GoronBridge(s32 value, bool debug) { setS32(value, flag_Location_GoronBridge(), debug); }
 void resetFlag_Location_GoronBridge(bool debug) { resetS32(flag_Location_GoronBridge(), debug); }
 s32 getFlag_Location_GutinizaPlainTomb(bool debug) { return getS32(flag_Location_GutinizaPlainTomb(), debug); }
+void increaseFlag_Location_GutinizaPlainTomb(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_GutinizaPlainTomb", -1, debug); }
 void setFlag_Location_GutinizaPlainTomb(s32 value, bool debug) { setS32(value, flag_Location_GutinizaPlainTomb(), debug); }
 void resetFlag_Location_GutinizaPlainTomb(bool debug) { resetS32(flag_Location_GutinizaPlainTomb(), debug); }
 s32 getFlag_Location_HachijoBridge(bool debug) { return getS32(flag_Location_HachijoBridge(), debug); }
+void increaseFlag_Location_HachijoBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HachijoBridge", -1, debug); }
 void setFlag_Location_HachijoBridge(s32 value, bool debug) { setS32(value, flag_Location_HachijoBridge(), debug); }
 void resetFlag_Location_HachijoBridge(bool debug) { resetS32(flag_Location_HachijoBridge(), debug); }
 s32 getFlag_Location_Hatago001(bool debug) { return getS32(flag_Location_Hatago001(), debug); }
+void increaseFlag_Location_Hatago001(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Hatago001", -1, debug); }
 void setFlag_Location_Hatago001(s32 value, bool debug) { setS32(value, flag_Location_Hatago001(), debug); }
 void resetFlag_Location_Hatago001(bool debug) { resetS32(flag_Location_Hatago001(), debug); }
 s32 getFlag_Location_Hateno(bool debug) { return getS32(flag_Location_Hateno(), debug); }
+void increaseFlag_Location_Hateno(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Hateno", -1, debug); }
 void setFlag_Location_Hateno(s32 value, bool debug) { setS32(value, flag_Location_Hateno(), debug); }
 void resetFlag_Location_Hateno(bool debug) { resetS32(flag_Location_Hateno(), debug); }
 s32 getFlag_Location_HatenoGate(bool debug) { return getS32(flag_Location_HatenoGate(), debug); }
+void increaseFlag_Location_HatenoGate(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HatenoGate", -1, debug); }
 void setFlag_Location_HatenoGate(s32 value, bool debug) { setS32(value, flag_Location_HatenoGate(), debug); }
 void resetFlag_Location_HatenoGate(bool debug) { resetS32(flag_Location_HatenoGate(), debug); }
 s32 getFlag_Location_HatenoLabo(bool debug) { return getS32(flag_Location_HatenoLabo(), debug); }
+void increaseFlag_Location_HatenoLabo(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HatenoLabo", -1, debug); }
 void setFlag_Location_HatenoLabo(s32 value, bool debug) { setS32(value, flag_Location_HatenoLabo(), debug); }
 void resetFlag_Location_HatenoLabo(bool debug) { resetS32(flag_Location_HatenoLabo(), debug); }
 s32 getFlag_Location_HebraBottomRemains(bool debug) { return getS32(flag_Location_HebraBottomRemains(), debug); }
+void increaseFlag_Location_HebraBottomRemains(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HebraBottomRemains", -1, debug); }
 void setFlag_Location_HebraBottomRemains(s32 value, bool debug) { setS32(value, flag_Location_HebraBottomRemains(), debug); }
 void resetFlag_Location_HebraBottomRemains(bool debug) { resetS32(flag_Location_HebraBottomRemains(), debug); }
 s32 getFlag_Location_HebraRemains(bool debug) { return getS32(flag_Location_HebraRemains(), debug); }
+void increaseFlag_Location_HebraRemains(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HebraRemains", -1, debug); }
 void setFlag_Location_HebraRemains(s32 value, bool debug) { setS32(value, flag_Location_HebraRemains(), debug); }
 void resetFlag_Location_HebraRemains(bool debug) { resetS32(flag_Location_HebraRemains(), debug); }
 s32 getFlag_Location_HeburaFossil(bool debug) { return getS32(flag_Location_HeburaFossil(), debug); }
+void increaseFlag_Location_HeburaFossil(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HeburaFossil", -1, debug); }
 void setFlag_Location_HeburaFossil(s32 value, bool debug) { setS32(value, flag_Location_HeburaFossil(), debug); }
 void resetFlag_Location_HeburaFossil(bool debug) { resetS32(flag_Location_HeburaFossil(), debug); }
 s32 getFlag_Location_HeburaLodge(bool debug) { return getS32(flag_Location_HeburaLodge(), debug); }
+void increaseFlag_Location_HeburaLodge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HeburaLodge", -1, debug); }
 void setFlag_Location_HeburaLodge(s32 value, bool debug) { setS32(value, flag_Location_HeburaLodge(), debug); }
 void resetFlag_Location_HeburaLodge(bool debug) { resetS32(flag_Location_HeburaLodge(), debug); }
 s32 getFlag_Location_HopesPlateau(bool debug) { return getS32(flag_Location_HopesPlateau(), debug); }
+void increaseFlag_Location_HopesPlateau(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HopesPlateau", -1, debug); }
 void setFlag_Location_HopesPlateau(s32 value, bool debug) { setS32(value, flag_Location_HopesPlateau(), debug); }
 void resetFlag_Location_HopesPlateau(bool debug) { resetS32(flag_Location_HopesPlateau(), debug); }
 s32 getFlag_Location_HyralBridge(bool debug) { return getS32(flag_Location_HyralBridge(), debug); }
+void increaseFlag_Location_HyralBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyralBridge", -1, debug); }
 void setFlag_Location_HyralBridge(s32 value, bool debug) { setS32(value, flag_Location_HyralBridge(), debug); }
 void resetFlag_Location_HyralBridge(bool debug) { resetS32(flag_Location_HyralBridge(), debug); }
 s32 getFlag_Location_HyruleCastle(bool debug) { return getS32(flag_Location_HyruleCastle(), debug); }
+void increaseFlag_Location_HyruleCastle(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle", -1, debug); }
 void setFlag_Location_HyruleCastle(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle(), debug); }
 void resetFlag_Location_HyruleCastle(bool debug) { resetS32(flag_Location_HyruleCastle(), debug); }
 s32 getFlag_Location_HyruleCastle_Hall_0(bool debug) { return getS32(flag_Location_HyruleCastle_Hall_0(), debug); }
+void increaseFlag_Location_HyruleCastle_Hall_0(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Hall_0", -1, debug); }
 void setFlag_Location_HyruleCastle_Hall_0(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Hall_0(), debug); }
 void resetFlag_Location_HyruleCastle_Hall_0(bool debug) { resetS32(flag_Location_HyruleCastle_Hall_0(), debug); }
 s32 getFlag_Location_HyruleCastle_Hall_1(bool debug) { return getS32(flag_Location_HyruleCastle_Hall_1(), debug); }
+void increaseFlag_Location_HyruleCastle_Hall_1(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Hall_1", -1, debug); }
 void setFlag_Location_HyruleCastle_Hall_1(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Hall_1(), debug); }
 void resetFlag_Location_HyruleCastle_Hall_1(bool debug) { resetS32(flag_Location_HyruleCastle_Hall_1(), debug); }
 s32 getFlag_Location_HyruleCastle_Hall_2(bool debug) { return getS32(flag_Location_HyruleCastle_Hall_2(), debug); }
+void increaseFlag_Location_HyruleCastle_Hall_2(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Hall_2", -1, debug); }
 void setFlag_Location_HyruleCastle_Hall_2(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Hall_2(), debug); }
 void resetFlag_Location_HyruleCastle_Hall_2(bool debug) { resetS32(flag_Location_HyruleCastle_Hall_2(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_0(bool debug) { return getS32(flag_Location_HyruleCastle_Room_0(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_0(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_0", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_0(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_0(), debug); }
 void resetFlag_Location_HyruleCastle_Room_0(bool debug) { resetS32(flag_Location_HyruleCastle_Room_0(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_1(bool debug) { return getS32(flag_Location_HyruleCastle_Room_1(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_1(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_1", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_1(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_1(), debug); }
 void resetFlag_Location_HyruleCastle_Room_1(bool debug) { resetS32(flag_Location_HyruleCastle_Room_1(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_10(bool debug) { return getS32(flag_Location_HyruleCastle_Room_10(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_10(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_10", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_10(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_10(), debug); }
 void resetFlag_Location_HyruleCastle_Room_10(bool debug) { resetS32(flag_Location_HyruleCastle_Room_10(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_11(bool debug) { return getS32(flag_Location_HyruleCastle_Room_11(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_11(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_11", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_11(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_11(), debug); }
 void resetFlag_Location_HyruleCastle_Room_11(bool debug) { resetS32(flag_Location_HyruleCastle_Room_11(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_2(bool debug) { return getS32(flag_Location_HyruleCastle_Room_2(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_2(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_2", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_2(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_2(), debug); }
 void resetFlag_Location_HyruleCastle_Room_2(bool debug) { resetS32(flag_Location_HyruleCastle_Room_2(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_3(bool debug) { return getS32(flag_Location_HyruleCastle_Room_3(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_3(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_3", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_3(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_3(), debug); }
 void resetFlag_Location_HyruleCastle_Room_3(bool debug) { resetS32(flag_Location_HyruleCastle_Room_3(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_4(bool debug) { return getS32(flag_Location_HyruleCastle_Room_4(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_4(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_4", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_4(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_4(), debug); }
 void resetFlag_Location_HyruleCastle_Room_4(bool debug) { resetS32(flag_Location_HyruleCastle_Room_4(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_5(bool debug) { return getS32(flag_Location_HyruleCastle_Room_5(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_5(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_5", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_5(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_5(), debug); }
 void resetFlag_Location_HyruleCastle_Room_5(bool debug) { resetS32(flag_Location_HyruleCastle_Room_5(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_6(bool debug) { return getS32(flag_Location_HyruleCastle_Room_6(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_6(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_6", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_6(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_6(), debug); }
 void resetFlag_Location_HyruleCastle_Room_6(bool debug) { resetS32(flag_Location_HyruleCastle_Room_6(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_7(bool debug) { return getS32(flag_Location_HyruleCastle_Room_7(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_7(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_7", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_7(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_7(), debug); }
 void resetFlag_Location_HyruleCastle_Room_7(bool debug) { resetS32(flag_Location_HyruleCastle_Room_7(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_8(bool debug) { return getS32(flag_Location_HyruleCastle_Room_8(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_8(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_8", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_8(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_8(), debug); }
 void resetFlag_Location_HyruleCastle_Room_8(bool debug) { resetS32(flag_Location_HyruleCastle_Room_8(), debug); }
 s32 getFlag_Location_HyruleCastle_Room_9(bool debug) { return getS32(flag_Location_HyruleCastle_Room_9(), debug); }
+void increaseFlag_Location_HyruleCastle_Room_9(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastle_Room_9", -1, debug); }
 void setFlag_Location_HyruleCastle_Room_9(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastle_Room_9(), debug); }
 void resetFlag_Location_HyruleCastle_Room_9(bool debug) { resetS32(flag_Location_HyruleCastle_Room_9(), debug); }
 s32 getFlag_Location_HyruleCastleTown(bool debug) { return getS32(flag_Location_HyruleCastleTown(), debug); }
+void increaseFlag_Location_HyruleCastleTown(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCastleTown", -1, debug); }
 void setFlag_Location_HyruleCastleTown(s32 value, bool debug) { setS32(value, flag_Location_HyruleCastleTown(), debug); }
 void resetFlag_Location_HyruleCastleTown(bool debug) { resetS32(flag_Location_HyruleCastleTown(), debug); }
 s32 getFlag_Location_HyruleCentralPlace(bool debug) { return getS32(flag_Location_HyruleCentralPlace(), debug); }
+void increaseFlag_Location_HyruleCentralPlace(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleCentralPlace", -1, debug); }
 void setFlag_Location_HyruleCentralPlace(s32 value, bool debug) { setS32(value, flag_Location_HyruleCentralPlace(), debug); }
 void resetFlag_Location_HyruleCentralPlace(bool debug) { resetS32(flag_Location_HyruleCentralPlace(), debug); }
 s32 getFlag_Location_HyruleDepthHatago(bool debug) { return getS32(flag_Location_HyruleDepthHatago(), debug); }
+void increaseFlag_Location_HyruleDepthHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleDepthHatago", -1, debug); }
 void setFlag_Location_HyruleDepthHatago(s32 value, bool debug) { setS32(value, flag_Location_HyruleDepthHatago(), debug); }
 void resetFlag_Location_HyruleDepthHatago(bool debug) { resetS32(flag_Location_HyruleDepthHatago(), debug); }
 s32 getFlag_Location_HyruleGarrison(bool debug) { return getS32(flag_Location_HyruleGarrison(), debug); }
+void increaseFlag_Location_HyruleGarrison(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleGarrison", -1, debug); }
 void setFlag_Location_HyruleGarrison(s32 value, bool debug) { setS32(value, flag_Location_HyruleGarrison(), debug); }
 void resetFlag_Location_HyruleGarrison(bool debug) { resetS32(flag_Location_HyruleGarrison(), debug); }
 s32 getFlag_Location_HyruleGround(bool debug) { return getS32(flag_Location_HyruleGround(), debug); }
+void increaseFlag_Location_HyruleGround(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleGround", -1, debug); }
 void setFlag_Location_HyruleGround(s32 value, bool debug) { setS32(value, flag_Location_HyruleGround(), debug); }
 void resetFlag_Location_HyruleGround(bool debug) { resetS32(flag_Location_HyruleGround(), debug); }
 s32 getFlag_Location_HyruleLabo(bool debug) { return getS32(flag_Location_HyruleLabo(), debug); }
+void increaseFlag_Location_HyruleLabo(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleLabo", -1, debug); }
 void setFlag_Location_HyruleLabo(s32 value, bool debug) { setS32(value, flag_Location_HyruleLabo(), debug); }
 void resetFlag_Location_HyruleLabo(bool debug) { resetS32(flag_Location_HyruleLabo(), debug); }
 s32 getFlag_Location_HyrulePark(bool debug) { return getS32(flag_Location_HyrulePark(), debug); }
+void increaseFlag_Location_HyrulePark(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyrulePark", -1, debug); }
 void setFlag_Location_HyrulePark(s32 value, bool debug) { setS32(value, flag_Location_HyrulePark(), debug); }
 void resetFlag_Location_HyrulePark(bool debug) { resetS32(flag_Location_HyrulePark(), debug); }
 s32 getFlag_Location_HyrulePlace(bool debug) { return getS32(flag_Location_HyrulePlace(), debug); }
+void increaseFlag_Location_HyrulePlace(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyrulePlace", -1, debug); }
 void setFlag_Location_HyrulePlace(s32 value, bool debug) { setS32(value, flag_Location_HyrulePlace(), debug); }
 void resetFlag_Location_HyrulePlace(bool debug) { resetS32(flag_Location_HyrulePlace(), debug); }
 s32 getFlag_Location_HyruleTemple(bool debug) { return getS32(flag_Location_HyruleTemple(), debug); }
+void increaseFlag_Location_HyruleTemple(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleTemple", -1, debug); }
 void setFlag_Location_HyruleTemple(s32 value, bool debug) { setS32(value, flag_Location_HyruleTemple(), debug); }
 void resetFlag_Location_HyruleTemple(bool debug) { resetS32(flag_Location_HyruleTemple(), debug); }
 s32 getFlag_Location_HyruleTower(bool debug) { return getS32(flag_Location_HyruleTower(), debug); }
+void increaseFlag_Location_HyruleTower(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleTower", -1, debug); }
 void setFlag_Location_HyruleTower(s32 value, bool debug) { setS32(value, flag_Location_HyruleTower(), debug); }
 void resetFlag_Location_HyruleTower(bool debug) { resetS32(flag_Location_HyruleTower(), debug); }
 s32 getFlag_Location_HyruleWater(bool debug) { return getS32(flag_Location_HyruleWater(), debug); }
+void increaseFlag_Location_HyruleWater(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleWater", -1, debug); }
 void setFlag_Location_HyruleWater(s32 value, bool debug) { setS32(value, flag_Location_HyruleWater(), debug); }
 void resetFlag_Location_HyruleWater(bool debug) { resetS32(flag_Location_HyruleWater(), debug); }
 s32 getFlag_Location_HyruleWestHatago(bool debug) { return getS32(flag_Location_HyruleWestHatago(), debug); }
+void increaseFlag_Location_HyruleWestHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_HyruleWestHatago", -1, debug); }
 void setFlag_Location_HyruleWestHatago(s32 value, bool debug) { setS32(value, flag_Location_HyruleWestHatago(), debug); }
 void resetFlag_Location_HyruleWestHatago(bool debug) { resetS32(flag_Location_HyruleWestHatago(), debug); }
 s32 getFlag_Location_IceHouse(bool debug) { return getS32(flag_Location_IceHouse(), debug); }
+void increaseFlag_Location_IceHouse(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_IceHouse", -1, debug); }
 void setFlag_Location_IceHouse(s32 value, bool debug) { setS32(value, flag_Location_IceHouse(), debug); }
 void resetFlag_Location_IceHouse(bool debug) { resetS32(flag_Location_IceHouse(), debug); }
 s32 getFlag_Location_IceLake(bool debug) { return getS32(flag_Location_IceLake(), debug); }
+void increaseFlag_Location_IceLake(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_IceLake", -1, debug); }
 void setFlag_Location_IceLake(s32 value, bool debug) { setS32(value, flag_Location_IceLake(), debug); }
 void resetFlag_Location_IceLake(bool debug) { resetS32(flag_Location_IceLake(), debug); }
 s32 getFlag_Location_JogoBridge(bool debug) { return getS32(flag_Location_JogoBridge(), debug); }
+void increaseFlag_Location_JogoBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_JogoBridge", -1, debug); }
 void setFlag_Location_JogoBridge(s32 value, bool debug) { setS32(value, flag_Location_JogoBridge(), debug); }
 void resetFlag_Location_JogoBridge(bool debug) { resetS32(flag_Location_JogoBridge(), debug); }
 s32 getFlag_Location_JokuBridge(bool debug) { return getS32(flag_Location_JokuBridge(), debug); }
+void increaseFlag_Location_JokuBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_JokuBridge", -1, debug); }
 void setFlag_Location_JokuBridge(s32 value, bool debug) { setS32(value, flag_Location_JokuBridge(), debug); }
 void resetFlag_Location_JokuBridge(bool debug) { resetS32(flag_Location_JokuBridge(), debug); }
 s32 getFlag_Location_Kakariko(bool debug) { return getS32(flag_Location_Kakariko(), debug); }
+void increaseFlag_Location_Kakariko(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Kakariko", -1, debug); }
 void setFlag_Location_Kakariko(s32 value, bool debug) { setS32(value, flag_Location_Kakariko(), debug); }
 void resetFlag_Location_Kakariko(bool debug) { resetS32(flag_Location_Kakariko(), debug); }
 s32 getFlag_Location_KaturaCastle(bool debug) { return getS32(flag_Location_KaturaCastle(), debug); }
+void increaseFlag_Location_KaturaCastle(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_KaturaCastle", -1, debug); }
 void setFlag_Location_KaturaCastle(s32 value, bool debug) { setS32(value, flag_Location_KaturaCastle(), debug); }
 void resetFlag_Location_KaturaCastle(bool debug) { resetS32(flag_Location_KaturaCastle(), debug); }
 s32 getFlag_Location_KingfisherSpa(bool debug) { return getS32(flag_Location_KingfisherSpa(), debug); }
+void increaseFlag_Location_KingfisherSpa(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_KingfisherSpa", -1, debug); }
 void setFlag_Location_KingfisherSpa(s32 value, bool debug) { setS32(value, flag_Location_KingfisherSpa(), debug); }
 void resetFlag_Location_KingfisherSpa(bool debug) { resetS32(flag_Location_KingfisherSpa(), debug); }
 s32 getFlag_Location_KingValley(bool debug) { return getS32(flag_Location_KingValley(), debug); }
+void increaseFlag_Location_KingValley(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_KingValley", -1, debug); }
 void setFlag_Location_KingValley(s32 value, bool debug) { setS32(value, flag_Location_KingValley(), debug); }
 void resetFlag_Location_KingValley(bool debug) { resetS32(flag_Location_KingValley(), debug); }
 s32 getFlag_Location_KochuBridge(bool debug) { return getS32(flag_Location_KochuBridge(), debug); }
+void increaseFlag_Location_KochuBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_KochuBridge", -1, debug); }
 void setFlag_Location_KochuBridge(s32 value, bool debug) { setS32(value, flag_Location_KochuBridge(), debug); }
 void resetFlag_Location_KochuBridge(bool debug) { resetS32(flag_Location_KochuBridge(), debug); }
 s32 getFlag_Location_KumSpa(bool debug) { return getS32(flag_Location_KumSpa(), debug); }
+void increaseFlag_Location_KumSpa(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_KumSpa", -1, debug); }
 void setFlag_Location_KumSpa(s32 value, bool debug) { setS32(value, flag_Location_KumSpa(), debug); }
 void resetFlag_Location_KumSpa(bool debug) { resetS32(flag_Location_KumSpa(), debug); }
 s32 getFlag_Location_KunaiBridge(bool debug) { return getS32(flag_Location_KunaiBridge(), debug); }
+void increaseFlag_Location_KunaiBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_KunaiBridge", -1, debug); }
 void setFlag_Location_KunaiBridge(s32 value, bool debug) { setS32(value, flag_Location_KunaiBridge(), debug); }
 void resetFlag_Location_KunaiBridge(bool debug) { resetS32(flag_Location_KunaiBridge(), debug); }
 s32 getFlag_Location_LakeFloria(bool debug) { return getS32(flag_Location_LakeFloria(), debug); }
+void increaseFlag_Location_LakeFloria(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LakeFloria", -1, debug); }
 void setFlag_Location_LakeFloria(s32 value, bool debug) { setS32(value, flag_Location_LakeFloria(), debug); }
 void resetFlag_Location_LakeFloria(bool debug) { resetS32(flag_Location_LakeFloria(), debug); }
 s32 getFlag_Location_LakeHylia(bool debug) { return getS32(flag_Location_LakeHylia(), debug); }
+void increaseFlag_Location_LakeHylia(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LakeHylia", -1, debug); }
 void setFlag_Location_LakeHylia(s32 value, bool debug) { setS32(value, flag_Location_LakeHylia(), debug); }
 void resetFlag_Location_LakeHylia(bool debug) { resetS32(flag_Location_LakeHylia(), debug); }
 s32 getFlag_Location_LanayruEastEntrance(bool debug) { return getS32(flag_Location_LanayruEastEntrance(), debug); }
+void increaseFlag_Location_LanayruEastEntrance(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LanayruEastEntrance", -1, debug); }
 void setFlag_Location_LanayruEastEntrance(s32 value, bool debug) { setS32(value, flag_Location_LanayruEastEntrance(), debug); }
 void resetFlag_Location_LanayruEastEntrance(bool debug) { resetS32(flag_Location_LanayruEastEntrance(), debug); }
 s32 getFlag_Location_LanayruWestEntrance(bool debug) { return getS32(flag_Location_LanayruWestEntrance(), debug); }
+void increaseFlag_Location_LanayruWestEntrance(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LanayruWestEntrance", -1, debug); }
 void setFlag_Location_LanayruWestEntrance(s32 value, bool debug) { setS32(value, flag_Location_LanayruWestEntrance(), debug); }
 void resetFlag_Location_LanayruWestEntrance(bool debug) { resetS32(flag_Location_LanayruWestEntrance(), debug); }
 s32 getFlag_Location_LeMarbeBridge(bool debug) { return getS32(flag_Location_LeMarbeBridge(), debug); }
+void increaseFlag_Location_LeMarbeBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LeMarbeBridge", -1, debug); }
 void setFlag_Location_LeMarbeBridge(s32 value, bool debug) { setS32(value, flag_Location_LeMarbeBridge(), debug); }
 void resetFlag_Location_LeMarbeBridge(bool debug) { resetS32(flag_Location_LeMarbeBridge(), debug); }
 s32 getFlag_Location_LightningPlateau(bool debug) { return getS32(flag_Location_LightningPlateau(), debug); }
+void increaseFlag_Location_LightningPlateau(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LightningPlateau", -1, debug); }
 void setFlag_Location_LightningPlateau(s32 value, bool debug) { setS32(value, flag_Location_LightningPlateau(), debug); }
 void resetFlag_Location_LightningPlateau(bool debug) { resetS32(flag_Location_LightningPlateau(), debug); }
 s32 getFlag_Location_LittleBrotherBridge(bool debug) { return getS32(flag_Location_LittleBrotherBridge(), debug); }
+void increaseFlag_Location_LittleBrotherBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LittleBrotherBridge", -1, debug); }
 void setFlag_Location_LittleBrotherBridge(s32 value, bool debug) { setS32(value, flag_Location_LittleBrotherBridge(), debug); }
 void resetFlag_Location_LittleBrotherBridge(bool debug) { resetS32(flag_Location_LittleBrotherBridge(), debug); }
 s32 getFlag_Location_LomeiIslands(bool debug) { return getS32(flag_Location_LomeiIslands(), debug); }
+void increaseFlag_Location_LomeiIslands(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LomeiIslands", -1, debug); }
 void setFlag_Location_LomeiIslands(s32 value, bool debug) { setS32(value, flag_Location_LomeiIslands(), debug); }
 void resetFlag_Location_LomeiIslands(bool debug) { resetS32(flag_Location_LomeiIslands(), debug); }
 s32 getFlag_Location_LostForest(bool debug) { return getS32(flag_Location_LostForest(), debug); }
+void increaseFlag_Location_LostForest(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_LostForest", -1, debug); }
 void setFlag_Location_LostForest(s32 value, bool debug) { setS32(value, flag_Location_LostForest(), debug); }
 void resetFlag_Location_LostForest(bool debug) { resetS32(flag_Location_LostForest(), debug); }
 s32 getFlag_Location_MapTower01(bool debug) { return getS32(flag_Location_MapTower01(), debug); }
+void increaseFlag_Location_MapTower01(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower01", -1, debug); }
 void setFlag_Location_MapTower01(s32 value, bool debug) { setS32(value, flag_Location_MapTower01(), debug); }
 void resetFlag_Location_MapTower01(bool debug) { resetS32(flag_Location_MapTower01(), debug); }
 s32 getFlag_Location_MapTower02(bool debug) { return getS32(flag_Location_MapTower02(), debug); }
+void increaseFlag_Location_MapTower02(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower02", -1, debug); }
 void setFlag_Location_MapTower02(s32 value, bool debug) { setS32(value, flag_Location_MapTower02(), debug); }
 void resetFlag_Location_MapTower02(bool debug) { resetS32(flag_Location_MapTower02(), debug); }
 s32 getFlag_Location_MapTower03(bool debug) { return getS32(flag_Location_MapTower03(), debug); }
+void increaseFlag_Location_MapTower03(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower03", -1, debug); }
 void setFlag_Location_MapTower03(s32 value, bool debug) { setS32(value, flag_Location_MapTower03(), debug); }
 void resetFlag_Location_MapTower03(bool debug) { resetS32(flag_Location_MapTower03(), debug); }
 s32 getFlag_Location_MapTower04(bool debug) { return getS32(flag_Location_MapTower04(), debug); }
+void increaseFlag_Location_MapTower04(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower04", -1, debug); }
 void setFlag_Location_MapTower04(s32 value, bool debug) { setS32(value, flag_Location_MapTower04(), debug); }
 void resetFlag_Location_MapTower04(bool debug) { resetS32(flag_Location_MapTower04(), debug); }
 s32 getFlag_Location_MapTower05(bool debug) { return getS32(flag_Location_MapTower05(), debug); }
+void increaseFlag_Location_MapTower05(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower05", -1, debug); }
 void setFlag_Location_MapTower05(s32 value, bool debug) { setS32(value, flag_Location_MapTower05(), debug); }
 void resetFlag_Location_MapTower05(bool debug) { resetS32(flag_Location_MapTower05(), debug); }
 s32 getFlag_Location_MapTower06(bool debug) { return getS32(flag_Location_MapTower06(), debug); }
+void increaseFlag_Location_MapTower06(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower06", -1, debug); }
 void setFlag_Location_MapTower06(s32 value, bool debug) { setS32(value, flag_Location_MapTower06(), debug); }
 void resetFlag_Location_MapTower06(bool debug) { resetS32(flag_Location_MapTower06(), debug); }
 s32 getFlag_Location_MapTower07(bool debug) { return getS32(flag_Location_MapTower07(), debug); }
+void increaseFlag_Location_MapTower07(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower07", -1, debug); }
 void setFlag_Location_MapTower07(s32 value, bool debug) { setS32(value, flag_Location_MapTower07(), debug); }
 void resetFlag_Location_MapTower07(bool debug) { resetS32(flag_Location_MapTower07(), debug); }
 s32 getFlag_Location_MapTower08(bool debug) { return getS32(flag_Location_MapTower08(), debug); }
+void increaseFlag_Location_MapTower08(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower08", -1, debug); }
 void setFlag_Location_MapTower08(s32 value, bool debug) { setS32(value, flag_Location_MapTower08(), debug); }
 void resetFlag_Location_MapTower08(bool debug) { resetS32(flag_Location_MapTower08(), debug); }
 s32 getFlag_Location_MapTower09(bool debug) { return getS32(flag_Location_MapTower09(), debug); }
+void increaseFlag_Location_MapTower09(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower09", -1, debug); }
 void setFlag_Location_MapTower09(s32 value, bool debug) { setS32(value, flag_Location_MapTower09(), debug); }
 void resetFlag_Location_MapTower09(bool debug) { resetS32(flag_Location_MapTower09(), debug); }
 s32 getFlag_Location_MapTower10(bool debug) { return getS32(flag_Location_MapTower10(), debug); }
+void increaseFlag_Location_MapTower10(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower10", -1, debug); }
 void setFlag_Location_MapTower10(s32 value, bool debug) { setS32(value, flag_Location_MapTower10(), debug); }
 void resetFlag_Location_MapTower10(bool debug) { resetS32(flag_Location_MapTower10(), debug); }
 s32 getFlag_Location_MapTower11(bool debug) { return getS32(flag_Location_MapTower11(), debug); }
+void increaseFlag_Location_MapTower11(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower11", -1, debug); }
 void setFlag_Location_MapTower11(s32 value, bool debug) { setS32(value, flag_Location_MapTower11(), debug); }
 void resetFlag_Location_MapTower11(bool debug) { resetS32(flag_Location_MapTower11(), debug); }
 s32 getFlag_Location_MapTower12(bool debug) { return getS32(flag_Location_MapTower12(), debug); }
+void increaseFlag_Location_MapTower12(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower12", -1, debug); }
 void setFlag_Location_MapTower12(s32 value, bool debug) { setS32(value, flag_Location_MapTower12(), debug); }
 void resetFlag_Location_MapTower12(bool debug) { resetS32(flag_Location_MapTower12(), debug); }
 s32 getFlag_Location_MapTower13(bool debug) { return getS32(flag_Location_MapTower13(), debug); }
+void increaseFlag_Location_MapTower13(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower13", -1, debug); }
 void setFlag_Location_MapTower13(s32 value, bool debug) { setS32(value, flag_Location_MapTower13(), debug); }
 void resetFlag_Location_MapTower13(bool debug) { resetS32(flag_Location_MapTower13(), debug); }
 s32 getFlag_Location_MapTower14(bool debug) { return getS32(flag_Location_MapTower14(), debug); }
+void increaseFlag_Location_MapTower14(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower14", -1, debug); }
 void setFlag_Location_MapTower14(s32 value, bool debug) { setS32(value, flag_Location_MapTower14(), debug); }
 void resetFlag_Location_MapTower14(bool debug) { resetS32(flag_Location_MapTower14(), debug); }
 s32 getFlag_Location_MapTower15(bool debug) { return getS32(flag_Location_MapTower15(), debug); }
+void increaseFlag_Location_MapTower15(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MapTower15", -1, debug); }
 void setFlag_Location_MapTower15(s32 value, bool debug) { setS32(value, flag_Location_MapTower15(), debug); }
 void resetFlag_Location_MapTower15(bool debug) { resetS32(flag_Location_MapTower15(), debug); }
 s32 getFlag_Location_MaronSpring(bool debug) { return getS32(flag_Location_MaronSpring(), debug); }
+void increaseFlag_Location_MaronSpring(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MaronSpring", -1, debug); }
 void setFlag_Location_MaronSpring(s32 value, bool debug) { setS32(value, flag_Location_MaronSpring(), debug); }
 void resetFlag_Location_MaronSpring(bool debug) { resetS32(flag_Location_MaronSpring(), debug); }
 s32 getFlag_Location_MarritaExchange(bool debug) { return getS32(flag_Location_MarritaExchange(), debug); }
+void increaseFlag_Location_MarritaExchange(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MarritaExchange", -1, debug); }
 void setFlag_Location_MarritaExchange(s32 value, bool debug) { setS32(value, flag_Location_MarritaExchange(), debug); }
 void resetFlag_Location_MarritaExchange(bool debug) { resetS32(flag_Location_MarritaExchange(), debug); }
 s32 getFlag_Location_MasazuBridge(bool debug) { return getS32(flag_Location_MasazuBridge(), debug); }
+void increaseFlag_Location_MasazuBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MasazuBridge", -1, debug); }
 void setFlag_Location_MasazuBridge(s32 value, bool debug) { setS32(value, flag_Location_MasazuBridge(), debug); }
 void resetFlag_Location_MasazuBridge(bool debug) { resetS32(flag_Location_MasazuBridge(), debug); }
 s32 getFlag_Location_MinakkareBridge(bool debug) { return getS32(flag_Location_MinakkareBridge(), debug); }
+void increaseFlag_Location_MinakkareBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MinakkareBridge", -1, debug); }
 void setFlag_Location_MinakkareBridge(s32 value, bool debug) { setS32(value, flag_Location_MinakkareBridge(), debug); }
 void resetFlag_Location_MinakkareBridge(bool debug) { resetS32(flag_Location_MinakkareBridge(), debug); }
 s32 getFlag_Location_MinakkareBridgeEast(bool debug) { return getS32(flag_Location_MinakkareBridgeEast(), debug); }
+void increaseFlag_Location_MinakkareBridgeEast(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MinakkareBridgeEast", -1, debug); }
 void setFlag_Location_MinakkareBridgeEast(s32 value, bool debug) { setS32(value, flag_Location_MinakkareBridgeEast(), debug); }
 void resetFlag_Location_MinakkareBridgeEast(bool debug) { resetS32(flag_Location_MinakkareBridgeEast(), debug); }
 s32 getFlag_Location_MinakkareBridgeWest(bool debug) { return getS32(flag_Location_MinakkareBridgeWest(), debug); }
+void increaseFlag_Location_MinakkareBridgeWest(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_MinakkareBridgeWest", -1, debug); }
 void setFlag_Location_MinakkareBridgeWest(s32 value, bool debug) { setS32(value, flag_Location_MinakkareBridgeWest(), debug); }
 void resetFlag_Location_MinakkareBridgeWest(bool debug) { resetS32(flag_Location_MinakkareBridgeWest(), debug); }
 s32 getFlag_Location_Mine(bool debug) { return getS32(flag_Location_Mine(), debug); }
+void increaseFlag_Location_Mine(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Mine", -1, debug); }
 void setFlag_Location_Mine(s32 value, bool debug) { setS32(value, flag_Location_Mine(), debug); }
 void resetFlag_Location_Mine(bool debug) { resetS32(flag_Location_Mine(), debug); }
 s32 getFlag_Location_NantanCastle(bool debug) { return getS32(flag_Location_NantanCastle(), debug); }
+void increaseFlag_Location_NantanCastle(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_NantanCastle", -1, debug); }
 void setFlag_Location_NantanCastle(s32 value, bool debug) { setS32(value, flag_Location_NantanCastle(), debug); }
 void resetFlag_Location_NantanCastle(bool debug) { resetS32(flag_Location_NantanCastle(), debug); }
 s32 getFlag_Location_NishojiBridge(bool debug) { return getS32(flag_Location_NishojiBridge(), debug); }
+void increaseFlag_Location_NishojiBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_NishojiBridge", -1, debug); }
 void setFlag_Location_NishojiBridge(s32 value, bool debug) { setS32(value, flag_Location_NishojiBridge(), debug); }
 void resetFlag_Location_NishojiBridge(bool debug) { resetS32(flag_Location_NishojiBridge(), debug); }
 s32 getFlag_Location_NorthHatelHatago(bool debug) { return getS32(flag_Location_NorthHatelHatago(), debug); }
+void increaseFlag_Location_NorthHatelHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_NorthHatelHatago", -1, debug); }
 void setFlag_Location_NorthHatelHatago(s32 value, bool debug) { setS32(value, flag_Location_NorthHatelHatago(), debug); }
 void resetFlag_Location_NorthHatelHatago(bool debug) { resetS32(flag_Location_NorthHatelHatago(), debug); }
 s32 getFlag_Location_Oasis(bool debug) { return getS32(flag_Location_Oasis(), debug); }
+void increaseFlag_Location_Oasis(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Oasis", -1, debug); }
 void setFlag_Location_Oasis(s32 value, bool debug) { setS32(value, flag_Location_Oasis(), debug); }
 void resetFlag_Location_Oasis(bool debug) { resetS32(flag_Location_Oasis(), debug); }
 s32 getFlag_Location_OrdinBridge(bool debug) { return getS32(flag_Location_OrdinBridge(), debug); }
+void increaseFlag_Location_OrdinBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_OrdinBridge", -1, debug); }
 void setFlag_Location_OrdinBridge(s32 value, bool debug) { setS32(value, flag_Location_OrdinBridge(), debug); }
 void resetFlag_Location_OrdinBridge(bool debug) { resetS32(flag_Location_OrdinBridge(), debug); }
 s32 getFlag_Location_OrdinFossil(bool debug) { return getS32(flag_Location_OrdinFossil(), debug); }
+void increaseFlag_Location_OrdinFossil(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_OrdinFossil", -1, debug); }
 void setFlag_Location_OrdinFossil(s32 value, bool debug) { setS32(value, flag_Location_OrdinFossil(), debug); }
 void resetFlag_Location_OrdinFossil(bool debug) { resetS32(flag_Location_OrdinFossil(), debug); }
 s32 getFlag_Location_OsanjoBridge(bool debug) { return getS32(flag_Location_OsanjoBridge(), debug); }
+void increaseFlag_Location_OsanjoBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_OsanjoBridge", -1, debug); }
 void setFlag_Location_OsanjoBridge(s32 value, bool debug) { setS32(value, flag_Location_OsanjoBridge(), debug); }
 void resetFlag_Location_OsanjoBridge(bool debug) { resetS32(flag_Location_OsanjoBridge(), debug); }
 s32 getFlag_Location_PostTownRuin(bool debug) { return getS32(flag_Location_PostTownRuin(), debug); }
+void increaseFlag_Location_PostTownRuin(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_PostTownRuin", -1, debug); }
 void setFlag_Location_PostTownRuin(s32 value, bool debug) { setS32(value, flag_Location_PostTownRuin(), debug); }
 void resetFlag_Location_PostTownRuin(bool debug) { resetS32(flag_Location_PostTownRuin(), debug); }
 s32 getFlag_Location_PowerFountain(bool debug) { return getS32(flag_Location_PowerFountain(), debug); }
+void increaseFlag_Location_PowerFountain(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_PowerFountain", -1, debug); }
 void setFlag_Location_PowerFountain(s32 value, bool debug) { setS32(value, flag_Location_PowerFountain(), debug); }
 void resetFlag_Location_PowerFountain(bool debug) { resetS32(flag_Location_PowerFountain(), debug); }
 s32 getFlag_Location_RemainsElectric(bool debug) { return getS32(flag_Location_RemainsElectric(), debug); }
+void increaseFlag_Location_RemainsElectric(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RemainsElectric", -1, debug); }
 void setFlag_Location_RemainsElectric(s32 value, bool debug) { setS32(value, flag_Location_RemainsElectric(), debug); }
 void resetFlag_Location_RemainsElectric(bool debug) { resetS32(flag_Location_RemainsElectric(), debug); }
 s32 getFlag_Location_RemainsFire(bool debug) { return getS32(flag_Location_RemainsFire(), debug); }
+void increaseFlag_Location_RemainsFire(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RemainsFire", -1, debug); }
 void setFlag_Location_RemainsFire(s32 value, bool debug) { setS32(value, flag_Location_RemainsFire(), debug); }
 void resetFlag_Location_RemainsFire(bool debug) { resetS32(flag_Location_RemainsFire(), debug); }
 s32 getFlag_Location_RemainsWater(bool debug) { return getS32(flag_Location_RemainsWater(), debug); }
+void increaseFlag_Location_RemainsWater(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RemainsWater", -1, debug); }
 void setFlag_Location_RemainsWater(s32 value, bool debug) { setS32(value, flag_Location_RemainsWater(), debug); }
 void resetFlag_Location_RemainsWater(bool debug) { resetS32(flag_Location_RemainsWater(), debug); }
 s32 getFlag_Location_RemainsWind(bool debug) { return getS32(flag_Location_RemainsWind(), debug); }
+void increaseFlag_Location_RemainsWind(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RemainsWind", -1, debug); }
 void setFlag_Location_RemainsWind(s32 value, bool debug) { setS32(value, flag_Location_RemainsWind(), debug); }
 void resetFlag_Location_RemainsWind(bool debug) { resetS32(flag_Location_RemainsWind(), debug); }
 s32 getFlag_Location_RirikendoBridge(bool debug) { return getS32(flag_Location_RirikendoBridge(), debug); }
+void increaseFlag_Location_RirikendoBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RirikendoBridge", -1, debug); }
 void setFlag_Location_RirikendoBridge(s32 value, bool debug) { setS32(value, flag_Location_RirikendoBridge(), debug); }
 void resetFlag_Location_RirikendoBridge(bool debug) { resetS32(flag_Location_RirikendoBridge(), debug); }
 s32 getFlag_Location_Rito(bool debug) { return getS32(flag_Location_Rito(), debug); }
+void increaseFlag_Location_Rito(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Rito", -1, debug); }
 void setFlag_Location_Rito(s32 value, bool debug) { setS32(value, flag_Location_Rito(), debug); }
 void resetFlag_Location_Rito(bool debug) { resetS32(flag_Location_Rito(), debug); }
 s32 getFlag_Location_RitoHatago(bool debug) { return getS32(flag_Location_RitoHatago(), debug); }
+void increaseFlag_Location_RitoHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RitoHatago", -1, debug); }
 void setFlag_Location_RitoHatago(s32 value, bool debug) { setS32(value, flag_Location_RitoHatago(), debug); }
 void resetFlag_Location_RitoHatago(bool debug) { resetS32(flag_Location_RitoHatago(), debug); }
 s32 getFlag_Location_RiverSideHatago(bool debug) { return getS32(flag_Location_RiverSideHatago(), debug); }
+void increaseFlag_Location_RiverSideHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RiverSideHatago", -1, debug); }
 void setFlag_Location_RiverSideHatago(s32 value, bool debug) { setS32(value, flag_Location_RiverSideHatago(), debug); }
 void resetFlag_Location_RiverSideHatago(bool debug) { resetS32(flag_Location_RiverSideHatago(), debug); }
 s32 getFlag_Location_RonronCity(bool debug) { return getS32(flag_Location_RonronCity(), debug); }
+void increaseFlag_Location_RonronCity(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_RonronCity", -1, debug); }
 void setFlag_Location_RonronCity(s32 value, bool debug) { setS32(value, flag_Location_RonronCity(), debug); }
 void resetFlag_Location_RonronCity(bool debug) { resetS32(flag_Location_RonronCity(), debug); }
 s32 getFlag_Location_SaihokuCastle(bool debug) { return getS32(flag_Location_SaihokuCastle(), debug); }
+void increaseFlag_Location_SaihokuCastle(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SaihokuCastle", -1, debug); }
 void setFlag_Location_SaihokuCastle(s32 value, bool debug) { setS32(value, flag_Location_SaihokuCastle(), debug); }
 void resetFlag_Location_SaihokuCastle(bool debug) { resetS32(flag_Location_SaihokuCastle(), debug); }
 s32 getFlag_Location_SarjonBridge(bool debug) { return getS32(flag_Location_SarjonBridge(), debug); }
+void increaseFlag_Location_SarjonBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SarjonBridge", -1, debug); }
 void setFlag_Location_SarjonBridge(s32 value, bool debug) { setS32(value, flag_Location_SarjonBridge(), debug); }
 void resetFlag_Location_SarjonBridge(bool debug) { resetS32(flag_Location_SarjonBridge(), debug); }
 s32 getFlag_Location_ShichijoBridge(bool debug) { return getS32(flag_Location_ShichijoBridge(), debug); }
+void increaseFlag_Location_ShichijoBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ShichijoBridge", -1, debug); }
 void setFlag_Location_ShichijoBridge(s32 value, bool debug) { setS32(value, flag_Location_ShichijoBridge(), debug); }
 void resetFlag_Location_ShichijoBridge(bool debug) { resetS32(flag_Location_ShichijoBridge(), debug); }
 s32 getFlag_Location_ShigonDam(bool debug) { return getS32(flag_Location_ShigonDam(), debug); }
+void increaseFlag_Location_ShigonDam(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ShigonDam", -1, debug); }
 void setFlag_Location_ShigonDam(s32 value, bool debug) { setS32(value, flag_Location_ShigonDam(), debug); }
 void resetFlag_Location_ShigonDam(bool debug) { resetS32(flag_Location_ShigonDam(), debug); }
 s32 getFlag_Location_ShijoBridge(bool debug) { return getS32(flag_Location_ShijoBridge(), debug); }
+void increaseFlag_Location_ShijoBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ShijoBridge", -1, debug); }
 void setFlag_Location_ShijoBridge(s32 value, bool debug) { setS32(value, flag_Location_ShijoBridge(), debug); }
 void resetFlag_Location_ShijoBridge(bool debug) { resetS32(flag_Location_ShijoBridge(), debug); }
 s32 getFlag_Location_ShinyarkiVillage(bool debug) { return getS32(flag_Location_ShinyarkiVillage(), debug); }
+void increaseFlag_Location_ShinyarkiVillage(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ShinyarkiVillage", -1, debug); }
 void setFlag_Location_ShinyarkiVillage(s32 value, bool debug) { setS32(value, flag_Location_ShinyarkiVillage(), debug); }
 void resetFlag_Location_ShinyarkiVillage(bool debug) { resetS32(flag_Location_ShinyarkiVillage(), debug); }
 s32 getFlag_Location_SnowStatue(bool debug) { return getS32(flag_Location_SnowStatue(), debug); }
+void increaseFlag_Location_SnowStatue(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SnowStatue", -1, debug); }
 void setFlag_Location_SnowStatue(s32 value, bool debug) { setS32(value, flag_Location_SnowStatue(), debug); }
 void resetFlag_Location_SnowStatue(bool debug) { resetS32(flag_Location_SnowStatue(), debug); }
 s32 getFlag_Location_SojijiPark(bool debug) { return getS32(flag_Location_SojijiPark(), debug); }
+void increaseFlag_Location_SojijiPark(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SojijiPark", -1, debug); }
 void setFlag_Location_SojijiPark(s32 value, bool debug) { setS32(value, flag_Location_SojijiPark(), debug); }
 void resetFlag_Location_SojijiPark(bool debug) { resetS32(flag_Location_SojijiPark(), debug); }
 s32 getFlag_Location_SotonkaBridge(bool debug) { return getS32(flag_Location_SotonkaBridge(), debug); }
+void increaseFlag_Location_SotonkaBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SotonkaBridge", -1, debug); }
 void setFlag_Location_SotonkaBridge(s32 value, bool debug) { setS32(value, flag_Location_SotonkaBridge(), debug); }
 void resetFlag_Location_SotonkaBridge(bool debug) { resetS32(flag_Location_SotonkaBridge(), debug); }
 s32 getFlag_Location_SouthGerudoLegacy(bool debug) { return getS32(flag_Location_SouthGerudoLegacy(), debug); }
+void increaseFlag_Location_SouthGerudoLegacy(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SouthGerudoLegacy", -1, debug); }
 void setFlag_Location_SouthGerudoLegacy(s32 value, bool debug) { setS32(value, flag_Location_SouthGerudoLegacy(), debug); }
 void resetFlag_Location_SouthGerudoLegacy(bool debug) { resetS32(flag_Location_SouthGerudoLegacy(), debug); }
 s32 getFlag_Location_SouthMine(bool debug) { return getS32(flag_Location_SouthMine(), debug); }
+void increaseFlag_Location_SouthMine(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SouthMine", -1, debug); }
 void setFlag_Location_SouthMine(s32 value, bool debug) { setS32(value, flag_Location_SouthMine(), debug); }
 void resetFlag_Location_SouthMine(bool debug) { resetS32(flag_Location_SouthMine(), debug); }
 s32 getFlag_Location_StartPoint(bool debug) { return getS32(flag_Location_StartPoint(), debug); }
+void increaseFlag_Location_StartPoint(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_StartPoint", -1, debug); }
 void setFlag_Location_StartPoint(s32 value, bool debug) { setS32(value, flag_Location_StartPoint(), debug); }
 void resetFlag_Location_StartPoint(bool debug) { resetS32(flag_Location_StartPoint(), debug); }
 s32 getFlag_Location_StonePillers(bool debug) { return getS32(flag_Location_StonePillers(), debug); }
+void increaseFlag_Location_StonePillers(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_StonePillers", -1, debug); }
 void setFlag_Location_StonePillers(s32 value, bool debug) { setS32(value, flag_Location_StonePillers(), debug); }
 void resetFlag_Location_StonePillers(bool debug) { resetS32(flag_Location_StonePillers(), debug); }
 s32 getFlag_Location_SusukadiBridge(bool debug) { return getS32(flag_Location_SusukadiBridge(), debug); }
+void increaseFlag_Location_SusukadiBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_SusukadiBridge", -1, debug); }
 void setFlag_Location_SusukadiBridge(s32 value, bool debug) { setS32(value, flag_Location_SusukadiBridge(), debug); }
 void resetFlag_Location_SusukadiBridge(bool debug) { resetS32(flag_Location_SusukadiBridge(), debug); }
 s32 getFlag_Location_TabantaBridge(bool debug) { return getS32(flag_Location_TabantaBridge(), debug); }
+void increaseFlag_Location_TabantaBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TabantaBridge", -1, debug); }
 void setFlag_Location_TabantaBridge(s32 value, bool debug) { setS32(value, flag_Location_TabantaBridge(), debug); }
 void resetFlag_Location_TabantaBridge(bool debug) { resetS32(flag_Location_TabantaBridge(), debug); }
 s32 getFlag_Location_TabantaBridgeHatago(bool debug) { return getS32(flag_Location_TabantaBridgeHatago(), debug); }
+void increaseFlag_Location_TabantaBridgeHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TabantaBridgeHatago", -1, debug); }
 void setFlag_Location_TabantaBridgeHatago(s32 value, bool debug) { setS32(value, flag_Location_TabantaBridgeHatago(), debug); }
 void resetFlag_Location_TabantaBridgeHatago(bool debug) { resetS32(flag_Location_TabantaBridgeHatago(), debug); }
 s32 getFlag_Location_TabantaCrater(bool debug) { return getS32(flag_Location_TabantaCrater(), debug); }
+void increaseFlag_Location_TabantaCrater(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TabantaCrater", -1, debug); }
 void setFlag_Location_TabantaCrater(s32 value, bool debug) { setS32(value, flag_Location_TabantaCrater(), debug); }
 void resetFlag_Location_TabantaCrater(bool debug) { resetS32(flag_Location_TabantaCrater(), debug); }
 s32 getFlag_Location_TabantaHatago(bool debug) { return getS32(flag_Location_TabantaHatago(), debug); }
+void increaseFlag_Location_TabantaHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TabantaHatago", -1, debug); }
 void setFlag_Location_TabantaHatago(s32 value, bool debug) { setS32(value, flag_Location_TabantaHatago(), debug); }
 void resetFlag_Location_TabantaHatago(bool debug) { resetS32(flag_Location_TabantaHatago(), debug); }
 s32 getFlag_Location_TabantaVillage(bool debug) { return getS32(flag_Location_TabantaVillage(), debug); }
+void increaseFlag_Location_TabantaVillage(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TabantaVillage", -1, debug); }
 void setFlag_Location_TabantaVillage(s32 value, bool debug) { setS32(value, flag_Location_TabantaVillage(), debug); }
 void resetFlag_Location_TabantaVillage(bool debug) { resetS32(flag_Location_TabantaVillage(), debug); }
 s32 getFlag_Location_TamourHatago(bool debug) { return getS32(flag_Location_TamourHatago(), debug); }
+void increaseFlag_Location_TamourHatago(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TamourHatago", -1, debug); }
 void setFlag_Location_TamourHatago(s32 value, bool debug) { setS32(value, flag_Location_TamourHatago(), debug); }
 void resetFlag_Location_TamourHatago(bool debug) { resetS32(flag_Location_TamourHatago(), debug); }
 s32 getFlag_Location_TamourHatago2(bool debug) { return getS32(flag_Location_TamourHatago2(), debug); }
+void increaseFlag_Location_TamourHatago2(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TamourHatago2", -1, debug); }
 void setFlag_Location_TamourHatago2(s32 value, bool debug) { setS32(value, flag_Location_TamourHatago2(), debug); }
 void resetFlag_Location_TamourHatago2(bool debug) { resetS32(flag_Location_TamourHatago2(), debug); }
 s32 getFlag_Location_TaserakaBridge(bool debug) { return getS32(flag_Location_TaserakaBridge(), debug); }
+void increaseFlag_Location_TaserakaBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TaserakaBridge", -1, debug); }
 void setFlag_Location_TaserakaBridge(s32 value, bool debug) { setS32(value, flag_Location_TaserakaBridge(), debug); }
 void resetFlag_Location_TaserakaBridge(bool debug) { resetS32(flag_Location_TaserakaBridge(), debug); }
 s32 getFlag_Location_Taura(bool debug) { return getS32(flag_Location_Taura(), debug); }
+void increaseFlag_Location_Taura(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_Taura", -1, debug); }
 void setFlag_Location_Taura(s32 value, bool debug) { setS32(value, flag_Location_Taura(), debug); }
 void resetFlag_Location_Taura(bool debug) { resetS32(flag_Location_Taura(), debug); }
 s32 getFlag_Location_TimesShrine(bool debug) { return getS32(flag_Location_TimesShrine(), debug); }
+void increaseFlag_Location_TimesShrine(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TimesShrine", -1, debug); }
 void setFlag_Location_TimesShrine(s32 value, bool debug) { setS32(value, flag_Location_TimesShrine(), debug); }
 void resetFlag_Location_TimesShrine(bool debug) { resetS32(flag_Location_TimesShrine(), debug); }
 s32 getFlag_Location_ToriaBridge(bool debug) { return getS32(flag_Location_ToriaBridge(), debug); }
+void increaseFlag_Location_ToriaBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ToriaBridge", -1, debug); }
 void setFlag_Location_ToriaBridge(s32 value, bool debug) { setS32(value, flag_Location_ToriaBridge(), debug); }
 void resetFlag_Location_ToriaBridge(bool debug) { resetS32(flag_Location_ToriaBridge(), debug); }
 s32 getFlag_Location_TotsugeBridge(bool debug) { return getS32(flag_Location_TotsugeBridge(), debug); }
+void increaseFlag_Location_TotsugeBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TotsugeBridge", -1, debug); }
 void setFlag_Location_TotsugeBridge(s32 value, bool debug) { setS32(value, flag_Location_TotsugeBridge(), debug); }
 void resetFlag_Location_TotsugeBridge(bool debug) { resetS32(flag_Location_TotsugeBridge(), debug); }
 s32 getFlag_Location_TurasuBridge(bool debug) { return getS32(flag_Location_TurasuBridge(), debug); }
+void increaseFlag_Location_TurasuBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_TurasuBridge", -1, debug); }
 void setFlag_Location_TurasuBridge(s32 value, bool debug) { setS32(value, flag_Location_TurasuBridge(), debug); }
 void resetFlag_Location_TurasuBridge(bool debug) { resetS32(flag_Location_TurasuBridge(), debug); }
 s32 getFlag_Location_UMiiVillage(bool debug) { return getS32(flag_Location_UMiiVillage(), debug); }
+void increaseFlag_Location_UMiiVillage(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_UMiiVillage", -1, debug); }
 void setFlag_Location_UMiiVillage(s32 value, bool debug) { setS32(value, flag_Location_UMiiVillage(), debug); }
 void resetFlag_Location_UMiiVillage(bool debug) { resetS32(flag_Location_UMiiVillage(), debug); }
 s32 getFlag_Location_UMiiVillageShopBougu(bool debug) { return getS32(flag_Location_UMiiVillageShopBougu(), debug); }
+void increaseFlag_Location_UMiiVillageShopBougu(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_UMiiVillageShopBougu", -1, debug); }
 void setFlag_Location_UMiiVillageShopBougu(s32 value, bool debug) { setS32(value, flag_Location_UMiiVillageShopBougu(), debug); }
 void resetFlag_Location_UMiiVillageShopBougu(bool debug) { resetS32(flag_Location_UMiiVillageShopBougu(), debug); }
 s32 getFlag_Location_UMiiVillageShopJewel(bool debug) { return getS32(flag_Location_UMiiVillageShopJewel(), debug); }
+void increaseFlag_Location_UMiiVillageShopJewel(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_UMiiVillageShopJewel", -1, debug); }
 void setFlag_Location_UMiiVillageShopJewel(s32 value, bool debug) { setS32(value, flag_Location_UMiiVillageShopJewel(), debug); }
 void resetFlag_Location_UMiiVillageShopJewel(bool debug) { resetS32(flag_Location_UMiiVillageShopJewel(), debug); }
 s32 getFlag_Location_UMiiVillageShopYadoya(bool debug) { return getS32(flag_Location_UMiiVillageShopYadoya(), debug); }
+void increaseFlag_Location_UMiiVillageShopYadoya(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_UMiiVillageShopYadoya", -1, debug); }
 void setFlag_Location_UMiiVillageShopYadoya(s32 value, bool debug) { setS32(value, flag_Location_UMiiVillageShopYadoya(), debug); }
 void resetFlag_Location_UMiiVillageShopYadoya(bool debug) { resetS32(flag_Location_UMiiVillageShopYadoya(), debug); }
 s32 getFlag_Location_UMiiVillageShopYorozu(bool debug) { return getS32(flag_Location_UMiiVillageShopYorozu(), debug); }
+void increaseFlag_Location_UMiiVillageShopYorozu(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_UMiiVillageShopYorozu", -1, debug); }
 void setFlag_Location_UMiiVillageShopYorozu(s32 value, bool debug) { setS32(value, flag_Location_UMiiVillageShopYorozu(), debug); }
 void resetFlag_Location_UMiiVillageShopYorozu(bool debug) { resetS32(flag_Location_UMiiVillageShopYorozu(), debug); }
 s32 getFlag_Location_ValleyVillage(bool debug) { return getS32(flag_Location_ValleyVillage(), debug); }
+void increaseFlag_Location_ValleyVillage(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ValleyVillage", -1, debug); }
 void setFlag_Location_ValleyVillage(s32 value, bool debug) { setS32(value, flag_Location_ValleyVillage(), debug); }
 void resetFlag_Location_ValleyVillage(bool debug) { resetS32(flag_Location_ValleyVillage(), debug); }
 s32 getFlag_Location_WeaponCureSpring(bool debug) { return getS32(flag_Location_WeaponCureSpring(), debug); }
+void increaseFlag_Location_WeaponCureSpring(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_WeaponCureSpring", -1, debug); }
 void setFlag_Location_WeaponCureSpring(s32 value, bool debug) { setS32(value, flag_Location_WeaponCureSpring(), debug); }
 void resetFlag_Location_WeaponCureSpring(bool debug) { resetS32(flag_Location_WeaponCureSpring(), debug); }
 s32 getFlag_Location_WeaponCureSpring_02(bool debug) { return getS32(flag_Location_WeaponCureSpring_02(), debug); }
+void increaseFlag_Location_WeaponCureSpring_02(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_WeaponCureSpring_02", -1, debug); }
 void setFlag_Location_WeaponCureSpring_02(s32 value, bool debug) { setS32(value, flag_Location_WeaponCureSpring_02(), debug); }
 void resetFlag_Location_WeaponCureSpring_02(bool debug) { resetS32(flag_Location_WeaponCureSpring_02(), debug); }
 s32 getFlag_Location_WeaponCureSpring_03(bool debug) { return getS32(flag_Location_WeaponCureSpring_03(), debug); }
+void increaseFlag_Location_WeaponCureSpring_03(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_WeaponCureSpring_03", -1, debug); }
 void setFlag_Location_WeaponCureSpring_03(s32 value, bool debug) { setS32(value, flag_Location_WeaponCureSpring_03(), debug); }
 void resetFlag_Location_WeaponCureSpring_03(bool debug) { resetS32(flag_Location_WeaponCureSpring_03(), debug); }
 s32 getFlag_Location_WeaponCureSpring_04(bool debug) { return getS32(flag_Location_WeaponCureSpring_04(), debug); }
+void increaseFlag_Location_WeaponCureSpring_04(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_WeaponCureSpring_04", -1, debug); }
 void setFlag_Location_WeaponCureSpring_04(s32 value, bool debug) { setS32(value, flag_Location_WeaponCureSpring_04(), debug); }
 void resetFlag_Location_WeaponCureSpring_04(bool debug) { resetS32(flag_Location_WeaponCureSpring_04(), debug); }
 s32 getFlag_Location_WetGarrison(bool debug) { return getS32(flag_Location_WetGarrison(), debug); }
+void increaseFlag_Location_WetGarrison(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_WetGarrison", -1, debug); }
 void setFlag_Location_WetGarrison(s32 value, bool debug) { setS32(value, flag_Location_WetGarrison(), debug); }
 void resetFlag_Location_WetGarrison(bool debug) { resetS32(flag_Location_WetGarrison(), debug); }
 s32 getFlag_Location_WhiteZora(bool debug) { return getS32(flag_Location_WhiteZora(), debug); }
+void increaseFlag_Location_WhiteZora(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_WhiteZora", -1, debug); }
 void setFlag_Location_WhiteZora(s32 value, bool debug) { setS32(value, flag_Location_WhiteZora(), debug); }
 void resetFlag_Location_WhiteZora(bool debug) { resetS32(flag_Location_WhiteZora(), debug); }
 s32 getFlag_Location_WisdomFountain(bool debug) { return getS32(flag_Location_WisdomFountain(), debug); }
+void increaseFlag_Location_WisdomFountain(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_WisdomFountain", -1, debug); }
 void setFlag_Location_WisdomFountain(s32 value, bool debug) { setS32(value, flag_Location_WisdomFountain(), debug); }
 void resetFlag_Location_WisdomFountain(bool debug) { resetS32(flag_Location_WisdomFountain(), debug); }
 s32 getFlag_Location_XekuBridge(bool debug) { return getS32(flag_Location_XekuBridge(), debug); }
+void increaseFlag_Location_XekuBridge(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_XekuBridge", -1, debug); }
 void setFlag_Location_XekuBridge(s32 value, bool debug) { setS32(value, flag_Location_XekuBridge(), debug); }
 void resetFlag_Location_XekuBridge(bool debug) { resetS32(flag_Location_XekuBridge(), debug); }
 s32 getFlag_Location_YashinoLegacy(bool debug) { return getS32(flag_Location_YashinoLegacy(), debug); }
+void increaseFlag_Location_YashinoLegacy(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_YashinoLegacy", -1, debug); }
 void setFlag_Location_YashinoLegacy(s32 value, bool debug) { setS32(value, flag_Location_YashinoLegacy(), debug); }
 void resetFlag_Location_YashinoLegacy(bool debug) { resetS32(flag_Location_YashinoLegacy(), debug); }
 s32 getFlag_Location_ZonauLegacy(bool debug) { return getS32(flag_Location_ZonauLegacy(), debug); }
+void increaseFlag_Location_ZonauLegacy(s32 value, bool debug) { increaseS32CommonFlag(value, "Location_ZonauLegacy", -1, debug); }
 void setFlag_Location_ZonauLegacy(s32 value, bool debug) { setS32(value, flag_Location_ZonauLegacy(), debug); }
 void resetFlag_Location_ZonauLegacy(bool debug) { resetS32(flag_Location_ZonauLegacy(), debug); }
 bool getFlag_Lock_OneHitDungeon000(bool debug) { return getBool(flag_Lock_OneHitDungeon000(), debug); }
@@ -7753,6 +8159,7 @@ bool getFlag_MamonoShop_Start_First(bool debug) { return getBool(flag_MamonoShop
 void setFlag_MamonoShop_Start_First(bool value, bool debug) { setBool(value, flag_MamonoShop_Start_First(), debug); }
 void resetFlag_MamonoShop_Start_First(bool debug) { resetBool(flag_MamonoShop_Start_First(), debug); }
 s32 getFlag_MapApp_MapIconNo(s32 idx, bool debug) { return getS32(flag_MapApp_MapIconNo(), idx, debug); }
+void increaseFlag_MapApp_MapIconNo(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "MapApp_MapIconNo", idx, debug); }
 void setFlag_MapApp_MapIconNo(s32 value, s32 idx, bool debug) { setS32(value, flag_MapApp_MapIconNo(), idx, debug); }
 void resetFlag_MapApp_MapIconNo(s32 idx, bool debug) { resetS32(flag_MapApp_MapIconNo(), idx, debug); }
 void getFlag_MapApp_MapIconPos(sead::Vector3f* value, s32 idx, bool debug) { getVec3f(flag_MapApp_MapIconPos(), value, idx, debug); }
@@ -7777,6 +8184,7 @@ void getFlag_MapTower_01_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_01_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_01_OpenCenterPos(), debug); }
 void resetFlag_MapTower_01_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_01_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_01_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_01_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_01_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_01_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_01_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_01_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_01_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_01_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_02(bool debug) { return getBool(flag_MapTower_02(), debug); }
@@ -7786,6 +8194,7 @@ void getFlag_MapTower_02_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_02_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_02_OpenCenterPos(), debug); }
 void resetFlag_MapTower_02_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_02_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_02_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_02_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_02_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_02_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_02_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_02_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_02_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_02_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_03(bool debug) { return getBool(flag_MapTower_03(), debug); }
@@ -7795,6 +8204,7 @@ void getFlag_MapTower_03_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_03_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_03_OpenCenterPos(), debug); }
 void resetFlag_MapTower_03_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_03_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_03_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_03_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_03_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_03_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_03_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_03_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_03_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_03_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_04(bool debug) { return getBool(flag_MapTower_04(), debug); }
@@ -7804,6 +8214,7 @@ void getFlag_MapTower_04_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_04_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_04_OpenCenterPos(), debug); }
 void resetFlag_MapTower_04_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_04_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_04_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_04_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_04_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_04_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_04_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_04_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_04_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_04_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_05(bool debug) { return getBool(flag_MapTower_05(), debug); }
@@ -7813,6 +8224,7 @@ void getFlag_MapTower_05_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_05_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_05_OpenCenterPos(), debug); }
 void resetFlag_MapTower_05_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_05_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_05_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_05_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_05_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_05_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_05_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_05_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_05_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_05_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_06(bool debug) { return getBool(flag_MapTower_06(), debug); }
@@ -7822,6 +8234,7 @@ void getFlag_MapTower_06_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_06_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_06_OpenCenterPos(), debug); }
 void resetFlag_MapTower_06_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_06_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_06_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_06_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_06_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_06_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_06_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_06_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_06_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_06_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_07(bool debug) { return getBool(flag_MapTower_07(), debug); }
@@ -7834,6 +8247,7 @@ void getFlag_MapTower_07_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_07_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_07_OpenCenterPos(), debug); }
 void resetFlag_MapTower_07_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_07_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_07_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_07_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_07_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_07_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_07_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_07_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_07_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_07_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_08(bool debug) { return getBool(flag_MapTower_08(), debug); }
@@ -7843,6 +8257,7 @@ void getFlag_MapTower_08_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_08_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_08_OpenCenterPos(), debug); }
 void resetFlag_MapTower_08_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_08_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_08_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_08_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_08_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_08_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_08_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_08_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_08_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_08_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_09(bool debug) { return getBool(flag_MapTower_09(), debug); }
@@ -7852,6 +8267,7 @@ void getFlag_MapTower_09_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_09_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_09_OpenCenterPos(), debug); }
 void resetFlag_MapTower_09_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_09_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_09_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_09_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_09_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_09_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_09_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_09_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_09_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_09_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_10(bool debug) { return getBool(flag_MapTower_10(), debug); }
@@ -7861,6 +8277,7 @@ void getFlag_MapTower_10_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_10_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_10_OpenCenterPos(), debug); }
 void resetFlag_MapTower_10_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_10_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_10_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_10_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_10_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_10_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_10_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_10_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_10_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_10_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_11(bool debug) { return getBool(flag_MapTower_11(), debug); }
@@ -7870,6 +8287,7 @@ void getFlag_MapTower_11_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_11_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_11_OpenCenterPos(), debug); }
 void resetFlag_MapTower_11_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_11_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_11_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_11_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_11_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_11_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_11_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_11_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_11_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_11_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_12(bool debug) { return getBool(flag_MapTower_12(), debug); }
@@ -7879,6 +8297,7 @@ void getFlag_MapTower_12_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_12_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_12_OpenCenterPos(), debug); }
 void resetFlag_MapTower_12_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_12_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_12_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_12_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_12_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_12_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_12_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_12_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_12_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_12_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_13(bool debug) { return getBool(flag_MapTower_13(), debug); }
@@ -7888,6 +8307,7 @@ void getFlag_MapTower_13_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_13_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_13_OpenCenterPos(), debug); }
 void resetFlag_MapTower_13_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_13_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_13_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_13_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_13_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_13_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_13_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_13_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_13_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_13_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_14(bool debug) { return getBool(flag_MapTower_14(), debug); }
@@ -7897,6 +8317,7 @@ void getFlag_MapTower_14_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_14_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_14_OpenCenterPos(), debug); }
 void resetFlag_MapTower_14_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_14_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_14_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_14_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_14_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_14_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_14_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_14_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_14_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_14_OpenScaleLevel(), debug); }
 bool getFlag_MapTower_15(bool debug) { return getBool(flag_MapTower_15(), debug); }
@@ -7906,18 +8327,22 @@ void getFlag_MapTower_15_OpenCenterPos(sead::Vector3f* value, bool debug) { getV
 void setFlag_MapTower_15_OpenCenterPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MapTower_15_OpenCenterPos(), debug); }
 void resetFlag_MapTower_15_OpenCenterPos(bool debug) { resetVec3f(flag_MapTower_15_OpenCenterPos(), debug); }
 s32 getFlag_MapTower_15_OpenScaleLevel(bool debug) { return getS32(flag_MapTower_15_OpenScaleLevel(), debug); }
+void increaseFlag_MapTower_15_OpenScaleLevel(s32 value, bool debug) { increaseS32CommonFlag(value, "MapTower_15_OpenScaleLevel", -1, debug); }
 void setFlag_MapTower_15_OpenScaleLevel(s32 value, bool debug) { setS32(value, flag_MapTower_15_OpenScaleLevel(), debug); }
 void resetFlag_MapTower_15_OpenScaleLevel(bool debug) { resetS32(flag_MapTower_15_OpenScaleLevel(), debug); }
 s32 getFlag_MasterSword_Add_BeamPower(bool debug) { return getS32(flag_MasterSword_Add_BeamPower(), debug); }
+void increaseFlag_MasterSword_Add_BeamPower(s32 value, bool debug) { increaseS32CommonFlag(value, "MasterSword_Add_BeamPower", -1, debug); }
 void setFlag_MasterSword_Add_BeamPower(s32 value, bool debug) { setS32(value, flag_MasterSword_Add_BeamPower(), debug); }
 void resetFlag_MasterSword_Add_BeamPower(bool debug) { resetS32(flag_MasterSword_Add_BeamPower(), debug); }
 s32 getFlag_MasterSword_Add_Power(bool debug) { return getS32(flag_MasterSword_Add_Power(), debug); }
+void increaseFlag_MasterSword_Add_Power(s32 value, bool debug) { increaseS32CommonFlag(value, "MasterSword_Add_Power", -1, debug); }
 void setFlag_MasterSword_Add_Power(s32 value, bool debug) { setS32(value, flag_MasterSword_Add_Power(), debug); }
 void resetFlag_MasterSword_Add_Power(bool debug) { resetS32(flag_MasterSword_Add_Power(), debug); }
 f32 getFlag_MasterSwordRecoverTime(bool debug) { return getF32(flag_MasterSwordRecoverTime(), debug); }
 void setFlag_MasterSwordRecoverTime(f32 value, bool debug) { setF32(value, flag_MasterSwordRecoverTime(), debug); }
 void resetFlag_MasterSwordRecoverTime(bool debug) { resetF32(flag_MasterSwordRecoverTime(), debug); }
 s32 getFlag_MaxHartValue(bool debug) { return getS32(flag_MaxHartValue(), debug); }
+void increaseFlag_MaxHartValue(s32 value, bool debug) { increaseS32CommonFlag(value, "MaxHartValue", -1, debug); }
 void setFlag_MaxHartValue(s32 value, bool debug) { setS32(value, flag_MaxHartValue(), debug); }
 void resetFlag_MaxHartValue(bool debug) { resetS32(flag_MaxHartValue(), debug); }
 void getFlag_MemoryPhotoSaveDistrictName(char const** value, s32 idx, bool debug) { getStr256(flag_MemoryPhotoSaveDistrictName(), value, idx, debug); }
@@ -7936,12 +8361,15 @@ void getFlag_MiniGame_BirdMan_HillTower_CurrentPos(sead::Vector3f* value, bool d
 void setFlag_MiniGame_BirdMan_HillTower_CurrentPos(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MiniGame_BirdMan_HillTower_CurrentPos(), debug); }
 void resetFlag_MiniGame_BirdMan_HillTower_CurrentPos(bool debug) { resetVec3f(flag_MiniGame_BirdMan_HillTower_CurrentPos(), debug); }
 s32 getFlag_MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds(bool debug) { return getS32(flag_MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds(), debug); }
+void increaseFlag_MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds", -1, debug); }
 void setFlag_MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds(s32 value, bool debug) { setS32(value, flag_MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds(), debug); }
 void resetFlag_MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds(bool debug) { resetS32(flag_MiniGame_BirdMan_HillTower_CurrentTime_Miliseconds(), debug); }
 s32 getFlag_MiniGame_BirdMan_HillTower_CurrentTime_Mintues(bool debug) { return getS32(flag_MiniGame_BirdMan_HillTower_CurrentTime_Mintues(), debug); }
+void increaseFlag_MiniGame_BirdMan_HillTower_CurrentTime_Mintues(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_BirdMan_HillTower_CurrentTime_Mintues", -1, debug); }
 void setFlag_MiniGame_BirdMan_HillTower_CurrentTime_Mintues(s32 value, bool debug) { setS32(value, flag_MiniGame_BirdMan_HillTower_CurrentTime_Mintues(), debug); }
 void resetFlag_MiniGame_BirdMan_HillTower_CurrentTime_Mintues(bool debug) { resetS32(flag_MiniGame_BirdMan_HillTower_CurrentTime_Mintues(), debug); }
 s32 getFlag_MiniGame_BirdMan_HillTower_CurrentTime_Seconds(bool debug) { return getS32(flag_MiniGame_BirdMan_HillTower_CurrentTime_Seconds(), debug); }
+void increaseFlag_MiniGame_BirdMan_HillTower_CurrentTime_Seconds(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_BirdMan_HillTower_CurrentTime_Seconds", -1, debug); }
 void setFlag_MiniGame_BirdMan_HillTower_CurrentTime_Seconds(s32 value, bool debug) { setS32(value, flag_MiniGame_BirdMan_HillTower_CurrentTime_Seconds(), debug); }
 void resetFlag_MiniGame_BirdMan_HillTower_CurrentTime_Seconds(bool debug) { resetS32(flag_MiniGame_BirdMan_HillTower_CurrentTime_Seconds(), debug); }
 f32 getFlag_MiniGame_BirdMan_HillTower_RecordDistance(bool debug) { return getF32(flag_MiniGame_BirdMan_HillTower_RecordDistance(), debug); }
@@ -7954,12 +8382,15 @@ void getFlag_MiniGame_BirdMan_HillTower_VectorFromStartToCurrent(sead::Vector3f*
 void setFlag_MiniGame_BirdMan_HillTower_VectorFromStartToCurrent(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MiniGame_BirdMan_HillTower_VectorFromStartToCurrent(), debug); }
 void resetFlag_MiniGame_BirdMan_HillTower_VectorFromStartToCurrent(bool debug) { resetVec3f(flag_MiniGame_BirdMan_HillTower_VectorFromStartToCurrent(), debug); }
 s32 getFlag_MiniGame_Bowling_BreakPinNum(bool debug) { return getS32(flag_MiniGame_Bowling_BreakPinNum(), debug); }
+void increaseFlag_MiniGame_Bowling_BreakPinNum(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_Bowling_BreakPinNum", -1, debug); }
 void setFlag_MiniGame_Bowling_BreakPinNum(s32 value, bool debug) { setS32(value, flag_MiniGame_Bowling_BreakPinNum(), debug); }
 void resetFlag_MiniGame_Bowling_BreakPinNum(bool debug) { resetS32(flag_MiniGame_Bowling_BreakPinNum(), debug); }
 s32 getFlag_MiniGame_Bowling_BreakPinNumFirst(bool debug) { return getS32(flag_MiniGame_Bowling_BreakPinNumFirst(), debug); }
+void increaseFlag_MiniGame_Bowling_BreakPinNumFirst(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_Bowling_BreakPinNumFirst", -1, debug); }
 void setFlag_MiniGame_Bowling_BreakPinNumFirst(s32 value, bool debug) { setS32(value, flag_MiniGame_Bowling_BreakPinNumFirst(), debug); }
 void resetFlag_MiniGame_Bowling_BreakPinNumFirst(bool debug) { resetS32(flag_MiniGame_Bowling_BreakPinNumFirst(), debug); }
 s32 getFlag_MiniGame_Bowling_BreakPinNumSecond(bool debug) { return getS32(flag_MiniGame_Bowling_BreakPinNumSecond(), debug); }
+void increaseFlag_MiniGame_Bowling_BreakPinNumSecond(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_Bowling_BreakPinNumSecond", -1, debug); }
 void setFlag_MiniGame_Bowling_BreakPinNumSecond(s32 value, bool debug) { setS32(value, flag_MiniGame_Bowling_BreakPinNumSecond(), debug); }
 void resetFlag_MiniGame_Bowling_BreakPinNumSecond(bool debug) { resetS32(flag_MiniGame_Bowling_BreakPinNumSecond(), debug); }
 bool getFlag_MiniGame_Bowling_GetPrizeRod(bool debug) { return getBool(flag_MiniGame_Bowling_GetPrizeRod(), debug); }
@@ -8005,12 +8436,15 @@ bool getFlag_MiniGame_Crosscountry_ActorGenerateFlag(bool debug) { return getBoo
 void setFlag_MiniGame_Crosscountry_ActorGenerateFlag(bool value, bool debug) { setBool(value, flag_MiniGame_Crosscountry_ActorGenerateFlag(), debug); }
 void resetFlag_MiniGame_Crosscountry_ActorGenerateFlag(bool debug) { resetBool(flag_MiniGame_Crosscountry_ActorGenerateFlag(), debug); }
 s32 getFlag_MiniGame_Crosscountry_Current_MilliSeconds(bool debug) { return getS32(flag_MiniGame_Crosscountry_Current_MilliSeconds(), debug); }
+void increaseFlag_MiniGame_Crosscountry_Current_MilliSeconds(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_Crosscountry_Current_MilliSeconds", -1, debug); }
 void setFlag_MiniGame_Crosscountry_Current_MilliSeconds(s32 value, bool debug) { setS32(value, flag_MiniGame_Crosscountry_Current_MilliSeconds(), debug); }
 void resetFlag_MiniGame_Crosscountry_Current_MilliSeconds(bool debug) { resetS32(flag_MiniGame_Crosscountry_Current_MilliSeconds(), debug); }
 s32 getFlag_MiniGame_Crosscountry_Current_Minutes(bool debug) { return getS32(flag_MiniGame_Crosscountry_Current_Minutes(), debug); }
+void increaseFlag_MiniGame_Crosscountry_Current_Minutes(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_Crosscountry_Current_Minutes", -1, debug); }
 void setFlag_MiniGame_Crosscountry_Current_Minutes(s32 value, bool debug) { setS32(value, flag_MiniGame_Crosscountry_Current_Minutes(), debug); }
 void resetFlag_MiniGame_Crosscountry_Current_Minutes(bool debug) { resetS32(flag_MiniGame_Crosscountry_Current_Minutes(), debug); }
 s32 getFlag_MiniGame_Crosscountry_Current_Seconds(bool debug) { return getS32(flag_MiniGame_Crosscountry_Current_Seconds(), debug); }
+void increaseFlag_MiniGame_Crosscountry_Current_Seconds(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_Crosscountry_Current_Seconds", -1, debug); }
 void setFlag_MiniGame_Crosscountry_Current_Seconds(s32 value, bool debug) { setS32(value, flag_MiniGame_Crosscountry_Current_Seconds(), debug); }
 void resetFlag_MiniGame_Crosscountry_Current_Seconds(bool debug) { resetS32(flag_MiniGame_Crosscountry_Current_Seconds(), debug); }
 bool getFlag_MiniGame_Crosscountry_IsInGoalArea(bool debug) { return getBool(flag_MiniGame_Crosscountry_IsInGoalArea(), debug); }
@@ -8023,9 +8457,11 @@ bool getFlag_MiniGame_GambleTreasureBox_Activated(bool debug) { return getBool(f
 void setFlag_MiniGame_GambleTreasureBox_Activated(bool value, bool debug) { setBool(value, flag_MiniGame_GambleTreasureBox_Activated(), debug); }
 void resetFlag_MiniGame_GambleTreasureBox_Activated(bool debug) { resetBool(flag_MiniGame_GambleTreasureBox_Activated(), debug); }
 s32 getFlag_MiniGAme_HorsebackArchery_BestRecord(bool debug) { return getS32(flag_MiniGAme_HorsebackArchery_BestRecord(), debug); }
+void increaseFlag_MiniGAme_HorsebackArchery_BestRecord(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGAme_HorsebackArchery_BestRecord", -1, debug); }
 void setFlag_MiniGAme_HorsebackArchery_BestRecord(s32 value, bool debug) { setS32(value, flag_MiniGAme_HorsebackArchery_BestRecord(), debug); }
 void resetFlag_MiniGAme_HorsebackArchery_BestRecord(bool debug) { resetS32(flag_MiniGAme_HorsebackArchery_BestRecord(), debug); }
 s32 getFlag_MiniGame_HorsebackArchery_BreakTargetNum(bool debug) { return getS32(flag_MiniGame_HorsebackArchery_BreakTargetNum(), debug); }
+void increaseFlag_MiniGame_HorsebackArchery_BreakTargetNum(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorsebackArchery_BreakTargetNum", -1, debug); }
 void setFlag_MiniGame_HorsebackArchery_BreakTargetNum(s32 value, bool debug) { setS32(value, flag_MiniGame_HorsebackArchery_BreakTargetNum(), debug); }
 void resetFlag_MiniGame_HorsebackArchery_BreakTargetNum(bool debug) { resetS32(flag_MiniGame_HorsebackArchery_BreakTargetNum(), debug); }
 bool getFlag_MiniGame_HorsebackArchery_HasAlreadyGivenHorseReins(bool debug) { return getBool(flag_MiniGame_HorsebackArchery_HasAlreadyGivenHorseReins(), debug); }
@@ -8041,12 +8477,15 @@ bool getFlag_MiniGame_HorsebackArchery_TargetMakeFlag(bool debug) { return getBo
 void setFlag_MiniGame_HorsebackArchery_TargetMakeFlag(bool value, bool debug) { setBool(value, flag_MiniGame_HorsebackArchery_TargetMakeFlag(), debug); }
 void resetFlag_MiniGame_HorsebackArchery_TargetMakeFlag(bool debug) { resetBool(flag_MiniGame_HorsebackArchery_TargetMakeFlag(), debug); }
 s32 getFlag_MiniGame_HorseRace_BestResultMiliSecond(bool debug) { return getS32(flag_MiniGame_HorseRace_BestResultMiliSecond(), debug); }
+void increaseFlag_MiniGame_HorseRace_BestResultMiliSecond(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorseRace_BestResultMiliSecond", -1, debug); }
 void setFlag_MiniGame_HorseRace_BestResultMiliSecond(s32 value, bool debug) { setS32(value, flag_MiniGame_HorseRace_BestResultMiliSecond(), debug); }
 void resetFlag_MiniGame_HorseRace_BestResultMiliSecond(bool debug) { resetS32(flag_MiniGame_HorseRace_BestResultMiliSecond(), debug); }
 s32 getFlag_MiniGame_HorseRace_BestResultMinute(bool debug) { return getS32(flag_MiniGame_HorseRace_BestResultMinute(), debug); }
+void increaseFlag_MiniGame_HorseRace_BestResultMinute(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorseRace_BestResultMinute", -1, debug); }
 void setFlag_MiniGame_HorseRace_BestResultMinute(s32 value, bool debug) { setS32(value, flag_MiniGame_HorseRace_BestResultMinute(), debug); }
 void resetFlag_MiniGame_HorseRace_BestResultMinute(bool debug) { resetS32(flag_MiniGame_HorseRace_BestResultMinute(), debug); }
 s32 getFlag_MiniGame_HorseRace_BestResultSecond(bool debug) { return getS32(flag_MiniGame_HorseRace_BestResultSecond(), debug); }
+void increaseFlag_MiniGame_HorseRace_BestResultSecond(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorseRace_BestResultSecond", -1, debug); }
 void setFlag_MiniGame_HorseRace_BestResultSecond(s32 value, bool debug) { setS32(value, flag_MiniGame_HorseRace_BestResultSecond(), debug); }
 void resetFlag_MiniGame_HorseRace_BestResultSecond(bool debug) { resetS32(flag_MiniGame_HorseRace_BestResultSecond(), debug); }
 bool getFlag_MiniGame_HorseRace_ClearTime(bool debug) { return getBool(flag_MiniGame_HorseRace_ClearTime(), debug); }
@@ -8068,15 +8507,19 @@ bool getFlag_MiniGame_HorseRace_MiddleTime(bool debug) { return getBool(flag_Min
 void setFlag_MiniGame_HorseRace_MiddleTime(bool value, bool debug) { setBool(value, flag_MiniGame_HorseRace_MiddleTime(), debug); }
 void resetFlag_MiniGame_HorseRace_MiddleTime(bool debug) { resetBool(flag_MiniGame_HorseRace_MiddleTime(), debug); }
 s32 getFlag_MiniGame_HorseRace_NumPassFence(bool debug) { return getS32(flag_MiniGame_HorseRace_NumPassFence(), debug); }
+void increaseFlag_MiniGame_HorseRace_NumPassFence(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorseRace_NumPassFence", -1, debug); }
 void setFlag_MiniGame_HorseRace_NumPassFence(s32 value, bool debug) { setS32(value, flag_MiniGame_HorseRace_NumPassFence(), debug); }
 void resetFlag_MiniGame_HorseRace_NumPassFence(bool debug) { resetS32(flag_MiniGame_HorseRace_NumPassFence(), debug); }
 s32 getFlag_MiniGame_HorseRace_ResultMiliSecond(bool debug) { return getS32(flag_MiniGame_HorseRace_ResultMiliSecond(), debug); }
+void increaseFlag_MiniGame_HorseRace_ResultMiliSecond(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorseRace_ResultMiliSecond", -1, debug); }
 void setFlag_MiniGame_HorseRace_ResultMiliSecond(s32 value, bool debug) { setS32(value, flag_MiniGame_HorseRace_ResultMiliSecond(), debug); }
 void resetFlag_MiniGame_HorseRace_ResultMiliSecond(bool debug) { resetS32(flag_MiniGame_HorseRace_ResultMiliSecond(), debug); }
 s32 getFlag_MiniGame_HorseRace_ResultMinute(bool debug) { return getS32(flag_MiniGame_HorseRace_ResultMinute(), debug); }
+void increaseFlag_MiniGame_HorseRace_ResultMinute(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorseRace_ResultMinute", -1, debug); }
 void setFlag_MiniGame_HorseRace_ResultMinute(s32 value, bool debug) { setS32(value, flag_MiniGame_HorseRace_ResultMinute(), debug); }
 void resetFlag_MiniGame_HorseRace_ResultMinute(bool debug) { resetS32(flag_MiniGame_HorseRace_ResultMinute(), debug); }
 s32 getFlag_MiniGame_HorseRace_ResultSecond(bool debug) { return getS32(flag_MiniGame_HorseRace_ResultSecond(), debug); }
+void increaseFlag_MiniGame_HorseRace_ResultSecond(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_HorseRace_ResultSecond", -1, debug); }
 void setFlag_MiniGame_HorseRace_ResultSecond(s32 value, bool debug) { setS32(value, flag_MiniGame_HorseRace_ResultSecond(), debug); }
 void resetFlag_MiniGame_HorseRace_ResultSecond(bool debug) { resetS32(flag_MiniGame_HorseRace_ResultSecond(), debug); }
 bool getFlag_MiniGame_HorseRace_RetireCourseOut(bool debug) { return getBool(flag_MiniGame_HorseRace_RetireCourseOut(), debug); }
@@ -8092,18 +8535,22 @@ bool getFlag_MiniGame_ParasailArchery_Activated(bool debug) { return getBool(fla
 void setFlag_MiniGame_ParasailArchery_Activated(bool value, bool debug) { setBool(value, flag_MiniGame_ParasailArchery_Activated(), debug); }
 void resetFlag_MiniGame_ParasailArchery_Activated(bool debug) { resetBool(flag_MiniGame_ParasailArchery_Activated(), debug); }
 s32 getFlag_MiniGame_ParasailArchery_FailReason(bool debug) { return getS32(flag_MiniGame_ParasailArchery_FailReason(), debug); }
+void increaseFlag_MiniGame_ParasailArchery_FailReason(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_ParasailArchery_FailReason", -1, debug); }
 void setFlag_MiniGame_ParasailArchery_FailReason(s32 value, bool debug) { setS32(value, flag_MiniGame_ParasailArchery_FailReason(), debug); }
 void resetFlag_MiniGame_ParasailArchery_FailReason(bool debug) { resetS32(flag_MiniGame_ParasailArchery_FailReason(), debug); }
 bool getFlag_MiniGame_ParasailArchery_Start(bool debug) { return getBool(flag_MiniGame_ParasailArchery_Start(), debug); }
 void setFlag_MiniGame_ParasailArchery_Start(bool value, bool debug) { setBool(value, flag_MiniGame_ParasailArchery_Start(), debug); }
 void resetFlag_MiniGame_ParasailArchery_Start(bool debug) { resetBool(flag_MiniGame_ParasailArchery_Start(), debug); }
 s32 getFlag_MiniGame_ParasailRide_BestRecord(bool debug) { return getS32(flag_MiniGame_ParasailRide_BestRecord(), debug); }
+void increaseFlag_MiniGame_ParasailRide_BestRecord(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_ParasailRide_BestRecord", -1, debug); }
 void setFlag_MiniGame_ParasailRide_BestRecord(s32 value, bool debug) { setS32(value, flag_MiniGame_ParasailRide_BestRecord(), debug); }
 void resetFlag_MiniGame_ParasailRide_BestRecord(bool debug) { resetS32(flag_MiniGame_ParasailRide_BestRecord(), debug); }
 s32 getFlag_MiniGame_ParasailRide_PassedTargetNum(bool debug) { return getS32(flag_MiniGame_ParasailRide_PassedTargetNum(), debug); }
+void increaseFlag_MiniGame_ParasailRide_PassedTargetNum(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_ParasailRide_PassedTargetNum", -1, debug); }
 void setFlag_MiniGame_ParasailRide_PassedTargetNum(s32 value, bool debug) { setS32(value, flag_MiniGame_ParasailRide_PassedTargetNum(), debug); }
 void resetFlag_MiniGame_ParasailRide_PassedTargetNum(bool debug) { resetS32(flag_MiniGame_ParasailRide_PassedTargetNum(), debug); }
 s32 getFlag_MiniGame_ParasailRide_PassedTargetNumTemp(bool debug) { return getS32(flag_MiniGame_ParasailRide_PassedTargetNumTemp(), debug); }
+void increaseFlag_MiniGame_ParasailRide_PassedTargetNumTemp(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_ParasailRide_PassedTargetNumTemp", -1, debug); }
 void setFlag_MiniGame_ParasailRide_PassedTargetNumTemp(s32 value, bool debug) { setS32(value, flag_MiniGame_ParasailRide_PassedTargetNumTemp(), debug); }
 void resetFlag_MiniGame_ParasailRide_PassedTargetNumTemp(bool debug) { resetS32(flag_MiniGame_ParasailRide_PassedTargetNumTemp(), debug); }
 bool getFlag_MiniGame_ShieldSurfing_IsBeginnerCourse(bool debug) { return getBool(flag_MiniGame_ShieldSurfing_IsBeginnerCourse(), debug); }
@@ -8128,21 +8575,26 @@ void getFlag_MiniGame_ShieldSurfing_MapPinDataBuffer(sead::Vector3f* value, bool
 void setFlag_MiniGame_ShieldSurfing_MapPinDataBuffer(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MiniGame_ShieldSurfing_MapPinDataBuffer(), debug); }
 void resetFlag_MiniGame_ShieldSurfing_MapPinDataBuffer(bool debug) { resetVec3f(flag_MiniGame_ShieldSurfing_MapPinDataBuffer(), debug); }
 s32 getFlag_MiniGame_ShieldSurfing_ResultMilliSecond(bool debug) { return getS32(flag_MiniGame_ShieldSurfing_ResultMilliSecond(), debug); }
+void increaseFlag_MiniGame_ShieldSurfing_ResultMilliSecond(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_ShieldSurfing_ResultMilliSecond", -1, debug); }
 void setFlag_MiniGame_ShieldSurfing_ResultMilliSecond(s32 value, bool debug) { setS32(value, flag_MiniGame_ShieldSurfing_ResultMilliSecond(), debug); }
 void resetFlag_MiniGame_ShieldSurfing_ResultMilliSecond(bool debug) { resetS32(flag_MiniGame_ShieldSurfing_ResultMilliSecond(), debug); }
 s32 getFlag_MiniGame_ShieldSurfing_ResultMinute(bool debug) { return getS32(flag_MiniGame_ShieldSurfing_ResultMinute(), debug); }
+void increaseFlag_MiniGame_ShieldSurfing_ResultMinute(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_ShieldSurfing_ResultMinute", -1, debug); }
 void setFlag_MiniGame_ShieldSurfing_ResultMinute(s32 value, bool debug) { setS32(value, flag_MiniGame_ShieldSurfing_ResultMinute(), debug); }
 void resetFlag_MiniGame_ShieldSurfing_ResultMinute(bool debug) { resetS32(flag_MiniGame_ShieldSurfing_ResultMinute(), debug); }
 s32 getFlag_MiniGame_ShieldSurfing_ResultSecond(bool debug) { return getS32(flag_MiniGame_ShieldSurfing_ResultSecond(), debug); }
+void increaseFlag_MiniGame_ShieldSurfing_ResultSecond(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_ShieldSurfing_ResultSecond", -1, debug); }
 void setFlag_MiniGame_ShieldSurfing_ResultSecond(s32 value, bool debug) { setS32(value, flag_MiniGame_ShieldSurfing_ResultSecond(), debug); }
 void resetFlag_MiniGame_ShieldSurfing_ResultSecond(bool debug) { resetS32(flag_MiniGame_ShieldSurfing_ResultSecond(), debug); }
 void getFlag_MiniGame_SmashGolf_BallToGoalFlag(sead::Vector3f* value, bool debug) { getVec3f(flag_MiniGame_SmashGolf_BallToGoalFlag(), value, debug); }
 void setFlag_MiniGame_SmashGolf_BallToGoalFlag(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_MiniGame_SmashGolf_BallToGoalFlag(), debug); }
 void resetFlag_MiniGame_SmashGolf_BallToGoalFlag(bool debug) { resetVec3f(flag_MiniGame_SmashGolf_BallToGoalFlag(), debug); }
 s32 getFlag_MiniGame_SmashGolf_Camera1FrameCount(bool debug) { return getS32(flag_MiniGame_SmashGolf_Camera1FrameCount(), debug); }
+void increaseFlag_MiniGame_SmashGolf_Camera1FrameCount(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_SmashGolf_Camera1FrameCount", -1, debug); }
 void setFlag_MiniGame_SmashGolf_Camera1FrameCount(s32 value, bool debug) { setS32(value, flag_MiniGame_SmashGolf_Camera1FrameCount(), debug); }
 void resetFlag_MiniGame_SmashGolf_Camera1FrameCount(bool debug) { resetS32(flag_MiniGame_SmashGolf_Camera1FrameCount(), debug); }
 s32 getFlag_MiniGame_SmashGolf_Camera2FrameCount(bool debug) { return getS32(flag_MiniGame_SmashGolf_Camera2FrameCount(), debug); }
+void increaseFlag_MiniGame_SmashGolf_Camera2FrameCount(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_SmashGolf_Camera2FrameCount", -1, debug); }
 void setFlag_MiniGame_SmashGolf_Camera2FrameCount(s32 value, bool debug) { setS32(value, flag_MiniGame_SmashGolf_Camera2FrameCount(), debug); }
 void resetFlag_MiniGame_SmashGolf_Camera2FrameCount(bool debug) { resetS32(flag_MiniGame_SmashGolf_Camera2FrameCount(), debug); }
 void getFlag_MiniGame_SmashGolf_CameraAt0(sead::Vector3f* value, bool debug) { getVec3f(flag_MiniGame_SmashGolf_CameraAt0(), value, debug); }
@@ -8197,9 +8649,11 @@ bool getFlag_MiniGame_SmashGolf_SetRetryPos(bool debug) { return getBool(flag_Mi
 void setFlag_MiniGame_SmashGolf_SetRetryPos(bool value, bool debug) { setBool(value, flag_MiniGame_SmashGolf_SetRetryPos(), debug); }
 void resetFlag_MiniGame_SmashGolf_SetRetryPos(bool debug) { resetBool(flag_MiniGame_SmashGolf_SetRetryPos(), debug); }
 s32 getFlag_MiniGame_SmashGolf_ShotCount(bool debug) { return getS32(flag_MiniGame_SmashGolf_ShotCount(), debug); }
+void increaseFlag_MiniGame_SmashGolf_ShotCount(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_SmashGolf_ShotCount", -1, debug); }
 void setFlag_MiniGame_SmashGolf_ShotCount(s32 value, bool debug) { setS32(value, flag_MiniGame_SmashGolf_ShotCount(), debug); }
 void resetFlag_MiniGame_SmashGolf_ShotCount(bool debug) { resetS32(flag_MiniGame_SmashGolf_ShotCount(), debug); }
 s32 getFlag_MiniGame_SmashGolf_SmashCameraPattern(bool debug) { return getS32(flag_MiniGame_SmashGolf_SmashCameraPattern(), debug); }
+void increaseFlag_MiniGame_SmashGolf_SmashCameraPattern(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_SmashGolf_SmashCameraPattern", -1, debug); }
 void setFlag_MiniGame_SmashGolf_SmashCameraPattern(s32 value, bool debug) { setS32(value, flag_MiniGame_SmashGolf_SmashCameraPattern(), debug); }
 void resetFlag_MiniGame_SmashGolf_SmashCameraPattern(bool debug) { resetS32(flag_MiniGame_SmashGolf_SmashCameraPattern(), debug); }
 f32 getFlag_MiniGame_SmashGolf_Speed_Float(bool debug) { return getF32(flag_MiniGame_SmashGolf_Speed_Float(), debug); }
@@ -8215,6 +8669,7 @@ bool getFlag_MiniGame_TimeLimitHunting_Area(bool debug) { return getBool(flag_Mi
 void setFlag_MiniGame_TimeLimitHunting_Area(bool value, bool debug) { setBool(value, flag_MiniGame_TimeLimitHunting_Area(), debug); }
 void resetFlag_MiniGame_TimeLimitHunting_Area(bool debug) { resetBool(flag_MiniGame_TimeLimitHunting_Area(), debug); }
 s32 getFlag_MiniGame_TimeLimitHunting_HuntedNum(bool debug) { return getS32(flag_MiniGame_TimeLimitHunting_HuntedNum(), debug); }
+void increaseFlag_MiniGame_TimeLimitHunting_HuntedNum(s32 value, bool debug) { increaseS32CommonFlag(value, "MiniGame_TimeLimitHunting_HuntedNum", -1, debug); }
 void setFlag_MiniGame_TimeLimitHunting_HuntedNum(s32 value, bool debug) { setS32(value, flag_MiniGame_TimeLimitHunting_HuntedNum(), debug); }
 void resetFlag_MiniGame_TimeLimitHunting_HuntedNum(bool debug) { resetS32(flag_MiniGame_TimeLimitHunting_HuntedNum(), debug); }
 bool getFlag_MiniGame100enemy_FinishTimeCount(bool debug) { return getBool(flag_MiniGame100enemy_FinishTimeCount(), debug); }
@@ -8230,6 +8685,7 @@ bool getFlag_Moriblin_Complete(bool debug) { return getBool(flag_Moriblin_Comple
 void setFlag_Moriblin_Complete(bool value, bool debug) { setBool(value, flag_Moriblin_Complete(), debug); }
 void resetFlag_Moriblin_Complete(bool debug) { resetBool(flag_Moriblin_Complete(), debug); }
 s32 getFlag_MoriblinSeries_Counter(bool debug) { return getS32(flag_MoriblinSeries_Counter(), debug); }
+void increaseFlag_MoriblinSeries_Counter(s32 value, bool debug) { increaseS32CommonFlag(value, "MoriblinSeries_Counter", -1, debug); }
 void setFlag_MoriblinSeries_Counter(s32 value, bool debug) { setS32(value, flag_MoriblinSeries_Counter(), debug); }
 void resetFlag_MoriblinSeries_Counter(bool debug) { resetS32(flag_MoriblinSeries_Counter(), debug); }
 f32 getFlag_Motorcycle_Energy(bool debug) { return getF32(flag_Motorcycle_Energy(), debug); }
@@ -8242,6 +8698,7 @@ void getFlag_MsgDialogCookActorName(char const** value, bool debug) { getStr64(f
 void setFlag_MsgDialogCookActorName(const sead::SafeString& value, bool debug) { setStr64(value, flag_MsgDialogCookActorName(), debug); }
 void resetFlag_MsgDialogCookActorName(bool debug) { resetStr64(flag_MsgDialogCookActorName(), debug); }
 s32 getFlag_MsgDialogCookEffect(bool debug) { return getS32(flag_MsgDialogCookEffect(), debug); }
+void increaseFlag_MsgDialogCookEffect(s32 value, bool debug) { increaseS32CommonFlag(value, "MsgDialogCookEffect", -1, debug); }
 void setFlag_MsgDialogCookEffect(s32 value, bool debug) { setS32(value, flag_MsgDialogCookEffect(), debug); }
 void resetFlag_MsgDialogCookEffect(bool debug) { resetS32(flag_MsgDialogCookEffect(), debug); }
 bool getFlag_NakedIsland_Activated(bool debug) { return getBool(flag_NakedIsland_Activated(), debug); }
@@ -8509,27 +8966,35 @@ bool getFlag_NexIsSaveDataUploadAvailableCache(bool debug) { return getBool(flag
 void setFlag_NexIsSaveDataUploadAvailableCache(bool value, bool debug) { setBool(value, flag_NexIsSaveDataUploadAvailableCache(), debug); }
 void resetFlag_NexIsSaveDataUploadAvailableCache(bool debug) { resetBool(flag_NexIsSaveDataUploadAvailableCache(), debug); }
 s32 getFlag_NexLastUploadSaveDataTime(bool debug) { return getS32(flag_NexLastUploadSaveDataTime(), debug); }
+void increaseFlag_NexLastUploadSaveDataTime(s32 value, bool debug) { increaseS32CommonFlag(value, "NexLastUploadSaveDataTime", -1, debug); }
 void setFlag_NexLastUploadSaveDataTime(s32 value, bool debug) { setS32(value, flag_NexLastUploadSaveDataTime(), debug); }
 void resetFlag_NexLastUploadSaveDataTime(bool debug) { resetS32(flag_NexLastUploadSaveDataTime(), debug); }
 s32 getFlag_NexLastUploadTrackBlockHardIndex(bool debug) { return getS32(flag_NexLastUploadTrackBlockHardIndex(), debug); }
+void increaseFlag_NexLastUploadTrackBlockHardIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "NexLastUploadTrackBlockHardIndex", -1, debug); }
 void setFlag_NexLastUploadTrackBlockHardIndex(s32 value, bool debug) { setS32(value, flag_NexLastUploadTrackBlockHardIndex(), debug); }
 void resetFlag_NexLastUploadTrackBlockHardIndex(bool debug) { resetS32(flag_NexLastUploadTrackBlockHardIndex(), debug); }
 s32 getFlag_NexLastUploadTrackBlockIndex(bool debug) { return getS32(flag_NexLastUploadTrackBlockIndex(), debug); }
+void increaseFlag_NexLastUploadTrackBlockIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "NexLastUploadTrackBlockIndex", -1, debug); }
 void setFlag_NexLastUploadTrackBlockIndex(s32 value, bool debug) { setS32(value, flag_NexLastUploadTrackBlockIndex(), debug); }
 void resetFlag_NexLastUploadTrackBlockIndex(bool debug) { resetS32(flag_NexLastUploadTrackBlockIndex(), debug); }
 s32 getFlag_NexLastUploadTrackBlockTime(bool debug) { return getS32(flag_NexLastUploadTrackBlockTime(), debug); }
+void increaseFlag_NexLastUploadTrackBlockTime(s32 value, bool debug) { increaseS32CommonFlag(value, "NexLastUploadTrackBlockTime", -1, debug); }
 void setFlag_NexLastUploadTrackBlockTime(s32 value, bool debug) { setS32(value, flag_NexLastUploadTrackBlockTime(), debug); }
 void resetFlag_NexLastUploadTrackBlockTime(bool debug) { resetS32(flag_NexLastUploadTrackBlockTime(), debug); }
 s32 getFlag_NexPosTrackUploadIntervalHoursCache(bool debug) { return getS32(flag_NexPosTrackUploadIntervalHoursCache(), debug); }
+void increaseFlag_NexPosTrackUploadIntervalHoursCache(s32 value, bool debug) { increaseS32CommonFlag(value, "NexPosTrackUploadIntervalHoursCache", -1, debug); }
 void setFlag_NexPosTrackUploadIntervalHoursCache(s32 value, bool debug) { setS32(value, flag_NexPosTrackUploadIntervalHoursCache(), debug); }
 void resetFlag_NexPosTrackUploadIntervalHoursCache(bool debug) { resetS32(flag_NexPosTrackUploadIntervalHoursCache(), debug); }
 s32 getFlag_NexsSaveDataUploadIntervalHoursCache(bool debug) { return getS32(flag_NexsSaveDataUploadIntervalHoursCache(), debug); }
+void increaseFlag_NexsSaveDataUploadIntervalHoursCache(s32 value, bool debug) { increaseS32CommonFlag(value, "NexsSaveDataUploadIntervalHoursCache", -1, debug); }
 void setFlag_NexsSaveDataUploadIntervalHoursCache(s32 value, bool debug) { setS32(value, flag_NexsSaveDataUploadIntervalHoursCache(), debug); }
 void resetFlag_NexsSaveDataUploadIntervalHoursCache(bool debug) { resetS32(flag_NexsSaveDataUploadIntervalHoursCache(), debug); }
 s32 getFlag_NexUniqueID_Lower(bool debug) { return getS32(flag_NexUniqueID_Lower(), debug); }
+void increaseFlag_NexUniqueID_Lower(s32 value, bool debug) { increaseS32CommonFlag(value, "NexUniqueID_Lower", -1, debug); }
 void setFlag_NexUniqueID_Lower(s32 value, bool debug) { setS32(value, flag_NexUniqueID_Lower(), debug); }
 void resetFlag_NexUniqueID_Lower(bool debug) { resetS32(flag_NexUniqueID_Lower(), debug); }
 s32 getFlag_NexUniqueID_Upper(bool debug) { return getS32(flag_NexUniqueID_Upper(), debug); }
+void increaseFlag_NexUniqueID_Upper(s32 value, bool debug) { increaseS32CommonFlag(value, "NexUniqueID_Upper", -1, debug); }
 void setFlag_NexUniqueID_Upper(s32 value, bool debug) { setS32(value, flag_NexUniqueID_Upper(), debug); }
 void resetFlag_NexUniqueID_Upper(bool debug) { resetS32(flag_NexUniqueID_Upper(), debug); }
 bool getFlag_NightStoneBreak(bool debug) { return getBool(flag_NightStoneBreak(), debug); }
@@ -8578,12 +9043,14 @@ bool getFlag_Npc_Attacked_001_Saved(bool debug) { return getBool(flag_Npc_Attack
 void setFlag_Npc_Attacked_001_Saved(bool value, bool debug) { setBool(value, flag_Npc_Attacked_001_Saved(), debug); }
 void resetFlag_Npc_Attacked_001_Saved(bool debug) { resetBool(flag_Npc_Attacked_001_Saved(), debug); }
 s32 getFlag_Npc_Attacked_002_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_002_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_002_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_002_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_002_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_002_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_002_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_002_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_002_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_002_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_002_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_002_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_002_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_002_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_002_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_002_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_002_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_002_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_002_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_002_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_002_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_002_TerrorState(), debug); }
 bool getFlag_Npc_Attacked_003_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_003_DispNameFlag(), debug); }
@@ -8596,12 +9063,14 @@ bool getFlag_Npc_Attacked_003_Saved(bool debug) { return getBool(flag_Npc_Attack
 void setFlag_Npc_Attacked_003_Saved(bool value, bool debug) { setBool(value, flag_Npc_Attacked_003_Saved(), debug); }
 void resetFlag_Npc_Attacked_003_Saved(bool debug) { resetBool(flag_Npc_Attacked_003_Saved(), debug); }
 s32 getFlag_Npc_Attacked_004_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_004_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_004_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_004_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_004_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_004_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_004_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_004_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_004_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_004_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_004_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_004_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_004_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_004_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_004_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_004_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_004_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_004_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_004_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_004_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_004_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_004_TerrorState(), debug); }
 bool getFlag_Npc_Attacked_005_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_005_DispNameFlag(), debug); }
@@ -8614,57 +9083,69 @@ bool getFlag_Npc_Attacked_005_Saved(bool debug) { return getBool(flag_Npc_Attack
 void setFlag_Npc_Attacked_005_Saved(bool value, bool debug) { setBool(value, flag_Npc_Attacked_005_Saved(), debug); }
 void resetFlag_Npc_Attacked_005_Saved(bool debug) { resetBool(flag_Npc_Attacked_005_Saved(), debug); }
 s32 getFlag_Npc_Attacked_006_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_006_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_006_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_006_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_006_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_006_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_006_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_006_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_006_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_006_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_006_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_006_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_006_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_006_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_006_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_006_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_006_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_006_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_006_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_006_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_006_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_006_TerrorState(), debug); }
 s32 getFlag_Npc_Attacked_007_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_007_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_007_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_007_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_007_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_007_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_007_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_007_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_007_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_007_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_007_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_007_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_007_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_007_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_007_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_007_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_007_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_007_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_007_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_007_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_007_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_007_TerrorState(), debug); }
 s32 getFlag_Npc_Attacked_008_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_008_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_008_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_008_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_008_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_008_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_008_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_008_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_008_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_008_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_008_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_008_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_008_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_008_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_008_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_008_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_008_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_008_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_008_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_008_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_008_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_008_TerrorState(), debug); }
 s32 getFlag_Npc_Attacked_009_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_009_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_009_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_009_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_009_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_009_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_009_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_009_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_009_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_009_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_009_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_009_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_009_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_009_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_009_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_009_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_009_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_009_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_009_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_009_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_009_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_009_TerrorState(), debug); }
 s32 getFlag_Npc_Attacked_010_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_010_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_010_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_010_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_010_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_010_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_010_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_010_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_010_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_010_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_010_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_010_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_010_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_010_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_010_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_010_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_010_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_010_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_010_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_010_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_010_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_010_TerrorState(), debug); }
 s32 getFlag_Npc_Attacked_011_AttackedState(bool debug) { return getS32(flag_Npc_Attacked_011_AttackedState(), debug); }
+void increaseFlag_Npc_Attacked_011_AttackedState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_011_AttackedState", -1, debug); }
 void setFlag_Npc_Attacked_011_AttackedState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_011_AttackedState(), debug); }
 void resetFlag_Npc_Attacked_011_AttackedState(bool debug) { resetS32(flag_Npc_Attacked_011_AttackedState(), debug); }
 bool getFlag_Npc_Attacked_011_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_011_DispNameFlag(), debug); }
 void setFlag_Npc_Attacked_011_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_Attacked_011_DispNameFlag(), debug); }
 void resetFlag_Npc_Attacked_011_DispNameFlag(bool debug) { resetBool(flag_Npc_Attacked_011_DispNameFlag(), debug); }
 s32 getFlag_Npc_Attacked_011_TerrorState(bool debug) { return getS32(flag_Npc_Attacked_011_TerrorState(), debug); }
+void increaseFlag_Npc_Attacked_011_TerrorState(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Attacked_011_TerrorState", -1, debug); }
 void setFlag_Npc_Attacked_011_TerrorState(s32 value, bool debug) { setS32(value, flag_Npc_Attacked_011_TerrorState(), debug); }
 void resetFlag_Npc_Attacked_011_TerrorState(bool debug) { resetS32(flag_Npc_Attacked_011_TerrorState(), debug); }
 bool getFlag_Npc_Attacked_012_DispNameFlag(bool debug) { return getBool(flag_Npc_Attacked_012_DispNameFlag(), debug); }
@@ -8707,6 +9188,7 @@ bool getFlag_Npc_DeathWestHatago_002_DispNameFlag(bool debug) { return getBool(f
 void setFlag_Npc_DeathWestHatago_002_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_DeathWestHatago_002_DispNameFlag(), debug); }
 void resetFlag_Npc_DeathWestHatago_002_DispNameFlag(bool debug) { resetBool(flag_Npc_DeathWestHatago_002_DispNameFlag(), debug); }
 s32 getFlag_Npc_DemonStatue_ClearSeal(bool debug) { return getS32(flag_Npc_DemonStatue_ClearSeal(), debug); }
+void increaseFlag_Npc_DemonStatue_ClearSeal(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_DemonStatue_ClearSeal", -1, debug); }
 void setFlag_Npc_DemonStatue_ClearSeal(s32 value, bool debug) { setS32(value, flag_Npc_DemonStatue_ClearSeal(), debug); }
 void resetFlag_Npc_DemonStatue_ClearSeal(bool debug) { resetS32(flag_Npc_DemonStatue_ClearSeal(), debug); }
 bool getFlag_NPC_DRCVoice_DispNameFlag(bool debug) { return getBool(flag_NPC_DRCVoice_DispNameFlag(), debug); }
@@ -8782,6 +9264,7 @@ bool getFlag_Npc_gerudovalley001_DispNameFlag(bool debug) { return getBool(flag_
 void setFlag_Npc_gerudovalley001_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_gerudovalley001_DispNameFlag(), debug); }
 void resetFlag_Npc_gerudovalley001_DispNameFlag(bool debug) { resetBool(flag_Npc_gerudovalley001_DispNameFlag(), debug); }
 s32 getFlag_Npc_Goddess_UtuwaSum(bool debug) { return getS32(flag_Npc_Goddess_UtuwaSum(), debug); }
+void increaseFlag_Npc_Goddess_UtuwaSum(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Goddess_UtuwaSum", -1, debug); }
 void setFlag_Npc_Goddess_UtuwaSum(s32 value, bool debug) { setS32(value, flag_Npc_Goddess_UtuwaSum(), debug); }
 void resetFlag_Npc_Goddess_UtuwaSum(bool debug) { resetS32(flag_Npc_Goddess_UtuwaSum(), debug); }
 bool getFlag_Npc_Goron_Camp001_DispNameFlag(bool debug) { return getBool(flag_Npc_Goron_Camp001_DispNameFlag(), debug); }
@@ -9970,12 +10453,15 @@ bool getFlag_Npc_TamourPlainHatago_004_DispNameFlag(bool debug) { return getBool
 void setFlag_Npc_TamourPlainHatago_004_DispNameFlag(bool value, bool debug) { setBool(value, flag_Npc_TamourPlainHatago_004_DispNameFlag(), debug); }
 void resetFlag_Npc_TamourPlainHatago_004_DispNameFlag(bool debug) { resetBool(flag_Npc_TamourPlainHatago_004_DispNameFlag(), debug); }
 s32 getFlag_Npc_Test_Tamura_011_Armor_001_Upper(bool debug) { return getS32(flag_Npc_Test_Tamura_011_Armor_001_Upper(), debug); }
+void increaseFlag_Npc_Test_Tamura_011_Armor_001_Upper(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Test_Tamura_011_Armor_001_Upper", -1, debug); }
 void setFlag_Npc_Test_Tamura_011_Armor_001_Upper(s32 value, bool debug) { setS32(value, flag_Npc_Test_Tamura_011_Armor_001_Upper(), debug); }
 void resetFlag_Npc_Test_Tamura_011_Armor_001_Upper(bool debug) { resetS32(flag_Npc_Test_Tamura_011_Armor_001_Upper(), debug); }
 s32 getFlag_Npc_Test_Tamura_011_Obj_ApplePie_A_01(bool debug) { return getS32(flag_Npc_Test_Tamura_011_Obj_ApplePie_A_01(), debug); }
+void increaseFlag_Npc_Test_Tamura_011_Obj_ApplePie_A_01(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Test_Tamura_011_Obj_ApplePie_A_01", -1, debug); }
 void setFlag_Npc_Test_Tamura_011_Obj_ApplePie_A_01(s32 value, bool debug) { setS32(value, flag_Npc_Test_Tamura_011_Obj_ApplePie_A_01(), debug); }
 void resetFlag_Npc_Test_Tamura_011_Obj_ApplePie_A_01(bool debug) { resetS32(flag_Npc_Test_Tamura_011_Obj_ApplePie_A_01(), debug); }
 s32 getFlag_Npc_Test_Tamura_011_Weapon_Sword_029(bool debug) { return getS32(flag_Npc_Test_Tamura_011_Weapon_Sword_029(), debug); }
+void increaseFlag_Npc_Test_Tamura_011_Weapon_Sword_029(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Test_Tamura_011_Weapon_Sword_029", -1, debug); }
 void setFlag_Npc_Test_Tamura_011_Weapon_Sword_029(s32 value, bool debug) { setS32(value, flag_Npc_Test_Tamura_011_Weapon_Sword_029(), debug); }
 void resetFlag_Npc_Test_Tamura_011_Weapon_Sword_029(bool debug) { resetS32(flag_Npc_Test_Tamura_011_Weapon_Sword_029(), debug); }
 bool getFlag_Npc_TripMaster_00_DispNameFlag(bool debug) { return getBool(flag_Npc_TripMaster_00_DispNameFlag(), debug); }
@@ -10051,6 +10537,7 @@ bool getFlag_Npc_Zora011_GotFrog(bool debug) { return getBool(flag_Npc_Zora011_G
 void setFlag_Npc_Zora011_GotFrog(bool value, bool debug) { setBool(value, flag_Npc_Zora011_GotFrog(), debug); }
 void resetFlag_Npc_Zora011_GotFrog(bool debug) { resetBool(flag_Npc_Zora011_GotFrog(), debug); }
 s32 getFlag_Npc_Zora011_HaveFrog(bool debug) { return getS32(flag_Npc_Zora011_HaveFrog(), debug); }
+void increaseFlag_Npc_Zora011_HaveFrog(s32 value, bool debug) { increaseS32CommonFlag(value, "Npc_Zora011_HaveFrog", -1, debug); }
 void setFlag_Npc_Zora011_HaveFrog(s32 value, bool debug) { setS32(value, flag_Npc_Zora011_HaveFrog(), debug); }
 void resetFlag_Npc_Zora011_HaveFrog(bool debug) { resetS32(flag_Npc_Zora011_HaveFrog(), debug); }
 bool getFlag_Npc_Zora012_Dad(bool debug) { return getBool(flag_Npc_Zora012_Dad(), debug); }
@@ -10183,12 +10670,15 @@ bool getFlag_Npc_ZoraGoron001_Stone(bool debug) { return getBool(flag_Npc_ZoraGo
 void setFlag_Npc_ZoraGoron001_Stone(bool value, bool debug) { setBool(value, flag_Npc_ZoraGoron001_Stone(), debug); }
 void resetFlag_Npc_ZoraGoron001_Stone(bool debug) { resetBool(flag_Npc_ZoraGoron001_Stone(), debug); }
 s32 getFlag_NpcDemonStatue_UtuwaSum(bool debug) { return getS32(flag_NpcDemonStatue_UtuwaSum(), debug); }
+void increaseFlag_NpcDemonStatue_UtuwaSum(s32 value, bool debug) { increaseS32CommonFlag(value, "NpcDemonStatue_UtuwaSum", -1, debug); }
 void setFlag_NpcDemonStatue_UtuwaSum(s32 value, bool debug) { setS32(value, flag_NpcDemonStatue_UtuwaSum(), debug); }
 void resetFlag_NpcDemonStatue_UtuwaSum(bool debug) { resetS32(flag_NpcDemonStatue_UtuwaSum(), debug); }
 s32 getFlag_OldKorok_NatsCount(bool debug) { return getS32(flag_OldKorok_NatsCount(), debug); }
+void increaseFlag_OldKorok_NatsCount(s32 value, bool debug) { increaseS32CommonFlag(value, "OldKorok_NatsCount", -1, debug); }
 void setFlag_OldKorok_NatsCount(s32 value, bool debug) { setS32(value, flag_OldKorok_NatsCount(), debug); }
 void resetFlag_OldKorok_NatsCount(bool debug) { resetS32(flag_OldKorok_NatsCount(), debug); }
 s32 getFlag_OneHundred_KillCount(bool debug) { return getS32(flag_OneHundred_KillCount(), debug); }
+void increaseFlag_OneHundred_KillCount(s32 value, bool debug) { increaseS32CommonFlag(value, "OneHundred_KillCount", -1, debug); }
 void setFlag_OneHundred_KillCount(s32 value, bool debug) { setS32(value, flag_OneHundred_KillCount(), debug); }
 void resetFlag_OneHundred_KillCount(bool debug) { resetS32(flag_OneHundred_KillCount(), debug); }
 bool getFlag_Open_AncientLabo(bool debug) { return getBool(flag_Open_AncientLabo(), debug); }
@@ -10204,39 +10694,49 @@ bool getFlag_Open_StartPoint(bool debug) { return getBool(flag_Open_StartPoint()
 void setFlag_Open_StartPoint(bool value, bool debug) { setBool(value, flag_Open_StartPoint(), debug); }
 void resetFlag_Open_StartPoint(bool debug) { resetBool(flag_Open_StartPoint(), debug); }
 s32 getFlag_Option_LatestAoCVerPlayed(bool debug) { return getS32(flag_Option_LatestAoCVerPlayed(), debug); }
+void increaseFlag_Option_LatestAoCVerPlayed(s32 value, bool debug) { increaseS32CommonFlag(value, "Option_LatestAoCVerPlayed", -1, debug); }
 void setFlag_Option_LatestAoCVerPlayed(s32 value, bool debug) { setS32(value, flag_Option_LatestAoCVerPlayed(), debug); }
 void resetFlag_Option_LatestAoCVerPlayed(bool debug) { resetS32(flag_Option_LatestAoCVerPlayed(), debug); }
 s32 getFlag_PaidRupeeInFountain1(bool debug) { return getS32(flag_PaidRupeeInFountain1(), debug); }
+void increaseFlag_PaidRupeeInFountain1(s32 value, bool debug) { increaseS32CommonFlag(value, "PaidRupeeInFountain1", -1, debug); }
 void setFlag_PaidRupeeInFountain1(s32 value, bool debug) { setS32(value, flag_PaidRupeeInFountain1(), debug); }
 void resetFlag_PaidRupeeInFountain1(bool debug) { resetS32(flag_PaidRupeeInFountain1(), debug); }
 s32 getFlag_PaidRupeeInFountain2(bool debug) { return getS32(flag_PaidRupeeInFountain2(), debug); }
+void increaseFlag_PaidRupeeInFountain2(s32 value, bool debug) { increaseS32CommonFlag(value, "PaidRupeeInFountain2", -1, debug); }
 void setFlag_PaidRupeeInFountain2(s32 value, bool debug) { setS32(value, flag_PaidRupeeInFountain2(), debug); }
 void resetFlag_PaidRupeeInFountain2(bool debug) { resetS32(flag_PaidRupeeInFountain2(), debug); }
 s32 getFlag_PaidRupeeInFountain3(bool debug) { return getS32(flag_PaidRupeeInFountain3(), debug); }
+void increaseFlag_PaidRupeeInFountain3(s32 value, bool debug) { increaseS32CommonFlag(value, "PaidRupeeInFountain3", -1, debug); }
 void setFlag_PaidRupeeInFountain3(s32 value, bool debug) { setS32(value, flag_PaidRupeeInFountain3(), debug); }
 void resetFlag_PaidRupeeInFountain3(bool debug) { resetS32(flag_PaidRupeeInFountain3(), debug); }
 s32 getFlag_PaidRupeeInFountain4(bool debug) { return getS32(flag_PaidRupeeInFountain4(), debug); }
+void increaseFlag_PaidRupeeInFountain4(s32 value, bool debug) { increaseS32CommonFlag(value, "PaidRupeeInFountain4", -1, debug); }
 void setFlag_PaidRupeeInFountain4(s32 value, bool debug) { setS32(value, flag_PaidRupeeInFountain4(), debug); }
 void resetFlag_PaidRupeeInFountain4(bool debug) { resetS32(flag_PaidRupeeInFountain4(), debug); }
 s32 getFlag_PaidRupeeInFountain5(bool debug) { return getS32(flag_PaidRupeeInFountain5(), debug); }
+void increaseFlag_PaidRupeeInFountain5(s32 value, bool debug) { increaseS32CommonFlag(value, "PaidRupeeInFountain5", -1, debug); }
 void setFlag_PaidRupeeInFountain5(s32 value, bool debug) { setS32(value, flag_PaidRupeeInFountain5(), debug); }
 void resetFlag_PaidRupeeInFountain5(bool debug) { resetS32(flag_PaidRupeeInFountain5(), debug); }
 bool getFlag_ParasailStaminaRecover(bool debug) { return getBool(flag_ParasailStaminaRecover(), debug); }
 void setFlag_ParasailStaminaRecover(bool value, bool debug) { setBool(value, flag_ParasailStaminaRecover(), debug); }
 void resetFlag_ParasailStaminaRecover(bool debug) { resetBool(flag_ParasailStaminaRecover(), debug); }
 s32 getFlag_PictureMemory_LastShowIdx(bool debug) { return getS32(flag_PictureMemory_LastShowIdx(), debug); }
+void increaseFlag_PictureMemory_LastShowIdx(s32 value, bool debug) { increaseS32CommonFlag(value, "PictureMemory_LastShowIdx", -1, debug); }
 void setFlag_PictureMemory_LastShowIdx(s32 value, bool debug) { setS32(value, flag_PictureMemory_LastShowIdx(), debug); }
 void resetFlag_PictureMemory_LastShowIdx(bool debug) { resetS32(flag_PictureMemory_LastShowIdx(), debug); }
 s32 getFlag_PictureMemory_Spot_Int(bool debug) { return getS32(flag_PictureMemory_Spot_Int(), debug); }
+void increaseFlag_PictureMemory_Spot_Int(s32 value, bool debug) { increaseS32CommonFlag(value, "PictureMemory_Spot_Int", -1, debug); }
 void setFlag_PictureMemory_Spot_Int(s32 value, bool debug) { setS32(value, flag_PictureMemory_Spot_Int(), debug); }
 void resetFlag_PictureMemory_Spot_Int(bool debug) { resetS32(flag_PictureMemory_Spot_Int(), debug); }
 s32 getFlag_PlacedItemCountState(bool debug) { return getS32(flag_PlacedItemCountState(), debug); }
+void increaseFlag_PlacedItemCountState(s32 value, bool debug) { increaseS32CommonFlag(value, "PlacedItemCountState", -1, debug); }
 void setFlag_PlacedItemCountState(s32 value, bool debug) { setS32(value, flag_PlacedItemCountState(), debug); }
 void resetFlag_PlacedItemCountState(bool debug) { resetS32(flag_PlacedItemCountState(), debug); }
 void getFlag_PlacedItemName(char const** value, bool debug) { getStr64(flag_PlacedItemName(), value, debug); }
 void setFlag_PlacedItemName(const sead::SafeString& value, bool debug) { setStr64(value, flag_PlacedItemName(), debug); }
 void resetFlag_PlacedItemName(bool debug) { resetStr64(flag_PlacedItemName(), debug); }
 s32 getFlag_PlacedItemPrice(bool debug) { return getS32(flag_PlacedItemPrice(), debug); }
+void increaseFlag_PlacedItemPrice(s32 value, bool debug) { increaseS32CommonFlag(value, "PlacedItemPrice", -1, debug); }
 void setFlag_PlacedItemPrice(s32 value, bool debug) { setS32(value, flag_PlacedItemPrice(), debug); }
 void resetFlag_PlacedItemPrice(bool debug) { resetS32(flag_PlacedItemPrice(), debug); }
 bool getFlag_PlayerColdAlert(bool debug) { return getBool(flag_PlayerColdAlert(), debug); }
@@ -10246,6 +10746,7 @@ bool getFlag_PlayerColdMes(bool debug) { return getBool(flag_PlayerColdMes(), de
 void setFlag_PlayerColdMes(bool value, bool debug) { setBool(value, flag_PlayerColdMes(), debug); }
 void resetFlag_PlayerColdMes(bool debug) { resetBool(flag_PlayerColdMes(), debug); }
 s32 getFlag_PlayerEquipItemType(bool debug) { return getS32(flag_PlayerEquipItemType(), debug); }
+void increaseFlag_PlayerEquipItemType(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayerEquipItemType", -1, debug); }
 void setFlag_PlayerEquipItemType(s32 value, bool debug) { setS32(value, flag_PlayerEquipItemType(), debug); }
 void resetFlag_PlayerEquipItemType(bool debug) { resetS32(flag_PlayerEquipItemType(), debug); }
 bool getFlag_PlayerHotAlert(bool debug) { return getBool(flag_PlayerHotAlert(), debug); }
@@ -10285,54 +10786,71 @@ bool getFlag_PlayFlashbackDemoProhibition(bool debug) { return getBool(flag_Play
 void setFlag_PlayFlashbackDemoProhibition(bool value, bool debug) { setBool(value, flag_PlayFlashbackDemoProhibition(), debug); }
 void resetFlag_PlayFlashbackDemoProhibition(bool debug) { resetBool(flag_PlayFlashbackDemoProhibition(), debug); }
 s32 getFlag_PlayReport_AllPlayTime(bool debug) { return getS32(flag_PlayReport_AllPlayTime(), debug); }
+void increaseFlag_PlayReport_AllPlayTime(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_AllPlayTime", -1, debug); }
 void setFlag_PlayReport_AllPlayTime(s32 value, bool debug) { setS32(value, flag_PlayReport_AllPlayTime(), debug); }
 void resetFlag_PlayReport_AllPlayTime(bool debug) { resetS32(flag_PlayReport_AllPlayTime(), debug); }
 s32 getFlag_PlayReport_AudioChannel_5_1ch(bool debug) { return getS32(flag_PlayReport_AudioChannel_5_1ch(), debug); }
+void increaseFlag_PlayReport_AudioChannel_5_1ch(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_AudioChannel_5_1ch", -1, debug); }
 void setFlag_PlayReport_AudioChannel_5_1ch(s32 value, bool debug) { setS32(value, flag_PlayReport_AudioChannel_5_1ch(), debug); }
 void resetFlag_PlayReport_AudioChannel_5_1ch(bool debug) { resetS32(flag_PlayReport_AudioChannel_5_1ch(), debug); }
 s32 getFlag_PlayReport_AudioChannel_Mono(bool debug) { return getS32(flag_PlayReport_AudioChannel_Mono(), debug); }
+void increaseFlag_PlayReport_AudioChannel_Mono(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_AudioChannel_Mono", -1, debug); }
 void setFlag_PlayReport_AudioChannel_Mono(s32 value, bool debug) { setS32(value, flag_PlayReport_AudioChannel_Mono(), debug); }
 void resetFlag_PlayReport_AudioChannel_Mono(bool debug) { resetS32(flag_PlayReport_AudioChannel_Mono(), debug); }
 s32 getFlag_PlayReport_AudioChannel_Other(bool debug) { return getS32(flag_PlayReport_AudioChannel_Other(), debug); }
+void increaseFlag_PlayReport_AudioChannel_Other(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_AudioChannel_Other", -1, debug); }
 void setFlag_PlayReport_AudioChannel_Other(s32 value, bool debug) { setS32(value, flag_PlayReport_AudioChannel_Other(), debug); }
 void resetFlag_PlayReport_AudioChannel_Other(bool debug) { resetS32(flag_PlayReport_AudioChannel_Other(), debug); }
 s32 getFlag_PlayReport_AudioChannel_Stereo(bool debug) { return getS32(flag_PlayReport_AudioChannel_Stereo(), debug); }
+void increaseFlag_PlayReport_AudioChannel_Stereo(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_AudioChannel_Stereo", -1, debug); }
 void setFlag_PlayReport_AudioChannel_Stereo(s32 value, bool debug) { setS32(value, flag_PlayReport_AudioChannel_Stereo(), debug); }
 void resetFlag_PlayReport_AudioChannel_Stereo(bool debug) { resetS32(flag_PlayReport_AudioChannel_Stereo(), debug); }
 s32 getFlag_PlayReport_CtrlMode_Console_Ext(bool debug) { return getS32(flag_PlayReport_CtrlMode_Console_Ext(), debug); }
+void increaseFlag_PlayReport_CtrlMode_Console_Ext(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_CtrlMode_Console_Ext", -1, debug); }
 void setFlag_PlayReport_CtrlMode_Console_Ext(s32 value, bool debug) { setS32(value, flag_PlayReport_CtrlMode_Console_Ext(), debug); }
 void resetFlag_PlayReport_CtrlMode_Console_Ext(bool debug) { resetS32(flag_PlayReport_CtrlMode_Console_Ext(), debug); }
 s32 getFlag_PlayReport_CtrlMode_Console_Free(bool debug) { return getS32(flag_PlayReport_CtrlMode_Console_Free(), debug); }
+void increaseFlag_PlayReport_CtrlMode_Console_Free(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_CtrlMode_Console_Free", -1, debug); }
 void setFlag_PlayReport_CtrlMode_Console_Free(s32 value, bool debug) { setS32(value, flag_PlayReport_CtrlMode_Console_Free(), debug); }
 void resetFlag_PlayReport_CtrlMode_Console_Free(bool debug) { resetS32(flag_PlayReport_CtrlMode_Console_Free(), debug); }
 s32 getFlag_PlayReport_CtrlMode_Console_FullKey(bool debug) { return getS32(flag_PlayReport_CtrlMode_Console_FullKey(), debug); }
+void increaseFlag_PlayReport_CtrlMode_Console_FullKey(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_CtrlMode_Console_FullKey", -1, debug); }
 void setFlag_PlayReport_CtrlMode_Console_FullKey(s32 value, bool debug) { setS32(value, flag_PlayReport_CtrlMode_Console_FullKey(), debug); }
 void resetFlag_PlayReport_CtrlMode_Console_FullKey(bool debug) { resetS32(flag_PlayReport_CtrlMode_Console_FullKey(), debug); }
 s32 getFlag_PlayReport_CtrlMode_Ext(bool debug) { return getS32(flag_PlayReport_CtrlMode_Ext(), debug); }
+void increaseFlag_PlayReport_CtrlMode_Ext(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_CtrlMode_Ext", -1, debug); }
 void setFlag_PlayReport_CtrlMode_Ext(s32 value, bool debug) { setS32(value, flag_PlayReport_CtrlMode_Ext(), debug); }
 void resetFlag_PlayReport_CtrlMode_Ext(bool debug) { resetS32(flag_PlayReport_CtrlMode_Ext(), debug); }
 s32 getFlag_PlayReport_CtrlMode_Free(bool debug) { return getS32(flag_PlayReport_CtrlMode_Free(), debug); }
+void increaseFlag_PlayReport_CtrlMode_Free(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_CtrlMode_Free", -1, debug); }
 void setFlag_PlayReport_CtrlMode_Free(s32 value, bool debug) { setS32(value, flag_PlayReport_CtrlMode_Free(), debug); }
 void resetFlag_PlayReport_CtrlMode_Free(bool debug) { resetS32(flag_PlayReport_CtrlMode_Free(), debug); }
 s32 getFlag_PlayReport_CtrlMode_FullKey(bool debug) { return getS32(flag_PlayReport_CtrlMode_FullKey(), debug); }
+void increaseFlag_PlayReport_CtrlMode_FullKey(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_CtrlMode_FullKey", -1, debug); }
 void setFlag_PlayReport_CtrlMode_FullKey(s32 value, bool debug) { setS32(value, flag_PlayReport_CtrlMode_FullKey(), debug); }
 void resetFlag_PlayReport_CtrlMode_FullKey(bool debug) { resetS32(flag_PlayReport_CtrlMode_FullKey(), debug); }
 s32 getFlag_PlayReport_CtrlMode_Handheld(bool debug) { return getS32(flag_PlayReport_CtrlMode_Handheld(), debug); }
+void increaseFlag_PlayReport_CtrlMode_Handheld(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_CtrlMode_Handheld", -1, debug); }
 void setFlag_PlayReport_CtrlMode_Handheld(s32 value, bool debug) { setS32(value, flag_PlayReport_CtrlMode_Handheld(), debug); }
 void resetFlag_PlayReport_CtrlMode_Handheld(bool debug) { resetS32(flag_PlayReport_CtrlMode_Handheld(), debug); }
 s32 getFlag_PlayReport_PlayTime(bool debug) { return getS32(flag_PlayReport_PlayTime(), debug); }
+void increaseFlag_PlayReport_PlayTime(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_PlayTime", -1, debug); }
 void setFlag_PlayReport_PlayTime(s32 value, bool debug) { setS32(value, flag_PlayReport_PlayTime(), debug); }
 void resetFlag_PlayReport_PlayTime(bool debug) { resetS32(flag_PlayReport_PlayTime(), debug); }
 s32 getFlag_PlayReport_PlayTime_Console(bool debug) { return getS32(flag_PlayReport_PlayTime_Console(), debug); }
+void increaseFlag_PlayReport_PlayTime_Console(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_PlayTime_Console", -1, debug); }
 void setFlag_PlayReport_PlayTime_Console(s32 value, bool debug) { setS32(value, flag_PlayReport_PlayTime_Console(), debug); }
 void resetFlag_PlayReport_PlayTime_Console(bool debug) { resetS32(flag_PlayReport_PlayTime_Console(), debug); }
 s32 getFlag_PlayReport_PlayTime_Handheld(bool debug) { return getS32(flag_PlayReport_PlayTime_Handheld(), debug); }
+void increaseFlag_PlayReport_PlayTime_Handheld(s32 value, bool debug) { increaseS32CommonFlag(value, "PlayReport_PlayTime_Handheld", -1, debug); }
 void setFlag_PlayReport_PlayTime_Handheld(s32 value, bool debug) { setS32(value, flag_PlayReport_PlayTime_Handheld(), debug); }
 void resetFlag_PlayReport_PlayTime_Handheld(bool debug) { resetS32(flag_PlayReport_PlayTime_Handheld(), debug); }
 s32 getFlag_PorchBow_FlagSp(s32 idx, bool debug) { return getS32(flag_PorchBow_FlagSp(), idx, debug); }
+void increaseFlag_PorchBow_FlagSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "PorchBow_FlagSp", idx, debug); }
 void setFlag_PorchBow_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchBow_FlagSp(), idx, debug); }
 void resetFlag_PorchBow_FlagSp(s32 idx, bool debug) { resetS32(flag_PorchBow_FlagSp(), idx, debug); }
 s32 getFlag_PorchBow_ValueSp(s32 idx, bool debug) { return getS32(flag_PorchBow_ValueSp(), idx, debug); }
+void increaseFlag_PorchBow_ValueSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "PorchBow_ValueSp", idx, debug); }
 void setFlag_PorchBow_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchBow_ValueSp(), idx, debug); }
 void resetFlag_PorchBow_ValueSp(s32 idx, bool debug) { resetS32(flag_PorchBow_ValueSp(), idx, debug); }
 void getFlag_PorchItem(char const** value, s32 idx, bool debug) { getStr64(flag_PorchItem(), value, idx, debug); }
@@ -10342,30 +10860,38 @@ bool getFlag_PorchItem_EquipFlag(s32 idx, bool debug) { return getBool(flag_Porc
 void setFlag_PorchItem_EquipFlag(bool value, s32 idx, bool debug) { setBool(value, flag_PorchItem_EquipFlag(), idx, debug); }
 void resetFlag_PorchItem_EquipFlag(s32 idx, bool debug) { resetBool(flag_PorchItem_EquipFlag(), idx, debug); }
 s32 getFlag_PorchItem_Value1(s32 idx, bool debug) { return getS32(flag_PorchItem_Value1(), idx, debug); }
+void increaseFlag_PorchItem_Value1(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "PorchItem_Value1", idx, debug); }
 void setFlag_PorchItem_Value1(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchItem_Value1(), idx, debug); }
 void resetFlag_PorchItem_Value1(s32 idx, bool debug) { resetS32(flag_PorchItem_Value1(), idx, debug); }
 s32 getFlag_PorchShield_FlagSp(s32 idx, bool debug) { return getS32(flag_PorchShield_FlagSp(), idx, debug); }
+void increaseFlag_PorchShield_FlagSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "PorchShield_FlagSp", idx, debug); }
 void setFlag_PorchShield_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchShield_FlagSp(), idx, debug); }
 void resetFlag_PorchShield_FlagSp(s32 idx, bool debug) { resetS32(flag_PorchShield_FlagSp(), idx, debug); }
 s32 getFlag_PorchShield_ValueSp(s32 idx, bool debug) { return getS32(flag_PorchShield_ValueSp(), idx, debug); }
+void increaseFlag_PorchShield_ValueSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "PorchShield_ValueSp", idx, debug); }
 void setFlag_PorchShield_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchShield_ValueSp(), idx, debug); }
 void resetFlag_PorchShield_ValueSp(s32 idx, bool debug) { resetS32(flag_PorchShield_ValueSp(), idx, debug); }
 s32 getFlag_PorchSword_FlagSp(s32 idx, bool debug) { return getS32(flag_PorchSword_FlagSp(), idx, debug); }
+void increaseFlag_PorchSword_FlagSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "PorchSword_FlagSp", idx, debug); }
 void setFlag_PorchSword_FlagSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchSword_FlagSp(), idx, debug); }
 void resetFlag_PorchSword_FlagSp(s32 idx, bool debug) { resetS32(flag_PorchSword_FlagSp(), idx, debug); }
 s32 getFlag_PorchSword_ValueSp(s32 idx, bool debug) { return getS32(flag_PorchSword_ValueSp(), idx, debug); }
+void increaseFlag_PorchSword_ValueSp(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "PorchSword_ValueSp", idx, debug); }
 void setFlag_PorchSword_ValueSp(s32 value, s32 idx, bool debug) { setS32(value, flag_PorchSword_ValueSp(), idx, debug); }
 void resetFlag_PorchSword_ValueSp(s32 idx, bool debug) { resetS32(flag_PorchSword_ValueSp(), idx, debug); }
 bool getFlag_PortableUnit_PowerOn(bool debug) { return getBool(flag_PortableUnit_PowerOn(), debug); }
 void setFlag_PortableUnit_PowerOn(bool value, bool debug) { setBool(value, flag_PortableUnit_PowerOn(), debug); }
 void resetFlag_PortableUnit_PowerOn(bool debug) { resetBool(flag_PortableUnit_PowerOn(), debug); }
 s32 getFlag_PosTrackEndPointBlockNumber(bool debug) { return getS32(flag_PosTrackEndPointBlockNumber(), debug); }
+void increaseFlag_PosTrackEndPointBlockNumber(s32 value, bool debug) { increaseS32CommonFlag(value, "PosTrackEndPointBlockNumber", -1, debug); }
 void setFlag_PosTrackEndPointBlockNumber(s32 value, bool debug) { setS32(value, flag_PosTrackEndPointBlockNumber(), debug); }
 void resetFlag_PosTrackEndPointBlockNumber(bool debug) { resetS32(flag_PosTrackEndPointBlockNumber(), debug); }
 s32 getFlag_PosTrackEndPointPosIndex(bool debug) { return getS32(flag_PosTrackEndPointPosIndex(), debug); }
+void increaseFlag_PosTrackEndPointPosIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "PosTrackEndPointPosIndex", -1, debug); }
 void setFlag_PosTrackEndPointPosIndex(s32 value, bool debug) { setS32(value, flag_PosTrackEndPointPosIndex(), debug); }
 void resetFlag_PosTrackEndPointPosIndex(bool debug) { resetS32(flag_PosTrackEndPointPosIndex(), debug); }
 s32 getFlag_PosTrackEndPointRecordIndex(bool debug) { return getS32(flag_PosTrackEndPointRecordIndex(), debug); }
+void increaseFlag_PosTrackEndPointRecordIndex(s32 value, bool debug) { increaseS32CommonFlag(value, "PosTrackEndPointRecordIndex", -1, debug); }
 void setFlag_PosTrackEndPointRecordIndex(s32 value, bool debug) { setS32(value, flag_PosTrackEndPointRecordIndex(), debug); }
 void resetFlag_PosTrackEndPointRecordIndex(bool debug) { resetS32(flag_PosTrackEndPointRecordIndex(), debug); }
 bool getFlag_PowerFirstDemoKill(bool debug) { return getBool(flag_PowerFirstDemoKill(), debug); }
@@ -10378,6 +10904,7 @@ bool getFlag_PSavePosNotUpdate(bool debug) { return getBool(flag_PSavePosNotUpda
 void setFlag_PSavePosNotUpdate(bool value, bool debug) { setBool(value, flag_PSavePosNotUpdate(), debug); }
 void resetFlag_PSavePosNotUpdate(bool debug) { resetBool(flag_PSavePosNotUpdate(), debug); }
 s32 getFlag_QuestIndexSetPointGuide(bool debug) { return getS32(flag_QuestIndexSetPointGuide(), debug); }
+void increaseFlag_QuestIndexSetPointGuide(s32 value, bool debug) { increaseS32CommonFlag(value, "QuestIndexSetPointGuide", -1, debug); }
 void setFlag_QuestIndexSetPointGuide(s32 value, bool debug) { setS32(value, flag_QuestIndexSetPointGuide(), debug); }
 void resetFlag_QuestIndexSetPointGuide(bool debug) { resetS32(flag_QuestIndexSetPointGuide(), debug); }
 bool getFlag_Radio_PowerOnOff(bool debug) { return getBool(flag_Radio_PowerOnOff(), debug); }
@@ -10528,6 +11055,7 @@ bool getFlag_Rinel_Complete(bool debug) { return getBool(flag_Rinel_Complete(), 
 void setFlag_Rinel_Complete(bool value, bool debug) { setBool(value, flag_Rinel_Complete(), debug); }
 void resetFlag_Rinel_Complete(bool debug) { resetBool(flag_Rinel_Complete(), debug); }
 s32 getFlag_RinelSeries_Counter(bool debug) { return getS32(flag_RinelSeries_Counter(), debug); }
+void increaseFlag_RinelSeries_Counter(s32 value, bool debug) { increaseS32CommonFlag(value, "RinelSeries_Counter", -1, debug); }
 void setFlag_RinelSeries_Counter(s32 value, bool debug) { setS32(value, flag_RinelSeries_Counter(), debug); }
 void resetFlag_RinelSeries_Counter(bool debug) { resetS32(flag_RinelSeries_Counter(), debug); }
 bool getFlag_Rito_NPC011_ChoiceTeba(bool debug) { return getBool(flag_Rito_NPC011_ChoiceTeba(), debug); }
@@ -10567,45 +11095,56 @@ void getFlag_ScoreStringBuffer(char const** value, bool debug) { getStr(flag_Sco
 void setFlag_ScoreStringBuffer(const sead::SafeString& value, bool debug) { setStr(value, flag_ScoreStringBuffer(), debug); }
 void resetFlag_ScoreStringBuffer(bool debug) { resetStr(flag_ScoreStringBuffer(), debug); }
 s32 getFlag_SeakSensorPictureIndex(s32 idx, bool debug) { return getS32(flag_SeakSensorPictureIndex(), idx, debug); }
+void increaseFlag_SeakSensorPictureIndex(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "SeakSensorPictureIndex", idx, debug); }
 void setFlag_SeakSensorPictureIndex(s32 value, s32 idx, bool debug) { setS32(value, flag_SeakSensorPictureIndex(), idx, debug); }
 void resetFlag_SeakSensorPictureIndex(s32 idx, bool debug) { resetS32(flag_SeakSensorPictureIndex(), idx, debug); }
 s32 getFlag_SeakSensorPictureSize(s32 idx, bool debug) { return getS32(flag_SeakSensorPictureSize(), idx, debug); }
+void increaseFlag_SeakSensorPictureSize(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "SeakSensorPictureSize", idx, debug); }
 void setFlag_SeakSensorPictureSize(s32 value, s32 idx, bool debug) { setS32(value, flag_SeakSensorPictureSize(), idx, debug); }
 void resetFlag_SeakSensorPictureSize(s32 idx, bool debug) { resetS32(flag_SeakSensorPictureSize(), idx, debug); }
 bool getFlag_Self_HorseAssociationCustum_DispNameFlag(bool debug) { return getBool(flag_Self_HorseAssociationCustum_DispNameFlag(), debug); }
 void setFlag_Self_HorseAssociationCustum_DispNameFlag(bool value, bool debug) { setBool(value, flag_Self_HorseAssociationCustum_DispNameFlag(), debug); }
 void resetFlag_Self_HorseAssociationCustum_DispNameFlag(bool debug) { resetBool(flag_Self_HorseAssociationCustum_DispNameFlag(), debug); }
 s32 getFlag_SetItemCurrentNo(bool debug) { return getS32(flag_SetItemCurrentNo(), debug); }
+void increaseFlag_SetItemCurrentNo(s32 value, bool debug) { increaseS32CommonFlag(value, "SetItemCurrentNo", -1, debug); }
 void setFlag_SetItemCurrentNo(s32 value, bool debug) { setS32(value, flag_SetItemCurrentNo(), debug); }
 void resetFlag_SetItemCurrentNo(bool debug) { resetS32(flag_SetItemCurrentNo(), debug); }
 bool getFlag_ShieldofKolog_Finish(bool debug) { return getBool(flag_ShieldofKolog_Finish(), debug); }
 void setFlag_ShieldofKolog_Finish(bool value, bool debug) { setBool(value, flag_ShieldofKolog_Finish(), debug); }
 void resetFlag_ShieldofKolog_Finish(bool debug) { resetBool(flag_ShieldofKolog_Finish(), debug); }
 s32 getFlag_ShieldofKolog_mini_BestTime_L(bool debug) { return getS32(flag_ShieldofKolog_mini_BestTime_L(), debug); }
+void increaseFlag_ShieldofKolog_mini_BestTime_L(s32 value, bool debug) { increaseS32CommonFlag(value, "ShieldofKolog_mini_BestTime_L", -1, debug); }
 void setFlag_ShieldofKolog_mini_BestTime_L(s32 value, bool debug) { setS32(value, flag_ShieldofKolog_mini_BestTime_L(), debug); }
 void resetFlag_ShieldofKolog_mini_BestTime_L(bool debug) { resetS32(flag_ShieldofKolog_mini_BestTime_L(), debug); }
 s32 getFlag_ShieldofKolog_mini_BestTime_M(bool debug) { return getS32(flag_ShieldofKolog_mini_BestTime_M(), debug); }
+void increaseFlag_ShieldofKolog_mini_BestTime_M(s32 value, bool debug) { increaseS32CommonFlag(value, "ShieldofKolog_mini_BestTime_M", -1, debug); }
 void setFlag_ShieldofKolog_mini_BestTime_M(s32 value, bool debug) { setS32(value, flag_ShieldofKolog_mini_BestTime_M(), debug); }
 void resetFlag_ShieldofKolog_mini_BestTime_M(bool debug) { resetS32(flag_ShieldofKolog_mini_BestTime_M(), debug); }
 s32 getFlag_ShieldofKolog_mini_BestTime_S(bool debug) { return getS32(flag_ShieldofKolog_mini_BestTime_S(), debug); }
+void increaseFlag_ShieldofKolog_mini_BestTime_S(s32 value, bool debug) { increaseS32CommonFlag(value, "ShieldofKolog_mini_BestTime_S", -1, debug); }
 void setFlag_ShieldofKolog_mini_BestTime_S(s32 value, bool debug) { setS32(value, flag_ShieldofKolog_mini_BestTime_S(), debug); }
 void resetFlag_ShieldofKolog_mini_BestTime_S(bool debug) { resetS32(flag_ShieldofKolog_mini_BestTime_S(), debug); }
 s32 getFlag_ShieldofKolog_mini_ThisTime_L(bool debug) { return getS32(flag_ShieldofKolog_mini_ThisTime_L(), debug); }
+void increaseFlag_ShieldofKolog_mini_ThisTime_L(s32 value, bool debug) { increaseS32CommonFlag(value, "ShieldofKolog_mini_ThisTime_L", -1, debug); }
 void setFlag_ShieldofKolog_mini_ThisTime_L(s32 value, bool debug) { setS32(value, flag_ShieldofKolog_mini_ThisTime_L(), debug); }
 void resetFlag_ShieldofKolog_mini_ThisTime_L(bool debug) { resetS32(flag_ShieldofKolog_mini_ThisTime_L(), debug); }
 s32 getFlag_ShieldofKolog_mini_ThisTime_M(bool debug) { return getS32(flag_ShieldofKolog_mini_ThisTime_M(), debug); }
+void increaseFlag_ShieldofKolog_mini_ThisTime_M(s32 value, bool debug) { increaseS32CommonFlag(value, "ShieldofKolog_mini_ThisTime_M", -1, debug); }
 void setFlag_ShieldofKolog_mini_ThisTime_M(s32 value, bool debug) { setS32(value, flag_ShieldofKolog_mini_ThisTime_M(), debug); }
 void resetFlag_ShieldofKolog_mini_ThisTime_M(bool debug) { resetS32(flag_ShieldofKolog_mini_ThisTime_M(), debug); }
 s32 getFlag_ShieldofKolog_mini_ThisTime_S(bool debug) { return getS32(flag_ShieldofKolog_mini_ThisTime_S(), debug); }
+void increaseFlag_ShieldofKolog_mini_ThisTime_S(s32 value, bool debug) { increaseS32CommonFlag(value, "ShieldofKolog_mini_ThisTime_S", -1, debug); }
 void setFlag_ShieldofKolog_mini_ThisTime_S(s32 value, bool debug) { setS32(value, flag_ShieldofKolog_mini_ThisTime_S(), debug); }
 void resetFlag_ShieldofKolog_mini_ThisTime_S(bool debug) { resetS32(flag_ShieldofKolog_mini_ThisTime_S(), debug); }
 s32 getFlag_ShieldPorchStockNum(bool debug) { return getS32(flag_ShieldPorchStockNum(), debug); }
+void increaseFlag_ShieldPorchStockNum(s32 value, bool debug) { increaseS32CommonFlag(value, "ShieldPorchStockNum", -1, debug); }
 void setFlag_ShieldPorchStockNum(s32 value, bool debug) { setS32(value, flag_ShieldPorchStockNum(), debug); }
 void resetFlag_ShieldPorchStockNum(bool debug) { resetS32(flag_ShieldPorchStockNum(), debug); }
 void getFlag_ShootingStarPosition(sead::Vector3f* value, bool debug) { getVec3f(flag_ShootingStarPosition(), value, debug); }
 void setFlag_ShootingStarPosition(const sead::Vector3f& value, bool debug) { setVec3f(value, flag_ShootingStarPosition(), debug); }
 void resetFlag_ShootingStarPosition(bool debug) { resetVec3f(flag_ShootingStarPosition(), debug); }
 s32 getFlag_Shop_CurrentItemState(bool debug) { return getS32(flag_Shop_CurrentItemState(), debug); }
+void increaseFlag_Shop_CurrentItemState(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_CurrentItemState", -1, debug); }
 void setFlag_Shop_CurrentItemState(s32 value, bool debug) { setS32(value, flag_Shop_CurrentItemState(), debug); }
 void resetFlag_Shop_CurrentItemState(bool debug) { resetS32(flag_Shop_CurrentItemState(), debug); }
 bool getFlag_Shop_DecideTrig(bool debug) { return getBool(flag_Shop_DecideTrig(), debug); }
@@ -10621,18 +11160,22 @@ bool getFlag_Shop_IsSelectPurchase(bool debug) { return getBool(flag_Shop_IsSele
 void setFlag_Shop_IsSelectPurchase(bool value, bool debug) { setBool(value, flag_Shop_IsSelectPurchase(), debug); }
 void resetFlag_Shop_IsSelectPurchase(bool debug) { resetBool(flag_Shop_IsSelectPurchase(), debug); }
 s32 getFlag_Shop_ItemState(bool debug) { return getS32(flag_Shop_ItemState(), debug); }
+void increaseFlag_Shop_ItemState(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_ItemState", -1, debug); }
 void setFlag_Shop_ItemState(s32 value, bool debug) { setS32(value, flag_Shop_ItemState(), debug); }
 void resetFlag_Shop_ItemState(bool debug) { resetS32(flag_Shop_ItemState(), debug); }
 s32 getFlag_Shop_ManufacturedEquipItemColor(bool debug) { return getS32(flag_Shop_ManufacturedEquipItemColor(), debug); }
+void increaseFlag_Shop_ManufacturedEquipItemColor(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_ManufacturedEquipItemColor", -1, debug); }
 void setFlag_Shop_ManufacturedEquipItemColor(s32 value, bool debug) { setS32(value, flag_Shop_ManufacturedEquipItemColor(), debug); }
 void resetFlag_Shop_ManufacturedEquipItemColor(bool debug) { resetS32(flag_Shop_ManufacturedEquipItemColor(), debug); }
 void getFlag_Shop_ManufacturedEquipItemName(char const** value, bool debug) { getStr64(flag_Shop_ManufacturedEquipItemName(), value, debug); }
 void setFlag_Shop_ManufacturedEquipItemName(const sead::SafeString& value, bool debug) { setStr64(value, flag_Shop_ManufacturedEquipItemName(), debug); }
 void resetFlag_Shop_ManufacturedEquipItemName(bool debug) { resetStr64(flag_Shop_ManufacturedEquipItemName(), debug); }
 s32 getFlag_Shop_PlacedItemStockNum(bool debug) { return getS32(flag_Shop_PlacedItemStockNum(), debug); }
+void increaseFlag_Shop_PlacedItemStockNum(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_PlacedItemStockNum", -1, debug); }
 void setFlag_Shop_PlacedItemStockNum(s32 value, bool debug) { setS32(value, flag_Shop_PlacedItemStockNum(), debug); }
 void resetFlag_Shop_PlacedItemStockNum(bool debug) { resetS32(flag_Shop_PlacedItemStockNum(), debug); }
 s32 getFlag_Shop_ScreenType(bool debug) { return getS32(flag_Shop_ScreenType(), debug); }
+void increaseFlag_Shop_ScreenType(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_ScreenType", -1, debug); }
 void setFlag_Shop_ScreenType(s32 value, bool debug) { setS32(value, flag_Shop_ScreenType(), debug); }
 void resetFlag_Shop_ScreenType(bool debug) { resetS32(flag_Shop_ScreenType(), debug); }
 void getFlag_Shop_SelectItemName(char const** value, bool debug) { getStr64(flag_Shop_SelectItemName(), value, debug); }
@@ -10642,24 +11185,30 @@ void getFlag_Shop_SelectItemNameJpn(char const** value, bool debug) { getStr64(f
 void setFlag_Shop_SelectItemNameJpn(const sead::SafeString& value, bool debug) { setStr64(value, flag_Shop_SelectItemNameJpn(), debug); }
 void resetFlag_Shop_SelectItemNameJpn(bool debug) { resetStr64(flag_Shop_SelectItemNameJpn(), debug); }
 s32 getFlag_Shop_SelectItemNum(bool debug) { return getS32(flag_Shop_SelectItemNum(), debug); }
+void increaseFlag_Shop_SelectItemNum(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_SelectItemNum", -1, debug); }
 void setFlag_Shop_SelectItemNum(s32 value, bool debug) { setS32(value, flag_Shop_SelectItemNum(), debug); }
 void resetFlag_Shop_SelectItemNum(bool debug) { resetS32(flag_Shop_SelectItemNum(), debug); }
 s32 getFlag_Shop_SelectItemPrice(bool debug) { return getS32(flag_Shop_SelectItemPrice(), debug); }
+void increaseFlag_Shop_SelectItemPrice(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_SelectItemPrice", -1, debug); }
 void setFlag_Shop_SelectItemPrice(s32 value, bool debug) { setS32(value, flag_Shop_SelectItemPrice(), debug); }
 void resetFlag_Shop_SelectItemPrice(bool debug) { resetS32(flag_Shop_SelectItemPrice(), debug); }
 s32 getFlag_Shop_SelectPictureBookVacancy(bool debug) { return getS32(flag_Shop_SelectPictureBookVacancy(), debug); }
+void increaseFlag_Shop_SelectPictureBookVacancy(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_SelectPictureBookVacancy", -1, debug); }
 void setFlag_Shop_SelectPictureBookVacancy(s32 value, bool debug) { setS32(value, flag_Shop_SelectPictureBookVacancy(), debug); }
 void resetFlag_Shop_SelectPictureBookVacancy(bool debug) { resetS32(flag_Shop_SelectPictureBookVacancy(), debug); }
 s32 getFlag_Shop_TradeItemNum(bool debug) { return getS32(flag_Shop_TradeItemNum(), debug); }
+void increaseFlag_Shop_TradeItemNum(s32 value, bool debug) { increaseS32CommonFlag(value, "Shop_TradeItemNum", -1, debug); }
 void setFlag_Shop_TradeItemNum(s32 value, bool debug) { setS32(value, flag_Shop_TradeItemNum(), debug); }
 void resetFlag_Shop_TradeItemNum(bool debug) { resetS32(flag_Shop_TradeItemNum(), debug); }
 s32 getFlag_ShopTradePrice(bool debug) { return getS32(flag_ShopTradePrice(), debug); }
+void increaseFlag_ShopTradePrice(s32 value, bool debug) { increaseS32CommonFlag(value, "ShopTradePrice", -1, debug); }
 void setFlag_ShopTradePrice(s32 value, bool debug) { setS32(value, flag_ShopTradePrice(), debug); }
 void resetFlag_ShopTradePrice(bool debug) { resetS32(flag_ShopTradePrice(), debug); }
 bool getFlag_ShowLocationProhibitionInDemo(bool debug) { return getBool(flag_ShowLocationProhibitionInDemo(), debug); }
 void setFlag_ShowLocationProhibitionInDemo(bool value, bool debug) { setBool(value, flag_ShowLocationProhibitionInDemo(), debug); }
 void resetFlag_ShowLocationProhibitionInDemo(bool debug) { resetBool(flag_ShowLocationProhibitionInDemo(), debug); }
 s32 getFlag_SmallKey(s32 idx, bool debug) { return getS32(flag_SmallKey(), idx, debug); }
+void increaseFlag_SmallKey(s32 value, s32 idx, bool debug) { increaseS32CommonFlag(value, "SmallKey", idx, debug); }
 void setFlag_SmallKey(s32 value, s32 idx, bool debug) { setS32(value, flag_SmallKey(), idx, debug); }
 void resetFlag_SmallKey(s32 idx, bool debug) { resetS32(flag_SmallKey(), idx, debug); }
 bool getFlag_SnowMountainRescue_Activated(bool debug) { return getBool(flag_SnowMountainRescue_Activated(), debug); }
@@ -10699,6 +11248,7 @@ bool getFlag_Stalfos_Complete(bool debug) { return getBool(flag_Stalfos_Complete
 void setFlag_Stalfos_Complete(bool value, bool debug) { setBool(value, flag_Stalfos_Complete(), debug); }
 void resetFlag_Stalfos_Complete(bool debug) { resetBool(flag_Stalfos_Complete(), debug); }
 s32 getFlag_StalfosSeries_Counter(bool debug) { return getS32(flag_StalfosSeries_Counter(), debug); }
+void increaseFlag_StalfosSeries_Counter(s32 value, bool debug) { increaseS32CommonFlag(value, "StalfosSeries_Counter", -1, debug); }
 void setFlag_StalfosSeries_Counter(s32 value, bool debug) { setS32(value, flag_StalfosSeries_Counter(), debug); }
 void resetFlag_StalfosSeries_Counter(bool debug) { resetS32(flag_StalfosSeries_Counter(), debug); }
 f32 getFlag_StaminaCurrentMax(bool debug) { return getF32(flag_StaminaCurrentMax(), debug); }
@@ -10711,9 +11261,11 @@ void getFlag_StaminaRecover(sead::Vector2f* value, s32 idx, bool debug) { getVec
 void setFlag_StaminaRecover(const sead::Vector2f& value, s32 idx, bool debug) { setVec2f(value, flag_StaminaRecover(), idx, debug); }
 void resetFlag_StaminaRecover(s32 idx, bool debug) { resetVec2f(flag_StaminaRecover(), idx, debug); }
 s32 getFlag_STErrorCode(bool debug) { return getS32(flag_STErrorCode(), debug); }
+void increaseFlag_STErrorCode(s32 value, bool debug) { increaseS32CommonFlag(value, "STErrorCode", -1, debug); }
 void setFlag_STErrorCode(s32 value, bool debug) { setS32(value, flag_STErrorCode(), debug); }
 void resetFlag_STErrorCode(bool debug) { resetS32(flag_STErrorCode(), debug); }
 s32 getFlag_StickSensitivity(bool debug) { return getS32(flag_StickSensitivity(), debug); }
+void increaseFlag_StickSensitivity(s32 value, bool debug) { increaseS32CommonFlag(value, "StickSensitivity", -1, debug); }
 void setFlag_StickSensitivity(s32 value, bool debug) { setS32(value, flag_StickSensitivity(), debug); }
 void resetFlag_StickSensitivity(bool debug) { resetS32(flag_StickSensitivity(), debug); }
 bool getFlag_StolenBook_Alert_NPC007(bool debug) { return getBool(flag_StolenBook_Alert_NPC007(), debug); }
@@ -10807,27 +11359,34 @@ bool getFlag_subchallnpc000_twin_DispNameFlag(bool debug) { return getBool(flag_
 void setFlag_subchallnpc000_twin_DispNameFlag(bool value, bool debug) { setBool(value, flag_subchallnpc000_twin_DispNameFlag(), debug); }
 void resetFlag_subchallnpc000_twin_DispNameFlag(bool debug) { resetBool(flag_subchallnpc000_twin_DispNameFlag(), debug); }
 s32 getFlag_SunazarashiRace_BestTime_L(bool debug) { return getS32(flag_SunazarashiRace_BestTime_L(), debug); }
+void increaseFlag_SunazarashiRace_BestTime_L(s32 value, bool debug) { increaseS32CommonFlag(value, "SunazarashiRace_BestTime_L", -1, debug); }
 void setFlag_SunazarashiRace_BestTime_L(s32 value, bool debug) { setS32(value, flag_SunazarashiRace_BestTime_L(), debug); }
 void resetFlag_SunazarashiRace_BestTime_L(bool debug) { resetS32(flag_SunazarashiRace_BestTime_L(), debug); }
 s32 getFlag_SunazarashiRace_BestTime_M(bool debug) { return getS32(flag_SunazarashiRace_BestTime_M(), debug); }
+void increaseFlag_SunazarashiRace_BestTime_M(s32 value, bool debug) { increaseS32CommonFlag(value, "SunazarashiRace_BestTime_M", -1, debug); }
 void setFlag_SunazarashiRace_BestTime_M(s32 value, bool debug) { setS32(value, flag_SunazarashiRace_BestTime_M(), debug); }
 void resetFlag_SunazarashiRace_BestTime_M(bool debug) { resetS32(flag_SunazarashiRace_BestTime_M(), debug); }
 s32 getFlag_SunazarashiRace_BestTime_S(bool debug) { return getS32(flag_SunazarashiRace_BestTime_S(), debug); }
+void increaseFlag_SunazarashiRace_BestTime_S(s32 value, bool debug) { increaseS32CommonFlag(value, "SunazarashiRace_BestTime_S", -1, debug); }
 void setFlag_SunazarashiRace_BestTime_S(s32 value, bool debug) { setS32(value, flag_SunazarashiRace_BestTime_S(), debug); }
 void resetFlag_SunazarashiRace_BestTime_S(bool debug) { resetS32(flag_SunazarashiRace_BestTime_S(), debug); }
 s32 getFlag_SunazarashiRace_GateCnt(bool debug) { return getS32(flag_SunazarashiRace_GateCnt(), debug); }
+void increaseFlag_SunazarashiRace_GateCnt(s32 value, bool debug) { increaseS32CommonFlag(value, "SunazarashiRace_GateCnt", -1, debug); }
 void setFlag_SunazarashiRace_GateCnt(s32 value, bool debug) { setS32(value, flag_SunazarashiRace_GateCnt(), debug); }
 void resetFlag_SunazarashiRace_GateCnt(bool debug) { resetS32(flag_SunazarashiRace_GateCnt(), debug); }
 bool getFlag_SunazarashiRace_IfGetOff(bool debug) { return getBool(flag_SunazarashiRace_IfGetOff(), debug); }
 void setFlag_SunazarashiRace_IfGetOff(bool value, bool debug) { setBool(value, flag_SunazarashiRace_IfGetOff(), debug); }
 void resetFlag_SunazarashiRace_IfGetOff(bool debug) { resetBool(flag_SunazarashiRace_IfGetOff(), debug); }
 s32 getFlag_SunazarashiRace_ThisTime_L(bool debug) { return getS32(flag_SunazarashiRace_ThisTime_L(), debug); }
+void increaseFlag_SunazarashiRace_ThisTime_L(s32 value, bool debug) { increaseS32CommonFlag(value, "SunazarashiRace_ThisTime_L", -1, debug); }
 void setFlag_SunazarashiRace_ThisTime_L(s32 value, bool debug) { setS32(value, flag_SunazarashiRace_ThisTime_L(), debug); }
 void resetFlag_SunazarashiRace_ThisTime_L(bool debug) { resetS32(flag_SunazarashiRace_ThisTime_L(), debug); }
 s32 getFlag_SunazarashiRace_ThisTime_M(bool debug) { return getS32(flag_SunazarashiRace_ThisTime_M(), debug); }
+void increaseFlag_SunazarashiRace_ThisTime_M(s32 value, bool debug) { increaseS32CommonFlag(value, "SunazarashiRace_ThisTime_M", -1, debug); }
 void setFlag_SunazarashiRace_ThisTime_M(s32 value, bool debug) { setS32(value, flag_SunazarashiRace_ThisTime_M(), debug); }
 void resetFlag_SunazarashiRace_ThisTime_M(bool debug) { resetS32(flag_SunazarashiRace_ThisTime_M(), debug); }
 s32 getFlag_SunazarashiRace_ThisTime_S(bool debug) { return getS32(flag_SunazarashiRace_ThisTime_S(), debug); }
+void increaseFlag_SunazarashiRace_ThisTime_S(s32 value, bool debug) { increaseS32CommonFlag(value, "SunazarashiRace_ThisTime_S", -1, debug); }
 void setFlag_SunazarashiRace_ThisTime_S(s32 value, bool debug) { setS32(value, flag_SunazarashiRace_ThisTime_S(), debug); }
 void resetFlag_SunazarashiRace_ThisTime_S(bool debug) { resetS32(flag_SunazarashiRace_ThisTime_S(), debug); }
 bool getFlag_TalkedPump(bool debug) { return getBool(flag_TalkedPump(), debug); }
@@ -10837,6 +11396,7 @@ bool getFlag_Tartnack_Complete(bool debug) { return getBool(flag_Tartnack_Comple
 void setFlag_Tartnack_Complete(bool value, bool debug) { setBool(value, flag_Tartnack_Complete(), debug); }
 void resetFlag_Tartnack_Complete(bool debug) { resetBool(flag_Tartnack_Complete(), debug); }
 s32 getFlag_TartnackSeries_Counter(bool debug) { return getS32(flag_TartnackSeries_Counter(), debug); }
+void increaseFlag_TartnackSeries_Counter(s32 value, bool debug) { increaseS32CommonFlag(value, "TartnackSeries_Counter", -1, debug); }
 void setFlag_TartnackSeries_Counter(s32 value, bool debug) { setS32(value, flag_TartnackSeries_Counter(), debug); }
 void resetFlag_TartnackSeries_Counter(bool debug) { resetS32(flag_TartnackSeries_Counter(), debug); }
 bool getFlag_Test_Giant_Clear1(bool debug) { return getBool(flag_Test_Giant_Clear1(), debug); }
@@ -10861,24 +11421,29 @@ bool getFlag_Test_Started(bool debug) { return getBool(flag_Test_Started(), debu
 void setFlag_Test_Started(bool value, bool debug) { setBool(value, flag_Test_Started(), debug); }
 void resetFlag_Test_Started(bool debug) { resetBool(flag_Test_Started(), debug); }
 s32 getFlag_Test_Tsumita_EnemyCount(bool debug) { return getS32(flag_Test_Tsumita_EnemyCount(), debug); }
+void increaseFlag_Test_Tsumita_EnemyCount(s32 value, bool debug) { increaseS32CommonFlag(value, "Test_Tsumita_EnemyCount", -1, debug); }
 void setFlag_Test_Tsumita_EnemyCount(s32 value, bool debug) { setS32(value, flag_Test_Tsumita_EnemyCount(), debug); }
 void resetFlag_Test_Tsumita_EnemyCount(bool debug) { resetS32(flag_Test_Tsumita_EnemyCount(), debug); }
 s32 getFlag_Test_Tsumita_ItemCount(bool debug) { return getS32(flag_Test_Tsumita_ItemCount(), debug); }
+void increaseFlag_Test_Tsumita_ItemCount(s32 value, bool debug) { increaseS32CommonFlag(value, "Test_Tsumita_ItemCount", -1, debug); }
 void setFlag_Test_Tsumita_ItemCount(s32 value, bool debug) { setS32(value, flag_Test_Tsumita_ItemCount(), debug); }
 void resetFlag_Test_Tsumita_ItemCount(bool debug) { resetS32(flag_Test_Tsumita_ItemCount(), debug); }
 bool getFlag_TextRubyOnOff(bool debug) { return getBool(flag_TextRubyOnOff(), debug); }
 void setFlag_TextRubyOnOff(bool value, bool debug) { setBool(value, flag_TextRubyOnOff(), debug); }
 void resetFlag_TextRubyOnOff(bool debug) { resetBool(flag_TextRubyOnOff(), debug); }
 s32 getFlag_TextWindowChange(bool debug) { return getS32(flag_TextWindowChange(), debug); }
+void increaseFlag_TextWindowChange(s32 value, bool debug) { increaseS32CommonFlag(value, "TextWindowChange", -1, debug); }
 void setFlag_TextWindowChange(s32 value, bool debug) { setS32(value, flag_TextWindowChange(), debug); }
 void resetFlag_TextWindowChange(bool debug) { resetS32(flag_TextWindowChange(), debug); }
 bool getFlag_Tower04_Domino001(bool debug) { return getBool(flag_Tower04_Domino001(), debug); }
 void setFlag_Tower04_Domino001(bool value, bool debug) { setBool(value, flag_Tower04_Domino001(), debug); }
 void resetFlag_Tower04_Domino001(bool debug) { resetBool(flag_Tower04_Domino001(), debug); }
 s32 getFlag_TrackBlockFileNumber(bool debug) { return getS32(flag_TrackBlockFileNumber(), debug); }
+void increaseFlag_TrackBlockFileNumber(s32 value, bool debug) { increaseS32CommonFlag(value, "TrackBlockFileNumber", -1, debug); }
 void setFlag_TrackBlockFileNumber(s32 value, bool debug) { setS32(value, flag_TrackBlockFileNumber(), debug); }
 void resetFlag_TrackBlockFileNumber(bool debug) { resetS32(flag_TrackBlockFileNumber(), debug); }
 s32 getFlag_TrackBlockFileNumber_Hard(bool debug) { return getS32(flag_TrackBlockFileNumber_Hard(), debug); }
+void increaseFlag_TrackBlockFileNumber_Hard(s32 value, bool debug) { increaseS32CommonFlag(value, "TrackBlockFileNumber_Hard", -1, debug); }
 void setFlag_TrackBlockFileNumber_Hard(s32 value, bool debug) { setS32(value, flag_TrackBlockFileNumber_Hard(), debug); }
 void resetFlag_TrackBlockFileNumber_Hard(bool debug) { resetS32(flag_TrackBlockFileNumber_Hard(), debug); }
 bool getFlag_TrashProhibition(bool debug) { return getBool(flag_TrashProhibition(), debug); }
@@ -10891,18 +11456,23 @@ bool getFlag_TreasureHunt_Aoc2_RunAutoOrder(bool debug) { return getBool(flag_Tr
 void setFlag_TreasureHunt_Aoc2_RunAutoOrder(bool value, bool debug) { setBool(value, flag_TreasureHunt_Aoc2_RunAutoOrder(), debug); }
 void resetFlag_TreasureHunt_Aoc2_RunAutoOrder(bool debug) { resetBool(flag_TreasureHunt_Aoc2_RunAutoOrder(), debug); }
 s32 getFlag_TreasureHunt_touzoku03_RemainingBox(bool debug) { return getS32(flag_TreasureHunt_touzoku03_RemainingBox(), debug); }
+void increaseFlag_TreasureHunt_touzoku03_RemainingBox(s32 value, bool debug) { increaseS32CommonFlag(value, "TreasureHunt_touzoku03_RemainingBox", -1, debug); }
 void setFlag_TreasureHunt_touzoku03_RemainingBox(s32 value, bool debug) { setS32(value, flag_TreasureHunt_touzoku03_RemainingBox(), debug); }
 void resetFlag_TreasureHunt_touzoku03_RemainingBox(bool debug) { resetS32(flag_TreasureHunt_touzoku03_RemainingBox(), debug); }
 s32 getFlag_TreasureHunt_touzoku04_RemainingBox(bool debug) { return getS32(flag_TreasureHunt_touzoku04_RemainingBox(), debug); }
+void increaseFlag_TreasureHunt_touzoku04_RemainingBox(s32 value, bool debug) { increaseS32CommonFlag(value, "TreasureHunt_touzoku04_RemainingBox", -1, debug); }
 void setFlag_TreasureHunt_touzoku04_RemainingBox(s32 value, bool debug) { setS32(value, flag_TreasureHunt_touzoku04_RemainingBox(), debug); }
 void resetFlag_TreasureHunt_touzoku04_RemainingBox(bool debug) { resetS32(flag_TreasureHunt_touzoku04_RemainingBox(), debug); }
 s32 getFlag_TreasureHunt_touzoku08_RemainingBox(bool debug) { return getS32(flag_TreasureHunt_touzoku08_RemainingBox(), debug); }
+void increaseFlag_TreasureHunt_touzoku08_RemainingBox(s32 value, bool debug) { increaseS32CommonFlag(value, "TreasureHunt_touzoku08_RemainingBox", -1, debug); }
 void setFlag_TreasureHunt_touzoku08_RemainingBox(s32 value, bool debug) { setS32(value, flag_TreasureHunt_touzoku08_RemainingBox(), debug); }
 void resetFlag_TreasureHunt_touzoku08_RemainingBox(bool debug) { resetS32(flag_TreasureHunt_touzoku08_RemainingBox(), debug); }
 s32 getFlag_TreasureHunt03_RemainingBox(bool debug) { return getS32(flag_TreasureHunt03_RemainingBox(), debug); }
+void increaseFlag_TreasureHunt03_RemainingBox(s32 value, bool debug) { increaseS32CommonFlag(value, "TreasureHunt03_RemainingBox", -1, debug); }
 void setFlag_TreasureHunt03_RemainingBox(s32 value, bool debug) { setS32(value, flag_TreasureHunt03_RemainingBox(), debug); }
 void resetFlag_TreasureHunt03_RemainingBox(bool debug) { resetS32(flag_TreasureHunt03_RemainingBox(), debug); }
 s32 getFlag_TreasureHunt04_RemainingBox(bool debug) { return getS32(flag_TreasureHunt04_RemainingBox(), debug); }
+void increaseFlag_TreasureHunt04_RemainingBox(s32 value, bool debug) { increaseS32CommonFlag(value, "TreasureHunt04_RemainingBox", -1, debug); }
 void setFlag_TreasureHunt04_RemainingBox(s32 value, bool debug) { setS32(value, flag_TreasureHunt04_RemainingBox(), debug); }
 void resetFlag_TreasureHunt04_RemainingBox(bool debug) { resetS32(flag_TreasureHunt04_RemainingBox(), debug); }
 void getFlag_UiInfoString(char const** value, bool debug) { getStr64(flag_UiInfoString(), value, debug); }
@@ -10963,6 +11533,7 @@ bool getFlag_UseProhibition(bool debug) { return getBool(flag_UseProhibition(), 
 void setFlag_UseProhibition(bool value, bool debug) { setBool(value, flag_UseProhibition(), debug); }
 void resetFlag_UseProhibition(bool debug) { resetBool(flag_UseProhibition(), debug); }
 s32 getFlag_VoiceLanguage(bool debug) { return getS32(flag_VoiceLanguage(), debug); }
+void increaseFlag_VoiceLanguage(s32 value, bool debug) { increaseS32CommonFlag(value, "VoiceLanguage", -1, debug); }
 void setFlag_VoiceLanguage(s32 value, bool debug) { setS32(value, flag_VoiceLanguage(), debug); }
 void resetFlag_VoiceLanguage(bool debug) { resetS32(flag_VoiceLanguage(), debug); }
 f32 getFlag_WarpDLC_DestDegree(bool debug) { return getF32(flag_WarpDLC_DestDegree(), debug); }
@@ -11026,6 +11597,7 @@ f32 getFlag_WaterSupportReuseTimeInField(bool debug) { return getF32(flag_WaterS
 void setFlag_WaterSupportReuseTimeInField(f32 value, bool debug) { setF32(value, flag_WaterSupportReuseTimeInField(), debug); }
 void resetFlag_WaterSupportReuseTimeInField(bool debug) { resetF32(flag_WaterSupportReuseTimeInField(), debug); }
 s32 getFlag_WeaponPorchStockNum(bool debug) { return getS32(flag_WeaponPorchStockNum(), debug); }
+void increaseFlag_WeaponPorchStockNum(s32 value, bool debug) { increaseS32CommonFlag(value, "WeaponPorchStockNum", -1, debug); }
 void setFlag_WeaponPorchStockNum(s32 value, bool debug) { setS32(value, flag_WeaponPorchStockNum(), debug); }
 void resetFlag_WeaponPorchStockNum(bool debug) { resetS32(flag_WeaponPorchStockNum(), debug); }
 bool getFlag_WildHorse_IsAssociated(bool debug) { return getBool(flag_WildHorse_IsAssociated(), debug); }
@@ -11044,9 +11616,11 @@ bool getFlag_Wind_Relic_BattleStart(bool debug) { return getBool(flag_Wind_Relic
 void setFlag_Wind_Relic_BattleStart(bool value, bool debug) { setBool(value, flag_Wind_Relic_BattleStart(), debug); }
 void resetFlag_Wind_Relic_BattleStart(bool debug) { resetBool(flag_Wind_Relic_BattleStart(), debug); }
 s32 getFlag_Wind_Relic_BreakBattery(bool debug) { return getS32(flag_Wind_Relic_BreakBattery(), debug); }
+void increaseFlag_Wind_Relic_BreakBattery(s32 value, bool debug) { increaseS32CommonFlag(value, "Wind_Relic_BreakBattery", -1, debug); }
 void setFlag_Wind_Relic_BreakBattery(s32 value, bool debug) { setS32(value, flag_Wind_Relic_BreakBattery(), debug); }
 void resetFlag_Wind_Relic_BreakBattery(bool debug) { resetS32(flag_Wind_Relic_BreakBattery(), debug); }
 s32 getFlag_Wind_Relic_BreakTarget(bool debug) { return getS32(flag_Wind_Relic_BreakTarget(), debug); }
+void increaseFlag_Wind_Relic_BreakTarget(s32 value, bool debug) { increaseS32CommonFlag(value, "Wind_Relic_BreakTarget", -1, debug); }
 void setFlag_Wind_Relic_BreakTarget(s32 value, bool debug) { setS32(value, flag_Wind_Relic_BreakTarget(), debug); }
 void resetFlag_Wind_Relic_BreakTarget(bool debug) { resetS32(flag_Wind_Relic_BreakTarget(), debug); }
 bool getFlag_Wind_Relic_Finished(bool debug) { return getBool(flag_Wind_Relic_Finished(), debug); }
@@ -11062,6 +11636,7 @@ bool getFlag_Wind_Relic_Parashawl_Fail_AreaInAppear(bool debug) { return getBool
 void setFlag_Wind_Relic_Parashawl_Fail_AreaInAppear(bool value, bool debug) { setBool(value, flag_Wind_Relic_Parashawl_Fail_AreaInAppear(), debug); }
 void resetFlag_Wind_Relic_Parashawl_Fail_AreaInAppear(bool debug) { resetBool(flag_Wind_Relic_Parashawl_Fail_AreaInAppear(), debug); }
 s32 getFlag_Wind_Relic_Parashawl_FailReason(bool debug) { return getS32(flag_Wind_Relic_Parashawl_FailReason(), debug); }
+void increaseFlag_Wind_Relic_Parashawl_FailReason(s32 value, bool debug) { increaseS32CommonFlag(value, "Wind_Relic_Parashawl_FailReason", -1, debug); }
 void setFlag_Wind_Relic_Parashawl_FailReason(s32 value, bool debug) { setS32(value, flag_Wind_Relic_Parashawl_FailReason(), debug); }
 void resetFlag_Wind_Relic_Parashawl_FailReason(bool debug) { resetS32(flag_Wind_Relic_Parashawl_FailReason(), debug); }
 bool getFlag_Wind_Relic_ParashawlPlaying(bool debug) { return getBool(flag_Wind_Relic_ParashawlPlaying(), debug); }
@@ -11077,12 +11652,14 @@ f32 getFlag_WindSupportReuseTimeInField(bool debug) { return getF32(flag_WindSup
 void setFlag_WindSupportReuseTimeInField(f32 value, bool debug) { setF32(value, flag_WindSupportReuseTimeInField(), debug); }
 void resetFlag_WindSupportReuseTimeInField(bool debug) { resetF32(flag_WindSupportReuseTimeInField(), debug); }
 s32 getFlag_WindSupportUseNum(bool debug) { return getS32(flag_WindSupportUseNum(), debug); }
+void increaseFlag_WindSupportUseNum(s32 value, bool debug) { increaseS32CommonFlag(value, "WindSupportUseNum", -1, debug); }
 void setFlag_WindSupportUseNum(s32 value, bool debug) { setS32(value, flag_WindSupportUseNum(), debug); }
 void resetFlag_WindSupportUseNum(bool debug) { resetS32(flag_WindSupportUseNum(), debug); }
 bool getFlag_WM_BloodyDay(bool debug) { return getBool(flag_WM_BloodyDay(), debug); }
 void setFlag_WM_BloodyDay(bool value, bool debug) { setBool(value, flag_WM_BloodyDay(), debug); }
 void resetFlag_WM_BloodyDay(bool debug) { resetBool(flag_WM_BloodyDay(), debug); }
 s32 getFlag_WM_bloodyEndReserveTimer(bool debug) { return getS32(flag_WM_bloodyEndReserveTimer(), debug); }
+void increaseFlag_WM_bloodyEndReserveTimer(s32 value, bool debug) { increaseS32CommonFlag(value, "WM_bloodyEndReserveTimer", -1, debug); }
 void setFlag_WM_bloodyEndReserveTimer(s32 value, bool debug) { setS32(value, flag_WM_bloodyEndReserveTimer(), debug); }
 void resetFlag_WM_bloodyEndReserveTimer(bool debug) { resetS32(flag_WM_bloodyEndReserveTimer(), debug); }
 f32 getFlag_WM_BloodyMoonTimer(bool debug) { return getF32(flag_WM_BloodyMoonTimer(), debug); }
@@ -11119,15 +11696,18 @@ bool getFlag_WM_NighttimeFlag(bool debug) { return getBool(flag_WM_NighttimeFlag
 void setFlag_WM_NighttimeFlag(bool value, bool debug) { setBool(value, flag_WM_NighttimeFlag(), debug); }
 void resetFlag_WM_NighttimeFlag(bool debug) { resetBool(flag_WM_NighttimeFlag(), debug); }
 s32 getFlag_WM_NumberOfDays(bool debug) { return getS32(flag_WM_NumberOfDays(), debug); }
+void increaseFlag_WM_NumberOfDays(s32 value, bool debug) { increaseS32CommonFlag(value, "WM_NumberOfDays", -1, debug); }
 void setFlag_WM_NumberOfDays(s32 value, bool debug) { setS32(value, flag_WM_NumberOfDays(), debug); }
 void resetFlag_WM_NumberOfDays(bool debug) { resetS32(flag_WM_NumberOfDays(), debug); }
 f32 getFlag_WM_Time(bool debug) { return getF32(flag_WM_Time(), debug); }
 void setFlag_WM_Time(f32 value, bool debug) { setF32(value, flag_WM_Time(), debug); }
 void resetFlag_WM_Time(bool debug) { resetF32(flag_WM_Time(), debug); }
 s32 getFlag_WM_TimeDivision(bool debug) { return getS32(flag_WM_TimeDivision(), debug); }
+void increaseFlag_WM_TimeDivision(s32 value, bool debug) { increaseS32CommonFlag(value, "WM_TimeDivision", -1, debug); }
 void setFlag_WM_TimeDivision(s32 value, bool debug) { setS32(value, flag_WM_TimeDivision(), debug); }
 void resetFlag_WM_TimeDivision(bool debug) { resetS32(flag_WM_TimeDivision(), debug); }
 s32 getFlag_WolfLink_CurrentLife(bool debug) { return getS32(flag_WolfLink_CurrentLife(), debug); }
+void increaseFlag_WolfLink_CurrentLife(s32 value, bool debug) { increaseS32CommonFlag(value, "WolfLink_CurrentLife", -1, debug); }
 void setFlag_WolfLink_CurrentLife(s32 value, bool debug) { setS32(value, flag_WolfLink_CurrentLife(), debug); }
 void resetFlag_WolfLink_CurrentLife(bool debug) { resetS32(flag_WolfLink_CurrentLife(), debug); }
 void getFlag_WolfLink_CurrentPos(sead::Vector3f* value, bool debug) { getVec3f(flag_WolfLink_CurrentPos(), value, debug); }
@@ -11140,9 +11720,11 @@ bool getFlag_WolfLink_HasBeenUsed(bool debug) { return getBool(flag_WolfLink_Has
 void setFlag_WolfLink_HasBeenUsed(bool value, bool debug) { setBool(value, flag_WolfLink_HasBeenUsed(), debug); }
 void resetFlag_WolfLink_HasBeenUsed(bool debug) { resetBool(flag_WolfLink_HasBeenUsed(), debug); }
 s32 getFlag_WolfLink_LastRecordedHearts(bool debug) { return getS32(flag_WolfLink_LastRecordedHearts(), debug); }
+void increaseFlag_WolfLink_LastRecordedHearts(s32 value, bool debug) { increaseS32CommonFlag(value, "WolfLink_LastRecordedHearts", -1, debug); }
 void setFlag_WolfLink_LastRecordedHearts(s32 value, bool debug) { setS32(value, flag_WolfLink_LastRecordedHearts(), debug); }
 void resetFlag_WolfLink_LastRecordedHearts(bool debug) { resetS32(flag_WolfLink_LastRecordedHearts(), debug); }
 s32 getFlag_WolfLink_MaxLife(bool debug) { return getS32(flag_WolfLink_MaxLife(), debug); }
+void increaseFlag_WolfLink_MaxLife(s32 value, bool debug) { increaseS32CommonFlag(value, "WolfLink_MaxLife", -1, debug); }
 void setFlag_WolfLink_MaxLife(s32 value, bool debug) { setS32(value, flag_WolfLink_MaxLife(), debug); }
 void resetFlag_WolfLink_MaxLife(bool debug) { resetS32(flag_WolfLink_MaxLife(), debug); }
 void getFlag_WolfLink_TodayFirstDetectedUID(char const** value, bool debug) { getStr64(flag_WolfLink_TodayFirstDetectedUID(), value, debug); }
@@ -11155,6 +11737,7 @@ bool getFlag_ZoraKing_talk(bool debug) { return getBool(flag_ZoraKing_talk(), de
 void setFlag_ZoraKing_talk(bool value, bool debug) { setBool(value, flag_ZoraKing_talk(), debug); }
 void resetFlag_ZoraKing_talk(bool debug) { resetBool(flag_ZoraKing_talk(), debug); }
 s32 getFlag_ZoraMini_ReliefSearch_Count(bool debug) { return getS32(flag_ZoraMini_ReliefSearch_Count(), debug); }
+void increaseFlag_ZoraMini_ReliefSearch_Count(s32 value, bool debug) { increaseS32CommonFlag(value, "ZoraMini_ReliefSearch_Count", -1, debug); }
 void setFlag_ZoraMini_ReliefSearch_Count(s32 value, bool debug) { setS32(value, flag_ZoraMini_ReliefSearch_Count(), debug); }
 void resetFlag_ZoraMini_ReliefSearch_Count(bool debug) { resetS32(flag_ZoraMini_ReliefSearch_Count(), debug); }
 bool getFlag_ZoraPriest_talk(bool debug) { return getBool(flag_ZoraPriest_talk(), debug); }
