@@ -1,5 +1,6 @@
+import struct
 from collections import defaultdict
-from typing import Set, DefaultDict, Dict, Optional
+from typing import Set, DefaultDict, Dict, Optional, Tuple
 
 import capstone as cs
 
@@ -18,6 +19,9 @@ class FunctionChecker:
         self._mismatch_addr1 = -1
         self._mismatch_addr2 = -1
         self._mismatch_cause = ""
+        self._base_got_section = elf.base_elf.get_section_by_name(".got")
+        self._decomp_glob_data_table = elf.build_glob_data_table(elf.my_elf)
+        self._got_data_symbol_check_cache: Dict[Tuple[int, int], bool] = dict()
 
         self.load_data_for_project()
 
@@ -113,7 +117,7 @@ class FunctionChecker:
 
                 gprs1[reg] += i1.operands[1].value.mem.disp
                 gprs2[reg] += i2.operands[1].value.mem.disp
-                if not self._check_data_symbol(i1, i2, gprs1[reg], gprs2[reg]):
+                if not self._check_data_symbol_load(i1, i2, gprs1[reg], gprs2[reg]):
                     return False
 
                 adrp_pair_registers.remove(reg)
@@ -130,9 +134,9 @@ class FunctionChecker:
                 if reg not in adrp_pair_registers:
                     return False
 
-                gprs1[reg] += i1.operands[1].value.mem.disp
-                gprs2[reg] += i2.operands[1].value.mem.disp
-                if not self._check_data_symbol(i1, i2, gprs1[reg], gprs2[reg]):
+                gprs1[reg] += i1.operands[2].value.mem.disp
+                gprs2[reg] += i2.operands[2].value.mem.disp
+                if not self._check_data_symbol_load(i1, i2, gprs1[reg], gprs2[reg]):
                     return False
 
                 adrp_pair_registers.remove(reg)
@@ -174,9 +178,29 @@ class FunctionChecker:
             return True
 
         if self._log_mismatch_cause:
-            self._set_mismatch_cause(i1, i2, f"data symbol mismatch: {symbol.name} (original address: {orig_addr:#x})")
+            self._set_mismatch_cause(i1, i2, f"data symbol mismatch: {symbol.name} (original address: {orig_addr:#x}, "
+                                             f"expected: {decomp_symbol.addr:#x}, "
+                                             f"actual: {decomp_addr:#x})")
 
         return False
+
+    def _check_data_symbol_load(self, i1, i2, orig_addr: int, decomp_addr: int) -> bool:
+        cached_result = self._got_data_symbol_check_cache.get((orig_addr, decomp_addr), None)
+        if cached_result is not None:
+            return cached_result
+
+        if not elf.is_in_section(self._base_got_section, orig_addr, 8):
+            return True
+
+        ptr1, = struct.unpack("<Q", elf.read_from_elf(elf.base_elf, orig_addr, 8))
+        if self.dsymtab.get_symbol(ptr1) is None:
+            return True
+
+        ptr2 = self._decomp_glob_data_table[decomp_addr]
+
+        result = self._check_data_symbol(i1, i2, ptr1, ptr2)
+        self._got_data_symbol_check_cache[(orig_addr, decomp_addr)] = result
+        return result
 
     def _check_function_call(self, i1, i2, orig_addr: int, decomp_addr: int) -> bool:
         name = self.decompiled_fns.get(orig_addr, None)

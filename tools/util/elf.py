@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
-
-from typing import Any, Dict, NamedTuple
 import io
+from typing import Any, Dict, NamedTuple
 
 from elftools.elf.elffile import ELFFile
+from elftools.elf.relocation import RelocationSection
+from elftools.elf.sections import Section
 
 import diff_settings
 from util import utils
@@ -40,7 +40,13 @@ def get_file_offset(elf, addr: int) -> int:
             continue
         if seg["p_vaddr"] <= addr < seg["p_vaddr"] + seg["p_filesz"]:
             return addr - seg["p_vaddr"] + seg["p_offset"]
-    assert False
+    raise KeyError(f"No segment found for {addr:#x}")
+
+
+def is_in_section(section: Section, addr: int, size: int) -> bool:
+    begin = section["sh_addr"]
+    end = begin + section["sh_size"]
+    return begin <= addr < end and begin <= addr + size < end
 
 
 def get_symbol(table, name: str) -> Symbol:
@@ -69,14 +75,34 @@ def build_name_to_symbol_table(symtab) -> Dict[str, Symbol]:
     return {sym.name: Symbol(sym["st_value"], sym.name, sym["st_size"]) for sym in symtab.iter_symbols()}
 
 
+def read_from_elf(elf: ELFFile, addr: int, size: int) -> bytes:
+    offset: int = get_file_offset(elf, addr)
+    elf.stream.seek(offset)
+    return elf.stream.read(size)
+
+
 def get_fn_from_base_elf(addr: int, size: int) -> Function:
-    offset = get_file_offset(base_elf, addr)
-    base_elf.stream.seek(offset)
-    return Function(base_elf.stream.read(size), addr)
+    return Function(read_from_elf(base_elf, addr, size), addr)
 
 
 def get_fn_from_my_elf(name: str) -> Function:
     sym = get_symbol(my_symtab, name)
-    offset = get_file_offset(my_elf, sym.addr)
-    my_elf.stream.seek(offset)
-    return Function(my_elf.stream.read(sym.size), sym.addr)
+    return Function(read_from_elf(my_elf, sym.addr, sym.size), sym.addr)
+
+
+R_AARCH64_GLOB_DAT = 1025
+
+
+def build_glob_data_table(elf: ELFFile) -> Dict[int, int]:
+    table: Dict[int, int] = dict()
+    section = elf.get_section_by_name(".rela.dyn")
+    assert isinstance(section, RelocationSection)
+
+    symtab = elf.get_section(section["sh_link"])
+
+    for reloc in section.iter_relocations():
+        sym_value = symtab.get_symbol(reloc["r_info_sym"])["st_value"]
+        if reloc["r_info_type"] == R_AARCH64_GLOB_DAT:
+            table[reloc["r_offset"]] = sym_value + reloc["r_addend"]
+
+    return table
