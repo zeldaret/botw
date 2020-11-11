@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from typing import Any, Dict, NamedTuple
+import io
 
 from elftools.elf.elffile import ELFFile
 
@@ -12,8 +13,11 @@ diff_settings.apply(_config, {})
 
 _root = utils.get_repo_root()
 
-base_elf = ELFFile((_root / _config["baseimg"]).open("rb"))
-my_elf = ELFFile((_root / _config["myimg"]).open("rb"))
+base_elf_data = io.BytesIO((_root / _config["baseimg"]).read_bytes())
+my_elf_data = io.BytesIO((_root / _config["myimg"]).read_bytes())
+
+base_elf = ELFFile(base_elf_data)
+my_elf = ELFFile(my_elf_data)
 my_symtab = my_elf.get_section_by_name(".symtab")
 if not my_symtab:
     utils.fail(f'{_config["myimg"]} has no symbol table')
