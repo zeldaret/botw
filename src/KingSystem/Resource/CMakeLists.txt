@@ -111,6 +111,8 @@ target_sources(uking PRIVATE
   resResourceMgrTask.h
   resSystem.cpp
   resSystem.h
+  resTempResourceLoader.cpp
+  resTempResourceLoader.h
   resTextureHandleList.cpp
   resTextureHandleList.h
   resTextureHandleMgr.cpp

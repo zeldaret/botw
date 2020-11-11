@@ -94,6 +94,8 @@ public:
 
     void attachHandle(Handle* handle);
 
+    const sead::SafeString& getPath() const { return mPath; }
+    const sead::ResourceMgr::LoadArg& getLoadArg() const { return mLoadArg; }
     s32 getRefCount() const;
 
     Status getStatus() const;
