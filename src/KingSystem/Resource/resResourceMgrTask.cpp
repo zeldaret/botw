@@ -373,7 +373,7 @@ bool ResourceMgrTask::canUseSdCard() const {
     return false;
 }
 
-bool ResourceMgrTask::returnFalse() const {
+bool ResourceMgrTask::isHostPath(const sead::SafeString&) const {
     return false;
 }
 
@@ -632,6 +632,12 @@ void ResourceMgrTask::setCompactionStopped(bool stopped) {
 
 bool ResourceMgrTask::isCompactionStopped() const {
     return mCompactionCounter == 0;
+}
+
+bool ResourceMgrTask::initTempResourceLoader(TempResourceLoader* loader,
+                                             TempResourceLoader::InitArg& arg) {
+    arg.work = mTexHandleMgr->getArchiveWork();
+    return loader->init(arg);
 }
 
 bool ResourceMgrTask::returnTrue1() {

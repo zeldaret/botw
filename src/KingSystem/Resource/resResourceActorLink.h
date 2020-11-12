@@ -13,41 +13,68 @@ namespace ksys::res {
 class ActorLink : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ActorLink, Resource)
 public:
-    struct Users {
-        enum class User {
-            Profile = 0,
-            ActorCapture = 1,
-            AS = 2,
-            Model = 3,
-            Anim = 4,
-            AIProgram = 5,
-            GParam = 6,
-            DamageParam = 7,
-            RgConfigList = 8,
-            RgBlendWeight = 9,
-            Awareness = 10,
-            Physics = 11,
-            Chemical = 12,
-            Attention = 13,
-            ELink = 14,
-            SLink = 15,
-            XLink = 16,
-            DropTable = 17,
-            ShopData = 18,
-            Recipe = 19,
-            LOD = 20,
-            BoneControl = 21,
-            AISchedule = 22,
-            LifeCondition = 23,
-            UMii = 24,
-            AnimationInfo = 25,
-        };
+    enum class User {
+        Profile = 0,
+        ActorCapture = 1,
+        AS = 2,
+        Model = 3,
+        Anim = 4,
+        AIProgram = 5,
+        GParam = 6,
+        DamageParam = 7,
+        RgConfigList = 8,
+        RgBlendWeight = 9,
+        Awareness = 10,
+        Physics = 11,
+        Chemical = 12,
+        Attention = 13,
+        ELink = 14,
+        SLink = 15,
+        XLink = 16,
+        DropTable = 17,
+        ShopData = 18,
+        Recipe = 19,
+        LOD = 20,
+        BoneControl = 21,
+        AISchedule = 22,
+        LifeCondition = 23,
+        UMii = 24,
+        AnimationInfo = 25,
+    };
 
+    struct Users {
         const agl::utl::Parameter<sead::SafeString>& getUser(User user) const {
             return *(&profile + u32(user));
         }
 
-        sead::SafeString getUserName(User user) const { return getUser(user).ref().cstr(); }
+        const char* getUserName(User user) const { return getUser(user).ref().cstr(); }
+
+        const char* getProfile() const { return profile.ref().cstr(); }
+        const char* getActorCapture() const { return actor_capture.ref().cstr(); }
+        const char* getAS() const { return as.ref().cstr(); }
+        const char* getModel() const { return model.ref().cstr(); }
+        const char* getAnim() const { return anim.ref().cstr(); }
+        const char* getAIProgram() const { return ai_program.ref().cstr(); }
+        const char* getGParam() const { return gparam.ref().cstr(); }
+        const char* getDamageParam() const { return damage_param.ref().cstr(); }
+        const char* getRgConfigList() const { return rg_config_list.ref().cstr(); }
+        const char* getRgBlendWeight() const { return rg_blend_weight.ref().cstr(); }
+        const char* getAwareness() const { return awareness.ref().cstr(); }
+        const char* getPhysics() const { return physics.ref().cstr(); }
+        const char* getChemical() const { return chemical.ref().cstr(); }
+        const char* getAttention() const { return attention.ref().cstr(); }
+        const char* getELink() const { return elink.ref().cstr(); }
+        const char* getSLink() const { return slink.ref().cstr(); }
+        const char* getXLink() const { return xlink.ref().cstr(); }
+        const char* getDropTable() const { return drop_table.ref().cstr(); }
+        const char* getShopData() const { return shop_data.ref().cstr(); }
+        const char* getRecipe() const { return recipe.ref().cstr(); }
+        const char* getLOD() const { return lod.ref().cstr(); }
+        const char* getBoneControl() const { return bone_control.ref().cstr(); }
+        const char* getAISchedule() const { return ai_schedule.ref().cstr(); }
+        const char* getLifeCondition() const { return life_condition.ref().cstr(); }
+        const char* getUMii() const { return umii.ref().cstr(); }
+        const char* getAnimationInfo() const { return animation_info.ref().cstr(); }
 
         agl::utl::Parameter<sead::SafeString> profile;
         agl::utl::Parameter<sead::SafeString> actor_capture;
@@ -84,6 +111,7 @@ public:
     bool needsParse() const override { return true; }
 
     const Users& getUsers() const { return mUsers; }
+    const char* getUserName(User user) const { return getUsers().getUserName(user); }
     const sead::SafeString& getActorNameJpn() const { return mActorNameJpn.ref(); }
     const sead::SafeString& getPriority() const { return mPriority.ref(); }
     f32 getActorScale() const { return mActorScale.ref(); }

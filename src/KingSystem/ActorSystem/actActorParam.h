@@ -40,6 +40,8 @@ class UMii;
 
 namespace act {
 
+class ActorParamMgr;
+
 // FIXME: incomplete
 class ActorParam : public sead::hostio::Node {
 public:
@@ -69,7 +71,14 @@ public:
         LifeCondition = 22,
         UMii = 23,
         AnimationInfo = 24,
+        AS = 25,
+        AttClient = 26,
+        RagdollConfig = 27,
     };
+
+    static constexpr bool isValidType(ResourceType type) {
+        return type <= ResourceType::AnimationInfo;
+    }
 
     union Resources {
         struct {
@@ -112,7 +121,7 @@ public:
     Priority getPriority() const { return mPriority; }
     const Resources& getRes() const { return mRes; }
 
-    bool isDummyParam(res::ActorLink::Users::User user) const;
+    bool isDummyParam(res::ActorLink::User user) const;
 
     static void resetDummyResources();
 
@@ -141,7 +150,15 @@ private:
     bool setPriority(const sead::SafeString& priority);
     void setProfileAndPriority(const char* profile, const char* priority);
 
-    u16 _8 = 0;
+    void setResourceIfValidType(ResourceType type, ParamIO* param_io) {
+        if (isValidType(type))
+            setResource(type, param_io);
+    }
+
+    void onLoadFinished(ActorParamMgr* mgr);
+
+    u8 _8 = 0;
+    u8 _9 = 0;
     u8 _a = 0;
     sead::FixedSafeString<64> mActorName;
     sead::SafeString mProfile;

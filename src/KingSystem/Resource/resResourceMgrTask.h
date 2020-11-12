@@ -21,6 +21,7 @@
 #include "KingSystem/Resource/resControlTask.h"
 #include "KingSystem/Resource/resCounter.h"
 #include "KingSystem/Resource/resInfoContainer.h"
+#include "KingSystem/Resource/resTempResourceLoader.h"
 #include "KingSystem/Resource/resUnit.h"
 #include "KingSystem/Resource/resUnitPool.h"
 #include "KingSystem/System/OverlayArena.h"
@@ -162,7 +163,7 @@ public:
     sead::DirectResource* load(const DirectLoadArg& arg);
 
     bool canUseSdCard() const;
-    bool returnFalse() const;
+    bool isHostPath(const sead::SafeString& path) const;
 
     bool dropSFromExtensionIfNeeded(const sead::SafeString& path,
                                     sead::BufferedSafeString& new_path, s32 dot_idx,
@@ -212,6 +213,8 @@ public:
 
     void setCompactionStopped(bool stopped);
     bool isCompactionStopped() const;
+
+    bool initTempResourceLoader(TempResourceLoader* loader, TempResourceLoader::InitArg& arg);
 
     bool returnTrue1();
 

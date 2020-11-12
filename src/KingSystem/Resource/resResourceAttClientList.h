@@ -10,6 +10,8 @@
 
 namespace ksys::res {
 
+class AttClient;
+
 class AttClientList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AttClientList, Resource)
 public:
@@ -26,7 +28,7 @@ public:
         agl::utl::Parameter<sead::SafeString> file_name;
         agl::utl::Parameter<bool> is_valid;
         agl::utl::ParameterObj obj;
-        void* _a0;
+        AttClient* client;
     };
     KSYS_CHECK_SIZE_NX150(Client, 0xa8);
 
@@ -35,6 +37,8 @@ public:
     const AttPos& getAttPos() const { return mAttPos; }
     bool isForceEdit() const { return mForceEdit.ref(); }
     const sead::Buffer<Client>& getClients() const { return mClients; }
+
+    void addClient_(s32 index, AttClient* client) { mClients[index].client = client; }
 
 private:
     agl::utl::ParameterList mAttClientsList;

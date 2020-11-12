@@ -10,13 +10,15 @@
 
 namespace ksys::res {
 
+class RagdollConfig;
+
 class RagdollConfigList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(RagdollConfigList, Resource)
 public:
     struct ImpulseParam {
         agl::utl::Parameter<sead::SafeString> file_name;
         agl::utl::ParameterObj obj;
-        void* _58;
+        RagdollConfig* config;
     };
     KSYS_CHECK_SIZE_NX150(ImpulseParam, 0x60);
 
@@ -39,7 +41,11 @@ public:
     const sead::Buffer<ImpulseParam>& getImpulseParams() const { return mImpulseParams; }
     f32 getUpperLimitHeight() const { return mUpperLimitHeight.ref(); }
     f32 getLowerLimitHeight() const { return mLowerLimitHeight.ref(); }
-    const sead::Buffer<BodyParam>& getMBodyParams() const { return mBodyParams; }
+    const sead::Buffer<BodyParam>& getBodyParams() const { return mBodyParams; }
+
+    void addImpulseParamConfig_(s32 index, RagdollConfig* config) {
+        mImpulseParams[index].config = config;
+    }
 
 private:
     agl::utl::ParameterList mImpulseParamList;

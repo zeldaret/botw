@@ -10,6 +10,8 @@
 
 namespace ksys::res {
 
+class AS;
+
 class ASList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ASList, Resource)
 public:
@@ -17,7 +19,7 @@ public:
         agl::utl::Parameter<sead::SafeString> name;
         agl::utl::Parameter<sead::SafeString> file_name;
         agl::utl::ParameterObj obj;
-        void* _88;
+        AS* as;
     };
     KSYS_CHECK_SIZE_NX150(ASDefine, 0x88);
 
@@ -64,6 +66,8 @@ public:
 
     const Buffers& getBuffers() const { return mBuffers; }
     const Common& getCommon() const { return mCommon.ref(); }
+
+    void addAS_(s32 index, AS* as);
 
 protected:
     bool finishParsing_() override;
