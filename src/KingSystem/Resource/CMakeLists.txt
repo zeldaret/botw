@@ -132,6 +132,8 @@ target_sources(uking PRIVATE
   resResourceAIProgram.h
   resResourceASList.cpp
   resResourceASList.h
+  resResourceAttClientList.cpp
+  resResourceAttClientList.h
   resResourceArchive.cpp
   resResourceArchive.h
   resResourceAwareness.cpp
