@@ -150,6 +150,8 @@ target_sources(uking PRIVATE
   resResourceLifeCondition.h
   resResourceLod.cpp
   resResourceLod.h
+  resResourceModelList.cpp
+  resResourceModelList.h
   resResourceRecipe.cpp
   resResourceRecipe.h
   resResourceShop.cpp
