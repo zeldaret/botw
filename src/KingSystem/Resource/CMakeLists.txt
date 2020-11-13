@@ -130,6 +130,8 @@ target_sources(uking PRIVATE
   resResourceActorLink.h
   resResourceAIProgram.cpp
   resResourceAIProgram.h
+  resResourceASList.cpp
+  resResourceASList.h
   resResourceArchive.cpp
   resResourceArchive.h
   resResourceAwareness.cpp
