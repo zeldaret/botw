@@ -156,6 +156,8 @@ target_sources(uking PRIVATE
   resResourceLod.h
   resResourceModelList.cpp
   resResourceModelList.h
+  resResourceRagdollConfigList.cpp
+  resResourceRagdollConfigList.h
   resResourceRecipe.cpp
   resResourceRecipe.h
   resResourceShop.cpp
