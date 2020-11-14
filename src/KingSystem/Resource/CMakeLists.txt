@@ -130,6 +130,10 @@ target_sources(uking PRIVATE
   resResourceActorLink.h
   resResourceAIProgram.cpp
   resResourceAIProgram.h
+  resResourceAISchedule.cpp
+  resResourceAISchedule.h
+  resResourceAnimInfo.cpp
+  resResourceAnimInfo.h
   resResourceAS.cpp
   resResourceAS.h
   resResourceASList.cpp
@@ -142,6 +146,10 @@ target_sources(uking PRIVATE
   resResourceArchive.h
   resResourceAwareness.cpp
   resResourceAwareness.h
+  resResourceBoneControl.cpp
+  resResourceBoneControl.h
+  resResourceChemical.cpp
+  resResourceChemical.h
   resResourceDamageParam.cpp
   resResourceDamageParam.h
   resResourceDemo.cpp
@@ -160,6 +168,12 @@ target_sources(uking PRIVATE
   resResourceLod.h
   resResourceModelList.cpp
   resResourceModelList.h
+  resResourcePhysics.cpp
+  resResourcePhysics.h
+  resResourceRagdollBlendWeight.cpp
+  resResourceRagdollBlendWeight.h
+  resResourceRagdollConfig.cpp
+  resResourceRagdollConfig.h
   resResourceRagdollConfigList.cpp
   resResourceRagdollConfigList.h
   resResourceRecipe.cpp
