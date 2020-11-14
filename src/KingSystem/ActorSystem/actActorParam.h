@@ -75,6 +75,7 @@ public:
         AttClient = 26,
         RagdollConfig = 27,
     };
+    static constexpr s32 NumResourceTypes = 28;
 
     static constexpr bool isValidType(ResourceType type) {
         return type <= ResourceType::AnimationInfo;

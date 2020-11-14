@@ -38,6 +38,9 @@ namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(ActorParamMgr)
 
+using Type = ActorParam::ResourceType;
+using User = res::ActorLink::User;
+
 ActorParamMgr::ActorParamMgr() = default;
 
 ActorParamMgr::~ActorParamMgr() {
@@ -84,13 +87,13 @@ ActorParam* ActorParamMgr::getParam(const char* actor_name, ActorParam** out_fre
     return nullptr;
 }
 
-ActorParam* ActorParamMgr::loadParam(const char* actor_name, res::Handle* handle, void* x,
+ActorParam* ActorParamMgr::loadParam(const char* actor_name, res::Handle* pack_handle, void* x,
                                      u32 load_req_c) {
     bool allocated_new = false;
     ActorParam* param = allocParam(actor_name, &allocated_new);
 
     if (allocated_new) {
-        loadFiles(param, mTmpActorParamMgrHeap, handle, x, load_req_c);
+        loadFiles(param, mTmpActorParamMgrHeap, pack_handle, x, load_req_c);
         param->setEventSignal();
     } else {
         param->waitForEvent();
@@ -102,11 +105,8 @@ ActorParam* ActorParamMgr::loadParam(const char* actor_name, res::Handle* handle
 void ActorParamMgr::loadFiles(ActorParam* param, sead::Heap* heap, res::Handle* pack_handle,
                               void* x, u32 load_req_c) {
     param->deleteResHandles();
-    param->allocResHandles(heap, 0, 29);
+    param->allocResHandles(heap, 0, ActorParam::NumResourceTypes + 1);
     param->mActiveBufferIdx = 0;
-
-    using Type = ActorParam::ResourceType;
-    using User = res::ActorLink::User;
 
     const auto* link =
         loadFile<res::ActorLink>(param, Type::ActorLink, "Actor/ActorLink", "xml",
@@ -150,13 +150,383 @@ bool ActorParamMgr::requestLoadActorPack(res::Handle* handle, const sead::SafeSt
     return handle->requestLoad(path, &req);
 }
 
+ActorParam* ActorParamMgr::loadParamAsync(const char* actor_name, res::Handle* pack_handle,
+                                          bool* allocated_new, void* x, u32 load_req_c) {
+    auto* param = allocParam(actor_name, allocated_new);
+    if (!*allocated_new)
+        return param;
+
+    param->deleteResHandles();
+    param->allocResHandles(mTmpActorParamMgrHeap, 0, ActorParam::NumResourceTypes + 1);
+    param->mActiveBufferIdx = 0;
+
+    loadFileAsync<res::ActorLink>(param, Type::ActorLink, "Actor/ActorLink", "xml",
+                                  param->getActorName().cstr(), pack_handle, x, load_req_c);
+    return param;
+}
+
+template <typename T>
+bool ActorParamMgr::loadFileAsync(ActorParam* param, ActorParam::ResourceType type,
+                                  const sead::SafeString& dir_name,
+                                  const sead::SafeString& extension, const sead::SafeString& name,
+                                  res::Handle* pack_handle, void* x, u32 load_req_c) {
+    auto* handle = param->allocHandle();
+
+    if (name != "Dummy" && !name.isEmpty()) {
+        sead::FixedSafeString<128> path;
+        res::LoadRequest req;
+        prepareLoadFromActorPack(&path, &req, x, dir_name, extension, name, pack_handle, load_req_c,
+                                 param->getActorName());
+        return handle->requestLoad(path, &req);
+    }
+
+    if (ActorParam::isValidType(type)) {
+        auto* res = sead::DynamicCast<T>(mDummyResources[u32(type)].getResource());
+        param->setResource(type, res);
+    }
+
+    return true;
+}
+
+// NON_MATCHING: different address calculation for static_cast<ParamIO*>(res)->getPath()
+template <typename T>
+T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::ResourceType type,
+                                      void*) {
+    const s32 current_idx = *idx;
+    auto& handle = param->mHandles[param->mActiveBufferIdx][current_idx];
+    *idx = current_idx + 1;
+
+    if (ActorParam::isValidType(type)) {
+        if (auto* res = static_cast<T*>(param->getRes().mArray[u32(type)]))
+            return res;
+    }
+
+    if (handle.isFlag8Set())
+        return sead::DynamicCast<T>(handle.getResource());
+
+    if (!handle.isReadyOrNeedsParse())
+        return nullptr;
+
+    handle.parseResource(nullptr);
+
+    if (handle.checkLoadStatus() && type != Type::EventFlow)
+        param->_a = 1;
+
+    auto* res = sead::DynamicCast<T>(handle.getResource());
+    if (res) {
+        auto* unit = handle.getUnit();
+        if (unit)
+            static_cast<ParamIO*>(res)->getPath().copy(unit->getPath());
+    } else {
+        res = sead::DynamicCast<T>(mDummyResources[s32(type)].getResource());
+    }
+
+    if (ActorParam::isValidType(type) && res)
+        param->setResource(type, res);
+
+    return res;
+}
+
+bool ActorParamMgr::finishLoadingActorLink(ActorParam* param, void* x) {
+    s32 idx = 0;
+    if (!handleAsyncFileLoad<res::ActorLink>(param, &idx, Type::ActorLink, x))
+        return param->_a != 0;
+
+    const auto* link = param->getRes().mActorLink;
+    if (!link)
+        return true;
+
+    param->setProfileAndPriority(link->getUsers().getProfile(), link->getPriority().cstr());
+    return true;
+}
+
+void ActorParamMgr::loadParamAsyncStep2(ActorParam* param, res::Handle* pack_handle, void* x,
+                                        u32 load_req_c) {
+    const auto* link = param->getRes().mActorLink;
+
+    loadFileAsync<res::ModelList>(param, Type::ModelList, "Actor/ModelList", "modellist",
+                                  link->getUsers().getModel(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::UMii>(param, Type::UMii, "Actor/UMii", "umii", link->getUsers().getUMii(),
+                             pack_handle, x, load_req_c);
+
+    loadFileAsync<res::ASList>(param, Type::ASList, "Actor/ASList", "aslist",
+                               link->getUsers().getAS(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::AttClientList>(param, Type::AttClientList, "Actor/AttClientList", "atcllist",
+                                      link->getUserName(User::Attention), pack_handle, x,
+                                      load_req_c);
+
+    loadFileAsync<res::RagdollConfigList>(param, Type::RagdollConfigList, "Actor/RagdollConfigList",
+                                          "rgconfiglist", link->getUserName(User::RgConfigList),
+                                          pack_handle, x, load_req_c);
+
+    loadFileAsync<res::AIProgram>(param, Type::AIProgram, "Actor/AIProgram", "aiprog",
+                                  link->getUsers().getAIProgram(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::GParamList>(param, Type::GParamList, "Actor/GeneralParamList", "gparamlist",
+                                   link->getUsers().getGParam(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::Physics>(param, Type::Physics, "Actor/Physics", "physics",
+                                link->getUsers().getPhysics(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::Chemical>(param, Type::Chemical, "Actor/Chemical", "chemical",
+                                 link->getUsers().getChemical(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::DamageParam>(param, Type::DamageParam, "Actor/DamageParam", "dmgparam",
+                                    link->getUsers().getDamageParam(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::RagdollBlendWeight>(
+        param, Type::RagdollBlendWeight, "Actor/RagdollBlendWeight", "rgbw",
+        link->getUsers().getRgBlendWeight(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::Awareness>(param, Type::Awareness, "Actor/Awareness", "awareness",
+                                  link->getUsers().getAwareness(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::Drop>(param, Type::DropTable, "Actor/DropTable", "drop",
+                             link->getUsers().getDropTable(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::Shop>(param, Type::ShopData, "Actor/ShopData", "shop",
+                             link->getUsers().getShopData(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::Recipe>(param, Type::Recipe, "Actor/Recipe", "recipe",
+                               link->getUsers().getRecipe(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::Lod>(param, Type::Lod, "Actor/LOD", "lod", link->getUsers().getLOD(),
+                            pack_handle, x, load_req_c);
+
+    loadFileAsync<res::AISchedule>(param, Type::AISchedule, "Actor/AISchedule", "aischedule",
+                                   link->getUsers().getAISchedule(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::BoneControl>(param, Type::BoneControl, "Actor/BoneControl", "bonectrl",
+                                    link->getUsers().getBoneControl(), pack_handle, x, load_req_c);
+
+    loadFileAsync<res::LifeCondition>(param, Type::LifeCondition, "Actor/LifeCondition",
+                                      "lifecondition", link->getUsers().getLifeCondition(),
+                                      pack_handle, x, load_req_c);
+
+    loadFileAsync<res::AnimInfo>(param, Type::AnimationInfo, "Actor/AnimationInfo", "animinfo",
+                                 link->getUsers().getAnimationInfo(), pack_handle, x, load_req_c);
+}
+
+bool ActorParamMgr::finishLoadingStep2(ActorParam* param, void* x) {
+    s32 idx = 1;
+
+    if (!handleAsyncFileLoad<res::ModelList>(param, &idx, Type::ModelList, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::UMii>(param, &idx, Type::UMii, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::ASList>(param, &idx, Type::ASList, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::AttClientList>(param, &idx, Type::AttClientList, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::RagdollConfigList>(param, &idx, Type::RagdollConfigList, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::AIProgram>(param, &idx, Type::AIProgram, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::GParamList>(param, &idx, Type::GParamList, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::Physics>(param, &idx, Type::Physics, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::Chemical>(param, &idx, Type::Chemical, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::DamageParam>(param, &idx, Type::DamageParam, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::RagdollBlendWeight>(param, &idx, Type::RagdollBlendWeight, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::Awareness>(param, &idx, Type::Awareness, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::Drop>(param, &idx, Type::DropTable, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::Shop>(param, &idx, Type::ShopData, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::Recipe>(param, &idx, Type::Recipe, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::Lod>(param, &idx, Type::Lod, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::AISchedule>(param, &idx, Type::AISchedule, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::BoneControl>(param, &idx, Type::BoneControl, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::LifeCondition>(param, &idx, Type::LifeCondition, x))
+        return false;
+
+    if (!handleAsyncFileLoad<res::AnimInfo>(param, &idx, Type::AnimationInfo, x))
+        return false;
+
+    return true;
+}
+
+void ActorParamMgr::loadExtraResAsync(ActorParam* param, res::Handle* pack_handle, void* x,
+                                      u32 load_req_c) {
+    const auto* aslist = param->getRes().mASList;
+    const auto* atcllist = param->getRes().mAttClientList;
+    const auto* rgconfiglist = param->getRes().mRagdollConfigList;
+
+    const auto num_as = aslist ? aslist->getASDefines().size() : 0;
+    const auto num_att = atcllist ? atcllist->getClients().size() : 0;
+    const auto num_rg = rgconfiglist ? rgconfiglist->getImpulseParams().size() : 0;
+
+    param->allocResHandles(mTmpActorParamMgrHeap, 1, num_as + num_att + num_rg);
+    param->mActiveBufferIdx = 1;
+
+    if (aslist) {
+        for (s32 i = 0; i < num_as; ++i) {
+            loadFileAsync<res::AS>(param, Type::AS, "Actor/AS", "as",
+                                   aslist->getASDefines()[i].getFileName(), pack_handle, x,
+                                   load_req_c);
+        }
+    }
+
+    if (atcllist) {
+        for (s32 i = 0; i < num_att; ++i) {
+            loadFileAsync<res::AttClient>(param, Type::AttClient, "Actor/AttClient", "atcl",
+                                          atcllist->getClients()[i].getFileName(), pack_handle, x,
+                                          load_req_c);
+        }
+    }
+
+    if (rgconfiglist) {
+        for (s32 i = 0; i < num_rg; ++i) {
+            loadFileAsync<res::RagdollConfig>(
+                param, Type::RagdollConfig, "Actor/RagdollConfig", "rgconfig",
+                rgconfiglist->getImpulseParams()[i].getFileName(), pack_handle, x, load_req_c);
+        }
+    }
+}
+
+bool ActorParamMgr::finishLoadingExtraRes(ActorParam* param, void* x) {
+    s32 idx = 0;
+
+    auto* aslist = param->getRes().mASList;
+    if (aslist) {
+        for (s32 i = 0, n = aslist->getASDefines().size(); i < n; ++i) {
+            const sead::SafeString file_name = aslist->getASDefines()[i].getFileName();
+            if (file_name == "Dummy" || file_name.isEmpty()) {
+                auto* as = sead::DynamicCast<res::AS>(mDummyResources[u32(Type::AS)].getResource());
+                as->setIndex(u32(Type::AS));
+                aslist->addAS_(i, as);
+                ++idx;
+            } else {
+                const res::Handle& handle = param->mHandles[1][idx];
+                if (handle.isFlag8Set()) {
+                    ++idx;
+                    continue;
+                }
+
+                auto* as = handleAsyncFileLoad<res::AS>(param, &idx, Type::AS, x);
+                if (!as)
+                    return false;
+
+                as->setIndex(u32(Type::AS));
+                aslist->addAS_(i, as);
+            }
+        }
+    }
+
+    auto* atcllist = param->getRes().mAttClientList;
+    if (atcllist) {
+        for (s32 i = 0, n = atcllist->getClients().size(); i < n; ++i) {
+            const sead::SafeString file_name = atcllist->getClients()[i].getFileName();
+            if (file_name == "Dummy" || file_name.isEmpty()) {
+                auto* res = sead::DynamicCast<res::AttClient>(
+                    mDummyResources[u32(Type::AttClient)].getResource());
+                /// @bug This should be Type::AttClient. Copy paste error?
+                res->setIndex(u32(Type::AS));
+                atcllist->addClient_(i, res);
+                ++idx;
+            } else {
+                const res::Handle& handle = param->mHandles[1][idx];
+                if (handle.isFlag8Set()) {
+                    ++idx;
+                    continue;
+                }
+
+                auto* res = handleAsyncFileLoad<res::AttClient>(param, &idx, Type::AttClient, x);
+                if (!res)
+                    return false;
+
+                res->setIndex(u32(Type::AttClient));
+                atcllist->addClient_(i, res);
+            }
+        }
+    }
+
+    auto* rgconfiglist = param->getRes().mRagdollConfigList;
+    if (rgconfiglist) {
+        for (s32 i = 0, n = rgconfiglist->getImpulseParams().size(); i < n; ++i) {
+            const sead::SafeString file_name = rgconfiglist->getImpulseParams()[i].getFileName();
+            if (file_name == "Dummy" || file_name.isEmpty()) {
+                auto* res = sead::DynamicCast<res::RagdollConfig>(
+                    mDummyResources[u32(Type::RagdollConfig)].getResource());
+                res->setIndex(u32(Type::RagdollConfig));
+                rgconfiglist->addImpulseParamConfig_(i, res);
+                ++idx;
+            } else {
+                const res::Handle& handle = param->mHandles[1][idx];
+                if (handle.isFlag8Set()) {
+                    ++idx;
+                    continue;
+                }
+
+                auto* res =
+                    handleAsyncFileLoad<res::RagdollConfig>(param, &idx, Type::RagdollConfig, x);
+                if (!res)
+                    return false;
+
+                res->setIndex(u32(Type::RagdollConfig));
+                rgconfiglist->addImpulseParamConfig_(i, res);
+            }
+        }
+    }
+
+    param->_9 = 0;
+    param->onLoadFinished(this);
+    param->setEventSignal();
+    return true;
+}
+
+void ActorParamMgr::allocExtraResHandles(ActorParam* param, sead::Heap* heap) const {
+    s32 num_extra_handles = 0;
+
+    auto* aslist = param->getRes().mASList;
+    auto* atcllist = param->getRes().mAttClientList;
+    auto* rgconfiglist = param->getRes().mRagdollConfigList;
+
+    if (aslist)
+        num_extra_handles += aslist->getASDefines().size();
+
+    if (atcllist)
+        num_extra_handles += atcllist->getClients().size();
+
+    if (rgconfiglist)
+        num_extra_handles += rgconfiglist->getImpulseParams().size();
+
+    param->allocResHandles(heap, 1, num_extra_handles);
+}
+
 void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Handle* pack_handle,
                                    void* x, u32 load_req_c) {
     const auto* link = param->getRes().mActorLink;
     param->mActiveBufferIdx = 0;
-
-    using Type = ActorParam::ResourceType;
-    using User = res::ActorLink::User;
 
     loadFile<res::AttClientList>(param, Type::AttClientList, "Actor/AttClientList", "atcllist",
                                  link->getUserName(User::Attention), pack_handle, x, load_req_c);
@@ -165,29 +535,15 @@ void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Han
                                      "rgconfiglist", link->getUserName(User::RgConfigList),
                                      pack_handle, x, load_req_c);
 
-    {
-        s32 num_extra_handles = 0;
-        auto* aslist = param->getRes().mASList;
-        auto* atcllist = param->getRes().mAttClientList;
-        auto* rgconfiglist = param->getRes().mRagdollConfigList;
-        if (aslist)
-            num_extra_handles += aslist->getBuffers().as_defines.size();
-        if (atcllist)
-            num_extra_handles += atcllist->getClients().size();
-        if (rgconfiglist)
-            num_extra_handles += rgconfiglist->getImpulseParams().size();
-
-        param->allocResHandles(heap, 1, num_extra_handles);
-    }
-
     // Start loading the extra ActorParam files.
+    allocExtraResHandles(param, heap);
     param->mActiveBufferIdx = 1;
 
     if (auto* aslist = param->getRes().mASList) {
-        for (s32 i = 0; i < aslist->getBuffers().as_defines.size(); ++i) {
+        for (s32 i = 0; i < aslist->getASDefines().size(); ++i) {
             auto* as = loadFile<res::AS>(param, Type::AS, "Actor/AS", "as",
-                                         aslist->getBuffers().as_defines[i].file_name.ref().cstr(),
-                                         pack_handle, x, load_req_c);
+                                         aslist->getASDefines()[i].getFileName(), pack_handle, x,
+                                         load_req_c);
             if (as) {
                 as->setIndex(u32(Type::AS));
                 aslist->addAS_(i, as);
@@ -197,9 +553,9 @@ void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Han
 
     if (auto* list = param->getRes().mAttClientList) {
         for (s32 i = 0; i < list->getClients().size(); ++i) {
-            auto* client = loadFile<res::AttClient>(
-                param, Type::AttClient, "Actor/AttClient", "atcl",
-                list->getClients()[i].file_name.ref().cstr(), pack_handle, x, load_req_c);
+            auto* client = loadFile<res::AttClient>(param, Type::AttClient, "Actor/AttClient",
+                                                    "atcl", list->getClients()[i].getFileName(),
+                                                    pack_handle, x, load_req_c);
             if (client) {
                 client->setIndex(u32(Type::AttClient));
                 list->addClient_(i, client);
@@ -211,7 +567,7 @@ void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Han
         for (s32 i = 0; i < list->getImpulseParams().size(); ++i) {
             auto* config = loadFile<res::RagdollConfig>(
                 param, Type::RagdollConfig, "Actor/RagdollConfig", "rgconfig",
-                list->getImpulseParams()[i].file_name.ref().cstr(), pack_handle, x, load_req_c);
+                list->getImpulseParams()[i].getFileName(), pack_handle, x, load_req_c);
             if (config) {
                 config->setIndex(u32(Type::RagdollConfig));
                 list->addImpulseParamConfig_(i, config);
@@ -396,7 +752,7 @@ T* ActorParamMgr::loadFile(ActorParam* param, ActorParam::ResourceType type, con
 
     } else {
         path.format("%s/%s.b%s", dir_name_c, name_c, extension_c);
-        res = sead::DynamicCast<T>(mResHandles[s32(type)].getResource());
+        res = sead::DynamicCast<T>(mDummyResources[s32(type)].getResource());
     }
 
     if (res) {
@@ -412,7 +768,7 @@ T* ActorParamMgr::loadFile(ActorParam* param, ActorParam::ResourceType type, con
         param->_a = 1;
 
     // Fall back to using the dummy resource.
-    res = sead::DynamicCast<T>(mResHandles[s32(type)].getResource());
+    res = sead::DynamicCast<T>(mDummyResources[s32(type)].getResource());
     sead::FixedSafeString<128> dummy_path;
     dummy_path.format("%s/Dummy.b%s", dir_name_c, extension_c);
     if (res) {
@@ -425,7 +781,7 @@ T* ActorParamMgr::loadFile(ActorParam* param, ActorParam::ResourceType type, con
 
 res::GParamList* ActorParamMgr::getDummyGParamList() const {
     return static_cast<res::GParamList*>(
-        mResHandles[u32(ActorParam::ResourceType::GParamList)].getResourceUnchecked());
+        mDummyResources[u32(ActorParam::ResourceType::GParamList)].getResourceUnchecked());
 }
 
 }  // namespace ksys::act

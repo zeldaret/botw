@@ -16,6 +16,8 @@ class RagdollConfigList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(RagdollConfigList, Resource)
 public:
     struct ImpulseParam {
+        const char* getFileName() const { return file_name.ref().cstr(); }
+
         agl::utl::Parameter<sead::SafeString> file_name;
         agl::utl::ParameterObj obj;
         RagdollConfig* config;

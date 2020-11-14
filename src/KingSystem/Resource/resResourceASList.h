@@ -16,6 +16,8 @@ class ASList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ASList, Resource)
 public:
     struct ASDefine {
+        const char* getFileName() const { return file_name.ref().cstr(); }
+
         agl::utl::Parameter<sead::SafeString> name;
         agl::utl::Parameter<sead::SafeString> file_name;
         agl::utl::ParameterObj obj;
@@ -64,7 +66,9 @@ public:
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
-    const Buffers& getBuffers() const { return mBuffers; }
+    const sead::Buffer<ASDefine>& getASDefines() const { return mBuffers.as_defines; }
+    const sead::Buffer<CFDefine>& getCFDefines() const { return mBuffers.cf_defines; }
+    const sead::Buffer<AddRes>& getAddReses() const { return mBuffers.add_reses; }
     const Common& getCommon() const { return mCommon.ref(); }
 
     void addAS_(s32 index, AS* as);

@@ -24,6 +24,8 @@ public:
     KSYS_CHECK_SIZE_NX150(AttPos, 0x98);
 
     struct Client {
+        const char* getFileName() const { return file_name.ref().cstr(); }
+
         agl::utl::Parameter<sead::SafeString> name;
         agl::utl::Parameter<sead::SafeString> file_name;
         agl::utl::Parameter<bool> is_valid;

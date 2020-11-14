@@ -42,9 +42,17 @@ public:
 
     ActorParam* allocParam(const char* actor_name, bool* allocated_new);
     ActorParam* getParam(const char* actor_name, ActorParam** out_free_param) const;
-    ActorParam* loadParam(const char* actor_name, res::Handle* handle, void* x, u32 load_req_c);
+    ActorParam* loadParam(const char* actor_name, res::Handle* pack_handle, void* x,
+                          u32 load_req_c);
     void unloadParam(ActorParam* param);
 
+    ActorParam* loadParamAsync(const char* actor_name, res::Handle* pack_handle,
+                               bool* allocated_new, void* x, u32 load_req_c);
+    bool finishLoadingActorLink(ActorParam* param, void* x);
+    void loadParamAsyncStep2(ActorParam* param, res::Handle* pack_handle, void* x, u32 load_req_c);
+    bool finishLoadingStep2(ActorParam* param, void* x);
+    void loadExtraResAsync(ActorParam* param, res::Handle* pack_handle, void* x, u32 load_req_c);
+    bool finishLoadingExtraRes(ActorParam* param, void* x);
     res::GParamList* getDummyGParamList() const;
 
 private:
@@ -72,8 +80,19 @@ private:
                 const char* extension_c, const char* name_c, res::Handle* pack_handle, void* x,
                 u32 load_req_c);
 
+    template <typename T>
+    bool loadFileAsync(ActorParam* param, ActorParam::ResourceType type,
+                       const sead::SafeString& dir_name, const sead::SafeString& extension,
+                       const sead::SafeString& name, res::Handle* pack_handle, void* x,
+                       u32 load_req_c);
+
+    template <typename T>
+    T* handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::ResourceType type, void* x);
+
     void loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Handle* pack_handle, void* x,
                         u32 load_req_c);
+
+    void allocExtraResHandles(ActorParam* param, sead::Heap* heap) const;
 
     static constexpr s32 NumParams = 0x400;
 
@@ -84,7 +103,7 @@ private:
     void* _e8 = nullptr;
     sead::Heap* mDebugHeap = nullptr;
     sead::Heap* mTmpActorParamMgrHeap = nullptr;
-    sead::SafeArray<res::Handle, 28> mResHandles;
+    sead::SafeArray<res::Handle, ActorParam::NumResourceTypes> mDummyResources;
     mutable sead::CriticalSection mCS;
 };
 KSYS_CHECK_SIZE_NX150(ActorParamMgr, 0xa00);
