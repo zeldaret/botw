@@ -21,11 +21,20 @@ target_sources(uking PRIVATE
   Thread/TaskThread.cpp
   Thread/TaskThread.h
 
-  Byaml.cpp
-  Byaml.h
-  ByamlLocal.cpp
-  ByamlLocal.h
-  ByamlUtil.cpp
+  Byaml/Byaml.cpp
+  Byaml/Byaml.h
+  Byaml/ByamlArrayIter.cpp
+  Byaml/ByamlArrayIter.h
+  Byaml/ByamlData.cpp
+  Byaml/ByamlData.h
+  Byaml/ByamlStringTableIter.cpp
+  Byaml/ByamlStringTableIter.h
+  Byaml/ByamlHashIter.cpp
+  Byaml/ByamlHashIter.h
+  Byaml/ByamlLocal.cpp
+  Byaml/ByamlLocal.h
+  Byaml/ByamlUtil.cpp
+
   Debug.h
   FixedString.h
   HashUtil.h

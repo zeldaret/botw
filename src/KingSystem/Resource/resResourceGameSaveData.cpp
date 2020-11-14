@@ -3,7 +3,7 @@
 #include <codec/seadHashCRC32.h>
 #include <prim/seadContainerIterator.h>
 #include "KingSystem/GameData/gdtManager.h"
-#include "KingSystem/Utils/Byaml.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::res {
 
