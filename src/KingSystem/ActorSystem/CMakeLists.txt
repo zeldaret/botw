@@ -40,8 +40,10 @@ target_sources(uking PRIVATE
   actBaseProcMgr.h
   actBaseProcUnit.cpp
   actBaseProcUnit.h
-  actLifeRecoveryInfo.h
+  actInfoData.cpp
+  actInfoData.h
   actInstParamPack.cpp
   actInstParamPack.h
+  actLifeRecoveryInfo.h
   actTag.h
 )

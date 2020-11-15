@@ -43,6 +43,9 @@ public:
 
     ByamlIter& operator=(const ByamlIter& rhs);
 
+    const u8* getData() const { return mData; }
+    const u8* getRootNode() const { return mRootNode; }
+
     bool isValid() const;
     bool isTypeHash() const;
     bool isTypeArray() const;
