@@ -1,10 +1,11 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include <math/seadMathCalcCommon.h>
+#include <prim/seadMemUtil.h>
 #include "KingSystem/Utils/Byaml/ByamlArrayIter.h"
 #include "KingSystem/Utils/Byaml/ByamlData.h"
 #include "KingSystem/Utils/Byaml/ByamlHashIter.h"
 #include "KingSystem/Utils/Byaml/ByamlLocal.h"
 #include "KingSystem/Utils/Byaml/ByamlStringTableIter.h"
-#include "math/seadMathCalcCommon.h"
 
 namespace al {
 
@@ -31,10 +32,15 @@ ByamlIter::ByamlIter(const u8* data, const u8* root_node) : mData(data), mRootNo
 
 ByamlIter::ByamlIter(const ByamlIter& other) : mData(other.mData), mRootNode(other.mRootNode) {}
 
-void ByamlIter::Set(const ByamlIter& other) {
-    if (this != &other) {
-        *this = other;
+ByamlIter& ByamlIter::operator=(const ByamlIter& rhs) {
+    if (this != &rhs) {
+        // This is formally undefined behavior because ByamlIter is not trivially copyable
+        // (since it has non-trivial copy constructors and copy assignment operators)
+        // but those are effectively trivial so this will work in practice.
+        // This is what Nintendo did and it is required for matching.
+        sead::MemUtil::copy(this, &rhs, sizeof(*this));
     }
+    return *this;
 }
 
 bool ByamlIter::isValid() const {
@@ -219,12 +225,12 @@ bool ByamlIter::getKeyName(const char** key, s32 index) const {
 }
 
 bool ByamlIter::tryGetIterByIndex(ByamlIter* iter, s32 index) const {
-    iter->Set(getIterByIndex(index));
+    *iter = getIterByIndex(index);
     return iter->isValid();
 }
 
 bool ByamlIter::tryGetIterByKey(ByamlIter* iter, const char* key) const {
-    iter->Set(getIterByKey(key));
+    *iter = getIterByKey(key);
     return iter->isValid();
 }
 
@@ -235,7 +241,7 @@ bool ByamlIter::tryGetIterAndKeyNameByIndex(ByamlIter* iter, const char** key, s
         return tryGetIterByIndex(iter, index);
     }
 
-    iter->Set(getIterFromData(data));
+    *iter = getIterFromData(data);
     return true;
 }
 

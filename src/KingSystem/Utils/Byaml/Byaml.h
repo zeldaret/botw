@@ -41,8 +41,7 @@ public:
     ByamlIter(const u8* data, const u8* root_node);
     ByamlIter(const ByamlIter& other);
 
-    ByamlIter& operator=(const ByamlIter& rhs) = default;
-    void Set(const ByamlIter& other);
+    ByamlIter& operator=(const ByamlIter& rhs);
 
     bool isValid() const;
     bool isTypeHash() const;
