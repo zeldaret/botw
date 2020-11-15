@@ -88,6 +88,76 @@ public:
 
     bool isEqualData(const ByamlIter& other) const;
 
+    const char* getStringByIndex(s32 index) const {
+        const char* value;
+        if (!tryGetStringByIndex(&value, index))
+            return "";
+        return value;
+    }
+
+    const char* getStringByKey(const char* key) const {
+        const char* value;
+        if (!tryGetStringByKey(&value, key))
+            return "";
+        return value;
+    }
+
+    s32 getIntByIndex(s32 index) const {
+        s32 value;
+        if (!tryGetIntByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    s32 getIntByKey(const char* key) const {
+        s32 value;
+        if (!tryGetIntByKey(&value, key))
+            return {};
+        return value;
+    }
+
+    u32 getUIntByIndex(s32 index) const {
+        u32 value;
+        if (!tryGetUIntByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    u32 getUIntByKey(const char* key) const {
+        u32 value;
+        if (!tryGetUIntByKey(&value, key))
+            return {};
+        return value;
+    }
+
+    f32 getFloatByIndex(s32 index) const {
+        f32 value;
+        if (!tryGetFloatByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    f32 getFloatByKey(const char* key) const {
+        f32 value;
+        if (!tryGetFloatByKey(&value, key))
+            return {};
+        return value;
+    }
+
+    bool getBoolByIndex(s32 index) const {
+        bool value;
+        if (!tryGetBoolByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    bool getBoolByKey(const char* key) const {
+        bool value;
+        if (!tryGetBoolByKey(&value, key))
+            return {};
+        return value;
+    }
+
 private:
     const u8* mData = nullptr;
     const u8* mRootNode = nullptr;
