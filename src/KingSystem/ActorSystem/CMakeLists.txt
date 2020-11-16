@@ -40,6 +40,8 @@ target_sources(uking PRIVATE
   actBaseProcMgr.h
   actBaseProcUnit.cpp
   actBaseProcUnit.h
+  actDebug.cpp
+  actDebug.h
   actInfoData.cpp
   actInfoData.h
   actInstParamPack.cpp

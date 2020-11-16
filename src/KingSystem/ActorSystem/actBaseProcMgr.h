@@ -163,6 +163,8 @@ public:
     Status getStatus() const { return mStatus; }
     u32 getNumJobTypes() const { return mNumJobTypes; }
 
+    bool checkGetActorOk(BaseProc* proc, void* a2);
+
 private:
     void doAddToUpdateStateList_(BaseProc& proc);
 
