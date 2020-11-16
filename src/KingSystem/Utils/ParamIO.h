@@ -16,12 +16,13 @@ public:
     bool applyResourceUpdate(const char* data, const char* data1);
 
     u32 getIdx() const { return mIdx; }
-    const sead::SafeString& getId() const { return mId; }
+    sead::BufferedSafeString& getPath() { return mPath; }
+    const sead::BufferedSafeString& getPath() const { return mPath; }
     void setIndex(u32 idx) { mIdx = idx; }
 
 protected:
     u32 mIdx = 0x1c;
-    sead::FixedSafeString<128> mId;
+    sead::FixedSafeString<128> mPath;
 };
 KSYS_CHECK_SIZE_NX150(ParamIO, 0x278);
 

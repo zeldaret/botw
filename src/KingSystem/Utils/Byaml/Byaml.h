@@ -4,12 +4,14 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include <prim/seadEndian.h>
 #include <prim/seadSizedEnum.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace al {
 
 struct ByamlData;
+struct ByamlHashPair;
 
 enum class ByamlType {
     Invalid = 0,
@@ -41,6 +43,9 @@ public:
 
     ByamlIter& operator=(const ByamlIter& rhs);
 
+    const u8* getData() const { return mData; }
+    const u8* getRootNode() const { return mRootNode; }
+
     bool isValid() const;
     bool isTypeHash() const;
     bool isTypeArray() const;
@@ -51,11 +56,13 @@ public:
 
     s32 getSize() const;
 
-    void getByamlDataByIndex(ByamlData* data, s32 index) const;
-    bool getByamlDataByKey(ByamlData* data, const char* key) const;
-    bool getByamlDataByKeyIndex(ByamlData* data, s32 index) const;
     ByamlIter getIterByIndex(s32 index) const;
     ByamlIter getIterByKey(const char* key) const;
+    ByamlIter getIterFromData(const ByamlData& data) const;
+    bool getByamlDataByIndex(ByamlData* data, s32 index) const;
+    bool getByamlDataByKey(ByamlData* data, const char* key) const;
+    bool getByamlDataAndKeyNameByIndex(ByamlData* data, const char** key, s32 index) const;
+
     bool getKeyName(const char** key, s32 index) const;
 
     bool tryGetIterByIndex(ByamlIter* iter, s32 index) const;
@@ -68,6 +75,7 @@ public:
 
     bool tryGetIntByIndex(s32* value, s32 index) const;
     bool tryGetIntByKey(s32* value, const char* key) const;
+    bool tryConvertInt(s32* value, const ByamlData* data) const;
 
     bool tryGetUIntByIndex(u32* value, s32 index) const;
     bool tryGetUIntByKey(u32* value, const char* key) const;
@@ -75,61 +83,96 @@ public:
 
     bool tryGetFloatByIndex(f32* value, s32 index) const;
     bool tryGetFloatByKey(f32* value, const char* key) const;
+    bool tryConvertFloat(f32* value, const ByamlData* data) const;
 
     bool tryGetBoolByIndex(bool* value, s32 index) const;
     bool tryGetBoolByKey(bool* value, const char* key) const;
+    bool tryConvertBool(bool* value, const ByamlData* data) const;
 
     bool isEqualData(const ByamlIter& other) const;
+
+    const char* getStringByIndex(s32 index) const {
+        const char* value;
+        if (!tryGetStringByIndex(&value, index))
+            return "";
+        return value;
+    }
+
+    const char* getStringByKey(const char* key) const {
+        const char* value;
+        if (!tryGetStringByKey(&value, key))
+            return "";
+        return value;
+    }
+
+    s32 getIntByIndex(s32 index) const {
+        s32 value;
+        if (!tryGetIntByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    s32 getIntByKey(const char* key) const {
+        s32 value;
+        if (!tryGetIntByKey(&value, key))
+            return {};
+        return value;
+    }
+
+    u32 getUIntByIndex(s32 index) const {
+        u32 value;
+        if (!tryGetUIntByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    u32 getUIntByKey(const char* key) const {
+        u32 value;
+        if (!tryGetUIntByKey(&value, key))
+            return {};
+        return value;
+    }
+
+    f32 getFloatByIndex(s32 index) const {
+        f32 value;
+        if (!tryGetFloatByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    f32 getFloatByKey(const char* key) const {
+        f32 value;
+        if (!tryGetFloatByKey(&value, key))
+            return {};
+        return value;
+    }
+
+    bool getBoolByIndex(s32 index) const {
+        bool value;
+        if (!tryGetBoolByIndex(&value, index))
+            return {};
+        return value;
+    }
+
+    bool getBoolByKey(const char* key) const {
+        bool value;
+        if (!tryGetBoolByKey(&value, key))
+            return {};
+        return value;
+    }
 
 private:
     const u8* mData = nullptr;
     const u8* mRootNode = nullptr;
 };
 
-class ByamlStringTableIter {
-public:
-    explicit ByamlStringTableIter(const u8* data) : mData(data) {}
-
-    const char* getString(s32 index) const;
-    s32 findStringIndex(const char* string) const;
-
-private:
-    const u8* mData;
-};
-
-class ByamlArrayIter {
-public:
-    explicit ByamlArrayIter(const u8* data);
-
-    const u8* getDataTable() const;
-    bool getDataByIndex(ByamlData* data, s32 index);
-
-private:
-    const u8* mData;
-};
-
-class ByamlHashIter {
-public:
-    explicit ByamlHashIter(const u8* data);
-
-    s32 getSize() const;
-    const u8* getPairTable() const;
-    bool getDataByIndex(ByamlData* data, s32 index) const;
-    bool getDataByKey(ByamlData* data, s32 key_index) const;
-    const u8* findPair(s32 key_index) const;
-    const u8* getPairByIndex(s32 index) const;
-
-private:
-    const u8* mData;
-};
-
 struct ByamlHeader {
     u16 getTag() const;
     bool isInvertHeader() const;
-    u16 getVersion() const;
-    u16 getHashKeyTableOffset() const;
-    u16 getStringTableOffset() const;
-    u16 getDataOffset() const;
+    u16 getVersion() const { return version; };
+    u32 getHashKeyTableOffset() const { return hash_key_table_offset; };
+    u32 getStringTableOffset() const { return string_table_offset; };
+    u32 getDataOffset() const { return data_offset; };
 
     u16 magic;
     u16 version;
@@ -140,30 +183,13 @@ struct ByamlHeader {
 KSYS_CHECK_SIZE_NX150(ByamlHeader, 0x10);
 
 struct ByamlContainerHeader {
-    ByamlType getType() const;
-    u32 getCount(bool byteswap) const;
+    ByamlType getType() const {
+        // Type is only the first byte
+        return ByamlType(*reinterpret_cast<const u8*>(&type_and_size));
+    }
 
+    u32 getCount() const { return type_and_size >> 8; };
     u32 type_and_size;
-};
-
-struct ByamlHashPair {
-    u32 getKey(bool byteswap) const;
-    ByamlType getType() const;
-    u32 getValue(bool byteswap) const;
-
-    u32 name_and_type;
-    u32 value;
-};
-
-struct ByamlData {
-    u32 getValue() const { return value; }
-    ByamlType getType() const { return type; }
-
-    void set(const ByamlHashPair* pair, bool byteswap);
-    void set(u8, u32, bool byteswap);
-
-    u32 value = 0;
-    sead::SizedEnum<ByamlType, u8> type = ByamlType::Invalid;
 };
 
 bool tryGetByamlS32(s32* value, const ByamlIter& iter, const char* key);

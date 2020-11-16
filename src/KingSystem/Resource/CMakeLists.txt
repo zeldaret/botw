@@ -105,12 +105,16 @@ target_sources(uking PRIVATE
   resLoadRequest.h
   resMemoryTask.cpp
   resMemoryTask.h
+  resModelResourceDivide.cpp
+  resModelResourceDivide.h
   resOffsetReadFileDevice.cpp
   resOffsetReadFileDevice.h
   resResourceMgrTask.cpp
   resResourceMgrTask.h
   resSystem.cpp
   resSystem.h
+  resTempResourceLoader.cpp
+  resTempResourceLoader.h
   resTextureHandleList.cpp
   resTextureHandleList.h
   resTextureHandleMgr.cpp
@@ -128,10 +132,26 @@ target_sources(uking PRIVATE
   resResourceActorLink.h
   resResourceAIProgram.cpp
   resResourceAIProgram.h
+  resResourceAISchedule.cpp
+  resResourceAISchedule.h
+  resResourceAnimInfo.cpp
+  resResourceAnimInfo.h
+  resResourceAS.cpp
+  resResourceAS.h
+  resResourceASList.cpp
+  resResourceASList.h
+  resResourceAttClient.cpp
+  resResourceAttClient.h
+  resResourceAttClientList.cpp
+  resResourceAttClientList.h
   resResourceArchive.cpp
   resResourceArchive.h
   resResourceAwareness.cpp
   resResourceAwareness.h
+  resResourceBoneControl.cpp
+  resResourceBoneControl.h
+  resResourceChemical.cpp
+  resResourceChemical.h
   resResourceDamageParam.cpp
   resResourceDamageParam.h
   resResourceDemo.cpp
@@ -148,8 +168,20 @@ target_sources(uking PRIVATE
   resResourceLifeCondition.h
   resResourceLod.cpp
   resResourceLod.h
+  resResourceModelList.cpp
+  resResourceModelList.h
+  resResourcePhysics.cpp
+  resResourcePhysics.h
+  resResourceRagdollBlendWeight.cpp
+  resResourceRagdollBlendWeight.h
+  resResourceRagdollConfig.cpp
+  resResourceRagdollConfig.h
+  resResourceRagdollConfigList.cpp
+  resResourceRagdollConfigList.h
   resResourceRecipe.cpp
   resResourceRecipe.h
   resResourceShop.cpp
   resResourceShop.h
+  resResourceUMii.cpp
+  resResourceUMii.h
 )

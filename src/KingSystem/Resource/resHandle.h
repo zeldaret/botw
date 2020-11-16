@@ -73,6 +73,7 @@ public:
 
     sead::SafeString makeEmptyString();
 
+    ResourceUnit* getUnit() const { return mUnit; }
     void setUnit(ResourceUnit* unit) { mUnit = unit; }
 
     bool isLinked() const { return mListNode.isLinked(); }

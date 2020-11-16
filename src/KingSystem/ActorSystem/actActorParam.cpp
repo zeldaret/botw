@@ -3,7 +3,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorTemplate.h"
-#include "KingSystem/Utils/Byaml.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::act {
 
@@ -49,8 +49,8 @@ void ActorParam::deleteResHandles() {
         handles.freeBuffer();
 }
 
-bool ActorParam::isDummyParam(res::ActorLink::Users::User user) const {
-    return mRes.mActorLink->getUsers().getUserName(user) == "Dummy";
+bool ActorParam::isDummyParam(res::ActorLink::User user) const {
+    return sead::SafeString(mRes.mActorLink->getUserName(user)) == "Dummy";
 }
 
 void ActorParam::allocResHandles(sead::Heap* heap, u32 buffer_idx, s32 count) {
@@ -153,5 +153,7 @@ void ActorParam::setProfileAndPriority(const char* profile, const char* priority
         setProfileAndPriority("Dummy", priority);
     }
 }
+
+void ActorParam::onLoadFinished(ActorParamMgr*) {}
 
 }  // namespace ksys::act

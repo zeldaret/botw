@@ -21,7 +21,7 @@ public:
     Resource();
     ~Resource() override;
 
-    void doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) override;
+    void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
 
     virtual bool needsParse() const { return false; }
     virtual bool m2_() { return true; }

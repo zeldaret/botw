@@ -1,7 +1,7 @@
 #include "KingSystem/Resource/resResourceGameData.h"
 #include <type_traits>
 #include "KingSystem/GameData/gdtManager.h"
-#include "KingSystem/Utils/Byaml.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::res {
