@@ -6,6 +6,7 @@
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace al {
@@ -68,6 +69,19 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(HomeAreas, 0x18);
 
+    struct InvalidLifeConditions {
+        s32 num_times;
+        sead::SafeArray<sead::SafeString, 16> times;
+        s32 num_weathers;
+        sead::SafeArray<sead::SafeString, 16> weathers;
+    };
+    KSYS_CHECK_SIZE_NX150(InvalidLifeConditions, 0x210);
+
+    struct TerrainTextures {
+        sead::SafeArray<u8, 0x20> textures;
+    };
+    KSYS_CHECK_SIZE_NX150(TerrainTextures, 0x20);
+
     void init(u8* data, sead::Heap* heap, sead::Heap* debug_heap);
 
     void getModelInfo(const char* actor, ModelInfo& info) const;
@@ -76,16 +90,37 @@ public:
     void getRecipeInfo(const char* actor, RecipeInfo& info) const;
     void getLocators(const char* actor, Locators& info) const;
     void getHomeAreas(const char* actor, HomeAreas& info) const;
-    // TODO: invalid time function
-    // TODO: tag functions
+    void getInvalidLifeConditions(const char* actor, InvalidLifeConditions& info) const;
+    bool hasTag(const char* actor, const char* tag) const;
+    bool hasTag(const al::ByamlIter& actor_iter, u32 tag_hash) const;
+    bool hasTag(const char* actor, u32 tag_hash) const;
     const char* getSameGroupActorName(const char* actor) const;
-    // TODO: more functions
+    const char* getSameGroupActorName(const al::ByamlIter& iter) const;
+    s32 getTerrainTextures(const char* actor, TerrainTextures& info) const;
+    bool getDrops(al::ByamlIter* drops_iter, const char* actor) const;
+    const char* getName(const char* actor) const;
+    const char* getUnknown(const char* actor, u32 x) const;
     const char* getSLinkUser(const char* actor) const;
     bool getSLinkAndELinkUsers(const char* actor, const char** elink, const char** slink) const;
     const char* getXLinkUser(const char* actor) const;
     bool getActorProfile(const char** profile, const char* actor) const;
-    // TODO: more functions
+    bool getActorProfile(const char** profile, const al::ByamlIter& iter) const;
+    bool getActorIter(al::ByamlIter* iter, u32 actor_name_hash, bool x = true) const;
+    static bool hasBurnableParam(const al::ByamlIter& iter);
+    static bool hasCapaciterParam(const al::ByamlIter& iter);
+    bool hasCapaciterParam(const char* actor) const;
     f32 getScale(const char* actor) const;
+    f32 getAdjustedLookAtOffsetY(const char* actor) const;
+    f32 getCursorOffsetY(const char* actor) const;
+    f32 getTraverseDist(const char* actor) const;
+    bool getYLimitAlgorithm(const char** algorithm, const char* actor) const;
+    f32 getAabbNorm(const char* actor, bool x) const;
+    bool getAAbbMinMax(const char* actor, sead::Vector3f* min, sead::Vector3f* max, bool x) const;
+    s32 getSortKey(const char* actor) const;
+    f32 getBoundingForTraverse(const char* actor) const;
+    f32 getAabbNormHalf(const char* actor) const;
+    bool isHasFar(const char* actor) const;
+    bool hasDropEntry(const char* actor, const char* key) const;
 
     const char* getString(const char* actor, const char* key, const sead::SafeString& default_,
                           bool x = true) const;

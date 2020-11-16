@@ -9,6 +9,8 @@ namespace al {
 struct ByamlData {
     ByamlData();
 
+    explicit ByamlData(const ByamlHashPair* pair) : ByamlData{} { set(pair); }
+
     template <typename T = u32>
     T getValue() const {
         return *reinterpret_cast<const T*>(&mValue);

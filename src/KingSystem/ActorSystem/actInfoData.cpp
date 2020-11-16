@@ -1,6 +1,8 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include <KingSystem/Resource/resModelResourceDivide.h>
 #include <codec/seadHashCRC32.h>
 #include <math/seadMathNumbers.h>
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Byaml/ByamlArrayIter.h"
 #include "KingSystem/Utils/Byaml/ByamlData.h"
@@ -61,6 +63,58 @@ void InfoData::init(u8* data, sead::Heap* heap, sead::Heap* debug_heap) {
     mInvalidTimesIdx = mRootIter->getKeyIndex("invalidTimes");
     mNameIdx = mRootIter->getKeyIndex("name");
     mSystemSameGroupActorNameIdx = mRootIter->getKeyIndex("systemSameGroupActorName");
+}
+
+void InfoData::getModelInfo(const char* actor, InfoData::ModelInfo& info) const {
+    const char** ptr;
+    al::ByamlIter iter;
+    if (!getActorIter(&iter, actor)) {
+        static_cast<void>(logFailure(actor));
+        ptr = &info.bfres;
+    } else {
+        const auto getFloat = [&](f32* value, const char* key, float default_) {
+            if (!iter.tryGetFloatByKey(value, key))
+                *value = default_;
+        };
+
+        getFloat(&info.baseScale.x, "baseScaleX", 1.0);
+        getFloat(&info.baseScale.y, "baseScaleY", 1.0);
+        getFloat(&info.baseScale.z, "baseScaleZ", 1.0);
+
+        getFloat(&info.addColor.r, "addColorR", 0.0);
+        getFloat(&info.addColor.g, "addColorG", 0.0);
+        getFloat(&info.addColor.b, "addColorB", 0.0);
+        getFloat(&info.addColor.a, "addColorA", 0.0);
+
+        getFloat(&info.mulColor.r, "mulColorR", 1.0);
+        getFloat(&info.mulColor.g, "mulColorG", 1.0);
+        getFloat(&info.mulColor.b, "mulColorB", 1.0);
+        getFloat(&info.mulColor.a, "mulColorA", 1.0);
+
+        if (!iter.tryGetStringByKey(&info.bfres, "bfres"))
+            info.bfres = nullptr;
+
+        if (!iter.tryGetStringByKey(&info.mainModel, "mainModel"))
+            info.mainModel = nullptr;
+
+        if (!info.bfres)
+            return;
+
+        if (info.mainModel) {
+            const char* model_resource =
+                res::ModelResourceDivide::instance()->getModelResource(info.bfres, info.mainModel);
+            if (model_resource)
+                info.bfres = model_resource;
+        }
+
+        if (!info.bfres || sead::SafeString(info.bfres) != "dammy_data")
+            return;
+
+        info.bfres = nullptr;
+        ptr = &info.mainModel;
+    }
+
+    *ptr = nullptr;
 }
 
 bool InfoData::getActorIter(al::ByamlIter* iter, const char* actor, bool x) const {
@@ -193,6 +247,93 @@ void InfoData::getHomeAreas(const char* actor, HomeAreas& info) const {
     }
 }
 
+void InfoData::getInvalidLifeConditions(const char* actor, InvalidLifeConditions& info) const {
+    al::ByamlIter iter;
+    if (!getActorIter(&iter, actor))
+        return;
+
+    al::ByamlData data;
+    al::ByamlHashIter hash_iter{iter.getRootNode()};
+
+    if (hash_iter.getDataByKey(&data, mInvalidTimesIdx)) {
+        al::ByamlIter it{iter.getData(), iter.getData() + data.getValue()};
+        for (s32 i = 0, n = it.getSize(); i < n; ++i) {
+            const char* time = nullptr;
+            if (!it.tryGetStringByIndex(&time, i))
+                continue;
+
+            info.times[info.num_times] = time;
+            ++info.num_times;
+        }
+    }
+
+    if (hash_iter.getDataByKey(&data, mInvalidWeathersIdx)) {
+        al::ByamlIter it{iter.getData(), iter.getData() + data.getValue()};
+        for (s32 i = 0, n = it.getSize(); i < n; ++i) {
+            const char* weather = nullptr;
+            if (!it.tryGetStringByIndex(&weather, i))
+                continue;
+
+            info.weathers[info.num_weathers] = weather;
+            ++info.num_weathers;
+        }
+    }
+}
+
+bool InfoData::hasTag(const char* actor, const char* tag) const {
+    al::ByamlIter iter;
+    return getActorIter(&iter, actor) && hasTag(iter, sead::HashCRC32::calcStringHash(tag));
+}
+
+bool InfoData::hasTag(const al::ByamlIter& actor_iter, u32 tag) const {
+    al::ByamlHashIter tags_iter{actor_iter.getRootNode()};
+    al::ByamlData data;
+    if (!tags_iter.getDataByKey(&data, mTagsIdx))
+        return false;
+
+    al::ByamlIter iter{actor_iter.getData(), actor_iter.getData() + data.getValue()};
+    if (!iter.isValid())
+        return false;
+
+    // Binary search.
+
+    s32 a = 0;
+    s32 b = iter.getSize();
+    if (b <= 0)
+        return false;
+
+    al::ByamlHashIter hash_iter{iter.getRootNode()};
+    const auto pair_table = hash_iter.getPairTable();
+
+    while (a < b) {
+        const s32 idx = (a + b) / 2;
+
+        const auto* pair = &pair_table[idx];
+        if (!pair)
+            break;
+
+        al::ByamlData hash_data{pair};
+        u32 hash;
+        if (!iter.tryConvertUInt(&hash, &hash_data))
+            break;
+
+        if (hash == tag)
+            return true;
+
+        if (hash >= tag)
+            b = idx;
+        else
+            a = idx + 1;
+    }
+
+    return false;
+}
+
+bool InfoData::hasTag(const char* actor, u32 tag_hash) const {
+    al::ByamlIter iter;
+    return getActorIter(&iter, actor) && hasTag(iter, tag_hash);
+}
+
 const char* InfoData::getSameGroupActorName(const char* actor) const {
     al::ByamlIter iter;
     return [&] {
@@ -209,6 +350,52 @@ const char* InfoData::getSameGroupActorName(const char* actor) const {
     }();
 }
 
+const char* InfoData::getSameGroupActorName(const al::ByamlIter& iter) const {
+    al::ByamlHashIter hash_iter{iter.getRootNode()};
+    al::ByamlData data;
+    if (hash_iter.getDataByKey(&data, mSystemSameGroupActorNameIdx)) {
+        const char* name;
+        if (iter.tryConvertString(&name, &data))
+            return name;
+    }
+    return sead::SafeString::cEmptyString.cstr();
+}
+
+s32 InfoData::getTerrainTextures(const char* actor, InfoData::TerrainTextures& info) const {
+    al::ByamlIter iter;
+    if (!getActorIter(&iter, actor))
+        return 0;
+
+    al::ByamlIter textures_iter;
+    if (!iter.tryGetIterByKey(&textures_iter, "terrainTextures"))
+        return 0;
+
+    s32 count = 0;
+    for (s32 i = 0; i < textures_iter.getSize(); ++i) {
+        u32 value;
+        textures_iter.tryGetUIntByIndex(&value, i);
+
+        if (u8(value) != 0xFF)
+            info.textures[count++] = u8(value);
+        if (u8(value >> 8) != 0xFF)
+            info.textures[count++] = u8(value >> 8);
+        if (u8(value >> 16) != 0xFF)
+            info.textures[count++] = u8(value >> 16);
+        if (u8(value >> 24) != 0xFF)
+            info.textures[count++] = u8(value >> 24);
+    }
+    return count;
+}
+
+bool InfoData::getDrops(al::ByamlIter* drops_iter, const char* actor) const {
+    al::ByamlIter iter;
+    return getActorIter(&iter, actor) && iter.tryGetIterByKey(drops_iter, "drops");
+}
+
+const char* InfoData::getName(const char* actor) const {
+    return getString(actor, "name", "");
+}
+
 const char* InfoData::getString(const char* actor, const char* key,
                                 const sead::SafeString& default_, bool x) const {
     al::ByamlIter iter;
@@ -216,6 +403,10 @@ const char* InfoData::getString(const char* actor, const char* key,
         return default_.cstr();
 
     return getStringByKey(iter, key, default_);
+}
+
+const char* InfoData::getUnknown(const char* actor, u32) const {
+    return actor;
 }
 
 const char* InfoData::getSLinkUser(const char* actor) const {
@@ -255,6 +446,15 @@ bool InfoData::getActorProfile(const char** profile, const char* actor) const {
     return false;
 }
 
+bool InfoData::getActorProfile(const char** profile, const al::ByamlIter& iter) const {
+    al::ByamlHashIter hash_iter{iter.getRootNode()};
+    al::ByamlData data;
+    if (hash_iter.getDataByKey(&data, mProfileIdx))
+        return iter.tryConvertString(profile, &data);
+    *profile = "Dummy";
+    return false;
+}
+
 s32 InfoData::getInt(const char* actor, const char* key, s32 default_, bool x) const {
     al::ByamlIter iter;
     if (!getActorIter(&iter, actor, x))
@@ -289,8 +489,129 @@ bool InfoData::getBoolByKey(const al::ByamlIter& iter, const char* key, bool def
     return iter.tryGetBoolByKey(&value, key) ? value != 0 : default_;
 }
 
+bool InfoData::getActorIter(al::ByamlIter* iter, u32 hash, bool x) const {
+    // Perform a binary search.
+    s32 a = 0;
+    s32 b = mNumActors;
+    while (a < b) {
+        const s32 idx = (a + b) / 2;
+        const u32 hash_i = mHashes[idx];
+
+        if (hash_i == hash) {
+            *iter = al::ByamlIter(mActorsBytes, mActorsBytes + mActorOffsets[idx]);
+            return true;
+        }
+
+        if (hash_i >= hash)
+            b = idx;
+        else
+            a = idx + 1;
+    }
+
+    if (x)
+        static_cast<void>(evt::Manager::instance()->getActiveEvent());
+
+    return false;
+}
+
+bool InfoData::hasBurnableParam(const al::ByamlIter& iter) {
+    al::ByamlIter chemical_it;
+    if (!iter.tryGetIterByKey(&chemical_it, "Chemical"))
+        return false;
+    s32 dummy = 0;
+    return chemical_it.tryGetIntByKey(&dummy, "Burnable");
+}
+
+bool InfoData::hasCapaciterParam(const al::ByamlIter& iter) {
+    al::ByamlIter chemical_it;
+    if (!iter.tryGetIterByKey(&chemical_it, "Chemical"))
+        return false;
+    s32 dummy = 0;
+    return chemical_it.tryGetIntByKey(&dummy, "Capaciter");
+}
+
+bool InfoData::hasCapaciterParam(const char* actor) const {
+    al::ByamlIter iter;
+    return getActorIter(&iter, actor) && hasCapaciterParam(iter);
+}
+
 f32 InfoData::getScale(const char* actor) const {
     return getFloat(actor, "actorScale", 1.0);
+}
+
+f32 InfoData::getAdjustedLookAtOffsetY(const char* actor) const {
+    al::ByamlIter iter;
+    if (!getActorIter(&iter, actor))
+        return 0.0;
+
+    return iter.getFloatByKey("lookAtOffsetY") + iter.getFloatByKey("rigidBodyCenterY");
+}
+
+f32 InfoData::getCursorOffsetY(const char* actor) const {
+    return getFloat(actor, "cursorOffsetY", 0.0, false);
+}
+
+f32 InfoData::getTraverseDist(const char* actor) const {
+    return getFloat(actor, "traverseDist", 0.0);
+}
+
+bool InfoData::getYLimitAlgorithm(const char** algorithm, const char* actor) const {
+    *algorithm = getString(actor, "yLimitAlgorithm", "NoLimit");
+    return algorithm != nullptr;
+}
+
+f32 InfoData::getAabbNorm(const char* actor, bool x) const {
+    sead::Vector3f min, max;
+    if (getAAbbMinMax(actor, &min, &max, x))
+        return sead::norm2(max - min);
+    return 0.0;
+}
+
+bool InfoData::getAAbbMinMax(const char* actor, sead::Vector3f* min, sead::Vector3f* max,
+                             bool x) const {
+    al::ByamlIter iter;
+    if (!getActorIter(&iter, actor, x))
+        return false;
+
+    bool min_ok, max_ok;
+
+    if (al::tryGetByamlV3f(min, iter, "aabbMin")) {
+        min_ok = true;
+    } else {
+        *min = sead::Vector3f::zero;
+        min_ok = false;
+    }
+
+    if (al::tryGetByamlV3f(max, iter, "aabbMax")) {
+        max_ok = true;
+    } else {
+        *max = sead::Vector3f::zero;
+        max_ok = false;
+    }
+
+    return min_ok && max_ok;
+}
+
+s32 InfoData::getSortKey(const char* actor) const {
+    return getInt(actor, "sortKey", 0, false);
+}
+
+f32 InfoData::getBoundingForTraverse(const char* actor) const {
+    return getFloat(actor, "boundingForTraverse", 0, false);
+}
+
+f32 InfoData::getAabbNormHalf(const char* actor) const {
+    return getAabbNorm(actor, true) * 0.5f;
+}
+
+bool InfoData::isHasFar(const char* actor) const {
+    return getBool(actor, "isHasFar", false, false);
+}
+
+bool InfoData::hasDropEntry(const char* actor, const char* key) const {
+    al::ByamlIter iter;
+    getDrops(&iter, actor);
+    return iter.isExistKey(key);
 }
 
 }  // namespace ksys::act
