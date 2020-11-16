@@ -193,19 +193,20 @@ void InfoData::getHomeAreas(const char* actor, HomeAreas& info) const {
     }
 }
 
-// NON_MATCHING: stack
 const char* InfoData::getSameGroupActorName(const char* actor) const {
     al::ByamlIter iter;
-    if (getActorIter(&iter, actor, false)) {
-        al::ByamlHashIter hash_iter{iter.getRootNode()};
-        al::ByamlData data;
-        if (hash_iter.getDataByKey(&data, mSystemSameGroupActorNameIdx)) {
-            const char* name;
-            if (iter.tryConvertString(&name, &data))
-                return name;
+    return [&] {
+        if (getActorIter(&iter, actor, false)) {
+            al::ByamlHashIter hash_iter{iter.getRootNode()};
+            al::ByamlData data;
+            if (hash_iter.getDataByKey(&data, mSystemSameGroupActorNameIdx)) {
+                const char* name;
+                if (iter.tryConvertString(&name, &data))
+                    return name;
+            }
         }
-    }
-    return sead::SafeString::cEmptyString.cstr();
+        return sead::SafeString::cEmptyString.cstr();
+    }();
 }
 
 const char* InfoData::getString(const char* actor, const char* key,
