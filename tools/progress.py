@@ -9,6 +9,8 @@ from util.utils import FunctionStatus
 import typing as tp
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--csv", "-c", action="store_true",
+                    help="Print a CSV line rather than a human-readable progress report")
 parser.add_argument("--print-nm", "-n", action="store_true",
                     help="Print non-matching functions with major issues")
 parser.add_argument("--print-eq", "-e", action="store_true",
@@ -68,18 +70,19 @@ for info in utils.get_functions():
     counts[info.status] += 1
     code_size[info.status] += info.size
 
-    if info.status == FunctionStatus.NonMatching:
-        if args.print_nm and not should_hide_nonmatching(info.decomp_name):
-            print(f"{Fore.RED}NM{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
-    elif info.status == FunctionStatus.Equivalent:
-        if args.print_eq and not should_hide_nonmatching(info.decomp_name):
-            print(f"{Fore.YELLOW}EQ{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
-    elif info.status == FunctionStatus.Matching:
-        if args.print_ok:
-            print(f"{Fore.GREEN}OK{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
-    elif info.status == FunctionStatus.Wip:
-        print(
-            f"{Back.RED}{Style.BRIGHT}{Fore.WHITE} WIP {Style.RESET_ALL} {utils.format_symbol_name(info.decomp_name)}{Style.RESET_ALL}")
+    if not args.csv:
+        if info.status == FunctionStatus.NonMatching:
+            if args.print_nm and not should_hide_nonmatching(info.decomp_name):
+                print(f"{Fore.RED}NM{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
+        elif info.status == FunctionStatus.Equivalent:
+            if args.print_eq and not should_hide_nonmatching(info.decomp_name):
+                print(f"{Fore.YELLOW}EQ{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
+        elif info.status == FunctionStatus.Matching:
+            if args.print_ok:
+                print(f"{Fore.GREEN}OK{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
+        elif info.status == FunctionStatus.Wip:
+            print(
+                f"{Back.RED}{Style.BRIGHT}{Fore.WHITE} WIP {Style.RESET_ALL} {utils.format_symbol_name(info.decomp_name)}{Style.RESET_ALL}")
 
 
 def format_progress(label: str, num: int, size: int):
@@ -97,22 +100,50 @@ def format_ai_progress(label: str, class_type: AIClassType):
     return f"{ai_counts_done[class_type]:>7d} {label}{Fore.RESET} ({percentage}%)"
 
 
-print()
+if args.csv:
+    import git
 
-print(f"{num_total:>7d} functions (size: ~{code_size_total} bytes)")
+    version = 1
+    git_object = git.Repo().head.object
+    timestamp = str(git_object.committed_date)
+    git_hash = git_object.hexsha
 
-count_decompiled = counts[FunctionStatus.Matching] + counts[FunctionStatus.Equivalent] + counts[
-    FunctionStatus.NonMatching]
-code_size_decompiled = code_size[FunctionStatus.Matching] + code_size[FunctionStatus.Equivalent] + code_size[
-    FunctionStatus.NonMatching]
+    fields = [
+        str(version),
+        timestamp,
+        git_hash,
 
-print(format_progress(f"{Fore.CYAN}decompiled", count_decompiled, code_size_decompiled))
-print(format_progress_for_status(f"{Fore.GREEN}matching", FunctionStatus.Matching))
-print(format_progress_for_status(f"{Fore.YELLOW}non-matching (minor issues)", FunctionStatus.Equivalent))
-print(format_progress_for_status(f"{Fore.RED}non-matching (major issues)", FunctionStatus.NonMatching))
+        str(num_total),
+        str(code_size_total),
 
-print()
-print(format_ai_progress("actions", AIClassType.Action))
-print(format_ai_progress("AIs", AIClassType.AI))
-print(format_ai_progress("behaviors", AIClassType.Behavior))
-print(format_ai_progress("queries", AIClassType.Query))
+        str(counts[FunctionStatus.Matching]),
+        str(code_size[FunctionStatus.Matching]),
+
+        str(counts[FunctionStatus.Equivalent]),
+        str(code_size[FunctionStatus.Equivalent]),
+
+        str(counts[FunctionStatus.NonMatching]),
+        str(code_size[FunctionStatus.NonMatching]),
+    ]
+    print(",".join(fields))
+
+else:
+    print()
+
+    print(f"{num_total:>7d} functions (size: ~{code_size_total} bytes)")
+
+    count_decompiled = counts[FunctionStatus.Matching] + counts[FunctionStatus.Equivalent] + counts[
+        FunctionStatus.NonMatching]
+    code_size_decompiled = code_size[FunctionStatus.Matching] + code_size[FunctionStatus.Equivalent] + code_size[
+        FunctionStatus.NonMatching]
+
+    print(format_progress(f"{Fore.CYAN}decompiled", count_decompiled, code_size_decompiled))
+    print(format_progress_for_status(f"{Fore.GREEN}matching", FunctionStatus.Matching))
+    print(format_progress_for_status(f"{Fore.YELLOW}non-matching (minor issues)", FunctionStatus.Equivalent))
+    print(format_progress_for_status(f"{Fore.RED}non-matching (major issues)", FunctionStatus.NonMatching))
+
+    print()
+    print(format_ai_progress("actions", AIClassType.Action))
+    print(format_ai_progress("AIs", AIClassType.AI))
+    print(format_ai_progress("behaviors", AIClassType.Behavior))
+    print(format_ai_progress("queries", AIClassType.Query))
