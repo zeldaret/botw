@@ -2,6 +2,9 @@
 #include <KingSystem/Resource/resModelResourceDivide.h>
 #include <codec/seadHashCRC32.h>
 #include <math/seadMathNumbers.h>
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actDebug.h"
+#include "KingSystem/Event/evtEvent.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Byaml/ByamlArrayIter.h"
@@ -142,6 +145,35 @@ bool InfoData::getActorIter(al::ByamlIter* iter, const char* actor, bool x) cons
         static_cast<void>(logFailure(actor));
 
     return false;
+}
+
+bool InfoData::logFailure(const sead::SafeString& actor_name) const {
+#ifdef MATCHING_HACK_NX_CLANG
+    // This is required to prevent LLVM from detecting that 'this' is unused
+    // and optimizing out the passing of 'this' in callers.
+    __builtin_assume(mActorsBytes);
+#endif
+
+    auto* event = evt::Manager::instance()->getActiveEvent();
+    if (event && event->hasFlag(evt::Event::Flag::_80000000000))
+        return false;
+
+    if (!ActorCreator::instance()->get5a())
+        return false;
+
+    if (ActorDebug::instance() && ActorDebug::instance()->hasFlag(ActorDebug::Flag::_10000000))
+        return false;
+
+    if (actor_name.startsWith("MergedGrudge"))
+        return false;
+
+    if (actor_name.startsWith("Armor_50"))
+        return false;
+
+    if (actor_name == "Weapon_Sword_DemoCheck")
+        return false;
+
+    return true;
 }
 
 void InfoData::getRecipeInfo(const char* actor, InfoData::RecipeInfo& info) const {
@@ -612,6 +644,86 @@ bool InfoData::hasDropEntry(const char* actor, const char* key) const {
     al::ByamlIter iter;
     getDrops(&iter, actor);
     return iter.isExistKey(key);
+}
+
+s32 InfoData::getInstSize(const char* actor) const {
+    return getInt(actor, "instSize", 0, false);
+}
+
+u32 InfoData::getBugMask(const char* actor) const {
+    return getInt(actor, "bugMask");
+}
+
+u32 InfoData::getModelFlags(const char* actor) const {
+    u32 flags = 0x4000;
+    if (!actor)
+        return flags;
+
+    bool is_map_const = false;
+
+    {
+        const char* profile;
+        if (getActorProfile(&profile, actor)) {
+            const sead::SafeString profile_ = profile;
+            if (profile_ == "MapConstPassive" || profile_ == "MapConstActive")
+                is_map_const = true;
+        }
+    }
+
+    {
+        al::ByamlIter iter;
+        if (getActorIter(&iter, actor)) {
+            if (!hasTag(iter, tags::Tree))
+                flags |= 0x1000;
+        } else {
+            flags |= 0x1000;
+        }
+    }
+
+    s32 type = -1;
+    {
+        al::ByamlIter iter;
+        if (getActorIter(&iter, actor)) {
+            if (hasTag(iter, tags::Unk_0x4F4E1426))
+                type = 0;
+            else if (hasTag(iter, tags::PasteGrudgeSlime))
+                type = 1;
+        }
+    }
+
+    if (is_map_const)
+        flags &= ~0x1000;
+
+    if (type == 0 || (type != 1 && !is_map_const))
+        flags |= 0x2000;
+
+    if (is_map_const && type == 1)
+        flags |= 0x1000;
+
+    return flags;
+}
+
+bool InfoData::getVariationMatAnim(const char* actor, const char** anim, f32* frame) const {
+    al::ByamlIter iter;
+    if (!getActorIter(&iter, actor))
+        return false;
+
+    *anim = getStringByKey(iter, "variationMatAnim", sead::SafeString::cEmptyString);
+    *frame = getIntByKey(iter, "variationMatAnimFrame");
+    return (*anim)[0] != 0;
+}
+
+bool InfoData::getName(al::ByamlIter* iter, const char** name, s32 idx) const {
+    if (idx < 0 || idx >= mNumActors)
+        return false;
+
+    *iter = {mActorsBytes, mActorsBytes + mActorOffsets[idx]};
+    al::ByamlHashIter hash_iter{iter->getRootNode()};
+    al::ByamlData data;
+    if (!hash_iter.getDataByKey(&data, mNameIdx))
+        return false;
+
+    return iter->tryConvertString(name, &data);
 }
 
 }  // namespace ksys::act

@@ -121,6 +121,11 @@ public:
     f32 getAabbNormHalf(const char* actor) const;
     bool isHasFar(const char* actor) const;
     bool hasDropEntry(const char* actor, const char* key) const;
+    s32 getInstSize(const char* actor) const;
+    u32 getBugMask(const char* actor) const;
+    u32 getModelFlags(const char* actor) const;
+    bool getVariationMatAnim(const char* actor, const char** anim, f32* frame) const;
+    bool getName(al::ByamlIter* iter, const char** name, s32 idx) const;
 
     const char* getString(const char* actor, const char* key, const sead::SafeString& default_,
                           bool x = true) const;

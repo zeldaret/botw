@@ -19,6 +19,8 @@ class ActorCreator {
 public:
     void setActorFactory(ActorFactory* factory) { mActorFactory = factory; }
 
+    bool get5a() const { return _5a; }
+
 private:
     sead::Heap* forBaseProcDualHeap;
     sead::Heap* placementMgrHeap;

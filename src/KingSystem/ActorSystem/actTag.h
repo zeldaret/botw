@@ -28,6 +28,7 @@ private:
 };
 
 #define KSYS_ACT_DEFINE_TAG(NAME) inline constexpr Tag NAME(#NAME)
+#define KSYS_ACT_DEFINE_TAG_UNK(HASH) inline constexpr Tag Unk_##HASH(HASH)
 
 namespace tags {
 
@@ -396,8 +397,11 @@ KSYS_ACT_DEFINE_TAG(ZukanOther);
 KSYS_ACT_DEFINE_TAG(ZukanSozai);
 KSYS_ACT_DEFINE_TAG(ZukanWeapon);
 
+KSYS_ACT_DEFINE_TAG_UNK(0x4F4E1426);
+
 }  // namespace tags
 
 #undef KSYS_ACT_DEFINE_TAG
+#undef KSYS_ACT_DEFINE_TAG_UNK
 
 }  // namespace ksys::act
