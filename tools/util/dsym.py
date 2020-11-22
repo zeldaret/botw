@@ -28,6 +28,8 @@ class DataSymbolContainer:
 
                 addr = int(line[0], 16) - _IDA_BASE
                 name = line[1]
+                if name not in symtab:
+                    continue
                 size = symtab[name].size
 
                 self.symbols.append(DataSymbol(addr, name, size))
