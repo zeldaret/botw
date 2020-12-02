@@ -28,7 +28,7 @@ public:
 
     const sead::SafeString& getProfile() const;
     const sead::SafeString& getName() const;
-    bool hasTag(const sead::SafeString& tag) const;
+    bool hasTag(const char* tag) const;
     bool hasTag(u32 tag) const;
     u32 getId() const;
     bool acquireConnectedCalcParent(ActorLinkConstDataAccess* accessor) const;

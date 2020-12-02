@@ -45,17 +45,20 @@ enum class ZukanType {
 };
 
 bool hasTag(Actor* actor, const sead::SafeString& tag);
+bool hasTag(BaseProcLink* link, const sead::SafeString& tag);
+bool hasTag(const ActorConstDataAccess& accessor, const sead::SafeString& tag);
 bool hasTag(const sead::SafeString& actor, const sead::SafeString& tag);
 
 bool hasTag(Actor* actor, u32 tag);
 bool hasTag(BaseProcLink* link, u32 tag);
+bool hasTag(const ActorConstDataAccess& accessor, u32 tag);
 bool hasTag(const sead::SafeString& actor, u32 tag);
 
 /// Checks whether the actor has at least one of the specified tags.
 /// @param tags A comma separated list of tags.
 bool hasOneTagAtLeast(Actor* actor, const sead::SafeString& tags);
 bool hasOneTagAtLeast(BaseProcLink* link, const sead::SafeString& tags);
-bool hasOneTagAtLeast(ActorConstDataAccess* accessor, const sead::SafeString& tags);
+bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags);
 
 bool shouldSkipSpawnForWeatherReasons(map::Object* obj);
 bool isAnimalMasterAppearance(map::Object* obj);
