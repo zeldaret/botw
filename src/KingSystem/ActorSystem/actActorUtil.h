@@ -73,7 +73,7 @@ bool hasAnyRevivalTag(const sead::SafeString& actor);
 
 bool hasStopTimerMiddleTag(Actor* actor);
 bool hasStopTimerShortTag(Actor* actor);
-bool canBeStasised(Actor* actor);
+bool canBeStasised(Actor* actor, bool force);
 
 void highlightStasisableActors(bool on);
 
@@ -108,14 +108,14 @@ bool isLargeEnemy(Actor* actor);
 bool isGanonBeast(const ActorConstDataAccess& accessor);
 bool isGanonBeast(BaseProcLink* link);
 
-bool isHumanOrOtherAnimal(Actor* actor);
-bool isHumanOrOtherAnimal(const ActorConstDataAccess& accessor);
-bool isHumanOrOtherAnimal(BaseProcLink* link);
+bool isNotLivingCreature(Actor* actor);
+bool isNotLivingCreature(const ActorConstDataAccess& accessor);
+bool isNotLivingCreature(BaseProcLink* link);
 
-bool isWeaponName(const ActorConstDataAccess& accessor);
-bool isWeaponName(const sead::SafeString& actor);
-bool isWeaponName(Actor* actor);
-bool isWeaponName(BaseProcLink* link);
+bool isWeaponProfile(const ActorConstDataAccess& accessor);
+bool isWeaponProfile(const sead::SafeString& actor);
+bool isWeaponProfile(Actor* actor);
+bool isWeaponProfile(BaseProcLink* link);
 
 bool isWeaponOrArmor(const ActorConstDataAccess& accessor);
 bool isWeaponOrArmor(Actor* actor);
@@ -153,5 +153,7 @@ bool isAlive(BaseProcLink* link);
 
 bool isAirOctaPlatform(const sead::SafeString& name);
 bool isAirOctaPlatformDlc(const sead::SafeString& name);
+
+const sead::SafeString& getDefaultDropActor();
 
 }  // namespace ksys::act

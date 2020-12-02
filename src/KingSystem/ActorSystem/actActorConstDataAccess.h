@@ -9,6 +9,7 @@ namespace ksys::act {
 class ActorConstDataAccess : public ActorLinkConstDataAccess {
 public:
     ActorConstDataAccess() = default;
+    explicit ActorConstDataAccess(BaseProc* proc) : ActorLinkConstDataAccess(proc) {}
 
     bool acquireActor(const ActorLinkConstDataAccess& other);
 

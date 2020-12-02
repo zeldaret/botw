@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -8,7 +9,10 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "KingSystem/Resource/resResourceActorLink.h"
+#include "KingSystem/Resource/resResourceGParamList.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::act {
@@ -21,9 +25,20 @@ ActorConstDataAccess getAccessor(BaseProcLink* link) {
     return accessor;
 }
 
-const char* sArrowTypes[] = {
-    "NormalArrow", "BombArrow_A", "AncientArrow", "FireArrow", "IceArrow", "ElectricArrow",
-};
+ActorConstDataAccess getAccessor(Actor* actor) {
+    ActorConstDataAccess accessor{actor};
+    return accessor;
+}
+
+sead::SafeString sDefaultDropActor = "Item_Fruit_A";
+sead::SafeArray<const char*, 6> sArrowTypes{{
+    "NormalArrow",
+    "BombArrow_A",
+    "AncientArrow",
+    "FireArrow",
+    "IceArrow",
+    "ElectricArrow",
+}};
 gdt::FlagHandle sAnimalMasterAppearanceHandle = gdt::InvalidHandle;
 gdt::FlagHandle sFairyCountCheckHandle = gdt::InvalidHandle;
 gdt::FlagHandle sIsGetStopTimerLv2Handle = gdt::InvalidHandle;
@@ -158,6 +173,242 @@ void initSpawnConditionGameDataFlags() {
 // The only purpose of this function is to prevent sIsGetStopTimerLv2Handle from being optimized out
 auto initSpawnConditionGameDataFlags_dummy() {
     return sIsGetStopTimerLv2Handle;
+}
+
+// NON_MATCHING: redundant branches in the original code.
+bool hasAnyRevivalTag(const sead::SafeString& actor) {
+    auto* info = InfoData::instance();
+    al::ByamlIter iter;
+    if (!info || !info->getActorIter(&iter, actor.cstr()))
+        return false;
+
+    for (auto tag : {
+             tags::RevivalBloodyMoon,
+             tags::RevivalRandom,
+             tags::RevivalNone,
+             tags::RevivalNoneForUsed,
+             tags::RevivalRandomForDrop,
+             tags::RevivalNoneForDrop,
+             tags::RevivalUnderGodTime,
+         }) {
+        if (info->hasTag(iter, tag))
+            return true;
+    }
+    return false;
+}
+
+bool hasStopTimerMiddleTag(Actor* actor) {
+    return hasTag(actor, tags::StopTimerMiddle);
+}
+
+bool hasStopTimerShortTag(Actor* actor) {
+    return hasTag(actor, tags::StopTimerShort);
+}
+
+// NON_MATCHING: ???
+const char* arrowTypeToString(ArrowType idx) {
+    return sArrowTypes[u32(idx)];
+}
+
+ArrowType arrowTypeFromString(const sead::SafeString& name) {
+    for (s32 i = 0; i < sArrowTypes.size(); ++i) {
+        if (name == sArrowTypes[i])
+            return ArrowType(i);
+    }
+    return ArrowType::Invalid;
+}
+
+ZukanType getZukanType(al::ByamlIter* iter) {
+    if (!iter)
+        return ZukanType::Invalid;
+
+    auto* info = InfoData::instance();
+
+    if (info->hasTag(*iter, tags::ZukanAnimal))
+        return ZukanType::Animal;
+
+    if (info->hasTag(*iter, tags::ZukanEnemy))
+        return ZukanType::Enemy;
+
+    if (info->hasTag(*iter, tags::ZukanSozai))
+        return ZukanType::Sozai;
+
+    if (info->hasTag(*iter, tags::ZukanWeapon))
+        return ZukanType::Weapon;
+
+    if (info->hasTag(*iter, tags::ZukanOther))
+        return ZukanType::Other;
+
+    return ZukanType::Invalid;
+}
+
+ZukanType getZukanType(Actor* actor) {
+    if (!actor)
+        return ZukanType::Invalid;
+
+    if (hasTag(actor, tags::ZukanAnimal))
+        return ZukanType::Animal;
+
+    if (hasTag(actor, tags::ZukanEnemy))
+        return ZukanType::Enemy;
+
+    if (hasTag(actor, tags::ZukanSozai))
+        return ZukanType::Sozai;
+
+    if (hasTag(actor, tags::ZukanWeapon))
+        return ZukanType::Weapon;
+
+    if (hasTag(actor, tags::ZukanOther))
+        return ZukanType::Other;
+
+    return ZukanType::Invalid;
+}
+
+static bool isProfile(const ActorConstDataAccess& accessor, const sead::SafeString& profile) {
+    return accessor.hasProc() && accessor.getProfile() == profile;
+}
+
+bool isPlayerProfile(const ActorConstDataAccess& accessor) {
+    return isProfile(accessor, "Player");
+}
+
+bool isPlayerProfile(Actor* actor) {
+    return isPlayerProfile(getAccessor(actor));
+}
+
+bool isPlayerProfile(BaseProcLink* link) {
+    return isPlayerProfile(getAccessor(link));
+}
+
+const sead::SafeString& getDefaultDropActor() {
+    return sDefaultDropActor;
+}
+
+bool isCameraProfile(Actor* actor) {
+    return isProfile(getAccessor(actor), "Camera");
+}
+
+bool isNPCProfile(const ActorConstDataAccess& accessor) {
+    return isProfile(accessor, "NPC");
+}
+
+bool isNPCProfile(Actor* actor) {
+    return isNPCProfile(getAccessor(actor));
+}
+
+bool isNPCProfile(BaseProcLink* link) {
+    return isNPCProfile(getAccessor(link));
+}
+
+bool isNPCOffPodFromWeapon(Actor* actor) {
+    if (!actor)
+        return false;
+
+    auto* gparam = actor->getParam()->getRes().mGParamList;
+    if (!gparam)
+        return false;
+
+    const auto* npc_param = gparam->getNpc();
+    return npc_param && npc_param->mIsOffPodFromWeapon.ref();
+}
+
+bool isDemoNPCProfile(Actor* actor) {
+    return isProfile(getAccessor(actor), "DemoNPC");
+}
+
+bool isEnemyProfile(const ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+
+    const auto& profile = accessor.getProfile();
+
+    return profile == "Enemy" || profile == "GiantEnemy" || profile == "Guardian" ||
+           profile == "GuardianComponent" || profile == "LastBoss" || profile == "GelEnemy" ||
+           profile == "EnemySwarm" || profile == "SiteBoss" || profile == "Sandworm" ||
+           profile == "Dragon";
+}
+
+bool isEnemyProfile(Actor* actor) {
+    return isEnemyProfile(getAccessor(actor));
+}
+
+bool isEnemyProfile(BaseProcLink* link) {
+    return isEnemyProfile(getAccessor(link));
+}
+
+bool isGuardianProfile(BaseProcLink* link) {
+    const auto accessor = getAccessor(link);
+    if (!accessor.hasProc())
+        return false;
+
+    const auto& profile = accessor.getProfile();
+    return profile == "Guardian" || profile == "GuardianComponent";
+}
+
+bool isLargeEnemy(const ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+
+    const auto& profile = accessor.getProfile();
+    return profile == "GiantEnemy" || profile == "LastBoss" || profile == "SiteBoss" ||
+           profile == "Sandworm" || profile == "Dragon";
+}
+
+bool isLargeEnemy(Actor* actor) {
+    return isLargeEnemy(getAccessor(actor));
+}
+
+bool isGanonBeast(const ActorConstDataAccess& accessor) {
+    return accessor.hasProc() && accessor.getName() == "Enemy_GanonBeast";
+}
+
+bool isGanonBeast(BaseProcLink* link) {
+    return isGanonBeast(getAccessor(link));
+}
+
+bool isNotLivingCreature(Actor* actor) {
+    return isNotLivingCreature(getAccessor(actor));
+}
+
+bool isNotLivingCreature(const ActorConstDataAccess& accessor) {
+    if (isPlayerProfile(accessor))
+        return false;
+    if (isNPCProfile(accessor))
+        return false;
+    if (isEnemyProfile(accessor))
+        return false;
+    if (isHorseProfile(accessor))
+        return false;
+    if (isPreyOrSwarm(accessor))
+        return false;
+    return true;
+}
+
+bool isNotLivingCreature(BaseProcLink* link) {
+    return isNotLivingCreature(getAccessor(link));
+}
+
+bool isWeaponProfile(const ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+    return isWeaponProfile(accessor.getName());
+}
+
+bool isWeaponProfile(const sead::SafeString& actor) {
+    const char* profile = nullptr;
+    InfoData::instance()->getActorProfile(&profile, actor.cstr());
+    return sead::SafeString(profile).startsWith("Weapon");
+}
+
+bool isHorseProfile(const ActorConstDataAccess& accessor) {
+    return isProfile(accessor, "Horse");
+}
+
+bool isPreyOrSwarm(const ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+    const auto& profile = accessor.getProfile();
+    return profile == "Prey" || profile == "Swarm";
 }
 
 }  // namespace ksys::act

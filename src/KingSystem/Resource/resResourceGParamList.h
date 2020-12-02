@@ -20,13 +20,13 @@ public:
     bool needsParse() const override { return true; }
 
     template <GParamListObjType Type>
-    const auto& get() const {
+    const auto* get() const {
         using Traits = GParamListObjTypeTraits<Type>;
-        return *reinterpret_cast<typename Traits::type*>(mObjects[Traits::index]);
+        return reinterpret_cast<const typename Traits::type*>(mObjects[Traits::index]);
     }
 
 #define KSYS_GPARAM_DEFINE_GETTER_(NAME)                                                           \
-    const auto& get##NAME() const { return get<GParamListObjType::NAME>(); }
+    const auto* get##NAME() const { return get<GParamListObjType::NAME>(); }
 
     KSYS_GPARAM_DEFINE_GETTER_(System)
     KSYS_GPARAM_DEFINE_GETTER_(General)
