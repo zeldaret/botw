@@ -117,7 +117,7 @@ public:
     f32 getActorScale() const { return mActorScale.ref(); }
 
     bool hasTag(const char* tag_name) const;
-    bool hasTag(act::Tag tag) const;
+    bool hasTag(u32 tag) const;
 
     const sead::Buffer<u32>& getTags() const { return mTags; }
 

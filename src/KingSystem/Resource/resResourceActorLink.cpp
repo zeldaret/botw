@@ -96,7 +96,7 @@ bool ActorLink::hasTag(const char* tag_name) const {
     return mTags.size() >= 1 && mTags.binarySearch(sead::HashCRC32::calcStringHash(tag_name)) != -1;
 }
 
-bool ActorLink::hasTag(act::Tag tag) const {
+bool ActorLink::hasTag(u32 tag) const {
     return mTags.size() >= 1 && mTags.binarySearch(tag) != -1;
 }
 

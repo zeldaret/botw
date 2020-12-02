@@ -1,5 +1,6 @@
 #include "Game/DLC/aoc2.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking {

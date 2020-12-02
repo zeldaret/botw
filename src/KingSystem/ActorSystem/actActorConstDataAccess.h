@@ -2,7 +2,6 @@
 
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -30,7 +29,7 @@ public:
     const sead::SafeString& getProfile() const;
     const sead::SafeString& getName() const;
     bool hasTag(const sead::SafeString& tag) const;
-    bool hasTag(Tag tag) const;
+    bool hasTag(u32 tag) const;
     u32 getId() const;
     bool acquireConnectedCalcParent(ActorLinkConstDataAccess* accessor) const;
     bool acquireConnectedCalcChild(ActorLinkConstDataAccess* accessor) const;
