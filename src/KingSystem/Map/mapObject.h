@@ -148,6 +148,10 @@ public:
     auto getId() const { return mId; }
     auto getStaticCompoundId() const { return mStaticCompoundId; }
 
+    const ActorData& getActorData() const {
+        return PlacementMgr::instance()->mPlacementActors->mActorData[mActorDataIdx];
+    }
+
     u8 getNumLinksPointingToMe() const { return mNumLinksPointingToMe; }
 
     const MubinIter& getMubinIter() const { return mMubinIter; }

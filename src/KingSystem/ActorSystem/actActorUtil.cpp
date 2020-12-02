@@ -4,15 +4,31 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/resResourceActorLink.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::act {
 
-static ActorConstDataAccess getAccessor(BaseProcLink* link) {
+namespace {
+
+ActorConstDataAccess getAccessor(BaseProcLink* link) {
     ActorConstDataAccess accessor;
     acquireActor(link, &accessor);
     return accessor;
 }
+
+const char* sArrowTypes[] = {
+    "NormalArrow", "BombArrow_A", "AncientArrow", "FireArrow", "IceArrow", "ElectricArrow",
+};
+gdt::FlagHandle sAnimalMasterAppearanceHandle = gdt::InvalidHandle;
+gdt::FlagHandle sFairyCountCheckHandle = gdt::InvalidHandle;
+gdt::FlagHandle sIsGetStopTimerLv2Handle = gdt::InvalidHandle;
+
+}  // namespace
 
 bool hasTag(Actor* actor, const sead::SafeString& tag) {
     if (!actor)
@@ -70,7 +86,7 @@ bool hasOneTagAtLeast(BaseProcLink* link, const sead::SafeString& tags) {
     return false;
 }
 
-bool act::hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags) {
+bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags) {
     sead::FixedSafeString<32> tag;
     for (auto it = tags.tokenBegin(","); tags.tokenEnd(",") != it; ++it) {
         it.get(&tag);
@@ -78,6 +94,70 @@ bool act::hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::Saf
             return true;
     }
     return false;
+}
+
+// NON_MATCHING: this version doesn't have unnecessary register moves.
+bool shouldSkipSpawnWhenRaining(map::Object* obj) {
+    if (obj->getFlags().isOff(map::Object::Flag::CreateNotRain))
+        return false;
+
+    if (!world::Manager::instance())
+        return false;
+
+    const auto pos = obj->getTranslate();
+    return !world::Manager::instance()->isRaining(pos);
+}
+
+bool shouldSkipSpawnIfGodForestOff(map::Object* obj) {
+    bool value = false;
+    if (obj->getFlags().isOff(map::Object::Flag::UnderGodForestOff))
+        return false;
+    if (!gdt::Manager::instance()->getBool(sAnimalMasterAppearanceHandle, &value, true))
+        return false;
+    return value != 0;
+}
+
+bool shouldSkipSpawnGodForestActor(map::Object* obj) {
+    bool value = false;
+    if (obj->getFlags().isOn(map::Object::Flag::UnderGodForest) &&
+        gdt::Manager::instance()->getBool(sAnimalMasterAppearanceHandle, &value, true) && !value) {
+        return true;
+    }
+    return shouldSkipSpawnIfGodForestOff(obj);
+}
+
+static bool isFairyCountCheckEnabled() {
+    bool value = false;
+    return gdt::Manager::instance()->getBool(sFairyCountCheckHandle, &value, true) && value;
+}
+
+bool shouldSkipSpawnFairy(map::Object* obj) {
+    const map::ActorData& actor_data = obj->getActorData();
+    if (!actor_data.mFlags.isOnBit(map::ActorData::Flag::Fairy))
+        return false;
+
+    return isFairyCountCheckEnabled();
+}
+
+bool shouldSkipSpawnFairy(const sead::SafeString& actor) {
+    auto* info = InfoData::instance();
+    if (!info || !info->hasTag(actor.cstr(), tags::Fairy))
+        return false;
+
+    return isFairyCountCheckEnabled();
+}
+
+void initSpawnConditionGameDataFlags() {
+    sFairyCountCheckHandle = gdt::Manager::instance()->getBoolHandle("FairyCountCheck");
+    sAnimalMasterAppearanceHandle =
+        gdt::Manager::instance()->getBoolHandle("AnimalMaster_Appearance");
+    sIsGetStopTimerLv2Handle = gdt::Manager::instance()->getBoolHandle("IsGet_Obj_StopTimerLv2");
+}
+
+// TODO: remove this once IsGetStopTimerLv2 is used
+// The only purpose of this function is to prevent sIsGetStopTimerLv2Handle from being optimized out
+auto initSpawnConditionGameDataFlags_dummy() {
+    return sIsGetStopTimerLv2Handle;
 }
 
 }  // namespace ksys::act

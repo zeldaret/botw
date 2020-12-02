@@ -60,13 +60,13 @@ bool hasOneTagAtLeast(Actor* actor, const sead::SafeString& tags);
 bool hasOneTagAtLeast(BaseProcLink* link, const sead::SafeString& tags);
 bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags);
 
-bool shouldSkipSpawnForWeatherReasons(map::Object* obj);
-bool isAnimalMasterAppearance(map::Object* obj);
+bool shouldSkipSpawnWhenRaining(map::Object* obj);
+bool shouldSkipSpawnIfGodForestOff(map::Object* obj);
 bool shouldSkipSpawnGodForestActor(map::Object* obj);
 bool shouldSkipSpawnFairy(map::Object* obj);
 bool shouldSkipSpawnFairy(const sead::SafeString& actor);
 
-/// Must be called before using any of the "should skip" functions above + isAnimalMasterAppearance.
+/// Must be called before using any of the "should skip" functions above.
 void initSpawnConditionGameDataFlags();
 
 bool hasAnyRevivalTag(const sead::SafeString& actor);

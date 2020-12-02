@@ -266,16 +266,14 @@ public:
 #undef GDT_GET_HANDLE_
 
 #define GDT_GET_(NAME, T)                                                                          \
-    void NAME(FlagHandle handle, T* value, bool debug = false) {                                   \
-        unwrapHandle<false>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {                    \
-            ref.get().NAME(value, idx);                                                            \
-            return true;                                                                           \
+    bool NAME(FlagHandle handle, T* value, bool debug = false) {                                   \
+        return unwrapHandle<false>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {             \
+            return ref.get().NAME(value, idx);                                                     \
         });                                                                                        \
     }                                                                                              \
-    void NAME(FlagHandle handle, T* value, s32 sub_idx, bool debug = false) {                      \
-        unwrapHandle<false>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {                    \
-            ref.get().NAME(value, idx, sub_idx);                                                   \
-            return true;                                                                           \
+    bool NAME(FlagHandle handle, T* value, s32 sub_idx, bool debug = false) {                      \
+        return unwrapHandle<false>(handle, debug, [&](u32 idx, TriggerParamRef& ref) {             \
+            return ref.get().NAME(value, idx, sub_idx);                                            \
         });                                                                                        \
     }
 

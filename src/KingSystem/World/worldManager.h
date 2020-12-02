@@ -43,7 +43,12 @@ public:
 
 // FIXME: incomplete
 class Manager : public sead::hostio::Node {
+    SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
+    virtual ~Manager();
+
+public:
+    bool isRaining(const sead::Vector3f& pos) const;
 
     WorldInfo mWorldInfo;
     DungeonEnv mDungeonEnv;
