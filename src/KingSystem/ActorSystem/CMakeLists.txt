@@ -16,6 +16,8 @@ target_sources(uking PRIVATE
   actActorParamMgr.h
   actActorTemplate.cpp
   actActorTemplate.h
+  actActorUtil.cpp
+  actActorUtil.h
   actAiAction.cpp
   actAiAction.h
   actAiClass.cpp
