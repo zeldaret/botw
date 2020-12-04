@@ -133,7 +133,7 @@ bool isGrabAttClientEnabled(void* x, BaseProcLink* link);
 
 bool isStalfosParts(BaseProcLink* link);
 
-bool isDoor(Actor* actor);
+bool isDoor(const ActorConstDataAccess& accessor);
 bool isDoor(BaseProcLink* link);
 
 bool isPreyOrSwarm(const ActorConstDataAccess& accessor);
@@ -152,7 +152,7 @@ bool isTreeOrScaffoldOrSignboard(Actor* actor);
 bool isAlive(BaseProcLink* link);
 
 bool isAirOctaPlatform(const sead::SafeString& name);
-bool isAirOctaPlatformDlc(const sead::SafeString& name);
+bool isAirOctaWoodPlatformDlc(const sead::SafeString& name);
 
 const sead::SafeString& getDefaultDropActor();
 

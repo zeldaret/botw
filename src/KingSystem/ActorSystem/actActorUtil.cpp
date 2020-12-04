@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <container/seadSafeArray.h>
+#include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -400,8 +401,70 @@ bool isWeaponProfile(const sead::SafeString& actor) {
     return sead::SafeString(profile).startsWith("Weapon");
 }
 
+bool isWeaponProfile(Actor* actor) {
+    return isWeaponProfile(getAccessor(actor));
+}
+
+bool isWeaponProfile(BaseProcLink* link) {
+    return isWeaponProfile(getAccessor(link));
+}
+
+bool isWeaponOrArmor(const ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+
+    const auto& name = accessor.getName();
+    const char* profile_cstr = nullptr;
+    InfoData::instance()->getActorProfile(&profile_cstr, name.cstr());
+
+    const sead::SafeString profile = profile_cstr;
+    return profile.startsWith("Weapon") || profile.startsWith("OptionalWeapon") ||
+           profile.startsWith("Armor");
+}
+
+bool isWeaponOrArmor(Actor* actor) {
+    return isWeaponOrArmor(getAccessor(actor));
+}
+
+bool isBulletProfile(const ActorConstDataAccess& accessor) {
+    return isProfile(accessor, "Bullet");
+}
+
+bool isBulletProfile(Actor* actor) {
+    return isBulletProfile(getAccessor(actor));
+}
+
+bool isBulletProfile(BaseProcLink* link) {
+    return isBulletProfile(getAccessor(link));
+}
+
 bool isHorseProfile(const ActorConstDataAccess& accessor) {
     return isProfile(accessor, "Horse");
+}
+
+bool isHorseProfile(Actor* actor) {
+    return isHorseProfile(getAccessor(actor));
+}
+
+bool isHorseProfile(BaseProcLink* link) {
+    return isHorseProfile(getAccessor(link));
+}
+
+bool isGrabAttClientEnabled(void*, BaseProcLink* link) {
+    return getAccessor(link).isAttClientEnabled("Grab");
+}
+
+bool isStalfosParts(BaseProcLink* link) {
+    const auto accessor = getAccessor(link);
+    return accessor.hasProc() && accessor.hasTag(tags::StalfosParts);
+}
+
+bool isDoor(const ActorConstDataAccess& accessor) {
+    return accessor.hasProc() && accessor.hasTag(tags::Door);
+}
+
+bool isDoor(BaseProcLink* link) {
+    return isDoor(getAccessor(link));
 }
 
 bool isPreyOrSwarm(const ActorConstDataAccess& accessor) {
@@ -409,6 +472,57 @@ bool isPreyOrSwarm(const ActorConstDataAccess& accessor) {
         return false;
     const auto& profile = accessor.getProfile();
     return profile == "Prey" || profile == "Swarm";
+}
+
+bool isPreyOrSwarm(Actor* actor) {
+    return isPreyOrSwarm(getAccessor(actor));
+}
+
+bool isPreyOrSwarm(BaseProcLink* link) {
+    return isPreyOrSwarm(getAccessor(link));
+}
+
+bool isWolfOrBear(const ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+    return accessor.hasTag(tags::AnimalTypeWolf) || accessor.hasTag(tags::AnimalTypeBear);
+}
+
+bool isWolfOrBear(Actor* actor) {
+    return isWolfOrBear(getAccessor(actor));
+}
+
+bool isWolfOrBear(BaseProcLink* link) {
+    return isWolfOrBear(getAccessor(link));
+}
+
+bool isRope(Actor* actor) {
+    const auto accessor = getAccessor(actor);
+    return accessor.hasProc() && accessor.isDerivedFrom<RopeBase>();
+}
+
+bool isRope(BaseProcLink* link) {
+    const auto accessor = getAccessor(link);
+    return accessor.hasProc() && accessor.isDerivedFrom<RopeBase>();
+}
+
+bool isTreeOrScaffoldOrSignboard(Actor* actor) {
+    const auto accessor = getAccessor(actor);
+    if (!accessor.hasProc())
+        return false;
+
+    return accessor.hasTag(tags::Tree) || accessor.hasTag(tags::Scaffold) ||
+           accessor.hasTag(tags::Signboard);
+}
+
+bool isAirOctaPlatform(const sead::SafeString& name) {
+    return name == "Obj_BoardWood_Square_01" || name == "Obj_BoardWood_Triangle_01" ||
+           name == "FldObj_DLC_FlyShield_A_Snow_01" || name == "FldObj_DLC_FlyShield_A_Snow_02";
+}
+
+bool isAirOctaWoodPlatformDlc(const sead::SafeString& name) {
+    return name == "FldObj_DLC_FlyShield_Wood_A_02" ||
+           name == "FldObj_DLC_FlyShield_Wood_A_Snow_02";
 }
 
 }  // namespace ksys::act
