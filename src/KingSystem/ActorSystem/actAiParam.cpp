@@ -53,6 +53,101 @@ ParamPack::~ParamPack() {
     }
 }
 
+void* ParamPack::getAITreeVariablePointer(const sead::SafeString& key, AIDefParamType type,
+                                          bool x) const {
+    return getVariable<void>(key, type, x);
+}
+
+void InlineParamPack::addInt(s32 value, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.i = value;
+    param.type = AIDefParamType::Int;
+}
+
+void InlineParamPack::addFloat(f32 value, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.f = value;
+    param.type = AIDefParamType::Float;
+}
+
+void InlineParamPack::addVec3(const sead::Vector3f& value, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.vec3 = value;
+    param.type = AIDefParamType::Vec3;
+}
+
+void InlineParamPack::addBool(bool value, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.b = value;
+    param.type = AIDefParamType::Bool;
+}
+
+void InlineParamPack::addActor(const BaseProcLink& value, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.baseProcLink = value;
+    param.type = AIDefParamType::BaseProcLink;
+}
+
+void InlineParamPack::addMesTransceiverId(const mes::TransceiverId& value,
+                                          const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.mesTransceiverId = value;
+    param.type = AIDefParamType::MesTransceiverId;
+}
+
+bool ParamPack::getString(sead::SafeString* value, const sead::SafeString& key) const {
+    auto* str = getVariable<sead::SafeString>(key, AIDefParamType::String, false);
+    if (!str)
+        return false;
+    *value = str->cstr();
+    return true;
+}
+
+bool ParamPack::setString(const sead::SafeString& value, const sead::SafeString& key) const {
+    auto* str = getVariable<sead::BufferedSafeString>(key, AIDefParamType::String);
+    if (!str)
+        return false;
+    str->copy(value);
+    return true;
+}
+
+bool ParamPack::getActor(BaseProc* proc, const sead::SafeString& key) const {
+    auto* link = getVariable<BaseProcLink>(key, AIDefParamType::BaseProcLink);
+    if (!link)
+        return false;
+    link->acquire(proc, false);
+    return true;
+}
+
+bool ParamPack::setActor(const BaseProcLink& new_link, const sead::SafeString& key) const {
+    auto* link = getVariable<BaseProcLink>(key, AIDefParamType::BaseProcLink);
+    if (!link)
+        return false;
+    *link = new_link;
+    return true;
+}
+
+void InlineParamPack::addPointer(void* value, const sead::SafeString& key, AIDefParamType type,
+                                 s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.ptr = value;
+    param.type = type;
+}
+
+void InlineParamPack::acquireActor(BaseProc* proc, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.baseProcLink.acquire(proc, false);
+    param.type = AIDefParamType::BaseProcLink;
+}
+
 void InlineParamPack::copyToParamPack(ParamPack& pack) const {
     const u32 n = count >= 0x1F ? 0x1F : count;
     const InlineParam* param = params;

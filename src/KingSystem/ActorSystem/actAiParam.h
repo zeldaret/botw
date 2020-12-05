@@ -57,6 +57,14 @@ public:
             *variable = val;
     }
 
+    void* getAITreeVariablePointer(const sead::SafeString& key, AIDefParamType type, bool x) const;
+
+    bool getString(sead::SafeString* value, const sead::SafeString& key) const;
+    bool setString(const sead::SafeString& value, const sead::SafeString& key) const;
+
+    bool getActor(BaseProc* proc, const sead::SafeString& key) const;
+    bool setActor(const BaseProcLink& link, const sead::SafeString& key) const;
+
 private:
     Param* mParams = nullptr;
 };
@@ -79,9 +87,29 @@ struct InlineParam {
 KSYS_CHECK_SIZE_NX150(InlineParam, 0x50);
 
 struct InlineParamPack {
+    InlineParam& getParam(s32 idx) {
+        if (idx < 0) {
+            idx = count;
+            if (count > NumParamsMax - 1)
+                idx = 0;
+            else
+                count = idx + 1;
+        }
+        return params[idx];
+    }
+
+    void addInt(s32 value, const sead::SafeString& key, s32 idx);
+    void addFloat(f32 value, const sead::SafeString& key, s32 idx);
+    void addVec3(const sead::Vector3f& value, const sead::SafeString& key, s32 idx);
+    void addBool(bool value, const sead::SafeString& key, s32 idx);
+    void addActor(const BaseProcLink& value, const sead::SafeString& key, s32 idx);
+    void addMesTransceiverId(const mes::TransceiverId& value, const sead::SafeString& key, s32 idx);
+    void addPointer(void* value, const sead::SafeString& key, AIDefParamType type, s32 idx);
+    void acquireActor(BaseProc* proc, const sead::SafeString& key, s32 idx);
     void copyToParamPack(ParamPack& pack) const;
 
-    InlineParam params[32];
+    static constexpr s32 NumParamsMax = 32;
+    InlineParam params[NumParamsMax];
     int count;
 };
 KSYS_CHECK_SIZE_NX150(InlineParamPack, 0xA08);
