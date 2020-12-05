@@ -2,6 +2,7 @@
 
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/Map/mapMubinIter.h"
 
 namespace ksys {
 
@@ -24,6 +25,7 @@ public:
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)
 
     const ActorParam* getParam() const { return mActorParam; }
+    const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
 
     virtual s32 getMaxLife();
 
@@ -39,7 +41,9 @@ public:
 protected:
     /* 0x008 */ u8 TEMP_0x008[0x3F4];  // FIXME
     /* 0x570 */ ActorParam* mActorParam;
-    /* 0x578 */ u8 TEMP_0x578[0x710 - 0x578];
+    /* 0x578 */ u8 TEMP_0x578[0x648 - 0x578];
+    /* 0x648 */ map::MubinIter mMapObjIter;
+    /* 0x658 */ u8 TEMP_0x650[0x710 - 0x658];
     // The name could be incorrect.
     /* 0x710 */ sead::TypedBitFlag<StasisFlag> mStasisFlags;
     /* 0x714 */ u8 TEMP_0x714[0x838 - 0x714];  // FIXME

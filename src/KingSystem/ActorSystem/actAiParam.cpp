@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace ksys::act::ai {
 
@@ -58,6 +59,69 @@ void* ParamPack::getAITreeVariablePointer(const sead::SafeString& key, AIDefPara
     return getVariable<void>(key, type, x);
 }
 
+void ParamPack::copy(InlineParamPack* dest, bool x) {
+    for (auto* param = mParams; param; param = param->next) {
+        if (!param->data || !param->used)
+            continue;
+
+        const s32 dest_idx = dest->findIndex(param->name, param->type);
+
+        switch (param->type) {
+        case AIDefParamType::String: {
+            dest->addString(*static_cast<sead::SafeString*>(param->data), param->name, dest_idx);
+            break;
+        }
+        case AIDefParamType::Int:
+            dest->addInt(*static_cast<s32*>(param->data), param->name, dest_idx);
+            break;
+        case AIDefParamType::Float:
+            dest->addFloat(*static_cast<f32*>(param->data), param->name, dest_idx);
+            break;
+        case AIDefParamType::Vec3:
+            dest->addVec3(*static_cast<sead::Vector3f*>(param->data), param->name, dest_idx);
+            break;
+        case AIDefParamType::Bool:
+            dest->addBool(*static_cast<bool*>(param->data), param->name, dest_idx);
+            break;
+        case AIDefParamType::UInt:
+            dest->addUInt(*static_cast<u32*>(param->data), param->name, dest_idx);
+            break;
+        case AIDefParamType::BaseProcLink:
+            dest->addActor(*static_cast<BaseProcLink*>(param->data), param->name, dest_idx);
+            break;
+        case AIDefParamType::MesTransceiverId:
+            if (!x) {
+                dest->addMesTransceiverId(*static_cast<mes::TransceiverId*>(param->data),
+                                          param->name, dest_idx);
+                break;
+            }
+            [[fallthrough]];
+        case AIDefParamType::BaseProcHandle:
+            if (!x) {
+                dest->addPointer(*static_cast<BaseProcHandle**>(param->data), param->name,
+                                 AIDefParamType::BaseProcHandle, dest_idx);
+                break;
+            }
+            [[fallthrough]];
+        case AIDefParamType::Rail:
+            dest->addPointer(*static_cast<Rail**>(param->data), param->name, AIDefParamType::Rail,
+                             dest_idx);
+            break;
+        case AIDefParamType::Tree:
+        case AIDefParamType::AITreeVariablePointer:
+        case AIDefParamType::Other:
+            break;
+        }
+    }
+}
+
+void InlineParamPack::addString(const char* value, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.cstr = value;
+    param.type = AIDefParamType::String;
+}
+
 void InlineParamPack::addInt(s32 value, const sead::SafeString& key, s32 idx) {
     auto& param = getParam(idx);
     param.key = key.cstr();
@@ -84,6 +148,13 @@ void InlineParamPack::addBool(bool value, const sead::SafeString& key, s32 idx) 
     param.key = key.cstr();
     param.b = value;
     param.type = AIDefParamType::Bool;
+}
+
+void InlineParamPack::addUInt(u32 value, const sead::SafeString& key, s32 idx) {
+    auto& param = getParam(idx);
+    param.key = key.cstr();
+    param.u = value;
+    param.type = AIDefParamType::UInt;
 }
 
 void InlineParamPack::addActor(const BaseProcLink& value, const sead::SafeString& key, s32 idx) {
@@ -130,6 +201,123 @@ bool ParamPack::setActor(const BaseProcLink& new_link, const sead::SafeString& k
     if (!link)
         return false;
     *link = new_link;
+    return true;
+}
+
+bool ParamPack::load(const Actor& actor, const AIDef& def, sead::Heap* heap,
+                     AIDefInstParamKind kind) {
+    bool load_map_unit_params = false;
+    bool used = false;
+
+    if (kind == AIDefInstParamKind::AITree) {
+        load_map_unit_params = false;
+        used = true;
+    } else if (kind == AIDefInstParamKind::MapUnit) {
+        load_map_unit_params = def._24b == 0;
+        used = true;
+    }
+
+    const auto& iter = actor.getMapObjIter();
+    for (s32 i = 0; i < def.num_params; ++i) {
+        const auto hash = agl::utl::ParameterBase::calcHash(def.param_names[i]);
+
+        bool found = false;
+        for (auto* entry = mParams; entry; entry = entry->next) {
+            if (entry->hash == hash) {
+                found = true;
+                break;
+            }
+        }
+        if (found)
+            continue;
+
+        // Otherwise, allocate a new entry.
+        auto* entry = new (heap) Param;
+        if (!entry)
+            return false;
+        entry->data = nullptr;
+        entry->next = mParams;
+        mParams = entry;
+        switch (def.param_types[i]) {
+        case AIDefParamType::String: {
+            const char* value = def.param_values[i].str ? def.param_values[i].str : "";
+
+            if (load_map_unit_params)
+                iter.tryGetParamStringByKey(&value, def.param_names[i]);
+
+            entry->data = new (heap) sead::FixedSafeString<80>(value);
+            break;
+        }
+        case AIDefParamType::Int: {
+            int value = def.param_values[i].i;
+            if (load_map_unit_params)
+                iter.tryGetParamIntByKey(&value, def.param_names[i]);
+            entry->data = new (heap) int(value);
+            break;
+        }
+        case AIDefParamType::Float: {
+            float value = def.param_values[i].f;
+            if (load_map_unit_params)
+                iter.tryGetParamFloatByKey(&value, def.param_names[i]);
+            entry->data = new (heap) float(value);
+            break;
+        }
+        case AIDefParamType::Vec3: {
+            const auto& src = def.param_values[i].vec3;
+            sead::Vector3f value{src.x, src.y, src.z};
+            if (load_map_unit_params)
+                iter.tryGetFloatArrayByKey(value.e.data(), def.param_names[i]);
+            entry->data = new (heap) sead::Vector3f(value);
+            break;
+        }
+        case AIDefParamType::Bool: {
+            bool value = def.param_values[i].b;
+            if (load_map_unit_params)
+                iter.tryGetParamBoolByKey(&value, def.param_names[i]);
+            entry->data = new (heap) bool(value);
+            break;
+        }
+        case AIDefParamType::AITreeVariablePointer:
+            entry->data = new (heap) void*();
+            break;
+        case AIDefParamType::UInt: {
+            u32 value = def.param_values[i].u;
+            if (load_map_unit_params)
+                iter.tryGetParamUIntByKey(&value, def.param_names[i]);
+            entry->data = new (heap) u32(value);
+            break;
+        }
+        case AIDefParamType::BaseProcLink:
+            if (kind == AIDefInstParamKind::Dynamic)
+                entry->data = new (heap) BaseProcLink();
+            break;
+        case AIDefParamType::MesTransceiverId:
+            if (kind == AIDefInstParamKind::Dynamic)
+                entry->data = new (heap) mes::TransceiverId();
+            break;
+        case AIDefParamType::BaseProcHandle:
+            if (kind == AIDefInstParamKind::Dynamic)
+                entry->data = new (heap) BaseProcHandle*();
+            break;
+        case AIDefParamType::Rail:
+            if (kind == AIDefInstParamKind::Dynamic)
+                entry->data = new (heap) Rail*();
+            break;
+        case AIDefParamType::Tree:
+        case AIDefParamType::Other:
+            break;
+        }
+
+        if (!entry->data)
+            return false;
+
+        entry->hash = hash;
+        entry->name = def.param_names[i];
+        entry->used = used;
+        entry->_23 = def._24b;
+        entry->type = def.param_types[i];
+    }
+
     return true;
 }
 

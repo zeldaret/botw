@@ -9,7 +9,7 @@ namespace ksys {
 namespace mes {
 
 struct TransceiverId {
-    TransceiverId();
+    TransceiverId() = default;
 
     TransceiverId& operator=(const TransceiverId& other) {
         _0 = other._0;
@@ -19,10 +19,10 @@ struct TransceiverId {
         return *this;
     }
 
-    u32 _0;
-    u32 _4;
-    void* _8;
-    void* _10;
+    s32 _0 = -1;
+    s32 _4 = -1;
+    void* _8{};
+    void* _10{};
 };
 KSYS_CHECK_SIZE_NX150(TransceiverId, 0x18);
 
