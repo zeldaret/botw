@@ -375,7 +375,7 @@ bool AIProgram::parseDefParams(AIProgram::Definition* def, void* buffer, sead::H
     } else if (&mBehaviors == buffer) {
         AIClassDef::instance()->getDef(&aidef, def->mClassName, AIDefInstParamKind::Static,
                                        AIDefType::Behavior);
-        *param1 = aidef.calc_timing;
+        *param1 = u16(aidef.calc_timing);
         *param2 = aidef.no_stop;
     } else {
         AIClassDef::instance()->getDef(&aidef, def->mClassName, AIDefInstParamKind::Static,
