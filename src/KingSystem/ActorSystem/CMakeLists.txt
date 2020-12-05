@@ -25,6 +25,8 @@ target_sources(uking PRIVATE
   actAiAction.h
   actAiClass.cpp
   actAiClass.h
+  actAiClassDef.cpp
+  actAiClassDef.h
   actAiParam.cpp
   actAiParam.h
   actAiQuery.cpp
