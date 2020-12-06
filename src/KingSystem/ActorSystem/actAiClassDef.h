@@ -65,7 +65,7 @@ enum class CalcTiming {
 struct AIDef {
     union Value {
         Value() {}
-        u8 raw[16];
+        std::array<u8, 16> raw;
         const char* str;
         s32 i;
         f32 f;

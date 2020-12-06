@@ -54,6 +54,30 @@ ParamPack::~ParamPack() {
     }
 }
 
+bool ParamPack::load(const Actor& actor, const ParamNameTypePairs& pairs, s32 count,
+                     sead::Heap* heap) {
+    AIDef def;
+    def.no_stop = false;
+    def.trigger_action = false;
+    def.dynamic_param_child = false;
+    def._24b = false;
+    def.num_params = 0;
+    def.calc_timing = CalcTiming::AIAfter;
+
+    for (s32 i = 0; i < pairs.count; ++i) {
+        const auto& pair = pairs.pairs[i];
+        if (pair.use_count < count) {
+            def.param_names[def.num_params] = pair.name;
+            def.param_types[def.num_params] = pair.type;
+            def.param_values[def.num_params].vec3 = {0, 0, 0};
+            def.param_values[def.num_params].variable_ptr = nullptr;
+            ++def.num_params;
+        }
+    }
+
+    return load(actor, def, heap, AIDefInstParamKind::Dynamic);
+}
+
 void* ParamPack::getAITreeVariablePointer(const sead::SafeString& key, AIDefParamType type,
                                           bool x) const {
     return getVariable<void>(key, type, x);
@@ -170,6 +194,34 @@ void InlineParamPack::addMesTransceiverId(const mes::TransceiverId& value,
     param.key = key.cstr();
     param.mesTransceiverId = value;
     param.type = AIDefParamType::MesTransceiverId;
+}
+
+void ParamPack::getPairs(ParamNameTypePairs* pairs, bool update_use_count) {
+    for (auto* param = mParams; param; param = param->next) {
+        if (param->data)
+            pairs->addPair(param->type, param->name, update_use_count);
+    }
+}
+
+void ParamNameTypePairs::addPair(AIDefParamType type, const sead::SafeString& name,
+                                 bool update_use_count) {
+    for (s32 i = 0; i < count; ++i) {
+        auto& pair = pairs[i];
+        if (pair.type == type && name == pair.name) {
+            if (update_use_count)
+                ++pair.use_count;
+            return;
+        }
+    }
+
+    if (count >= pairs.size())
+        return;
+
+    auto& pair = pairs[count];
+    pair.type = type;
+    pair.name = name.cstr();
+    pair.use_count = 1;
+    ++count;
 }
 
 bool ParamPack::getString(sead::SafeString* value, const sead::SafeString& key) const {

@@ -2,6 +2,7 @@
 
 #include <agl/Utils/aglParameter.h>
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadSizedEnum.h>
@@ -23,6 +24,21 @@ class Actor;
 namespace act::ai {
 
 struct InlineParamPack;
+
+struct ParamNameType {
+    const char* name;
+    AIDefParamType type;
+    s32 use_count;
+};
+KSYS_CHECK_SIZE_NX150(ParamNameType, 0x10);
+
+struct ParamNameTypePairs {
+    void addPair(AIDefParamType type, const sead::SafeString& name, bool update_use_count);
+
+    sead::SafeArray<ParamNameType, 32> pairs;
+    s32 count;
+};
+KSYS_CHECK_SIZE_NX150(ParamNameTypePairs, 0x208);
 
 struct Param {
     Param* next;
@@ -63,8 +79,10 @@ public:
             *variable = val;
     }
 
+    bool load(const Actor& actor, const ParamNameTypePairs& pairs, s32 count, sead::Heap* heap);
     void* getAITreeVariablePointer(const sead::SafeString& key, AIDefParamType type, bool x) const;
     void copy(InlineParamPack* dest, bool x);
+    void getPairs(ParamNameTypePairs* pairs, bool update_use_count);
 
     bool getString(sead::SafeString* value, const sead::SafeString& key) const;
     bool setString(const sead::SafeString& value, const sead::SafeString& key) const;
