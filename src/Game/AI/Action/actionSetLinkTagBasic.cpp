@@ -3,7 +3,7 @@
 
 namespace uking::action {
 
-SetLinkTagBasicAction::SetLinkTagBasicAction(const ksys::act::ai::ClassArg& arg)
+SetLinkTagBasicAction::SetLinkTagBasicAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
 SetLinkTagBasicAction::~SetLinkTagBasicAction() = default;

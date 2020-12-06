@@ -23,8 +23,8 @@ target_sources(uking PRIVATE
   actActorUtil.h
   actAiAction.cpp
   actAiAction.h
-  actAiClass.cpp
-  actAiClass.h
+  actAiActionBase.cpp
+  actAiActionBase.h
   actAiClassDef.cpp
   actAiClassDef.h
   actAiParam.cpp

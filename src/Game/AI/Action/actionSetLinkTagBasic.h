@@ -8,7 +8,7 @@ namespace uking::action {
 
 class SetLinkTagBasicAction : public ksys::act::ai::Action {
 public:
-    SetLinkTagBasicAction(const ksys::act::ai::ClassArg& arg);
+    explicit SetLinkTagBasicAction(const InitArg& arg);
     ~SetLinkTagBasicAction() override;
 
     void enter() override;

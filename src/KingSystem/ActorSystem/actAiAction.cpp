@@ -2,7 +2,7 @@
 
 namespace ksys::act::ai {
 
-Action::Action(const ClassArg& arg) : ActionBase(arg) {}
+Action::Action(const InitArg& arg) : ActionBase(arg) {}
 
 bool Action::isAction() {
     return true;

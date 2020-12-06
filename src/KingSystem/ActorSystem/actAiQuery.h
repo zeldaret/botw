@@ -6,7 +6,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
-class BaseProc;
+class Actor;
 }
 
 namespace ksys::act::ai {
@@ -15,7 +15,7 @@ class Query {
     SEAD_RTTI_BASE(Query)
 public:
     struct InitArg {
-        BaseProc* proc;
+        Actor* actor;
         /// The index of the query definition in the actor's AI program.
         s32 def_idx;
     };
@@ -35,7 +35,7 @@ public:
     virtual void m12() {}
 
 protected:
-    BaseProc* mProc;
+    Actor* mActor;
     ParamPack mParamPack;
     s32 mDefIdx;
 };

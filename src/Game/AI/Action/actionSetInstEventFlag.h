@@ -8,7 +8,7 @@ namespace uking::action {
 
 class SetInstEventFlagAction : public ksys::act::ai::Action {
 public:
-    SetInstEventFlagAction(const ksys::act::ai::ClassArg& arg);
+    explicit SetInstEventFlagAction(const InitArg& arg);
     ~SetInstEventFlagAction() override;
 
     void oneShot() override;

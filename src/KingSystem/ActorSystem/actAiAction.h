@@ -1,13 +1,13 @@
 #pragma once
 
-#include "KingSystem/ActorSystem/actAiClass.h"
+#include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act::ai {
 
 class Action : public ActionBase {
 public:
-    Action(const ClassArg& arg);
+    explicit Action(const InitArg& arg);
 
     virtual void enter() {}
     virtual void loadParams() {}

@@ -1,9 +1,9 @@
-#include "KingSystem/ActorSystem/actAiClass.h"
+#include "KingSystem/ActorSystem/actAiActionBase.h"
 
 namespace ksys::act::ai {
 
-ActionBase::ActionBase(const ClassArg& arg)
-    : mActor{arg.actor}, mDefinitionIdx{u16(arg.definitionIdx)}, mRootIdx{u8(arg.rootIdx)} {}
+ActionBase::ActionBase(const InitArg& arg)
+    : mActor{arg.actor}, mDefinitionIdx{u16(arg.def_idx)}, mRootIdx{u8(arg.root_idx)} {}
 
 bool ActionBase::isFinished() {
     return mStatus.isOn(Status::Finished);

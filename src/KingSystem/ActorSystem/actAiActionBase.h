@@ -12,16 +12,17 @@ class Actor;
 
 namespace ai {
 
-struct ClassArg {
-    Actor* actor;
-    u32 definitionIdx;
-    u32 rootIdx;
-};
-KSYS_CHECK_SIZE_NX150(ClassArg, 0x10);
-
 class ActionBase {
 public:
-    ActionBase(const ClassArg& arg);
+    struct InitArg {
+        Actor* actor;
+        /// The index of the query definition in the actor's AI program.
+        s32 def_idx;
+        s32 root_idx;
+    };
+    KSYS_CHECK_SIZE_NX150(InitArg, 0x10);
+
+    explicit ActionBase(const InitArg& arg);
     virtual ~ActionBase() = default;
 
     virtual bool isAction();

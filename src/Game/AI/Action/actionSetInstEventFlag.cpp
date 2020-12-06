@@ -3,8 +3,7 @@
 
 namespace uking::action {
 
-SetInstEventFlagAction::SetInstEventFlagAction(const ksys::act::ai::ClassArg& arg)
-    : ksys::act::ai::Action(arg) {}
+SetInstEventFlagAction::SetInstEventFlagAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 SetInstEventFlagAction::~SetInstEventFlagAction() = default;
 
