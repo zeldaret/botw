@@ -21,6 +21,9 @@ class Handle;
 class ILoadRequest {
     SEAD_RTTI_BASE(ILoadRequest)
 public:
+    ILoadRequest() = default;
+    ILoadRequest(const ILoadRequest&) = default;
+    ILoadRequest& operator=(const ILoadRequest&) = default;
     virtual ~ILoadRequest();
 
     bool _8 = false;
@@ -34,6 +37,8 @@ class LoadRequest : public ILoadRequest {
 public:
     LoadRequest();
     LoadRequest(s32 load_data_alignment, u32 arg_c, bool arg_20);
+    LoadRequest(const LoadRequest&) = default;
+    LoadRequest& operator=(const LoadRequest&) = default;
     ~LoadRequest() override = default;
 
     bool _20 = false;
@@ -64,6 +69,8 @@ class SimpleLoadRequest : public ILoadRequest {
 public:
     SimpleLoadRequest();
     ~SimpleLoadRequest() override = default;
+    SimpleLoadRequest(const SimpleLoadRequest&) = default;
+    SimpleLoadRequest& operator=(const SimpleLoadRequest&) = default;
 
     sead::SafeString mPath;
     void* _30 = nullptr;
@@ -75,6 +82,8 @@ class SimplePackedLoadRequest : public ILoadRequest {
 public:
     SimplePackedLoadRequest();
     ~SimplePackedLoadRequest() override = default;
+    SimplePackedLoadRequest(const SimplePackedLoadRequest&) = default;
+    SimplePackedLoadRequest& operator=(const SimplePackedLoadRequest&) = default;
 
     Handle* mPack = nullptr;
     void* _30 = nullptr;

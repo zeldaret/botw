@@ -15,7 +15,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(uking)
 target_include_directories(uking PRIVATE src)
 target_compile_options(uking PRIVATE -fno-rtti -fno-exceptions)
-target_compile_options(uking PRIVATE -Wall -Wextra)
+target_compile_options(uking PRIVATE -Wall -Wextra -Wdeprecated)
 target_compile_options(uking PRIVATE -fno-strict-aliasing)
 target_compile_options(uking PRIVATE -Wno-invalid-offsetof)
 
