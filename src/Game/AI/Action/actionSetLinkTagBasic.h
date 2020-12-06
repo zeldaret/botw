@@ -7,12 +7,13 @@
 namespace uking::action {
 
 class SetLinkTagBasicAction : public ksys::act::ai::Action {
+    SEAD_RTTI_OVERRIDE(SetLinkTagBasicAction, ksys::act::ai::Action)
 public:
     explicit SetLinkTagBasicAction(const InitArg& arg);
     ~SetLinkTagBasicAction() override;
 
-    void enter() override;
-    void loadParams() override;
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void loadParams_() override;
 
 private:
     ksys::act::ai::ParamRef<bool> IsOn;

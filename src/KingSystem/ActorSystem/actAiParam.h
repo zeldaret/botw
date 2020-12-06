@@ -82,7 +82,7 @@ public:
     bool load(const Actor& actor, const ParamNameTypePairs& pairs, s32 count, sead::Heap* heap);
     void* getAITreeVariablePointer(const sead::SafeString& key, AIDefParamType type, bool x) const;
     void copy(InlineParamPack* dest, bool x);
-    void getPairs(ParamNameTypePairs* pairs, bool update_use_count);
+    void getPairs(ParamNameTypePairs* pairs, bool update_use_count) const;
 
     bool getString(sead::SafeString* value, const sead::SafeString& key) const;
     bool setString(const sead::SafeString& value, const sead::SafeString& key) const;

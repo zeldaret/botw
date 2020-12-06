@@ -196,7 +196,7 @@ void InlineParamPack::addMesTransceiverId(const mes::TransceiverId& value,
     param.type = AIDefParamType::MesTransceiverId;
 }
 
-void ParamPack::getPairs(ParamNameTypePairs* pairs, bool update_use_count) {
+void ParamPack::getPairs(ParamNameTypePairs* pairs, bool update_use_count) const {
     for (auto* param = mParams; param; param = param->next) {
         if (param->data)
             pairs->addPair(param->type, param->name, update_use_count);

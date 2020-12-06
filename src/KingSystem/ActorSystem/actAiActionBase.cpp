@@ -5,22 +5,26 @@ namespace ksys::act::ai {
 ActionBase::ActionBase(const InitArg& arg)
     : mActor{arg.actor}, mDefinitionIdx{u16(arg.def_idx)}, mRootIdx{u8(arg.root_idx)} {}
 
-bool ActionBase::isFinished() {
-    return mStatus.isOn(Status::Finished);
+bool ActionBase::isFinished() const {
+    return mFlags.isOn(Flag::Finished);
 }
 
-bool ActionBase::isFailed() {
-    return mStatus.isOn(Status::Failed);
+bool ActionBase::isFailed() const {
+    return mFlags.isOn(Flag::Failed);
+}
+
+bool ActionBase::isFlag4Set() const {
+    return mFlags.isOn(Flag::_4);
 }
 
 void ActionBase::setFinished() {
-    mStatus.set(Status::Finished);
-    mStatus.reset(Status::Failed);
+    mFlags.set(Flag::Finished);
+    mFlags.reset(Flag::Failed);
 }
 
 void ActionBase::setFailed() {
-    mStatus.set(Status::Failed);
-    mStatus.reset(Status::Finished);
+    mFlags.set(Flag::Failed);
+    mFlags.reset(Flag::Finished);
 }
 
 }  // namespace ksys::act::ai

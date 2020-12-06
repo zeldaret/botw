@@ -6,14 +6,15 @@
 namespace ksys::act::ai {
 
 class Action : public ActionBase {
+    SEAD_RTTI_OVERRIDE(Action, ActionBase)
 public:
     explicit Action(const InitArg& arg);
 
-    virtual void enter() {}
-    virtual void loadParams() {}
-    virtual void oneShot() {}
+    void calc() override;
+    bool isAction() const override { return true; }
 
-    bool isAction() override;
+protected:
+    virtual void calc_() {}
 };
 KSYS_CHECK_SIZE_NX150(Action, 0x20);
 

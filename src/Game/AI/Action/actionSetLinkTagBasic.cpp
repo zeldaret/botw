@@ -3,12 +3,11 @@
 
 namespace uking::action {
 
-SetLinkTagBasicAction::SetLinkTagBasicAction(const InitArg& arg)
-    : ksys::act::ai::Action(arg) {}
+SetLinkTagBasicAction::SetLinkTagBasicAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 SetLinkTagBasicAction::~SetLinkTagBasicAction() = default;
 
-void SetLinkTagBasicAction::enter() {
+void SetLinkTagBasicAction::enter_(ksys::act::ai::InlineParamPack* params) {
     if (IsOn.value())
         mActor->emitBasicSigOn();
     else
@@ -17,7 +16,7 @@ void SetLinkTagBasicAction::enter() {
     setFinished();
 }
 
-void SetLinkTagBasicAction::loadParams() {
+void SetLinkTagBasicAction::loadParams_() {
     getParamStatic(&IsOn, "IsOn");
 }
 
