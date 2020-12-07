@@ -31,8 +31,8 @@ public:
     const char* getName() const;
     bool init(sead::Heap* heap, bool load_map_or_tree_params);
 
-    virtual bool isFinished() const;
     virtual bool isFailed() const;
+    virtual bool isFinished() const;
     virtual bool isFlag4Set() const;
 
     virtual bool m7() { return false; }
@@ -52,13 +52,13 @@ public:
     virtual void getCurrentName(sead::BufferedSafeString* name, ActionBase* parent) const;
     virtual void* m22() { return nullptr; }
     virtual void getParams(ParamNameTypePairs* pairs, bool update_use_count) const;
-    virtual s32 m24() { return 0; }
+    virtual s32 getNumChildren() const { return 0; }
     virtual bool m25() { return true; }
     virtual ActionBase* getCurrentChild() const { return nullptr; }
     virtual bool isAction() const = 0;
     virtual bool reenter(ActionBase* other) { return reenter_(other, false); }
     virtual void postLeave() {}
-    virtual ActionBase* getAction(s32 idx) const { return nullptr; }
+    virtual ActionBase* getChild(s32 idx) const { return nullptr; }
 
 protected:
     enum class Flag : u8 {
@@ -83,8 +83,6 @@ protected:
     u16 mDefinitionIdx;
     u8 mRootIdx;
     sead::TypedBitFlag<Flag> mFlags;
-    u16 mClassIdx;
-    u16 mPrevClassIdx;
 };
 KSYS_CHECK_SIZE_NX150(ActionBase, 0x20);
 
