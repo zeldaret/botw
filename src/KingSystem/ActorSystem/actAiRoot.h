@@ -48,6 +48,9 @@ public:
     const ParamPack& getMapUnitParams() const { return mMapUnitParams; }
     const ParamPack& getAiTreeParams() const { return mAiTreeParams; }
 
+    bool loadMapUnitParams(const AIDef& def, sead::Heap* heap);
+    bool loadAITreeParams(const AIDef& def, sead::Heap* heap);
+
 private:
     // TODO: rename and put this in a different translation unit
     struct SomeStruct {

@@ -326,6 +326,17 @@ AIProgram::Definition::findSInstParam(const sead::SafeString& name) const {
     return findSInstParam(agl::utl::ParameterBase::calcHash(name));
 }
 
+bool AIProgram::getSInstParam(const char** value, const AIProgram::Definition& def,
+                              const sead::SafeString& param_name) const {
+    const auto* param = def.findSInstParam(param_name);
+    if (!param || param->getParameterType() != agl::utl::ParameterType::StringRef) {
+        *value = &sead::SafeString::cNullChar;
+        return false;
+    }
+    *value = param->ptrT<char>();
+    return true;
+}
+
 bool AIProgram::getSInstParam(sead::SafeString* value, const AIProgram::Definition& def,
                               const sead::SafeString& param_name) const {
     const auto* param = def.findSInstParam(param_name);
@@ -341,6 +352,12 @@ bool AIProgram::getSInstParam(const s32** value, const AIProgram::Definition& de
                               const sead::SafeString& param_name) const {
     static const s32 sDefault{};
     return getSInstParam_(value, def, param_name, agl::utl::ParameterType::Int, &sDefault);
+}
+
+bool AIProgram::getSInstParam(const f32** value, const AIProgram::Definition& def,
+                              const sead::SafeString& param_name) const {
+    static const f32 sDefault{};
+    return getSInstParam_(value, def, param_name, agl::utl::ParameterType::F32, &sDefault);
 }
 
 bool AIProgram::getSInstParam(const sead::Vector3f** value, const AIProgram::Definition& def,

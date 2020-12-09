@@ -28,6 +28,7 @@ public:
 
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)
 
+    ai::RootAi* getRootAi() const { return mRootAi; }
     const ActorParam* getParam() const { return mActorParam; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
 

@@ -64,11 +64,13 @@ public:
     const sead::Buffer<BehaviorDef>& getBehaviors() const { return mBehaviors; }
     const sead::Buffer<QueryDef>& getQueries() const { return mQueries; }
 
+    bool getSInstParam(const char** value, const Definition& def,
+                       const sead::SafeString& param_name) const;
     bool getSInstParam(sead::SafeString* value, const Definition& def,
                        const sead::SafeString& param_name) const;
-    bool getSInstParam(const f32** value, const Definition& def,
-                       const sead::SafeString& param_name) const;
     bool getSInstParam(const s32** value, const Definition& def,
+                       const sead::SafeString& param_name) const;
+    bool getSInstParam(const f32** value, const Definition& def,
                        const sead::SafeString& param_name) const;
     bool getSInstParam(const sead::Vector3f** value, const Definition& def,
                        const sead::SafeString& param_name) const;
@@ -127,12 +129,6 @@ inline bool AIProgram::getSInstParam_(const T** value, const AIProgram::Definiti
     }
     *value = param->ptrT<T>();
     return true;
-}
-
-inline bool AIProgram::getSInstParam(const f32** value, const AIProgram::Definition& def,
-                                     const sead::SafeString& param_name) const {
-    static const f32 sDefault{};
-    return getSInstParam_(value, def, param_name, agl::utl::ParameterType::F32, &sDefault);
 }
 
 }  // namespace ksys::res

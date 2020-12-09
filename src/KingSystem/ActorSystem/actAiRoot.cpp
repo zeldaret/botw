@@ -16,4 +16,12 @@ RootAi::~RootAi() {
         delete _140;
 }
 
+bool RootAi::loadMapUnitParams(const AIDef& def, sead::Heap* heap) {
+    return mMapUnitParams.load(*mActor, def, heap, AIDefInstParamKind::MapUnit);
+}
+
+bool RootAi::loadAITreeParams(const AIDef& def, sead::Heap* heap) {
+    return mAiTreeParams.load(*mActor, def, heap, AIDefInstParamKind::AITree);
+}
+
 }  // namespace ksys::act::ai
