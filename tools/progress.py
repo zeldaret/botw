@@ -21,20 +21,10 @@ parser.add_argument("--hide-nonmatchings-with-dumps", "-H", help="Hide non-match
                                                                  "output dumps", action="store_true")
 args = parser.parse_args()
 
-
-class AIClassType(enum.Enum):
-    Action = 0
-    AI = 1
-    Behavior = 2
-    Query = 3
-
-
 code_size_total = 0
 num_total = 0
 code_size: tp.DefaultDict[FunctionStatus, int] = defaultdict(int)
 counts: tp.DefaultDict[FunctionStatus, int] = defaultdict(int)
-ai_counts: tp.DefaultDict[AIClassType, int] = defaultdict(int)
-ai_counts_done: tp.DefaultDict[AIClassType, int] = defaultdict(int)
 
 nonmatching_fns_with_dump = {p.stem for p in (Path(__file__).parent.parent / "expected").glob("*.bin")}
 
@@ -48,21 +38,6 @@ def should_hide_nonmatching(name: str) -> bool:
 for info in utils.get_functions():
     code_size_total += info.size
     num_total += 1
-
-    ai_class_type: tp.Optional[AIClassType] = None
-    if info.name.startswith("AI_F_Action_"):
-        ai_class_type = AIClassType.Action
-    elif info.name.startswith("AI_F_AI_"):
-        ai_class_type = AIClassType.AI
-    elif info.name.startswith("AI_F_Behavior_"):
-        ai_class_type = AIClassType.Behavior
-    elif info.name.startswith("AI_F_Query_"):
-        ai_class_type = AIClassType.Query
-
-    if ai_class_type is not None:
-        ai_counts[ai_class_type] += 1
-        if info.decomp_name:
-            ai_counts_done[ai_class_type] += 1
 
     if not info.decomp_name:
         continue
@@ -93,11 +68,6 @@ def format_progress(label: str, num: int, size: int):
 
 def format_progress_for_status(label: str, status: FunctionStatus):
     return format_progress(label, counts[status], code_size[status])
-
-
-def format_ai_progress(label: str, class_type: AIClassType):
-    percentage = round(100 * ai_counts_done[class_type] / ai_counts[class_type], 3)
-    return f"{ai_counts_done[class_type]:>7d} {label}{Fore.RESET} ({percentage}%)"
 
 
 if args.csv:
@@ -141,9 +111,4 @@ else:
     print(format_progress_for_status(f"{Fore.GREEN}matching", FunctionStatus.Matching))
     print(format_progress_for_status(f"{Fore.YELLOW}non-matching (minor issues)", FunctionStatus.Equivalent))
     print(format_progress_for_status(f"{Fore.RED}non-matching (major issues)", FunctionStatus.NonMatching))
-
     print()
-    print(format_ai_progress("actions", AIClassType.Action))
-    print(format_ai_progress("AIs", AIClassType.AI))
-    print(format_ai_progress("behaviors", AIClassType.Behavior))
-    print(format_ai_progress("queries", AIClassType.Query))
