@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace ksys::act::ai {
 
@@ -43,5 +44,7 @@ void Ai::updateChildIdx(u16 new_idx) {
     mPrevChildIdx = prev_idx;
     mPendingChildIdx = InvalidIdx;
 }
+
+template class ClassContainer<Ai>;
 
 }  // namespace ksys::act::ai

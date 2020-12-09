@@ -8,6 +8,10 @@ namespace ksys {
 
 namespace act {
 
+namespace ai {
+class RootAi;
+}
+
 class LifeRecoverInfo;
 class ActorParam;
 
@@ -39,7 +43,10 @@ public:
     const sead::TypedBitFlag<StasisFlag>& getStasisFlags() const { return mStasisFlags; }
 
 protected:
-    /* 0x008 */ u8 TEMP_0x008[0x3F4];  // FIXME
+    /* 0x180 */ u8 TEMP_0x180[0x3D8];  // FIXME
+    /* 0x558 */ ai::RootAi* mRootAi;
+    /* 0x560 */ void* mASList;   // FIXME
+    /* 0x568 */ void* mEffects;  // FIXME
     /* 0x570 */ ActorParam* mActorParam;
     /* 0x578 */ u8 TEMP_0x578[0x648 - 0x578];
     /* 0x648 */ map::MubinIter mMapObjIter;
