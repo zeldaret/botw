@@ -54,7 +54,7 @@ public:
     virtual bool m5() { return false; }
     virtual void m6() {}
     virtual bool init_(sead::Heap* heap) { return true; }
-    virtual void preInit_() {}
+    virtual void loadParams() {}
     virtual int doQuery() { return 0; }
     virtual void m10() {}
     virtual bool m11() { return true; }

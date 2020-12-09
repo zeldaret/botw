@@ -25,7 +25,7 @@ bool Query::init(sead::Heap* heap) {
             mActor->getRootAi()->loadAITreeParams(set.ai_tree_params, heap) &&
             (set.dynamic_params.num_params < 1 ||
              mParamPack.load(*mActor, set.dynamic_params, heap, AIDefInstParamKind::Dynamic))) {
-            preInit_();
+            loadParams();
             return init_(heap);
         }
     }
