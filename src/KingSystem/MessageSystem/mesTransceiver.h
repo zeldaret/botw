@@ -9,7 +9,15 @@ namespace ksys {
 namespace mes {
 
 struct TransceiverId {
-    TransceiverId() = default;
+    TransceiverId() { reset(); }
+    ~TransceiverId() { reset(); }
+
+    void reset() {
+        _0 = -1;
+        _4 = -1;
+        _8 = nullptr;
+        _10 = nullptr;
+    }
 
     TransceiverId& operator=(const TransceiverId& other) {
         _0 = other._0;
@@ -19,8 +27,8 @@ struct TransceiverId {
         return *this;
     }
 
-    s32 _0 = -1;
-    s32 _4 = -1;
+    s32 _0{};
+    s32 _4{};
     void* _8{};
     void* _10{};
 };
