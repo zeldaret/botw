@@ -137,6 +137,26 @@ Given the impossibility of automatically splitting the assembly and generating a
 
 Instead of trying to match the entire executable, each function is matched individually and source code is organized in whichever way makes the most sense. Libraries are not treated as being part of the game code, but as external dependencies. The result is that the codebase looks a lot more like a regular software project than a decompilation codebase. Since C++ code makes heavy use of inline functions and zero-cost abstractions that disappear in compiled code, contributors have a lot more leeway when it comes to organizing files and adding abstractions.
 
+#### How easy is it to get matching code?
+
+Compared to other decomp projects for older compilers: **extremely easy**. So outrageously easy that it is almost unfair to their contributors.
+
+Clang is an extremely reasonable compiler with much fewer memes than older compilers such as IDO:
+
+* Stack reordering issues are extremely rare, given that AArch64 uses its registers a lot more efficiently. And even when the stack is used, things Just Work™ in the vast majority of cases.
+* Pure register allocation (regalloc) issues are almost non-existent. If you see something that looks like a regalloc problem, it usually means your code is not semantically equivalent.
+* No `if (1)` shenanigans.
+* No same line memes (codegen being different if two statements are put on the same line).
+* Whitespace doesn't matter.
+
+In general, two equivalent constructs that *should* clearly produce the same code actually produce the exact same code. There are exceptions, of course, but many things simply do not matter at all for matching. Inline functions do sometimes affect codegen, though.
+
+Getting perfect matches on the first try happens pretty routinely, even for medium-sized and large functions (>1kB).
+
+Most functions tend to call several other inline functions, notably utility functions from sead; as many core sead modules have already been reversed, decompiling a function sometimes only requires recognizing those function calls: decompilation at a higher level of abstraction!
+
+#### Writing proper C++
+
 Unlike most other decompilation projects, this one targets a large modern game that is written in C++. While C and C++ have similar syntax, C++ is somewhat more complex than C and has many more language features. To avoid getting lost in C++ code, please familiarize yourself with the following, preferably *before* decompiling:
 
 * [namespaces](https://en.cppreference.com/w/cpp/language/namespace)
