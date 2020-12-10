@@ -8,7 +8,7 @@ File names, class or function names and the file organization come from leftover
 
 ## Status
 
-Currently, the focus is on decompiling AI classes and other small, mostly self-contained components (e.g. LevelSensor).
+Currently, the focus is on decompiling AI classes and KingSystem framework code.
 
 Because meaningfully splitting the code is not feasible, the built executable currently only contains functions that have been decompiled and no effort is being made to put functions and data at the correct addresses.
 
@@ -38,6 +38,8 @@ Using Linux (or WSL) is recommended but not required. The rest of this guide ass
 
 On subsequent builds, just run `ninja -C build` from the project root.
 
+**THIS WILL NOT PRODUCE A PLAYABLE GAME.**
+
 ## Contributing
 
 To contribute to the project, you will also need:
@@ -54,8 +56,6 @@ Experience with reverse engineering optimized C++ code is very useful but not ne
 Using a decompiler is strongly recommended for efficiency reasons. If you have IDA 7.0+, ping @leoetlino to get a copy of the IDC which will make decompilation easier and help with understanding the code more generally.
 
 Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discord server if you have any questions.
-
-*Note to contributors:* *Breath of the Wild* heavily relies on software libraries like [sead](https://github.com/open-ead/sead) which are statically linked. Given that most of BotW's dependencies have not been fully decompiled yet, decompiling any non-trivial part of the game might require working on those libraries first.
 
 ### How to decompile
 
