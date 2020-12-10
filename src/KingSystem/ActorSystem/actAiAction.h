@@ -11,7 +11,7 @@ public:
     explicit Action(const InitArg& arg);
 
     void calc() override;
-    bool isAction() const override { return true; }
+    ActionType getType() const override { return ActionType::Action; }
 
 protected:
     virtual void calc_() {}

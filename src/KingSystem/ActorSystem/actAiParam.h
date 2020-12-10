@@ -82,7 +82,7 @@ public:
     bool load(const Actor& actor, const ParamNameTypePairs& pairs, s32 count, sead::Heap* heap);
     void* getAITreeVariablePointer(const sead::SafeString& key, AIDefParamType type,
                                    bool x = false) const;
-    void copy(InlineParamPack* dest, bool x);
+    void copy(InlineParamPack* dest, bool x) const;
     void getPairs(ParamNameTypePairs* pairs, bool update_use_count) const;
 
     bool getString(sead::SafeString* value, const sead::SafeString& key) const;
@@ -115,6 +115,9 @@ struct InlineParam {
 KSYS_CHECK_SIZE_NX150(InlineParam, 0x50);
 
 struct InlineParamPack {
+    InlineParamPack() = default;
+    KSYS_ALWAYS_INLINE ~InlineParamPack() = default;
+
     InlineParam& getParam(s32 idx) {
         if (idx < 0) {
             idx = count;
@@ -151,7 +154,7 @@ struct InlineParamPack {
 
     static constexpr s32 NumParamsMax = 32;
     InlineParam params[NumParamsMax];
-    int count;
+    int count = 0;
 };
 KSYS_CHECK_SIZE_NX150(InlineParamPack, 0xA08);
 

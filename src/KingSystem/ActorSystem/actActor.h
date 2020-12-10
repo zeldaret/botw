@@ -43,6 +43,8 @@ public:
 
     const sead::TypedBitFlag<StasisFlag>& getStasisFlags() const { return mStasisFlags; }
 
+    void onAiEnter(const char* name, const char* context);
+
 protected:
     /* 0x180 */ u8 TEMP_0x180[0x3D8];  // FIXME
     /* 0x558 */ ai::RootAi* mRootAi;

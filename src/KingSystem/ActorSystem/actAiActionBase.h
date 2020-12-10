@@ -1,17 +1,29 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::res {
+class AIProgram;
+}
+
 namespace ksys::act {
 
 class Actor;
 
 namespace ai {
+
+enum class ActionType {
+    AI = 0,
+    Action = 1,
+};
+
+enum class RootAiFlag : u16;
 
 /// Base class for actions and AIs, which can be seen as looping actions.
 class ActionBase {
@@ -28,17 +40,23 @@ public:
     explicit ActionBase(const InitArg& arg);
     virtual ~ActionBase() = default;
 
-    const char* getName() const;
-    bool init(sead::Heap* heap, bool load_map_or_tree_params);
+    bool init(sead::Heap* heap, bool skip_loading_map_or_tree_params);
+    void enter(InlineParamPack* params, const sead::SafeString& context);
+    bool takeOver(ActionBase* src, const sead::SafeString& context);
+    void leave();
+    bool oneShot(InlineParamPack* params);
 
-    virtual bool isFailed() const;
-    virtual bool isFinished() const;
-    virtual bool isFlag4Set() const;
+    const char* getClassName() const;
+    const char* getName() const;
+
+    virtual bool isFailed() const { return mFlags.isOn(Flag::Failed); }
+    virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
+    virtual bool isFlag4Set() const { return mFlags.isOn(Flag::_4); }
 
     virtual bool m7() { return false; }
     virtual bool m8() { return false; }
     virtual void m9() {}
-    virtual bool oneShot() { return true; }
+    virtual bool oneShot_() { return true; }
     virtual bool init_(sead::Heap* heap) { return true; }
     virtual void enter_(InlineParamPack* params) {}
     virtual bool reenter_(ActionBase* other, bool x);
@@ -53,10 +71,12 @@ public:
     virtual void* m22() { return nullptr; }
     virtual void getParams(ParamNameTypePairs* pairs, bool update_use_count) const;
     virtual s32 getNumChildren() const { return 0; }
-    virtual bool m25() { return true; }
+    virtual bool initChildren(const AIDefSet& set, sead::Heap* heap) { return true; }
     virtual ActionBase* getCurrentChild() const { return nullptr; }
-    virtual bool isAction() const = 0;
-    virtual bool reenter(ActionBase* other) { return reenter_(other, false); }
+    virtual ActionType getType() const = 0;
+    virtual bool reenter(ActionBase* other, const sead::SafeString& context) {
+        return reenter_(other, false);
+    }
     virtual void postLeave() {}
     virtual ActionBase* getChild(s32 idx) const { return nullptr; }
 
@@ -72,17 +92,38 @@ protected:
         _80 = 0x80,
     };
 
+    bool isRootAiParamINot5() const;
+    bool isActorDeletedOrDeleting() const;
+    bool isActorGoingBackToRootAi() const;
+
+    void copyParams(InlineParamPack* dest, bool x) const;
+
     void setFinished();
     void setFailed();
+    void setRootAiFlagBit(int bit);
+    void setRootAiFlag(RootAiFlag flag) { setRootAiFlagBit(sead::log2(u32(flag))); }
+
+    void resetFlags() {
+        mFlags.reset(Flag::Failed);
+        mFlags.reset(Flag::Finished);
+        mFlags.reset(Flag::_4);
+    }
+
+    res::AIProgram* getAIProg() const;
 
     template <typename T>
     void getParamStatic(ParamRef<T>* value, const sead::SafeString& key);
 
     Actor* mActor;
     ParamPack mParams;
-    u16 mDefinitionIdx;
-    u8 mRootIdx;
+    s16 mDefinitionIdx;
+    s8 mRootIdx;
     sead::TypedBitFlag<Flag> mFlags;
+
+private:
+    void initFlags(res::AIProgram* aiprog, s32 def_idx, ActionType type);
+    void updateBehaviorsOnEnter();
+    void updateBehaviorsOnLeave();
 };
 KSYS_CHECK_SIZE_NX150(ActionBase, 0x20);
 

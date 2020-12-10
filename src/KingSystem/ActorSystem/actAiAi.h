@@ -17,10 +17,10 @@ public:
     void* m22() override;
     void getParams(ParamNameTypePairs* pairs, bool update_use_count) const override;
     s32 getNumChildren() const override { return mChildren.size(); }
-    bool m25() override;
+    bool initChildren(const AIDefSet& set, sead::Heap* heap) override;
     ActionBase* getCurrentChild() const override;
-    bool isAction() const override { return false; }
-    bool reenter(ActionBase* other) override;
+    ActionType getType() const override { return ActionType::AI; }
+    bool reenter(ActionBase* other, const sead::SafeString& context) override;
     void postLeave() override { updateChildIdx(InvalidIdx); }
     ActionBase* getChild(s32 idx) const override { return mChildren[idx]; }
     virtual const char* getPreviousName();

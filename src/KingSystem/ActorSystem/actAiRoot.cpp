@@ -24,4 +24,19 @@ bool RootAi::loadAITreeParams(const AIDef& def, sead::Heap* heap) {
     return mAiTreeParams.load(*mActor, def, heap, AIDefInstParamKind::AITree);
 }
 
+bool RootAi::isActorDeletedOrDeleting() const {
+    return mActor->isDeletedOrDeleting();
+}
+
+const char* getDefaultAiName(s32 root_idx) {
+    static constexpr const char* names[] = {"DemoRootAI", "Root"};
+    if (root_idx >= 2)
+        return "";
+    return names[root_idx];
+}
+
+const char* getDefaultActionName(s32) {
+    return "";
+}
+
 }  // namespace ksys::act::ai

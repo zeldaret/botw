@@ -9,16 +9,15 @@
 #include "KingSystem/Utils/ParamIO.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act::ai {
+enum class ActionType : int;
+}
+
 namespace ksys::res {
 
 class AIProgram : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AIProgram, Resource)
 public:
-    enum class AIActionType {
-        AI = 0,
-        Action = 1,
-    };
-
     struct Definition {
         const agl::utl::ParameterBase* findSInstParam(u32 name_hash) const;
         const agl::utl::ParameterBase* findSInstParam(const sead::SafeString& name) const;
@@ -60,9 +59,16 @@ public:
     AIProgram();
     ~AIProgram() override;
 
-    const sead::Buffer<AIActionDef>& getActionsOrAIs(AIActionType type) const;
+    const sead::Buffer<AIActionDef>& getActionsOrAIs(act::ai::ActionType type) const;
     const sead::Buffer<BehaviorDef>& getBehaviors() const { return mBehaviors; }
     const sead::Buffer<QueryDef>& getQueries() const { return mQueries; }
+
+    const AIActionDef& getAction(act::ai::ActionType type, s32 index) const {
+        return getActionsOrAIs(type)[index];
+    }
+
+    const sead::Buffer<u16>& getDemoAiActionIndices() const { return mDemoAIActionIndices; }
+    const sead::Buffer<u8>& getDemoBehaviorIndices() const { return mDemoBehaviorIndices; }
 
     bool getSInstParam(const char** value, const Definition& def,
                        const sead::SafeString& param_name) const;

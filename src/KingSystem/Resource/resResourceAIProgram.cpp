@@ -1,6 +1,7 @@
 #include "KingSystem/Resource/resResourceAIProgram.h"
 #include <agl/Utils/aglParameter.h>
 #include <heap/seadHeapMgr.h>
+#include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/Resource/resCurrentResNameMgr.h"
 #include "KingSystem/Utils/HeapUtil.h"
@@ -11,8 +12,9 @@ AIProgram::AIProgram() : ParamIO("aiprog", 0) {}
 
 AIProgram::~AIProgram() = default;
 
-const sead::Buffer<AIProgram::AIActionDef>& AIProgram::getActionsOrAIs(AIActionType type) const {
-    return type == AIActionType::AI ? mAIs : mActions;
+const sead::Buffer<AIProgram::AIActionDef>&
+AIProgram::getActionsOrAIs(act::ai::ActionType type) const {
+    return type == act::ai::ActionType::AI ? mAIs : mActions;
 }
 
 void AIProgram::doCreate_(u8*, u32, sead::Heap*) {

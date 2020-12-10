@@ -83,7 +83,7 @@ void* ParamPack::getAITreeVariablePointer(const sead::SafeString& key, AIDefPara
     return getVariable<void>(key, type, x);
 }
 
-void ParamPack::copy(InlineParamPack* dest, bool x) {
+void ParamPack::copy(InlineParamPack* dest, bool x) const {
     for (auto* param = mParams; param; param = param->next) {
         if (!param->data || !param->used)
             continue;
