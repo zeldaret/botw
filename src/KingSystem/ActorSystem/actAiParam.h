@@ -116,7 +116,6 @@ KSYS_CHECK_SIZE_NX150(InlineParam, 0x50);
 
 struct InlineParamPack {
     InlineParamPack() = default;
-    KSYS_ALWAYS_INLINE ~InlineParamPack() = default;
 
     InlineParam& getParam(s32 idx) {
         if (idx < 0) {
