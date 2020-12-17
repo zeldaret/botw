@@ -36,6 +36,9 @@ enum class RootAiFlag : u16 {
     _100 = 0x100,  // 8
 };
 
+// TODO: rename
+enum class RootAiFlag2 : u16 {};
+
 class RootAi : public Ai, public IRootAi {
     SEAD_RTTI_OVERRIDE(RootAi, Ai)
 public:
@@ -61,6 +64,24 @@ public:
 
     bool loadMapUnitParams(const AIDef& def, sead::Heap* heap);
     bool loadAITreeParams(const AIDef& def, sead::Heap* heap);
+
+    bool getMapUnitParam(sead::SafeString* value, const sead::SafeString& key) const;
+    bool getMapUnitParam(const s32** value, const sead::SafeString& key) const;
+    bool getMapUnitParam(const f32** value, const sead::SafeString& key) const;
+    bool getMapUnitParam(const sead::Vector3f** value, const sead::SafeString& key) const;
+    bool getMapUnitParam(const bool** value, const sead::SafeString& key) const;
+
+    bool getAITreeVariable(sead::SafeString** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(s32** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(f32** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(sead::Vector3f** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(bool** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(void** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(u32** value, const sead::SafeString& key) const;
+    // TODO: rename
+    bool getAITreeVariable2(sead::Vector3f** value, const sead::SafeString& key) const;
+    // TODO: rename
+    bool getAITreeVariable2(bool** value, const sead::SafeString& key) const;
 
     void setBehavior(Behavior* behavior);
     void resetBehavior(Behavior* behavior);
@@ -97,7 +118,7 @@ private:
     // TODO: is this really an atomic?
     sead::Atomic<f32> _168 = 1.0;
     sead::TypedBitFlag<RootAiFlag> _16c;
-    u16 _16e{};
+    sead::TypedBitFlag<RootAiFlag2> _16e;
     ParamPack mMapUnitParams;
     ParamPack mAiTreeParams;
 };

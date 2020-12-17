@@ -85,6 +85,13 @@ public:
     void copy(InlineParamPack* dest, bool x) const;
     void getPairs(ParamNameTypePairs* pairs, bool update_use_count) const;
 
+    template <typename T, AIDefParamType Type>
+    bool getPtrGeneric(T** value, const sead::SafeString& key) const {
+        auto* ptr = static_cast<T*>(getAITreeVariablePointer(key, Type));
+        *value = ptr;
+        return ptr != nullptr;
+    }
+
     bool getString(sead::SafeString* value, const sead::SafeString& key) const;
     bool setString(const sead::SafeString& value, const sead::SafeString& key) const;
 
@@ -157,15 +164,6 @@ struct InlineParamPack {
 };
 KSYS_CHECK_SIZE_NX150(InlineParamPack, 0xA08);
 
-template <typename T>
-class ParamRef {
-public:
-    const T& value() const { return *mValue; }
-    void setValuePtr(const T* ptr) { mValue = ptr; }
-
-private:
-    const T* mValue = nullptr;
-};
 }  // namespace act::ai
 
 }  // namespace ksys

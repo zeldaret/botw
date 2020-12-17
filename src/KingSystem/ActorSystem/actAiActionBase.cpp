@@ -1,7 +1,10 @@
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/resResourceAIProgram.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace ksys::act::ai {
 
@@ -10,6 +13,10 @@ ActionBase::ActionBase(const InitArg& arg)
 
 inline res::AIProgram* ActionBase::getAIProg() const {
     return mActor->getParam()->getRes().mAIProgram;
+}
+
+inline auto& ActionBase::getDef() const {
+    return getAIProg()->getAction(getType(), mDefinitionIdx);
 }
 
 bool ActionBase::init(sead::Heap* heap, bool skip_loading_map_or_tree_params) {
@@ -60,7 +67,7 @@ const char* ActionBase::getClassName() const {
         return getDefaultName(getType(), mRootIdx);
     }
 
-    return getAIProg()->getAction(getType(), mDefinitionIdx).mClassName;
+    return getDef().mClassName;
 }
 
 bool ActionBase::isRootAiParamINot5() const {
@@ -89,7 +96,7 @@ void ActionBase::enter(InlineParamPack* params, const sead::SafeString& context)
 
 const char* ActionBase::getName() const {
     if (mDefinitionIdx >= 0)
-        return getAIProg()->getAction(getType(), mDefinitionIdx).mName;
+        return getDef().mName;
 
     if (mRootIdx >= 0)
         return getDefaultName(getType(), mRootIdx);
@@ -107,7 +114,7 @@ void ActionBase::updateBehaviorsOnEnter() {
             return;
         indices = &getAIProg()->getDemoBehaviorIndices();
     } else {
-        indices = &getAIProg()->getAction(getType(), mDefinitionIdx).mBehaviorIndices;
+        indices = &getDef().mBehaviorIndices;
     }
 
     auto* root = mActor->getRootAi();
@@ -166,7 +173,7 @@ void ActionBase::leave() {
     postLeave();
 }
 
-void ActionBase::setRootAiFlagBit(int bit) {
+void ActionBase::setRootAiFlagBit(int bit) const {
     mActor->getRootAi()->_16c.set(RootAiFlag(1u << bit));
 }
 
@@ -188,7 +195,7 @@ void ActionBase::updateBehaviorsOnLeave() {
             return;
         indices = &getAIProg()->getDemoBehaviorIndices();
     } else {
-        indices = &getAIProg()->getAction(getType(), mDefinitionIdx).mBehaviorIndices;
+        indices = &getDef().mBehaviorIndices;
     }
 
     auto* root = mActor->getRootAi();
@@ -202,6 +209,20 @@ bool ActionBase::oneShot(InlineParamPack* params) {
     return oneShot_();
 }
 
+res::GParamList* ActionBase::getGParamList() const {
+    return mActor->getParam()->getRes().mGParamList;
+}
+
+Action* ActionBase::getCurrentAction() {
+    auto action = std::ref(*this);
+    while (true) {
+        auto* next = action.get().getCurrentChild();
+        if (!next)
+            return sead::DynamicCast<Action>(&action.get());
+        action = *next;
+    }
+}
+
 void ActionBase::setFinished() {
     mFlags.set(Flag::Finished);
     mFlags.reset(Flag::Failed);
@@ -210,6 +231,126 @@ void ActionBase::setFinished() {
 void ActionBase::setFailed() {
     mFlags.set(Flag::Failed);
     mFlags.reset(Flag::Finished);
+}
+
+void ActionBase::getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const {
+    if (!sead::IsDerivedFrom<RootAi>(this))
+        name->appendWithFormat("/%s", getName());
+
+    if (this != last && getCurrentChild())
+        getCurrentChild()->getCurrentName(name, last);
+}
+
+void ActionBase::getParams(ParamNameTypePairs* pairs, bool update_use_count) const {
+    mParams.getPairs(pairs, update_use_count);
+}
+
+void ActionBase::resetRootAiFlagBit(int bit) const {
+    mActor->getRootAi()->_16c.reset(RootAiFlag(1u << bit));
+}
+
+bool ActionBase::testRootAiFlag2Bit(int bit) const {
+    return mActor->getRootAi()->_16e.isOn(RootAiFlag2(1u << bit));
+}
+
+template <typename T>
+bool ActionBase::getStaticParam(T* value, const sead::SafeString& key) const {
+    return getAIProg()->getSInstParam(value, getDef(), key);
+}
+
+template bool ActionBase::getStaticParam(const char**, const sead::SafeString&) const;
+template bool ActionBase::getStaticParam(sead::SafeString*, const sead::SafeString&) const;
+template bool ActionBase::getStaticParam(const int**, const sead::SafeString&) const;
+template bool ActionBase::getStaticParam(const float**, const sead::SafeString&) const;
+template bool ActionBase::getStaticParam(const sead::Vector3f**, const sead::SafeString&) const;
+template bool ActionBase::getStaticParam(const bool**, const sead::SafeString&) const;
+
+void ActionBase::logMissingParam(const sead::SafeString& param) const {
+    // Stubbed in release versions
+    const auto type = getType();
+    static_cast<void>(type);
+}
+
+template <typename T>
+bool ActionBase::getMapUnitParam(T* value, const sead::SafeString& key) const {
+    return mActor->getRootAi()->getMapUnitParam(value, key);
+}
+
+template bool ActionBase::getMapUnitParam(sead::SafeString*, const sead::SafeString&) const;
+template bool ActionBase::getMapUnitParam(const int**, const sead::SafeString&) const;
+template bool ActionBase::getMapUnitParam(const float**, const sead::SafeString&) const;
+template bool ActionBase::getMapUnitParam(const sead::Vector3f**, const sead::SafeString&) const;
+template bool ActionBase::getMapUnitParam(const bool**, const sead::SafeString&) const;
+
+template <typename T>
+bool ActionBase::getAITreeVariable(T** value, const sead::SafeString& key) const {
+    return mActor->getRootAi()->getAITreeVariable(value, key);
+}
+
+template bool ActionBase::getAITreeVariable(sead::SafeString**, const sead::SafeString&) const;
+template bool ActionBase::getAITreeVariable(s32**, const sead::SafeString&) const;
+template bool ActionBase::getAITreeVariable(f32**, const sead::SafeString&) const;
+template bool ActionBase::getAITreeVariable(sead::Vector3f**, const sead::SafeString&) const;
+template bool ActionBase::getAITreeVariable(bool**, const sead::SafeString&) const;
+template bool ActionBase::getAITreeVariable(void**, const sead::SafeString&) const;
+
+namespace {
+
+BaseProcLink sDefaultBaseProcLink;
+sead::FixedSafeString<32> sDefaultString32;
+int sDefaultInt;
+float sDefaultFloat;
+bool sDefaultBool;
+Rail* sDefaultRail;
+struct ComplexDefaults {
+    util::InitConstants init_constants;
+    BaseProcHandle* base_proc_handle;
+    sead::Vector3f vec3{0, 0, 0};
+    sead::SafeString string;
+    mes::TransceiverId transceiver_id;
+};
+ComplexDefaults sDefaults;
+
+}  // namespace
+
+sead::SafeString* getDefaultString() {
+    return &sDefaults.string;
+}
+
+s32* getDefaultInt() {
+    return &sDefaultInt;
+}
+
+f32* getDefaultFloat() {
+    return &sDefaultFloat;
+}
+
+sead::Vector3f* getDefaultVec3() {
+    return &sDefaults.vec3;
+}
+
+bool* getDefaultBool() {
+    return &sDefaultBool;
+}
+
+BaseProcLink* getDefaultBaseProcLink() {
+    return &sDefaultBaseProcLink;
+}
+
+mes::TransceiverId* getDefaultMesTransceiverId() {
+    return &sDefaults.transceiver_id;
+}
+
+BaseProcHandle** getDefaultBaseProcHandle() {
+    return &sDefaults.base_proc_handle;
+}
+
+Rail** getDefaultRail() {
+    return &sDefaultRail;
+}
+
+sead::FixedSafeString<32>* getDefaultString32() {
+    return &sDefaultString32;
 }
 
 }  // namespace ksys::act::ai

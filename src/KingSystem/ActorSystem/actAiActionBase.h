@@ -4,13 +4,13 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
-#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {
 class AIProgram;
-}
+class GParamList;
+}  // namespace ksys::res
 
 namespace ksys::act {
 
@@ -18,12 +18,26 @@ class Actor;
 
 namespace ai {
 
+class Action;
+
 enum class ActionType {
     AI = 0,
     Action = 1,
 };
 
 enum class RootAiFlag : u16;
+enum class RootAiFlag2 : u16;
+
+sead::SafeString* getDefaultString();
+s32* getDefaultInt();
+f32* getDefaultFloat();
+sead::Vector3f* getDefaultVec3();
+bool* getDefaultBool();
+BaseProcLink* getDefaultBaseProcLink();
+mes::TransceiverId* getDefaultMesTransceiverId();
+BaseProcHandle** getDefaultBaseProcHandle();
+Rail** getDefaultRail();
+sead::FixedSafeString<32>* getDefaultString32();
 
 /// Base class for actions and AIs, which can be seen as looping actions.
 class ActionBase {
@@ -46,6 +60,8 @@ public:
     void leave();
     bool oneShot(InlineParamPack* params);
 
+    Action* getCurrentAction();
+
     const char* getClassName() const;
     const char* getName() const;
 
@@ -67,7 +83,7 @@ public:
     virtual bool m18() { return true; }
     virtual void m19() {}
     virtual void calc() {}
-    virtual void getCurrentName(sead::BufferedSafeString* name, ActionBase* parent) const;
+    virtual void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const;
     virtual void* m22() { return nullptr; }
     virtual void getParams(ParamNameTypePairs* pairs, bool update_use_count) const;
     virtual s32 getNumChildren() const { return 0; }
@@ -100,8 +116,17 @@ protected:
 
     void setFinished();
     void setFailed();
-    void setRootAiFlagBit(int bit);
-    void setRootAiFlag(RootAiFlag flag) { setRootAiFlagBit(sead::log2(u32(flag))); }
+
+    void setRootAiFlagBit(int bit) const;
+    void setRootAiFlag(RootAiFlag flag) const { setRootAiFlagBit(sead::log2(u32(flag))); }
+
+    void resetRootAiFlagBit(int bit) const;
+    void resetRootAiFlag(RootAiFlag flag) const { resetRootAiFlagBit(sead::log2(u32(flag))); }
+
+    bool testRootAiFlag2Bit(int bit) const;
+    bool testRootAiFlag2(RootAiFlag2 flag) const {
+        return testRootAiFlag2Bit(sead::log2(u32(flag)));
+    }
 
     void resetFlags() {
         mFlags.reset(Flag::Failed);
@@ -110,9 +135,95 @@ protected:
     }
 
     res::AIProgram* getAIProg() const;
+    auto& getDef() const;
+    res::GParamList* getGParamList() const;
 
     template <typename T>
-    void getParamStatic(ParamRef<T>* value, const sead::SafeString& key);
+    bool getStaticParam(T* value, const sead::SafeString& key) const;
+
+    void logMissingParam(const sead::SafeString& param) const;
+
+    template <typename T>
+    bool getMapUnitParam(T* value, const sead::SafeString& key) const;
+
+    template <typename T>
+    bool getAITreeVariable(T** value, const sead::SafeString& key) const;
+
+    template <typename T>
+    bool getDynamicParamImpl(T* value, const sead::SafeString& key,
+                             bool (ParamPack::*getter)(T* value, const sead::SafeString& key) const,
+                             T* default_value) const {
+        auto* action = this;
+        while (action && action->mFlags.isOff(Flag::_80)) {
+            if ((action->mParams.*getter)(value, key))
+                return true;
+            if (action->mFlags.isOff(Flag::DynamicParamChild))
+                goto fail;
+            action = action->getCurrentChild();
+            if (!action)
+                goto fail;
+        }
+
+        for (s32 i = 0, n = action->getNumChildren(); i < n; ++i) {
+            auto* child = action->getChild(i);
+            if (child->getDynamicParamImpl<T>(value, key, getter, default_value))
+                return true;
+        }
+
+    fail:
+        logMissingParam(key);
+        *value = *default_value;
+        return false;
+    }
+
+    template <AIDefParamType Type, typename T>
+    bool getDynamicParamPtrImpl(T** value, const sead::SafeString& key, T* default_value) const {
+        return getDynamicParamImpl(value, key, &ParamPack::getPtrGeneric<T, Type>, &default_value);
+    }
+
+    bool getDynamicParam(sead::SafeString* value, const sead::SafeString& key) const {
+        return getDynamicParamImpl(value, key, &ParamPack::getString, getDefaultString());
+    }
+
+    bool getDynamicParam(int** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::Int>(value, key, getDefaultInt());
+    }
+
+    bool getDynamicParam(float** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::Float>(value, key, getDefaultFloat());
+    }
+
+    bool getDynamicParam(sead::Vector3f** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::Vec3>(value, key, getDefaultVec3());
+    }
+
+    bool getDynamicParam(bool** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::Bool>(value, key, getDefaultBool());
+    }
+
+    bool getDynamicParam(BaseProcLink** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::BaseProcLink>(value, key,
+                                                                    getDefaultBaseProcLink());
+    }
+
+    bool getDynamicParam(mes::TransceiverId** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::MesTransceiverId>(
+            value, key, getDefaultMesTransceiverId());
+    }
+
+    bool getDynamicParam(BaseProcHandle*** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::BaseProcHandle>(value, key,
+                                                                      getDefaultBaseProcHandle());
+    }
+
+    bool getDynamicParam(Rail*** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::Rail>(value, key, getDefaultRail());
+    }
+
+    bool getDynamicParam(sead::SafeString** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl<AIDefParamType::String>(
+            value, key, static_cast<sead::SafeString*>(getDefaultString32()));
+    }
 
     Actor* mActor;
     ParamPack mParams;

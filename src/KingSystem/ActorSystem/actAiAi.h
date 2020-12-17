@@ -39,6 +39,10 @@ protected:
     u16 mPendingChildIdx = InvalidIdx;
     u16 mNewChildIdx = InvalidIdx;
     sead::Buffer<ActionBase*> mChildren;
+
+private:
+    bool initChildren_(s32 num_children, const char** names, sead::Buffer<u16>& indices,
+                       sead::Heap* heap);
 };
 KSYS_CHECK_SIZE_NX150(Ai, 0x38);
 

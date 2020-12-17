@@ -8,7 +8,7 @@ SetLinkTagBasicAction::SetLinkTagBasicAction(const InitArg& arg) : ksys::act::ai
 SetLinkTagBasicAction::~SetLinkTagBasicAction() = default;
 
 void SetLinkTagBasicAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (IsOn.value())
+    if (*IsOn)
         mActor->emitBasicSigOn();
     else
         mActor->emitBasicSigOff();
@@ -17,7 +17,7 @@ void SetLinkTagBasicAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SetLinkTagBasicAction::loadParams_() {
-    getParamStatic(&IsOn, "IsOn");
+    getStaticParam(&IsOn, "IsOn");
 }
 
 }  // namespace uking::action

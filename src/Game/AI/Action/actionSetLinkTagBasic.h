@@ -16,7 +16,7 @@ public:
     void loadParams_() override;
 
 private:
-    ksys::act::ai::ParamRef<bool> IsOn;
+    const bool* IsOn{};
 };
 KSYS_CHECK_SIZE_NX150(SetLinkTagBasicAction, 0x28);
 

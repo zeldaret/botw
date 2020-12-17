@@ -63,6 +63,10 @@ public:
     const sead::Buffer<BehaviorDef>& getBehaviors() const { return mBehaviors; }
     const sead::Buffer<QueryDef>& getQueries() const { return mQueries; }
 
+    const AIActionDef& getAI(s32 index) const { return mAIs[index]; }
+    const sead::Buffer<AIActionDef>& getAIs() const { return mAIs; }
+    const sead::Buffer<AIActionDef>& getActions() const { return mAIs; }
+
     const AIActionDef& getAction(act::ai::ActionType type, s32 index) const {
         return getActionsOrAIs(type)[index];
     }
