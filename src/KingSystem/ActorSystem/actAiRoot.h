@@ -1,35 +1,18 @@
 #pragma once
 
 #include <prim/seadTypedBitFlag.h>
+#include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAiBehavior.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actAiQuery.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act::ai {
 
-class Action;
-class Ai;
-class Behavior;
-class Query;
-
 class IRootAi {
 public:
     virtual ~IRootAi() = default;
-};
-
-template <typename Class>
-class ClassContainer {
-public:
-    ClassContainer();
-    ~ClassContainer();
-
-    void finalize();
-
-    sead::Buffer<Class*> classes;
-    // TODO: rename
-    sead::Buffer<Class*> x;
-    // TODO: rename
-    sead::Buffer<Class*> y;
 };
 
 enum class RootAiFlag : u16 {
@@ -57,10 +40,10 @@ public:
     u32 getI() const { return mI; }
     bool isActorDeletedOrDeleting() const;
 
-    const ClassContainer<Action>& getActions() const { return mActions; }
-    const ClassContainer<Ai>& getAis() const { return mAis; }
-    const ClassContainer<Behavior>& getBehaviors() const { return mBehaviors; }
-    const ClassContainer<Query>& getQueries() const { return mQueries; }
+    const Actions& getActions() const { return mActions; }
+    const Ais& getAis() const { return mAis; }
+    const Behaviors& getBehaviors() const { return mBehaviors; }
+    const Queries& getQueries() const { return mQueries; }
 
     bool loadMapUnitParams(const AIDef& def, sead::Heap* heap);
     bool loadAITreeParams(const AIDef& def, sead::Heap* heap);
@@ -102,10 +85,10 @@ private:
 
     f32 _40 = 1.0;
     u32 _44{};
-    ClassContainer<Action> mActions;
-    ClassContainer<Ai> mAis;
-    ClassContainer<Behavior> mBehaviors;
-    ClassContainer<Query> mQueries;
+    Actions mActions;
+    Ais mAis;
+    Behaviors mBehaviors;
+    Queries mQueries;
     sead::SafeArray<Behavior*, 3> mBehaviorsByStopAndCalcTiming[2]{};
     void* _138{};
     SomeStruct* _140{};

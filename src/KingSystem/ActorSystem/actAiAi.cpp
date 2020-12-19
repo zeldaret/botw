@@ -105,6 +105,4 @@ void Ai::updateChildIdx(u16 new_idx) {
     mPendingChildIdx = InvalidIdx;
 }
 
-template class ClassContainer<Ai>;
-
 }  // namespace ksys::act::ai

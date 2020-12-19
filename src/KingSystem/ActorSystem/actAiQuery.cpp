@@ -77,6 +77,4 @@ bool Query::getAITreeVariable(void** value, const sead::SafeString& param) const
     return mActor->getRootAi()->getAITreeVariable(value, param);
 }
 
-template class ClassContainer<Query>;
-
 }  // namespace ksys::act::ai

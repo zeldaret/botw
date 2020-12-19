@@ -46,4 +46,18 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Ai, 0x38);
 
+class Ais {
+public:
+    Ais();
+    ~Ais();
+
+    void finalize();
+
+    sead::Buffer<Ai*> classes;
+    // TODO: rename
+    sead::Buffer<Ai*> x;
+    // TODO: rename
+    sead::Buffer<Ai*> y;
+};
+
 }  // namespace ksys::act::ai

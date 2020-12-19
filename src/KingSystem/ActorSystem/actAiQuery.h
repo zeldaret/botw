@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
@@ -78,5 +79,19 @@ protected:
     s32 mDefIdx;
 };
 KSYS_CHECK_SIZE_NX150(Query, 0x20);
+
+class Queries {
+public:
+    Queries();
+    ~Queries();
+
+    void finalize();
+
+    sead::Buffer<Query*> classes;
+    // TODO: rename
+    sead::Buffer<Query*> x;
+    // TODO: rename
+    sead::Buffer<Query*> y;
+};
 
 }  // namespace ksys::act::ai

@@ -9,6 +9,4 @@ void Action::calc() {
     calc_();
 }
 
-template class ClassContainer<Action>;
-
 }  // namespace ksys::act::ai

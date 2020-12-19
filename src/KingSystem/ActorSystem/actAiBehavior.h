@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -44,5 +45,19 @@ protected:
     void* _20{};
 };
 KSYS_CHECK_SIZE_NX150(Behavior, 0x28);
+
+class Behaviors {
+public:
+    Behaviors();
+    ~Behaviors();
+
+    void finalize();
+
+    sead::Buffer<Behavior*> classes;
+    // TODO: rename
+    sead::Buffer<Behavior*> x;
+    // TODO: rename
+    sead::Buffer<Behavior*> y;
+};
 
 }  // namespace ksys::act::ai
