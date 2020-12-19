@@ -47,8 +47,8 @@ public:
     bool loadFloat(evfl::ParamAccessor* accessor, const sead::SafeString& param);
     bool loadBool(evfl::ParamAccessor* accessor, const sead::SafeString& param);
 
-    bool getAITreeVariable(const sead::SafeString** value, const sead::SafeString& param) const;
-    bool getAITreeVariable(const char** value, const sead::SafeString& param) const;
+    bool getAITreeVariable(sead::SafeString** value, const sead::SafeString& param) const;
+    bool getAITreeVariable(void** value, const sead::SafeString& param) const;
 
     virtual bool m4() { return false; }
     virtual bool m5() { return false; }

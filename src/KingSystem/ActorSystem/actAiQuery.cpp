@@ -69,6 +69,14 @@ bool Query::getDInstParam(const bool** value, const sead::SafeString& param) con
     return ret != nullptr;
 }
 
+bool Query::getAITreeVariable(sead::SafeString** value, const sead::SafeString& param) const {
+    return mActor->getRootAi()->getAITreeVariable(value, param);
+}
+
+bool Query::getAITreeVariable(void** value, const sead::SafeString& param) const {
+    return mActor->getRootAi()->getAITreeVariable(value, param);
+}
+
 template class ClassContainer<Query>;
 
 }  // namespace ksys::act::ai
