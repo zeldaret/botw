@@ -62,6 +62,8 @@ public:
 
     Action* getCurrentAction();
 
+    Actor* getActor() const { return mActor; }
+    s32 getDefinitionIdx() const { return mDefinitionIdx; }
     const char* getClassName() const;
     const char* getName() const;
 

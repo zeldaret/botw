@@ -25,6 +25,8 @@ public:
     ActionBase* getChild(s32 idx) const override { return mChildren[idx]; }
     virtual const char* getPreviousName();
 
+    bool gatherParamsFromChildren(sead::Heap* heap);
+
 protected:
     virtual void calc_() {}
     virtual void handlePendingChildChange_() { changeChildState(mPendingChildIdx); }
@@ -46,6 +48,12 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Ai, 0x38);
 
+struct AiFactory {
+    using CreateFn = Ai* (*)(const Ai::InitArg& arg, sead::Heap* heap);
+    u32 hash;
+    CreateFn create_fn;
+};
+
 class Ais {
 public:
     Ais();
@@ -53,11 +61,22 @@ public:
 
     void finalize();
 
+    bool init(Actor* actor, sead::Heap* heap);
+    bool onActorPreDelete2() const;
+    void onActorPreDelete1() const;
+
+    static Ai* clone(const Ai& ai, sead::Heap* heap);
+    static AiFactory* getFactory(const sead::SafeString& name);
+    static void setFactories(int count, AiFactory* factories);
+
     sead::Buffer<Ai*> classes;
-    // TODO: rename
-    sead::Buffer<Ai*> x;
-    // TODO: rename
-    sead::Buffer<Ai*> y;
+    // Non-owning buffer.
+    sead::Buffer<Ai*> predelete1_callbacks;
+    // Non-owning buffer.
+    sead::Buffer<Ai*> predelete2_callbacks;
+
+private:
+    static inline sead::Buffer<AiFactory> sFactories;
 };
 
 }  // namespace ksys::act::ai

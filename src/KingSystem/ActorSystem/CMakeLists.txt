@@ -63,4 +63,9 @@ target_sources(uking PRIVATE
   actInstParamPack.h
   actLifeRecoveryInfo.h
   actTag.h
+
+  actionDummyAction.cpp
+  actionDummyAction.h
+  aiDummyAi.cpp
+  aiDummyAi.h
 )
