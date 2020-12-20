@@ -88,47 +88,14 @@ s32 AIClassDef::getRawDefIdx(const sead::SafeString& def_name, AIDefType type) c
     if (!mData)
         return -1;
 
-    auto& buffer = mData->defs[s32(type)];
-    if (buffer.size() == 0)
-        return -1;
-
-    s32 a = 0;
-    s32 b = buffer.size() - 1;
-    while (a < b) {
-        const s32 m = (a + b) / 2;
-        auto* def = &buffer(m);
-
-#ifdef MATCHING_HACK_NX_CLANG
-        {
-            // The original code has a bunch of useless comparisons that look like this:
-            //     if (def->name_hash < hash == def->name_hash > hash)
-            // Unfortunately it doesn't match when written that way or with a more obvious
-            // equality check. Inline assembly to the rescue.
-            int lt, gt;
-            asm("cmp %w[def_hash], %w[hash]\n"
-                "cset %w[lt], cc\n"
-                "cset %w[gt], hi\n"
-                : [lt] "=r"(lt), [gt] "=r"(gt)
-                : [def_hash] "r"(def->name_hash), [hash] "r"(hash)
-                : "cc");
-            if (gt == lt)
-                return m;
-        }
-#else
-        if (def->name_hash == hash)
-            return m;
-#endif
-
-        if (def->name_hash >= hash)
-            b = m;
-        else
-            a = m + 1;
-    }
-
-    if (buffer(a).name_hash != hash)
-        return -1;
-
-    return a;
+    return getRawDefs(type).binarySearch(
+        hash, +[](const Data::Def& def, const u32& hash) {
+            if (def.name_hash < hash)
+                return -1;
+            if (def.name_hash > hash)
+                return 1;
+            return 0;
+        });
 }
 
 void AIClassDef::getDef(const sead::SafeString& class_name, AIDefSet* set,
