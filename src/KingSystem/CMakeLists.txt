@@ -1,12 +1,14 @@
+# Build these first because it contains many source files that take a long time to build.
+add_subdirectory(GameData)
+add_subdirectory(Resource)
+
 add_subdirectory(ActorSystem)
 add_subdirectory(Ecosystem)
 add_subdirectory(Event)
 add_subdirectory(Damage)
 add_subdirectory(Framework)
-add_subdirectory(GameData)
 add_subdirectory(Map)
 add_subdirectory(MessageSystem)
-add_subdirectory(Resource)
 add_subdirectory(Sound)
 add_subdirectory(System)
 add_subdirectory(Terrain)
