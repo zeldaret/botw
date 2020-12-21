@@ -8,7 +8,8 @@
 
 namespace evfl {
 class ParamAccessor;
-}
+class QueryArg;
+}  // namespace evfl
 
 namespace ksys::act {
 class Actor;
@@ -57,7 +58,7 @@ public:
     virtual bool init_(sead::Heap* heap) { return true; }
     virtual void loadParams() {}
     virtual int doQuery() { return 0; }
-    virtual void m10() {}
+    virtual void loadParams(const evfl::QueryArg& arg) {}
     virtual bool updateForPreDelete() { return true; }
     virtual void onPreDelete() {}
 
