@@ -68,4 +68,6 @@ target_sources(uking PRIVATE
   actionDummyAction.h
   aiDummyAi.cpp
   aiDummyAi.h
+  behaviorDummyBehavior.cpp
+  behaviorDummyBehavior.h
 )

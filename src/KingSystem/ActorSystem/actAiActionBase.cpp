@@ -1,10 +1,10 @@
 #include "KingSystem/ActorSystem/actAiActionBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/resResourceAIProgram.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
-#include "KingSystem/ActorSystem/actActor.h"
 
 namespace ksys::act::ai {
 
@@ -119,7 +119,7 @@ void ActionBase::updateBehaviorsOnEnter() {
 
     auto* root = mActor->getRootAi();
     for (auto indice : *indices)
-        root->setBehavior(root->getBehaviors().classes[indice]);
+        root->setBehavior(root->getBehaviors().getClasses()[indice]);
 }
 
 bool ActionBase::takeOver(ActionBase* src, const sead::SafeString& context) {
@@ -200,7 +200,7 @@ void ActionBase::updateBehaviorsOnLeave() {
 
     auto* root = mActor->getRootAi();
     for (auto indice : *indices)
-        root->resetBehavior(root->getBehaviors().classes[indice]);
+        root->resetBehavior(root->getBehaviors().getClasses()[indice]);
 }
 
 bool ActionBase::oneShot(InlineParamPack* params) {
