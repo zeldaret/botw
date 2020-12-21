@@ -60,9 +60,9 @@ bool Ai::initChildren_(s32 num_children, const char** names, sead::Buffer<u16>& 
 
     for (; it_ptr != it_ptr_end && it_idx != it_idx_end; ++it_ptr, ++it_idx) {
         if (*it_idx < effective_ai_count)
-            *it_ptr = root_ai->getAis().classes[*it_idx];
+            *it_ptr = root_ai->getAis().getClasses()[*it_idx];
         else
-            *it_ptr = root_ai->getActions().classes[*it_idx - effective_ai_count];
+            *it_ptr = root_ai->getActions().getClasses()[*it_idx - effective_ai_count];
 
         if (*it_ptr == nullptr)
             return false;
@@ -113,16 +113,16 @@ Ais::~Ais() {
 }
 
 void Ais::finalize() {
-    for (s32 i = 0; i < classes.size(); ++i) {
-        if (classes[i]) {
-            delete classes[i];
-            classes[i] = nullptr;
+    for (s32 i = 0; i < mClasses.size(); ++i) {
+        if (mClasses[i]) {
+            delete mClasses[i];
+            mClasses[i] = nullptr;
         }
     }
 
-    predelete1_callbacks.freeBuffer();
-    predelete2_callbacks.freeBuffer();
-    classes.freeBuffer();
+    mOnPreDeleteCbs.freeBuffer();
+    mUpdateForPreDeleteCbs.freeBuffer();
+    mClasses.freeBuffer();
 }
 
 bool Ais::init(Actor* actor, sead::Heap* heap) {
@@ -132,19 +132,19 @@ bool Ais::init(Actor* actor, sead::Heap* heap) {
     if (num_ais < 0)
         return false;
 
-    if (!classes.tryAllocBuffer(num_ais + 1, heap))
+    if (!mClasses.tryAllocBuffer(num_ais + 1, heap))
         return false;
-    for (s32 i = 0, n = classes.size(); i != n; ++i)
-        classes(i) = nullptr;
-    auto it_class = classes.begin();
-    const auto it_class_end = classes.end();
+    for (s32 i = 0, n = mClasses.size(); i != n; ++i)
+        mClasses(i) = nullptr;
+    auto it_class = mClasses.begin();
+    const auto it_class_end = mClasses.end();
 
     Ai::InitArg arg{};
     arg.actor = actor;
     arg.def_idx = -1;
     arg.root_idx = -1;
-    s32 predelete1_callback_num = 0;
-    s32 predelete2_callback_num = 0;
+    s32 predelete_cb_num = 0;
+    s32 update_cb_num = 0;
     for (; it_class != it_class_end; ++it_class) {
         const char* name;
         if (it_class.getIndex() >= num_ais) {
@@ -165,43 +165,43 @@ bool Ais::init(Actor* actor, sead::Heap* heap) {
         if (!*it_class)
             return false;
 
-        predelete2_callback_num += (*it_class)->m8();
-        predelete1_callback_num += (*it_class)->m7();
+        update_cb_num += (*it_class)->hasUpdateForPreDeleteCb();
+        predelete_cb_num += (*it_class)->hasPreDeleteCb();
     }
 
     // Allocate the callback lists.
-    if (predelete1_callback_num != 0) {
-        if (!predelete1_callbacks.tryAllocBuffer(predelete1_callback_num, heap))
+    if (predelete_cb_num != 0) {
+        if (!mOnPreDeleteCbs.tryAllocBuffer(predelete_cb_num, heap))
             return false;
-        for (s32 i = 0; i < predelete1_callback_num; ++i)
-            predelete1_callbacks(i) = nullptr;
+        for (s32 i = 0; i < predelete_cb_num; ++i)
+            mOnPreDeleteCbs(i) = nullptr;
     }
 
-    if (predelete2_callback_num != 0) {
-        if (!predelete2_callbacks.tryAllocBuffer(predelete2_callback_num, heap))
+    if (update_cb_num != 0) {
+        if (!mUpdateForPreDeleteCbs.tryAllocBuffer(update_cb_num, heap))
             return false;
-        for (s32 i = 0; i < predelete2_callback_num; ++i)
-            predelete2_callbacks(i) = nullptr;
+        for (s32 i = 0; i < update_cb_num; ++i)
+            mUpdateForPreDeleteCbs(i) = nullptr;
     }
 
     // Initialize each class.
     s32 idx_cb1 = 0, idx_cb2 = 0;
-    for (auto it = classes.begin(), end = classes.end(); it != end; ++it) {
+    for (auto it = mClasses.begin(), end = mClasses.end(); it != end; ++it) {
         if (!(*it)->init(heap, false))
             return false;
 
-        if ((*it)->m8()) {
-            predelete2_callbacks[idx_cb2] = *it;
+        if ((*it)->hasUpdateForPreDeleteCb()) {
+            mUpdateForPreDeleteCbs[idx_cb2] = *it;
             ++idx_cb2;
         }
 
-        if ((*it)->m7()) {
-            predelete1_callbacks[idx_cb1] = *it;
+        if ((*it)->hasPreDeleteCb()) {
+            mOnPreDeleteCbs[idx_cb1] = *it;
             ++idx_cb1;
         }
     }
 
-    for (auto* ai : classes) {
+    for (auto* ai : mClasses) {
         if (!ai->gatherParamsFromChildren(heap))
             return false;
     }
@@ -209,38 +209,19 @@ bool Ais::init(Actor* actor, sead::Heap* heap) {
     return true;
 }
 
-Ai* Ais::clone(const Ai& action, sead::Heap* heap) {
-    auto* factory = getFactory(action.getClassName());
-    if (!factory)
-        return nullptr;
-
-    Ai::InitArg arg;
-    arg.actor = action.getActor();
-    arg.def_idx = action.getDefinitionIdx();
-    auto* clone = factory->create_fn(arg, heap);
-    if (!clone) {
-        return nullptr;
-    }
-    if (!clone->init(heap, true)) {
-        delete clone;
-        return nullptr;
-    }
-    return clone;
-}
-
-bool Ais::onActorPreDelete2() const {
+bool Ais::updateForPreDelete() const {
     bool ok = true;
-    for (auto* action : predelete2_callbacks) {
+    for (auto* action : mUpdateForPreDeleteCbs) {
         if (action)
-            ok &= action->m18();
+            ok &= action->updateForPreDelete();
     }
     return ok;
 }
 
-void Ais::onActorPreDelete1() const {
-    for (auto* action : predelete1_callbacks) {
+void Ais::onPreDelete() const {
+    for (auto* action : mOnPreDeleteCbs) {
         if (action)
-            action->m19();
+            action->onPreDelete();
     }
 }
 

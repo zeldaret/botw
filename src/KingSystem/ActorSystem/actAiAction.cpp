@@ -21,16 +21,16 @@ Actions::~Actions() {
 }
 
 void Actions::finalize() {
-    for (s32 i = 0; i < classes.size(); ++i) {
-        if (classes[i]) {
-            delete classes[i];
-            classes[i] = nullptr;
+    for (s32 i = 0; i < mClasses.size(); ++i) {
+        if (mClasses[i]) {
+            delete mClasses[i];
+            mClasses[i] = nullptr;
         }
     }
 
-    predelete1_callbacks.freeBuffer();
-    predelete2_callbacks.freeBuffer();
-    classes.freeBuffer();
+    mOnPreDeleteCbs.freeBuffer();
+    mUpdateForPreDeleteCbs.freeBuffer();
+    mClasses.freeBuffer();
 }
 
 bool Actions::init(Actor* actor, sead::Heap* heap) {
@@ -40,19 +40,19 @@ bool Actions::init(Actor* actor, sead::Heap* heap) {
     if (num_actions == 0)
         return true;
 
-    if (!classes.tryAllocBuffer(num_actions, heap))
+    if (!mClasses.tryAllocBuffer(num_actions, heap))
         return false;
     for (s32 i = 0; i < num_actions; ++i)
-        classes(i) = nullptr;
-    auto it_class = classes.begin();
-    const auto it_class_end = classes.end();
+        mClasses(i) = nullptr;
+    auto it_class = mClasses.begin();
+    const auto it_class_end = mClasses.end();
 
     Action::InitArg arg{};
     arg.actor = actor;
     arg.def_idx = -1;
     arg.root_idx = -1;
-    s32 predelete1_callback_num = 0;
-    s32 predelete2_callback_num = 0;
+    s32 pre_delete_cb_num = 0;
+    s32 update_cb_num = 0;
     for (; it_class != it_class_end; ++it_class) {
         const char* name;
         if (it_class.getIndex() >= num_actions) {
@@ -73,38 +73,38 @@ bool Actions::init(Actor* actor, sead::Heap* heap) {
         if (!*it_class)
             return false;
 
-        predelete2_callback_num += (*it_class)->m8();
-        predelete1_callback_num += (*it_class)->m7();
+        update_cb_num += (*it_class)->hasUpdateForPreDeleteCb();
+        pre_delete_cb_num += (*it_class)->hasPreDeleteCb();
     }
 
     // Allocate the callback lists.
-    if (predelete1_callback_num != 0) {
-        if (!predelete1_callbacks.tryAllocBuffer(predelete1_callback_num, heap))
+    if (pre_delete_cb_num != 0) {
+        if (!mOnPreDeleteCbs.tryAllocBuffer(pre_delete_cb_num, heap))
             return false;
-        for (s32 i = 0; i < predelete1_callback_num; ++i)
-            predelete1_callbacks(i) = nullptr;
+        for (s32 i = 0; i < pre_delete_cb_num; ++i)
+            mOnPreDeleteCbs(i) = nullptr;
     }
 
-    if (predelete2_callback_num != 0) {
-        if (!predelete2_callbacks.tryAllocBuffer(predelete2_callback_num, heap))
+    if (update_cb_num != 0) {
+        if (!mUpdateForPreDeleteCbs.tryAllocBuffer(update_cb_num, heap))
             return false;
-        for (s32 i = 0; i < predelete2_callback_num; ++i)
-            predelete2_callbacks(i) = nullptr;
+        for (s32 i = 0; i < update_cb_num; ++i)
+            mUpdateForPreDeleteCbs(i) = nullptr;
     }
 
     // Initialize each class.
     s32 idx_cb1 = 0, idx_cb2 = 0;
-    for (auto it = classes.begin(), end = classes.end(); it != end; ++it) {
+    for (auto it = mClasses.begin(), end = mClasses.end(); it != end; ++it) {
         if (!(*it)->init(heap, false))
             return false;
 
-        if ((*it)->m8()) {
-            predelete2_callbacks[idx_cb2] = *it;
+        if ((*it)->hasUpdateForPreDeleteCb()) {
+            mUpdateForPreDeleteCbs[idx_cb2] = *it;
             ++idx_cb2;
         }
 
-        if ((*it)->m7()) {
-            predelete1_callbacks[idx_cb1] = *it;
+        if ((*it)->hasPreDeleteCb()) {
+            mOnPreDeleteCbs[idx_cb1] = *it;
             ++idx_cb1;
         }
     }
@@ -130,19 +130,19 @@ Action* Actions::clone(const Action& action, sead::Heap* heap) {
     return clone;
 }
 
-bool Actions::onActorPreDelete2() const {
+bool Actions::updateForPreDelete() const {
     bool ok = true;
-    for (auto* action : predelete2_callbacks) {
+    for (auto* action : mUpdateForPreDeleteCbs) {
         if (action)
-            ok &= action->m18();
+            ok &= action->updateForPreDelete();
     }
     return ok;
 }
 
-void Actions::onActorPreDelete1() const {
-    for (auto* action : predelete1_callbacks) {
+void Actions::onPreDelete() const {
+    for (auto* action : mOnPreDeleteCbs) {
         if (action)
-            action->m19();
+            action->onPreDelete();
     }
 }
 

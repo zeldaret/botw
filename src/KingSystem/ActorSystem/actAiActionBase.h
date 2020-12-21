@@ -71,8 +71,8 @@ public:
     virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
     virtual bool isFlag4Set() const { return mFlags.isOn(Flag::_4); }
 
-    virtual bool m7() { return false; }
-    virtual bool m8() { return false; }
+    virtual bool hasPreDeleteCb() { return false; }
+    virtual bool hasUpdateForPreDeleteCb() { return false; }
     virtual void m9() {}
     virtual bool oneShot_() { return true; }
     virtual bool init_(sead::Heap* heap) { return true; }
@@ -82,8 +82,8 @@ public:
     virtual void loadParams_() {}
     virtual bool m16() { return false; }
     virtual bool m17() { return false; }
-    virtual bool m18() { return true; }
-    virtual void m19() {}
+    virtual bool updateForPreDelete() { return true; }
+    virtual void onPreDelete() {}
     virtual void calc() {}
     virtual void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const;
     virtual void* m22() { return nullptr; }

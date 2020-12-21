@@ -34,21 +34,22 @@ public:
     void finalize();
 
     bool init(Actor* actor, sead::Heap* heap);
-    bool onActorPreDelete2() const;
-    void onActorPreDelete1() const;
+    bool updateForPreDelete() const;
+    void onPreDelete() const;
+
+    const sead::Buffer<Action*>& getClasses() const { return mClasses; }
 
     static Action* clone(const Action& action, sead::Heap* heap);
     static ActionFactory* getFactory(const sead::SafeString& name);
     static void setFactories(int count, ActionFactory* factories);
 
-    sead::Buffer<Action*> classes;
-    // Non-owning buffer.
-    sead::Buffer<Action*> predelete1_callbacks;
-    // Non-owning buffer.
-    sead::Buffer<Action*> predelete2_callbacks;
-
 private:
     static inline sead::Buffer<ActionFactory> sFactories;
+    sead::Buffer<Action*> mClasses;
+    // Non-owning buffer.
+    sead::Buffer<Action*> mOnPreDeleteCbs;
+    // Non-owning buffer.
+    sead::Buffer<Action*> mUpdateForPreDeleteCbs;
 };
 
 }  // namespace ksys::act::ai
