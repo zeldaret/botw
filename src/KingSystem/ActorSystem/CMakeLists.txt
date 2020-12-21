@@ -35,6 +35,8 @@ target_sources(uking PRIVATE
   actAiParam.h
   actAiQuery.cpp
   actAiQuery.h
+  actAiQueries.cpp
+  actAiQueries.h
   actAiRoot.cpp
   actAiRoot.h
   actAttention.cpp
@@ -70,4 +72,6 @@ target_sources(uking PRIVATE
   aiDummyAi.h
   behaviorDummyBehavior.cpp
   behaviorDummyBehavior.h
+  queryDummyQuery.cpp
+  queryDummyQuery.h
 )

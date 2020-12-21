@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actAiQueries.h"
 #include "KingSystem/ActorSystem/actAiQuery.h"
 #include "KingSystem/Utils/Types.h"
 

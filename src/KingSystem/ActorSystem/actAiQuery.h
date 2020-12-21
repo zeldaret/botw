@@ -51,15 +51,15 @@ public:
     bool getAITreeVariable(sead::SafeString** value, const sead::SafeString& param) const;
     bool getAITreeVariable(void** value, const sead::SafeString& param) const;
 
-    virtual bool m4() { return false; }
-    virtual bool m5() { return false; }
+    virtual bool hasPreDeleteCb() { return false; }
+    virtual bool hasUpdateForPreDeleteCb() { return false; }
     virtual void m6() {}
     virtual bool init_(sead::Heap* heap) { return true; }
     virtual void loadParams() {}
     virtual int doQuery() { return 0; }
     virtual void m10() {}
-    virtual bool m11() { return true; }
-    virtual void m12() {}
+    virtual bool updateForPreDelete() { return true; }
+    virtual void onPreDelete() {}
 
 protected:
     res::AIProgram* getAIProg() const;
@@ -80,18 +80,10 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(Query, 0x20);
 
-class Queries {
-public:
-    Queries();
-    ~Queries();
-
-    void finalize();
-
-    sead::Buffer<Query*> classes;
-    // TODO: rename
-    sead::Buffer<Query*> x;
-    // TODO: rename
-    sead::Buffer<Query*> y;
+struct QueryFactory {
+    using CreateFn = Query* (*)(const Query::InitArg& arg, sead::Heap* heap);
+    u32 hash;
+    CreateFn create_fn;
 };
 
 }  // namespace ksys::act::ai
