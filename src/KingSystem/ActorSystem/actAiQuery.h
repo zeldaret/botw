@@ -37,17 +37,17 @@ public:
     bool init(sead::Heap* heap);
     const char* getName() const;
 
-    bool getSInstParam(const f32** value, const sead::SafeString& param) const;
+    bool getStaticParam(const f32** value, const sead::SafeString& param) const;
 
-    bool getDInstParam(sead::SafeString* value, const sead::SafeString& param) const;
-    bool getDInstParam(const s32** value, const sead::SafeString& param) const;
-    bool getDInstParam(const f32** value, const sead::SafeString& param) const;
-    bool getDInstParam(const bool** value, const sead::SafeString& param) const;
+    bool getDynamicParam(sead::SafeString* value, const sead::SafeString& param) const;
+    bool getDynamicParam(s32** value, const sead::SafeString& param) const;
+    bool getDynamicParam(f32** value, const sead::SafeString& param) const;
+    bool getDynamicParam(bool** value, const sead::SafeString& param) const;
 
-    bool loadString(evfl::ParamAccessor* accessor, const sead::SafeString& param);
-    bool loadInt(evfl::ParamAccessor* accessor, const sead::SafeString& param);
-    bool loadFloat(evfl::ParamAccessor* accessor, const sead::SafeString& param);
-    bool loadBool(evfl::ParamAccessor* accessor, const sead::SafeString& param);
+    bool loadString(const evfl::ParamAccessor& accessor, const sead::SafeString& param);
+    bool loadInt(const evfl::ParamAccessor& accessor, const sead::SafeString& param);
+    bool loadFloat(const evfl::ParamAccessor& accessor, const sead::SafeString& param);
+    bool loadBool(const evfl::ParamAccessor& accessor, const sead::SafeString& param);
 
     bool getAITreeVariable(sead::SafeString** value, const sead::SafeString& param) const;
     bool getAITreeVariable(void** value, const sead::SafeString& param) const;
@@ -66,8 +66,8 @@ protected:
     res::AIProgram* getAIProg() const;
 
     template <typename T>
-    bool getDInstParam_(const T** value, const sead::SafeString& param, AIDefParamType type,
-                        const T* default_value) const {
+    bool getDynamicParamImpl(T** value, const sead::SafeString& param, AIDefParamType type,
+                             T* default_value) const {
         *value = static_cast<T*>(mParamPack.getAITreeVariablePointer(param, type));
         if (*value)
             return true;

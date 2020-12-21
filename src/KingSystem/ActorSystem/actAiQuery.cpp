@@ -40,29 +40,29 @@ const char* Query::getName() const {
     return getAIProg()->getQueries()[mDefIdx].mClassName;
 }
 
-bool Query::getSInstParam(const f32** value, const sead::SafeString& param) const {
+bool Query::getStaticParam(const f32** value, const sead::SafeString& param) const {
     const auto& def = getAIProg()->getQueries()[mDefIdx];
     return getAIProg()->getSInstParam(value, def, param);
 }
 
-bool Query::getDInstParam(sead::SafeString* value, const sead::SafeString& param) const {
+bool Query::getDynamicParam(sead::SafeString* value, const sead::SafeString& param) const {
     if (mParamPack.getString(value, param))
         return true;
     *value = "";
     return false;
 }
 
-bool Query::getDInstParam(const s32** value, const sead::SafeString& param) const {
+bool Query::getDynamicParam(s32** value, const sead::SafeString& param) const {
     static s32 sDefault{};
-    return getDInstParam_<s32>(value, param, AIDefParamType::Int, &sDefault);
+    return getDynamicParamImpl<s32>(value, param, AIDefParamType::Int, &sDefault);
 }
 
-bool Query::getDInstParam(const f32** value, const sead::SafeString& param) const {
+bool Query::getDynamicParam(f32** value, const sead::SafeString& param) const {
     static f32 sDefault{};
-    return getDInstParam_<f32>(value, param, AIDefParamType::Float, &sDefault);
+    return getDynamicParamImpl<f32>(value, param, AIDefParamType::Float, &sDefault);
 }
 
-bool Query::getDInstParam(const bool** value, const sead::SafeString& param) const {
+bool Query::getDynamicParam(bool** value, const sead::SafeString& param) const {
     static bool sDefault{};
     auto ret = static_cast<bool*>(mParamPack.getAITreeVariablePointer(param, AIDefParamType::Bool));
     *value = ret ? ret : &sDefault;

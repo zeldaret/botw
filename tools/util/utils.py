@@ -1,3 +1,5 @@
+import io
+
 from colorama import Fore, Style
 import csv
 import cxxfilt
@@ -48,12 +50,26 @@ def parse_function_csv_entry(row) -> FunctionInfo:
     return FunctionInfo(addr, name, int(size, 0), decomp_name, status, row)
 
 
+def get_functions_csv_path() -> Path:
+    return get_repo_root() / "data" / "uking_functions.csv"
+
+
 def get_functions(path: tp.Optional[Path] = None) -> tp.Iterable[FunctionInfo]:
     if path is None:
-        path = get_repo_root() / "data" / "uking_functions.csv"
+        path = get_functions_csv_path()
     with path.open() as f:
         for row in csv.reader(f):
             yield parse_function_csv_entry(row)
+
+
+def add_decompiled_functions(new_matches: tp.Dict[int, str]) -> None:
+    buffer = io.StringIO()
+    writer = csv.writer(buffer, lineterminator="\n")
+    for func in get_functions():
+        if func.status == FunctionStatus.NotDecompiled and func.addr in new_matches:
+            func.raw_row[3] = new_matches[func.addr]
+        writer.writerow(func.raw_row)
+    get_functions_csv_path().write_text(buffer.getvalue())
 
 
 def format_symbol_name(name: str) -> str:
