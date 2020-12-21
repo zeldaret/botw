@@ -8,7 +8,7 @@
 
 namespace evfl {
 class ParamAccessor;
-class QueryArg;
+struct QueryArg;
 }  // namespace evfl
 
 namespace ksys::act {

@@ -10,3 +10,6 @@
 [submodule "asm-differ"]
 	path = tools/asm-differ
 	url = https://github.com/simonlindholm/asm-differ
+[submodule "lib/EventFlow"]
+	path = lib/EventFlow
+	url = https://github.com/open-ead/EventFlow
