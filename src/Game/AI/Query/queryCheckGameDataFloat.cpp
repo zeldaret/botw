@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckGameDataFloat.h"
 #include <evfl/query.h>
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,29 @@ CheckGameDataFloat::CheckGameDataFloat(const InitArg& arg) : ksys::act::ai::Quer
 
 CheckGameDataFloat::~CheckGameDataFloat() = default;
 
-// FIXME: implement
 int CheckGameDataFloat::doQuery() {
-    return -1;
+    float flag_value = 0.0;
+    const auto value = *mValue;
+
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt || !gdt->getParamBypassPerm().get().getF32(&flag_value, mGameDataFloatName))
+        return 0;
+
+    sead::FixedSafeString<32> op = mOperator;
+    if (op == "Equal")
+        return value == flag_value;
+    if (op == "NotEqual")
+        return value != flag_value;
+    if (op == "GreaterThan")
+        return value < flag_value;
+    if (op == "GreaterThanOrEqualTo")
+        return value <= flag_value;
+    if (op == "LessThan")
+        return value > flag_value;
+    if (op == "LessThanOrEqualTo")
+        return value >= flag_value;
+
+    return 0;
 }
 
 void CheckGameDataFloat::loadParams(const evfl::QueryArg& arg) {
