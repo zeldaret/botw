@@ -1,5 +1,8 @@
 #include "Game/AI/Query/queryRandomChoiceExceptOnFlag.h"
 #include <evfl/query.h>
+#include <prim/seadBitFlag.h>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
 
@@ -8,9 +11,48 @@ RandomChoiceExceptOnFlag::RandomChoiceExceptOnFlag(const InitArg& arg)
 
 RandomChoiceExceptOnFlag::~RandomChoiceExceptOnFlag() = default;
 
-// FIXME: implement
+static bool isFlagForbidden(const sead::SafeString& flag) {
+    bool value = false;
+    if (flag.isEmpty())
+        return true;
+    if (!ksys::gdt::Manager::instance()->getParamBypassPerm().get().getBool(&value, flag))
+        return true;
+    return value;
+}
+
+// TODO: stack issues for the booleans in isFlagForbidden
 int RandomChoiceExceptOnFlag::doQuery() {
-    return -1;
+    using Manager = ksys::gdt::Manager;
+    if (!Manager::instance())
+        return 10;
+
+    sead::BitFlag16 forbidden_values;
+#define CHECK_FLAG_(BIT) forbidden_values.changeBit(BIT, isFlagForbidden(mCheckFlag##BIT));
+    CHECK_FLAG_(0)
+    CHECK_FLAG_(1)
+    CHECK_FLAG_(2)
+    CHECK_FLAG_(3)
+    CHECK_FLAG_(4)
+    CHECK_FLAG_(5)
+    CHECK_FLAG_(6)
+    CHECK_FLAG_(7)
+    CHECK_FLAG_(8)
+    CHECK_FLAG_(9)
+#undef CHECK_FLAG_
+
+    const auto num_allowed_values = 10 - forbidden_values.countOnBit();
+    if (num_allowed_values == 0)
+        return 10;
+
+    s32 count = sead::GlobalRandom::instance()->getU32(num_allowed_values) + 1;
+    for (s32 i = 0; i < 10; ++i) {
+        if (forbidden_values.isOffBit(i)) {
+            if (count < 2)
+                return i;
+            --count;
+        }
+    }
+    return 10;
 }
 
 void RandomChoiceExceptOnFlag::loadParams(const evfl::QueryArg& arg) {
