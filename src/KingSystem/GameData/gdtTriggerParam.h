@@ -99,36 +99,45 @@ public:
 
     // region Value getters (by name)
 
-    bool getBool(bool* value, const sead::SafeString& name, bool check_permissions) const;
-    bool getBool2(bool* value, const sead::SafeString& name, bool check_permissions) const;
-    bool getS32(s32* value, const sead::SafeString& name, bool check_permissions) const;
-    bool getF32(f32* value, const sead::SafeString& name, bool check_permissions) const;
-    bool getStr(const char** value, const sead::SafeString& name, bool check_permissions) const;
-    bool getStr64(const char** value, const sead::SafeString& name, bool check_permissions) const;
-    bool getStr256(const char** value, const sead::SafeString& name, bool check_permissions) const;
-    bool getVec2f(sead::Vector2f* value, const sead::SafeString& name,
-                  bool check_permissions) const;
-    bool getVec3f(sead::Vector3f* value, const sead::SafeString& name,
-                  bool check_permissions) const;
-    bool getVec4f(sead::Vector4f* value, const sead::SafeString& name,
-                  bool check_permissions) const;
+    bool getBool(bool* value, const sead::SafeString& name, bool check_permissions,
+                 bool x = true) const;
+    bool getBool2(bool* value, const sead::SafeString& name, bool check_permissions,
+                  bool x = true) const;
+    bool getS32(s32* value, const sead::SafeString& name, bool check_permissions,
+                bool x = true) const;
+    bool getF32(f32* value, const sead::SafeString& name, bool check_permissions,
+                bool x = true) const;
+    bool getStr(const char** value, const sead::SafeString& name, bool check_permissions,
+                bool x = true) const;
+    bool getStr64(const char** value, const sead::SafeString& name, bool check_permissions,
+                  bool x = true) const;
+    bool getStr256(const char** value, const sead::SafeString& name, bool check_permissions,
+                   bool x = true) const;
+    bool getVec2f(sead::Vector2f* value, const sead::SafeString& name, bool check_permissions,
+                  bool x = true) const;
+    bool getVec3f(sead::Vector3f* value, const sead::SafeString& name, bool check_permissions,
+                  bool x = true) const;
+    bool getVec4f(sead::Vector4f* value, const sead::SafeString& name, bool check_permissions,
+                  bool x = true) const;
 
-    bool getBool(bool* value, const sead::SafeString& name, s32 index,
-                 bool check_permissions) const;
-    bool getS32(s32* value, const sead::SafeString& name, s32 index, bool check_permissions) const;
-    bool getF32(f32* value, const sead::SafeString& name, s32 index, bool check_permissions) const;
-    bool getStr(const char** value, const sead::SafeString& name, s32 index,
-                bool check_permissions) const;
+    bool getBool(bool* value, const sead::SafeString& name, s32 index, bool check_permissions,
+                 bool x = true) const;
+    bool getS32(s32* value, const sead::SafeString& name, s32 index, bool check_permissions,
+                bool x = true) const;
+    bool getF32(f32* value, const sead::SafeString& name, s32 index, bool check_permissions,
+                bool x = true) const;
+    bool getStr(const char** value, const sead::SafeString& name, s32 index, bool check_permissions,
+                bool x = true) const;
     bool getStr64(const char** value, const sead::SafeString& name, s32 index,
-                  bool check_permissions) const;
+                  bool check_permissions, bool x = true) const;
     bool getStr256(const char** value, const sead::SafeString& name, s32 index,
-                   bool check_permissions) const;
+                   bool check_permissions, bool x = true) const;
     bool getVec2f(sead::Vector2f* value, const sead::SafeString& name, s32 index,
-                  bool check_permissions) const;
+                  bool check_permissions, bool x = true) const;
     bool getVec3f(sead::Vector3f* value, const sead::SafeString& name, s32 index,
-                  bool check_permissions) const;
+                  bool check_permissions, bool x = true) const;
     bool getVec4f(sead::Vector4f* value, const sead::SafeString& name, s32 index,
-                  bool check_permissions) const;
+                  bool check_permissions, bool x = true) const;
 
     // endregion
 

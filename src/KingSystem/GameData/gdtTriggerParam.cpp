@@ -1039,51 +1039,53 @@ bool TriggerParam::getVec4f(sead::Vector4f* value, s32 index, bool check_permiss
     return getFlagValue(mVector4fFlags, value, index, check_permissions);
 }
 
-bool TriggerParam::getBool(bool* value, const sead::SafeString& name,
-                           bool check_permissions) const {
+bool TriggerParam::getBool(bool* value, const sead::SafeString& name, bool check_permissions,
+                           bool x) const {
     return getBool(value, getBoolIdx(name), check_permissions);
 }
 
-bool TriggerParam::getBool2(bool* value, const sead::SafeString& name,
-                            bool check_permissions) const {
+bool TriggerParam::getBool2(bool* value, const sead::SafeString& name, bool check_permissions,
+                            bool x) const {
     return getBool(value, getBoolIdx(name), check_permissions);
 }
 
-bool TriggerParam::getS32(s32* value, const sead::SafeString& name, bool check_permissions) const {
+bool TriggerParam::getS32(s32* value, const sead::SafeString& name, bool check_permissions,
+                          bool x) const {
     return getS32(value, getS32Idx(name), check_permissions);
 }
 
-bool TriggerParam::getF32(f32* value, const sead::SafeString& name, bool check_permissions) const {
+bool TriggerParam::getF32(f32* value, const sead::SafeString& name, bool check_permissions,
+                          bool x) const {
     return getF32(value, getF32Idx(name), check_permissions);
 }
 
-bool TriggerParam::getStr(const char** value, const sead::SafeString& name,
-                          bool check_permissions) const {
+bool TriggerParam::getStr(const char** value, const sead::SafeString& name, bool check_permissions,
+                          bool x) const {
     return getStr(value, getStrIdx(name), check_permissions);
 }
 
 bool TriggerParam::getStr64(const char** value, const sead::SafeString& name,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getStr64(value, getStr64Idx(name), check_permissions);
 }
 
 bool TriggerParam::getStr256(const char** value, const sead::SafeString& name,
-                             bool check_permissions) const {
+                             bool check_permissions, bool x) const {
     return getStr256(value, getStr256Idx(name), check_permissions);
 }
 
 bool TriggerParam::getVec2f(sead::Vector2f* value, const sead::SafeString& name,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getVec2f(value, getVec2fIdx(name), check_permissions);
 }
 
 bool TriggerParam::getVec3f(sead::Vector3f* value, const sead::SafeString& name,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getVec3f(value, getVec3fIdx(name), check_permissions);
 }
 
 bool TriggerParam::getVec4f(sead::Vector4f* value, const sead::SafeString& name,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getVec4f(value, getVec4fIdx(name), check_permissions);
 }
 
@@ -1133,47 +1135,47 @@ bool TriggerParam::getVec4f(sead::Vector4f* value, s32 array_index, s32 index,
 }
 
 bool TriggerParam::getBool(bool* value, const sead::SafeString& name, s32 index,
-                           bool check_permissions) const {
+                           bool check_permissions, bool x) const {
     return getBool(value, getBoolArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getS32(s32* value, const sead::SafeString& name, s32 index,
-                          bool check_permissions) const {
+                          bool check_permissions, bool x) const {
     return getS32(value, getS32ArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getF32(f32* value, const sead::SafeString& name, s32 index,
-                          bool check_permissions) const {
+                          bool check_permissions, bool x) const {
     return getF32(value, getF32ArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getStr(const char** value, const sead::SafeString& name, s32 index,
-                          bool check_permissions) const {
+                          bool check_permissions, bool x) const {
     return getStr(value, getStrArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getStr64(const char** value, const sead::SafeString& name, s32 index,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getStr64(value, getStr64ArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getStr256(const char** value, const sead::SafeString& name, s32 index,
-                             bool check_permissions) const {
+                             bool check_permissions, bool x) const {
     return getStr256(value, getStr256ArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getVec2f(sead::Vector2f* value, const sead::SafeString& name, s32 index,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getVec2f(value, getVec2fArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getVec3f(sead::Vector3f* value, const sead::SafeString& name, s32 index,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getVec3f(value, getVec3fArrayIdx(name), index, check_permissions);
 }
 
 bool TriggerParam::getVec4f(sead::Vector4f* value, const sead::SafeString& name, s32 index,
-                            bool check_permissions) const {
+                            bool check_permissions, bool x) const {
     return getVec4f(value, getVec4fArrayIdx(name), index, check_permissions);
 }
 
