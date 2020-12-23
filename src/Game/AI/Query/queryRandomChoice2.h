@@ -10,9 +10,6 @@ public:
     explicit RandomChoice2(const InitArg& arg);
     ~RandomChoice2() override;
     int doQuery() override;
-
-    void loadParams() override;
-    void loadParams(const evfl::QueryArg& arg) override;
 };
 
 }  // namespace uking::query

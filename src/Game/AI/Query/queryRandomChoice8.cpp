@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryRandomChoice8.h"
 #include <evfl/query.h>
+#include <random/seadGlobalRandom.h>
 
 namespace uking::query {
 
@@ -9,11 +10,7 @@ RandomChoice8::~RandomChoice8() = default;
 
 // FIXME: implement
 int RandomChoice8::doQuery() {
-    return -1;
+    return sead::GlobalRandom::instance()->getU32(8);
 }
-
-void RandomChoice8::loadParams(const evfl::QueryArg& arg) {}
-
-void RandomChoice8::loadParams() {}
 
 }  // namespace uking::query

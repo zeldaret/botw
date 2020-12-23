@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryRandomChoice3.h"
 #include <evfl/query.h>
+#include <random/seadGlobalRandom.h>
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ RandomChoice3::RandomChoice3(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 RandomChoice3::~RandomChoice3() = default;
 
-// FIXME: implement
 int RandomChoice3::doQuery() {
-    return -1;
+    return sead::GlobalRandom::instance()->getU32(3);
 }
 
 void RandomChoice3::loadParams(const evfl::QueryArg& arg) {}
