@@ -85,6 +85,11 @@ struct QueryFactory {
     using CreateFn = Query* (*)(const Query::InitArg& arg, sead::Heap* heap);
     u32 hash;
     CreateFn create_fn;
+
+    template <typename T>
+    static Query* make(const Query::InitArg& arg, sead::Heap* heap) {
+        return new (heap) T(arg);
+    }
 };
 
 }  // namespace ksys::act::ai

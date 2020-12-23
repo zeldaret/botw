@@ -61,6 +61,8 @@ def main() -> None:
             (f"{prefix}rtti1",
              f"_ZNK5uking5query{len(name)}{name}27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE"),
             (f"{prefix}rtti2", f"_ZNK5uking5query{len(name)}{name}18getRuntimeTypeInfoEv"),
+            (f"AI_F_Query_{orig_name}",
+             f"_ZN4ksys3act2ai12QueryFactory4makeIN5uking5query{len(name)}{name}EEEPNS1_5QueryERKNS7_7InitArgEPN4sead4HeapE"),
         ]
 
     identify(functions, checker, new_matches, aidef, "Querys", get_query_pairs)
