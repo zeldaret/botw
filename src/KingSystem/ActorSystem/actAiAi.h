@@ -14,7 +14,7 @@ public:
     bool isFlag4Set() const override;
     bool reenter_(ActionBase* other, bool x) override;
     void calc() override;
-    void* m22() override;
+    ActionBase* changeChild(const sead::SafeString& name) override;
     void getParams(ParamNameTypePairs* pairs, bool update_use_count) const override;
     s32 getNumChildren() const override { return mChildren.size(); }
     bool initChildren(const AIDefSet& set, sead::Heap* heap) override;
@@ -23,7 +23,7 @@ public:
     bool reenter(ActionBase* other, const sead::SafeString& context) override;
     void postLeave() override { updateChildIdx(InvalidIdx); }
     ActionBase* getChild(s32 idx) const override { return mChildren[idx]; }
-    virtual const char* getPreviousName();
+    virtual void getNames(sead::BufferedSafeString* out);
 
     bool gatherParamsFromChildren(sead::Heap* heap);
 

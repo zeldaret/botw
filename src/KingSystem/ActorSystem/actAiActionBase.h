@@ -7,6 +7,10 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::mes {
+class Message;
+}
+
 namespace ksys::res {
 class AIProgram;
 class GParamList;
@@ -61,7 +65,6 @@ public:
     bool oneShot(InlineParamPack* params);
 
     Action* getCurrentAction();
-
     Actor* getActor() const { return mActor; }
     s32 getDefinitionIdx() const { return mDefinitionIdx; }
     const char* getClassName() const;
@@ -73,29 +76,40 @@ public:
 
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
+
     virtual void m9() {}
+
+protected:
     virtual bool oneShot_() { return true; }
     virtual bool init_(sead::Heap* heap) { return true; }
     virtual void enter_(InlineParamPack* params) {}
     virtual bool reenter_(ActionBase* other, bool x);
     virtual void leave_() {}
     virtual void loadParams_() {}
-    virtual bool m16() { return false; }
-    virtual bool m17() { return false; }
+    virtual bool handleMessage_(mes::Message* message) { return false; }
+    // TODO: rename
+    virtual bool handleMessage2_(mes::Message* message) { return false; }
+
+public:
     virtual bool updateForPreDelete() { return true; }
     virtual void onPreDelete() {}
     virtual void calc() {}
     virtual void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const;
-    virtual void* m22() { return nullptr; }
+
+    virtual ActionBase* changeChild(const sead::SafeString& name) { return nullptr; }
     virtual void getParams(ParamNameTypePairs* pairs, bool update_use_count) const;
     virtual s32 getNumChildren() const { return 0; }
     virtual bool initChildren(const AIDefSet& set, sead::Heap* heap) { return true; }
     virtual ActionBase* getCurrentChild() const { return nullptr; }
+
     virtual ActionType getType() const = 0;
+
     virtual bool reenter(ActionBase* other, const sead::SafeString& context) {
         return reenter_(other, false);
     }
+
     virtual void postLeave() {}
+
     virtual ActionBase* getChild(s32 idx) const { return nullptr; }
 
 protected:
