@@ -65,6 +65,10 @@ public:
     bool oneShot(InlineParamPack* params);
 
     Action* getCurrentAction();
+    bool handleMessage(mes::Message* message);
+    // TODO: rename
+    bool handleMessage2(mes::Message* message);
+
     Actor* getActor() const { return mActor; }
     s32 getDefinitionIdx() const { return mDefinitionIdx; }
     const char* getClassName() const;

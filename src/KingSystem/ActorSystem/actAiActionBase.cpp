@@ -223,6 +223,26 @@ Action* ActionBase::getCurrentAction() {
     }
 }
 
+bool ActionBase::handleMessage(mes::Message* message) {
+    auto* action = this;
+    while (!action->handleMessage_(message)) {
+        action = action->getCurrentChild();
+        if (!action)
+            return false;
+    }
+    return true;
+}
+
+bool ActionBase::handleMessage2(mes::Message* message) {
+    auto* action = this;
+    while (!action->handleMessage2_(message)) {
+        action = action->getCurrentChild();
+        if (!action)
+            return false;
+    }
+    return true;
+}
+
 void ActionBase::setFinished() {
     mFlags.set(Flag::Finished);
     mFlags.reset(Flag::Failed);
