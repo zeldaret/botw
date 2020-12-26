@@ -2,11 +2,17 @@ import io
 
 from colorama import Fore, Style
 import csv
-import cxxfilt
+import warnings
 import enum
 from pathlib import Path
 import sys
 import typing as tp
+
+try:
+    import cxxfilt
+except:
+    # cxxfilt cannot be used on Windows.
+    warnings.warn("cxxfilt could not be imported; demangling functions will fail")
 
 
 class FunctionStatus(enum.Enum):
@@ -62,10 +68,13 @@ def get_functions(path: tp.Optional[Path] = None) -> tp.Iterable[FunctionInfo]:
             yield parse_function_csv_entry(row)
 
 
-def add_decompiled_functions(new_matches: tp.Dict[int, str]) -> None:
+def add_decompiled_functions(new_matches: tp.Dict[int, str],
+                             new_orig_names: tp.Optional[tp.Dict[int, str]] = None) -> None:
     buffer = io.StringIO()
     writer = csv.writer(buffer, lineterminator="\n")
     for func in get_functions():
+        if new_orig_names is not None and func.status == FunctionStatus.NotDecompiled and func.addr in new_orig_names:
+            func.raw_row[1] = new_orig_names[func.addr]
         if func.status == FunctionStatus.NotDecompiled and func.addr in new_matches:
             func.raw_row[3] = new_matches[func.addr]
         writer.writerow(func.raw_row)
