@@ -1,46 +1,10 @@
 import struct
-from collections import defaultdict
-from pathlib import Path
 from typing import Dict
 
-from ai_show_nontrivial_hierarchies import _base_classes
-from util import utils
-import yaml
+from util import utils, ai_common
 import idaapi
 
-
-class Graph:
-    def __init__(self):
-        self.nodes = defaultdict(set)
-
-    def add_edge(self, a, b):
-        self.nodes[a].add(b)
-
-    def topological_sort(self) -> list:
-        result = []
-        visited = set()
-
-        def dfs(node):
-            if node in visited:
-                return
-            # Our graph is guaranteed to be acyclic since it's a graph of vtables...
-            visited.add(node)
-            for y in self.nodes.get(node, set()):
-                dfs(y)
-            result.insert(0, node)
-
-        for x in self.nodes:
-            dfs(x)
-
-        return result
-
-
-def build_graph(all_vtables: dict, graph: Graph):
-    for name, vtables in all_vtables["Action"].items():
-        classes = list(dict.fromkeys(reversed(vtables)))
-        for i in range(len(classes) - 1):
-            graph.add_edge(classes[i + 1], classes[i])
-
+from util.ai_common import BaseClasses
 
 _vtable_fn_names = [
     "_ZNK5uking6action{}27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE",
@@ -96,21 +60,15 @@ _ida_base = 0x7100000000
 
 
 def main() -> None:
-    data_dir = utils.get_repo_root() / "data"
-    with Path(data_dir / "aidef_vtables.yml").open() as f:
-        all_vtables: dict = yaml.load(f, Loader=yaml.CSafeLoader)
-    with Path(data_dir / "aidef_action_vtables.yml").open() as f:
-        names: Dict[int, str] = yaml.load(f, Loader=yaml.CSafeLoader)
+    all_vtables = ai_common.get_ai_vtables()
+    names = ai_common.get_action_vtable_names()
+    not_decompiled = {func.addr for func in utils.get_functions() if func.status == utils.FunctionStatus.NotDecompiled}
 
     new_names: Dict[int, str] = dict()
 
-    not_decompiled = {func.addr for func in utils.get_functions() if func.status == utils.FunctionStatus.NotDecompiled}
-
-    graph = Graph()
-    build_graph(all_vtables, graph)
-    order = graph.topological_sort()
+    order = ai_common.topologically_sort_vtables(all_vtables, "Action")
     for vtable_addr in order:
-        if vtable_addr in _base_classes:
+        if vtable_addr in BaseClasses:
             continue
 
         class_name = names.get(vtable_addr)

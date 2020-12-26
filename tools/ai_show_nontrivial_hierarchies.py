@@ -1,18 +1,13 @@
 #!/usr/bin/env python3
 import argparse
-from collections import defaultdict
 from pathlib import Path
 from typing import Union
 
 import yaml
 
-_base_classes = {
-    0x71024d8d68,
-    0x71025129f0,
-    0x7102513278,
-    0x71024d8ef0,
-    0x710243c9b8,
-}
+from util import ai_common
+from util.ai_common import BaseClasses
+from util.graph import Graph
 
 _known_vtables = {
     0x71024d8d68: "ActionBase",
@@ -34,43 +29,6 @@ def get_name_for_vtable(vtable: Union[str, int]):
     return f"[V] {vtable:#x}"
 
 
-def dfs(nodes: dict, start, visited: set):
-    result = []
-    to_visit = [start]
-    while to_visit:
-        x = to_visit.pop()
-        result.append(x)
-        visited.add(x)
-
-        for y in nodes[x]:
-            if y not in visited:
-                to_visit.append(y)
-
-    return result
-
-
-class Graph:
-    def __init__(self):
-        self.nodes = defaultdict(set)
-
-    def add_edge(self, a, b):
-        self.nodes[a].add(b)
-
-    def find_connected_components(self):
-        nodes = defaultdict(list)
-        for u in self.nodes:
-            for v in self.nodes[u]:
-                nodes[u].append(v)
-                nodes[v].append(u)
-        cc = []
-        visited = set()
-        for u in nodes.keys():
-            if u in visited:
-                continue
-            cc.append(dfs(nodes, u, visited))
-        return cc
-
-
 def guess_vtable_names(reverse_graph: Graph):
     for u in reverse_graph.nodes:
         targets = list(reverse_graph.nodes[u])
@@ -88,7 +46,7 @@ def build_graph(all_vtables: dict, type_: str, graph: Graph, reverse_graph: Grap
             from_ = classes[i]
             to_ = classes[i + 1]
             # Skip base classes to reduce noise.
-            if to_ in _base_classes:
+            if to_ in BaseClasses:
                 break
             reverse_graph.add_edge(to_, from_)
 
@@ -97,7 +55,7 @@ def build_graph(all_vtables: dict, type_: str, graph: Graph, reverse_graph: Grap
     for name, vtables in all_vtables[type_].items():
         classes = [name] + list(reversed(vtables))
         for i in range(len(classes) - 1):
-            if classes[i + 1] in _base_classes:
+            if classes[i + 1] in BaseClasses:
                 break
             from_ = get_name_for_vtable(classes[i])
             to_ = get_name_for_vtable(classes[i + 1])
@@ -106,14 +64,12 @@ def build_graph(all_vtables: dict, type_: str, graph: Graph, reverse_graph: Grap
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Shows AI classes with non-trivial class hierarchies.")
-    parser.add_argument("aidef_vtables", help="Path to aidef_vtables.yml")
     parser.add_argument("--type", help="AI class type to visualise", choices=["Action", "AI", "Behavior", "Query"],
                         required=True)
     parser.add_argument("--out-names", help="Path to which a vtable -> name map will be written", required=True)
     args = parser.parse_args()
 
-    with Path(args.aidef_vtables).open() as f:
-        all_vtables: dict = yaml.load(f, Loader=yaml.CSafeLoader)
+    all_vtables = ai_common.get_ai_vtables()
 
     graph = Graph()
     reverse_graph = Graph()
