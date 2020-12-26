@@ -27,6 +27,11 @@ def get_ai_vtables() -> Dict[str, Dict[str, List[int]]]:
         return yaml.load(f, Loader=yaml.CSafeLoader)
 
 
+def get_action_params() -> Dict[str, List[dict]]:
+    with (utils.get_repo_root() / "data" / "aidef_action_params.yml").open(encoding="utf-8") as f:
+        return yaml.load(f, Loader=yaml.CSafeLoader)
+
+
 def get_action_vtable_names() -> Dict[int, str]:
     with (utils.get_repo_root() / "data" / "aidef_action_vtables.yml").open(encoding="utf-8") as f:
         names = yaml.load(f, Loader=yaml.CSafeLoader)

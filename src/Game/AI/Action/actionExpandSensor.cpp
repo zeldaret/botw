@@ -1,0 +1,32 @@
+#include "Game/AI/Action/actionExpandSensor.h"
+
+namespace uking::action {
+
+ExpandSensor::ExpandSensor(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+
+ExpandSensor::~ExpandSensor() = default;
+
+bool ExpandSensor::init_(sead::Heap* heap) {
+    return ksys::act::ai::Action::init_(heap);
+}
+
+void ExpandSensor::enter_(ksys::act::ai::InlineParamPack* params) {
+    ksys::act::ai::Action::enter_(params);
+}
+
+void ExpandSensor::leave_() {
+    ksys::act::ai::Action::leave_();
+}
+
+void ExpandSensor::loadParams_() {
+    getStaticParam(&mAtkAttrType_s, "AtkAttrType");
+    getStaticParam(&mAtkType_s, "AtkType");
+    getStaticParam(&mOffLength_s, "OffLength");
+    getStaticParam(&mOnLength_s, "OnLength");
+}
+
+void ExpandSensor::calc_() {
+    ksys::act::ai::Action::calc_();
+}
+
+}  // namespace uking::action

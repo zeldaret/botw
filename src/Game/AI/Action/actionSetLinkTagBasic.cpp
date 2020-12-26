@@ -3,12 +3,18 @@
 
 namespace uking::action {
 
-SetLinkTagBasicAction::SetLinkTagBasicAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+SetLinkTagBasic::SetLinkTagBasic(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-SetLinkTagBasicAction::~SetLinkTagBasicAction() = default;
+SetLinkTagBasic::~SetLinkTagBasic() = default;
 
-void SetLinkTagBasicAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (*IsOn)
+bool SetLinkTagBasic::init_(sead::Heap* heap) {
+    return ksys::act::ai::Action::init_(heap);
+}
+
+void SetLinkTagBasic::enter_(ksys::act::ai::InlineParamPack* params) {
+    ksys::act::ai::Action::enter_(params);
+
+    if (*mIsOn_s)
         mActor->emitBasicSigOn();
     else
         mActor->emitBasicSigOff();
@@ -16,8 +22,16 @@ void SetLinkTagBasicAction::enter_(ksys::act::ai::InlineParamPack* params) {
     setFinished();
 }
 
-void SetLinkTagBasicAction::loadParams_() {
-    getStaticParam(&IsOn, "IsOn");
+void SetLinkTagBasic::leave_() {
+    ksys::act::ai::Action::leave_();
+}
+
+void SetLinkTagBasic::loadParams_() {
+    getStaticParam(&mIsOn_s, "IsOn");
+}
+
+void SetLinkTagBasic::calc_() {
+    ksys::act::ai::Action::calc_();
 }
 
 }  // namespace uking::action

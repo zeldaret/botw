@@ -24,6 +24,11 @@ struct ActionFactory {
     using CreateFn = Action* (*)(const Action::InitArg& arg, sead::Heap* heap);
     u32 hash;
     CreateFn create_fn;
+
+    template <typename T>
+    static Action* make(const Action::InitArg& arg, sead::Heap* heap) {
+        return new (heap) T(arg);
+    }
 };
 
 class Actions {
