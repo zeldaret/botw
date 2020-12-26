@@ -245,6 +245,28 @@ protected:
             value, key, static_cast<sead::SafeString*>(getDefaultString32()));
     }
 
+    // TODO: rename -- why do these exist?
+    template <AIDefParamType Type, typename T>
+    bool getDynamicParamPtrImpl2(T** value, const sead::SafeString& key, T* default_value) const {
+        return getDynamicParamImpl(value, key, &ParamPack::getPtrGeneric2<T, Type>, &default_value);
+    }
+
+    bool getDynamicParam2(int** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl2<AIDefParamType::Int>(value, key, getDefaultInt());
+    }
+
+    bool getDynamicParam2(float** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl2<AIDefParamType::Float>(value, key, getDefaultFloat());
+    }
+
+    bool getDynamicParam2(sead::Vector3f** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl2<AIDefParamType::Vec3>(value, key, getDefaultVec3());
+    }
+
+    bool getDynamicParam2(bool** value, const sead::SafeString& key) const {
+        return getDynamicParamPtrImpl2<AIDefParamType::Bool>(value, key, getDefaultBool());
+    }
+
     Actor* mActor;
     ParamPack mParams;
     s16 mDefinitionIdx;

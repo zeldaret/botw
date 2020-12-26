@@ -92,6 +92,14 @@ public:
         return ptr != nullptr;
     }
 
+    // TODO: rename this -- why does this exist?
+    template <typename T, AIDefParamType Type>
+    bool getPtrGeneric2(T** value, const sead::SafeString& key) const {
+        auto* ptr = static_cast<T*>(getAITreeVariablePointer(key, Type));
+        *value = ptr;
+        return ptr != nullptr;
+    }
+
     bool getString(sead::SafeString* value, const sead::SafeString& key) const;
     bool setString(const sead::SafeString& value, const sead::SafeString& key) const;
 
