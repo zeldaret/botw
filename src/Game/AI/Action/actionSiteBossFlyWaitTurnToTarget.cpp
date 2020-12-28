@@ -8,7 +8,7 @@ SiteBossFlyWaitTurnToTarget::SiteBossFlyWaitTurnToTarget(const InitArg& arg)
 SiteBossFlyWaitTurnToTarget::~SiteBossFlyWaitTurnToTarget() = default;
 
 bool SiteBossFlyWaitTurnToTarget::init_(sead::Heap* heap) {
-    return LastBossFlyWaitTurnToTarget::init_(heap);
+    return LastBossFlyWait::init_(heap);  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void SiteBossFlyWaitTurnToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
