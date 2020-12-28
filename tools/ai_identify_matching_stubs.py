@@ -76,13 +76,15 @@ def main() -> None:
         prefix = f"AI_Action_{orig_name}::"
         pairs.append(
             (f"{prefix}ctor", f"_ZN5uking6action{len(name)}{name}C1ERKN4ksys3act2ai10ActionBase7InitArgE"))
-        pairs.append(
-            (f"_ZN5uking6action{len(name)}{name}D2Ev", f"_ZN5uking6action{len(name)}{name}D1Ev"))
         pairs.append((f"AI_F_Action_{orig_name}",
                       f"_ZN4ksys3act2ai13ActionFactory4makeIN5uking6action{len(name)}{name}EEEPNS1_6ActionERKNS1_10ActionBase7InitArgEPN4sead4HeapE"))
         add_pair(f"_ZN5uking6action{len(name)}{name}D1Ev")
         add_pair(f"_ZN5uking6action{len(name)}{name}D0Ev")
         add_pair(f"_ZN5uking6action{len(name)}{name}11loadParams_Ev")
+        add_pair(f"_ZN5uking6action{len(name)}{name}5init_EPN4sead4HeapE")
+        add_pair(f"_ZN5uking6action{len(name)}{name}6enter_EPN4ksys3act2ai15InlineParamPackE")
+        add_pair(f"_ZN5uking6action{len(name)}{name}6leave_Ev")
+        add_pair(f"_ZN5uking6action{len(name)}{name}5calc_Ev")
         add_pair(
             f"_ZNK5uking6action{len(name)}{name}27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE")
         add_pair(f"_ZNK5uking6action{len(name)}{name}18getRuntimeTypeInfoEv")
