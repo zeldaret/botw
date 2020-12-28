@@ -4,8 +4,6 @@ namespace uking::action {
 
 FlyingCharacterFreeze::FlyingCharacterFreeze(const InitArg& arg) : FlyingCharacterReaction(arg) {}
 
-FlyingCharacterFreeze::~FlyingCharacterFreeze() = default;
-
 bool FlyingCharacterFreeze::init_(sead::Heap* heap) {
     return FlyingCharacterReaction::init_(heap);
 }

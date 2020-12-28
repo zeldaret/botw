@@ -9,7 +9,7 @@ class LevelFlyMove : public LevelFlyMoveBase {
     SEAD_RTTI_OVERRIDE(LevelFlyMove, LevelFlyMoveBase)
 public:
     explicit LevelFlyMove(const InitArg& arg);
-    ~LevelFlyMove() override;
+    ~LevelFlyMove() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

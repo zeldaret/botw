@@ -4,8 +4,6 @@ namespace uking::action {
 
 LevelFlyMove::LevelFlyMove(const InitArg& arg) : LevelFlyMoveBase(arg) {}
 
-LevelFlyMove::~LevelFlyMove() = default;
-
 bool LevelFlyMove::init_(sead::Heap* heap) {
     return LevelFlyMoveBase::init_(heap);
 }
