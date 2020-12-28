@@ -6,16 +6,16 @@ import oead
 from colorama import Fore
 import cxxfilt
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Iterable
 
 import util.checker
 import util.elf
-from util import utils
+from util import utils, ai_common
 
 
 def identify(functions: Dict[str, utils.FunctionInfo], checker: util.checker.FunctionChecker,
-             new_matches: Dict[int, str], aidef, aidef_key: str, get_pairs) -> None:
-    for name, data in aidef[aidef_key].items():
+             new_matches: Dict[int, str], class_names: Iterable[str], get_pairs) -> None:
+    for name in class_names:
         orig_name = name
         name = name[0].upper() + name[1:]
 
@@ -73,9 +73,12 @@ def main() -> None:
         def add_pair(x):
             pairs.append((x, x))
 
-        prefix = f"AI_Action_{orig_name}::"
         pairs.append(
-            (f"{prefix}ctor", f"_ZN5uking6action{len(name)}{name}C1ERKN4ksys3act2ai10ActionBase7InitArgE"))
+            (f"AI_Action_{orig_name}::ctor",
+             f"_ZN5uking6action{len(name)}{name}C1ERKN4ksys3act2ai10ActionBase7InitArgE"))
+        pairs.append(
+            (f"AI_Action{orig_name}::ctor",
+             f"_ZN5uking6action{len(name)}{name}C1ERKN4ksys3act2ai10ActionBase7InitArgE"))
         pairs.append((f"AI_F_Action_{orig_name}",
                       f"_ZN4ksys3act2ai13ActionFactory4makeIN5uking6action{len(name)}{name}EEEPNS1_6ActionERKNS1_10ActionBase7InitArgEPN4sead4HeapE"))
         add_pair(f"_ZN5uking6action{len(name)}{name}D1Ev")
@@ -91,9 +94,10 @@ def main() -> None:
         return pairs
 
     if type_ == "Action":
-        identify(functions, checker, new_matches, aidef, "Actions", get_action_pairs)
+        action_vtable_names = ai_common.get_action_vtable_names()
+        identify(functions, checker, new_matches, action_vtable_names.values(), get_action_pairs)
     elif type_ == "Query":
-        identify(functions, checker, new_matches, aidef, "Querys", get_query_pairs)
+        identify(functions, checker, new_matches, aidef["Querys"].keys(), get_query_pairs)
 
     utils.add_decompiled_functions(new_matches)
 
