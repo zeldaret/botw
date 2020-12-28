@@ -10,10 +10,7 @@ public:
     explicit NPCHorseReception(const InitArg& arg);
     ~NPCHorseReception() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
-    void loadParams_() override;
 
 protected:
     void calc_() override;

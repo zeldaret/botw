@@ -9,7 +9,6 @@ class TargetCircleWalk : public TargetCircle {
     SEAD_RTTI_OVERRIDE(TargetCircleWalk, TargetCircle)
 public:
     explicit TargetCircleWalk(const InitArg& arg);
-    ~TargetCircleWalk() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -9,9 +9,7 @@ class PlayerGuardJust : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGuardJust, PlayerAction)
 public:
     explicit PlayerGuardJust(const InitArg& arg);
-    ~PlayerGuardJust() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

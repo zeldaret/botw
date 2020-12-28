@@ -6,10 +6,6 @@ OnetimeMoveASPlay::OnetimeMoveASPlay(const InitArg& arg) : OnetimeStopASPlay(arg
 
 OnetimeMoveASPlay::~OnetimeMoveASPlay() = default;
 
-bool OnetimeMoveASPlay::init_(sead::Heap* heap) {
-    return OnetimeStopASPlay::init_(heap);
-}
-
 void OnetimeMoveASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     OnetimeStopASPlay::enter_(params);
 }

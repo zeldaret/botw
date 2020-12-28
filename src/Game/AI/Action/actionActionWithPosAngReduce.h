@@ -9,9 +9,7 @@ class ActionWithPosAngReduce : public ActionEx {
     SEAD_RTTI_OVERRIDE(ActionWithPosAngReduce, ActionEx)
 public:
     explicit ActionWithPosAngReduce(const InitArg& arg);
-    ~ActionWithPosAngReduce() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

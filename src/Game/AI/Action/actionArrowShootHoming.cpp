@@ -6,16 +6,8 @@ ArrowShootHoming::ArrowShootHoming(const InitArg& arg) : ArrowShootMove(arg) {}
 
 ArrowShootHoming::~ArrowShootHoming() = default;
 
-bool ArrowShootHoming::init_(sead::Heap* heap) {
-    return ArrowShootMove::init_(heap);
-}
-
 void ArrowShootHoming::enter_(ksys::act::ai::InlineParamPack* params) {
     ArrowShootMove::enter_(params);
-}
-
-void ArrowShootHoming::leave_() {
-    ArrowShootMove::leave_();
 }
 
 void ArrowShootHoming::loadParams_() {

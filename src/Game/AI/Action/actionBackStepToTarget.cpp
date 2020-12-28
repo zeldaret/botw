@@ -6,10 +6,6 @@ BackStepToTarget::BackStepToTarget(const InitArg& arg) : ActionEx(arg) {}
 
 BackStepToTarget::~BackStepToTarget() = default;
 
-bool BackStepToTarget::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void BackStepToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

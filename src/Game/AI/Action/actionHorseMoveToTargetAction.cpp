@@ -4,8 +4,6 @@ namespace uking::action {
 
 HorseMoveToTargetAction::HorseMoveToTargetAction(const InitArg& arg) : AnimalMoveGuidedBase(arg) {}
 
-HorseMoveToTargetAction::~HorseMoveToTargetAction() = default;
-
 bool HorseMoveToTargetAction::init_(sead::Heap* heap) {
     return AnimalMoveGuidedBase::init_(heap);
 }

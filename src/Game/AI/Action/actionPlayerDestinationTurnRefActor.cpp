@@ -7,10 +7,6 @@ PlayerDestinationTurnRefActor::PlayerDestinationTurnRefActor(const InitArg& arg)
 
 PlayerDestinationTurnRefActor::~PlayerDestinationTurnRefActor() = default;
 
-bool PlayerDestinationTurnRefActor::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerDestinationTurnRefActor::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerBeetleSubject::PlayerBeetleSubject(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerBeetleSubject::~PlayerBeetleSubject() = default;
-
-bool PlayerBeetleSubject::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerBeetleSubject::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

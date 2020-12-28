@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSkin::PlayerSkin(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSkin::~PlayerSkin() = default;
-
-bool PlayerSkin::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSkin::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -6,10 +6,6 @@ Stick::Stick(const InitArg& arg) : ActionEx(arg) {}
 
 Stick::~Stick() = default;
 
-bool Stick::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void Stick::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

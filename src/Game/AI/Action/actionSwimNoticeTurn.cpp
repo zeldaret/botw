@@ -6,10 +6,6 @@ SwimNoticeTurn::SwimNoticeTurn(const InitArg& arg) : WaterFloatBase(arg) {}
 
 SwimNoticeTurn::~SwimNoticeTurn() = default;
 
-bool SwimNoticeTurn::init_(sead::Heap* heap) {
-    return WaterFloatBase::init_(heap);
-}
-
 void SwimNoticeTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     WaterFloatBase::enter_(params);
 }

@@ -6,10 +6,6 @@ ItemConductorDemoBind::ItemConductorDemoBind(const InitArg& arg) : ksys::act::ai
 
 ItemConductorDemoBind::~ItemConductorDemoBind() = default;
 
-bool ItemConductorDemoBind::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void ItemConductorDemoBind::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

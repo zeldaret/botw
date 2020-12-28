@@ -11,20 +11,8 @@ bool DemoApplyDamageForPlayer::init_(sead::Heap* heap) {
     return ApplyDamageForPlayer::init_(heap);
 }
 
-void DemoApplyDamageForPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ApplyDamageForPlayer::enter_(params);
-}
-
-void DemoApplyDamageForPlayer::leave_() {
-    ApplyDamageForPlayer::leave_();
-}
-
 void DemoApplyDamageForPlayer::loadParams_() {
     ApplyDamageForPlayer::loadParams_();
-}
-
-void DemoApplyDamageForPlayer::calc_() {
-    ApplyDamageForPlayer::calc_();
 }
 
 }  // namespace uking::action

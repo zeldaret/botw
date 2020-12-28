@@ -19,12 +19,6 @@ void FlyingBalloonObserverTag::leave_() {
     AreaObserveActorAction::leave_();
 }
 
-void FlyingBalloonObserverTag::loadParams_() {
-    getMapUnitParam(&mCount_m, "Count");
-    getMapUnitParam(&mIsSendMessage_m, "IsSendMessage");
-    getMapUnitParam(&mDefaultBasicSignal_m, "DefaultBasicSignal");
-}
-
 void FlyingBalloonObserverTag::calc_() {
     AreaObserveActorAction::calc_();
 }

@@ -6,10 +6,6 @@ PlayerWakeBoardGoal::PlayerWakeBoardGoal(const InitArg& arg) : PlayerAction(arg)
 
 PlayerWakeBoardGoal::~PlayerWakeBoardGoal() = default;
 
-bool PlayerWakeBoardGoal::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerWakeBoardGoal::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

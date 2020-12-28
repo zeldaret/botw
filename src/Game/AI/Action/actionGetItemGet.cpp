@@ -4,12 +4,6 @@ namespace uking::action {
 
 GetItemGet::GetItemGet(const InitArg& arg) : GetItem(arg) {}
 
-GetItemGet::~GetItemGet() = default;
-
-bool GetItemGet::init_(sead::Heap* heap) {
-    return GetItem::init_(heap);
-}
-
 void GetItemGet::enter_(ksys::act::ai::InlineParamPack* params) {
     GetItem::enter_(params);
 }

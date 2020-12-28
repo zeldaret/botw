@@ -6,10 +6,6 @@ StopASPlay::StopASPlay(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 StopASPlay::~StopASPlay() = default;
 
-bool StopASPlay::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
-}
-
 void StopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
 }

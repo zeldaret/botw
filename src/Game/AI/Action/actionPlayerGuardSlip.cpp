@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerGuardSlip::PlayerGuardSlip(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerGuardSlip::~PlayerGuardSlip() = default;
-
-bool PlayerGuardSlip::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerGuardSlip::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

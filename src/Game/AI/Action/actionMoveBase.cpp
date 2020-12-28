@@ -6,10 +6,6 @@ MoveBase::MoveBase(const InitArg& arg) : ActionEx(arg) {}
 
 MoveBase::~MoveBase() = default;
 
-bool MoveBase::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void MoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

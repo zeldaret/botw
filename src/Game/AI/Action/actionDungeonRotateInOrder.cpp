@@ -4,8 +4,6 @@ namespace uking::action {
 
 DungeonRotateInOrder::DungeonRotateInOrder(const InitArg& arg) : DungeonRotateBase(arg) {}
 
-DungeonRotateInOrder::~DungeonRotateInOrder() = default;
-
 bool DungeonRotateInOrder::init_(sead::Heap* heap) {
     return DungeonRotateBase::init_(heap);
 }

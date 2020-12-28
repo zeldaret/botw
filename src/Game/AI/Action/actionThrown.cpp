@@ -6,10 +6,6 @@ Thrown::Thrown(const InitArg& arg) : ActionEx(arg) {}
 
 Thrown::~Thrown() = default;
 
-bool Thrown::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void Thrown::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

@@ -8,7 +8,6 @@ class AtOnWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AtOnWait, ksys::act::ai::Action)
 public:
     explicit AtOnWait(const InitArg& arg);
-    ~AtOnWait() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

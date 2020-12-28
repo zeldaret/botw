@@ -6,10 +6,6 @@ PlayerRailMove::PlayerRailMove(const InitArg& arg) : PlayerGuidedMove(arg) {}
 
 PlayerRailMove::~PlayerRailMove() = default;
 
-bool PlayerRailMove::init_(sead::Heap* heap) {
-    return PlayerGuidedMove::init_(heap);
-}
-
 void PlayerRailMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerGuidedMove::enter_(params);
 }

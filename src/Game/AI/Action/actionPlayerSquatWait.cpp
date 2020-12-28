@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSquatWait::PlayerSquatWait(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSquatWait::~PlayerSquatWait() = default;
-
-bool PlayerSquatWait::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSquatWait::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

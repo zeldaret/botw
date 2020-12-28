@@ -4,12 +4,6 @@ namespace uking::action {
 
 HoldArrowBackWalk::HoldArrowBackWalk(const InitArg& arg) : BackWalkEx(arg) {}
 
-HoldArrowBackWalk::~HoldArrowBackWalk() = default;
-
-bool HoldArrowBackWalk::init_(sead::Heap* heap) {
-    return BackWalkEx::init_(heap);
-}
-
 void HoldArrowBackWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     BackWalkEx::enter_(params);
 }

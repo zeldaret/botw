@@ -6,10 +6,6 @@ ReloadArrow::ReloadArrow(const InitArg& arg) : ActionEx(arg) {}
 
 ReloadArrow::~ReloadArrow() = default;
 
-bool ReloadArrow::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void ReloadArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

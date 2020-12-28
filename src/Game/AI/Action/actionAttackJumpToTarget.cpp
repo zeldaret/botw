@@ -6,10 +6,6 @@ AttackJumpToTarget::AttackJumpToTarget(const InitArg& arg) : JumpToTarget(arg) {
 
 AttackJumpToTarget::~AttackJumpToTarget() = default;
 
-bool AttackJumpToTarget::init_(sead::Heap* heap) {
-    return JumpToTarget::init_(heap);
-}
-
 void AttackJumpToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     JumpToTarget::enter_(params);
 }

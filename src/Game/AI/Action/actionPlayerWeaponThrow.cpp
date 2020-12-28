@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerWeaponThrow::PlayerWeaponThrow(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerWeaponThrow::~PlayerWeaponThrow() = default;
-
-bool PlayerWeaponThrow::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerWeaponThrow::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

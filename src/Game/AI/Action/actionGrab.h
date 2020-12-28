@@ -9,7 +9,6 @@ class Grab : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Grab, ActionWithPosAngReduce)
 public:
     explicit Grab(const InitArg& arg);
-    ~Grab() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

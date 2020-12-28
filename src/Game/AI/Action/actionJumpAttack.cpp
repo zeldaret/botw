@@ -6,10 +6,6 @@ JumpAttack::JumpAttack(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 JumpAttack::~JumpAttack() = default;
 
-bool JumpAttack::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void JumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

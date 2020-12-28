@@ -4,12 +4,6 @@ namespace uking::action {
 
 GetItemIntoBag::GetItemIntoBag(const InitArg& arg) : GetItem(arg) {}
 
-GetItemIntoBag::~GetItemIntoBag() = default;
-
-bool GetItemIntoBag::init_(sead::Heap* heap) {
-    return GetItem::init_(heap);
-}
-
 void GetItemIntoBag::enter_(ksys::act::ai::InlineParamPack* params) {
     GetItem::enter_(params);
 }

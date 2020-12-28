@@ -6,10 +6,6 @@ PriestBossMove::PriestBossMove(const InitArg& arg) : ksys::act::ai::Action(arg) 
 
 PriestBossMove::~PriestBossMove() = default;
 
-bool PriestBossMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void PriestBossMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

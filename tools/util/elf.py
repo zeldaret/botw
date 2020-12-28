@@ -1,5 +1,6 @@
 import io
-from typing import Any, Dict, NamedTuple
+import struct
+from typing import Any, Dict, NamedTuple, Tuple
 
 from elftools.elf.elffile import ELFFile
 from elftools.elf.relocation import RelocationSection
@@ -76,6 +77,7 @@ def build_name_to_symbol_table(symtab) -> Dict[str, Symbol]:
 
 
 def read_from_elf(elf: ELFFile, addr: int, size: int) -> bytes:
+    addr &= ~0x7100000000
     offset: int = get_file_offset(elf, addr)
     elf.stream.seek(offset)
     return elf.stream.read(size)
@@ -106,3 +108,19 @@ def build_glob_data_table(elf: ELFFile) -> Dict[int, int]:
             table[reloc["r_offset"]] = sym_value + reloc["r_addend"]
 
     return table
+
+
+def unpack_vtable_fns(vtable_bytes: bytes, num_entries: int) -> Tuple[int, ...]:
+    return struct.unpack(f"<{num_entries}Q", vtable_bytes[:num_entries * 8])
+
+
+def get_vtable_fns_from_base_elf(vtable_addr: int, num_entries: int) -> Tuple[int, ...]:
+    vtable_bytes = read_from_elf(base_elf, vtable_addr, num_entries * 8)
+    return unpack_vtable_fns(vtable_bytes, num_entries)
+
+
+def get_vtable_fns_from_my_elf(vtable_name: str, num_entries: int) -> Tuple[int, ...]:
+    offset, size = get_symbol_file_offset_and_size(my_elf, my_symtab, vtable_name)
+    my_elf.stream.seek(offset + 0x10)
+    vtable_bytes = my_elf.stream.read(size - 0x10)
+    return unpack_vtable_fns(vtable_bytes, num_entries)

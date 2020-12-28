@@ -4,8 +4,6 @@ namespace uking::action {
 
 TargetCircleGuardWalk::TargetCircleGuardWalk(const InitArg& arg) : TargetCircle(arg) {}
 
-TargetCircleGuardWalk::~TargetCircleGuardWalk() = default;
-
 bool TargetCircleGuardWalk::init_(sead::Heap* heap) {
     return TargetCircle::init_(heap);
 }

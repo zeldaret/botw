@@ -14,12 +14,6 @@ void NPCDyeShopReception::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void NPCDyeShopReception::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
-void NPCDyeShopReception::loadParams_() {}
-
 void NPCDyeShopReception::calc_() {
     ksys::act::ai::Action::calc_();
 }

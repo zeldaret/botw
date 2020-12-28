@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerMove::PlayerMove(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerMove::~PlayerMove() = default;
-
-bool PlayerMove::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

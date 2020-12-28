@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerCutAfterJust::PlayerCutAfterJust(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerCutAfterJust::~PlayerCutAfterJust() = default;
-
-bool PlayerCutAfterJust::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerCutAfterJust::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

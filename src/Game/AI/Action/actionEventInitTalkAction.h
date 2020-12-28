@@ -8,7 +8,6 @@ class EventInitTalkAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventInitTalkAction, ksys::act::ai::Action)
 public:
     explicit EventInitTalkAction(const InitArg& arg);
-    ~EventInitTalkAction() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -6,16 +6,8 @@ GuardianMiniNeckSpinBeam::GuardianMiniNeckSpinBeam(const InitArg& arg) : NeckSpi
 
 GuardianMiniNeckSpinBeam::~GuardianMiniNeckSpinBeam() = default;
 
-bool GuardianMiniNeckSpinBeam::init_(sead::Heap* heap) {
-    return NeckSpinBeam::init_(heap);
-}
-
 void GuardianMiniNeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {
     NeckSpinBeam::enter_(params);
-}
-
-void GuardianMiniNeckSpinBeam::leave_() {
-    NeckSpinBeam::leave_();
 }
 
 void GuardianMiniNeckSpinBeam::loadParams_() {

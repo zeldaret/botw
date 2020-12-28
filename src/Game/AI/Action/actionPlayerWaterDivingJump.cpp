@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerWaterDivingJump::PlayerWaterDivingJump(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerWaterDivingJump::~PlayerWaterDivingJump() = default;
-
-bool PlayerWaterDivingJump::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerWaterDivingJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

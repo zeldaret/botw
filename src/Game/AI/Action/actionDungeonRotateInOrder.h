@@ -9,7 +9,6 @@ class DungeonRotateInOrder : public DungeonRotateBase {
     SEAD_RTTI_OVERRIDE(DungeonRotateInOrder, DungeonRotateBase)
 public:
     explicit DungeonRotateInOrder(const InitArg& arg);
-    ~DungeonRotateInOrder() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

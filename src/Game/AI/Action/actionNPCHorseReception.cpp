@@ -6,19 +6,9 @@ NPCHorseReception::NPCHorseReception(const InitArg& arg) : ksys::act::ai::Action
 
 NPCHorseReception::~NPCHorseReception() = default;
 
-bool NPCHorseReception::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void NPCHorseReception::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
-
-void NPCHorseReception::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
-void NPCHorseReception::loadParams_() {}
 
 void NPCHorseReception::calc_() {
     ksys::act::ai::Action::calc_();

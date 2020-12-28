@@ -5,12 +5,6 @@ namespace uking::action {
 PlayASForTimelineWithSword::PlayASForTimelineWithSword(const InitArg& arg)
     : PlayASForTimeline(arg) {}
 
-PlayASForTimelineWithSword::~PlayASForTimelineWithSword() = default;
-
-bool PlayASForTimelineWithSword::init_(sead::Heap* heap) {
-    return PlayASForTimeline::init_(heap);
-}
-
 void PlayASForTimelineWithSword::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayASForTimeline::enter_(params);
 }

@@ -6,10 +6,6 @@ EquipedAction::EquipedAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 EquipedAction::~EquipedAction() = default;
 
-bool EquipedAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void EquipedAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

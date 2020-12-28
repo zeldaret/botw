@@ -9,11 +9,8 @@ class Guard : public TakeHitImpactForce {
     SEAD_RTTI_OVERRIDE(Guard, TakeHitImpactForce)
 public:
     explicit Guard(const InitArg& arg);
-    ~Guard() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
     void loadParams_() override;
 
 protected:

@@ -6,10 +6,6 @@ NPCTurnToObject::NPCTurnToObject(const InitArg& arg) : ksys::act::ai::Action(arg
 
 NPCTurnToObject::~NPCTurnToObject() = default;
 
-bool NPCTurnToObject::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void NPCTurnToObject::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

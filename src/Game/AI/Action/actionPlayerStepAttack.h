@@ -9,9 +9,7 @@ class PlayerStepAttack : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerStepAttack, PlayerAction)
 public:
     explicit PlayerStepAttack(const InitArg& arg);
-    ~PlayerStepAttack() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

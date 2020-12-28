@@ -14,16 +14,8 @@ void RideHorseAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void RideHorseAction::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void RideHorseAction::loadParams_() {
     getDynamicParam(&mHorse_d, "Horse");
-}
-
-void RideHorseAction::calc_() {
-    ksys::act::ai::Action::calc_();
 }
 
 }  // namespace uking::action

@@ -4,8 +4,6 @@ namespace uking::action {
 
 RopeNormal::RopeNormal(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-RopeNormal::~RopeNormal() = default;
-
 bool RopeNormal::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

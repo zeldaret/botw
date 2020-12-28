@@ -9,9 +9,7 @@ class PlayerCutAfterJump : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutAfterJump, PlayerAction)
 public:
     explicit PlayerCutAfterJump(const InitArg& arg);
-    ~PlayerCutAfterJump() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

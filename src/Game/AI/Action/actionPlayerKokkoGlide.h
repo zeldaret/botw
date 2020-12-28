@@ -9,9 +9,7 @@ class PlayerKokkoGlide : public PlayerGlide {
     SEAD_RTTI_OVERRIDE(PlayerKokkoGlide, PlayerGlide)
 public:
     explicit PlayerKokkoGlide(const InitArg& arg);
-    ~PlayerKokkoGlide() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

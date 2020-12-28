@@ -6,16 +6,8 @@ NPCKnockBackMove::NPCKnockBackMove(const InitArg& arg) : ksys::act::ai::Action(a
 
 NPCKnockBackMove::~NPCKnockBackMove() = default;
 
-bool NPCKnockBackMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void NPCKnockBackMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
-}
-
-void NPCKnockBackMove::leave_() {
-    ksys::act::ai::Action::leave_();
 }
 
 void NPCKnockBackMove::loadParams_() {

@@ -9,9 +9,7 @@ class PlayerDestinationTurn : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerDestinationTurn, PlayerAction)
 public:
     explicit PlayerDestinationTurn(const InitArg& arg);
-    ~PlayerDestinationTurn() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

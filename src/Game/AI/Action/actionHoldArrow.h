@@ -9,9 +9,7 @@ class HoldArrow : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(HoldArrow, ActionWithPosAngReduce)
 public:
     explicit HoldArrow(const InitArg& arg);
-    ~HoldArrow() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

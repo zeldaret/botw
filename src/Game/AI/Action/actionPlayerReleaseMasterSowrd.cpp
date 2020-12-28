@@ -11,18 +11,6 @@ bool PlayerReleaseMasterSowrd::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void PlayerReleaseMasterSowrd::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
-}
-
-void PlayerReleaseMasterSowrd::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void PlayerReleaseMasterSowrd::loadParams_() {}
-
-void PlayerReleaseMasterSowrd::calc_() {
-    ksys::act::ai::Action::calc_();
-}
 
 }  // namespace uking::action

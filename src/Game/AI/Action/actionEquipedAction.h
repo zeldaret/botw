@@ -10,7 +10,6 @@ public:
     explicit EquipedAction(const InitArg& arg);
     ~EquipedAction() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

@@ -9,7 +9,6 @@ class GetRupee : public GetItem {
     SEAD_RTTI_OVERRIDE(GetRupee, GetItem)
 public:
     explicit GetRupee(const InitArg& arg);
-    ~GetRupee() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

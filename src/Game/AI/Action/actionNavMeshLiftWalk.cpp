@@ -4,8 +4,6 @@ namespace uking::action {
 
 NavMeshLiftWalk::NavMeshLiftWalk(const InitArg& arg) : NavMeshAction(arg) {}
 
-NavMeshLiftWalk::~NavMeshLiftWalk() = default;
-
 bool NavMeshLiftWalk::init_(sead::Heap* heap) {
     return NavMeshAction::init_(heap);
 }

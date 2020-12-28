@@ -10,7 +10,6 @@ public:
     explicit ItemConductorDemoBind(const InitArg& arg);
     ~ItemConductorDemoBind() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

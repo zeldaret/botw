@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerDamage::PlayerDamage(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerDamage::~PlayerDamage() = default;
-
-bool PlayerDamage::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

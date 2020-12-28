@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSideStep::PlayerSideStep(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSideStep::~PlayerSideStep() = default;
-
-bool PlayerSideStep::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSideStep::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -9,12 +9,9 @@ class PlayerGrabUpAnmStop : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGrabUpAnmStop, PlayerAction)
 public:
     explicit PlayerGrabUpAnmStop(const InitArg& arg);
-    ~PlayerGrabUpAnmStop() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
-    void loadParams_() override;
 
 protected:
     void calc_() override;

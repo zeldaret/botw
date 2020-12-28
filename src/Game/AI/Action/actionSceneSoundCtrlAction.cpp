@@ -10,21 +10,9 @@ bool SceneSoundCtrlAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void SceneSoundCtrlAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
-}
-
-void SceneSoundCtrlAction::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void SceneSoundCtrlAction::loadParams_() {
     getDynamicParam(&mBgmCtrlType_d, "BgmCtrlType");
     getDynamicParam(&mSeCtrlType_d, "SeCtrlType");
-}
-
-void SceneSoundCtrlAction::calc_() {
-    ksys::act::ai::Action::calc_();
 }
 
 }  // namespace uking::action

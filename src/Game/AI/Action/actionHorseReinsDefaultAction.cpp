@@ -6,10 +6,6 @@ HorseReinsDefaultAction::HorseReinsDefaultAction(const InitArg& arg) : ksys::act
 
 HorseReinsDefaultAction::~HorseReinsDefaultAction() = default;
 
-bool HorseReinsDefaultAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void HorseReinsDefaultAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

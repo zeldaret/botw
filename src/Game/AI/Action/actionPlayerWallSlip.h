@@ -9,9 +9,7 @@ class PlayerWallSlip : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWallSlip, PlayerAction)
 public:
     explicit PlayerWallSlip(const InitArg& arg);
-    ~PlayerWallSlip() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

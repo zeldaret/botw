@@ -11,7 +11,6 @@ public:
     explicit EquipedRod(const InitArg& arg);
     ~EquipedRod() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

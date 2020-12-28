@@ -11,13 +11,9 @@ public:
     ~EventSetGameDataStringAction() override;
 
     bool init_(sead::Heap* heap) override;
-    void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
     void loadParams_() override;
 
 protected:
-    void calc_() override;
-
     // dynamic_param at offset 0x20
     sead::SafeString* mGameDataStringName_d{};
     // dynamic_param at offset 0x30

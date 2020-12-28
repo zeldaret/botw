@@ -11,14 +11,6 @@ bool CustomDuckingStartAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void CustomDuckingStartAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
-}
-
-void CustomDuckingStartAction::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void CustomDuckingStartAction::loadParams_() {
     getDynamicParam(&mVolume_d, "Volume");
     getDynamicParam(&mFadeOutSec_d, "FadeOutSec");
@@ -26,10 +18,6 @@ void CustomDuckingStartAction::loadParams_() {
     getDynamicParam(&mStartDelaySec_d, "StartDelaySec");
     getDynamicParam(&mTargetGroups_d, "TargetGroups");
     getDynamicParam(&mExceptGroups_d, "ExceptGroups");
-}
-
-void CustomDuckingStartAction::calc_() {
-    ksys::act::ai::Action::calc_();
 }
 
 }  // namespace uking::action

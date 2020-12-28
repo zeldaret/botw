@@ -4,8 +4,6 @@ namespace uking::action {
 
 AnimalMoveGuidedBase::AnimalMoveGuidedBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-AnimalMoveGuidedBase::~AnimalMoveGuidedBase() = default;
-
 bool AnimalMoveGuidedBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

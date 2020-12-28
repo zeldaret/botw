@@ -9,7 +9,6 @@ class LiftWalk : public MoveBase {
     SEAD_RTTI_OVERRIDE(LiftWalk, MoveBase)
 public:
     explicit LiftWalk(const InitArg& arg);
-    ~LiftWalk() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

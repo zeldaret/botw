@@ -6,16 +6,8 @@ BackWalkWithAS::BackWalkWithAS(const InitArg& arg) : BackWalkEx(arg) {}
 
 BackWalkWithAS::~BackWalkWithAS() = default;
 
-bool BackWalkWithAS::init_(sead::Heap* heap) {
-    return BackWalkEx::init_(heap);
-}
-
 void BackWalkWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
     BackWalkEx::enter_(params);
-}
-
-void BackWalkWithAS::leave_() {
-    BackWalkEx::leave_();
 }
 
 void BackWalkWithAS::loadParams_() {

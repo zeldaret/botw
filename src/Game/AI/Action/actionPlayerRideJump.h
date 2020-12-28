@@ -9,9 +9,7 @@ class PlayerRideJump : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerRideJump, PlayerAction)
 public:
     explicit PlayerRideJump(const InitArg& arg);
-    ~PlayerRideJump() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

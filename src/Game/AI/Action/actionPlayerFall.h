@@ -9,9 +9,7 @@ class PlayerFall : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerFall, PlayerAction)
 public:
     explicit PlayerFall(const InitArg& arg);
-    ~PlayerFall() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

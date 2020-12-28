@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayASForDemoWithSword::PlayASForDemoWithSword(const InitArg& arg) : PlayASForDemo(arg) {}
 
-PlayASForDemoWithSword::~PlayASForDemoWithSword() = default;
-
-bool PlayASForDemoWithSword::init_(sead::Heap* heap) {
-    return PlayASForDemo::init_(heap);
-}
-
 void PlayASForDemoWithSword::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayASForDemo::enter_(params);
 }

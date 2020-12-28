@@ -10,18 +10,6 @@ bool RequestCreateHCIModel::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void RequestCreateHCIModel::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
-}
-
-void RequestCreateHCIModel::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void RequestCreateHCIModel::loadParams_() {}
-
-void RequestCreateHCIModel::calc_() {
-    ksys::act::ai::Action::calc_();
-}
 
 }  // namespace uking::action

@@ -8,7 +8,7 @@ PlayerForkDropWeaponWithSpeed::PlayerForkDropWeaponWithSpeed(const InitArg& arg)
 PlayerForkDropWeaponWithSpeed::~PlayerForkDropWeaponWithSpeed() = default;
 
 bool PlayerForkDropWeaponWithSpeed::init_(sead::Heap* heap) {
-    return ForkDropWeapon::init_(heap);  // NOLINT(bugprone-parent-virtual-call)
+    return ForkDropWeaponWithSpeed::init_(heap);
 }
 
 void PlayerForkDropWeaponWithSpeed::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -16,11 +16,11 @@ void PlayerForkDropWeaponWithSpeed::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void PlayerForkDropWeaponWithSpeed::leave_() {
-    ForkDropWeapon::leave_();  // NOLINT(bugprone-parent-virtual-call)
+    ForkDropWeaponWithSpeed::leave_();
 }
 
 void PlayerForkDropWeaponWithSpeed::loadParams_() {
-    ForkDropWeapon::loadParams_();  // NOLINT(bugprone-parent-virtual-call)
+    ForkDropWeapon::loadParams_();
 }
 
 void PlayerForkDropWeaponWithSpeed::calc_() {

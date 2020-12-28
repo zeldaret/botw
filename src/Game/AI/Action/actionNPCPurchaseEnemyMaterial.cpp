@@ -15,12 +15,6 @@ void NPCPurchaseEnemyMaterial::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void NPCPurchaseEnemyMaterial::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
-void NPCPurchaseEnemyMaterial::loadParams_() {}
-
 void NPCPurchaseEnemyMaterial::calc_() {
     ksys::act::ai::Action::calc_();
 }

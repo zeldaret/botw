@@ -14,10 +14,6 @@ void StartLifeUpDemo::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void StartLifeUpDemo::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void StartLifeUpDemo::loadParams_() {}
 
 void StartLifeUpDemo::calc_() {

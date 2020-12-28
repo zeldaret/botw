@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerGrabUpAnmStop::PlayerGrabUpAnmStop(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerGrabUpAnmStop::~PlayerGrabUpAnmStop() = default;
-
-bool PlayerGrabUpAnmStop::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerGrabUpAnmStop::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
@@ -17,8 +11,6 @@ void PlayerGrabUpAnmStop::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerGrabUpAnmStop::leave_() {
     PlayerAction::leave_();
 }
-
-void PlayerGrabUpAnmStop::loadParams_() {}
 
 void PlayerGrabUpAnmStop::calc_() {
     PlayerAction::calc_();

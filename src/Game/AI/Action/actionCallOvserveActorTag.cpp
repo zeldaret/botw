@@ -18,12 +18,6 @@ void CallOvserveActorTag::leave_() {
     AreaObserveActorAction::leave_();
 }
 
-void CallOvserveActorTag::loadParams_() {
-    getMapUnitParam(&mCount_m, "Count");
-    getMapUnitParam(&mIsSendMessage_m, "IsSendMessage");
-    getMapUnitParam(&mDefaultBasicSignal_m, "DefaultBasicSignal");
-}
-
 void CallOvserveActorTag::calc_() {
     AreaObserveActorAction::calc_();
 }

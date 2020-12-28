@@ -4,8 +4,6 @@ namespace uking::action {
 
 FreezedInIce::FreezedInIce(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-FreezedInIce::~FreezedInIce() = default;
-
 bool FreezedInIce::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

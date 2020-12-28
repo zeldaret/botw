@@ -6,10 +6,6 @@ WaterFloatFreeze::WaterFloatFreeze(const InitArg& arg) : WaterFloatImmobile(arg)
 
 WaterFloatFreeze::~WaterFloatFreeze() = default;
 
-bool WaterFloatFreeze::init_(sead::Heap* heap) {
-    return WaterFloatImmobile::init_(heap);
-}
-
 void WaterFloatFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
     WaterFloatImmobile::enter_(params);
 }

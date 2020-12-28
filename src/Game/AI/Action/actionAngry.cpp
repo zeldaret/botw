@@ -4,8 +4,6 @@ namespace uking::action {
 
 Angry::Angry(const InitArg& arg) : ActionWithAS(arg) {}
 
-Angry::~Angry() = default;
-
 bool Angry::init_(sead::Heap* heap) {
     return ActionWithAS::init_(heap);
 }

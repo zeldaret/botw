@@ -4,8 +4,6 @@ namespace uking::action {
 
 SwitchElectricOn::SwitchElectricOn(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-SwitchElectricOn::~SwitchElectricOn() = default;
-
 bool SwitchElectricOn::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerFall::PlayerFall(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerFall::~PlayerFall() = default;
-
-bool PlayerFall::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerFall::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

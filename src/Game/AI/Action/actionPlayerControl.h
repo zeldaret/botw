@@ -9,12 +9,9 @@ class PlayerControl : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerControl, PlayerAction)
 public:
     explicit PlayerControl(const InitArg& arg);
-    ~PlayerControl() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
-    void loadParams_() override;
 
 protected:
     void calc_() override;

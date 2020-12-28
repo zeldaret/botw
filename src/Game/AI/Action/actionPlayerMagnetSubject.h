@@ -9,9 +9,7 @@ class PlayerMagnetSubject : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerMagnetSubject, PlayerAction)
 public:
     explicit PlayerMagnetSubject(const InitArg& arg);
-    ~PlayerMagnetSubject() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

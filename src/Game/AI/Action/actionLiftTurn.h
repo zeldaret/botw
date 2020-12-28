@@ -9,7 +9,6 @@ class LiftTurn : public TurnBase {
     SEAD_RTTI_OVERRIDE(LiftTurn, TurnBase)
 public:
     explicit LiftTurn(const InitArg& arg);
-    ~LiftTurn() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

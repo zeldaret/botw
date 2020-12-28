@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSuperJump::PlayerSuperJump(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSuperJump::~PlayerSuperJump() = default;
-
-bool PlayerSuperJump::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSuperJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

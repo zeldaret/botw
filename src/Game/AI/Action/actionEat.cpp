@@ -6,10 +6,6 @@ Eat::Eat(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 Eat::~Eat() = default;
 
-bool Eat::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
-}
-
 void Eat::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
 }

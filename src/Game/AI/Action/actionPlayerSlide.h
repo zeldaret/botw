@@ -11,7 +11,6 @@ public:
     explicit PlayerSlide(const InitArg& arg);
     ~PlayerSlide() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

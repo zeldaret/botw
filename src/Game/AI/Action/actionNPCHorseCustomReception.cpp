@@ -14,10 +14,6 @@ void NPCHorseCustomReception::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void NPCHorseCustomReception::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void NPCHorseCustomReception::loadParams_() {
     getDynamicParam(&mCustomItemType_d, "CustomItemType");
 }

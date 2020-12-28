@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerRemainsBlow::PlayerRemainsBlow(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerRemainsBlow::~PlayerRemainsBlow() = default;
-
-bool PlayerRemainsBlow::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerRemainsBlow::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

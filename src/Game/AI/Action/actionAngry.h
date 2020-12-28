@@ -9,7 +9,6 @@ class Angry : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Angry, ActionWithAS)
 public:
     explicit Angry(const InitArg& arg);
-    ~Angry() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

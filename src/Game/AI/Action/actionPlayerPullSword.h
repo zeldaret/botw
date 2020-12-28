@@ -9,9 +9,7 @@ class PlayerPullSword : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerPullSword, PlayerAction)
 public:
     explicit PlayerPullSword(const InitArg& arg);
-    ~PlayerPullSword() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

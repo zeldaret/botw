@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerMagnetSubject::PlayerMagnetSubject(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerMagnetSubject::~PlayerMagnetSubject() = default;
-
-bool PlayerMagnetSubject::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerMagnetSubject::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

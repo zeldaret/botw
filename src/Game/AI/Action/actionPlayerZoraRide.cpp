@@ -6,10 +6,6 @@ PlayerZoraRide::PlayerZoraRide(const InitArg& arg) : PlayerAction(arg) {}
 
 PlayerZoraRide::~PlayerZoraRide() = default;
 
-bool PlayerZoraRide::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerZoraRide::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

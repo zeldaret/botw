@@ -6,10 +6,6 @@ BackWalkBase::BackWalkBase(const InitArg& arg) : ActionEx(arg) {}
 
 BackWalkBase::~BackWalkBase() = default;
 
-bool BackWalkBase::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void BackWalkBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

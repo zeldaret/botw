@@ -9,7 +9,6 @@ class WaterFloatImmobile : public WaterFloatBase {
     SEAD_RTTI_OVERRIDE(WaterFloatImmobile, WaterFloatBase)
 public:
     explicit WaterFloatImmobile(const InitArg& arg);
-    ~WaterFloatImmobile() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

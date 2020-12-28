@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerBackJump::PlayerBackJump(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerBackJump::~PlayerBackJump() = default;
-
-bool PlayerBackJump::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerBackJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -9,12 +9,9 @@ class PlayerSlideLand : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSlideLand, PlayerAction)
 public:
     explicit PlayerSlideLand(const InitArg& arg);
-    ~PlayerSlideLand() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
-    void loadParams_() override;
 
 protected:
     void calc_() override;

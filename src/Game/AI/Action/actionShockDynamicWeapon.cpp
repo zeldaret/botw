@@ -6,10 +6,6 @@ ShockDynamicWeapon::ShockDynamicWeapon(const InitArg& arg) : Shock(arg) {}
 
 ShockDynamicWeapon::~ShockDynamicWeapon() = default;
 
-bool ShockDynamicWeapon::init_(sead::Heap* heap) {
-    return Shock::init_(heap);
-}
-
 void ShockDynamicWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     Shock::enter_(params);
 }

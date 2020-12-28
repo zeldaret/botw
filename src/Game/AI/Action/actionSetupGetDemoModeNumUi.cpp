@@ -10,21 +10,9 @@ bool SetupGetDemoModeNumUi::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void SetupGetDemoModeNumUi::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
-}
-
-void SetupGetDemoModeNumUi::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void SetupGetDemoModeNumUi::loadParams_() {
     getDynamicParam(&mNumUiType_d, "NumUiType");
     getDynamicParam(&mAddNum_d, "AddNum");
-}
-
-void SetupGetDemoModeNumUi::calc_() {
-    ksys::act::ai::Action::calc_();
 }
 
 }  // namespace uking::action

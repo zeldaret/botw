@@ -4,12 +4,6 @@ namespace uking::action {
 
 Delete::Delete(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-Delete::~Delete() = default;
-
-bool Delete::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void Delete::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

@@ -6,25 +6,13 @@ BattleLevelFlyMove::BattleLevelFlyMove(const InitArg& arg) : BattleLevelFlyMoveB
 
 BattleLevelFlyMove::~BattleLevelFlyMove() = default;
 
-bool BattleLevelFlyMove::init_(sead::Heap* heap) {
-    return BattleLevelFlyMoveBase::init_(heap);
-}
-
 void BattleLevelFlyMove::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleLevelFlyMoveBase::enter_(params);
-}
-
-void BattleLevelFlyMove::leave_() {
-    BattleLevelFlyMoveBase::leave_();
 }
 
 void BattleLevelFlyMove::loadParams_() {
     BattleLevelFlyMoveBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
-}
-
-void BattleLevelFlyMove::calc_() {
-    BattleLevelFlyMoveBase::calc_();
 }
 
 }  // namespace uking::action

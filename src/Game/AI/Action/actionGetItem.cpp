@@ -4,8 +4,6 @@ namespace uking::action {
 
 GetItem::GetItem(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-GetItem::~GetItem() = default;
-
 bool GetItem::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

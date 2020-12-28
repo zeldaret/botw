@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerLaunch::PlayerLaunch(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerLaunch::~PlayerLaunch() = default;
-
-bool PlayerLaunch::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerLaunch::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

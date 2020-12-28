@@ -9,9 +9,7 @@ class PlayerMiddleDamage : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerMiddleDamage, PlayerAction)
 public:
     explicit PlayerMiddleDamage(const InitArg& arg);
-    ~PlayerMiddleDamage() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

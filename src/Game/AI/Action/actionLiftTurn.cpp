@@ -4,8 +4,6 @@ namespace uking::action {
 
 LiftTurn::LiftTurn(const InitArg& arg) : TurnBase(arg) {}
 
-LiftTurn::~LiftTurn() = default;
-
 bool LiftTurn::init_(sead::Heap* heap) {
     return TurnBase::init_(heap);
 }

@@ -9,7 +9,6 @@ class SwitchStepSliderConstraintOnce : public SwitchStepSliderConstraint {
     SEAD_RTTI_OVERRIDE(SwitchStepSliderConstraintOnce, SwitchStepSliderConstraint)
 public:
     explicit SwitchStepSliderConstraintOnce(const InitArg& arg);
-    ~SwitchStepSliderConstraintOnce() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

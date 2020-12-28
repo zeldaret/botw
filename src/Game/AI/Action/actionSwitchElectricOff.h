@@ -8,7 +8,6 @@ class SwitchElectricOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwitchElectricOff, ksys::act::ai::Action)
 public:
     explicit SwitchElectricOff(const InitArg& arg);
-    ~SwitchElectricOff() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

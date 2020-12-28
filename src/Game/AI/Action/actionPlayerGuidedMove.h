@@ -9,9 +9,7 @@ class PlayerGuidedMove : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGuidedMove, PlayerAction)
 public:
     explicit PlayerGuidedMove(const InitArg& arg);
-    ~PlayerGuidedMove() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

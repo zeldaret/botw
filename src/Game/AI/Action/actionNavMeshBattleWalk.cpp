@@ -4,8 +4,6 @@ namespace uking::action {
 
 NavMeshBattleWalk::NavMeshBattleWalk(const InitArg& arg) : NavMeshAction(arg) {}
 
-NavMeshBattleWalk::~NavMeshBattleWalk() = default;
-
 bool NavMeshBattleWalk::init_(sead::Heap* heap) {
     return NavMeshAction::init_(heap);
 }

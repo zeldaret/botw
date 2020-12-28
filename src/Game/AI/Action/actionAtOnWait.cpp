@@ -4,8 +4,6 @@ namespace uking::action {
 
 AtOnWait::AtOnWait(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-AtOnWait::~AtOnWait() = default;
-
 bool AtOnWait::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

@@ -9,9 +9,7 @@ class PlayerHorseGetOff : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHorseGetOff, PlayerAction)
 public:
     explicit PlayerHorseGetOff(const InitArg& arg);
-    ~PlayerHorseGetOff() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

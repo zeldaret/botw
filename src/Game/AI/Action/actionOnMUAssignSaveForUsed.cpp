@@ -10,18 +10,6 @@ bool OnMUAssignSaveForUsed::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void OnMUAssignSaveForUsed::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
-}
-
-void OnMUAssignSaveForUsed::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void OnMUAssignSaveForUsed::loadParams_() {}
-
-void OnMUAssignSaveForUsed::calc_() {
-    ksys::act::ai::Action::calc_();
-}
 
 }  // namespace uking::action

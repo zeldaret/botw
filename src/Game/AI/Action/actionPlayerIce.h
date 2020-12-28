@@ -9,9 +9,7 @@ class PlayerIce : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerIce, PlayerAction)
 public:
     explicit PlayerIce(const InitArg& arg);
-    ~PlayerIce() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

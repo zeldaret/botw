@@ -9,9 +9,7 @@ class PlayerLargeDamage : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerLargeDamage, PlayerAction)
 public:
     explicit PlayerLargeDamage(const InitArg& arg);
-    ~PlayerLargeDamage() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

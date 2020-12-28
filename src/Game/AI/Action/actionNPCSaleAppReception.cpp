@@ -14,12 +14,6 @@ void NPCSaleAppReception::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void NPCSaleAppReception::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
-void NPCSaleAppReception::loadParams_() {}
-
 void NPCSaleAppReception::calc_() {
     ksys::act::ai::Action::calc_();
 }

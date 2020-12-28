@@ -9,7 +9,6 @@ class StopASIgnite : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(StopASIgnite, OnetimeStopASPlay)
 public:
     explicit StopASIgnite(const InitArg& arg);
-    ~StopASIgnite() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

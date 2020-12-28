@@ -6,10 +6,6 @@ ObservationPointAction::ObservationPointAction(const InitArg& arg) : ksys::act::
 
 ObservationPointAction::~ObservationPointAction() = default;
 
-bool ObservationPointAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void ObservationPointAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

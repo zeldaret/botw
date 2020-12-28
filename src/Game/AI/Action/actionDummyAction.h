@@ -8,9 +8,7 @@ class DummyAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DummyAction, ksys::act::ai::Action)
 public:
     explicit DummyAction(const InitArg& arg);
-    ~DummyAction() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

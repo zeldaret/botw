@@ -4,12 +4,6 @@ namespace uking::action {
 
 HoldArrow::HoldArrow(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-HoldArrow::~HoldArrow() = default;
-
-bool HoldArrow::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
-}
-
 void HoldArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
 }

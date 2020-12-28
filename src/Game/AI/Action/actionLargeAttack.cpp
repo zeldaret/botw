@@ -6,10 +6,6 @@ LargeAttack::LargeAttack(const InitArg& arg) : ActionEx(arg) {}
 
 LargeAttack::~LargeAttack() = default;
 
-bool LargeAttack::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void LargeAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

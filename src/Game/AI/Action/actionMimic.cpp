@@ -6,10 +6,6 @@ Mimic::Mimic(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 Mimic::~Mimic() = default;
 
-bool Mimic::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
-}
-
 void Mimic::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
 }

@@ -10,18 +10,4 @@ bool PlayerMasterSwordEquip::init_(sead::Heap* heap) {
     return PlayerAction::init_(heap);
 }
 
-void PlayerMasterSwordEquip::enter_(ksys::act::ai::InlineParamPack* params) {
-    PlayerAction::enter_(params);
-}
-
-void PlayerMasterSwordEquip::leave_() {
-    PlayerAction::leave_();
-}
-
-void PlayerMasterSwordEquip::loadParams_() {}
-
-void PlayerMasterSwordEquip::calc_() {
-    PlayerAction::calc_();
-}
-
 }  // namespace uking::action

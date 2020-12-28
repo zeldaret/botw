@@ -6,10 +6,6 @@ Attack::Attack(const InitArg& arg) : AttackBase(arg) {}
 
 Attack::~Attack() = default;
 
-bool Attack::init_(sead::Heap* heap) {
-    return AttackBase::init_(heap);
-}
-
 void Attack::enter_(ksys::act::ai::InlineParamPack* params) {
     AttackBase::enter_(params);
 }

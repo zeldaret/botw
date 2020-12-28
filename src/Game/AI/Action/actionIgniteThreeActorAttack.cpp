@@ -6,10 +6,6 @@ IgniteThreeActorAttack::IgniteThreeActorAttack(const InitArg& arg) : OnetimeStop
 
 IgniteThreeActorAttack::~IgniteThreeActorAttack() = default;
 
-bool IgniteThreeActorAttack::init_(sead::Heap* heap) {
-    return OnetimeStopASPlay::init_(heap);
-}
-
 void IgniteThreeActorAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     OnetimeStopASPlay::enter_(params);
 }

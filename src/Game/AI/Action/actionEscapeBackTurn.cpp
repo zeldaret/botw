@@ -6,10 +6,6 @@ EscapeBackTurn::EscapeBackTurn(const InitArg& arg) : ActionEx(arg) {}
 
 EscapeBackTurn::~EscapeBackTurn() = default;
 
-bool EscapeBackTurn::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void EscapeBackTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

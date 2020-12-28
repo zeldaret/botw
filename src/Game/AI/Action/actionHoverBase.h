@@ -9,7 +9,6 @@ class HoverBase : public FreeMovingAction {
     SEAD_RTTI_OVERRIDE(HoverBase, FreeMovingAction)
 public:
     explicit HoverBase(const InitArg& arg);
-    ~HoverBase() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

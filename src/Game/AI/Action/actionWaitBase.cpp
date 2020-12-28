@@ -6,16 +6,8 @@ WaitBase::WaitBase(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 WaitBase::~WaitBase() = default;
 
-bool WaitBase::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
-}
-
 void WaitBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
-}
-
-void WaitBase::leave_() {
-    ActionWithPosAngReduce::leave_();
 }
 
 void WaitBase::loadParams_() {

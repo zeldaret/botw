@@ -6,10 +6,6 @@ Fall::Fall(const InitArg& arg) : ActionEx(arg) {}
 
 Fall::~Fall() = default;
 
-bool Fall::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void Fall::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

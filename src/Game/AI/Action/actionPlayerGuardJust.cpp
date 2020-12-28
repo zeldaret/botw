@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerGuardJust::PlayerGuardJust(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerGuardJust::~PlayerGuardJust() = default;
-
-bool PlayerGuardJust::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerGuardJust::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

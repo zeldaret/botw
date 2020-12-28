@@ -6,10 +6,6 @@ PriestBossBlownOff::PriestBossBlownOff(const InitArg& arg) : BlownOff(arg) {}
 
 PriestBossBlownOff::~PriestBossBlownOff() = default;
 
-bool PriestBossBlownOff::init_(sead::Heap* heap) {
-    return BlownOff::init_(heap);
-}
-
 void PriestBossBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     BlownOff::enter_(params);
 }

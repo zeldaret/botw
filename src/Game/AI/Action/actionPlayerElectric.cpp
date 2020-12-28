@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerElectric::PlayerElectric(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerElectric::~PlayerElectric() = default;
-
-bool PlayerElectric::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerElectric::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

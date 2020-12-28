@@ -9,7 +9,6 @@ class GuardBackWalk : public BackWalkEx {
     SEAD_RTTI_OVERRIDE(GuardBackWalk, BackWalkEx)
 public:
     explicit GuardBackWalk(const InitArg& arg);
-    ~GuardBackWalk() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

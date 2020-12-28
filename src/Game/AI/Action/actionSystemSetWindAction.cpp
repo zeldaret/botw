@@ -4,8 +4,6 @@ namespace uking::action {
 
 SystemSetWindAction::SystemSetWindAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-SystemSetWindAction::~SystemSetWindAction() = default;
-
 bool SystemSetWindAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

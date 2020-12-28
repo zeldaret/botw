@@ -6,10 +6,6 @@ TimeredNeckSpin::TimeredNeckSpin(const InitArg& arg) : NeckSpin(arg) {}
 
 TimeredNeckSpin::~TimeredNeckSpin() = default;
 
-bool TimeredNeckSpin::init_(sead::Heap* heap) {
-    return NeckSpin::init_(heap);
-}
-
 void TimeredNeckSpin::enter_(ksys::act::ai::InlineParamPack* params) {
     NeckSpin::enter_(params);
 }

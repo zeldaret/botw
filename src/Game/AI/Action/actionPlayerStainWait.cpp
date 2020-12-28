@@ -18,8 +18,6 @@ void PlayerStainWait::leave_() {
     PlayerAction::leave_();
 }
 
-void PlayerStainWait::loadParams_() {}
-
 void PlayerStainWait::calc_() {
     PlayerAction::calc_();
 }

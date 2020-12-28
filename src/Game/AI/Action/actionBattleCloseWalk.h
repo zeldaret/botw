@@ -9,7 +9,6 @@ class BattleCloseWalk : public BattleCloseMoveAction {
     SEAD_RTTI_OVERRIDE(BattleCloseWalk, BattleCloseMoveAction)
 public:
     explicit BattleCloseWalk(const InitArg& arg);
-    ~BattleCloseWalk() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

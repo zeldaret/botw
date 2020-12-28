@@ -6,10 +6,6 @@ OnetimeStopASPlay::OnetimeStopASPlay(const InitArg& arg) : ActionWithAS(arg) {}
 
 OnetimeStopASPlay::~OnetimeStopASPlay() = default;
 
-bool OnetimeStopASPlay::init_(sead::Heap* heap) {
-    return ActionWithAS::init_(heap);
-}
-
 void OnetimeStopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
 }

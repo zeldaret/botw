@@ -9,9 +9,7 @@ class PlayerSideStep : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSideStep, PlayerAction)
 public:
     explicit PlayerSideStep(const InitArg& arg);
-    ~PlayerSideStep() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

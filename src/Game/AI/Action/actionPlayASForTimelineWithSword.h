@@ -9,9 +9,7 @@ class PlayASForTimelineWithSword : public PlayASForTimeline {
     SEAD_RTTI_OVERRIDE(PlayASForTimelineWithSword, PlayASForTimeline)
 public:
     explicit PlayASForTimelineWithSword(const InitArg& arg);
-    ~PlayASForTimelineWithSword() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

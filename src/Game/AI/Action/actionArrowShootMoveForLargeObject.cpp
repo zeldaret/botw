@@ -7,16 +7,8 @@ ArrowShootMoveForLargeObject::ArrowShootMoveForLargeObject(const InitArg& arg)
 
 ArrowShootMoveForLargeObject::~ArrowShootMoveForLargeObject() = default;
 
-bool ArrowShootMoveForLargeObject::init_(sead::Heap* heap) {
-    return ArrowShootMove::init_(heap);
-}
-
 void ArrowShootMoveForLargeObject::enter_(ksys::act::ai::InlineParamPack* params) {
     ArrowShootMove::enter_(params);
-}
-
-void ArrowShootMoveForLargeObject::leave_() {
-    ArrowShootMove::leave_();
 }
 
 void ArrowShootMoveForLargeObject::loadParams_() {

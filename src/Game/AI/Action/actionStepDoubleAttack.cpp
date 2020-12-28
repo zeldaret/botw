@@ -6,10 +6,6 @@ StepDoubleAttack::StepDoubleAttack(const InitArg& arg) : ksys::act::ai::Action(a
 
 StepDoubleAttack::~StepDoubleAttack() = default;
 
-bool StepDoubleAttack::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void StepDoubleAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

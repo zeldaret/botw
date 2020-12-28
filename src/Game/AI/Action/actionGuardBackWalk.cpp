@@ -4,8 +4,6 @@ namespace uking::action {
 
 GuardBackWalk::GuardBackWalk(const InitArg& arg) : BackWalkEx(arg) {}
 
-GuardBackWalk::~GuardBackWalk() = default;
-
 bool GuardBackWalk::init_(sead::Heap* heap) {
     return BackWalkEx::init_(heap);
 }

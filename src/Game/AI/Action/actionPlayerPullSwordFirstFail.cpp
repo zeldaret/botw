@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerPullSwordFirstFail::PlayerPullSwordFirstFail(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerPullSwordFirstFail::~PlayerPullSwordFirstFail() = default;
-
-bool PlayerPullSwordFirstFail::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerPullSwordFirstFail::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

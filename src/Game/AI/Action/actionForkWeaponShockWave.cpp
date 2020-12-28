@@ -6,16 +6,8 @@ ForkWeaponShockWave::ForkWeaponShockWave(const InitArg& arg) : ksys::act::ai::Ac
 
 ForkWeaponShockWave::~ForkWeaponShockWave() = default;
 
-bool ForkWeaponShockWave::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void ForkWeaponShockWave::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
-}
-
-void ForkWeaponShockWave::leave_() {
-    ksys::act::ai::Action::leave_();
 }
 
 void ForkWeaponShockWave::loadParams_() {

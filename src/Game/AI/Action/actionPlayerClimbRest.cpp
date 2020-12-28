@@ -6,10 +6,6 @@ PlayerClimbRest::PlayerClimbRest(const InitArg& arg) : PlayerAction(arg) {}
 
 PlayerClimbRest::~PlayerClimbRest() = default;
 
-bool PlayerClimbRest::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerClimbRest::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerHell::PlayerHell(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerHell::~PlayerHell() = default;
-
-bool PlayerHell::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerHell::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

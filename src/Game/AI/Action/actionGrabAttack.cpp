@@ -6,10 +6,6 @@ GrabAttack::GrabAttack(const InitArg& arg) : Grab(arg) {}
 
 GrabAttack::~GrabAttack() = default;
 
-bool GrabAttack::init_(sead::Heap* heap) {
-    return Grab::init_(heap);
-}
-
 void GrabAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     Grab::enter_(params);
 }

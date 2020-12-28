@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerGuidedMove::PlayerGuidedMove(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerGuidedMove::~PlayerGuidedMove() = default;
-
-bool PlayerGuidedMove::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerGuidedMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

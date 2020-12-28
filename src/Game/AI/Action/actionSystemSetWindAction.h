@@ -8,7 +8,6 @@ class SystemSetWindAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemSetWindAction, ksys::act::ai::Action)
 public:
     explicit SystemSetWindAction(const InitArg& arg);
-    ~SystemSetWindAction() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -9,9 +9,7 @@ class PlayerLadderMove : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerLadderMove, PlayerAction)
 public:
     explicit PlayerLadderMove(const InitArg& arg);
-    ~PlayerLadderMove() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

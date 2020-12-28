@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerAtnWait::PlayerAtnWait(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerAtnWait::~PlayerAtnWait() = default;
-
-bool PlayerAtnWait::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerAtnWait::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

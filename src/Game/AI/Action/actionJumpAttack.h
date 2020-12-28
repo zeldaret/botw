@@ -10,7 +10,6 @@ public:
     explicit JumpAttack(const InitArg& arg);
     ~JumpAttack() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

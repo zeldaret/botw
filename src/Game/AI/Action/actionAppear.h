@@ -9,20 +9,10 @@ class Appear : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Appear, ActionWithAS)
 public:
     explicit Appear(const InitArg& arg);
-    ~Appear() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
-    void loadParams_() override;
 
 protected:
-    void calc_() override;
-
-    // static_param at offset 0x20
-    const float* mPosReduceRatio_s{};
-    // static_param at offset 0x28
-    const float* mAngReduceRatio_s{};
 };
 
 }  // namespace uking::action

@@ -10,18 +10,6 @@ bool EventRecoverPlayerLife::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void EventRecoverPlayerLife::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
-}
-
-void EventRecoverPlayerLife::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void EventRecoverPlayerLife::loadParams_() {}
-
-void EventRecoverPlayerLife::calc_() {
-    ksys::act::ai::Action::calc_();
-}
 
 }  // namespace uking::action

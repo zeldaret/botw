@@ -20,6 +20,8 @@ protected:
 
     // dynamic_param at offset 0x20
     bool* mIsInvalidOpenPouch_d{};
+    bool _28{};
+    bool _29{};
 };
 
 }  // namespace uking::action

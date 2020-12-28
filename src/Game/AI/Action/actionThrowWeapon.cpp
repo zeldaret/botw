@@ -6,10 +6,6 @@ ThrowWeapon::ThrowWeapon(const InitArg& arg) : ActionWithAS(arg) {}
 
 ThrowWeapon::~ThrowWeapon() = default;
 
-bool ThrowWeapon::init_(sead::Heap* heap) {
-    return ActionWithAS::init_(heap);
-}
-
 void ThrowWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
 }

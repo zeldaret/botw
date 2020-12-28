@@ -14,10 +14,6 @@ void NPCSaleReception::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void NPCSaleReception::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void NPCSaleReception::loadParams_() {
     getDynamicParam(&mTableName_d, "TableName");
 }

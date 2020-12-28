@@ -4,8 +4,6 @@ namespace uking::action {
 
 LinearFlyAttack::LinearFlyAttack(const InitArg& arg) : LinearFlyAttackBase(arg) {}
 
-LinearFlyAttack::~LinearFlyAttack() = default;
-
 bool LinearFlyAttack::init_(sead::Heap* heap) {
     return LinearFlyAttackBase::init_(heap);
 }

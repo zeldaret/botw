@@ -4,8 +4,6 @@ namespace uking::action {
 
 LiftWalk::LiftWalk(const InitArg& arg) : MoveBase(arg) {}
 
-LiftWalk::~LiftWalk() = default;
-
 bool LiftWalk::init_(sead::Heap* heap) {
     return MoveBase::init_(heap);
 }

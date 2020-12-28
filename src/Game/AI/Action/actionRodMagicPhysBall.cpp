@@ -6,10 +6,6 @@ RodMagicPhysBall::RodMagicPhysBall(const InitArg& arg) : ChemicalPhysBall(arg) {
 
 RodMagicPhysBall::~RodMagicPhysBall() = default;
 
-bool RodMagicPhysBall::init_(sead::Heap* heap) {
-    return ChemicalPhysBall::init_(heap);
-}
-
 void RodMagicPhysBall::enter_(ksys::act::ai::InlineParamPack* params) {
     ChemicalPhysBall::enter_(params);
 }

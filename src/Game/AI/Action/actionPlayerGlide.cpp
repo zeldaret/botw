@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerGlide::PlayerGlide(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerGlide::~PlayerGlide() = default;
-
-bool PlayerGlide::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerGlide::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

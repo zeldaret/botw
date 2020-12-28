@@ -9,9 +9,7 @@ class PlayerBeetleSubject : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerBeetleSubject, PlayerAction)
 public:
     explicit PlayerBeetleSubject(const InitArg& arg);
-    ~PlayerBeetleSubject() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

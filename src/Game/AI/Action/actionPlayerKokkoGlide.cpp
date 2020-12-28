@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerKokkoGlide::PlayerKokkoGlide(const InitArg& arg) : PlayerGlide(arg) {}
 
-PlayerKokkoGlide::~PlayerKokkoGlide() = default;
-
-bool PlayerKokkoGlide::init_(sead::Heap* heap) {
-    return PlayerGlide::init_(heap);
-}
-
 void PlayerKokkoGlide::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerGlide::enter_(params);
 }

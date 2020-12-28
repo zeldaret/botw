@@ -6,10 +6,6 @@ UnarmedAttack::UnarmedAttack(const InitArg& arg) : ActionEx(arg) {}
 
 UnarmedAttack::~UnarmedAttack() = default;
 
-bool UnarmedAttack::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void UnarmedAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

@@ -4,8 +4,6 @@ namespace uking::action {
 
 WaterFloatImmobile::WaterFloatImmobile(const InitArg& arg) : WaterFloatBase(arg) {}
 
-WaterFloatImmobile::~WaterFloatImmobile() = default;
-
 bool WaterFloatImmobile::init_(sead::Heap* heap) {
     return WaterFloatBase::init_(heap);
 }

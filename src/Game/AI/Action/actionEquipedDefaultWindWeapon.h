@@ -9,11 +9,8 @@ class EquipedDefaultWindWeapon : public EquipedAction {
     SEAD_RTTI_OVERRIDE(EquipedDefaultWindWeapon, EquipedAction)
 public:
     explicit EquipedDefaultWindWeapon(const InitArg& arg);
-    ~EquipedDefaultWindWeapon() override;
 
     bool init_(sead::Heap* heap) override;
-    void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
     void loadParams_() override;
 
 protected:

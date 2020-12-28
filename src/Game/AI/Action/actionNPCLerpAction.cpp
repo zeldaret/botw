@@ -6,10 +6,6 @@ NPCLerpAction::NPCLerpAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 NPCLerpAction::~NPCLerpAction() = default;
 
-bool NPCLerpAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void NPCLerpAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

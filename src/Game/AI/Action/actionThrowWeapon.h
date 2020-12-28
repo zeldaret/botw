@@ -11,7 +11,6 @@ public:
     explicit ThrowWeapon(const InitArg& arg);
     ~ThrowWeapon() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
@@ -35,6 +34,9 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // static_param at offset 0x68
     const bool* mIsForceDead_s{};
+
+    void* _70;
+    void* _78;
 };
 
 }  // namespace uking::action

@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerCutJump::PlayerCutJump(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerCutJump::~PlayerCutJump() = default;
-
-bool PlayerCutJump::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerCutJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

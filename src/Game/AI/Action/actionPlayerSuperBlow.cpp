@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSuperBlow::PlayerSuperBlow(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSuperBlow::~PlayerSuperBlow() = default;
-
-bool PlayerSuperBlow::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSuperBlow::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

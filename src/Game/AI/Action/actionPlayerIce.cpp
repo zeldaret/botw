@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerIce::PlayerIce(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerIce::~PlayerIce() = default;
-
-bool PlayerIce::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerIce::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

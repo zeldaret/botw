@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerCutFall::PlayerCutFall(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerCutFall::~PlayerCutFall() = default;
-
-bool PlayerCutFall::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerCutFall::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

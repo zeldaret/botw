@@ -6,16 +6,8 @@ CameraEdit::CameraEdit(const InitArg& arg) : ActionEx(arg) {}
 
 CameraEdit::~CameraEdit() = default;
 
-bool CameraEdit::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void CameraEdit::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
-}
-
-void CameraEdit::leave_() {
-    ActionEx::leave_();
 }
 
 void CameraEdit::loadParams_() {
@@ -27,10 +19,6 @@ void CameraEdit::loadParams_() {
     getStaticParam(&mBowSquat_s, "BowSquat");
     getStaticParam(&mBowLockOn_s, "BowLockOn");
     // FIXME: CALL _ZNK4ksys3act2ai10ActionBase7getNameEv @ 0x7100d165fc
-}
-
-void CameraEdit::calc_() {
-    ActionEx::calc_();
 }
 
 }  // namespace uking::action

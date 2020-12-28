@@ -6,10 +6,6 @@ PutFromParent::PutFromParent(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 PutFromParent::~PutFromParent() = default;
 
-bool PutFromParent::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void PutFromParent::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

@@ -6,10 +6,6 @@ BackStepAttack::BackStepAttack(const InitArg& arg) : BackStepBase(arg) {}
 
 BackStepAttack::~BackStepAttack() = default;
 
-bool BackStepAttack::init_(sead::Heap* heap) {
-    return BackStepBase::init_(heap);
-}
-
 void BackStepAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     BackStepBase::enter_(params);
 }

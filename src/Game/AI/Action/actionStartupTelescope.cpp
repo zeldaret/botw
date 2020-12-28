@@ -14,10 +14,6 @@ void StartupTelescope::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void StartupTelescope::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void StartupTelescope::loadParams_() {}
 
 void StartupTelescope::calc_() {

@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerCutTurnLSword::PlayerCutTurnLSword(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerCutTurnLSword::~PlayerCutTurnLSword() = default;
-
-bool PlayerCutTurnLSword::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerCutTurnLSword::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

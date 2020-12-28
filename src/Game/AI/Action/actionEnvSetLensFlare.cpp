@@ -4,8 +4,6 @@ namespace uking::action {
 
 EnvSetLensFlare::EnvSetLensFlare(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-EnvSetLensFlare::~EnvSetLensFlare() = default;
-
 bool EnvSetLensFlare::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

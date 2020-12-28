@@ -11,7 +11,6 @@ public:
     explicit GuardianMiniBeamMove(const InitArg& arg);
     ~GuardianMiniBeamMove() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

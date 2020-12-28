@@ -4,12 +4,6 @@ namespace uking::action {
 
 HoldArrowTurn::HoldArrowTurn(const InitArg& arg) : TurnBase(arg) {}
 
-HoldArrowTurn::~HoldArrowTurn() = default;
-
-bool HoldArrowTurn::init_(sead::Heap* heap) {
-    return TurnBase::init_(heap);
-}
-
 void HoldArrowTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     TurnBase::enter_(params);
 }

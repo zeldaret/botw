@@ -4,18 +4,8 @@ namespace uking::action {
 
 EquipedDefaultWindWeapon::EquipedDefaultWindWeapon(const InitArg& arg) : EquipedAction(arg) {}
 
-EquipedDefaultWindWeapon::~EquipedDefaultWindWeapon() = default;
-
 bool EquipedDefaultWindWeapon::init_(sead::Heap* heap) {
     return EquipedAction::init_(heap);
-}
-
-void EquipedDefaultWindWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
-    EquipedAction::enter_(params);
-}
-
-void EquipedDefaultWindWeapon::leave_() {
-    EquipedAction::leave_();
 }
 
 void EquipedDefaultWindWeapon::loadParams_() {

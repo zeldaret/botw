@@ -9,12 +9,9 @@ class PlayerCutHorseJumpLand : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutHorseJumpLand, PlayerAction)
 public:
     explicit PlayerCutHorseJumpLand(const InitArg& arg);
-    ~PlayerCutHorseJumpLand() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
-    void loadParams_() override;
 
 protected:
     void calc_() override;

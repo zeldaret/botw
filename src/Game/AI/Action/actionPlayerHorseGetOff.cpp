@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerHorseGetOff::PlayerHorseGetOff(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerHorseGetOff::~PlayerHorseGetOff() = default;
-
-bool PlayerHorseGetOff::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerHorseGetOff::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

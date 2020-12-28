@@ -6,10 +6,6 @@ SideStepWait::SideStepWait(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 SideStepWait::~SideStepWait() = default;
 
-bool SideStepWait::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void SideStepWait::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

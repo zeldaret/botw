@@ -6,16 +6,8 @@ TakeHitImpactForce::TakeHitImpactForce(const InitArg& arg) : ActionEx(arg) {}
 
 TakeHitImpactForce::~TakeHitImpactForce() = default;
 
-bool TakeHitImpactForce::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void TakeHitImpactForce::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
-}
-
-void TakeHitImpactForce::leave_() {
-    ActionEx::leave_();
 }
 
 void TakeHitImpactForce::loadParams_() {

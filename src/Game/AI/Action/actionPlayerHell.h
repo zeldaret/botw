@@ -9,9 +9,7 @@ class PlayerHell : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHell, PlayerAction)
 public:
     explicit PlayerHell(const InitArg& arg);
-    ~PlayerHell() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

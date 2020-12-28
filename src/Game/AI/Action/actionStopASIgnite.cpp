@@ -4,8 +4,6 @@ namespace uking::action {
 
 StopASIgnite::StopASIgnite(const InitArg& arg) : OnetimeStopASPlay(arg) {}
 
-StopASIgnite::~StopASIgnite() = default;
-
 bool StopASIgnite::init_(sead::Heap* heap) {
     return OnetimeStopASPlay::init_(heap);
 }

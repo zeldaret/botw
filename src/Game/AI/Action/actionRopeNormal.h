@@ -8,7 +8,6 @@ class RopeNormal : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RopeNormal, ksys::act::ai::Action)
 public:
     explicit RopeNormal(const InitArg& arg);
-    ~RopeNormal() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

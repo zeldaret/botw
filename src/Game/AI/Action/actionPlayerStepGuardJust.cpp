@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerStepGuardJust::PlayerStepGuardJust(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerStepGuardJust::~PlayerStepGuardJust() = default;
-
-bool PlayerStepGuardJust::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerStepGuardJust::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

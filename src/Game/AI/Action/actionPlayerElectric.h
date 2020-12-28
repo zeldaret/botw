@@ -9,9 +9,7 @@ class PlayerElectric : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerElectric, PlayerAction)
 public:
     explicit PlayerElectric(const InitArg& arg);
-    ~PlayerElectric() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

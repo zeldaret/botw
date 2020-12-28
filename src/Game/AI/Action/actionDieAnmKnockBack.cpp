@@ -6,10 +6,6 @@ DieAnmKnockBack::DieAnmKnockBack(const InitArg& arg) : SmallDamageBase(arg) {}
 
 DieAnmKnockBack::~DieAnmKnockBack() = default;
 
-bool DieAnmKnockBack::init_(sead::Heap* heap) {
-    return SmallDamageBase::init_(heap);
-}
-
 void DieAnmKnockBack::enter_(ksys::act::ai::InlineParamPack* params) {
     SmallDamageBase::enter_(params);
 }

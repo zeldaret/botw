@@ -9,9 +9,7 @@ class DefRandomMoveAction : public RandomMoveAction {
     SEAD_RTTI_OVERRIDE(DefRandomMoveAction, RandomMoveAction)
 public:
     explicit DefRandomMoveAction(const InitArg& arg);
-    ~DefRandomMoveAction() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

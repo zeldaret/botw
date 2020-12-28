@@ -9,9 +9,7 @@ class PlayerWakeBoard : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWakeBoard, PlayerAction)
 public:
     explicit PlayerWakeBoard(const InitArg& arg);
-    ~PlayerWakeBoard() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

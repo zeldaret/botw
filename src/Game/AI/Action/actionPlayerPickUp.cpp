@@ -18,8 +18,6 @@ void PlayerPickUp::leave_() {
     PlayerAction::leave_();
 }
 
-void PlayerPickUp::loadParams_() {}
-
 void PlayerPickUp::calc_() {
     PlayerAction::calc_();
 }

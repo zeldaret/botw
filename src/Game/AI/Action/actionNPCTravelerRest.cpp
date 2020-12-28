@@ -6,10 +6,6 @@ NPCTravelerRest::NPCTravelerRest(const InitArg& arg) : ksys::act::ai::Action(arg
 
 NPCTravelerRest::~NPCTravelerRest() = default;
 
-bool NPCTravelerRest::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void NPCTravelerRest::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

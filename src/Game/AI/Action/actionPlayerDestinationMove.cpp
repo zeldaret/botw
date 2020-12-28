@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerDestinationMove::PlayerDestinationMove(const InitArg& arg) : PlayerGuidedMove(arg) {}
 
-PlayerDestinationMove::~PlayerDestinationMove() = default;
-
-bool PlayerDestinationMove::init_(sead::Heap* heap) {
-    return PlayerGuidedMove::init_(heap);
-}
-
 void PlayerDestinationMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerGuidedMove::enter_(params);
 }

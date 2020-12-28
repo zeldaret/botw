@@ -18,8 +18,6 @@ void PlayerUnequip::leave_() {
     PlayerAction::leave_();
 }
 
-void PlayerUnequip::loadParams_() {}
-
 void PlayerUnequip::calc_() {
     PlayerAction::calc_();
 }

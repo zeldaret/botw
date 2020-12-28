@@ -9,7 +9,6 @@ class FlyingCharacterDie : public FlyingCharacterDamageBase {
     SEAD_RTTI_OVERRIDE(FlyingCharacterDie, FlyingCharacterDamageBase)
 public:
     explicit FlyingCharacterDie(const InitArg& arg);
-    ~FlyingCharacterDie() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

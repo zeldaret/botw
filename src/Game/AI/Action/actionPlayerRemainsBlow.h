@@ -9,9 +9,7 @@ class PlayerRemainsBlow : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerRemainsBlow, PlayerAction)
 public:
     explicit PlayerRemainsBlow(const InitArg& arg);
-    ~PlayerRemainsBlow() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

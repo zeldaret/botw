@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerDiveMove::PlayerDiveMove(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerDiveMove::~PlayerDiveMove() = default;
-
-bool PlayerDiveMove::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerDiveMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

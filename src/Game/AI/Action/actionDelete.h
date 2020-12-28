@@ -8,9 +8,7 @@ class Delete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Delete, ksys::act::ai::Action)
 public:
     explicit Delete(const InitArg& arg);
-    ~Delete() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

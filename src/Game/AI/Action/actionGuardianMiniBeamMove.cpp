@@ -6,10 +6,6 @@ GuardianMiniBeamMove::GuardianMiniBeamMove(const InitArg& arg) : BeamMove(arg) {
 
 GuardianMiniBeamMove::~GuardianMiniBeamMove() = default;
 
-bool GuardianMiniBeamMove::init_(sead::Heap* heap) {
-    return BeamMove::init_(heap);
-}
-
 void GuardianMiniBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
     BeamMove::enter_(params);
 }

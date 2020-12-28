@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
+import enum
+
 import cxxfilt
 import zlib
-from typing import List, Dict, Iterable, Optional
+from typing import List, Dict, Iterable, Optional, Set
 
 from pathlib import Path
 import textwrap
-from util import ai_common
+from util import ai_common, elf
 
 
 def get_member_name(entry) -> str:
@@ -85,7 +87,19 @@ def generate_action_param_member_vars(parent: str, info: list) -> str:
     return "\n".join(out)
 
 
-def generate_action(class_dir: Path, name: str, info: list, parent: str) -> None:
+@enum.unique
+class CommonVIndex(enum.IntEnum):
+    Dtor = 2
+    OneShot = 10
+    Init = 11
+    Enter = 12
+    Leave = 14
+    LoadParams = 15
+    Calc = 31
+
+
+def generate_action(class_dir: Path, name: str, info: list, parent: str, seen_virtual_functions: Set[int],
+                    vtable: int) -> None:
     name = name[0].upper() + name[1:]
     if parent:
         parent = parent[0].upper() + parent[1:]
@@ -94,6 +108,13 @@ def generate_action(class_dir: Path, name: str, info: list, parent: str) -> None
     header_file_name = f"action{name}.h"
 
     parent_class_name = parent if parent else 'ksys::act::ai::Action'
+
+    own_virtual_functions: Set[int] = set()
+    for i, fn in enumerate(elf.get_vtable_fns_from_base_elf(vtable, 32)):
+        if i not in CommonVIndex.__members__.values() or fn in seen_virtual_functions:
+            continue
+        own_virtual_functions.add(i)
+        seen_virtual_functions.add(fn)
 
     # Header
     out = []
@@ -109,16 +130,22 @@ def generate_action(class_dir: Path, name: str, info: list, parent: str) -> None
     out.append(f"    SEAD_RTTI_OVERRIDE({cpp_class_name}, {parent_class_name})")
     out.append("public:")
     out.append(f"    explicit {cpp_class_name}(const InitArg& arg);")
-    out.append(f"    ~{cpp_class_name}() override;")
+    if CommonVIndex.Dtor in own_virtual_functions:
+        out.append(f"    ~{cpp_class_name}() override;")
     out.append("")
-    out.append("    bool init_(sead::Heap* heap) override;")
-    out.append("    void enter_(ksys::act::ai::InlineParamPack* params) override;")
-    out.append("    void leave_() override;")
-    out.append("    void loadParams_() override;")
+    if CommonVIndex.Init in own_virtual_functions:
+        out.append("    bool init_(sead::Heap* heap) override;")
+    if CommonVIndex.Enter in own_virtual_functions:
+        out.append("    void enter_(ksys::act::ai::InlineParamPack* params) override;")
+    if CommonVIndex.Leave in own_virtual_functions:
+        out.append("    void leave_() override;")
+    if CommonVIndex.LoadParams in own_virtual_functions:
+        out.append("    void loadParams_() override;")
     out.append("")
     out.append("protected:")
-    out.append("    void calc_() override;")
-    out.append("")
+    if CommonVIndex.Calc in own_virtual_functions:
+        out.append("   void calc_() override;")
+        out.append("")
     out.append(textwrap.indent(generate_action_param_member_vars(parent, info), " " * 4))
     out.append("};")  # =================================== end of class
     out.append("")
@@ -134,28 +161,34 @@ def generate_action(class_dir: Path, name: str, info: list, parent: str) -> None
     out.append("")
     out.append(f"{cpp_class_name}::{cpp_class_name}(const InitArg& arg) : {parent_class_name}(arg) {{}}")
     out.append("")
-    out.append(f"{cpp_class_name}::~{cpp_class_name}() = default;")
-    out.append("")
-    out.append(f"bool {cpp_class_name}::init_(sead::Heap* heap) {{")
-    out.append(f"    return {parent_class_name}::init_(heap);")
-    out.append(f"}}")
-    out.append("")
-    out.append(f"void {cpp_class_name}::enter_(ksys::act::ai::InlineParamPack* params) {{")
-    out.append(f"    {parent_class_name}::enter_(params);")
-    out.append(f"}}")
-    out.append("")
-    out.append(f"void {cpp_class_name}::leave_() {{")
-    out.append(f"    {parent_class_name}::leave_();")
-    out.append(f"}}")
-    out.append("")
-    out.append(f"void {cpp_class_name}::loadParams_() {{")
-    out.append(textwrap.indent(generate_action_loadparam_body(info), " " * 4))
-    out.append(f"}}")
-    out.append("")
-    out.append(f"void {cpp_class_name}::calc_() {{")
-    out.append(f"    {parent_class_name}::calc_();")
-    out.append(f"}}")
-    out.append("")
+    if CommonVIndex.Dtor in own_virtual_functions:
+        out.append(f"{cpp_class_name}::~{cpp_class_name}() = default;")
+        out.append("")
+    if CommonVIndex.Init in own_virtual_functions:
+        out.append(f"bool {cpp_class_name}::init_(sead::Heap* heap) {{")
+        out.append(f"    return {parent_class_name}::init_(heap);")
+        out.append(f"}}")
+        out.append("")
+    if CommonVIndex.Enter in own_virtual_functions:
+        out.append(f"void {cpp_class_name}::enter_(ksys::act::ai::InlineParamPack* params) {{")
+        out.append(f"    {parent_class_name}::enter_(params);")
+        out.append(f"}}")
+        out.append("")
+    if CommonVIndex.Leave in own_virtual_functions:
+        out.append(f"void {cpp_class_name}::leave_() {{")
+        out.append(f"    {parent_class_name}::leave_();")
+        out.append(f"}}")
+        out.append("")
+    if CommonVIndex.LoadParams in own_virtual_functions:
+        out.append(f"void {cpp_class_name}::loadParams_() {{")
+        out.append(textwrap.indent(generate_action_loadparam_body(info), " " * 4))
+        out.append(f"}}")
+        out.append("")
+    if CommonVIndex.Calc in own_virtual_functions:
+        out.append(f"void {cpp_class_name}::calc_() {{")
+        out.append(f"    {parent_class_name}::calc_();")
+        out.append(f"}}")
+        out.append("")
     out.append("}  // namespace uking::action")
     out.append("")
     (class_dir / f"action{name}.cpp").write_text("\n".join(out))
@@ -202,6 +235,10 @@ def main() -> None:
     action_params = ai_common.get_action_params()
     vtable_names = ai_common.get_action_vtable_names()
 
+    seen_virtual_functions = set()
+    seen_virtual_functions.update(elf.get_vtable_fns_from_base_elf(0x24d8d68, 31))
+    seen_virtual_functions.update(elf.get_vtable_fns_from_base_elf(0x25129f0, 32))
+
     generated = set()
     for vtables in action_vtables.values():
         vtables = list(dict.fromkeys(vtables))
@@ -224,7 +261,8 @@ def main() -> None:
 
             if vtable not in generated:
                 generated.add(vtable)
-                generate_action(class_dir, action_name, action_params[action_name], parent_name)
+                generate_action(class_dir, action_name, action_params[action_name], parent_name, seen_virtual_functions,
+                                vtable)
 
     generate_action_factories(class_dir, action_vtables.keys())
 

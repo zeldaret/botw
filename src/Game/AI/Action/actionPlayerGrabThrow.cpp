@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerGrabThrow::PlayerGrabThrow(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerGrabThrow::~PlayerGrabThrow() = default;
-
-bool PlayerGrabThrow::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerGrabThrow::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

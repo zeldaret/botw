@@ -6,16 +6,8 @@ BattleCloseMeanderRun::BattleCloseMeanderRun(const InitArg& arg) : BattleCloseMo
 
 BattleCloseMeanderRun::~BattleCloseMeanderRun() = default;
 
-bool BattleCloseMeanderRun::init_(sead::Heap* heap) {
-    return BattleCloseMoveAction::init_(heap);
-}
-
 void BattleCloseMeanderRun::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseMoveAction::enter_(params);
-}
-
-void BattleCloseMeanderRun::leave_() {
-    BattleCloseMoveAction::leave_();
 }
 
 void BattleCloseMeanderRun::loadParams_() {

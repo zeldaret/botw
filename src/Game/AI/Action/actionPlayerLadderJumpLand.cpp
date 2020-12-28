@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerLadderJumpLand::PlayerLadderJumpLand(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerLadderJumpLand::~PlayerLadderJumpLand() = default;
-
-bool PlayerLadderJumpLand::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerLadderJumpLand::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

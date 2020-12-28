@@ -6,16 +6,8 @@ GuardianMiniLineBeam::GuardianMiniLineBeam(const InitArg& arg) : SimpleLineBeam(
 
 GuardianMiniLineBeam::~GuardianMiniLineBeam() = default;
 
-bool GuardianMiniLineBeam::init_(sead::Heap* heap) {
-    return SimpleLineBeam::init_(heap);
-}
-
 void GuardianMiniLineBeam::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleLineBeam::enter_(params);
-}
-
-void GuardianMiniLineBeam::leave_() {
-    SimpleLineBeam::leave_();
 }
 
 void GuardianMiniLineBeam::loadParams_() {

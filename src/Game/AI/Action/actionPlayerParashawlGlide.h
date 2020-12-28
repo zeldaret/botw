@@ -9,9 +9,7 @@ class PlayerParashawlGlide : public PlayerGlide {
     SEAD_RTTI_OVERRIDE(PlayerParashawlGlide, PlayerGlide)
 public:
     explicit PlayerParashawlGlide(const InitArg& arg);
-    ~PlayerParashawlGlide() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

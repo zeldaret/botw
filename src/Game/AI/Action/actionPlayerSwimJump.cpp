@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSwimJump::PlayerSwimJump(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSwimJump::~PlayerSwimJump() = default;
-
-bool PlayerSwimJump::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSwimJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

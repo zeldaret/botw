@@ -4,8 +4,6 @@ namespace uking::action {
 
 HoverBase::HoverBase(const InitArg& arg) : FreeMovingAction(arg) {}
 
-HoverBase::~HoverBase() = default;
-
 bool HoverBase::init_(sead::Heap* heap) {
     return FreeMovingAction::init_(heap);
 }

@@ -6,10 +6,6 @@ EquipedRod::EquipedRod(const InitArg& arg) : EquipedAction(arg) {}
 
 EquipedRod::~EquipedRod() = default;
 
-bool EquipedRod::init_(sead::Heap* heap) {
-    return EquipedAction::init_(heap);
-}
-
 void EquipedRod::enter_(ksys::act::ai::InlineParamPack* params) {
     EquipedAction::enter_(params);
 }

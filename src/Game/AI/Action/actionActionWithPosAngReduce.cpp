@@ -4,12 +4,6 @@ namespace uking::action {
 
 ActionWithPosAngReduce::ActionWithPosAngReduce(const InitArg& arg) : ActionEx(arg) {}
 
-ActionWithPosAngReduce::~ActionWithPosAngReduce() = default;
-
-bool ActionWithPosAngReduce::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void ActionWithPosAngReduce::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

@@ -6,10 +6,6 @@ PlayerStoleOpenBase::PlayerStoleOpenBase(const InitArg& arg) : ActionEx(arg) {}
 
 PlayerStoleOpenBase::~PlayerStoleOpenBase() = default;
 
-bool PlayerStoleOpenBase::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void PlayerStoleOpenBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

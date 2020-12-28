@@ -9,9 +9,7 @@ class PlayerCutDash : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutDash, PlayerAction)
 public:
     explicit PlayerCutDash(const InitArg& arg);
-    ~PlayerCutDash() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

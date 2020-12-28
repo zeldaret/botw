@@ -6,10 +6,6 @@ ForceChangeAction::ForceChangeAction(const InitArg& arg) : ksys::act::ai::Action
 
 ForceChangeAction::~ForceChangeAction() = default;
 
-bool ForceChangeAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void ForceChangeAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

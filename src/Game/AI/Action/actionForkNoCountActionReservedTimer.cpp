@@ -8,7 +8,7 @@ ForkNoCountActionReservedTimer::ForkNoCountActionReservedTimer(const InitArg& ar
 ForkNoCountActionReservedTimer::~ForkNoCountActionReservedTimer() = default;
 
 bool ForkNoCountActionReservedTimer::init_(sead::Heap* heap) {
-    return ForkTimerBase::init_(heap);  // NOLINT(bugprone-parent-virtual-call)
+    return ForkTimer::init_(heap);
 }
 
 void ForkNoCountActionReservedTimer::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -16,7 +16,7 @@ void ForkNoCountActionReservedTimer::enter_(ksys::act::ai::InlineParamPack* para
 }
 
 void ForkNoCountActionReservedTimer::leave_() {
-    ForkTimerBase::leave_();  // NOLINT(bugprone-parent-virtual-call)
+    ForkTimer::leave_();
 }
 
 void ForkNoCountActionReservedTimer::loadParams_() {

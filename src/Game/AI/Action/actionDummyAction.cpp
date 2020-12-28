@@ -4,12 +4,6 @@ namespace uking::action {
 
 DummyAction::DummyAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-DummyAction::~DummyAction() = default;
-
-bool DummyAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void DummyAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

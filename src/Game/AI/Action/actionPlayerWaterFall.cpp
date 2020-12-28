@@ -6,10 +6,6 @@ PlayerWaterFall::PlayerWaterFall(const InitArg& arg) : PlayerAction(arg) {}
 
 PlayerWaterFall::~PlayerWaterFall() = default;
 
-bool PlayerWaterFall::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerWaterFall::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerGrabPut::PlayerGrabPut(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerGrabPut::~PlayerGrabPut() = default;
-
-bool PlayerGrabPut::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerGrabPut::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

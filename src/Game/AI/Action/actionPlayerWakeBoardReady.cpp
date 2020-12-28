@@ -6,10 +6,6 @@ PlayerWakeBoardReady::PlayerWakeBoardReady(const InitArg& arg) : PlayerAction(ar
 
 PlayerWakeBoardReady::~PlayerWakeBoardReady() = default;
 
-bool PlayerWakeBoardReady::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerWakeBoardReady::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

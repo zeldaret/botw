@@ -4,8 +4,6 @@ namespace uking::action {
 
 BattleCloseWalk::BattleCloseWalk(const InitArg& arg) : BattleCloseMoveAction(arg) {}
 
-BattleCloseWalk::~BattleCloseWalk() = default;
-
 bool BattleCloseWalk::init_(sead::Heap* heap) {
     return BattleCloseMoveAction::init_(heap);
 }

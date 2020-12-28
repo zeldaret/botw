@@ -7,10 +7,6 @@ BattleCloseExplosivesAvoidRun::BattleCloseExplosivesAvoidRun(const InitArg& arg)
 
 BattleCloseExplosivesAvoidRun::~BattleCloseExplosivesAvoidRun() = default;
 
-bool BattleCloseExplosivesAvoidRun::init_(sead::Heap* heap) {
-    return BattleCloseMoveAction::init_(heap);
-}
-
 void BattleCloseExplosivesAvoidRun::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseMoveAction::enter_(params);
 }
@@ -22,10 +18,6 @@ void BattleCloseExplosivesAvoidRun::leave_() {
 void BattleCloseExplosivesAvoidRun::loadParams_() {
     BattleCloseMoveActionBase::loadParams_();
     getStaticParam(&mDamageIgnoreDist_s, "DamageIgnoreDist");
-}
-
-void BattleCloseExplosivesAvoidRun::calc_() {
-    BattleCloseMoveAction::calc_();
 }
 
 }  // namespace uking::action

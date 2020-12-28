@@ -14,10 +14,6 @@ void OwnedHorseObserveAction::enter_(ksys::act::ai::InlineParamPack* params) {
     AreaTagAction::enter_(params);
 }
 
-void OwnedHorseObserveAction::leave_() {
-    AreaTagAction::leave_();
-}
-
 void OwnedHorseObserveAction::loadParams_() {
     getMapUnitParam(&mSaveFlag_m, "SaveFlag");
 }

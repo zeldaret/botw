@@ -9,12 +9,9 @@ class PlayerBackJumpLand : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerBackJumpLand, PlayerAction)
 public:
     explicit PlayerBackJumpLand(const InitArg& arg);
-    ~PlayerBackJumpLand() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
-    void loadParams_() override;
 
 protected:
     void calc_() override;

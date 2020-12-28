@@ -9,9 +9,7 @@ class PlayerSwimWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSwimWait, PlayerAction)
 public:
     explicit PlayerSwimWait(const InitArg& arg);
-    ~PlayerSwimWait() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

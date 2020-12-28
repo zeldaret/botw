@@ -6,10 +6,6 @@ HoldArrowWalk::HoldArrowWalk(const InitArg& arg) : MoveBase(arg) {}
 
 HoldArrowWalk::~HoldArrowWalk() = default;
 
-bool HoldArrowWalk::init_(sead::Heap* heap) {
-    return MoveBase::init_(heap);
-}
-
 void HoldArrowWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     MoveBase::enter_(params);
 }

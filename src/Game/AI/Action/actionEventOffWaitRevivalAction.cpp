@@ -15,10 +15,6 @@ void EventOffWaitRevivalAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void EventOffWaitRevivalAction::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
 void EventOffWaitRevivalAction::loadParams_() {}
 
 void EventOffWaitRevivalAction::calc_() {

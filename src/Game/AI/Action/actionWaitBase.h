@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -11,9 +12,7 @@ public:
     explicit WaitBase(const InitArg& arg);
     ~WaitBase() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
     void loadParams_() override;
 
 protected:
@@ -23,6 +22,8 @@ protected:
     const int* mTime_s{};
     // static_param at offset 0x38
     const int* mTimeRand_s{};
+
+    ksys::Timer mTimer;
 };
 
 }  // namespace uking::action

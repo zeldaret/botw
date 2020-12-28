@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerLadderMove::PlayerLadderMove(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerLadderMove::~PlayerLadderMove() = default;
-
-bool PlayerLadderMove::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerLadderMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

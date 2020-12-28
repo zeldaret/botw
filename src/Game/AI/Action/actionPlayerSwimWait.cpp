@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSwimWait::PlayerSwimWait(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSwimWait::~PlayerSwimWait() = default;
-
-bool PlayerSwimWait::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSwimWait::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -4,8 +4,6 @@ namespace uking::action {
 
 GetRupee::GetRupee(const InitArg& arg) : GetItem(arg) {}
 
-GetRupee::~GetRupee() = default;
-
 bool GetRupee::init_(sead::Heap* heap) {
     return GetItem::init_(heap);
 }

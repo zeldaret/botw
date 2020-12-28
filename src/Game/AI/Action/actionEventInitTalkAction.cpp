@@ -4,8 +4,6 @@ namespace uking::action {
 
 EventInitTalkAction::EventInitTalkAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-EventInitTalkAction::~EventInitTalkAction() = default;
-
 bool EventInitTalkAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

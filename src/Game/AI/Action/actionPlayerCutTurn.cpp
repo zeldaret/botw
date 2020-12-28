@@ -6,10 +6,6 @@ PlayerCutTurn::PlayerCutTurn(const InitArg& arg) : PlayerAction(arg) {}
 
 PlayerCutTurn::~PlayerCutTurn() = default;
 
-bool PlayerCutTurn::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerCutTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

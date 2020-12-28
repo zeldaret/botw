@@ -9,9 +9,7 @@ class PlayerGuardSlip : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGuardSlip, PlayerAction)
 public:
     explicit PlayerGuardSlip(const InitArg& arg);
-    ~PlayerGuardSlip() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

@@ -9,11 +9,8 @@ class PlayerStoleOpen : public PlayerStoleOpenEx {
     SEAD_RTTI_OVERRIDE(PlayerStoleOpen, PlayerStoleOpenEx)
 public:
     explicit PlayerStoleOpen(const InitArg& arg);
-    ~PlayerStoleOpen() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
     void loadParams_() override;
 
 protected:

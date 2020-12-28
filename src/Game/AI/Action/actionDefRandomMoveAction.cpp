@@ -4,12 +4,6 @@ namespace uking::action {
 
 DefRandomMoveAction::DefRandomMoveAction(const InitArg& arg) : RandomMoveAction(arg) {}
 
-DefRandomMoveAction::~DefRandomMoveAction() = default;
-
-bool DefRandomMoveAction::init_(sead::Heap* heap) {
-    return RandomMoveAction::init_(heap);
-}
-
 void DefRandomMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
     RandomMoveAction::enter_(params);
 }

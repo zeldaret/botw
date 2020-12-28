@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerShieldRideMove::PlayerShieldRideMove(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerShieldRideMove::~PlayerShieldRideMove() = default;
-
-bool PlayerShieldRideMove::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerShieldRideMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

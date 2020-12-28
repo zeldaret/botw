@@ -6,10 +6,6 @@ Tumble::Tumble(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 Tumble::~Tumble() = default;
 
-bool Tumble::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void Tumble::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

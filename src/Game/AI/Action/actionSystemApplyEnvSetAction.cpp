@@ -6,10 +6,6 @@ SystemApplyEnvSetAction::SystemApplyEnvSetAction(const InitArg& arg) : ksys::act
 
 SystemApplyEnvSetAction::~SystemApplyEnvSetAction() = default;
 
-bool SystemApplyEnvSetAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void SystemApplyEnvSetAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

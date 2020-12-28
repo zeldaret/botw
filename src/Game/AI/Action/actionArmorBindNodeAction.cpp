@@ -6,10 +6,6 @@ ArmorBindNodeAction::ArmorBindNodeAction(const InitArg& arg) : ksys::act::ai::Ac
 
 ArmorBindNodeAction::~ArmorBindNodeAction() = default;
 
-bool ArmorBindNodeAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void ArmorBindNodeAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

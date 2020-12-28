@@ -5,8 +5,6 @@ namespace uking::action {
 SwitchStepSliderConstraintOnce::SwitchStepSliderConstraintOnce(const InitArg& arg)
     : SwitchStepSliderConstraint(arg) {}
 
-SwitchStepSliderConstraintOnce::~SwitchStepSliderConstraintOnce() = default;
-
 bool SwitchStepSliderConstraintOnce::init_(sead::Heap* heap) {
     return SwitchStepSliderConstraint::init_(heap);
 }

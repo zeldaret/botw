@@ -10,14 +10,9 @@ public:
     explicit CameraEventReserveConnectTime(const InitArg& arg);
     ~CameraEventReserveConnectTime() override;
 
-    bool init_(sead::Heap* heap) override;
-    void enter_(ksys::act::ai::InlineParamPack* params) override;
-    void leave_() override;
     void loadParams_() override;
 
 protected:
-    void calc_() override;
-
     // FIXME: remove this
     u8 pad_0x20[0x10];
     // dynamic2_param at offset 0x30

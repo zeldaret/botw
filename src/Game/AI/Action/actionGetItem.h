@@ -8,7 +8,6 @@ class GetItem : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GetItem, ksys::act::ai::Action)
 public:
     explicit GetItem(const InitArg& arg);
-    ~GetItem() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerZoraJump::PlayerZoraJump(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerZoraJump::~PlayerZoraJump() = default;
-
-bool PlayerZoraJump::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerZoraJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

@@ -6,10 +6,6 @@ PlayerPlayASAdapt::PlayerPlayASAdapt(const InitArg& arg) : PlayASForDemo(arg) {}
 
 PlayerPlayASAdapt::~PlayerPlayASAdapt() = default;
 
-bool PlayerPlayASAdapt::init_(sead::Heap* heap) {
-    return PlayASForDemo::init_(heap);
-}
-
 void PlayerPlayASAdapt::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayASForDemo::enter_(params);
 }

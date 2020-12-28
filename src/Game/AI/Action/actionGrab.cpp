@@ -4,8 +4,6 @@ namespace uking::action {
 
 Grab::Grab(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-Grab::~Grab() = default;
-
 bool Grab::init_(sead::Heap* heap) {
     return ActionWithPosAngReduce::init_(heap);
 }

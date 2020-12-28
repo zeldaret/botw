@@ -9,9 +9,7 @@ class PlayerNavMeshMove : public PlayerGuidedMove {
     SEAD_RTTI_OVERRIDE(PlayerNavMeshMove, PlayerGuidedMove)
 public:
     explicit PlayerNavMeshMove(const InitArg& arg);
-    ~PlayerNavMeshMove() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

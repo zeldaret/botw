@@ -18,8 +18,6 @@ void PlayerUpdateEquip::leave_() {
     PlayerAction::leave_();
 }
 
-void PlayerUpdateEquip::loadParams_() {}
-
 void PlayerUpdateEquip::calc_() {
     PlayerAction::calc_();
 }

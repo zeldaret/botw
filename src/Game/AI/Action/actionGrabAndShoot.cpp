@@ -6,10 +6,6 @@ GrabAndShoot::GrabAndShoot(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 GrabAndShoot::~GrabAndShoot() = default;
 
-bool GrabAndShoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void GrabAndShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

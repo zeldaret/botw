@@ -6,16 +6,8 @@ GuardianMiniWait::GuardianMiniWait(const InitArg& arg) : Wait(arg) {}
 
 GuardianMiniWait::~GuardianMiniWait() = default;
 
-bool GuardianMiniWait::init_(sead::Heap* heap) {
-    return Wait::init_(heap);
-}
-
 void GuardianMiniWait::enter_(ksys::act::ai::InlineParamPack* params) {
     Wait::enter_(params);
-}
-
-void GuardianMiniWait::leave_() {
-    Wait::leave_();
 }
 
 void GuardianMiniWait::loadParams_() {

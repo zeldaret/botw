@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerAction::PlayerAction(const InitArg& arg) : ActionEx(arg) {}
 
-PlayerAction::~PlayerAction() = default;
-
-bool PlayerAction::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void PlayerAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }
@@ -17,8 +11,6 @@ void PlayerAction::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerAction::leave_() {
     ActionEx::leave_();
 }
-
-void PlayerAction::loadParams_() {}
 
 void PlayerAction::calc_() {
     ActionEx::calc_();

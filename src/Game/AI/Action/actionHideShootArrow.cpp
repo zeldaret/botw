@@ -6,10 +6,6 @@ HideShootArrow::HideShootArrow(const InitArg& arg) : ShootArrow(arg) {}
 
 HideShootArrow::~HideShootArrow() = default;
 
-bool HideShootArrow::init_(sead::Heap* heap) {
-    return ShootArrow::init_(heap);
-}
-
 void HideShootArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     ShootArrow::enter_(params);
 }

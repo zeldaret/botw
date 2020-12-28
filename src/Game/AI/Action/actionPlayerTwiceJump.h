@@ -9,9 +9,7 @@ class PlayerTwiceJump : public PlayerFall {
     SEAD_RTTI_OVERRIDE(PlayerTwiceJump, PlayerFall)
 public:
     explicit PlayerTwiceJump(const InitArg& arg);
-    ~PlayerTwiceJump() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

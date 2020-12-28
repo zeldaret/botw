@@ -6,10 +6,6 @@ PlayerSlide::PlayerSlide(const InitArg& arg) : PlayerAction(arg) {}
 
 PlayerSlide::~PlayerSlide() = default;
 
-bool PlayerSlide::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSlide::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

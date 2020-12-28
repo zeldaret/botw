@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerHellNoFade::PlayerHellNoFade(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerHellNoFade::~PlayerHellNoFade() = default;
-
-bool PlayerHellNoFade::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerHellNoFade::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

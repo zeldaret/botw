@@ -6,10 +6,6 @@ RandomMoveAction::RandomMoveAction(const InitArg& arg) : ksys::act::ai::Action(a
 
 RandomMoveAction::~RandomMoveAction() = default;
 
-bool RandomMoveAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void RandomMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

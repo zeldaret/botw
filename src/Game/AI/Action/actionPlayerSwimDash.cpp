@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSwimDash::PlayerSwimDash(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSwimDash::~PlayerSwimDash() = default;
-
-bool PlayerSwimDash::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSwimDash::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

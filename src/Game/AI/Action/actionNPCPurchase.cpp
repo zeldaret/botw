@@ -18,8 +18,6 @@ void NPCPurchase::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
-void NPCPurchase::loadParams_() {}
-
 void NPCPurchase::calc_() {
     ksys::act::ai::Action::calc_();
 }

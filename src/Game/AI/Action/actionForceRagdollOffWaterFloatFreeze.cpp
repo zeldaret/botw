@@ -15,17 +15,9 @@ void ForceRagdollOffWaterFloatFreeze::enter_(ksys::act::ai::InlineParamPack* par
     WaterFloatFreeze::enter_(params);
 }
 
-void ForceRagdollOffWaterFloatFreeze::leave_() {
-    WaterFloatFreeze::leave_();
-}
-
 void ForceRagdollOffWaterFloatFreeze::loadParams_() {
     WaterFloatFreeze::loadParams_();
     getAITreeVariable(&mCRBOffsetUnit_a, "CRBOffsetUnit");
-}
-
-void ForceRagdollOffWaterFloatFreeze::calc_() {
-    WaterFloatFreeze::calc_();
 }
 
 }  // namespace uking::action

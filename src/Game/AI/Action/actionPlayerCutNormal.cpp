@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerCutNormal::PlayerCutNormal(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerCutNormal::~PlayerCutNormal() = default;
-
-bool PlayerCutNormal::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerCutNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

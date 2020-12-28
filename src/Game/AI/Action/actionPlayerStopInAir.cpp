@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerStopInAir::PlayerStopInAir(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerStopInAir::~PlayerStopInAir() = default;
-
-bool PlayerStopInAir::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerStopInAir::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

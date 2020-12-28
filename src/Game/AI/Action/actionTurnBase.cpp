@@ -6,10 +6,6 @@ TurnBase::TurnBase(const InitArg& arg) : ActionEx(arg) {}
 
 TurnBase::~TurnBase() = default;
 
-bool TurnBase::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void TurnBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

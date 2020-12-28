@@ -6,10 +6,6 @@ Catch::Catch(const InitArg& arg) : ActionEx(arg) {}
 
 Catch::~Catch() = default;
 
-bool Catch::init_(sead::Heap* heap) {
-    return ActionEx::init_(heap);
-}
-
 void Catch::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

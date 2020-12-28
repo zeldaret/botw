@@ -6,10 +6,6 @@ ArrowSkyShootMove::ArrowSkyShootMove(const InitArg& arg) : ArrowShootMove(arg) {
 
 ArrowSkyShootMove::~ArrowSkyShootMove() = default;
 
-bool ArrowSkyShootMove::init_(sead::Heap* heap) {
-    return ArrowShootMove::init_(heap);
-}
-
 void ArrowSkyShootMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ArrowShootMove::enter_(params);
 }

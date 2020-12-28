@@ -9,9 +9,7 @@ class PlayerGrabPut : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGrabPut, PlayerAction)
 public:
     explicit PlayerGrabPut(const InitArg& arg);
-    ~PlayerGrabPut() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

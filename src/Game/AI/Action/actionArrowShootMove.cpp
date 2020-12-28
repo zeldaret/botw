@@ -6,10 +6,6 @@ ArrowShootMove::ArrowShootMove(const InitArg& arg) : ksys::act::ai::Action(arg) 
 
 ArrowShootMove::~ArrowShootMove() = default;
 
-bool ArrowShootMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void ArrowShootMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

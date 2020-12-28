@@ -6,10 +6,6 @@ AttackPartBind::AttackPartBind(const InitArg& arg) : Attack(arg) {}
 
 AttackPartBind::~AttackPartBind() = default;
 
-bool AttackPartBind::init_(sead::Heap* heap) {
-    return Attack::init_(heap);
-}
-
 void AttackPartBind::enter_(ksys::act::ai::InlineParamPack* params) {
     Attack::enter_(params);
 }

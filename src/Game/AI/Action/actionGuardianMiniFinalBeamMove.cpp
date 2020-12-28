@@ -6,10 +6,6 @@ GuardianMiniFinalBeamMove::GuardianMiniFinalBeamMove(const InitArg& arg) : Guard
 
 GuardianMiniFinalBeamMove::~GuardianMiniFinalBeamMove() = default;
 
-bool GuardianMiniFinalBeamMove::init_(sead::Heap* heap) {
-    return GuardianBeamFire::init_(heap);
-}
-
 void GuardianMiniFinalBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianBeamFire::enter_(params);
 }

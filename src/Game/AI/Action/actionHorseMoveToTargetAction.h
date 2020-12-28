@@ -9,7 +9,6 @@ class HorseMoveToTargetAction : public AnimalMoveGuidedBase {
     SEAD_RTTI_OVERRIDE(HorseMoveToTargetAction, AnimalMoveGuidedBase)
 public:
     explicit HorseMoveToTargetAction(const InitArg& arg);
-    ~HorseMoveToTargetAction() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

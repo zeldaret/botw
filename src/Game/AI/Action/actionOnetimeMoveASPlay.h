@@ -11,7 +11,6 @@ public:
     explicit OnetimeMoveASPlay(const InitArg& arg);
     ~OnetimeMoveASPlay() override;
 
-    bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;

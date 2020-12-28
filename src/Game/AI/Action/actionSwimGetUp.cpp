@@ -6,10 +6,6 @@ SwimGetUp::SwimGetUp(const InitArg& arg) : GetUp(arg) {}
 
 SwimGetUp::~SwimGetUp() = default;
 
-bool SwimGetUp::init_(sead::Heap* heap) {
-    return GetUp::init_(heap);
-}
-
 void SwimGetUp::enter_(ksys::act::ai::InlineParamPack* params) {
     GetUp::enter_(params);
 }

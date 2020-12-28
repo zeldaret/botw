@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerSwimSpinAttack::PlayerSwimSpinAttack(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerSwimSpinAttack::~PlayerSwimSpinAttack() = default;
-
-bool PlayerSwimSpinAttack::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerSwimSpinAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }

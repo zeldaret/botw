@@ -9,7 +9,6 @@ class LinearFlyAttack : public LinearFlyAttackBase {
     SEAD_RTTI_OVERRIDE(LinearFlyAttack, LinearFlyAttackBase)
 public:
     explicit LinearFlyAttack(const InitArg& arg);
-    ~LinearFlyAttack() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

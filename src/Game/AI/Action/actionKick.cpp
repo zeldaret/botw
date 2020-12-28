@@ -14,10 +14,6 @@ void Kick::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }
 
-void Kick::leave_() {
-    ActionEx::leave_();
-}
-
 void Kick::loadParams_() {
     getStaticParam(&mPower_s, "Power");
     getStaticParam(&mUpRate_s, "UpRate");

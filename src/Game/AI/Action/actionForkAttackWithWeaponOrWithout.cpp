@@ -7,16 +7,8 @@ ForkAttackWithWeaponOrWithout::ForkAttackWithWeaponOrWithout(const InitArg& arg)
 
 ForkAttackWithWeaponOrWithout::~ForkAttackWithWeaponOrWithout() = default;
 
-bool ForkAttackWithWeaponOrWithout::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
-}
-
 void ForkAttackWithWeaponOrWithout::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
-}
-
-void ForkAttackWithWeaponOrWithout::leave_() {
-    ksys::act::ai::Action::leave_();
 }
 
 void ForkAttackWithWeaponOrWithout::loadParams_() {
@@ -26,10 +18,6 @@ void ForkAttackWithWeaponOrWithout::loadParams_() {
     getStaticParam(&mIsIniviciblePierce_s, "IsIniviciblePierce");
     getStaticParam(&mIsHeavy_s, "IsHeavy");
     getStaticParam(&mIsHammer_s, "IsHammer");
-}
-
-void ForkAttackWithWeaponOrWithout::calc_() {
-    ksys::act::ai::Action::calc_();
 }
 
 }  // namespace uking::action

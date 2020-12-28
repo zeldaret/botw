@@ -4,8 +4,6 @@ namespace uking::action {
 
 FlyingCharacterDie::FlyingCharacterDie(const InitArg& arg) : FlyingCharacterDamageBase(arg) {}
 
-FlyingCharacterDie::~FlyingCharacterDie() = default;
-
 bool FlyingCharacterDie::init_(sead::Heap* heap) {
     return FlyingCharacterDamageBase::init_(heap);
 }

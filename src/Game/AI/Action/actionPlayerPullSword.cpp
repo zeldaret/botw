@@ -4,12 +4,6 @@ namespace uking::action {
 
 PlayerPullSword::PlayerPullSword(const InitArg& arg) : PlayerAction(arg) {}
 
-PlayerPullSword::~PlayerPullSword() = default;
-
-bool PlayerPullSword::init_(sead::Heap* heap) {
-    return PlayerAction::init_(heap);
-}
-
 void PlayerPullSword::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
