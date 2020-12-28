@@ -15,7 +15,7 @@ void AnmTimingBackWalk::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AnmTimingBackWalk::leave_() {
-    BackWalkWithAS::leave_();
+    BackWalkEx::leave_();  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void AnmTimingBackWalk::loadParams_() {

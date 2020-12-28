@@ -7,7 +7,7 @@ ForkNoSlowTimer::ForkNoSlowTimer(const InitArg& arg) : ForkTimer(arg) {}
 ForkNoSlowTimer::~ForkNoSlowTimer() = default;
 
 bool ForkNoSlowTimer::init_(sead::Heap* heap) {
-    return ForkTimer::init_(heap);
+    return ForkTimerBase::init_(heap);  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void ForkNoSlowTimer::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +15,7 @@ void ForkNoSlowTimer::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkNoSlowTimer::leave_() {
-    ForkTimer::leave_();
+    ForkTimerBase::leave_();  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void ForkNoSlowTimer::loadParams_() {

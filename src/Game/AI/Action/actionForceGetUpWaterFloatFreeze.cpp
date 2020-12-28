@@ -8,7 +8,7 @@ ForceGetUpWaterFloatFreeze::ForceGetUpWaterFloatFreeze(const InitArg& arg)
 ForceGetUpWaterFloatFreeze::~ForceGetUpWaterFloatFreeze() = default;
 
 bool ForceGetUpWaterFloatFreeze::init_(sead::Heap* heap) {
-    return WaterFloatFreeze::init_(heap);
+    return WaterFloatImmobile::init_(heap);  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void ForceGetUpWaterFloatFreeze::enter_(ksys::act::ai::InlineParamPack* params) {

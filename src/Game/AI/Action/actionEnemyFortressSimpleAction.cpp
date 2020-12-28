@@ -7,7 +7,7 @@ EnemyFortressSimpleAction::EnemyFortressSimpleAction(const InitArg& arg) : ForkT
 EnemyFortressSimpleAction::~EnemyFortressSimpleAction() = default;
 
 bool EnemyFortressSimpleAction::init_(sead::Heap* heap) {
-    return ForkTimer::init_(heap);
+    return ForkTimerBase::init_(heap);  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void EnemyFortressSimpleAction::enter_(ksys::act::ai::InlineParamPack* params) {

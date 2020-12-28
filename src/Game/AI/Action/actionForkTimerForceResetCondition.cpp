@@ -7,7 +7,7 @@ ForkTimerForceResetCondition::ForkTimerForceResetCondition(const InitArg& arg) :
 ForkTimerForceResetCondition::~ForkTimerForceResetCondition() = default;
 
 bool ForkTimerForceResetCondition::init_(sead::Heap* heap) {
-    return ForkTimer::init_(heap);
+    return ForkTimerBase::init_(heap);  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void ForkTimerForceResetCondition::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +15,7 @@ void ForkTimerForceResetCondition::enter_(ksys::act::ai::InlineParamPack* params
 }
 
 void ForkTimerForceResetCondition::leave_() {
-    ForkTimer::leave_();
+    ForkTimerBase::leave_();  // NOLINT(bugprone-parent-virtual-call)
 }
 
 void ForkTimerForceResetCondition::loadParams_() {
