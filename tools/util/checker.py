@@ -205,6 +205,7 @@ class FunctionChecker:
     def _check_function_call(self, i1, i2, orig_addr: int, decomp_addr: int) -> bool:
         name = self.decompiled_fns.get(orig_addr, None)
         if name is None:
+            self.on_unknown_fn_call(orig_addr, decomp_addr)
             return True
 
         decomp_symbol = self.my_symtab[name]
@@ -215,3 +216,6 @@ class FunctionChecker:
             self._set_mismatch_cause(i1, i2, f"function call mismatch: {name}")
 
         return False
+
+    def on_unknown_fn_call(self, orig_addr: int, decomp_addr: int) -> None:
+        pass
