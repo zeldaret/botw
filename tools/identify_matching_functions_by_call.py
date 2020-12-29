@@ -58,7 +58,9 @@ def main() -> None:
     new_matches: Dict[int, str] = dict()
     calls = fn_checker.get_possible_calls().copy()
     for base_target, my_target in calls.items():
-        target_info = functions_by_addr[base_target]
+        target_info = functions_by_addr.get(base_target)
+        if target_info is None:
+            continue
         if target_info.status != utils.FunctionStatus.NotDecompiled:
             continue
 

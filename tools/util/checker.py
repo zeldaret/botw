@@ -70,6 +70,11 @@ class FunctionChecker:
                     reg = i1.operands[1].reg
                     if reg in adrp_pair_registers:
                         adrp_pair_registers.remove(reg)
+                elif i1.mnemonic == 'b':
+                    branch_target = i1.operands[0].imm
+                    if not (base_fn.addr <= branch_target < base_fn.addr + size):
+                        if not self._check_function_call(i1, i2, branch_target, i2.operands[0].imm):
+                            return False
                 continue
 
             if i1.mnemonic != i2.mnemonic:
