@@ -13,7 +13,7 @@ from util import utils
 
 def find_vtable(symtab, class_name: str) -> Optional[str]:
     name_offset = len("vtable for ")
-    for sym in symtab.iter_symbols():
+    for sym in util.elf.iter_symbols(symtab):
         if not sym.name.startswith("_ZTV"):
             continue
         if cxxfilt.demangle(sym.name)[name_offset:] == class_name:
