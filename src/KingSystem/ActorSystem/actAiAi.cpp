@@ -70,6 +70,25 @@ bool Ai::initChildren_(s32 num_children, const char** names, sead::Buffer<u16>& 
     return true;
 }
 
+bool Ai::gatherParamsFromChildren(sead::Heap* heap) {
+    if (mFlags.isOff(Flag::DynamicParamChild) || mFlags.isOn(Flag::_20))
+        return true;
+
+    ParamNameTypePairs pairs;
+    for (auto* child : mChildren) {
+        if (auto* ai = sead::DynamicCast<Ai>(child)) {
+            if (ai->mFlags.isOn(Flag::DynamicParamChild) && ai->mFlags.isOff(Flag::_20) &&
+                !ai->gatherParamsFromChildren(heap)) {
+                return false;
+            }
+        }
+        child->getParams(&pairs, true);
+    }
+
+    mFlags.set(Flag::_20);
+    return mParams.load(*mActor, pairs, mChildren.size(), heap);
+}
+
 void Ai::calc() {
     calc_();
 
@@ -77,12 +96,92 @@ void Ai::calc() {
     if (child)
         child->calc();
 
-    if (mPendingChildIdx != InvalidIdx && mChildIdx != mPendingChildIdx) {
+    if (hasPendingChildChange()) {
         handlePendingChildChange_();
         auto* new_child = getCurrentChild();
         if (new_child)
             new_child->calc();
     }
+}
+
+bool Ai::handlePendingChildChange() {
+    if (!hasPendingChildChange())
+        return false;
+    handlePendingChildChange_();
+    return true;
+}
+
+bool Ai::hasPendingChildChange() const {
+    return mPendingChildIdx != InvalidIdx && mChildIdx != mPendingChildIdx;
+}
+
+s32 Ai::getChildIdx(const sead::SafeString& name) const {
+    const s32 idx = mChildren.binarySearch(
+        name, +[](ActionBase* const& action, const sead::SafeString& key) {
+            if (action == nullptr)
+                return 0;
+            return sead::SafeString(action->getName()).compare(key);
+        });
+    return idx == -1 ? InvalidIdx : idx;
+}
+
+void Ai::changeChild(u32 idx, InlineParamPack* params) {
+    const auto do_change = [&](InlineParamPack* pack) {
+        auto* current_child = getCurrentChild();
+        mNewChildIdx = idx;
+        if (current_child)
+            current_child->leave();
+
+        changeChildIdx(idx);
+        if (mChildren[idx])
+            mChildren[idx]->enter(pack, getName());
+
+        setRootAiFlag(RootAiFlag::_100);
+    };
+
+    if (mFlags.isOff(Flag::DynamicParamChild) || params) {
+        do_change(params);
+    } else {
+        InlineParamPack pack;
+        copyParams(&pack, false);
+        do_change(&pack);
+    }
+}
+
+void Ai::changeChild(const char* name, InlineParamPack* params) {
+    const auto idx = getChildIdx(name);
+    if (idx != InvalidIdx)
+        changeChild(idx, params);
+}
+
+bool Ai::reenter(ActionBase* other, const sead::SafeString& context) {
+    auto* ai = sead::DynamicCast<Ai>(other);
+    if (!ai)
+        return false;
+
+    if (ai->getNumChildren() != getNumChildren())
+        return false;
+
+    mPendingChildIdx = InvalidIdx;
+
+    const bool reenter_ret = reenter_(ai, false);
+
+    if (mFlags.isOn(Flag::_40)) {
+        if (auto* child = getCurrentChild())
+            child->leave();
+        mFlags.reset(Flag::_40);
+    }
+
+    mPrevChildIdx = ai->mPrevChildIdx;
+    mChildIdx = ai->mChildIdx;
+    if (!reenter_ret)
+        return false;
+
+    auto* other_child = ai->getCurrentChild();
+    auto* child = getCurrentChild();
+    if (!other_child || !child)
+        return true;
+    return child->takeOver(other_child, getName());
 }
 
 bool Ai::isFlag4Set() const {
@@ -99,11 +198,65 @@ ActionBase* Ai::getCurrentChild() const {
     return mChildren[mChildIdx];
 }
 
-void Ai::updateChildIdx(u16 new_idx) {
+bool Ai::isCurrentChild(const sead::SafeString& name) const {
+    const auto* child = getCurrentChild();
+    if (!child)
+        return false;
+    return name == child->getName();
+}
+
+bool Ai::isCurrentAction(const sead::SafeString& name) {
+    auto* action = getCurrentAction();
+    if (!action)
+        return false;
+    return name == action->getName();
+}
+
+void Ai::changeChildIdx(u16 new_idx) {
     const auto prev_idx = mChildIdx;
     mChildIdx = new_idx;
     mPrevChildIdx = prev_idx;
     mPendingChildIdx = InvalidIdx;
+}
+
+ActionBase* Ai::changeChildLater(const sead::SafeString& name) {
+    const auto idx = getChildIdx(name);
+    if (idx == InvalidIdx)
+        return nullptr;
+
+    if (idx == mChildIdx)
+        return getCurrentChild();
+
+    mPendingChildIdx = idx;
+    return mChildren[idx];
+}
+
+void Ai::getNames(sead::BufferedSafeString* out) const {
+    if (mPrevChildIdx == InvalidIdx)
+        return;
+
+    const auto* child = mChildren[mPrevChildIdx];
+    if (!child)
+        return;
+
+    out->appendWithFormat("/%s", child->getName());
+    if (auto* child_ai = sead::DynamicCast<const Ai>(child))
+        child_ai->getNames(out);
+}
+
+void Ai::getParams(ParamNameTypePairs* pairs, bool update_use_count) const {
+    auto* ptr = this;
+    do {
+        ptr->ActionBase::getParams(pairs, update_use_count);
+        if (ptr->mFlags.isOff(Flag::DynamicParamChild))
+            return;
+        if (!sead::IsDerivedFrom<Ai>(ptr))
+            return;
+        if (ptr->getNumChildren() <= 0)
+            return;
+        ptr = static_cast<const Ai*>(ptr->getChild(0));
+        update_use_count = false;
+    } while (ptr);
 }
 
 Ais::Ais() = default;

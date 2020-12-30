@@ -100,7 +100,7 @@ public:
     virtual void calc() {}
     virtual void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const;
 
-    virtual ActionBase* changeChild(const sead::SafeString& name) { return nullptr; }
+    virtual ActionBase* changeChildLater(const sead::SafeString& name) { return nullptr; }
     virtual void getParams(ParamNameTypePairs* pairs, bool update_use_count) const;
     virtual s32 getNumChildren() const { return 0; }
     virtual bool initChildren(const AIDefSet& set, sead::Heap* heap) { return true; }

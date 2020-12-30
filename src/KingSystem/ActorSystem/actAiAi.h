@@ -12,26 +12,38 @@ public:
     ~Ai() override;
 
     bool isFlag4Set() const override;
-    bool reenter_(ActionBase* other, bool x) override;
     void calc() override;
-    ActionBase* changeChild(const sead::SafeString& name) override;
+    ActionBase* changeChildLater(const sead::SafeString& name) override;
     void getParams(ParamNameTypePairs* pairs, bool update_use_count) const override;
     s32 getNumChildren() const override { return mChildren.size(); }
     bool initChildren(const AIDefSet& set, sead::Heap* heap) override;
     ActionBase* getCurrentChild() const override;
     ActionType getType() const override { return ActionType::AI; }
     bool reenter(ActionBase* other, const sead::SafeString& context) override;
-    void postLeave() override { updateChildIdx(InvalidIdx); }
+    void postLeave() override { changeChildIdx(InvalidIdx); }
     ActionBase* getChild(s32 idx) const override { return mChildren[idx]; }
-    virtual void getNames(sead::BufferedSafeString* out);
+    virtual void getNames(sead::BufferedSafeString* out) const;
 
     bool gatherParamsFromChildren(sead::Heap* heap);
 
+    void changeAS(const char* as_name, bool b, int x, int y);
+    // TODO: figure out what this actually does and rename
+    bool checkAS(int x, int y);
+
+    /// @returns whether there was a pending child change.
+    bool handlePendingChildChange();
+    bool hasPendingChildChange() const;
+    s32 getChildIdx(const sead::SafeString& name) const;
+    void changeChild(u32 idx, InlineParamPack* params = nullptr);
+    void changeChild(const char* name, InlineParamPack* params = nullptr);
+
+    bool isCurrentChild(const sead::SafeString& name) const;
+    bool isCurrentAction(const sead::SafeString& name);
+
 protected:
     virtual void calc_() {}
-    virtual void handlePendingChildChange_() { changeChildState(mPendingChildIdx); }
-    void updateChildIdx(u16 new_idx);
-    void changeChildState(u16 idx, InlineParamPack* params = nullptr);
+    virtual void handlePendingChildChange_() { changeChild(mPendingChildIdx); }
+    void changeChildIdx(u16 new_idx);
 
     static constexpr u16 InvalidIdx = 0xffff;
 

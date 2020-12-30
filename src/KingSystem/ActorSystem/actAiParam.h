@@ -35,8 +35,8 @@ KSYS_CHECK_SIZE_NX150(ParamNameType, 0x10);
 struct ParamNameTypePairs {
     void addPair(AIDefParamType type, const sead::SafeString& name, bool update_use_count);
 
-    sead::SafeArray<ParamNameType, 32> pairs;
-    s32 count;
+    sead::SafeArray<ParamNameType, 32> pairs{};
+    s32 count = 0;
 };
 KSYS_CHECK_SIZE_NX150(ParamNameTypePairs, 0x208);
 
