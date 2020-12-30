@@ -6,6 +6,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   add_compile_options(-fdiagnostics-color=always)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   add_compile_options(-fcolor-diagnostics)
+  # Required to silence "unused argument" warnings for -stdlib=libc++ when using distcc
+  add_compile_options(-Wno-unused-command-line-argument)
+  # Required to fix source paths in debug info when using distcc
+  add_compile_options(-fdebug-prefix-map=/tmp=${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
