@@ -93,9 +93,35 @@ def main() -> None:
         add_pair(f"_ZNK5uking6action{len(name)}{name}18getRuntimeTypeInfoEv")
         return pairs
 
+    def get_ai_pairs(orig_name, name):
+        pairs = []
+
+        def add_pair(x):
+            pairs.append((x, x))
+
+        pairs.append(
+            (f"AI_AI_{orig_name}::ctor", f"_ZN5uking2ai{len(name)}{name}C1ERKN4ksys3act2ai10ActionBase7InitArgE"))
+        pairs.append(
+            (f"AI_AI{orig_name}::ctor", f"_ZN5uking2ai{len(name)}{name}C1ERKN4ksys3act2ai10ActionBase7InitArgE"))
+        pairs.append((f"AI_F_AI_{orig_name}",
+                      f"_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai{len(name)}{name}EEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE"))
+        add_pair(f"_ZN5uking2ai{len(name)}{name}D1Ev")
+        add_pair(f"_ZN5uking2ai{len(name)}{name}D0Ev")
+        add_pair(f"_ZN5uking2ai{len(name)}{name}11loadParams_Ev")
+        add_pair(f"_ZN5uking2ai{len(name)}{name}5init_EPN4sead4HeapE")
+        add_pair(f"_ZN5uking2ai{len(name)}{name}6enter_EPN4ksys3act2ai15InlineParamPackE")
+        add_pair(f"_ZN5uking2ai{len(name)}{name}6leave_Ev")
+        add_pair(f"_ZN5uking2ai{len(name)}{name}5calc_Ev")
+        add_pair(f"_ZNK5uking2ai{len(name)}{name}27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE")
+        add_pair(f"_ZNK5uking2ai{len(name)}{name}18getRuntimeTypeInfoEv")
+        return pairs
+
     if type_ == "Action":
         action_vtable_names = ai_common.get_action_vtable_names()
         identify(functions, checker, new_matches, action_vtable_names.values(), get_action_pairs)
+    if type_ == "AI":
+        ai_vtable_names = ai_common.get_ai_vtable_names()
+        identify(functions, checker, new_matches, ai_vtable_names.values(), get_ai_pairs)
     elif type_ == "Query":
         identify(functions, checker, new_matches, aidef["Querys"].keys(), get_query_pairs)
 
