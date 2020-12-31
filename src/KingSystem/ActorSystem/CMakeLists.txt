@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
   actActorCreator.h
   actActorFactory.cpp
   actActorFactory.h
+  actActorHeapUtil.cpp
+  actActorHeapUtil.h
   actActorLinkConstDataAccess.cpp
   actActorLinkConstDataAccess.h
   actActorParam.cpp
