@@ -1,10 +1,16 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/Map/mapMubinIter.h"
 
 namespace ksys {
+
+namespace map {
+class Object;
+}  // namespace map
 
 namespace act {
 
@@ -23,14 +29,37 @@ public:
         _4 = 4,
     };
 
+    enum class ActorFlag {
+        _18 = 0x18,
+        _25 = 0x25,
+        _2b = 0x2b,
+    };
+
+    enum class DeleteType {
+        _1 = 1,
+        _2 = 2,
+        _3 = 3,
+    };
+
     Actor();  // FIXME
     ~Actor() override;
 
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)
 
+    const sead::SafeString& getProfile() const;
+    const char* getUniqueName() const;
+
     ai::RootAi* getRootAi() const { return mRootAi; }
     const ActorParam* getParam() const { return mActorParam; }
+    map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
+
+    bool checkFlag(ActorFlag flag) const;
+    bool deleteEx(DeleteType type, DeleteReason reason, bool* ok = nullptr);
+
+    void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f& vel,
+                       const sead::Vector3f& ang_vel, const sead::Vector3f& scale,
+                       bool is_life_infinite, int i, int life) const;
 
     virtual s32 getMaxLife();
 
@@ -54,9 +83,11 @@ protected:
     /* 0x578 */ u8 TEMP_0x578[0x648 - 0x578];
     /* 0x648 */ map::MubinIter mMapObjIter;
     /* 0x658 */ u8 TEMP_0x650[0x710 - 0x658];
-    // The name could be incorrect.
+    /* ..... */  // The name could be incorrect.
     /* 0x710 */ sead::TypedBitFlag<StasisFlag> mStasisFlags;
-    /* 0x714 */ u8 TEMP_0x714[0x838 - 0x714];  // FIXME
+    /* 0x714 */ u8 TEMP_0x714[0x7c8 - 0x714];  // FIXME
+    /* 0x7c8 */ map::Object* mMapObject;
+    /* 0x7d0 */ u8 TEMP_0x7d0[0x838 - 0x7d0];
 };
 KSYS_CHECK_SIZE_NX150(Actor, 0x838);
 

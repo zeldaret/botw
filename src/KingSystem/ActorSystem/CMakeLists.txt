@@ -2,6 +2,7 @@ target_sources(uking PRIVATE
   Profiles/actRopeBase.cpp
   Profiles/actRopeBase.h
 
+  actActor.cpp
   actActor.h
   actActorCaptureMgr.cpp
   actActorCaptureMgr.h

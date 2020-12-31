@@ -90,6 +90,7 @@ public:
     State getState() const { return mState; }
     bool isInit() const { return mState == State::Init; }
     bool isCalc() const { return mState == State::Calc; }
+    bool isSleep() const { return mState == State::Sleep; }
     bool isDeletedOrDeleting() const {
         return mState == State::Delete || mStateFlags.isOn(StateFlags::RequestDelete);
     }
