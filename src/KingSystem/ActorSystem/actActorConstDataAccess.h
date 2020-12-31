@@ -2,6 +2,7 @@
 
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -41,6 +42,11 @@ public:
     bool acquireConnectedCalcParent(ActorLinkConstDataAccess* accessor) const;
     bool acquireConnectedCalcChild(ActorLinkConstDataAccess* accessor) const;
     bool hasConnectedCalcParent() const;
+
+    bool deleteLater(BaseProc::DeleteReason reason) const;
+    bool fadeOutDelete(BaseProc::DeleteReason reason) const;
+    bool sleep(BaseProc::SleepWakeReason reason) const;
+    bool wakeUp(BaseProc::SleepWakeReason reason) const;
 
     bool isAttClientEnabled(const sead::SafeString& client) const;
 

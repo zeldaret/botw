@@ -44,6 +44,7 @@ public:
         _0 = 0,
         _1 = 1,
         _2 = 2,
+        _15 = 15,
     };
 
     enum class SleepWakeReason : u32 {
