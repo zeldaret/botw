@@ -65,9 +65,16 @@ def main() -> None:
         if functions_by_addr[vtable1[0]].status == utils.FunctionStatus.Matching:
             continue
 
-        name = decomp_addr_to_symbol[vtable2[0]]
+        decomp_derive_fn_addr = vtable2[0]
+        if decomp_derive_fn_addr == 0:
+            decomp_derive_fn_addr = decomp_glob_data_table.get(ptr2 + 0x10, 0)
+        if decomp_derive_fn_addr == 0:
+            raise RuntimeError(f"Derive virtual function pointer is null "
+                               f"(fn: {fn.decomp_name}, decomp vtable at {ptr2:#x})")
+
+        name = decomp_addr_to_symbol[decomp_derive_fn_addr]
         new_matches[vtable1[0]] = name
-        utils.print_note(f"new match: {Fore.BLUE}{cxxfilt.demangle(name)}{Fore.RESET}")
+        utils.print_note(f"new match: {Fore.BLUE}{cxxfilt.demangle(name)}{Fore.RESET} (from {fn.decomp_name})")
 
     # overwrite the original names because they are likely to be incorrect
     utils.add_decompiled_functions(new_matches, new_orig_names=new_matches)

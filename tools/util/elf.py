@@ -128,6 +128,7 @@ def get_fn_from_my_elf(name: str) -> Function:
 
 
 R_AARCH64_GLOB_DAT = 1025
+R_AARCH64_RELATIVE = 1027
 
 
 def build_glob_data_table(elf: ELFFile) -> Dict[int, int]:
@@ -142,7 +143,11 @@ def build_glob_data_table(elf: ELFFile) -> Dict[int, int]:
     for reloc in section.iter_relocations():
         symtab.stream.seek(offset + reloc["r_info_sym"] * entsize)
         sym_value = _ElfSym.parse(symtab.stream.read(_ElfSymFormat.size)).st_value
-        if reloc["r_info_type"] == R_AARCH64_GLOB_DAT:
+        info_type = reloc["r_info_type"]
+        if info_type == R_AARCH64_GLOB_DAT:
+            table[reloc["r_offset"]] = sym_value + reloc["r_addend"]
+        elif info_type == R_AARCH64_RELATIVE:
+            # FIXME: this should be Delta(S) + A
             table[reloc["r_offset"]] = sym_value + reloc["r_addend"]
 
     return table
