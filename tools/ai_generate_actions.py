@@ -231,7 +231,7 @@ def main() -> None:
     class_dir = src_root / "src" / "Game" / "AI" / "Action"
     class_dir.mkdir(exist_ok=True)
 
-    action_vtables: Dict[str, List[int]] = ai_common.get_ai_vtables()["Action"]
+    action_vtables: Dict[str, List[int]] = ai_common.get_vtables()["Action"]
     action_params = ai_common.get_action_params()
     vtable_names = ai_common.get_action_vtable_names()
 

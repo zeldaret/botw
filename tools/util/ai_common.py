@@ -22,7 +22,7 @@ def check_vtable_name_dict(names: Dict[int, str]):
         seen.add(v)
 
 
-def get_ai_vtables() -> Dict[str, Dict[str, List[int]]]:
+def get_vtables() -> Dict[str, Dict[str, List[int]]]:
     with (utils.get_repo_root() / "data" / "aidef_vtables.yml").open(encoding="utf-8") as f:
         return yaml.load(f, Loader=yaml.CSafeLoader)
 
@@ -38,6 +38,11 @@ def get_action_vtable_names() -> Dict[int, str]:
 
     check_vtable_name_dict(names)
     return names
+
+
+def get_ai_params() -> Dict[str, List[dict]]:
+    with (utils.get_repo_root() / "data" / "aidef_ai_params.yml").open(encoding="utf-8") as f:
+        return yaml.load(f, Loader=yaml.CSafeLoader)
 
 
 def get_ai_vtable_names() -> Dict[int, str]:

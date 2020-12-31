@@ -69,7 +69,7 @@ def main() -> None:
     parser.add_argument("--out-names", help="Path to which a vtable -> name map will be written", required=True)
     args = parser.parse_args()
 
-    all_vtables = ai_common.get_ai_vtables()
+    all_vtables = ai_common.get_vtables()
 
     graph = Graph()
     reverse_graph = Graph()

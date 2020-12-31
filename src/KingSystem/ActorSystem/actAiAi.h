@@ -64,6 +64,11 @@ struct AiFactory {
     using CreateFn = Ai* (*)(const Ai::InitArg& arg, sead::Heap* heap);
     u32 hash;
     CreateFn create_fn;
+
+    template <typename T>
+    static Ai* make(const Ai::InitArg& arg, sead::Heap* heap) {
+        return new (heap) T(arg);
+    }
 };
 
 class Ais {

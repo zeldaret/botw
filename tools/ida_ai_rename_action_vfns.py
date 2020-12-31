@@ -60,7 +60,7 @@ _ida_base = 0x7100000000
 
 
 def main() -> None:
-    all_vtables = ai_common.get_ai_vtables()
+    all_vtables = ai_common.get_vtables()
     names = ai_common.get_action_vtable_names()
     not_decompiled = {func.addr for func in utils.get_functions() if func.status == utils.FunctionStatus.NotDecompiled}
 
