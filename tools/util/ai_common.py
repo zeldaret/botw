@@ -40,6 +40,14 @@ def get_action_vtable_names() -> Dict[int, str]:
     return names
 
 
+def get_ai_vtable_names() -> Dict[int, str]:
+    with (utils.get_repo_root() / "data" / "aidef_ai_vtables.yml").open(encoding="utf-8") as f:
+        names = yaml.load(f, Loader=yaml.CSafeLoader)
+
+    check_vtable_name_dict(names)
+    return names
+
+
 def topologically_sort_vtables(all_vtables: dict, type_: str) -> List[int]:
     graph = Graph()
     for name, vtables in all_vtables[type_].items():
