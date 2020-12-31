@@ -87,6 +87,7 @@ KSYS_CHECK_SIZE_NX150(BaseProcLinkData, 0x58);
 
 class BaseProcLinkDataMgr {
     SEAD_SINGLETON_DISPOSER(BaseProcLinkDataMgr)
+    BaseProcLinkDataMgr() = default;
 
 public:
     bool acquireLink(BaseProc* proc);

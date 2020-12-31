@@ -16,6 +16,7 @@ public:
 // FIXME
 class KingEditor {
     SEAD_SINGLETON_DISPOSER(KingEditor)
+    KingEditor() = default;
 
 public:
     void registerComponent(KingEditorComponent* component);

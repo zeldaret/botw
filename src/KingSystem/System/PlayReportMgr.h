@@ -19,6 +19,7 @@ class ProductReporter;
 
 class PlayReportMgr {
     SEAD_SINGLETON_DISPOSER(PlayReportMgr)
+    PlayReportMgr() = default;
     virtual ~PlayReportMgr();
 
 public:

@@ -10,6 +10,8 @@ namespace ksys::res {
 /// Stubbed in release builds.
 class CurrentResNameMgr {
     SEAD_SINGLETON_DISPOSER(CurrentResNameMgr)
+    CurrentResNameMgr() = default;
+
 public:
     void init(sead::Heap* heap);
     sead::SafeString getCurrentResName() const;

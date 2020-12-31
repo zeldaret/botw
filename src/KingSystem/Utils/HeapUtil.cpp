@@ -7,6 +7,8 @@ namespace ksys::util {
 // Name, layout and purpose unknown; this is stubbed in release builds
 class DebugHeapHolder {
     SEAD_SINGLETON_DISPOSER(DebugHeapHolder)
+    DebugHeapHolder() = default;
+
 public:
     virtual ~DebugHeapHolder() = default;
     virtual sead::Heap* getHeap() { return nullptr; }
@@ -17,6 +19,8 @@ SEAD_SINGLETON_DISPOSER_IMPL(DebugHeapHolder)
 // Name, layout and purpose unknown; this is stubbed in release builds
 class DebugHeapHolder2 {
     SEAD_SINGLETON_DISPOSER(DebugHeapHolder2)
+    DebugHeapHolder2() = default;
+
 public:
     virtual ~DebugHeapHolder2() = default;
     virtual sead::Heap* getHeap() { return nullptr; }

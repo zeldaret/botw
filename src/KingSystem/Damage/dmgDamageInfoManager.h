@@ -13,6 +13,8 @@ namespace ksys::dmg {
 class DamageInfoMgr {
 public:
     SEAD_SINGLETON_DISPOSER(DamageInfoMgr);
+    DamageInfoMgr();
+    virtual ~DamageInfoMgr();
 
 public:
     // FIXME: incomplete
@@ -22,7 +24,7 @@ public:
         sead::SafeArray<u8, 3> mCanTakeDamageFromType;
     };
 
-    u8 TEMP1[0x5F8];                         // Fields
+    u8 TEMP1[0x5F0];                         // Fields
     res::Handle* mReactionTable;             // 0x5D0
     sead::Buffer<DamageItem> mDamagesArray;  // 0x620
 };

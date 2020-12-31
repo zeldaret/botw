@@ -8,6 +8,7 @@ namespace ksys::snd {
 // FIXME: incomplete
 class SoundResource {
     SEAD_SINGLETON_DISPOSER(SoundResource)
+    SoundResource() = default;
     virtual ~SoundResource();
 
 public:

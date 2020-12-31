@@ -16,6 +16,7 @@ public:
 
 class ActorFactoryHolder {
     SEAD_SINGLETON_DISPOSER(ActorFactoryHolder)
+    ActorFactoryHolder() = default;
     virtual ~ActorFactoryHolder();
 
 public:

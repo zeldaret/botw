@@ -8,6 +8,7 @@ namespace ksys::act {
 
 class ActorDebug {
     SEAD_SINGLETON_DISPOSER(ActorDebug)
+    ActorDebug();
     virtual ~ActorDebug();
 
 public:

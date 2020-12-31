@@ -103,12 +103,15 @@ KSYS_CHECK_SIZE_NX150(PlacementActors, 0x2A80D0);
 
 class PlacementMgr {
     SEAD_SINGLETON_DISPOSER(PlacementMgr)
+    PlacementMgr();
+    virtual ~PlacementMgr();
+
 public:
     enum class MgrFlag {
         _1000000 = 0x1000000,
     };
 
-    u8 TEMP1[0x1D0];
+    u8 TEMP1[0x1C8];
     PlacementActors* mPlacementActors;
     u8 TEMP2[0x48C];
     sead::TypedBitFlag<MgrFlag, sead::Atomic<u32>> mFlags;

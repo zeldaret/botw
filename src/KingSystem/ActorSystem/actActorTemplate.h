@@ -11,6 +11,7 @@ namespace ksys::act {
 
 class ActorTemplate {
     SEAD_SINGLETON_DISPOSER(ActorTemplate)
+    ActorTemplate() = default;
     virtual ~ActorTemplate();
 
 public:
