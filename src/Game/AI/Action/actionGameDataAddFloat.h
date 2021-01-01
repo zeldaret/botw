@@ -10,6 +10,7 @@ public:
     explicit GameDataAddFloat(const InitArg& arg);
     ~GameDataAddFloat() override;
 
+    bool oneShot_() override;
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
 
