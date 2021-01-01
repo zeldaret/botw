@@ -10,6 +10,7 @@ public:
     explicit GameDataAddInt(const InitArg& arg);
     ~GameDataAddInt() override;
 
+    bool oneShot_() override;
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
 
