@@ -18,7 +18,7 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mNodeName_d{};
+    sead::SafeString mNodeName_d{};
     // dynamic_param at offset 0x30
     sead::Vector3f* mRotOffset_d{};
     // dynamic_param at offset 0x38

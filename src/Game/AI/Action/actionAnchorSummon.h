@@ -22,11 +22,11 @@ protected:
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x40
-    sead::SafeString* mSummonActor_d{};
+    sead::SafeString mSummonActor_d{};
     // dynamic_param at offset 0x50
-    sead::SafeString* mSummonActorEquip1_d{};
+    sead::SafeString mSummonActorEquip1_d{};
     // dynamic_param at offset 0x60
-    sead::SafeString* mSummonActorEquip2_d{};
+    sead::SafeString mSummonActorEquip2_d{};
 };
 
 }  // namespace uking::action

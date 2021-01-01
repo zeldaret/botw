@@ -31,7 +31,7 @@ protected:
     // dynamic_param at offset 0x48
     bool* mIsWaitAS_d{};
     // dynamic_param at offset 0x50
-    sead::SafeString* mMessageId_d{};
+    sead::SafeString mMessageId_d{};
 };
 
 }  // namespace uking::action

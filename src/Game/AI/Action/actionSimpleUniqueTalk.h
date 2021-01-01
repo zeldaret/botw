@@ -19,7 +19,7 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mMstxtName_d{};
+    sead::SafeString mMstxtName_d{};
 };
 
 }  // namespace uking::action

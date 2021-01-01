@@ -19,7 +19,7 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mGetActorName_d{};
+    sead::SafeString mGetActorName_d{};
     // aitree_variable at offset 0x30
     int* mGetNumLeft_a{};
 };

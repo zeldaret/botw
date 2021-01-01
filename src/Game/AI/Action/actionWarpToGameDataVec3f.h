@@ -25,9 +25,9 @@ protected:
     // dynamic_param at offset 0x40
     bool* mRotToVec3f_d{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mGameDataVec3fWarpToPos_d{};
+    sead::SafeString mGameDataVec3fWarpToPos_d{};
     // dynamic_param at offset 0x58
-    sead::SafeString* mGameDataVec3fRotDir_d{};
+    sead::SafeString mGameDataVec3fRotDir_d{};
 };
 
 }  // namespace uking::action

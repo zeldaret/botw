@@ -21,11 +21,11 @@ protected:
     // static_param at offset 0x20
     sead::SafeString mMstxt_s{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mSubMstxt_d{};
+    sead::SafeString mSubMstxt_d{};
     // dynamic_param at offset 0x40
-    sead::SafeString* mLabelName_d{};
+    sead::SafeString mLabelName_d{};
     // dynamic_param at offset 0x50
-    sead::SafeString* mGameDataIntFloorNum_d{};
+    sead::SafeString mGameDataIntFloorNum_d{};
 };
 
 }  // namespace uking::action

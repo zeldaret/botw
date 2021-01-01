@@ -18,7 +18,7 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mEnvSetName_d{};
+    sead::SafeString mEnvSetName_d{};
 };
 
 }  // namespace uking::action

@@ -17,7 +17,7 @@ protected:
     // dynamic_param at offset 0x20
     float* mFadeSec_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mBgmName_d{};
+    sead::SafeString mBgmName_d{};
 };
 
 }  // namespace uking::action

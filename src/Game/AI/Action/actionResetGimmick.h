@@ -23,7 +23,7 @@ protected:
     // dynamic_param at offset 0x28
     bool* mIsResetCamera_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mAdditionalResetActor_d{};
+    sead::SafeString mAdditionalResetActor_d{};
 };
 
 }  // namespace uking::action

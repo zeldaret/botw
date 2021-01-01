@@ -21,7 +21,7 @@ protected:
     // dynamic_param at offset 0x20
     bool* mCreateSelf_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mUniqueName_d{};
+    sead::SafeString mUniqueName_d{};
 };
 
 }  // namespace uking::action

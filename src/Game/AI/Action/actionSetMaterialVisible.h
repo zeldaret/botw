@@ -17,7 +17,7 @@ protected:
     // static_param at offset 0x20
     const bool* mIsVisible_s{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mMaterialName_d{};
+    sead::SafeString mMaterialName_d{};
 };
 
 }  // namespace uking::action

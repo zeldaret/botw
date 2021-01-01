@@ -22,7 +22,7 @@ protected:
     // static_param at offset 0x90
     const sead::Vector3f* mAppearOffset1_s{};
     // dynamic_param at offset 0x98
-    sead::SafeString* mThrowPartsName1_d{};
+    sead::SafeString mThrowPartsName1_d{};
 };
 
 }  // namespace uking::action

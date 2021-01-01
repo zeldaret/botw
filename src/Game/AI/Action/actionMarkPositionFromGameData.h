@@ -17,7 +17,7 @@ protected:
     // dynamic_param at offset 0x20
     int* mPinColorIdx_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mGameDataVec3_d{};
+    sead::SafeString mGameDataVec3_d{};
 };
 
 }  // namespace uking::action

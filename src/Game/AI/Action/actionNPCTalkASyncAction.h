@@ -19,7 +19,7 @@ protected:
     // dynamic_param at offset 0x28
     bool* mIsChecked_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mMessageId_d{};
+    sead::SafeString mMessageId_d{};
 };
 
 }  // namespace uking::action

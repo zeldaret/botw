@@ -29,7 +29,7 @@ protected:
     // static_param at offset 0x40
     sead::SafeString mWaitASName_s{};
     // dynamic_param at offset 0x50
-    sead::SafeString* mPartsName_d{};
+    sead::SafeString mPartsName_d{};
 };
 
 }  // namespace uking::action

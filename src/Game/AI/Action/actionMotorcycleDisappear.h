@@ -21,7 +21,7 @@ protected:
     // static_param at offset 0x20
     const float* mModelWarpEffectFrames_s{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mDisappearEffectName_d{};
+    sead::SafeString mDisappearEffectName_d{};
 };
 
 }  // namespace uking::action

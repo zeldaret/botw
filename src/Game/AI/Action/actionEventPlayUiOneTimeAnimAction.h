@@ -21,9 +21,9 @@ protected:
     // dynamic_param at offset 0x20
     int* mClipIndex_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mScreenName_d{};
+    sead::SafeString mScreenName_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mAnimName_d{};
+    sead::SafeString mAnimName_d{};
 };
 
 }  // namespace uking::action

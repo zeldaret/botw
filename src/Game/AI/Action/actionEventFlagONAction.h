@@ -15,7 +15,7 @@ public:
 
 protected:
     // dynamic_param at offset 0x20
-    sead::SafeString* mFlagName_d{};
+    sead::SafeString mFlagName_d{};
 };
 
 }  // namespace uking::action

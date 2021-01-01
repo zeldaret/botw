@@ -20,18 +20,18 @@ ActivateAttackSensor:
 - {type: static_param, param_type: 'sead::SafeString', param_name: AtkSensorName, param_offset: 0x80}
 - {type: map_unit_param, param_type: const int*, param_name: AttackPower, param_offset: 0x90}
 ActorInfoToGameDataFloat:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatToName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ParameterName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatToName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ParameterName, param_offset: 0x40}
 ActorInfoToGameDataInt:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntToName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ParameterName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntToName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ParameterName, param_offset: 0x40}
 ActorInfoToGameDataVec3:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fToName, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ParameterName, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fToName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ParameterName, param_offset: 0x50}
 AddAutoPlacementCreator:
 - {type: map_unit_param, param_type: const int*, param_name: Count, param_offset: 0x20}
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x28}
@@ -113,9 +113,9 @@ ActionWithPosAngReduce:
 AnchorSummon:
 - {type: call, fn: _ZN5uking6action22ActionWithPosAngReduce11loadParams_Ev, addr: 0x710027e3ec}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SummonActor, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SummonActorEquip1, param_offset: 0x50}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SummonActorEquip2, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SummonActor, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SummonActorEquip1, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SummonActorEquip2, param_offset: 0x60}
 ActionWithAS: []
 Angry:
 - {type: call, fn: _ZN5uking6action22ActionWithPosAngReduce11loadParams_Ev, addr: 0x710027e3ec}
@@ -125,7 +125,7 @@ AnimMatrixDriven:
 - {type: dynamic_param, param_type: float*, param_name: StartFrame, param_offset: 0x30}
 - {type: dynamic_param, param_type: bool*, param_name: IsIgnoreSame, param_offset: 0x38}
 - {type: dynamic_param, param_type: bool*, param_name: IsChangeable, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x48}
 AnimTimingAttackMove:
 - {type: static_param, param_type: const float*, param_name: JumpHeight, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: MaxSpeed, param_offset: 0x28}
@@ -365,7 +365,7 @@ AnmUpDownMove:
 Appear: []
 AppearDeathCounter: []
 AppearFullPouchInfo:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName, param_offset: 0x20}
 AppearGameOver:
 - {type: dynamic_param, param_type: int*, param_name: Delay, param_offset: 0x20}
 AppearMagneForce:
@@ -392,7 +392,7 @@ AppearNumHeroSeal:
 - {type: dynamic_param, param_type: int*, param_name: RelicPattern, param_offset: 0x20}
 AppearNumKorokNuts: []
 AppearNumTargets:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntTargetCounter, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntTargetCounter, param_offset: 0x20}
 ApplyHorizontalImpulse:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: DynVel, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: DynAngVel, param_offset: 0x28}
@@ -435,12 +435,12 @@ AreaRoot:
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: WarpDestMapName, param_offset: 0x60}
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: WarpDestPosName, param_offset: 0x70}
 ArmorBindNodeAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: BoneName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: BoneName, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: PosOffset, param_offset: 0x30}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: RotOffsetXyz, param_offset: 0x38}
 ArmorBindWithAS:
 - {type: call, fn: _ZN5uking6action15ArmorBindAction11loadParams_Ev, addr: 0x7100e10f2c}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x30}
 ArrowShootMove:
 - {type: dynamic_param, param_type: bool*, param_name: IsShootByPlayer, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: FirstSpeed, param_offset: 0x28}
@@ -963,8 +963,8 @@ BurnDamage:
 - {type: call, fn: _ZN5uking6action13TimeredASPlay11loadParams_Ev, addr: 0x7100299c04}
 CalcVecLengthToGameData:
 - {type: dynamic_param, param_type: bool*, param_name: CalcY, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fSrcName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatToName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fSrcName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatToName, param_offset: 0x38}
 CallOvserveActorTag: []
 CameraAction:
 - {type: static_param, param_type: const bool*, param_name: BowFlag, param_offset: 0x40}
@@ -1108,7 +1108,7 @@ ChanegToLog: []
 ChangeChoiceNumMsgFor3DShop: []
 ChangeEmotion:
 - {type: dynamic_param, param_type: bool*, param_name: IsOnlyFace, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: EmotionType, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: EmotionType, param_offset: 0x28}
 ChangeEnvForEnduranceDungeon:
 - {type: map_unit_param, param_type: const int*, param_name: Weather, param_offset: 0x20}
 - {type: map_unit_param, param_type: const int*, param_name: IgnitedLevel, param_offset: 0x28}
@@ -1122,29 +1122,29 @@ ChangeFreeMovingForDemo:
 ChangeMiniMapScale:
 - {type: dynamic_param, param_type: int*, param_name: ScaleLevel, param_offset: 0x20}
 ChangePosture:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Posture, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Posture, param_offset: 0x20}
 ChangePostureWithAS:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Posture, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Posture, param_offset: 0x20}
 ChangeSceneBase:
 - {type: dynamic_param, param_type: int*, param_name: StartType, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: EvflName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: EntryPointName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: EvflName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: EntryPointName, param_offset: 0x38}
 ChangeScene:
 - {type: call, fn: _ZN5uking6action15ChangeSceneBase11loadParams_Ev, addr: 0x71000d8c98}
 - {type: dynamic_param, param_type: int*, param_name: FadeType, param_offset: 0x50}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: WarpDestMapName, param_offset: 0x58}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: WarpDestPosName, param_offset: 0x68}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: WarpDestMapName, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: WarpDestPosName, param_offset: 0x68}
 ChangeScheduleAnchor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ScheduleName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnchorUniqueName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ScheduleName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnchorUniqueName, param_offset: 0x30}
 ChangeWeaponEquipState:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: EquipState, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: EquipState, param_offset: 0x20}
 SetChemicalWeaponPower: []
 ChargeChemicalWeaponPower:
 - {type: call, fn: _ZN5uking6action22SetChemicalWeaponPower11loadParams_Ev, addr: 0x7100069ff0}
 CheckExistenceOfParticipant:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: InstanceName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: InstanceName, param_offset: 0x30}
 CheckHorseCustomizeEdit: []
 ChemicalAttack:
 - {type: static_param, param_type: const int*, param_name: AttackIntensity, param_offset: 0x20}
@@ -1259,7 +1259,7 @@ ControllerRumble:
 - {type: dynamic2_param, param_type: int*, param_name: Count, param_offset: 0x28}
 CopyMapPinPosition:
 - {type: dynamic_param, param_type: int*, param_name: PinColorIdx, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3, param_offset: 0x28}
 CreateActorInAreaBasic:
 - {type: static_param, param_type: const int*, param_name: CreateBasePosNum, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: CreateNewActorIntervalFirst, param_offset: 0x28}
@@ -1288,21 +1288,21 @@ CreateGanonChemicalPillar:
 - {type: static_param, param_type: 'sead::SafeString', param_name: CreateActorName, param_offset: 0x40}
 - {type: map_unit_param, param_type: const int*, param_name: AddAtkPower, param_offset: 0x50}
 CreateObjectsOfOwnedHorse:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: HorseReinsActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: HorseSaddleActorName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: HorseManeActorName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: HorseReinsActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: HorseSaddleActorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: HorseManeActorName, param_offset: 0x40}
 CurseRRematchCount:
 - {type: dynamic_param, param_type: int*, param_name: RematchCount, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: CurseRType, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataStringCounterName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataStringCounterName, param_offset: 0x30}
 CustomDuckingEndAction: []
 CustomDuckingStartAction:
 - {type: dynamic_param, param_type: float*, param_name: Volume, param_offset: 0x20}
 - {type: dynamic_param, param_type: float*, param_name: FadeOutSec, param_offset: 0x28}
 - {type: dynamic_param, param_type: float*, param_name: FadeInSec, param_offset: 0x30}
 - {type: dynamic_param, param_type: float*, param_name: StartDelaySec, param_offset: 0x38}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: TargetGroups, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ExceptGroups, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: TargetGroups, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ExceptGroups, param_offset: 0x50}
 ForbidTag: []
 DRCAppNoUseTag:
 - {type: call, fn: _ZN5uking6action9ForbidTag11loadParams_Ev, addr: 0x71000ba9d0}
@@ -1363,7 +1363,7 @@ DeleteInGround:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x20}
 DeletePorchItemIncludeEquip:
 - {type: dynamic_param, param_type: int*, param_name: DeleteNum, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName, param_offset: 0x28}
 ApplyDamageForPlayer:
 - {type: dynamic_param, param_type: int*, param_name: Value, param_offset: 0x20}
 DemoApplyDamageForPlayer:
@@ -1371,7 +1371,7 @@ DemoApplyDamageForPlayer:
 DemoBeastGanonGrudgeDrop:
 - {type: static_param, param_type: 'sead::SafeString', param_name: GrudeRainObject, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: Timer, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x38}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: FallPoint1, param_offset: 0x48}
 DemoChangeEntityNoHit:
 - {type: static_param, param_type: const int*, param_name: SetMotionType, param_offset: 0x20}
@@ -1386,8 +1386,8 @@ DemoEnemyReset: []
 DemoFindPlayer:
 - {type: call, fn: _ZN5uking6action13TimeredASPlay11loadParams_Ev, addr: 0x7100299c04}
 DemoForceSetPlayerSavePosAngle:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnchorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x30}
 DemoGetItem: []
 DemoGetItemAnimStop:
 - {type: call, fn: _ZN5uking6action11DemoGetItem11loadParams_Ev, addr: 0x7100d318a0}
@@ -1417,12 +1417,12 @@ ForkTurn:
 DemoNoAnimDrivenTurn:
 - {type: call, fn: _ZN5uking6action8ForkTurn11loadParams_Ev, addr: 0x710016893c}
 - {type: dynamic_param, param_type: int*, param_name: ObjectId, param_offset: 0xc0}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0xc8}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0xd8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0xc8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0xd8}
 PlayerAction: []
 DemoPlayerZoraRide: []
 DemoResetActor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
 DemoResetBoneCtrl:
 - {type: dynamic_param, param_type: int*, param_name: ResetTarget, param_offset: 0x20}
 DemoSweep:
@@ -1438,18 +1438,18 @@ TurnToActor:
 - {type: dynamic_param, param_type: int*, param_name: SequenceBank, param_offset: 0x28}
 - {type: dynamic_param, param_type: bool*, param_name: IsIgnoreSame, param_offset: 0x30}
 - {type: dynamic_param, param_type: bool*, param_name: IsChangeable, param_offset: 0x38}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DemoASName, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DemoASName, param_offset: 0x50}
 DemoTurnToActor:
 - {type: call, fn: _ZN5uking6action11TurnToActor11loadParams_Ev, addr: 0x7100d346cc}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x60}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x70}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x70}
 DemoVisibleOff: []
 DemoVisibleOn: []
 DemoVoiceTrigger:
 - {type: dynamic_param, param_type: bool*, param_name: IsHideCaption, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Label, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorInstance, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Label, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorInstance, param_offset: 0x38}
 GearRotate:
 - {type: static_param, param_type: const float*, param_name: StopCheckSpdRate, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: CheckSpdIdlingRate, param_offset: 0x28}
@@ -1518,7 +1518,7 @@ DisappearNumHeroSeal: []
 DisappearNumKorokNuts: []
 DisappearNumTargets: []
 DoorOpenAndClose:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DynASKey, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DynASKey, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: DynOwner, param_offset: 0x30}
 StepDoubleAttack:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x20}
@@ -1595,7 +1595,7 @@ PlayASForDemo:
 - {type: dynamic_param, param_type: int*, param_name: ClothWarpMode, param_offset: 0x40}
 - {type: dynamic_param, param_type: float*, param_name: MorphingFrame, param_offset: 0x48}
 - {type: dynamic_param, param_type: bool*, param_name: IsIgnoreSame, param_offset: 0x50}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x58}
 DragonPlayASForDemo:
 - {type: call, fn: _ZN5uking6action13PlayASForDemo11loadParams_Ev, addr: 0x710021bb6c}
 - {type: static_param, param_type: 'const sead::Vector3f*', param_name: Position, param_offset: 0xb0}
@@ -1773,10 +1773,10 @@ EmitEffectLoopAction:
 - {type: dynamic_param, param_type: float*, param_name: A, param_offset: 0x70}
 - {type: dynamic_param, param_type: bool*, param_name: OverWrite, param_offset: 0x78}
 - {type: dynamic_param, param_type: bool*, param_name: NoFade, param_offset: 0x80}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Actor, param_offset: 0x88}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: InstanceName, param_offset: 0x98}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ELinkKey, param_offset: 0xa8}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Option, param_offset: 0xb8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Actor, param_offset: 0x88}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: InstanceName, param_offset: 0x98}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ELinkKey, param_offset: 0xa8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Option, param_offset: 0xb8}
 - {type: dynamic_param, param_type: bool*, param_name: CutChangeReset, param_offset: 0xc8}
 EmitElectricWaterBall:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
@@ -1873,7 +1873,7 @@ EquipDisplayGet:
 - {type: map_unit_param, param_type: const int*, param_name: EquipStandSlot, param_offset: 0x20}
 - {type: aitree_variable, param_type: void*, param_name: EquipDisplayChild, param_offset: 0x28}
 EquipedAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: NodeName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: NodeName, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: RotOffset, param_offset: 0x30}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TransOffset, param_offset: 0x38}
 EquipedASPlay:
@@ -1919,18 +1919,18 @@ Escape: []
 EscapeBackTurn: []
 EventAddGameDataIntAction:
 - {type: dynamic_param, param_type: bool*, param_name: IsSignInversion, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntDstName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntSrcName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntDstName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntSrcName, param_offset: 0x38}
 EventAddGameDataToRupeeAction:
 - {type: dynamic_param, param_type: bool*, param_name: IsSignInversion, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntAddValueName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntAddValueName, param_offset: 0x28}
 EventAppearCheckPointNum:
 - {type: dynamic_param, param_type: int*, param_name: IconType, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntTargetCounter, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntTargetCounter, param_offset: 0x28}
 EventAppearFlyDistance:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatDistance, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatDistance, param_offset: 0x20}
 EventAppearGolfCount:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntTargetCounter, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntTargetCounter, param_offset: 0x20}
 EventAppearRaceResult:
 - {type: dynamic_param, param_type: int*, param_name: ResultType, param_offset: 0x20}
 EventAppearRupeeAction:
@@ -1938,17 +1938,17 @@ EventAppearRupeeAction:
 EventAutoSaveAction: []
 EventAutoSaveAtGameClear:
 - {type: dynamic_param, param_type: float*, param_name: RestartYDegree, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameClearFlag, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameClearFlag, param_offset: 0x28}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: RestartPoint, param_offset: 0x38}
 EventBgmCtrlAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: CtrlType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: CtrlType, param_offset: 0x20}
 EventBgmStartAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: BgmName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: BgmName, param_offset: 0x20}
 EventBgmStartAndKeepAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: BgmName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: BgmName, param_offset: 0x20}
 EventBgmStopAction:
 - {type: dynamic_param, param_type: float*, param_name: FadeSec, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: BgmName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: BgmName, param_offset: 0x28}
 EventBind:
 - {type: dynamic_param, param_type: float*, param_name: RotOffsetX, param_offset: 0x28}
 - {type: dynamic_param, param_type: float*, param_name: RotOffsetY, param_offset: 0x30}
@@ -1957,14 +1957,14 @@ EventBind:
 - {type: dynamic_param, param_type: float*, param_name: TransOffsetY, param_offset: 0x48}
 - {type: dynamic_param, param_type: float*, param_name: TransOffsetZ, param_offset: 0x50}
 - {type: dynamic_param, param_type: bool*, param_name: IsContinueBind, param_offset: 0x58}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x60}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x70}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: NodeName, param_offset: 0x80}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x70}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: NodeName, param_offset: 0x80}
 - {type: aitree_variable, param_type: void*, param_name: EventBindUnit, param_offset: 0x20}
 EventCancelGet: []
 EventCancelSleepTargetActor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: InstanceName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: InstanceName, param_offset: 0x30}
 EventChangeFadeColor:
 - {type: dynamic_param, param_type: int*, param_name: Frame, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: Color, param_offset: 0x28}
@@ -1976,7 +1976,7 @@ EventChangeShadowNearAndFar:
 EventCheckAndCreateEquip:
 - {type: dynamic_param, param_type: int*, param_name: SharpWeaponAddValue, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: SharpWeaponAddType, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: TargetActorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: TargetActorName, param_offset: 0x30}
 EventCloseMessageTipsAction: []
 EventCloudShadowOnOff: []
 EventControlRupeeUI:
@@ -2005,7 +2005,7 @@ EventEquipLastSetItem: []
 EventFade:
 - {type: dynamic_param, param_type: int*, param_name: Frame, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: Color, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DispMode, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DispMode, param_offset: 0x30}
 EventFadeIn:
 - {type: call, fn: _ZN5uking6action9EventFade11loadParams_Ev, addr: 0x7100119940}
 EventFadeOut:
@@ -2013,25 +2013,25 @@ EventFadeOut:
 EventFireControl:
 - {type: dynamic_param, param_type: bool*, param_name: ReleaseFire, param_offset: 0x20}
 EventFlagOFFAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: FlagName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: FlagName, param_offset: 0x20}
 EventFlagONAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: FlagName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: FlagName, param_offset: 0x20}
 EventHoverNullASPlayBase:
 - {type: dynamic_param, param_type: int*, param_name: ASSlot, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: SequenceBank, param_offset: 0x28}
 - {type: dynamic_param, param_type: bool*, param_name: IsIgnoreSame, param_offset: 0x30}
 - {type: dynamic_param, param_type: bool*, param_name: IsChangeable, param_offset: 0x38}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x40}
 EventHoverNullASPlay:
 - {type: call, fn: _ZN5uking6action24EventHoverNullASPlayBase11loadParams_Ev, addr: 0x710011ca18}
 EventIncreaseFameAction:
 - {type: dynamic_param, param_type: int*, param_name: Value, param_offset: 0x20}
 EventIncreaseGameDataIntAction:
 - {type: dynamic_param, param_type: int*, param_name: Value, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntName, param_offset: 0x28}
 EventIncreasePorchItemAction:
 - {type: dynamic_param, param_type: int*, param_name: Value, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName, param_offset: 0x28}
 EventIncreaseRupeeAction:
 - {type: dynamic_param, param_type: int*, param_name: Value, param_offset: 0x20}
 EventInitTalkAction: []
@@ -2049,9 +2049,9 @@ EventMiniGameTime:
 - {type: dynamic_param, param_type: bool*, param_name: IsShowTimeUI, param_offset: 0x38}
 EventMiniGameTimeMove: []
 EventMiniGameTimerWrite:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntNameMintues, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntNameSeconds, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntNameMiliseconds, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntNameMintues, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntNameSeconds, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntNameMiliseconds, param_offset: 0x40}
 EventOffWaitRevivalAction: []
 EventOnWaitRevivalAction: []
 EventOpenGetDemo:
@@ -2059,16 +2059,16 @@ EventOpenGetDemo:
 EventOpenGetWeaponDemo: []
 EventOpenMessageTips:
 - {type: dynamic_param, param_type: int*, param_name: TipsType, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x28}
 EventPickOutFromPorch:
 - {type: static_param, param_type: const int*, param_name: PickOutItemType, param_offset: 0x20}
 - {type: dynamic_param, param_type: bool*, param_name: IsUseCarryBox, param_offset: 0x28}
 EventPlayMovieAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: FileName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: FileName, param_offset: 0x20}
 EventPlayUiActorName:
 - {type: dynamic_param, param_type: int*, param_name: ClipIndex, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: ActorType, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x30}
 EventPlayUiBossHpAction:
 - {type: dynamic_param, param_type: int*, param_name: ClipIndex, param_offset: 0x20}
 EventPlayUiBossHpDamage:
@@ -2078,11 +2078,11 @@ EventPlayUiOPTextAction:
 - {type: dynamic_param, param_type: int*, param_name: TextType, param_offset: 0x28}
 EventPlayUiOneTimeAnimAction:
 - {type: dynamic_param, param_type: int*, param_name: ClipIndex, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ScreenName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnimName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ScreenName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnimName, param_offset: 0x38}
 EventPlayUiScreenAction:
 - {type: dynamic_param, param_type: int*, param_name: ClipIndex, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ScreenName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ScreenName, param_offset: 0x28}
 EventPlayUiStaffRoll:
 - {type: dynamic_param, param_type: int*, param_name: ClipIndex, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: StartIdx, param_offset: 0x28}
@@ -2097,17 +2097,17 @@ EventRecoverPlayerEnergy: []
 EventRecoverPlayerLife: []
 EventRegisterToDeathConter:
 - {type: dynamic_param, param_type: bool*, param_name: IsInitializeData, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataName, param_offset: 0x38}
 EventRegisterToGetCounter:
 - {type: dynamic_param, param_type: bool*, param_name: IsInitializeData, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataName, param_offset: 0x38}
 EventResetQuestAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: QuestName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: QuestName, param_offset: 0x20}
 EventRollbackQuestAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: QuestName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: StepName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: QuestName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: StepName, param_offset: 0x30}
 EventSendCatchWeaponMsgToPlayer: []
 EventSetAddFogOff: []
 EventSetAttentionForbidSale: []
@@ -2149,17 +2149,17 @@ EventSetFogDirect:
 - {type: dynamic_param, param_type: bool*, param_name: FarUse, param_offset: 0x48}
 EventSetGameDataFloatAction:
 - {type: dynamic_param, param_type: float*, param_name: Value, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatName, param_offset: 0x28}
 EventSetGameDataIntAction:
 - {type: dynamic_param, param_type: int*, param_name: Value, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntName, param_offset: 0x28}
 EventSetGameDataStringAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataStringName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Value, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataStringName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Value, param_offset: 0x30}
 EventSetItemDataToPouch:
 - {type: dynamic_param, param_type: int*, param_name: SharpWeaponAddValue, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: SharpWeaponAddType, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: TargetActorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: TargetActorName, param_offset: 0x30}
 EventSetMoonType:
 - {type: dynamic_param, param_type: int*, param_name: MoonType, param_offset: 0x20}
 EventSetPaletteType:
@@ -2176,19 +2176,19 @@ EventSetWeather:
 EventSetYfogRatio:
 - {type: dynamic_param, param_type: float*, param_name: YfogRatio, param_offset: 0x20}
 EventSleepTargetActor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: InstanceName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: InstanceName, param_offset: 0x30}
 EventSuccessGet: []
 EventTalkEndAction: []
 EventTrigNullASPlay:
 - {type: dynamic_param, param_type: int*, param_name: ASSlot, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: SequenceBank, param_offset: 0x28}
 - {type: dynamic_param, param_type: bool*, param_name: IsIgnoreSame, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x38}
 EventUnregisterFromDeathCounter:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
 EventUnregisterFromGetCounter:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
 EventUpdateMiniGameBestScore:
 - {type: dynamic_param, param_type: int*, param_name: Type, param_offset: 0x20}
 EventVariableFade:
@@ -2204,7 +2204,7 @@ EventWaitFrameAction:
 - {type: dynamic_param, param_type: int*, param_name: Frame, param_offset: 0x20}
 EventWatchCannonHit:
 - {type: dynamic_param, param_type: float*, param_name: WatchFrame, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: XLinkKey, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: XLinkKey, param_offset: 0x28}
 ExitGame:
 - {type: dynamic_param, param_type: int*, param_name: ShowLogo, param_offset: 0x20}
 ExpandChemicalField:
@@ -2367,8 +2367,8 @@ FollowIgniteToBonePos:
 FollowIgniteToSelfPos:
 - {type: call, fn: _ZN5uking6action18RotateTurnToTarget11loadParams_Ev, addr: 0x71000a88d4}
 FootStepCalcOn:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Actor, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: InstanceName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Actor, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: InstanceName, param_offset: 0x30}
 ForbidComeback: []
 ForbidSettingInstEventFlag: []
 ForceChangeAction:
@@ -2400,8 +2400,8 @@ ForceRagdollOffWaterFloatFreeze:
 - {type: aitree_variable, param_type: void*, param_name: CRBOffsetUnit, param_offset: 0x78}
 ForceSetMtxFromPlayer: []
 ForceSetPlayerRestartPosAngle:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnchorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x30}
 ForceSystemFadeOut: []
 ForestGiantWakeUp:
 - {type: call, fn: _ZN5uking6action19PlayASForAnimalUnit11loadParams_Ev, addr: 0x710021aa5c}
@@ -2790,7 +2790,7 @@ ForkDrownTimer:
 - {type: static_param, param_type: const float*, param_name: InWaterDepth, param_offset: 0x28}
 ForkDynASPlay:
 - {type: call, fn: _ZN5uking6action14ForkASPlayBase11loadParams_Ev, addr: 0x710013fd4c}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DynASKey, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DynASKey, param_offset: 0x50}
 ForkDynActorNoTargetSelfBase:
 - {type: call, fn: _ZN5uking6action4Fork11loadParams_Ev, addr: 0x7100162864}
 ForkDynActorNoTargetSelf:
@@ -3256,44 +3256,44 @@ FreezedInIceWeapon:
 FromCDungeonToMainField:
 - {type: call, fn: _ZN5uking6action15ChangeSceneBase11loadParams_Ev, addr: 0x71000d8c98}
 FrontierSpotBgmTriggerAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Sound, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Sound, param_offset: 0x20}
 - {type: map_unit_param, param_type: const float*, param_name: SpotBgmLifeScaleMargin, param_offset: 0x30}
 - {type: map_unit_param, param_type: const bool*, param_name: IsStopWithoutReductionY, param_offset: 0x38}
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: Sound, param_offset: 0x40}
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: Shape, param_offset: 0x50}
 GameDataAddFloat:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatDstName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatToName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatToName, param_offset: 0x40}
 GameDataAddInt:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntDstName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntToName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntToName, param_offset: 0x40}
 GameDataAddVec3:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fDstName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fToName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fToName, param_offset: 0x40}
 GameDataConvertIntToSring:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntInput, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataStringOutput, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntInput, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataStringOutput, param_offset: 0x30}
 GameDataCopyFloat:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatDstName, param_offset: 0x30}
 GameDataCopyInt:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntDstName, param_offset: 0x30}
 GameDataSubFloat:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatDstName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatToName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatToName, param_offset: 0x40}
 GameDataSubInt:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntDstName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntToName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntToName, param_offset: 0x40}
 GameDataSubVec3:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fSrcName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fDstName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fToName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fSrcName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fDstName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fToName, param_offset: 0x40}
 GanonWeaponNearAttack:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x20}
 - {type: static_param, param_type: const int*, param_name: AttackPower, param_offset: 0x28}
@@ -3417,32 +3417,32 @@ GanonThrowFireBall:
 - {type: static_param, param_type: const float*, param_name: FireBallScale, param_offset: 0x28}
 - {type: static_param, param_type: const float*, param_name: BallAppearOffset, param_offset: 0x30}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x38}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName, param_offset: 0x48}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x58}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x60}
 GanonThrowMultiIce:
 - {type: call, fn: _ZN5uking6action18GanonThrowFireBall11loadParams_Ev, addr: 0x710017bfac}
 - {type: static_param, param_type: const int*, param_name: ThrowNumAtSameTiming, param_offset: 0xd0}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName1, param_offset: 0xd8}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName2, param_offset: 0xe8}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName3, param_offset: 0xf8}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName4, param_offset: 0x108}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName5, param_offset: 0x118}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName6, param_offset: 0x128}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName7, param_offset: 0x138}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName8, param_offset: 0x148}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName1, param_offset: 0xd8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName2, param_offset: 0xe8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName3, param_offset: 0xf8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName4, param_offset: 0x108}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName5, param_offset: 0x118}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName6, param_offset: 0x128}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName7, param_offset: 0x138}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName8, param_offset: 0x148}
 GanonThrowTornado:
 - {type: static_param, param_type: const float*, param_name: InitVelocity, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: CreateHeight, param_offset: 0x28}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x30}
 - {type: static_param, param_type: 'const sead::Vector3f*', param_name: AppearOffset, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName, param_offset: 0x48}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x58}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x60}
 GanonThrowMultiTornado:
 - {type: call, fn: _ZN5uking6action17GanonThrowTornado11loadParams_Ev, addr: 0x710017d364}
 - {type: static_param, param_type: 'const sead::Vector3f*', param_name: AppearOffset1, param_offset: 0x90}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ThrowPartsName1, param_offset: 0x98}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ThrowPartsName1, param_offset: 0x98}
 GanonTurnOnWall:
 - {type: static_param, param_type: const float*, param_name: RotSpd, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: FinRotate, param_offset: 0x28}
@@ -3485,7 +3485,7 @@ GetItem: []
 GetCapturedActor:
 - {type: call, fn: _ZN5uking6action7GetItem11loadParams_Ev, addr: 0x7100182918}
 GetItemAnotherActor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GetActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GetActorName, param_offset: 0x20}
 - {type: aitree_variable, param_type: int*, param_name: GetNumLeft, param_offset: 0x30}
 GetItemGet:
 - {type: call, fn: _ZN5uking6action7GetItem11loadParams_Ev, addr: 0x7100182918}
@@ -3699,8 +3699,8 @@ GiantSleep:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x40}
 GiveCookResultForNpc:
 - {type: dynamic_param, param_type: int*, param_name: Count, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: CookEffectType, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: CookEffectType, param_offset: 0x38}
 GolemDieFromRagdoll:
 - {type: static_param, param_type: const int*, param_name: Time, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: RagdollMoveLimitDist, param_offset: 0x28}
@@ -3828,9 +3828,9 @@ GraveAttack:
 - {type: static_param, param_type: const int*, param_name: KeepTime, param_offset: 0x30}
 - {type: map_unit_param, param_type: const int*, param_name: AttackPower, param_offset: 0x20}
 GroupAllowEmitAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GroupName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GroupName, param_offset: 0x20}
 GroupDisallowEmitAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GroupName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GroupName, param_offset: 0x20}
 Guard:
 - {type: call, fn: _ZN5uking6action18TakeHitImpactForce11loadParams_Ev, addr: 0x71001c9808}
 - {type: static_param, param_type: const float*, param_name: RotSubsAngRate, param_offset: 0x90}
@@ -4415,9 +4415,9 @@ ItemConductorDemoBind:
 - {type: dynamic_param, param_type: float*, param_name: TransOffsetX, param_offset: 0x38}
 - {type: dynamic_param, param_type: float*, param_name: TransOffsetY, param_offset: 0x40}
 - {type: dynamic_param, param_type: float*, param_name: TransOffsetZ, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x50}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x60}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: NodeName, param_offset: 0x70}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: NodeName, param_offset: 0x70}
 JumpAttack:
 - {type: static_param, param_type: const float*, param_name: MaxSpeed, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x28}
@@ -4468,10 +4468,10 @@ Kick:
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x48}
 KillAllDemoSoundAction: []
 KillSelectActor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x30}
 KillUIScreenAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ScreenName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ScreenName, param_offset: 0x20}
 KokkoCreateDropBase: []
 KokkoCreateDrop:
 - {type: call, fn: _ZN5uking6action19KokkoCreateDropBase11loadParams_Ev, addr: 0x71000e35d8}
@@ -4670,17 +4670,17 @@ LinearFlyAttackBase:
 LinearFlyAttack:
 - {type: call, fn: _ZN5uking6action19LinearFlyAttackBase11loadParams_Ev, addr: 0x71001dcf74}
 ListenerFixPositionAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: FixType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: FixType, param_offset: 0x20}
 ListenerSetModeAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Mode, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Mode, param_offset: 0x20}
 LoadSaveDataFromGameOver: []
 LookAtObjectBase:
 - {type: dynamic_param, param_type: int*, param_name: ObjectId, param_offset: 0x78}
 - {type: dynamic_param, param_type: int*, param_name: FaceId, param_offset: 0x80}
 - {type: dynamic_param, param_type: float*, param_name: TurnDirection, param_offset: 0x88}
 - {type: dynamic_param, param_type: bool*, param_name: IsValid, param_offset: 0x90}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x98}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0xa8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x98}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0xa8}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: PosOffset, param_offset: 0xb8}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TurnPosition, param_offset: 0xc0}
 LookAtObject:
@@ -4755,7 +4755,7 @@ MarkPosition:
 - {type: dynamic_param, param_type: float*, param_name: PositionZ, param_offset: 0x30}
 MarkPositionFromGameData:
 - {type: dynamic_param, param_type: int*, param_name: PinColorIdx, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3, param_offset: 0x28}
 Mimic:
 - {type: call, fn: _ZN5uking6action22ActionWithPosAngReduce11loadParams_Ev, addr: 0x710027e3ec}
 - {type: static_param, param_type: const int*, param_name: MimicTime, param_offset: 0x30}
@@ -4774,7 +4774,7 @@ MotorcycleAppear:
 - {type: static_param, param_type: const float*, param_name: EndFrames, param_offset: 0x30}
 MotorcycleDisappear:
 - {type: static_param, param_type: const float*, param_name: ModelWarpEffectFrames, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DisappearEffectName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DisappearEffectName, param_offset: 0x28}
 MotorcycleRiddenByPlayer:
 - {type: static_param, param_type: const float*, param_name: CrashVelocityThreshold, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: RideOnDelayFrames, param_offset: 0x28}
@@ -4813,7 +4813,7 @@ MoveByAnimeDrivenCheckNavMesh:
 - {type: call, fn: _ZN5uking6action17MoveByAnimeDriven11loadParams_Ev, addr: 0x71001e92c8}
 MoveByAnimeDrivenDynAS:
 - {type: call, fn: _ZN5uking6action17MoveByAnimeDriven11loadParams_Ev, addr: 0x71001e92c8}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DynASKeyName, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DynASKeyName, param_offset: 0x58}
 MoveByAnimeDrivenToTarget:
 - {type: call, fn: _ZN5uking6action17MoveByAnimeDriven11loadParams_Ev, addr: 0x71001e92c8}
 - {type: static_param, param_type: const float*, param_name: AnimRotateMax, param_offset: 0x58}
@@ -4855,7 +4855,7 @@ MoveWithAS:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0xe0}
 MoveWithDynAS:
 - {type: call, fn: _ZN5uking6action8MoveBase11loadParams_Ev, addr: 0x71001e7c2c}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0xe0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0xe0}
 Msg2CameraKeepState: []
 Msg2CameraReset: []
 Msg2CameraResetInterpolate:
@@ -4887,7 +4887,7 @@ MultiVacuumRotScaleTimeByDist:
 - {type: call, fn: _ZN5uking6action36MultiVacuumRotScaleTimeByDistWithTgt11loadParams_Ev, addr: 0x71001eeff0}
 - {type: static_param, param_type: const float*, param_name: MaxTimeDist, param_offset: 0x200}
 SpotBgmTriggerAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Sound, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Sound, param_offset: 0x20}
 - {type: map_unit_param, param_type: const bool*, param_name: IsStopWithoutReductionY, param_offset: 0x30}
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: Sound, param_offset: 0x38}
 MusicianSpotBgmTriggerAction:
@@ -4895,7 +4895,7 @@ MusicianSpotBgmTriggerAction:
 NPCAnchorWait:
 - {type: dynamic_param, param_type: bool*, param_name: IsRainAnchor, param_offset: 0x20}
 - {type: dynamic_param, param_type: bool*, param_name: IsStartSameAS, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x30}
 NPCArmorProcessing:
 - {type: dynamic_param, param_type: int*, param_name: ArmorProcessingRank, param_offset: 0x20}
 NPCBuyHorse:
@@ -4948,7 +4948,7 @@ NPCLerpAction:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetRot, param_offset: 0x50}
 NPCLerpDynAS:
 - {type: call, fn: _ZN5uking6action13NPCLerpAction11loadParams_Ev, addr: 0x7100e90630}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DynASName, param_offset: 0xa8}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DynASName, param_offset: 0xa8}
 NPCMakeArtifact: []
 NPCMakeItem:
 - {type: dynamic_param, param_type: int*, param_name: ShopType, param_offset: 0x20}
@@ -4965,11 +4965,11 @@ NPCReleaseHorse: []
 NPCSale: []
 NPCSaleAppReception: []
 NPCSaleCollectedItem:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: TableName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: TableName, param_offset: 0x20}
 NPCSalePictureReception:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: TableName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: TableName, param_offset: 0x20}
 NPCSaleReception:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: TableName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: TableName, param_offset: 0x20}
 NPCSellApp: []
 NPCSellHorse: []
 NPCSellItem: []
@@ -4981,17 +4981,17 @@ NPCTalk:
 - {type: dynamic_param, param_type: bool*, param_name: IsCloseMessageDialog, param_offset: 0x30}
 - {type: dynamic_param, param_type: bool*, param_name: IsBecomingSpeaker, param_offset: 0x38}
 - {type: dynamic_param, param_type: bool*, param_name: IsOverWriteLabelActorName, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x58}
 NPCTalkASyncAction:
 - {type: dynamic_param, param_type: int*, param_name: DispFrame, param_offset: 0x20}
 - {type: dynamic_param, param_type: bool*, param_name: IsChecked, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x30}
 NPCTalkNoMessageStepperAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x20}
 NPCTalkToPlayerAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASKeyName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASKeyName, param_offset: 0x30}
 NPCTargetMove:
 - {type: call, fn: _ZN5uking6action16RandomMoveAction11loadParams_Ev, addr: 0x7100d33dd0}
 - {type: static_param, param_type: const int*, param_name: UpdateTargetPosInterval, param_offset: 0x38}
@@ -5006,7 +5006,7 @@ NPCTargetMove:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x88}
 NPCTargetMoveDynAs:
 - {type: call, fn: _ZN5uking6action13NPCTargetMove11loadParams_Ev, addr: 0x7100206ad4}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DynASKeyName, param_offset: 0x178}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DynASKeyName, param_offset: 0x178}
 NPCTebaApproachPlayer:
 - {type: static_param, param_type: const int*, param_name: UpdateTargetFrame, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: PlayerMaxHeight, param_offset: 0x28}
@@ -5024,10 +5024,10 @@ NPCTurnAction:
 NPCTurnToObject:
 - {type: dynamic_param, param_type: int*, param_name: ObjectId, param_offset: 0x20}
 - {type: dynamic_param, param_type: float*, param_name: TurnDirection, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x30}
 NPCTurnToObjectGreeting:
 - {type: call, fn: _ZN5uking6action15NPCTurnToObject11loadParams_Ev, addr: 0x710020a9a4}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GreetingType, param_offset: 0x68}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GreetingType, param_offset: 0x68}
 NPCTurnToPosition:
 - {type: dynamic_param, param_type: float*, param_name: PosX, param_offset: 0x20}
 - {type: dynamic_param, param_type: float*, param_name: PosY, param_offset: 0x28}
@@ -5040,14 +5040,14 @@ NPCWaitAction:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x28}
 NPCWaitDynAS:
 - {type: call, fn: _ZN5uking6action7NPCWait11loadParams_Ev, addr: 0x710020c19c}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DynASName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DynASName, param_offset: 0x40}
 NPCWaitFrame:
 - {type: call, fn: _ZN5uking6action7NPCWait11loadParams_Ev, addr: 0x710020c19c}
 - {type: static_param, param_type: const int*, param_name: WaitFrame, param_offset: 0x50}
 NPCWaitDynFrame:
 - {type: call, fn: _ZN5uking6action12NPCWaitFrame11loadParams_Ev, addr: 0x710020cc4c}
 - {type: dynamic_param, param_type: int*, param_name: DynWaitFrame, param_offset: 0x58}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DynASName, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DynASName, param_offset: 0x60}
 NPCWaitOneTimeAction: []
 NavMeshBattleWalk:
 - {type: call, fn: _ZN5uking6action13NavMeshAction11loadParams_Ev, addr: 0x71001f0574}
@@ -5152,7 +5152,7 @@ OctarockBalloonBase:
 - {type: static_param, param_type: const float*, param_name: ConnectReleaseTimer, param_offset: 0xf0}
 - {type: static_param, param_type: const float*, param_name: ClampWindForceScale, param_offset: 0xf8}
 - {type: static_param, param_type: const float*, param_name: ReduceVel, param_offset: 0x100}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ConnectRigidName, param_offset: 0x108}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ConnectRigidName, param_offset: 0x108}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: ConnectRigidOffset, param_offset: 0x118}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcHandle**', param_name: RopeActorHandle, param_offset: 0x120}
 OctarockBalloon:
@@ -5229,31 +5229,31 @@ OnetimeStopASSyncPlay:
 - {type: static_param, param_type: 'sead::SafeString', param_name: SyncASName, param_offset: 0x58}
 OpenClockTime: []
 OpenDungeonMessage:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x20}
 OpenDungeonSmallTitle:
 - {type: static_param, param_type: 'sead::SafeString', param_name: Mstxt, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SubMstxt, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SubMstxt, param_offset: 0x30}
 OpenDungeonSmallTitleSetLabel:
 - {type: static_param, param_type: 'sead::SafeString', param_name: Mstxt, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SubMstxt, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: LabelName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SubMstxt, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: LabelName, param_offset: 0x40}
 OpenDungeonTitle:
 - {type: static_param, param_type: 'sead::SafeString', param_name: Mstxt, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SubMstxt, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SubMstxt, param_offset: 0x30}
 OpenDungeonTitleSetLabel:
 - {type: static_param, param_type: 'sead::SafeString', param_name: Mstxt, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SubMstxt, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: LabelName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SubMstxt, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: LabelName, param_offset: 0x40}
 OpenEnduranceFloorNumber:
 - {type: static_param, param_type: 'sead::SafeString', param_name: Mstxt, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SubMstxt, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: LabelName, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataIntFloorNum, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SubMstxt, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: LabelName, param_offset: 0x40}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataIntFloorNum, param_offset: 0x50}
 OpenGetDemoDialog:
 - {type: dynamic_param, param_type: bool*, param_name: IsInvalidOpenPouch, param_offset: 0x20}
 - {type: dynamic_param, param_type: bool*, param_name: UseLastTryGetItemName, param_offset: 0x28}
 - {type: dynamic_param, param_type: bool*, param_name: EnableMultiGet, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: TargetActorName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: TargetActorName, param_offset: 0x38}
 OpenGetDemoDialogDressFairy: []
 OpenItemCategory:
 - {type: dynamic_param, param_type: int*, param_name: Category, param_offset: 0x20}
@@ -5274,21 +5274,21 @@ OpenMessageDialogBase:
 - {type: dynamic_param, param_type: bool*, param_name: IsBecomingSpeaker, param_offset: 0x38}
 - {type: dynamic_param, param_type: bool*, param_name: IsOverWriteLabelActorName, param_offset: 0x40}
 - {type: dynamic_param, param_type: bool*, param_name: IsWaitAS, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x50}
 OpenMessageDialog:
 - {type: call, fn: _ZN5uking6action21OpenMessageDialogBase11loadParams_Ev, addr: 0x7100218354}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x78}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x78}
 OpenMessageDialogTrig:
 - {type: dynamic_param, param_type: int*, param_name: CloseDialogOption, param_offset: 0x20}
 - {type: dynamic_param, param_type: bool*, param_name: IsBecomingSpeaker, param_offset: 0x28}
 - {type: dynamic_param, param_type: bool*, param_name: IsOverWriteLabelActorName, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MessageId, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MessageId, param_offset: 0x38}
 OpenMessageDialogWithSkelAnm:
 - {type: call, fn: _ZN5uking6action21OpenMessageDialogBase11loadParams_Ev, addr: 0x7100218354}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnimName, param_offset: 0x78}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnimName, param_offset: 0x78}
 OpenPickup:
 - {type: dynamic_param, param_type: bool*, param_name: IsAddPorch, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName, param_offset: 0x28}
 OpenPorch:
 - {type: dynamic_param, param_type: int*, param_name: RockCategory, param_offset: 0x20}
 OpenPouchAddStockNum:
@@ -5367,8 +5367,8 @@ PlayerGuidedMove:
 - {type: static_param, param_type: const float*, param_name: ForceTurnDist, param_offset: 0x30}
 PlayerAnchorMove:
 - {type: call, fn: _ZN5uking6action16PlayerGuidedMove11loadParams_Ev, addr: 0x71007e8e3c}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x58}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnchorName, param_offset: 0x68}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x68}
 PlayerAreaInOutSendMessage:
 - {type: call, fn: _ZN5uking6action25ActorAreaInOutSendMessage11loadParams_Ev, addr: 0x710009fdc8}
 - {type: static_param, param_type: const int*, param_name: MessageSet, param_offset: 0x68}
@@ -5547,13 +5547,13 @@ PlayerDestinationTurn:
 - {type: dynamic_param, param_type: float*, param_name: DestPosY, param_offset: 0x28}
 - {type: dynamic_param, param_type: float*, param_name: DestPosZ, param_offset: 0x30}
 PlayerDestinationTurnRefActor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqName, param_offset: 0x20}
 PlayerDestinationTurnStarter: []
 PlayerDestinationTurnWithAnim:
 - {type: call, fn: _ZN5uking6action21PlayerDestinationTurn11loadParams_Ev, addr: 0x71007e92d8}
 - {type: dynamic_param, param_type: bool*, param_name: IsWaitASFinish, param_offset: 0x40}
 - {type: dynamic_param, param_type: bool*, param_name: UsePartBind, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x50}
 PlayerDisplayWait: []
 PlayerDiveMove:
 - {type: static_param, param_type: const float*, param_name: AnmDrivenDist, param_offset: 0x20}
@@ -5566,8 +5566,8 @@ PlayerElectric:
 - {type: static_param, param_type: const float*, param_name: JumpSpeedF, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: JumpHeight, param_offset: 0x28}
 PlayerEmitEquipmentNoise:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SteppingFoot, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Speed, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SteppingFoot, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Speed, param_offset: 0x30}
 PlayerEquipHaveMasterSword: []
 PlayerEquipNearMasterSword: []
 PlayerEventStartWait: []
@@ -5620,7 +5620,7 @@ PlayerHide:
 - {type: static_param, param_type: const bool*, param_name: Hidden, param_offset: 0x20}
 PlayerHoldUpDRC:
 - {type: dynamic_param, param_type: bool*, param_name: IsContinued, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x28}
 PlayerHorseGetOff:
 - {type: static_param, param_type: const float*, param_name: SideFallSpeed, param_offset: 0x20}
 PlayerHorseGetOffInDemo: []
@@ -5838,7 +5838,7 @@ PlayerPullSwordFirstFail:
 - {type: static_param, param_type: const float*, param_name: FirstFailureWait, param_offset: 0x20}
 PlayerRailMove:
 - {type: call, fn: _ZN5uking6action16PlayerGuidedMove11loadParams_Ev, addr: 0x71007e8e3c}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: RailName, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: RailName, param_offset: 0x58}
 PlayerReleaseMasterSowrd: []
 PlayerRemainsBlow:
 - {type: static_param, param_type: const float*, param_name: InitSpeed, param_offset: 0x20}
@@ -5979,7 +5979,7 @@ PlayerSwimWait:
 - {type: static_param, param_type: const float*, param_name: DecSpeedRate, param_offset: 0x28}
 PlayerSwitchHang: []
 PlayerTalk:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GreetingType, param_offset: 0xc0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GreetingType, param_offset: 0xc0}
 PlayerTreeClimb: []
 PlayerTurnAndLookToObject:
 - {type: call, fn: _ZN5uking6action18PlayerLookAtObject11loadParams_Ev, addr: 0x71007fe96c}
@@ -5998,10 +5998,10 @@ PlayerWait: []
 PlayerWakeBoard: []
 PlayerWakeBoardEnd: []
 PlayerWakeBoardGoal:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x20}
 PlayerWakeBoardReady:
 - {type: dynamic_param, param_type: bool*, param_name: CreateSelf, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x28}
 PlayerWallDashUp:
 - {type: static_param, param_type: const float*, param_name: JumpHeight, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: MinSpeedF, param_offset: 0x28}
@@ -6083,7 +6083,7 @@ PriestBossBlownOff:
 PriestBossClonesSpawnForDemo:
 - {type: dynamic_param, param_type: int*, param_name: DurationFrame, param_offset: 0x20}
 - {type: dynamic_param, param_type: int*, param_name: DecelerationFrame, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x30}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: Offset, param_offset: 0x40}
 - {type: aitree_variable, param_type: void*, param_name: PriestBossMetaAIUnit, param_offset: 0x48}
 PriestBossClonesSpawn:
@@ -6158,10 +6158,10 @@ RailMoveBase:
 - {type: dynamic_param, param_type: int*, param_name: ASSlot, param_offset: 0x30}
 - {type: dynamic_param, param_type: int*, param_name: SequenceBank, param_offset: 0x38}
 - {type: dynamic_param, param_type: bool*, param_name: IsIgnoreSame, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x48}
 RailMove:
 - {type: call, fn: _ZN5uking6action12RailMoveBase11loadParams_Ev, addr: 0x71000ed228}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: RailName, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: RailName, param_offset: 0x58}
 RandomJump:
 - {type: static_param, param_type: const float*, param_name: AngleLimit, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: HeightMin, param_offset: 0x28}
@@ -6300,14 +6300,14 @@ ResetChemicalStateNeutral: []
 ResetGimmick:
 - {type: dynamic_param, param_type: int*, param_name: SystemResetOption, param_offset: 0x20}
 - {type: dynamic_param, param_type: bool*, param_name: IsResetCamera, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AdditionalResetActor, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AdditionalResetActor, param_offset: 0x30}
 ResetMasterSwordForceState: []
 ResetPlayerPullSwordStartLife: []
 ResetRemainsMapState: []
 RestartStageFromGameOver: []
 RestorePlayerPosAndRotate:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fPlayerPos, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatPlayerDirectionY, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fPlayerPos, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatPlayerDirectionY, param_offset: 0x30}
 RestorePouchForQuest: []
 ReuseActorDelete:
 - {type: static_param, param_type: const bool*, param_name: IsCheckCreateParent, param_offset: 0x20}
@@ -6420,23 +6420,23 @@ SandwormTackleMove:
 - {type: static_param, param_type: 'sead::SafeString', param_name: EatNode, param_offset: 0xd8}
 - {type: static_param, param_type: 'const sead::Vector3f*', param_name: EatOffset, param_offset: 0xe8}
 SceneBgmCtrlAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: CtrlType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: CtrlType, param_offset: 0x20}
 SceneSoundCtrlAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: BgmCtrlType, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SeCtrlType, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: BgmCtrlType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SeCtrlType, param_offset: 0x30}
 SceneSoundKillDuckingAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DuckerType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DuckerType, param_offset: 0x20}
 SceneSoundNotifyTalkAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: CtrlType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: CtrlType, param_offset: 0x20}
 SceneSoundSetEndProcAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: CtrlType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: CtrlType, param_offset: 0x20}
 SceneSoundSetStartProcAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: BgmCtrlType, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SeCtrlType, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: BgmCtrlType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SeCtrlType, param_offset: 0x30}
 SceneSoundStartDuckingAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DuckerType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DuckerType, param_offset: 0x20}
 SceneSoundStopDuckingAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: DuckerType, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: DuckerType, param_offset: 0x20}
 ScrapEquip:
 - {type: call, fn: _ZN5uking6action22ActionWithPosAngReduce11loadParams_Ev, addr: 0x710027e3ec}
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x30}
@@ -6477,20 +6477,20 @@ SeqPunchByASEvent:
 - {type: static_param, param_type: const bool*, param_name: IsHammer, param_offset: 0x38}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x40}
 SetActorNameToGameDataString:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataStringName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataStringName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x30}
 SetBloodyMoonEnv: []
 SetChallengeIcon:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ChallengeName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ChallengeName, param_offset: 0x20}
 SetComebackPosition:
 - {type: map_unit_param, param_type: const float*, param_name: AngleY, param_offset: 0x38}
 SetCookItemInDemo:
 - {type: dynamic_param, param_type: int*, param_name: SetNum, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName01, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName02, param_offset: 0x38}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName03, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName04, param_offset: 0x58}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName05, param_offset: 0x68}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName01, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName02, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName03, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName04, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName05, param_offset: 0x68}
 SetCurrentDungeonClearFlag: []
 SetDispHeartGauge:
 - {type: dynamic_param, param_type: bool*, param_name: IsDisplay, param_offset: 0x20}
@@ -6520,7 +6520,7 @@ SetGetFlag:
 - {type: call, fn: _ZN5uking6action14SetGetFlagBase11loadParams_Ev, addr: 0x7100247c00}
 SetGetFlagByActorName:
 - {type: call, fn: _ZN5uking6action14SetGetFlagBase11loadParams_Ev, addr: 0x7100247c00}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
 SetGravityFactor:
 - {type: static_param, param_type: const float*, param_name: Value, param_offset: 0x20}
 SetHorseFamiliarityPassedFlag: []
@@ -6534,17 +6534,17 @@ SetLinkTagBasic:
 - {type: static_param, param_type: const bool*, param_name: IsOn, param_offset: 0x20}
 SetMaterialVisible:
 - {type: static_param, param_type: const bool*, param_name: IsVisible, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MaterialName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MaterialName, param_offset: 0x28}
 SetOpenState:
 - {type: aitree_variable, param_type: bool*, param_name: IsOpenTreasureBox, param_offset: 0x20}
 SetOwnedHorseAS:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ASName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x20}
 SetPlayerDrawingSword: []
 SetPlayerStateToUnequipAndWait: []
 SetQuestStepAction:
 - {type: dynamic_param, param_type: bool*, param_name: ForceRunTelop, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: QuestName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: StepName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: QuestName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: StepName, param_offset: 0x38}
 SetRequestAttention:
 - {type: static_param, param_type: const bool*, param_name: IsOn, param_offset: 0x20}
 - {type: static_param, param_type: const bool*, param_name: IsAll, param_offset: 0x28}
@@ -6561,7 +6561,7 @@ SetTargetFrameMtx:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x50}
 SetTgIgnoreObstacle: []
 SetTreasure:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
 - {type: aitree_variable, param_type: 'sead::SafeString*', param_name: DropActorName, param_offset: 0x30}
 SetTreasureBoxOpenAndClose:
 - {type: dynamic_param, param_type: int*, param_name: IsSetOpen, param_offset: 0x20}
@@ -6609,7 +6609,7 @@ ShopFixedItemNum:
 ShowMemoryPhoto:
 - {type: dynamic_param, param_type: int*, param_name: PhotoNo, param_offset: 0x20}
 ShowPhoto:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x20}
 ShutterClose:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x20}
 - {type: map_unit_param, param_type: const int*, param_name: MoveAxis, param_offset: 0x30}
@@ -6662,10 +6662,10 @@ SimpleGrabWithAS:
 - {type: call, fn: _ZN5uking6action20SimpleGrabWithASBase11loadParams_Ev, addr: 0x710025454c}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x50}
 SimpleOpenMessageDialogAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Mstxt, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Label, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Mstxt, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Label, param_offset: 0x30}
 SimpleUniqueTalk:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: MstxtName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: MstxtName, param_offset: 0x20}
 SiteBossAvoid:
 - {type: static_param, param_type: const float*, param_name: AvoidEndTime, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: AvoidMoveSpeed, param_offset: 0x28}
@@ -6765,7 +6765,7 @@ SiteBossLswordFireBall:
 - {type: static_param, param_type: const float*, param_name: FireBallScale, param_offset: 0x30}
 - {type: static_param, param_type: const bool*, param_name: IsShowChildDevice, param_offset: 0x38}
 - {type: static_param, param_type: 'sead::SafeString', param_name: WaitASName, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PartsName, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PartsName, param_offset: 0x50}
 SiteBossLswordFirstCreateFBall:
 - {type: static_param, param_type: const int*, param_name: AtMinDamage, param_offset: 0x20}
 - {type: static_param, param_type: const int*, param_name: AttackPower, param_offset: 0x28}
@@ -6788,7 +6788,7 @@ SiteBossLswordThrowFireBall:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ThrowASName, param_offset: 0x38}
 - {type: static_param, param_type: 'sead::SafeString', param_name: BindNodeName, param_offset: 0x48}
 - {type: dynamic_param, param_type: bool*, param_name: IsThrowChildDevice, param_offset: 0x58}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PartsName, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PartsName, param_offset: 0x60}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x70}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x78}
 SiteBossLswordTornadoAttack:
@@ -7041,7 +7041,7 @@ SoundShieldingAreaTagAction:
 - {type: map_unit_param, param_type: const bool*, param_name: IsShieldChemicalWind, param_offset: 0x40}
 SoundTrigger: []
 SoundTriggerFadeAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Sound, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Sound, param_offset: 0x20}
 SpinFlyAttack:
 - {type: call, fn: _ZN5uking6action15LinearFlyAttack11loadParams_Ev, addr: 0x71001dc56c}
 - {type: static_param, param_type: const float*, param_name: RotSpeed, param_offset: 0xd8}
@@ -7154,8 +7154,8 @@ StopJump:
 - {type: static_param, param_type: 'sead::SafeString', param_name: JumpLoopAS, param_offset: 0x38}
 - {type: static_param, param_type: 'sead::SafeString', param_name: LandingAS, param_offset: 0x48}
 StorePlayerPosAndRotate:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fPlayerPos, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataFloatPlayerDirectionY, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fPlayerPos, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataFloatPlayerDirectionY, param_offset: 0x30}
 StrangeBeacon:
 - {type: static_param, param_type: 'sead::SafeString', param_name: SaveFlag, param_offset: 0x20}
 - {type: static_param, param_type: 'sead::SafeString', param_name: CalcStartFlag, param_offset: 0x30}
@@ -7322,13 +7322,13 @@ SwitchPlayerEquipment:
 - {type: dynamic_param, param_type: bool*, param_name: UnequipArmorHead, param_offset: 0x38}
 - {type: dynamic_param, param_type: bool*, param_name: UnequipArmorUpper, param_offset: 0x40}
 - {type: dynamic_param, param_type: bool*, param_name: UnequipArmorLower, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName_Weapon, param_offset: 0x50}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName_Shield, param_offset: 0x60}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName_Bow, param_offset: 0x70}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName_ArmorHead, param_offset: 0x80}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName_ArmorUpper, param_offset: 0x90}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName_ArmorLower, param_offset: 0xa0}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: PorchItemName_Arrow, param_offset: 0xb0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName_Weapon, param_offset: 0x50}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName_Shield, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName_Bow, param_offset: 0x70}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName_ArmorHead, param_offset: 0x80}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName_ArmorUpper, param_offset: 0x90}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName_ArmorLower, param_offset: 0xa0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: PorchItemName_Arrow, param_offset: 0xb0}
 SwitchStepSliderConstraint:
 - {type: static_param, param_type: const int*, param_name: TargetIdx, param_offset: 0x28}
 - {type: static_param, param_type: const int*, param_name: SeqBankIdx, param_offset: 0x30}
@@ -7349,7 +7349,7 @@ SwitchWindmill:
 - {type: static_param, param_type: const float*, param_name: MaxRotSpeed, param_offset: 0x118}
 - {type: static_param, param_type: 'sead::SafeString', param_name: TargetNodeName, param_offset: 0x120}
 SystemApplyEnvSetAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: EnvSetName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: EnvSetName, param_offset: 0x20}
 SystemDelete: []
 SystemFadeOutSleep: []
 SystemSetWindAction:
@@ -7411,7 +7411,7 @@ TerrainCalcCenter:
 TerrainHideCenter: []
 TestAction:
 - {type: dynamic_param, param_type: bool*, param_name: Flag, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Name, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Name, param_offset: 0x28}
 Throw:
 - {type: call, fn: _ZN5uking6action22ActionWithPosAngReduce11loadParams_Ev, addr: 0x710027e3ec}
 ThrowLeft: []
@@ -7525,10 +7525,10 @@ UKingEmitEffectLoopAction:
 - {type: dynamic_param, param_type: bool*, param_name: NoFade, param_offset: 0x78}
 - {type: dynamic_param, param_type: bool*, param_name: OverWrite, param_offset: 0x80}
 - {type: dynamic_param, param_type: bool*, param_name: CutChangeReset, param_offset: 0x88}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Actor, param_offset: 0x90}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: InstanceName, param_offset: 0xa0}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ELinkKey, param_offset: 0xb0}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: Option, param_offset: 0xc0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Actor, param_offset: 0x90}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: InstanceName, param_offset: 0xa0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ELinkKey, param_offset: 0xb0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: Option, param_offset: 0xc0}
 UnarmedAttack: []
 UnarmedLargeAttack: []
 UpdateDataByGetDemoAction: []
@@ -7553,8 +7553,8 @@ ViewLevelFlyMove:
 WaitCloseItemDownloadDemo: []
 WaitForASTriggerEvent:
 - {type: dynamic_param, param_type: int*, param_name: EventType, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x38}
 WaitForCloseFade:
 - {type: dynamic_param, param_type: bool*, param_name: OrClosing, param_offset: 0x20}
 WaitForFrame:
@@ -7593,18 +7593,18 @@ WarpMyHorse:
 WarpOwnedHorse: []
 WarpPLAndResetGimmick:
 - {type: dynamic_param, param_type: int*, param_name: SystemResetOption, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: StartPosName, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AdditionalResetActor, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: StartPosName, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AdditionalResetActor, param_offset: 0x38}
 WarpPLToPosAndResetGimmick:
 - {type: dynamic_param, param_type: float*, param_name: RotationY, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: Destination, param_offset: 0x28}
 - {type: dynamic_param, param_type: int*, param_name: SystemResetOption, param_offset: 0x30}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AdditionalResetActor, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AdditionalResetActor, param_offset: 0x38}
 WarpPlayerBase: []
 WarpPlayer:
 - {type: call, fn: _ZN5uking6action14WarpPlayerBase11loadParams_Ev, addr: 0x71000eccfc}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: WarpDestMapName, param_offset: 0x60}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: WarpDestPosName, param_offset: 0x70}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: WarpDestMapName, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: WarpDestPosName, param_offset: 0x70}
 WarpPlayerToActor:
 - {type: call, fn: _ZN5uking6action14WarpPlayerBase11loadParams_Ev, addr: 0x71000eccfc}
 - {type: dynamic_param, param_type: float*, param_name: DestinationX, param_offset: 0x60}
@@ -7613,14 +7613,14 @@ WarpPlayerToActor:
 - {type: dynamic_param, param_type: float*, param_name: DirectionY, param_offset: 0x78}
 - {type: dynamic_param, param_type: bool*, param_name: RotToVec3f, param_offset: 0x88}
 - {type: dynamic_param, param_type: float*, param_name: RelativeDist, param_offset: 0x80}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0xa0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0xa0}
 - {type: dynamic_param, param_type: bool*, param_name: OnGround, param_offset: 0x90}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fRotDir, param_offset: 0xb0}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fRotDir, param_offset: 0xb0}
 - {type: dynamic_param, param_type: bool*, param_name: IsOffsetBaseTargetActor, param_offset: 0x98}
 WarpPlayerToAnchor:
 - {type: call, fn: _ZN5uking6action14WarpPlayerBase11loadParams_Ev, addr: 0x71000eccfc}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x60}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnchorName, param_offset: 0x70}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x60}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x70}
 WarpPlayerToAnchorGimmickReset:
 - {type: static_param, param_type: const float*, param_name: WaitFrameAfterReset, param_offset: 0x20}
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x28}
@@ -7638,8 +7638,8 @@ WarpToActor:
 - {type: dynamic_param, param_type: float*, param_name: DestinationZ, param_offset: 0x30}
 - {type: dynamic_param, param_type: float*, param_name: DirectionY, param_offset: 0x38}
 - {type: dynamic_param, param_type: bool*, param_name: RotToVec3f, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ActorName, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fRotDir, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ActorName, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fRotDir, param_offset: 0x58}
 WarpToAnchor:
 - {type: dynamic_param, param_type: float*, param_name: DirectionY, param_offset: 0x20}
 - {type: dynamic_param, param_type: float*, param_name: DestinationY, param_offset: 0x28}
@@ -7654,17 +7654,17 @@ WarpToGameDataVec3f:
 - {type: dynamic_param, param_type: float*, param_name: DestinationZ, param_offset: 0x30}
 - {type: dynamic_param, param_type: float*, param_name: DirectionY, param_offset: 0x38}
 - {type: dynamic_param, param_type: bool*, param_name: RotToVec3f, param_offset: 0x40}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fWarpToPos, param_offset: 0x48}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: GameDataVec3fRotDir, param_offset: 0x58}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fWarpToPos, param_offset: 0x48}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: GameDataVec3fRotDir, param_offset: 0x58}
 WarpToPos:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x20}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetRot, param_offset: 0x28}
 WarpToScheduleAnchor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnchorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x30}
 WarpToStaticAnchor:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: AnchorName, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x30}
 WaterEmitter:
 - {type: static_param, param_type: const int*, param_name: EffectType, param_offset: 0x20}
 - {type: static_param, param_type: const float*, param_name: Radius, param_offset: 0x28}
@@ -7817,16 +7817,16 @@ WolfLinkEvent:
 - {type: dynamic_param, param_type: int*, param_name: Action, param_offset: 0x20}
 XLinkEventCreateAction:
 - {type: dynamic_param, param_type: bool*, param_name: IsTargetDemoSLinkUser, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ELinkKey, param_offset: 0x28}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SLinkKey, param_offset: 0x38}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ELinkKey, param_offset: 0x28}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SLinkKey, param_offset: 0x38}
 XLinkEventEnable:
 - {type: dynamic_param, param_type: bool*, param_name: IsEnable, param_offset: 0x20}
 XLinkEventFadeAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ELinkKey, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SLinkKey, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ELinkKey, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SLinkKey, param_offset: 0x30}
 XLinkEventKillAction:
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: ELinkKey, param_offset: 0x20}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: SLinkKey, param_offset: 0x30}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: ELinkKey, param_offset: 0x20}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: SLinkKey, param_offset: 0x30}
 ZoraHeroRescuePlayer:
 - {type: aitree_variable, param_type: void*, param_name: ZoraHeroShowMsgUnit, param_offset: 0x20}
 ZoraHeroWaterFallJump:
@@ -7849,7 +7849,7 @@ ZoraSurfing:
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASName, param_offset: 0x120}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ASNameJump, param_offset: 0x130}
 - {type: static_param, param_type: 'const sead::Vector3f*', param_name: AddCalcStickX, param_offset: 0x140}
-- {type: dynamic_param, param_type: 'sead::SafeString*', param_name: UniqueName, param_offset: 0x148}
+- {type: dynamic_param, param_type: 'sead::SafeString', param_name: UniqueName, param_offset: 0x148}
 forceSetCameraPos: []
 inWaterSelForkASPlay:
 - {type: static_param, param_type: const int*, param_name: EndState, param_offset: 0x20}

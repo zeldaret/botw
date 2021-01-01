@@ -21,7 +21,7 @@ protected:
     // dynamic_param at offset 0x20
     float* mWatchFrame_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mXLinkKey_d{};
+    sead::SafeString mXLinkKey_d{};
 };
 
 }  // namespace uking::action

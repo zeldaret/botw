@@ -18,7 +18,7 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mTableName_d{};
+    sead::SafeString mTableName_d{};
 };
 
 }  // namespace uking::action

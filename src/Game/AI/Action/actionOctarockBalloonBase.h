@@ -26,7 +26,7 @@ protected:
     // static_param at offset 0x100
     const float* mReduceVel_s{};
     // dynamic_param at offset 0x108
-    sead::SafeString* mConnectRigidName_d{};
+    sead::SafeString mConnectRigidName_d{};
     // dynamic_param at offset 0x118
     sead::Vector3f* mConnectRigidOffset_d{};
     // dynamic_param at offset 0x120

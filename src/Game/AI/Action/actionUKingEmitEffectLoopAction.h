@@ -47,13 +47,13 @@ protected:
     // dynamic_param at offset 0x88
     bool* mCutChangeReset_d{};
     // dynamic_param at offset 0x90
-    sead::SafeString* mActor_d{};
+    sead::SafeString mActor_d{};
     // dynamic_param at offset 0xa0
-    sead::SafeString* mInstanceName_d{};
+    sead::SafeString mInstanceName_d{};
     // dynamic_param at offset 0xb0
-    sead::SafeString* mELinkKey_d{};
+    sead::SafeString mELinkKey_d{};
     // dynamic_param at offset 0xc0
-    sead::SafeString* mOption_d{};
+    sead::SafeString mOption_d{};
 };
 
 }  // namespace uking::action

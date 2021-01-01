@@ -19,7 +19,7 @@ protected:
     // dynamic_param at offset 0x28
     int* mCurseRType_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mGameDataStringCounterName_d{};
+    sead::SafeString mGameDataStringCounterName_d{};
 };
 
 }  // namespace uking::action

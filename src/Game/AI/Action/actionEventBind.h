@@ -35,11 +35,11 @@ protected:
     // dynamic_param at offset 0x58
     bool* mIsContinueBind_d{};
     // dynamic_param at offset 0x60
-    sead::SafeString* mActorName_d{};
+    sead::SafeString mActorName_d{};
     // dynamic_param at offset 0x70
-    sead::SafeString* mUniqueName_d{};
+    sead::SafeString mUniqueName_d{};
     // dynamic_param at offset 0x80
-    sead::SafeString* mNodeName_d{};
+    sead::SafeString mNodeName_d{};
 };
 
 }  // namespace uking::action

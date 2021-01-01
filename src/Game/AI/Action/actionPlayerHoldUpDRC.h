@@ -21,7 +21,7 @@ protected:
     // dynamic_param at offset 0x20
     bool* mIsContinued_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mASName_d{};
+    sead::SafeString mASName_d{};
 };
 
 }  // namespace uking::action

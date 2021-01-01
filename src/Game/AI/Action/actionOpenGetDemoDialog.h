@@ -25,7 +25,7 @@ protected:
     // dynamic_param at offset 0x30
     bool* mEnableMultiGet_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mTargetActorName_d{};
+    sead::SafeString mTargetActorName_d{};
 };
 
 }  // namespace uking::action

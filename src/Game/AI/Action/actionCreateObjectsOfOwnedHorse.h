@@ -19,11 +19,11 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mHorseReinsActorName_d{};
+    sead::SafeString mHorseReinsActorName_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mHorseSaddleActorName_d{};
+    sead::SafeString mHorseSaddleActorName_d{};
     // dynamic_param at offset 0x40
-    sead::SafeString* mHorseManeActorName_d{};
+    sead::SafeString mHorseManeActorName_d{};
 };
 
 }  // namespace uking::action

@@ -15,9 +15,9 @@ public:
 
 protected:
     // dynamic_param at offset 0x20
-    sead::SafeString* mGameDataFloatSrcName_d{};
+    sead::SafeString mGameDataFloatSrcName_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mGameDataFloatDstName_d{};
+    sead::SafeString mGameDataFloatDstName_d{};
 };
 
 }  // namespace uking::action

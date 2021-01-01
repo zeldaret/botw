@@ -21,7 +21,7 @@ protected:
     // static_param at offset 0x20
     sead::SafeString mMstxt_s{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mSubMstxt_d{};
+    sead::SafeString mSubMstxt_d{};
 };
 
 }  // namespace uking::action

@@ -22,21 +22,21 @@ protected:
     // static_param at offset 0xd0
     const int* mThrowNumAtSameTiming_s{};
     // dynamic_param at offset 0xd8
-    sead::SafeString* mThrowPartsName1_d{};
+    sead::SafeString mThrowPartsName1_d{};
     // dynamic_param at offset 0xe8
-    sead::SafeString* mThrowPartsName2_d{};
+    sead::SafeString mThrowPartsName2_d{};
     // dynamic_param at offset 0xf8
-    sead::SafeString* mThrowPartsName3_d{};
+    sead::SafeString mThrowPartsName3_d{};
     // dynamic_param at offset 0x108
-    sead::SafeString* mThrowPartsName4_d{};
+    sead::SafeString mThrowPartsName4_d{};
     // dynamic_param at offset 0x118
-    sead::SafeString* mThrowPartsName5_d{};
+    sead::SafeString mThrowPartsName5_d{};
     // dynamic_param at offset 0x128
-    sead::SafeString* mThrowPartsName6_d{};
+    sead::SafeString mThrowPartsName6_d{};
     // dynamic_param at offset 0x138
-    sead::SafeString* mThrowPartsName7_d{};
+    sead::SafeString mThrowPartsName7_d{};
     // dynamic_param at offset 0x148
-    sead::SafeString* mThrowPartsName8_d{};
+    sead::SafeString mThrowPartsName8_d{};
 };
 
 }  // namespace uking::action

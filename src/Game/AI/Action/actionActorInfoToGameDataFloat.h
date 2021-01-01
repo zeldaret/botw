@@ -15,11 +15,11 @@ public:
 
 protected:
     // dynamic_param at offset 0x20
-    sead::SafeString* mActorName_d{};
+    sead::SafeString mActorName_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mGameDataFloatToName_d{};
+    sead::SafeString mGameDataFloatToName_d{};
     // dynamic_param at offset 0x40
-    sead::SafeString* mParameterName_d{};
+    sead::SafeString mParameterName_d{};
 };
 
 }  // namespace uking::action

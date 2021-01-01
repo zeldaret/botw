@@ -23,7 +23,7 @@ protected:
     // dynamic_param at offset 0x28
     int* mDecelerationFrame_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mASName_d{};
+    sead::SafeString mASName_d{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mOffset_d{};
     // aitree_variable at offset 0x48

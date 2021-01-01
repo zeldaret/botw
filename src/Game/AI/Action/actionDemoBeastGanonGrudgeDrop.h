@@ -23,7 +23,7 @@ protected:
     // dynamic_param at offset 0x30
     int* mTimer_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mASName_d{};
+    sead::SafeString mASName_d{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mFallPoint1_d{};
 };

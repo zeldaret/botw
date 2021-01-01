@@ -22,9 +22,9 @@ protected:
     // dynamic_param at offset 0x50
     int* mFadeType_d{};
     // dynamic_param at offset 0x58
-    sead::SafeString* mWarpDestMapName_d{};
+    sead::SafeString mWarpDestMapName_d{};
     // dynamic_param at offset 0x68
-    sead::SafeString* mWarpDestPosName_d{};
+    sead::SafeString mWarpDestPosName_d{};
 };
 
 }  // namespace uking::action

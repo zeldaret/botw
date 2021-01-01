@@ -17,9 +17,9 @@ protected:
     // dynamic_param at offset 0x20
     int* mCount_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mPorchItemName_d{};
+    sead::SafeString mPorchItemName_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mCookEffectType_d{};
+    sead::SafeString mCookEffectType_d{};
 };
 
 }  // namespace uking::action

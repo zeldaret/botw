@@ -21,9 +21,9 @@ protected:
     // dynamic_param at offset 0x20
     bool* mIsSignInversion_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mGameDataIntDstName_d{};
+    sead::SafeString mGameDataIntDstName_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mGameDataIntSrcName_d{};
+    sead::SafeString mGameDataIntSrcName_d{};
 };
 
 }  // namespace uking::action

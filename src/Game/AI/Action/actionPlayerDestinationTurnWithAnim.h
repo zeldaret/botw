@@ -24,7 +24,7 @@ protected:
     // dynamic_param at offset 0x48
     bool* mUsePartBind_d{};
     // dynamic_param at offset 0x50
-    sead::SafeString* mASName_d{};
+    sead::SafeString mASName_d{};
 };
 
 }  // namespace uking::action

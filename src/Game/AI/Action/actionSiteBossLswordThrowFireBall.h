@@ -31,7 +31,7 @@ protected:
     // dynamic_param at offset 0x58
     bool* mIsThrowChildDevice_d{};
     // dynamic_param at offset 0x60
-    sead::SafeString* mPartsName_d{};
+    sead::SafeString mPartsName_d{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x78

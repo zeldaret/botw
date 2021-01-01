@@ -15,9 +15,9 @@ public:
 
 protected:
     // dynamic_param at offset 0x20
-    sead::SafeString* mSteppingFoot_d{};
+    sead::SafeString mSteppingFoot_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mSpeed_d{};
+    sead::SafeString mSpeed_d{};
 };
 
 }  // namespace uking::action

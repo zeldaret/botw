@@ -19,9 +19,9 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mActorName_d{};
+    sead::SafeString mActorName_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mInstanceName_d{};
+    sead::SafeString mInstanceName_d{};
 };
 
 }  // namespace uking::action

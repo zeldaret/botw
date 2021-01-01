@@ -23,9 +23,9 @@ protected:
     // dynamic_param at offset 0x38
     float* mStartDelaySec_d{};
     // dynamic_param at offset 0x40
-    sead::SafeString* mTargetGroups_d{};
+    sead::SafeString mTargetGroups_d{};
     // dynamic_param at offset 0x50
-    sead::SafeString* mExceptGroups_d{};
+    sead::SafeString mExceptGroups_d{};
 };
 
 }  // namespace uking::action

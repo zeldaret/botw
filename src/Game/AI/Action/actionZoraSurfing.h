@@ -55,7 +55,7 @@ protected:
     // static_param at offset 0x140
     const sead::Vector3f* mAddCalcStickX_s{};
     // dynamic_param at offset 0x148
-    sead::SafeString* mUniqueName_d{};
+    sead::SafeString mUniqueName_d{};
 };
 
 }  // namespace uking::action

@@ -21,7 +21,7 @@ protected:
     // dynamic_param at offset 0x20
     float* mRestartYDegree_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mGameClearFlag_d{};
+    sead::SafeString mGameClearFlag_d{};
     // dynamic_param at offset 0x38
     sead::Vector3f* mRestartPoint_d{};
 };

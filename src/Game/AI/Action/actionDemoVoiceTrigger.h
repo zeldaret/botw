@@ -21,9 +21,9 @@ protected:
     // dynamic_param at offset 0x20
     bool* mIsHideCaption_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mLabel_d{};
+    sead::SafeString mLabel_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mActorInstance_d{};
+    sead::SafeString mActorInstance_d{};
 };
 
 }  // namespace uking::action

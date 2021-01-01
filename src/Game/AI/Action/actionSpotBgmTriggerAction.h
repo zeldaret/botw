@@ -19,7 +19,7 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x20
-    sead::SafeString* mSound_d{};
+    sead::SafeString mSound_d{};
     // map_unit_param at offset 0x30
     const bool* mIsStopWithoutReductionY_m{};
     // map_unit_param at offset 0x38

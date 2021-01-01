@@ -20,9 +20,9 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x60
-    sead::SafeString* mWarpDestMapName_d{};
+    sead::SafeString mWarpDestMapName_d{};
     // dynamic_param at offset 0x70
-    sead::SafeString* mWarpDestPosName_d{};
+    sead::SafeString mWarpDestPosName_d{};
 };
 
 }  // namespace uking::action

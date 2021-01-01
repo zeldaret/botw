@@ -22,9 +22,9 @@ protected:
     // dynamic_param at offset 0xc0
     int* mObjectId_d{};
     // dynamic_param at offset 0xc8
-    sead::SafeString* mActorName_d{};
+    sead::SafeString mActorName_d{};
     // dynamic_param at offset 0xd8
-    sead::SafeString* mUniqueName_d{};
+    sead::SafeString mUniqueName_d{};
 };
 
 }  // namespace uking::action

@@ -29,9 +29,9 @@ protected:
     // dynamic_param at offset 0x40
     bool* mIsOverWriteLabelActorName_d{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mMessageId_d{};
+    sead::SafeString mMessageId_d{};
     // dynamic_param at offset 0x58
-    sead::SafeString* mASName_d{};
+    sead::SafeString mASName_d{};
 };
 
 }  // namespace uking::action

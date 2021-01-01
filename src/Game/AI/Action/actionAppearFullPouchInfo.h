@@ -15,7 +15,7 @@ public:
 
 protected:
     // dynamic_param at offset 0x20
-    sead::SafeString* mPorchItemName_d{};
+    sead::SafeString mPorchItemName_d{};
 };
 
 }  // namespace uking::action

@@ -27,7 +27,7 @@ protected:
     // static_param at offset 0x38
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mThrowPartsName_d{};
+    sead::SafeString mThrowPartsName_d{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x60

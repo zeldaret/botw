@@ -15,9 +15,9 @@ public:
 
 protected:
     // dynamic_param at offset 0x20
-    sead::SafeString* mBgmCtrlType_d{};
+    sead::SafeString mBgmCtrlType_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mSeCtrlType_d{};
+    sead::SafeString mSeCtrlType_d{};
 };
 
 }  // namespace uking::action

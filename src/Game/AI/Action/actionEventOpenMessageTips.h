@@ -21,7 +21,7 @@ protected:
     // dynamic_param at offset 0x20
     int* mTipsType_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mMessageId_d{};
+    sead::SafeString mMessageId_d{};
 };
 
 }  // namespace uking::action

@@ -23,7 +23,7 @@ protected:
     // dynamic_param at offset 0x28
     int* mSharpWeaponAddType_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mTargetActorName_d{};
+    sead::SafeString mTargetActorName_d{};
 };
 
 }  // namespace uking::action

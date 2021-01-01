@@ -17,9 +17,9 @@ protected:
     // dynamic_param at offset 0x20
     bool* mIsTargetDemoSLinkUser_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mELinkKey_d{};
+    sead::SafeString mELinkKey_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mSLinkKey_d{};
+    sead::SafeString mSLinkKey_d{};
 };
 
 }  // namespace uking::action

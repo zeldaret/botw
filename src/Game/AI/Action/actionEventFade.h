@@ -23,7 +23,7 @@ protected:
     // dynamic_param at offset 0x28
     int* mColor_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mDispMode_d{};
+    sead::SafeString mDispMode_d{};
 };
 
 }  // namespace uking::action

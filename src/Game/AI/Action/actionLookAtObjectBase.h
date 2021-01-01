@@ -28,9 +28,9 @@ protected:
     // dynamic_param at offset 0x90
     bool* mIsValid_d{};
     // dynamic_param at offset 0x98
-    sead::SafeString* mActorName_d{};
+    sead::SafeString mActorName_d{};
     // dynamic_param at offset 0xa8
-    sead::SafeString* mUniqueName_d{};
+    sead::SafeString mUniqueName_d{};
     // dynamic_param at offset 0xb8
     sead::Vector3f* mPosOffset_d{};
     // dynamic_param at offset 0xc0

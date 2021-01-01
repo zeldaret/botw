@@ -21,9 +21,9 @@ protected:
     // dynamic_param at offset 0x20
     int* mSystemResetOption_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mStartPosName_d{};
+    sead::SafeString mStartPosName_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mAdditionalResetActor_d{};
+    sead::SafeString mAdditionalResetActor_d{};
 };
 
 }  // namespace uking::action

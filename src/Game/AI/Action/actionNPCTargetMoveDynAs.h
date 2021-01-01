@@ -15,7 +15,7 @@ public:
 
 protected:
     // dynamic_param at offset 0x178
-    sead::SafeString* mDynASKeyName_d{};
+    sead::SafeString mDynASKeyName_d{};
 };
 
 }  // namespace uking::action

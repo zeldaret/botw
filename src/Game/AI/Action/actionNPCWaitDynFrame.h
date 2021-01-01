@@ -22,7 +22,7 @@ protected:
     // dynamic_param at offset 0x58
     int* mDynWaitFrame_d{};
     // dynamic_param at offset 0x60
-    sead::SafeString* mDynASName_d{};
+    sead::SafeString mDynASName_d{};
 };
 
 }  // namespace uking::action

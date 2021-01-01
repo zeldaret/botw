@@ -17,9 +17,9 @@ protected:
     // dynamic_param at offset 0x20
     bool* mForceRunTelop_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mQuestName_d{};
+    sead::SafeString mQuestName_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mStepName_d{};
+    sead::SafeString mStepName_d{};
 };
 
 }  // namespace uking::action

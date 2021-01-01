@@ -29,7 +29,7 @@ protected:
     // dynamic_param at offset 0x40
     bool* mIsIgnoreSame_d{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mASName_d{};
+    sead::SafeString mASName_d{};
 };
 
 }  // namespace uking::action

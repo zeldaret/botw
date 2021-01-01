@@ -22,7 +22,7 @@ protected:
     // dynamic_param at offset 0x28
     float* mTurnDirection_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mActorName_d{};
+    sead::SafeString mActorName_d{};
 };
 
 }  // namespace uking::action

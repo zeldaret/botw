@@ -21,9 +21,9 @@ protected:
     // dynamic_param at offset 0x20
     int* mStartType_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mEvflName_d{};
+    sead::SafeString mEvflName_d{};
     // dynamic_param at offset 0x38
-    sead::SafeString* mEntryPointName_d{};
+    sead::SafeString mEntryPointName_d{};
 };
 
 }  // namespace uking::action

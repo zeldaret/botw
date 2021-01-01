@@ -17,7 +17,7 @@ protected:
     // dynamic_param at offset 0x20
     int* mValue_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mGameDataIntName_d{};
+    sead::SafeString mGameDataIntName_d{};
 };
 
 }  // namespace uking::action

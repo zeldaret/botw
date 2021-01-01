@@ -15,11 +15,11 @@ public:
 
 protected:
     // dynamic_param at offset 0x20
-    sead::SafeString* mGameDataIntNameMintues_d{};
+    sead::SafeString mGameDataIntNameMintues_d{};
     // dynamic_param at offset 0x30
-    sead::SafeString* mGameDataIntNameSeconds_d{};
+    sead::SafeString mGameDataIntNameSeconds_d{};
     // dynamic_param at offset 0x40
-    sead::SafeString* mGameDataIntNameMiliseconds_d{};
+    sead::SafeString mGameDataIntNameMiliseconds_d{};
 };
 
 }  // namespace uking::action

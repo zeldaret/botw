@@ -20,7 +20,7 @@ protected:
     void calc_() override;
 
     // dynamic_param at offset 0x68
-    sead::SafeString* mGreetingType_d{};
+    sead::SafeString mGreetingType_d{};
 };
 
 }  // namespace uking::action

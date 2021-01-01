@@ -17,7 +17,7 @@ protected:
     // dynamic_param at offset 0x20
     bool* mIsOnlyFace_d{};
     // dynamic_param at offset 0x28
-    sead::SafeString* mEmotionType_d{};
+    sead::SafeString mEmotionType_d{};
 };
 
 }  // namespace uking::action
