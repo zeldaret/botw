@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from typing import Dict, List
+import argparse
 
 import cxxfilt
 from colorama import Fore
@@ -34,9 +35,18 @@ class Checker(checker.FunctionChecker):
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser("Identifies matching functions by looking at function calls in matching functions")
+    parser.add_argument("-f", "--fn", help="Functions to analyze", nargs="*")
+    args = parser.parse_args()
+
+    functions_to_analyze = set(args.fn) if args.fn else set()
+
     functions_by_addr: Dict[int, utils.FunctionInfo] = {fn.addr: fn for fn in utils.get_functions()}
     fn_checker = Checker()
     for fn in functions_by_addr.values():
+        if functions_to_analyze and fn.decomp_name not in functions_to_analyze:
+            continue
+
         if fn.status != utils.FunctionStatus.Matching:
             continue
 
