@@ -8,7 +8,6 @@
 #include <prim/seadSizedEnum.h>
 
 #include "KingSystem/ActorSystem/actAiClassDef.h"
-#include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/MessageSystem/mesTransceiver.h"
 #include "KingSystem/Utils/Types.h"
@@ -19,6 +18,7 @@ class Rail;
 
 namespace act {
 class Actor;
+class BaseProc;
 }
 
 namespace act::ai {

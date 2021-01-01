@@ -19,6 +19,7 @@ class GParamList;
 namespace ksys::act {
 
 class Actor;
+class BaseProcHandle;
 
 namespace ai {
 
