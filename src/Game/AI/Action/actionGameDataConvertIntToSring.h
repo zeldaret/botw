@@ -10,6 +10,7 @@ public:
     explicit GameDataConvertIntToSring(const InitArg& arg);
     ~GameDataConvertIntToSring() override;
 
+    bool oneShot_() override;
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
 
