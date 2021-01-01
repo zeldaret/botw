@@ -165,4 +165,6 @@ void Actions::setFactories(int count, ActionFactory* factories) {
     sFactories.setBuffer(count, factories);
 }
 
+sead::Buffer<ActionFactory> Actions::sFactories;
+
 }  // namespace ksys::act::ai

@@ -88,7 +88,7 @@ public:
     static void setFactories(int count, AiFactory* factories);
 
 private:
-    static inline sead::Buffer<AiFactory> sFactories;
+    static sead::Buffer<AiFactory> sFactories;
     sead::Buffer<Ai*> mClasses;
     // Non-owning buffer.
     sead::Buffer<Ai*> mOnPreDeleteCbs;

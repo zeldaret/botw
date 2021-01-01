@@ -397,4 +397,6 @@ void Ais::setFactories(int count, AiFactory* factories) {
     sFactories.setBuffer(count, factories);
 }
 
+sead::Buffer<AiFactory> Ais::sFactories;
+
 }  // namespace ksys::act::ai

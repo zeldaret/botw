@@ -30,7 +30,7 @@ public:
     static void setFactories(int count, QueryFactory* factories);
 
 private:
-    static inline sead::Buffer<QueryFactory> sFactories;
+    static sead::Buffer<QueryFactory> sFactories;
     sead::Buffer<Query*> mClasses;
     // Non-owning buffer.
     sead::Buffer<Query*> mOnPreDeleteCbs;

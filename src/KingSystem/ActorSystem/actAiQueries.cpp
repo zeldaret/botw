@@ -140,4 +140,6 @@ void Queries::setFactories(int count, QueryFactory* factories) {
     sFactories.setBuffer(count, factories);
 }
 
+sead::Buffer<QueryFactory> Queries::sFactories;
+
 }  // namespace ksys::act::ai

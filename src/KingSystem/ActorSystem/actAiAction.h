@@ -49,7 +49,7 @@ public:
     static void setFactories(int count, ActionFactory* factories);
 
 private:
-    static inline sead::Buffer<ActionFactory> sFactories;
+    static sead::Buffer<ActionFactory> sFactories;
     sead::Buffer<Action*> mClasses;
     // Non-owning buffer.
     sead::Buffer<Action*> mOnPreDeleteCbs;
