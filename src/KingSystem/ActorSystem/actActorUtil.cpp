@@ -525,4 +525,33 @@ bool isAirOctaWoodPlatformDlc(const sead::SafeString& name) {
            name == "FldObj_DLC_FlyShield_Wood_A_Snow_02";
 }
 
+bool getSameGroupActorName(sead::SafeString* name, BaseProcLink* link) {
+    return getAccessor(link).getSameGroupActorName(name);
+}
+
+bool getSameGroupActorName(sead::SafeString* name, Actor* actor) {
+    return getAccessor(actor).getSameGroupActorName(name);
+}
+
+bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& default_value,
+                           al::ByamlIter* actor_info) {
+    const sead::SafeString value = InfoData::instance()->getSameGroupActorName(*actor_info);
+    if (value.isEmpty()) {
+        *name = default_value;
+        return false;
+    }
+    *name = value;
+    return true;
+}
+
+bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& actor_name) {
+    const sead::SafeString value = InfoData::instance()->getSameGroupActorName(actor_name.cstr());
+    if (value.isEmpty()) {
+        *name = actor_name;
+        return false;
+    }
+    *name = value;
+    return true;
+}
+
 }  // namespace ksys::act

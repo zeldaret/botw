@@ -156,4 +156,10 @@ bool isAirOctaWoodPlatformDlc(const sead::SafeString& name);
 
 const sead::SafeString& getDefaultDropActor();
 
+bool getSameGroupActorName(sead::SafeString* name, BaseProcLink* link);
+bool getSameGroupActorName(sead::SafeString* name, Actor* actor);
+bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& default_value,
+                           al::ByamlIter* actor_info);
+bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& actor_name);
+
 }  // namespace ksys::act
