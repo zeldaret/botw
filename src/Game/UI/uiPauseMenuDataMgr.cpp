@@ -206,6 +206,44 @@ PouchItemType PauseMenuDataMgr::getType(const sead::SafeString& item, al::ByamlI
     return PouchItemType::Material;
 }
 
+bool PauseMenuDataMgr::isWeaponSectionFull(const sead::SafeString& weapon_type) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    const auto check = [this](auto get_flag, PouchCategory category, PouchItemType type) {
+        const s32 num_slots = get_flag(false);
+        if (mItemLists.list2.isEmpty())
+            return true;
+
+        s32 num = 0;
+        if (!getItems().isEmpty()) {
+            for (auto item = getItemHead(category); item; item = nextItem(item)) {
+                if (item->getType() != type)
+                    break;
+                num += item->_25;
+            }
+        }
+
+        return num_slots <= num;
+    };
+
+    if (weapon_type == sValues.WeaponSmallSword || weapon_type == sValues.WeaponLargeSword ||
+        weapon_type == sValues.WeaponSpear) {
+        return check(ksys::gdt::getFlag_WeaponPorchStockNum, PouchCategory::Weapon,
+                     PouchItemType::Weapon);
+    }
+
+    if (weapon_type == sValues.WeaponBow) {
+        return check(ksys::gdt::getFlag_BowPorchStockNum, PouchCategory::Bow, PouchItemType::Bow);
+    }
+
+    if (weapon_type == sValues.WeaponShield) {
+        return check(ksys::gdt::getFlag_ShieldPorchStockNum, PouchCategory::Shield,
+                     PouchItemType::Shield);
+    }
+
+    return false;
+}
+
 void PauseMenuDataMgr::removeArrow(const sead::SafeString& arrow_name, int count) {
     if (!ksys::act::InfoData::instance()->hasTag(arrow_name.cstr(), ksys::act::tags::Arrow))
         return;
@@ -228,6 +266,52 @@ void PauseMenuDataMgr::removeArrow(const sead::SafeString& arrow_name, int count
     const auto num = getItemCount(arrow_name);
     if (!mIsPouchForQuest && idx >= 0)
         ksys::gdt::setFlag_PorchItem_Value1(num, idx);
+}
+
+int PauseMenuDataMgr::getItemCount(const sead::SafeString& name, bool x) const {
+    const auto type = getType(name);
+    if (isPouchItemInvalid(type))
+        return 0;
+
+    sead::SafeString same_group_actor_name;
+    ksys::act::getSameGroupActorName(&same_group_actor_name, name);
+
+    PouchItem* head;
+    switch (type) {
+    case PouchItemType::Weapon:
+        head = getItemHead(PouchCategory::Weapon);
+        break;
+    case PouchItemType::Bow:
+        head = getItemHead(PouchCategory::Bow);
+        break;
+    case PouchItemType::Arrow:
+        head = getItemHead(PouchCategory::Bow);
+        break;
+    case PouchItemType::Shield:
+        head = getItemHead(PouchCategory::Shield);
+        break;
+    case PouchItemType::Food:
+        head = getItemHead(PouchCategory::Food);
+        break;
+    case PouchItemType::KeyItem:
+        head = getItemHead(PouchCategory::KeyItem);
+        break;
+    default:
+        if (type >= PouchItemType::Material)
+            head = getItemHead(PouchCategory::Material);
+        else
+            head = getItemHead(PouchCategory::Armor);
+        break;
+    }
+
+    for (auto* item = head; item; item = nextItem(item)) {
+        if (item->getType() > PouchItemType::Arrow)
+            break;
+
+        // FIXME: WIP
+    }
+
+    return 0;
 }
 
 void PauseMenuDataMgr::setWeaponItemValue(s32 value, PouchItemType type) {
@@ -276,7 +360,7 @@ bool PauseMenuDataMgr::hasItem(const sead::SafeString& name) const {
 PouchItem* PauseMenuDataMgr::getMasterSword() const {
     const auto lock = sead::makeScopedLock(mCritSection);
 
-    for (auto* item = getItemHead(PouchCategory::Weapon); item; item = getItems().next(item)) {
+    for (auto* item = getItemHead(PouchCategory::Weapon); item; item = nextItem(item)) {
         if (item->getType() != PouchItemType::Weapon)
             return nullptr;
         if (item->_25 && item->getName() == "Weapon_Sword_070")
@@ -284,6 +368,37 @@ PouchItem* PauseMenuDataMgr::getMasterSword() const {
     }
 
     return nullptr;
+}
+
+int PauseMenuDataMgr::getArrowCount(const sead::SafeString& name) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    for (auto item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
+        if (item->getType() > PouchItemType::Arrow)
+            break;
+        if (item->getType() == PouchItemType::Arrow && item->_25 && item->getName() == name)
+            return item->getCount();
+    }
+    return 0;
+}
+
+int PauseMenuDataMgr::getRealArrowCount(const sead::SafeString& name) const {
+    if (!mIsPouchForQuest)
+        return getArrowCount(name);
+
+    s32 count;
+    s32 status = 2;
+    for (u32 i = 0; i < u32(NumPouchItemsMax); ++i) {
+        const char* item_name;
+        ksys::gdt::getFlag_PorchItem(&item_name, i);
+        if (sead::SafeString(item_name).isEmpty())
+            break;
+        if (sead::SafeString(item_name) == name) {
+            count = ksys::gdt::getFlag_PorchItem_Value1(i);
+            status = 1;
+            break;
+        }
+    }
+    return status == 2 ? 0 : count;
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)

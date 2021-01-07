@@ -44,6 +44,10 @@ constexpr bool isPouchItemNotWeapon(PouchItemType type) {
     return !isPouchItemWeapon(type);
 }
 
+constexpr bool isPouchItemInvalid(PouchItemType type) {
+    return u32(type) > u32(PouchItemType::KeyItem);
+}
+
 enum class PouchCategory {
     Weapon = 0,
     Bow = 1,
@@ -125,14 +129,20 @@ class PauseMenuDataMgr {
 public:
     void init(sead::Heap* heap);
 
-    static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter);
+    static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 
+    bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
     int getItemCount(const sead::SafeString& name, bool x = true) const;
     void setWeaponItemValue(s32 value, PouchItemType type);
     const sead::SafeString& getDefaultEquipment(u32 idx) const;
     bool hasItem(const sead::SafeString& name) const;
     PouchItem* getMasterSword() const;
+
+    int getArrowCount(const sead::SafeString& name) const;
+    /// Get the number of arrows in the real inventory (ignoring any temporary inventory data).
+    /// This was added in 1.3.1 to patch the Trial of the Sword arrow restock glitch.
+    int getRealArrowCount(const sead::SafeString& name) const;
 
 private:
     // TODO: rename
@@ -167,6 +177,8 @@ private:
             return nullptr;
         return *p_head;
     }
+
+    PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
 
     /// @param num_cleared_beasts The number of divine beasts that have been done.
     void updateDivineBeastClearFlags(int num_cleared_beasts);
