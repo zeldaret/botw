@@ -30,6 +30,9 @@ As with other game decompilations, this project is probably in a legal gray zone
     * The compiler is Clang, so there are many, many, many ways to write a function and organize things while still getting the exact same code. In fact, while the source code happens to match the compiled code, it is possible and quite likely that the original codebase looks very different from this repository.
 * This is a large monolithic game so there is no other way of being accurate to the original logic without doing matching decompilation.
     * Clean room decompilation (having separate teams doing reverse engineering and implementation work) is not a solution when the goal is to follow the original logic as accurately as possible.
+* This project does not use any proprietary SDK or any leaked document at all.
+    * The compiler is just Clang 4.0.1 which is open source and freely available on [LLVM's website](https://releases.llvm.org/). The SDK compiler is **not** used.
+    * Anyone who has had access to leaked information is not allowed to contribute.
 
 ## Status
 
