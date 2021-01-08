@@ -268,52 +268,6 @@ void PauseMenuDataMgr::removeArrow(const sead::SafeString& arrow_name, int count
         ksys::gdt::setFlag_PorchItem_Value1(num, idx);
 }
 
-int PauseMenuDataMgr::getItemCount(const sead::SafeString& name, bool x) const {
-    const auto type = getType(name);
-    if (isPouchItemInvalid(type))
-        return 0;
-
-    sead::SafeString same_group_actor_name;
-    ksys::act::getSameGroupActorName(&same_group_actor_name, name);
-
-    PouchItem* head;
-    switch (type) {
-    case PouchItemType::Weapon:
-        head = getItemHead(PouchCategory::Weapon);
-        break;
-    case PouchItemType::Bow:
-        head = getItemHead(PouchCategory::Bow);
-        break;
-    case PouchItemType::Arrow:
-        head = getItemHead(PouchCategory::Bow);
-        break;
-    case PouchItemType::Shield:
-        head = getItemHead(PouchCategory::Shield);
-        break;
-    case PouchItemType::Food:
-        head = getItemHead(PouchCategory::Food);
-        break;
-    case PouchItemType::KeyItem:
-        head = getItemHead(PouchCategory::KeyItem);
-        break;
-    default:
-        if (type >= PouchItemType::Material)
-            head = getItemHead(PouchCategory::Material);
-        else
-            head = getItemHead(PouchCategory::Armor);
-        break;
-    }
-
-    for (auto* item = head; item; item = nextItem(item)) {
-        if (item->getType() > PouchItemType::Arrow)
-            break;
-
-        // FIXME: WIP
-    }
-
-    return 0;
-}
-
 void PauseMenuDataMgr::setWeaponItemValue(s32 value, PouchItemType type) {
     if (isPouchItemNotWeapon(type))
         return;
