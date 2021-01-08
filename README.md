@@ -6,6 +6,31 @@ File names, class or function names and the file organization come from leftover
 
 **This repository does not contain game assets or RomFS content and *cannot* be used to play *Breath of the Wild*.**
 
+## Goal
+
+The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in something less fragile than an IDA database.
+
+Considering the large size of the executable (~40MB), it is not expected to reach 100% progress within a reasonable timeframe. That's actually not really a goal since the KingSystem framework represents less than 50% of the executable. Nevertheless, this project still uses the percentage of decompiled bytes to track progress for the components we are interested in.
+
+As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will NOT help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
+
+### Isn't this risky?
+
+As with other game decompilations, this project is probably in a legal gray zone. However, the authors of this project believe that it is unlikely to bother NCL for the following reasons:
+
+* Contributing to this repository requires owning the game on a Switch console and dumping the executable.
+* This project is completely useless to anybody who does not have the game.
+    * It cannot be used to play the game.
+    * It does not give you any useful knowledge if you do not play the game or if you do not even have it.
+* This repository is only about the executable, which is less than 0.3% of the whole game (ExeFS+RomFS).
+* Even if the executable were fully decompiled, it would still not be possible to play the game without dumping the RomFS from a Switch.
+* This repository does not contain any original code from the executable.
+    * Unlike some decompilation projects for older consoles, not even a single byte of assembly code is included from the original executable.
+    * It only contains reimplemented functions that happen to match once compiled.
+    * The compiler is Clang, so there are many, many, many ways to write a function and organize things while still getting the exact same code. In fact, while the source code happens to match the compiled code, it is possible and quite likely that the original codebase looks very different from this repository.
+* This is a large monolithic game so there is no other way of being accurate to the original logic without doing matching decompilation.
+    * Clean room decompilation (having separate teams doing reverse engineering and implementation work) is not a solution when the goal is to follow the original logic as accurately as possible.
+
 ## Status
 
 Currently, the focus is on decompiling AI classes and KingSystem framework code.
