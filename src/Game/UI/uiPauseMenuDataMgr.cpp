@@ -2,6 +2,7 @@
 #include <container/seadBuffer.h>
 #include <limits>
 #include <prim/seadScopedLock.h>
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -353,6 +354,41 @@ int PauseMenuDataMgr::getRealArrowCount(const sead::SafeString& name) const {
         }
     }
     return status == 2 ? 0 : count;
+}
+
+void PauseMenuDataMgr::breakMasterSword() {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    s32 idx = 0;
+    for (auto& item : getItems()) {
+        if (item.getType() == PouchItemType::Weapon && isMasterSwordActorName(item.getName())) {
+            item.mValue = 0;
+            item.mValid = false;
+            if (!mIsPouchForQuest && idx >= 0) {
+                ksys::gdt::setFlag_PorchItem_Value1(0, idx);
+                ksys::gdt::setFlag_PorchItem_EquipFlag(false, idx);
+            }
+            break;
+        }
+        ++idx;
+    }
+}
+
+void PauseMenuDataMgr::restoreMasterSword(bool only_if_broken) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    s32 idx = 0;
+    for (auto& item : getItems()) {
+        if (item.getType() == PouchItemType::Weapon && isMasterSwordActorName(item.getName())) {
+            if (only_if_broken && item.getValue() > 0)
+                break;
+
+            item.mValue = getWeaponInventoryLife(item.getName());
+            if (!mIsPouchForQuest && idx >= 0)
+                ksys::gdt::setFlag_PorchItem_Value1(item.mValue, idx);
+
+            break;
+        }
+        ++idx;
+    }
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)

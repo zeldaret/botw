@@ -10,7 +10,7 @@ File names, class or function names and the file organization come from leftover
 
 The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in something less fragile than an IDA database.
 
-Considering the large size of the executable (~40MB), it is not expected to reach 100% progress within a reasonable timeframe. That's actually not really a goal since the KingSystem framework represents less than 50% of the executable. Nevertheless, this project still uses the percentage of decompiled bytes to track progress for the components we are interested in.
+Considering the large size of the executable (~40MB), it is not expected to reach 100% progress within a reasonable timeframe. That's actually not really an objective since the KingSystem framework represents less than 50% of the executable. Nevertheless, this project still uses the percentage of decompiled bytes to track progress for the components we are interested in.
 
 As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will NOT help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
 

@@ -144,6 +144,9 @@ public:
     /// This was added in 1.3.1 to patch the Trial of the Sword arrow restock glitch.
     int getRealArrowCount(const sead::SafeString& name) const;
 
+    void breakMasterSword();
+    void restoreMasterSword(bool only_if_broken);
+
 private:
     // TODO: rename
     struct ItemInfo {
