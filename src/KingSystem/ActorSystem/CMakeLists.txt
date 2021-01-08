@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  Profiles/actPlayerBase.cpp
+  Profiles/actPlayerBase.h
   Profiles/actRopeBase.cpp
   Profiles/actRopeBase.h
 
@@ -69,6 +71,8 @@ target_sources(uking PRIVATE
   actInstParamPack.cpp
   actInstParamPack.h
   actLifeRecoveryInfo.h
+  actPlayerInfo.cpp
+  actPlayerInfo.h
   actTag.h
 
   actionDummyAction.cpp

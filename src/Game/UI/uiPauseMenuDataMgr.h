@@ -15,6 +15,10 @@ namespace al {
 class ByamlIter;
 }
 
+namespace ksys::act {
+class InfoData;
+}
+
 namespace uking::ui {
 
 constexpr int NumPouchItemsMax = 420;
@@ -35,6 +39,8 @@ enum class PouchItemType {
     Invalid = -1,
 };
 
+constexpr int NumPouchItemTypes = 10;
+
 constexpr bool isPouchItemWeapon(PouchItemType type) {
     return type == PouchItemType::Weapon || type == PouchItemType::Bow ||
            type == PouchItemType::Arrow || type == PouchItemType::Shield;
@@ -42,6 +48,10 @@ constexpr bool isPouchItemWeapon(PouchItemType type) {
 
 constexpr bool isPouchItemNotWeapon(PouchItemType type) {
     return !isPouchItemWeapon(type);
+}
+
+constexpr bool isPouchItemArmor(PouchItemType type) {
+    return PouchItemType::ArmorHead <= type && type <= PouchItemType::ArmorLower;
 }
 
 constexpr bool isPouchItemInvalid(PouchItemType type) {
@@ -56,9 +66,20 @@ enum class PouchCategory {
     Material = 4,
     Food = 5,
     KeyItem = 6,
+    Invalid = -1,
 };
 
 constexpr int NumPouchCategories = 7;
+
+enum class EquipmentSlot {
+    WeaponRight = 0,
+    WeaponBow = 1,
+    WeaponArrow = 2,
+    WeaponLeft = 3,
+    ArmorHead = 4,
+    ArmorUpper = 5,
+    ArmorLower = 6,
+};
 
 struct CookTagInfo {
     u32 is_tag;
@@ -73,6 +94,7 @@ public:
 
     PouchItemType getType() const { return mType; }
     bool isValid() const { return mValid; }
+    u8 get25() const { return _25; }
     const sead::SafeString& getName() const { return mName; }
 
     // This is only valid if the item is not a weapon.
@@ -128,14 +150,16 @@ class PauseMenuDataMgr {
 
 public:
     void init(sead::Heap* heap);
+    void initForNewSave();
 
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
+    int countItemsWithType(PouchItemType type, bool x = false) const;
 
     bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
     int getItemCount(const sead::SafeString& name, bool x = true) const;
     void setWeaponItemValue(s32 value, PouchItemType type);
-    const sead::SafeString& getDefaultEquipment(u32 idx) const;
+    const sead::SafeString& getDefaultEquipment(EquipmentSlot idx) const;
     bool hasItem(const sead::SafeString& name) const;
     PouchItem* getMasterSword() const;
 
@@ -146,6 +170,17 @@ public:
 
     void breakMasterSword();
     void restoreMasterSword(bool only_if_broken);
+
+    bool isHeroSoulEnabled(const sead::SafeString& name) const;
+    bool hasRitoSoulPlus() const;
+    bool hasGoronSoulPlus() const;
+    bool hasGerudoSoulPlus() const;
+    bool hasZoraSoulPlus() const;
+
+    bool isOverCategoryLimit(PouchItemType type) const;
+    void openItemCategoryIfNeeded() const;
+
+    auto get44800() const { return _44800; }
 
 private:
     // TODO: rename
@@ -183,6 +218,8 @@ private:
 
     PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
 
+    void resetItem();
+
     /// @param num_cleared_beasts The number of divine beasts that have been done.
     void updateDivineBeastClearFlags(int num_cleared_beasts);
 
@@ -190,7 +227,7 @@ private:
     Lists mItemLists;
     sead::SafeArray<PouchItem**, NumPouchCategories> mListHeads;
     sead::SafeArray<PouchItem*, NumPouch50> mArray1;
-    sead::SafeArray<int, NumPouch50> mArray2;
+    sead::SafeArray<PouchItemType, NumPouch50> mArray2;
     PouchItem* mItem_44488{};
     s32 _44490 = -1;
     s32 _44494 = -1;
@@ -205,10 +242,10 @@ private:
     u32 _4450c{};
     u32 _44510{};
     u32 _44514{};
-    u64 _44518{};
-    u64 _44520{};
-    u64 _44528{};
-    PouchItem* _44530{};
+    PouchItem* mRitoSoulItem{};
+    PouchItem* mGoronSoulItem{};
+    PouchItem* mZoraSoulItem{};
+    PouchItem* mGerudoSoulItem{};
     bool _44538 = false;
     PouchItem mItem;
 
@@ -219,8 +256,18 @@ private:
     u64 _447e8;
     u64 _447f0;
     u64 _447f8;
-    s32 _44800 = -1;
+    PouchCategory _44800 = PouchCategory::Invalid;
 };
 KSYS_CHECK_SIZE_NX150(PauseMenuDataMgr, 0x44808);
+
+int sortWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int sortBow(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int sortShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int sortArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int sortMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int sortFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int sortKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+
+int getCookItemOrder(const PouchItem* item, ksys::act::InfoData* data);
 
 }  // namespace uking::ui

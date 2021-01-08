@@ -2,9 +2,12 @@
 #include <container/seadBuffer.h>
 #include <limits>
 #include <prim/seadScopedLock.h>
+#include "Game/DLC/aocManager.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
@@ -17,7 +20,7 @@ sead::Vector2f sDummyCookEffect0{-1, 0};
 
 namespace {
 
-sead::SafeArray<CookTagInfo, 11> sCookTagInfo_{{
+sead::SafeArray<CookTagInfo, 11> sCookItemOrder_{{
     {1, "CookFruit", ksys::act::tags::CookFruit},
     {1, "CookMushroom", ksys::act::tags::CookMushroom},
     {1, "CookPlant", ksys::act::tags::CookPlant},
@@ -86,7 +89,8 @@ struct PouchConstants {
     sead::SafeString Armor_150_Upper = "Armor_150_Upper";
     sead::SafeString Armor_151_Upper = "Armor_151_Upper";
 
-    sead::Buffer<CookTagInfo> cook_tag_info{sCookTagInfo_.size(), sCookTagInfo_.getBufferPtr()};
+    sead::Buffer<CookTagInfo> cook_item_order{sCookItemOrder_.size(),
+                                              sCookItemOrder_.getBufferPtr()};
 
     sead::SafeArray<sead::SafeString, 7> default_equipment_names{{
         "Weapon_Default_Right",
@@ -128,7 +132,7 @@ PauseMenuDataMgr::PauseMenuDataMgr() {
     mListHeads.fill(nullptr);
     for (s32 i = 0; i < NumPouch50; ++i) {
         mArray1[i] = nullptr;
-        mArray2[i] = -1;
+        mArray2[i] = PouchItemType::Invalid;
     }
     for (auto& x : mArray3)
         x = {};
@@ -146,7 +150,71 @@ PouchItem::PouchItem() {
         mIngredients.emplaceBack();
 }
 
+void PauseMenuDataMgr::resetItem() {
+    mItem.mType = PouchItemType::Invalid;
+    mItem._1c = -1;
+    mItem.mValue = 0;
+    mItem.mValid = false;
+    mItem._25 = 0;
+    mItem.mName.clear();
+    mItem.mData.cook = {};
+    mItem.mData.cook.mCookEffect0 = sDummyCookEffect0;
+}
+
 void PauseMenuDataMgr::init(sead::Heap* heap) {}
+
+void PauseMenuDataMgr::initForNewSave() {
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    for (auto* item = getItems().popFront(); item; item = getItems().popFront()) {
+        item->~PouchItem();
+        new (item) PouchItem;
+        mItemLists.list2.pushFront(item);
+    }
+
+    mListHeads.fill(nullptr);
+    for (s32 i = 0; i < NumPouch50; ++i) {
+        mArray1[i] = nullptr;
+        mArray2[i] = PouchItemType::Invalid;
+    }
+
+    _44498 = {};
+    ksys::gdt::setFlag_KorokNutsNum(0);
+    ksys::gdt::setFlag_DungeonClearSealNum(0);
+    ksys::gdt::setFlag_FairyCountCheck(0);
+    _444fc = {};
+    mItem_44488 = {};
+    mItem_444f0 = {};
+    _444f8 = -1;
+    resetItem();
+    mIsPouchForQuest = false;
+    for (auto& x : mArray3)
+        x = {};
+    _44504 = {};
+    _44508 = {};
+    _4450c = {};
+    _44510 = {};
+    _44514 = {};
+    mRitoSoulItem = {};
+    mGoronSoulItem = {};
+    mZoraSoulItem = {};
+    mGerudoSoulItem = {};
+    _44538 = false;
+    _447e0 = {};
+    _447e8 = {};
+    _447f0 = {};
+    _447f8 = {};
+
+    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    if (player) {
+        player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponRight), 1);
+        player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponLeft), 1);
+        player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponBow), 1);
+        player->switchEquipment(getDefaultEquipment(EquipmentSlot::ArmorHead), 30);
+        player->switchEquipment(getDefaultEquipment(EquipmentSlot::ArmorUpper), 30);
+        player->switchEquipment(getDefaultEquipment(EquipmentSlot::ArmorLower), 30);
+    }
+}
 
 PouchItemType PauseMenuDataMgr::getType(const sead::SafeString& item, al::ByamlIter* iter) {
     sead::SafeString group;
@@ -290,9 +358,11 @@ void PauseMenuDataMgr::setWeaponItemValue(s32 value, PouchItemType type) {
     }
 }
 
-const sead::SafeString& PauseMenuDataMgr::getDefaultEquipment(u32 idx) const {
-    if (idx != 2 && idx < u32(sValues.default_equipment_names.size()))
-        return sValues.default_equipment_names(idx);
+const sead::SafeString& PauseMenuDataMgr::getDefaultEquipment(EquipmentSlot idx) const {
+    if (idx != EquipmentSlot::WeaponArrow &&
+        u32(idx) < u32(sValues.default_equipment_names.size())) {
+        return sValues.default_equipment_names(u32(idx));
+    }
     return sead::SafeString::cEmptyString;
 }
 
@@ -391,6 +461,194 @@ void PauseMenuDataMgr::restoreMasterSword(bool only_if_broken) {
     }
 }
 
+using SortPredicate = int (*)(const PouchItem* lhs, const PouchItem* rhs,
+                              ksys::act::InfoData* data);
+
+static sead::SafeArray<SortPredicate, 7> sSortPredicates{
+    {sortWeapon, sortBow, sortShield, sortArmor, sortMaterial, sortFood, sortKeyItem}};
+
+static PouchCategory getTypeForCategory(PouchItemType type) {
+    static constexpr sead::SafeArray<PouchCategory, NumPouchItemTypes> sMap{{
+        PouchCategory::Weapon,    // Weapon
+        PouchCategory::Bow,       // Bow
+        PouchCategory::Bow,       // Arrow
+        PouchCategory::Shield,    // Shield
+        PouchCategory::Armor,     // ArmorHead
+        PouchCategory::Armor,     // ArmorUpper
+        PouchCategory::Armor,     // ArmorLower
+        PouchCategory::Material,  // Material
+        PouchCategory::Food,      // Food
+        PouchCategory::KeyItem,   // KeyItem
+    }};
+    return sMap[s32(type)];
+}
+
+int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
+    if (!lhs || !rhs)
+        return 0;
+
+    auto* info_data = ksys::act::InfoData::instance();
+    if (!info_data || !lhs->get25() || !rhs->get25())
+        return 0;
+
+    const auto cat1 = getTypeForCategory(lhs->getType());
+    const auto cat2 = getTypeForCategory(rhs->getType());
+    if (cat1 != cat2)
+        return 0;
+
+    const auto cat3 = PauseMenuDataMgr::instance()->get44800();
+    if (cat3 != PouchCategory::Invalid && cat1 != cat3)
+        return 0;
+
+    decltype(sSortPredicates) predicate_table{};
+    sead::MemUtil::copy(&predicate_table, &sSortPredicates, sizeof(predicate_table));
+    const auto* fn = &predicate_table[0];
+    if (u32(cat1) < u32(predicate_table.size()))
+        fn = &predicate_table(u32(cat1));
+    return (*fn)(lhs, rhs, info_data);
+}
+
+static s32 compareSortKeys(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    const auto a = data->getSortKey(lhs->getName().cstr());
+    const auto b = data->getSortKey(rhs->getName().cstr());
+    if (a < b)
+        return -1;
+    if (a > b)
+        return 1;
+    return 0;
+}
+
+int sortArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    if (ksys::gdt::getFlag_SortTypeArmorPouch()) {
+        if (auto cmp = compareSortKeys(lhs, rhs, data))
+            return cmp;
+
+        if (lhs->getType() < rhs->getType())
+            return -1;
+        if (lhs->getType() > rhs->getType())
+            return 1;
+    } else {
+        if (lhs->getType() < rhs->getType())
+            return -1;
+        if (lhs->getType() > rhs->getType())
+            return 1;
+
+        if (auto cmp = compareSortKeys(lhs, rhs, data))
+            return cmp;
+    }
+
+    if (lhs->getCount() < rhs->getCount())
+        return -1;
+    if (lhs->getCount() > rhs->getCount())
+        return 1;
+
+    return 0;
+}
+
+int sortKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    if (auto cmp = compareSortKeys(lhs, rhs, data))
+        return cmp;
+    return 0;
+}
+
+int getCookItemOrder(const PouchItem* item, ksys::act::InfoData* data) {
+    const auto& order = sValues.cook_item_order;
+    al::ByamlIter iter;
+    if (data->getActorIter(&iter, item->getName().cstr())) {
+        for (auto it = order.begin(), end = order.end(); it != end; ++it) {
+            if (it->is_tag == 0 && item->getName() == it->name.cstr())
+                return it.getIndex();
+        }
+
+        for (auto it = order.begin(), end = order.end(); it != end; ++it) {
+            if (it->is_tag == 1 && data->hasTag(iter, it->hash))
+                return it.getIndex();
+        }
+    }
+    return order.size();
+}
+
+int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
+    if (!lhs || !rhs)
+        return 0;
+
+    static constexpr sead::SafeArray<int, NumPouchItemTypes> sMap{{0, 1, 2, 3, 4, 4, 4, 7, 8, 9}};
+    const auto x1 = sMap[s32(lhs->getType())];
+    const auto x2 = sMap[s32(rhs->getType())];
+    if (x1 < x2)
+        return -1;
+    if (x1 > x2)
+        return 1;
+
+    if (lhs->getType() != PouchItemType::Arrow)
+        return 0;
+
+    auto* info_data = ksys::act::InfoData::instance();
+    if (!info_data || !lhs->get25() || !rhs->get25())
+        return 0;
+
+    const auto cat1 = getTypeForCategory(lhs->getType());
+    const auto cat2 = getTypeForCategory(rhs->getType());
+    if (cat1 != cat2)
+        return 0;
+
+    const auto cat3 = PauseMenuDataMgr::instance()->get44800();
+    if (cat3 != PouchCategory::Invalid && cat1 != cat3)
+        return 0;
+
+    decltype(sSortPredicates) predicate_table{};
+    sead::MemUtil::copy(&predicate_table, &sSortPredicates, sizeof(predicate_table));
+    const auto* fn = &predicate_table[0];
+    if (u32(cat1) < u32(predicate_table.size()))
+        fn = &predicate_table(u32(cat1));
+    return (*fn)(lhs, rhs, info_data);
+}
+
+bool PauseMenuDataMgr::isHeroSoulEnabled(const sead::SafeString& name) const {
+    if (name == sValues.Obj_HeroSoul_Zora || name == sValues.Obj_DLC_HeroSoul_Zora) {
+        if (mZoraSoulItem)
+            return mZoraSoulItem->isValid();
+    }
+
+    if (name == sValues.Obj_HeroSoul_Rito || name == sValues.Obj_DLC_HeroSoul_Rito) {
+        if (mRitoSoulItem)
+            return mRitoSoulItem->isValid();
+    }
+
+    if (name == sValues.Obj_HeroSoul_Goron || name == sValues.Obj_DLC_HeroSoul_Goron) {
+        if (mGoronSoulItem)
+            return mGoronSoulItem->isValid();
+    }
+
+    if (name == sValues.Obj_HeroSoul_Gerudo || name == sValues.Obj_DLC_HeroSoul_Gerudo) {
+        if (mGerudoSoulItem)
+            return mGerudoSoulItem->isValid();
+    }
+
+    return false;
+}
+
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+bool PauseMenuDataMgr::hasRitoSoulPlus() const {
+    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Rito() && aoc::Manager::instance()->hasAoc3();
+}
+
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+bool PauseMenuDataMgr::hasGoronSoulPlus() const {
+    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Goron() && aoc::Manager::instance()->hasAoc3();
+}
+
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+bool PauseMenuDataMgr::hasGerudoSoulPlus() const {
+    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Gerudo() &&
+           aoc::Manager::instance()->hasAoc3();
+}
+
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+bool PauseMenuDataMgr::hasZoraSoulPlus() const {
+    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Zora() && aoc::Manager::instance()->hasAoc3();
+}
+
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 void PauseMenuDataMgr::updateDivineBeastClearFlags(int num_cleared_beasts) {
     switch (num_cleared_beasts) {
@@ -417,6 +675,65 @@ void PauseMenuDataMgr::updateDivineBeastClearFlags(int num_cleared_beasts) {
         break;
     default:
         break;
+    }
+}
+
+bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
+    const auto count = countItemsWithType(type);
+    switch (type) {
+    case PouchItemType::Weapon:
+        return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= 20;
+    case PouchItemType::Bow:
+        return ksys::gdt::getFlag_BowPorchStockNum() <= count || count >= 14;
+    case PouchItemType::Arrow:
+        return count >= 6;
+    case PouchItemType::Shield:
+        return ksys::gdt::getFlag_ShieldPorchStockNum() <= count || count >= 20;
+    case PouchItemType::ArmorHead:
+    case PouchItemType::ArmorUpper:
+    case PouchItemType::ArmorLower:
+        return count >= 100;
+    case PouchItemType::Material:
+        return count >= 160;
+    case PouchItemType::Food:
+        return count >= 60;
+    case PouchItemType::KeyItem:
+        return count >= 40;
+    case PouchItemType::Invalid:
+        break;
+    }
+    return true;
+}
+
+void PauseMenuDataMgr::openItemCategoryIfNeeded() const {
+    for (s32 i = 0; i < NumPouch50; ++i) {
+        const auto type = mArray2[i];
+        if (isPouchItemArmor(type)) {
+            ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
+        } else {
+            switch (type) {
+            case PouchItemType::Weapon:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Weapon));
+                break;
+            case PouchItemType::Bow:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Bow));
+                break;
+            case PouchItemType::Shield:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Shield));
+                break;
+            case PouchItemType::Material:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Material));
+                break;
+            case PouchItemType::Food:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Food));
+                break;
+            case PouchItemType::KeyItem:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::KeyItem));
+                break;
+            default:
+                break;
+            }
+        }
     }
 }
 
