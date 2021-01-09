@@ -46,6 +46,9 @@ public:
                           u32 load_req_c);
     void unloadParam(ActorParam* param);
 
+    bool requestLoadActorPack(res::Handle* handle, const sead::SafeString& actor_name,
+                              u32 load_req_c);
+
     ActorParam* loadParamAsync(const char* actor_name, res::Handle* pack_handle,
                                bool* allocated_new, void* x, u32 load_req_c);
     bool finishLoadingActorLink(ActorParam* param, void* x);
@@ -65,8 +68,6 @@ private:
 
     void loadFiles(ActorParam* param, sead::Heap* heap, res::Handle* pack_handle, void* x,
                    u32 load_req_c);
-    bool requestLoadActorPack(res::Handle* handle, const sead::SafeString& actor_name,
-                              u32 load_req_c);
     bool prepareLoadFromActorPack(sead::BufferedSafeString* path, res::LoadRequest* req, void* x,
                                   const sead::SafeString& dir_name,
                                   const sead::SafeString& extension,

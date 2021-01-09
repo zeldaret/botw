@@ -66,6 +66,8 @@ target_sources(uking PRIVATE
   actBaseProcUnit.h
   actDebug.cpp
   actDebug.h
+  actGlobalParameter.cpp
+  actGlobalParameter.h
   actInfoCommon.cpp
   actInfoCommon.h
   actInfoData.cpp
