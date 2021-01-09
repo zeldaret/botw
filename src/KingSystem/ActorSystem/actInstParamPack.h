@@ -66,6 +66,24 @@ public:
         void add(const void* data, const sead::SafeString& name, s32 byte_size, EntryType type);
         void add(ActorCallback* callback, const sead::SafeString& name);
 
+        void add(int data, const sead::SafeString& name) {
+            add(&data, name, sizeof(data), EntryType::Int);
+        }
+
+        void add(u32 data, const sead::SafeString& name) { add(static_cast<int>(data), name); }
+
+        void add(float data, const sead::SafeString& name) {
+            add(&data, name, sizeof(data), EntryType::Float);
+        }
+
+        void add(bool data, const sead::SafeString& name) {
+            add(&data, name, sizeof(data), EntryType::Bool);
+        }
+
+        void add(const sead::Matrix34f& data, const sead::SafeString& name) {
+            add(&data, name, sizeof(data), EntryType::Matrix34);
+        }
+
         bool pop(s32* position, Entry* out_entry);
 
     private:
@@ -100,6 +118,9 @@ public:
 
     Buffer& getBuffer() { return mBuffer; }
     const Buffer& getBuffer() const { return mBuffer; }
+
+    Buffer* operator->() { return &mBuffer; }
+    const Buffer* operator->() const { return &mBuffer; }
 
 private:
     BaseProc* mProc = nullptr;
