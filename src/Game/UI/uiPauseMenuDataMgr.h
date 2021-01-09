@@ -89,25 +89,6 @@ struct CookTagInfo {
 
 class PouchItem {
 public:
-    PouchItem();
-    virtual ~PouchItem() = default;
-
-    PouchItemType getType() const { return mType; }
-    bool isValid() const { return mValid; }
-    u8 get25() const { return _25; }
-    const sead::SafeString& getName() const { return mName; }
-
-    // This is only valid if the item is not a weapon.
-    s32 getCount() const { return getValue(); }
-
-    s32 getValue() const { return mValue; }
-    void setValue(s32 value) { mValue = value; }
-
-    static auto getListNodeOffset() { return offsetof(PouchItem, mListNode); }
-
-private:
-    friend class PauseMenuDataMgr;
-
     struct CookData {
         int mStaminaRecoverX;
         int mStaminaRecoverY;
@@ -122,6 +103,33 @@ private:
         u32 d;
         u32 e;
     };
+
+    PouchItem();
+    virtual ~PouchItem() = default;
+
+    PouchItemType getType() const { return mType; }
+    bool isValid() const { return mValid; }
+    u8 get25() const { return _25; }
+    const sead::SafeString& getName() const { return mName; }
+
+    // This is only valid if the item is not a weapon.
+    s32 getCount() const { return getValue(); }
+
+    s32 getValue() const { return mValue; }
+    void setValue(s32 value) { mValue = value; }
+
+    // Only valid if this is not a weapon.
+    CookData& getCookData() { return mData.cook; }
+    const CookData& getCookData() const { return mData.cook; }
+
+    // Only valid if this is a weapon.
+    WeaponData& getWeaponData() { return mData.weapon; }
+    const WeaponData& getWeaponData() const { return mData.weapon; }
+
+    static auto getListNodeOffset() { return offsetof(PouchItem, mListNode); }
+
+private:
+    friend class PauseMenuDataMgr;
 
     union Data {
         CookData cook;
