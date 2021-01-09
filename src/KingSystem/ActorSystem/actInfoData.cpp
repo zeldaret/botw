@@ -204,7 +204,7 @@ void InfoData::getRecipeInfo(const char* actor, InfoData::RecipeInfo& info) cons
     }
 }
 
-s32 InfoData::getIntByKey(const al::ByamlIter& iter, const char* key, s32 default_) {
+s32 InfoData::getIntByKey(const al::ByamlIter& iter, const char* key, s32 default_, bool) {
     s32 value;
     return iter.tryGetIntByKey(&value, key) ? value : default_;
 }
@@ -511,12 +511,12 @@ bool InfoData::getBool(const char* actor, const char* key, bool default_, bool x
     return getBoolByKey(iter, key, default_);
 }
 
-f32 InfoData::getFloatByKey(const al::ByamlIter& iter, const char* key, f32 default_) {
+f32 InfoData::getFloatByKey(const al::ByamlIter& iter, const char* key, f32 default_, bool) {
     f32 value;
     return iter.tryGetFloatByKey(&value, key) ? value : default_;
 }
 
-bool InfoData::getBoolByKey(const al::ByamlIter& iter, const char* key, bool default_) {
+bool InfoData::getBoolByKey(const al::ByamlIter& iter, const char* key, bool default_, bool) {
     bool value;
     return iter.tryGetBoolByKey(&value, key) ? value != 0 : default_;
 }

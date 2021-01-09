@@ -133,9 +133,12 @@ public:
     f32 getFloat(const char* actor, const char* key, f32 default_ = 0, bool x = true) const;
     bool getBool(const char* actor, const char* key, bool default_ = false, bool x = true) const;
 
-    static s32 getIntByKey(const al::ByamlIter& iter, const char* key, s32 default_ = 0);
-    static f32 getFloatByKey(const al::ByamlIter& iter, const char* key, f32 default_ = 0);
-    static bool getBoolByKey(const al::ByamlIter& iter, const char* key, bool default_ = false);
+    static s32 getIntByKey(const al::ByamlIter& iter, const char* key, s32 default_ = 0,
+                           bool x = true);
+    static f32 getFloatByKey(const al::ByamlIter& iter, const char* key, f32 default_ = 0,
+                             bool x = true);
+    static bool getBoolByKey(const al::ByamlIter& iter, const char* key, bool default_ = false,
+                             bool x = true);
     static const char* getStringByKey(const al::ByamlIter& iter, const char* key,
                                       const sead::SafeString& default_);
 
