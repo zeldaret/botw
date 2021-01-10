@@ -174,7 +174,8 @@ public:
     void initForNewSave();
 
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
-    int countItemsWithType(PouchItemType type, bool x = false) const;
+
+    int countItems(PouchItemType type, bool count_any_weapon = false) const;
 
     bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
@@ -236,6 +237,8 @@ private:
             return nullptr;
         return *p_head;
     }
+
+    PouchItem** getItemHeadp(PouchCategory category) const { return mListHeads[u32(category)]; }
 
     PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
 

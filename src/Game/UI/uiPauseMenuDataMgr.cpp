@@ -266,6 +266,108 @@ PouchItemType PauseMenuDataMgr::getType(const sead::SafeString& item, al::ByamlI
     return PouchItemType::Material;
 }
 
+int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) const {
+    if (isPouchItemInvalid(type) || getItems().isEmpty())
+        return 0;
+
+    const auto& list = getItems();
+
+    if (count_any_weapon) {
+        PouchItem** head = nullptr;
+
+        if (type <= PouchItemType::Shield) {
+            int count = 0;
+            for (auto* item = list.nth(0); item && item->getType() <= PouchItemType::Shield;
+                 item = list.next(item)) {
+                count += item->get25();
+            }
+            return count;
+
+        } else if (type <= PouchItemType::ArmorLower) {
+            int count = 0;
+            for (auto* item = getItemHead(PouchCategory::Armor);
+                 item && item->getType() <= PouchItemType::ArmorLower; item = list.next(item)) {
+                count += item->get25();
+            }
+            return count;
+
+        } else if (type == PouchItemType::Material) {
+            head = getItemHeadp(PouchCategory::Material);
+            if (!head)
+                return 0;
+
+        } else if (type == PouchItemType::Food) {
+            head = getItemHeadp(PouchCategory::Food);
+            if (!head)
+                return 0;
+
+        } else if (type == PouchItemType::KeyItem) {
+            head = getItemHeadp(PouchCategory::KeyItem);
+            if (!head)
+                return 0;
+
+        } else {
+            return 0;
+        }
+
+        if (!head)
+            return 0;
+
+        int count = 0;
+        for (auto* item = *head; item && item->getType() == type; item = list.next(item)) {
+            count += item->get25();
+        }
+        return count;
+    }
+
+    PouchItem* first = nullptr;
+
+    if (type == PouchItemType::Weapon) {
+        first = getItemHead(PouchCategory::Weapon);
+
+    } else if (type == PouchItemType::Bow) {
+        first = getItemHead(PouchCategory::Bow);
+
+    } else if (type == PouchItemType::Arrow) {
+        for (auto* item = getItemHead(PouchCategory::Bow);
+             item && item->getType() <= PouchItemType::Arrow; item = list.next(item)) {
+            if (item->getType() == PouchItemType::Arrow) {
+                first = item;
+                break;
+            }
+        }
+
+    } else if (type == PouchItemType::Shield) {
+        first = getItemHead(PouchCategory::Shield);
+
+    } else if (type <= PouchItemType::ArmorLower) {
+        int count = 0;
+        for (auto* item = getItemHead(PouchCategory::Armor);
+             item && item->getType() <= PouchItemType::ArmorLower; item = list.next(item)) {
+            count += item->get25();
+        }
+        return count;
+
+    } else if (type == PouchItemType::Material) {
+        first = getItemHead(PouchCategory::Material);
+
+    } else if (type == PouchItemType::Food) {
+        first = getItemHead(PouchCategory::Food);
+
+    } else if (type == PouchItemType::KeyItem) {
+        first = getItemHead(PouchCategory::KeyItem);
+
+    } else {
+        return 0;
+    }
+
+    int count = 0;
+    for (auto* item = first; item && item->getType() == type; item = list.next(item)) {
+        count += item->get25();
+    }
+    return count;
+}
+
 bool PauseMenuDataMgr::isWeaponSectionFull(const sead::SafeString& weapon_type) const {
     const auto lock = sead::makeScopedLock(mCritSection);
 
@@ -671,7 +773,7 @@ void PauseMenuDataMgr::updateDivineBeastClearFlags(int num_cleared_beasts) {
 }
 
 bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
-    const auto count = countItemsWithType(type);
+    const auto count = countItems(type);
     switch (type) {
     case PouchItemType::Weapon:
         return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= NumWeaponsMax;
