@@ -1,7 +1,5 @@
 #pragma once
 
-#include <thread/seadThread.h>
-
 namespace ksys::util {
 
 template <typename T>
@@ -27,7 +25,8 @@ inline void safeDeleteThread(T*& thread, bool is_jam = false) {
     safeDelete(thread);
 }
 
-inline void safeDeleteHeap(sead::Heap*& heap) {
+template <typename T>
+inline void safeDeleteHeap(T*& heap) {
     if (heap) {
         heap->destroy();
         heap = nullptr;
