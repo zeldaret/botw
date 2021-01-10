@@ -126,6 +126,15 @@ struct PouchConstants {
 
 PouchConstants sValues;
 
+void getSameGroupActorName(sead::SafeString* group, const sead::SafeString& item,
+                           al::ByamlIter* iter) {
+    if (iter) {
+        ksys::act::getSameGroupActorName(group, item, iter);
+    } else {
+        ksys::act::getSameGroupActorName(group, item);
+    }
+}
+
 }  // namespace
 
 PauseMenuDataMgr::PauseMenuDataMgr() {
@@ -218,11 +227,7 @@ void PauseMenuDataMgr::initForNewSave() {
 
 PouchItemType PauseMenuDataMgr::getType(const sead::SafeString& item, al::ByamlIter* iter) {
     sead::SafeString group;
-    if (iter) {
-        ksys::act::getSameGroupActorName(&group, item, iter);
-    } else {
-        ksys::act::getSameGroupActorName(&group, item);
-    }
+    getSameGroupActorName(&group, item, iter);
 
     al::ByamlIter actor_iter;
     if (iter && iter->isValid() && group == item) {
