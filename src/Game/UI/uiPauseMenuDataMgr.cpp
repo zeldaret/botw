@@ -464,9 +464,6 @@ void PauseMenuDataMgr::restoreMasterSword(bool only_if_broken) {
 using SortPredicate = int (*)(const PouchItem* lhs, const PouchItem* rhs,
                               ksys::act::InfoData* data);
 
-static sead::SafeArray<SortPredicate, 7> sSortPredicates{
-    {sortWeapon, sortBow, sortShield, sortArmor, sortMaterial, sortFood, sortKeyItem}};
-
 static PouchCategory getTypeForCategory(PouchItemType type) {
     static constexpr sead::SafeArray<PouchCategory, NumPouchItemTypes> sMap{{
         PouchCategory::Weapon,    // Weapon
@@ -481,6 +478,12 @@ static PouchCategory getTypeForCategory(PouchItemType type) {
         PouchCategory::KeyItem,   // KeyItem
     }};
     return sMap[s32(type)];
+}
+
+static auto getSortPredicateTable() {
+    sead::SafeArray<SortPredicate, 7> table{
+        {sortWeapon, sortBow, sortShield, sortArmor, sortMaterial, sortFood, sortKeyItem}};
+    return table;
 }
 
 int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
@@ -500,8 +503,7 @@ int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
     if (cat3 != PouchCategory::Invalid && cat1 != cat3)
         return 0;
 
-    decltype(sSortPredicates) predicate_table{};
-    sead::MemUtil::copy(&predicate_table, &sSortPredicates, sizeof(predicate_table));
+    auto predicate_table = getSortPredicateTable();
     const auto* fn = &predicate_table[0];
     if (u32(cat1) < u32(predicate_table.size()))
         fn = &predicate_table(u32(cat1));
@@ -596,8 +598,7 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
     if (cat3 != PouchCategory::Invalid && cat1 != cat3)
         return 0;
 
-    decltype(sSortPredicates) predicate_table{};
-    sead::MemUtil::copy(&predicate_table, &sSortPredicates, sizeof(predicate_table));
+    const auto predicate_table = getSortPredicateTable();
     const auto* fn = &predicate_table[0];
     if (u32(cat1) < u32(predicate_table.size()))
         fn = &predicate_table(u32(cat1));
