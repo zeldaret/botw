@@ -102,26 +102,12 @@ struct PouchConstants {
         "Armor_Default_Lower",
     }};
 
-    sead::SafeString Armor_168_Head = "Armor_168_Head";
-    sead::SafeString Armor_169_Head = "Armor_169_Head";
-    sead::SafeString Armor_181_Head = "Armor_181_Head";
-    sead::SafeString Armor_182_Head = "Armor_182_Head";
-    sead::SafeString Armor_183_Head = "Armor_183_Head";
-    sead::SafeString Armor_184_Head = "Armor_184_Head";
-    sead::SafeString Armor_186_Head = "Armor_186_Head";
-    sead::SafeString Armor_187_Head = "Armor_187_Head";
-    sead::SafeString Armor_188_Head = "Armor_188_Head";
-    sead::SafeString Armor_189_Head = "Armor_189_Head";
-    sead::SafeString Armor_190_Head = "Armor_190_Head";
-    sead::SafeString Armor_191_Head = "Armor_191_Head";
-    sead::SafeString Armor_192_Head = "Armor_192_Head";
-    sead::SafeString Armor_193_Head = "Armor_193_Head";
-    sead::SafeString Armor_194_Head = "Armor_194_Head";
-    sead::SafeString Armor_195_Head = "Armor_195_Head";
-    sead::SafeString Armor_196_Head = "Armor_196_Head";
-    sead::SafeString Armor_197_Head = "Armor_197_Head";
-    sead::SafeString Armor_198_Head = "Armor_198_Head";
-    sead::SafeString Armor_199_Head = "Armor_199_Head";
+    sead::SafeArray<sead::SafeString, 5 * 4> divine_helms{{
+        "Armor_168_Head", "Armor_169_Head", "Armor_181_Head", "Armor_182_Head", "Armor_183_Head",
+        "Armor_184_Head", "Armor_186_Head", "Armor_187_Head", "Armor_188_Head", "Armor_189_Head",
+        "Armor_190_Head", "Armor_191_Head", "Armor_192_Head", "Armor_193_Head", "Armor_194_Head",
+        "Armor_195_Head", "Armor_196_Head", "Armor_197_Head", "Armor_198_Head", "Armor_199_Head",
+    }};
 };
 
 PouchConstants sValues;
