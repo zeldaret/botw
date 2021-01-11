@@ -21,7 +21,20 @@ class InfoData;
 
 namespace uking::ui {
 
-constexpr int NumPouchItemsMax = 420;
+constexpr int NumWeaponsMax = 20;
+constexpr int NumBowsMax = 14;
+constexpr int NumArrowsMax = 6;
+constexpr int NumShieldsMax = 20;
+constexpr int NumArmorsMax = 100;
+constexpr int NumMaterialsMax = 160;
+constexpr int NumFoodMax = 60;
+constexpr int NumKeyItemsMax = 40;
+
+constexpr int NumPouchItemsMax = NumWeaponsMax + NumBowsMax + NumArrowsMax + NumShieldsMax +
+                                 NumArmorsMax + NumMaterialsMax + NumFoodMax + NumKeyItemsMax;
+
+static_assert(NumPouchItemsMax == 420, "NumPouchItemsMax must be 420 for now");
+
 // TODO: figure out what this is
 constexpr int NumPouch50 = 50;
 

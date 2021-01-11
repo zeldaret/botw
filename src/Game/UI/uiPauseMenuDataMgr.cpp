@@ -688,23 +688,23 @@ bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
     const auto count = countItemsWithType(type);
     switch (type) {
     case PouchItemType::Weapon:
-        return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= 20;
+        return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= NumWeaponsMax;
     case PouchItemType::Bow:
-        return ksys::gdt::getFlag_BowPorchStockNum() <= count || count >= 14;
+        return ksys::gdt::getFlag_BowPorchStockNum() <= count || count >= NumBowsMax;
     case PouchItemType::Arrow:
-        return count >= 6;
+        return count >= NumArrowsMax;
     case PouchItemType::Shield:
-        return ksys::gdt::getFlag_ShieldPorchStockNum() <= count || count >= 20;
+        return ksys::gdt::getFlag_ShieldPorchStockNum() <= count || count >= NumShieldsMax;
     case PouchItemType::ArmorHead:
     case PouchItemType::ArmorUpper:
     case PouchItemType::ArmorLower:
-        return count >= 100;
+        return count >= NumArmorsMax;
     case PouchItemType::Material:
-        return count >= 160;
+        return count >= NumMaterialsMax;
     case PouchItemType::Food:
-        return count >= 60;
+        return count >= NumFoodMax;
     case PouchItemType::KeyItem:
-        return count >= 40;
+        return count >= NumKeyItemsMax;
     case PouchItemType::Invalid:
         break;
     }
