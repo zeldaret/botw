@@ -23,17 +23,19 @@ namespace uking::ui {
 
 constexpr int NumWeaponsMax = 20;
 constexpr int NumBowsMax = 14;
-constexpr int NumArrowsMax = 6;
+constexpr int NumArrowItemsMax = 6;
 constexpr int NumShieldsMax = 20;
 constexpr int NumArmorsMax = 100;
 constexpr int NumMaterialsMax = 160;
 constexpr int NumFoodMax = 60;
 constexpr int NumKeyItemsMax = 40;
 
-constexpr int NumPouchItemsMax = NumWeaponsMax + NumBowsMax + NumArrowsMax + NumShieldsMax +
+constexpr int NumPouchItemsMax = NumWeaponsMax + NumBowsMax + NumArrowItemsMax + NumShieldsMax +
                                  NumArmorsMax + NumMaterialsMax + NumFoodMax + NumKeyItemsMax;
 
 static_assert(NumPouchItemsMax == 420, "NumPouchItemsMax must be 420 for now");
+
+constexpr int ItemStackSizeMax = 999;
 
 // TODO: figure out what this is
 constexpr int NumPouch50 = 50;
@@ -172,6 +174,9 @@ class PauseMenuDataMgr {
 public:
     void init(sead::Heap* heap);
     void initForNewSave();
+    void loadFromGameData();
+
+    bool cannotGetItem(const sead::SafeString& name, int n) const;
 
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 
@@ -241,8 +246,13 @@ private:
     PouchItem** getItemHeadp(PouchCategory category) const { return mListHeads[u32(category)]; }
 
     PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
+    bool isList2Empty() const { return mItemLists.list2.isEmpty(); }
 
     void resetItem();
+    void doLoadFromGameData();
+    void updateInventoryInfo(const sead::OffsetList<PouchItem>& list);
+
+    bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 
     /// @param num_cleared_beasts The number of divine beasts that have been done.
     void updateDivineBeastClearFlags(int num_cleared_beasts);

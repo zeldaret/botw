@@ -113,7 +113,7 @@ struct PouchConstants {
 PouchConstants sValues;
 
 void getSameGroupActorName(sead::SafeString* group, const sead::SafeString& item,
-                           al::ByamlIter* iter) {
+                           al::ByamlIter* iter = nullptr) {
     if (iter) {
         ksys::act::getSameGroupActorName(group, item, iter);
     } else {
@@ -211,6 +211,78 @@ void PauseMenuDataMgr::initForNewSave() {
     }
 }
 
+void PauseMenuDataMgr::loadFromGameData() {
+    doLoadFromGameData();
+
+    for (auto& x : mArray3)
+        x = {};
+    mItem_44488 = {};
+    mItem_444f0 = {};
+    _444f8 = -1;
+    resetItem();
+    _444fc = 0;
+    mIsPouchForQuest = false;
+    _447e0 = {};
+    _447e8 = {};
+    _447f0 = {};
+    _447f8 = {};
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+    updateInventoryInfo(getItems());
+}
+
+bool PauseMenuDataMgr::cannotGetItem(const sead::SafeString& name, int n) const {
+    namespace act = ksys::act;
+
+    al::ByamlIter iter;
+    if (!act::InfoData::instance()->getActorIter(&iter, name.cstr()))
+        return true;
+
+    if (!act::InfoData::instance()->hasTag(iter, act::tags::CanGetPouch))
+        return true;
+
+    if (act::InfoData::instance()->getSortKey(name.cstr()) == 99999)
+        return true;
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const auto type = getType(name);
+
+    if (act::InfoData::instance()->hasTag(iter, act::tags::CanStack))
+        return !hasFreeSpaceForItem(mItemLists, name, n);
+
+    if (type <= PouchItemType::Shield) {
+        switch (type) {
+        case PouchItemType::Weapon: {
+            const auto limit = ksys::gdt::getFlag_WeaponPorchStockNum();
+            return isList2Empty() || limit < countItems(PouchItemType::Weapon) + n;
+        }
+        case PouchItemType::Shield: {
+            const auto limit = ksys::gdt::getFlag_ShieldPorchStockNum();
+            return isList2Empty() || limit < countItems(PouchItemType::Shield) + n;
+        }
+        case PouchItemType::Bow: {
+            const auto limit = ksys::gdt::getFlag_BowPorchStockNum();
+            return isList2Empty() || limit < countItems(PouchItemType::Bow) + n;
+        }
+        default: {
+            const auto limit = ksys::gdt::getFlag_WeaponPorchStockNum();
+            return isList2Empty() || limit < countItems(PouchItemType::Weapon, true) + n;
+        }
+        }
+    }
+
+    if (type == PouchItemType::Food)
+        return isList2Empty() || countItems(PouchItemType::Food, true) + n > NumFoodMax;
+
+    if (type == PouchItemType::Material)
+        return isList2Empty() || countItems(PouchItemType::Material) + n > NumMaterialsMax;
+
+    if (type == PouchItemType::KeyItem)
+        return isList2Empty() || countItems(PouchItemType::KeyItem) + n > NumKeyItemsMax;
+
+    return isList2Empty() || countItems(PouchItemType::ArmorHead) + n > NumArmorsMax;
+}
+
 PouchItemType PauseMenuDataMgr::getType(const sead::SafeString& item, al::ByamlIter* iter) {
     sead::SafeString group;
     getSameGroupActorName(&group, item, iter);
@@ -264,6 +336,42 @@ PouchItemType PauseMenuDataMgr::getType(const sead::SafeString& item, al::ByamlI
         return PouchItemType::KeyItem;
 
     return PouchItemType::Material;
+}
+
+bool PauseMenuDataMgr::hasFreeSpaceForItem(const PauseMenuDataMgr::Lists& lists,
+                                           const sead::SafeString& name, int n) const {
+    sead::SafeString group_name;
+    getSameGroupActorName(&group_name, name);
+
+    const int count = getItemCount(group_name);
+    const bool is_arrow =
+        ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::Arrow);
+
+    if (count == 0 && is_arrow) {
+        for (const auto& item : lists.list1) {
+            if (item.getType() == PouchItemType::Arrow && group_name == item.getName())
+                return true;
+        }
+
+        return countItems(PouchItemType::Arrow) < NumArrowItemsMax;
+    }
+
+    if (count == 0) {
+        const auto type = getType(name);
+
+        if (type == PouchItemType::Food)
+            return !lists.list2.isEmpty() && countItems(PouchItemType::Food, true) < NumFoodMax;
+
+        if (type == PouchItemType::Material)
+            return !lists.list2.isEmpty() && countItems(PouchItemType::Material) < NumMaterialsMax;
+
+        if (type == PouchItemType::KeyItem)
+            return !lists.list2.isEmpty() && countItems(PouchItemType::KeyItem) < NumKeyItemsMax;
+
+        return false;
+    }
+
+    return count + n <= ItemStackSizeMax;
 }
 
 int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) const {
@@ -780,7 +888,7 @@ bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
     case PouchItemType::Bow:
         return ksys::gdt::getFlag_BowPorchStockNum() <= count || count >= NumBowsMax;
     case PouchItemType::Arrow:
-        return count >= NumArrowsMax;
+        return count >= NumArrowItemsMax;
     case PouchItemType::Shield:
         return ksys::gdt::getFlag_ShieldPorchStockNum() <= count || count >= NumShieldsMax;
     case PouchItemType::ArmorHead:
