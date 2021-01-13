@@ -57,6 +57,7 @@ enum class WeaponModifier : u32 {
 struct WeaponModifierRanges;
 
 struct WeaponModifierInfo {
+    WeaponModifierInfo() = default;
     explicit WeaponModifierInfo(const ui::PouchItem& item);
     void fromItem(const ui::PouchItem& item);
 

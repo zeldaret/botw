@@ -2,6 +2,7 @@
 #include <container/seadBuffer.h>
 #include <limits>
 #include <prim/seadScopedLock.h>
+#include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -9,6 +10,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
@@ -34,10 +36,11 @@ sead::SafeArray<CookTagInfo, 11> sCookItemOrder_{{
     {0, "Obj_FireWoodBundle", 0},
 }};
 
-struct PouchConstants {
+struct PouchStaticData {
     ksys::util::InitTimeInfoEx info;
 
-    void* _18{};
+    u32 last_added_weapon_add_type{};
+    u32 last_added_weapon_add_value{};
     f32 _20 = std::numeric_limits<f32>::infinity();
     f32 _24 = std::numeric_limits<f32>::infinity();
     f32 _28 = std::numeric_limits<f32>::infinity();
@@ -110,7 +113,7 @@ struct PouchConstants {
     }};
 };
 
-PouchConstants sValues;
+PouchStaticData sValues;
 
 void getSameGroupActorName(sead::SafeString* group, const sead::SafeString& item,
                            al::ByamlIter* iter = nullptr) {
@@ -122,6 +125,9 @@ void getSameGroupActorName(sead::SafeString* group, const sead::SafeString& item
 }
 
 }  // namespace
+
+int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs);
+int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs);
 
 PauseMenuDataMgr::PauseMenuDataMgr() {
     mListHeads.fill(nullptr);
@@ -146,14 +152,23 @@ PouchItem::PouchItem() {
 }
 
 void PauseMenuDataMgr::resetItem() {
-    mItem.mType = PouchItemType::Invalid;
-    mItem._1c = -1;
-    mItem.mValue = 0;
-    mItem.mValid = false;
-    mItem._25 = 0;
-    mItem.mName.clear();
-    mItem.mData.cook = {};
-    mItem.mData.cook.mCookEffect0 = sDummyCookEffect0;
+    mNewlyAddedItem.mType = PouchItemType::Invalid;
+    mNewlyAddedItem._1c = -1;
+    mNewlyAddedItem.mValue = 0;
+    mNewlyAddedItem.mValid = false;
+    mNewlyAddedItem._25 = 0;
+    mNewlyAddedItem.mName.clear();
+    mNewlyAddedItem.mData.cook = {};
+    mNewlyAddedItem.mData.cook.mCookEffect0 = sDummyCookEffect0;
+}
+
+void PauseMenuDataMgr::setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier) {
+    if (modifier && !modifier->flags.isZero()) {
+        item.setWeaponAddType(modifier->flags.getDirect());
+        item.setWeaponAddValue(static_cast<u32>(modifier->value));
+    } else {
+        item.setWeaponAddType(0);
+    }
 }
 
 void PauseMenuDataMgr::init(sead::Heap* heap) {}
@@ -512,6 +527,92 @@ bool PauseMenuDataMgr::isWeaponSectionFull(const sead::SafeString& weapon_type) 
     }
 
     return false;
+}
+
+void PauseMenuDataMgr::itemGet(const sead::SafeString& name, int value,
+                               const act::WeaponModifierInfo* modifier) {
+    if (name.include("Default") || name.include("Extra"))
+        return;
+
+    const auto type = getType(name);
+
+    mNewlyAddedItem.mType = type;
+    mNewlyAddedItem.mValue = value;
+    mNewlyAddedItem._25 = 1;
+    mNewlyAddedItem.mName = name;
+    mNewlyAddedItem.mValid = false;
+
+    if (modifier) {
+        setItemModifier(mNewlyAddedItem, modifier);
+        const auto add_type = modifier->flags.getDirect();
+        const auto add_value = mNewlyAddedItem.getWeaponAddValue();
+        sValues.last_added_weapon_add_type = add_type;
+        sValues.last_added_weapon_add_value = add_value;
+    }
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+    auto& items = getItems();
+    ksys::PlayReportMgr::instance()->reportDebug("PouchGet", name);
+    addToPouch(name, type, items, value, false, modifier);
+    saveToGameData(items);
+}
+
+void PauseMenuDataMgr::updateAfterAddingItem(bool only_sort) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    if (getItems().isEmpty())
+        return;
+
+    _44800 = PouchCategory::Invalid;
+    auto& items = getItems();
+    items.sort(pouchItemSortPredicateForArrow);
+    if (!only_sort) {
+        updateInventoryInfo(items);
+        updateListHeads();
+        saveToGameData(items);
+    }
+}
+
+void PauseMenuDataMgr::updateListHeads() {
+    mListHeads.fill(nullptr);
+    for (s32 i = 0; i < NumPouch50; ++i) {
+        auto& ptr = mArray1[i];
+        switch (mArray2[i]) {
+        case PouchItemType::Weapon:
+            if (!mListHeads[s32(PouchCategory::Weapon)])
+                mListHeads[s32(PouchCategory::Weapon)] = &ptr;
+            break;
+        case PouchItemType::Bow:
+        case PouchItemType::Arrow:
+            if (!mListHeads[s32(PouchCategory::Bow)])
+                mListHeads[s32(PouchCategory::Bow)] = &ptr;
+            break;
+        case PouchItemType::Shield:
+            if (!mListHeads[s32(PouchCategory::Shield)])
+                mListHeads[s32(PouchCategory::Shield)] = &ptr;
+            break;
+        case PouchItemType::ArmorHead:
+        case PouchItemType::ArmorUpper:
+        case PouchItemType::ArmorLower:
+            if (!mListHeads[s32(PouchCategory::Armor)])
+                mListHeads[s32(PouchCategory::Armor)] = &ptr;
+            break;
+        case PouchItemType::Material:
+            if (!mListHeads[s32(PouchCategory::Material)])
+                mListHeads[s32(PouchCategory::Material)] = &ptr;
+            break;
+        case PouchItemType::Food:
+            if (!mListHeads[s32(PouchCategory::Food)])
+                mListHeads[s32(PouchCategory::Food)] = &ptr;
+            break;
+        case PouchItemType::KeyItem:
+            if (!mListHeads[s32(PouchCategory::KeyItem)])
+                mListHeads[s32(PouchCategory::KeyItem)] = &ptr;
+            break;
+        case PouchItemType::Invalid:
+            break;
+        }
+    }
 }
 
 void PauseMenuDataMgr::removeArrow(const sead::SafeString& arrow_name, int count) {

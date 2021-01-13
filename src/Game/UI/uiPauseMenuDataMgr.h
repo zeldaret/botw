@@ -19,6 +19,10 @@ namespace ksys::act {
 class InfoData;
 }
 
+namespace uking::act {
+struct WeaponModifierInfo;
+}
+
 namespace uking::ui {
 
 constexpr int NumWeaponsMax = 20;
@@ -127,6 +131,8 @@ public:
     u8 get25() const { return _25; }
     const sead::SafeString& getName() const { return mName; }
 
+    bool isWeapon() const { return getType() <= PouchItemType::Shield; }
+
     // This is only valid if the item is not a weapon.
     s32 getCount() const { return getValue(); }
 
@@ -140,6 +146,22 @@ public:
     // Only valid if this is a weapon.
     WeaponData& getWeaponData() { return mData.weapon; }
     const WeaponData& getWeaponData() const { return mData.weapon; }
+
+    u32 getWeaponAddValue() const {
+        if (!isWeapon())
+            return 0;
+        return mData.weapon.mAddValue;
+    }
+
+    void setWeaponAddType(u32 type) {
+        if (isWeapon())
+            mData.weapon.mAddType = type;
+    }
+
+    void setWeaponAddValue(u32 value) {
+        if (isWeapon())
+            mData.weapon.mAddValue = value;
+    }
 
     static auto getListNodeOffset() { return offsetof(PouchItem, mListNode); }
 
@@ -181,8 +203,9 @@ public:
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 
     int countItems(PouchItemType type, bool count_any_weapon = false) const;
-
     bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
+
+    void itemGet(const sead::SafeString& name, int value, const act::WeaponModifierInfo* modifier);
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
     int getItemCount(const sead::SafeString& name, bool x = true) const;
     void setWeaponItemValue(s32 value, PouchItemType type);
@@ -249,8 +272,18 @@ private:
     bool isList2Empty() const { return mItemLists.list2.isEmpty(); }
 
     void resetItem();
+    void setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier);
+
     void doLoadFromGameData();
+
     void updateInventoryInfo(const sead::OffsetList<PouchItem>& list);
+    void updateListHeads();
+    void saveToGameData(const sead::OffsetList<PouchItem>& list) const;
+    void updateAfterAddingItem(bool only_sort);
+
+    void addToPouch(const sead::SafeString& name, PouchItemType type,
+                    sead::OffsetList<PouchItem>& list, int value, bool x,
+                    const act::WeaponModifierInfo* modifier = nullptr, bool z = false);
 
     bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 
@@ -281,7 +314,7 @@ private:
     PouchItem* mZoraSoulItem{};
     PouchItem* mGerudoSoulItem{};
     bool _44538 = false;
-    PouchItem mItem;
+    PouchItem mNewlyAddedItem;
 
     /// Indicates if a temporary inventory ("pouch for quest") is being used.
     bool mIsPouchForQuest = false;
