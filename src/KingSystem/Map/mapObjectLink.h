@@ -1,6 +1,13 @@
 #pragma once
 
-#include "KingSystem/Map/mapObject.h"
+#include <basis/seadTypes.h>
+#include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/Utils/Types.h"
+
+namespace ksys::act {
+class ActorLinkConstDataAccess;
+class BaseProc;
+}  // namespace ksys::act
 
 namespace ksys::map {
 

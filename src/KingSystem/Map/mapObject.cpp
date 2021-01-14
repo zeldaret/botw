@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Utils/Debug.h"
 
 namespace ksys::map {

@@ -8,7 +8,6 @@
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/Map/mapDebug.h"
 #include "KingSystem/Map/mapMubinIter.h"
-#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Utils/Types.h"
 

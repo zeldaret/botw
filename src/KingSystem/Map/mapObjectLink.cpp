@@ -1,4 +1,5 @@
 #include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Map/mapObject.h"
 
 namespace ksys::map {
 
