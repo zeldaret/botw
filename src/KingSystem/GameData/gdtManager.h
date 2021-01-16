@@ -379,6 +379,15 @@ public:
         }                                                                                          \
         return NAME(TRAITS::convertValue(value), name);                                            \
     }                                                                                              \
+    inline bool NAME##Special(TRAITS::WrapperArgType value, const sead::SafeString& name,          \
+                              bool debug, bool force = false) {                                    \
+        if (debug) {                                                                               \
+            onChangedByDebug();                                                                    \
+            auto& ref = debug ? getParamBypassPerm() : getParam();                                 \
+            return ref.get().NAME(TRAITS::convertValue(value), name, force);                       \
+        }                                                                                          \
+        return NAME(TRAITS::convertValue(value), name);                                            \
+    }                                                                                              \
                                                                                                    \
     bool NAME(TRAITS::WrapperArgType value, FlagHandle handle, bool debug, s32 sub_idx) {          \
         if (debug) {                                                                               \

@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
   gdtManager.h
   gdtSaveMgr.cpp
   gdtSaveMgr.h
+  gdtSpecialFlags.cpp
+  gdtSpecialFlags.h
   gdtTriggerParam.cpp
   gdtTriggerParam.h
 )
