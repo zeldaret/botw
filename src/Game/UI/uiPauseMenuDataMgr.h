@@ -142,7 +142,6 @@ public:
     s32 getCount() const { return getValue(); }
 
     s32 getValue() const { return mValue; }
-    void setValue(s32 value) { mValue = value; }
 
     // Only valid if this is not a weapon.
     CookData& getCookData() { return mData.cook; }

@@ -353,7 +353,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
                    gdt::getFlag_MasterSwordRecoverTime() <= std::numeric_limits<f32>::epsilon() &&
                    mItem_44488->getValue() <= 0) {
             const s32 new_value = getWeaponInventoryLife(mItem_44488->getName());
-            mItem_44488->setValue(new_value);
+            mItem_44488->mValue = new_value;
             gdt::setFlag_PorchItem_Value1(new_value, idx);
         }
     }
@@ -919,7 +919,7 @@ void PauseMenuDataMgr::setWeaponItemValue(s32 value, PouchItemType type) {
             continue;
         }
 
-        item.setValue(value);
+        item.mValue = value;
         if (idx >= 0 && !mIsPouchForQuest)
             ksys::gdt::setFlag_PorchItem_Value1(value, idx);
 
