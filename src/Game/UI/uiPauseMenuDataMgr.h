@@ -25,7 +25,7 @@ struct WeaponModifierInfo;
 
 namespace uking::ui {
 
-constexpr int NumWeaponsMax = 20;
+constexpr int NumSwordsMax = 20;
 constexpr int NumBowsMax = 14;
 constexpr int NumArrowItemsMax = 6;
 constexpr int NumShieldsMax = 20;
@@ -34,7 +34,7 @@ constexpr int NumMaterialsMax = 160;
 constexpr int NumFoodMax = 60;
 constexpr int NumKeyItemsMax = 40;
 
-constexpr int NumPouchItemsMax = NumWeaponsMax + NumBowsMax + NumArrowItemsMax + NumShieldsMax +
+constexpr int NumPouchItemsMax = NumSwordsMax + NumBowsMax + NumArrowItemsMax + NumShieldsMax +
                                  NumArmorsMax + NumMaterialsMax + NumFoodMax + NumKeyItemsMax;
 
 static_assert(NumPouchItemsMax == 420, "NumPouchItemsMax must be 420 for now");
@@ -45,7 +45,7 @@ constexpr int ItemStackSizeMax = 999;
 constexpr int NumPouch50 = 50;
 
 enum class PouchItemType {
-    Weapon = 0,
+    Sword = 0,
     Bow = 1,
     Arrow = 2,
     Shield = 3,
@@ -61,7 +61,7 @@ enum class PouchItemType {
 constexpr int NumPouchItemTypes = 10;
 
 constexpr bool isPouchItemWeapon(PouchItemType type) {
-    return type == PouchItemType::Weapon || type == PouchItemType::Bow ||
+    return type == PouchItemType::Sword || type == PouchItemType::Bow ||
            type == PouchItemType::Arrow || type == PouchItemType::Shield;
 }
 
@@ -78,7 +78,7 @@ constexpr bool isPouchItemInvalid(PouchItemType type) {
 }
 
 enum class PouchCategory {
-    Weapon = 0,
+    Sword = 0,
     Bow = 1,
     Shield = 2,
     Armor = 3,
@@ -109,6 +109,11 @@ struct CookTagInfo {
 class PouchItem {
 public:
     struct CookData {
+        void setStaminaRecoverX(int x) { mStaminaRecoverX = x; }
+        void setStaminaRecoverY(int y) { mStaminaRecoverY = y; }
+        void setCookEffect1(int effect) { mCookEffect1 = effect; }
+        void setCookEffect0(const sead::Vector2f& effect) { mCookEffect0 = effect; }
+
         int mStaminaRecoverX;
         int mStaminaRecoverY;
         int mCookEffect1;
@@ -142,6 +147,9 @@ public:
     // Only valid if this is not a weapon.
     CookData& getCookData() { return mData.cook; }
     const CookData& getCookData() const { return mData.cook; }
+
+    const sead::SafeString& getIngredient(s32 idx) const { return *mIngredients[idx]; }
+    void setIngredient(s32 idx, const sead::SafeString& value) const { *mIngredients[idx] = value; }
 
     // Only valid if this is a weapon.
     WeaponData& getWeaponData() { return mData.weapon; }
@@ -282,8 +290,9 @@ private:
     void updateAfterAddingItem(bool only_sort);
 
     void addToPouch(const sead::SafeString& name, PouchItemType type,
-                    sead::OffsetList<PouchItem>& list, int value, bool x,
-                    const act::WeaponModifierInfo* modifier = nullptr, bool z = false);
+                    sead::OffsetList<PouchItem>& list, int value, bool equipped,
+                    const act::WeaponModifierInfo* modifier = nullptr,
+                    bool is_inventory_load = false);
 
     bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 

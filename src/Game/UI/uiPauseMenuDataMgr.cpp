@@ -247,6 +247,176 @@ void PauseMenuDataMgr::loadFromGameData() {
     updateInventoryInfo(getItems());
 }
 
+void PauseMenuDataMgr::doLoadFromGameData() {
+    namespace gdt = ksys::gdt;
+    const auto lock = sead::makeScopedLock(mCritSection);
+    auto& items = getItems();
+
+    for (auto* item = items.popFront(); item; item = items.popFront()) {
+        item->~PouchItem();
+        new (item) PouchItem;
+        mItemLists.list2.pushFront(item);
+    }
+
+    mListHeads.fill(nullptr);
+    mRitoSoulItem = nullptr;
+    mGoronSoulItem = nullptr;
+    mZoraSoulItem = nullptr;
+    mGerudoSoulItem = nullptr;
+    for (s32 i = 0; i < NumPouch50; ++i) {
+        mArray1[i] = nullptr;
+        mArray2[i] = PouchItemType::Invalid;
+    }
+
+    s32 num_food = 0;
+    s32 num_swords = 0;
+    s32 num_shields = 0;
+    s32 num_bows = 0;
+    mItem_44488 = nullptr;
+    bool found_travel_medallion = false;
+
+    for (u32 idx = 0; idx < u32(NumPouchItemsMax); ++idx) {
+        const char* item_name;
+        gdt::getFlag_PorchItem(&item_name, idx);
+
+        if (found_travel_medallion || sValues.Obj_WarpDLC == item_name)
+            found_travel_medallion = true;
+
+        if (sead::SafeString(item_name).isEmpty())
+            break;
+
+        const bool equipped = gdt::getFlag_PorchItem_EquipFlag(idx);
+        const s32 value = gdt::getFlag_PorchItem_Value1(idx);
+        const auto type = getType(item_name);
+
+        switch (type) {
+        case PouchItemType::Sword: {
+            act::WeaponModifierInfo info{};
+            info.loadPorchSwordFlag(num_swords);
+            addToPouch(item_name, type, items, value, equipped, &info, true);
+            ++num_swords;
+            break;
+        }
+        case PouchItemType::Bow: {
+            act::WeaponModifierInfo info{};
+            info.loadPorchBowFlag(num_bows);
+            addToPouch(item_name, type, items, value, equipped, &info, true);
+            ++num_bows;
+            break;
+        }
+        case PouchItemType::Shield: {
+            act::WeaponModifierInfo info{};
+            info.loadPorchShieldFlag(num_shields);
+            addToPouch(item_name, type, items, value, equipped, &info, true);
+            ++num_shields;
+            break;
+        }
+        default:
+            addToPouch(item_name, type, items, value, equipped, nullptr, true);
+            break;
+        }
+
+        if (!mItem_44488)
+            continue;
+
+        if (type == PouchItemType::Food) {
+            sead::Vector2f v{0, 0};
+
+            gdt::getFlag_StaminaRecover(&v, num_food);
+            mItem_44488->getCookData().setStaminaRecoverX(v.x);
+            mItem_44488->getCookData().setStaminaRecoverY(v.y);
+
+            gdt::getFlag_CookEffect0(&v, num_food);
+            mItem_44488->getCookData().setCookEffect0(v);
+
+            gdt::getFlag_CookEffect1(&v, num_food);
+            mItem_44488->getCookData().setCookEffect1(v.x);
+
+            gdt::getFlag_CookMaterialName0(&item_name, num_food);
+            mItem_44488->setIngredient(0, item_name);
+
+            gdt::getFlag_CookMaterialName1(&item_name, num_food);
+            mItem_44488->setIngredient(1, item_name);
+
+            gdt::getFlag_CookMaterialName2(&item_name, num_food);
+            mItem_44488->setIngredient(2, item_name);
+
+            gdt::getFlag_CookMaterialName3(&item_name, num_food);
+            mItem_44488->setIngredient(3, item_name);
+
+            gdt::getFlag_CookMaterialName4(&item_name, num_food);
+            mItem_44488->setIngredient(4, item_name);
+
+            ++num_food;
+
+        } else if (type == PouchItemType::Sword && isMasterSwordActorName(mItem_44488->getName()) &&
+                   gdt::getFlag_MasterSwordRecoverTime() <= std::numeric_limits<f32>::epsilon() &&
+                   mItem_44488->getValue() <= 0) {
+            const s32 new_value = getWeaponInventoryLife(mItem_44488->getName());
+            mItem_44488->setValue(new_value);
+            gdt::setFlag_PorchItem_Value1(new_value, idx);
+        }
+    }
+
+    // Add the Travel Medallion (Obj_WarpDLC) to the inventory if it is missing for some reason
+    if (aoc::Manager::instance()->hasAoc2() &&
+        !(found_travel_medallion | !gdt::getFlag_IsGet_Obj_WarpDLC())) {
+        addToPouch(sValues.Obj_WarpDLC.cstr(), PouchItemType::KeyItem, items, 1, false, nullptr,
+                   true);
+    }
+
+    // Add missing champion powers and fix some divine beast related flags
+    // in case something went wrong with the "divine beast cleared" cutscenes
+    bool was_missing_hero_soul = false;
+    s32 num_cleared_beasts = 0;
+
+    if (gdt::getFlag_Clear_RemainsWind()) {
+        ++num_cleared_beasts;
+        if (!mRitoSoulItem) {
+            was_missing_hero_soul = true;
+            addToPouch(sValues.Obj_HeroSoul_Rito.cstr(), PouchItemType::KeyItem, items, 1, true,
+                       nullptr, true);
+            gdt::setFlag_IsPlayed_Demo119_0(true);
+        }
+    }
+
+    if (gdt::getFlag_Clear_RemainsFire()) {
+        ++num_cleared_beasts;
+        if (!mGoronSoulItem) {
+            was_missing_hero_soul = true;
+            addToPouch(sValues.Obj_HeroSoul_Goron.cstr(), PouchItemType::KeyItem, items, 1, true,
+                       nullptr, true);
+            gdt::setFlag_IsPlayed_Demo116_0(true);
+        }
+    }
+
+    if (gdt::getFlag_Clear_RemainsWater()) {
+        ++num_cleared_beasts;
+        if (!mZoraSoulItem) {
+            was_missing_hero_soul = true;
+            addToPouch(sValues.Obj_HeroSoul_Zora.cstr(), PouchItemType::KeyItem, items, 1, true,
+                       nullptr, true);
+            gdt::setFlag_IsPlayed_Demo122_0(true);
+        }
+    }
+
+    if (gdt::getFlag_Clear_RemainsElectric()) {
+        ++num_cleared_beasts;
+        if (!mGerudoSoulItem) {
+            was_missing_hero_soul = true;
+            addToPouch(sValues.Obj_HeroSoul_Gerudo.cstr(), PouchItemType::KeyItem, items, 1, true,
+                       nullptr, true);
+            gdt::setFlag_IsPlayed_Demo125_0(true);
+        }
+    }
+
+    if (was_missing_hero_soul)
+        updateDivineBeastClearFlags(num_cleared_beasts);
+
+    _44490 = -1;
+    _44494 = -1;
+}
+
 bool PauseMenuDataMgr::cannotGetItem(const sead::SafeString& name, int n) const {
     namespace act = ksys::act;
 
@@ -268,9 +438,9 @@ bool PauseMenuDataMgr::cannotGetItem(const sead::SafeString& name, int n) const 
 
     if (type <= PouchItemType::Shield) {
         switch (type) {
-        case PouchItemType::Weapon: {
+        case PouchItemType::Sword: {
             const auto limit = ksys::gdt::getFlag_WeaponPorchStockNum();
-            return isList2Empty() || limit < countItems(PouchItemType::Weapon) + n;
+            return isList2Empty() || limit < countItems(PouchItemType::Sword) + n;
         }
         case PouchItemType::Shield: {
             const auto limit = ksys::gdt::getFlag_ShieldPorchStockNum();
@@ -282,7 +452,7 @@ bool PauseMenuDataMgr::cannotGetItem(const sead::SafeString& name, int n) const 
         }
         default: {
             const auto limit = ksys::gdt::getFlag_WeaponPorchStockNum();
-            return isList2Empty() || limit < countItems(PouchItemType::Weapon, true) + n;
+            return isList2Empty() || limit < countItems(PouchItemType::Sword, true) + n;
         }
         }
     }
@@ -321,11 +491,11 @@ PouchItemType PauseMenuDataMgr::getType(const sead::SafeString& item, al::ByamlI
     const sead::SafeString profile = profile_c;
 
     if (profile == sValues.WeaponSmallSword)
-        return PouchItemType::Weapon;
+        return PouchItemType::Sword;
     if (profile == sValues.WeaponLargeSword)
-        return PouchItemType::Weapon;
+        return PouchItemType::Sword;
     if (profile == sValues.WeaponSpear)
-        return PouchItemType::Weapon;
+        return PouchItemType::Sword;
 
     if (profile == sValues.WeaponBow)
         return PouchItemType::Bow;
@@ -446,8 +616,8 @@ int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) cons
 
     PouchItem* first = nullptr;
 
-    if (type == PouchItemType::Weapon) {
-        first = getItemHead(PouchCategory::Weapon);
+    if (type == PouchItemType::Sword) {
+        first = getItemHead(PouchCategory::Sword);
 
     } else if (type == PouchItemType::Bow) {
         first = getItemHead(PouchCategory::Bow);
@@ -514,8 +684,8 @@ bool PauseMenuDataMgr::isWeaponSectionFull(const sead::SafeString& weapon_type) 
 
     if (weapon_type == sValues.WeaponSmallSword || weapon_type == sValues.WeaponLargeSword ||
         weapon_type == sValues.WeaponSpear) {
-        return check(ksys::gdt::getFlag_WeaponPorchStockNum, PouchCategory::Weapon,
-                     PouchItemType::Weapon);
+        return check(ksys::gdt::getFlag_WeaponPorchStockNum, PouchCategory::Sword,
+                     PouchItemType::Sword);
     }
 
     if (weapon_type == sValues.WeaponBow) {
@@ -579,9 +749,9 @@ void PauseMenuDataMgr::updateListHeads() {
     for (s32 i = 0; i < NumPouch50; ++i) {
         auto& ptr = mArray1[i];
         switch (mArray2[i]) {
-        case PouchItemType::Weapon:
-            if (!mListHeads[s32(PouchCategory::Weapon)])
-                mListHeads[s32(PouchCategory::Weapon)] = &ptr;
+        case PouchItemType::Sword:
+            if (!mListHeads[s32(PouchCategory::Sword)])
+                mListHeads[s32(PouchCategory::Sword)] = &ptr;
             break;
         case PouchItemType::Bow:
         case PouchItemType::Arrow:
@@ -623,7 +793,7 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
     auto* item = list.size() > 0 ? list.nth(0) : nullptr;
     s32 num_food = 0;
     s32 idx = 0;
-    s32 num_weapons = 0;
+    s32 num_swords = 0;
     s32 num_shields = 0;
     s32 num_bows = 0;
 
@@ -662,10 +832,10 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
         ksys::gdt::setFlag_PorchItem_EquipFlag(item->isEquipped(), idx);
         ksys::gdt::setFlag_PorchItem_Value1(value, idx);
         switch (type) {
-        case PouchItemType::Weapon:
-            if (num_weapons < NumWeaponsMax) {
-                act::WeaponModifierInfo(*item).savePorchSwordFlag(num_weapons);
-                ++num_weapons;
+        case PouchItemType::Sword:
+            if (num_swords < NumSwordsMax) {
+                act::WeaponModifierInfo(*item).savePorchSwordFlag(num_swords);
+                ++num_swords;
             }
             break;
         case PouchItemType::Bow:
@@ -697,11 +867,11 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
                 num_food);
             ksys::gdt::setFlag_CookEffect0(item->getCookData().mCookEffect0, num_food);
             ksys::gdt::setFlag_CookEffect1({f32(item->getCookData().mCookEffect1), 0.0}, num_food);
-            ksys::gdt::setFlag_CookMaterialName0(*item->mIngredients[0], num_food);
-            ksys::gdt::setFlag_CookMaterialName1(*item->mIngredients[1], num_food);
-            ksys::gdt::setFlag_CookMaterialName2(*item->mIngredients[2], num_food);
-            ksys::gdt::setFlag_CookMaterialName3(*item->mIngredients[3], num_food);
-            ksys::gdt::setFlag_CookMaterialName4(*item->mIngredients[4], num_food);
+            ksys::gdt::setFlag_CookMaterialName0(item->getIngredient(0), num_food);
+            ksys::gdt::setFlag_CookMaterialName1(item->getIngredient(1), num_food);
+            ksys::gdt::setFlag_CookMaterialName2(item->getIngredient(2), num_food);
+            ksys::gdt::setFlag_CookMaterialName3(item->getIngredient(3), num_food);
+            ksys::gdt::setFlag_CookMaterialName4(item->getIngredient(4), num_food);
             ++num_food;
             break;
         default:
@@ -785,8 +955,8 @@ bool PauseMenuDataMgr::hasItem(const sead::SafeString& name) const {
 PouchItem* PauseMenuDataMgr::getMasterSword() const {
     const auto lock = sead::makeScopedLock(mCritSection);
 
-    for (auto* item = getItemHead(PouchCategory::Weapon); item; item = nextItem(item)) {
-        if (item->getType() != PouchItemType::Weapon)
+    for (auto* item = getItemHead(PouchCategory::Sword); item; item = nextItem(item)) {
+        if (item->getType() != PouchItemType::Sword)
             return nullptr;
         if (item->_25 && item->getName() == "Weapon_Sword_070")
             return item;
@@ -830,7 +1000,7 @@ void PauseMenuDataMgr::breakMasterSword() {
     const auto lock = sead::makeScopedLock(mCritSection);
     s32 idx = 0;
     for (auto& item : getItems()) {
-        if (item.getType() == PouchItemType::Weapon && isMasterSwordActorName(item.getName())) {
+        if (item.getType() == PouchItemType::Sword && isMasterSwordActorName(item.getName())) {
             item.mValue = 0;
             item.mEquipped = false;
             if (!mIsPouchForQuest && idx >= 0) {
@@ -847,7 +1017,7 @@ void PauseMenuDataMgr::restoreMasterSword(bool only_if_broken) {
     const auto lock = sead::makeScopedLock(mCritSection);
     s32 idx = 0;
     for (auto& item : getItems()) {
-        if (item.getType() == PouchItemType::Weapon && isMasterSwordActorName(item.getName())) {
+        if (item.getType() == PouchItemType::Sword && isMasterSwordActorName(item.getName())) {
             if (only_if_broken && item.getValue() > 0)
                 break;
 
@@ -866,7 +1036,7 @@ using SortPredicate = int (*)(const PouchItem* lhs, const PouchItem* rhs,
 
 static PouchCategory getTypeForCategory(PouchItemType type) {
     static constexpr sead::SafeArray<PouchCategory, NumPouchItemTypes> sMap{{
-        PouchCategory::Weapon,    // Weapon
+        PouchCategory::Sword,     // Weapon
         PouchCategory::Bow,       // Bow
         PouchCategory::Bow,       // Arrow
         PouchCategory::Shield,    // Shield
@@ -1082,8 +1252,8 @@ void PauseMenuDataMgr::updateDivineBeastClearFlags(int num_cleared_beasts) {
 bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
     const auto count = countItems(type);
     switch (type) {
-    case PouchItemType::Weapon:
-        return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= NumWeaponsMax;
+    case PouchItemType::Sword:
+        return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= NumSwordsMax;
     case PouchItemType::Bow:
         return ksys::gdt::getFlag_BowPorchStockNum() <= count || count >= NumBowsMax;
     case PouchItemType::Arrow:
@@ -1113,8 +1283,8 @@ void PauseMenuDataMgr::openItemCategoryIfNeeded() const {
             ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
         } else {
             switch (type) {
-            case PouchItemType::Weapon:
-                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Weapon));
+            case PouchItemType::Sword:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Sword));
                 break;
             case PouchItemType::Bow:
                 ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Bow));
