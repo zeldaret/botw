@@ -68,19 +68,19 @@ struct WeaponModifierInfo {
     void loadPorchShieldFlag(int idx);
     void loadPorchBowFlag(int idx);
 
-    void savePorchSwordFlag(int idx);
-    void savePorchShieldFlag(int idx);
-    void savePorchBowFlag(int idx);
+    void savePorchSwordFlag(int idx) const;
+    void savePorchShieldFlag(int idx) const;
+    void savePorchBowFlag(int idx) const;
 
     void loadEquipStandSwordFlag(int idx);
     void loadEquipStandShieldFlag(int idx);
     void loadEquipStandBowFlag(int idx);
 
-    void saveEquipStandSwordFlag(int idx);
-    void saveEquipStandShieldFlag(int idx);
-    void saveEquipStandBowFlag(int idx);
+    void saveEquipStandSwordFlag(int idx) const;
+    void saveEquipStandShieldFlag(int idx) const;
+    void saveEquipStandBowFlag(int idx) const;
 
-    void addModifierParams(ksys::act::InstParamPack& params);
+    void addModifierParams(ksys::act::InstParamPack& params) const;
     void set(u32 type_, u32 value_);
     static void addModifierParams(WeaponModifierInfo* self, ksys::evt::OrderParam& params);
     static void addModifierParams(WeaponModifierInfo* self, ksys::act::ai::InlineParamPack& params);

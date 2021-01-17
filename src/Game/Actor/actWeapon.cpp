@@ -49,17 +49,17 @@ void WeaponModifierInfo::loadPorchBowFlag(int idx) {
     set(ksys::gdt::getFlag_PorchBow_FlagSp(idx), ksys::gdt::getFlag_PorchBow_ValueSp(idx));
 }
 
-void WeaponModifierInfo::savePorchSwordFlag(int idx) {
+void WeaponModifierInfo::savePorchSwordFlag(int idx) const {
     ksys::gdt::setFlag_PorchSword_FlagSp(flags.getDirect(), idx);
     ksys::gdt::setFlag_PorchSword_ValueSp(value, idx);
 }
 
-void WeaponModifierInfo::savePorchShieldFlag(int idx) {
+void WeaponModifierInfo::savePorchShieldFlag(int idx) const {
     ksys::gdt::setFlag_PorchShield_FlagSp(flags.getDirect(), idx);
     ksys::gdt::setFlag_PorchShield_ValueSp(value, idx);
 }
 
-void WeaponModifierInfo::savePorchBowFlag(int idx) {
+void WeaponModifierInfo::savePorchBowFlag(int idx) const {
     ksys::gdt::setFlag_PorchBow_FlagSp(flags.getDirect(), idx);
     ksys::gdt::setFlag_PorchBow_ValueSp(value, idx);
 }
@@ -79,22 +79,22 @@ void WeaponModifierInfo::loadEquipStandBowFlag(int idx) {
         ksys::gdt::getFlag_EquipStandBow_ValueSp(idx));
 }
 
-void WeaponModifierInfo::saveEquipStandSwordFlag(int idx) {
+void WeaponModifierInfo::saveEquipStandSwordFlag(int idx) const {
     ksys::gdt::setFlag_EquipStandSword_FlagSp(flags.getDirect(), idx);
     ksys::gdt::setFlag_EquipStandSword_ValueSp(value, idx);
 }
 
-void WeaponModifierInfo::saveEquipStandShieldFlag(int idx) {
+void WeaponModifierInfo::saveEquipStandShieldFlag(int idx) const {
     ksys::gdt::setFlag_EquipStandShield_FlagSp(flags.getDirect(), idx);
     ksys::gdt::setFlag_EquipStandShield_ValueSp(value, idx);
 }
 
-void WeaponModifierInfo::saveEquipStandBowFlag(int idx) {
+void WeaponModifierInfo::saveEquipStandBowFlag(int idx) const {
     ksys::gdt::setFlag_EquipStandBow_FlagSp(flags.getDirect(), idx);
     ksys::gdt::setFlag_EquipStandBow_ValueSp(value, idx);
 }
 
-void WeaponModifierInfo::addModifierParams(ksys::act::InstParamPack& params) {
+void WeaponModifierInfo::addModifierParams(ksys::act::InstParamPack& params) const {
     params->add(value, "AddParam");
     params->add(flags.getDirect(), "AddSpecialFlag");
 }
