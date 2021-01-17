@@ -162,6 +162,7 @@ void PauseMenuDataMgr::resetItem() {
     mNewlyAddedItem.mData.cook.mCookEffect0 = sDummyCookEffect0;
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 void PauseMenuDataMgr::setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier) {
     if (modifier && !modifier->flags.isZero()) {
         item.setWeaponAddType(modifier->flags.getDirect());
@@ -191,7 +192,7 @@ void PauseMenuDataMgr::initForNewSave() {
     _44498 = {};
     ksys::gdt::setFlag_KorokNutsNum(0);
     ksys::gdt::setFlag_DungeonClearSealNum(0);
-    ksys::gdt::setFlag_FairyCountCheck(0);
+    ksys::gdt::setFlag_FairyCountCheck(false);
     _444fc = {};
     mItem_44488 = {};
     mItem_444f0 = {};
@@ -756,6 +757,7 @@ void PauseMenuDataMgr::setWeaponItemValue(s32 value, PouchItemType type) {
     }
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 const sead::SafeString& PauseMenuDataMgr::getDefaultEquipment(EquipmentSlot idx) const {
     if (idx != EquipmentSlot::WeaponArrow &&
         u32(idx) < u32(sValues.default_equipment_names.size())) {
