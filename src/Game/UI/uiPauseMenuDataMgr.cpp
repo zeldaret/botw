@@ -1,6 +1,7 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include <container/seadBuffer.h>
 #include <limits>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocManager.h"
@@ -10,6 +11,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
@@ -250,9 +252,9 @@ void PauseMenuDataMgr::loadFromGameData() {
 void PauseMenuDataMgr::doLoadFromGameData() {
     namespace gdt = ksys::gdt;
     const auto lock = sead::makeScopedLock(mCritSection);
-    auto& items = getItems();
+    auto& lists = mItemLists;
 
-    for (auto* item = items.popFront(); item; item = items.popFront()) {
+    for (auto* item = lists.list1.popFront(); item; item = lists.list1.popFront()) {
         item->~PouchItem();
         new (item) PouchItem;
         mItemLists.list2.pushFront(item);
@@ -293,26 +295,26 @@ void PauseMenuDataMgr::doLoadFromGameData() {
         case PouchItemType::Sword: {
             act::WeaponModifierInfo info{};
             info.loadPorchSwordFlag(num_swords);
-            addToPouch(item_name, type, items, value, equipped, &info, true);
+            addToPouch(item_name, type, lists, value, equipped, &info, true);
             ++num_swords;
             break;
         }
         case PouchItemType::Bow: {
             act::WeaponModifierInfo info{};
             info.loadPorchBowFlag(num_bows);
-            addToPouch(item_name, type, items, value, equipped, &info, true);
+            addToPouch(item_name, type, lists, value, equipped, &info, true);
             ++num_bows;
             break;
         }
         case PouchItemType::Shield: {
             act::WeaponModifierInfo info{};
             info.loadPorchShieldFlag(num_shields);
-            addToPouch(item_name, type, items, value, equipped, &info, true);
+            addToPouch(item_name, type, lists, value, equipped, &info, true);
             ++num_shields;
             break;
         }
         default:
-            addToPouch(item_name, type, items, value, equipped, nullptr, true);
+            addToPouch(item_name, type, lists, value, equipped, nullptr, true);
             break;
         }
 
@@ -350,7 +352,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
             ++num_food;
 
         } else if (type == PouchItemType::Sword && isMasterSwordActorName(mItem_44488->getName()) &&
-                   gdt::getFlag_MasterSwordRecoverTime() <= std::numeric_limits<f32>::epsilon() &&
+                   gdt::getFlag_MasterSwordRecoverTime() <= sead::Mathf::epsilon() &&
                    mItem_44488->getValue() <= 0) {
             const s32 new_value = getWeaponInventoryLife(mItem_44488->getName());
             mItem_44488->mValue = new_value;
@@ -361,7 +363,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     // Add the Travel Medallion (Obj_WarpDLC) to the inventory if it is missing for some reason
     if (aoc::Manager::instance()->hasAoc2() &&
         !(found_travel_medallion | !gdt::getFlag_IsGet_Obj_WarpDLC())) {
-        addToPouch(sValues.Obj_WarpDLC.cstr(), PouchItemType::KeyItem, items, 1, false, nullptr,
+        addToPouch(sValues.Obj_WarpDLC.cstr(), PouchItemType::KeyItem, lists, 1, false, nullptr,
                    true);
     }
 
@@ -374,7 +376,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
         ++num_cleared_beasts;
         if (!mRitoSoulItem) {
             was_missing_hero_soul = true;
-            addToPouch(sValues.Obj_HeroSoul_Rito.cstr(), PouchItemType::KeyItem, items, 1, true,
+            addToPouch(sValues.Obj_HeroSoul_Rito.cstr(), PouchItemType::KeyItem, lists, 1, true,
                        nullptr, true);
             gdt::setFlag_IsPlayed_Demo119_0(true);
         }
@@ -384,7 +386,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
         ++num_cleared_beasts;
         if (!mGoronSoulItem) {
             was_missing_hero_soul = true;
-            addToPouch(sValues.Obj_HeroSoul_Goron.cstr(), PouchItemType::KeyItem, items, 1, true,
+            addToPouch(sValues.Obj_HeroSoul_Goron.cstr(), PouchItemType::KeyItem, lists, 1, true,
                        nullptr, true);
             gdt::setFlag_IsPlayed_Demo116_0(true);
         }
@@ -394,7 +396,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
         ++num_cleared_beasts;
         if (!mZoraSoulItem) {
             was_missing_hero_soul = true;
-            addToPouch(sValues.Obj_HeroSoul_Zora.cstr(), PouchItemType::KeyItem, items, 1, true,
+            addToPouch(sValues.Obj_HeroSoul_Zora.cstr(), PouchItemType::KeyItem, lists, 1, true,
                        nullptr, true);
             gdt::setFlag_IsPlayed_Demo122_0(true);
         }
@@ -404,7 +406,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
         ++num_cleared_beasts;
         if (!mGerudoSoulItem) {
             was_missing_hero_soul = true;
-            addToPouch(sValues.Obj_HeroSoul_Gerudo.cstr(), PouchItemType::KeyItem, items, 1, true,
+            addToPouch(sValues.Obj_HeroSoul_Gerudo.cstr(), PouchItemType::KeyItem, lists, 1, true,
                        nullptr, true);
             gdt::setFlag_IsPlayed_Demo125_0(true);
         }
@@ -722,10 +724,10 @@ void PauseMenuDataMgr::itemGet(const sead::SafeString& name, int value,
     }
 
     const auto lock = sead::makeScopedLock(mCritSection);
-    auto& items = getItems();
+    auto& lists = mItemLists;
     ksys::PlayReportMgr::instance()->reportDebug("PouchGet", name);
-    addToPouch(name, type, items, value, false, modifier);
-    saveToGameData(items);
+    addToPouch(name, type, lists, value, false, modifier);
+    saveToGameData(lists.list1);
 }
 
 void PauseMenuDataMgr::updateAfterAddingItem(bool only_sort) {
@@ -745,45 +747,105 @@ void PauseMenuDataMgr::updateAfterAddingItem(bool only_sort) {
 }
 
 void PauseMenuDataMgr::updateListHeads() {
-    mListHeads.fill(nullptr);
+    for (s32 i = 0; i < mListHeads.size(); ++i)
+        mListHeads[i] = nullptr;
+
+    const auto set_if_null = [&](PouchCategory cat, s32 i) {
+        if (!mListHeads[s32(cat)])
+            mListHeads[s32(cat)] = &mArray1[i];
+    };
+
     for (s32 i = 0; i < NumPouch50; ++i) {
-        auto& ptr = mArray1[i];
+        if (mArray2[i] == PouchItemType::Invalid)
+            continue;
+
         switch (mArray2[i]) {
         case PouchItemType::Sword:
-            if (!mListHeads[s32(PouchCategory::Sword)])
-                mListHeads[s32(PouchCategory::Sword)] = &ptr;
+            set_if_null(PouchCategory::Sword, i);
             break;
         case PouchItemType::Bow:
         case PouchItemType::Arrow:
-            if (!mListHeads[s32(PouchCategory::Bow)])
-                mListHeads[s32(PouchCategory::Bow)] = &ptr;
+            set_if_null(PouchCategory::Bow, i);
             break;
         case PouchItemType::Shield:
-            if (!mListHeads[s32(PouchCategory::Shield)])
-                mListHeads[s32(PouchCategory::Shield)] = &ptr;
+            set_if_null(PouchCategory::Shield, i);
             break;
         case PouchItemType::ArmorHead:
         case PouchItemType::ArmorUpper:
         case PouchItemType::ArmorLower:
-            if (!mListHeads[s32(PouchCategory::Armor)])
-                mListHeads[s32(PouchCategory::Armor)] = &ptr;
+            set_if_null(PouchCategory::Armor, i);
             break;
         case PouchItemType::Material:
-            if (!mListHeads[s32(PouchCategory::Material)])
-                mListHeads[s32(PouchCategory::Material)] = &ptr;
+            set_if_null(PouchCategory::Material, i);
             break;
         case PouchItemType::Food:
-            if (!mListHeads[s32(PouchCategory::Food)])
-                mListHeads[s32(PouchCategory::Food)] = &ptr;
+            set_if_null(PouchCategory::Food, i);
             break;
         case PouchItemType::KeyItem:
-            if (!mListHeads[s32(PouchCategory::KeyItem)])
-                mListHeads[s32(PouchCategory::KeyItem)] = &ptr;
+            set_if_null(PouchCategory::KeyItem, i);
             break;
         case PouchItemType::Invalid:
             break;
         }
     }
+}
+
+void PauseMenuDataMgr::addToPouch(const sead::SafeString& name, PouchItemType type, Lists& lists,
+                                  int value, bool equipped, const act::WeaponModifierInfo* modifier,
+                                  bool is_inventory_load) {
+    if (ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::CanGetCollectSet))
+        return;
+
+    if (type == PouchItemType::KeyItem) {
+        // If this is a key item and duplicates are not allowed, we need to check
+        // whether the item is already in the inventory. If it is, do not add it again.
+        if (!ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::CanStack)) {
+            for (auto* item = getItemHead(PouchCategory::KeyItem);
+                 item && item->getType() == PouchItemType::KeyItem; item = lists.list1.next(item)) {
+                if (item->get25() && item->getName() == name)
+                    return;
+            }
+        }
+
+    } else if (type == PouchItemType::Sword && isMasterSwordActorName(name)) {
+        // Duplicates are not allowed for the Master Sword.
+        // Adding a second Master Sword should just refresh the item value or equipped status.
+        for (auto* item = getItemHead(PouchCategory::Sword);
+             item && item->getType() == PouchItemType::Sword; item = lists.list1.next(item)) {
+            if (!item->get25() || item->getName() != name)
+                continue;
+
+            if (ksys::gdt::getFlag_MasterSwordRecoverTime() <= sead::Mathf::epsilon()) {
+                if (item->getValue() <= 0)
+                    item->mValue = value;
+            } else {
+                item->mValue = 0;
+                item->mEquipped = false;
+            }
+
+            mItem_44488 = item->mValue > 0 ? item : nullptr;
+            resetItem();
+            return;
+        }
+    }
+
+    if (type != PouchItemType::Invalid) {
+        doAddToPouch(type, name, lists, value, equipped, modifier, is_inventory_load);
+
+        updateAfterAddingItem(true);
+        updateInventoryInfo(lists.list1);
+        updateListHeads();
+
+        if (name == sValues.Obj_KorokNuts)
+            ksys::gdt::setFlag_KorokNutsNum(getItemCount(name));
+        else if (name == sValues.Obj_DungeonClearSeal)
+            ksys::gdt::setFlag_DungeonClearSealNum(getItemCount(name));
+    }
+
+    sead::SafeString same_group_actor_name;
+    ksys::act::getSameGroupActorName(&same_group_actor_name, name);
+    ksys::gdt::setIsGetItem(same_group_actor_name, true);
+    ksys::gdt::setIsGetItem2(same_group_actor_name, true);
 }
 
 void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) const {

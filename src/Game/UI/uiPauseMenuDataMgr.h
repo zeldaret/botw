@@ -288,10 +288,13 @@ private:
     void saveToGameData(const sead::OffsetList<PouchItem>& list) const;
     void updateAfterAddingItem(bool only_sort);
 
-    void addToPouch(const sead::SafeString& name, PouchItemType type,
-                    sead::OffsetList<PouchItem>& list, int value, bool equipped,
-                    const act::WeaponModifierInfo* modifier = nullptr,
+    void addToPouch(const sead::SafeString& name, PouchItemType type, Lists& lists, int value,
+                    bool equipped, const act::WeaponModifierInfo* modifier = nullptr,
                     bool is_inventory_load = false);
+
+    void doAddToPouch(PouchItemType type, const sead::SafeString& name, Lists& lists, int value,
+                      bool equipped, const act::WeaponModifierInfo* modifier = nullptr,
+                      bool is_inventory_load = false);
 
     bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 
