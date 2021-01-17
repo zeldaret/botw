@@ -155,7 +155,7 @@ void PauseMenuDataMgr::resetItem() {
     mNewlyAddedItem.mType = PouchItemType::Invalid;
     mNewlyAddedItem._1c = -1;
     mNewlyAddedItem.mValue = 0;
-    mNewlyAddedItem.mValid = false;
+    mNewlyAddedItem.mEquipped = false;
     mNewlyAddedItem._25 = 0;
     mNewlyAddedItem.mName.clear();
     mNewlyAddedItem.mData.cook = {};
@@ -540,7 +540,7 @@ void PauseMenuDataMgr::itemGet(const sead::SafeString& name, int value,
     mNewlyAddedItem.mValue = value;
     mNewlyAddedItem._25 = 1;
     mNewlyAddedItem.mName = name;
-    mNewlyAddedItem.mValid = false;
+    mNewlyAddedItem.mEquipped = false;
 
     if (modifier) {
         setItemModifier(mNewlyAddedItem, modifier);
@@ -615,6 +615,102 @@ void PauseMenuDataMgr::updateListHeads() {
     }
 }
 
+void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) const {
+    if (mIsPouchForQuest)
+        return;
+
+    auto* item = list.size() > 0 ? list.nth(0) : nullptr;
+    s32 num_food = 0;
+    s32 idx = 0;
+    s32 num_weapons = 0;
+    s32 num_shields = 0;
+    s32 num_bows = 0;
+
+    for (idx = 0; idx < NumPouchItemsMax; ++idx) {
+        if (!item) {
+            ksys::gdt::setFlag_PorchItem({}, idx);
+            ksys::gdt::setFlag_PorchItem_EquipFlag(false, idx);
+            ksys::gdt::setFlag_PorchItem_Value1(0, idx);
+            continue;
+        }
+
+        while (item && !item->get25()) {
+#ifdef MATCHING_HACK_NX_CLANG
+            asm("");  // Prevent list.mOffset from being loaded too early
+#endif
+            item = list.next(item);
+        }
+
+        if (!item) {
+            ksys::gdt::setFlag_PorchItem({}, idx);
+            ksys::gdt::setFlag_PorchItem_EquipFlag(false, idx);
+            ksys::gdt::setFlag_PorchItem_Value1(0, idx);
+            return;
+        }
+
+        sead::FixedSafeString<64> name{item->getName()};
+        s32 value = item->getValue();
+        for (const auto& entry : mArray3) {
+            if (entry.item == item) {
+                value +=
+                    ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::CanStack);
+            }
+        }
+        const auto type = item->getType();
+        ksys::gdt::setFlag_PorchItem(name, idx);
+        ksys::gdt::setFlag_PorchItem_EquipFlag(item->isEquipped(), idx);
+        ksys::gdt::setFlag_PorchItem_Value1(value, idx);
+        switch (type) {
+        case PouchItemType::Weapon:
+            if (num_weapons < NumWeaponsMax) {
+                act::WeaponModifierInfo(*item).savePorchSwordFlag(num_weapons);
+                ++num_weapons;
+            }
+            break;
+        case PouchItemType::Bow:
+            if (num_bows < NumBowsMax) {
+                act::WeaponModifierInfo(*item).savePorchBowFlag(num_bows);
+                ++num_bows;
+            }
+            break;
+        case PouchItemType::Arrow:
+            break;
+        case PouchItemType::Shield:
+            if (num_shields < NumShieldsMax) {
+                act::WeaponModifierInfo(*item).savePorchShieldFlag(num_shields);
+                ++num_shields;
+            }
+            break;
+        case PouchItemType::ArmorHead:
+        case PouchItemType::ArmorUpper:
+        case PouchItemType::ArmorLower:
+        case PouchItemType::Material:
+            break;
+        case PouchItemType::Food:
+            if (num_food >= NumFoodMax)
+                break;
+
+            ksys::gdt::setFlag_StaminaRecover(
+                {static_cast<f32>(item->getCookData().mStaminaRecoverX),
+                 static_cast<f32>(item->getCookData().mStaminaRecoverY) * 30.0f / 30.0f},
+                num_food);
+            ksys::gdt::setFlag_CookEffect0(item->getCookData().mCookEffect0, num_food);
+            ksys::gdt::setFlag_CookEffect1({f32(item->getCookData().mCookEffect1), 0.0}, num_food);
+            ksys::gdt::setFlag_CookMaterialName0(*item->mIngredients[0], num_food);
+            ksys::gdt::setFlag_CookMaterialName1(*item->mIngredients[1], num_food);
+            ksys::gdt::setFlag_CookMaterialName2(*item->mIngredients[2], num_food);
+            ksys::gdt::setFlag_CookMaterialName3(*item->mIngredients[3], num_food);
+            ksys::gdt::setFlag_CookMaterialName4(*item->mIngredients[4], num_food);
+            ++num_food;
+            break;
+        default:
+            break;
+        }
+
+        item = list.next(item);
+    }
+}
+
 void PauseMenuDataMgr::removeArrow(const sead::SafeString& arrow_name, int count) {
     if (!ksys::act::InfoData::instance()->hasTag(arrow_name.cstr(), ksys::act::tags::Arrow))
         return;
@@ -647,7 +743,7 @@ void PauseMenuDataMgr::setWeaponItemValue(s32 value, PouchItemType type) {
 
     s32 idx = 0;
     for (auto& item : getItems()) {
-        if (!item.isValid() || item.getType() != type) {
+        if (!item.isEquipped() || item.getType() != type) {
             ++idx;
             continue;
         }
@@ -734,7 +830,7 @@ void PauseMenuDataMgr::breakMasterSword() {
     for (auto& item : getItems()) {
         if (item.getType() == PouchItemType::Weapon && isMasterSwordActorName(item.getName())) {
             item.mValue = 0;
-            item.mValid = false;
+            item.mEquipped = false;
             if (!mIsPouchForQuest && idx >= 0) {
                 ksys::gdt::setFlag_PorchItem_Value1(0, idx);
                 ksys::gdt::setFlag_PorchItem_EquipFlag(false, idx);
@@ -910,22 +1006,22 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
 bool PauseMenuDataMgr::isHeroSoulEnabled(const sead::SafeString& name) const {
     if (name == sValues.Obj_HeroSoul_Zora || name == sValues.Obj_DLC_HeroSoul_Zora) {
         if (mZoraSoulItem)
-            return mZoraSoulItem->isValid();
+            return mZoraSoulItem->isEquipped();
     }
 
     if (name == sValues.Obj_HeroSoul_Rito || name == sValues.Obj_DLC_HeroSoul_Rito) {
         if (mRitoSoulItem)
-            return mRitoSoulItem->isValid();
+            return mRitoSoulItem->isEquipped();
     }
 
     if (name == sValues.Obj_HeroSoul_Goron || name == sValues.Obj_DLC_HeroSoul_Goron) {
         if (mGoronSoulItem)
-            return mGoronSoulItem->isValid();
+            return mGoronSoulItem->isEquipped();
     }
 
     if (name == sValues.Obj_HeroSoul_Gerudo || name == sValues.Obj_DLC_HeroSoul_Gerudo) {
         if (mGerudoSoulItem)
-            return mGerudoSoulItem->isValid();
+            return mGerudoSoulItem->isEquipped();
     }
 
     return false;

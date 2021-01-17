@@ -127,7 +127,7 @@ public:
     virtual ~PouchItem() = default;
 
     PouchItemType getType() const { return mType; }
-    bool isValid() const { return mValid; }
+    bool isEquipped() const { return mEquipped; }
     u8 get25() const { return _25; }
     const sead::SafeString& getName() const { return mName; }
 
@@ -179,7 +179,7 @@ private:
     PouchItemType mType = PouchItemType::Invalid;
     s32 _1c = -1;
     s32 mValue = 0;
-    bool mValid = false;
+    bool mEquipped = false;
     u8 _25 = 1;
     sead::FixedSafeString<64> mName;
     Data mData{};
