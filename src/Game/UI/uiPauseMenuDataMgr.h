@@ -306,7 +306,7 @@ private:
     sead::SafeArray<PouchItem**, NumPouchCategories> mListHeads;
     sead::SafeArray<PouchItem*, NumPouch50> mArray1;
     sead::SafeArray<PouchItemType, NumPouch50> mArray2;
-    PouchItem* mItem_44488{};
+    PouchItem* mLastAddedItem{};
     s32 _44490 = -1;
     s32 _44494 = -1;
     s32 _44498{};

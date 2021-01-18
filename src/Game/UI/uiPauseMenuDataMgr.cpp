@@ -196,7 +196,7 @@ void PauseMenuDataMgr::initForNewSave() {
     ksys::gdt::setFlag_DungeonClearSealNum(0);
     ksys::gdt::setFlag_FairyCountCheck(false);
     _444fc = {};
-    mItem_44488 = {};
+    mLastAddedItem = {};
     mItem_444f0 = {};
     _444f8 = -1;
     resetItem();
@@ -234,7 +234,7 @@ void PauseMenuDataMgr::loadFromGameData() {
 
     for (auto& x : mArray3)
         x = {};
-    mItem_44488 = {};
+    mLastAddedItem = {};
     mItem_444f0 = {};
     _444f8 = -1;
     resetItem();
@@ -274,7 +274,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     s32 num_swords = 0;
     s32 num_shields = 0;
     s32 num_bows = 0;
-    mItem_44488 = nullptr;
+    mLastAddedItem = nullptr;
     bool found_travel_medallion = false;
 
     for (u32 idx = 0; idx < u32(NumPouchItemsMax); ++idx) {
@@ -318,44 +318,45 @@ void PauseMenuDataMgr::doLoadFromGameData() {
             break;
         }
 
-        if (!mItem_44488)
+        if (!mLastAddedItem)
             continue;
 
         if (type == PouchItemType::Food) {
             sead::Vector2f v{0, 0};
 
             gdt::getFlag_StaminaRecover(&v, num_food);
-            mItem_44488->getCookData().setStaminaRecoverX(v.x);
-            mItem_44488->getCookData().setStaminaRecoverY(v.y);
+            mLastAddedItem->getCookData().setStaminaRecoverX(v.x);
+            mLastAddedItem->getCookData().setStaminaRecoverY(v.y);
 
             gdt::getFlag_CookEffect0(&v, num_food);
-            mItem_44488->getCookData().setCookEffect0(v);
+            mLastAddedItem->getCookData().setCookEffect0(v);
 
             gdt::getFlag_CookEffect1(&v, num_food);
-            mItem_44488->getCookData().setCookEffect1(v.x);
+            mLastAddedItem->getCookData().setCookEffect1(v.x);
 
             gdt::getFlag_CookMaterialName0(&item_name, num_food);
-            mItem_44488->setIngredient(0, item_name);
+            mLastAddedItem->setIngredient(0, item_name);
 
             gdt::getFlag_CookMaterialName1(&item_name, num_food);
-            mItem_44488->setIngredient(1, item_name);
+            mLastAddedItem->setIngredient(1, item_name);
 
             gdt::getFlag_CookMaterialName2(&item_name, num_food);
-            mItem_44488->setIngredient(2, item_name);
+            mLastAddedItem->setIngredient(2, item_name);
 
             gdt::getFlag_CookMaterialName3(&item_name, num_food);
-            mItem_44488->setIngredient(3, item_name);
+            mLastAddedItem->setIngredient(3, item_name);
 
             gdt::getFlag_CookMaterialName4(&item_name, num_food);
-            mItem_44488->setIngredient(4, item_name);
+            mLastAddedItem->setIngredient(4, item_name);
 
             ++num_food;
 
-        } else if (type == PouchItemType::Sword && isMasterSwordActorName(mItem_44488->getName()) &&
+        } else if (type == PouchItemType::Sword &&
+                   isMasterSwordActorName(mLastAddedItem->getName()) &&
                    gdt::getFlag_MasterSwordRecoverTime() <= sead::Mathf::epsilon() &&
-                   mItem_44488->getValue() <= 0) {
-            const s32 new_value = getWeaponInventoryLife(mItem_44488->getName());
-            mItem_44488->mValue = new_value;
+                   mLastAddedItem->getValue() <= 0) {
+            const s32 new_value = getWeaponInventoryLife(mLastAddedItem->getName());
+            mLastAddedItem->mValue = new_value;
             gdt::setFlag_PorchItem_Value1(new_value, idx);
         }
     }
@@ -823,7 +824,7 @@ void PauseMenuDataMgr::addToPouch(const sead::SafeString& name, PouchItemType ty
                 item->mEquipped = false;
             }
 
-            mItem_44488 = item->mValue > 0 ? item : nullptr;
+            mLastAddedItem = item->mValue > 0 ? item : nullptr;
             resetItem();
             return;
         }
