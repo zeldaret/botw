@@ -3,6 +3,7 @@ add_subdirectory(GameData)
 add_subdirectory(Resource)
 
 add_subdirectory(ActorSystem)
+add_subdirectory(Cooking)
 add_subdirectory(Ecosystem)
 add_subdirectory(Event)
 add_subdirectory(Damage)

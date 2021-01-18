@@ -23,6 +23,10 @@ namespace uking::act {
 struct WeaponModifierInfo;
 }
 
+namespace ksys {
+struct CookItem;
+}
+
 namespace uking::ui {
 
 constexpr int NumSwordsMax = 20;
@@ -149,6 +153,7 @@ public:
 
     const sead::SafeString& getIngredient(s32 idx) const { return *mIngredients[idx]; }
     void setIngredient(s32 idx, const sead::SafeString& value) const { *mIngredients[idx] = value; }
+    void sortIngredients();
 
     // Only valid if this is a weapon.
     WeaponData& getWeaponData() { return mData.weapon; }
@@ -213,10 +218,27 @@ public:
     bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
 
     void itemGet(const sead::SafeString& name, int value, const act::WeaponModifierInfo* modifier);
+    void cookItemGet(const ksys::CookItem& cook_item);
+
+    void setCookDataOnLastAddedItem(const ksys::CookItem& cook_item);
+
+    void autoEquipLastAddedItem();
+    const sead::SafeString& autoEquip(PouchItem* item, const sead::OffsetList<PouchItem>& list);
+    /// Unequip all inventory items with the specified type.
+    /// If type is PouchItemType::Invalid, all inventory items will be unequipped.
+    void unequipAll(PouchItemType type = PouchItemType::Invalid);
+
+    void removeItem(const sead::SafeString& name);
+    void removeWeaponIfEquipped(const sead::SafeString& name);
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
-    int getItemCount(const sead::SafeString& name, bool x = true) const;
-    void setWeaponItemValue(s32 value, PouchItemType type);
+
+    int getItemCount(const sead::SafeString& name, bool count_equipped = true) const;
+
+    // TODO: requires CreatePlayerEquipActorMgr
+    void createPlayerEquipment();
+    void setEquippedWeaponItemValue(s32 value, PouchItemType type);
     const sead::SafeString& getDefaultEquipment(EquipmentSlot idx) const;
+
     bool hasItem(const sead::SafeString& name) const;
     PouchItem* getMasterSword() const;
 
@@ -295,6 +317,9 @@ private:
     void doAddToPouch(PouchItemType type, const sead::SafeString& name, Lists& lists, int value,
                       bool equipped, const act::WeaponModifierInfo* modifier = nullptr,
                       bool is_inventory_load = false);
+
+    void deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem* item,
+                     const sead::SafeString& name);
 
     bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 
