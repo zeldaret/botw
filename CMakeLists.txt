@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(uking CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_NINJA_FORCE_RESPONSE_FILE ON)
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   add_compile_options(-fdiagnostics-color=always)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
