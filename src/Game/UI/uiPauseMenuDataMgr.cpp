@@ -7,7 +7,10 @@
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Cooking/cookItem.h"
@@ -138,7 +141,7 @@ PauseMenuDataMgr::PauseMenuDataMgr() {
         mArray1[i] = nullptr;
         mArray2[i] = PouchItemType::Invalid;
     }
-    for (auto& x : mArray3)
+    for (auto& x : mGrabbedItems)
         x = {};
     _447e0 = {};
     _447e8 = {};
@@ -180,11 +183,8 @@ void PauseMenuDataMgr::init(sead::Heap* heap) {}
 void PauseMenuDataMgr::initForNewSave() {
     const auto lock = sead::makeScopedLock(mCritSection);
 
-    for (auto* item = getItems().popFront(); item; item = getItems().popFront()) {
-        item->~PouchItem();
-        new (item) PouchItem;
-        mItemLists.list2.pushFront(item);
-    }
+    for (auto* item = getItems().popFront(); item; item = getItems().popFront())
+        destroyAndRecycleItem(item);
 
     mListHeads.fill(nullptr);
     for (s32 i = 0; i < NumPouch50; ++i) {
@@ -202,7 +202,7 @@ void PauseMenuDataMgr::initForNewSave() {
     _444f8 = -1;
     resetItem();
     mIsPouchForQuest = false;
-    for (auto& x : mArray3)
+    for (auto& x : mGrabbedItems)
         x = {};
     _44504 = {};
     _44508 = {};
@@ -233,7 +233,7 @@ void PauseMenuDataMgr::initForNewSave() {
 void PauseMenuDataMgr::loadFromGameData() {
     doLoadFromGameData();
 
-    for (auto& x : mArray3)
+    for (auto& x : mGrabbedItems)
         x = {};
     mLastAddedItem = {};
     mItem_444f0 = {};
@@ -255,11 +255,8 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     const auto lock = sead::makeScopedLock(mCritSection);
     auto& lists = mItemLists;
 
-    for (auto* item = lists.list1.popFront(); item; item = lists.list1.popFront()) {
-        item->~PouchItem();
-        new (item) PouchItem;
-        mItemLists.list2.pushFront(item);
-    }
+    for (auto* item = lists.list1.popFront(); item; item = lists.list1.popFront())
+        destroyAndRecycleItem(item);
 
     mListHeads.fill(nullptr);
     mRitoSoulItem = nullptr;
@@ -885,7 +882,7 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
 
         sead::FixedSafeString<64> name{item->getName()};
         s32 value = item->getValue();
-        for (const auto& entry : mArray3) {
+        for (const auto& entry : mGrabbedItems) {
             if (entry.item == item) {
                 value +=
                     ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::CanStack);
@@ -1051,9 +1048,7 @@ PauseMenuDataMgr::deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem
 
     // Reset the PouchItem so that it is ready to be reused.
     getItems().erase(item);
-    item->~PouchItem();
-    new (item) PouchItem;
-    mItemLists.list2.pushFront(item);
+    destroyAndRecycleItem(item);
 
     ksys::PlayReportMgr::instance()->reportDebug("PouchDelete", name);
     saveToGameData(list);
@@ -1261,6 +1256,91 @@ PouchItem* PauseMenuDataMgr::getMasterSword() const {
     return nullptr;
 }
 
+void PauseMenuDataMgr::removeGrabbedItems() {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    for (s32 i = 0, n = mGrabbedItems.size(); i < n; ++i) {
+        auto& entry = mGrabbedItems[i];
+        auto* item = entry.item;
+        if (item && item->getValue() == 0 && !entry._9) {
+            if (mItem_444f0 == item)
+                mItem_444f0 = nullptr;
+            if (mLastAddedItem == item)
+                mLastAddedItem = nullptr;
+            getItems().erase(item);
+            destroyAndRecycleItem(item);
+        }
+        entry = {};
+    }
+
+    const auto& items = getItems();
+    mLastAddedItem = nullptr;
+    updateInventoryInfo(items);
+    updateListHeads();
+    saveToGameData(items);
+}
+
+// NON_MATCHING: mostly branching (which leads to other differences), but visibly equivalent
+bool PauseMenuDataMgr::addGrabbedItem(ksys::act::BaseProcLink* link) {
+    if (!link || !link->hasProc())
+        return false;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    const auto name = accessor.getName();
+    auto& cs = mCritSection;
+    const auto& items = getItems();
+    bool found = false;
+
+    for (s32 i = 0; i < NumGrabbableItems; ++i) {
+        auto& entry = mGrabbedItems[i];
+        if (found) {
+            mGrabbedItems[i - 1].item = entry.item;
+            mGrabbedItems[i - 1]._8 = entry._8;
+            mGrabbedItems[i - 1]._9 = entry._9;
+            continue;
+        }
+
+        if (!entry.item || name != entry.item->getName())
+            continue;
+
+        if (entry.item->getValue() == 0 && !entry._9) {
+            const auto lock = sead::makeScopedLock(cs);
+            auto* item = entry.item;
+            if (mItem_444f0 == item)
+                mItem_444f0 = nullptr;
+            if (mLastAddedItem == item)
+                mLastAddedItem = nullptr;
+            getItems().erase(item);
+            destroyAndRecycleItem(item);
+            updateInventoryInfo(items);
+            updateListHeads();
+            saveToGameData(items);
+            mLastAddedItem = nullptr;
+        }
+
+        found = true;
+        entry = {};
+    }
+    mGrabbedItems[4] = {};
+    return found;
+}
+
+bool PauseMenuDataMgr::getEquippedArrowType(sead::BufferedSafeString* name, int* count) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    for (const auto* item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
+        if (item->getType() > PouchItemType::Arrow)
+            break;
+        if (item->getType() == PouchItemType::Arrow && item->get25() && item->isEquipped()) {
+            if (name)
+                name->copy(item->getName());
+            if (count)
+                *count = item->getValue();
+            return true;
+        }
+    }
+    return false;
+}
+
 int PauseMenuDataMgr::getArrowCount(const sead::SafeString& name) const {
     const auto lock = sead::makeScopedLock(mCritSection);
     for (auto item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
@@ -1325,6 +1405,91 @@ void PauseMenuDataMgr::restoreMasterSword(bool only_if_broken) {
         }
         ++idx;
     }
+}
+
+static s32 checkItemRemoval(const sead::OffsetList<PouchItem>& items, const sead::SafeString& name,
+                            int num_to_remove, bool include_equipped_items, bool stackable) {
+    s32 total = 0;
+    for (const auto& item : items) {
+        if (name == item.getName() && (stackable || include_equipped_items || !item.isEquipped())) {
+            total += stackable ? item.getValue() : 1;
+            if (total >= num_to_remove)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool PauseMenuDataMgr::checkAddOrRemoveItem(const sead::SafeString& name, int count,
+                                            bool include_equipped_items) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    static_cast<void>(getType(name));
+    if (count < 0) {
+        const auto* info = ksys::act::InfoData::instance();
+        const int num_to_remove = -count;
+        const auto& items = getItems();
+        if (!info->hasTag(name.cstr(), ksys::act::tags::CanStack))
+            return checkItemRemoval(items, name, num_to_remove, include_equipped_items, false);
+        return checkItemRemoval(items, name, num_to_remove, true, true);
+    }
+
+    return !cannotGetItem(name, count);
+}
+
+int PauseMenuDataMgr::getFreeSlotCount() const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    const s32 num_items = getItems().size();
+    const s32 num_weapons = countItems(PouchItemType::Sword, true);
+    const s32 num_food = countItems(PouchItemType::Food);
+
+    return NumArmorsMax + NumMaterialsMax + NumKeyItemsMax - num_items + num_weapons + num_food;
+}
+
+int PauseMenuDataMgr::calculateEnemyMaterialMamo() const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    int value = 0;
+    for (const auto& item : getItems()) {
+        al::ByamlIter iter;
+        if (ksys::act::InfoData::instance()->getActorIter(&iter, item.getName().cstr()) &&
+            ksys::act::InfoData::instance()->hasTag(iter, ksys::act::tags::EnemyMaterial)) {
+            value += ksys::act::getMonsterShopSellMamo(iter) * item.getValue();
+        }
+    }
+    return value;
+}
+
+void PauseMenuDataMgr::removeAllEnemyMaterials() {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const auto& items = getItems();
+
+    // Materials cannot be removed from the linked list immediately as we need to traverse it
+    // at the same time. Instead, only remove a material *after* we have moved to the next item.
+    PouchItem* material_to_remove = nullptr;
+    for (auto& item : items) {
+        if (material_to_remove != nullptr) {
+            getItems().erase(material_to_remove);
+            destroyAndRecycleItem(material_to_remove);
+        }
+
+        auto* info = ksys::act::InfoData::instance();
+        material_to_remove =
+            info->hasTag(item.getName().cstr(), ksys::act::tags::EnemyMaterial) ? &item : nullptr;
+    }
+
+    if (material_to_remove) {
+        if (mItem_444f0 == material_to_remove)
+            mItem_444f0 = nullptr;
+        if (mLastAddedItem == material_to_remove)
+            mLastAddedItem = nullptr;
+        getItems().erase(material_to_remove);
+        destroyAndRecycleItem(material_to_remove);
+    }
+
+    saveToGameData(items);
+    updateInventoryInfo(items);
+    updateListHeads();
 }
 
 using SortPredicate = int (*)(const PouchItem* lhs, const PouchItem* rhs,

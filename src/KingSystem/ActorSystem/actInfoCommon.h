@@ -42,4 +42,6 @@ float getWeaponCommonPoweredSharpAddRapidFireMin(const al::ByamlIter& iter);
 float getWeaponCommonPoweredSharpAddRapidFireMax(const al::ByamlIter& iter);
 bool getWeaponCommonPoweredSharpAddSurfMaster(const al::ByamlIter& iter);
 
+int getMonsterShopSellMamo(const al::ByamlIter& iter);
+
 }  // namespace ksys::act

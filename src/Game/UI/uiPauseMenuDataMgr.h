@@ -16,6 +16,7 @@ class ByamlIter;
 }
 
 namespace ksys::act {
+class BaseProcLink;
 class InfoData;
 }
 
@@ -47,6 +48,8 @@ constexpr int ItemStackSizeMax = 999;
 
 // TODO: figure out what this is
 constexpr int NumPouch50 = 50;
+
+constexpr int NumGrabbableItems = 5;
 
 enum class PouchItemType {
     Sword = 0,
@@ -242,6 +245,10 @@ public:
     bool hasItem(const sead::SafeString& name) const;
     PouchItem* getMasterSword() const;
 
+    void removeGrabbedItems();
+    bool addGrabbedItem(ksys::act::BaseProcLink* link);
+
+    bool getEquippedArrowType(sead::BufferedSafeString* name, int* count) const;
     int getArrowCount(const sead::SafeString& name) const;
     /// Get the number of arrows in the real inventory (ignoring any temporary inventory data).
     /// This was added in 1.3.1 to patch the Trial of the Sword arrow restock glitch.
@@ -249,6 +256,12 @@ public:
 
     void breakMasterSword();
     void restoreMasterSword(bool only_if_broken);
+
+    bool checkAddOrRemoveItem(const sead::SafeString& name, int count, bool include_equipped_items) const;
+    int getFreeSlotCount() const;
+
+    int calculateEnemyMaterialMamo() const;
+    void removeAllEnemyMaterials();
 
     bool isHeroSoulEnabled(const sead::SafeString& name) const;
     bool hasRitoSoulPlus() const;
@@ -263,12 +276,12 @@ public:
 
 private:
     // TODO: rename
-    struct ItemInfo {
+    struct GrabbedItemInfo {
         PouchItem* item{};
-        u8 _8{};
-        u8 _9{};
+        bool _8{};
+        bool _9{};
     };
-    KSYS_CHECK_SIZE_NX150(ItemInfo, 0x10);
+    KSYS_CHECK_SIZE_NX150(GrabbedItemInfo, 0x10);
 
     struct Lists {
         Lists() {
@@ -299,6 +312,12 @@ private:
 
     PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
     bool isList2Empty() const { return mItemLists.list2.isEmpty(); }
+
+    void destroyAndRecycleItem(PouchItem* item) {
+        item->~PouchItem();
+        new (item) PouchItem;
+        mItemLists.list2.pushFront(item);
+    }
 
     void resetItem();
     void setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier);
@@ -335,7 +354,7 @@ private:
     s32 _44490 = -1;
     s32 _44494 = -1;
     s32 _44498{};
-    sead::SafeArray<ItemInfo, 5> mArray3;
+    sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
     PouchItem* mItem_444f0{};
     s32 _444f8 = -1;
     s32 _444fc{};

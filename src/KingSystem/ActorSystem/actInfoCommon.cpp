@@ -115,4 +115,8 @@ bool getWeaponCommonPoweredSharpAddSurfMaster(const al::ByamlIter& iter) {
     return InfoData::getBoolByKey(iter, "weaponCommonPoweredSharpAddSurfMaster");
 }
 
+int getMonsterShopSellMamo(const al::ByamlIter& iter) {
+    return InfoData::getIntByKey(iter, "monsterShopSellMamo");
+}
+
 }  // namespace ksys::act
