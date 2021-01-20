@@ -197,10 +197,7 @@ void PauseMenuDataMgr::initForNewSave() {
     ksys::gdt::setFlag_DungeonClearSealNum(0);
     ksys::gdt::setFlag_FairyCountCheck(false);
     _444fc = {};
-    mLastAddedItem = {};
-    mItem_444f0 = {};
-    _444f8 = -1;
-    resetItem();
+    resetItemAndPointers();
     mIsPouchForQuest = false;
     for (auto& x : mGrabbedItems)
         x = {};
@@ -235,10 +232,7 @@ void PauseMenuDataMgr::loadFromGameData() {
 
     for (auto& x : mGrabbedItems)
         x = {};
-    mLastAddedItem = {};
-    mItem_444f0 = {};
-    _444f8 = -1;
-    resetItem();
+    resetItemAndPointers();
     _444fc = 0;
     mIsPouchForQuest = false;
     _447e0 = {};
@@ -735,7 +729,7 @@ void PauseMenuDataMgr::updateAfterAddingItem(bool only_sort) {
     if (getItems().isEmpty())
         return;
 
-    _44800 = PouchCategory::Invalid;
+    mCategoryToSort = PouchCategory::Invalid;
     auto& items = getItems();
     items.sort(pouchItemSortPredicateForArrow);
     if (!only_sort) {
@@ -1040,16 +1034,7 @@ void PauseMenuDataMgr::unequipAll(PouchItemType type) {
 KSYS_ALWAYS_INLINE inline void
 PauseMenuDataMgr::deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem* item,
                               const sead::SafeString& name) {
-    if (mItem_444f0 == item)
-        mItem_444f0 = nullptr;
-
-    if (mLastAddedItem == item)
-        mLastAddedItem = nullptr;
-
-    // Reset the PouchItem so that it is ready to be reused.
-    getItems().erase(item);
-    destroyAndRecycleItem(item);
-
+    destroyAndRecycleItem(mItemLists, item);
     ksys::PlayReportMgr::instance()->reportDebug("PouchDelete", name);
     saveToGameData(list);
     updateInventoryInfo(list);
@@ -1261,14 +1246,8 @@ void PauseMenuDataMgr::removeGrabbedItems() {
     for (s32 i = 0, n = mGrabbedItems.size(); i < n; ++i) {
         auto& entry = mGrabbedItems[i];
         auto* item = entry.item;
-        if (item && item->getValue() == 0 && !entry._9) {
-            if (mItem_444f0 == item)
-                mItem_444f0 = nullptr;
-            if (mLastAddedItem == item)
-                mLastAddedItem = nullptr;
-            getItems().erase(item);
-            destroyAndRecycleItem(item);
-        }
+        if (item && item->getValue() == 0 && !entry._9)
+            destroyAndRecycleItem(mItemLists, item);
         entry = {};
     }
 
@@ -1306,12 +1285,7 @@ bool PauseMenuDataMgr::addGrabbedItem(ksys::act::BaseProcLink* link) {
         if (entry.item->getValue() == 0 && !entry._9) {
             const auto lock = sead::makeScopedLock(cs);
             auto* item = entry.item;
-            if (mItem_444f0 == item)
-                mItem_444f0 = nullptr;
-            if (mLastAddedItem == item)
-                mLastAddedItem = nullptr;
-            getItems().erase(item);
-            destroyAndRecycleItem(item);
+            destroyAndRecycleItem(mItemLists, item);
             updateInventoryInfo(items);
             updateListHeads();
             saveToGameData(items);
@@ -1478,24 +1452,362 @@ void PauseMenuDataMgr::removeAllEnemyMaterials() {
             info->hasTag(item.getName().cstr(), ksys::act::tags::EnemyMaterial) ? &item : nullptr;
     }
 
-    if (material_to_remove) {
-        if (mItem_444f0 == material_to_remove)
-            mItem_444f0 = nullptr;
-        if (mLastAddedItem == material_to_remove)
-            mLastAddedItem = nullptr;
-        getItems().erase(material_to_remove);
-        destroyAndRecycleItem(material_to_remove);
-    }
+    if (material_to_remove)
+        destroyAndRecycleItem(mItemLists, material_to_remove);
 
     saveToGameData(items);
     updateInventoryInfo(items);
     updateListHeads();
 }
 
+int PauseMenuDataMgr::countItemsWithProfile(const sead::SafeString& profile,
+                                            bool count_stacked_items) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    s32 count = 0;
+    for (const auto& item : getItems()) {
+        const char* item_profile;
+        al::ByamlIter iter;
+        if (ksys::act::InfoData::instance()->getActorIter(&iter, item.getName().cstr()) &&
+            ksys::act::InfoData::instance()->getActorProfile(&item_profile, iter) &&
+            profile == item_profile) {
+            if (count_stacked_items &&
+                ksys::act::InfoData::instance()->hasTag(iter, ksys::act::tags::CanStack)) {
+                count += item.getValue();
+            } else {
+                count += 1;
+            }
+        }
+    }
+    return count;
+}
+
+int PauseMenuDataMgr::countItemsWithTag(u32 tag, bool count_stacked_items) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    s32 count = 0;
+    for (const auto& item : getItems()) {
+        al::ByamlIter iter;
+        if (ksys::act::InfoData::instance()->getActorIter(&iter, item.getName().cstr()) &&
+            ksys::act::InfoData::instance()->hasTag(iter, tag)) {
+            if (count_stacked_items &&
+                ksys::act::InfoData::instance()->hasTag(iter, ksys::act::tags::CanStack)) {
+                count += item.getValue();
+            } else {
+                count += 1;
+            }
+        }
+    }
+    return count;
+}
+
+int PauseMenuDataMgr::countCookResults(const sead::SafeString& name, s32 effect_type,
+                                       bool check_effect_type) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return 0;
+
+    const bool check_name = !name.isEmpty();
+    if (check_name && !info->hasTag(name.cstr(), ksys::act::tags::CookResult))
+        return 0;
+
+    s32 count = 0;
+    for (auto* item = getItemHead(PouchCategory::Food); item; item = nextItem(item)) {
+        if (item->getType() != PouchItemType::Food)
+            break;
+        if (!item->get25())
+            continue;
+        if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
+            continue;
+        if (check_effect_type && item->getCookData().mCookEffect0.x != effect_type)
+            continue;
+        if (check_name && item->getName() != name)
+            continue;
+        ++count;
+    }
+    return count;
+}
+
+int PauseMenuDataMgr::countItemsWithCategory(PouchCategory category) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    if (u32(category) > 6)
+        return 0;
+    s32 count = 0;
+    for (auto* item = getItemHead(category); item; item = nextItem(item)) {
+        const auto type = item->getType();
+        if (getCategoryForType(type) != category)
+            break;
+        count += item->get25();
+    }
+    return count;
+}
+
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
+PouchCategory PauseMenuDataMgr::getCategoryForType(PouchItemType type) const {
+    if (type == PouchItemType::Sword)
+        return PouchCategory::Sword;
+
+    if (isPouchItemBowOrArrow(type))
+        return PouchCategory::Bow;
+
+    switch (type) {
+    case PouchItemType::Shield:
+        return PouchCategory::Shield;
+    case PouchItemType::ArmorHead:
+    case PouchItemType::ArmorUpper:
+    case PouchItemType::ArmorLower:
+        return PouchCategory::Armor;
+    case PouchItemType::Material:
+        return PouchCategory::Material;
+    case PouchItemType::Food:
+        return PouchCategory::Food;
+    case PouchItemType::KeyItem:
+        return PouchCategory::KeyItem;
+    default:
+        return PouchCategory::Invalid;
+    }
+}
+
+// NON_MATCHING: two harmless reorderings
+void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect_type,
+                                        bool check_effect) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return;
+
+    const bool check_name = !name.isEmpty();
+    if (check_name && !info->hasTag(name.cstr(), ksys::act::tags::CookResult))
+        return;
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const auto& items = getItems();
+
+    auto min_x = std::numeric_limits<s32>::max();
+    auto min_y = std::numeric_limits<f32>::infinity();
+    auto min_fx = std::numeric_limits<f32>::infinity();
+    PouchItem* to_remove = nullptr;
+
+    for (auto* item = getItemHead(PouchCategory::Food); item; item = items.next(item)) {
+        if (item->getType() != PouchItemType::Food)
+            break;
+        if (!item->get25())
+            continue;
+        if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
+            continue;
+        if (item->getCookData().mCookEffect0.x != effect_type && check_effect)
+            continue;
+        if (check_name && item->getName() != name)
+            continue;
+
+        const auto y = f32(item->getCookData().mStaminaRecoverY) * 30.0f;
+        if (y < min_y) {
+            min_x = item->getCookData().mStaminaRecoverX;
+            min_y = y;
+            to_remove = item;
+            min_fx = item->getCookData().mCookEffect0.y;
+        } else if (y == min_y) {
+            const auto x = item->getCookData().mStaminaRecoverX;
+            if (x < min_x) {
+                min_x = x;
+                to_remove = item;
+                min_fx = item->getCookData().mCookEffect0.y;
+            } else if (check_effect && x == min_x && item->getCookData().mCookEffect0.y < min_fx) {
+                min_fx = item->getCookData().mCookEffect0.y;
+                to_remove = item;
+            }
+        }
+    }
+
+    if (!to_remove)
+        return;
+
+    destroyAndRecycleItem(mItemLists, to_remove);
+    ksys::PlayReportMgr::instance()->reportDebug("PouchDeleteFromFlow", name);
+    saveToGameData(items);
+    updateInventoryInfo(items);
+    updateListHeads();
+}
+
+bool PauseMenuDataMgr::switchEquipment(const sead::SafeString& name, int* value,
+                                       act::WeaponModifierInfo* modifier) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const auto& items = getItems();
+
+    sead::SafeString group_name;
+    getSameGroupActorName(&group_name, name);
+
+    PouchItem* target = nullptr;
+
+    const auto type = getType(group_name);
+    if (type <= PouchItemType::Shield) {
+        for (auto& item : items) {
+            if (item.getType() > PouchItemType::Shield)
+                break;
+            if (item.getName() == group_name && (!target || item.getValue() < target->getValue()))
+                target = &item;
+        }
+    } else {
+        if (type >= PouchItemType::Material)
+            return false;
+        for (auto& item : items) {
+            if (item.getType() >= PouchItemType::Material)
+                break;
+            if (item.getName() == group_name) {
+                target = &item;
+                break;
+            }
+        }
+    }
+
+    if (!target)
+        return false;
+
+    if (value)
+        *value = target->getValue();
+
+    if (type == PouchItemType::Arrow) {
+        if (target->getValue() > 0) {
+            autoEquip(target, items);
+            return true;
+        }
+        return false;
+    }
+
+    autoEquip(target, items);
+
+    const bool is_weapon = type <= PouchItemType::Shield;
+    if (modifier && is_weapon)
+        modifier->fromItem(*target);
+
+    return true;
+}
+
+void PauseMenuDataMgr::initPouchForQuest() {
+    mIsPouchForQuest = true;
+    resetItemAndPointers();
+
+    {
+        const auto lock = sead::makeScopedLock(mCritSection);
+        const auto& items = getItems();
+        PouchItem* to_remove = nullptr;
+
+        for (auto& item : items) {
+            if (to_remove != nullptr) {
+                getItems().erase(to_remove);
+                destroyAndRecycleItem(to_remove);
+            }
+
+            to_remove = item.getType() == PouchItemType::KeyItem ? nullptr : &item;
+        }
+
+        if (to_remove) {
+            getItems().erase(to_remove);
+            destroyAndRecycleItem(to_remove);
+        }
+
+        updateInventoryInfo(items);
+        updateListHeads();
+    }
+
+    ksys::gdt::setFlag_FairyCountCheck(false);
+    createPlayerEquipment();
+}
+
+void PauseMenuDataMgr::restorePouchForQuest() {
+    mIsPouchForQuest = false;
+    doLoadFromGameData();
+    for (auto& entry : mGrabbedItems)
+        entry = {};
+    resetItemAndPointers();
+    createPlayerEquipment();
+}
+
+ItemUse getItemUse(const sead::SafeString& name) {
+    const char* profile_c;
+    if (!ksys::act::InfoData::instance()->getActorProfile(&profile_c, name.cstr()))
+        return ItemUse::Invalid;
+
+    const sead::SafeString profile = profile_c;
+
+    if (profile == sValues.WeaponSmallSword)
+        return ItemUse::WeaponSmallSword;
+
+    if (profile == sValues.WeaponLargeSword)
+        return ItemUse::WeaponLargeSword;
+
+    if (profile == sValues.WeaponSpear)
+        return ItemUse::WeaponSpear;
+
+    if (profile == sValues.WeaponBow)
+        return ItemUse::WeaponBow;
+
+    if (profile == sValues.WeaponShield)
+        return ItemUse::WeaponShield;
+
+    if (profile == sValues.ArmorHead)
+        return ItemUse::ArmorHead;
+
+    if (profile == sValues.ArmorUpper)
+        return ItemUse::ArmorUpper;
+
+    if (profile == sValues.ArmorLower)
+        return ItemUse::ArmorLower;
+
+    if (profile != sValues.Item && profile != sValues.PlayerItem)
+        return ItemUse::Item;
+
+    al::ByamlIter iter;
+    if (!ksys::act::InfoData::instance()->getActorIter(&iter, name.cstr()))
+        return ItemUse::Item;
+
+    if (ksys::act::InfoData::instance()->hasTag(iter, ksys::act::tags::CureItem))
+        return ItemUse::CureItem;
+
+    if (ksys::act::InfoData::instance()->hasTag(iter, ksys::act::tags::Important))
+        return ItemUse::ImportantItem;
+
+    return ItemUse::Item;
+}
+
+void PauseMenuDataMgr::sortItems(PouchCategory category, bool do_not_save) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    auto& items = getItems();
+
+    if (items.isEmpty())
+        return;
+
+    mCategoryToSort = category;
+    items.mergeSort(pouchItemSortPredicate);
+
+    switch (category) {
+    case PouchCategory::Sword:
+        ksys::gdt::setFlag_SortTypeWeaponPouch(!ksys::gdt::getFlag_SortTypeWeaponPouch());
+        break;
+    case PouchCategory::Bow:
+        ksys::gdt::setFlag_SortTypeBowPouch(!ksys::gdt::getFlag_SortTypeBowPouch());
+        break;
+    case PouchCategory::Shield:
+        ksys::gdt::setFlag_SortTypeShieldPouch(!ksys::gdt::getFlag_SortTypeShieldPouch());
+        break;
+    case PouchCategory::Armor:
+        ksys::gdt::setFlag_SortTypeArmorPouch(!ksys::gdt::getFlag_SortTypeArmorPouch());
+        break;
+    default:
+        break;
+    }
+
+    if (do_not_save)
+        return;
+
+    updateInventoryInfo(items);
+    updateListHeads();
+    saveToGameData(items);
+}
+
 using SortPredicate = int (*)(const PouchItem* lhs, const PouchItem* rhs,
                               ksys::act::InfoData* data);
 
-static PouchCategory getTypeForCategory(PouchItemType type) {
+static PouchCategory getCategoryForTypeWithLookupTable(PouchItemType type) {
     static constexpr sead::SafeArray<PouchCategory, NumPouchItemTypes> sMap{{
         PouchCategory::Sword,     // Weapon
         PouchCategory::Bow,       // Bow
@@ -1512,8 +1824,8 @@ static PouchCategory getTypeForCategory(PouchItemType type) {
 }
 
 static auto getSortPredicateTable() {
-    sead::SafeArray<SortPredicate, 7> table{
-        {sortWeapon, sortBow, sortShield, sortArmor, sortMaterial, sortFood, sortKeyItem}};
+    sead::SafeArray<SortPredicate, 7> table{{compareWeapon, compareBow, compareShield, compareArmor,
+                                             compareMaterial, compareFood, compareKeyItem}};
     return table;
 }
 
@@ -1525,8 +1837,8 @@ int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
     if (!info_data || !lhs->get25() || !rhs->get25())
         return 0;
 
-    const auto cat1 = getTypeForCategory(lhs->getType());
-    const auto cat2 = getTypeForCategory(rhs->getType());
+    const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
+    const auto cat2 = getCategoryForTypeWithLookupTable(rhs->getType());
     if (cat1 != cat2)
         return 0;
 
@@ -1551,7 +1863,7 @@ static s32 compareSortKeys(const PouchItem* lhs, const PouchItem* rhs, ksys::act
     return 0;
 }
 
-int sortArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+int compareArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
     if (ksys::gdt::getFlag_SortTypeArmorPouch()) {
         if (auto cmp = compareSortKeys(lhs, rhs, data))
             return cmp;
@@ -1578,7 +1890,7 @@ int sortArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* d
     return 0;
 }
 
-int sortKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+int compareKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
     if (auto cmp = compareSortKeys(lhs, rhs, data))
         return cmp;
     return 0;
@@ -1620,8 +1932,8 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
     if (!info_data || !lhs->get25() || !rhs->get25())
         return 0;
 
-    const auto cat1 = getTypeForCategory(lhs->getType());
-    const auto cat2 = getTypeForCategory(rhs->getType());
+    const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
+    const auto cat2 = getCategoryForTypeWithLookupTable(rhs->getType());
     if (cat1 != cat2)
         return 0;
 
@@ -1634,6 +1946,111 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
     if (u32(cat1) < u32(predicate_table.size()))
         fn = &predicate_table(u32(cat1));
     return (*fn)(lhs, rhs, info_data);
+}
+
+// NON_MATCHING: branching, but this is so trivial it isn't worth spending time on matching this
+const sead::SafeString* PauseMenuDataMgr::getEquippedItemName(PouchItemType type) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const auto& items = getItems();
+
+    if (!isPouchItemEquipment(type) || items.isEmpty())
+        return nullptr;
+
+    auto* first = type <= PouchItemType::Shield ? items.nth(0) : getItemHead(PouchCategory::Armor);
+    for (auto* item = first; item; item = items.next(item)) {
+        if (item->isEquipped() && item->getType() == type)
+            return &item->getName();
+    }
+    return nullptr;
+}
+
+const PouchItem* PauseMenuDataMgr::getEquippedItem(PouchItemType type) const {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const auto& items = getItems();
+
+    if (!isPouchItemEquipment(type) || items.isEmpty())
+        return nullptr;
+
+    auto* first = type <= PouchItemType::Shield ? items.nth(0) : getItemHead(PouchCategory::Armor);
+    for (auto* item = first; item; item = items.next(item)) {
+        if (item->isEquipped() && item->getType() == type)
+            return item;
+    }
+    return nullptr;
+}
+
+int PauseMenuDataMgr::getItemValue(const sead::SafeString& name) const {
+    const auto type = getType(name);
+    if (isPouchItemInvalid(type))
+        return 0;
+
+    sead::SafeString group_name;
+    getSameGroupActorName(&group_name, name);
+
+    if (ksys::act::InfoData::instance()->hasTag(group_name.cstr(), ksys::act::tags::CanStack)) {
+        for (const auto& item : mItemLists.buffer) {
+            if (item.get25() && item.getType() == type && !group_name.comparen(item.getName(), 64))
+                return item.getValue();
+        }
+        return 0;
+    }
+
+    s32 count = 0;
+    for (const auto& item : mItemLists.buffer) {
+        if (item.get25() && item.getType() == type && !group_name.comparen(item.getName(), 64))
+            count++;
+    }
+    return count;
+}
+
+bool PauseMenuDataMgr::getFromShop(const sead::SafeString& name, int value,
+                                   const act::WeaponModifierInfo* modifier) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    auto& lists = mItemLists;
+    const auto type = getType(name);
+
+    al::ByamlIter iter;
+    namespace act = ksys::act;
+    act::InfoData::instance()->getActorIter(&iter, name.cstr());
+
+    if (iter.isValid() && act::InfoData::instance()->hasTag(iter, act::tags::CanStack)) {
+        addToPouch(name, type, lists, value, false, modifier);
+    } else if (iter.isValid() && act::InfoData::instance()->hasTag(iter, act::tags::ArmorDye)) {
+        addToPouch(name, type, lists, 0, false, modifier);
+    } else if (type > PouchItemType::Shield || type == PouchItemType::Arrow) {
+        addToPouch(name, type, lists, 1, false, modifier);
+    } else {
+        int life = getItemGeneralLife(name.cstr());
+        if (modifier)
+            life += modifier->flags.isOn(uking::act::WeaponModifier::AddLife) ? modifier->value : 0;
+        addToPouch(name, type, lists, life, false, modifier);
+    }
+
+    ksys::PlayReportMgr::instance()->reportDebug("PouchGetFromShop", name);
+    saveToGameData(lists.list1);
+    return true;
+}
+
+int PauseMenuDataMgr::countArmorDye() const {
+    int count = 0;
+    using namespace ksys::act;
+    for (const auto& item : getItems()) {
+        if (item.get25() && InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye))
+            ++count;
+    }
+    return count;
+}
+
+int PauseMenuDataMgr::countAlreadyDyedArmor() const {
+    int count = 0;
+    using namespace ksys::act;
+    for (const auto& item : getItems()) {
+        if (item.get25() && InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye) &&
+            item.getValue() > 0) {
+            ++count;
+        }
+    }
+    return count;
 }
 
 bool PauseMenuDataMgr::isHeroSoulEnabled(const sead::SafeString& name) const {

@@ -18,7 +18,7 @@ class ByamlIter;
 namespace ksys::act {
 class BaseProcLink;
 class InfoData;
-}
+}  // namespace ksys::act
 
 namespace uking::act {
 struct WeaponModifierInfo;
@@ -72,12 +72,20 @@ constexpr bool isPouchItemWeapon(PouchItemType type) {
            type == PouchItemType::Arrow || type == PouchItemType::Shield;
 }
 
+constexpr bool isPouchItemBowOrArrow(PouchItemType type) {
+    return type == PouchItemType::Bow || type == PouchItemType::Arrow;
+}
+
 constexpr bool isPouchItemNotWeapon(PouchItemType type) {
     return !isPouchItemWeapon(type);
 }
 
 constexpr bool isPouchItemArmor(PouchItemType type) {
     return PouchItemType::ArmorHead <= type && type <= PouchItemType::ArmorLower;
+}
+
+constexpr bool isPouchItemEquipment(PouchItemType type) {
+    return isPouchItemWeapon(type) || isPouchItemArmor(type);
 }
 
 constexpr bool isPouchItemInvalid(PouchItemType type) {
@@ -105,6 +113,21 @@ enum class EquipmentSlot {
     ArmorHead = 4,
     ArmorUpper = 5,
     ArmorLower = 6,
+};
+
+enum class ItemUse {
+    WeaponSmallSword = 0,
+    WeaponLargeSword = 1,
+    WeaponSpear = 2,
+    WeaponBow = 3,
+    WeaponShield = 4,
+    ArmorHead = 5,
+    ArmorUpper = 6,
+    ArmorLower = 7,
+    Item = 8,
+    ImportantItem = 9,
+    CureItem = 10,
+    Invalid = -1,
 };
 
 struct CookTagInfo {
@@ -257,11 +280,40 @@ public:
     void breakMasterSword();
     void restoreMasterSword(bool only_if_broken);
 
-    bool checkAddOrRemoveItem(const sead::SafeString& name, int count, bool include_equipped_items) const;
+    bool checkAddOrRemoveItem(const sead::SafeString& name, int count,
+                              bool include_equipped_items) const;
     int getFreeSlotCount() const;
 
     int calculateEnemyMaterialMamo() const;
     void removeAllEnemyMaterials();
+
+    int countItemsWithProfile(const sead::SafeString& profile, bool count_stacked_items) const;
+    int countItemsWithTag(u32 tag, bool count_stacked_items) const;
+    int countCookResults(const sead::SafeString& name = {}, s32 effect_type = 0x11,
+                         bool check_effect_type = false) const;
+    int countItemsWithCategory(PouchCategory category) const;
+    PouchCategory getCategoryForType(PouchItemType type) const;
+
+    void removeCookResult(const sead::SafeString& name = {}, s32 effect_type = 0x11,
+                          bool check_effect = false);
+
+    bool switchEquipment(const sead::SafeString& name, int* value = nullptr,
+                         act::WeaponModifierInfo* modifier = nullptr);
+
+    void initPouchForQuest();
+    void restorePouchForQuest();
+
+    void sortItems(PouchCategory category, bool do_not_save = false);
+
+    const sead::SafeString* getEquippedItemName(PouchItemType type) const;
+    const PouchItem* getEquippedItem(PouchItemType type) const;
+    int getItemValue(const sead::SafeString& name) const;
+
+    bool getFromShop(const sead::SafeString& name, int value,
+                     const act::WeaponModifierInfo* modifier = nullptr);
+
+    int countArmorDye() const;
+    int countAlreadyDyedArmor() const;
 
     bool isHeroSoulEnabled(const sead::SafeString& name) const;
     bool hasRitoSoulPlus() const;
@@ -272,7 +324,7 @@ public:
     bool isOverCategoryLimit(PouchItemType type) const;
     void openItemCategoryIfNeeded() const;
 
-    auto get44800() const { return _44800; }
+    auto get44800() const { return mCategoryToSort; }
 
 private:
     // TODO: rename
@@ -291,6 +343,13 @@ private:
                 new (&item) PouchItem();
                 list2.pushFront(&item);
             }
+        }
+
+        void destroyAndRecycleItem(PouchItem* item) {
+            list1.erase(item);
+            item->~PouchItem();
+            new (item) PouchItem;
+            list2.pushFront(item);
         }
 
         sead::OffsetList<PouchItem> list1;
@@ -319,7 +378,24 @@ private:
         mItemLists.list2.pushFront(item);
     }
 
+    void destroyAndRecycleItem(Lists& lists, PouchItem* item) {
+        if (mItem_444f0 == item)
+            mItem_444f0 = nullptr;
+        if (mLastAddedItem == item)
+            mLastAddedItem = nullptr;
+
+        lists.destroyAndRecycleItem(item);
+    }
+
     void resetItem();
+
+    void resetItemAndPointers() {
+        mLastAddedItem = nullptr;
+        mItem_444f0 = nullptr;
+        _444f8 = -1;
+        resetItem();
+    }
+
     void setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier);
 
     void doLoadFromGameData();
@@ -378,18 +454,20 @@ private:
     u64 _447e8;
     u64 _447f0;
     u64 _447f8;
-    PouchCategory _44800 = PouchCategory::Invalid;
+    PouchCategory mCategoryToSort = PouchCategory::Invalid;
 };
 KSYS_CHECK_SIZE_NX150(PauseMenuDataMgr, 0x44808);
 
-int sortWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortBow(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareBow(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
 
 int getCookItemOrder(const PouchItem* item, ksys::act::InfoData* data);
+
+ItemUse getItemUse(const sead::SafeString& name);
 
 }  // namespace uking::ui
