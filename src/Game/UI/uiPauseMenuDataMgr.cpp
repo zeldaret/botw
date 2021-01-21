@@ -133,6 +133,37 @@ void getSameGroupActorName(sead::SafeString* group, const sead::SafeString& item
     }
 }
 
+int getWeaponModifierSortKey(sead::TypedBitFlag<act::WeaponModifier> flags) {
+    if (flags.isOn(act::WeaponModifier::AddAtk))
+        return flags.isOn(act::WeaponModifier::IsYellow) ? 0 : 1;
+
+    if (flags.isOn(act::WeaponModifier::AddLife))
+        return flags.isOn(act::WeaponModifier::IsYellow) ? 4 : 5;
+
+    if (flags.isOn(act::WeaponModifier::AddThrow))
+        return 6;
+
+    if (flags.isOn(act::WeaponModifier::AddCrit))
+        return 7;
+
+    if (flags.isOn(act::WeaponModifier::AddGuard))
+        return flags.isOn(act::WeaponModifier::IsYellow) ? 2 : 3;
+
+    if (flags.isOn(act::WeaponModifier::AddSurfMaster))
+        return 8;
+
+    if (flags.isOn(act::WeaponModifier::AddSpreadFire))
+        return 10;
+
+    if (flags.isOn(act::WeaponModifier::AddZoomRapid))
+        return 11;
+
+    if (flags.isOn(act::WeaponModifier::AddRapidFire))
+        return 9;
+
+    return 12;
+}
+
 }  // namespace
 
 int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs);
@@ -1855,6 +1886,56 @@ static s32 compareSortKeys(const PouchItem* lhs, const PouchItem* rhs, ksys::act
     if (a > b)
         return 1;
     return 0;
+}
+
+static int getShieldGuardPower(const PouchItem* item, ksys::act::InfoData* data) {
+    int power = ksys::act::getWeaponCommonGuardPower(data, item->getName().cstr());
+    if (item->getWeaponAddFlags().isOn(act::WeaponModifier::AddGuard))
+        power += item->getWeaponAddValue();
+    return power;
+}
+
+static int doCompareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    const int gp1 = getShieldGuardPower(lhs, data);
+    const int gp2 = getShieldGuardPower(rhs, data);
+    // Higher is better
+    if (gp1 > gp2)
+        return -1;
+    if (gp1 < gp2)
+        return 1;
+
+    const int mod1 = getWeaponModifierSortKey(lhs->getWeaponAddFlags());
+    const int mod2 = getWeaponModifierSortKey(rhs->getWeaponAddFlags());
+    // Lower is better
+    if (mod1 < mod2)
+        return -1;
+    if (mod1 > mod2)
+        return 1;
+
+    const int val1 = lhs->getValue();
+    const int val2 = rhs->getValue();
+    // Higher is better
+    if (val1 > val2)
+        return -1;
+    if (val1 < val2)
+        return 1;
+
+    return 0;
+}
+
+int compareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    if (ksys::gdt::getFlag_SortTypeShieldPouch()) {
+        if (auto cmp = compareSortKeys(lhs, rhs, data))
+            return cmp;
+
+        return doCompareShield(lhs, rhs, data);
+
+    } else {
+        if (auto cmp = doCompareShield(lhs, rhs, data))
+            return cmp;
+
+        return compareSortKeys(lhs, rhs, data);
+    }
 }
 
 int compareArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {

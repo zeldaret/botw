@@ -8,6 +8,7 @@
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -21,8 +22,9 @@ class InfoData;
 }  // namespace ksys::act
 
 namespace uking::act {
+enum class WeaponModifier : u32;
 struct WeaponModifierInfo;
-}
+}  // namespace uking::act
 
 namespace ksys {
 struct CookItem;
@@ -191,6 +193,12 @@ public:
     // Only valid if this is a weapon.
     WeaponData& getWeaponData() { return mData.weapon; }
     const WeaponData& getWeaponData() const { return mData.weapon; }
+
+    sead::TypedBitFlag<act::WeaponModifier> getWeaponAddFlags() const {
+        if (!isWeapon())
+            return {};
+        return sead::TypedBitFlag<act::WeaponModifier>{mData.weapon.mAddType};
+    }
 
     u32 getWeaponAddValue() const {
         if (!isWeapon())
