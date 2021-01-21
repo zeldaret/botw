@@ -46,6 +46,10 @@ const char* getArmorNextRankName(InfoData* data, const char* actor);
 
 int getItemStainColor(InfoData* data, const char* actor);
 
+int getCureItemHitPointRecover(InfoData* data, const char* actor);
+int getCureItemHitPointRecover(const al::ByamlIter& iter);
+
+
 int getMonsterShopSellMamo(const al::ByamlIter& iter);
 
 }  // namespace ksys::act

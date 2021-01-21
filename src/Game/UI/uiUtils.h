@@ -7,6 +7,9 @@ namespace uking::ui {
 class PouchItem;
 
 bool isMasterSwordItem(const PouchItem& item);
+
+int getItemHitPointRecover(const sead::SafeString& name);
+
 int getWeaponInventoryLife(const sead::SafeString& name);
 bool isMasterSwordActorName(const sead::SafeString& name);
 

@@ -1965,6 +1965,26 @@ int compareArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData
     return 0;
 }
 
+int compareMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    const int order1 = getCookItemOrder(lhs, data);
+    const int order2 = getCookItemOrder(rhs, data);
+    // Lower is better
+    if (order1 < order2)
+        return -1;
+    if (order1 > order2)
+        return 1;
+
+    const int hp1 = getItemHitPointRecover(lhs->getName().cstr());
+    const int hp2 = getItemHitPointRecover(rhs->getName().cstr());
+    // Higher is better
+    if (hp1 > hp2)
+        return -1;
+    if (hp1 < hp2)
+        return 1;
+
+    return compareSortKeys(lhs, rhs, data);
+}
+
 int compareKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
     if (auto cmp = compareSortKeys(lhs, rhs, data))
         return cmp;

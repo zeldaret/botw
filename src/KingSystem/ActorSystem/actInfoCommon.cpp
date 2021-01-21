@@ -123,6 +123,14 @@ int getItemStainColor(InfoData* data, const char* actor) {
     return data->getInt(actor, "itemStainColor", -1);
 }
 
+int getCureItemHitPointRecover(InfoData* data, const char* actor) {
+    return data->getInt(actor, "cureItemHitPointRecover");
+}
+
+int getCureItemHitPointRecover(const al::ByamlIter& iter) {
+    return InfoData::getIntByKey(iter, "cureItemHitPointRecover");
+}
+
 int getMonsterShopSellMamo(const al::ByamlIter& iter) {
     return InfoData::getIntByKey(iter, "monsterShopSellMamo");
 }
