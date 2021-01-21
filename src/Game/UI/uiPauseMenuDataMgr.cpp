@@ -2138,13 +2138,9 @@ const PouchItem* PauseMenuDataMgr::getItemByIndex(PouchItemType type, int index)
     switch (type) {
     case PouchItemType::Sword:
         item = getItemHead(PouchCategory::Sword);
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::Bow:
         item = getItemHead(PouchCategory::Bow);
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::Arrow:
         for (auto* item_ = getItemHead(PouchCategory::Bow);
@@ -2154,39 +2150,30 @@ const PouchItem* PauseMenuDataMgr::getItemByIndex(PouchItemType type, int index)
                 break;
             }
         }
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::Shield:
         item = getItemHead(PouchCategory::Shield);
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::ArmorHead:
     case PouchItemType::ArmorUpper:
     case PouchItemType::ArmorLower:
         item = getItemHead(PouchCategory::Armor);
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::Material:
         item = getItemHead(PouchCategory::Material);
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::Food:
         item = getItemHead(PouchCategory::Food);
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::KeyItem:
         item = getItemHead(PouchCategory::KeyItem);
-        if (!item)
-            return nullptr;
         break;
     case PouchItemType::Invalid:
-        return nullptr;
+        break;
     }
+
+    if (!item)
+        return nullptr;
 
     for (int i = 0; i < index; ++i) {
         if (!item)
