@@ -1,4 +1,5 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include <algorithm>
 #include <container/seadBuffer.h>
 #include <limits>
 #include <math/seadMathCalcCommon.h>
@@ -6,6 +7,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameScene.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -18,6 +20,7 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::ui {
@@ -143,10 +146,7 @@ PauseMenuDataMgr::PauseMenuDataMgr() {
     }
     for (auto& x : mGrabbedItems)
         x = {};
-    _447e0 = {};
-    _447e8 = {};
-    _447f0 = {};
-    _447f8 = {};
+    resetEquippedItemArray();
 }
 
 PauseMenuDataMgr::~PauseMenuDataMgr() = default;
@@ -211,10 +211,7 @@ void PauseMenuDataMgr::initForNewSave() {
     mZoraSoulItem = {};
     mGerudoSoulItem = {};
     _44538 = false;
-    _447e0 = {};
-    _447e8 = {};
-    _447f0 = {};
-    _447f8 = {};
+    mEquippedWeapons.fill({});
 
     auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
     if (player) {
@@ -235,10 +232,7 @@ void PauseMenuDataMgr::loadFromGameData() {
     resetItemAndPointers();
     _444fc = 0;
     mIsPouchForQuest = false;
-    _447e0 = {};
-    _447e8 = {};
-    _447f0 = {};
-    _447f8 = {};
+    resetEquippedItemArray();
 
     const auto lock = sead::makeScopedLock(mCritSection);
     updateInventoryInfo(getItems());
@@ -1842,7 +1836,7 @@ int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
     if (cat1 != cat2)
         return 0;
 
-    const auto cat3 = PauseMenuDataMgr::instance()->get44800();
+    const auto cat3 = PauseMenuDataMgr::instance()->getCategoryToSort();
     if (cat3 != PouchCategory::Invalid && cat1 != cat3)
         return 0;
 
@@ -1937,7 +1931,7 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
     if (cat1 != cat2)
         return 0;
 
-    const auto cat3 = PauseMenuDataMgr::instance()->get44800();
+    const auto cat3 = PauseMenuDataMgr::instance()->getCategoryToSort();
     if (cat3 != PouchCategory::Invalid && cat1 != cat3)
         return 0;
 
@@ -2053,6 +2047,24 @@ int PauseMenuDataMgr::countAlreadyDyedArmor() const {
     return count;
 }
 
+int PauseMenuDataMgr::getNextGrabbedItemIndex() const {
+    for (int i = 0; i < mGrabbedItems.size(); ++i) {
+        if (mGrabbedItems[i].item == nullptr)
+            return i;
+    }
+    return mGrabbedItems.size();
+}
+
+bool PauseMenuDataMgr::canGrabAnotherItem() const {
+    return std::any_of(mGrabbedItems.begin(), mGrabbedItems.end(),
+                       [](const auto& entry) { return entry.item == nullptr; });
+}
+
+bool PauseMenuDataMgr::isNothingBeingGrabbed() const {
+    return std::all_of(mGrabbedItems.begin(), mGrabbedItems.end(),
+                       [](const auto& entry) { return entry.item == nullptr; });
+}
+
 bool PauseMenuDataMgr::isHeroSoulEnabled(const sead::SafeString& name) const {
     if (name == sValues.Obj_HeroSoul_Zora || name == sValues.Obj_DLC_HeroSoul_Zora) {
         if (mZoraSoulItem)
@@ -2096,6 +2108,343 @@ bool PauseMenuDataMgr::hasGerudoSoulPlus() const {
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 bool PauseMenuDataMgr::hasZoraSoulPlus() const {
     return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Zora() && aoc::Manager::instance()->hasAoc3();
+}
+
+int PauseMenuDataMgr::countItemsWithCategoryByType(PouchCategory category) const {
+    switch (category) {
+    case PouchCategory::Sword:
+        return countItems(PouchItemType::Sword);
+    case PouchCategory::Bow:
+        return countItems(PouchItemType::Bow) + countItems(PouchItemType::Arrow);
+    case PouchCategory::Shield:
+        return countItems(PouchItemType::Shield);
+    case PouchCategory::Armor:
+        return countItems(PouchItemType::ArmorLower);
+    case PouchCategory::Material:
+        return countItems(PouchItemType::Material);
+    case PouchCategory::Food:
+        return countItems(PouchItemType::Food);
+    case PouchCategory::KeyItem:
+        return countItems(PouchItemType::KeyItem);
+    case PouchCategory::Invalid:
+        break;
+    }
+    return 0;
+}
+
+const PouchItem* PauseMenuDataMgr::getItemByIndex(PouchItemType type, int index) const {
+    const auto& list = getItems();
+    PouchItem* item = nullptr;
+    switch (type) {
+    case PouchItemType::Sword:
+        item = getItemHead(PouchCategory::Sword);
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::Bow:
+        item = getItemHead(PouchCategory::Bow);
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::Arrow:
+        for (auto* item_ = getItemHead(PouchCategory::Bow);
+             item_ && item_->getType() <= PouchItemType::Arrow; item_ = list.next(item_)) {
+            if (item_->getType() == PouchItemType::Arrow) {
+                item = item_;
+                break;
+            }
+        }
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::Shield:
+        item = getItemHead(PouchCategory::Shield);
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::ArmorHead:
+    case PouchItemType::ArmorUpper:
+    case PouchItemType::ArmorLower:
+        item = getItemHead(PouchCategory::Armor);
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::Material:
+        item = getItemHead(PouchCategory::Material);
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::Food:
+        item = getItemHead(PouchCategory::Food);
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::KeyItem:
+        item = getItemHead(PouchCategory::KeyItem);
+        if (!item)
+            return nullptr;
+        break;
+    case PouchItemType::Invalid:
+        return nullptr;
+    }
+
+    for (int i = 0; i < index; ++i) {
+        if (!item)
+            return nullptr;
+        item = list.next(item);
+    }
+
+    if (item) {
+        if (isPouchItemArmor(type))
+            return isPouchItemArmor(item->getType()) ? item : nullptr;
+        if (item->getType() == type)
+            return item;
+    }
+    return nullptr;
+}
+
+const PouchItem* PauseMenuDataMgr::getItemByIndex(PouchCategory category, int index) const {
+    switch (category) {
+    case PouchCategory::Sword:
+        return getItemByIndex(PouchItemType::Sword, index);
+    case PouchCategory::Bow: {
+        const auto num_bows = ksys::gdt::getFlag_BowPorchStockNum();
+        if (index < num_bows)
+            return getItemByIndex(PouchItemType::Bow, index);
+        return getItemByIndex(PouchItemType::Arrow, index - num_bows);
+    }
+    case PouchCategory::Shield:
+        return getItemByIndex(PouchItemType::Shield, index);
+    case PouchCategory::Armor:
+        return getItemByIndex(PouchItemType::ArmorLower, index);
+    case PouchCategory::Material:
+        return getItemByIndex(PouchItemType::Material, index);
+    case PouchCategory::Food:
+        return getItemByIndex(PouchItemType::Food, index);
+    case PouchCategory::KeyItem:
+        return getItemByIndex(PouchItemType::KeyItem, index);
+    case PouchCategory::Invalid:
+        break;
+    }
+    return nullptr;
+}
+
+bool PauseMenuDataMgr::hasItemDye() const {
+    int counts[1 + NumDyeColors]{};
+    for (const auto& item : getItems()) {
+        auto* info = ksys::act::InfoData::instance();
+        const int color = ksys::act::getItemStainColor(info, item.getName().cstr());
+        if (color >= FirstDyeColorIndex && color <= LastDyeColorIndex && item.get25()) {
+            counts[color] += item.getValue();
+            if (counts[color] >= NumRequiredDyeItemsPerColor)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool PauseMenuDataMgr::hasItemDye(int color) const {
+    int count = 0;
+    for (const auto& item : getItems()) {
+        auto* info = ksys::act::InfoData::instance();
+        if (ksys::act::getItemStainColor(info, item.getName().cstr()) == color && item.get25()) {
+            count += item.getValue();
+            if (count >= NumRequiredDyeItemsPerColor)
+                return true;
+        }
+    }
+    return false;
+}
+
+const PouchItem* PauseMenuDataMgr::getLastAddedItem() const {
+    if (!mNewlyAddedItem.getName().isEmpty())
+        return &mNewlyAddedItem;
+    if (mLastAddedItem)
+        return mLastAddedItem;
+    return &mNewlyAddedItem;
+}
+
+void PauseMenuDataMgr::updateEquippedItemArray() {
+    mEquippedWeapons.fill({});
+    const auto lock = sead::makeScopedLock(mCritSection);
+    for (auto& item : getItems()) {
+        if (item.getType() > PouchItemType::Shield)
+            break;
+        if (item.isEquipped())
+            mEquippedWeapons[u32(item.getType())] = &item;
+    }
+}
+
+void PauseMenuDataMgr::resetEquippedItemArray() {
+    mEquippedWeapons.fill({});
+}
+
+bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
+    const auto count = countItems(type);
+    switch (type) {
+    case PouchItemType::Sword:
+        return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= NumSwordsMax;
+    case PouchItemType::Bow:
+        return ksys::gdt::getFlag_BowPorchStockNum() <= count || count >= NumBowsMax;
+    case PouchItemType::Arrow:
+        return count >= NumArrowItemsMax;
+    case PouchItemType::Shield:
+        return ksys::gdt::getFlag_ShieldPorchStockNum() <= count || count >= NumShieldsMax;
+    case PouchItemType::ArmorHead:
+    case PouchItemType::ArmorUpper:
+    case PouchItemType::ArmorLower:
+        return count >= NumArmorsMax;
+    case PouchItemType::Material:
+        return count >= NumMaterialsMax;
+    case PouchItemType::Food:
+        return count >= NumFoodMax;
+    case PouchItemType::KeyItem:
+        return count >= NumKeyItemsMax;
+    case PouchItemType::Invalid:
+        break;
+    }
+    return true;
+}
+
+// NON_MATCHING: branching (really weird issue...)
+int PauseMenuDataMgr::countArmors(const sead::SafeString& lowest_rank_armor_name) const {
+    if (!isPouchItemArmor(getType(lowest_rank_armor_name)))
+        return 0;
+
+    if (!getItemHead(PouchCategory::Armor))
+        return 0;
+
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return 0;
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    int count = 0;
+    sead::FixedSafeString<64> armor_name{lowest_rank_armor_name};
+    while (!armor_name.isEmpty()) {
+        for (auto* item = *mListHeads[u32(PouchCategory::Armor)]; item; item = nextItem(item)) {
+            if (item->getType() > PouchItemType::ArmorLower)
+                break;
+            if (item->get25() && armor_name == item->getName())
+                ++count;
+        }
+        armor_name = ksys::act::getArmorNextRankName(info, armor_name.cstr());
+    }
+    return count;
+}
+
+void PauseMenuDataMgr::addNonDefaultItem(const sead::SafeString& name, int value,
+                                         const act::WeaponModifierInfo* modifier) {
+    if (name.include("Default") || name.include("Extra"))
+        return;
+
+    const auto type = getType(name);
+    if (type != PouchItemType::Arrow && value >= 0 && isPouchItemWeapon(type))
+        value *= act::WeaponModifierInfo::getLifeMultiplier();
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+    addToPouch(name, type, mItemLists, value, false, modifier);
+}
+
+void PauseMenuDataMgr::openItemCategoryIfNeeded() const {
+    for (s32 i = 0; i < NumPouch50; ++i) {
+        const auto type = mArray2[i];
+        if (isPouchItemArmor(type)) {
+            ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
+        } else {
+            switch (type) {
+            case PouchItemType::Sword:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Sword));
+                break;
+            case PouchItemType::Bow:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Bow));
+                break;
+            case PouchItemType::Shield:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Shield));
+                break;
+            case PouchItemType::Material:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Material));
+                break;
+            case PouchItemType::Food:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Food));
+                break;
+            case PouchItemType::KeyItem:
+                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::KeyItem));
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+void PauseMenuDataMgr::initInventoryForOpenWorldDemo() {
+    if (!GameScene::isOpenWorldDemo())
+        return;
+
+    initForNewSave();
+
+    auto* info = ksys::act::InfoData::instance();
+    sead::FixedSafeString<64> unused{""};
+
+    addNonDefaultItem("Weapon_Sword_001",
+                      info ? ksys::act::getGeneralLife(info, "Weapon_Sword_001") : 30);
+    autoEquipLastAddedItem();
+
+    addNonDefaultItem("Weapon_Shield_001",
+                      info ? ksys::act::getGeneralLife(info, "Weapon_Shield_001") : 30);
+    autoEquipLastAddedItem();
+
+    addNonDefaultItem("Weapon_Bow_001",
+                      info ? ksys::act::getGeneralLife(info, "Weapon_Bow_001") : 30);
+    autoEquipLastAddedItem();
+
+    addNonDefaultItem("Armor_001_Head", 0);
+    autoEquipLastAddedItem();
+
+    addNonDefaultItem("Armor_116_Upper", 0);
+    autoEquipLastAddedItem();
+
+    addNonDefaultItem("Armor_001_Lower", 0);
+    autoEquipLastAddedItem();
+
+    for (int i = 0; i < 10; ++i) {
+        addNonDefaultItem("Obj_ArrowBundle_A_01", 1);
+        autoEquipLastAddedItem();
+    }
+
+    if (!ksys::util::getDebugHeap()) {
+        addItemForDebug("Obj_BombArrow_A_01", 100);
+        addItemForDebug("Obj_AncientArrow_A_01", 100);
+        addItemForDebug("Obj_FireArrow_A_01", 100);
+        addItemForDebug("Obj_ElectricArrow_A_01", 100);
+        addItemForDebug("Obj_IceArrow_A_01", 100);
+        addItemForDebug("PlayerStole2", 1);
+        addItemForDebug("Obj_DRStone_Get", 1);
+        addItemForDebug("GameRomHorseSaddle_01", 1);
+        addItemForDebug("GameRomHorseSaddle_02", 1);
+        addItemForDebug("GameRomHorseSaddle_03", 1);
+        addItemForDebug("GameRomHorseSaddle_04", 1);
+        addItemForDebug("GameRomHorseSaddle_05", 1);
+        addItemForDebug("GameRomHorseReins_01", 1);
+        addItemForDebug("GameRomHorseReins_02", 1);
+        addItemForDebug("GameRomHorseReins_03", 1);
+        addItemForDebug("GameRomHorseReins_04", 1);
+        addItemForDebug("GameRomHorseReins_05", 1);
+        addItemForDebug("Weapon_Lsword_056", 1);
+        addItemForDebug("Weapon_Spear_001", 1);
+        addItemForDebug("Weapon_Lsword_032", 1);
+        addItemForDebug("Weapon_Shield_002", 1);
+        addItemForDebug("Weapon_Bow_002", 1);
+        addItemForDebug("Weapon_Bow_027", 1);
+        addItemForDebug("Weapon_Sword_070", 1);
+        addItemForDebug("Weapon_Sword_043", 1);
+        addItemForDebug("Weapon_Sword_006", 1);
+    }
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+    saveToGameData(getItems());
 }
 
 [[gnu::noinline]] void PouchItem::sortIngredients() {
@@ -2147,65 +2496,6 @@ void PauseMenuDataMgr::updateDivineBeastClearFlags(int num_cleared_beasts) {
         break;
     default:
         break;
-    }
-}
-
-bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
-    const auto count = countItems(type);
-    switch (type) {
-    case PouchItemType::Sword:
-        return ksys::gdt::getFlag_WeaponPorchStockNum() <= count || count >= NumSwordsMax;
-    case PouchItemType::Bow:
-        return ksys::gdt::getFlag_BowPorchStockNum() <= count || count >= NumBowsMax;
-    case PouchItemType::Arrow:
-        return count >= NumArrowItemsMax;
-    case PouchItemType::Shield:
-        return ksys::gdt::getFlag_ShieldPorchStockNum() <= count || count >= NumShieldsMax;
-    case PouchItemType::ArmorHead:
-    case PouchItemType::ArmorUpper:
-    case PouchItemType::ArmorLower:
-        return count >= NumArmorsMax;
-    case PouchItemType::Material:
-        return count >= NumMaterialsMax;
-    case PouchItemType::Food:
-        return count >= NumFoodMax;
-    case PouchItemType::KeyItem:
-        return count >= NumKeyItemsMax;
-    case PouchItemType::Invalid:
-        break;
-    }
-    return true;
-}
-
-void PauseMenuDataMgr::openItemCategoryIfNeeded() const {
-    for (s32 i = 0; i < NumPouch50; ++i) {
-        const auto type = mArray2[i];
-        if (isPouchItemArmor(type)) {
-            ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
-        } else {
-            switch (type) {
-            case PouchItemType::Sword:
-                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Sword));
-                break;
-            case PouchItemType::Bow:
-                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Bow));
-                break;
-            case PouchItemType::Shield:
-                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Shield));
-                break;
-            case PouchItemType::Material:
-                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Material));
-                break;
-            case PouchItemType::Food:
-                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Food));
-                break;
-            case PouchItemType::KeyItem:
-                ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::KeyItem));
-                break;
-            default:
-                break;
-            }
-        }
     }
 }
 

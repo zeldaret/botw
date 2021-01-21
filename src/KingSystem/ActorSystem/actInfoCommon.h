@@ -42,6 +42,10 @@ float getWeaponCommonPoweredSharpAddRapidFireMin(const al::ByamlIter& iter);
 float getWeaponCommonPoweredSharpAddRapidFireMax(const al::ByamlIter& iter);
 bool getWeaponCommonPoweredSharpAddSurfMaster(const al::ByamlIter& iter);
 
+const char* getArmorNextRankName(InfoData* data, const char* actor);
+
+int getItemStainColor(InfoData* data, const char* actor);
+
 int getMonsterShopSellMamo(const al::ByamlIter& iter);
 
 }  // namespace ksys::act

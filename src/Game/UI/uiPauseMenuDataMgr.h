@@ -130,6 +130,13 @@ enum class ItemUse {
     Invalid = -1,
 };
 
+constexpr int NumDyeColors = 15;
+constexpr int FirstDyeColorIndex = 1;
+constexpr int LastDyeColorIndex = 15;
+static_assert(NumDyeColors == LastDyeColorIndex - FirstDyeColorIndex + 1,
+              "Dye color indices must be contiguous");
+constexpr int NumRequiredDyeItemsPerColor = 5;
+
 struct CookTagInfo {
     u32 is_tag;
     sead::SafeString name;
@@ -315,16 +322,36 @@ public:
     int countArmorDye() const;
     int countAlreadyDyedArmor() const;
 
+    int getNextGrabbedItemIndex() const;
+    bool canGrabAnotherItem() const;
+    bool isNothingBeingGrabbed() const;
+
     bool isHeroSoulEnabled(const sead::SafeString& name) const;
     bool hasRitoSoulPlus() const;
     bool hasGoronSoulPlus() const;
     bool hasGerudoSoulPlus() const;
     bool hasZoraSoulPlus() const;
 
+    int countItemsWithCategoryByType(PouchCategory category) const;
+    const PouchItem* getItemByIndex(PouchCategory category, int index) const;
+
+    bool hasItemDye() const;
+    bool hasItemDye(int color) const;
+
+    const PouchItem* getLastAddedItem() const;
+
+    void updateEquippedItemArray();
+    void resetEquippedItemArray();
+
     bool isOverCategoryLimit(PouchItemType type) const;
+
+    int countArmors(const sead::SafeString& lowest_rank_armor_name) const;
+
     void openItemCategoryIfNeeded() const;
 
-    auto get44800() const { return mCategoryToSort; }
+    void initInventoryForOpenWorldDemo();
+
+    PouchCategory getCategoryToSort() const { return mCategoryToSort; }
 
 private:
     // TODO: rename
@@ -372,6 +399,8 @@ private:
     PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
     bool isList2Empty() const { return mItemLists.list2.isEmpty(); }
 
+    const PouchItem* getItemByIndex(PouchItemType type, int index) const;
+
     void destroyAndRecycleItem(PouchItem* item) {
         item->~PouchItem();
         new (item) PouchItem;
@@ -416,6 +445,9 @@ private:
     void deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem* item,
                      const sead::SafeString& name);
 
+    void addNonDefaultItem(const sead::SafeString& name, int value,
+                           const act::WeaponModifierInfo* modifier = nullptr);
+
     bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 
     /// @param num_cleared_beasts The number of divine beasts that have been done.
@@ -450,10 +482,7 @@ private:
     /// Indicates if a temporary inventory ("pouch for quest") is being used.
     bool mIsPouchForQuest = false;
 
-    u64 _447e0;
-    u64 _447e8;
-    u64 _447f0;
-    u64 _447f8;
+    sead::SafeArray<PouchItem*, 4> mEquippedWeapons;
     PouchCategory mCategoryToSort = PouchCategory::Invalid;
 };
 KSYS_CHECK_SIZE_NX150(PauseMenuDataMgr, 0x44808);

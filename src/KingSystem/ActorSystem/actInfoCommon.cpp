@@ -115,6 +115,14 @@ bool getWeaponCommonPoweredSharpAddSurfMaster(const al::ByamlIter& iter) {
     return InfoData::getBoolByKey(iter, "weaponCommonPoweredSharpAddSurfMaster");
 }
 
+const char* getArmorNextRankName(InfoData* data, const char* actor) {
+    return data->getString(actor, "armorNextRankName", sead::SafeString::cEmptyString);
+}
+
+int getItemStainColor(InfoData* data, const char* actor) {
+    return data->getInt(actor, "itemStainColor", -1);
+}
+
 int getMonsterShopSellMamo(const al::ByamlIter& iter) {
     return InfoData::getIntByKey(iter, "monsterShopSellMamo");
 }
