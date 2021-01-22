@@ -48,13 +48,86 @@ PROPERTIES: List[Tuple[str, str, str, Any]] = [
     ("MasterSword", "SleepActorName", "const char*"),
     ("MasterSword", "TrueFormActorName", "const char*"),
 
+    ("Armor", "StarNum", "int"),
+    ("Armor", "DefenceAddLevel", "int"),
     ("Armor", "NextRankName", "const char*"),
 
+    ("ArmorEffect", "EffectType", "const char*", "None"),
+    ("ArmorEffect", "EffectLevel", "int"),
+    ("ArmorEffect", "AncientPowUp", "bool"),
+    ("ArmorEffect", "EnableClimbWaterfall", "bool"),
+    ("ArmorEffect", "EnableSpinAttack", "bool"),
+
+    ("ArmorHead", "MantleType", "int"),
+
+    ("ArmorUpper", "DisableSelfMantle", "bool"),
+    ("ArmorUpper", "UseMantleType", "int"),
+
+    ("SeriesArmor", "SeriesType", "const char*"),
+
+    ("Item", "SellingPrice", "int", -1),
+    ("Item", "BuyingPrice", "int", -1),
+    ("Item", "CreatingPrice", "int", -1),
     ("Item", "StainColor", "int", -1),
+    ("Item", "SaleRevivalCount", "int", -1),
+    ("Item", "UseIconActorName", "const char*"),
+
+    ("Rupee", "RupeeValue", "int", 1),
+
+    ("Arrow", "ArrowNum", "int"),
+    ("Arrow", "EnemyShootNumForDelete", "int"),
+    ("Arrow", "ArrowDeletePer", "int"),
 
     ("CureItem", "HitPointRecover", "int"),
+    ("CureItem", "EffectiveTime", "int"),
 
+    ("Traveler", "AppearGameDataName", "const char*"),
+    ("Traveler", "DeleteGameDataName", "const char*"),
+    ("Traveler", "RouteType", "const char*"),
+    ("Traveler", "RideHorseName", "const char*"),
+    ("Traveler", "RoutePoint0Name", "const char*"),
+    ("Traveler", "RoutePoint1Name", "const char*"),
+    ("Traveler", "RoutePoint2Name", "const char*"),
+    ("Traveler", "RoutePoint3Name", "const char*"),
+    ("Traveler", "RoutePoint4Name", "const char*"),
+    ("Traveler", "RoutePoint5Name", "const char*"),
+    ("Traveler", "RoutePoint6Name", "const char*"),
+    ("Traveler", "RoutePoint7Name", "const char*"),
+    ("Traveler", "RoutePoint8Name", "const char*"),
+    ("Traveler", "RoutePoint9Name", "const char*"),
+    ("Traveler", "RoutePoint10Name", "const char*"),
+    ("Traveler", "RoutePoint11Name", "const char*"),
+    ("Traveler", "RoutePoint12Name", "const char*"),
+    ("Traveler", "RoutePoint13Name", "const char*"),
+    ("Traveler", "RoutePoint14Name", "const char*"),
+    ("Traveler", "RoutePoint15Name", "const char*"),
+    ("Traveler", "RoutePoint16Name", "const char*"),
+    ("Traveler", "RoutePoint17Name", "const char*"),
+    ("Traveler", "RoutePoint18Name", "const char*"),
+    ("Traveler", "RoutePoint19Name", "const char*"),
+    ("Traveler", "RoutePoint20Name", "const char*"),
+    ("Traveler", "RoutePoint21Name", "const char*"),
+    ("Traveler", "RoutePoint22Name", "const char*"),
+    ("Traveler", "RoutePoint23Name", "const char*"),
+    ("Traveler", "RoutePoint24Name", "const char*"),
+    ("Traveler", "RoutePoint25Name", "const char*"),
+    ("Traveler", "RoutePoint26Name", "const char*"),
+    ("Traveler", "RoutePoint27Name", "const char*"),
+    ("Traveler", "RoutePoint28Name", "const char*"),
+    ("Traveler", "RoutePoint29Name", "const char*"),
+
+    ("Horse", "ASVariation", "const char*", "Normal"),
+    ("Horse", "Nature", "int"),
+    ("Horse", "GearTopChargeNum", "int", 3),
+
+    ("HorseUnit", "RiddenAnimalType", "int"),
+
+    ("MonsterShop", "BuyMamo", "int"),
     ("MonsterShop", "SellMamo", "int"),
+
+    ("PictureBook", "LiveSpot1", "int", -1),
+    ("PictureBook", "LiveSpot2", "int", -1),
+    ("PictureBook", "SpecialDrop", "int", -1),
 ]
 
 
