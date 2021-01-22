@@ -21,11 +21,14 @@ bool isMasterSwordItem(const PouchItem& item);
 int getItemHitPointRecover(const sead::SafeString& name);
 
 void getWeaponStats(const PouchItem& item, WeaponStats* stats);
+int getBowActorInfoAddValue(const sead::SafeString& name);
 
 int getWeaponInventoryLife(const sead::SafeString& name);
 bool isMasterSwordActorName(const sead::SafeString& name);
 
-// TODO: move this to another translation unit (TBD)
+// TODO: move these to another translation unit (TBD)
+// Do not implement until the location is figured out
+bool isOneHitObliteratorActorName(const sead::SafeString& name);
 int getItemGeneralLife(const char* name);
 
 // TODO: move this to yet another translation unit (TBD but not the same one as the above)
