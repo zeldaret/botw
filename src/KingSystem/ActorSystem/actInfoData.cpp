@@ -210,7 +210,7 @@ s32 InfoData::getIntByKey(const al::ByamlIter& iter, const char* key, s32 defaul
 }
 
 const char* InfoData::getStringByKey(const al::ByamlIter& iter, const char* key,
-                                     const sead::SafeString& default_) {
+                                     const sead::SafeString& default_, bool) {
     const char* value;
     return iter.tryGetStringByKey(&value, key) ? value : default_.cstr();
 }

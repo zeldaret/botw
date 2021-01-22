@@ -142,7 +142,8 @@ public:
                              bool x = true);
     static const char*
     getStringByKey(const al::ByamlIter& iter, const char* key,
-                   const sead::SafeString& default_ = sead::SafeString::cEmptyString);
+                   const sead::SafeString& default_ = sead::SafeString::cEmptyString,
+                   bool x = true);
 
 private:
     struct DebugEntry {
