@@ -144,8 +144,8 @@ bool WeaponModifierRanges::loadTierYellow(const sead::SafeString& actor) {
     addLifeMin = ksys::act::getWeaponCommonPoweredSharpAddLifeMin(iter);
     addLifeMax = ksys::act::getWeaponCommonPoweredSharpAddLifeMax(iter);
 
-    addGuardMin = ksys::act::getWeaponCommonPoweredSharpAddGuardMin(iter);
-    addGuardMax = ksys::act::getWeaponCommonPoweredSharpAddGuardMax(iter);
+    addGuardMin = ksys::act::getWeaponCommonPoweredSharpWeaponAddGuardMin(iter);
+    addGuardMax = ksys::act::getWeaponCommonPoweredSharpWeaponAddGuardMax(iter);
 
     addThrowMin = ksys::act::getWeaponCommonPoweredSharpAddThrowMin(iter);
     addThrowMax = ksys::act::getWeaponCommonPoweredSharpAddThrowMax(iter);
