@@ -42,13 +42,23 @@ float getWeaponCommonPoweredSharpAddRapidFireMin(const al::ByamlIter& iter);
 float getWeaponCommonPoweredSharpAddRapidFireMax(const al::ByamlIter& iter);
 bool getWeaponCommonPoweredSharpAddSurfMaster(const al::ByamlIter& iter);
 
+const char* getBowArrowName(InfoData* data, const char* actor);
+bool getBowIsLeadShot(const al::ByamlIter& iter);
+int getBowLeadShotNum(const al::ByamlIter& iter);
+bool getBowIsRapidFire(const al::ByamlIter& iter);
+int getBowRapidFireNum(const al::ByamlIter& iter);
+
+int getMasterSwordTrueFormAttackPower(InfoData* data, const char* actor);
+float getMasterSwordSearchEvilDist(InfoData* data, const char* actor);
+const char* getMasterSwordSleepActorName(InfoData* data, const char* actor);
+const char* getMasterSwordTrueFormActorName(InfoData* data, const char* actor);
+
 const char* getArmorNextRankName(InfoData* data, const char* actor);
 
 int getItemStainColor(InfoData* data, const char* actor);
 
 int getCureItemHitPointRecover(InfoData* data, const char* actor);
 int getCureItemHitPointRecover(const al::ByamlIter& iter);
-
 
 int getMonsterShopSellMamo(const al::ByamlIter& iter);
 

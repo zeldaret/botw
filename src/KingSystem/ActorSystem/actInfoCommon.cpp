@@ -115,6 +115,42 @@ bool getWeaponCommonPoweredSharpAddSurfMaster(const al::ByamlIter& iter) {
     return InfoData::getBoolByKey(iter, "weaponCommonPoweredSharpAddSurfMaster");
 }
 
+const char* getBowArrowName(InfoData* data, const char* actor) {
+    return data->getString(actor, "bowArrowName");
+}
+
+bool getBowIsLeadShot(const al::ByamlIter& iter) {
+    return InfoData::getBoolByKey(iter, "bowIsLeadShot");
+}
+
+int getBowLeadShotNum(const al::ByamlIter& iter) {
+    return InfoData::getIntByKey(iter, "bowLeadShotNum");
+}
+
+bool getBowIsRapidFire(const al::ByamlIter& iter) {
+    return InfoData::getBoolByKey(iter, "bowIsRapidFire");
+}
+
+int getBowRapidFireNum(const al::ByamlIter& iter) {
+    return InfoData::getIntByKey(iter, "bowRapidFireNum");
+}
+
+int getMasterSwordTrueFormAttackPower(InfoData* data, const char* actor) {
+    return data->getInt(actor, "masterSwordTrueFormAttackPower", -1);
+}
+
+float getMasterSwordSearchEvilDist(InfoData* data, const char* actor) {
+    return data->getFloat(actor, "masterSwordSearchEvilDist", -1.0);
+}
+
+const char* getMasterSwordSleepActorName(InfoData* data, const char* actor) {
+    return data->getString(actor, "masterSwordSleepActorName");
+}
+
+const char* getMasterSwordTrueFormActorName(InfoData* data, const char* actor) {
+    return data->getString(actor, "masterSwordTrueFormActorName");
+}
+
 const char* getArmorNextRankName(InfoData* data, const char* actor) {
     return data->getString(actor, "armorNextRankName", sead::SafeString::cEmptyString);
 }
