@@ -175,6 +175,7 @@ public:
     bool isEquipped() const { return mEquipped; }
     u8 get25() const { return _25; }
     const sead::SafeString& getName() const { return mName; }
+    ItemUse getItemUse() const { return mItemUse; }
 
     bool isWeapon() const { return getType() <= PouchItemType::Shield; }
 
@@ -231,7 +232,7 @@ private:
 
     sead::ListNode mListNode;
     PouchItemType mType = PouchItemType::Invalid;
-    s32 _1c = -1;
+    ItemUse mItemUse = ItemUse::Invalid;
     s32 mValue = 0;
     bool mEquipped = false;
     u8 _25 = 1;

@@ -1,14 +1,26 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::ui {
 
 class PouchItem;
 
+struct WeaponStats {
+    int durability{};
+    /// Attack power (for offensive weapons) or guard power (for shields).
+    int power{};
+    act::WeaponModifierInfo modifier{};
+    /// Bow modifier value ("add value") or 0 for weapons that are not bows.
+    int bow_add_value{};
+};
+
 bool isMasterSwordItem(const PouchItem& item);
 
 int getItemHitPointRecover(const sead::SafeString& name);
+
+void getWeaponStats(const PouchItem& item, WeaponStats* stats);
 
 int getWeaponInventoryLife(const sead::SafeString& name);
 bool isMasterSwordActorName(const sead::SafeString& name);

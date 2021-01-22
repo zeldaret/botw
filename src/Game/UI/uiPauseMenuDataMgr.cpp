@@ -204,6 +204,19 @@ int getFoodSortKey(int* effect_value, const PouchItem* item) {
     }
 }
 
+int getWeaponPowerSortValue(const PouchItem* item, ksys::act::InfoData* data) {
+#ifdef MATCHING_HACK_NX_CLANG
+    __builtin_assume(data);  // Force LLVM to keep data (perhaps N had an "assume not null" macro?)
+#endif
+
+    WeaponStats stats;
+    getWeaponStats(*item, &stats);
+    int value = stats.power;
+    if (item->getType() == PouchItemType::Bow && stats.bow_add_value > 1)
+        value *= stats.bow_add_value;
+    return value;
+}
+
 }  // namespace
 
 int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs);
@@ -230,7 +243,7 @@ PouchItem::PouchItem() {
 
 void PauseMenuDataMgr::resetItem() {
     mNewlyAddedItem.mType = PouchItemType::Invalid;
-    mNewlyAddedItem._1c = -1;
+    mNewlyAddedItem.mItemUse = ItemUse::Invalid;
     mNewlyAddedItem.mValue = 0;
     mNewlyAddedItem.mEquipped = false;
     mNewlyAddedItem._25 = 0;
@@ -1928,6 +1941,56 @@ static s32 compareSortKeys(const PouchItem* lhs, const PouchItem* rhs, ksys::act
     return 0;
 }
 
+static s32 compareItemValues(const PouchItem* lhs, const PouchItem* rhs) {
+    const int val1 = lhs->getValue();
+    const int val2 = rhs->getValue();
+    // Higher is better
+    if (val1 > val2)
+        return -1;
+    if (val1 < val2)
+        return 1;
+    return 0;
+}
+
+static int doCompareWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    const auto use1 = lhs->getItemUse();
+    const auto use2 = rhs->getItemUse();
+    if (use1 < use2)
+        return -1;
+    if (use1 > use2)
+        return 1;
+
+    const auto power1 = getWeaponPowerSortValue(lhs, data);
+    const auto power2 = getWeaponPowerSortValue(rhs, data);
+    if (power1 > power2)
+        return -1;
+    if (power1 < power2)
+        return 1;
+
+    const auto mod1 = getWeaponModifierSortKey(lhs->getWeaponAddFlags());
+    const auto mod2 = getWeaponModifierSortKey(rhs->getWeaponAddFlags());
+    if (mod1 < mod2)
+        return -1;
+    if (mod1 > mod2)
+        return 1;
+
+    return compareItemValues(lhs, rhs);
+}
+
+static int compareWeaponType0(const PouchItem* lhs, const PouchItem* rhs,
+                              ksys::act::InfoData* data) {
+    if (auto cmp = doCompareWeapon(lhs, rhs, data))
+        return cmp;
+    return compareSortKeys(lhs, rhs, data);
+}
+
+static int compareWeaponType1(const PouchItem* lhs, const PouchItem* rhs,
+                              ksys::act::InfoData* data) {
+    if (auto cmp = compareSortKeys(lhs, rhs, data))
+        return cmp;
+    return doCompareWeapon(lhs, rhs, data);
+}
+
 static int getShieldGuardPower(const PouchItem* item, ksys::act::InfoData* data) {
     int power = ksys::act::getWeaponCommonGuardPower(data, item->getName().cstr());
     if (item->getWeaponAddFlags().isOn(act::WeaponModifier::AddGuard))
@@ -1952,15 +2015,22 @@ static int doCompareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act
     if (mod1 > mod2)
         return 1;
 
-    const int val1 = lhs->getValue();
-    const int val2 = rhs->getValue();
-    // Higher is better
-    if (val1 > val2)
-        return -1;
-    if (val1 < val2)
-        return 1;
+    return compareItemValues(lhs, rhs);
+}
 
-    return 0;
+int compareWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    if (ksys::gdt::getFlag_SortTypeWeaponPouch())
+        return compareWeaponType1(lhs, rhs, data);
+    return compareWeaponType0(lhs, rhs, data);
+}
+
+int compareBow(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    if (lhs->getType() == PouchItemType::Arrow)
+        return compareSortKeys(lhs, rhs, data);
+
+    if (ksys::gdt::getFlag_SortTypeBowPouch())
+        return compareWeaponType1(lhs, rhs, data);
+    return compareWeaponType0(lhs, rhs, data);
 }
 
 int compareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
