@@ -164,6 +164,46 @@ int getWeaponModifierSortKey(sead::TypedBitFlag<act::WeaponModifier> flags) {
     return 12;
 }
 
+int getFoodSortKey(int* effect_value, const PouchItem* item) {
+    const int type = item->getCookData().mCookEffect0.x;
+    const int value = item->getCookData().mCookEffect0.y;
+    *effect_value = value;
+    // TODO: add an enum
+    switch (type) {
+    case 1:
+        return 0;
+    case 2:
+        return 1;
+    case 14:
+        return 2;
+    case 15:
+        return 3;
+    case 13:
+        return 4;
+    case 16:
+        return 5;
+    case 5:
+        return 6;
+    case 4:
+        return 7;
+    case 6:
+        return 8;
+    case 10:
+        return 9;
+    case 11:
+        return 10;
+    case 12:
+        return 11;
+    default:
+        *effect_value = 0;
+        if (ksys::act::InfoData::instance()->hasTag(item->getName().cstr(),
+                                                    ksys::act::tags::CookResult)) {
+            return 0;
+        }
+        return 12;
+    }
+}
+
 }  // namespace
 
 int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs);
@@ -1983,6 +2023,44 @@ int compareMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoD
         return 1;
 
     return compareSortKeys(lhs, rhs, data);
+}
+
+int compareFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
+    int e1, e2;
+    const int k1 = getFoodSortKey(&e1, lhs);
+    const int k2 = getFoodSortKey(&e2, rhs);
+    // Lower key is better
+    if (k1 < k2)
+        return -1;
+    if (k1 > k2)
+        return 1;
+
+    if (auto cmp = compareSortKeys(lhs, rhs, data))
+        return cmp;
+
+    // Higher is better
+    if (e1 > e2)
+        return -1;
+    if (e1 < e2)
+        return 1;
+
+    const int st1 = lhs->getCookData().mStaminaRecoverX;
+    const int st2 = rhs->getCookData().mStaminaRecoverX;
+    // Higher is better
+    if (st1 > st2)
+        return -1;
+    if (st1 < st2)
+        return 1;
+
+    const auto sv1 = lhs->getCookData().getStaminaRecoverValue();
+    const auto sv2 = rhs->getCookData().getStaminaRecoverValue();
+    // Higher is better
+    if (sv1 > sv2)
+        return -1;
+    if (sv1 < sv2)
+        return 1;
+
+    return 0;
 }
 
 int compareKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {

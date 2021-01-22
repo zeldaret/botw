@@ -148,6 +148,7 @@ struct CookTagInfo {
 class PouchItem {
 public:
     struct CookData {
+        f32 getStaminaRecoverValue() const { return f32(mStaminaRecoverY) * 30.0f; }
         void setStaminaRecoverX(int x) { mStaminaRecoverX = x; }
         void setStaminaRecoverY(int y) { mStaminaRecoverY = y; }
         void setCookEffect1(int effect) { mCookEffect1 = effect; }
