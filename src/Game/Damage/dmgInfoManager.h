@@ -24,8 +24,22 @@ public:
         sead::SafeArray<u8, 3> mCanTakeDamageFromType;
     };
 
+    /// Boomerang remote bombs are a scrapped feature.
+    static bool enableBoomerangRemoteBombs();
+    static int getShieldRideBaseFrame();
+    static int getShieldRideHitBaseDamage();
+    static f32 getCriticalAttackRatio();
+
     bool isTrueFormMasterSword() const;
 
+    sead::Buffer<DamageItem>& getDamagesArray() { return mDamagesArray; }
+    const sead::Buffer<DamageItem>& getDamagesArray() const { return mDamagesArray; }
+    f32 getMasterSwordSearchEvilDist() const { return mMasterSwordSearchEvilDist; }
+    bool isMasterSwordDetectedEvil() const { return mMasterSwordDetectedEvil; }
+    bool isMasterSwordDisableTrueForm() const { return mMasterSwordDisableTrueForm; }
+    bool isOneHitObliteratorActive() const { return mOneHitObliteratorActive; }
+
+private:
     /* 0x0028 */ u8 TEMP_8[0x5d0 - 0x28];
     /* 0x05d0 */ ksys::res::Handle mReactionTable;
     /* 0x0620 */ sead::Buffer<DamageItem> mDamagesArray;

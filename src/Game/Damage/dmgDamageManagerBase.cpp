@@ -229,11 +229,11 @@ bool DamageManagerBase::canTakeDamage() {
         return false;
     }
 
-    if (!DamageInfoMgr::instance()->mDamagesArray.isBufferReady()) {
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady()) {
         return false;
     }
 
-    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->mDamagesArray[idx];
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
     return item.mCanTakeDamageFromType[damageTypeMaybe] & 0x1;
 }
 
