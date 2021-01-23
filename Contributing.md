@@ -141,6 +141,8 @@ Unlike most other decompilation projects, this one targets a large modern game t
     * For more options, see [asm-differ](https://github.com/simonlindholm/asm-differ).
 * To print progress: `tools/progress.py`
     * Note that progress is only approximate because of inline functions, templating and compiler-generated functions.
+* To print AI class decompilation status: `tools/ai_progress.py`
+    * Use this to figure out which AI classes have not been decompiled yet.
 * To dump symbols: `tools/print_decomp_symbols.py`
     * `-u` for undefined symbols (default)
     * `-a` for all symbols
