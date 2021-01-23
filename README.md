@@ -68,11 +68,11 @@ On subsequent builds, just run `ninja -C build` from the project root.
 
 **THIS WILL NOT PRODUCE A PLAYABLE GAME.**
 
-### Contributing
+## Contributing
 
 [Contributing guidelines are available here.](Contributing.md)
 
-### Resources
+## Resources
 
 * The [ZeldaMods](https://zeldamods.org/wiki/Main_Page) wiki
 * [MrCheeze's botw-tools](https://github.com/MrCheeze/botw-tools)
