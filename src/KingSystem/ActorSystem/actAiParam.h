@@ -19,7 +19,7 @@ class Rail;
 namespace act {
 class Actor;
 class BaseProc;
-}
+}  // namespace act
 
 namespace act::ai {
 
