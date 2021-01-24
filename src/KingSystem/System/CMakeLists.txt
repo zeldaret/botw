@@ -17,4 +17,6 @@ target_sources(uking PRIVATE
   SystemPauseMgr.h
   Timer.cpp
   Timer.h
+  VFR.cpp
+  VFR.h
 )
