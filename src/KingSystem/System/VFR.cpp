@@ -175,4 +175,30 @@ bool VFR::hasCustomTimeMultiplier() const {
     return false;
 }
 
+VFR::Stopwatch::Stopwatch() = default;
+
+VFR::Stopwatch::Stopwatch(u32 include_mask, u32 exclude_mask) : Stopwatch() {
+    start(include_mask, exclude_mask);
+}
+
+void VFR::Stopwatch::start(u32 include_mask, u32 exclude_mask) {
+    auto* vfr = VFR::instance();
+    if (!vfr)
+        return;
+
+    f32 duration;
+    const auto delta = vfr->setDeltaFromTimeMultipliers(&duration, include_mask, exclude_mask);
+    const auto time = vfr->getDeltaTime();
+    if (delta != time) {
+        mTimeDelta = duration;
+        if (delta > 0.0)
+            mTimeRate = time / delta;
+    }
+}
+
+VFR::Stopwatch::~Stopwatch() {
+    if (VFR::instance() && mTimeDelta > 0.0)
+        VFR::instance()->setDelta(mTimeDelta);
+}
+
 }  // namespace ksys

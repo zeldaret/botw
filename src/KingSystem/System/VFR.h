@@ -4,6 +4,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
+#include <mc/seadCoreInfo.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -30,6 +31,20 @@ public:
         f32 target_value = 1.0;
     };
 
+    struct Stopwatch {
+        Stopwatch();
+        Stopwatch(u32 include_mask, u32 exclude_mask);
+        ~Stopwatch();
+        Stopwatch(const Stopwatch&) = delete;
+        Stopwatch(Stopwatch&&) = delete;
+        auto operator=(const Stopwatch&) = delete;
+        auto operator=(Stopwatch&&) = delete;
+        void start(u32 include_mask, u32 exclude_mask);
+
+        f32 mTimeRate = 1.0;
+        f32 mTimeDelta = 0.0;
+    };
+
     void init(u32 interval, int num_speed_multipliers, sead::Heap* heap, u32 mask);
 
     void setIntervalOverride(u32 interval);
@@ -50,6 +65,9 @@ public:
     // TODO: requires ksys::Sound
     void resetTimeMultiplier(u32 idx);
 
+    f32 getDeltaTime(u32 core) const { return *mDeltaTimes[core]; }
+    f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
+
 private:
     struct TimeSpeedMultipliers : sead::Buffer<TimeSpeedMultiplier> {
         TimeSpeedMultipliers() {
@@ -59,6 +77,7 @@ private:
     };
 
     void setDelta(u32 core, f32 delta);
+    void setDelta(f32 delta) { setDelta(sead::CoreInfo::getCurrentCoreId(), delta); }
     void setDeltaFromTimeMultipliers(u32 core, const sead::BitFlag32& mask);
     void x_1();
     void copyAtoB();
