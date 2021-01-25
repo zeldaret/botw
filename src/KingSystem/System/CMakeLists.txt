@@ -19,4 +19,6 @@ target_sources(uking PRIVATE
   Timer.h
   VFR.cpp
   VFR.h
+  VFRValue.cpp
+  VFRValue.h
 )
