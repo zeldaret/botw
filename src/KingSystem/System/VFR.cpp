@@ -7,10 +7,10 @@ SEAD_SINGLETON_DISPOSER_IMPL(VFR)
 
 VFR::VFR() {
     for (int i = 0; i < NumCores; ++i) {
-        mPtrs1[i] = &mFloats1a[i];
-        mDeltaTimes[i] = &mFloats2a[i];
-        mPtrs3[i] = &mFloats3a[i];
-        mDeltaFrames[i] = &mFloats4a[i];
+        mRawDeltaFrames[i] = &mStorage[0].raw_delta_frames[i];
+        mDeltaFrames[i] = &mStorage[0].delta_frames[i];
+        mRawDeltaTimes[i] = &mStorage[0].raw_delta_times[i];
+        mDeltaTimes[i] = &mStorage[0].delta_times[i];
         mIntervals[i] = &mIntervalA;
         mIntervalRatios[i] = &mIntervalRatioA;
     }
@@ -22,13 +22,13 @@ VFR::~VFR() {
 
 void VFR::setDelta(u32 core, f32 delta) {
     delta = sead::Mathf::max(delta, 0.01f);
-    *mPtrs1[core] = delta;
-    *mDeltaTimes[core] = delta * *mIntervalRatios[core];
-    *mPtrs3[core] = delta * mFrameTime;
-    *mDeltaFrames[core] = *mDeltaTimes[core] * mFrameTime;
+    *mRawDeltaFrames[core] = delta;
+    *mDeltaFrames[core] = delta * *mIntervalRatios[core];
+    *mRawDeltaTimes[core] = delta * mFrameTime;
+    *mDeltaTimes[core] = *mDeltaFrames[core] * mFrameTime;
 }
 
-void VFR::setDeltaFromTimeMultipliers(u32 core, const sead::BitFlag32& mask) {
+void VFR::setMinDelta(u32 core, const sead::BitFlag32& mask) {
     f32 min = 1.0;
     for (s32 i = 0; i < mTimeSpeedMultipliers.size(); ++i) {
         if (mask.isOnBit(i))
@@ -43,26 +43,26 @@ void VFR::resetTimeMultipliers() {
         entry.target_value = 1.0;
         entry.is_custom = false;
     }
-    x_1();
+    setMinDelta();
 }
 
-void VFR::x_1() {
-    setDeltaFromTimeMultipliers(0, mMask);
+void VFR::setMinDelta() {
+    setMinDelta(0, mMask);
 
     for (s32 i = 0; i < NumCores; ++i) {
-        mFloats2a[i] = mFloats2a[0];
-        mFloats3a[i] = mFloats3a[0];
-        mFloats4a[i] = mFloats4a[0];
-        mFloats1a[i] = mFloats1a[0];
+        mStorage[0].delta_frames[i] = mStorage[0].delta_frames[0];
+        mStorage[0].raw_delta_times[i] = mStorage[0].raw_delta_times[0];
+        mStorage[0].delta_times[i] = mStorage[0].delta_times[0];
+        mStorage[0].raw_delta_frames[i] = mStorage[0].raw_delta_frames[0];
     }
 }
 
 void VFR::copyAtoB() {
     for (s32 i = 0; i < NumCores; ++i) {
-        mFloats1b[i] = mFloats1a[i];
-        mFloats2b[i] = mFloats2a[i];
-        mFloats3b[i] = mFloats3a[i];
-        mFloats4b[i] = mFloats4a[i];
+        mStorage[1].raw_delta_frames[i] = mStorage[0].raw_delta_frames[i];
+        mStorage[1].delta_frames[i] = mStorage[0].delta_frames[i];
+        mStorage[1].raw_delta_times[i] = mStorage[0].raw_delta_times[i];
+        mStorage[1].delta_times[i] = mStorage[0].delta_times[i];
         mIntervalB = mIntervalA;
         mIntervalRatioB = mIntervalRatioA;
     }
@@ -76,7 +76,7 @@ void VFR::init(u32 interval, int num_speed_multipliers, sead::Heap* heap, u32 ma
     mFrameTime = 1.0f / mFrameRate;
     mTimeSpeedMultipliers.allocBufferAssert(num_speed_multipliers, heap);
     mMask = mask;
-    x_1();
+    setMinDelta();
     copyAtoB();
 }
 
@@ -136,34 +136,34 @@ void VFR::updateInterval(u32 new_interval) {
         mTimeSpeedMultipliers[i].update(mIntervalRatioA);
     }
 
-    x_1();
+    setMinDelta();
 }
 
 void VFR::useBufferB() {
     const u32 core = sead::CoreInfo::getCurrentCoreId();
-    mPtrs1[core] = &mFloats1b[core];
-    mDeltaTimes[core] = &mFloats2b[core];
-    mPtrs3[core] = &mFloats3b[core];
-    mDeltaFrames[core] = &mFloats4b[core];
+    mRawDeltaFrames[core] = &mStorage[1].raw_delta_frames[core];
+    mDeltaFrames[core] = &mStorage[1].delta_frames[core];
+    mRawDeltaTimes[core] = &mStorage[1].raw_delta_times[core];
+    mDeltaTimes[core] = &mStorage[1].delta_times[core];
     mIntervals[core] = &mIntervalB;
     mIntervalRatios[core] = &mIntervalRatioB;
 }
 
 void VFR::useBufferA() {
     const u32 core = sead::CoreInfo::getCurrentCoreId();
-    mPtrs1[core] = &mFloats1a[core];
-    mDeltaTimes[core] = &mFloats2a[core];
-    mPtrs3[core] = &mFloats3a[core];
-    mDeltaFrames[core] = &mFloats4a[core];
+    mRawDeltaFrames[core] = &mStorage[0].raw_delta_frames[core];
+    mDeltaFrames[core] = &mStorage[0].delta_frames[core];
+    mRawDeltaTimes[core] = &mStorage[0].raw_delta_times[core];
+    mDeltaTimes[core] = &mStorage[0].delta_times[core];
     mIntervals[core] = &mIntervalA;
     mIntervalRatios[core] = &mIntervalRatioA;
 }
 
-f32 VFR::setDeltaFromTimeMultipliers(f32* value, u32 include_mask, u32 exclude_mask) {
+f32 VFR::getDeltaAndSetMin(f32* raw_delta_frames, u32 include_mask, u32 exclude_mask) {
     const u32 core = sead::CoreInfo::getCurrentCoreId();
-    *value = *mPtrs1[core];
-    const f32 delta = *mDeltaTimes[core];
-    setDeltaFromTimeMultipliers(core, (mMask.getDirect() | include_mask) & ~exclude_mask);
+    *raw_delta_frames = *mRawDeltaFrames[core];
+    const f32 delta = *mDeltaFrames[core];
+    setMinDelta(core, (mMask.getDirect() | include_mask) & ~exclude_mask);
     return delta;
 }
 
@@ -175,30 +175,31 @@ bool VFR::hasCustomTimeMultiplier() const {
     return false;
 }
 
-VFR::Stopwatch::Stopwatch() = default;
+VFR::ScopedDeltaSetter::ScopedDeltaSetter() = default;
 
-VFR::Stopwatch::Stopwatch(u32 include_mask, u32 exclude_mask) : Stopwatch() {
-    start(include_mask, exclude_mask);
+VFR::ScopedDeltaSetter::ScopedDeltaSetter(u32 include_mask, u32 exclude_mask)
+    : ScopedDeltaSetter() {
+    set(include_mask, exclude_mask);
 }
 
-void VFR::Stopwatch::start(u32 include_mask, u32 exclude_mask) {
+void VFR::ScopedDeltaSetter::set(u32 include_mask, u32 exclude_mask) {
     auto* vfr = VFR::instance();
     if (!vfr)
         return;
 
-    f32 duration;
-    const auto delta = vfr->setDeltaFromTimeMultipliers(&duration, include_mask, exclude_mask);
+    f32 raw_delta;
+    const auto delta = vfr->getDeltaAndSetMin(&raw_delta, include_mask, exclude_mask);
     const auto time = vfr->getDeltaTime();
     if (delta != time) {
-        mTimeDelta = duration;
+        mPreviousDelta = raw_delta;
         if (delta > 0.0)
             mTimeRate = time / delta;
     }
 }
 
-VFR::Stopwatch::~Stopwatch() {
-    if (VFR::instance() && mTimeDelta > 0.0)
-        VFR::instance()->setDelta(mTimeDelta);
+VFR::ScopedDeltaSetter::~ScopedDeltaSetter() {
+    if (VFR::instance() && mPreviousDelta > 0.0)
+        VFR::instance()->setDelta(mPreviousDelta);
 }
 
 }  // namespace ksys

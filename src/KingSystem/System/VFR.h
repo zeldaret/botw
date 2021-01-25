@@ -31,18 +31,19 @@ public:
         f32 target_value = 1.0;
     };
 
-    struct Stopwatch {
-        Stopwatch();
-        Stopwatch(u32 include_mask, u32 exclude_mask);
-        ~Stopwatch();
-        Stopwatch(const Stopwatch&) = delete;
-        Stopwatch(Stopwatch&&) = delete;
-        auto operator=(const Stopwatch&) = delete;
-        auto operator=(Stopwatch&&) = delete;
-        void start(u32 include_mask, u32 exclude_mask);
+    /// Changes the delta timing and restores the original value when going out of scope.
+    struct ScopedDeltaSetter {
+        ScopedDeltaSetter();
+        ScopedDeltaSetter(u32 include_mask, u32 exclude_mask);
+        ~ScopedDeltaSetter();
+        ScopedDeltaSetter(const ScopedDeltaSetter&) = delete;
+        ScopedDeltaSetter(ScopedDeltaSetter&&) = delete;
+        auto operator=(const ScopedDeltaSetter&) = delete;
+        auto operator=(ScopedDeltaSetter&&) = delete;
+        void set(u32 include_mask, u32 exclude_mask);
 
         f32 mTimeRate = 1.0;
-        f32 mTimeDelta = 0.0;
+        f32 mPreviousDelta = 0.0;
     };
 
     void init(u32 interval, int num_speed_multipliers, sead::Heap* heap, u32 mask);
@@ -57,7 +58,7 @@ public:
     void useBufferB();
     void useBufferA();
 
-    f32 setDeltaFromTimeMultipliers(f32* value, u32 include_mask, u32 exclude_mask);
+    f32 getDeltaAndSetMin(f32* raw_delta_frames, u32 include_mask, u32 exclude_mask);
     void resetTimeMultipliers();
     bool hasCustomTimeMultiplier() const;
     // TODO: requires ksys::Sound
@@ -65,7 +66,7 @@ public:
     // TODO: requires ksys::Sound
     void resetTimeMultiplier(u32 idx);
 
-    f32 getDeltaTime(u32 core) const { return *mDeltaTimes[core]; }
+    f32 getDeltaTime(u32 core) const { return *mDeltaFrames[core]; }
     f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
 
 private:
@@ -78,8 +79,8 @@ private:
 
     void setDelta(u32 core, f32 delta);
     void setDelta(f32 delta) { setDelta(sead::CoreInfo::getCurrentCoreId(), delta); }
-    void setDeltaFromTimeMultipliers(u32 core, const sead::BitFlag32& mask);
-    void x_1();
+    void setMinDelta(u32 core, const sead::BitFlag32& mask);
+    void setMinDelta();
     void copyAtoB();
 
     bool mHasIntervalChanged = false;
@@ -99,20 +100,22 @@ private:
     TimeSpeedMultipliers mTimeSpeedMultipliers;
     sead::BitFlag32 mMask = 0xffffffff;
 
-    sead::SafeArray<f32, NumCores> mFloats1a{};
-    sead::SafeArray<f32, NumCores> mFloats2a{};
-    sead::SafeArray<f32, NumCores> mFloats3a{};
-    sead::SafeArray<f32, NumCores> mFloats4a{};
+    struct Storage {
+        sead::SafeArray<f32, NumCores> raw_delta_frames{};
+        sead::SafeArray<f32, NumCores> delta_frames{};
+        sead::SafeArray<f32, NumCores> raw_delta_times{};
+        sead::SafeArray<f32, NumCores> delta_times{};
+    };
+    sead::SafeArray<Storage, 2> mStorage{};
 
-    sead::SafeArray<f32, NumCores> mFloats1b{};
-    sead::SafeArray<f32, NumCores> mFloats2b{};
-    sead::SafeArray<f32, NumCores> mFloats3b{};
-    sead::SafeArray<f32, NumCores> mFloats4b{};
-
-    sead::SafeArray<f32*, NumCores> mPtrs1;
-    sead::SafeArray<f32*, NumCores> mDeltaTimes;
-    sead::SafeArray<f32*, NumCores> mPtrs3;
+    /// Delta frames.
+    sead::SafeArray<f32*, NumCores> mRawDeltaFrames;
+    /// Delta frames, adjusted for present interval changes.
     sead::SafeArray<f32*, NumCores> mDeltaFrames;
+    /// Delta times. Equals raw_delta_frame * frame_time.
+    sead::SafeArray<f32*, NumCores> mRawDeltaTimes;
+    /// Delta times, adjusted for present interval changes. Equals delta_frame * frame_time.
+    sead::SafeArray<f32*, NumCores> mDeltaTimes;
     /// Present interval.
     u32 mInterval = 1;
     /// Frames per second.
