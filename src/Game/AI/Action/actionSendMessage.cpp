@@ -12,10 +12,17 @@ bool SendMessage::init_(sead::Heap* heap) {
 
 void SendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    if (*mSendTiming_s == 0)
+        doSendMessage();
+
+    mFlags.set(Flag::_4);
+    setFinished();
 }
 
 void SendMessage::leave_() {
     ksys::act::ai::Action::leave_();
+    if (*mSendTiming_s == 1)
+        doSendMessage();
 }
 
 void SendMessage::loadParams_() {

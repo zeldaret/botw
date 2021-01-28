@@ -3145,7 +3145,7 @@ action::Search:
 action::SellPictureBookUIDemo:
   status: pending
 action::SendMessage:
-  status: pending
+  status: done
 action::SendMessage4YunBoCannon:
   status: pending
 action::SendMessageBroadCast:
