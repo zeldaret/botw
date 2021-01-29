@@ -18,6 +18,82 @@ Using a decompiler is strongly recommended for efficiency reasons. If you have I
 
 Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discord server if you have any questions.
 
+## Code style
+
+This project uses clang-format to enforce a consistent coding style. Before opening a PR, please format your code with clang-format and ensure the following guidelines are followed.
+
+This will allow your contributions to be reviewed more quickly.
+
+### Header files
+
+* Use `#pragma once` for header guards.
+* Avoid unnecessary includes. Forward declare types when possible to reduce compilation times.
+
+### Includes
+
+* Use `#include "..."` when including U-King (BotW) header files. KingSystem (ksys) is treated as being part of BotW.
+    * Include paths should be relative to src/.
+        * OK: `#include "KingSystem/ActorSystem/actActor.h"`
+        * Not OK: `#include "actActor.h"`
+
+* Use `#include <...>` for system or library includes. Examples:
+    * Standard C++ library headers (e.g. `<optional>`, `<type_traits>`, `<limits>`, ...)
+    * sead (e.g. `<prim/seadSafeString.h>`)
+    * Other Nintendo libraries like agl, evfl, eui, ...
+
+### Naming
+
+* Type names (classes/structs, enums, typedefs/alias declarations) and compile-time constants should be in UpperCamelCase.
+    * `class ActorInfoData`
+    * `using Manager = ksys::gdt::Manager;`
+    * `constexpr int NumActors = 42;`
+
+* Function names should be in camelCase.
+    * `void doStuff()`
+    * `void SomeClass::doThis()` (for a member function)
+
+* Variables should be in lowercase_snake_case, except for class member variables, which should be prefixed with 'm' and writtenLikeThis.
+    * `int a_dummy_variable = 42;`
+    * `void test(int first_argument, bool second_argument) { ... }`
+    * `class SomeClass { int mMemberVariable; };` (m prefix + camelCase)
+    * `struct SomeStruct { int member_variable; };` (regular snake_case)
+
+* Static variables should be prefixed with 's' and globals with 'g'.
+    * `s_static_variable`
+    * `sStaticVariable` if it's a static member variable
+
+### Classes
+
+* Put access specifiers in this order: `public`, `protected`, `private`.
+* Declare member functions in this order: constructor, destructor, operators, other member functions.
+    * Virtual functions need to match the original order in the executable, though, so ignore this rule if following it would require reordering virtual functions.
+* Declare static member variables before non-static variables.
+* If a class uses a macro like `SEAD_SINGLETON_DISPOSER` or one of the SEAD_RTTI macros, put the macro right after the opening brace, before `public:`.
+* Use `= default;` instead of constructors/destructors with an empty body.
+* Use the `override` keyword instead of `virtual` when overriding virtual functions from a parent class.
+* Mark member functions as const if they do not modify any non-static member variables.
+
+```cpp
+class Test {
+    SEAD_RTTI_BASE(Test)
+
+public:
+    Test();
+    virtual ~Test() = default;
+    virtual bool isTest() const { return true; }
+    void doStuff() {}
+
+private:
+    static bool sFoo = false;
+    bool mMemberVariable = true;
+};
+
+class TestDerived : public Test {
+public:
+    bool isTest() const override { return false; }
+};
+```
+
 ## How to decompile
 
 0. Open the executable in the disassembler of your choice.
