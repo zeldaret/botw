@@ -123,7 +123,7 @@ struct InlineParam {
     };
     BaseProcLink baseProcLink;
     sead::Vector3f vec3;
-    mes::TransceiverId mesTransceiverId;
+    MesTransceiverId mesTransceiverId;
     AIDefParamType type;
     const char* key;
 };
@@ -161,7 +161,7 @@ struct InlineParamPack {
     void addBool(bool value, const sead::SafeString& key, s32 idx);
     void addUInt(u32 value, const sead::SafeString& key, s32 idx);
     void addActor(const BaseProcLink& value, const sead::SafeString& key, s32 idx);
-    void addMesTransceiverId(const mes::TransceiverId& value, const sead::SafeString& key, s32 idx);
+    void addMesTransceiverId(const MesTransceiverId& value, const sead::SafeString& key, s32 idx);
     void addPointer(void* value, const sead::SafeString& key, AIDefParamType type, s32 idx);
     void acquireActor(BaseProc* proc, const sead::SafeString& key, s32 idx);
     void copyToParamPack(ParamPack& pack) const;

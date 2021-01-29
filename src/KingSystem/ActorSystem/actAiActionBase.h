@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::mes {
+namespace ksys {
 class Message;
 }
 
@@ -39,7 +39,7 @@ f32* getDefaultFloat();
 sead::Vector3f* getDefaultVec3();
 bool* getDefaultBool();
 BaseProcLink* getDefaultBaseProcLink();
-mes::TransceiverId* getDefaultMesTransceiverId();
+MesTransceiverId* getDefaultMesTransceiverId();
 BaseProcHandle** getDefaultBaseProcHandle();
 Rail** getDefaultRail();
 sead::FixedSafeString<32>* getDefaultString32();
@@ -66,9 +66,9 @@ public:
     bool oneShot(InlineParamPack* params);
 
     Action* getCurrentAction();
-    bool handleMessage(mes::Message* message);
+    bool handleMessage(Message* message);
     // TODO: rename
-    bool handleMessage2(mes::Message* message);
+    bool handleMessage2(Message* message);
 
     Actor* getActor() const { return mActor; }
     s32 getDefinitionIdx() const { return mDefinitionIdx; }
@@ -91,9 +91,9 @@ protected:
     virtual bool reenter_(ActionBase* other, bool x);
     virtual void leave_() {}
     virtual void loadParams_() {}
-    virtual bool handleMessage_(mes::Message* message) { return false; }
+    virtual bool handleMessage_(Message* message) { return false; }
     // TODO: rename
-    virtual bool handleMessage2_(mes::Message* message) { return false; }
+    virtual bool handleMessage2_(Message* message) { return false; }
 
 public:
     virtual bool updateForPreDelete() { return true; }
@@ -227,7 +227,7 @@ protected:
                                                                     getDefaultBaseProcLink());
     }
 
-    bool getDynamicParam(mes::TransceiverId** value, const sead::SafeString& key) const {
+    bool getDynamicParam(MesTransceiverId** value, const sead::SafeString& key) const {
         return getDynamicParamPtrImpl<AIDefParamType::MesTransceiverId>(
             value, key, getDefaultMesTransceiverId());
     }

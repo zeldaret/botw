@@ -6,11 +6,9 @@
 
 namespace ksys {
 
-namespace mes {
-
-struct TransceiverId {
-    TransceiverId() { reset(); }
-    ~TransceiverId() { reset(); }
+struct MesTransceiverId {
+    MesTransceiverId() { reset(); }
+    ~MesTransceiverId() { reset(); }
 
     void reset() {
         _0 = -1;
@@ -19,7 +17,7 @@ struct TransceiverId {
         _10 = nullptr;
     }
 
-    TransceiverId& operator=(const TransceiverId& other) {
+    MesTransceiverId& operator=(const MesTransceiverId& other) {
         _0 = other._0;
         _4 = other._4;
         _8 = other._8;
@@ -32,8 +30,6 @@ struct TransceiverId {
     void* _8{};
     void* _10{};
 };
-KSYS_CHECK_SIZE_NX150(TransceiverId, 0x18);
-
-}  // namespace mes
+KSYS_CHECK_SIZE_NX150(MesTransceiverId, 0x18);
 
 }  // namespace ksys

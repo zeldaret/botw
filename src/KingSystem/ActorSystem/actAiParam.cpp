@@ -32,7 +32,7 @@ ParamPack::~ParamPack() {
                 delete static_cast<u32*>(param->data);
                 break;
             case AIDefParamType::MesTransceiverId:
-                delete static_cast<mes::TransceiverId*>(param->data);
+                delete static_cast<MesTransceiverId*>(param->data);
                 break;
             case AIDefParamType::BaseProcHandle:
                 delete static_cast<BaseProcHandle**>(param->data);
@@ -115,8 +115,8 @@ void ParamPack::copy(InlineParamPack* dest, bool x) const {
             break;
         case AIDefParamType::MesTransceiverId:
             if (!x) {
-                dest->addMesTransceiverId(*static_cast<mes::TransceiverId*>(param->data),
-                                          param->name, dest_idx);
+                dest->addMesTransceiverId(*static_cast<MesTransceiverId*>(param->data), param->name,
+                                          dest_idx);
                 break;
             }
             [[fallthrough]];
@@ -188,7 +188,7 @@ void InlineParamPack::addActor(const BaseProcLink& value, const sead::SafeString
     param.type = AIDefParamType::BaseProcLink;
 }
 
-void InlineParamPack::addMesTransceiverId(const mes::TransceiverId& value,
+void InlineParamPack::addMesTransceiverId(const MesTransceiverId& value,
                                           const sead::SafeString& key, s32 idx) {
     auto& param = getParam(idx);
     param.key = key.cstr();
@@ -345,7 +345,7 @@ bool ParamPack::load(const Actor& actor, const AIDef& def, sead::Heap* heap,
             break;
         case AIDefParamType::MesTransceiverId:
             if (kind == AIDefInstParamKind::Dynamic)
-                entry->data = new (heap) mes::TransceiverId();
+                entry->data = new (heap) MesTransceiverId();
             break;
         case AIDefParamType::BaseProcHandle:
             if (kind == AIDefInstParamKind::Dynamic)
