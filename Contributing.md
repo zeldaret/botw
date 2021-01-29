@@ -72,6 +72,7 @@ This will allow your contributions to be reviewed more quickly.
 * Use `= default;` instead of constructors/destructors with an empty body.
 * Use the `override` keyword instead of `virtual` when overriding virtual functions from a parent class.
 * Mark member functions as const if they do not modify any non-static member variables.
+* Do not use `this->` to refer to member variables or member functions unless it is necessary. (It is usually unnecessary.)
 
 ```cpp
 class Test {
