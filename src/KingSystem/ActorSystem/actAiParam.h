@@ -9,7 +9,7 @@
 
 #include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/Utils/Thread/MessageTransceiver.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
