@@ -6,29 +6,34 @@
 
 namespace ksys {
 
+class MesTransceiverIdGen;
+
 struct MesTransceiverId {
     MesTransceiverId() { reset(); }
+    MesTransceiverId(u32& id, MesTransceiverIdGen* generator)
+        : _0(0xffffffff), id(++id), generator(generator) {}
+
     ~MesTransceiverId() { reset(); }
 
     void reset() {
-        _0 = -1;
-        _4 = -1;
-        _8 = nullptr;
-        _10 = nullptr;
+        _0 = 0xffffffff;
+        id = 0xffffffff;
+        generator = nullptr;
+        next = nullptr;
     }
 
     MesTransceiverId& operator=(const MesTransceiverId& other) {
         _0 = other._0;
-        _4 = other._4;
-        _8 = other._8;
-        _10 = other._10;
+        id = other.id;
+        generator = other.generator;
+        next = other.next;
         return *this;
     }
 
-    s32 _0{};
-    s32 _4{};
-    void* _8{};
-    void* _10{};
+    u32 _0{};
+    u32 id{};
+    MesTransceiverIdGen* generator{};
+    MesTransceiverId** next{};
 };
 KSYS_CHECK_SIZE_NX150(MesTransceiverId, 0x18);
 
