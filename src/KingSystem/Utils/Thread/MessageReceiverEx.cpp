@@ -6,12 +6,12 @@ MessageReceiverEx::MessageReceiverEx() = default;
 
 MessageReceiverEx::~MessageReceiverEx() = default;
 
-bool MessageReceiverEx::m1(void* x) {
-    return m6(x);
+int MessageReceiverEx::receive(const Message& message) {
+    return handleMessage(message);
 }
 
-void MessageReceiverEx::m2(void* x) {
-    m7(x);
+void MessageReceiverEx::receive(const MessageAck& ack) {
+    handleAck(ack);
     --mCounter;
     static_cast<void>(mCounter.load());
 }
@@ -32,11 +32,11 @@ void MessageReceiverEx::setFlag(bool update_counter) {
     }
 }
 
-bool MessageReceiverEx::m6(void* x) {
+int MessageReceiverEx::handleMessage(const Message& message) {
     return true;
 }
 
-void MessageReceiverEx::m7(void* x) {}
+void MessageReceiverEx::handleAck(const MessageAck& ack) {}
 
 void MessageReceiverEx::setFlagPointer(u8* ptr) {
     if (ptr) {

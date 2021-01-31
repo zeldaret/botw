@@ -6,13 +6,14 @@ Message::Message() = default;
 
 Message::Message(const MesTransceiverId& source, const MesTransceiverId& destination,
                  const MessageType& type, void* user_data, const Message::DelayParams& delay_params,
-                 bool x)
+                 bool ack)
     : mSource(source), mDestination(destination), mType(type), mUserData(user_data),
-      mDelayParams(delay_params), _60(x) {}
+      mDelayParams(delay_params), mShouldAck(ack) {}
 
 Message::Message(const MesTransceiverId& source, const MessageType& type, void* user_data,
-                 const Message::DelayParams& delay_params, bool x)
-    : mSource(source), mType(type), mUserData(user_data), mDelayParams(delay_params), _60(x) {}
+                 const Message::DelayParams& delay_params, bool ack)
+    : mSource(source), mType(type), mUserData(user_data), mDelayParams(delay_params),
+      mShouldAck(ack) {}
 
 Message::~Message() = default;
 
@@ -46,8 +47,8 @@ bool Message::shouldBeProcessed() const {
     return mDelayParams.delayer->shouldProcessMessage();
 }
 
-bool Message::getField60() const {
-    return _60;
+bool Message::shouldAck() const {
+    return mShouldAck;
 }
 
 void Message::setDestination(const MesTransceiverId& dest) {

@@ -12,10 +12,10 @@ MesTransceiverId* MessageReceiver::getId() {
     return &mTransceiverId;
 }
 
-bool MessageReceiver::m1(void*) {
+int MessageReceiver::receive(const Message& message) {
     return true;
 }
 
-void MessageReceiver::m2(void* x) {}
+void MessageReceiver::receive(const MessageAck& ack) {}
 
 }  // namespace ksys

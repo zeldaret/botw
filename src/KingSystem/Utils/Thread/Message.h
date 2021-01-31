@@ -38,9 +38,9 @@ public:
 
     Message();
     Message(const MesTransceiverId& source, const MesTransceiverId& destination,
-            const MessageType& type, void* user_data, const DelayParams& delay_params, bool x);
+            const MessageType& type, void* user_data, const DelayParams& delay_params, bool ack);
     Message(const MesTransceiverId& source, const MessageType& type, void* user_data,
-            const DelayParams& delay_params, bool x);
+            const DelayParams& delay_params, bool ack);
 
     virtual ~Message();
 
@@ -49,10 +49,17 @@ public:
     virtual const MessageType& getType() const;
     virtual void* getUserData() const;
     virtual u32 getField48() const;
-    virtual bool getField60() const;
+    virtual bool shouldAck() const;
     virtual void setDestination(const MesTransceiverId& dest);
     virtual void setField48(const u32& v);
     virtual bool shouldBeProcessed() const;
+
+    bool hasDelayer() const { return mDelayParams.delayer != nullptr; }
+
+    void decrementDelay() {
+        if (mDelayParams.delay_ticks != 0)
+            --mDelayParams.delay_ticks;
+    }
 
 private:
     MesTransceiverId mSource{};
@@ -61,7 +68,7 @@ private:
     void* mUserData{};
     u32 _48 = 0xffffffff;
     DelayParams mDelayParams{};
-    bool _60 = true;
+    bool mShouldAck = true;
 };
 
 }  // namespace ksys

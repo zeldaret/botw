@@ -10,8 +10,8 @@ class MessageReceiverEx : public MessageReceiver {
 public:
     MessageReceiverEx();
     ~MessageReceiverEx() override;
-    bool m1(void*) override;
-    void m2(void* x) override;
+    int receive(const Message& message) override;
+    void receive(const MessageAck& ack) override;
 
     bool checkFlag() const;
     bool checkCounter() const;
@@ -23,8 +23,8 @@ public:
     SEAD_RTTI_BASE(MessageReceiverEx)
 
 protected:
-    virtual bool m6(void* x);
-    virtual void m7(void* x);
+    virtual int handleMessage(const Message& message);
+    virtual void handleAck(const MessageAck& ack);
 
 private:
     u8* mFlag{};

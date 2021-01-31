@@ -2,17 +2,16 @@
 
 namespace ksys {
 
-MessageReceiverAdapter::MessageReceiverAdapter(MessageReceiver* wrapped)
-    : mReceiver(wrapped) {}
+MessageReceiverAdapter::MessageReceiverAdapter(MessageReceiver* wrapped) : mReceiver(wrapped) {}
 
 MessageReceiverAdapter::~MessageReceiverAdapter() = default;
 
-bool MessageReceiverAdapter::m6(void* x) {
-    return mReceiver->m1(x);
+int MessageReceiverAdapter::handleMessage(const Message& message) {
+    return mReceiver->receive(message);
 }
 
-void MessageReceiverAdapter::m7(void* x) {
-    return mReceiver->m2(x);
+void MessageReceiverAdapter::handleAck(const MessageAck& ack) {
+    return mReceiver->receive(ack);
 }
 
 }  // namespace ksys

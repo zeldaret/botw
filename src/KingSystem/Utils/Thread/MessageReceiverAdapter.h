@@ -11,8 +11,8 @@ public:
     ~MessageReceiverAdapter() override;
 
 protected:
-    bool m6(void* x) override;
-    void m7(void* x) override;
+    int handleMessage(const Message& message) override;
+    void handleAck(const MessageAck& ack) override;
 
 private:
     MessageReceiver* mReceiver;

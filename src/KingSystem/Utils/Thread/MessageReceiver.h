@@ -5,14 +5,17 @@
 
 namespace ksys {
 
+class Message;
+class MessageAck;
+
 class MessageReceiver {
 public:
     MessageReceiver();
     virtual ~MessageReceiver();
     virtual MesTransceiverId* getId();
-    virtual bool m1(void*);
-    virtual void m2(void* x);
-    virtual void setField0(const u32& value) { mTransceiverId.queue_id = value; }
+    virtual int receive(const Message& message);
+    virtual void receive(const MessageAck& ack);
+    virtual void setQueueId(const u32& id) { mTransceiverId.queue_id = id; }
 
 protected:
     MesTransceiverId mTransceiverId;

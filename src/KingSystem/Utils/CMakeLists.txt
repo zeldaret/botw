@@ -9,8 +9,12 @@ target_sources(uking PRIVATE
   Thread/ManagedTaskHandle.h
   Thread/Message.cpp
   Thread/Message.h
+  Thread/MessageAck.cpp
+  Thread/MessageAck.h
   Thread/MessageDispatcherBase.cpp
   Thread/MessageDispatcherBase.h
+  Thread/MessageProcessor.cpp
+  Thread/MessageProcessor.h
   Thread/MessageReceiver.cpp
   Thread/MessageReceiver.h
   Thread/MessageReceiverAdapter.cpp
