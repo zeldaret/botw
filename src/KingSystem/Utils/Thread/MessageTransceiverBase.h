@@ -6,7 +6,7 @@ namespace ksys {
 
 class MessageDispatcherBase;
 struct MesTransceiverId;
-class MesTransceiverIdGenEx;
+class MessageReceiverEx;
 
 class MessageTransceiverBase {
 public:
@@ -18,7 +18,7 @@ public:
     virtual bool m3();
     virtual bool m4();
     virtual bool m5();
-    virtual MesTransceiverIdGenEx* getGenerator() const = 0;
+    virtual MessageReceiverEx* getGenerator() const = 0;
     MessageDispatcherBase* getDispatcher();
 
     static void setGlobalDispatcher(MessageDispatcherBase* dispatcher);

@@ -1,5 +1,5 @@
 #include "KingSystem/Utils/Thread/MessageTransceiverBase.h"
-#include "KingSystem/Utils/Thread/MessageTransceiverIdGenEx.h"
+#include "KingSystem/Utils/Thread/MessageReceiverEx.h"
 
 namespace ksys {
 

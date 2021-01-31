@@ -9,16 +9,16 @@ target_sources(uking PRIVATE
   Thread/ManagedTaskHandle.h
   Thread/MessageDispatcherBase.cpp
   Thread/MessageDispatcherBase.h
+  Thread/MessageReceiver.cpp
+  Thread/MessageReceiver.h
+  Thread/MessageReceiverAdapter.cpp
+  Thread/MessageReceiverAdapter.h
+  Thread/MessageReceiverEx.cpp
+  Thread/MessageReceiverEx.h
   Thread/MessageTransceiverBase.cpp
   Thread/MessageTransceiverBase.h
   Thread/MessageTransceiverId.cpp
   Thread/MessageTransceiverId.h
-  Thread/MessageTransceiverIdGen.cpp
-  Thread/MessageTransceiverIdGen.h
-  Thread/MessageTransceiverIdGenEx.cpp
-  Thread/MessageTransceiverIdGenEx.h
-  Thread/MessageTransceiverIdGenExAdapter.cpp
-  Thread/MessageTransceiverIdGenExAdapter.h
   Thread/Task.cpp
   Thread/Task.h
   Thread/TaskData.h
