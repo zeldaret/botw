@@ -2,9 +2,8 @@
 
 namespace ksys {
 
-MessageAck::MessageAck(bool dest_valid, bool success,
-                                   const MesTransceiverId& destination, const MessageType& type,
-                                   void* user_data)
+MessageAck::MessageAck(bool dest_valid, bool success, const MesTransceiverId& destination,
+                       const MessageType& type, void* user_data)
     : mDestValid(dest_valid), mSuccess(success), mDestination(destination), mType(type),
       mUserData(user_data) {}
 
