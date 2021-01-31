@@ -7,6 +7,8 @@ target_sources(uking PRIVATE
   Thread/ManagedTask.h
   Thread/ManagedTaskHandle.cpp
   Thread/ManagedTaskHandle.h
+  Thread/Message.cpp
+  Thread/Message.h
   Thread/MessageDispatcherBase.cpp
   Thread/MessageDispatcherBase.h
   Thread/MessageReceiver.cpp

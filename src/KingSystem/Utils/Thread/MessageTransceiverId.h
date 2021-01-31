@@ -9,8 +9,9 @@ namespace ksys {
 class MessageReceiver;
 
 struct MesTransceiverId {
-    MesTransceiverId() { reset(); }
-    MesTransceiverId(u32& id, MessageReceiver* receiver) : id(++id), receiver(receiver) {}
+    MesTransceiverId() : receiver(), next() { reset(); }
+    MesTransceiverId(const MesTransceiverId& other) { *this = other; }
+    MesTransceiverId(u32& id, MessageReceiver* receiver) : id(++id), receiver(receiver), next() {}
     ~MesTransceiverId() { reset(); }
 
     void reset() {
@@ -30,8 +31,8 @@ struct MesTransceiverId {
 
     u32 queue_id = 0xffffffff;
     u32 id = 0xffffffff;
-    MessageReceiver* receiver{};
-    MesTransceiverId** next{};
+    MessageReceiver* receiver;
+    MesTransceiverId** next;
 };
 KSYS_CHECK_SIZE_NX150(MesTransceiverId, 0x18);
 
