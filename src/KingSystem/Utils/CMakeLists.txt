@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
   Thread/Message.h
   Thread/MessageAck.cpp
   Thread/MessageAck.h
+  Thread/MessageDispatcher.cpp
+  Thread/MessageDispatcher.h
   Thread/MessageDispatcherBase.cpp
   Thread/MessageDispatcherBase.h
   Thread/MessageProcessor.cpp
@@ -64,4 +66,5 @@ target_sources(uking PRIVATE
   StrTreeMap.h
   TypeTraits.h
   Types.h
+  UniqueArrayPtr.h
 )

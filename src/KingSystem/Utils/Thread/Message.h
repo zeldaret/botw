@@ -1,7 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
-
+#include <tuple>
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys {
@@ -37,12 +37,24 @@ public:
     };
 
     Message();
+    Message(const Message& message) { *this = message; }
     Message(const MesTransceiverId& source, const MesTransceiverId& destination,
             const MessageType& type, void* user_data, const DelayParams& delay_params, bool ack);
     Message(const MesTransceiverId& source, const MessageType& type, void* user_data,
             const DelayParams& delay_params, bool ack);
 
     virtual ~Message();
+
+    Message& operator=(const Message& other) {
+        mSource = other.getSource();
+        mDestination = other.getDestination();
+        mType = other.getType();
+        mUserData = other.getUserData();
+        _48 = other.getField48();
+        mDelayParams = other.mDelayParams;
+        mShouldAck = other.shouldAck();
+        return *this;
+    }
 
     virtual const MesTransceiverId& getSource() const;
     virtual const MesTransceiverId& getDestination() const;
@@ -59,6 +71,35 @@ public:
     void decrementDelay() {
         if (mDelayParams.delay_ticks != 0)
             --mDelayParams.delay_ticks;
+    }
+
+    void reset() {
+        mType = {};
+        mUserData = {};
+        _48 = 0xffffffff;
+        mDelayParams = {};
+        mShouldAck = {};
+        mSource.reset();
+        mDestination.reset();
+    }
+
+    void resetIfValid() {
+        if (isValid())
+            reset();
+    }
+
+    bool isValid() const { return checkTransceiver(mDestination); }
+
+    static bool checkTransceiver(const MesTransceiverId& id) {
+        if (!id.next)
+            return false;
+
+        MesTransceiverId* next = *id.next;
+        if (!next)
+            return false;
+
+        const auto& fields = [](const MesTransceiverId& i) { return std::tie(i.queue_id, i.id); };
+        return fields(id) == fields(*next);
     }
 
 private:
