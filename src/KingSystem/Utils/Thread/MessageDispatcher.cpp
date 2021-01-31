@@ -1,9 +1,12 @@
 #include "KingSystem/Utils/Thread/MessageDispatcher.h"
+#include <heap/seadHeapMgr.h>
+#include <prim/seadMemUtil.h>
+#include <thread/seadThread.h>
+#include "KingSystem/Utils/HeapUtil.h"
+#include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace ksys {
-
-SEAD_SINGLETON_DISPOSER_IMPL(MessageDispatcher)
 
 MessageDispatcher::Queue::Queue() = default;
 
@@ -69,6 +72,10 @@ void MessageDispatcher::DoubleBufferedQueue::processQueue(MessageProcessor& proc
 
 MessageDispatcher::Queues::DummyLogger::~DummyLogger() = default;
 
+MessageDispatcher::Logger::~Logger() = default;
+
+void MessageDispatcher::Logger::log(const Message& message, bool success) {}
+
 MessageDispatcher::MainQueue::MainQueue() = default;
 
 MessageDispatcher::MainQueue::~MainQueue() = default;
@@ -109,6 +116,41 @@ MessageDispatcher::Queues::Queues(MessageProcessor::Logger* logger)
 MessageDispatcher::Queues::~Queues() {
     mQueue.clear();
     mMainQueue.clear();
+}
+
+SEAD_SINGLETON_DISPOSER_IMPL(MessageDispatcher)
+
+MessageDispatcher::~MessageDispatcher() {
+    mBools.freeBuffer();
+    mBoolBuffer.freeBuffer();
+    util::safeDelete(mQueues);
+}
+
+void MessageDispatcher::init(const InitArg& arg, sead::Heap* heap) {
+    heap = util::getHeapOrCurrentHeap(heap);
+    sead::ScopedCurrentHeapSetter heap_setter{heap};
+
+    if (arg.set_instance)
+        setAsGlobalInstance();
+
+    mQueues = new (heap) Queues(&mLogger);
+
+    mUpdateEndEvent.initialize(true);
+    mUpdateEndEvent.setSignal();
+
+    mBoolBuffer.allocBufferAssert(arg.num_bools, heap);
+    sead::MemUtil::fillZero(mBoolBuffer.getBufferPtr(), mBoolBuffer.getByteSize());
+
+    mBools.allocBuffer(arg.num_bools, heap);
+    for (int i = 0, n = mBoolBuffer.size(); i < n; ++i) {
+        mBools.emplaceBack(&mBoolBuffer[i]);
+    }
+
+    mFlags.set(Flag::Initialized);
+}
+
+bool MessageDispatcher::isProcessingOnCurrentThread() const {
+    return mProcessingThread == sead::ThreadMgr::instance()->getCurrentThread();
 }
 
 }  // namespace ksys

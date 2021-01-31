@@ -1,11 +1,19 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <container/seadObjList.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Thread/MessageDispatcherBase.h"
 #include "KingSystem/Utils/Thread/MessageProcessor.h"
 #include "KingSystem/Utils/UniqueArrayPtr.h"
+
+namespace sead {
+class Thread;
+}
 
 namespace ksys {
 
@@ -19,6 +27,18 @@ class MessageDispatcher : public MessageDispatcherBase {
     ~MessageDispatcher() override;
 
 public:
+    struct InitArg {
+        // TODO: rename
+        int num1;
+        int num2;
+        int num_bools;
+        bool set_instance;
+    };
+
+    void init(const InitArg& arg, sead::Heap* heap);
+
+    bool isProcessingOnCurrentThread() const;
+
     void registerTransceiver(MessageReceiverEx& receiver) override;
     void deregisterTransceiver(MessageReceiverEx& receiver) override;
     bool sendMessage(const MesTransceiverId& src, const MesTransceiverId& dest,
@@ -97,6 +117,25 @@ private:
         MessageProcessor mProcessor;
         bool mIsProcessing = false;
     };
+
+    enum class Flag {
+        Initialized = 1 << 0,
+    };
+
+    struct Logger : MessageProcessor::Logger {
+        ~Logger() override;
+        void log(const Message& message, bool success) override;
+    };
+
+    sead::Thread* mProcessingThread{};
+    Logger mLogger{};
+    Queues* mQueues{};
+    sead::TypedBitFlag<Flag> mFlags;
+    sead::Buffer<bool> mBoolBuffer;
+    sead::ObjList<bool*> mBools;
+    sead::CriticalSection mCritSection;
+    util::Event mUpdateEndEvent;
+    int mNumEntries = 0;
 };
 
 }  // namespace ksys
