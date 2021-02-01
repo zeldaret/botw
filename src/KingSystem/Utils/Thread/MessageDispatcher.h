@@ -5,6 +5,7 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
+#include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Thread/MessageDispatcherBase.h"
@@ -19,6 +20,7 @@ namespace ksys {
 
 class Message;
 class MessageProcessor;
+struct MesTransceiverId;
 
 class MessageDispatcher : public MessageDispatcherBase {
     SEAD_SINGLETON_DISPOSER(MessageDispatcher)
@@ -71,13 +73,14 @@ private:
         bool addMessage(const Message& message);
         void clear();
         void processQueue(MessageProcessor& processor);
+        void swapBuffer() { mActiveIdx ^= 1; }
 
     private:
         u32 mActiveIdx = 1;
         Queue mBuffer[2];
     };
 
-    class MainQueue {
+    class MainQueue final {
     public:
         MainQueue();
         virtual ~MainQueue();
@@ -94,6 +97,13 @@ private:
     public:
         explicit Queues(MessageProcessor::Logger* logger);
         ~Queues();
+        const u32& getId() const { return mId; }
+        sead::CriticalSection& getCritSection() { return mCritSection; }
+        const auto& getIdPointers() const { return mTransceiverIdPtrs.mBuffer; }
+        DoubleBufferedQueue& getQueue() { return mQueue; }
+        MainQueue& getMainQueue() { return mMainQueue; }
+        bool isProcessing() const { return mIsProcessing; }
+        void process();
 
     private:
         struct DummyLogger : public MessageProcessor::Logger {
@@ -111,7 +121,7 @@ private:
         sead::CriticalSection mCritSection;
         u32 mId = 0xffffffff;
         DummyLogger mDummyLogger;
-        TransceiverIdBuffer mTransceiverIds;
+        TransceiverIdBuffer mTransceiverIdPtrs;
         DoubleBufferedQueue mQueue;
         MainQueue mMainQueue;
         MessageProcessor mProcessor;
@@ -131,11 +141,11 @@ private:
     Logger mLogger{};
     Queues* mQueues{};
     sead::TypedBitFlag<Flag> mFlags;
-    sead::Buffer<bool> mBoolBuffer;
-    sead::ObjList<bool*> mBools;
+    sead::Buffer<u8> mBoolBuffer;
+    sead::ObjList<u8*> mBools;
     sead::CriticalSection mCritSection;
     util::Event mUpdateEndEvent;
-    int mNumEntries = 0;
+    sead::Atomic<int> mNumEntries = 0;
 };
 
 }  // namespace ksys

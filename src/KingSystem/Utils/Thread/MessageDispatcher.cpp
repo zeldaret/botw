@@ -1,10 +1,13 @@
 #include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include <heap/seadHeapMgr.h>
 #include <prim/seadMemUtil.h>
+#include <prim/seadScopedLock.h>
 #include <thread/seadThread.h>
+#include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageReceiverEx.h"
 
 namespace ksys {
 
@@ -23,10 +26,10 @@ Message* MessageDispatcher::Queue::findUnusedEntry() const {
 }
 
 bool MessageDispatcher::Queue::addMessage(const Message& message) {
-    if (!Message::checkTransceiver(message.getSource()))
+    if (!message.getSource().isRegistered())
         return false;
 
-    if (!Message::checkTransceiver(message.getDestination()))
+    if (!message.getDestination().isRegistered())
         return false;
 
     auto* entry = findUnusedEntry();
@@ -66,7 +69,6 @@ void MessageDispatcher::DoubleBufferedQueue::clear() {
 }
 
 void MessageDispatcher::DoubleBufferedQueue::processQueue(MessageProcessor& processor) {
-    mActiveIdx ^= 1;
     mBuffer[mActiveIdx].processQueue(processor);
 }
 
@@ -94,6 +96,7 @@ void MessageDispatcher::MainQueue::clear() {
 void MessageDispatcher::MainQueue::processQueue(MessageProcessor& processor) {
     for (u32 i = 0; mHasMessageToProcess && i < 1000; ++i) {
         mHasMessageToProcess = false;
+        mQueue.swapBuffer();
         mQueue.processQueue(processor);
     }
 }
@@ -105,7 +108,7 @@ MessageDispatcher::Queues::TransceiverIdBuffer::TransceiverIdBuffer() {
 
 MessageDispatcher::Queues::TransceiverIdBuffer::~TransceiverIdBuffer() {
     for (auto it = mBuffer.begin(); it != mBuffer.end(); ++it) {
-        if (auto* id = *it; id && Message::checkTransceiver(*id))
+        if (auto* id = *it; id && id->isRegistered())
             id->reset();
     }
 }
@@ -151,6 +154,115 @@ void MessageDispatcher::init(const InitArg& arg, sead::Heap* heap) {
 
 bool MessageDispatcher::isProcessingOnCurrentThread() const {
     return mProcessingThread == sead::ThreadMgr::instance()->getCurrentThread();
+}
+
+void MessageDispatcher::registerTransceiver(MessageReceiverEx& receiver) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    Queues& queues = *mQueues;
+    receiver.setQueueId(queues.getId());
+    MesTransceiverId** ref = nullptr;
+    {
+        const auto queue_lock = sead::makeScopedLock(queues.getCritSection());
+        MesTransceiverId* id = receiver.getId();
+
+        if (!id->isRegistered()) {
+            const auto& pointers = queues.getIdPointers();
+            for (auto it = pointers.begin(); it != pointers.end(); ++it) {
+                if (*it == nullptr) {
+                    ref = it;
+                    break;
+                }
+            }
+        }
+
+        if (ref) {
+            *ref = id;
+            id->self_ref = ref;
+        }
+    }
+
+    if (!ref) {
+        sead::FormatFixedSafeString<128> msg{"↓↓↓\nエントリー数 : %d\n↑↑↑\n", mNumEntries.load()};
+        util::PrintDebug(msg);
+        return;
+    }
+
+    mNumEntries.increment();
+    if (!mBools.isEmpty())
+        receiver.setFlagPointer(mBools.popFront());
+}
+
+void MessageDispatcher::deregisterTransceiver(MessageReceiverEx& receiver) {
+    if (receiver.checkFlag() && receiver.checkCounter())
+        mUpdateEndEvent.wait();
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+    if (!receiver.getId()->isRegistered())
+        return;
+
+    auto* ptr = receiver.getFlagPointer();
+    if (!ptr)
+        return;
+
+    mBools.emplaceBack(ptr);
+    receiver.clearFlagPointer();
+
+    {
+        const auto queue_lock = sead::makeScopedLock(mQueues->getCritSection());
+        auto& id = *receiver.getId();
+        if (id.isRegistered()) {
+            auto* self = id.self_ref;
+            id.self_ref = nullptr;
+            *self = nullptr;
+        }
+    }
+
+    mNumEntries.decrement();
+}
+
+bool MessageDispatcher::sendMessage(const MesTransceiverId& src, const MesTransceiverId& dest,
+                                    const MessageType& type, void* user_data, bool ack) {
+    auto* queues = mQueues;
+    const auto message = Message{src, dest, type, user_data, {}, ack};
+    const auto lock = sead::makeScopedLock(queues->getCritSection());
+    return queues->getQueue().addMessage(message);
+}
+
+// NON_MATCHING: branching: deduplicated Message destructor call
+bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& src,
+                                                      const MesTransceiverId& dest,
+                                                      const MessageType& type, void* user_data,
+                                                      bool ack) {
+    if (!isProcessingOnCurrentThread())
+        return false;
+
+    auto* queues = mQueues;
+    const auto message = Message{src, dest, type, user_data, {}, ack};
+    if (!queues->isProcessing())
+        return false;
+    return queues->getMainQueue().addMessage(message);
+}
+
+void MessageDispatcher::Queues::process() {
+    {
+        const auto lock = sead::makeScopedLock(mCritSection);
+        mQueue.swapBuffer();
+    }
+    mIsProcessing = true;
+    mQueue.processQueue(mProcessor);
+    mMainQueue.processQueue(mProcessor);
+    mIsProcessing = false;
+}
+
+void MessageDispatcher::update() {
+    mUpdateEndEvent.resetSignal();
+    mProcessingThread = sead::ThreadMgr::instance()->getCurrentThread();
+
+    mQueues->process();
+
+    sead::MemUtil::fillZero(mBoolBuffer.getBufferPtr(), mBoolBuffer.getByteSize());
+    mProcessingThread = nullptr;
+    mUpdateEndEvent.setSignal();
 }
 
 }  // namespace ksys
