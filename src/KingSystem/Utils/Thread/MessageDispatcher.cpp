@@ -254,6 +254,7 @@ void MessageDispatcher::Queues::process() {
     mIsProcessing = false;
 }
 
+// NON_MATCHING: regalloc
 void MessageDispatcher::update() {
     mUpdateEndEvent.resetSignal();
     mProcessingThread = sead::ThreadMgr::instance()->getCurrentThread();
