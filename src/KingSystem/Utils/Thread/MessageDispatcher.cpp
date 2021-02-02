@@ -7,17 +7,18 @@
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "KingSystem/Utils/Thread/MessageReceiverEx.h"
 
 namespace ksys {
 
-MessageDispatcher::Queue::Queue() = default;
+MessageQueue::MessageQueue() = default;
 
-MessageDispatcher::Queue::~Queue() {
-    Queue::clear();
+MessageQueue::~MessageQueue() {
+    MessageQueue::clear();
 }
 
-Message* MessageDispatcher::Queue::findUnusedEntry() const {
+Message* MessageQueue::findUnusedEntry() const {
     for (Message& entry : mMessages) {
         if (!entry.isValid())
             return &entry;
@@ -25,7 +26,7 @@ Message* MessageDispatcher::Queue::findUnusedEntry() const {
     return nullptr;
 }
 
-bool MessageDispatcher::Queue::addMessage(const Message& message) {
+bool MessageQueue::addMessage(const Message& message) {
     if (!message.getSource().isRegistered())
         return false;
 
@@ -40,7 +41,7 @@ bool MessageDispatcher::Queue::addMessage(const Message& message) {
     return true;
 }
 
-void MessageDispatcher::Queue::processQueue(MessageProcessor& processor) {
+void MessageQueue::processQueue(MessageProcessor& processor) {
     for (auto& message : mMessages) {
         if (!message.isValid())
             break;
@@ -50,7 +51,7 @@ void MessageDispatcher::Queue::processQueue(MessageProcessor& processor) {
     }
 }
 
-void MessageDispatcher::Queue::clear() {
+void MessageQueue::clear() {
     for (auto it = mMessages.begin(); it != mMessages.end(); ++it)
         it->resetIfValid();
 }
@@ -228,6 +229,16 @@ bool MessageDispatcher::sendMessage(const MesTransceiverId& src, const MesTransc
     return queues->getQueue().addMessage(message);
 }
 
+bool MessageDispatcher::Queues::sendMessageOnProcessingThread(const MesTransceiverId& src,
+                                                              const MesTransceiverId& dest,
+                                                              const MessageType& type,
+                                                              void* user_data, bool ack) {
+    const auto message = Message{src, dest, type, user_data, {}, ack};
+    if (!isProcessing())
+        return false;
+    return mMainQueue.addMessage(message);
+}
+
 // NON_MATCHING: branching: deduplicated Message destructor call
 bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& src,
                                                       const MesTransceiverId& dest,
@@ -235,12 +246,78 @@ bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& sr
                                                       bool ack) {
     if (!isProcessingOnCurrentThread())
         return false;
+    return mQueues->sendMessageOnProcessingThread(src, dest, type, user_data, ack);
+}
 
-    auto* queues = mQueues;
-    const auto message = Message{src, dest, type, user_data, {}, ack};
-    if (!queues->isProcessing())
+struct AddMessageContext : IMessageBrokerRegister::IForEachContext {
+    AddMessageContext(MessageQueue* queue, Message* message) : queue(queue), message(message) {}
+
+    void process(const MesTransceiverId& id) override {
+        if (!id.isRegistered())
+            return;
+        message->setDestination(id);
+        result = queue->addMessage(*message);
+    }
+
+    MessageQueue* queue;
+    Message* message;
+    bool result = false;
+};
+
+bool MessageDispatcher::sendMessage(const MesTransceiverId& src, IMessageBrokerRegister& reg,
+                                    const MessageType& type, void* user_data, bool ack) {
+    auto queues = mQueues;
+    Message::DelayParams delay_params;
+    // This should probably be a Queues member function, but putting this here removes
+    // the need to include Message.h in the header.
+    return [&] {
+        auto message = Message{src, type, user_data, delay_params, ack};
+        message.setBrokerId_(reg.getId());
+
+        queues->getCritSection().lock();
+        AddMessageContext ctx{queues->getQueue().getQueue(), &message};
+        reg.forEachRegistered(ctx);
+        queues->getCritSection().unlock();
+        return ctx.result;
+    }();
+}
+
+struct AddMessageMainContext : IMessageBrokerRegister::IForEachContext {
+    AddMessageMainContext(MessageDispatcher::MainQueue* queue, Message* message)
+        : queue(queue), message(message) {}
+
+    void process(const MesTransceiverId& id) override {
+        if (!id.isRegistered())
+            return;
+        message->setDestination(id);
+        result = queue->addMessage(*message);
+    }
+
+    MessageDispatcher::MainQueue* queue;
+    Message* message;
+    bool result = false;
+};
+
+bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& src,
+                                                      IMessageBrokerRegister& reg,
+                                                      const MessageType& type, void* user_data,
+                                                      bool ack) {
+    if (!isProcessingOnCurrentThread())
         return false;
-    return queues->getMainQueue().addMessage(message);
+
+    auto queues = mQueues;
+    Message::DelayParams delay_params;
+    return [&] {
+        if (!queues->isProcessing())
+            return false;
+
+        auto message = Message{src, type, user_data, delay_params, ack};
+        message.setBrokerId_(reg.getId());
+
+        AddMessageMainContext ctx{&queues->getMainQueue(), &message};
+        reg.forEachRegistered(ctx);
+        return ctx.result;
+    }();
 }
 
 void MessageDispatcher::Queues::process() {

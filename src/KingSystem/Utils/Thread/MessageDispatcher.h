@@ -22,6 +22,20 @@ class Message;
 class MessageProcessor;
 struct MesTransceiverId;
 
+class MessageQueue {
+public:
+    MessageQueue();
+    virtual ~MessageQueue();
+    virtual bool addMessage(const Message& message);
+    virtual void processQueue(MessageProcessor& processor);
+    virtual void clear();
+
+private:
+    Message* findUnusedEntry() const;
+
+    util::UniqueArrayPtr<Message, 3000> mMessages;
+};
+
 class MessageDispatcher : public MessageDispatcherBase {
     SEAD_SINGLETON_DISPOSER(MessageDispatcher)
     SEAD_RTTI_OVERRIDE(MessageDispatcher, MessageDispatcherBase)
@@ -47,24 +61,14 @@ public:
                      const MessageType& type, void* user_data, bool ack) override;
     bool sendMessageOnProcessingThread(const MesTransceiverId& src, const MesTransceiverId& dest,
                                        const MessageType& type, void* user_data, bool ack) override;
-    void m_8() override;
-    void m_9() override;
+    bool sendMessage(const MesTransceiverId& src, IMessageBrokerRegister& reg,
+                     const MessageType& type, void* user_data, bool ack) override;
+    bool sendMessageOnProcessingThread(const MesTransceiverId& src, IMessageBrokerRegister& reg,
+                                       const MessageType& type, void* user_data, bool ack) override;
     void update() override;
 
 private:
-    class Queue {
-    public:
-        Queue();
-        virtual ~Queue();
-        virtual bool addMessage(const Message& message);
-        virtual void processQueue(MessageProcessor& processor);
-        virtual void clear();
-
-    private:
-        Message* findUnusedEntry() const;
-
-        util::UniqueArrayPtr<Message, 3000> mMessages;
-    };
+    friend struct AddMessageMainContext;
 
     class DoubleBufferedQueue {
     public:
@@ -74,13 +78,14 @@ private:
         void clear();
         void processQueue(MessageProcessor& processor);
         void swapBuffer() { mActiveIdx ^= 1; }
+        MessageQueue* getQueue() { return &mBuffer[mActiveIdx ^ 1]; }
 
     private:
         u32 mActiveIdx = 1;
-        Queue mBuffer[2];
+        MessageQueue mBuffer[2];
     };
 
-    class MainQueue final {
+    class MainQueue {
     public:
         MainQueue();
         virtual ~MainQueue();
@@ -104,6 +109,9 @@ private:
         MainQueue& getMainQueue() { return mMainQueue; }
         bool isProcessing() const { return mIsProcessing; }
         void process();
+        bool sendMessageOnProcessingThread(const MesTransceiverId& src,
+                                           const MesTransceiverId& dest, const MessageType& type,
+                                           void* user_data, bool ack);
 
     private:
         struct DummyLogger : public MessageProcessor::Logger {

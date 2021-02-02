@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
   Thread/Message.h
   Thread/MessageAck.cpp
   Thread/MessageAck.h
+  Thread/MessageBroker.cpp
+  Thread/MessageBroker.h
   Thread/MessageDispatcher.cpp
   Thread/MessageDispatcher.h
   Thread/MessageDispatcherBase.cpp

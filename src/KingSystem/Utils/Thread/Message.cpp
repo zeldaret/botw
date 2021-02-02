@@ -34,7 +34,7 @@ void* Message::getUserData() const {
 }
 
 u32 Message::getField48() const {
-    return _48;
+    return mBrokerId;
 }
 
 bool Message::shouldBeProcessed() const {
@@ -56,7 +56,7 @@ void Message::setDestination(const MesTransceiverId& dest) {
 }
 
 void Message::setField48(const u32& v) {
-    _48 = v;
+    mBrokerId = v;
 }
 
 }  // namespace ksys

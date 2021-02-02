@@ -50,7 +50,7 @@ public:
         mDestination = other.getDestination();
         mType = other.getType();
         mUserData = other.getUserData();
-        _48 = other.getField48();
+        mBrokerId = other.getField48();
         mDelayParams = other.mDelayParams;
         mShouldAck = other.shouldAck();
         return *this;
@@ -76,7 +76,7 @@ public:
     void reset() {
         mType = {};
         mUserData = {};
-        _48 = 0xffffffff;
+        mBrokerId = 0xffffffff;
         mDelayParams = {};
         mShouldAck = {};
         mSource.reset();
@@ -90,12 +90,14 @@ public:
 
     bool isValid() const { return mDestination.isRegistered(); }
 
+    void setBrokerId_(u32 id) { mBrokerId = id; }
+
 private:
     MesTransceiverId mSource{};
     MesTransceiverId mDestination{};
     MessageType mType{};
     void* mUserData{};
-    u32 _48 = 0xffffffff;
+    u32 mBrokerId = 0xffffffff;
     DelayParams mDelayParams{};
     bool mShouldAck = true;
 };

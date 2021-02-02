@@ -4,6 +4,7 @@
 
 namespace ksys {
 
+class IMessageBrokerRegister;
 class MessageReceiverEx;
 struct MesTransceiverId;
 struct MessageType;
@@ -22,9 +23,11 @@ public:
                                                const MesTransceiverId& dest,
                                                const MessageType& type, void* user_data,
                                                bool ack) = 0;
-    // TODO
-    virtual void m_8() = 0;
-    virtual void m_9() = 0;
+    virtual bool sendMessage(const MesTransceiverId& src, IMessageBrokerRegister& reg,
+                             const MessageType& type, void* user_data, bool ack) = 0;
+    virtual bool sendMessageOnProcessingThread(const MesTransceiverId& src,
+                                               IMessageBrokerRegister& reg, const MessageType& type,
+                                               void* user_data, bool ack) = 0;
     virtual void update() = 0;
 
 protected:

@@ -1,4 +1,5 @@
 #include "KingSystem/Utils/Thread/MessageTransceiverBase.h"
+#include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "KingSystem/Utils/Thread/MessageReceiverEx.h"
 
 namespace ksys {
@@ -9,12 +10,12 @@ MessageTransceiverBase::MessageTransceiverBase() = default;
 
 MessageTransceiverBase::~MessageTransceiverBase() = default;
 
-bool MessageTransceiverBase::checkGeneratorFlag() const {
-    return getGenerator()->checkFlag();
+bool MessageTransceiverBase::checkReceiverFlag() const {
+    return getReceiver()->checkFlag();
 }
 
-bool MessageTransceiverBase::checkGeneratorCounter() const {
-    return getGenerator()->checkCounter();
+bool MessageTransceiverBase::checkReceiverCounter() const {
+    return getReceiver()->checkCounter();
 }
 
 bool MessageTransceiverBase::m2() {
@@ -39,6 +40,10 @@ MessageDispatcherBase* MessageTransceiverBase::getDispatcher() {
 
 void MessageTransceiverBase::setGlobalDispatcher(MessageDispatcherBase* dispatcher) {
     sDispatcher = dispatcher;
+}
+
+IMessageBrokerRegister* MessageTransceiverBase::getRegister(IMessageBroker& broker) const {
+    return broker.getRegister();
 }
 
 }  // namespace ksys
