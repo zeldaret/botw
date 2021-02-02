@@ -19,17 +19,17 @@ bool MessageProcessor::process(Message* message) {
     bool dest_valid = false;
 
     const auto& dest = message->getDestination();
-    if (Message::checkTransceiver(dest)) {
+    if (dest.isRegistered()) {
         success = dest.receiver->receive(*message) & 1;
         mLogger->log(*message, success);
         dest_valid = true;
     }
 
     const auto& src = message->getSource();
-    if (!message->hasDelayer() || Message::checkTransceiver(src)) {
+    if (!message->hasDelayer() || src.isRegistered()) {
         if (message->shouldAck()) {
             const auto& source = message->getSource();
-            if (Message::checkTransceiver(source)) {
+            if (source.isRegistered()) {
                 auto* receiver = source.receiver;
                 const MessageAck ack{dest_valid, success, message->getDestination(),
                                      message->getType(), message->getUserData()};

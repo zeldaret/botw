@@ -17,6 +17,7 @@ public:
     bool checkCounter() const;
     void setFlag(bool update_counter);
 
+    u8* getFlagPointer() const { return mFlag; }
     void setFlagPointer(u8* ptr);
     void clearFlagPointer();
 

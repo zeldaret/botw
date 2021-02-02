@@ -88,19 +88,7 @@ public:
             reset();
     }
 
-    bool isValid() const { return checkTransceiver(mDestination); }
-
-    static bool checkTransceiver(const MesTransceiverId& id) {
-        if (!id.next)
-            return false;
-
-        MesTransceiverId* next = *id.next;
-        if (!next)
-            return false;
-
-        const auto& fields = [](const MesTransceiverId& i) { return std::tie(i.queue_id, i.id); };
-        return fields(id) == fields(*next);
-    }
+    bool isValid() const { return mDestination.isRegistered(); }
 
 private:
     MesTransceiverId mSource{};
