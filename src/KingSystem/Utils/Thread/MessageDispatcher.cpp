@@ -194,7 +194,7 @@ void MessageDispatcher::registerTransceiver(MessageReceiverEx& receiver) {
 }
 
 void MessageDispatcher::deregisterTransceiver(MessageReceiverEx& receiver) {
-    if (receiver.checkFlag() && receiver.checkCounter())
+    if (receiver.checkFlag() && receiver.isWaitingForAck())
         mUpdateEndEvent.wait();
 
     const auto lock = sead::makeScopedLock(mCritSection);

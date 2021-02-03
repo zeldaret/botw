@@ -33,7 +33,7 @@ void* Message::getUserData() const {
     return mUserData;
 }
 
-u32 Message::getField48() const {
+u32 Message::getBrokerId() const {
     return mBrokerId;
 }
 
@@ -55,7 +55,7 @@ void Message::setDestination(const MesTransceiverId& dest) {
     mDestination = dest;
 }
 
-void Message::setField48(const u32& v) {
+void Message::setBrokerId(const u32& v) {
     mBrokerId = v;
 }
 

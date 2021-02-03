@@ -50,7 +50,7 @@ public:
         mDestination = other.getDestination();
         mType = other.getType();
         mUserData = other.getUserData();
-        mBrokerId = other.getField48();
+        mBrokerId = other.getBrokerId();
         mDelayParams = other.mDelayParams;
         mShouldAck = other.shouldAck();
         return *this;
@@ -60,10 +60,10 @@ public:
     virtual const MesTransceiverId& getDestination() const;
     virtual const MessageType& getType() const;
     virtual void* getUserData() const;
-    virtual u32 getField48() const;
+    virtual u32 getBrokerId() const;
     virtual bool shouldAck() const;
     virtual void setDestination(const MesTransceiverId& dest);
-    virtual void setField48(const u32& v);
+    virtual void setBrokerId(const u32& v);
     virtual bool shouldBeProcessed() const;
 
     bool hasDelayer() const { return mDelayParams.delayer != nullptr; }

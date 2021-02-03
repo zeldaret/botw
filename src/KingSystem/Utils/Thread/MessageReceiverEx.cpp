@@ -12,22 +12,22 @@ int MessageReceiverEx::receive(const Message& message) {
 
 void MessageReceiverEx::receive(const MessageAck& ack) {
     handleAck(ack);
-    --mCounter;
-    static_cast<void>(mCounter.load());
+    --mNumPendingAcks;
+    static_cast<void>(mNumPendingAcks.load());
 }
 
 bool MessageReceiverEx::checkFlag() const {
     return mFlag && *mFlag == 1;
 }
 
-bool MessageReceiverEx::checkCounter() const {
-    return mCounter > 0;
+bool MessageReceiverEx::isWaitingForAck() const {
+    return mNumPendingAcks > 0;
 }
 
-void MessageReceiverEx::setFlag(bool update_counter) {
+void MessageReceiverEx::setFlag(bool ack_requested) {
     if (mFlag) {
-        if (update_counter)
-            mCounter.increment();
+        if (ack_requested)
+            mNumPendingAcks.increment();
         *mFlag = 1;
     }
 }

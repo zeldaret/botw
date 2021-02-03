@@ -9,17 +9,22 @@ class IMessageBrokerRegister;
 class MessageDispatcherBase;
 struct MesTransceiverId;
 class MessageReceiverEx;
+struct MessageType;
 
 class MessageTransceiverBase {
 public:
     MessageTransceiverBase();
     virtual ~MessageTransceiverBase();
     bool checkReceiverFlag() const;
-    bool checkReceiverCounter() const;
-    virtual bool m2();
-    virtual bool m3();
-    virtual bool m4();
-    virtual bool m5();
+    bool isWaitingForAck() const;
+    virtual bool sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
+                             bool ack);
+    virtual bool sendMessageOnProcessingThread(const MesTransceiverId& dest,
+                                               const MessageType& type, void* user_data, bool ack);
+    virtual bool sendMessage(IMessageBroker& broker, const MessageType& type, void* user_data,
+                             bool ack);
+    virtual bool sendMessageOnProcessingThread(IMessageBroker& broker, const MessageType& type,
+                                               void* user_data, bool ack);
     virtual MessageReceiverEx* getReceiver() const = 0;
     MessageDispatcherBase* getDispatcher();
     MesTransceiverId* getId() const { return mId; }

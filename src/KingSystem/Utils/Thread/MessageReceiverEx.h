@@ -14,8 +14,8 @@ public:
     void receive(const MessageAck& ack) override;
 
     bool checkFlag() const;
-    bool checkCounter() const;
-    void setFlag(bool update_counter);
+    bool isWaitingForAck() const;
+    void setFlag(bool ack_requested);
 
     u8* getFlagPointer() const { return mFlag; }
     void setFlagPointer(u8* ptr);
@@ -29,7 +29,7 @@ protected:
 
 private:
     u8* mFlag{};
-    sead::Atomic<s32> mCounter;
+    sead::Atomic<s32> mNumPendingAcks;
 };
 
 }  // namespace ksys

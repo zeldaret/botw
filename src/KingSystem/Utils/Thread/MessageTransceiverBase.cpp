@@ -14,23 +14,29 @@ bool MessageTransceiverBase::checkReceiverFlag() const {
     return getReceiver()->checkFlag();
 }
 
-bool MessageTransceiverBase::checkReceiverCounter() const {
-    return getReceiver()->checkCounter();
+bool MessageTransceiverBase::isWaitingForAck() const {
+    return getReceiver()->isWaitingForAck();
 }
 
-bool MessageTransceiverBase::m2() {
+bool MessageTransceiverBase::sendMessage(const MesTransceiverId& dest, const MessageType& type,
+                                         void* user_data, bool ack) {
     return false;
 }
 
-bool MessageTransceiverBase::m3() {
+bool MessageTransceiverBase::sendMessageOnProcessingThread(const MesTransceiverId& dest,
+                                                           const MessageType& type, void* user_data,
+                                                           bool ack) {
     return false;
 }
 
-bool MessageTransceiverBase::m4() {
+bool MessageTransceiverBase::sendMessage(IMessageBroker& broker, const MessageType& type,
+                                         void* user_data, bool ack) {
     return false;
 }
 
-bool MessageTransceiverBase::m5() {
+bool MessageTransceiverBase::sendMessageOnProcessingThread(IMessageBroker& broker,
+                                                           const MessageType& type, void* user_data,
+                                                           bool ack) {
     return false;
 }
 
