@@ -16,6 +16,8 @@ public:
     void init(sead::Heap* heap);
 
     Event* getActiveEvent() const;
+
+    sead::Heap* mEventHeap;  // 0x1d180
 };
 
 }  // namespace ksys::evt
