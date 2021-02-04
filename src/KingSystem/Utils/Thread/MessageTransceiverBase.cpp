@@ -10,11 +10,11 @@ MessageTransceiverBase::MessageTransceiverBase() = default;
 
 MessageTransceiverBase::~MessageTransceiverBase() = default;
 
-bool MessageTransceiverBase::checkReceiverFlag() const {
+bool MessageTransceiverBase::checkReceiverFlag() {
     return getReceiver()->checkFlag();
 }
 
-bool MessageTransceiverBase::isWaitingForAck() const {
+bool MessageTransceiverBase::isWaitingForAck() {
     return getReceiver()->isWaitingForAck();
 }
 
