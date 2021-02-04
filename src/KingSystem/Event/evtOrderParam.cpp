@@ -91,18 +91,17 @@ void OrderParam::addParamActor(ksys::act::BaseProc& actor, sead::SafeString& nam
         }
     }
 }
-// The three below have 1 pair of instructions swapped
 
 bool OrderParam::getIntByName(const sead::SafeString& name, u32** out_ptr) {
-    return tryGetPointerByName(name, (void**)out_ptr, nullptr, OrderParamType::INT);
+    return getPointerByName(name, out_ptr, nullptr, OrderParamType::INT);
 }
 
 bool OrderParam::getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr) {
-    return tryGetPointerByName(name, (void**)out_ptr, nullptr, OrderParamType::STRING);
+    return getPointerByName(name, out_ptr, nullptr, OrderParamType::STRING);
 }
 
 bool OrderParam::getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) {
-    return tryGetPointerByName(name, out_ptr, out_size, OrderParamType::ARRAY);
+    return getPointerByName(name, out_ptr, out_size, OrderParamType::ARRAY);
 }
 
 // This one also does not match
@@ -167,6 +166,19 @@ OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, sead::SafeS
         }
     }
 
+    return nullptr;
+}
+
+void* OrderParam::getPointerByName(const sead::SafeString& name, u32* out_size,
+                                   OrderParamType type) const {
+    const u32 hash = sead::HashCRC32::calcStringHash(name);
+    for (s32 i = 0; i < mEntries.size(); i++) {
+        if (mEntries[i].mHash == hash && mEntries[i].mType == type) {
+            if (out_size)
+                *out_size = mEntries[i].mSize;
+            return mEntries[i].mPointer;
+        }
+    }
     return nullptr;
 }
 

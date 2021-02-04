@@ -45,38 +45,18 @@ public:
     bool getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size);
 
 private:
-    inline void* getPointerByName(const sead::SafeString& name, OrderParamType type) {
-        u32 hash = sead::HashCRC32::calcStringHash(name.cstr());
-        s32 i;
-        for (i = 0; i < mEntries.size(); i++) {
-            if (mEntries[i].mHash == hash && mEntries[i].mType == type) {
-                return mEntries[i].mPointer;
-            }
-        }
-        return nullptr;
+    void* getPointerByName(const sead::SafeString& name, u32* out_size, OrderParamType type) const;
+
+    template <typename T>
+    bool getPointerByName(const sead::SafeString& name, T** out_ptr, u32* out_size,
+                          OrderParamType type) const {
+        auto* ptr = getPointerByName(name, out_size, type);
+        if (!ptr)
+            return false;
+        *out_ptr = static_cast<T*>(ptr);
+        return true;
     }
-    inline bool tryGetPointerByName(const sead::SafeString& name, void** out_ptr, u32* out_size,
-                                    OrderParamType type) {
-        u32 hash = sead::HashCRC32::calcStringHash(name.cstr());
-        s32 i;
-        for (i = 0; i < mEntries.size(); i++) {
-            if (mEntries[i].mHash == hash && mEntries[i].mType == type) {
-                if (out_size) {
-                    *out_size = mEntries[i].mSize;
-                }
-                return tryGetPointer(i, out_ptr);
-            }
-        }
-        return false;
-    }
-    inline bool tryGetPointer(s32 i, void** out_ptr) {
-        auto* ptr = mEntries[i].mPointer;
-        if (ptr) {
-            *out_ptr = ptr;  // minor diff with scheduling
-            return true;
-        }
-        return false;
-    }
+
     inline void clearEntry(OrderParamEntry* e) {
         e->mHash = 0;
         e->mSize = 0;
