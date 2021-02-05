@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  Thread/ActorMessageTransceiver.cpp
+  Thread/ActorMessageTransceiver.h
   Thread/Event.cpp
   Thread/Event.h
   Thread/GameTaskThread.cpp

@@ -7,10 +7,10 @@ namespace ksys {
 
 template <class T>
 bool sendMessageImpl(T* transceiver, const MesTransceiverId& dest, const MessageType& type,
-                     void* user_data, bool ack) {
+                     void* user_data, bool ack, bool x = false) {
     MessageDispatcherBase* dispatcher = transceiver->getDispatcher();
     const bool ok = dispatcher->sendMessage(*transceiver->getReceiver()->MessageReceiver::getId(),
-                                            dest, type, user_data, ack, false);
+                                            dest, type, user_data, ack, x);
 
     if (ok)
         transceiver->getReceiver()->setFlag(ack);
@@ -20,10 +20,11 @@ bool sendMessageImpl(T* transceiver, const MesTransceiverId& dest, const Message
 
 template <class T>
 bool sendMessageOnProcessingThreadImpl(T* transceiver, const MesTransceiverId& dest,
-                                       const MessageType& type, void* user_data, bool ack) {
+                                       const MessageType& type, void* user_data, bool ack,
+                                       bool x = false) {
     MessageDispatcherBase* dispatcher = transceiver->getDispatcher();
     const bool ok = dispatcher->sendMessageOnProcessingThread(
-        *transceiver->getReceiver()->MessageReceiver::getId(), dest, type, user_data, ack, false);
+        *transceiver->getReceiver()->MessageReceiver::getId(), dest, type, user_data, ack, x);
 
     if (ok)
         transceiver->getReceiver()->setFlag(ack);
@@ -33,11 +34,11 @@ bool sendMessageOnProcessingThreadImpl(T* transceiver, const MesTransceiverId& d
 
 template <class T>
 bool sendMessageImpl(T* transceiver, IMessageBroker& broker, const MessageType& type,
-                     void* user_data, bool ack) {
+                     void* user_data, bool ack, bool x = false) {
     MessageDispatcherBase* dispatcher = transceiver->getDispatcher();
     const bool ok =
         dispatcher->sendMessage(*transceiver->getReceiver()->MessageReceiver::getId(),
-                                *transceiver->getRegister(broker), type, user_data, ack, false);
+                                *transceiver->getRegister(broker), type, user_data, ack, x);
 
     if (ok) {
         for (int i = 0, n = broker.countTransceivers(); i < n; ++i)
@@ -49,11 +50,12 @@ bool sendMessageImpl(T* transceiver, IMessageBroker& broker, const MessageType& 
 
 template <class T>
 bool sendMessageOnProcessingThreadImpl(T* transceiver, IMessageBroker& broker,
-                                       const MessageType& type, void* user_data, bool ack) {
+                                       const MessageType& type, void* user_data, bool ack,
+                                       bool x = false) {
     MessageDispatcherBase* dispatcher = transceiver->getDispatcher();
     const bool ok = dispatcher->sendMessageOnProcessingThread(
         *transceiver->getReceiver()->MessageReceiver::getId(), *transceiver->getRegister(broker),
-        type, user_data, ack, false);
+        type, user_data, ack, x);
 
     if (ok) {
         for (int i = 0, n = broker.countTransceivers(); i < n; ++i)
