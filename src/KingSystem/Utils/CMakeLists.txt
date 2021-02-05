@@ -27,10 +27,13 @@ target_sources(uking PRIVATE
   Thread/MessageReceiverEx.h
   Thread/MessageTransceiverBase.cpp
   Thread/MessageTransceiverBase.h
+  Thread/MessageTransceiverCommon.h
   Thread/MessageTransceiverId.cpp
   Thread/MessageTransceiverId.h
   Thread/MessageTransceiverRxOnly.cpp
   Thread/MessageTransceiverRxOnly.h
+  Thread/MessageTransceiverTxOnly.cpp
+  Thread/MessageTransceiverTxOnly.h
   Thread/Task.cpp
   Thread/Task.h
   Thread/TaskData.h

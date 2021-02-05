@@ -58,13 +58,15 @@ public:
     void registerTransceiver(MessageReceiverEx& receiver) override;
     void deregisterTransceiver(MessageReceiverEx& receiver) override;
     bool sendMessage(const MesTransceiverId& src, const MesTransceiverId& dest,
-                     const MessageType& type, void* user_data, bool ack) override;
+                     const MessageType& type, void* user_data, bool ack, bool) override;
     bool sendMessageOnProcessingThread(const MesTransceiverId& src, const MesTransceiverId& dest,
-                                       const MessageType& type, void* user_data, bool ack) override;
+                                       const MessageType& type, void* user_data, bool ack,
+                                       bool) override;
     bool sendMessage(const MesTransceiverId& src, IMessageBrokerRegister& reg,
-                     const MessageType& type, void* user_data, bool ack) override;
+                     const MessageType& type, void* user_data, bool ack, bool) override;
     bool sendMessageOnProcessingThread(const MesTransceiverId& src, IMessageBrokerRegister& reg,
-                                       const MessageType& type, void* user_data, bool ack) override;
+                                       const MessageType& type, void* user_data, bool ack,
+                                       bool) override;
     void update() override;
 
 private:

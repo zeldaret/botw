@@ -35,7 +35,7 @@ public:
 protected:
     void registerReceiver(MessageReceiverEx& receiver) {
         getDispatcher()->registerTransceiver(receiver);
-        mId = receiver.MessageReceiver::getId();
+        mId = receiver.getId();
     }
 
     void deregisterReceiver(MessageReceiverEx& receiver) {

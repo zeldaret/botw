@@ -222,7 +222,7 @@ void MessageDispatcher::deregisterTransceiver(MessageReceiverEx& receiver) {
 }
 
 bool MessageDispatcher::sendMessage(const MesTransceiverId& src, const MesTransceiverId& dest,
-                                    const MessageType& type, void* user_data, bool ack) {
+                                    const MessageType& type, void* user_data, bool ack, bool) {
     auto* queues = mQueues;
     const auto message = Message{src, dest, type, user_data, {}, ack};
     const auto lock = sead::makeScopedLock(queues->getCritSection());
@@ -243,7 +243,7 @@ bool MessageDispatcher::Queues::sendMessageOnProcessingThread(const MesTransceiv
 bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& src,
                                                       const MesTransceiverId& dest,
                                                       const MessageType& type, void* user_data,
-                                                      bool ack) {
+                                                      bool ack, bool) {
     if (!isProcessingOnCurrentThread())
         return false;
     return mQueues->sendMessageOnProcessingThread(src, dest, type, user_data, ack);
@@ -265,7 +265,7 @@ struct AddMessageContext : IMessageBrokerRegister::IForEachContext {
 };
 
 bool MessageDispatcher::sendMessage(const MesTransceiverId& src, IMessageBrokerRegister& reg,
-                                    const MessageType& type, void* user_data, bool ack) {
+                                    const MessageType& type, void* user_data, bool ack, bool) {
     auto queues = mQueues;
     Message::DelayParams delay_params;
     // This should probably be a Queues member function, but putting this here removes
@@ -301,7 +301,7 @@ struct AddMessageMainContext : IMessageBrokerRegister::IForEachContext {
 bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& src,
                                                       IMessageBrokerRegister& reg,
                                                       const MessageType& type, void* user_data,
-                                                      bool ack) {
+                                                      bool ack, bool) {
     if (!isProcessingOnCurrentThread())
         return false;
 
