@@ -12,7 +12,7 @@ class MessageReceiver {
 public:
     MessageReceiver();
     virtual ~MessageReceiver();
-    virtual MesTransceiverId* getId() final;
+    virtual MesTransceiverId* getId();
     virtual int receive(const Message& message);
     virtual void receive(const MessageAck& ack);
     virtual void setQueueId(const u32& id) { mTransceiverId.queue_id = id; }
