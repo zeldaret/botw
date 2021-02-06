@@ -36,25 +36,47 @@ class OrderParam {
 public:
     bool initialize(s32 entry_count);
     void uninitialize();
+    OrderParam* assign(OrderParam* other);
 
-    bool addParamInt(s32 val, const sead::SafeString& key);
-    void addParamActor(ksys::act::BaseProc& actor, sead::SafeString& name);
-    OrderParamEntry* tryAlloc(OrderParamType type, u32 size, sead::SafeString& name);
+    inline const OrderParamEntry* getParam(const s32 index) const;
+    bool addParamInt(s32 val, const sead::SafeString& name);
+    bool addParamInt2(s32 val, const sead::SafeString& name);
+    bool addParamString(const sead::SafeString& val, const sead::SafeString& name);
+    bool addParamByte(char val, const sead::SafeString& name);
+    bool addParamActor(ksys::act::BaseProc* actor, sead::SafeString& name);
+    bool addParamArray(char* array, u32 size, sead::SafeString& name);
+
+    OrderParamEntry* tryAlloc(OrderParamType type, u32 size, const sead::SafeString& name);
     bool getIntByName(const sead::SafeString& name, u32** out_ptr);
     bool getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr);
     bool getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size);
 
 private:
-    void* getPointerByName(const sead::SafeString& name, u32* out_size, OrderParamType type) const;
+    bool doAssign(OrderParam* other);
+    // OrderParamEntry* getEntryByName(const sead::SafeString& name, OrderParamType type);
+    void* getPointerByName(const sead::SafeString& name, OrderParamType type,
+                           u32* out_size = nullptr) const;
 
     template <typename T>
-    bool getPointerByName(const sead::SafeString& name, T** out_ptr, u32* out_size,
-                          OrderParamType type) const {
-        auto* ptr = getPointerByName(name, out_size, type);
+    bool getPointerByName(const sead::SafeString& name, T** out_ptr, OrderParamType type,
+                          u32* out_size = nullptr) const {
+        auto* ptr = getPointerByName(name, type, out_size);
         if (!ptr)
             return false;
         *out_ptr = static_cast<T*>(ptr);
         return true;
+    }
+
+    template <typename T>
+    T* tryAllocParam(const sead::SafeString& name, OrderParamType type, u32 size = 0) {
+        auto* ptr = getPointerByName(name, type);
+        if (ptr)
+            return nullptr;
+
+        auto* entry = tryAlloc(type, size, name);
+        if (!entry || !(entry->mPointer))
+            return nullptr;
+        return static_cast<T*>(entry->mPointer);
     }
 
     inline void clearEntry(OrderParamEntry* e) {

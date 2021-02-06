@@ -71,41 +71,142 @@ void OrderParam::uninitialize() {
     mInitialized = false;
 }
 
-// half done
-void OrderParam::addParamActor(ksys::act::BaseProc& actor, sead::SafeString& name) {
-    u32 hash = sead::HashCRC32::calcStringHash(name.cstr());
-    s32 i;
-    for (i = 0; i < mEntries.size(); i++) {
-        if (mEntries[i].mHash == hash && mEntries[i].mType == OrderParamType::ACTOR) {
-            if (!mEntries[i].mPointer) {
-                break;
+const OrderParamEntry* OrderParam::getParam(const s32 index) const {
+    sead::FixedSafeString<0x100> error_message;
+
+    error_message.format("[%s] getParam(%d) is failed.", "ksys::evt::OrderParam", index);
+    if ((u32)std::max(0, mEntries.size()) > (u32)index) {
+        return &mEntries[index];
+    } else {
+        return nullptr;
+    }
+}
+OrderParam* OrderParam::assign(OrderParam* other) {
+    if (this != other) {
+        doAssign(other);
+    }
+    return this;
+}
+
+bool OrderParam::doAssign(OrderParam* other) {
+    if (this == other)
+        return true;
+    if (!initialize(std::max(0, other->mEntries.size())))
+        return false;
+    for (s32 i = 0; i < mEntries.size(); i++) {
+        auto* other_entry = other->getParam(i);
+        if (other_entry) {
+            auto* other_ptr = other_entry->mPointer;
+            auto* other_name = other_entry->mName;
+            ksys::act::BaseProcLink* link_ptr;
+            ksys::act::BaseProc* actor_ptr;
+            if (other_ptr && other_name) {
+                switch (other_entry->mType) {
+                case OrderParamType::INT:
+                    if (!addParamInt(*static_cast<s32*>(other_ptr), *other_name))
+                        return false;
+                    break;
+                case OrderParamType::INT_2:
+                    if (!addParamInt2(*static_cast<s32*>(other_ptr), *other_name))
+                        return false;
+                    break;
+                case OrderParamType::STRING:
+                    if (!addParamString(*static_cast<sead::SafeString*>(other_ptr), *other_name))
+                        return false;
+                    break;
+                case OrderParamType::BYTE:
+                    if (!addParamByte(*static_cast<char*>(other_ptr), *other_name))
+                        return false;
+                    break;
+                case OrderParamType::ACTOR:
+                    link_ptr = static_cast<ksys::act::BaseProcLink*>(other_ptr);
+                    actor_ptr =
+                        sead::DynamicCast<ksys::act::BaseProc>(link_ptr->getProc(nullptr, nullptr));
+                    if (!addParamActor(actor_ptr, *other_name))
+                        return false;
+                    break;
+                case OrderParamType::ARRAY:
+                    if (!addParamArray(static_cast<char*>(other_ptr), other_entry->mSize,
+                                       *other_name))
+                        return false;
+                    break;
+                default:
+                    break;
+                }
             }
         }
     }
+    return true;
+}
 
-    auto* entry = tryAlloc(OrderParamType::ACTOR, 0, name);
-    if (entry) {
-        auto* actor_ptr = (ksys::act::BaseProcLink*)entry->mPointer;
-        if (actor_ptr->acquire(&actor, false)) {
-            ++this->mEntryCount;
-        }
-    }
+bool OrderParam::addParamInt(s32 val, const sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<s32>(name, OrderParamType::INT);
+    if (!entry_ptr)
+        return false;
+    *entry_ptr = val;
+    ++mEntryCount;
+    return true;
+}
+
+bool OrderParam::addParamInt2(s32 val, const sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<s32>(name, OrderParamType::INT_2);
+    if (!entry_ptr)
+        return false;
+    *entry_ptr = val;
+    ++mEntryCount;
+    return true;
+}
+bool OrderParam::addParamString(const sead::SafeString& val, const sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<sead::BufferedSafeString>(name, OrderParamType::STRING);
+    if (!entry_ptr)
+        return false;
+    entry_ptr->copy(val);
+    ++mEntryCount;
+    return true;
+}
+
+bool OrderParam::addParamByte(char val, const sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<char>(name, OrderParamType::BYTE);
+    if (!entry_ptr)
+        return false;
+    *entry_ptr = val;
+    ++mEntryCount;
+    return true;
+}
+
+bool OrderParam::addParamActor(ksys::act::BaseProc* actor, sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<ksys::act::BaseProcLink>(name, OrderParamType::ACTOR);
+    if (!entry_ptr)
+        return false;
+    if (!entry_ptr->acquire(actor, false))
+        return false;
+    ++mEntryCount;
+    return true;
+}
+
+bool OrderParam::addParamArray(char* array, u32 size, sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<ksys::act::BaseProcLink>(name, OrderParamType::ARRAY, size);
+    if (!entry_ptr)
+        return false;
+    std::memcpy(entry_ptr, array, size);
+    ++mEntryCount;
+    return true;
 }
 
 bool OrderParam::getIntByName(const sead::SafeString& name, u32** out_ptr) {
-    return getPointerByName(name, out_ptr, nullptr, OrderParamType::INT);
+    return getPointerByName(name, out_ptr, OrderParamType::INT);
 }
 
 bool OrderParam::getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr) {
-    return getPointerByName(name, out_ptr, nullptr, OrderParamType::STRING);
+    return getPointerByName(name, out_ptr, OrderParamType::STRING);
 }
 
 bool OrderParam::getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) {
-    return getPointerByName(name, out_ptr, out_size, OrderParamType::ARRAY);
+    return getPointerByName(name, out_ptr, OrderParamType::ARRAY, out_size);
 }
 
 // This one also does not match
-OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, sead::SafeString& name) {
+OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, const sead::SafeString& name) {
     sead::FixedSafeString<0x100> error_message;
 
     error_message.format("[%s] tryAlloc_(%d, %d, %s) is failed.", "ksys::evt::OrderParam", type,
@@ -169,8 +270,18 @@ OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, sead::SafeS
     return nullptr;
 }
 
-void* OrderParam::getPointerByName(const sead::SafeString& name, u32* out_size,
-                                   OrderParamType type) const {
+// OrderParamEntry* OrderParam::getEntryByName(const sead::SafeString& name, OrderParamType type) {
+//     const u32 hash = sead::HashCRC32::calcStringHash(name);
+//     for (s32 i = 0; i < mEntries.size(); i++) {
+//         if (mEntries[i].mHash == hash && mEntries[i].mType == type) {
+//             return &mEntries[i];
+//         }
+//     }
+//     return nullptr;
+// }
+
+void* OrderParam::getPointerByName(const sead::SafeString& name, OrderParamType type,
+                                   u32* out_size) const {
     const u32 hash = sead::HashCRC32::calcStringHash(name);
     for (s32 i = 0; i < mEntries.size(); i++) {
         if (mEntries[i].mHash == hash && mEntries[i].mType == type) {
