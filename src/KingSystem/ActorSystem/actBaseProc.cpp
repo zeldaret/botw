@@ -231,7 +231,7 @@ bool BaseProc::canWakeUp_() {
 
 void BaseProc::queueExtraJobPush_(JobType type) {
     if (!isDeletedOrDeleting())
-        BaseProcMgr::instance()->queueExtraJobPush(&mJobHandlers[int(type)]->getLink());
+        BaseProcMgr::instance()->queueExtraJobPush(&getJobHandler(type)->getLink());
 }
 
 bool BaseProc::shouldSkipJobPush(JobType type) {
@@ -262,7 +262,7 @@ void BaseProc::setJobPriority(u8 actorparam_priority, JobType type) {
     if (isDeletedOrDeleting())
         return;
 
-    auto& handler = mJobHandlers[int(type)];
+    auto& handler = getJobHandler(type);
     handler->getLink().setNewPriority(actorparam_priority);
     if (isCalc()) {
         setJobPriorityDuringCalc_(handler, type);
@@ -275,7 +275,7 @@ void BaseProc::setJobPriority2(u8 actorparam_priority, JobType type) {
     if (isDeletedOrDeleting())
         return;
 
-    auto& handler = mJobHandlers[int(type)];
+    auto& handler = getJobHandler(type);
     handler->getLink().setNewPriority2(actorparam_priority);
     if (isCalc()) {
         setJobPriorityDuringCalc_(handler, type);
@@ -285,7 +285,7 @@ void BaseProc::setJobPriority2(u8 actorparam_priority, JobType type) {
 }
 
 bool BaseProc::hasJobType_(JobType type) {
-    return mJobHandlers[int(type)] != nullptr;
+    return getJobHandler(type) != nullptr;
 }
 
 void BaseProc::afterUpdateState_() {
@@ -311,11 +311,11 @@ void BaseProc::jobInvoked(JobType type) {
 
     if (mStateFlags.isOn(StateFlags::RequestDelete)) {
         if (type == JobType::Calc4)
-            mJobHandlers[4]->invoke();
+            getJobHandler(JobType::Calc4)->invoke();
         special = IsSpecialJobTypeResult::Yes;
     } else {
         special = isSpecialJobType_(type);
-        auto* handler = mJobHandlers[int(type)];
+        auto* handler = getJobHandler(type);
         if (special != IsSpecialJobTypeResult::No)
             handler->invokeSpecial();
         else
@@ -329,10 +329,10 @@ void BaseProc::jobInvoked(JobType type) {
         const auto child_special = child->isSpecialJobType_(type);
         if (child->mStateFlags.isOn(StateFlags::RequestDelete)) {
             if (type == JobType::Calc4)
-                child->mJobHandlers[4]->invoke();
+                child->getJobHandler(JobType::Calc4)->invoke();
             special = IsSpecialJobTypeResult::Yes;
         } else {
-            auto* handler = child->mJobHandlers[int(type)];
+            auto* handler = child->getJobHandler(type);
             if (special == IsSpecialJobTypeResult::Yes ||
                 child_special != IsSpecialJobTypeResult::No) {
                 handler->invokeSpecial();

@@ -264,6 +264,9 @@ protected:
         return mSpecialJobTypesMask.isOnBit(int(type));
     }
 
+    BaseProcJobHandler*& getJobHandler(JobType type) { return mJobHandlers[int(type)]; }
+    BaseProcJobHandler* getJobHandler(JobType type) const { return mJobHandlers[int(type)]; }
+
     bool x00000071011ba9fc();
 
     sead::FixedSafeString<64> mName;
