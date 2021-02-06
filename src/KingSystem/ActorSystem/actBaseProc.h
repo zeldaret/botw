@@ -285,7 +285,7 @@ protected:
     BaseProc* mConnectedCalcParentNew = nullptr;
     BaseProc* mConnectedCalcChildNew = nullptr;
     sead::SafeArray<BaseProcJobHandler*, 7> mJobHandlers{};
-    sead::Delegate<BaseProc> mInvoker;  // TODO: is this correct?
+    sead::Delegate1R<BaseProc, void*, bool> mInvoker;
     sead::ListNode mPostDeleteListNode;
     sead::ListNode mDeleteListNode;
     BaseProcMapNode mMapNode{this};
