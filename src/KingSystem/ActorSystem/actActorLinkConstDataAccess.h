@@ -38,6 +38,7 @@ public:
 
 protected:
     friend class ActorConstDataAccess;
+    friend class BaseProc;
 
     bool mAcquired = false;
     BaseProc* mProc = nullptr;

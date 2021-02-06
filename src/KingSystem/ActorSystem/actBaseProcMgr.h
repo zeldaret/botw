@@ -70,7 +70,10 @@ public:
     void unregisterProc(BaseProc& proc);
 
     void addToPreDeleteList(BaseProc& proc);
-    bool addToUpdateStateList(BaseProc& proc, BaseProc::StateFlags flags);
+    /// @return whether the flag was not set prior to this call and is now set.
+    bool setProcFlag(BaseProc& proc, BaseProc::StateFlags flag);
+    /// @return whether the flag was not set prior to this call and is now set.
+    bool setProcFlag(BaseProc& proc, u32 flag_bit);
     void eraseFromPreDeleteList(BaseProc& proc);
     void eraseFromUpdateStateList(BaseProc& proc);
     void processPreDeleteList();
@@ -161,7 +164,9 @@ public:
     void decrementPendingDeletions() { mNumPendingDeletions.decrement(); }
 
     Status getStatus() const { return mStatus; }
+    JobType getJobType() const { return mJobType; }
     u32 getNumJobTypes() const { return mNumJobTypes; }
+    bool isPushingJobs() const { return mIsPushingJobs; }
 
     bool checkGetActorOk(BaseProc* proc, void* a2);
 
@@ -213,10 +218,16 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(BaseProcMgr, 0x21a0);
 
-inline bool BaseProcMgr::addToUpdateStateList(BaseProc& proc, BaseProc::StateFlags flag) {
+inline bool BaseProcMgr::setProcFlag(BaseProc& proc, BaseProc::StateFlags flag) {
     auto lock = sead::makeScopedLock(mProcUpdateStateListCS);
     doAddToUpdateStateList_(proc);
-    return (proc.mStateFlags.set(flag) & u32(flag)) != 0;
+    return proc.mStateFlags.set(flag);
+}
+
+inline bool BaseProcMgr::setProcFlag(BaseProc& proc, u32 flag_bit) {
+    auto lock = sead::makeScopedLock(mProcUpdateStateListCS);
+    doAddToUpdateStateList_(proc);
+    return proc.mStateFlags.getStorage().setBitOn(flag_bit);
 }
 
 }  // namespace ksys::act

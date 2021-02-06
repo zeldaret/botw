@@ -7,7 +7,7 @@ namespace ksys::act {
 
 class BaseProcJobHandler {
 public:
-    BaseProcJobHandler(BaseProc* proc);
+    explicit BaseProcJobHandler(BaseProc* proc);
     virtual ~BaseProcJobHandler() = default;
     virtual void invoke() = 0;
     virtual void invokeSpecial() {}

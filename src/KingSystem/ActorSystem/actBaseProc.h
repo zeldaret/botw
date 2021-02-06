@@ -15,9 +15,7 @@
 #include "KingSystem/Utils/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys {
-
-namespace act {
+namespace ksys::act {
 
 class ActorLinkConstDataAccess;
 class BaseProc;
@@ -44,7 +42,12 @@ public:
         _0 = 0,
         _1 = 1,
         _2 = 2,
-        _15 = 15,
+        _f = 0xf,
+        _15 = 0x15,
+        _16 = 0x16,
+        _17 = 0x17,
+        _18 = 0x18,
+        _19 = 0x19,
     };
 
     enum class SleepWakeReason : u32 {
@@ -115,8 +118,9 @@ public:
     void setJobPriority(u8 actorparam_priority, JobType type);
     void setJobPriority2(u8 actorparam_priority, JobType type);
 
+    void setCreatePriorityState1();
     void setCreatePriorityState2();
-    bool setStateFlag(u8 idx);
+    bool setStateFlag(u32 flag_bit);
 
 protected:
     friend class BaseProcLinkDataMgr;
@@ -134,6 +138,11 @@ protected:
         _100 = 0x100,
         PreDeleting = 0x200,
         SleepWakeReason0 = 0x400,
+        SleepWakeReason1 = 0x800,
+        SleepWakeReason2 = 0x1000,
+        SleepWakeReason3 = 0x2000,
+        SleepWakeReasonAny =
+            SleepWakeReason0 | SleepWakeReason1 | SleepWakeReason2 | SleepWakeReason3,
     };
 
     enum class StateFlags : u32 {
@@ -291,12 +300,12 @@ private:
     void handleWakeUpRequest_();
     void handleJobPriorityChangeRequest_();
 
+    void setJobPriorityDuringCalc_(BaseProcJobHandler*& handler, JobType type);
+
     bool canWakeUpOrFlagsSet_() {
         return mFlags.isOn(Flags::_80) ? mFlags.isOn(Flags::_100) : canWakeUp_();
     }
 };
 KSYS_CHECK_SIZE_NX150(BaseProc, 0x180);
 
-}  // namespace act
-
-}  // namespace ksys
+}  // namespace ksys::act
