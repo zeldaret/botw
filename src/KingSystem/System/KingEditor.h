@@ -20,6 +20,7 @@ class KingEditor {
 
 public:
     void registerComponent(KingEditorComponent* component);
+    void log(const char* system, const char* message, void* = {}, int = {});
 };
 
 }  // namespace ksys
