@@ -6,6 +6,11 @@ namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(BaseProcMgr)
 
+BaseProcMgr::BaseProcMgr() {
+    mProcPreDeleteList.initOffset(offsetof(BaseProc, mPreDeleteListNode));
+    mProcUpdateStateList.initOffset(offsetof(BaseProc, mUpdateStateListNode));
+}
+
 void BaseProcMgr::generateProcId(u32* id) {
     *id = mCreatedProcCounter.increment();
 }
@@ -64,7 +69,7 @@ void BaseProcMgr::processPreDeleteList() {
 }
 
 bool BaseProcMgr::hasExtraJobLink(BaseProcJobLink* job_link, s32 idx) {
-    for (auto& ptr : mExtraJobLinkArrays[idx]) {
+    for (auto& ptr : mExtraJobLinkArrays.ref()[idx]) {
         if (&ptr == job_link)
             return true;
     }
@@ -72,8 +77,8 @@ bool BaseProcMgr::hasExtraJobLink(BaseProcJobLink* job_link, s32 idx) {
 }
 
 void BaseProcMgr::clearExtraJobArrays() {
-    mExtraJobLinkArrays[0].clear();
-    mExtraJobLinkArrays[1].clear();
+    mExtraJobLinkArrays.ref()[0].clear();
+    mExtraJobLinkArrays.ref()[1].clear();
 }
 
 void BaseProcMgr::setActorJobTypeAndPrio(JobType type, s32 prio, bool x) {

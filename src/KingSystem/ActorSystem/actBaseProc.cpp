@@ -27,7 +27,7 @@ BaseProc::~BaseProc() {
     unlinkCalcChild_();
     unlinkCalcParent_();
 
-    if (mDeleteListNode.isLinked())
+    if (mUpdateStateListNode.isLinked())
         BaseProcMgr::instance()->eraseFromUpdateStateList(*this);
 }
 
@@ -157,7 +157,7 @@ BaseProc::PreDeletePrepareResult BaseProc::prepareForPreDelete_() {
 
 // NON_MATCHING: branching
 bool BaseProc::startPreparingForPreDelete_() {
-    if (mDeleteListNode.isLinked())
+    if (mUpdateStateListNode.isLinked())
         return false;
 
     return !mBaseProcLinkData || mBaseProcLinkData->refCount() <= 0 ||

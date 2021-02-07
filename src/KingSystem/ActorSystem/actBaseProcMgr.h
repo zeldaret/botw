@@ -8,6 +8,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadScopedLock.h>
 #include <prim/seadSizedEnum.h>
+#include <prim/seadStorageFor.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
@@ -202,7 +203,7 @@ private:
     BaseProcInitializer* mProcInitializer = nullptr;
     BaseProcDeleter* mProcDeleter = nullptr;
     bool mIsPushingJobs = false;
-    bool mPushActorJobType3InsteadOf6 = false;
+    sead::Atomic<bool> mPushActorJobType3InsteadOf6 = false;
     bool mEnableExtraJobPush = false;
     Mode mMode = Mode::_0;
     bool mUnk2 = false;
@@ -214,7 +215,8 @@ private:
     u32 mHavokThreadId1 = 0;
     u32 mHavokThreadId2 = 0;
     u32 mUnk4 = 0;
-    sead::SafeArray<ExtraJobLinkArray, 2> mExtraJobLinkArrays{};
+    sead::StorageFor<sead::SafeArray<ExtraJobLinkArray, 2>> mExtraJobLinkArrays{
+        sead::ZeroInitializeTag{}};
 };
 KSYS_CHECK_SIZE_NX150(BaseProcMgr, 0x21a0);
 
