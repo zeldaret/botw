@@ -6,7 +6,7 @@
 # Diff a function (in this example, OrderParam::doAssign, -v is equivalent to --source in diff.py)
 #   ./workflow.sh diff -v _ZN4ksys3evt10OrderParam13addParamActorEPNS_3act8BaseProcERN4sead14SafeStringBaseIcEE
 # Search for mangle name and diff (-f turns off interaction)
-#   ./workflow.sh mad -v -f _ZN4ksys3evt10OrderParam13addParamActorEPNS_3act8BaseProcERN4sead14SafeStringBaseIcEE
+#   ./workflow.sh mad -v -f orderparam::doassign
 # Get ready to pr
 #   ./workflow.sh check
 

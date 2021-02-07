@@ -12,6 +12,10 @@ OrderParam::OrderParam(sead::ExpHeap* heap) {
     mHeap = heap;
 }
 
+OrderParam::~OrderParam() {
+    uninitialize();
+}
+
 bool OrderParam::initialize(s32 entry_count) {
     sead::FixedSafeString<0x100> error_message;
 
