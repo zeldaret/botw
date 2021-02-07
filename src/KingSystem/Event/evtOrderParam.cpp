@@ -21,18 +21,16 @@ bool OrderParam::initialize(s32 entry_count) {
 
     error_message.format("[%s] initialize(%d) is failed.", "ksys::evt::OrderParam", entry_count);
     uninitialize();
-    if (entry_count == 0)
+    if (!entry_count)
         return true;
     if (!mHeap)
-        return false;
-    if (entry_count < 1)
         return false;
     if (!mEntries.tryAllocBuffer(entry_count, mHeap))
         return false;
 
-    // I think compiler is unrolling this loop
-    for (s32 i = 0; i != mEntries.size(); ++i) {
-        clearEntry(&mEntries[i]);
+    for (s32 i = 0; i < entry_count; i++) {
+        clearEntry(&mEntries[i]);  // no matter what I do, the compiler unrolls the first 2
+                                   // iterations out of the loop
     }
     mEntryCount = 0;
     mInitialized = true;
@@ -208,81 +206,71 @@ bool OrderParam::getStringByName(const sead::SafeString& name, sead::SafeString*
 bool OrderParam::getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) {
     return getPointerByName(name, out_ptr, OrderParamType::ARRAY, out_size);
 }
-
-// This one also does not match
+OrderParamEntry* OrderParam::getFreeEntry() {
+    for (s32 i = 0; i < mEntries.size(); i++) {
+        auto* entry = &mEntries[i];
+        if (!entry->mPointer) {
+            return entry;
+        }
+    }
+    return nullptr;
+}
+// This one does not match
 OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, const sead::SafeString& name) {
     sead::FixedSafeString<0x100> error_message;
 
     error_message.format("[%s] tryAlloc_(%d, %d, %s) is failed.", "ksys::evt::OrderParam", type,
                          size, name.cstr());
 
-    for (s32 i = 0; i < mEntries.size(); i++) {
-        auto* e = &mEntries[i];
+    OrderParamEntry* entry = getFreeEntry();  // inlining here fixed the for loop
 
-        if (!e->mPointer) {
-            void** in_ptr = &(e->mPointer);
-            std::nothrow_t nothrow_t;
-            auto* heap = mHeap;
-            if (!heap)
-                return nullptr;
+    if (!entry)
+        return nullptr;
+    auto* heap = mHeap;
+    if (!heap)
+        return nullptr;
+    std::nothrow_t nothrow;
 
-            e->mName = new (heap, nothrow_t) sead::FixedSafeString<0x20>(name);
-            switch (type) {
-            case OrderParamType::STRING:
-                *in_ptr = new (heap, nothrow_t) sead::FixedSafeString<0x40>;
-                size = sizeof(sead::FixedSafeString<0x40>);
-                break;
-            case OrderParamType::INT:
-            case OrderParamType::INT_2:
-                *in_ptr = new (heap, nothrow_t) u32(0);
-                size = sizeof(u32);
-                break;
+    entry->mName =
+        new (heap, nothrow) sead::FixedSafeString<0x20>(name);  // scheduling mismatches here
+    // entry->mName = new_name;
+    // inlining here doesn't fix the mismatch
 
-            case OrderParamType::BYTE:
-                *in_ptr = new (heap, nothrow_t) char(0);
-                size = sizeof(char);
-                break;
-            case OrderParamType::ACTOR:
-                *in_ptr = new (heap, nothrow_t) ksys::act::BaseProcLink;
-                size = sizeof(ksys::act::BaseProcLink);
-                break;
-            case OrderParamType::ARRAY:
-                *in_ptr = new (heap, nothrow_t) char[size];
-            default:
-                break;
-            }
-            e->mSize = size;
-            if (e->mPointer) {
-                e->mHash = sead::HashCRC32::calcStringHash(e->mName->cstr());
-                e->mType = type;
-                return e;
-            }
-            if (e->mName)
-                delete e->mName;
-            // clearEntry(e);
-            *e = {};
-            return nullptr;
-            // auto* entry = mAllocArray+i;
-            // if (*in_ptr) {
-
-            //} else {
-
-            //}
-        }
+    switch (type) {
+    case OrderParamType::INT:
+    case OrderParamType::INT_2:
+        doAlloc(entry, new (heap, nothrow) s32(0));
+        break;
+    case OrderParamType::STRING:
+        doAlloc(entry,
+                new (heap, nothrow) sead::FixedSafeString<0x40>);  // scheduling mismatches here
+        break;
+    case OrderParamType::BYTE:
+        doAlloc(entry, new (heap, nothrow) char(0));
+        break;
+    case OrderParamType::ACTOR:
+        doAlloc(entry, new (heap, nothrow) ksys::act::BaseProcLink);
+        break;
+    case OrderParamType::ARRAY:
+        doAlloc(entry, new (heap, nothrow) char[size], size);
+        break;
+    default:
+        break;
     }
 
-    return nullptr;
-}
+    auto* ptr = entry->mPointer;
 
-// OrderParamEntry* OrderParam::getEntryByName(const sead::SafeString& name, OrderParamType type) {
-//     const u32 hash = sead::HashCRC32::calcStringHash(name);
-//     for (s32 i = 0; i < mEntries.size(); i++) {
-//         if (mEntries[i].mHash == hash && mEntries[i].mType == type) {
-//             return &mEntries[i];
-//         }
-//     }
-//     return nullptr;
-// }
+    if (ptr) {
+        entry->mHash = sead::HashCRC32::calcStringHash(*entry->mName);
+        entry->mType = type;
+    } else {
+        if (entry->mName)
+            delete entry->mName;
+        clearEntry(entry);
+        entry = nullptr;
+    }
+    return entry;
+}
 
 void* OrderParam::getPointerByName(const sead::SafeString& name, OrderParamType type,
                                    u32* out_size) const {

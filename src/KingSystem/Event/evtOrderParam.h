@@ -20,12 +20,12 @@ enum class OrderParamType : u16 {
 };
 
 struct OrderParamEntry {
-    u32 mHash = 0;
+    u32 mHash;
     // u32 _4; alignment gap
-    sead::SafeString* mName = nullptr;
-    void* mPointer = nullptr;  //_10
-    u32 mSize = 0;             //_18
-    OrderParamType mType = OrderParamType::INVALID;
+    sead::SafeString* mName;
+    void* mPointer;  //_10
+    u32 mSize;       //_18
+    OrderParamType mType;
     // u16 _1e; alignment gap
 };
 
@@ -53,7 +53,7 @@ public:
 
 private:
     bool doAssign(OrderParam* other);
-    // OrderParamEntry* getEntryByName(const sead::SafeString& name, OrderParamType type);
+    OrderParamEntry* getFreeEntry();
     void* getPointerByName(const sead::SafeString& name, OrderParamType type,
                            u32* out_size = nullptr) const;
 
@@ -78,6 +78,13 @@ private:
             return nullptr;
         return static_cast<T*>(entry->mPointer);
     }
+    template <typename T>
+    void doAlloc(OrderParamEntry* e, T* ptr, u32 size = sizeof(T)) {
+        //*size_ptr = sizeof(T);
+        e->mPointer = ptr;
+        e->mSize = size;
+        // return sizeof(T);
+    }
 
     inline void clearEntry(OrderParamEntry* e) {
         e->mHash = 0;
@@ -86,6 +93,7 @@ private:
         e->mName = nullptr;
         e->mPointer = nullptr;
     }
+
     sead::ExpHeap* mHeap;
     sead::Buffer<OrderParamEntry> mEntries;
     u32 mEntryCount = 0;
