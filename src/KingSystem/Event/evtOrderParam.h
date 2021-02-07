@@ -52,9 +52,9 @@ public:
     bool addParamArray(char* array, u32 size, sead::SafeString& name);
 
     OrderParamEntry* tryAlloc(OrderParamType type, u32 size, const sead::SafeString& name);
-    bool getIntByName(const sead::SafeString& name, u32** out_ptr);
-    bool getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr);
-    bool getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size);
+    bool getIntByName(const sead::SafeString& name, u32** out_ptr) const;
+    bool getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr) const;
+    bool getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) const;
 
 private:
     bool doAssign(const OrderParam& other);

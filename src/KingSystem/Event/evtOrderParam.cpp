@@ -197,15 +197,15 @@ bool OrderParam::addParamArray(char* array, u32 size, sead::SafeString& name) {
     return true;
 }
 
-bool OrderParam::getIntByName(const sead::SafeString& name, u32** out_ptr) {
+bool OrderParam::getIntByName(const sead::SafeString& name, u32** out_ptr) const {
     return getPointerByName(name, out_ptr, OrderParamType::Int);
 }
 
-bool OrderParam::getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr) {
+bool OrderParam::getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr) const {
     return getPointerByName(name, out_ptr, OrderParamType::String);
 }
 
-bool OrderParam::getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) {
+bool OrderParam::getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) const {
     return getPointerByName(name, out_ptr, OrderParamType::Array, out_size);
 }
 
