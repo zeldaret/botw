@@ -27,15 +27,15 @@ struct OrderParamEntry {
 };
 
 class OrderParam {
-    OrderParam(sead::ExpHeap* heap);
-    virtual ~OrderParam();
-
 public:
+    explicit OrderParam(sead::Heap* heap);
+    OrderParam(const OrderParam& other) { *this = other; }
+    virtual ~OrderParam();
+    OrderParam& operator=(const OrderParam& other);
     bool initialize(s32 entry_count);
     void uninitialize();
-    OrderParam* assign(OrderParam* other);
 
-    inline const OrderParamEntry* getParam(const s32 index) const;
+    const OrderParamEntry* getParam(s32 index) const;
     bool addParamInt(s32 val, const sead::SafeString& name);
     bool addParamFloat(f32 val, const sead::SafeString& name);
     bool addParamString(const sead::SafeString& val, const sead::SafeString& name);
@@ -49,7 +49,8 @@ public:
     bool getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size);
 
 private:
-    bool doAssign(OrderParam* other);
+    bool doAssign(const OrderParam& other);
+
     OrderParamEntry* getFreeEntry();
     void* getPointerByName(const sead::SafeString& name, OrderParamType type,
                            u32* out_size = nullptr) const;
@@ -84,7 +85,7 @@ private:
         e->data = nullptr;
     }
 
-    sead::ExpHeap* mHeap;
+    sead::Heap* mHeap;
     sead::Buffer<OrderParamEntry> mEntries;
     u32 mEntryCount = 0;
     bool mInitialized = false;

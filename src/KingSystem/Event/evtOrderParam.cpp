@@ -1,5 +1,4 @@
 #include "KingSystem/Event/evtOrderParam.h"
-#include <basis/seadTypes.h>
 #include <codec/seadHashCRC32.h>
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
@@ -8,7 +7,7 @@
 
 namespace ksys::evt {
 
-OrderParam::OrderParam(sead::ExpHeap* heap) {
+OrderParam::OrderParam(sead::Heap* heap) {
     mHeap = heap;
 }
 
@@ -77,26 +76,28 @@ const OrderParamEntry* OrderParam::getParam(const s32 index) const {
     sead::FixedSafeString<0x100> error_message;
 
     error_message.format("[%s] getParam(%d) is failed.", "ksys::evt::OrderParam", index);
-    if ((u32)std::max(0, mEntries.size()) > (u32)index) {
+    if (u32(std::max(0, mEntries.size())) > u32(index)) {
         return &mEntries[index];
     } else {
         return nullptr;
     }
 }
-OrderParam* OrderParam::assign(OrderParam* other) {
-    if (this != other) {
+
+OrderParam& OrderParam::operator=(const OrderParam& other) {
+    if (this != &other) {
         doAssign(other);
     }
-    return this;
+    return *this;
 }
 
-bool OrderParam::doAssign(OrderParam* other) {
-    if (this == other)
+bool OrderParam::doAssign(const OrderParam& other) {
+    if (this == &other)
         return true;
-    if (!initialize(std::max(0, other->mEntries.size())))
+
+    if (!initialize(std::max(0, other.mEntries.size())))
         return false;
     for (s32 i = 0; i < mEntries.size(); i++) {
-        auto* other_entry = other->getParam(i);
+        auto* other_entry = other.getParam(i);
         if (other_entry) {
             auto* other_ptr = other_entry->data;
             auto* other_name = other_entry->name;
