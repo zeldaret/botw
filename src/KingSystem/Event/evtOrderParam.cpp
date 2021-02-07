@@ -28,10 +28,9 @@ bool OrderParam::initialize(s32 entry_count) {
     if (!mEntries.tryAllocBuffer(entry_count, mHeap))
         return false;
 
-    for (s32 i = 0; i < entry_count; i++) {
-        clearEntry(&mEntries[i]);  // no matter what I do, the compiler unrolls the first 2
-                                   // iterations out of the loop
-    }
+    for (u32 i = 0; i < u32(entry_count); i++)
+        clearEntry(&mEntries[i]);
+
     mEntryCount = 0;
     mInitialized = true;
     return true;
