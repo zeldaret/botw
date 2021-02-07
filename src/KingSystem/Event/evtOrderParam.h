@@ -9,28 +9,25 @@
 namespace ksys::evt {
 
 enum class OrderParamType : u16 {
-    INVALID = 0,
-    INT = 1,
-    INT_2 = 2,
-    STRING = 3,
-    BYTE = 4,
-    ACTOR = 5,
-    ARRAY = 6
-
+    Invalid = 0,
+    Int = 1,
+    Float = 2,
+    String = 3,
+    Bool = 4,
+    Actor = 5,
+    Array = 6,
 };
 
 struct OrderParamEntry {
-    u32 mHash;
-    // u32 _4; alignment gap
-    sead::SafeString* mName;
-    void* mPointer;  //_10
-    u32 mSize;       //_18
-    OrderParamType mType;
-    // u16 _1e; alignment gap
+    u32 hash;
+    sead::SafeString* name;
+    void* data;
+    u32 size;
+    OrderParamType type;
 };
 
 class OrderParam {
-    OrderParam(sead::ExpHeap* mHeap);
+    OrderParam(sead::ExpHeap* heap);
     virtual ~OrderParam();
 
 public:
@@ -74,17 +71,17 @@ private:
             return nullptr;
 
         auto* entry = tryAlloc(type, size, name);
-        if (!entry || !(entry->mPointer))
+        if (!entry || !(entry->data))
             return nullptr;
-        return static_cast<T*>(entry->mPointer);
+        return static_cast<T*>(entry->data);
     }
 
     inline void clearEntry(OrderParamEntry* e) {
-        e->mHash = 0;
-        e->mSize = 0;
-        e->mType = OrderParamType::INVALID;
-        e->mName = nullptr;
-        e->mPointer = nullptr;
+        e->hash = 0;
+        e->size = 0;
+        e->type = OrderParamType::Invalid;
+        e->name = nullptr;
+        e->data = nullptr;
     }
 
     sead::ExpHeap* mHeap;

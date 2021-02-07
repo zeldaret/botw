@@ -39,26 +39,26 @@ bool OrderParam::initialize(s32 entry_count) {
 void OrderParam::uninitialize() {
     for (s32 i = 0; i < mEntries.size(); i++) {
         auto* e = &mEntries[i];
-        auto* name_ptr = e->mName;
+        auto* name_ptr = e->name;
         if (name_ptr)
             delete (sead::FixedSafeString<0x20>*)name_ptr;
-        auto* ptr = e->mPointer;
+        auto* ptr = e->data;
         if (ptr) {
-            switch (e->mType) {
-            case OrderParamType::STRING:
+            switch (e->type) {
+            case OrderParamType::String:
                 delete (sead::FixedSafeString<0x40>*)ptr;
                 break;
-            case OrderParamType::INT:
-            case OrderParamType::INT_2:
+            case OrderParamType::Int:
+            case OrderParamType::Float:
                 delete (u32*)ptr;
                 break;
-            case OrderParamType::BYTE:
+            case OrderParamType::Bool:
                 delete (char*)ptr;
                 break;
-            case OrderParamType::ACTOR:
+            case OrderParamType::Actor:
                 delete (ksys::act::BaseProcLink*)ptr;
                 break;
-            case OrderParamType::ARRAY:
+            case OrderParamType::Array:
                 mHeap->free(ptr);
                 break;
             default:
@@ -97,37 +97,37 @@ bool OrderParam::doAssign(OrderParam* other) {
     for (s32 i = 0; i < mEntries.size(); i++) {
         auto* other_entry = other->getParam(i);
         if (other_entry) {
-            auto* other_ptr = other_entry->mPointer;
-            auto* other_name = other_entry->mName;
+            auto* other_ptr = other_entry->data;
+            auto* other_name = other_entry->name;
             ksys::act::BaseProcLink* link_ptr;
             ksys::act::BaseProc* actor_ptr;
             if (other_ptr && other_name) {
-                switch (other_entry->mType) {
-                case OrderParamType::INT:
+                switch (other_entry->type) {
+                case OrderParamType::Int:
                     if (!addParamInt(*static_cast<s32*>(other_ptr), *other_name))
                         return false;
                     break;
-                case OrderParamType::INT_2:
+                case OrderParamType::Float:
                     if (!addParamInt2(*static_cast<s32*>(other_ptr), *other_name))
                         return false;
                     break;
-                case OrderParamType::STRING:
+                case OrderParamType::String:
                     if (!addParamString(*static_cast<sead::SafeString*>(other_ptr), *other_name))
                         return false;
                     break;
-                case OrderParamType::BYTE:
+                case OrderParamType::Bool:
                     if (!addParamByte(*static_cast<char*>(other_ptr), *other_name))
                         return false;
                     break;
-                case OrderParamType::ACTOR:
+                case OrderParamType::Actor:
                     link_ptr = static_cast<ksys::act::BaseProcLink*>(other_ptr);
                     actor_ptr =
                         sead::DynamicCast<ksys::act::BaseProc>(link_ptr->getProc(nullptr, nullptr));
                     if (!addParamActor(actor_ptr, *other_name))
                         return false;
                     break;
-                case OrderParamType::ARRAY:
-                    if (!addParamArray(static_cast<char*>(other_ptr), other_entry->mSize,
+                case OrderParamType::Array:
+                    if (!addParamArray(static_cast<char*>(other_ptr), other_entry->size,
                                        *other_name))
                         return false;
                     break;
@@ -141,7 +141,7 @@ bool OrderParam::doAssign(OrderParam* other) {
 }
 
 bool OrderParam::addParamInt(s32 val, const sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<s32>(name, OrderParamType::INT);
+    auto* entry_ptr = tryAllocParam<s32>(name, OrderParamType::Int);
     if (!entry_ptr)
         return false;
     *entry_ptr = val;
@@ -150,7 +150,7 @@ bool OrderParam::addParamInt(s32 val, const sead::SafeString& name) {
 }
 
 bool OrderParam::addParamInt2(s32 val, const sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<s32>(name, OrderParamType::INT_2);
+    auto* entry_ptr = tryAllocParam<s32>(name, OrderParamType::Float);
     if (!entry_ptr)
         return false;
     *entry_ptr = val;
@@ -158,7 +158,7 @@ bool OrderParam::addParamInt2(s32 val, const sead::SafeString& name) {
     return true;
 }
 bool OrderParam::addParamString(const sead::SafeString& val, const sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<sead::BufferedSafeString>(name, OrderParamType::STRING);
+    auto* entry_ptr = tryAllocParam<sead::BufferedSafeString>(name, OrderParamType::String);
     if (!entry_ptr)
         return false;
     entry_ptr->copy(val);
@@ -167,7 +167,7 @@ bool OrderParam::addParamString(const sead::SafeString& val, const sead::SafeStr
 }
 
 bool OrderParam::addParamByte(char val, const sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<char>(name, OrderParamType::BYTE);
+    auto* entry_ptr = tryAllocParam<char>(name, OrderParamType::Bool);
     if (!entry_ptr)
         return false;
     *entry_ptr = val;
@@ -176,7 +176,7 @@ bool OrderParam::addParamByte(char val, const sead::SafeString& name) {
 }
 
 bool OrderParam::addParamActor(ksys::act::BaseProc* actor, sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<ksys::act::BaseProcLink>(name, OrderParamType::ACTOR);
+    auto* entry_ptr = tryAllocParam<ksys::act::BaseProcLink>(name, OrderParamType::Actor);
     if (!entry_ptr)
         return false;
     if (!entry_ptr->acquire(actor, false))
@@ -186,7 +186,7 @@ bool OrderParam::addParamActor(ksys::act::BaseProc* actor, sead::SafeString& nam
 }
 
 bool OrderParam::addParamArray(char* array, u32 size, sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<ksys::act::BaseProcLink>(name, OrderParamType::ARRAY, size);
+    auto* entry_ptr = tryAllocParam<ksys::act::BaseProcLink>(name, OrderParamType::Array, size);
     if (!entry_ptr)
         return false;
     std::memcpy(entry_ptr, array, size);
@@ -195,20 +195,20 @@ bool OrderParam::addParamArray(char* array, u32 size, sead::SafeString& name) {
 }
 
 bool OrderParam::getIntByName(const sead::SafeString& name, u32** out_ptr) {
-    return getPointerByName(name, out_ptr, OrderParamType::INT);
+    return getPointerByName(name, out_ptr, OrderParamType::Int);
 }
 
 bool OrderParam::getStringByName(const sead::SafeString& name, sead::SafeString** out_ptr) {
-    return getPointerByName(name, out_ptr, OrderParamType::STRING);
+    return getPointerByName(name, out_ptr, OrderParamType::String);
 }
 
 bool OrderParam::getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) {
-    return getPointerByName(name, out_ptr, OrderParamType::ARRAY, out_size);
+    return getPointerByName(name, out_ptr, OrderParamType::Array, out_size);
 }
 OrderParamEntry* OrderParam::getFreeEntry() {
     for (s32 i = 0; i < mEntries.size(); i++) {
         auto* entry = &mEntries[i];
-        if (!entry->mPointer) {
+        if (!entry->data) {
             return entry;
         }
     }
@@ -229,42 +229,42 @@ OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, const sead:
     if (!heap)
         return nullptr;
 
-    entry->mName = new (heap, std::nothrow_t()) sead::FixedSafeString<0x20>(name);
+    entry->name = new (heap, std::nothrow_t()) sead::FixedSafeString<0x20>(name);
 
     switch (type) {
-    case OrderParamType::INT:
-    case OrderParamType::INT_2:
-        entry->mPointer = new (heap, std::nothrow_t()) s32();
-        entry->mSize = sizeof(s32);
+    case OrderParamType::Int:
+    case OrderParamType::Float:
+        entry->data = new (heap, std::nothrow_t()) s32();
+        entry->size = sizeof(s32);
         break;
-    case OrderParamType::STRING:
-        entry->mPointer = new (heap, std::nothrow_t()) sead::FixedSafeString<0x40>;
-        entry->mSize = sizeof(sead::FixedSafeString<0x40>);
+    case OrderParamType::String:
+        entry->data = new (heap, std::nothrow_t()) sead::FixedSafeString<0x40>;
+        entry->size = sizeof(sead::FixedSafeString<0x40>);
         break;
-    case OrderParamType::BYTE:
-        entry->mPointer = new (heap, std::nothrow_t()) bool();
-        entry->mSize = sizeof(bool);
+    case OrderParamType::Bool:
+        entry->data = new (heap, std::nothrow_t()) bool();
+        entry->size = sizeof(bool);
         break;
-    case OrderParamType::ACTOR:
-        entry->mPointer = new (heap, std::nothrow_t()) ksys::act::BaseProcLink;
-        entry->mSize = sizeof(act::BaseProcLink);
+    case OrderParamType::Actor:
+        entry->data = new (heap, std::nothrow_t()) ksys::act::BaseProcLink;
+        entry->size = sizeof(act::BaseProcLink);
         break;
-    case OrderParamType::ARRAY:
-        entry->mPointer = new (heap, std::nothrow_t()) char[size];
-        entry->mSize = size;
+    case OrderParamType::Array:
+        entry->data = new (heap, std::nothrow_t()) char[size];
+        entry->size = size;
         break;
     default:
         break;
     }
 
-    auto* ptr = entry->mPointer;
+    auto* ptr = entry->data;
 
     if (ptr) {
-        entry->mHash = sead::HashCRC32::calcStringHash(*entry->mName);
-        entry->mType = type;
+        entry->hash = sead::HashCRC32::calcStringHash(*entry->name);
+        entry->type = type;
     } else {
-        if (entry->mName)
-            delete entry->mName;
+        if (entry->name)
+            delete entry->name;
         clearEntry(entry);
         entry = nullptr;
     }
@@ -275,10 +275,10 @@ void* OrderParam::getPointerByName(const sead::SafeString& name, OrderParamType 
                                    u32* out_size) const {
     const u32 hash = sead::HashCRC32::calcStringHash(name);
     for (s32 i = 0; i < mEntries.size(); i++) {
-        if (mEntries[i].mHash == hash && mEntries[i].mType == type) {
+        if (mEntries[i].hash == hash && mEntries[i].type == type) {
             if (out_size)
-                *out_size = mEntries[i].mSize;
-            return mEntries[i].mPointer;
+                *out_size = mEntries[i].size;
+            return mEntries[i].data;
         }
     }
     return nullptr;
