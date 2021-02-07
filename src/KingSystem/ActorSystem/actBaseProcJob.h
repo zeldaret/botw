@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <container/seadTList.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -49,5 +50,25 @@ private:
     u8 mNewPriority2;
 };
 KSYS_CHECK_SIZE_NX150(BaseProcJobLink, 0x28);
+
+struct BaseProcJobList {
+    sead::TListNode<BaseProc*>* front() const;
+    sead::TListNode<BaseProc*>* next(BaseProcJobLink* link) const;
+    int size() const;
+
+    sead::SafeArray<sead::TList<BaseProc*>, 2> lists;
+};
+
+class BaseProcJobLists {
+public:
+    void pushJob(BaseProcJobLink& link);
+    void eraseJob(BaseProcJobLink& link);
+    sead::TListNode<BaseProc*>* getJobWithTopPriority() const;
+    sead::TListNode<BaseProc*>* getNextJobWithTopPriority(BaseProcJobLink* link) const;
+    sead::TListNode<BaseProc*>* getNextJob(BaseProcJobLink* link) const;
+
+private:
+    sead::SafeArray<BaseProcJobList, 8> mLists;
+};
 
 }  // namespace ksys::act
