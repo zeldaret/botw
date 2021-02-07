@@ -28,7 +28,7 @@ bool OrderParam::initialize(s32 entry_count) {
         return false;
 
     for (u32 i = 0; i < u32(entry_count); i++)
-        clearEntry(&mEntries[i]);
+        mEntries[i].clear();
 
     mEntryCount = 0;
     mInitialized = true;
@@ -65,7 +65,7 @@ void OrderParam::uninitialize() {
                 break;
             }
         }
-        clearEntry(&entry);
+        entry.clear();
     }
     mEntries.freeBuffer();
     mEntryCount = 0;
@@ -159,6 +159,7 @@ bool OrderParam::addParamFloat(f32 val, const sead::SafeString& name) {
     ++mEntryCount;
     return true;
 }
+
 bool OrderParam::addParamString(const sead::SafeString& val, const sead::SafeString& name) {
     auto* entry_ptr = tryAllocParam<sead::BufferedSafeString>(name, OrderParamType::String);
     if (!entry_ptr)
@@ -207,6 +208,7 @@ bool OrderParam::getStringByName(const sead::SafeString& name, sead::SafeString*
 bool OrderParam::getArrayByName(const sead::SafeString& name, void** out_ptr, u32* out_size) {
     return getPointerByName(name, out_ptr, OrderParamType::Array, out_size);
 }
+
 OrderParamEntry* OrderParam::getFreeEntry() {
     for (s32 i = 0; i < mEntries.size(); i++) {
         auto* entry = &mEntries[i];
@@ -267,13 +269,13 @@ OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, const sead:
     if (ptr) {
         entry->hash = sead::HashCRC32::calcStringHash(*entry->name);
         entry->type = type;
-    } else {
-        if (entry->name)
-            delete entry->name;
-        clearEntry(entry);
-        entry = nullptr;
+        return entry;
     }
-    return entry;
+
+    if (entry->name)
+        delete entry->name;
+    entry->clear();
+    return nullptr;
 }
 
 void* OrderParam::getPointerByName(const sead::SafeString& name, OrderParamType type,

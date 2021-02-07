@@ -19,6 +19,14 @@ enum class OrderParamType : u16 {
 };
 
 struct OrderParamEntry {
+    void clear() {
+        hash = 0;
+        size = 0;
+        type = OrderParamType::Invalid;
+        name = nullptr;
+        data = nullptr;
+    }
+
     u32 hash;
     sead::SafeString* name;
     void* data;
@@ -72,17 +80,9 @@ private:
             return nullptr;
 
         auto* entry = tryAlloc(type, size, name);
-        if (!entry || !(entry->data))
+        if (!entry || !entry->data)
             return nullptr;
         return static_cast<T*>(entry->data);
-    }
-
-    inline void clearEntry(OrderParamEntry* e) {
-        e->hash = 0;
-        e->size = 0;
-        e->type = OrderParamType::Invalid;
-        e->name = nullptr;
-        e->data = nullptr;
     }
 
     sead::Heap* mHeap;
