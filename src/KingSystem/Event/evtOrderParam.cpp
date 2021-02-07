@@ -219,8 +219,8 @@ OrderParamEntry* OrderParam::getFreeEntry() {
 OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, const sead::SafeString& name) {
     sead::FixedSafeString<0x100> error_message;
 
-    error_message.format("[%s] tryAlloc_(%d, %d, %s) is failed.", "ksys::evt::OrderParam", type,
-                         size, name.cstr());
+    error_message.format("[%s] tryAlloc_(%d, %d, %s) is failed.", "ksys::evt::OrderParam",
+                         static_cast<u16>(type), size, name.cstr());
 
     OrderParamEntry* entry = getFreeEntry();  // inlining here fixed the for loop
 
