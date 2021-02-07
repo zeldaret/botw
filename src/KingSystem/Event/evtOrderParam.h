@@ -37,9 +37,9 @@ public:
 
     inline const OrderParamEntry* getParam(const s32 index) const;
     bool addParamInt(s32 val, const sead::SafeString& name);
-    bool addParamInt2(s32 val, const sead::SafeString& name);
+    bool addParamFloat(f32 val, const sead::SafeString& name);
     bool addParamString(const sead::SafeString& val, const sead::SafeString& name);
-    bool addParamByte(char val, const sead::SafeString& name);
+    bool addParamBool(bool val, const sead::SafeString& name);
     bool addParamActor(ksys::act::BaseProc* actor, sead::SafeString& name);
     bool addParamArray(char* array, u32 size, sead::SafeString& name);
 

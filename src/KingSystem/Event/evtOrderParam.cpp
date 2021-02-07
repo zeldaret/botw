@@ -38,25 +38,26 @@ bool OrderParam::initialize(s32 entry_count) {
 
 void OrderParam::uninitialize() {
     for (s32 i = 0; i < mEntries.size(); i++) {
-        auto* e = &mEntries[i];
-        auto* name_ptr = e->name;
-        if (name_ptr)
-            delete (sead::FixedSafeString<0x20>*)name_ptr;
-        auto* ptr = e->data;
+        auto& entry = mEntries[i];
+        if (entry.name)
+            delete (entry.name);
+        auto* ptr = entry.data;
         if (ptr) {
-            switch (e->type) {
+            switch (entry.type) {
             case OrderParamType::String:
-                delete (sead::FixedSafeString<0x40>*)ptr;
+                delete static_cast<sead::SafeString*>(ptr);
                 break;
             case OrderParamType::Int:
+                delete static_cast<s32*>(ptr);
+                break;
             case OrderParamType::Float:
-                delete (u32*)ptr;
+                delete static_cast<f32*>(ptr);
                 break;
             case OrderParamType::Bool:
-                delete (char*)ptr;
+                delete static_cast<bool*>(ptr);
                 break;
             case OrderParamType::Actor:
-                delete (ksys::act::BaseProcLink*)ptr;
+                delete static_cast<act::BaseProcLink*>(ptr);
                 break;
             case OrderParamType::Array:
                 mHeap->free(ptr);
@@ -65,7 +66,7 @@ void OrderParam::uninitialize() {
                 break;
             }
         }
-        clearEntry(e);
+        clearEntry(&entry);
     }
     mEntries.freeBuffer();
     mEntryCount = 0;
@@ -108,7 +109,7 @@ bool OrderParam::doAssign(OrderParam* other) {
                         return false;
                     break;
                 case OrderParamType::Float:
-                    if (!addParamInt2(*static_cast<s32*>(other_ptr), *other_name))
+                    if (!addParamFloat(*static_cast<f32*>(other_ptr), *other_name))
                         return false;
                     break;
                 case OrderParamType::String:
@@ -116,7 +117,7 @@ bool OrderParam::doAssign(OrderParam* other) {
                         return false;
                     break;
                 case OrderParamType::Bool:
-                    if (!addParamByte(*static_cast<char*>(other_ptr), *other_name))
+                    if (!addParamBool(*static_cast<bool*>(other_ptr), *other_name))
                         return false;
                     break;
                 case OrderParamType::Actor:
@@ -149,8 +150,8 @@ bool OrderParam::addParamInt(s32 val, const sead::SafeString& name) {
     return true;
 }
 
-bool OrderParam::addParamInt2(s32 val, const sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<s32>(name, OrderParamType::Float);
+bool OrderParam::addParamFloat(f32 val, const sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<f32>(name, OrderParamType::Float);
     if (!entry_ptr)
         return false;
     *entry_ptr = val;
@@ -166,8 +167,8 @@ bool OrderParam::addParamString(const sead::SafeString& val, const sead::SafeStr
     return true;
 }
 
-bool OrderParam::addParamByte(char val, const sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<char>(name, OrderParamType::Bool);
+bool OrderParam::addParamBool(bool val, const sead::SafeString& name) {
+    auto* entry_ptr = tryAllocParam<bool>(name, OrderParamType::Bool);
     if (!entry_ptr)
         return false;
     *entry_ptr = val;
@@ -186,7 +187,7 @@ bool OrderParam::addParamActor(ksys::act::BaseProc* actor, sead::SafeString& nam
 }
 
 bool OrderParam::addParamArray(char* array, u32 size, sead::SafeString& name) {
-    auto* entry_ptr = tryAllocParam<ksys::act::BaseProcLink>(name, OrderParamType::Array, size);
+    auto* entry_ptr = tryAllocParam<char>(name, OrderParamType::Array, size);
     if (!entry_ptr)
         return false;
     std::memcpy(entry_ptr, array, size);
@@ -233,9 +234,12 @@ OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, const sead:
 
     switch (type) {
     case OrderParamType::Int:
-    case OrderParamType::Float:
         entry->data = new (heap, std::nothrow_t()) s32();
         entry->size = sizeof(s32);
+        break;
+    case OrderParamType::Float:
+        entry->data = new (heap, std::nothrow_t()) f32();
+        entry->size = sizeof(f32);
         break;
     case OrderParamType::String:
         entry->data = new (heap, std::nothrow_t()) sead::FixedSafeString<0x40>;
