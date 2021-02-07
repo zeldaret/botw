@@ -78,13 +78,6 @@ private:
             return nullptr;
         return static_cast<T*>(entry->mPointer);
     }
-    template <typename T>
-    void doAlloc(OrderParamEntry* e, T* ptr, u32 size = sizeof(T)) {
-        //*size_ptr = sizeof(T);
-        e->mPointer = ptr;
-        e->mSize = size;
-        // return sizeof(T);
-    }
 
     inline void clearEntry(OrderParamEntry* e) {
         e->mHash = 0;

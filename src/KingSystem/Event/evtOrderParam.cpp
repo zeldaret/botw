@@ -215,44 +215,44 @@ OrderParamEntry* OrderParam::getFreeEntry() {
     }
     return nullptr;
 }
-// This one does not match
+
 OrderParamEntry* OrderParam::tryAlloc(OrderParamType type, u32 size, const sead::SafeString& name) {
     sead::FixedSafeString<0x100> error_message;
 
     error_message.format("[%s] tryAlloc_(%d, %d, %s) is failed.", "ksys::evt::OrderParam",
                          static_cast<u16>(type), size, name.cstr());
 
-    OrderParamEntry* entry = getFreeEntry();  // inlining here fixed the for loop
+    OrderParamEntry* entry = getFreeEntry();
 
     if (!entry)
         return nullptr;
     auto* heap = mHeap;
     if (!heap)
         return nullptr;
-    std::nothrow_t nothrow;
 
-    entry->mName =
-        new (heap, nothrow) sead::FixedSafeString<0x20>(name);  // scheduling mismatches here
-    // entry->mName = new_name;
-    // inlining here doesn't fix the mismatch
+    entry->mName = new (heap, std::nothrow_t()) sead::FixedSafeString<0x20>(name);
 
     switch (type) {
     case OrderParamType::INT:
     case OrderParamType::INT_2:
-        doAlloc(entry, new (heap, nothrow) s32(0));
+        entry->mPointer = new (heap, std::nothrow_t()) s32();
+        entry->mSize = sizeof(s32);
         break;
     case OrderParamType::STRING:
-        doAlloc(entry,
-                new (heap, nothrow) sead::FixedSafeString<0x40>);  // scheduling mismatches here
+        entry->mPointer = new (heap, std::nothrow_t()) sead::FixedSafeString<0x40>;
+        entry->mSize = sizeof(sead::FixedSafeString<0x40>);
         break;
     case OrderParamType::BYTE:
-        doAlloc(entry, new (heap, nothrow) char(0));
+        entry->mPointer = new (heap, std::nothrow_t()) bool();
+        entry->mSize = sizeof(bool);
         break;
     case OrderParamType::ACTOR:
-        doAlloc(entry, new (heap, nothrow) ksys::act::BaseProcLink);
+        entry->mPointer = new (heap, std::nothrow_t()) ksys::act::BaseProcLink;
+        entry->mSize = sizeof(act::BaseProcLink);
         break;
     case OrderParamType::ARRAY:
-        doAlloc(entry, new (heap, nothrow) char[size], size);
+        entry->mPointer = new (heap, std::nothrow_t()) char[size];
+        entry->mSize = size;
         break;
     default:
         break;
