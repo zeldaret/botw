@@ -54,6 +54,8 @@ target_sources(uking PRIVATE
   actBaseProc.h
   actBaseProcHandle.cpp
   actBaseProcHandle.h
+  actBaseProcHeapMgr.cpp
+  actBaseProcHeapMgr.h
   actBaseProcJob.cpp
   actBaseProcJob.h
   actBaseProcJobHandler.cpp
