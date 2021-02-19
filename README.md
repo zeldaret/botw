@@ -1,6 +1,6 @@
-# uking
+# The Legend of Zelda: Breath of the Wild
 
-This is a decompilation of U-King v1.5.0 (Switch).
+This is an experimental, WIP decompilation of *The Legend of Zelda: Breath of the Wild* v1.5.0 (Switch).
 
 File names, class or function names and the file organization come from leftover strings. Unlike some other first-party games such as *Super Mario Odyssey*, all known public versions of U-King are completely stripped, so most names are just more or less educated guesses.
 
