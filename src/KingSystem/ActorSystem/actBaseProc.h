@@ -122,6 +122,11 @@ public:
     void setCreatePriorityState2();
     bool setStateFlag(u32 flag_bit);
 
+    void onJobPush(JobType type) {
+        onJobPush1_(type);
+        onJobPush2_(type);
+    }
+
 protected:
     friend class BaseProcLinkDataMgr;
     friend class BaseProcMgr;

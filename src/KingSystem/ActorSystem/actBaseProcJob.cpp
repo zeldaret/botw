@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::act {
@@ -72,6 +73,10 @@ BaseProcJobLists::getNextJobWithTopPriority(BaseProcJobLink* link) const {
 
 sead::TListNode<BaseProc*>* BaseProcJobLists::getNextJob(BaseProcJobLink* link) const {
     return mLists[link->getPriority()].next(link);
+}
+
+void BaseProcJob::invoke() {
+    BaseProcMgr::instance()->jobInvoked(mJobLink, mRequiredCalcRounds);
 }
 
 }  // namespace ksys::act

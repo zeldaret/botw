@@ -60,6 +60,8 @@ target_sources(uking PRIVATE
   actBaseProcJob.h
   actBaseProcJobHandler.cpp
   actBaseProcJobHandler.h
+  actBaseProcJobQue.cpp
+  actBaseProcJobQue.h
   actBaseProcLink.cpp
   actBaseProcLink.h
   actBaseProcMap.cpp
