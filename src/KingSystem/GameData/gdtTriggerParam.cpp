@@ -460,6 +460,10 @@ void addFlagCopyRecord(sead::ObjArray<TriggerParam::FlagCopyRecord>& records, Fl
     }
     record->bf.makeAllZero();
 }
+
+constexpr bool IsString256ArrayType(FlagType::ValueType type) {
+    return type == FlagType::String256Array;
+}
 }  // namespace
 
 /**
@@ -769,7 +773,7 @@ void TriggerParam::initResetData(sead::Heap* heap) {
             mResetEntries[reset_entry_idx].type = TYPE;                                            \
                                                                                                    \
             /* ??? */                                                                              \
-            if constexpr (TYPE == FlagType::String256Array)                                        \
+            if constexpr (IsString256ArrayType(TYPE))                                              \
                 mResetEntries[reset_entry_idx].index = s16(i);                                     \
             else                                                                                   \
                 mResetEntries[reset_entry_idx].index = i;                                          \
