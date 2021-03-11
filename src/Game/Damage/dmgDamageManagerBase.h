@@ -5,7 +5,6 @@
 #include <heap/seadExpHeap.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
-#include "Game/Damage/dmgDamageCallback.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/Damage/dmgStruct20.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -16,6 +15,8 @@ class ActorParam;
 }  // namespace ksys::act
 
 namespace uking::dmg {
+
+class DamageCallback;
 
 // FIXME: Unknown base. This base seems to handle callbacks and messaging, so maybe a shared base?
 class DamageManagerBase_UnknownBase1 {

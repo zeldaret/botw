@@ -1,5 +1,6 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "Game/DLC/aoc2.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"

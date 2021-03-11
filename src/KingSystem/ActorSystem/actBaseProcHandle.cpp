@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcUnit.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::act {

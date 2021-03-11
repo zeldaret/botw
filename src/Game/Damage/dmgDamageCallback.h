@@ -2,8 +2,6 @@
 
 #include <basis/seadTypes.h>
 
-#include "Game/Damage/dmgDamageManagerBase.h"
-
 namespace uking::dmg {
 
 class DamageManagerBase;

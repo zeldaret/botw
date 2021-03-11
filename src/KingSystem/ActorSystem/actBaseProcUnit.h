@@ -3,7 +3,6 @@
 #include <basis/seadTypes.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
-#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace ksys::act {
 
