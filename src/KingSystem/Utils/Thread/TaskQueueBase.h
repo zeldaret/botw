@@ -26,6 +26,8 @@ struct TaskSelectionContext {
 };
 
 using TaskSelectionDelegate = sead::IDelegate1R<const TaskSelectionContext&, Task*>;
+template <typename T>
+using TaskSelectionDelegateT = sead::Delegate1R<T, const TaskSelectionContext&, Task*>;
 
 class TaskQueueBase {
     SEAD_RTTI_BASE(TaskQueueBase)

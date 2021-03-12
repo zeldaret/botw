@@ -74,6 +74,8 @@ protected:
     void prepareImpl_(util::TaskRequest* req) override;
 
 private:
+    friend class BaseProcCreateTaskSelector;
+
     bool onTaskDelegateInvoked(void* arg);
     void doPrepare(const BaseProcCreateTaskData* data);
 
