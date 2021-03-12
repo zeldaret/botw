@@ -137,10 +137,10 @@ public:
     Object* findSrcLODLinkObject() const;
     bool isRevivalGameDataFlagOn() const;
 
-    auto getFlags0() const { return mFlags0; }
-    auto getFlags() const { return mFlags; }
-    auto getActorFlags8() const { return mActorFlags8; }
-    auto getHardModeFlags() const { return mHardModeFlags; }
+    const auto& getFlags0() const { return mFlags0; }
+    const auto& getFlags() const { return mFlags; }
+    const auto& getActorFlags8() const { return mActorFlags8; }
+    const auto& getHardModeFlags() const { return mHardModeFlags; }
 
     auto getActorDataIdx() const { return mActorDataIdx; }
     auto getIdx() const { return mIdx; }
