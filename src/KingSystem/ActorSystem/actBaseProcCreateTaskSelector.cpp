@@ -17,7 +17,7 @@ util::Task* BaseProcCreateTaskSelector::selectTask(const util::TaskSelectionCont
         if (!task)
             return &it;
 
-        if (task->getLaneId() == 2)
+        if (task->getLaneId() == u8(BaseProcCreateTask::LaneId::_2))
             return &it;
 
         if (task->mMapObject && task->mMapObject->getFlags0().isOff(map::Object::Flag0::_4))
@@ -29,7 +29,7 @@ util::Task* BaseProcCreateTaskSelector::selectTask(const util::TaskSelectionCont
         if (task->mDistanceToLoadSphere >= 0.0 && min > task->mDistanceToLoadSphere)
             min = task->mDistanceToLoadSphere;
 
-        if (task->getLaneId() == 1)
+        if (task->getLaneId() == u8(BaseProcCreateTask::LaneId::_1))
             lane1_task = &it;
     }
 

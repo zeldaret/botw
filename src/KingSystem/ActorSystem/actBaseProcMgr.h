@@ -15,6 +15,7 @@
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/ActorSystem/actBaseProcMap.h"
 #include "KingSystem/Utils/StrTreeMap.h"
+#include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -26,19 +27,24 @@ class WorkerMgr;
 
 namespace ksys::act {
 
+class BaseProcCreateTaskData;
 class BaseProcDeleter;
 class BaseProcInitializer;
-class BaseProcInitializerArgs;
+struct BaseProcInitializerArgs;
 class BaseProcJobLists;
 class BaseProcJobQue;
+
+struct BaseProcCreateRequest {
+    u32 task_lane_id;
+    BaseProcCreateTaskData* task_data;
+    util::TaskRemoveCallback* task_remove_callback;
+};
 
 class BaseProcMgr {
     SEAD_SINGLETON_DISPOSER(BaseProcMgr)
     BaseProcMgr();
 
 public:
-    class ProcCreateRequest;
-
     enum class Status : u8 {
         Idle = 0,
         _1 = 1,
@@ -62,7 +68,7 @@ public:
     virtual ~BaseProcMgr();
 
     void init(sead::Heap* heap, s32 num_job_types, u32 main_thread_id, u32 havok_thread_id1,
-              u32 havok_thread_id2, BaseProcInitializerArgs* initializer_args);
+              u32 havok_thread_id2, const BaseProcInitializerArgs& initializer_args);
 
     // region BaseProc management
 
@@ -133,8 +139,8 @@ public:
 
     // region BaseProc creation
 
-    bool requestCreateProc(ProcCreateRequest& req);
-    BaseProc* createProc(ProcCreateRequest& req);
+    bool requestCreateProc(const BaseProcCreateRequest& req);
+    BaseProc* createProc(const BaseProcCreateRequest& req);
 
     // endregion
 

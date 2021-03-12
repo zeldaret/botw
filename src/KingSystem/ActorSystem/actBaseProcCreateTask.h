@@ -49,7 +49,7 @@ public:
     map::Object* mMapObject{};
     InstParamPack::Buffer* mParams{};
     BaseProc* mOtherProc{};
-    bool _60{};
+    bool mSleepAfterInit{};
 };
 KSYS_CHECK_SIZE_NX150(BaseProcCreateTaskData, 0x68);
 
@@ -66,6 +66,12 @@ class BaseProcCreateTask : public util::ManagedTask {
     SEAD_RTTI_OVERRIDE(BaseProcCreateTask, util::ManagedTask)
 
 public:
+    enum class LaneId : u8 {
+        _0 = 0,
+        _1 = 1,
+        _2 = 2,
+    };
+
     explicit BaseProcCreateTask(sead::Heap* heap);
 
     void onBaseProcCreationFailed(BaseProc* proc, bool set_flag_5);
