@@ -52,6 +52,8 @@ target_sources(uking PRIVATE
   actAttention.h
   actBaseProc.cpp
   actBaseProc.h
+  actBaseProcCreateTask.cpp
+  actBaseProcCreateTask.h
   actBaseProcDeleter.cpp
   actBaseProcDeleter.h
   actBaseProcHandle.cpp

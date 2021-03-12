@@ -62,6 +62,9 @@ public:
         Buffer() { clear(); }
         Buffer& operator=(const Buffer& other);
 
+        auto getNumParams() const { return mNumItems; }
+        void clearFast() { mNumItems = 0; }
+
         void clear();
         void add(const void* data, const sead::SafeString& name, s32 byte_size, EntryType type);
         void add(ActorCallback* callback, const sead::SafeString& name);

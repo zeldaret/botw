@@ -134,6 +134,10 @@ public:
     /// Actually pre-delete the actor. Called from BaseProcDeleter.
     void doPreDelete(const PreDeleteArg& arg);
 
+    /// Set the BaseProcUnit. Only for use by BaseProcCreateTask.
+    void setUnitForBaseProcCreateTask(BaseProcUnit* unit) { mProcUnit = unit; }
+    void setInitializedFlag() { mFlags.set(Flags::Initialized); }
+
 protected:
     friend class BaseProcLinkDataMgr;
     friend class BaseProcMgr;

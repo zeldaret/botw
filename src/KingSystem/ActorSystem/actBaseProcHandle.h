@@ -16,6 +16,7 @@ public:
     bool procReady();
 
     BaseProc* getProc();
+    BaseProcUnit* getUnit() const { return mUnit; }
 
     static BaseProcHandle sDummyHandle;
 

@@ -76,6 +76,8 @@ public:
 
     void free();
 
+    void onBaseProcCreated(act::BaseProc* proc);
+
     bool getActorWithAccessor(act::ActorLinkConstDataAccess& accessor) const;
     act::Actor* getActor() const;
     void registerBaseProc(act::BaseProc* proc);
