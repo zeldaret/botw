@@ -1,6 +1,7 @@
 target_sources(uking PRIVATE
   Account.cpp
   Account.h
+  DebugMessage.h
   KingEditor.h
   OverlayArena.cpp
   OverlayArena.h
