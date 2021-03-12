@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <prim/seadDelegate.h>
+#include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::util {
@@ -42,10 +43,9 @@ private:
     util::TaskMgr* mTaskMgr{};
     util::TaskQueue* mTaskQueue{};
     sead::Buffer<void*> mBuffer;
-    sead::Delegate1R<BaseProcDeleter, void*, bool> mPreDeleteDelegate{
-        this, &BaseProcDeleter::doPreDelete};
-    sead::Delegate1R<BaseProcDeleter, void*, bool> mUnloadActorParamDelegate{
-        this, &BaseProcDeleter::doUnloadParam};
+    util::TaskDelegateT<BaseProcDeleter> mPreDeleteDelegate{this, &BaseProcDeleter::doPreDelete};
+    util::TaskDelegateT<BaseProcDeleter> mUnloadActorParamDelegate{this,
+                                                                   &BaseProcDeleter::doUnloadParam};
 };
 KSYS_CHECK_SIZE_NX150(BaseProcDeleter, 0x68);
 

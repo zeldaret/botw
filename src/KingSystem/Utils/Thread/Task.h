@@ -51,6 +51,8 @@ public:
 KSYS_CHECK_SIZE_NX150(TaskRemoveCallbackContext, 0x18);
 
 using TaskDelegate = sead::IDelegate1R<void*, bool>;
+template <typename T>
+using TaskDelegateT = sead::Delegate1R<T, void*, bool>;
 using TaskPostRunCallback = sead::IDelegate2<TaskPostRunResult*, const TaskPostRunContext&>;
 using TaskRemoveCallback = sead::IDelegate1<const TaskRemoveCallbackContext&>;
 
