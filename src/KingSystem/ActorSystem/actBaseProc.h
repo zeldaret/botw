@@ -69,6 +69,10 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(CreateArg, 0x28);
 
+    struct PreDeleteArg {
+        bool do_not_destruct_immediately = false;
+    };
+
     explicit BaseProc(const CreateArg& arg);
     virtual ~BaseProc();
 
@@ -126,6 +130,9 @@ public:
         onJobPush1_(type);
         onJobPush2_(type);
     }
+
+    /// Actually pre-delete the actor. Called from BaseProcDeleter.
+    void doPreDelete(const PreDeleteArg& arg);
 
 protected:
     friend class BaseProcLinkDataMgr;
@@ -232,14 +239,14 @@ protected:
     virtual void onEnterSleep_();
 
     /// Called to actually pre-delete (third and final callback).
-    virtual void preDelete3_(bool* do_not_destruct_immediately);
+    virtual void preDelete3_(const PreDeleteArg& arg);
 
     virtual bool prepareInit_(sead::Heap* heap, PrepareArg& arg);
 
     /// Called when pre-delete actually starts (after preparation, before requesting it).
     virtual void onPreDeleteStart_(PrepareArg&);
     /// Called to actually pre-delete (second callback).
-    virtual void preDelete2_(bool* do_not_destruct_immediately);
+    virtual void preDelete2_(const PreDeleteArg& arg);
     /// Called to actually pre-delete (first callback).
     virtual void preDelete1_();
 
@@ -258,8 +265,6 @@ protected:
 
     bool processStateUpdate(u8 counter);
     void processPreDelete();
-    /// Actually pre-delete the actor. Called from BaseProcDeleter.
-    void doPreDelete(bool* do_not_destruct_immediately);
     void startDelete_();
 
     /// Called from BaseProcMgr when a job for this process is invoked.

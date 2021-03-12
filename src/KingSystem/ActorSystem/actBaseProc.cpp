@@ -189,7 +189,7 @@ void BaseProc::onEnterDelete_() {}
 
 void BaseProc::onEnterSleep_() {}
 
-void BaseProc::preDelete3_(bool*) {}
+void BaseProc::preDelete3_(const PreDeleteArg& arg) {}
 
 bool BaseProc::prepareInit_(sead::Heap*, BaseProc::PrepareArg&) {
     return true;
@@ -197,7 +197,7 @@ bool BaseProc::prepareInit_(sead::Heap*, BaseProc::PrepareArg&) {
 
 void BaseProc::onPreDeleteStart_(PrepareArg&) {}
 
-void BaseProc::preDelete2_(bool*) {}
+void BaseProc::preDelete2_(const PreDeleteArg& arg) {}
 
 void BaseProc::preDelete1_() {}
 
@@ -475,12 +475,12 @@ void BaseProc::freeLinkData() {
     BaseProcLinkDataMgr::instance()->releaseLink(this);
 }
 
-void BaseProc::doPreDelete(bool* do_not_destruct_immediately) {
+void BaseProc::doPreDelete(const PreDeleteArg& arg) {
     preDelete1_();
-    preDelete2_(do_not_destruct_immediately);
-    preDelete3_(do_not_destruct_immediately);
+    preDelete2_(arg);
+    preDelete3_(arg);
 
-    if (*do_not_destruct_immediately)
+    if (arg.do_not_destruct_immediately)
         return;
 
     mFlags.set(Flags::Destructed);
