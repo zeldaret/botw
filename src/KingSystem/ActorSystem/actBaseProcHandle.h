@@ -14,6 +14,11 @@ public:
     BaseProcHandle();
     ~BaseProcHandle();
 
+    BaseProcHandle(const BaseProcHandle&) = delete;
+    BaseProcHandle(BaseProcHandle&&) = delete;
+    auto operator=(const BaseProcHandle&) = delete;
+    auto operator=(BaseProcHandle&&) = delete;
+
     bool isProcReady() const;
     bool hasProcCreationFailed() const;
     bool isProcCreationCancelled() const;
