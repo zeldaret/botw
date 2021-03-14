@@ -31,6 +31,8 @@ public:
     bool pushExtraJobs(sead::FixedSizeJQ* queue,
                        const agl::utl::AtomicPtrArray<BaseProcJobLink>& links);
 
+    void clear() { mNumExtraJobs = 0; }
+
 private:
     bool pushJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists, int priority,
                   bool should_reset_job_idx, JobType type);

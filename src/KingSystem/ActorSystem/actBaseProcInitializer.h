@@ -71,6 +71,8 @@ public:
     void removeTasksIf(sead::IDelegate1R<util::Task*, bool>& predicate);
     void setActorGenerationEnabled(bool enabled);
 
+    util::TaskQueue* getTaskQueue() const { return mTaskQueue; }
+
 private:
     sead::Buffer<ThreadInfo> mThreads;
     util::TaskMgr* mTaskMgr = nullptr;

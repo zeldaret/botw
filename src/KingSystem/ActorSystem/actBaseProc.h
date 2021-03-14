@@ -41,6 +41,7 @@ public:
         _0 = 0,
         _1 = 1,
         _2 = 2,
+        BaseProcMgrDeleteAll = 4,
         _f = 0xf,
         _15 = 0x15,
         _16 = 0x16,

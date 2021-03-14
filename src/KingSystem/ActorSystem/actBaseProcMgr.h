@@ -1,6 +1,7 @@
 #pragma once
 
 #include <agl/Utils/aglAtomicPtrArray.h>
+#include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
@@ -20,13 +21,12 @@
 
 namespace sead {
 class FixedSizeJQ;
-template <typename F>
-class IFunction;
 class WorkerMgr;
 }  // namespace sead
 
 namespace ksys::act {
 
+class ActorParam;
 class BaseProcCreateTaskData;
 class BaseProcDeleter;
 class BaseProcInitializer;
@@ -57,7 +57,33 @@ public:
         _0 = 0,
     };
 
+    enum class ProcFilter {
+        _1 = 1 << 0,
+        _2 = 1 << 1,
+        _4 = 1 << 2,
+        _8 = 1 << 3,
+        _10 = 1 << 4,
+        _20 = 1 << 5,
+        _40 = 1 << 6,
+    };
+
+    using ProcFilters = sead::TypedBitFlag<ProcFilter>;
     using ExtraJobLinkArray = agl::utl::FixedPtrArray<BaseProcJobLink, 512>;
+
+    /// Wrapper to simplify BaseProc iteration.
+    class ProcIteratorContext {
+    public:
+        ProcIteratorContext(BaseProcMgr& mgr, ProcFilters filters)
+            : mMgr(mgr), mCS(mgr.lockProcMap()), mFilters(filters) {}
+        ~ProcIteratorContext() { mMgr.unlockProcMap(); }
+        BaseProc* next() { return mProc = mMgr.getNextProc(mCS, mProc, mFilters); }
+
+    private:
+        BaseProcMgr& mMgr;
+        sead::CriticalSection* mCS{};
+        ProcFilters mFilters{};
+        BaseProc* mProc{};
+    };
 
     static void createInstanceAndInit(sead::Heap* heap);
     static u32 getConstant0() { return sConstant0; }
@@ -92,7 +118,7 @@ public:
     // endregion
 
     bool requestPreDelete(BaseProc& proc);
-    void requestUnloadActorParam(void*);
+    void requestUnloadActorParam(ActorParam* param);
 
     // region Job processing
 
@@ -110,12 +136,12 @@ public:
     bool hasExtraJobLink(BaseProcJobLink* job_link, s32 idx);
     void clearExtraJobArrays();
 
-    void pushJobQueues(sead::WorkerMgr* mgr, JobType type, bool);
-    bool pushExtraJobsEx(sead::FixedSizeJQ* jq, JobType type, bool, bool);
-    bool pushExtraJobsForCurrentTypeAndPrio(sead::FixedSizeJQ* jq, ExtraJobLinkArray& array);
-    bool pushPreCalcJobs(sead::FixedSizeJQ* jq, JobType type, s32 prio, bool, bool);
+    void pushJobQueues(sead::WorkerMgr* mgr, JobType type, bool x);
+    bool pushExtraJobsEx(sead::FixedSizeJQ* jq, JobType type, u8 priority, bool x, bool y);
+    bool pushExtraJobsForCurrentTypeAndPrio(sead::FixedSizeJQ* jq, ExtraJobLinkArray* array);
+    bool pushPreCalcJobs(sead::FixedSizeJQ* jq, JobType type, u8 prio, bool x, bool y);
 
-    void setActorJobType(JobType type);
+    void setJobType(JobType type);
     void setActorJobTypeAndPrio(JobType type, s32 prio, bool);
     void goIdle();
     void clearMode();
@@ -172,17 +198,25 @@ public:
 
     Status getStatus() const { return mStatus; }
     JobType getJobType() const { return mJobType; }
-    u32 getNumJobTypes() const { return mNumJobTypes; }
+    u32 getNumJobTypes() const { return mJobLists.size(); }
+    BaseProcJobLists& getJobLists(JobType type) { return mJobLists[u32(type)]; }
     bool isPushingJobs() const { return mIsPushingJobs; }
 
     bool checkGetActorOk(BaseProc* proc, void* a2);
 
-private:
-    void doAddToUpdateStateList_(BaseProc& proc);
+    // region BaseProc iteration
 
     sead::CriticalSection* lockProcMap();
     void unlockProcMap();
-    void getNextActor(sead::CriticalSection* cs, BaseProc* proc, u32 flags);
+    BaseProc* getNextProc(sead::CriticalSection* cs, BaseProc* proc, ProcFilters filters);
+    ProcIteratorContext getProcs(ProcFilter filters) { return {*this, filters}; }
+
+    // endregion
+
+private:
+    void doAddToUpdateStateList_(BaseProc& proc);
+
+    bool checkJobPushState() const;
 
     static sead::BufferedSafeString* sResidentActorListStr;
     static u32 sConstant0;
@@ -196,8 +230,7 @@ private:
     u8 mCounter = 0;
     sead::CriticalSection mProcMapCS;
     sead::OffsetList<BaseProc> mProcPreDeleteList;
-    u32 mNumJobTypes = 0;
-    BaseProcJobLists* mJobLists = nullptr;
+    sead::Buffer<BaseProcJobLists> mJobLists;
     BaseProcMap mProcMap;
     sead::OffsetList<BaseProc> mProcUpdateStateList;
     sead::CriticalSection mProcUpdateStateListCS;
@@ -214,7 +247,7 @@ private:
     Mode mMode = Mode::_0;
     bool mUnk2 = false;
     bool mIsInitialisingQuestMgrMaybe = false;
-    u8 mCurrentExtraJobArrayIdx = 0;
+    s8 mCurrentExtraJobArrayIdx = 0;
     u8 mUnk3 = 0;
     sead::BitFlag16 mSpecialJobTypesMask = 0;
     u32 mMainThreadId = 0;
@@ -225,6 +258,10 @@ private:
         sead::ZeroInitializeTag{}};
 };
 KSYS_CHECK_SIZE_NX150(BaseProcMgr, 0x21a0);
+
+constexpr auto operator|(BaseProcMgr::ProcFilter a, BaseProcMgr::ProcFilter b) {
+    return BaseProcMgr::ProcFilter(u32(a) | u32(b));
+}
 
 inline bool BaseProcMgr::setProcFlag(BaseProc& proc, BaseProc::StateFlags flag) {
     auto lock = sead::makeScopedLock(mProcUpdateStateListCS);

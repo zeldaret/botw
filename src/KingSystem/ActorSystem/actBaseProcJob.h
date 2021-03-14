@@ -64,6 +64,9 @@ struct BaseProcJobList {
 
 class BaseProcJobLists {
 public:
+    BaseProcJobLists() = default;
+    ~BaseProcJobLists() { ; }
+
     void pushJob(BaseProcJobLink& link);
     void eraseJob(BaseProcJobLink& link);
     sead::TListNode<BaseProc*>* getJobWithTopPriority() const;
@@ -73,7 +76,7 @@ public:
     const BaseProcJobList& getList(int idx) const { return mLists[idx]; }
 
 private:
-    sead::SafeArray<BaseProcJobList, 8> mLists;
+    sead::SafeArray<BaseProcJobList, 8> mLists{};
 };
 
 class BaseProcJob final : public sead::Job {
