@@ -11,6 +11,8 @@ namespace ksys::act {
 class BaseProc;
 class BaseProcHandle;
 
+/// Glue code between a BaseProcHandle and its associated BaseProc.
+/// Used while a BaseProc is being created.
 class BaseProcUnit {
 public:
     enum class Status : u32 {
