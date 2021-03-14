@@ -1,6 +1,10 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
+namespace ksys::act {
+class BaseProcHandle;
+}
+
 namespace ksys::act::ai {
 
 ParamPack::ParamPack() = default;

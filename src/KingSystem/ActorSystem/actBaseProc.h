@@ -9,7 +9,6 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
-#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/ActorSystem/actBaseProcMap.h"
 #include "KingSystem/Utils/StrTreeMap.h"
@@ -22,7 +21,6 @@ class BaseProc;
 class BaseProcLinkData;
 class BaseProcJobHandler;
 class BaseProcUnit;
-class BaseProcHandle;
 
 /// Actor base class that encapsulates all the low-level actor lifetime logic.
 class BaseProc {
