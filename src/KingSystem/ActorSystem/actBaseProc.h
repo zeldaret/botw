@@ -4,6 +4,7 @@
 #include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
 #include <container/seadTreeMap.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -122,7 +123,6 @@ public:
 
     void setCreatePriorityState1();
     void setCreatePriorityState2();
-    bool setStateFlag(u32 flag_bit);
 
     void onJobPush(JobType type) {
         onJobPush1_(type);
@@ -135,6 +135,7 @@ public:
     /// Set the BaseProcUnit. Only for use by BaseProcCreateTask.
     void setUnitForBaseProcCreateTask(BaseProcUnit* unit) { mProcUnit = unit; }
     void setInitializedFlag() { mFlags.set(Flags::Initialized); }
+    bool requestDeleteProcUnit() { return setStateFlag(StateFlags::RequestDeleteProcUnit); }
 
 protected:
     friend class BaseProcLinkDataMgr;
@@ -278,6 +279,9 @@ protected:
 
     BaseProcJobHandler*& getJobHandler(JobType type) { return mJobHandlers[int(type)]; }
     BaseProcJobHandler* getJobHandler(JobType type) const { return mJobHandlers[int(type)]; }
+
+    bool setStateFlag(u32 flag_bit);
+    bool setStateFlag(StateFlags flag) { return setStateFlag(sead::log2(u32(flag))); }
 
     bool x00000071011ba9fc();
 

@@ -8,7 +8,19 @@
 
 namespace ksys::act {
 
-bool BaseProcUnit::deleteProc(u32, BaseProcHandle* handle) {
+BaseProcUnitPool gUnitPool{};
+BaseProcHandle gDummyProcHandle;
+
+BaseProcUnit::~BaseProcUnit() {
+    deleteProc(0, nullptr);
+}
+
+bool BaseProcUnit::deleteProc([[maybe_unused]] u32 x, BaseProcHandle* handle) {
+#ifdef MATCHING_HACK_NX_CLANG
+    // Ensure x is not optimized out.
+    __builtin_assume(x);
+#endif
+
     ActorLinkConstDataAccess accessor;
 
     {
@@ -18,8 +30,8 @@ bool BaseProcUnit::deleteProc(u32, BaseProcHandle* handle) {
             if (mProc)
                 accessor.acquire(mProc);
 
-            if (mStatus == Status::_1 || mProc) {
-                mHandle.compareExchange(handle, &BaseProcHandle::sDummyHandle);
+            if (mStatus == Status::Initializing || mProc) {
+                mHandle.compareExchange(handle, &gDummyProcHandle);
             } else {
                 mStatus = Status::Unused;
                 mHandle = nullptr;
@@ -65,7 +77,7 @@ bool BaseProcUnit::setProc(BaseProc* proc) {
         return false;
     }
 
-    if (mStatus != Status::_1)
+    if (mStatus != Status::Initializing)
         print_info();
 
     mProc = proc;
@@ -75,7 +87,7 @@ bool BaseProcUnit::setProc(BaseProc* proc) {
 
 void BaseProcUnit::reset() {
     auto* handle = getHandle();
-    if (handle != &BaseProcHandle::sDummyHandle) {
+    if (handle != &gDummyProcHandle) {
         sead::FixedSafeString<256> message;
         message.format("BaseProcUnit:%p, %p", this, handle);
         util::PrintDebug(message);
@@ -85,7 +97,7 @@ void BaseProcUnit::reset() {
     mHandle = nullptr;
 }
 
-void BaseProcUnit::cleanUp(BaseProc* proc, bool set_status_5) {
+void BaseProcUnit::cleanUp(BaseProc* proc, bool is_cancellation) {
     const auto lock = sead::makeScopedLock(mCS);
 
     mProc = nullptr;
@@ -102,9 +114,9 @@ void BaseProcUnit::cleanUp(BaseProc* proc, bool set_status_5) {
         print_info();
     } else {
         const auto status = mStatus.load();
-        if (status == Status::Unused || (status > Status::_3 && status != Status::_5))
+        if (status == Status::Unused || (status > Status::NoProc && status != Status::Cancelled))
             print_info();
-        mStatus = set_status_5 ? Status::_5 : Status::_3;
+        mStatus = is_cancellation ? Status::Cancelled : Status::NoProc;
     }
 }
 
@@ -123,7 +135,7 @@ void BaseProcUnit::unlinkProc(BaseProc* proc) {
 }
 
 bool BaseProcUnit::isParentHandleDefault() const {
-    return mHandle == &BaseProcHandle::sDummyHandle;
+    return mHandle == &gDummyProcHandle;
 }
 
 }  // namespace ksys::act

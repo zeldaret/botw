@@ -14,21 +14,26 @@ public:
     BaseProcHandle();
     ~BaseProcHandle();
 
-    bool procReady();
+    bool isProcReady() const;
+    bool hasProcCreationFailed() const;
+    bool isProcCreationCancelled() const;
 
-    BaseProc* getProc();
+    void deleteProcIfFailed();
+    void deleteProc();
+
+    BaseProc* getProc() const;
+    BaseProc* releaseProc();
+    BaseProc* releaseAndWakeProc();
+    BaseProcCreateTask* getCreateTask() const;
     BaseProcUnit* getUnit() const { return mUnit; }
     bool allocUnit();
-    BaseProcCreateTask* getCreateTask() const;
 
-    bool getFlag() const { return mFlag; }
-    void setFlag(bool flag) { mFlag = flag; }
-
-    static BaseProcHandle sDummyHandle;
+    bool hasFailed() const { return mFailed; }
+    void setFailed(bool failed) { mFailed = failed; }
 
 private:
-    BaseProcUnit* mUnit;
-    bool mFlag;
+    BaseProcUnit* mUnit = nullptr;
+    bool mFailed = false;
 };
 KSYS_CHECK_SIZE_NX150(BaseProcHandle, 0x10);
 

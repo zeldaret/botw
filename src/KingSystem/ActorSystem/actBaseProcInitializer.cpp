@@ -89,7 +89,7 @@ void BaseProcInitializer::deleteThreadIfPaused() {
 bool BaseProcInitializer::requestCreateBaseProc(const BaseProcCreateRequest& req) {
     if (!mActorGenerationEnabled) {
         if (req.task_data->mProcHandle)
-            req.task_data->mProcHandle->setFlag(true);
+            req.task_data->mProcHandle->setFailed(true);
         return false;
     }
 
@@ -112,13 +112,13 @@ bool BaseProcInitializer::requestCreateBaseProc(const BaseProcCreateRequest& req
     util::TaskMgrRequest mgr_req;
     if (req.task_data->mProcHandle) {
         if (!req.task_data->mProcHandle->allocUnit()) {
-            req.task_data->mProcHandle->setFlag(true);
+            req.task_data->mProcHandle->setFailed(true);
             return false;
         }
 
         mgr_req.task = req.task_data->mProcHandle->getCreateTask();
         if (!mgr_req.task) {
-            req.task_data->mProcHandle->setFlag(true);
+            req.task_data->mProcHandle->setFailed(true);
             return false;
         }
     } else {
