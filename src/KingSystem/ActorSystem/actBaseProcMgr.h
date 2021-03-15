@@ -10,6 +10,7 @@
 #include <prim/seadScopedLock.h>
 #include <prim/seadSizedEnum.h>
 #include <prim/seadStorageFor.h>
+#include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
