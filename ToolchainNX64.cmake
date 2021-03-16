@@ -1,3 +1,13 @@
+if (NOT DEFINED ENV{UKING_CLANG})
+    message(FATAL_ERROR "Please define the UKING_CLANG env variable. It should point to a path such that $UKING_CLANG/bin/clang exists")
+endif()
+
+if (NOT DEFINED ENV{DEVKITA64})
+    message(FATAL_ERROR "Please define the DEVKITA64 env variable.")
+endif()
+
+set(UKING_CLANG "$ENV{UKING_CLANG}")
+set(DEVKITA64 "$ENV{DEVKITA64}")
 set(NX64_OPT_FLAGS "-O3 -g")
 set(triple aarch64-none-elf)
 
