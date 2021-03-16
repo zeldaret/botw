@@ -20,6 +20,10 @@ Considering the large size of the executable (~40MB), it is not expected to reac
 
 As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will NOT help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
 
+Currently, the focus is on decompiling AI classes and KingSystem framework code.
+
+## Frequently Asked Questions
+
 ### Isn't this risky?
 
 As with other game decompilations, this project is probably in a legal gray zone. However, the authors of this project believe that it is unlikely to bother NCL for the following reasons:
@@ -40,11 +44,29 @@ As with other game decompilations, this project is probably in a legal gray zone
     * The compiler is just Clang 4.0.1 which is open source and freely available on [LLVM's website](https://releases.llvm.org/). The SDK compiler is **not** used.
     * Anyone who has had access to leaked information is not allowed to contribute.
 
-## Status
+### Is this a matching decomp?
 
-Currently, the focus is on decompiling AI classes and KingSystem framework code.
+Given the impossibility of automatically splitting the assembly and generating a matching binary, the sheer size of the main executable and the usage of many software libraries, this project takes a different and somewhat experimental approach to matching decompilation.
 
 Because meaningfully splitting the code is not feasible, the built executable currently only contains functions that have been decompiled and no effort is being made to put functions and data at the correct addresses.
+
+Instead of trying to match the entire executable, each function is matched individually and source code is organized in whichever way makes the most sense. Libraries are not treated as being part of the game code, but as external dependencies. The result is that the codebase looks a lot more like a regular software project than a decompilation codebase. Since C++ code makes heavy use of inline functions and zero-cost abstractions that disappear in compiled code, contributors have a lot more leeway when it comes to organizing files and adding abstractions.
+
+### How easy is it to get matching code?
+
+Compared to other decomp projects for older compilers: **extremely easy**. Clang is an extremely reasonable compiler with much fewer memes than older compilers such as IDO:
+
+* Stack reordering issues are extremely rare, given that AArch64 uses its registers a lot more efficiently. And even when the stack is used, things Just Work™ in the vast majority of cases.
+* Pure register allocation (regalloc) issues are almost non-existent. If you see something that looks like a regalloc problem, it usually means your code is not semantically equivalent.
+* No `if (1)` shenanigans.
+* No same line memes (codegen being different if two statements are put on the same line).
+* Whitespace doesn't matter.
+
+In general, two equivalent constructs that *should* clearly produce the same code actually produce the exact same code. There are exceptions, of course, but many things simply do not matter at all for matching. Inline functions do sometimes affect codegen, though.
+
+Getting perfect matches on the first try happens pretty routinely, even for medium-sized and large functions (>1kB).
+
+Most functions tend to call several other inline functions, notably utility functions from sead; as many core sead modules have already been reversed, decompiling a function sometimes only requires recognizing those function calls: decompilation at a higher level of abstraction!
 
 ## Building
 
