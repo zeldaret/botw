@@ -13,3 +13,8 @@ add_subdirectory(System)
 add_subdirectory(Terrain)
 add_subdirectory(Utils)
 add_subdirectory(World)
+
+target_sources(uking PRIVATE
+  ksys.cpp
+  ksys.h
+)

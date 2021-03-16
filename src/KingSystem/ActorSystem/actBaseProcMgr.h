@@ -59,13 +59,13 @@ public:
     };
 
     enum class ProcFilter {
-        _1 = 1 << 0,
-        _2 = 1 << 1,
-        _4 = 1 << 2,
-        _8 = 1 << 3,
+        Sleeping = 1 << 0,
+        DeletedOrDeleting = 1 << 1,
+        Initializing = 1 << 2,
+        SkipAccessCheck = 1 << 3,
         _10 = 1 << 4,
-        _20 = 1 << 5,
-        _40 = 1 << 6,
+        Deleting = 1 << 5,
+        Uninitialized = 1 << 6,
     };
 
     using ProcFilters = sead::TypedBitFlag<ProcFilter>;
@@ -86,7 +86,6 @@ public:
         BaseProc* mProc{};
     };
 
-    static void createInstanceAndInit(sead::Heap* heap);
     static u32 getConstant0() { return sConstant0; }
     static u32 getConstant1() { return sConstant1; }
     static u32 getConstant2() { return sConstant2; }
@@ -112,10 +111,6 @@ public:
     void eraseFromUpdateStateList(BaseProc& proc);
     void processPreDeleteList();
 
-    void forEachProc(const sead::IDelegate1<BaseProc*>& callback, u32 flags);
-    void deleteAllProcs();
-    bool hasFinishedDeletingAllProcs();
-
     // endregion
 
     bool requestPreDelete(BaseProc& proc);
@@ -133,7 +128,7 @@ public:
     void swapExtraJobArray();
 
     void queueExtraJobPush(BaseProcJobLink* job_link);
-    void moveExtraJobsToOtherBuffer();
+    void moveExtraJobsToOtherBuffer(JobType type);
     bool hasExtraJobLink(BaseProcJobLink* job_link, s32 idx);
     void clearExtraJobArrays();
 
@@ -145,8 +140,12 @@ public:
     void setJobType(JobType type);
     void setActorJobTypeAndPrio(JobType type, s32 prio, bool);
     void goIdle();
-    void clearMode();
     void calc();
+    void clearMode();
+    sead::CriticalSection* lockProcMap();
+    void unlockProcMap();
+    void deleteAllProcs();
+    bool hasFinishedDeletingAllProcs();
     void jobInvoked(BaseProcJobLink* link, s32 required_calc_rounds);
 
     // endregion
@@ -162,7 +161,7 @@ public:
     /// Returns true if and only if the calling thread is the game thread or a Havok thread.
     bool isHighPriorityThread() const;
     /// Returns true if and only if it is safe to access the specified BaseProc.
-    bool isAccessingProcSafe(BaseProc* proc, BaseProc* other);
+    bool isAccessingProcSafe(BaseProc* proc, BaseProc* other) const;
 
     // region BaseProc creation
 
@@ -171,17 +170,35 @@ public:
 
     // endregion
 
+    // region BaseProc iteration
+
+    BaseProc* getNextProc(sead::CriticalSection* cs, BaseProc* proc, ProcFilters filters);
+    BaseProc* getProc(const sead::SafeString& name, ProcFilters filters);
+    BaseProc* getProc(const u32& id, ProcFilters filters);
+    void forEachProc(sead::IDelegate1<BaseProc*>& callback, ProcFilters filters);
+    void forEachProc(const sead::SafeString& proc_name, sead::IDelegate1<BaseProc*>& callback,
+                     ProcFilters filters);
+    ProcIteratorContext getProcs(ProcFilter filters) { return {*this, filters}; }
+    bool checkFilters(BaseProc* proc, ProcFilters filters) const;
+
+    // endregion
+
     // region Actor initializer control
 
-    void resumeThreadMaybe();
-    void stopThreads();
-    void clearMessageQueueMaybe();
-    void startActorCreateThread();
-
-    void clearInitializerMessageQueuesMaybe();
-    s32 getActorCreateInitializerQueueSize();
-    s32 getActorCreateInitializerQueueSizeEx(s32 x);
-    void invokeOnActorCreateInitializerThreadMaybe(void* delegate);
+    bool areInitializerThreadsIdle() const;
+    void waitForInitializerQueueToEmpty();
+    void cancelInitializerTasks();
+    void blockInitializerTasks();
+    void restartInitializerThreads();
+    void pauseInitializerThreads();
+    void resumeInitializerThreads();
+    void unblockInitDeleteTasks();
+    void pauseInitializerMainThread();
+    void resumeInitializerMainThread();
+    bool isAnyInitializerThreadActive() const;
+    int getInitializerQueueSize() const;
+    int getInitializerQueueSizeEx(int x = -1) const;
+    void removeInitializerTasksIf(sead::IDelegate1R<util::Task*, bool>& predicate);
     void setActorGenerationEnabled(bool enabled);
 
     // endregion
@@ -203,16 +220,10 @@ public:
     BaseProcJobLists& getJobLists(JobType type) { return mJobLists[u32(type)]; }
     bool isPushingJobs() const { return mIsPushingJobs; }
 
-    bool checkGetActorOk(BaseProc* proc, void* a2);
-
-    // region BaseProc iteration
-
-    sead::CriticalSection* lockProcMap();
-    void unlockProcMap();
-    BaseProc* getNextProc(sead::CriticalSection* cs, BaseProc* proc, ProcFilters filters);
-    ProcIteratorContext getProcs(ProcFilter filters) { return {*this, filters}; }
-
-    // endregion
+    static u32 sConstant0;
+    static u32 sConstant1;
+    static u32 sConstant2;
+    static u32 sConstant4;
 
 private:
     void doAddToUpdateStateList_(BaseProc& proc);
@@ -220,10 +231,6 @@ private:
     bool checkJobPushState() const;
 
     static sead::BufferedSafeString* sResidentActorListStr;
-    static u32 sConstant0;
-    static u32 sConstant1;
-    static u32 sConstant2;
-    static u32 sConstant4;
 
     Status mStatus = Status::Idle;
     sead::SizedEnum<JobType, u8> mJobType = JobType::Invalid;

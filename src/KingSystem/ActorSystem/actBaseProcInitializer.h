@@ -22,7 +22,7 @@ class BaseProc;
 struct BaseProcCreateRequest;
 
 struct BaseProcInitializerArgs {
-    u32 queue_size = 1024;
+    u32 queue_size;
     sead::SafeString thread_name = "BaseProcCreate";
     util::TaskSelectionDelegate* task_selector = nullptr;
 };

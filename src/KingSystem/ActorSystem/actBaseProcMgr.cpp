@@ -339,7 +339,8 @@ void BaseProcMgr::unlockProcMap() {
 }
 
 void BaseProcMgr::deleteAllProcs() {
-    auto procs = getProcs(ProcFilter::_1 | ProcFilter::_4 | ProcFilter::_8);
+    auto procs =
+        getProcs(ProcFilter::Sleeping | ProcFilter::Initializing | ProcFilter::SkipAccessCheck);
     while (auto* proc = procs.next()) {
         if (!proc->mFlags.isOn(BaseProc::Flags::DoNotDelete))
             proc->deleteLater(BaseProc::DeleteReason::BaseProcMgrDeleteAll);
@@ -347,7 +348,8 @@ void BaseProcMgr::deleteAllProcs() {
 }
 
 bool BaseProcMgr::hasFinishedDeletingAllProcs() {
-    auto procs = getProcs(ProcFilter::_1 | ProcFilter::_2 | ProcFilter::_4 | ProcFilter::_8);
+    auto procs = getProcs(ProcFilter::Sleeping | ProcFilter::DeletedOrDeleting |
+                          ProcFilter::Initializing | ProcFilter::SkipAccessCheck);
     while (auto* proc = procs.next()) {
         if (!proc->mFlags.isOn(BaseProc::Flags::DoNotDelete))
             return false;
@@ -369,6 +371,227 @@ bool BaseProcMgr::isHighPriorityThread() const {
     return id == mMainThreadId || id == mHavokThreadId1 || id == mHavokThreadId2;
 }
 
+bool BaseProcMgr::isAccessingProcSafe(BaseProc* proc, BaseProc* other) const {
+    [[maybe_unused]] const auto current_thread = sead::ThreadMgr::instance()->getCurrentThread();
+
+    if (!isHighPriorityThread())
+        return true;
+
+    if (mUnk2)
+        return true;
+
+    if (other) {
+        if (other == proc)
+            return true;
+        if (other->getConnectedCalcChild() == proc)
+            return true;
+        if (other->getConnectedCalcParent() == proc)
+            return true;
+    }
+
+    if (!mIsPushingJobs)
+        return true;
+
+    const auto type = mJobType;
+
+    if (type == JobType::Invalid || mStatus != Status::ProcessingActorJobs) {
+#ifdef MATCHING_HACK_NX_CLANG
+        if (proc->isInit()) {
+        fail:
+            return false;
+        }
+        return true;
+#else
+        return !proc->isInit();
+#endif
+    }
+
+    if (auto* handler = proc->getJobHandler(type)) {
+        u8 priority = handler->getLink().getPriority();
+        while ((proc = proc->getConnectedCalcParent())) {
+            if (auto* h = proc->getJobHandler(type))
+                priority = h->getLink().getPriority();
+        }
+        if (mCurrentlyProcessingPrio != priority)
+            return true;
+    } else if (!proc->isInit()) {
+        return true;
+    }
+#ifdef MATCHING_HACK_NX_CLANG
+    goto fail;
+#else
+    return false;
+#endif
+}
+
+bool BaseProcMgr::requestCreateProc(const BaseProcCreateRequest& req) {
+    return mProcInitializer->requestCreateBaseProc(req);
+}
+
+BaseProc* BaseProcMgr::createProc(const BaseProcCreateRequest& req) {
+    return mProcInitializer->createBaseProc(req);
+}
+
+struct ProcForEachContextData {
+    inline void handle(BaseProcMapNode* node) const {
+        if (BaseProcMgr::instance()->checkFilters(node->proc(), filters))
+            callback->invoke(node->proc());
+    }
+
+    BaseProcMgr::ProcFilters filters;
+    sead::IDelegate1<BaseProc*>* callback{};
+};
+
+struct ProcForEachContext {
+    void forEach(util::StrTreeMapNode* node) {  // NOLINT(readability-make-member-function-const)
+        for (auto it = static_cast<BaseProcMapNode*>(node); it; it = it->next())
+            data->handle(it);
+    }
+
+    ProcForEachContextData* data;
+};
+
+inline bool BaseProcMgr::checkFilters(BaseProc* proc, ProcFilters filters) const {
+    if (proc->isDeleting() && filters.isOff(ProcFilter::Deleting))
+        return false;
+
+    if (!proc->isInitialized() && filters.isOff(ProcFilter::Uninitialized))
+        return false;
+
+    if (proc->isSleep() && filters.isOff(ProcFilter::Sleeping))
+        return false;
+
+    if (proc->isDeletedOrDeleting() && filters.isOff(ProcFilter::DeletedOrDeleting))
+        return false;
+
+    if (proc->isInit() && filters.isOff(ProcFilter::Initializing))
+        return false;
+
+    return !filters.isOff(ProcFilter::SkipAccessCheck) || isAccessingProcSafe(proc, nullptr);
+}
+
+BaseProc* BaseProcMgr::getProc(const sead::SafeString& name, BaseProcMgr::ProcFilters filters) {
+    const auto lock = sead::makeScopedLock(mProcMapCS);
+
+    if (auto* node = mProcMap.find(name)) {
+        auto* proc = node->proc();
+        if (checkFilters(proc, filters))
+            return proc;
+    }
+
+    return nullptr;
+}
+
+BaseProc* BaseProcMgr::getProc(const u32& id, BaseProcMgr::ProcFilters filters) {
+    auto* cs = lockProcMap();
+    auto guard = sead::makeScopeGuard([this] { unlockProcMap(); });
+
+    BaseProc* proc = nullptr;
+    do {
+        proc = getNextProc(cs, proc, filters);
+        if (proc && proc->getId() == id) {
+            if (!checkFilters(proc, filters))
+                proc = nullptr;
+            break;
+        }
+    } while (proc);
+    return proc;
+}
+
+// NON_MATCHING: stack
+void BaseProcMgr::forEachProc(sead::IDelegate1<BaseProc*>& callback, ProcFilters filters) {
+    const auto lock = sead::makeScopedLock(mProcMapCS);
+
+    ProcForEachContextData data;
+    ProcForEachContext context;
+    context.data = &data;
+    data.filters = filters;
+    data.callback = &callback;
+
+    mProcMap.forEach(sead::Delegate1<ProcForEachContext, util::StrTreeMapNode*>(
+        &context, &ProcForEachContext::forEach));
+}
+
+void BaseProcMgr::forEachProc(const sead::SafeString& proc_name,
+                              sead::IDelegate1<BaseProc*>& callback,
+                              BaseProcMgr::ProcFilters filters) {
+    const auto lock = sead::makeScopedLock(mProcMapCS);
+
+    BaseProc* proc = nullptr;
+    if (auto* node = mProcMap.find(proc_name))
+        proc = node->proc();
+
+    while (proc) {
+        if (checkFilters(proc, filters))
+            callback.invoke(proc);
+
+        auto* next = proc->mMapNode.next();
+        proc = next ? next->proc() : nullptr;
+    }
+}
+
+bool BaseProcMgr::areInitializerThreadsIdle() const {
+    return !mProcInitializer->isAnyThreadActive();
+}
+
+void BaseProcMgr::waitForInitializerQueueToEmpty() {
+    mProcInitializer->waitForTaskQueuesToEmpty();
+}
+
+void BaseProcMgr::cancelInitializerTasks() {
+    mProcInitializer->cancelTasks();
+}
+
+void BaseProcMgr::blockInitializerTasks() {
+    mProcInitializer->blockPendingTasks();
+}
+
+void BaseProcMgr::restartInitializerThreads() {
+    blockInitializerTasks();
+    mProcInitializer->restartThreads();
+}
+
+void BaseProcMgr::pauseInitializerThreads() {
+    mProcInitializer->pauseThreads();
+}
+
+void BaseProcMgr::resumeInitializerThreads() {
+    mProcInitializer->resumeThreads();
+}
+
+void BaseProcMgr::unblockInitDeleteTasks() {
+    mProcDeleter->unblockTasks();
+    mProcInitializer->unblockPendingTasks();
+}
+
+void BaseProcMgr::pauseInitializerMainThread() {
+    mProcInitializer->pauseMainThread();
+}
+
+void BaseProcMgr::resumeInitializerMainThread() {
+    mProcInitializer->resumeMainThread();
+}
+
+bool BaseProcMgr::isAnyInitializerThreadActive() const {
+    return mProcInitializer->isAnyThreadActive();
+}
+
+int BaseProcMgr::getInitializerQueueSize() const {
+    return mProcInitializer->getQueueSize();
+}
+
+int BaseProcMgr::getInitializerQueueSizeEx(int x) const {
+    return mProcInitializer->getQueueSize(x);
+}
+
+void BaseProcMgr::removeInitializerTasksIf(sead::IDelegate1R<util::Task*, bool>& predicate) {
+    mProcInitializer->removeTasksIf(predicate);
+}
+
+void BaseProcMgr::setActorGenerationEnabled(bool enabled) {
+    mProcInitializer->setActorGenerationEnabled(enabled);
+}
+
 void BaseProcMgr::incrementUnk3() {
     if (mUnk3 != 0xFF)
         ++mUnk3;
@@ -377,6 +600,21 @@ void BaseProcMgr::incrementUnk3() {
 void BaseProcMgr::decrementUnk3() {
     if (mUnk3 != 0)
         --mUnk3;
+}
+
+// NON_MATCHING: reorderings
+void BaseProcMgr::queueExtraJobPush(BaseProcJobLink* job_link) {
+    getExtraJobs().pushBack(job_link);
+}
+
+// NON_MATCHING: ???
+void BaseProcMgr::moveExtraJobsToOtherBuffer(JobType type) {
+    const auto old_idx = mCurrentExtraJobArrayIdx;
+    swapExtraJobArray();
+    auto& array = mExtraJobLinkArrays.ref()[old_idx];
+    for (auto& link : array) {
+        link.getProc()->queueExtraJobPush_(type, mCurrentExtraJobArrayIdx);
+    }
 }
 
 bool BaseProcMgr::hasExtraJobLink(BaseProcJobLink* job_link, s32 idx) {

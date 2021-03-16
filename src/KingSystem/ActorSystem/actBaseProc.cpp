@@ -229,7 +229,7 @@ bool BaseProc::canWakeUp_() {
     return true;
 }
 
-void BaseProc::queueExtraJobPush_(JobType type) {
+void BaseProc::queueExtraJobPush_(JobType type, int idx) {
     if (!isDeletedOrDeleting())
         BaseProcMgr::instance()->queueExtraJobPush(&getJobHandler(type)->getLink());
 }

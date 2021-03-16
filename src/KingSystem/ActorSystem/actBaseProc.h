@@ -98,11 +98,11 @@ public:
     bool isInit() const { return mState == State::Init; }
     bool isCalc() const { return mState == State::Calc; }
     bool isSleep() const { return mState == State::Sleep; }
+    bool isDelete() const { return mState == State::Delete; }
     bool isDeletedOrDeleting() const {
         return mState == State::Delete || mStateFlags.isOn(StateFlags::RequestDelete);
     }
 
-    bool isInitialized() const { return mFlags.isOn(Flags::Initialized); }
     /// For BaseProcLink or ActorLinkConstDataAccess.
     bool acquire(ActorLinkConstDataAccess& accessor);
     BaseProcLinkData* getBaseProcLinkData() const { return mBaseProcLinkData; }
@@ -137,6 +137,10 @@ public:
     void setUnitForBaseProcCreateTask(BaseProcUnit* unit) { mProcUnit = unit; }
     void setInitializedFlag() { mFlags.set(Flags::Initialized); }
     bool requestDeleteProcUnit() { return setStateFlag(StateFlags::RequestDeleteProcUnit); }
+
+    bool isInitialized() const { return mFlags.isOn(Flags::Initialized); }
+    bool isDeleting() const { return mFlags.isOn(Flags::PreDeleteStarted); }
+    bool isDeleteRequested() const { return mStateFlags.isOn(StateFlags::RequestDelete); }
 
 protected:
     friend class BaseProcLinkDataMgr;
@@ -256,7 +260,7 @@ protected:
 
     virtual IsSpecialJobTypeResult isSpecialJobType_(JobType type);
     virtual bool canWakeUp_();
-    virtual void queueExtraJobPush_(JobType type);
+    virtual void queueExtraJobPush_(JobType type, int idx);
     virtual bool hasJobType_(JobType type);
     /// Called after processStateUpdate() is called for all actors in the update state list.
     virtual void afterUpdateState_();
