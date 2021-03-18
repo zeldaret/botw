@@ -470,6 +470,37 @@ inline bool BaseProcMgr::checkFilters(BaseProc* proc, ProcFilters filters) const
     return !filters.isOff(ProcFilter::SkipAccessCheck) || isAccessingProcSafe(proc, nullptr);
 }
 
+BaseProc* BaseProcMgr::getNextProc(sead::CriticalSection* cs, BaseProc* current_proc,
+                                   BaseProcMgr::ProcFilters filters) {
+    if (&mProcMapCS != cs)
+        return nullptr;
+
+    BaseProcMapNode* node = nullptr;
+    if (current_proc)
+        node = current_proc->mMapNode.next();
+    else
+        node = mLastProcMapNode = mProcMap.startIterating();
+
+    if (!node && mLastProcMapNode)
+        node = mLastProcMapNode = mProcMap.nextNode(mLastProcMapNode);
+
+    auto* proc = node ? node->proc() : nullptr;
+    while (proc) {
+        if (checkFilters(proc, filters))
+            return proc;
+
+        node = proc->mMapNode.next();
+        if (!node && mLastProcMapNode)
+            node = mLastProcMapNode = mProcMap.nextNode(mLastProcMapNode);
+
+        if (!node)
+            return nullptr;
+
+        proc = node->proc();
+    }
+    return nullptr;
+}
+
 BaseProc* BaseProcMgr::getProc(const sead::SafeString& name, BaseProcMgr::ProcFilters filters) {
     const auto lock = sead::makeScopedLock(mProcMapCS);
 

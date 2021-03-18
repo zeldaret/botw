@@ -172,7 +172,7 @@ public:
 
     // region BaseProc iteration
 
-    BaseProc* getNextProc(sead::CriticalSection* cs, BaseProc* proc, ProcFilters filters);
+    BaseProc* getNextProc(sead::CriticalSection* cs, BaseProc* current_proc, ProcFilters filters);
     BaseProc* getProc(const sead::SafeString& name, ProcFilters filters);
     BaseProc* getProc(const u32& id, ProcFilters filters);
     void forEachProc(sead::IDelegate1<BaseProc*>& callback, ProcFilters filters);
