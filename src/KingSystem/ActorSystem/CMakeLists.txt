@@ -50,6 +50,8 @@ target_sources(uking PRIVATE
   actAiQueries.h
   actAiRoot.cpp
   actAiRoot.h
+  actASSetting.cpp
+  actASSetting.h
   actAttention.cpp
   actAttention.h
   actBaseProc.cpp
