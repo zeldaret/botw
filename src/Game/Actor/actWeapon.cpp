@@ -96,7 +96,7 @@ void WeaponModifierInfo::saveEquipStandBowFlag(int idx) const {
 
 void WeaponModifierInfo::addModifierParams(ksys::act::InstParamPack& params) const {
     params->add(value, "AddParam");
-    params->add(flags.getDirect(), "AddSpecialFlag");
+    params->add(int(flags.getDirect()), "AddSpecialFlag");
 }
 
 void WeaponModifierInfo::set(u32 type_, u32 value_) {
