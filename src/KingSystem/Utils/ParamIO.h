@@ -2,6 +2,7 @@
 
 #include <agl/Utils/aglParameterIO.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -14,6 +15,11 @@ public:
     virtual bool ParamIO_m0() { return false; }
 
     bool applyResourceUpdate(const char* data, const char* data1);
+
+    const char* getString(const agl::utl::ResParameterObj& obj, const char* key,
+                          const char* default_value, void* = nullptr) const;
+    sead::Vector3f getVec3(const agl::utl::ResParameterObj& obj, const char* key,
+                           sead::Vector3f default_value, void* = nullptr) const;
 
     u32 getIdx() const { return mIdx; }
     sead::BufferedSafeString& getPath() { return mPath; }

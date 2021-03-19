@@ -3,7 +3,9 @@
 #include <agl/Utils/aglParameter.h>
 #include <agl/Utils/aglParameterObj.h>
 #include <container/seadBuffer.h>
+#include <prim/seadSafeString.h>
 #include <prim/seadStorageFor.h>
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
 
@@ -14,39 +16,39 @@ class ModelList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ModelList, Resource)
 public:
     struct ControllerInfo {
-        agl::utl::Parameter<sead::Color4f> _2b0;
-        agl::utl::Parameter<sead::Color4f> _2d8;
-        agl::utl::ParameterObj mControllerInfo;
+        agl::utl::Parameter<sead::Color4f> mAddColor;
+        agl::utl::Parameter<sead::Color4f> mMulColor;
+        agl::utl::ParameterObj mObj;
         agl::utl::Parameter<sead::Vector3f> mBaseScale;
-        agl::utl::Parameter<sead::SafeString> _358;
-        agl::utl::Parameter<s32> _380;
-        agl::utl::Parameter<sead::SafeString> _3a0;
-        agl::utl::Parameter<s32> _3c8;
-        agl::utl::Parameter<sead::SafeString> _3e8;
+        agl::utl::Parameter<sead::SafeString> mVariationMatAnim;
+        agl::utl::Parameter<s32> mVariationMatAnimFrame;
+        agl::utl::Parameter<sead::SafeString> mVariationShaderAnim;
+        agl::utl::Parameter<s32> mVariationShaderAnimFrame;
+        agl::utl::Parameter<sead::SafeString> mCalcAABBASKey;
     };
     KSYS_CHECK_SIZE_NX150(ControllerInfo, 0x160);
 
     struct Attention {
-        agl::utl::Parameter<bool> _0;
-        agl::utl::Parameter<sead::SafeString> _20;
-        agl::utl::Parameter<sead::Vector3f> _48;
-        agl::utl::Parameter<f32> _70;
-        agl::utl::Parameter<f32> _90;
-        agl::utl::Parameter<sead::SafeString> _b0;
-        agl::utl::Parameter<sead::Vector3f> _d8;
-        agl::utl::Parameter<sead::SafeString> _100;
-        agl::utl::Parameter<sead::Vector3f> _128;
-        agl::utl::Parameter<sead::SafeString> _150;
-        agl::utl::Parameter<sead::Vector3f> _178;
-        agl::utl::Parameter<sead::SafeString> _1a0;
-        agl::utl::Parameter<sead::Vector3f> _1c8;
-        agl::utl::Parameter<f32> _1f0;
-        agl::utl::Parameter<sead::SafeString> _210;
-        agl::utl::Parameter<sead::Vector3f> _238;
-        agl::utl::Parameter<bool> _260;
-        agl::utl::Parameter<sead::SafeString> _280;
-        agl::utl::Parameter<sead::Vector3f> _2a8;
-        agl::utl::ParameterObj _2d0;
+        agl::utl::Parameter<bool> mIsEnableAttention;
+        agl::utl::Parameter<sead::SafeString> mLookAtBone;
+        agl::utl::Parameter<sead::Vector3f> mLookAtOffset;
+        agl::utl::Parameter<f32> mCursorOffsetY;
+        agl::utl::Parameter<f32> mAIInfoOffsetY;
+        agl::utl::Parameter<sead::SafeString> mCutTargetBone;
+        agl::utl::Parameter<sead::Vector3f> mCutTargetOffset;
+        agl::utl::Parameter<sead::SafeString> mGameCameraBone;
+        agl::utl::Parameter<sead::Vector3f> mGameCameraOffset;
+        agl::utl::Parameter<sead::SafeString> mBowCameraBone;
+        agl::utl::Parameter<sead::Vector3f> mBowCameraOffset;
+        agl::utl::Parameter<sead::SafeString> mAttackTargetBone;
+        agl::utl::Parameter<sead::Vector3f> mAttackTargetOffset;
+        agl::utl::Parameter<f32> mAttackTargetOffsetBack;
+        agl::utl::Parameter<sead::SafeString> mAtObstacleChkOffsetBone;
+        agl::utl::Parameter<sead::Vector3f> mAtObstacleChkOffset;
+        agl::utl::Parameter<bool> mAtObstacleChkUseLookAtPos;
+        agl::utl::Parameter<sead::SafeString> mCursorAIInfoBaseBone;
+        agl::utl::Parameter<sead::Vector3f> mCursorAIInfoBaseOffset;
+        agl::utl::ParameterObj mObj;
     };
     KSYS_CHECK_SIZE_NX150(Attention, 0x300);
 
@@ -86,6 +88,44 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(AnmTarget, 0x130);
 
+    struct ModelDataInfo {
+        std::array<std::array<const char*, 8>, 1> unit_names;
+        std::array<std::array<const char*, 8>, 1> unit_bind_bones;
+        std::array<int, 1> num_units;
+        std::array<const char*, 1> folder_name;
+        int num_model_data;
+        sead::Vector3f base_scale;
+    };
+    KSYS_CHECK_SIZE_NX150(ModelDataInfo, 0xa0);
+
+    struct AttentionInfo {
+        const char* look_at_bone;
+        sead::Vector3f look_at_offset;
+        float cursor_offset_y;
+        float ai_info_offset_y;
+        const char* cut_target_bone;
+        sead::Vector3f cut_target_offset;
+        const char* game_camera_bone;
+        sead::Vector3f game_camera_offset;
+        const char* bow_camera_bone;
+        sead::Vector3f bow_camera_offset;
+        const char* attack_target_bone;
+        sead::Vector3f attack_target_offset;
+        float attack_target_offset_back;
+        const char* at_obstacle_chk_bone;
+        sead::Vector3f at_obstacle_chk_offset;
+        const char* cursor_ai_info_base_bone;
+        sead::Vector3f cursor_ai_info_base_offset;
+    };
+    KSYS_CHECK_SIZE_NX150(AttentionInfo, 0xb0);
+
+    struct PartialInfo {
+        sead::SafeString bone;
+        int bind_flag;
+        bool recursible;
+    };
+    KSYS_CHECK_SIZE_NX150(PartialInfo, 0x18);
+
     ModelList();
     ~ModelList() override;
 
@@ -99,9 +139,23 @@ public:
     const sead::Buffer<AnmTarget>& getAnmTargets() const { return mAnmTargets; }
     bool is7C8() const { return _7c8; }
 
+    int getNumAnmTargets() const;
+    void getModelDataInfo(ModelDataInfo* info) const;
+    bool getAttentionInfo(AttentionInfo* info) const;
+    bool getLocatorInfo(act::InfoData::Locator* info, act::InfoData::Locator::Type type) const;
+    bool isParticalEnable(int anm_target_idx) const;
+    int getNumASSlot(int anm_target_idx) const;
+    int getNumPartials(int anm_target_idx) const;
+    void getPartialInfo(PartialInfo* info, int anm_target_idx, int partial_idx) const;
+
+    static act::InfoData::Locator::Type getLocatorTypeFromStr(const sead::SafeString& type);
+
 private:
-    sead::StorageFor<ControllerInfo> mControllerInfo{sead::ZeroInitializeTag{}};
-    sead::StorageFor<Attention> mAttention{sead::ZeroInitializeTag{}};
+    bool parseModelData(const agl::utl::ResParameterList& res, sead::Heap* heap);
+    bool parseAnmTarget(const agl::utl::ResParameterList& res, sead::Heap* heap);
+
+    sead::StorageFor<ControllerInfo, true> mControllerInfo{sead::ZeroInitializeTag{}};
+    sead::StorageFor<Attention, true> mAttention{sead::ZeroInitializeTag{}};
     u8* mRawData{};
     sead::Buffer<ModelData> mModelData;
     agl::utl::ParameterList mModelDataList;

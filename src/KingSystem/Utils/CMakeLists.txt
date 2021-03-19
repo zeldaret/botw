@@ -70,6 +70,7 @@ target_sources(uking PRIVATE
   HeapUtil.cpp
   HeapUtil.h
   InitTimeInfo.h
+  ParamIO.cpp
   ParamIO.h
   SafeDelete.h
   StrTreeMap.h
