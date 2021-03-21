@@ -44,6 +44,8 @@ class Root : public agl::utl::ParameterList, public sead::hostio::Node, public I
 public:
     Root();
     ~Root() override;
+    Root(const Root&) = delete;
+    auto operator=(const Root&) = delete;
 
     void parse(const agl::utl::ResParameterList& res_list, sead::Heap* heap);
 
