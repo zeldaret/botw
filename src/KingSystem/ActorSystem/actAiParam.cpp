@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
+#include <agl/Utils/aglParameter.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiClassDef.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace ksys::act {
 class BaseProcHandle;
@@ -56,6 +59,22 @@ ParamPack::~ParamPack() {
             delete mParams;
         mParams = param;
     }
+}
+
+template <typename T>
+T* ParamPack::getVariable(const sead::SafeString& key, AIDefParamType type, bool a4) const {
+    const u32 hash = agl::utl::ParameterBase::calcHash(key);
+    auto* param = mParams;
+    if (!param)
+        return nullptr;
+    while (param->hash != hash || param->type != type) {
+        param = param->next;
+        if (!param)
+            return nullptr;
+    }
+    if (a4)
+        param->used = true;
+    return static_cast<T*>(param->data);
 }
 
 bool ParamPack::load(const Actor& actor, const ParamNameTypePairs& pairs, s32 count,

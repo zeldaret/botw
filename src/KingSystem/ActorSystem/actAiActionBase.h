@@ -2,14 +2,17 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadMathCalcCommon.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
+struct AIDefSet;
 class Message;
-}
+struct MesTransceiverId;
+}  // namespace ksys
 
 namespace ksys::res {
 class AIProgram;

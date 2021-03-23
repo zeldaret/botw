@@ -2,9 +2,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/resResourceAIProgram.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys::act::ai {
 

@@ -42,6 +42,7 @@ target_sources(uking PRIVATE
   actAiBehavior.h
   actAiClassDef.cpp
   actAiClassDef.h
+  actAiInlineParam.h
   actAiParam.cpp
   actAiParam.h
   actAiQuery.cpp

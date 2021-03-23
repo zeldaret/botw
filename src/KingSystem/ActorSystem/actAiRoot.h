@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadTypedBitFlag.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"

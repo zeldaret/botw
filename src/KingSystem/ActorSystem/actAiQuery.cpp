@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actAiQuery.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/resResourceAIProgram.h"
 
