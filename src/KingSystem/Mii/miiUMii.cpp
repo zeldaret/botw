@@ -1,7 +1,9 @@
 #include "KingSystem/Mii/miiUMii.h"
 #include <container/seadSafeArray.h>
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Mii/miiModelCreator.h"
+#include "KingSystem/Resource/resResourceUMii.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::mii {
@@ -67,7 +69,7 @@ UMii::UMii() : agl::utl::IParameterIO("umii", 0) {
     face.shape.skin_color.init(0, "skin_color", "肌の色", &face.shape);
 
     addObj(&face.hair, "hair");
-    face.hair.type.init(int(HairType::Invalid), "type", "髪型", &face.hair);
+    face.hair.type.init(Hair::Type_Invalid, "type", "髪型", &face.hair);
     face.hair.color.init(1, "color", "髪の色", &face.hair);
     face.hair.flip.init(false, "flip", "反転", &face.hair);
 
@@ -180,7 +182,7 @@ void UMii::reset() {
     body.weight = 1;
     body.height = 0;
 
-    personal.sex_age = 1;
+    personal.sex_age = Personal::SexAge_Man;
     personal.fav_color = 0;
     personal.sub_color_1 = -1;
     personal.sub_color_2 = -1;
@@ -211,6 +213,114 @@ void UMii::reset() {
     rito.hair_color = -1;
 
     zora.body_color = 0;
+}
+
+void UMii::doLoad(const u32& load_req_c) {
+    if (ffsd.type.ref() == FFSD::Type_1) {
+        mActorName = ModelCreator::instance()->getActorName({isFemale()});
+
+        void* x;
+        mActorParam = act::ActorParamMgr::instance()->loadParam(mActorName.cstr(), &mResHandle, &x,
+                                                                load_req_c);
+
+        if (mActorParam) {
+            res::UMii* umii = nullptr;
+            if (!mActorParam->isA()) {
+                umii = act::ActorParam::sDummyResources.mUMii;
+                if (!umii)
+                    umii = mActorParam->getRes().mUMii;
+            }
+
+            if (umii) {
+                applyResParameterArchive(umii->getArchive());
+
+                static const char* voice_types[2] = {
+                    "Hylia_Man_Young_Normal04",
+                    "Hylia_Woman_Young_Normal04",
+                };
+                personal.voice_type.ref() = voice_types[isFemale()];
+            } else {
+                act::ActorParamMgr::instance()->unloadParam(mActorParam);
+                mActorParam = nullptr;
+                mResHandle.requestUnload();
+            }
+        }
+    }
+
+    if (korok.mask.ref() == Korok::Mask_Random)
+        korok.mask = sead::GlobalRandom::instance()->getU32(Korok::Mask_Random);
+
+    if (korok.skin_color.ref() == Korok::SkinColor_Random)
+        korok.skin_color = sead::GlobalRandom::instance()->getU32(Korok::SkinColor_Random);
+
+    if (korok.left_plant.ref() == Korok::LeftPlant_Random)
+        korok.left_plant = sead::GlobalRandom::instance()->getU32(Korok::LeftPlant_Random);
+
+    if (korok.right_plant.ref() == Korok::RightPlant_Random)
+        korok.right_plant = sead::GlobalRandom::instance()->getU32(Korok::RightPlant_Random);
+}
+
+bool UMii::isFemale() const {
+    return personal.sex_age.ref() > Personal::SexAge_OldMan;
+}
+
+int UMii::getHeightWeightIndex() const {
+    return 3 * *body.height + *body.weight;
+}
+
+UMii::Personal::Age UMii::getAge() const {
+    if (getSexAge() == Personal::SexAge_Boy || getSexAge() == Personal::SexAge_Girl)
+        return Personal::Age_Child;
+
+    if (getSexAge() == Personal::SexAge_Man || getSexAge() == Personal::SexAge_Woman)
+        return Personal::Age_Adult;
+
+    return Personal::Age_OldAdult;
+}
+
+void UMii::setKorokValues(const UMii::Korok& info) {
+    korok.mask = *info.mask;
+    korok.skin_color = *info.skin_color;
+    korok.left_plant = *info.left_plant;
+    korok.right_plant = *info.right_plant;
+}
+
+int UMii::sub_7100F4BE94() const {
+    const auto age = getAge();
+
+    if (age == Personal::Age_Child)
+        return 0;
+
+    if (age == Personal::Age_OldAdult)
+        return 3;
+
+    if (*body.race == Body::Race_Gerudo) {
+        if (*ffsd.no_use_ffsd) {
+            if (*common.is_mid_age)
+                return 1;
+        } else {
+            if (*body.number == 1)
+                return 1;
+        }
+    }
+
+    return isFemale() + 1;
+}
+
+int UMii::sub_7100F4BF0C() const {
+    switch (getSexAge()) {
+    case Personal::SexAge_Boy:
+        return 0;
+    case Personal::SexAge_Man:
+        return 1;
+    case Personal::SexAge_OldMan:
+    case Personal::SexAge_Woman:
+        return 2;
+    case Personal::SexAge_Girl:
+        return 0;
+    default:
+        return 2;
+    }
 }
 
 }  // namespace ksys::mii

@@ -122,6 +122,8 @@ public:
     Priority getPriority() const { return mPriority; }
     const Resources& getRes() const { return mRes; }
 
+    bool isA() const { return _a; }
+
     bool isDummyParam(res::ActorLink::User user) const;
 
     static void resetDummyResources();
@@ -160,7 +162,7 @@ private:
 
     u8 _8 = 0;
     u8 _9 = 0;
-    u8 _a = 0;
+    bool _a = false;
     sead::FixedSafeString<64> mActorName;
     sead::SafeString mProfile;
     const char* mClassName{};

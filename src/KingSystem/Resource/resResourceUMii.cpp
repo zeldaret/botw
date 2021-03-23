@@ -8,7 +8,7 @@ UMii::~UMii() = default;
 
 bool UMii::parse_(u8* data, size_t, sead::Heap*) {
     agl::utl::ResParameterArchive archive{data + mAllocSize};
-    mData = archive.ptr();
+    mArchive = archive;
     return true;
 }
 

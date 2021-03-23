@@ -14,10 +14,6 @@ class ActorParam;
 
 namespace ksys::mii {
 
-enum class HairType {
-    Invalid = 0x21,
-};
-
 class UMiiBase {
 public:
     virtual ~UMiiBase() = default;
@@ -26,12 +22,35 @@ public:
 class UMii : public agl::utl::IParameterIO, public UMiiBase {
 public:
     struct FFSD : agl::utl::ParameterObj {
+        enum Type {
+            Type_0 = 0,
+            Type_1 = 1,
+        };
+
         agl::utl::Parameter<bool> no_use_ffsd;
         agl::utl::Parameter<int> type;
     };
     KSYS_CHECK_SIZE_NX150(FFSD, 0x70);
 
     struct Body : agl::utl::ParameterObj {
+        enum Race {
+            Race_Hylian = 0,
+            Race_Korok = 1,
+            Race_Goron = 2,
+            Race_Sheikah = 3,
+            Race_Gerudo = 4,
+            Race_Zora = 5,
+            Race_Rito = 6,
+        };
+
+        enum Type {
+            Type_C = 0,
+            Type_N = 1,
+            Type_T = 2,
+            Type_S = 3,
+            Type_SK = 4,
+        };
+
         agl::utl::Parameter<int> race;
         agl::utl::Parameter<int> type;
         agl::utl::Parameter<int> number;
@@ -41,6 +60,21 @@ public:
     KSYS_CHECK_SIZE_NX150(Body, 0xd0);
 
     struct Personal : agl::utl::ParameterObj {
+        enum SexAge {
+            SexAge_Boy = 0,
+            SexAge_Man = 1,
+            SexAge_OldMan = 2,
+            SexAge_Girl = 3,
+            SexAge_Woman = 4,
+            SexAge_OldWoman = 5,
+        };
+
+        enum Age {
+            Age_Child = 0,
+            Age_Adult = 1,
+            Age_OldAdult = 2,
+        };
+
         agl::utl::Parameter<int> sex_age;
         agl::utl::Parameter<int> fav_color;
         agl::utl::Parameter<int> sub_color_1;
@@ -77,6 +111,10 @@ public:
     KSYS_CHECK_SIZE_NX150(Shape, 0xf0);
 
     struct Hair : agl::utl::ParameterObj {
+        enum Type {
+            Type_Invalid = 0x21,
+        };
+
         agl::utl::Parameter<int> type;
         agl::utl::Parameter<int> color;
         agl::utl::Parameter<bool> flip;
@@ -151,6 +189,22 @@ public:
     KSYS_CHECK_SIZE_NX150(Glass, 0x70);
 
     struct Korok : agl::utl::ParameterObj {
+        enum Mask {
+            Mask_Random = 9,
+        };
+
+        enum SkinColor {
+            SkinColor_Random = 5,
+        };
+
+        enum LeftPlant {
+            LeftPlant_Random = 3,
+        };
+
+        enum RightPlant {
+            RightPlant_Random = 3,
+        };
+
         agl::utl::Parameter<int> mask;
         agl::utl::Parameter<int> skin_color;
         agl::utl::Parameter<int> left_plant;
@@ -214,6 +268,14 @@ public:
 
     void load(agl::utl::ResParameterArchive archive, const sead::SafeString& user,
               const u32& load_req_c);
+
+    bool isFemale() const;
+    int getHeightWeightIndex() const;
+    Personal::SexAge getSexAge() const { return Personal::SexAge(*personal.sex_age); }
+    Personal::Age getAge() const;
+    void setKorokValues(const Korok& info);
+    int sub_7100F4BE94() const;
+    int sub_7100F4BF0C() const;
 
 private:
     void reset();
