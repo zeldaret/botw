@@ -79,7 +79,7 @@ query::CheckFlag:
 query::CheckGameDataFloat:
   status: done
 query::CheckGameDataInt:
-  status: pending
+  status: done
 query::CheckGetDemoTypeFromArg:
   status: pending
 query::CheckGiveReward:
