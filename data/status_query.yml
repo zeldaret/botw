@@ -83,7 +83,7 @@ query::CheckGameDataInt:
 query::CheckGetDemoTypeFromArg:
   status: done
 query::CheckGiveReward:
-  status: pending
+  status: done
 query::CheckHasManifactureArmor:
   status: pending
 query::CheckHorseCustomizeSelect:
