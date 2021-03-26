@@ -37,7 +37,7 @@ query::CheckDeadHorseResistered:
 query::CheckDeadlyQuestEscapeTiming:
   status: pending
 query::CheckDieCnt:
-  status: pending
+  status: done
 query::CheckDistanceForWarp:
   status: pending
 query::CheckDistanceFromPlayer:
