@@ -73,7 +73,7 @@ query::CheckExtraLifeOfPlayer:
 query::CheckFadeState:
   status: pending
 query::CheckFame:
-  status: pending
+  status: done
 query::CheckFlag:
   status: done
 query::CheckGameDataFloat:
