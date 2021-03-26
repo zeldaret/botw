@@ -42,14 +42,14 @@ int CompareGameDataInt::doQuery() {
 
 void CompareGameDataInt::loadParams(const evfl::QueryArg& arg) {
     loadString(arg.param_accessor, "GameDataIntName_A");
-    loadString(arg.param_accessor, "GameDataIntName_B");
     loadString(arg.param_accessor, "Operator");
+    loadString(arg.param_accessor, "GameDataIntName_B");
 }
 
 void CompareGameDataInt::loadParams() {
     getDynamicParam(&mGameDataIntName_A, "GameDataIntName_A");
-    getDynamicParam(&mGameDataIntName_B, "GameDataIntName_B");
     getDynamicParam(&mOperator, "Operator");
+    getDynamicParam(&mGameDataIntName_B, "GameDataIntName_B");
 }
 
 }  // namespace uking::query

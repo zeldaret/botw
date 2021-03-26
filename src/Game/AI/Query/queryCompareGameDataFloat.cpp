@@ -42,14 +42,14 @@ int CompareGameDataFloat::doQuery() {
 
 void CompareGameDataFloat::loadParams(const evfl::QueryArg& arg) {
     loadString(arg.param_accessor, "GameDataFloatName_A");
-    loadString(arg.param_accessor, "GameDataFloatName_B");
     loadString(arg.param_accessor, "Operator");
+    loadString(arg.param_accessor, "GameDataFloatName_B");
 }
 
 void CompareGameDataFloat::loadParams() {
     getDynamicParam(&mGameDataFloatName_A, "GameDataFloatName_A");
-    getDynamicParam(&mGameDataFloatName_B, "GameDataFloatName_B");
     getDynamicParam(&mOperator, "Operator");
+    getDynamicParam(&mGameDataFloatName_B, "GameDataFloatName_B");
 }
 
 }  // namespace uking::query
