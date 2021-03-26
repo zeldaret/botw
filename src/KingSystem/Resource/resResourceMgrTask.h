@@ -66,6 +66,8 @@ public:
     bool getField28() const { return _28; }
     void setField28(bool value) { _28 = value; }
 
+    void deregister();
+
     static constexpr size_t getListNodeOffset() { return offsetof(FileDevicePrefix, mListNode); }
 
 private:
@@ -403,5 +405,10 @@ private:
 KSYS_CHECK_SIZE_NX150(sead::TaskBase, 0xd0);
 KSYS_CHECK_SIZE_NX150(sead::MethodTreeNode, 0x98);
 KSYS_CHECK_SIZE_NX150(ResourceMgrTask, 0x9c0eb8);
+
+inline void FileDevicePrefix::deregister() {
+    if (mListNode.isLinked())
+        ResourceMgrTask::instance()->deregisterFileDevicePrefix(*this);
+}
 
 }  // namespace ksys::res

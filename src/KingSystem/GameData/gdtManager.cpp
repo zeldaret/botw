@@ -137,6 +137,10 @@ void Manager::addReinitCallback(sead::DelegateEvent<ReinitEvent*>::Slot&) {
     // Stubbed in release builds.
 }
 
+void Manager::removeReinitCallback(sead::DelegateEvent<Manager::ReinitEvent*>::Slot& slot) {
+    // Stubbed in release builds.
+}
+
 void Manager::IncreaseLogger::addRecord(s32 value, const sead::SafeString& name, s32 sub_idx,
                                         bool debug) {
     const u32 name_hash = sead::HashCRC32::calcStringHash(name);
