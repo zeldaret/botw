@@ -25,7 +25,7 @@ query::CheckAreaTransition:
 query::CheckBalladOfHeroActiveTiming:
   status: pending
 query::CheckContainerItem:
-  status: pending
+  status: done
 query::CheckCookResultStatus:
   status: pending
 query::CheckCurrentMap:
