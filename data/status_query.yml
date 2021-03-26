@@ -95,7 +95,7 @@ query::CheckHorseRegistered:
 query::CheckHorseTakenOut:
   status: pending
 query::CheckIsOpenItemCategory:
-  status: pending
+  status: done
 query::CheckItemShopDecide:
   status: pending
 query::CheckItemShopPorchVacancy:

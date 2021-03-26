@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckIsOpenItemCategory.h"
 #include <evfl/query.h>
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ CheckIsOpenItemCategory::CheckIsOpenItemCategory(const InitArg& arg) : ksys::act
 
 CheckIsOpenItemCategory::~CheckIsOpenItemCategory() = default;
 
-// FIXME: implement
 int CheckIsOpenItemCategory::doQuery() {
-    return -1;
+    return !ksys::gdt::getFlag_IsOpenItemCategory(*mCategory);
 }
 
 void CheckIsOpenItemCategory::loadParams(const evfl::QueryArg& arg) {
