@@ -81,7 +81,7 @@ query::CheckGameDataFloat:
 query::CheckGameDataInt:
   status: done
 query::CheckGetDemoTypeFromArg:
-  status: pending
+  status: done
 query::CheckGiveReward:
   status: pending
 query::CheckHasManifactureArmor:
