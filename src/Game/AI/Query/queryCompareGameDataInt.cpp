@@ -1,5 +1,7 @@
 #include "Game/AI/Query/queryCompareGameDataInt.h"
 #include <evfl/query.h>
+#include <functional>
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
 
@@ -7,9 +9,35 @@ CompareGameDataInt::CompareGameDataInt(const InitArg& arg) : ksys::act::ai::Quer
 
 CompareGameDataInt::~CompareGameDataInt() = default;
 
-// FIXME: implement
 int CompareGameDataInt::doQuery() {
-    return -1;
+    int flag_value_a = 0;
+    int flag_value_b = 0;
+
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt)
+        return 0;
+    if (!gdt->getParamBypassPerm().get().getS32(&flag_value_a, mGameDataIntName_A))
+        return 0;
+    if (!gdt->getParamBypassPerm().get().getS32(&flag_value_b, mGameDataIntName_B))
+        return 0;
+
+    const auto invert = std::logical_not<>();
+
+    sead::FixedSafeString<32> op = mOperator;
+    if (op == "Equal")
+        return invert(flag_value_a == flag_value_b);
+    if (op == "NotEqual")
+        return invert(flag_value_a != flag_value_b);
+    if (op == "GreaterThan")
+        return invert(flag_value_a > flag_value_b);
+    if (op == "GreaterThanOrEqualTo")
+        return invert(flag_value_a >= flag_value_b);
+    if (op == "LessThan")
+        return invert(flag_value_a < flag_value_b);
+    if (op == "LessThanOrEqualTo")
+        return invert(flag_value_a <= flag_value_b);
+
+    return 0;
 }
 
 void CompareGameDataInt::loadParams(const evfl::QueryArg& arg) {

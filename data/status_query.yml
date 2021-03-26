@@ -197,7 +197,7 @@ query::CheckWeather:
 query::CompareGameDataFloat:
   status: done
 query::CompareGameDataInt:
-  status: pending
+  status: done
 query::CompareGameDataTime:
   status: pending
 query::ComparePlayerFireResistantLevel:
