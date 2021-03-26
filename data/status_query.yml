@@ -75,7 +75,7 @@ query::CheckFadeState:
 query::CheckFame:
   status: pending
 query::CheckFlag:
-  status: pending
+  status: done
 query::CheckGameDataFloat:
   status: done
 query::CheckGameDataInt:
