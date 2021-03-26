@@ -16,8 +16,8 @@ public:
 
 protected:
     sead::SafeString mGameDataFloatName_A{};
-    sead::SafeString mGameDataFloatName_B{};
     sead::SafeString mOperator{};
+    sead::SafeString mGameDataFloatName_B{};
 };
 
 }  // namespace uking::query

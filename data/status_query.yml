@@ -195,7 +195,7 @@ query::CheckWeaponVacancyItem:
 query::CheckWeather:
   status: pending
 query::CompareGameDataFloat:
-  status: pending
+  status: done
 query::CompareGameDataInt:
   status: pending
 query::CompareGameDataTime:
