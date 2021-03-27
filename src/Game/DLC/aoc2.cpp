@@ -23,10 +23,8 @@ sead::FixedSafeString<64> sStr{""};
 }  // namespace
 
 aoc2::aoc2()
-    : mGdtResetSlot{sead::Delegate1<aoc2, ksys::gdt::Manager::ResetEvent*>(
-          this, &aoc2::setHardModeEnabledFlag)},
-      mGdtReinitSlot{
-          sead::Delegate1<aoc2, ksys::gdt::Manager::ReinitEvent*>(this, &aoc2::initFlagHandles)} {
+    : mGdtResetSlot(this, &aoc2::setHardModeEnabledFlag),
+      mGdtReinitSlot(this, &aoc2::initFlagHandles) {
     mMultipliers.fill(0.5);
 
     setHardModeChange(HardModeChange::IsLastPlayHardMode, true);
