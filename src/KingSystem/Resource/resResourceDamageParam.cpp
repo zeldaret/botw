@@ -2,9 +2,6 @@
 
 namespace ksys::res {
 
-SEAD_ENUM_IMPL(DamageParam::DamageSize)
-SEAD_ENUM_IMPL(DamageParam::DamageSource)
-
 DamageParam::DamageParam() : ParamIO("dmgparam", 0) {}
 
 bool DamageParam::parse_(u8* data, size_t, sead::Heap* heap) {

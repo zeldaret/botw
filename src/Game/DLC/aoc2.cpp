@@ -5,9 +5,6 @@
 
 namespace uking {
 
-SEAD_ENUM_IMPL(aoc2::HardModeChange)
-SEAD_ENUM_IMPL(aoc2::Flag)
-SEAD_ENUM_IMPL(aoc2::MultiplierType)
 SEAD_SINGLETON_DISPOSER_IMPL(aoc2)
 
 namespace {
