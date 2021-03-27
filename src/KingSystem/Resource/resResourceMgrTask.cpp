@@ -421,15 +421,14 @@ void ResourceMgrTask::unloadSeadResource(sead::Resource* resource) {
         stubbedLogFunction();
 }
 
-u32 ResourceMgrTask::getResourceSize(const sead::SafeString& name,
-                                     sead::FileDevice* file_device) const {
-    if (!file_device)
+u32 ResourceMgrTask::getResourceSize(const sead::SafeString& name, void* userdata) const {
+    if (!userdata)
         return mResourceInfoContainer.getResourceSize(name);
 
     mFileDevicePrefixesLock.readLock();
 
     for (const auto& entry : mFileDevicePrefixes) {
-        if (entry.getFileDevice() == file_device) {
+        if (entry.getUserData() == userdata) {
             const u32 size = mResourceInfoContainer.getResourceSize(entry.getPrefix(), name);
             if (size == 0 && entry.getField28())
                 break;
