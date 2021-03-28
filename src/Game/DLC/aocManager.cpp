@@ -524,6 +524,21 @@ void Manager::reinitFlags() {
     }
 }
 
+void Manager::setGameDataFlags() const {
+    ksys::gdt::Manager::instance()->setS32(mVersion, mFlagAocVerAtLastPlay);
+
+    s32 latest_ver;
+    if (ksys::gdt::Manager::instance()->getS32(mFlagLatestAocVerPlayed, &latest_ver)) {
+        if (u32(latest_ver) < mVersion)
+            ksys::gdt::Manager::instance()->setS32(mVersion, mFlagLatestAocVerPlayed);
+    }
+
+    const auto ver = mVersion;
+    ksys::gdt::Manager::instance()->setBool(ver >= 0x100, mFlagHasAocVer1);
+    ksys::gdt::Manager::instance()->setBool(ver >= 0x200, mFlagHasAocVer2);
+    ksys::gdt::Manager::instance()->setBool(ver >= 0x300, mFlagHasAocVer3);
+}
+
 void Manager::onGdtReinit(ksys::gdt::Manager::ReinitEvent* event) {
     reinitFlags();
 }
