@@ -88,7 +88,7 @@ Using Linux (or WSL) is recommended but not required. The rest of this guide ass
 
 1. After cloning this repository, run: `git submodule update --init --recursive`
 2. `env UKING_CLANG=$1 DEVKITA64=$2 cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=../ToolchainNX64.cmake -B build`
-    * Replace `$1` with the path to the extracted Clang archive, such that `$1/bin/clang` exists.
+    * Replace `$1` with the path to the extracted Clang archive, such that `$1/bin/clang` exists. This should be an absolute path; use `/home/<name>` instead of `~`.
     * Replace `$2` with the path to devkitA64. On Linux, this is typically `/opt/devkitpro/devkitA64`.
 3. `ninja -C build` to start the build
 
