@@ -208,8 +208,7 @@ This project sometimes uses small hacks to force particular code to be generated
 * To print AI class decompilation status: `tools/ai_progress.py`
     * Use this to figure out which AI classes have not been decompiled yet.
 * To dump symbols: `tools/print_decomp_symbols.py`
-    * `-u` for undefined symbols (default)
-    * `-a` for all symbols
+    * Pass `-a` to list all symbols
     * Useful for getting the mangled name of a function. For example:
 
         ```
