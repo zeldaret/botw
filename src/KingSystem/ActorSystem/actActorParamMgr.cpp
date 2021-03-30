@@ -201,7 +201,7 @@ T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::R
             return res;
     }
 
-    if (handle.isFlag8Set())
+    if (handle.hasParsedResource())
         return sead::DynamicCast<T>(handle.getResource());
 
     if (!handle.isReadyOrNeedsParse())
@@ -427,7 +427,7 @@ bool ActorParamMgr::finishLoadingExtraRes(ActorParam* param, void* x) {
                 ++idx;
             } else {
                 const res::Handle& handle = param->mHandles[1][idx];
-                if (handle.isFlag8Set()) {
+                if (handle.hasParsedResource()) {
                     ++idx;
                     continue;
                 }
@@ -455,7 +455,7 @@ bool ActorParamMgr::finishLoadingExtraRes(ActorParam* param, void* x) {
                 ++idx;
             } else {
                 const res::Handle& handle = param->mHandles[1][idx];
-                if (handle.isFlag8Set()) {
+                if (handle.hasParsedResource()) {
                     ++idx;
                     continue;
                 }
@@ -482,7 +482,7 @@ bool ActorParamMgr::finishLoadingExtraRes(ActorParam* param, void* x) {
                 ++idx;
             } else {
                 const res::Handle& handle = param->mHandles[1][idx];
-                if (handle.isFlag8Set()) {
+                if (handle.hasParsedResource()) {
                     ++idx;
                     continue;
                 }

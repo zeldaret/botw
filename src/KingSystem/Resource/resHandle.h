@@ -21,21 +21,29 @@ class Handle {
     SEAD_RTTI_BASE(Handle)
 public:
     enum class Status {
-        _0 = 0,
+        /// "No File" (2)
+        NoFile = 0,
         _1 = 1,
-        _2 = 2,
+        /// "Size Zero" (8)
+        SizeZero = 2,
         _3 = 3,
         _4 = 4,
         _5 = 5,
         _6 = 6,
         _7 = 7,
         _8 = 8,
-        _9 = 9,
-        _10 = 10,
-        _11 = 11,
-        _12 = 12,
-        _13 = 13,
-        _14 = 14,
+        /// "Compose NG" (9)
+        ParseFailed = 9,
+        /// "AllocSizeNG" (10)
+        BadAllocSize = 10,
+        /// "Edited" (11)?
+        Edited = 11,
+        /// "HeapSizeNG" (12)
+        BadHeapSize = 12,
+        /// "FileDeviceNG" (13)
+        FileDeviceError = 13,
+        /// "Canceled" (16)
+        Cancelled = 14,
     };
 
     Handle();
@@ -49,7 +57,7 @@ public:
 
     sead::DirectResource* load(const sead::SafeString& path, const ILoadRequest* request,
                                Status* out_status = nullptr);
-    bool isFlag2Set() const;
+    bool requestedLoad() const;
     bool requestLoad(const sead::SafeString& path, const ILoadRequest* request,
                      Status* out_status = nullptr);
 
@@ -57,7 +65,7 @@ public:
     bool waitForReady(const sead::TickSpan& span);
 
     bool parseResource(Context* context);
-    bool isFlag8Set() const;
+    bool hasParsedResource() const;
 
     void requestUnload();
     void unload();
@@ -84,12 +92,12 @@ public:
 
 private:
     enum class Flag : u8 {
-        _1 = 0x1,
-        _2 = 0x2,
-        _4 = 0x4,
-        _7 = 0x7,
-        _8 = 0x8,
-        _F = 0xF,
+        Dummy = 0x1,
+        LoadRequested = 0x2,
+        UnloadRequested = 0x4,
+        LoadUnloadFlags = Dummy | LoadRequested | UnloadRequested,
+        Parsed = 0x8,
+        AllStatusFlags = LoadUnloadFlags | Parsed,
     };
 
     void updateResourceMgrFlag_();
@@ -98,8 +106,8 @@ private:
 
     inline bool checkPathChange_(const sead::SafeString& path);
 
-    sead::TypedBitFlag<Flag> mFlags = Flag::_1;
-    Status mStatus = Status::_0;
+    sead::TypedBitFlag<Flag> mFlags = Flag::Dummy;
+    Status mStatus = Status::NoFile;
     ResourceUnit* mUnit = nullptr;
     util::ManagedTaskHandle mTaskHandle;
     sead::ListNode mListNode;

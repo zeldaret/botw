@@ -471,7 +471,7 @@ void Manager::checkVersion() {
 }
 
 bool Manager::VersionFile::readVersion() {
-    if (!file_handle.isFlag2Set())
+    if (!file_handle.requestedLoad())
         return true;
 
     if (file_handle.isSuccess()) {
