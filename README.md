@@ -68,6 +68,16 @@ Getting perfect matches on the first try happens pretty routinely, even for medi
 
 Most functions tend to call several other inline functions, notably utility functions from sead; as many core sead modules have already been reversed, decompiling a function sometimes only requires recognizing those function calls: decompilation at a higher level of abstraction!
 
+### I only have 1.6.0. Can I still contribute?
+
+Yes, you can! A delta patch is provided to turn a 1.6.0 executable into 1.5.0, so if you are able to dump 1.6.0 from your console you will also be able to get 1.5.0. For more information, refer to the [contributing guidelines](Contributing.md).
+
+### Do I need to be a game dev or a C++ expert to contribute?
+
+No, of course not. You only need to be familiar with software development practices and C++, or another language with object-oriented aspects.
+
+While you certainly do not need to be a C++ expert, you must be familiar with basic language features and concepts like namespaces or classes. Otherwise, you will be unable to contribute in any efficient or meaningful way.
+
 ## Building
 
 ### Dependencies
