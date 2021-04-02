@@ -346,15 +346,15 @@ public:
     bool resetVec3f(s32 idx, bool check_permissions);
     bool resetVec4f(s32 idx, bool check_permissions);
 
-    bool resetBool(const sead::SafeString& name, bool check_permissions);
-    bool resetS32(const sead::SafeString& name, bool check_permissions);
-    bool resetF32(const sead::SafeString& name, bool check_permissions);
-    bool resetStr(const sead::SafeString& name, bool check_permissions);
-    bool resetStr64(const sead::SafeString& name, bool check_permissions);
-    bool resetStr256(const sead::SafeString& name, bool check_permissions);
-    bool resetVec2f(const sead::SafeString& name, bool check_permissions);
-    bool resetVec3f(const sead::SafeString& name, bool check_permissions);
-    bool resetVec4f(const sead::SafeString& name, bool check_permissions);
+    bool resetBool(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetS32(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetF32(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetStr(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetStr64(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetStr256(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetVec2f(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetVec3f(const sead::SafeString& name, bool check_permissions, bool = true);
+    bool resetVec4f(const sead::SafeString& name, bool check_permissions, bool = true);
 
     // endregion
 
@@ -370,15 +370,16 @@ public:
     bool resetVec3f(s32 idx, s32 sub_idx, bool check_permissions);
     bool resetVec4f(s32 idx, s32 sub_idx, bool check_permissions);
 
-    bool resetBool(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetS32(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetF32(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetStr(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetStr64(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetStr256(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetVec2f(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetVec3f(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
-    bool resetVec4f(const sead::SafeString& name, s32 sub_idx, bool check_permissions);
+    bool resetBool(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
+    bool resetS32(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
+    bool resetF32(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
+    bool resetStr(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
+    bool resetStr64(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
+    bool resetStr256(const sead::SafeString& name, s32 sub_idx, bool check_permissions,
+                     bool = true);
+    bool resetVec2f(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
+    bool resetVec3f(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
+    bool resetVec4f(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool = true);
 
     // endregion
 

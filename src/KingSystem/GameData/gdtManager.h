@@ -334,16 +334,11 @@ public:
         auto& ref = debug ? getParamBypassPerm() : getParam();                                     \
         return ref.get().NAME(value, name, force);                                                 \
     }                                                                                              \
-    [[gnu::noinline]] bool NAME(TRAITS::ArgType value, const sead::SafeString& name) {             \
-        return NAME(value, name, false, false);                                                    \
-    }                                                                                              \
-    [[gnu::noinline]] bool NAME##NoCheck(TRAITS::ArgType value, const sead::SafeString& name) {    \
-        return NAME(value, name, true, false);                                                     \
-    }                                                                                              \
-    [[gnu::noinline]] bool NAME##NoCheckForce(TRAITS::NoCheckForceArgType value,                   \
-                                              const sead::SafeString& name) {                      \
-        return NAME(value, name, true, true);                                                      \
-    }                                                                                              \
+    bool NAME(TRAITS::ArgType value, const sead::SafeString& name);                                \
+    bool NAME##_(TRAITS::ArgType value, const sead::SafeString& name);                             \
+    bool NAME##NoCheck(TRAITS::ArgType value, const sead::SafeString& name);                       \
+    bool NAME##NoCheck_(TRAITS::ArgType value, const sead::SafeString& name);                      \
+    bool NAME##NoCheckForce(TRAITS::NoCheckForceArgType value, const sead::SafeString& name);      \
     /* Setters for arrays (by name) */                                                             \
     KSYS_ALWAYS_INLINE bool NAME(TRAITS::ArgType value, const sead::SafeString& name, bool debug,  \
                                  bool force, s32 sub_idx) {                                        \
@@ -352,18 +347,11 @@ public:
         auto& ref = debug ? getParamBypassPerm() : getParam();                                     \
         return ref.get().NAME(value, name, sub_idx, force);                                        \
     }                                                                                              \
-    [[gnu::noinline]] bool NAME(TRAITS::ArgType value, const sead::SafeString& name,               \
-                                s32 sub_idx) {                                                     \
-        return NAME(value, name, false, false, sub_idx);                                           \
-    }                                                                                              \
-    [[gnu::noinline]] bool NAME##NoCheck(TRAITS::ArgType value, const sead::SafeString& name,      \
-                                         s32 sub_idx) {                                            \
-        return NAME(value, name, true, false, sub_idx);                                            \
-    }                                                                                              \
-    [[gnu::noinline]] bool NAME##NoCheckForce(TRAITS::NoCheckForceArgType value,                   \
-                                              const sead::SafeString& name, s32 sub_idx) {         \
-        return NAME(value, name, true, true, sub_idx);                                             \
-    }                                                                                              \
+    bool NAME(TRAITS::ArgType value, const sead::SafeString& name, s32 sub_idx);                   \
+    bool NAME##_(TRAITS::ArgType value, const sead::SafeString& name, s32 sub_idx);                \
+    bool NAME##NoCheck(TRAITS::ArgType value, const sead::SafeString& name, s32 sub_idx);          \
+    bool NAME##NoCheckForce(TRAITS::NoCheckForceArgType value, const sead::SafeString& name,       \
+                            s32 sub_idx);                                                          \
                                                                                                    \
     bool NAME(TRAITS::WrapperArgType value, FlagHandle handle, bool debug) {                       \
         if (debug) {                                                                               \
@@ -418,6 +406,9 @@ public:
 #undef GDT_SET_
 
 #define GDT_RESET_(NAME)                                                                           \
+    bool NAME(const sead::SafeString& name);                                                       \
+    bool NAME##_(const sead::SafeString& name);                                                    \
+    bool NAME(const sead::SafeString& name, int sub_idx);                                          \
     KSYS_ALWAYS_INLINE bool NAME##_(FlagHandle handle, bool debug) {                               \
         if (mBitFlags.isOn(BitFlag::_40000))                                                       \
             return false;                                                                          \
@@ -466,6 +457,9 @@ public:
 
 #undef GDT_RESET_
 
+    void incrementS32NoCheck(s32 value, const sead::SafeString& name);
+    void incrementS32(s32 value, const sead::SafeString& name);
+
     void increaseS32CommonFlag(s32 value, const sead::SafeString& name, s32 sub_idx, bool debug) {
         if (!mIncreaseLogger)
             return;
@@ -475,16 +469,27 @@ public:
             onChangedByDebug();
     }
 
+    bool wasFlagCopied(const sead::SafeString& name);
+    bool wasFlagNotCopied(const sead::SafeString& name);
+
     void init(sead::Heap* heap, sead::Framework* framework);
 
     void addReinitCallback(ReinitSignal::Slot& slot);
     void removeReinitCallback(ReinitSignal::Slot& slot);
 
+    void setCurrentRupeeFlagName(const sead::SafeString& name);
+    void requestResetAllFlagsToInitial();
+
+    /// Checks whether quest flags (e.g. Kass shrine quest flags) are set or cleared properly
+    /// and takes any action necessary to fix them.
+    void fixQuestFlags();
+    void fixQuestFlagsDlc2();
+
 private:
     enum class BitFlag {
         _1 = 0x1,
         _2 = 0x2,
-        _4 = 0x4,
+        RequestResetAllFlagsToInitial = 0x4,
         _8 = 0x8,
         _10 = 0x10,
         _20 = 0x20,

@@ -1459,7 +1459,7 @@ SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec4f, getVec4fArrayIdx, cons
     }
 
 #define RESET_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, FLAGS, GET_IDX_FN)                            \
-    bool FUNCTION_NAME(const sead::SafeString& name, bool check_permissions) {                     \
+    bool FUNCTION_NAME(const sead::SafeString& name, bool check_permissions, bool) {               \
         return FUNCTION_NAME(GET_IDX_FN(name), check_permissions);                                 \
     }
 
@@ -1491,7 +1491,7 @@ SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec4f, getVec4fArrayIdx, cons
     }
 
 #define RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, FLAGS, GET_IDX_FN)                      \
-    bool FUNCTION_NAME(const sead::SafeString& name, s32 sub_idx, bool check_permissions) {        \
+    bool FUNCTION_NAME(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool) {  \
         return FUNCTION_NAME(GET_IDX_FN(name), sub_idx, check_permissions);                        \
     }
 
