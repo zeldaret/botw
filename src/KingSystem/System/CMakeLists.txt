@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
   DebugMessage.h
   HavokWorkerMgr.cpp
   HavokWorkerMgr.h
+  KingEditor.cpp
   KingEditor.h
   OverlayArena.cpp
   OverlayArena.h
