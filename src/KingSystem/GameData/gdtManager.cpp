@@ -1,18 +1,24 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include <algorithm>
+#include <cstring>
 #include <devenv/seadEnvUtil.h>
 #include <framework/seadFramework.h>
 #include <mc/seadCoreInfo.h>
+#include <prim/seadStringUtil.h>
 #include <thread/seadThreadUtil.h>
 #include <time/seadTickTime.h>
+#include <type_traits>
 #include "Game/DLC/aocManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
+#include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resResourceGameData.h"
 #include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::gdt {
 
@@ -552,6 +558,675 @@ bool Manager::wasFlagCopied(const sead::SafeString& name) {
 bool Manager::wasFlagNotCopied(const sead::SafeString& name) {
     bool value;
     return getParam().get().getBuffer()->getBoolIfCopied(&value, name, false, true) && !value;
+}
+
+void Manager::copyParamToParam1() {
+    mFlagBuffer1->copyChangedFlags(*mFlagBuffer, true, false, false);
+}
+
+FlagHandle Manager::getRevivalFlagHandle(const sead::SafeString& object_name,
+                                         const map::MubinIter& iter) {
+    if (mBitFlags.isOn(BitFlag::_40000))
+        return InvalidHandle;
+
+    const sead::SafeString& map_name =
+        mGetMapNameDelegate ? mGetMapNameDelegate->invoke() : sead::SafeString::cEmptyString;
+
+    u32 hash_id = 0;
+    iter.tryGetParamUIntByKey(&hash_id, "HashId");
+
+    sead::FormatFixedSafeString<128> flag_name("%s_%s_%u", map_name.cstr(), object_name.cstr(),
+                                               hash_id);
+    if (mBitFlags.isOn(BitFlag::_2000))
+        return InvalidHandle;
+    return getBoolHandle(flag_name);
+}
+
+void Manager::allocParam1() {
+    auto* parent_heap = OverlayArenaSystem::instance()->getGameDataWorkHeap();
+    auto* heap = util::tryCreateDualHeap(0, "param1", parent_heap, nullptr,
+                                         sead::Heap::cHeapDirection_Forward, false);
+    mFlagBuffer1 = new (heap) TriggerParam;
+    mFlagBuffer1->copyAllFlags(*mFlagBuffer, heap, true);
+    heap->adjust();
+}
+
+bool Manager::getShopInfoIter(u32 hash, al::ByamlIter* out, const al::ByamlIter& iter,
+                              const u32* hashes) {
+    int a = 0;
+    int b = iter.getSize();
+    while (a < b) {
+        const auto m = (a + b) / 2;
+        if (hashes[m] == hash)
+            return iter.tryGetIterByIndex(out, m);
+        if (hashes[m] < hash)
+            a = m + 1;
+        else
+            b = m;
+    }
+    return false;
+}
+
+void Manager::allocRetryBuffer(sead::Heap* heap) {
+    if (mRetryBuffer)
+        return;
+
+    auto* buffer_heap = util::tryCreateDualHeap(0x100000, "RetryBuffer", heap, nullptr,
+                                                sead::Heap::cHeapDirection_Reverse, false);
+    mRetryBuffer = new (buffer_heap) TriggerParam;
+    mRetryBuffer->copyPermanentFlags(*mFlagBuffer1, buffer_heap);
+    buffer_heap->adjust();
+}
+
+void Manager::destroyRetryBuffer() {
+    if (mBitFlags.isOn(BitFlag::_80000))
+        return;
+
+    if (mRetryBuffer) {
+        mRetryBuffer->destroyHeap();
+        mRetryBuffer = nullptr;
+    }
+}
+
+void Manager::syncData(const char* data) {
+    const sead::SafeString cmd = data;
+    if (cmd.compare("SyncStart") == 0) {
+        if (util::getDebugHeap()) {
+            if (mBitFlags.testAndClear(BitFlag::_100)) {
+                mSyncStep = 0;
+            }
+            mBitFlags.set(BitFlag::_200);
+            syncStart();
+        }
+    } else if (cmd.compare("SyncEnd") == 0) {
+        mSyncStep = 0;
+        mBitFlags.reset(BitFlag::_100);
+        mBitFlags.reset(BitFlag::_200);
+    } else {
+        syncUpdate(data);
+        onChangedByDebug();
+    }
+}
+
+constexpr size_t ComBufferSize = 0x1a000;
+
+void Manager::syncStart() {
+    if (KingEditor::instance()->get88() == 0 || util::getDebugHeap() == nullptr)
+        return;
+
+    if (mGameDataComHeap) {
+        if (mGameDataComHeap->getFreeSize() < ComBufferSize)
+            return;
+    } else {
+        mGameDataComHeap =
+            sead::ExpHeap::tryCreate(ComBufferSize + 0x400, "GameDataCom", util::getDebugHeap(),
+                                     sizeof(void*), sead::Heap::cHeapDirection_Forward, false);
+        if (!mGameDataComHeap)
+            return;
+    }
+
+    u8* buffer = new (mGameDataComHeap) u8[ComBufferSize];
+    auto* flag_buffer = mFlagBuffer;
+    const int step = mSyncStep;
+    switch (mSyncStep) {
+    case 0:
+        doSyncArray<bool>(flag_buffer->mBoolFlags, buffer, "[SyncData][AllData][bool]");
+        mSyncStep = step + 1;
+        break;
+    case 1:
+        doSyncArray<s32>(flag_buffer->mS32Flags, buffer, "[SyncData][AllData][s32]");
+        mSyncStep = step + 1;
+        break;
+    case 2:
+        doSyncArray<f32>(flag_buffer->mF32Flags, buffer, "[SyncData][AllData][f32]");
+        mSyncStep = step + 1;
+        break;
+    case 3:
+        doSyncArrayStr<32>(flag_buffer->mStringFlags, buffer, "[SyncData][AllData][string]");
+        mSyncStep = step + 1;
+        break;
+    case 4:
+        doSyncArrayStr<64>(flag_buffer->mString64Flags, buffer, "[SyncData][AllData][string64]");
+        mSyncStep = step + 1;
+        break;
+    case 5:
+        doSyncArrayStr<256>(flag_buffer->mString256Flags, buffer, "[SyncData][AllData][string256]");
+        mSyncStep = step + 1;
+        break;
+    case 6:
+        doSyncArrayVec<sead::Vector2f>(flag_buffer->mVector2fFlags, buffer,
+                                       "[SyncData][AllData][vector2f]", 2);
+        mSyncStep = step + 1;
+        break;
+    case 7:
+        doSyncArrayVec<sead::Vector3f>(flag_buffer->mVector3fFlags, buffer,
+                                       "[SyncData][AllData][vector3f]", 3);
+        mSyncStep = step + 1;
+        break;
+    case 8:
+        doSyncArrayVec<sead::Vector4f>(flag_buffer->mVector4fFlags, buffer,
+                                       "[SyncData][AllData][vector4f]", 4);
+        mSyncStep = step + 1;
+        break;
+    case 9:
+        doSyncArray<bool>(flag_buffer->mBoolArrayFlags, buffer, "[SyncData][AllData][boolarray]");
+        mSyncStep = step + 1;
+        break;
+    case 10:
+        doSyncArray<s32>(flag_buffer->mS32ArrayFlags, buffer, "[SyncData][AllData][s32array]");
+        mSyncStep = step + 1;
+        break;
+    case 11:
+        doSyncArray<f32>(flag_buffer->mF32ArrayFlags, buffer, "[SyncData][AllData][f32array]");
+        mSyncStep = step + 1;
+        break;
+    case 12:
+        doSyncArrayStr<32>(flag_buffer->mStringArrayFlags, buffer,
+                           "[SyncData][AllData][stringarray]");
+        mSyncStep = step + 1;
+        break;
+    case 13:
+        doSyncArrayStr<64>(flag_buffer->mString64ArrayFlags, buffer,
+                           "[SyncData][AllData][string64array]");
+        mSyncStep = step + 1;
+        break;
+    case 14:
+        doSyncArrayStr<256>(flag_buffer->mString256ArrayFlags, buffer,
+                            "[SyncData][AllData][string256array]");
+        mSyncStep = step + 1;
+        break;
+    case 15:
+        doSyncArrayVec<sead::Vector2f>(flag_buffer->mVector2fArrayFlags, buffer,
+                                       "[SyncData][AllData][vector2farray]", 2);
+        mSyncStep = step + 1;
+        break;
+    case 16:
+        doSyncArrayVec<sead::Vector3f>(flag_buffer->mVector3fArrayFlags, buffer,
+                                       "[SyncData][AllData][vector3farray]", 3);
+        mSyncStep = step + 1;
+        break;
+    case 17:
+        doSyncArrayVec<sead::Vector4f>(flag_buffer->mVector4fArrayFlags, buffer,
+                                       "[SyncData][AllData][vector4farray]", 4);
+        mSyncStep = step + 1;
+        break;
+    default:
+        KingEditor::instance()->log(getName(), "[SendAllData]");
+        mBitFlags.reset(BitFlag::SyncFlags);
+        mBitFlags.set(BitFlag::_100);
+        break;
+    }
+    util::safeDeleteArray(buffer);
+}
+
+// NON_MATCHING: recordFlagChange calls not being merged, or merged in the wrong way
+void Manager::syncUpdate(const char* data) {
+    const sead::SafeString cmd = data;
+    auto it = cmd.tokenBegin("|");
+    const auto end = cmd.tokenEnd("|");
+    if (it == end)
+        return;
+
+    sead::FixedSafeString<256> name;
+    it.getAndForward(&name);
+
+    sead::FixedSafeString<256> type;
+    it.getAndForward(&type);
+
+    sead::FixedSafeString<256> value;
+    it.getAndForward(&value);
+
+    auto* tparam = mFlagBuffer1;
+    int idx = -1;
+    const u32 pl_core_id = sead::CoreInfo::getPlatformCoreId(sead::CoreInfo::getCurrentCoreId());
+
+    const auto calc_hash = [&] { return sead::HashCRC32::calcStringHash(name); };
+
+    if (type.compare("bool") == 0) {
+        auto* flag = tparam->getBoolFlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        bool v = false;
+        if (value == "true")
+            v = true;
+
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("s32") == 0) {
+        auto* flag = tparam->getS32FlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        s32 v = 0;
+        sead::StringUtil::tryParseS32(&v, value, sead::StringUtil::CardinalNumber::BaseAuto);
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("f32") == 0) {
+        auto* flag = tparam->getF32FlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        f32 v = 0;
+        sead::StringUtil::tryParseF32(&v, value);
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("string") == 0) {
+        auto* flag = tparam->getStrFlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        flag->setValue(value);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("string64") == 0) {
+        auto* flag = tparam->getStr64FlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        flag->setValue(value);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("string256") == 0) {
+        auto* flag = tparam->getStr256FlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        flag->setValue(value);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("vector2f") == 0) {
+        auto* flag = tparam->getVec2fFlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        sead::Vector2f v;
+        parseFloats(value, v.e.data(), v.e.size());
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("vector3f") == 0) {
+        auto* flag = tparam->getVec3fFlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        sead::Vector3f v;
+        parseFloats(value, v.e.data(), v.e.size());
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    if (type.compare("vector4f") == 0) {
+        auto* flag = tparam->getVec4fFlagAndIdx(&idx, calc_hash());
+        if (!flag)
+            return;
+
+        sead::Vector4f v;
+        parseFloats(value, v.e.data(), v.e.size());
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx);
+        return;
+    }
+
+    sead::FixedSafeString<64> sub_idx_str{"-1"};
+    if (it != end)
+        it.getAndForward(&sub_idx_str);
+    const int sub_idx =
+        sead::StringUtil::parseS32(sub_idx_str, sead::StringUtil::CardinalNumber::BaseAuto);
+
+    if (type.compare("boolarray") == 0) {
+        auto* flag = tparam->getBoolFlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        bool v = false;
+        if (value == "true")
+            v = true;
+
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("s32array") == 0) {
+        auto* flag = tparam->getS32FlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        s32 v = 0;
+        sead::StringUtil::tryParseS32(&v, value, sead::StringUtil::CardinalNumber::BaseAuto);
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("f32array") == 0) {
+        auto* flag = tparam->getF32FlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        f32 v = 0;
+        sead::StringUtil::tryParseF32(&v, value);
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("stringarray") == 0) {
+        auto* flag = tparam->getStrFlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        flag->setValue(value);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("string64array") == 0) {
+        auto* flag = tparam->getStr64FlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        flag->setValue(value);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("string256array") == 0) {
+        auto* flag = tparam->getStr256FlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        flag->setValue(value);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("vector2farray") == 0) {
+        auto* flag = tparam->getVec2fFlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        sead::Vector2f v;
+        parseFloats(value, v.e.data(), v.e.size());
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("vector3farray") == 0) {
+        auto* flag = tparam->getVec3fFlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        sead::Vector3f v;
+        parseFloats(value, v.e.data(), v.e.size());
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+
+    if (type.compare("vector4farray") == 0) {
+        auto* flag = tparam->getVec4fFlagAndIdx(&idx, calc_hash(), sub_idx);
+        if (!flag)
+            return;
+
+        sead::Vector4f v;
+        parseFloats(value, v.e.data(), v.e.size());
+        flag->setValue(v);
+        recordFlagChange(pl_core_id, tparam, flag->getType(), idx, sub_idx);
+        return;
+    }
+}
+
+void Manager::recordFlagChange(u32 platform_core_id, TriggerParam* tparam, u8 type, const s32& idx,
+                               const s32& sub_idx) {
+    auto& buffer = tparam->mFlagChangeRecords[platform_core_id].ref();
+    buffer[tparam->mFlagChangeRecordIndices[platform_core_id]].type.mValue = type;
+    buffer[tparam->mFlagChangeRecordIndices[platform_core_id]].index = idx;
+    buffer[tparam->mFlagChangeRecordIndices[platform_core_id]].sub_index = sub_idx;
+    ++tparam->mFlagChangeRecordIndices[platform_core_id];
+}
+
+void Manager::startSyncOnLoadEnd() {
+    if (!mBitFlags.isOn(BitFlag::_100) || mBitFlags.isOn(BitFlag::_200))
+        return;
+
+    KingEditor::instance()->log(getName(), "[LoadEnd]");
+    mBitFlags.reset(BitFlag::SyncFlags);
+    mBitFlags.set(BitFlag::_200);
+    mSyncStep = 0;
+    syncStart();
+}
+
+void Manager::parseFloats(const sead::SafeString& str, f32* values, u32 n) {
+    auto it = str.tokenBegin(" ");
+    const auto end = str.tokenEnd(" ");
+    u32 i = 0;
+    while (end != it) {
+        sead::FixedSafeString<256> part;
+        it.getAndForward(&part);
+
+        f32 value;
+        if (!sead::StringUtil::tryParseF32(&value, part))
+            value = 0.0;
+
+        values[i++] = value;
+        if (i == n)
+            break;
+    }
+}
+
+namespace {
+template <typename T>
+void writeToBuffer(u8* buffer, u32* written, const T& value) {
+    static_assert(std::is_trivially_copyable<T>());
+    std::memcpy(buffer + *written, &value, sizeof(value));
+    *written += u32(sizeof(value));
+}
+}  // namespace
+
+template <typename T>
+void Manager::doSyncArray(const sead::PtrArray<FlagBase>& array, u8* buffer,
+                          const char* description) {
+    KingEditor::instance()->log(getName(), "[ArrayStart]");
+
+    u32 offset = 0;
+    const auto flush = [&] {
+        KingEditor::instance()->log(getName(), description, buffer, offset);
+        offset = 0;
+    };
+    for (FlagBase& flag : array) {
+        u32 written = 0;
+        writeToBuffer(buffer + offset, &written, flag.getHash());
+        if constexpr (std::is_same<bool, T>()) {
+            writeToBuffer(buffer + offset, &written, static_cast<Flag<T>&>(flag).getValue());
+        } else {
+            writeToBuffer(buffer + offset, &written, static_cast<Flag<T>&>(flag).getValueRef());
+        }
+        offset += written;
+        if (offset >= ComBufferSize - written)
+            flush();
+    }
+
+    if (offset != 0)
+        flush();
+
+    KingEditor::instance()->log(getName(), "[ArrayEnd]");
+}
+
+template <int N>
+void Manager::doSyncArrayStr(const sead::PtrArray<FlagBase>& array, u8* buffer,
+                             const char* description, u32 n) {
+    KingEditor::instance()->log(getName(), "[ArrayStart]");
+
+    u32 offset = 0;
+    const auto flush = [&] {
+        KingEditor::instance()->log(getName(), description, buffer, offset);
+        offset = 0;
+    };
+    for (FlagBase& flag : array) {
+        const auto& flag_ = static_cast<const Flag<sead::FixedSafeString<N>>&>(flag);
+        u8* entry = buffer + offset;
+
+        const u32 hash = flag.getHash();
+        std::memcpy(entry, &hash, sizeof(hash));
+
+        const auto len = flag_.getValueRef().calcLength();
+        sead::MemUtil::copy(entry + sizeof(hash), flag_.getValueRef().cstr(), len);
+        sead::MemUtil::fillZero(entry + u32(sizeof(hash) + len), n - len);
+
+        offset += u32(sizeof(hash) + n);
+        if (offset >= ComBufferSize - sizeof(hash) - n)
+            flush();
+    }
+
+    if (offset != 0)
+        flush();
+
+    KingEditor::instance()->log(getName(), "[ArrayEnd]");
+}
+
+template <typename T>
+void Manager::doSyncArrayVec(const sead::PtrArray<FlagBase>& array, u8* buffer,
+                             const char* description, u32 n) {
+    KingEditor::instance()->log(getName(), "[ArrayStart]");
+
+    u32 offset = 0;
+    const auto flush = [&] {
+        KingEditor::instance()->log(getName(), description, buffer, offset);
+        offset = 0;
+    };
+    for (FlagBase& flag : array) {
+        const auto& flag_ = static_cast<const Flag<T>&>(flag);
+        u32 written = 0;
+        writeToBuffer(buffer + offset, &written, flag.getHash());
+
+        for (u32 i = 0; i != n; ++i)
+            writeToBuffer(buffer + offset, &written, flag_.getValueRef().e[i]);
+
+        offset += written;
+        /// @bug "n" should be "sizeof(f32) * n" instead.
+        if (offset >= ComBufferSize - sizeof(u32) - n)
+            flush();
+    }
+
+    if (offset != 0)
+        flush();
+
+    KingEditor::instance()->log(getName(), "[ArrayEnd]");
+}
+
+template <typename T>
+void Manager::doSyncArray(const sead::PtrArray<sead::PtrArray<FlagBase>>& array, u8* buffer,
+                          const char* description) {
+    KingEditor::instance()->log(getName(), "[ArrayStart]");
+
+    for (auto& flags : array) {
+        u32 written = [&] {
+            u32 offset = 0;
+
+            auto it = flags.begin();
+            const auto end = flags.end();
+            writeToBuffer(buffer, &offset, flags[0]->getHash());
+
+            for (; it != end; ++it) {
+                writeToBuffer(buffer, &offset, static_cast<Flag<T>&>(*it).getValueRef());
+                if (offset >= ComBufferSize - sizeof(T))
+                    break;
+            }
+            return offset;
+        }();
+
+        if (written != 0)
+            KingEditor::instance()->log(getName(), description, buffer, written);
+    }
+
+    KingEditor::instance()->log(getName(), "[ArrayEnd]");
+}
+
+template <int N>
+void Manager::doSyncArrayStr(const sead::PtrArray<sead::PtrArray<FlagBase>>& array, u8* buffer,
+                             const char* description, u32 n) {
+    KingEditor::instance()->log(getName(), "[ArrayStart]");
+
+    for (auto& flags : array) {
+        u32 written = [&] {
+            u32 offset = 0;
+
+            auto it = flags.begin();
+            const auto end = flags.end();
+            writeToBuffer(buffer, &offset, flags[0]->getHash());
+
+            for (; it != end; ++it) {
+                const auto& flag = static_cast<const Flag<sead::FixedSafeString<N>>&>(*it);
+
+                const auto len = flag.getValueRef().calcLength();
+                sead::MemUtil::copy(buffer + offset, flag.getValueRef().cstr(), len);
+                sead::MemUtil::fillZero(buffer + u32(offset + len), n - len);
+                offset += n;
+
+                if (offset >= u32(ComBufferSize) - n)
+                    break;
+            }
+            return offset;
+        }();
+
+        if (written != 0)
+            KingEditor::instance()->log(getName(), description, buffer, written);
+    }
+
+    KingEditor::instance()->log(getName(), "[ArrayEnd]");
+}
+
+template <typename T>
+static u32 syncOneVec(Manager*, u8* buffer, const sead::PtrArray<FlagBase>& flags, u32 n) {
+    u32 offset = 0;
+
+    auto it = flags.begin();
+    const auto end = flags.end();
+    writeToBuffer(buffer, &offset, flags[0]->getHash());
+
+    for (; it != end; ++it) {
+        for (u32 i = 0; i < n; ++i)
+            writeToBuffer(buffer, &offset, static_cast<const Flag<T>&>(*it).getValueRef().e[i]);
+
+        if (offset >= u32(ComBufferSize) - n)
+            break;
+    }
+    return offset;
+}
+
+template <typename T>
+void Manager::doSyncArrayVec(const sead::PtrArray<sead::PtrArray<FlagBase>>& array, u8* buffer,
+                             const char* description, u32 n) {
+    KingEditor::instance()->log(getName(), "[ArrayStart]");
+
+    for (auto& flags : array) {
+        u32 written = syncOneVec<T>(this, buffer, flags, n);
+        if (written != 0)
+            KingEditor::instance()->log(getName(), description, buffer, written);
+    }
+
+    KingEditor::instance()->log(getName(), "[ArrayEnd]");
 }
 
 }  // namespace ksys::gdt

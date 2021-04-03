@@ -31,6 +31,8 @@ public:
     void registerComponent(KingEditorComponent* component);
     void log(const char* system, const char* message, void* = {}, int = {});
 
+    u32 get88() const { return _88; }
+
 private:
     sead::OffsetList<KingEditorComponent> mComponents;
     sead::ListNode mListNode;

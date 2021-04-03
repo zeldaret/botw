@@ -24,6 +24,7 @@ public:
     struct ResetEntry {
         sead::SizedEnum<FlagType::ValueType, u8> type;
         sead::SizedEnum<ResetType, u8> reset_type;
+        s16 sub_index;
         s32 index;
     };
     KSYS_CHECK_SIZE_NX150(ResetEntry, 0x8);
@@ -453,6 +454,8 @@ public:
                           bool ignore_temp_flags);
 
 private:
+    friend class Manager;
+
     enum class BitFlag : u8 {
         _1 = 1,
         _2 = 2,

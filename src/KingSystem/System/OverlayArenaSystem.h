@@ -45,6 +45,16 @@ public:
     OverlayArena* getAudioArena() const;
     OverlayArena* getUnknownArena() const;
 
+    sead::Heap* getFixedHeap() const { return mFixedHeap; }
+    sead::Heap* getMovableMemoryHeap() const { return mMovableMemoryHeap; }
+    sead::Heap* getGameDataWorkHeap() const { return mGameDataWorkHeap; }
+    sead::Heap* getMovieHeap() const { return mMovieHeap; }
+    sead::Heap* getPlacementTreeHeap() const { return mPlacementTreeHeap; }
+    sead::Heap* getTeraWorkHeap() const { return mTeraWorkHeap; }
+    sead::Heap* getSzsDecompressorInstHeap() const { return mSzsDecompressorInstHeap; }
+    sead::Heap* getSzsHeap() const { return mSzsHeap; }
+    sead::Heap* getTexArcWorkHeap() const { return mTexArcWorkHeap; }
+
     void createTeraWorkHeap();
     void createStubbed();
     void createMovieHeap();
