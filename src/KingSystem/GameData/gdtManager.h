@@ -229,6 +229,19 @@ public:
     using ResetSignal = sead::DelegateEvent<ResetEvent*>;
     using ReinitSignal = sead::DelegateEvent<ReinitEvent*>;
 
+    void init(sead::Heap* heap, sead::Framework* framework);
+
+    void addReinitCallback(ReinitSignal::Slot& slot);
+    void removeReinitCallback(ReinitSignal::Slot& slot);
+
+    void setCurrentRupeeFlagName(const sead::SafeString& name);
+    void requestResetAllFlagsToInitial();
+
+    /// Checks whether quest flags (e.g. Kass shrine quest flags) are set or cleared properly
+    /// and takes any action necessary to fix them.
+    void fixQuestFlags();
+    void fixQuestFlagsDlc2();
+
     sead::Heap* getGameDataHeap() const { return mGameDataHeap; }
     sead::Heap* getSaveAreaHeap() const { return mSaveAreaHeap; }
     sead::Heap* getGameDataComHeap() const { return mGameDataComHeap; }
@@ -471,19 +484,6 @@ public:
 
     bool wasFlagCopied(const sead::SafeString& name);
     bool wasFlagNotCopied(const sead::SafeString& name);
-
-    void init(sead::Heap* heap, sead::Framework* framework);
-
-    void addReinitCallback(ReinitSignal::Slot& slot);
-    void removeReinitCallback(ReinitSignal::Slot& slot);
-
-    void setCurrentRupeeFlagName(const sead::SafeString& name);
-    void requestResetAllFlagsToInitial();
-
-    /// Checks whether quest flags (e.g. Kass shrine quest flags) are set or cleared properly
-    /// and takes any action necessary to fix them.
-    void fixQuestFlags();
-    void fixQuestFlagsDlc2();
 
 private:
     enum class BitFlag {
