@@ -497,12 +497,20 @@ public:
                                     const map::MubinIter& iter);
     static bool getShopInfoIter(u32 hash, al::ByamlIter* out, const al::ByamlIter& iter,
                                 const u32* hashes);
+    bool getShopSoldOutInfo(u32 hash, al::ByamlIter* out) const {
+        return getShopInfoIter(hash, out, getShopSoldOutInfoValues(), getShopSoldOutInfoHashes());
+    }
     void resetBoolFlagForRadarMgr(FlagBool& flag);
 
     void allocRetryBuffer(sead::Heap* heap);
     void destroyRetryBuffer();
 
     void startSyncOnLoadEnd();
+
+    const al::ByamlIter& getShopAreaInfoValues() const { return mShopAreaInfoValues; }
+    const u32* getShopAreaInfoHashes() const { return mShopAreaInfoHashes; }
+    const al::ByamlIter& getShopSoldOutInfoValues() const { return mShopSoldOutInfoValues; }
+    const u32* getShopSoldOutInfoHashes() const { return mShopSoldOutInfoHashes; }
 
 private:
     enum class BitFlag {

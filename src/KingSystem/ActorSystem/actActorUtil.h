@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 
 namespace al {
@@ -155,6 +156,8 @@ bool isAirOctaPlatform(const sead::SafeString& name);
 bool isAirOctaWoodPlatformDlc(const sead::SafeString& name);
 
 const sead::SafeString& getDefaultDropActor();
+
+void getRevivalGridPosition(const sead::Vector3f& pos, int* col1, int* row1, int* col2, int* row2);
 
 bool getSameGroupActorName(sead::SafeString* name, BaseProcLink* link);
 bool getSameGroupActorName(sead::SafeString* name, Actor* actor);

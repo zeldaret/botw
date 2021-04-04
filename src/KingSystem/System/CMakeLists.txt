@@ -16,11 +16,15 @@ target_sources(uking PRIVATE
   PlayReportMgr.h
   ProductReporter.cpp
   ProductReporter.h
+  StageInfo.cpp
+  StageInfo.h
   StringBoard.h
   SystemPauseMgr.cpp
   SystemPauseMgr.h
   Timer.cpp
   Timer.h
+  UIGlue.cpp
+  UIGlue.h
   VFR.cpp
   VFR.h
   VFRValue.cpp

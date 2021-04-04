@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <container/seadSafeArray.h>
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -523,6 +524,30 @@ bool isAirOctaPlatform(const sead::SafeString& name) {
 bool isAirOctaWoodPlatformDlc(const sead::SafeString& name) {
     return name == "FldObj_DLC_FlyShield_Wood_A_02" ||
            name == "FldObj_DLC_FlyShield_Wood_A_Snow_02";
+}
+
+void getRevivalGridPosition(const sead::Vector3f& pos, int* col1, int* row1, int* col2, int* row2) {
+    const int col = sead::clamp((int(pos.x) + 5000) / 1000, 0, 9);
+    const int row = sead::clamp((int(pos.z) + 4000) / 1000, 0, 7);
+
+    const auto x = (float(col) + 0.5f) * 1000.0f - 5000.0f;
+    const auto z = (float(row) + 0.5f) * 1000.0f - 4000.0f;
+
+    if (x < pos.x) {
+        *col1 = col;
+        *col2 = col + 1;
+    } else {
+        *col1 = col - 1;
+        *col2 = col;
+    }
+
+    if (z < pos.z) {
+        *row1 = row;
+        *row2 = row + 1;
+    } else {
+        *row1 = row - 1;
+        *row2 = row;
+    }
 }
 
 bool getSameGroupActorName(sead::SafeString* name, BaseProcLink* link) {

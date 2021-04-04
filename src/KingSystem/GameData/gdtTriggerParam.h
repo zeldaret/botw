@@ -10,6 +10,7 @@
 #include <gfx/seadColor.h>
 #include <prim/seadStorageFor.h>
 #include <prim/seadTypedBitFlag.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/GameData/gdtFlag.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -22,8 +23,8 @@ namespace ksys::gdt {
 class TriggerParam {
 public:
     struct ResetEntry {
-        sead::SizedEnum<FlagType::ValueType, u8> type;
-        sead::SizedEnum<ResetType, u8> reset_type;
+        sead::SizedEnum<FlagType::ValueType, s8> type;
+        sead::SizedEnum<ResetType, s8> reset_type;
         s16 sub_index;
         s32 index;
     };
@@ -385,7 +386,10 @@ public:
     // endregion
 
     void resetAllFlagsToInitialValues();
-    void resetFlagsAccordingToPolicy();
+    /// @param policy  A bitmask that indicates the reset policy to use.
+    /// @param skip  The number of flags to skip processing.
+    /// @return the number of flags that have been processed.
+    int resetFlagsAccordingToPolicy(sead::BitFlag32 policy, int skip);
 
     // region Flag getters
 
