@@ -624,9 +624,9 @@ private:
 
     res::Handle mShopGameDataInfoHandle;
     al::ByamlIter mShopAreaInfoValues;
-    const u8* mShopAreaInfoHashes = nullptr;
+    const u32* mShopAreaInfoHashes = nullptr;
     al::ByamlIter mShopSoldOutInfoValues;
-    const u8* mShopSoldOutInfoHashes = nullptr;
+    const u32* mShopSoldOutInfoHashes = nullptr;
 
     TriggerParamRef mParamBypassPerm{&mFlagBuffer1, &mFlagBuffer, false, false, false};
     TriggerParamRef mParam{&mFlagBuffer1, &mFlagBuffer, true, false, false};

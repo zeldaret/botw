@@ -13,9 +13,13 @@
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceGameData.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
+#include "KingSystem/Utils/Byaml/ByamlArrayIter.h"
+#include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/Utils/SafeDelete.h"
@@ -132,6 +136,38 @@ void Manager::init(sead::Heap* heap, sead::Framework* framework) {
     unloadResources();
     mBitFlags.set(BitFlag::_1000);
     mNumFlagsToReset = 0;
+}
+
+void Manager::loadShopGameDataInfo(const sead::SafeString& path) {
+    res::LoadRequest req;
+    req.mRequester = "gdtManager";
+    req._26 = false;
+    if (!sead::DynamicCast<res::Resource>(mShopGameDataInfoHandle.load(path, &req)))
+        return;
+
+    auto* res = sead::DynamicCast<sead::DirectResource>(mShopGameDataInfoHandle.getResource());
+    if (!res)
+        return;
+
+    al::ByamlIter root{res->getRawData()};
+    al::ByamlIter iter;
+    al::ByamlIter hashes;
+
+    if (root.tryGetIterByKey(&iter, "ShopAreaInfo")) {
+        iter.tryGetIterByKey(&mShopAreaInfoValues, "Values");
+        if (iter.tryGetIterByKey(&hashes, "Hashes")) {
+            mShopAreaInfoHashes = al::ByamlArrayIter(hashes.getRootNode()).getDataTable();
+        }
+    }
+    util::PrintDebugFmt("ShopAreaInfo: %d %d", mShopAreaInfoValues.getSize(), hashes.getSize());
+
+    if (root.tryGetIterByKey(&iter, "SoldOutInfo")) {
+        iter.tryGetIterByKey(&mShopSoldOutInfoValues, "Values");
+        if (iter.tryGetIterByKey(&hashes, "Hashes")) {
+            mShopSoldOutInfoHashes = al::ByamlArrayIter(hashes.getRootNode()).getDataTable();
+        }
+    }
+    util::PrintDebugFmt("SoldOutInfo: %d %d", mShopSoldOutInfoValues.getSize(), hashes.getSize());
 }
 
 void Manager::unloadResources() {
