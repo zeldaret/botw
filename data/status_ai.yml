@@ -755,7 +755,7 @@ ai::Fork6AI:
 ai::ForkActionAndJoin:
   status: pending
 ai::ForkAI:
-  status: pending
+  status: done
 ai::ForkBeastGanonRoot:
   status: pending
 ai::ForSaleOrNot:

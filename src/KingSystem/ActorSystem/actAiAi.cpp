@@ -214,7 +214,7 @@ bool Ai::isCurrentAction(const sead::SafeString& name) {
     return name == action->getName();
 }
 
-void Ai::changeChildIdx(u16 new_idx) {
+void Ai::changeChildIdx(int new_idx) {
     const auto prev_idx = mChildIdx;
     mChildIdx = new_idx;
     mPrevChildIdx = prev_idx;
