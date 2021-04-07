@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGameDataFlagSelector.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::ai {
 
@@ -11,8 +12,16 @@ bool GameDataFlagSelector::init_(sead::Heap* heap) {
 }
 
 void GameDataFlagSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    bool value = false;
+    if (!mClearFlag_m.isEmpty())
+        ksys::gdt::Manager::instance()->getParam().get().getBool(&value, mClearFlag_m);
+    if (value)
+        changeChild("True");
+    else
+        changeChild("False");
 }
+
+void GameDataFlagSelector::calc_() {}
 
 void GameDataFlagSelector::leave_() {
     ksys::act::ai::Ai::leave_();
