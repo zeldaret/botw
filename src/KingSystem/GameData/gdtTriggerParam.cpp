@@ -375,6 +375,25 @@ bool getFlagArraySize(const sead::PtrArray<sead::PtrArray<FlagBase>>& arrays, s3
     return true;
 }
 
+bool resetFlag(bool* was_reset, const sead::PtrArray<FlagBase>& flags, s32 idx,
+               bool check_permissions) {
+    *was_reset = false;
+
+    auto* flag = getFlagByIndexBase(flags, idx);
+    if (!flag)
+        return false;
+
+    if (check_permissions && !flag->isProgramWritable())
+        return false;
+
+    if (flag->isInitialValue())
+        return true;
+
+    flag->resetToInitialValue();
+    *was_reset = true;
+    return true;
+}
+
 template <typename T>
 inline void copyGameDataResBuffer(sead::Buffer<T>& source, sead::PtrArray<FlagBase>& dest,
                                   sead::Heap* heap) {
@@ -1441,21 +1460,13 @@ SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec4f, getVec4fArrayIdx, cons
 
 #define RESET_FLAG_VALUE_IMPL_(FUNCTION_NAME, FLAGS, T)                                            \
     bool FUNCTION_NAME(s32 idx, bool check_permissions) {                                          \
-        auto* flag = getFlagByIndexBase(FLAGS, idx);                                               \
-        if (!flag)                                                                                 \
-            return false;                                                                          \
-                                                                                                   \
-        if (check_permissions && !flag->isProgramWritable())                                       \
-            return false;                                                                          \
-                                                                                                   \
-        if (flag->isInitialValue())                                                                \
-            return true;                                                                           \
-                                                                                                   \
-        flag->resetToInitialValue();                                                               \
-        recordFlagChange(FLAGS[idx], idx);                                                         \
-        reportFlagChange<T>(FLAGS[idx]);                                                           \
-                                                                                                   \
-        return true;                                                                               \
+        bool was_reset = false;                                                                    \
+        const bool ok = resetFlag(&was_reset, FLAGS, idx, check_permissions);                      \
+        if (was_reset) {                                                                           \
+            recordFlagChange(FLAGS[idx], idx);                                                     \
+            reportFlagChange<T>(FLAGS[idx]);                                                       \
+        }                                                                                          \
+        return ok;                                                                                 \
     }
 
 #define RESET_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, FLAGS, GET_IDX_FN)                            \
