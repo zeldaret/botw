@@ -741,17 +741,17 @@ ai::ForestGiantRoot:
 ai::ForestGiantStoneShootBattle:
   status: pending
 ai::Fork2AI:
-  status: pending
+  status: done
 ai::Fork2AIUpperLowerBody:
-  status: pending
+  status: done
 ai::Fork3AI:
-  status: pending
+  status: done
 ai::Fork4AI:
-  status: pending
+  status: done
 ai::Fork5AI:
-  status: pending
+  status: done
 ai::Fork6AI:
-  status: pending
+  status: done
 ai::ForkActionAndJoin:
   status: pending
 ai::ForkAI:
