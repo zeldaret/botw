@@ -11,7 +11,8 @@ bool Fork::init_(sead::Heap* heap) {
 }
 
 void Fork::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::_4);
 }
 
 void Fork::leave_() {
@@ -25,6 +26,20 @@ void Fork::loadParams_() {
 
 void Fork::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void Fork::setEndState() {
+    switch (*mEndState_s) {
+    case 0:
+        setFinished();
+        break;
+    case 1:
+        setFailed();
+        break;
+    case 2:
+        mFlags.set(ksys::act::ai::ActionBase::Flag::_4);
+        break;
+    }
 }
 
 }  // namespace uking::action

@@ -1245,7 +1245,7 @@ action::ForceSystemFadeOut:
 action::ForestGiantWakeUp:
   status: pending
 action::Fork:
-  status: pending
+  status: done
 action::ForkAddCalcScaleMapUnit:
   status: pending
 action::ForkAddLinearImpulse:
