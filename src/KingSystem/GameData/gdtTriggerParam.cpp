@@ -108,6 +108,12 @@ inline Flag<T>* getFlag(const sead::PtrArray<FlagBase>& flags, const sead::SafeS
     return getFlag<T>(flags, sead::HashCRC32::calcStringHash(name));
 }
 
+template <typename T>
+inline Flag<T>* getFlagAndIndex(s32* idx, const sead::PtrArray<FlagBase>& flags, u32 name_hash) {
+    *idx = getFlagIndex(flags, name_hash);
+    return getFlagByIndex<T>(flags, *idx);
+}
+
 template <typename T, typename FlagValueType = T>
 inline bool getFlagValue(const sead::PtrArray<FlagBase>& array, T* out_value, s32 index,
                          bool check_permissions) {
@@ -2018,66 +2024,39 @@ FlagVector4f* TriggerParam::getVec4fFlag(s32 idx) const {
 }
 
 FlagBool* TriggerParam::getBoolFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getBoolIdx(name_hash);
-    if (*idx < 0 || mBoolFlags.size() <= *idx)
-        return nullptr;
-    return getBoolFlag(*idx);
+    return getFlagAndIndex<bool>(idx, mBoolFlags, name_hash);
 }
 
 FlagS32* TriggerParam::getS32FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getS32Idx(name_hash);
-    if (*idx < 0 || mS32Flags.size() <= *idx)
-        return nullptr;
-    return getS32Flag(*idx);
+    return getFlagAndIndex<s32>(idx, mS32Flags, name_hash);
 }
 
 FlagF32* TriggerParam::getF32FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getF32Idx(name_hash);
-    if (*idx < 0 || mF32Flags.size() <= *idx)
-        return nullptr;
-    return getF32Flag(*idx);
+    return getFlagAndIndex<f32>(idx, mF32Flags, name_hash);
 }
 
 FlagString* TriggerParam::getStrFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getStrIdx(name_hash);
-    if (*idx < 0 || mStringFlags.size() <= *idx)
-        return nullptr;
-    return getStrFlag(*idx);
+    return getFlagAndIndex<sead::FixedSafeString<32>>(idx, mStringFlags, name_hash);
 }
 
 FlagString64* TriggerParam::getStr64FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getStr64Idx(name_hash);
-    if (*idx < 0 || mString64Flags.size() <= *idx)
-        return nullptr;
-    return getStr64Flag(*idx);
+    return getFlagAndIndex<sead::FixedSafeString<64>>(idx, mString64Flags, name_hash);
 }
 
 FlagString256* TriggerParam::getStr256FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getStr256Idx(name_hash);
-    if (*idx < 0 || mString256Flags.size() <= *idx)
-        return nullptr;
-    return getStr256Flag(*idx);
+    return getFlagAndIndex<sead::FixedSafeString<256>>(idx, mString256Flags, name_hash);
 }
 
 FlagVector2f* TriggerParam::getVec2fFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getVec2fIdx(name_hash);
-    if (*idx < 0 || mVector2fFlags.size() <= *idx)
-        return nullptr;
-    return getVec2fFlag(*idx);
+    return getFlagAndIndex<sead::Vector2f>(idx, mVector2fFlags, name_hash);
 }
 
 FlagVector3f* TriggerParam::getVec3fFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getVec3fIdx(name_hash);
-    if (*idx < 0 || mVector3fFlags.size() <= *idx)
-        return nullptr;
-    return getVec3fFlag(*idx);
+    return getFlagAndIndex<sead::Vector3f>(idx, mVector3fFlags, name_hash);
 }
 
 FlagVector4f* TriggerParam::getVec4fFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getVec4fIdx(name_hash);
-    if (*idx < 0 || mVector4fFlags.size() <= *idx)
-        return nullptr;
-    return getVec4fFlag(*idx);
+    return getFlagAndIndex<sead::Vector4f>(idx, mVector4fFlags, name_hash);
 }
 
 FlagS32* TriggerParam::getS32FlagByHash(u32 name_hash) const {
