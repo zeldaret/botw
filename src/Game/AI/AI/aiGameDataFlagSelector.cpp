@@ -5,7 +5,9 @@ namespace uking::ai {
 
 GameDataFlagSelector::GameDataFlagSelector(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-GameDataFlagSelector::~GameDataFlagSelector() = default;
+GameDataFlagSelector::~GameDataFlagSelector() {
+    ;
+}
 
 bool GameDataFlagSelector::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
