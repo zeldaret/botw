@@ -50,15 +50,6 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Common, 0x50);
 
-    struct Buffers {
-        Buffers() { _0 = 0; }
-
-        s32 _0;
-        sead::Buffer<ASDefine> as_defines;
-        sead::Buffer<CFDefine> cf_defines;
-        sead::Buffer<AddRes> add_reses;
-    };
-
     ASList();
     ~ASList() override;
 
@@ -66,9 +57,9 @@ public:
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
-    const sead::Buffer<ASDefine>& getASDefines() const { return mBuffers.as_defines; }
-    const sead::Buffer<CFDefine>& getCFDefines() const { return mBuffers.cf_defines; }
-    const sead::Buffer<AddRes>& getAddReses() const { return mBuffers.add_reses; }
+    const sead::Buffer<ASDefine>& getASDefines() const { return mASDefines; }
+    const sead::Buffer<CFDefine>& getCFDefines() const { return mCFDefines; }
+    const sead::Buffer<AddRes>& getAddReses() const { return mAddReses; }
     const Common& getCommon() const { return mCommon.ref(); }
 
     void addAS_(s32 index, AS* as);
@@ -78,7 +69,13 @@ protected:
     bool m7_() override;
 
 private:
-    Buffers mBuffers;
+    u8 _2b0 = 0;
+    u8 _2b1 = 0;
+    u8 _2b2 = 0;
+    u8 _2b3 = 0;
+    sead::Buffer<ASDefine> mASDefines;
+    sead::Buffer<CFDefine> mCFDefines;
+    sead::Buffer<AddRes> mAddReses;
     agl::utl::ParameterList mCFDefinesList;
     agl::utl::ParameterList mASDefinesList;
     agl::utl::ParameterList mAddResesList;
