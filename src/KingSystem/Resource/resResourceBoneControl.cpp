@@ -16,11 +16,6 @@ BoneControl::~BoneControl() {
 
 void BoneControl::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {}
 
-bool allocBoneGroups(sead::Buffer<BoneControl::BoneGroup>& buffer, int size, sead::Heap* heap,
-                     int align = sizeof(void*)) {
-    return buffer.tryAllocBuffer(size, heap, align);
-}
-
 // NON_MATCHING: mFootIkController.isInvalidFt (???)
 bool BoneControl::parse_(u8* data, size_t size, sead::Heap* heap) {
     if (!data)
@@ -185,7 +180,7 @@ bool BoneControl::parse_(u8* data, size_t size, sead::Heap* heap) {
 
     const auto bone_groups = agl::utl::getResParameterList(root, "BoneGroups");
     if (bone_groups.ptr() && bone_groups.getResParameterListNum() != 0) {
-        if (!allocBoneGroups(mBoneGroups, bone_groups.getResParameterListNum(), heap))
+        if (!mBoneGroups.tryAllocBuffer(bone_groups.getResParameterListNum(), heap))
             return false;
 
         sead::FixedSafeString<32> bone_group_name{"BoneGroup_"};

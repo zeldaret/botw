@@ -104,13 +104,8 @@ bool ModelList::parse_(u8* data, size_t size, sead::Heap* heap) {
     return true;
 }
 
-bool allocModelDataBuffer(sead::Buffer<ModelList::ModelData>& buffer, int size, sead::Heap* heap,
-                          int alignment = sizeof(void*)) {
-    return buffer.tryAllocBuffer(size, heap, alignment);
-}
-
 bool ModelList::parseModelData(const agl::utl::ResParameterList& res, sead::Heap* heap) {
-    if (!allocModelDataBuffer(mModelData, res.getResParameterListNum() != 0, heap))
+    if (!mModelData.tryAllocBuffer(res.getResParameterListNum() != 0, heap))
         return false;
 
     sead::FixedSafeString<32> list_name{str_ModelData};
@@ -154,11 +149,6 @@ bool ModelList::parseModelData(const agl::utl::ResParameterList& res, sead::Heap
     return true;
 }
 
-bool allocAnmTargetPartialBuffer(sead::Buffer<ModelList::Partial>& buffer, int size,
-                                 sead::Heap* heap, int alignment = sizeof(void*)) {
-    return buffer.tryAllocBuffer(size, heap, alignment);
-}
-
 bool ModelList::parseAnmTarget(const agl::utl::ResParameterList& res, sead::Heap* heap) {
     if (!mAnmTargets.tryAllocBuffer(std::min<u32>(res.getResParameterListNum(), NumUnitMax), heap))
         return false;
@@ -180,7 +170,7 @@ bool ModelList::parseAnmTarget(const agl::utl::ResParameterList& res, sead::Heap
         const auto partials =
             agl::utl::getResParameterList(res.getResParameterList(it.getIndex()), str_Partial);
         if (partials.ptr() && partials.getResParameterObjNum() != 0) {
-            if (!allocAnmTargetPartialBuffer(it->partials, partials.getResParameterObjNum(), heap))
+            if (!it->partials.tryAllocBuffer(partials.getResParameterObjNum(), heap))
                 return false;
 
             sead::FixedSafeString<32> partial_name{str_Partial};
