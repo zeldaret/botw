@@ -23,6 +23,8 @@ public:
     void finalize_() override;
 
 private:
+    friend class ASList;
+
     sead::Buffer<Element*> mElements;
     agl::utl::ParameterList mElementsList;
 

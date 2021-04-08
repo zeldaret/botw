@@ -26,6 +26,8 @@ public:
     KSYS_CHECK_SIZE_NX150(ASDefine, 0x88);
 
     struct CFPost {
+        static int compare(const CFPost& o, const sead::SafeString& n);
+
         agl::utl::Parameter<sead::SafeString> name;
         agl::utl::Parameter<float> frame;
         agl::utl::Parameter<float> start_frame_rate;
@@ -34,6 +36,8 @@ public:
     KSYS_CHECK_SIZE_NX150(CFPost, 0x98);
 
     struct CFExcept {
+        static int compare(const CFExcept& o, const sead::SafeString& n);
+
         agl::utl::Parameter<sead::SafeString> name;
     };
     KSYS_CHECK_SIZE_NX150(CFExcept, 0x28);
@@ -76,6 +80,12 @@ public:
     const Common& getCommon() const { return mCommon.ref(); }
 
     void addAS_(s32 index, AS* as);
+
+    const char* getASFileName(const sead::SafeString& name) const;
+    int findASDefine(const sead::SafeString& name) const;
+    int findCFDefine(const sead::SafeString& name) const;
+    bool getCFDefineInfo(float* frame, float* key, const sead::SafeString& name,
+                         const sead::SafeString& post_name, bool* is_default) const;
 
 protected:
     bool finishParsing_() override;

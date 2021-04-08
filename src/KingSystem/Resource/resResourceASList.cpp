@@ -1,4 +1,5 @@
 #include "KingSystem/Resource/resResourceASList.h"
+#include "KingSystem/Resource/resResourceAS.h"
 
 namespace ksys::res {
 
@@ -135,6 +136,111 @@ bool ASList::parse_(u8* data, size_t size, sead::Heap* heap) {
 }
 
 bool ASList::finishParsing_() {
+    return true;
+}
+
+bool ASList::m7_() {
+    for (auto& as : mASDefines)
+        as.as = nullptr;
+
+    _2b0 = 0;
+    _2b1 = 0;
+    _2b2 = 0;
+    _2b3 = 0;
+    return true;
+}
+
+void ASList::addAS_(s32 index, AS* as) {
+    mASDefines[index].as = as;
+
+    _2b0 = _2b0 > as->_3b8 ? _2b0 : as->_3b8;
+
+    const auto as_counter = as->_3b9;
+    if (_2b1 == 0) {
+        _2b1 = as_counter;
+        _2b3 = as->_3bb;
+    } else {
+        u8* flags1;
+        u8* flags2;
+        if (as_counter > _2b1) {
+            _2b1 = as_counter;
+            flags1 = &as->_3bb;
+            flags2 = &_2b3;
+        } else {
+            flags1 = &_2b3;
+            flags2 = &as->_3bb;
+        }
+
+        for (int i = 0; i < 6; ++i) {
+            const auto mask = 1u << i;
+            if ((*flags1 & mask) == 0 && (*flags2 & mask) != 0) {
+                _2b3 |= mask;
+                _2b1++;
+            }
+        }
+    }
+
+    _2b2 |= as->_3ba;
+}
+
+const char* ASList::getASFileName(const sead::SafeString& name) const {
+    const int idx = findASDefine(name);
+    if (idx == -1)
+        return nullptr;
+    return mASDefines[idx].getFileName();
+}
+
+int ASList::findASDefine(const sead::SafeString& name) const {
+    return mASDefines.binarySearch(
+        name, +[](const ASDefine& define, const sead::SafeString& key) {
+            return define.name->compare(key);
+        });
+}
+
+int ASList::findCFDefine(const sead::SafeString& name) const {
+    return mCFDefines.binarySearch(
+        name, +[](const CFDefine& define, const sead::SafeString& key) {
+            return define.name->compare(key);
+        });
+}
+
+int ASList::CFExcept::compare(const ASList::CFExcept& o, const sead::SafeString& n) {
+    return o.name->compare(n);
+}
+
+int ASList::CFPost::compare(const ASList::CFPost& o, const sead::SafeString& n) {
+    return o.name->compare(n);
+}
+
+bool ASList::getCFDefineInfo(float* frame, float* start_frame_value, const sead::SafeString& name,
+                             const sead::SafeString& post_name, bool* is_default) const {
+    const int idx = findCFDefine(name);
+    *is_default = false;
+    if (idx == -1)
+        return false;
+
+    const auto& cfdefine = mCFDefines[idx];
+
+    const int except_idx = cfdefine.excepts.binarySearch(post_name, CFExcept::compare);
+    if (except_idx >= 0)
+        return false;
+
+    const CFPost* post = nullptr;
+    const int post_idx = cfdefine.posts.binarySearch(post_name, CFPost::compare);
+    if (post_idx != -1) {
+        post = std::addressof(cfdefine.posts[post_idx]);
+    } else {
+        post = std::addressof(cfdefine.posts[0]);
+        if (!post->name->isEmpty())
+            return false;
+        *is_default = true;
+    }
+
+    if (!post)
+        return false;
+
+    *frame = *post->frame;
+    *start_frame_value = *post->start_frame_rate;
     return true;
 }
 
