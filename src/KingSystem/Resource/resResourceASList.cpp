@@ -3,6 +3,10 @@
 
 namespace ksys::res {
 
+namespace {
+[[maybe_unused]] sead::SafeArray<sead::FixedSafeString<128>, 3> sStrings;
+}
+
 ASList::ASList() : ParamIO("aslist", 0) {}
 
 ASList::~ASList() {
