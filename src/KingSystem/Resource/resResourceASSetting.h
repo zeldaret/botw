@@ -10,29 +10,9 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/Resource/resResourceASResource.h"
 
 namespace ksys::res {
-
-class ASParamParser {
-    SEAD_RTTI_BASE(ASParamParser)
-public:
-    struct ParseArgs {
-        void* user_data;
-        agl::utl::ResParameterList res_list;
-        sead::Heap* heap;
-    };
-
-    virtual ~ASParamParser() = default;
-    virtual bool parse(const ParseArgs& args) { return true; }
-
-    agl::utl::ParameterList& getList() { return mList; }
-    const agl::utl::ParameterList& getList() const { return mList; }
-
-protected:
-    u32 _8 = 8;
-    agl::utl::ParameterList mList;
-};
-KSYS_CHECK_SIZE_NX150(ASParamParser, 0x58);
 
 class ASSetting : public agl::utl::IParameterIO, public Resource {
     SEAD_RTTI_OVERRIDE(ASSetting, Resource)
