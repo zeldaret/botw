@@ -103,4 +103,12 @@ bool ASSetting::BoneParams::parse(const ASParamParser::ParseArgs& args) {
     return true;
 }
 
+f32 ASSetting::BoneParams::getBoneWeight(const sead::SafeString& name) const {
+    for (const auto& param : mBuffer) {
+        if (name == *param.mBone)
+            return *param.mWeight;
+    }
+    return 1.0;
+}
+
 }  // namespace ksys::res

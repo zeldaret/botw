@@ -30,6 +30,7 @@ public:
     public:
         ~BoneParams() override;
         bool parse(const ParseArgs& args) override;
+        f32 getBoneWeight(const sead::SafeString& name) const;
 
         sead::Buffer<BoneParam> mBuffer;
     };
