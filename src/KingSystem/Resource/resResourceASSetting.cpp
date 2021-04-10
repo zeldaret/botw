@@ -73,7 +73,6 @@ ASSetting::BoneParams::~BoneParams() {
     mBuffer.freeBuffer();
 }
 
-// NON_MATCHING: parameter object iteration(???)
 bool ASSetting::BoneParams::parse(const ASParamParser::ParseArgs& args) {
     const auto num_objects = args.res_list.getResParameterObjNum();
     if (num_objects == 0)
@@ -82,11 +81,11 @@ bool ASSetting::BoneParams::parse(const ASParamParser::ParseArgs& args) {
     if (!mBuffer.tryAllocBuffer(num_objects, args.heap))
         return false;
 
-    sead::FixedSafeString<32> obj_name{"BoneParam"};
-    const auto obj_name_base_len = obj_name.calcLength();
-
     auto it = mBuffer.begin();
     const auto end = mBuffer.end();
+
+    sead::FixedSafeString<32> obj_name{"BoneParam"};
+    const auto obj_name_base_len = obj_name.calcLength();
 
     auto res_it = args.res_list.objBegin();
     const auto res_end = args.res_list.objEnd();
