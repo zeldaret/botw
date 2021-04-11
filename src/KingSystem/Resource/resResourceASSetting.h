@@ -10,7 +10,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resResource.h"
-#include "KingSystem/Resource/resResourceASResource.h"
+#include "KingSystem/Resource/resResourceASResourceExtension.h"
 
 namespace ksys::res {
 

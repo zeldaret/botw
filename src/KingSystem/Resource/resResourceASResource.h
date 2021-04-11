@@ -1,259 +1,170 @@
 #pragma once
 
-#include <agl/Utils/aglParameter.h>
 #include <agl/Utils/aglParameterList.h>
-#include <agl/Utils/aglParameterObj.h>
 #include <agl/Utils/aglResParameter.h>
-#include <array>
-#include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
-#include "KingSystem/Utils/Types.h"
-
-namespace sead {
-class Heap;
-}
+#include "KingSystem/Resource/resResourceASResourceExtension.h"
 
 namespace ksys::res {
 
-class ASParamParser {
-    SEAD_RTTI_BASE(ASParamParser)
-public:
-    enum class Type {
-        FrameCtrl = 0,
-        TriggerEvents = 1,
-        HoldEvents = 2,
-        StringArray = 3,
-        Ranges = 4,
-        FloatArray = 5,
-        IntArray = 6,
-        BitIndex = 7,
-        BlenderBone = 8,
-    };
-    static constexpr int NumTypes = 9;
+class AS;
 
-    struct ParseArgs {
-        agl::utl::ParameterList* list;
-        agl::utl::ResParameterList res_list;
-        sead::Heap* heap;
-    };
-
-    explicit ASParamParser(Type type) : mType(type) {}
-    virtual ~ASParamParser() = default;
-    virtual bool parse(const ParseArgs& args) { return true; }
-
-    Type getType() const { return mType; }
-    agl::utl::ParameterList& getList() { return mList; }
-    const agl::utl::ParameterList& getList() const { return mList; }
-
-protected:
-    Type mType;
-    agl::utl::ParameterList mList;
-};
-KSYS_CHECK_SIZE_NX150(ASParamParser, 0x58);
-
-class ASExtensions {
+class ASResource {
+    SEAD_RTTI_BASE(ASResource)
 public:
     struct ParseArgs {
-        agl::utl::ResParameterList res_list;
-        agl::utl::ParameterList* list;
+        agl::utl::ResParameterList list;
         sead::Heap* heap;
+        AS* as;
     };
 
-    ASExtensions() = default;
-    ~ASExtensions();
-    ASExtensions(const ASExtensions&) = delete;
-    auto operator=(const ASExtensions&) = delete;
+    struct MakeResourceArgs {
+        agl::utl::ResParameterList list;
+        sead::Heap* heap;
+        void* x;
+        int index;
+    };
 
-    const sead::Buffer<ASParamParser*>& getParsers() const { return mParsers; }
-    ASParamParser* getParser(ASParamParser::Type type) const;
+    ASResource(int type_index, int index) : mTypeIndex(type_index), mIndex(index) {}
+    virtual ~ASResource() = default;
 
     bool parse(const ParseArgs& args);
 
-private:
-    ASParamParser* makeParser(const ASParamParser::ParseArgs& args) const;
+    virtual int m4() { return 0; }
+    virtual int m5() { return 0; }
+    virtual int m6() { return 1; }
+    virtual int m7() { return 0; }
 
+    static const sead::SafeString& getDefaultStr();
+    static ASResource* make(const MakeResourceArgs& args);
+
+    s16 getTypeIndex() const { return mTypeIndex; }
+    s16 getIndex() const { return mIndex; }
+    int findStringIndex(const sead::SafeString& value) const;
+    int findIntIndex(int value) const;
+
+protected:
+    virtual bool doParse(const ParseArgs& args) { return true; }
+
+    s16 mTypeIndex{};
+    s16 mIndex{};
     agl::utl::ParameterList mList;
-    sead::Buffer<ASParamParser*> mParsers;
+    ASExtensions mExtensions;
 };
 
-class ASFrameCtrlParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASFrameCtrlParser, ASParamParser)
+class ASResourceWithChildren : public ASResource {
+    SEAD_RTTI_OVERRIDE(ASResourceWithChildren, ASResource)
 public:
-    ASFrameCtrlParser() : ASParamParser(Type::FrameCtrl) {}
+    using ASResource::ASResource;
+    ~ASResourceWithChildren() override;
+    ASResourceWithChildren(const ASResourceWithChildren&) = delete;
+    auto operator=(const ASResourceWithChildren&) = delete;
 
-    const auto& getRate() const { return *mRate; }
-    const auto& getStartFrame() const { return *mStartFrame; }
-    const auto& getEndFrame() const { return *mEndFrame; }
-    const auto& getLoopStopCount() const { return *mLoopStopCount; }
-    const auto& getLoopStopCountRandom() const { return *mLoopStopCountRandom; }
-    const auto& getReversePlay() const { return *mReversePlay; }
-    const auto& getUseGlobalFrame() const { return *mUseGlobalFrame; }
-    const auto& getConnect() const { return *mConnect; }
-    const auto& getFootType() const { return *mFootType; }
-    const auto& getAnmLoop() const { return *mAnmLoop; }
+    int m4() override { return callOnChildren_(&ASResource::m4); }
+    int m5() override { return callOnChildren_(&ASResource::m5); }
+    int m6() override { return callOnChildren_(&ASResource::m6) + 1; }
 
-    bool parse(const ParseArgs& args) override;
+protected:
+    using MemberFunction = int (ASResource::*)();
 
-private:
+    bool doParse(const ParseArgs& args) override;
+    virtual int callOnChildren_(MemberFunction fn);
+
+    sead::Buffer<ASResource*> mChildren;
+};
+
+class ASSequencePlayContainerResource : public ASResourceWithChildren {
+    SEAD_RTTI_OVERRIDE(ASSequencePlayContainerResource, ASResourceWithChildren)
+public:
+    using ASResourceWithChildren::ASResourceWithChildren;
+
+    const auto& getSequenceLoop() const { return *mSequenceLoop; }
+    float getValue(int index) const;
+
+protected:
+    bool doParse(const ParseArgs& args) override;
+    int callOnChildren_(MemberFunction fn) override;
+    int m7() override;
+
     agl::utl::ParameterObj mObj;
-    agl::utl::Parameter<float> mRate;
-    agl::utl::Parameter<float> mStartFrame;
-    agl::utl::Parameter<float> mEndFrame;
-    agl::utl::Parameter<float> mLoopStopCount;
-    agl::utl::Parameter<float> mLoopStopCountRandom;
-    agl::utl::Parameter<bool> mReversePlay;
-    agl::utl::Parameter<bool> mUseGlobalFrame;
-    agl::utl::Parameter<int> mConnect;
-    agl::utl::Parameter<int> mFootType;
-    agl::utl::Parameter<int> mAnmLoop;
+    agl::utl::Parameter<bool> mSequenceLoop;
 };
 
-class ASTriggerEventsParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASTriggerEventsParser, ASParamParser)
+class ASSelectorResource : public ASResourceWithChildren {
+    SEAD_RTTI_OVERRIDE(ASSelectorResource, ASResourceWithChildren)
 public:
-    struct Event {
-        agl::utl::ParameterObj obj;
-        int type_index;
-        agl::utl::Parameter<float> frame;
-        agl::utl::Parameter<sead::SafeString> value;
-    };
+    using ASResourceWithChildren::ASResourceWithChildren;
 
-    ASTriggerEventsParser() : ASParamParser(Type::TriggerEvents) {}
-    ~ASTriggerEventsParser() override { mEvents.freeBuffer(); }
-    ASTriggerEventsParser(const ASTriggerEventsParser&) = delete;
-    auto operator=(const ASTriggerEventsParser&) = delete;
+    const auto& getNoSync() const { return *mNoSync; }
+    const auto& getJudgeOnce() const { return *mJudgeOnce; }
 
-    const sead::Buffer<Event>& getEvents() const { return mEvents; }
+protected:
+    bool doParse(const ParseArgs& args) override;
+    int callOnChildren_(MemberFunction fn) override;
 
-    bool parse(const ParseArgs& args) override;
-
-private:
-    sead::Buffer<Event> mEvents;
-};
-
-class ASHoldEventsParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASHoldEventsParser, ASParamParser)
-public:
-    struct Event {
-        agl::utl::ParameterObj obj;
-        int type_index;
-        agl::utl::Parameter<float> start_frame;
-        agl::utl::Parameter<float> end_frame;
-        agl::utl::Parameter<sead::SafeString> value;
-    };
-
-    ASHoldEventsParser() : ASParamParser(Type::HoldEvents) {}
-    ~ASHoldEventsParser() override { mEvents.freeBuffer(); }
-    ASHoldEventsParser(const ASHoldEventsParser&) = delete;
-    auto operator=(const ASHoldEventsParser&) = delete;
-
-    const sead::Buffer<Event>& getEvents() const { return mEvents; }
-
-    bool parse(const ParseArgs& args) override;
-
-private:
-    sead::Buffer<Event> mEvents;
-};
-
-class ASStringArrayParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASStringArrayParser, ASParamParser)
-public:
-    struct Value {
-        agl::utl::Parameter<sead::SafeString> value;
-    };
-
-    ASStringArrayParser() : ASParamParser(Type::StringArray) {}
-    ~ASStringArrayParser() override { mValues.freeBuffer(); }
-    ASStringArrayParser(const ASStringArrayParser&) = delete;
-    auto operator=(const ASStringArrayParser&) = delete;
-
-    const sead::Buffer<Value>& getValues() const { return mValues; }
-
-    bool parse(const ParseArgs& args) override;
-
-private:
     agl::utl::ParameterObj mObj;
-    sead::Buffer<Value> mValues;
+    agl::utl::Parameter<bool> mNoSync;
+    agl::utl::Parameter<bool> mJudgeOnce;
 };
 
-class ASRangesParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASRangesParser, ASParamParser)
+class ASBlenderResource : public ASResourceWithChildren {
+    SEAD_RTTI_OVERRIDE(ASBlenderResource, ASResourceWithChildren)
 public:
-    struct Range {
-        agl::utl::ParameterObj obj;
-        agl::utl::Parameter<float> start;
-        agl::utl::Parameter<float> end;
-    };
+    using ASResourceWithChildren::ASResourceWithChildren;
 
-    ASRangesParser() : ASParamParser(Type::Ranges) {}
-    ~ASRangesParser() override { mRanges.freeBuffer(); }
-    ASRangesParser(const ASRangesParser&) = delete;
-    auto operator=(const ASRangesParser&) = delete;
+    const auto& getNoSync() const { return *mNoSync; }
+    const auto& getJudgeOnce() const { return *mJudgeOnce; }
+    const auto& getInputLimit() const { return *mInputLimit; }
 
-    const sead::Buffer<Range>& getRanges() const { return mRanges; }
+protected:
+    bool doParse(const ParseArgs& args) override;
+    int callOnChildren_(MemberFunction fn) override;
 
-    bool parse(const ParseArgs& args) override;
-
-private:
-    sead::Buffer<Range> mRanges;
-};
-
-class ASFloatArrayParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASFloatArrayParser, ASParamParser)
-public:
-    struct Value {
-        agl::utl::Parameter<float> value;
-    };
-
-    ASFloatArrayParser() : ASParamParser(Type::FloatArray) {}
-
-    ~ASFloatArrayParser() override { mValues.freeBuffer(); }
-    ASFloatArrayParser(const ASFloatArrayParser&) = delete;
-    auto operator=(const ASFloatArrayParser&) = delete;
-
-    const sead::Buffer<Value>& getValues() const { return mValues; }
-
-    bool parse(const ParseArgs& args) override;
-
-private:
     agl::utl::ParameterObj mObj;
-    sead::Buffer<Value> mValues;
+    agl::utl::Parameter<bool> mNoSync;
+    agl::utl::Parameter<bool> mJudgeOnce;
+    agl::utl::Parameter<float> mInputLimit;
 };
 
-class ASIntArrayParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASIntArrayParser, ASParamParser)
+class ASAssetResource : public ASResource {
+    SEAD_RTTI_OVERRIDE(ASAssetResource, ASResource)
 public:
-    struct Value {
-        agl::utl::Parameter<int> value;
-    };
+    using ASResource::ASResource;
 
-    ASIntArrayParser() : ASParamParser(Type::IntArray) {}
+    const sead::SafeString& getFileName() const { return *mFileName; }
 
-    ~ASIntArrayParser() override { mValues.freeBuffer(); }
-    ASIntArrayParser(const ASIntArrayParser&) = delete;
-    auto operator=(const ASIntArrayParser&) = delete;
+protected:
+    bool doParse(const ParseArgs& args) override;
 
-    const sead::Buffer<Value>& getValues() const { return mValues; }
-
-    bool parse(const ParseArgs& args) override;
-
-private:
     agl::utl::ParameterObj mObj;
-    sead::Buffer<Value> mValues;
+    agl::utl::Parameter<sead::SafeString> mFileName;
 };
 
-class ASBitIndexParser : public ASParamParser {
-    SEAD_RTTI_OVERRIDE(ASBitIndexParser, ASParamParser)
+class ASAssetExResource : public ASAssetResource {
+    SEAD_RTTI_OVERRIDE(ASAssetExResource, ASAssetResource)
 public:
-    ASBitIndexParser() : ASParamParser(Type::BitIndex) {}
+    using ASAssetResource::ASAssetResource;
 
-    int getBitIndex() const { return mTypeIndex; }
+protected:
+    int m5() override { return 1; }
+};
 
-    bool parse(const ParseArgs& args) override;
+class ASSkeltalAssetResource : public ASAssetResource {
+    SEAD_RTTI_OVERRIDE(ASSkeltalAssetResource, ASAssetResource)
+public:
+    using ASAssetResource::ASAssetResource;
 
-private:
-    int mTypeIndex = -1;
+    const auto& getInitAnmDriven() const { return *mInitAnmDriven; }
+    const auto& getMorph() const { return *mMorph; }
+    const auto& getResetMorph() const { return *mResetMorph; }
+
+protected:
+    bool doParse(const ParseArgs& args) override;
+
+    agl::utl::Parameter<int> mInitAnmDriven;
+    agl::utl::Parameter<float> mMorph;
+    agl::utl::Parameter<float> mResetMorph;
 };
 
 }  // namespace ksys::res

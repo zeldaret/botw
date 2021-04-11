@@ -1,339 +1,375 @@
 #include "KingSystem/Resource/resResourceASResource.h"
-#include <container/seadSafeArray.h>
-#include <optional>
+#include <limits>
 #include <prim/seadSafeString.h>
-#include "KingSystem/ActorSystem/actASSetting.h"
-#include "KingSystem/Resource/resResourceASSetting.h"
+#include "KingSystem/Resource/resResourceAS.h"
+
+namespace ksys::as {
+class Element;
+}
 
 namespace ksys::res {
 
-bool ASFrameCtrlParser::parse(const ASParamParser::ParseArgs& args) {
-    mRate.init(1.0, "Rate", "再生速度", "Min=0.f,Max=10.f", &mObj);
-    mStartFrame.init(0.0, "StartFrame", "開始フレーム", "Min=0.f,Max=100.f", &mObj);
-    mEndFrame.init(-1.0, "EndFrame", "終了フレーム", "Min=-1.f,Max=100.f", &mObj);
-    mLoopStopCount.init(-1.0, "LoopStopCount", "ループ停止回数", "Min=-1.f,Max=10.f", &mObj);
-    mLoopStopCountRandom.init(0.0, "LoopStopCountRandom", "ランダムループ追加回数",
-                              "Min=0.f,Max=10.f", &mObj);
-    mReversePlay.init(false, "ReversePlay", "逆再生", "", &mObj);
-    mUseGlobalFrame.init(false, "UseGlobalFrame", "グローバルフレーム使う", "", &mObj);
-    mFootType.init(0, "FootType", "足解決", "", &mObj);
-    mConnect.init(false, "Connect", "接続", "", &mObj);
-    mAnmLoop.init(0, "AnmLoop", "ループ設定", "", &mObj);
-
-    mList.addObj(&mObj, "FrameCtrl0");
-    return true;
-}
-
-bool ASTriggerEventsParser::parse(const ASParamParser::ParseArgs& args) {
-    const int num_objs = args.res_list.getResParameterObjNum();
-    if (num_objs == 0)
-        return true;
-
-    if (!mEvents.tryAllocBuffer(num_objs, args.heap))
-        return false;
-
-    auto it = mEvents.begin();
-    const auto end = mEvents.end();
-
-    sead::FixedSafeString<32> obj_name{"Event"};
-    const auto obj_name_prefix_len = obj_name.calcLength();
-
-    auto res_it = args.res_list.objBegin();
-    const auto res_end = args.res_list.objEnd();
-
-    while (res_it != res_end && it != end) {
-        u32 type_index = -1;
-        const auto TypeIndex = agl::utl::getResParameter(res_it.getObj(), "TypeIndex");
-        if (TypeIndex.ptr())
-            type_index = *TypeIndex.getData<int>();
-
-        // TODO: add a TypeIndex enum
-        it->type_index = type_index > 33 ? 88 : int(type_index) + 54;
-
-        it->frame.init(0.0, "Frame", "フレーム", "Min=0.f,Max=100.f", &it->obj);
-        it->value.init("", "Value", "値", "", &it->obj);
-
-        obj_name.trim(obj_name_prefix_len);
-        obj_name.appendWithFormat("%d", it.getIndex());
-        mList.addObj(&it->obj, obj_name);
-
-        ++res_it;
-        ++it;
-    }
-
-    return true;
-}
-
-bool ASHoldEventsParser::parse(const ASParamParser::ParseArgs& args) {
-    const int num_objs = args.res_list.getResParameterObjNum();
-    if (num_objs == 0)
-        return true;
-
-    if (!mEvents.tryAllocBuffer(num_objs, args.heap))
-        return false;
-
-    auto it = mEvents.begin();
-    const auto end = mEvents.end();
-
-    sead::FixedSafeString<32> obj_name{"Event"};
-    const auto obj_name_prefix_len = obj_name.calcLength();
-
-    auto res_it = args.res_list.objBegin();
-    const auto res_end = args.res_list.objEnd();
-
-    while (res_it != res_end && it != end) {
-        u32 type_index = -1;
-        const auto TypeIndex = agl::utl::getResParameter(res_it.getObj(), "TypeIndex");
-        if (TypeIndex.ptr())
-            type_index = *TypeIndex.getData<int>();
-
-        // TODO: add a TypeIndex enum
-        it->type_index = type_index > 53 ? 88 : int(type_index);
-
-        it->start_frame.init(0.0, "StartFrame", "開始フレーム", "Min=0.f,Max=100.f", &it->obj);
-        it->end_frame.init(0.0, "EndFrame", "終了フレーム", "Min=0.f,Max=100.f", &it->obj);
-        it->value.init("", "Value", "値", "", &it->obj);
-
-        obj_name.trim(obj_name_prefix_len);
-        obj_name.appendWithFormat("%d", it.getIndex());
-        mList.addObj(&it->obj, obj_name);
-
-        ++res_it;
-        ++it;
-    }
-
-    return true;
-}
-
-bool ASStringArrayParser::parse(const ASParamParser::ParseArgs& args) {
-    const int size = args.res_list.getResParameterObj(0).getNum();
-    if (size != 0) {
-        if (!mValues.tryAllocBuffer(size, args.heap))
-            return false;
-
-        sead::FixedSafeString<32> param_name{"Value"};
-        const auto param_name_prefix_len = param_name.calcLength();
-
-        for (int i = 0; i < size; ++i) {
-            param_name.trim(param_name_prefix_len);
-            param_name.appendWithFormat("%d", i);
-            mValues[i].value.init("", param_name, "値", "", &mObj);
-        }
-    }
-
-    mList.addObj(&mObj, "StringArray0");
-    return true;
-}
-
-bool ASRangesParser::parse(const ASParamParser::ParseArgs& args) {
-    const int num_objs = args.res_list.getResParameterObjNum();
-    if (num_objs == 0)
-        return true;
-
-    if (!mRanges.tryAllocBuffer(num_objs, args.heap))
-        return false;
-
-    auto it = mRanges.begin();
-    const auto end = mRanges.end();
-
-    sead::FixedSafeString<32> obj_name{"Range"};
-    const auto obj_name_prefix_len = obj_name.calcLength();
-
-    auto res_it = args.res_list.objBegin();
-    const auto res_end = args.res_list.objEnd();
-
-    while (res_it != res_end && it != end) {
-        obj_name.trim(obj_name_prefix_len);
-        obj_name.appendWithFormat("%d", it.getIndex());
-
-        it->start.init(0.0, "Start", "開始", "Min=0.f,Max=1.f", &it->obj);
-        it->end.init(0.0, "End", "終了", "Min=0.f,Max=1.f", &it->obj);
-
-        mList.addObj(&it->obj, obj_name);
-
-        ++res_it;
-        ++it;
-    }
-
-    return true;
-}
-
-bool ASFloatArrayParser::parse(const ASParamParser::ParseArgs& args) {
-    const int size = args.res_list.getResParameterObj(0).getNum();
-    if (size != 0) {
-        if (!mValues.tryAllocBuffer(size, args.heap))
-            return false;
-
-        sead::FixedSafeString<32> param_name{"Value"};
-        const auto param_name_prefix_len = param_name.calcLength();
-
-        for (int i = 0; i < size; ++i) {
-            param_name.trim(param_name_prefix_len);
-            param_name.appendWithFormat("%d", i);
-            mValues[i].value.init(1.0, param_name, "値", "", &mObj);
-        }
-    }
-
-    mList.addObj(&mObj, "FloatArray0");
-    return true;
-}
-
-bool ASIntArrayParser::parse(const ASParamParser::ParseArgs& args) {
-    const int size = args.res_list.getResParameterObj(0).getNum();
-    if (size != 0) {
-        if (!mValues.tryAllocBuffer(size, args.heap))
-            return false;
-
-        sead::FixedSafeString<32> param_name{"Value"};
-        const auto param_name_prefix_len = param_name.calcLength();
-
-        for (int i = 0; i < size; ++i) {
-            param_name.trim(param_name_prefix_len);
-            param_name.appendWithFormat("%d", i);
-            mValues[i].value.init(1, param_name, "値", "", &mObj);
-        }
-    }
-
-    mList.addObj(&mObj, "IntArray0");
-    return true;
-}
-
-bool ASBitIndexParser::parse(const ASParamParser::ParseArgs& args) {
-    const auto obj = args.res_list.getResParameterObj(0);
-    if (obj.getNum() < 1)
-        return true;
-
-    const auto TypeIndex = agl::utl::getResParameter(obj, "TypeIndex");
-    if (!TypeIndex.ptr())
-        return true;
-
-    mTypeIndex = *TypeIndex.getData<int>();
-    return true;
-}
-
-template <typename T>
-static ASParamParser* factoryImpl_(sead::Heap* heap) {
-    return new (heap) T;
-}
-
-static ASParamParser* dummyASParserFactoryImpl_(sead::Heap*) {
-    return nullptr;
-}
-
 namespace {
-struct Factory {
+
+struct ASElementFactory {
     const char* name;
-    ASParamParser* (*make)(sead::Heap* heap);
+    ASResource* (*make_res)(int type_index, const ASResource::MakeResourceArgs& args);
+    // FIXME: signature
+    as::Element* (*make)();
+    /// Arbitrary value that is passed to the Element class
+    int value;
 };
 
-sead::SafeArray<Factory, ASParamParser::NumTypes> sASFactories{{
-    {"FrameCtrl", factoryImpl_<ASFrameCtrlParser>},
-    {"TriggerEvents", factoryImpl_<ASTriggerEventsParser>},
-    {"HoldEvents", factoryImpl_<ASHoldEventsParser>},
-    {"StringArray", factoryImpl_<ASStringArrayParser>},
-    {"Ranges", factoryImpl_<ASRangesParser>},
-    {"FloatArray", factoryImpl_<ASFloatArrayParser>},
-    {"IntArray", factoryImpl_<ASIntArrayParser>},
-    {"BitIndex", factoryImpl_<ASBitIndexParser>},
-    {"BlenderBone", dummyASParserFactoryImpl_},
-}};
-}  // namespace
+sead::SafeString sStr_default = "default";
 
-ASExtensions::~ASExtensions() {
-    for (auto*& parser : mParsers) {
-        if (parser && parser->getType() != ASParamParser::Type::BlenderBone)
-            delete parser;
-        parser = nullptr;
-    }
-    mParsers.freeBuffer();
+template <typename T>
+ASResource* resFactoryImpl_(int type_index, const ASResource::MakeResourceArgs& arg) {
+    return new (arg.heap) T(type_index, arg.index);
 }
 
-bool ASExtensions::parse(const ASExtensions::ParseArgs& args) {
-    const auto Extend = agl::utl::getResParameterList(args.res_list, "Extend");
-    if (!Extend)
-        return true;
+// FIXME: make functions
+sead::SafeArray<ASElementFactory, 107> sFactories{{
+    /* 000 */ {"AbsTemperatureBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 24},
+    /* 001 */ {"AbsTemperatureSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 24},
+    /* 002 */ {"ArmorSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 57},
+    /* 003 */ {"ArrowSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 60},
+    /* 004 */ {"AttentionSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 48},
+    /* 005 */ {"BoneBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 28},
+    /* 006 */ {"BoneVisibilityAsset", resFactoryImpl_<ASAssetExResource>, nullptr, -1},
+    /* 007 */ {"BoolSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 66},
+    /* 008 */ {"ButtonSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 46},
+    /* 009 */ {"ChargeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 42},
 
-    const auto num_extensions = Extend.getResParameterListNum();
-    if (num_extensions == 0)
-        return true;
+    /* 010 */ {"ClearMatAnmAsset", resFactoryImpl_<ASResource>, nullptr, -1},
+    /* 011 */ {"ComboSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 43},
+    /* 012 */ {"DiffAngleYBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 26},
+    /* 013 */ {"DiffAngleYSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 26},
+    /* 014 */ {"DirectionAngleBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 9},
+    /* 015 */ {"DirectionAngleSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 9},
+    /* 016 */ {"DistanceBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 16},
+    /* 017 */ {"DistanceSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 16},
+    /* 018 */ {"DungeonClearSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 64},
+    /* 019 */ {"DungeonNumberSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 41},
 
-    if (!mParsers.tryAllocBuffer(num_extensions, args.heap))
+    /* 020 */ {"EmotionSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 55},
+    /* 021 */ {"EventFlagSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 65},
+    /* 022 */ {"EyeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 37},
+    /* 023 */ {"EyebrowSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 38},
+    /* 024 */ {"FaceEmotionSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 56},
+    /* 025 */ {"FootBLLifeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 34},
+    /* 026 */ {"FootBRLifeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 33},
+    /* 027 */ {"FootFLLifeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 32},
+    /* 028 */ {"FootFRLifeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 31},
+    /* 029 */ {"ForwardBentBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 18},
+
+    /* 030 */ {"ForwardBentSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 18},
+    /* 031 */ {"GearSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 64},
+    /* 032 */ {"GenerationSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 35},
+    /* 033 */ {"GrabTypeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 49},
+    /* 034 */ {"GroundNormalBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 21},
+    /* 035 */ {"GroundNormalSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 21},
+    /* 036 */ {"GroundNormalSideBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 22},
+    /* 037 */ {"GroundNormalSideSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 22},
+    /* 038 */ {"MaskSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 58},
+    /* 039 */ {"MatVisibilityAsset", resFactoryImpl_<ASAssetExResource>, nullptr, -1},
+
+    /* 040 */ {"MouthSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 36},
+    /* 041 */ {"NoAnmAsset", resFactoryImpl_<ASResource>, nullptr, -1},
+    /* 042 */ {"NoLoopStickAngleBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 7},
+    /* 043 */ {"NoLoopStickAngleSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 7},
+    /* 044 */ {"NodePosSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 63},
+    /* 045 */ {"PersonalitySelector", resFactoryImpl_<ASSelectorResource>, nullptr, 50},
+    /* 046 */ {"PostureSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 59},
+    /* 047 */ {"PreASSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 51},
+    /* 048 */ {"PreExclusionRandomSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 30},
+    /* 049 */ {"RandomSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 30},
+
+    /* 050 */ {"RideSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 61},
+    /* 051 */ {"RightStickAngleBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 8},
+    /* 052 */ {"RightStickAngleSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 8},
+    /* 053 */ {"RightStickValueBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 3},
+    /* 054 */ {"RightStickValueSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 3},
+    /* 055 */ {"RightStickXBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 4},
+    /* 056 */ {"RightStickXSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 4},
+    /* 057 */ {"RightStickYBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 5},
+    /* 058 */ {"RightStickYSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 5},
+    /* 059 */ {"SelfHeightSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 39},
+
+    /* 060 */ {"SelfWeightSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 40},
+    /* 061 */
+    {"SequencePlayContainer", resFactoryImpl_<ASSequencePlayContainerResource>, nullptr, -1},
+    /* 062 */ {"ShaderParamAsset", resFactoryImpl_<ASAssetExResource>, nullptr, -1},
+    /* 063 */ {"ShaderParamColorAsset", resFactoryImpl_<ASAssetExResource>, nullptr, -1},
+    /* 064 */ {"ShaderParamTexSRTAsset", resFactoryImpl_<ASAssetExResource>, nullptr, -1},
+    /* 065 */ {"SizeBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 17},
+    /* 066 */ {"SizeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 17},
+    /* 067 */ {"SkeltalAsset", resFactoryImpl_<ASSkeltalAssetResource>, nullptr, -1},
+    /* 068 */ {"SpeedBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 19},
+    /* 069 */ {"SpeedSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 19},
+
+    /* 070 */ {"StickAngleBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 6},
+    /* 071 */ {"StickAngleSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 6},
+    /* 072 */ {"StickValueBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 0},
+    /* 073 */ {"StickValueSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 0},
+    /* 074 */ {"StickXBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 1},
+    /* 075 */ {"StickXSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 1},
+    /* 076 */ {"StickYBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 2},
+    /* 077 */ {"StickYSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 2},
+    /* 078 */ {"StressBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 14},
+    /* 079 */ {"StressSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 14},
+
+    /* 080 */ {"SyncPlayContainer", resFactoryImpl_<ASResourceWithChildren>, nullptr, -1},
+    /* 081 */ {"TemperatureBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 23},
+    /* 082 */ {"TemperatureSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 23},
+    /* 083 */ {"TexturePatternAsset", resFactoryImpl_<ASAssetExResource>, nullptr, -1},
+    /* 084 */ {"TimeSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 52},
+    /* 085 */ {"TiredBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 13},
+    /* 086 */ {"TiredSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 13},
+    /* 087 */ {"UseItemSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 62},
+    /* 088 */ {"UserAngle2Blender", resFactoryImpl_<ASBlenderResource>, nullptr, 12},
+    /* 089 */ {"UserAngle2Selector", resFactoryImpl_<ASSelectorResource>, nullptr, 12},
+
+    /* 090 */ {"UserAngleBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 11},
+    /* 091 */ {"UserAngleSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 11},
+    /* 092 */ {"UserSpeedBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 10},
+    /* 093 */ {"UserSpeedSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 10},
+    /* 094 */ {"VariationSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 47},
+    /* 095 */ {"WallAngleBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 15},
+    /* 096 */ {"WallAngleSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 15},
+    /* 097 */ {"WeaponDetailSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 45},
+    /* 098 */ {"WeaponSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 44},
+    /* 099 */ {"WeatherSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 53},
+
+    /* 100 */ {"WeightBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 25},
+    /* 101 */ {"WeightSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 25},
+    /* 102 */ {"WindVelocityBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 27},
+    /* 103 */ {"YSpeedBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 20},
+    /* 104 */ {"YSpeedSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 20},
+    /* 105 */ {"ZEx00ExposureBlender", resFactoryImpl_<ASBlenderResource>, nullptr, 29},
+    /* 106 */ {"ZEx00ExposureSelector", resFactoryImpl_<ASSelectorResource>, nullptr, 29},
+}};
+
+}  // namespace
+
+bool ASResource::parse(const ASResource::ParseArgs& args) {
+    if (!doParse(args))
         return false;
-    for (int i = 0, n = mParsers.size(); i < n; ++i)
-        mParsers(i) = nullptr;
 
-    auto it = mParsers.begin();
-    const auto end = mParsers.end();
-
-    ASParamParser::ParseArgs parse_args{};
-    parse_args.list = &mList;
+    ASExtensions::ParseArgs parse_args{};
     parse_args.heap = args.heap;
+    parse_args.list = &mList;
+    parse_args.res_list = args.list;
+    return mExtensions.parse(parse_args);
+}
 
-    auto res_it = Extend.listBegin();
-    const auto res_end = Extend.listEnd();
+int ASResource::findStringIndex(const sead::SafeString& value) const {
+    auto* parser = sead::DynamicCast<ASStringArrayParser>(
+        mExtensions.getParser(ASParamParser::Type::StringArray));
 
-    for (; it != end && res_it != res_end; ++it, ++res_it) {
-        parse_args.res_list = res_it.getList();
-        *it = makeParser(parse_args);
+    if (!parser)
+        return -1;
 
-        constexpr int bone = int(ASParamParser::Type::BlenderBone);
-        if (*it == nullptr && parse_args.res_list.getParameterListNameHash() !=
-                                  agl::utl::ParameterBase::calcHash(sASFactories[bone].name)) {
-            return false;
-        }
+    const u32 size = parser->getValues().size();
+    if (size == 0)
+        return -1;
+
+    for (u32 i = 0; i < size; ++i) {
+        if (value == *parser->getValues()[i].value)
+            return i;
     }
 
-    args.list->addList(&mList, "Extend");
+    const int default_idx = int(size - 1);
+    if (default_idx < 0)
+        return -1;
+    if (getDefaultStr() == *parser->getValues()[default_idx].value)
+        return default_idx;
+    return -1;
+}
+
+int ASResource::findIntIndex(int value) const {
+    auto* parser =
+        sead::DynamicCast<ASIntArrayParser>(mExtensions.getParser(ASParamParser::Type::IntArray));
+    if (parser) {
+        const u32 size = parser->getValues().size();
+        if (size == 0)
+            return -1;
+
+        for (u32 i = 0; i < size; ++i) {
+            if (*parser->getValues()[i].value == value)
+                return i;
+        }
+
+        const int default_idx = int(size - 1);
+        if (default_idx >= 0 &&
+            *parser->getValues()[default_idx].value == std::numeric_limits<int>::min()) {
+            return default_idx;
+        }
+    }
+    return -1;
+}
+
+const sead::SafeString& ASResource::getDefaultStr() {
+    return sStr_default;
+}
+
+ASResourceWithChildren::~ASResourceWithChildren() {
+    mChildren.freeBuffer();
+}
+
+// NON_MATCHING: getParameterData (redundant uxtw which leads to localised regalloc diffs)
+bool ASResourceWithChildren::doParse(const ASResource::ParseArgs& args) {
+    const auto Children = agl::utl::getResParameterObj(args.list, "Children");
+    if (!Children)
+        return true;
+
+    const auto size = Children.getNum();
+    if (size == 0)
+        return true;
+
+    if (!mChildren.tryAllocBuffer(size, args.heap))
+        return false;
+    for (int i = 0, n = mChildren.size(); i < n; ++i)
+        mChildren(i) = nullptr;
+
+    for (auto it = mChildren.begin(), end = mChildren.end(); it != end; ++it) {
+        const auto idx = *Children.getParameterData<int>(it.getIndex());
+        *it = args.as->getElementResources()[idx];
+    }
+
     return true;
 }
 
-ASParamParser* ASExtensions::makeParser(const ASParamParser::ParseArgs& args) const {
-    const auto is_factory = [&args](int i) {
-        return args.res_list.getParameterListNameHash() ==
-               agl::utl::ParameterBase::calcHash(sASFactories[i].name);
-    };
-
-    std::optional<int> type;
-    for (int i = 0; i < ASParamParser::NumTypes - 1; ++i) {
-        if (!is_factory(i))
-            continue;
-        type = i;
-        break;
-    }
-
-    if (!type.has_value() && is_factory(int(ASParamParser::Type::BlenderBone))) {
-        const auto obj = args.res_list.getResParameterObj(0);
-        if (obj.getNum() > 0) {
-            const sead::SafeString name = obj.getResParameter(0).getData<const char>();
-            return act::ASSetting::instance()->getBoneParams(name);
-        }
-    }
-
-    if (!type.has_value())
-        return nullptr;
-
-    const auto& factory = sASFactories[*type];
-
-    auto* parser = factory.make(args.heap);
-    if (!parser)
-        return nullptr;
-
-    if (!parser->parse(args)) {
-        delete parser;
-        return nullptr;
-    }
-
-    args.list->addList(&parser->getList(), factory.name);
-    return parser;
+int ASResourceWithChildren::callOnChildren_(MemberFunction fn) {
+    int ret = 0;
+    for (int i = 0; i < mChildren.size(); ++i)
+        ret += (mChildren[i]->*fn)();
+    return ret;
 }
 
-ASParamParser* ASExtensions::getParser(ASParamParser::Type type) const {
-    for (int i = 0, n = mParsers.size(); i < n; ++i) {
-        auto* parser = mParsers[i];
-        if (parser && parser->getType() == type)
-            return parser;
+bool ASSequencePlayContainerResource::doParse(const ASResource::ParseArgs& args) {
+    if (!ASResourceWithChildren::doParse(args))
+        return false;
+
+    mSequenceLoop.init(false, "SequenceLoop", "シーケンスループ", &mObj);
+
+    mList.addObj(&mObj, "Parameters");
+    return true;
+}
+
+int ASSequencePlayContainerResource::callOnChildren_(ASResourceWithChildren::MemberFunction fn) {
+    int ret = 0;
+    for (int i = 0; i < mChildren.size(); ++i) {
+        int value = (mChildren[i]->*fn)();
+        if (u32(ret) <= u32(value))
+            ret = value;
     }
-    return nullptr;
+    return ret;
+}
+
+int ASSequencePlayContainerResource::m7() {
+    auto* parser = sead::DynamicCast<ASFloatArrayParser>(
+        mExtensions.getParser(ASParamParser::Type::FloatArray));
+    if (!parser)
+        return 0;
+
+    for (int i = 0, n = parser->getValues().size(); i < n; ++i) {
+        if (*parser->getValues()[i].value < 1.0)
+            return 1;
+    }
+    return 0;
+}
+
+float ASSequencePlayContainerResource::getValue(int index) const {
+    auto* parser = sead::DynamicCast<ASFloatArrayParser>(
+        mExtensions.getParser(ASParamParser::Type::FloatArray));
+    if (!parser || parser->getValues().size() <= index)
+        return 1.0;
+    return *parser->getValues()[index].value;
+}
+
+bool ASSelectorResource::doParse(const ASResource::ParseArgs& args) {
+    if (!ASResourceWithChildren::doParse(args))
+        return false;
+
+    mNoSync.init(false, "NoSync", "非同期", &mObj);
+    mJudgeOnce.init(true, "JudgeOnce", "初期化時のみ判定", &mObj);
+
+    mList.addObj(&mObj, "Parameters");
+    return true;
+}
+
+int ASSelectorResource::callOnChildren_(ASResourceWithChildren::MemberFunction fn) {
+    int ret = 0;
+    for (int i = 0; i < mChildren.size(); ++i) {
+        int value = (mChildren[i]->*fn)();
+        if (u32(ret) <= u32(value))
+            ret = value;
+    }
+    return ret;
+}
+
+bool ASBlenderResource::doParse(const ASResource::ParseArgs& args) {
+    if (!ASResourceWithChildren::doParse(args))
+        return false;
+
+    mNoSync.init(false, "NoSync", "非同期", &mObj);
+    mJudgeOnce.init(false, "JudgeOnce", "初期化時のみ判定", &mObj);
+    mInputLimit.init(-1.0, "InputLimit", "入力変化制限", &mObj);
+
+    mList.addObj(&mObj, "Parameters");
+    return true;
+}
+
+int ASBlenderResource::callOnChildren_(ASResourceWithChildren::MemberFunction fn) {
+    if (mChildren.size() == 0)
+        return 0;
+
+    const u32 first = (mChildren[0]->*fn)();
+
+    u32 max = first;
+    u32 previous = first;
+    for (int i = 1; i < mChildren.size(); ++i) {
+        const u32 current = (mChildren[i]->*fn)();
+        if (max <= previous + current)
+            max = previous + current;
+        previous = current;
+    }
+
+    if (max <= first + previous)
+        max = first + previous;
+
+    return max;
+}
+
+bool ASAssetResource::doParse(const ASResource::ParseArgs& args) {
+    mFileName.init("", "FileName", "ファイル名", &mObj);
+
+    mList.addObj(&mObj, "Parameters");
+    return true;
+}
+
+bool ASSkeltalAssetResource::doParse(const ASResource::ParseArgs& args) {
+    ASAssetResource::doParse(args);
+
+    mMorph.init(5.0, "Morph", "補間", "Min=0.f,Max=20.f", &mObj);
+    mResetMorph.init(5.0, "ResetMorph", "リセット時補間", "Min=0.f,Max=20.f", &mObj);
+    mInitAnmDriven.init(false, "InitAnmDriven", "初期アニメドリブン", "", &mObj);
+
+    return true;
+}
+
+ASResource* ASResource::make(const ASResource::MakeResourceArgs& args) {
+    const auto Parameters = agl::utl::getResParameterObj(args.list, "Parameters");
+
+    const auto TypeIndex = agl::utl::getResParameter(Parameters, "TypeIndex");
+    if (!TypeIndex.ptr())
+        return nullptr;
+
+    const auto type_index = *TypeIndex.getData<int>();
+    if (u32(type_index) >= u32(sFactories.size()))
+        return nullptr;
+
+    return sFactories[type_index].make_res(type_index, args);
 }
 
 }  // namespace ksys::res

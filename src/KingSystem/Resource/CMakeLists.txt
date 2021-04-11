@@ -144,6 +144,8 @@ target_sources(uking PRIVATE
   resResourceASList.h
   resResourceASResource.cpp
   resResourceASResource.h
+  resResourceASResourceExtension.cpp
+  resResourceASResourceExtension.h
   resResourceASSetting.cpp
   resResourceASSetting.h
   resResourceAttClient.cpp
