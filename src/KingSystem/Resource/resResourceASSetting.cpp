@@ -59,7 +59,7 @@ bool ASSetting::parse_(u8* data, size_t size, sead::Heap* heap) {
         it->mList.addList(&it->mBoneParams.getList(), "BoneParam");
 
         const auto list = *res_it;
-        args.user_data = std::addressof(*it);
+        args.list = &it->mList;
         args.res_list = agl::utl::getResParameterList(list, "BoneParam");
         if (!it->mBoneParams.parse(args))
             return false;

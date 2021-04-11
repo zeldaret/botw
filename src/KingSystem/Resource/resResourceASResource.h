@@ -33,7 +33,7 @@ public:
     static constexpr int NumTypes = 9;
 
     struct ParseArgs {
-        void* user_data;
+        agl::utl::ParameterList* list;
         agl::utl::ResParameterList res_list;
         sead::Heap* heap;
     };
@@ -54,19 +54,24 @@ KSYS_CHECK_SIZE_NX150(ASParamParser, 0x58);
 
 class ASExtensions {
 public:
+    struct ParseArgs {
+        agl::utl::ResParameterList res_list;
+        agl::utl::ParameterList* list;
+        sead::Heap* heap;
+    };
+
     ASExtensions() = default;
     ~ASExtensions();
     ASExtensions(const ASExtensions&) = delete;
     auto operator=(const ASExtensions&) = delete;
 
     const sead::Buffer<ASParamParser*>& getParsers() const { return mParsers; }
+    ASParamParser* getParser(ASParamParser::Type type) const;
+
+    bool parse(const ParseArgs& args);
 
 private:
-    struct Factory {
-        const char* name;
-        ASParamParser* (*make)(sead::Heap* heap);
-    };
-    static std::array<Factory, ASParamParser::NumTypes> sFactories;
+    ASParamParser* makeParser(const ASParamParser::ParseArgs& args) const;
 
     agl::utl::ParameterList mList;
     sead::Buffer<ASParamParser*> mParsers;

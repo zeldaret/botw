@@ -16,7 +16,7 @@ class ASSetting {
 
 public:
     void init(const sead::SafeString& config_path);
-    const res::ASSetting::BoneParams* getBoneParams(const sead::SafeString& key) const;
+    res::ASParamParser* getBoneParams(const sead::SafeString& key) const;
 
 private:
     res::Handle mHandle;

@@ -1,5 +1,9 @@
 #include "KingSystem/Resource/resResourceASResource.h"
+#include <container/seadSafeArray.h>
+#include <optional>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actASSetting.h"
+#include "KingSystem/Resource/resResourceASSetting.h"
 
 namespace ksys::res {
 
@@ -216,7 +220,13 @@ static ASParamParser* dummyASParserFactoryImpl_(sead::Heap*) {
     return nullptr;
 }
 
-std::array<ASExtensions::Factory, ASParamParser::NumTypes> ASExtensions::sFactories{{
+namespace {
+struct Factory {
+    const char* name;
+    ASParamParser* (*make)(sead::Heap* heap);
+};
+
+sead::SafeArray<Factory, ASParamParser::NumTypes> sASFactories{{
     {"FrameCtrl", factoryImpl_<ASFrameCtrlParser>},
     {"TriggerEvents", factoryImpl_<ASTriggerEventsParser>},
     {"HoldEvents", factoryImpl_<ASHoldEventsParser>},
@@ -227,6 +237,7 @@ std::array<ASExtensions::Factory, ASParamParser::NumTypes> ASExtensions::sFactor
     {"BitIndex", factoryImpl_<ASBitIndexParser>},
     {"BlenderBone", dummyASParserFactoryImpl_},
 }};
+}  // namespace
 
 ASExtensions::~ASExtensions() {
     for (auto*& parser : mParsers) {
@@ -235,6 +246,94 @@ ASExtensions::~ASExtensions() {
         parser = nullptr;
     }
     mParsers.freeBuffer();
+}
+
+bool ASExtensions::parse(const ASExtensions::ParseArgs& args) {
+    const auto Extend = agl::utl::getResParameterList(args.res_list, "Extend");
+    if (!Extend)
+        return true;
+
+    const auto num_extensions = Extend.getResParameterListNum();
+    if (num_extensions == 0)
+        return true;
+
+    if (!mParsers.tryAllocBuffer(num_extensions, args.heap))
+        return false;
+    for (int i = 0, n = mParsers.size(); i < n; ++i)
+        mParsers(i) = nullptr;
+
+    auto it = mParsers.begin();
+    const auto end = mParsers.end();
+
+    ASParamParser::ParseArgs parse_args{};
+    parse_args.list = &mList;
+    parse_args.heap = args.heap;
+
+    auto res_it = Extend.listBegin();
+    const auto res_end = Extend.listEnd();
+
+    for (; it != end && res_it != res_end; ++it, ++res_it) {
+        parse_args.res_list = res_it.getList();
+        *it = makeParser(parse_args);
+
+        constexpr int bone = int(ASParamParser::Type::BlenderBone);
+        if (*it == nullptr && parse_args.res_list.getParameterListNameHash() !=
+                                  agl::utl::ParameterBase::calcHash(sASFactories[bone].name)) {
+            return false;
+        }
+    }
+
+    args.list->addList(&mList, "Extend");
+    return true;
+}
+
+ASParamParser* ASExtensions::makeParser(const ASParamParser::ParseArgs& args) const {
+    const auto is_factory = [&args](int i) {
+        return args.res_list.getParameterListNameHash() ==
+               agl::utl::ParameterBase::calcHash(sASFactories[i].name);
+    };
+
+    std::optional<int> type;
+    for (int i = 0; i < ASParamParser::NumTypes - 1; ++i) {
+        if (!is_factory(i))
+            continue;
+        type = i;
+        break;
+    }
+
+    if (!type.has_value() && is_factory(int(ASParamParser::Type::BlenderBone))) {
+        const auto obj = args.res_list.getResParameterObj(0);
+        if (obj.getNum() > 0) {
+            const sead::SafeString name = obj.getResParameter(0).getData<const char>();
+            return act::ASSetting::instance()->getBoneParams(name);
+        }
+    }
+
+    if (!type.has_value())
+        return nullptr;
+
+    const auto& factory = sASFactories[*type];
+
+    auto* parser = factory.make(args.heap);
+    if (!parser)
+        return nullptr;
+
+    if (!parser->parse(args)) {
+        delete parser;
+        return nullptr;
+    }
+
+    args.list->addList(&parser->getList(), factory.name);
+    return parser;
+}
+
+ASParamParser* ASExtensions::getParser(ASParamParser::Type type) const {
+    for (int i = 0, n = mParsers.size(); i < n; ++i) {
+        auto* parser = mParsers[i];
+        if (parser && parser->getType() == type)
+            return parser;
+    }
+    return nullptr;
 }
 
 }  // namespace ksys::res

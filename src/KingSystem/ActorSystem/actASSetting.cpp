@@ -16,12 +16,12 @@ void ASSetting::init(const sead::SafeString& config_path) {
 }
 
 // NON_MATCHING: sead::DirectResource to res::ASSetting cast nullptr check; branching for the return
-const res::ASSetting::BoneParams* ASSetting::getBoneParams(const sead::SafeString& key) const {
+res::ASParamParser* ASSetting::getBoneParams(const sead::SafeString& key) const {
     auto* res = sead::DynamicCast<res::ASSetting>(mHandle.getResource());
     if (!res)
         return nullptr;
 
-    for (const auto& bones : res->getBlenderBones()) {
+    for (auto& bones : res->getBlenderBones()) {
         if (key == bones.mKeyName.ref())
             return &bones.mBoneParams;
     }

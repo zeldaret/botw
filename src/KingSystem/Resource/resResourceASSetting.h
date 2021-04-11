@@ -51,6 +51,7 @@ public:
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
+    sead::Buffer<BlenderBone>& getBlenderBones() { return mBlenderBones; }
     const sead::Buffer<BlenderBone>& getBlenderBones() const { return mBlenderBones; }
 
 private:
