@@ -8,9 +8,9 @@
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <gfx/seadColor.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadStorageFor.h>
 #include <prim/seadTypedBitFlag.h>
-#include <prim/seadBitFlag.h>
 #include "KingSystem/GameData/gdtFlag.h"
 #include "KingSystem/Utils/Types.h"
 

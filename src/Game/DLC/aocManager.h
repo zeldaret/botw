@@ -3,10 +3,10 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadStorageFor.h>
-#include <prim/seadBitFlag.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
@@ -65,7 +65,7 @@ public:
     void registerAocPack(ksys::res::Handle* pack);
     bool aocPackHasFile(const sead::SafeString& path) const;
 
-    bool changeMoviePath(sead::BufferedSafeString & path) const;
+    bool changeMoviePath(sead::BufferedSafeString& path) const;
 
     void parseAocMainFieldStaticInfo(const al::ByamlIter& iter);
     // TODO: figure out what this does
