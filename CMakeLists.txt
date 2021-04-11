@@ -34,6 +34,9 @@ target_link_libraries(uking PUBLIC sead)
 add_subdirectory(lib/agl)
 target_link_libraries(uking PUBLIC agl)
 
+add_subdirectory(lib/aal)
+target_link_libraries(uking PRIVATE aal)
+
 add_subdirectory(lib/EventFlow)
 target_link_libraries(uking PRIVATE evfl)
 
