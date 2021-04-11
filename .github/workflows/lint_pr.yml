@@ -9,4 +9,4 @@ jobs:
       with:
         source: 'src'
         exclude: 'lib'
-        clangFormatVersion: 10
+        clangFormatVersion: 11
