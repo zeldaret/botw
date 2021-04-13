@@ -13,7 +13,7 @@ namespace {
 
 struct ASElementFactory {
     const char* name;
-    ASResource* (*make_res)(int type_index, const ASResource::MakeResourceArgs& args);
+    ASResource* (*make_res)(int type_index, const ASResource::ParseArgs& args);
     // FIXME: signature
     as::Element* (*make)();
     /// Arbitrary value that is passed to the Element class
@@ -23,7 +23,7 @@ struct ASElementFactory {
 sead::SafeString sStr_default = "default";
 
 template <typename T>
-ASResource* resFactoryImpl_(int type_index, const ASResource::MakeResourceArgs& arg) {
+ASResource* resFactoryImpl_(int type_index, const ASResource::ParseArgs& arg) {
     return new (arg.heap) T(type_index, arg.index);
 }
 
@@ -358,7 +358,7 @@ bool ASSkeltalAssetResource::doParse(const ASResource::ParseArgs& args) {
     return true;
 }
 
-ASResource* ASResource::make(const ASResource::MakeResourceArgs& args) {
+ASResource* ASResource::make(const ASResource::ParseArgs& args) {
     const auto Parameters = agl::utl::getResParameterObj(args.list, "Parameters");
 
     const auto TypeIndex = agl::utl::getResParameter(Parameters, "TypeIndex");

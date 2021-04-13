@@ -16,8 +16,11 @@ class AS : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AS, Resource)
 public:
     AS();
+    ~AS() override;
+    AS(const AS&) = delete;
+    auto operator=(const AS&) = delete;
 
-    void doCreate_(u8*, u32, sead::Heap*) override {}
+    void doCreate_(u8*, u32, sead::Heap*) override;
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
     void finalize_() override;
@@ -27,6 +30,9 @@ public:
     const auto& getRandomRateMax() const { return *mRandomRateMax; }
     const auto& getForbidPartialDemoAs() const { return *mForbidPartialDemoAS; }
     const auto& getUseIk() const { return *mUseIK; }
+
+    ASResource* getFirstResource() const;
+    float getRandomRate() const;
 
 private:
     friend class ASList;

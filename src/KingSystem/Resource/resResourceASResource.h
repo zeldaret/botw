@@ -17,12 +17,6 @@ public:
         agl::utl::ResParameterList list;
         sead::Heap* heap;
         AS* as;
-    };
-
-    struct MakeResourceArgs {
-        agl::utl::ResParameterList list;
-        sead::Heap* heap;
-        void* x;
         int index;
     };
 
@@ -37,18 +31,20 @@ public:
     virtual int m7() { return 0; }
 
     static const sead::SafeString& getDefaultStr();
-    static ASResource* make(const MakeResourceArgs& args);
+    static ASResource* make(const ParseArgs& args);
 
-    s16 getTypeIndex() const { return mTypeIndex; }
-    s16 getIndex() const { return mIndex; }
+    u16 getTypeIndex() const { return mTypeIndex; }
+    u16 getIndex() const { return mIndex; }
     int findStringIndex(const sead::SafeString& value) const;
     int findIntIndex(int value) const;
+
+    agl::utl::ParameterList& getList() { return mList; }
 
 protected:
     virtual bool doParse(const ParseArgs& args) { return true; }
 
-    s16 mTypeIndex{};
-    s16 mIndex{};
+    u16 mTypeIndex{};
+    u16 mIndex{};
     agl::utl::ParameterList mList;
     ASExtensions mExtensions;
 };
