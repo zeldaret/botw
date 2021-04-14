@@ -3,7 +3,6 @@
 
 namespace ksys::res {
 
-// NON_MATCHING: reorderings for the "テーブルの数" SafeString ctor
 bool Drop::parse_(u8* data, size_t, sead::Heap* heap) {
     mTableNum.init(0, "TableNum", "テーブルの数", &mObj);
     addObj(&mObj, "Header");
