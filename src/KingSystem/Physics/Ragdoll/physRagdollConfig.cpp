@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollConfig.h"
+#include "KingSystem/Resource/resResourceRagdollConfig.h"
 
 namespace ksys::phys {
 
@@ -15,19 +16,18 @@ RagdollConfig::PartImpulseInfo::ImpulseObj::ImpulseObj()
       mAttackPoint({0, 0, 0}, "AttackPoint", "インパルスを与える点", this),
       mImpulsePower(0.1, "ImpulsePower", "インパルスの強さ", this) {}
 
-// NON_MATCHING: loop unrolling
 RagdollConfig::PartImpulseInfo::PartImpulseInfo()
     : mIsUseReceiveImpulse(true, "IsUseReceiveImpulse", "攻撃インパルスを反映させるかどうか",
                            &mObj),
       mIsUseFixedImpulse(true, "IsUseFixedImpulse", "固定インパルスを反映させるかどうか", &mObj) {
-    for (int i = 0; i < mReceiveObjs.size(); ++i) {
+    for (int i = 0; i < res::RagdollConfig::cNumReceiveObjs; ++i) {
         sead::FormatFixedSafeString<128> name("ReceiveObj%02d", i + 1);
-        addObj(&mReceiveObjs[i], name);
+        addObj(&mReceiveObjs(i), name);
     }
 
-    for (int i = 0; i < mImpulseObjs.size(); ++i) {
+    for (int i = 0; i < res::RagdollConfig::cNumImpulseObjs; ++i) {
         sead::FormatFixedSafeString<128> name("ImpulseObj%02d", i + 1);
-        addObj(&mImpulseObjs[i], name);
+        addObj(&mImpulseObjs(i), name);
     }
 
     addObj(&mObj, "PartImpulseData");

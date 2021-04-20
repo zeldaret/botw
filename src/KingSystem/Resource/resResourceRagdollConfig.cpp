@@ -2,6 +2,10 @@
 
 namespace ksys::res {
 
+const int RagdollConfig::cNumReceiveObjs = 3;
+const int RagdollConfig::cNumImpulseObjs = 5;
+const int RagdollConfig::cNumXXX = 10;
+
 RagdollConfig::RagdollConfig() : ParamIO("rgconfig", 0) {}
 
 RagdollConfig::~RagdollConfig() = default;

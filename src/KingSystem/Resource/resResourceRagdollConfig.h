@@ -18,6 +18,10 @@ public:
 
     const phys::RagdollConfig& getConfig() const { return mConfig; }
 
+    static const int cNumReceiveObjs;
+    static const int cNumImpulseObjs;
+    static const int cNumXXX;  // FIXME: rename
+
 private:
     phys::RagdollConfig mConfig;
 };
