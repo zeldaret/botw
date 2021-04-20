@@ -4,7 +4,11 @@ namespace ksys::res {
 
 const int RagdollConfig::cNumReceiveObjs = 3;
 const int RagdollConfig::cNumImpulseObjs = 5;
-const int RagdollConfig::cNumXXX = 10;
+const int RagdollConfig::cNumImpulseParams = 10;
+const std::array<char, 64> RagdollConfig::cImpulseParamNames[10] = {
+    {"Default"}, {"Sword"},    {"LargeSword"}, {"Spear"},      {"Arrow"},
+    {"Bomb"},    {"HeadShot"}, {"ShockWave"},  {"SilentKill"}, {"Gust"},
+};
 
 RagdollConfig::RagdollConfig() : ParamIO("rgconfig", 0) {}
 

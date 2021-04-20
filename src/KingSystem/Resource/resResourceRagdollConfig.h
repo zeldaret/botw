@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "KingSystem/Physics/Ragdoll/physRagdollConfig.h"
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
@@ -20,7 +22,8 @@ public:
 
     static const int cNumReceiveObjs;
     static const int cNumImpulseObjs;
-    static const int cNumXXX;  // FIXME: rename
+    static const int cNumImpulseParams;
+    static const std::array<char, 64> cImpulseParamNames[10];
 
 private:
     phys::RagdollConfig mConfig;
