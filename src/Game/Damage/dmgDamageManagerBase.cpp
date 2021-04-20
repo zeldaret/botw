@@ -1,5 +1,5 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
-#include "Game/DLC/aoc2.h"
+#include "Game/DLC/aocHardModeManager.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -139,37 +139,37 @@ bool DamageManagerBase::applyDamage(s32& life) {
 }
 
 void DamageManagerBase::tryBuffDamage(s32& damage) {
-    if (!uking::aoc2::instance()) {
+    if (!aoc::HardModeManager::instance()) {
         return;
     }
 
-    if (!uking::aoc2::instance()->checkFlag(uking::aoc2::Flag::EnableHardMode)) {
+    if (!aoc::HardModeManager::instance()->checkFlag(aoc::HardModeManager::Flag::EnableHardMode)) {
         return;
     }
 
-    if (!uking::aoc2::instance()->isHardModeChangeOn(
-            uking::aoc2::HardModeChange::ApplyDamageMultiplier)) {
+    if (!aoc::HardModeManager::instance()->isHardModeChangeOn(
+            aoc::HardModeManager::HardModeChange::ApplyDamageMultiplier)) {
         return;
     }
 
     ksys::act::ActorConstDataAccess acc;
     ksys::act::acquireActor(getAttacker(), &acc);
-    if (uking::aoc2::shouldApplyMasterModeDamageMultiplier(acc)) {
-        uking::aoc2::buffDamage(damage);
+    if (aoc::HardModeManager::shouldApplyMasterModeDamageMultiplier(acc)) {
+        aoc::HardModeManager::buffDamage(damage);
     }
 }
 
 void DamageManagerBase::tryApplyDamageRecovery(s32& damage) {
-    if (!uking::aoc2::instance()) {
+    if (!aoc::HardModeManager::instance()) {
         return;
     }
 
-    if (!uking::aoc2::instance()->checkFlag(uking::aoc2::Flag::EnableHardMode)) {
+    if (!aoc::HardModeManager::instance()->checkFlag(aoc::HardModeManager::Flag::EnableHardMode)) {
         return;
     }
 
-    if (!uking::aoc2::instance()->isHardModeChangeOn(
-            uking::aoc2::HardModeChange::EnableLifeRegen)) {
+    if (!aoc::HardModeManager::instance()->isHardModeChangeOn(
+            uking::aoc::HardModeManager::HardModeChange::EnableLifeRegen)) {
         return;
     }
 

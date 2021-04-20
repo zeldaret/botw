@@ -1,6 +1,6 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/Actor/actWeapon.h"
-#include "Game/DLC/aoc2.h"
+#include "Game/DLC/aocHardModeManager.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -29,9 +29,11 @@ int getItemHitPointRecover(const sead::SafeString& name) {
 
     int value = ksys::act::getCureItemHitPointRecover(iter);
 
-    if (aoc2::instance() && aoc2::instance()->checkFlag(aoc2::Flag::EnableHardMode) &&
-        aoc2::instance()->isHardModeChangeOn(aoc2::HardModeChange::NerfHpRestore)) {
-        aoc2::instance()->nerfHpRestore(&value);
+    using HardModeMgr = uking::aoc::HardModeManager;
+    if (HardModeMgr::instance() &&
+        HardModeMgr::instance()->checkFlag(HardModeMgr::Flag::EnableHardMode) &&
+        HardModeMgr::instance()->isHardModeChangeOn(HardModeMgr::HardModeChange::NerfHpRestore)) {
+        HardModeMgr::instance()->nerfHpRestore(&value);
     }
 
     return value;

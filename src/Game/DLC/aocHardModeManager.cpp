@@ -1,11 +1,11 @@
-#include "Game/DLC/aoc2.h"
+#include "Game/DLC/aocHardModeManager.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
-namespace uking {
+namespace uking::aoc {
 
-SEAD_SINGLETON_DISPOSER_IMPL(aoc2)
+SEAD_SINGLETON_DISPOSER_IMPL(HardModeManager)
 
 namespace {
 struct aoc2StaticData {
@@ -19,9 +19,9 @@ aoc2StaticData sData;
 sead::FixedSafeString<64> sStr{""};
 }  // namespace
 
-aoc2::aoc2()
-    : mGdtResetSlot(this, &aoc2::setHardModeEnabledFlag),
-      mGdtReinitSlot(this, &aoc2::initFlagHandles) {
+HardModeManager::HardModeManager()
+    : mGdtResetSlot(this, &HardModeManager::setHardModeEnabledFlag),
+      mGdtReinitSlot(this, &HardModeManager::initFlagHandles) {
     mMultipliers.fill(0.5);
 
     setHardModeChange(HardModeChange::IsLastPlayHardMode, true);
@@ -33,19 +33,19 @@ aoc2::aoc2()
     setHardModeChange(HardModeChange::ApplyDamageMultiplier, true);
 }
 
-void aoc2::setHardModeEnabledFlag(ksys::gdt::Manager::ResetEvent*) {
+void HardModeManager::setHardModeEnabledFlag(ksys::gdt::Manager::ResetEvent*) {
     ksys::gdt::Manager::instance()->setBool(true, mAoCHardModeEnabledFlag);
     mGdtResetSlot.release();
 }
 
-void aoc2::initFlagHandles(ksys::gdt::Manager::ReinitEvent*) {
+void HardModeManager::initFlagHandles(ksys::gdt::Manager::ReinitEvent*) {
     auto* gdm = ksys::gdt::Manager::instance();
     mHardModeHighScoreFlag = gdm->getS32Handle(sData.flag_name_HardMode_HighScore);
     mAoCHardModeEnabledFlag = gdm->getBoolHandle(sData.flag_name_AoC_HardMode_Enabled);
     mIsLastPlayHardModeFlag = gdm->getBoolHandle(sData.flag_name_IsLastPlayHardMode);
 }
 
-aoc2::~aoc2() {
+HardModeManager::~HardModeManager() {
     mFileHandle.requestUnload2();
     if (_120) {
         // TODO: use the normal operator delete once we figure out what _120 is
@@ -54,28 +54,29 @@ aoc2::~aoc2() {
     }
 }
 
-void aoc2::init(sead::Heap*) {
+void HardModeManager::init(sead::Heap*) {
     init_();
 }
 
-void aoc2::init_() {
+void HardModeManager::init_() {
     initFlagHandles();
     ksys::gdt::Manager::instance()->addReinitCallback(mGdtReinitSlot);
 }
 
-void aoc2::nerfHpRestore(f32* hp) const {
+void HardModeManager::nerfHpRestore(f32* hp) const {
     *hp = sead::Mathf::max(*hp * getMultiplier(MultiplierType::HpRestore), 1.0f);
 }
 
-void aoc2::nerfHpRestore(s32* hp) const {
+void HardModeManager::nerfHpRestore(s32* hp) const {
     *hp = sead::Mathi::max(*hp * getMultiplier(MultiplierType::HpRestore), 1);
 }
 
-void aoc2::modifyEnemyNoticeDuration(f32* value) const {
+void HardModeManager::modifyEnemyNoticeDuration(f32* value) const {
     *value = sead::Mathf::max(*value * getMultiplier(MultiplierType::EnemyNoticeDuration), 0);
 }
 
-bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstDataAccess& accessor) {
+bool HardModeManager::shouldApplyMasterModeDamageMultiplier(
+    const ksys::act::ActorConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -84,7 +85,7 @@ bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstData
         return shouldApplyMasterModeDamageMultiplier(parent);
 
     if (accessor.hasTag(ksys::act::tags::IsMasterModeDamageMultiplierActor) ||
-        (aoc2::instance() && aoc2::instance()->isTestOfStrengthShrine() &&
+        (HardModeManager::instance() && HardModeManager::instance()->isTestOfStrengthShrine() &&
          accessor.hasTag(ksys::act::tags::AncientGuardTarget))) {
         return true;
     }
@@ -115,14 +116,14 @@ bool aoc2::shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstData
     return false;
 }
 
-void aoc2::buffDamage(s32& damage) {
+void HardModeManager::buffDamage(s32& damage) {
     damage = damage * 1.5f;
     if (damage == 1) {
         damage = 2;
     }
 }
 
-void aoc2::loadIsLastPlayHardModeFlag() {
+void HardModeManager::loadIsLastPlayHardModeFlag() {
     bool value{};
     ksys::gdt::Manager::instance()->getBool(mIsLastPlayHardModeFlag, &value);
     const bool x = value;
@@ -132,7 +133,7 @@ void aoc2::loadIsLastPlayHardModeFlag() {
     setFlag(Flag::EnableHardMode, x);
 }
 
-void aoc2::loadIsHardModeFlag() {
+void HardModeManager::loadIsHardModeFlag() {
     bool value{};
     ksys::gdt::Manager::instance()->getBool(mAoCHardModeEnabledFlag, &value);
     const bool x = value;
@@ -142,16 +143,16 @@ void aoc2::loadIsHardModeFlag() {
     setFlag(Flag::EnableHardMode, x);
 }
 
-void aoc2::storeIsLastPlayHardModeFlag() {
+void HardModeManager::storeIsLastPlayHardModeFlag() {
     ksys::gdt::Manager::instance()->setBool(checkFlag(Flag::EnableHardMode),
                                             mIsLastPlayHardModeFlag);
 }
 
-void aoc2::resetIsLastPlayHardModeFlag() {
+void HardModeManager::resetIsLastPlayHardModeFlag() {
     ksys::gdt::Manager::instance()->setBool(false, "IsLastPlayHardMode");
 }
 
-bool aoc2::isTestOfStrengthShrine() const {
+bool HardModeManager::isTestOfStrengthShrine() const {
     if (mMapType != "CDungeon")
         return false;
 
@@ -166,13 +167,13 @@ bool aoc2::isTestOfStrengthShrine() const {
     return false;
 }
 
-void aoc2::calc() {
+void HardModeManager::calc() {
     volatile u32 unused = 0;
     static_cast<void>(unused);
 }
 
-bool aoc2::rankUpEnemy(const sead::SafeString& actor_name, const ksys::map::Object& obj,
-                       const char** new_name) {
+bool HardModeManager::rankUpEnemy(const sead::SafeString& actor_name, const ksys::map::Object& obj,
+                                  const char** new_name) {
     if (obj.getFlags().isOn(ksys::map::Object::Flag::HasUniqueName) ||
         obj.getHardModeFlags().isOn(ksys::map::Object::HardModeFlag::DisableRankup)) {
         return false;
@@ -309,4 +310,4 @@ bool aoc2::rankUpEnemy(const sead::SafeString& actor_name, const ksys::map::Obje
     return true;
 }
 
-}  // namespace uking
+}  // namespace uking::aoc

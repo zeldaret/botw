@@ -10,14 +10,13 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace uking {
+namespace uking::aoc {
 
-// FIXME: incomplete
-class aoc2 final {
-    SEAD_SINGLETON_DISPOSER(aoc2)
+class HardModeManager final {
+    SEAD_SINGLETON_DISPOSER(HardModeManager)
 
-    aoc2();
-    virtual ~aoc2();
+    HardModeManager();
+    virtual ~HardModeManager();
 
 public:
     SEAD_ENUM(HardModeChange, IsLastPlayHardMode = 0, NerfHpRestore = 1, _2 = 2,
@@ -76,6 +75,6 @@ private:
     sead::FixedSafeString<256> mMapType;
     sead::FixedSafeString<256> mMapName;
 };
-KSYS_CHECK_SIZE_NX150(aoc2, 0x3b8);
+KSYS_CHECK_SIZE_NX150(HardModeManager, 0x3b8);
 
-}  // namespace uking
+}  // namespace uking::aoc
