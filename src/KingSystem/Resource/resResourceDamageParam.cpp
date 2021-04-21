@@ -9,25 +9,27 @@ bool DamageParam::parse_(u8* data, size_t, sead::Heap* heap) {
     mDamageTypeBuffer.allocBufferAssert(DamageSource::size() * DamageSize::size(), heap);
 
     sead::FormatFixedSafeString<64> str;
-    for (auto source : DamageSource{}) {
-        str.format("%s", source.text());
-        mDamageRateBuffer[source.getRelativeIndex()].init(1.0, str, "", &mDamageRateObj);
+    for (int i = 0; i < DamageSource::size(); ++i) {
+        str.format("%s", DamageSource::text(i));
+        mDamageRateBuffer[i].init(1.0, str, "", &mDamageRateObj);
     }
 
-    for (auto source : DamageSource{}) {
-        for (auto size : DamageSize{}) {
-            str.format("%s-%s", source.text(), size.text());
-            const auto i = source.getRelativeIndex();
-            const auto j = size.getRelativeIndex();
+    for (int source = 0; source < DamageSource::size(); ++source) {
+        for (int size = 0; size < DamageSize::size(); ++size) {
+            str.format("%s-%s", DamageSource::text(source), DamageSize::text(size));
             if (source == DamageSource::Arrow) {
-                mDamageTypeBuffer.get(i * 4 + j)->init("通常ダメージ", str, "", &mReactionTableObj);
-            } else if (j == DamageSize::Large || j == DamageSize::Huge ||
+                mDamageTypeBuffer.get(source * 4 + size)
+                    ->init("通常ダメージ", str, "", &mReactionTableObj);
+            } else if (size == DamageSize::Large || size == DamageSize::Huge ||
                        source == DamageSource::Bomb || source == DamageSource::LargeSword) {
-                mDamageTypeBuffer.get(i * 4 + j)->init("吹っ飛び", str, "", &mReactionTableObj);
-            } else if (j == DamageSize::Middle) {
-                mDamageTypeBuffer.get(i * 4 + j)->init("中ダメージ", str, "", &mReactionTableObj);
+                mDamageTypeBuffer.get(source * 4 + size)
+                    ->init("吹っ飛び", str, "", &mReactionTableObj);
+            } else if (size == DamageSize::Middle) {
+                mDamageTypeBuffer.get(source * 4 + size)
+                    ->init("中ダメージ", str, "", &mReactionTableObj);
             } else {
-                mDamageTypeBuffer.get(i * 4 + j)->init("通常ダメージ", str, "", &mReactionTableObj);
+                mDamageTypeBuffer.get(source * 4 + size)
+                    ->init("通常ダメージ", str, "", &mReactionTableObj);
             }
         }
     }
