@@ -41,7 +41,6 @@ struct ICharacterControllerParam {
     virtual void* createForm(int form_idx, sead::Heap* heap) = 0;
 };
 
-// TODO: more functions
 struct CharacterControllerParam : agl::utl::ParameterList, ICharacterControllerParam {
     struct Form : agl::utl::ParameterList {
         Form();
