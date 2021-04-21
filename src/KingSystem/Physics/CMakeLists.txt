@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   RigidBody/physEdgeRigidBodyParam.h
   SupportBone/physSupportBoneParam.cpp
   SupportBone/physSupportBoneParam.h
+  System/physCharacterControllerParam.cpp
+  System/physCharacterControllerParam.h
   System/physContactInfoParam.cpp
   System/physContactInfoParam.h
   System/physDefines.cpp
