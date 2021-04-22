@@ -2,8 +2,6 @@
 
 namespace ksys::res {
 
-Awareness::Awareness() : ParamIO("awareness", 0) {}
-
 bool Awareness::parse_(u8* data, size_t, sead::Heap*) {
     addObj(&mBasisObj, "Basis");
     addObj(&mSightObj, "Sight");

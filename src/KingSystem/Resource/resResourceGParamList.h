@@ -19,6 +19,8 @@ public:
     void doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) override;
     bool needsParse() const override { return true; }
 
+    static u32 getResourceFactoryFallbackSize();
+
     template <GParamListObjType Type>
     const auto* get() const {
         using Traits = GParamListObjTypeTraits<Type>;

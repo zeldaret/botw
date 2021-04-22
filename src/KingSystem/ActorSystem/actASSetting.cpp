@@ -8,7 +8,7 @@ SEAD_SINGLETON_DISPOSER_IMPL(ASSetting)
 
 ASSetting::~ASSetting() = default;
 
-void ASSetting::init(const sead::SafeString& config_path) {
+void ASSetting::init(const sead::SafeString& config_path, sead::Heap* heap) {
     res::LoadRequest req;
     req.mRequester = "ASSetting";
     req._22 = true;

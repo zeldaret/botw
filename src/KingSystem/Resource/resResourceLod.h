@@ -11,8 +11,8 @@ namespace ksys::res {
 class Lod : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(Lod, Resource)
 public:
-    Lod();
-    ~Lod() override;
+    Lod() : ParamIO("lod", 0) {}
+    ~Lod() override = default;
 
     bool ParamIO_m0() override { return true; }
     void doCreate_(u8*, u32, sead::Heap*) override {}

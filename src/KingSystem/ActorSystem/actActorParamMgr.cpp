@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actASSetting.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceAIProgram.h"
 #include "KingSystem/Resource/resResourceAISchedule.h"
@@ -32,6 +33,7 @@
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resTempResourceLoader.h"
 #include "KingSystem/Utils/Debug.h"
+#include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/ParamIO.h"
 
 namespace ksys::act {
@@ -42,6 +44,108 @@ using Type = ActorParam::ResourceType;
 using User = res::ActorLink::User;
 
 ActorParamMgr::ActorParamMgr() = default;
+
+void ActorParamMgr::init(sead::Heap* heap, sead::Heap* debug_heap) {
+    mTempHeap = util::DualHeap::create(0x300000, "TmpActorParamMgr", heap, debug_heap,
+                                       sizeof(void*), sead::Heap::cHeapDirection_Forward, false);
+    mTempHeap->enableLock(true);
+    mDebugHeap = debug_heap;
+
+    mParams = new (mTempHeap) ActorParam[NumParams];
+
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::ActorLink>(1.0, 0x1000),
+                              "bxml");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::GParamList>(
+                                  1.0, res::GParamList::getResourceFactoryFallbackSize() + 0x800),
+                              "bgparamlist");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::ModelList>(2.0), "bmodellist");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::ASList>(0.0, 0x80000),
+                              "baslist");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::AIProgram>(1.0, 0x300000),
+                              "baiprog");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::Physics>(6.0), "bphysics");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::Chemical>(0.0, 0x2000),
+                              "bchemical");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::AS>(0.0, 0x80000), "bas");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::AttClientList>(1.0, 0x2000),
+                              "batcllist");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::AttClient>(1.0, 0x2000),
+                              "batcl");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::AISchedule>(1.0, 0x800),
+                              "baischedule");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::DamageParam>(1.0, 0x20000),
+                              "bdmgparam");
+    res::registerEntryFactory(
+        new (mTempHeap) res::EntryFactory<res::RagdollConfigList>(1.0, 0x2000), "brgconfiglist");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::RagdollConfig>(1.0, 0x20000),
+                              "brgconfig");
+    res::registerEntryFactory(
+        new (mTempHeap) res::EntryFactory<res::RagdollBlendWeight>(1.0, 0x20000), "brgbw");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::Awareness>, "bawareness");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::Drop>(1.0, 0x5000), "bdrop");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::Shop>(1.0, 0x20000), "bshop");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::Recipe>(1.0, 0x20000),
+                              "brecipe");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::Lod>(1.0, 0x20000), "blod");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::BoneControl>(1.0, 0x40000),
+                              "bbonectrl");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::LifeCondition>(1.0, 0x20000),
+                              "blifecondition");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::UMii>, "bumii");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::AnimInfo>(1.5), "baniminfo");
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<sead::DirectResource>, "byaml");
+
+    {
+        using ResType = ActorParam::ResourceType;
+        res::LoadRequest req;
+        req.mRequester = "tapActorParamMgr";
+
+        getDummyResHandle(ResType::AIProgram).load("Actor/AIProgram/Dummy.baiprog", &req);
+        getDummyResHandle(ResType::ASList).load("Actor/ASList/Dummy.baslist", &req);
+        getDummyResHandle(ResType::AttClientList).load("Actor/AttClientList/Dummy.batcllist", &req);
+        getDummyResHandle(ResType::ModelList).load("Actor/ModelList/Dummy.bmodellist", &req);
+        getDummyResHandle(ResType::Physics).load("Actor/Physics/Dummy.bphysics", &req);
+        getDummyResHandle(ResType::Chemical).load("Actor/Chemical/Dummy.bchemical", &req);
+        getDummyResHandle(ResType::AISchedule).load("Actor/AISchedule/Dummy.baischedule", &req);
+        getDummyResHandle(ResType::EventFlow).load("EventFlow/Dummy.bfevfl", &req);
+        getDummyResHandle(ResType::AS).load("Actor/AS/Dummy.bas", &req);
+        getDummyResHandle(ResType::AttClient).load("Actor/AttClient/Dummy.batcl", &req);
+        getDummyResHandle(ResType::DamageParam).load("Actor/DamageParam/Dummy.bdmgparam", &req);
+        getDummyResHandle(ResType::RagdollConfigList)
+            .load("Actor/RagdollConfigList/Dummy.brgconfiglist", &req);
+        getDummyResHandle(ResType::RagdollConfig).load("Actor/RagdollConfig/Dummy.brgconfig", &req);
+        getDummyResHandle(ResType::RagdollBlendWeight)
+            .load("Actor/RagdollBlendWeight/Dummy.brgbw", &req);
+        getDummyResHandle(ResType::Awareness).load("Actor/Awareness/Dummy.bawareness", &req);
+        getDummyResHandle(ResType::DropTable).load("Actor/DropTable/Dummy.bdrop", &req);
+        getDummyResHandle(ResType::ShopData).load("Actor/ShopData/Dummy.bshop", &req);
+        getDummyResHandle(ResType::Recipe).load("Actor/Recipe/Dummy.brecipe", &req);
+        getDummyResHandle(ResType::Lod).load("Actor/LOD/Dummy.blod", &req);
+        getDummyResHandle(ResType::BoneControl).load("Actor/BoneControl/Dummy.bbonectrl", &req);
+        getDummyResHandle(ResType::LifeCondition)
+            .load("Actor/LifeCondition/Dummy.blifecondition", &req);
+        getDummyResHandle(ResType::UMii).load("Actor/UMii/Dummy.bumii", &req);
+        getDummyResHandle(ResType::AnimationInfo).load("Actor/AnimationInfo/Dummy.baniminfo", &req);
+
+        auto* dummy_gparam_factory = new (mTempHeap) res::EntryFactory<res::DummyGParamList>(
+            1.0, res::GParamList::getResourceFactoryFallbackSize() + 0x1400);
+        req.mEntryFactory = dummy_gparam_factory;
+        getDummyResHandle(ResType::GParamList)
+            .load("Actor/GeneralParamList/Dummy.bgparamlist", &req);
+        if (dummy_gparam_factory)
+            delete dummy_gparam_factory;
+
+        auto* modellist = static_cast<res::ModelList*>(
+            getDummyResHandle(ResType::ModelList).getResourceUnchecked());
+        modellist->markAsDummy();
+    }
+
+    res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::ASSetting>(0.0, 0x80000),
+                              "bassetting");
+    ASSetting::createInstance(mTempHeap);
+    ASSetting::instance()->init("Actor/ASSetting.bassetting", mTempHeap);
+    ActorParam::resetDummyResources();
+}
 
 ActorParamMgr::~ActorParamMgr() {
     ASSetting::deleteInstance();
@@ -93,7 +197,7 @@ ActorParam* ActorParamMgr::loadParam(const char* actor_name, res::Handle* pack_h
     ActorParam* param = allocParam(actor_name, &allocated_new);
 
     if (allocated_new) {
-        loadFiles(param, mTmpActorParamMgrHeap, pack_handle, x, load_req_c);
+        loadFiles(param, mTempHeap, pack_handle, x, load_req_c);
         param->setEventSignal();
     } else {
         param->waitForEvent();
@@ -157,7 +261,7 @@ ActorParam* ActorParamMgr::loadParamAsync(const char* actor_name, res::Handle* p
         return param;
 
     param->deleteResHandles();
-    param->allocResHandles(mTmpActorParamMgrHeap, 0, ActorParam::NumResourceTypes + 1);
+    param->allocResHandles(mTempHeap, 0, ActorParam::NumResourceTypes + 1);
     param->mActiveBufferIdx = 0;
 
     loadFileAsync<res::ActorLink>(param, Type::ActorLink, "Actor/ActorLink", "xml",
@@ -385,7 +489,7 @@ void ActorParamMgr::loadExtraResAsync(ActorParam* param, res::Handle* pack_handl
     const auto num_att = atcllist ? atcllist->getClients().size() : 0;
     const auto num_rg = rgconfiglist ? rgconfiglist->getImpulseParams().size() : 0;
 
-    param->allocResHandles(mTmpActorParamMgrHeap, 1, num_as + num_att + num_rg);
+    param->allocResHandles(mTempHeap, 1, num_as + num_att + num_rg);
     param->mActiveBufferIdx = 1;
 
     if (aslist) {
@@ -777,6 +881,40 @@ T* ActorParamMgr::loadFile(ActorParam* param, ActorParam::ResourceType type, con
     }
 
     return res;
+}
+
+void ActorParamMgr::syncData(char* data) {
+    auto lock = sead::makeScopedLock(mCS);
+
+    char* data1 = data;
+    while (*data1++ != ' ')
+        continue;
+    data1[-1] = 0;
+
+    while (*data1++ != '[')
+        continue;
+
+    char* data2 = data1;
+    while (*data2++ != ']')
+        continue;
+    data2[-1] = 0;
+
+    for (int i = 0; i < NumParams; ++i) {
+        auto& param = mParams[i];
+        if (param.getActorName().isEmpty())
+            continue;
+
+        param.waitForEvent();
+        const int ret = param.updateResource(data, data1, data2);
+        if (ret == 0)
+            return;
+        if (ret == 1) {
+            sead::FixedSafeString<64> message;
+            message.format("[UpdateResource]%s", data);
+            log(message.cstr());
+            return;
+        }
+    }
 }
 
 res::GParamList* ActorParamMgr::getDummyGParamList() const {

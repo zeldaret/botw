@@ -203,6 +203,97 @@ bool GParamList::parse_(u8* data, size_t, sead::Heap* heap) {
 
 void GParamList::finalize_() {}
 
+static constexpr size_t getResourceFactoryFallbackSizeConst() {
+    size_t size = 0;
+    size += sizeof(GParamListObjectSystem);
+    size += sizeof(GParamListObjectGeneral);
+    size += sizeof(GParamListObjectEnemy);
+    size += sizeof(GParamListObjectEnemyLevel);
+    size += sizeof(GParamListObjectEnemyRace);
+    size += sizeof(GParamListObjectAttackInterval);
+    size += sizeof(GParamListObjectEnemyShown);
+    size += sizeof(GParamListObjectBindBone);
+    size += sizeof(GParamListObjectAttack);
+    size += sizeof(GParamListObjectWeaponCommon);
+    size += sizeof(GParamListObjectWeaponThrow);
+    size += sizeof(GParamListObjectSandworm);
+    size += sizeof(GParamListObjectSmallSword);
+    size += sizeof(GParamListObjectRod);
+    size += sizeof(GParamListObjectLargeSword);
+    size += sizeof(GParamListObjectSpear);
+    size += sizeof(GParamListObjectShield);
+    size += sizeof(GParamListObjectBow);
+    size += sizeof(GParamListObjectWeaponOption);
+    size += sizeof(GParamListObjectMasterSword);
+    size += sizeof(GParamListObjectGuardianMiniWeapon);
+    size += sizeof(GParamListObjectPlayer);
+    size += sizeof(GParamListObjectCamera);
+    size += sizeof(GParamListObjectGrab);
+    size += sizeof(GParamListObjectArmor);
+    size += sizeof(GParamListObjectArmorEffect);
+    size += sizeof(GParamListObjectArmorHead);
+    size += sizeof(GParamListObjectArmorUpper);
+    size += sizeof(GParamListObjectShiekerStone);
+    size += sizeof(GParamListObjectSeriesArmor);
+    size += sizeof(GParamListObjectLiftable);
+    size += sizeof(GParamListObjectItem);
+    size += sizeof(GParamListObjectRupee);
+    size += sizeof(GParamListObjectArrow);
+    size += sizeof(GParamListObjectBullet);
+    size += sizeof(GParamListObjectCureItem);
+    size += sizeof(GParamListObjectCookSpice);
+    size += sizeof(GParamListObjectLumberjackTree);
+    size += sizeof(GParamListObjectNpc);
+    size += sizeof(GParamListObjectNpcEquipment);
+    size += sizeof(GParamListObjectZora);
+    size += sizeof(GParamListObjectTraveler);
+    size += sizeof(GParamListObjectPrey);
+    size += sizeof(GParamListObjectAnimalFollowOffset);
+    size += sizeof(GParamListObjectExtendedEntity);
+    size += sizeof(GParamListObjectBindActor);
+    size += sizeof(GParamListObjectEatTarget);
+    size += sizeof(GParamListObjectAnimalUnit);
+    size += sizeof(GParamListObjectInsect);
+    size += sizeof(GParamListObjectFish);
+    size += sizeof(GParamListObjectRope);
+    size += sizeof(GParamListObjectHorse);
+    size += sizeof(GParamListObjectHorseUnit);
+    size += sizeof(GParamListObjectHorseObject);
+    size += sizeof(GParamListObjectHorseRider);
+    size += sizeof(GParamListObjectHorseCreator);
+    size += sizeof(GParamListObjectGiantArmorSlot);
+    size += sizeof(GParamListObjectGiantArmor);
+    size += sizeof(GParamListObjectGuardian);
+    size += sizeof(GParamListObjectMonsterShop);
+    size += sizeof(GParamListObjectSwarm);
+    size += sizeof(GParamListObjectGelEnemy);
+    size += sizeof(GParamListObjectNest);
+    size += sizeof(GParamListObjectWizzrobe);
+    size += sizeof(GParamListObjectStalEnemy);
+    size += sizeof(GParamListObjectGuardianMini);
+    size += sizeof(GParamListObjectClothReaction);
+    size += sizeof(GParamListObjectGlobal);
+    size += sizeof(GParamListObjectBeam);
+    size += sizeof(GParamListObjectAutoGen);
+    size += sizeof(GParamListObjectChemicalType);
+    size += sizeof(GParamListObjectGolem);
+    size += sizeof(GParamListObjectHorseTargetedInfo);
+    size += sizeof(GParamListObjectWolfLink);
+    size += sizeof(GParamListObjectEvent);
+    size += sizeof(GParamListObjectGolemIK);
+    size += sizeof(GParamListObjectPictureBook);
+    size += sizeof(GParamListObjectAirWall);
+    size += sizeof(GParamListObjectMotorcycle);
+    size += sizeof(GParamList);
+    return size;
+}
+
+u32 GParamList::getResourceFactoryFallbackSize() {
+    constexpr size_t size = getResourceFactoryFallbackSizeConst();
+    static_assert(size == static_cast<u32>(size));
+    return static_cast<u32>(size);
+}
+
 void DummyGParamList::doCreate_(u8*, u32, sead::Heap*) {}
 
 bool DummyGParamList::parse_(u8* data, size_t size, sead::Heap* heap) {

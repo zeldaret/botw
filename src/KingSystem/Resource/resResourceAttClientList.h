@@ -16,6 +16,8 @@ class AttClientList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AttClientList, Resource)
 public:
     struct AttPos {
+        AttPos();
+
         agl::utl::Parameter<sead::SafeString> _0;
         agl::utl::Parameter<sead::Vector3f> _28;
         agl::utl::Parameter<sead::Vector3f> _50;

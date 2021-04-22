@@ -16,7 +16,7 @@ class AttClient : public ParamIO, public Resource {
 public:
     struct Check {};
 
-    AttClient();
+    AttClient() : ParamIO("atcl", 0) {}
     ~AttClient() override;
 
     act::AttType getAttType() const { return mAttType; }

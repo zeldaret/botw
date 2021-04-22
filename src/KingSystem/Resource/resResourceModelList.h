@@ -11,7 +11,6 @@
 
 namespace ksys::res {
 
-// FIXME: incomplete
 class ModelList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ModelList, Resource)
 public:
@@ -137,7 +136,9 @@ public:
     const Attention& getAttention() const { return mAttention.ref(); }
     const sead::Buffer<ModelData>& getModelData() const { return mModelData; }
     const sead::Buffer<AnmTarget>& getAnmTargets() const { return mAnmTargets; }
-    bool is7C8() const { return _7c8; }
+
+    bool isDummy() const { return mIsDummy; }
+    void markAsDummy() { mIsDummy = true; }
 
     int getNumAnmTargets() const;
     void getModelDataInfo(ModelDataInfo* info) const;
@@ -161,7 +162,7 @@ private:
     agl::utl::ParameterList mModelDataList;
     sead::Buffer<AnmTarget> mAnmTargets;
     agl::utl::ParameterList mAnmTargetList;
-    bool _7c8 = false;
+    bool mIsDummy = false;
 };
 KSYS_CHECK_SIZE_NX150(ModelList, 0x7d0);
 

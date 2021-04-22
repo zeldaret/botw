@@ -56,7 +56,7 @@ public:
     struct QueryDef : Definition {};
     KSYS_CHECK_SIZE_NX150(QueryDef, 0x98);
 
-    AIProgram();
+    AIProgram() : ParamIO("aiprog", 0) {}
     ~AIProgram() override;
 
     const sead::Buffer<AIActionDef>& getActionsOrAIs(act::ai::ActionType type) const;

@@ -11,7 +11,7 @@ namespace ksys::res {
 class LifeCondition : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(LifeCondition, Resource)
 public:
-    LifeCondition();
+    LifeCondition() : ParamIO("lifecondition", 0) {}
     ~LifeCondition() override = default;
 
     bool needsParse() const override { return true; }

@@ -16,7 +16,7 @@ namespace ksys {
 namespace res {
 class AIProgram;
 class AISchedule;
-class AnimationInfo;
+class AnimInfo;
 class ASList;
 class AttClientList;
 class Awareness;
@@ -107,7 +107,7 @@ public:
             res::BoneControl* mBoneControl;
             res::LifeCondition* mLifeCondition;
             res::UMii* mUMii;
-            res::AnimationInfo* mAnimationInfo;
+            res::AnimInfo* mAnimationInfo;
         };
         sead::SafeArray<void*, 25> mArray;
     };
@@ -144,7 +144,7 @@ private:
     void setEventSignal();
     void waitForEvent();
     bool isSignalSet() const;
-    void updateResource(const char* name, const char* data, const char* data1);
+    int updateResource(const char* data, const char* data1, const char* data2);
 
     res::Handle* allocHandle();
     void freeLastHandle();

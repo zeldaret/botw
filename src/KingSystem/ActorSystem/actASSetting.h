@@ -15,7 +15,7 @@ class ASSetting {
     virtual ~ASSetting();
 
 public:
-    void init(const sead::SafeString& config_path);
+    void init(const sead::SafeString& config_path, sead::Heap* heap);
     res::ASParamParser* getBoneParams(const sead::SafeString& key) const;
 
 private:
