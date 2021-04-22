@@ -664,7 +664,7 @@ void Manager::destroyRetryBuffer() {
     }
 }
 
-void Manager::syncData(const char* data) {
+void Manager::syncData(char* data) {
     const sead::SafeString cmd = data;
     if (cmd.compare("SyncStart") == 0) {
         if (util::getDebugHeap()) {

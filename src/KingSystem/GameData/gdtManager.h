@@ -218,7 +218,7 @@ class Manager : public IManager, public KingEditorComponent {
     Manager();
     ~Manager() override;
     const char* getName() const override { return "GameData"; }
-    void syncData(const char* data) override;
+    void syncData(char* data) override;
 
 public:
     struct ResetEvent {

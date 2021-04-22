@@ -10,7 +10,7 @@ namespace ksys {
 class KingEditorComponent {
 public:
     virtual const char* getName() const = 0;
-    virtual void syncData(const char* data) = 0;
+    virtual void syncData(char* data) = 0;
 
     void log(const char* message, void* x = {}, int y = {}) const;
 

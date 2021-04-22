@@ -30,7 +30,7 @@ class ActorParamMgr final : public sead::hostio::Node, public KingEditorComponen
 
 public:
     const char* getName() const override { return "AglXml"; }
-    void syncData(const char* data) override;
+    void syncData(char* data) override;
 
     DebugMessage& getDebugMessage() { return mDebugMessage; }
     sead::Heap* getDebugHeap() const { return mDebugHeap; }
