@@ -35,12 +35,21 @@ public:
     KSYS_CHECK_SIZE_NX150(Client, 0xa8);
 
     AttClientList() : ParamIO("atcllist", 0) {}
+    ~AttClientList() override;
+    AttClientList(const AttClientList&) = delete;
+    auto operator=(const AttClientList&) = delete;
 
     const AttPos& getAttPos() const { return mAttPos; }
     bool isForceEdit() const { return mForceEdit.ref(); }
     const sead::Buffer<Client>& getClients() const { return mClients; }
 
     void addClient_(s32 index, AttClient* client) { mClients[index].client = client; }
+
+    void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
+    bool needsParse() const override { return true; }
+    bool parse_(u8* data, size_t size, sead::Heap* heap) override;
+    bool finishParsing_() override;
+    bool m7_() override;
 
 private:
     agl::utl::ParameterList mAttClientsList;
