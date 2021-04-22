@@ -26,6 +26,18 @@ Material materialFromText(const sead::SafeString& text) {
     return 0;
 }
 
+const char* groundHitToText(GroundHit hit) {
+    return hit.text();
+}
+
+GroundHit groundHitFromText(const sead::SafeString& text) {
+    for (auto hit : GroundHit()) {
+        if (text == hit.text())
+            return hit;
+    }
+    return GroundHit::HitAll;
+}
+
 const char* floorCodeToText(FloorCode code) {
     return code.text();
 }
@@ -48,6 +60,17 @@ WallCode wallCodeFromText(const sead::SafeString& text) {
             return code;
     }
     return 0;
+}
+
+// NON_MATCHING: duplicated branches?
+MotionType motionTypeFromText(const sead::SafeString& text) {
+    if (text == "Dynamic")
+        return MotionType::Dynamic;
+    if (text == "Fixed")
+        return MotionType::Fixed;
+    if (text == "Keyframed")
+        return MotionType::Keyframed;
+    return MotionType::Unknown;
 }
 
 }  // namespace ksys::phys

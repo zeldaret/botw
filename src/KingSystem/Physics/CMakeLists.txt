@@ -7,6 +7,8 @@ target_sources(uking PRIVATE
   Ragdoll/physRagdollParam.h
   RigidBody/physEdgeRigidBodyParam.cpp
   RigidBody/physEdgeRigidBodyParam.h
+  RigidBody/physRigidBodyParam.cpp
+  RigidBody/physRigidBodyParam.h
   SupportBone/physSupportBoneParam.cpp
   SupportBone/physSupportBoneParam.h
   System/physCharacterControllerParam.cpp

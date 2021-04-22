@@ -103,6 +103,26 @@ Misc,\
 GrudgeSlow
 )
 
+SEAD_ENUM(GroundHit,
+Player,\
+Animal,\
+NPC,\
+Camera,\
+AttackHitPlayer,\
+AttackHitEnemy,\
+Arrow,\
+Bomb,\
+Magnet,\
+CameraBody,\
+IK,\
+Grudge,\
+MovingTrolley,\
+LineOfSight,\
+Giant,\
+HitAll,\
+Ignore
+)
+
 SEAD_ENUM(FloorCode,
 None,\
 Return,\
@@ -132,16 +152,28 @@ NoDashUpAndNoClimb,\
 IceMakerBlock
 )
 
+enum class MotionType {
+    Dynamic = 0,
+    Fixed = 1,
+    Keyframed = 2,
+    Unknown = 3,
+};
+
 const char* contactLayerToText(ContactLayer layer);
 ContactLayer contactLayerFromText(const sead::SafeString& text);
 
 const char* materialToText(Material material);
 Material materialFromText(const sead::SafeString& text);
 
+const char* groundHitToText(GroundHit hit);
+GroundHit groundHitFromText(const sead::SafeString& text);
+
 const char* floorCodeToText(FloorCode code);
 FloorCode floorCodeFromText(const sead::SafeString& text);
 
 const char* wallCodeToText(WallCode code);
 WallCode wallCodeFromText(const sead::SafeString& text);
+
+MotionType motionTypeFromText(const sead::SafeString& text);
 
 }  // namespace ksys::phys
