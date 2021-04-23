@@ -14,7 +14,7 @@ public:
 
     virtual bool ParamIO_m0() { return false; }
 
-    bool applyResourceUpdate(const char* data, const char* data1);
+    bool applyResourceUpdate(char* data, char* data1);
 
     const char* getString(const agl::utl::ResParameterObj& obj, const char* key,
                           const char* default_value, void* = nullptr) const;
@@ -27,6 +27,13 @@ public:
     void setIndex(u32 idx) { mIdx = idx; }
 
 protected:
+    void applyParameter(char* data, char* data1, agl::utl::ParameterBase* param,
+                        const sead::SafeString& parent_name, bool* applied);
+    void applyParameterObj(char* data, char* data1, agl::utl::IParameterObj* obj,
+                           const sead::SafeString& parent_name, bool* applied);
+    void applyParameterList(char* data, char* data1, agl::utl::IParameterList* list,
+                            const sead::SafeString& parent_name, bool* applied);
+
     u32 mIdx = 0x1c;
     sead::FixedSafeString<128> mPath;
 };
