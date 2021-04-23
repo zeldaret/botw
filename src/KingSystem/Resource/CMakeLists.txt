@@ -148,10 +148,10 @@ target_sources(uking PRIVATE
   resResourceASResourceExtension.h
   resResourceASSetting.cpp
   resResourceASSetting.h
+  resResourceAttCheck.cpp
+  resResourceAttCheck.h
   resResourceAttClient.cpp
   resResourceAttClient.h
-  resResourceAttClientList.cpp
-  resResourceAttClientList.h
   resResourceArchive.cpp
   resResourceArchive.h
   resResourceAwareness.cpp
