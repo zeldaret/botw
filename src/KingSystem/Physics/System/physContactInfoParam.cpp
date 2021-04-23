@@ -15,7 +15,7 @@ bool ContactInfoParam::parse(const agl::utl::ResParameterList& res_list, sead::H
     if (!res_list || res_list.getResParameterObjNum() < 1)
         return false;
 
-    obj.applyResParameterObj(res_list.getResParameterObj(0), nullptr);
+    obj.applyResParameterObj(res_list.getResParameterObj(0));
 
     const int num_contact_point_info = *contact_point_info_num;
     const int num_collision_info = *collision_info_num;

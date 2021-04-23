@@ -46,7 +46,7 @@ bool CharacterControllerParam::parse(agl::utl::ResParameterList res_list, sead::
     if (!res_list || res_list.getResParameterObjNum() < 1)
         return false;
 
-    obj.applyResParameterObj(res_list.getResParameterObj(0), nullptr);
+    obj.applyResParameterObj(res_list.getResParameterObj(0));
 
     const int num_forms = *form_num;
     if (num_forms < 0)
@@ -86,7 +86,7 @@ bool CharacterControllerParam::Form::parse(agl::utl::ResParameterList res_list, 
     if (!res_list || res_list.getResParameterObjNum() < 2)
         return false;
 
-    form_header_obj.applyResParameterObj(res_list.getResParameterObj(0), nullptr);
+    form_header_obj.applyResParameterObj(res_list.getResParameterObj(0));
 
     const int num_shapes = *shape_num;
     if (num_shapes < 1)

@@ -16,7 +16,7 @@ bool RigidBodySetParam::parse(agl::utl::ResParameterList res_list, sead::Heap* h
     if (!res_list)
         return false;
 
-    obj.applyResParameterObj(res_list.getResParameterObj(0), nullptr);
+    obj.applyResParameterObj(res_list.getResParameterObj(0));
 
     if (*type == "from_shape_type")
         type_val = Type::FromShapeType;

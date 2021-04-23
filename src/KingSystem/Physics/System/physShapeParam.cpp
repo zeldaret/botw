@@ -20,7 +20,7 @@ ShapeParam::~ShapeParam() {
 bool ShapeParam::parse(const agl::utl::ResParameterObj& res_obj, sead::Heap* heap) {
     vertices.freeBuffer();
 
-    applyResParameterObj(res_obj, nullptr);
+    applyResParameterObj(res_obj);
 
     const int num_vertices = vertex_num.ref();
     if (num_vertices > 0) {
@@ -30,7 +30,7 @@ bool ShapeParam::parse(const agl::utl::ResParameterObj& res_obj, sead::Heap* hea
             vertices[i].init(sead::Vector3f::zero, name, "頂点", this);
         }
 
-        applyResParameterObj(res_obj, nullptr);
+        applyResParameterObj(res_obj);
     }
 
     return true;

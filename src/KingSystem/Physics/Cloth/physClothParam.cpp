@@ -17,7 +17,7 @@ bool ClothSetParam::parse(const agl::utl::ResParameterList& res_list, sead::Heap
     if (!res_list)
         return false;
 
-    cloth_header_obj.applyResParameterObj(res_list.getResParameterObj(0), nullptr);
+    cloth_header_obj.applyResParameterObj(res_list.getResParameterObj(0));
 
     const int num_cloths = cloth_num.ref();
     if (num_cloths <= 0)

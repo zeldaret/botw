@@ -50,7 +50,7 @@ bool RigidBodyParam::parse(const agl::utl::ResParameterList& res_list, sead::Hea
     if (!res_list)
         return false;
 
-    info.applyResParameterObj(res_list.getResParameterObj(0), nullptr);
+    info.applyResParameterObj(res_list.getResParameterObj(0));
 
     const int num_shapes = info.shape_num.ref();
     if (num_shapes < 1)

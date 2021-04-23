@@ -14,7 +14,7 @@ Root::~Root() {
 
 void Root::parse(const agl::utl::ResParameterList& res_list, sead::Heap* heap) {
     const auto header_obj = agl::utl::getResParameterObj(res_list, "chemical_header");
-    chemical_header.applyResParameterObj(header_obj, nullptr);
+    chemical_header.applyResParameterObj(header_obj);
 
     if (res_shape_num.ref() != 0) {
         shapes.allocBufferAssert(res_shape_num.ref(), heap);
