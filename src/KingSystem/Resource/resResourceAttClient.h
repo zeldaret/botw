@@ -4,7 +4,7 @@
 #include <agl/Utils/aglParameterObj.h>
 #include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/ActorSystem/actAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
 #include "KingSystem/Utils/Types.h"

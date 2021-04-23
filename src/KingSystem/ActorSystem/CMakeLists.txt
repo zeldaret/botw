@@ -53,8 +53,8 @@ target_sources(uking PRIVATE
   actAiRoot.h
   actASSetting.cpp
   actASSetting.h
-  actAttention.cpp
-  actAttention.h
+  Attention/actAttention.cpp
+  Attention/actAttention.h
   actBaseProc.cpp
   actBaseProc.h
   actBaseProcCreateTask.cpp
