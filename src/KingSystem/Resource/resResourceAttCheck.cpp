@@ -129,7 +129,7 @@ struct AttCheckFactory {
 };
 
 template <typename T>
-static constexpr AttCheckFactory makeFactory(const char* name) {
+constexpr AttCheckFactory makeFactory(const char* name) {
     AttCheckFactory factory{};
     factory.name = name;
     factory.make = [](AttCheckType type, sead::Heap* heap) -> AttCheck* {
