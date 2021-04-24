@@ -159,6 +159,9 @@ enum class MotionType {
     Unknown = 3,
 };
 
+bool isSensorLayer(ContactLayer layer);
+u32 makeContactLayerMask(ContactLayer layer);
+
 const char* contactLayerToText(ContactLayer layer);
 ContactLayer contactLayerFromText(const sead::SafeString& text);
 

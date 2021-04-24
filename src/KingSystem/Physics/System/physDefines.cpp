@@ -2,6 +2,16 @@
 
 namespace ksys::phys {
 
+bool isSensorLayer(ContactLayer layer) {
+    return layer > ContactLayer::EntityEnd;
+}
+
+u32 makeContactLayerMask(ContactLayer layer) {
+    if (layer < ContactLayer::SensorObject)
+        return 1 << layer;
+    return 1 << (layer - ContactLayer::SensorObject);
+}
+
 const char* contactLayerToText(ContactLayer layer) {
     return layer.text();
 }
