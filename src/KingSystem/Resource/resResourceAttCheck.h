@@ -5,6 +5,7 @@
 #include <agl/Utils/aglParameterObj.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Resource/resResourceAttClient.h"
+#include "KingSystem/Resource/resResourceAttPos.h"
 
 namespace ksys::res {
 

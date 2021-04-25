@@ -152,6 +152,8 @@ target_sources(uking PRIVATE
   resResourceAttCheck.h
   resResourceAttClient.cpp
   resResourceAttClient.h
+  resResourceAttPos.cpp
+  resResourceAttPos.h
   resResourceArchive.cpp
   resResourceArchive.h
   resResourceAwareness.cpp
