@@ -12,7 +12,6 @@
 
 namespace ksys::res {
 
-// TODO
 class BoneControl : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(BoneControl, Resource)
 public:
