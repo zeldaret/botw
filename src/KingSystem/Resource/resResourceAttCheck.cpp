@@ -193,7 +193,7 @@ AttCheck* AttCheck::make(const CreateArg& arg) {
 
 bool AttCheck::init(const AttCheck::CreateArg& arg) {
     mList.addObj(&mObj, "Parameters");
-    mUserData = arg.user_data;
+    mClient = arg.client;
     return parse(arg);
 }
 

@@ -13,11 +13,11 @@
 
 namespace ksys::res {
 
+class AttCheck;
+
 class AttClient : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AttClient, Resource)
 public:
-    struct Check {};
-
     AttClient() : ParamIO("atcl", 0) {}
     ~AttClient() override;
 
@@ -25,7 +25,13 @@ public:
     act::AttActionCode getActionCode() const { return mActionCode; }
     act::AttPriorityType getPriorityType() const { return mPriorityType; }
     const sead::SafeString& getPriorityTypeStr() const { return mPriorityTypeStr; }
-    const sead::Buffer<Check*>& getChecks() const { return mChecks; }
+    const sead::Buffer<AttCheck*>& getChecks() const { return mChecks; }
+
+    int getNumChecks() const;
+
+    // TODO: check functions
+
+    void appendPriority(sead::BufferedSafeString* str);
 
     void doCreate_(u8*, u32, sead::Heap*) override;
     bool needsParse() const override { return true; }
@@ -40,7 +46,7 @@ private:
     agl::utl::Parameter<sead::FixedSafeString<32>> mAttTypeParam;
     agl::utl::Parameter<sead::FixedSafeString<32>> mActionTypeParam;
     agl::utl::Parameter<sead::FixedSafeString<32>> mPriorityTypeParam;
-    sead::Buffer<Check*> mChecks;
+    sead::Buffer<AttCheck*> mChecks;
 };
 KSYS_CHECK_SIZE_NX150(AttClient, 0x428);
 

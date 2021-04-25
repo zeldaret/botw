@@ -31,13 +31,15 @@ enum class AttCheckType {
     UnderWater,
 };
 
+class AttClient;
+
 class AttCheck {
     SEAD_RTTI_BASE(AttCheck)
 public:
     struct CreateArg {
         agl::utl::ResParameterList res_list;
         sead::Heap* heap;
-        void* user_data;
+        AttClient* client;
     };
 
     static AttCheck* make(const CreateArg& arg);
@@ -53,10 +55,13 @@ public:
 
     virtual bool parse(const CreateArg& arg);
 
+    // For internal use by AttClient.
+    agl::utl::ParameterList& getList_() { return mList; }
+
 protected:
     bool init(const CreateArg& arg);
 
-    void* mUserData = nullptr;
+    AttClient* mClient = nullptr;
     AttCheckType mType{};
     agl::utl::ParameterObj mObj;
     agl::utl::ParameterList mList;
