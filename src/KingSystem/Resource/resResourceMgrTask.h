@@ -123,6 +123,9 @@ public:
     bool isDefragDone() const;
     f32 getDefragProgress() const;
 
+    void registerFactory(sead::ResourceFactory* factory, const sead::SafeString& name);
+    void unregisterFactory(sead::ResourceFactory* factory);
+
     s32 getCacheIdx(const sead::SafeString& path) const;
 
     void cancelTasks();

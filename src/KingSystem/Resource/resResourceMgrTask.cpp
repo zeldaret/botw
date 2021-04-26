@@ -150,6 +150,17 @@ f32 ResourceMgrTask::getDefragProgress() const {
     return f32(_4cc) / f32(_4c8);
 }
 
+void ResourceMgrTask::registerFactory(sead::ResourceFactory* factory,
+                                      const sead::SafeString& name) {
+    auto lock = sead::makeScopedLock(mFactoryCS);
+    sead::ResourceMgr::instance()->registerFactory(factory, name);
+}
+
+void ResourceMgrTask::unregisterFactory(sead::ResourceFactory* factory) {
+    auto lock = sead::makeScopedLock(mFactoryCS);
+    sead::ResourceMgr::instance()->unregisterFactory(factory);
+}
+
 void ResourceMgrTask::cancelTasks() {
     stubbedLogFunction();
     stubbedLogFunction();

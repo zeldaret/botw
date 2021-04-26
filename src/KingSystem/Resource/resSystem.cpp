@@ -1,10 +1,19 @@
 #include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 
 namespace ksys::res {
 
 bool stubbedLogFunction() {
     return true;
+}
+
+void registerEntryFactory(EntryFactoryBase* factory, const sead::SafeString& name) {
+    ResourceMgrTask::instance()->registerFactory(factory, name);
+}
+
+void unregisterEntryFactory(EntryFactoryBase* factory) {
+    ResourceMgrTask::instance()->unregisterFactory(factory);
 }
 
 bool isHostPath(const sead::SafeString& path) {
