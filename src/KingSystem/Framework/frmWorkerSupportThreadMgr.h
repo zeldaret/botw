@@ -26,17 +26,6 @@ class WorkerSupportThreadMgr {
     ~WorkerSupportThreadMgr() = default;
 
 public:
-    enum class Owner {
-        _0,
-        _1,
-        _2,
-        _3,
-        _4,
-        _5,
-        _6,
-        _7,
-    };
-
     void init(sead::Heap* heap);
 
     void submitRequest(int id, util::TaskDelegate* delegate);
