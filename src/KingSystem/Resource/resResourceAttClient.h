@@ -70,8 +70,10 @@ public:
     auto operator=(const AttClientList&) = delete;
 
     const AttPos& getAttPos() const { return mAttPos; }
-    bool isForceEdit() const { return mForceEdit.ref(); }
+    bool isForceEdit() const;
     const sead::Buffer<Client>& getClients() const { return mClients; }
+
+    // TODO: one more function
 
     void addClient_(s32 index, AttClient* client) { mClients[index].client = client; }
 
