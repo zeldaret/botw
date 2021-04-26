@@ -9,7 +9,7 @@ namespace ksys::eft {
 class InfoData {
     SEAD_SINGLETON_DISPOSER(InfoData)
 
-    InfoData()=default;
+    InfoData() = default;
     virtual ~InfoData();
 
 public:
