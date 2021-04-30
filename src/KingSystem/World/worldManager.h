@@ -9,8 +9,10 @@
 #include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 #include <mc/seadJobQueue.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSizedEnum.h>
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/World/worldCloudMgr.h"
@@ -22,7 +24,14 @@
 #include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/World/worldWindMgr.h"
 
+namespace sead {
+class WorkerMgr;
+}
+
 namespace ksys::world {
+
+SEAD_ENUM(DungeonSize, S,M,L,XL)
+SEAD_ENUM(DungeonType, Gimmick,Enemy,Treasure)
 
 enum class CalcType {
     _0 = 0,
@@ -31,17 +40,12 @@ enum class CalcType {
     Invalid = 3,
 };
 
-enum class StageType {
-    Invalid = 0,
-    OpenWorld = 1,
-    Indoor = 2,
-    OpenWorldTest = 3,
-    MainFieldDungeon = 4,
-    Viewer = 5,
-};
-
 enum class RemainsType {
-
+    Wind,
+    Electric,
+    Fire,
+    Water,
+    FinalTrial,
 };
 
 enum class FieldType {
@@ -146,7 +150,7 @@ public:
     res::Handle mResHandle;
     agl::utl::Parameter<float> mLightLongitude;
     agl::utl::Parameter<sead::FixedSafeString<32>> mDungeonSize;
-    agl::utl::Parameter<sead::FixedSafeString<32>> mString538;
+    agl::utl::Parameter<sead::FixedSafeString<32>> mDungeonType;
     agl::utl::ParameterObj mDungeonEnvObj;
 };
 KSYS_CHECK_SIZE_NX150(DungeonEnv, 0x338);
@@ -199,6 +203,53 @@ public:
     void updateRemainsType();
     void updateGraphicsMap(StageType type);
 
+    void initBeforeStageGen();
+    void unload2();
+    void clearArray();
+
+    int getWeatherBlueskyRate(Climate climate) const;
+    int getWeatherCloudyRate(Climate climate) const;
+    int getWeatherRainRate(Climate climate) const;
+    int getWeatherHeavyRainRate(Climate climate) const;
+    int getWeatherStormRate(Climate climate) const;
+
+    void calc1(sead::WorkerMgr* mgr);
+    void calc2(sead::WorkerMgr* mgr);
+    void calc3(sead::WorkerMgr* mgr);
+
+    // TODO: more Chemical functions
+    void updateChemicalFarObj();
+
+    void calcEntryJob();
+
+    void changeWind(int direction, bool enable_auto_wind, float speed);
+    void setManualWind(bool enable_auto_wind, sead::Vector3f dir, float speed);
+    void resetManualWind();
+
+    void setDirectionalLight(float angle_x, float angle_y);
+    void setDirectionalLightYang(float value);
+
+    bool isGerudoDesertClimate() const;
+
+    bool hasCameraOrPlayerMoved(float distance_threshold) const;
+
+    int getDungeonSize() const;
+    int getDungeonType() const;
+    float getDungeonLightLongitude() const;
+
+    void setCameraDistForRemainsElectric(sead::Vector3f pos);
+    void setFocusDist(float dist);
+
+    void rerollClimateWindPowers();
+    void forceResetManualWind();
+    void setTemperatureDay(float temp);
+    void setTemperatureNight(float temp);
+    void setIgnitedLevel(int level, float radius, sead::Vector3f center);
+
+    void onEventFlowEnd();
+
+    // TODO: more functions
+
     bool isMainField() const { return mIsMainField && mStageType == StageType::OpenWorld; }
 
     bool isAocField() const {
@@ -229,6 +280,11 @@ private:
 
     void overrideWindSpeed(float* wind_speed) const;
 
+    void calcManagers(sead::WorkerMgr* worker_mgr);
+    void updateOverrides();
+    void updateTimers();
+    void updateWindDirections();
+
     WorldInfo mWorldInfo;
     DungeonEnv mDungeonEnv;
     sead::DirectResource* mInfoRes{};
@@ -258,7 +314,7 @@ private:
     sead::Vector3f mWindDir{0, 0, -1};
     sead::Vector3f mDirectionalLightVecA{0, 1, 0};
     sead::Vector3f mDirectionalLightVecB{0, 1, 0};
-    sead::Vector3f _748{0, 0, 0};
+    sead::Vector3f mIgnitedCenter{0, 0, 0};
     float mClimateTransitionProgress = 1.0;
     float mMapEdgeWindSpeed = 1.0;
     float mManualWindSpeed = 5.0;
@@ -268,22 +324,22 @@ private:
     float mTempDirectNight = 99999.9;
     float _770 = 0.0;
     float mFocusDist = 100.0;
-    float _778 = -1.0;
+    float mIgnitedRadius = -1.0;
     u32 _77c = 9;
     Climate mCurrentClimate{};
     Climate mPrevClimate{};
-    u32 mWindDirectionType = 0;
-    u32 mManualWindTimer = 0;
+    int mWindDirectionType = 0;
+    int mManualWindTimer = 0;
     u32 mMapEdgeWindDirectionType = 0;
     u32 _794 = 0;
     int _798 = -1;
     u32 _79c = 0;
     u32 _7a0 = 0;
-    u32 _7a4 = 0;
-    u32 _7a8 = 0;
+    int mTempDirectDayTimer = 0;
+    int mTempDirectNightTimer = 0;
     u32 _7ac = 0;
-    u32 _7b0 = 0;
-    u32 mIgnitedLevel = 0;
+    int mIgnitedTimer = 0;
+    int mIgnitedLevel = 0;
     u32 _7b8 = 0;
     RemainsType mRemainsType{};
     FieldType mFieldType{};
@@ -293,7 +349,7 @@ private:
     WorldInfoLoadStatus mWorldInfoLoadStatus = WorldInfoLoadStatus::NotLoaded;
     sead::SizedEnum<WeatherType, u8> mWeatherType = WeatherType::Invalid;
     u8 mDirectionalLightTimer = 0;
-    bool mWindChangesEnabled = true;
+    bool mEnableAutoWind = true;
     bool mMapEdgeWindEnabled = false;
     bool _7d5 = false;
     bool mWeatherSetForDemo = false;

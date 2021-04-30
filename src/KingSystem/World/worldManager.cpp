@@ -1,6 +1,11 @@
 #include "KingSystem/World/worldManager.h"
+#include <cmath>
 #include <container/seadSafeArray.h>
+#include <math/seadMathCalcCommon.h>
+#include <mc/seadWorkerMgr.h>
 #include "KingSystem/Ecosystem/ecoSystem.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::world {
@@ -304,6 +309,13 @@ bool Manager::isForbidComeback(Climate climate) const {
     return mWorldInfo.mClimates[int(climate)].forbidComeback.ref();
 }
 
+void Manager::unload() {
+    mStageType = {};
+    mWorldInfoLoadStatus = WorldInfoLoadStatus::Unloaded;
+    mDungeonEnv.mResHandle.requestUnload2();
+    getWeatherMgr()->onUnload();
+}
+
 // NON_MATCHING: stores in a different order (handwritten assignments?) but should be equivalent
 Manager::Manager() = default;
 
@@ -352,6 +364,31 @@ void Manager::init(sead::Heap* heap) {
     mWorldInfoLoadStatus = WorldInfoLoadStatus::NotLoaded;
 }
 
+void Manager::resetForStageUnload() {
+    getTimeMgr()->resetForStageUnload();
+    getSkyMgr()->resetForStageUnload();
+}
+
+void Manager::loadWorldInfoRes() {
+    res::LoadRequest req(0x2000, 1, false);
+    req.mRequester = "wiWorldMgr";
+    mInfoRes = mWorldInfo.mResHandle.load("WorldMgr/normal.bwinfo", &req);
+}
+
+void Manager::updateRemainsType() {
+    if (StageInfo::getCurrentMapName().include("RemainsWind")) {
+        mRemainsType = RemainsType::Wind;
+    } else if (StageInfo::getCurrentMapName().include("RemainsElectric")) {
+        mRemainsType = RemainsType::Electric;
+    } else if (StageInfo::getCurrentMapName().include("RemainsFire")) {
+        mRemainsType = RemainsType::Fire;
+    } else if (StageInfo::getCurrentMapName().include("RemainsWater")) {
+        mRemainsType = RemainsType::Water;
+    } else if (StageInfo::getCurrentMapName().include("FinalTrial")) {
+        mRemainsType = RemainsType::FinalTrial;
+    }
+}
+
 Manager::~Manager() {
     for (auto& mgr : mMgrs)
         delete &mgr;
@@ -359,6 +396,193 @@ Manager::~Manager() {
     mMgrs.freeBuffer();
     mAtomicPtrArray.freeBuffer();
     mWorldInfo.mClimates.freeBuffer();
+}
+
+void Manager::initBeforeStageGen() {
+    getChemicalMgr()->initBeforeStageGen();
+}
+
+void Manager::unload2() {
+    getChemicalMgr()->unload2();
+}
+
+void Manager::clearArray() {
+    mAtomicPtrArray.clear();
+}
+
+int Manager::getWeatherBlueskyRate(Climate climate) const {
+    return mWorldInfo.mClimates[int(climate)].weatherBlueskyRate.ref();
+}
+
+int Manager::getWeatherCloudyRate(Climate climate) const {
+    return mWorldInfo.mClimates[int(climate)].weatherCloudyRate.ref();
+}
+
+int Manager::getWeatherRainRate(Climate climate) const {
+    return mWorldInfo.mClimates[int(climate)].weatherRainRate.ref();
+}
+
+int Manager::getWeatherHeavyRainRate(Climate climate) const {
+    return mWorldInfo.mClimates[int(climate)].weatherHeavyRainRate.ref();
+}
+
+int Manager::getWeatherStormRate(Climate climate) const {
+    return mWorldInfo.mClimates[int(climate)].weatherStormRate.ref();
+}
+
+void Manager::calcManagers(sead::WorkerMgr* worker_mgr) {
+    if (_5e0.isOffBit(0))
+        worker_mgr = nullptr;
+
+    sead::CoreIdMask cores{sead::CoreId::cMain, sead::CoreId::cSub1, sead::CoreId::cSub2};
+    mJobQueue.clear();
+    if (worker_mgr) {
+        for (auto& mgr : mMgrs)
+            mJobQueue.enque(&mgr);
+
+        worker_mgr->pushJobQueue("calc", &mJobQueue, cores, sead::SyncType::cNoSync,
+                                 sead::JobQueuePushType::cForward);
+    } else {
+        for (auto& mgr : mMgrs)
+            mgr.invoke();
+    }
+}
+
+void Manager::changeWind(int direction, bool enable_auto_wind, float speed) {
+    mManualWindTimer = 10;
+    mWindDirectionType = direction;
+    mManualWindSpeed = speed;
+    mEnableAutoWind = enable_auto_wind;
+}
+
+void Manager::setManualWind(bool enable_auto_wind, sead::Vector3f dir, float speed) {
+    mManualWindTimer = 10;
+    mWindDirectionType = -1;
+    mWindDir = dir;
+    mManualWindSpeed = speed;
+    mEnableAutoWind = enable_auto_wind;
+}
+
+void Manager::resetManualWind() {
+    if (mManualWindTimer <= 1)
+        mManualWindTimer = 0;
+}
+
+void Manager::setDirectionalLight(float angle_x, float angle_y) {
+    const auto x_rad = sead::Mathf::deg2rad(angle_x);
+    const auto y_rad = sead::Mathf::deg2rad(angle_y);
+
+    mDirectionalLightVecA.x = std::cos(x_rad) * std::sin(y_rad);
+    mDirectionalLightVecA.y = std::sin(x_rad);
+    mDirectionalLightVecA.z = std::cos(x_rad) * std::cos(y_rad);
+    mDirectionalLightVecB = mDirectionalLightVecA;
+    mDirectionalLightTimer = 1;
+}
+
+bool Manager::isGerudoDesertClimate() const {
+    if (mCurrentClimate != Climate::GerudoDesertClimate &&
+        mCurrentClimate != Climate::GerudoDesertClimateLv2) {
+        return false;
+    }
+    return true;
+}
+
+bool Manager::hasCameraOrPlayerMoved(float distance_threshold) const {
+    const auto camera_dist = sead::norm2(mCameraPos - mPrevCameraPos);
+    const auto player_dist = sead::norm2(mPlayerPos - mPrevPlayerPos);
+    const bool moved = player_dist >= distance_threshold || camera_dist >= distance_threshold;
+
+    if (sead::norm2(mPlayerPos - mPrevPlayerPos) <= 100.0 &&
+        evt::Manager::instance()->hasActiveEvent()) {
+        return false;
+    }
+
+    return moved;
+}
+
+int Manager::getDungeonSize() const {
+    for (int i = 0; i < DungeonSize::size(); ++i) {
+        if (mDungeonEnv.mDungeonSize.ref() == DungeonSize::text(i))
+            return DungeonSize(i);
+    }
+    return DungeonSize::XL;
+}
+
+int Manager::getDungeonType() const {
+    for (int i = 0; i < DungeonType::size(); ++i) {
+        if (mDungeonEnv.mDungeonType.ref() == DungeonType::text(i))
+            return DungeonType(i);
+    }
+    return DungeonType::Gimmick;
+}
+
+float Manager::getDungeonLightLongitude() const {
+    return mDungeonEnv.mLightLongitude.ref();
+}
+
+void Manager::setCameraDistForRemainsElectric(sead::Vector3f pos) {
+    _7ac = 10;
+    _770 = sead::norm2(mCameraPos - pos);
+}
+
+void Manager::setFocusDist(float dist) {
+    _720 = 2;
+    _7b8 = 2;
+    mFocusDist = dist;
+}
+
+void Manager::rerollClimateWindPowers() {
+    getWeatherMgr()->rerollClimateWindPowers();
+}
+
+void Manager::forceResetManualWind() {
+    mManualWindTimer = 0;
+}
+
+void Manager::setTemperatureDay(float temp) {
+    /// @bug this should be a strict inequality (<), not <=
+    if (mTempDirectDay <= 99999) {
+        if (temp > 0.0) {
+            if (mTempDirectDay > temp)
+                return;
+        } else {
+            if (mTempDirectDay < temp)
+                return;
+        }
+    }
+
+    mTempDirectDay = temp;
+    mTempDirectDayTimer = 4;
+}
+
+void Manager::setTemperatureNight(float temp) {
+    /// @bug this should be a strict inequality (<), not <=
+    if (mTempDirectNight <= 99999) {
+        if (temp > 0.0) {
+            if (mTempDirectNight > temp)
+                return;
+        } else {
+            if (mTempDirectNight < temp)
+                return;
+        }
+    }
+
+    mTempDirectNight = temp;
+    mTempDirectNightTimer = 4;
+}
+
+// NON_MATCHING: mPlayerPos.y gets loaded into s8 instead of w20
+void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
+    mIgnitedTimer = 4;
+    mIgnitedRadius = radius;
+    mIgnitedCenter = center;
+    const sead::Vector3f unk_center{-2004, mPlayerPos.y, 1710};
+    mIgnitedLevel = level;
+
+    if (sead::norm2(mPlayerPos - unk_center) < 20.0) {
+        mIgnitedCenter = unk_center;
+        mIgnitedRadius = 7.0;
+    }
 }
 
 }  // namespace ksys::world

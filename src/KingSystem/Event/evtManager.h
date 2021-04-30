@@ -16,6 +16,7 @@ public:
     void init(sead::Heap* heap);
 
     Event* getActiveEvent() const;
+    bool hasActiveEvent() const;
 
     sead::Heap* mEventHeap;  // 0x1d180
 };

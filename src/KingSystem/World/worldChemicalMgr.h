@@ -12,6 +12,9 @@ public:
 
     JobType getType() const override { return JobType::Chemical; }
 
+    void initBeforeStageGen();
+    void unload2();
+
     u8 _20[0xdc0 - 0x20];
 };
 KSYS_CHECK_SIZE_NX150(ChemicalMgr, 0xdc0);

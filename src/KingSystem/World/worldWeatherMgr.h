@@ -12,6 +12,9 @@ public:
 
     JobType getType() const override { return JobType::Weather; }
 
+    void onUnload();
+    void rerollClimateWindPowers();
+
     u8 _20[0x398 - 0x20];
 };
 KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);
