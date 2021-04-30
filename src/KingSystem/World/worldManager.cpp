@@ -307,4 +307,58 @@ bool Manager::isForbidComeback(Climate climate) const {
 // NON_MATCHING: stores in a different order (handwritten assignments?) but should be equivalent
 Manager::Manager() = default;
 
+static Job* makeJob(JobType type, sead::Heap* heap) {
+    switch (type) {
+    case JobType::Time:
+        return new (heap) TimeMgr;
+    case JobType::Cloud:
+        return new (heap) CloudMgr;
+    case JobType::ShootingStar:
+        return new (heap) ShootingStarMgrEx;
+    case JobType::Weather:
+        return new (heap) WeatherMgr;
+    case JobType::Temp:
+        return new (heap) TempMgr;
+    case JobType::Wind:
+        return new (heap) WindMgr;
+    case JobType::Sky:
+        return new (heap) SkyMgr;
+    case JobType::Dof:
+        return new (heap) DofMgr;
+    case JobType::Chemical:
+        return new (heap) ChemicalMgr;
+    }
+    return nullptr;
+}
+
+void Manager::init(sead::Heap* heap) {
+    mMgrs.allocBuffer(NumJobTypes, heap);
+    mAtomicPtrArray.allocBuffer(0x1000, heap);
+    mAtomicPtrArray.clear();
+
+    mJobQueue.initialize(NumJobTypes, heap);
+    mJobQueue.clear();
+
+    mWorldInfo.mClimates.allocBufferAssert(NumClimates, heap);
+
+    for (int i = 0; i < NumJobTypes; ++i) {
+        auto* job = makeJob(JobType(i), heap);
+        if (job) {
+            job->init(heap);
+            mMgrs.pushBack(job);
+        }
+    }
+
+    mWorldInfoLoadStatus = WorldInfoLoadStatus::NotLoaded;
+}
+
+Manager::~Manager() {
+    for (auto& mgr : mMgrs)
+        delete &mgr;
+
+    mMgrs.freeBuffer();
+    mAtomicPtrArray.freeBuffer();
+    mWorldInfo.mClimates.freeBuffer();
+}
+
 }  // namespace ksys::world

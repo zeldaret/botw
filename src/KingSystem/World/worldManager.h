@@ -12,11 +12,23 @@
 #include <prim/seadSizedEnum.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/World/worldChemicalMgr.h"
+#include "KingSystem/World/worldCloudMgr.h"
+#include "KingSystem/World/worldDofMgr.h"
+#include "KingSystem/World/worldShootingStarMgrEx.h"
+#include "KingSystem/World/worldSkyMgr.h"
+#include "KingSystem/World/worldTempMgr.h"
+#include "KingSystem/World/worldTimeMgr.h"
+#include "KingSystem/World/worldWeatherMgr.h"
+#include "KingSystem/World/worldWindMgr.h"
 
 namespace ksys::world {
 
 enum class CalcType {
-    _3 = 3,
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
+    Invalid = 3,
 };
 
 enum class StageType {
@@ -139,15 +151,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(DungeonEnv, 0x338);
 
-class TimeMgr;
-class CloudMgr;
-class ShootingStarMgr;
-class WeatherMgr;
-class TempMgr;
-class SkyMgr;
-class DofMgr;
-class ChemicalMgr;
-
 // FIXME: incomplete
 class Manager : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(Manager)
@@ -203,11 +206,14 @@ public:
                mScalingMode == ScalingMode::Disabled;
     }
 
+    CalcType getCalcType() const { return mCalcType; }
+
     TimeMgr* getTimeMgr() const { return static_cast<TimeMgr*>(mMgrs[0]); }
     CloudMgr* getCloudMgr() const { return static_cast<CloudMgr*>(mMgrs[1]); }
     ShootingStarMgr* getShootingStarMgr() const { return static_cast<ShootingStarMgr*>(mMgrs[2]); }
     WeatherMgr* getWeatherMgr() const { return static_cast<WeatherMgr*>(mMgrs[3]); }
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }
+    WindMgr* getWindMgr() const { return static_cast<WindMgr*>(mMgrs[5]); }
     SkyMgr* getSkyMgr() const { return static_cast<SkyMgr*>(mMgrs[6]); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
@@ -227,10 +233,10 @@ private:
     DungeonEnv mDungeonEnv;
     sead::DirectResource* mInfoRes{};
 
-    sead::PtrArray<void> mMgrs;
+    sead::PtrArray<Job> mMgrs;
     agl::utl::AtomicPtrArray<void*> mAtomicPtrArray;
     sead::BitFlag32 _5e0 = 1;
-    CalcType mCalcType = CalcType::_3;
+    CalcType mCalcType = CalcType::Invalid;
     sead::FixedSizeJQ mJobQueue;
 
     sead::Vector3f mCameraPos{0, 0, 0};
