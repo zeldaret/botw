@@ -9,6 +9,7 @@
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadMutex.h>
 #include <type_traits>
+#include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/System/KingEditor.h"
@@ -55,10 +56,6 @@ struct SetterTraits {
 };
 
 }  // namespace detail
-
-enum class FlagHandle : u32 {};
-
-constexpr FlagHandle InvalidHandle = FlagHandle(-1);
 
 class TriggerParamRef {
 public:
