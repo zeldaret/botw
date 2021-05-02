@@ -257,6 +257,9 @@ public:
                mScalingMode == ScalingMode::Disabled;
     }
 
+    StageType getStageType() const { return mStageType; }
+    FieldType getFieldType() const { return mFieldType; }
+    ScalingMode getScalingMode() const { return mScalingMode; }
     CalcType getCalcType() const { return mCalcType; }
 
     TimeMgr* getTimeMgr() const { return static_cast<TimeMgr*>(mMgrs[0]); }

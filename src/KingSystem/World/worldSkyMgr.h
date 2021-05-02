@@ -14,6 +14,8 @@ public:
 
     void resetForStageUnload();
 
+    bool checkConcentrationDarkness() const;
+
     u8 _20[0x6b618 - 0x20];
 };
 KSYS_CHECK_SIZE_NX150(SkyMgr, 0x6b618);
