@@ -513,6 +513,11 @@ public:
     const al::ByamlIter& getShopSoldOutInfoValues() const { return mShopSoldOutInfoValues; }
     const u32* getShopSoldOutInfoHashes() const { return mShopSoldOutInfoHashes; }
 
+    void onAnimalMasterAppearance() {
+        mBitFlags.set(BitFlag::_8);
+        mResetFlags.set(ResetFlag::AnimalMaster);
+    }
+
 private:
     enum class BitFlag {
         _1 = 0x1,
@@ -539,7 +544,7 @@ private:
     };
 
     enum class ResetFlag {
-
+        AnimalMaster = 0x10,
     };
 
     struct MethodTreeNode {

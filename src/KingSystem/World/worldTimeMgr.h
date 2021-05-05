@@ -75,6 +75,19 @@ public:
     float getTemperatureMultiplier() const;
     bool isTimeFlowingNormally() const;
 
+    int getTimeDivision() const { return mTimeDivision; }
+    sead::DelegateEvent<NewDayEvent>& getNewDaySignal() { return mNewDaySignal; }
+    float getTimeStep() const { return mTimeStep; }
+    float getBloodMoonTimer() const { return mBloodMoonTimer; }
+    int getNumberOfDays() const { return mNumberOfDays; }
+    bool isForceBloodyDay() const { return mForceBloodyDay; }
+    bool isPlayedDemo103Or997() const { return mPlayedDemo103Or997; }
+    bool isFindDungeonActivated() const { return mFindDungeonActivated; }
+    bool isResetGdtOnNextSceneUnloadForBloodMoon() const {
+        return mResetGdtOnNextSceneUnloadForBloodMoon;
+    }
+    bool wasBloodyDay() const { return mWasBloodyDay; }
+
 protected:
     void init_(sead::Heap* heap) override;
     void calc_() override;
@@ -87,10 +100,6 @@ private:
     };
 
     struct AnimalMasterController {
-        enum class State {
-
-        };
-
         void calc();
 
         void resetState() {
@@ -102,7 +111,7 @@ private:
 
         gdt::FlagHandle appearance_flag = gdt::InvalidHandle;
         gdt::FlagHandle existence_flag = gdt::InvalidHandle;
-        State state{};
+        int state{};
         int appearance_hour{};
         int valid_hour{};
         u8 start_day_of_week{};

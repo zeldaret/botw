@@ -1,4 +1,8 @@
 #include "KingSystem/World/worldTimeMgr.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/Ecosystem/ecoUtil.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/World/worldManager.h"
 
@@ -176,6 +180,103 @@ bool TimeMgr::isInRelicBattle() const {
         in_battle = true;
 
     return in_battle;
+}
+
+void TimeMgr::AnimalMasterController::calc() {
+    const auto num_days = Manager::instance()->getTimeMgr()->getNumberOfDays();
+
+    act::ActorConstDataAccess player_accessor;
+    act::ActorSystem::instance()->getPlayer(&player_accessor);
+
+    const int day_of_week = num_days % 7;
+
+    switch (state) {
+    case 0: {
+        if (Manager::instance()->getTimeMgr()->getMoonType() != MoonType::WaxingCrescent)
+            break;
+
+        bool exists;
+        if (gdt::Manager::instance() == nullptr)
+            break;
+        if (!gdt::Manager::instance()->getBool(existence_flag, &exists, true, true))
+            break;
+        if (exists)
+            break;
+
+        if (!player_accessor.hasProc())
+            break;
+        if (eco::currentAreaNumIs64(player_accessor.getPreviousPos()))
+            break;
+
+        appearance_hour = sead::GlobalRandom::instance()->getU32(23);
+        ++state;
+        break;
+    }
+
+    case 1: {
+        if (!player_accessor.hasProc())
+            break;
+
+        if (eco::currentAreaNumIs64(player_accessor.getPreviousPos())) {
+            state = 0;
+            break;
+        }
+
+        int hour = Manager::instance()->getTimeMgr()->getHour();
+        if (hour != appearance_hour)
+            break;
+
+        hour += 24;
+        if (hour >= 24)
+            hour -= 24;
+        valid_hour = hour;
+
+        gdt::Manager::instance()->setBool(true, appearance_flag);
+        if (gdt::Manager::instance())
+            gdt::Manager::instance()->onAnimalMasterAppearance();
+
+        ++state;
+        break;
+    }
+
+    case 2: {
+        if (Manager::instance()->getTimeMgr()->getHour() == valid_hour)
+            break;
+
+        start_day_of_week = day_of_week;
+        ++state;
+        break;
+    }
+
+    case 3: {
+        u8 dow = day_of_week;
+        if (dow < start_day_of_week)
+            dow += 7;
+
+        const auto should_disappear = [this, dow](u8 day) {
+            if (u8(dow - start_day_of_week) >= 2)
+                return true;
+
+            return start_day_of_week != day &&
+                   Manager::instance()->getTimeMgr()->getHour() >= valid_hour;
+        };
+
+        if (!should_disappear(day_of_week))
+            break;
+
+        gdt::Manager::instance()->setBool(false, appearance_flag);
+        ++state;
+        break;
+    }
+
+    case 4: {
+        if (Manager::instance()->getTimeMgr()->getMoonType() == MoonType::WaxingCrescent)
+            break;
+
+        state = 0;
+        break;
+    }
+    }
 }
 
 void TimeMgr::calcType1_() {}

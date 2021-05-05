@@ -102,6 +102,8 @@ public:
     bool checkFlag18() const;
     bool isPlayerTheConnectedParent() const;
 
+    const sead::Vector3f& getPreviousPos() const;
+
     void setThisActorAsParent(BaseProc* child, bool delete_parent_on_delete);
     void setThisActorAsChild(BaseProc* parent, bool delete_child_on_delete);
 

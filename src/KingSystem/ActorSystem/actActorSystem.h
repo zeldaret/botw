@@ -6,6 +6,8 @@
 
 namespace ksys::act {
 
+class ActorConstDataAccess;
+
 // TODO: incomplete
 class ActorSystem {
     SEAD_SINGLETON_DISPOSER(ActorSystem)
@@ -13,6 +15,8 @@ class ActorSystem {
 
 public:
     void onBaseProcMgrCalc();
+
+    bool getPlayer(ActorConstDataAccess* accessor);
 
     bool getAutoPlacementActorPos(const sead::SafeString& name, sead::Vector3f* pos) const;
 
