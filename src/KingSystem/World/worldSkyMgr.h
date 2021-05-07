@@ -15,6 +15,7 @@ public:
     void resetForStageUnload();
 
     bool checkConcentrationDarkness() const;
+    bool isBloodMoonNight() const;
 
     u8 _20[0x6b618 - 0x20];
 };

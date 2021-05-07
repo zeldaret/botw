@@ -11,6 +11,7 @@
 namespace ksys::world {
 
 SEAD_ENUM(TimeDivision, Morning_A,Morning_B,Noon_A,Noon_B,Evening_A,Evening_B,Night_A,Night_B)
+SEAD_ENUM(TimeType, Morning_A1,Morning_A2,Morning_B,Noon_A,Noon_B,Evening_A,Evening_B,Night_A,Night_B)
 
 enum class MoonType : u8 {
     FullMoon = 0,
@@ -32,6 +33,10 @@ constexpr float durationToFloat(int h, int m) {
     return timeToFloat(h, m);
 }
 
+constexpr float operator""_days(unsigned long long hours) {
+    return timeToFloat(static_cast<int>(24 * hours), 0);
+}
+
 constexpr float operator""_h(unsigned long long hours) {
     return timeToFloat(static_cast<int>(hours), 0);
 }
@@ -44,6 +49,16 @@ constexpr float operator""_m(unsigned long long minutes) {
 class TimeMgr : public Job {
     SEAD_RTTI_OVERRIDE(TimeMgr, Job)
 public:
+    enum class BloodMoonForceMode {
+        Disabled = 0,
+        /// Force a blood moon to happen tonight and set the time to 23:29.
+        Force23h = 1,
+        /// Force a blood moon to happen tonight and set the time to 21:30.
+        Force21h = 2,
+        /// Force a blood moon to happen tonight and set the time to 00:00.
+        Immediate = 99,
+    };
+
     struct NewDayEvent {
         virtual ~NewDayEvent() = default;
     };
@@ -76,11 +91,11 @@ public:
     bool isTimeFlowingNormally() const;
 
     int getTimeDivision() const { return mTimeDivision; }
-    sead::DelegateEvent<NewDayEvent>& getNewDaySignal() { return mNewDaySignal; }
+    sead::DelegateEvent<const NewDayEvent&>& getNewDaySignal() { return mNewDaySignal; }
     float getTimeStep() const { return mTimeStep; }
     float getBloodMoonTimer() const { return mBloodMoonTimer; }
     int getNumberOfDays() const { return mNumberOfDays; }
-    bool isForceBloodyDay() const { return mForceBloodyDay; }
+    BloodMoonForceMode getBloodMoonForceMode() const { return mBloodMoonForceMode; }
     bool isPlayedDemo103Or997() const { return mPlayedDemo103Or997; }
     bool isFindDungeonActivated() const { return mFindDungeonActivated; }
     bool isResetGdtOnNextSceneUnloadForBloodMoon() const {
@@ -97,6 +112,58 @@ protected:
 private:
     enum class TimeUpdateMode {
         Normal = 0,
+
+        Force0400_b = 1,
+        Force0500_b = 2,
+        Force0700_b = 3,
+        Force1000_b = 4,
+        Force1700_b = 5,
+        Force1900_b = 6,
+        Force2100_b = 7,
+        Force0200_b = 8,
+
+        Force0000 = 9,
+        Force0100 = 10,
+        Force0200 = 11,
+        Force0300 = 12,
+        Force0400 = 13,
+        Force0500 = 14,
+        Force0600 = 15,
+        Force0700 = 16,
+        Force0800 = 17,
+        Force0900 = 18,
+        Force1000 = 19,
+        Force1100 = 20,
+        Force1200 = 21,
+        Force1300 = 22,
+        Force1400 = 23,
+        Force1500 = 24,
+        Force1600 = 25,
+        Force1700 = 26,
+        Force1800 = 27,
+        Force1900 = 28,
+        Force2000 = 29,
+        Force2100 = 30,
+        Force2200 = 31,
+        Force2300 = 32,
+
+        OnlyUpdateTimeOfDay = 34,
+
+        Force0400_c = 35,
+        Force0700_c = 36,
+        Force1000_c = 37,
+        Force1300_c = 38,
+        Force1700_c = 39,
+        Force1900_c = 40,
+        Force2100_c = 41,
+        Force0000_c = 42,
+
+        Forced = 0xff,
+    };
+
+    enum class HandleNewDayMode {
+        Normal,
+        Forced,
     };
 
     struct AnimalMasterController {
@@ -122,18 +189,19 @@ private:
     static constexpr float DefaultTimeStep = durationToFloat(0, 1) / 30.0;
 
     void loadFlags();
+    void handleNewDay(HandleNewDayMode mode);
 
     bool _20;
     bool _21;
     u16 _22;
     bool _24;
     int mTimeDivision{};
-    int mTimeDivision2{};
+    int mTimeType{};
     struct {
         std::array<bool, 4> _0;
         int _4;
     } _30[10];
-    sead::DelegateEvent<NewDayEvent> mNewDaySignal;
+    sead::DelegateEvent<const NewDayEvent&> mNewDaySignal;
     AnimalMasterController mAnimalMasterCtrl;
     float mTime = DefaultTime;
     float mTimeForAocFieldSkyEnv = DefaultTime;
@@ -173,7 +241,7 @@ private:
     int mBloodyEndReserveTimer{};
     bool mNeedToHandleNewDay{};
     sead::SizedEnum<TimeUpdateMode, u8> mTimeUpdateMode = TimeUpdateMode::Normal;
-    bool mForceBloodyDay;
+    sead::SizedEnum<BloodMoonForceMode, u8> mBloodMoonForceMode;
     bool _14b;
     MoonType mMoonType;
     bool mPlayedDemo103Or997{};

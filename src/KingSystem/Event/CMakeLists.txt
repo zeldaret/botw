@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   evtInfoData.h
   evtManager.cpp
   evtManager.h
+  evtMetadata.cpp
+  evtMetadata.h
   evtOrderParam.cpp
   evtOrderParam.h
 )

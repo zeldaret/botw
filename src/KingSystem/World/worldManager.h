@@ -272,14 +272,14 @@ public:
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
 
+    bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
+
 private:
     enum class WorldInfoLoadStatus : u8 {
         NotLoaded,
         Loaded,
         Unloaded,
     };
-
-    bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
 
     void overrideWindSpeed(float* wind_speed) const;
 

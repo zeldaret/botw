@@ -2,9 +2,14 @@
 
 #include <heap/seadDisposer.h>
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace ksys::evt {
 
 class Event;
+class Metadata;
 
 // TODO
 class Manager {
@@ -17,6 +22,8 @@ public:
 
     Event* getActiveEvent() const;
     bool hasActiveEvent() const;
+
+    bool callEvent(const Metadata& metadata, act::Actor* actor = nullptr, void* x = nullptr);
 
     sead::Heap* mEventHeap;  // 0x1d180
 };

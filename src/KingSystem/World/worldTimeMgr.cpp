@@ -3,7 +3,11 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Ecosystem/ecoUtil.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtMetadata.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
@@ -18,7 +22,7 @@ TimeMgr::TimeMgr() {
     _21 = true;
     _22 = 0;
     _24 = false;
-    mForceBloodyDay = false;
+    mBloodMoonForceMode = {};
     _14b = false;
     _cc = {};
     mMoonType = MoonType::Auto;
@@ -52,7 +56,7 @@ void TimeMgr::resetForStageUnload() {
 void TimeMgr::loadInfo() {
     mTimeStep = DefaultTimeStep;
     mTimeUpdateMode = TimeUpdateMode::Normal;
-    mForceBloodyDay = false;
+    mBloodMoonForceMode = {};
     _14b = false;
     _cc = 0.0;
     mMoonType = MoonType::Auto;
@@ -126,6 +130,14 @@ void TimeMgr::loadFlags() {
 
 TimeMgr::~TimeMgr() = default;
 
+void TimeMgr::callBloodMoonDemo() {
+    auto* evt_mgr = evt::Manager::instance();
+    if (!evt_mgr)
+        return;
+
+    evt_mgr->callEvent(evt::Metadata("Demo011_0"));
+}
+
 bool TimeMgr::isBloodMoonProhibited() const {
     bool prohibited = !Manager::instance()->isMainField();
 
@@ -180,6 +192,379 @@ bool TimeMgr::isInRelicBattle() const {
         in_battle = true;
 
     return in_battle;
+}
+
+static bool playerHasLeftPlateau() {
+    bool left_plateau = false;
+    gdt::Manager::instance()->getParamBypassPerm().get().getBool(&left_plateau, "FirstTouchdown");
+    return left_plateau;
+}
+
+void TimeMgr::handleNewDay(HandleNewDayMode mode) {
+    auto* wm = Manager::instance();
+    auto* gdm = gdt::Manager::instance();
+
+    ++mNumberOfDays;
+
+    if (mode == HandleNewDayMode::Normal && wm->getSkyMgr()->isBloodMoonNight()) {
+        if (isBloodMoonProhibited() || isInRelicBattle()) {
+            mBloodMoonTimer = 8_days;
+        } else {
+            callBloodMoonDemo();
+            mBloodMoonTimer = 0.0;
+            if (PlayReportMgr::instance())
+                PlayReportMgr::instance()->reportDebug("BloodyMoon", "Schedule");
+        }
+        mBloodMoonForceMode = {};
+    }
+
+    if (gdm) {
+        gdt::Manager::instance()->getBool(mBloodyDayFlag, &mWasBloodyDay);
+
+        if (playerHasLeftPlateau() && mBloodMoonTimer > 7_days) {
+            mBloodMoonTimer = 0.0;
+            gdm->setBool(true, mBloodyDayFlag);
+        } else {
+            mBloodyEndReserveTimer = 150;
+        }
+    }
+
+    NewDayEvent event;
+    if (mNewDaySignal.getNumSlots() > 0)
+        mNewDaySignal.emit(event);
+}
+
+void TimeMgr::calc_() {
+    bool is_daytime_flag_set = true;
+
+    auto* gdm = gdt::Manager::instance();
+    if (!gdm)
+        return;
+
+    mIsTimeFlowingNormally = false;
+    float& time = mTime;
+    gdm->getF32(mTimeFlag, &time);
+    gdm->getS32(mNumberOfDaysFlag, &mNumberOfDays);
+    gdm->getS32(mTimeDivisionFlag, &mTimeDivision);
+    gdm->getBool(mIsDaytimeFlag, &is_daytime_flag_set);
+    gdm->getF32(mBloodyMoonTimerFlag, &mBloodMoonTimer);
+    if (mBloodyEndReserveTimerFlag != gdt::InvalidHandle)
+        gdm->getS32(mBloodyEndReserveTimerFlag, &mBloodyEndReserveTimer);
+
+    if (!mPlayedDemo103Or997) {
+        mTime = DefaultTime;
+        gdm->getBool(mIsPlayedDemo103Flag, &mPlayedDemo103Or997, true);
+        if (!mPlayedDemo103Or997)
+            gdm->getBool(mDemo997Flag, &mPlayedDemo103Or997, true);
+    }
+
+    if (!mFindDungeonActivated) {
+        gdm->getBool(mFindDungeonActivatedFlag, &mFindDungeonActivated, true);
+    }
+
+    auto* wm = Manager::instance();
+    if (!wm->worldInfoLoaded())
+        return;
+
+    if (mNewTime >= 0.0 &&
+        (mTimeUpdateMode == TimeUpdateMode::Forced || mTimeUpdateMode == TimeUpdateMode::Normal)) {
+        mTime = mNewTime;
+        mNewTime = -1.0;
+        wm->getCloudMgr()->onTimeUpdate();
+    }
+
+    if (mNeedToHandleNewDay) {
+        handleNewDay(HandleNewDayMode::Forced);
+        mNeedToHandleNewDay = false;
+    }
+
+    switch (mBloodMoonForceMode) {
+    case BloodMoonForceMode::Disabled:
+        break;
+    case BloodMoonForceMode::Force23h:
+        mBloodMoonForceMode = {};
+        mTime = timeToFloat(23, 29) + 0.1;
+        mBloodMoonTimer = 0.0;
+        gdm->setBool(true, mBloodyDayFlag);
+        break;
+    case BloodMoonForceMode::Force21h:
+        mBloodMoonForceMode = {};
+        mTime = timeToFloat(21, 30);
+        mBloodMoonTimer = 0.0;
+        gdm->setBool(true, mBloodyDayFlag);
+        break;
+    case BloodMoonForceMode::Immediate:
+        mTimeUpdateMode = TimeUpdateMode::Forced;
+        mTime = 0.0;
+        _cc = 1.0;
+        gdm->setBool(true, mBloodyDayFlag);
+        mWasBloodyDay = true;
+        if (!evt::Manager::instance()->hasActiveEvent()) {
+            mBloodMoonForceMode = {};
+            mTimeUpdateMode = TimeUpdateMode::Normal;
+            _cc = 0.0;
+        }
+        break;
+    }
+
+    if (mWasBloodyDay && mTime > 12_h)
+        mWasBloodyDay = false;
+
+    _d0 = 1.0;
+
+    switch (mTimeUpdateMode) {
+    case TimeUpdateMode::Normal: {
+        if (!mPlayedDemo103Or997 || evt::Manager::instance()->hasActiveEvent())
+            break;
+
+        const auto delta = mTimeStep * VFR::instance()->getDeltaTime();
+        mIsTimeFlowingNormally = true;
+        mTime += delta;
+        if (mTime >= 24_h) {
+            mTime -= 24_h;
+            handleNewDay(HandleNewDayMode::Normal);
+        }
+        if (!mFindDungeonActivated && mTime >= 11_h)
+            mTime = 11_h;
+
+        _d0 = sead::Mathf::max(mTimeStep / DefaultTimeStep, 1.0);
+        mBloodMoonTimer += delta;
+        break;
+    }
+
+    case TimeUpdateMode::Force0400_b:
+        mTime = 4_h;
+        break;
+    case TimeUpdateMode::Force0500_b:
+        mTime = 5_h;
+        break;
+    case TimeUpdateMode::Force0700_b:
+        mTime = 7_h;
+        break;
+    case TimeUpdateMode::Force1000_b:
+        mTime = 10_h;
+        break;
+    case TimeUpdateMode::Force1700_b:
+        mTime = 17_h;
+        break;
+    case TimeUpdateMode::Force1900_b:
+        mTime = 19_h;
+        break;
+    case TimeUpdateMode::Force2100_b:
+        mTime = 21_h;
+        break;
+    case TimeUpdateMode::Force0200_b:
+        mTime = 2_h;
+        break;
+
+    case TimeUpdateMode::Force0000:
+        mTime = 0_h;
+        break;
+    case TimeUpdateMode::Force0100:
+        mTime = 1_h;
+        break;
+    case TimeUpdateMode::Force0200:
+        mTime = 2_h;
+        break;
+    case TimeUpdateMode::Force0300:
+        mTime = 3_h;
+        break;
+    case TimeUpdateMode::Force0400:
+        mTime = 4_h;
+        break;
+    case TimeUpdateMode::Force0500:
+        mTime = 5_h;
+        break;
+    case TimeUpdateMode::Force0600:
+        mTime = 6_h;
+        break;
+    case TimeUpdateMode::Force0700:
+        mTime = 7_h;
+        break;
+    case TimeUpdateMode::Force0800:
+        mTime = 8_h;
+        break;
+    case TimeUpdateMode::Force0900:
+        mTime = 9_h;
+        break;
+    case TimeUpdateMode::Force1000:
+        mTime = 10_h;
+        break;
+    case TimeUpdateMode::Force1100:
+        mTime = 11_h;
+        break;
+    case TimeUpdateMode::Force1200:
+        mTime = 12_h;
+        break;
+    case TimeUpdateMode::Force1300:
+        mTime = 13_h;
+        break;
+    case TimeUpdateMode::Force1400:
+        mTime = 14_h;
+        break;
+    case TimeUpdateMode::Force1500:
+        mTime = 15_h;
+        break;
+    case TimeUpdateMode::Force1600:
+        mTime = 16_h;
+        break;
+    case TimeUpdateMode::Force1700:
+        mTime = 17_h;
+        break;
+    case TimeUpdateMode::Force1800:
+        mTime = 18_h;
+        break;
+    case TimeUpdateMode::Force1900:
+        mTime = 19_h;
+        break;
+    case TimeUpdateMode::Force2000:
+        mTime = 20_h;
+        break;
+    case TimeUpdateMode::Force2100:
+        mTime = 21_h;
+        break;
+    case TimeUpdateMode::Force2200:
+        mTime = 22_h;
+        break;
+    case TimeUpdateMode::Force2300:
+        mTime = 23_h;
+        break;
+
+    case TimeUpdateMode::OnlyUpdateTimeOfDay:
+        mTime += mTimeStep * VFR::instance()->getDeltaTime();
+        if (mTime >= 24_h)
+            mTime -= 24_h;
+        break;
+
+    case TimeUpdateMode::Force0400_c:
+        mTime = 4_h;
+        break;
+    case TimeUpdateMode::Force0700_c:
+        mTime = 7_h;
+        break;
+    case TimeUpdateMode::Force1000_c:
+        mTime = 10_h;
+        break;
+    case TimeUpdateMode::Force1300_c:
+        mTime = 13_h;
+        break;
+    case TimeUpdateMode::Force1700_c:
+        mTime = 17_h;
+        break;
+    case TimeUpdateMode::Force1900_c:
+        mTime = 19_h;
+        break;
+    case TimeUpdateMode::Force2100_c:
+        mTime = 21_h;
+        break;
+    case TimeUpdateMode::Force0000_c:
+        mTime = 0_h;
+        break;
+
+    case TimeUpdateMode::Forced:
+        break;
+    }
+
+    const auto update_daytime_flags = [&] {
+        if (mTime > 6_h && mTime < 18_h) {
+            if (!is_daytime_flag_set) {
+                gdm->setBool(true, mIsDaytimeFlag);
+                gdm->setBool(false, mIsNighttimeFlag);
+            }
+        } else {
+            if (is_daytime_flag_set) {
+                gdm->setBool(false, mIsDaytimeFlag);
+                gdm->setBool(true, mIsNighttimeFlag);
+            }
+        }
+    };
+    update_daytime_flags();
+
+    bool update_division = false;
+    bool division_flag_set = false;
+
+    if (mTime >= 4_h && mTime < 7_h) {
+        mTimeDivision = TimeDivision::Morning_A;
+        u8 ok = 0;
+        if (gdm->getBool(mIsMorningAFlag, &division_flag_set))
+            ok = !division_flag_set;
+        if (mTime < 5_h) {
+            mTimeType = TimeType::Morning_A1;
+            if (ok)
+                update_division = true;
+        } else {
+            mTimeType = TimeType::Morning_A2;
+            if (ok)
+                [&] { update_division = true; }();
+        }
+    } else if (mTime >= 7_h && mTime < 10_h) {
+        mTimeDivision = TimeDivision::Morning_B;
+        mTimeType = TimeType::Morning_B;
+        if (gdm->getBool(mIsMorningBFlag, &division_flag_set) && !division_flag_set)
+            update_division = true;
+    } else if (mTime >= 10_h && mTime < 13_h) {
+        mTimeDivision = TimeDivision::Noon_A;
+        mTimeType = TimeType::Noon_A;
+        if (gdm->getBool(mIsNoonAFlag, &division_flag_set) && !division_flag_set)
+            update_division = true;
+    } else if (mTime >= 13_h && mTime < 17_h) {
+        mTimeDivision = TimeDivision::Noon_B;
+        mTimeType = TimeType::Noon_B;
+        if (gdm->getBool(mIsNoonBFlag, &division_flag_set) && !division_flag_set)
+            update_division = true;
+    } else if (mTime >= 17_h && mTime < 19_h) {
+        mTimeDivision = TimeDivision::Evening_A;
+        mTimeType = TimeType::Evening_A;
+        if (gdm->getBool(mIsEveningAFlag, &division_flag_set) && !division_flag_set)
+            update_division = true;
+    } else if (mTime >= 19_h && mTime < 21_h) {
+        mTimeDivision = TimeDivision::Evening_B;
+        mTimeType = TimeType::Evening_B;
+        if (gdm->getBool(mIsEveningBFlag, &division_flag_set) && !division_flag_set)
+            update_division = true;
+    } else if (mTime >= 21_h && mTime < 24_h) {
+        mTimeDivision = TimeDivision::Night_A;
+        mTimeType = TimeType::Night_A;
+        if (gdm->getBool(mIsNightAFlag, &division_flag_set) && !division_flag_set)
+            update_division = true;
+    } else {
+        mTimeDivision = TimeDivision::Night_B;
+        mTimeType = TimeType::Night_B;
+        if (gdm->getBool(mIsNightBFlag, &division_flag_set) && !division_flag_set)
+            update_division = true;
+    }
+
+    if (update_division) {
+        const bool is_morning_a = mTimeDivision == TimeDivision::Morning_A;
+        const bool is_morning_b = mTimeDivision == TimeDivision::Morning_B;
+        const bool is_noon_a = mTimeDivision == TimeDivision::Noon_A;
+        const bool is_noon_b = mTimeDivision == TimeDivision::Noon_B;
+        const bool is_evening_a = mTimeDivision == TimeDivision::Evening_A;
+        const bool is_evening_b = mTimeDivision == TimeDivision::Evening_B;
+        const bool is_night_a = mTimeDivision == TimeDivision::Night_A;
+        const bool is_night_b = mTimeDivision == TimeDivision::Night_B;
+        gdm->setBool(is_morning_a, mIsMorningAFlag);
+        gdm->setBool(is_morning_b, mIsMorningBFlag);
+        gdm->setBool(is_noon_a, mIsNoonAFlag);
+        gdm->setBool(is_noon_b, mIsNoonBFlag);
+        gdm->setBool(is_evening_a, mIsEveningAFlag);
+        gdm->setBool(is_evening_b, mIsEveningBFlag);
+        gdm->setBool(is_night_a, mIsNightAFlag);
+        gdm->setBool(is_night_b, mIsNightBFlag);
+        gdm->setS32(mTimeDivision, mTimeDivisionFlag);
+    }
+
+    if (mBloodyEndReserveTimer != 0) {
+        --mBloodyEndReserveTimer;
+        if (mBloodyEndReserveTimer <= 0)
+            gdm->setBool(false, mBloodyDayFlag);
+    }
+
+    gdm->setF32(mTime, mTimeFlag);
+    gdm->setS32(mNumberOfDays, mNumberOfDaysFlag);
+    gdm->setF32(mBloodMoonTimer, mBloodyMoonTimerFlag);
+    gdm->setS32(mBloodyEndReserveTimer, mBloodyEndReserveTimerFlag);
+    mAnimalMasterCtrl.calc();
 }
 
 void TimeMgr::AnimalMasterController::calc() {

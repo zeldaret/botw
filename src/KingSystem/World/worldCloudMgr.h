@@ -12,6 +12,8 @@ public:
 
     JobType getType() const override { return JobType::Cloud; }
 
+    void onTimeUpdate();
+
     u8 _20[0x3fb8 - 0x20];
 };
 KSYS_CHECK_SIZE_NX150(CloudMgr, 0x3fb8);
