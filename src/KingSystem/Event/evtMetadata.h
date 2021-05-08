@@ -15,18 +15,6 @@ class OrderParam;
 
 class Metadata {
 public:
-    Metadata();
-    Metadata(const char* event, const char* entry_point, const char* type = "");
-    explicit Metadata(const char* event) : Metadata(event, event) {}
-    virtual ~Metadata();
-
-    Metadata(const Metadata& other) { *this = other; }
-    Metadata& operator=(const Metadata& other);
-
-    void init(const char* event, const char* entry_point, const char* type = "");
-    void reset();
-
-private:
     enum class Flag {
         _1 = 1,
         _2 = 2,
@@ -42,6 +30,35 @@ private:
     };
     friend constexpr Flag operator|(Flag a, Flag b) { return Flag(u32(a) | u32(b)); }
 
+    Metadata();
+    Metadata(const char* event, const char* entry_point, const char* type = "");
+    explicit Metadata(const char* event) : Metadata(event, event) {}
+    virtual ~Metadata();
+
+    Metadata(const Metadata& other) { *this = other; }
+    Metadata& operator=(const Metadata& other);
+
+    void init(const char* event, const char* entry_point, const char* type = "");
+    void reset();
+
+    act::Actor* getCurrentActor() const { return mCurrentActor; }
+    void setCurrentActor(act::Actor* actor) { mCurrentActor = actor; }
+
+    bool isSetNoDeleteCurrentActor() const { return mSetNoDeleteCurrentActor; }
+    bool isSkipIsStartableAirCheck() const { return mSkipIsStartableAirCheck; }
+    bool isForceNoChild() const { return mForceNoChild; }
+    bool is13() const { return _13; }
+    void* get18() const { return _18; }
+    u32 get20() const { return _20; }
+    int getEventStartWaitFrame() const { return mEventStartWaitFrame; }
+    const sead::SafeString& getEventName() const { return mEventName; }
+    const sead::SafeString& getEntryPointName() const { return mEntryPointName; }
+    const sead::SafeString& getType() const { return mType; }
+    const sead::TypedBitFlag<Flag>& getFlags() const { return mFlags; }
+    OrderParam* getOrderParam() const { return mOrderParam; }
+    bool isAsync() const { return mIsAsync; }
+
+private:
     void initOrderParam_();
     void initFlags_();
     void doAssign_(const Metadata& other);
