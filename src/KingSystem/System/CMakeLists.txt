@@ -16,6 +16,8 @@ target_sources(uking PRIVATE
   PlayReportMgr.h
   ProductReporter.cpp
   ProductReporter.h
+  Revision.cpp
+  Revision.h
   StageInfo.cpp
   StageInfo.h
   StringBoard.h
