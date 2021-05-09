@@ -1,6 +1,8 @@
 target_sources(uking PRIVATE
   Account.cpp
   Account.h
+  BasicProfiler.cpp
+  BasicProfiler.h
   CameraEditor.cpp
   CameraEditor.h
   DebugMessage.h
