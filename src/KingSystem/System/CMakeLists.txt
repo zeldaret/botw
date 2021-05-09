@@ -1,6 +1,8 @@
 target_sources(uking PRIVATE
   Account.cpp
   Account.h
+  CameraEditor.cpp
+  CameraEditor.h
   DebugMessage.h
   HavokWorkerMgr.cpp
   HavokWorkerMgr.h
