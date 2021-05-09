@@ -15,10 +15,10 @@
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldChemicalMgr.h"
-#include "KingSystem/World/worldCloudMgr.h"
 #include "KingSystem/World/worldDofMgr.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldShootingStarMgrEx.h"
+#include "KingSystem/World/worldSkyMgr.h"
 #include "KingSystem/World/worldTempMgr.h"
 #include "KingSystem/World/worldTimeMgr.h"
 #include "KingSystem/World/worldWeatherMgr.h"
@@ -263,7 +263,7 @@ public:
     CalcType getCalcType() const { return mCalcType; }
 
     TimeMgr* getTimeMgr() const { return static_cast<TimeMgr*>(mMgrs[0]); }
-    CloudMgr* getCloudMgr() const { return static_cast<CloudMgr*>(mMgrs[1]); }
+    SkyMgr* getCloudMgr() const { return static_cast<SkyMgr*>(mMgrs[1]); }
     ShootingStarMgr* getShootingStarMgr() const { return static_cast<ShootingStarMgr*>(mMgrs[2]); }
     WeatherMgr* getWeatherMgr() const { return static_cast<WeatherMgr*>(mMgrs[3]); }
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }

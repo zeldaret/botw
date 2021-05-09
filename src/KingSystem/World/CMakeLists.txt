@@ -1,8 +1,6 @@
 target_sources(uking PRIVATE
   worldChemicalMgr.cpp
   worldChemicalMgr.h
-  worldCloudMgr.cpp
-  worldCloudMgr.h
   worldDofMgr.cpp
   worldDofMgr.h
   worldEnvMgr.cpp
@@ -15,6 +13,8 @@ target_sources(uking PRIVATE
   worldShootingStarMgr.h
   worldShootingStarMgrEx.cpp
   worldShootingStarMgrEx.h
+  worldSkyMgr.cpp
+  worldSkyMgr.h
   worldTempMgr.cpp
   worldTempMgr.h
   worldTimeMgr.cpp

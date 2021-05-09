@@ -9,7 +9,7 @@ namespace ksys::world {
 
 enum class JobType {
     Time,
-    Cloud,
+    Sky,
     ShootingStar,
     Weather,
     Temp,

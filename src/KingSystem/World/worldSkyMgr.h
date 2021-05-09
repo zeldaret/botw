@@ -6,16 +6,16 @@
 namespace ksys::world {
 
 // TODO
-class CloudMgr : public Job {
+class SkyMgr : public Job {
 public:
-    CloudMgr();
+    SkyMgr();
 
-    JobType getType() const override { return JobType::Cloud; }
+    JobType getType() const override { return JobType::Sky; }
 
     void onTimeUpdate();
 
     u8 _20[0x3fb8 - 0x20];
 };
-KSYS_CHECK_SIZE_NX150(CloudMgr, 0x3fb8);
+KSYS_CHECK_SIZE_NX150(SkyMgr, 0x3fb8);
 
 }  // namespace ksys::world
