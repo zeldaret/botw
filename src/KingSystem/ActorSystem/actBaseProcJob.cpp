@@ -12,7 +12,7 @@ BaseProcJobLink::BaseProcJobLink(BaseProc* proc, u8 priority)
 
 sead::TListNode<BaseProc*>* BaseProcJobList::front() const {
     for (const auto& list : lists) {
-        if (list.size() >= 1 && list.front())
+        if (list.front())
             return list.front();
     }
     return nullptr;
@@ -23,7 +23,7 @@ sead::TListNode<BaseProc*>* BaseProcJobList::next(BaseProcJobLink* link) const {
         return next;
 
     for (int i = (link->getPriority2() >> 1) + 1; i < lists.size(); ++i) {
-        if (lists[i].size() >= 1 && lists[i].front())
+        if (lists[i].front())
             return lists[i].front();
     }
 

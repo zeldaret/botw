@@ -50,9 +50,7 @@ public:
     void initAndCheckType(s32 num_tasks, sead::Heap* heap) {
         initImpl_<TaskType>(num_tasks, heap);
         if (hasTasks()) {
-            Task* task = nullptr;
-            if (mFreeTaskLists[0].size() >= 1)
-                task = mFreeTaskLists[0].front();
+            Task* task = mFreeTaskLists[0].front();
             const bool is_derived_from_managed_task = sead::IsDerivedFrom<ManagedTask>(task);
             SEAD_ASSERT(is_derived_from_managed_task);
         }
