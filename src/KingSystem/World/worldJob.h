@@ -14,7 +14,7 @@ enum class JobType {
     Weather,
     Temp,
     Wind,
-    Sky,
+    Env,
     Dof,
     Chemical,
 };

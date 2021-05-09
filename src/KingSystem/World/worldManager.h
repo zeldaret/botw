@@ -17,8 +17,8 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/World/worldCloudMgr.h"
 #include "KingSystem/World/worldDofMgr.h"
+#include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldShootingStarMgrEx.h"
-#include "KingSystem/World/worldSkyMgr.h"
 #include "KingSystem/World/worldTempMgr.h"
 #include "KingSystem/World/worldTimeMgr.h"
 #include "KingSystem/World/worldWeatherMgr.h"
@@ -268,7 +268,7 @@ public:
     WeatherMgr* getWeatherMgr() const { return static_cast<WeatherMgr*>(mMgrs[3]); }
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }
     WindMgr* getWindMgr() const { return static_cast<WindMgr*>(mMgrs[5]); }
-    SkyMgr* getSkyMgr() const { return static_cast<SkyMgr*>(mMgrs[6]); }
+    EnvMgr* getSkyMgr() const { return static_cast<EnvMgr*>(mMgrs[6]); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
 

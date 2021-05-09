@@ -6,11 +6,11 @@
 namespace ksys::world {
 
 // TODO
-class SkyMgr : public Job {
+class EnvMgr : public Job {
 public:
-    SkyMgr();
+    EnvMgr();
 
-    JobType getType() const override { return JobType::Sky; }
+    JobType getType() const override { return JobType::Env; }
 
     void resetForStageUnload();
 
@@ -19,6 +19,6 @@ public:
 
     u8 _20[0x6b618 - 0x20];
 };
-KSYS_CHECK_SIZE_NX150(SkyMgr, 0x6b618);
+KSYS_CHECK_SIZE_NX150(EnvMgr, 0x6b618);
 
 }  // namespace ksys::world

@@ -333,8 +333,8 @@ static Job* makeJob(JobType type, sead::Heap* heap) {
         return new (heap) TempMgr;
     case JobType::Wind:
         return new (heap) WindMgr;
-    case JobType::Sky:
-        return new (heap) SkyMgr;
+    case JobType::Env:
+        return new (heap) EnvMgr;
     case JobType::Dof:
         return new (heap) DofMgr;
     case JobType::Chemical:

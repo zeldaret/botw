@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   worldCloudMgr.h
   worldDofMgr.cpp
   worldDofMgr.h
+  worldEnvMgr.cpp
+  worldEnvMgr.h
   worldJob.cpp
   worldJob.h
   worldManager.cpp
@@ -13,8 +15,6 @@ target_sources(uking PRIVATE
   worldShootingStarMgr.h
   worldShootingStarMgrEx.cpp
   worldShootingStarMgrEx.h
-  worldSkyMgr.cpp
-  worldSkyMgr.h
   worldTempMgr.cpp
   worldTempMgr.h
   worldTimeMgr.cpp
