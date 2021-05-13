@@ -1,6 +1,7 @@
 target_sources(uking PRIVATE
   worldChemicalMgr.cpp
   worldChemicalMgr.h
+  worldDefines.h
   worldDofMgr.cpp
   worldDofMgr.h
   worldEnvMgr.cpp
