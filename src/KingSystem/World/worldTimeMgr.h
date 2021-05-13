@@ -102,6 +102,7 @@ public:
         return mResetGdtOnNextSceneUnloadForBloodMoon;
     }
     bool wasBloodyDay() const { return mWasBloodyDay; }
+    bool isBloodMoonForced() const { return mBloodMoonForceMode != BloodMoonForceMode::Disabled; }
 
     gdt::FlagHandle getWaterRelicRainStopFlag() const { return mWaterRelicRainStopFlag; }
 

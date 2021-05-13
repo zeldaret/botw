@@ -1,5 +1,7 @@
 #include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
@@ -299,7 +301,7 @@ bool EnvMgr::isBloodMoonNight() const {
     bool bm = false;
     bm |= wm->getTimeMgr()->isBloodyDay();
     bm |= wm->getTimeMgr()->wasBloodyDay() && time < 1_h;
-    bm |= wm->getTimeMgr()->getBloodMoonForceMode() != TimeMgr::BloodMoonForceMode::Disabled;
+    bm |= wm->getTimeMgr()->isBloodMoonForced();
     return bm;
 }
 
@@ -322,6 +324,138 @@ void EnvMgr::setBloodMoonProhibition(bool prohibited) {
         mBloodMoonProhibited = prohibited;
 }
 
+// FIXME: remove this once EnvMgr::isLoadingScreenOpened is implemented
+// This is necessary because Clang would otherwise pass this to the member function
+// as it can't see that "this" is unused
+bool isLoadingScreenOpened_TEMP();
+
+void EnvMgr::updateForcedBloodMoon() {
+    static constexpr float BloodMoonTimerDuration = 90.0f;
+
+    switch (mForcedBloodMoonStatus) {
+    case 0:
+        // Wait for a forced blood moon to be requested
+        if (!mForcedBloodMoonRequested || evt::Manager::instance()->hasActiveEvent())
+            break;
+        mForcedBloodMoonTimer = 0.0f;
+        mForcedBloodMoonReady = false;
+        ++mForcedBloodMoonStatus;
+        break;
+
+    case 1:
+        // Update the forced blood moon timer
+        if (evt::Manager::instance()->hasActiveEvent() || mBloodMoonProhibited) {
+            mForcedBloodMoonTimer -= VFR::instance()->getDeltaTime();
+            if (mForcedBloodMoonTimer <= 0.0f) {
+                mForcedBloodMoonTimer = 0.0f;
+                mForcedBloodMoonStatus = 0;
+                mForcedBloodMoonReady = false;
+            }
+        } else {
+            mForcedBloodMoonTimer += VFR::instance()->getDeltaTime();
+            if (mForcedBloodMoonTimer >= BloodMoonTimerDuration) {
+                mForcedBloodMoonTimer = BloodMoonTimerDuration;
+                mForcedBloodMoonReady = true;
+                ++mForcedBloodMoonStatus;
+            }
+        }
+        break;
+
+    case 2:
+        // Wait for the blood moon cutscene to be triggered externally
+        if (mBloodMoonProhibited && !mDeactivateForcedBloodMoon) {
+            mForcedBloodMoonStatus = 4;
+            mForcedBloodMoonReady = false;
+            break;
+        }
+        if (mForcedBloodMoonReady || isLoadingScreenOpened_TEMP())
+            break;
+        mForcedBloodMoonTimer = BloodMoonTimerDuration;
+        ++mForcedBloodMoonStatus;
+        break;
+
+    case 3:
+        // Slowly fade out the blood moon state
+        mForcedBloodMoonTimer -= VFR::instance()->getDeltaTime();
+        if (mForcedBloodMoonTimer <= 0.0f) {
+            mForcedBloodMoonTimer = 0.0f;
+            mForcedBloodMoonStatus = 0;
+            mForcedBloodMoonRequested = false;
+            mForcedBloodMoonReady = false;
+            mDeactivateForcedBloodMoon = false;
+        }
+        break;
+
+    case 4:
+        // [Alternative state 2] Wait for blood moons to be allowed again
+        if (mBloodMoonProhibited && !mDeactivateForcedBloodMoon) {
+            mForcedBloodMoonTimer -= VFR::instance()->getDeltaTime();
+            if (mForcedBloodMoonTimer <= 0.0f) {
+                mForcedBloodMoonTimer = 0.0f;
+                mForcedBloodMoonStatus = 0;
+                return;
+            }
+        } else {
+            mForcedBloodMoonTimer += VFR::instance()->getDeltaTime();
+            if (mForcedBloodMoonTimer >= BloodMoonTimerDuration) {
+                mForcedBloodMoonTimer = BloodMoonTimerDuration;
+                mForcedBloodMoonReady = true;
+                mForcedBloodMoonStatus = 2;
+            }
+        }
+        break;
+    }
+
+    if (mForcedBloodMoonStatus == 1) {
+        const float progress = mForcedBloodMoonTimer / BloodMoonTimerDuration;
+        if (mBloodMoonStartState != 2) {
+            mBloodMoonEndState = mBloodMoonStartState;
+            mBloodMoonStartState = 2;
+        }
+        mBloodMoonProgress = progress;
+    } else if (mForcedBloodMoonStatus >= 2) {
+        const float progress = mForcedBloodMoonTimer / -BloodMoonTimerDuration + 1.0f;
+        if (mBloodMoonEndState != 2) {
+            mBloodMoonStartState = mBloodMoonEndState;
+            mBloodMoonEndState = 2;
+        }
+        mBloodMoonProgress = progress;
+    }
+}
+
+void EnvMgr::updateBloodMoonFlags() {
+    auto* wm = Manager::instance();
+    const auto time = wm->getTimeMgr()->getTimeForSkyEnv();
+    if (!wm->isMainField())
+        return;
+
+    bool bloody_night = false;
+    bloody_night |= time >= 21_h && isBloodMoonNight();
+    bloody_night |= wm->getTimeMgr()->wasBloodyDay() && time < 1_h;
+    bloody_night |= wm->getTimeMgr()->isBloodMoonForced();
+    bloody_night &= !wm->getTimeMgr()->isInRelicBattle();
+
+    float concentration = 0.0;
+    if (bloody_night) {
+        if (time > timeToFloat(23, 30)) {
+            concentration = (time - timeToFloat(23, 30)) / timeToFloat(0, 30);
+        } else if (time < timeToFloat(0, 15)) {
+            concentration = (timeToFloat(0, 15) - time) / timeToFloat(0, 15);
+        }
+    }
+    mBloodMoonTimeRangeProgress = concentration;
+
+    if (!evt::Manager::instance()->hasActiveEvent() &&
+        !wm->getTimeMgr()->isBloodMoonProhibitionFlagSet()) {
+        VFR::lerp(&mConcentrationBM, concentration, 0.1, 0.01);
+    } else {
+        VFR::lerp(&mConcentrationBM, 0.0f, 0.1, 0.01);
+    }
+
+    if (wm->getTimeMgr()->isBloodMoonForced())
+        mConcentrationBM = concentration;
+}
+
 bool EnvMgr::isWaterRelicRainOn(Climate climate) const {
     if (climate != Climate::ZoraTemperateClimate)
         return false;
@@ -332,6 +466,14 @@ bool EnvMgr::isWaterRelicRainOn(Climate climate) const {
         return false;
     gdt::Manager::instance()->getBool(flag, &on, true);
     return !on;
+}
+
+float EnvMgr::getBloodMoonProgress() const {
+    if (mBloodMoonStartState == 2)
+        return mBloodMoonProgress;
+    if (mBloodMoonEndState == 2)
+        return 1.0f - mBloodMoonProgress;
+    return 0.0f;
 }
 
 }  // namespace ksys::world

@@ -187,8 +187,10 @@ public:
     float getConcentrationBM() const;
     void activateForcedBloodMoon();
     void setBloodMoonProhibition(bool prohibited);
+    bool isLoadingScreenOpened() const;
 
     bool isWaterRelicRainOn(Climate climate) const;
+    float getBloodMoonProgress() const;
 
 protected:
     void init_(sead::Heap* heap) override;
@@ -205,6 +207,7 @@ private:
 
     void updateTimeDivision();
     void updateBloodMoon();
+    void updateBloodMoonFlags();
     void updateForcedBloodMoon();
 
     EnvPaletteStatic mEnvPaletteStatic;
@@ -273,7 +276,7 @@ private:
     u32 _6b5e8;
     u32 _6b5ec;
     u32 _6b5f0;
-    u32 mForcedBloodMoonStatus;
+    int mForcedBloodMoonStatus;
     u32 _6b5f8;
     u32 _6b5fc;
     u32 mFogMode;
