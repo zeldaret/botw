@@ -11,66 +11,11 @@ namespace {
 
 util::InitTimeInfoEx sInitInfo;
 
-f32 getLerpFactor(f32 t) {
-    return 1.0f - std::pow(1.0f - t, VFR::instance()->getDeltaTime());
-}
-
 template <typename T>
 void updateStatsImpl(const T& value, T* prev_value, T* mean) {
     const T new_mean = ((*prev_value + value) / 2) * VFR::instance()->getDeltaTime();
     *prev_value = value;
     *mean = new_mean;
-}
-
-template <typename T>
-void addImpl(T* value, const T& v) {
-    *value += v * VFR::instance()->getDeltaTime();
-}
-
-template <typename T>
-void multiplyImpl(T* value, f32 scalar) {
-    *value *= std::pow(scalar, VFR::instance()->getDeltaTime());
-}
-
-template <typename T>
-void lerpImpl(T* value, const T& b, f32 t) {
-    *value += getLerpFactor(t) * (b - *value);
-}
-
-template <typename T>
-void lerpImpl(T* value, const T& b, f32 t, f32 max_delta) {
-    const auto f = getLerpFactor(t);
-    const auto max_d = VFR::instance()->getDeltaTime() * max_delta;
-    const auto diff = b - *value;
-    const auto d = f * sead::absf(diff);
-    if (d > max_d)
-        *value += diff < 0.0 ? -max_d : max_d;
-    else
-        *value += f * diff;
-}
-
-template <typename T>
-bool lerpImpl(T* value, const T& b, f32 t, f32 max_delta, f32 min_delta) {
-    const auto f = getLerpFactor(t);
-    const auto max_d = VFR::instance()->getDeltaTime() * max_delta;
-    const auto min_d = VFR::instance()->getDeltaTime() * min_delta;
-
-    const auto diff = b - *value;
-    const auto d = f * sead::absf(diff);
-
-    if (sead::absf(diff) <= min_d) {
-        *value = b;
-        return true;
-    }
-
-    if (d > max_d) {
-        *value += diff < 0.0 ? -max_d : max_d;
-    } else if (d < min_d) {
-        *value += diff < 0.0 ? -min_d : min_d;
-    } else {
-        *value += f * diff;
-    }
-    return false;
 }
 
 }  // namespace
@@ -84,27 +29,23 @@ void VFRValue::updateStats() {
 }
 
 void VFRValue::operator+=(const f32& rhs) {
-    addImpl(&value, rhs);
+    VFR::add(&value, rhs);
 }
 
 void VFRValue::operator*=(f32 scalar) {
-    multiplyImpl(&value, scalar);
+    VFR::multiply(&value, scalar);
 }
 
 void VFRValue::lerp(const f32& b, f32 t) {
-    lerpImpl(&value, b, t);
+    VFR::lerp(&value, b, t);
 }
 
 void VFRValue::lerp(const f32& b, f32 t, f32 max_delta) {
-    lerpImpl(&value, b, t, max_delta);
+    VFR::lerp(&value, b, t, max_delta);
 }
 
 bool VFRValue::lerp(const f32& b, f32 t, f32 max_delta, f32 min_delta) {
-    return lerpValue(&value, b, t, max_delta, min_delta);
-}
-
-bool VFRValue::lerpValue(f32* value, const f32& b, f32 t, f32 max_delta, f32 min_delta) {
-    return lerpImpl(value, b, t, max_delta, min_delta);
+    return VFR::lerp(&value, b, t, max_delta, min_delta);
 }
 
 bool VFRValue::chase(const f32& target, f32 step) {
@@ -122,11 +63,11 @@ void VFRVec3f::updateStats() {
 }
 
 void VFRVec3f::operator*=(f32 scalar) {
-    multiplyImpl(&value, scalar);
+    VFR::multiply(&value, scalar);
 }
 
 void VFRVec3f::lerp(const sead::Vector3f& b, f32 t) {
-    lerpImpl(&value, b, t);
+    VFR::lerp(&value, b, t);
 }
 
 bool VFRVec3f::chase(const sead::Vector3f& target, f32 t) {

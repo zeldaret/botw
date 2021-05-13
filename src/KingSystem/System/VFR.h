@@ -1,9 +1,11 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <cmath>
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
+#include <math/seadMathCalcCommon.h>
 #include <mc/seadCoreInfo.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/Utils/Types.h"
@@ -68,6 +70,61 @@ public:
 
     f32 getDeltaTime(u32 core) const { return *mDeltaFrames[core]; }
     f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
+
+    template <typename T>
+    static inline void add(T* value, const T& v) {
+        *value += v * instance()->getDeltaTime();
+    }
+
+    template <typename T>
+    static inline void multiply(T* value, f32 scalar) {
+        *value *= std::pow(scalar, instance()->getDeltaTime());
+    }
+
+    static inline f32 getLerpFactor(f32 t) {
+        return 1.0f - std::pow(1.0f - t, instance()->getDeltaTime());
+    }
+
+    template <typename T>
+    static inline void lerp(T* value, const T& b, f32 t) {
+        *value += getLerpFactor(t) * (b - *value);
+    }
+
+    template <typename T>
+    static inline void lerp(T* value, const T& b, f32 t, f32 max_delta) {
+        const auto f = getLerpFactor(t);
+        const auto max_d = instance()->getDeltaTime() * max_delta;
+        const auto diff = b - *value;
+        const auto d = f * sead::absf(diff);
+        if (d > max_d)
+            *value += diff < 0.0 ? -max_d : max_d;
+        else
+            *value += f * diff;
+    }
+
+    template <typename T>
+    static inline bool lerp(T* value, const T& b, f32 t, f32 max_delta, f32 min_delta) {
+        const auto f = getLerpFactor(t);
+        const auto max_d = instance()->getDeltaTime() * max_delta;
+        const auto min_d = instance()->getDeltaTime() * min_delta;
+
+        const auto diff = b - *value;
+        const auto d = f * sead::absf(diff);
+
+        if (sead::absf(diff) <= min_d) {
+            *value = b;
+            return true;
+        }
+
+        if (d > max_d) {
+            *value += diff < 0.0 ? -max_d : max_d;
+        } else if (d < min_d) {
+            *value += diff < 0.0 ? -min_d : min_d;
+        } else {
+            *value = *value + f * diff;
+        }
+        return false;
+    }
 
 private:
     struct TimeSpeedMultipliers : sead::Buffer<TimeSpeedMultiplier> {

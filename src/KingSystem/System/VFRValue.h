@@ -16,7 +16,6 @@ struct VFRValue {
     void lerp(const f32& b, f32 t);
     void lerp(const f32& b, f32 t, f32 max_delta);
     bool lerp(const f32& b, f32 t, f32 max_delta, f32 min_delta);
-    static bool lerpValue(f32* value, const f32& b, f32 t, f32 max_delta, f32 min_delta);
     bool chase(const f32& target, f32 step);
     void setToMax(const f32& max);
     void setToMin(const f32& min);
