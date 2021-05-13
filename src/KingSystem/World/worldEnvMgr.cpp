@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
@@ -319,6 +320,18 @@ void EnvMgr::activateForcedBloodMoon() {
 void EnvMgr::setBloodMoonProhibition(bool prohibited) {
     if (!mDeactivateForcedBloodMoon)
         mBloodMoonProhibited = prohibited;
+}
+
+bool EnvMgr::isWaterRelicRainOn(Climate climate) const {
+    if (climate != Climate::ZoraTemperateClimate)
+        return false;
+
+    bool on = false;
+    const auto flag = Manager::instance()->getTimeMgr()->getWaterRelicRainStopFlag();
+    if (flag == gdt::InvalidHandle)
+        return false;
+    gdt::Manager::instance()->getBool(flag, &on, true);
+    return !on;
 }
 
 }  // namespace ksys::world

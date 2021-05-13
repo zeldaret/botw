@@ -10,6 +10,8 @@
 
 namespace ksys::world {
 
+enum class Climate;
+
 // TODO
 class EnvMgr : public Job {
     SEAD_RTTI_OVERRIDE(EnvMgr, Job)
@@ -185,6 +187,8 @@ public:
     float getConcentrationBM() const;
     void activateForcedBloodMoon();
     void setBloodMoonProhibition(bool prohibited);
+
+    bool isWaterRelicRainOn(Climate climate) const;
 
 protected:
     void init_(sead::Heap* heap) override;

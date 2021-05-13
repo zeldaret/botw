@@ -103,6 +103,8 @@ public:
     }
     bool wasBloodyDay() const { return mWasBloodyDay; }
 
+    gdt::FlagHandle getWaterRelicRainStopFlag() const { return mWaterRelicRainStopFlag; }
+
 protected:
     void init_(sead::Heap* heap) override;
     void calc_() override;
