@@ -180,8 +180,6 @@ public:
     void reset();
     void resetForStageUnload();
 
-    bool checkConcentrationDarkness() const;
-
     bool isBloodMoonNight() const;
     bool isInBloodMoonTimeRange() const;
     float getConcentrationBM() const;
@@ -189,8 +187,25 @@ public:
     void setBloodMoonProhibition(bool prohibited);
     bool isLoadingScreenOpened() const;
 
+    bool returnFalse() const;
+    bool isInSandstorm() const;
+    bool isInYigaClanHideoutArea() const;
+    float getConcentrationDarkness() const;
+    bool isPaletteSetTransitionDone() const;
+
+    void worldMgrCalc2();
+    int getPaletteSet() const;
     bool isWaterRelicRainOn(Climate climate) const;
+    void setPaletteSelSpeed(int speed);
+    void setPaletteSet(int palette);
+    void setCharAmbientScale(sead::Color4f color);
+    void setCharMainLightScale(sead::Color4f color);
+    void setWarpMistIntensity(float intensity);
+    void setFogDirect(bool fog_near_use, bool fog_instant_sw, bool fog_far_use, float fog_ratio,
+                      float fog_near, float fog_far);
     float getBloodMoonProgress() const;
+
+    void allowPaletteOverride();
 
 protected:
     void init_(sead::Heap* heap) override;
@@ -217,9 +232,9 @@ private:
     u32 mBloodMoonEndState = 0;
     u32 mBloodMoonStartState = 0;
     float mBloodMoonProgress = 0.0;
-    u32 _2b0 = 0;
-    u32 _2b4 = 0;
-    float mConcentrationDarkness = 0.0;
+    int mPreviousPaletteSet = 0;
+    int mActivePaletteSet = 0;
+    float mPaletteSetTransition = 0.0;
     sead::SafeArray<EnvPalette, 207> mEnvPalettes;
     sead::SafeArray<CdanAddFog, 4> mCdanAddFog;
     EnvPaletteStatic mEnvPaletteStaticUnused;
@@ -231,8 +246,8 @@ private:
     sead::Color4f _6b4f8;
     sead::Color4f _6b508;
     sead::Color4f _6b518;
-    sead::Color4f _6b528;
-    sead::Color4f _6b538;
+    sead::Color4f mCharAmbientScale;
+    sead::Color4f mCharMainLightScale;
     float _6b548;
     float _6b54c;
     float _6b550;
@@ -247,7 +262,7 @@ private:
     float _6b574;
     float _6b578;
     float _6b57c;
-    float mWarpMistTimer;
+    float mWarpMistIntensity;
     float mExposure;
     float mForcedBloodMoonTimer;
     float _6b58c;
@@ -261,25 +276,25 @@ private:
     float mFogFar;
     float _6b5b0;
     float _6b5b4;
-    int mPaletteSelMaybe;
-    u32 _6b5bc;
-    u32 _6b5c0;
-    u32 _6b5c4;
+    int mPaletteSetOverride;
+    int mPaletteSetOverrideTimer;
+    int mPaletteSetForClimate;
+    int mPaletteSetForClimateTimer;
     u32 _6b5c8;
     u32 _6b5cc;
     u32 _6b5d0;
     u32 _6b5d4;
-    u32 _6b5d8;
+    int mWarpMistTimer;
     u32 _6b5dc;
     u32 _6b5e0;
     u32 _6b5e4;
     u32 _6b5e8;
-    u32 _6b5ec;
-    u32 _6b5f0;
+    int mPaletteSelSpeed;
+    int mPaletteSelSpeedTimer;
     int mForcedBloodMoonStatus;
-    u32 _6b5f8;
-    u32 _6b5fc;
-    u32 mFogMode;
+    int mCharAmbientScaleTimer;
+    int mCharMainLightScaleTimer;
+    int mFogSetDirectTimer;
     u8 mDungeonSizeType;
     bool mForcedBloodMoonRequested;
     bool mForcedBloodMoonReady;
@@ -290,9 +305,10 @@ private:
     bool _6b60b;
     bool mBloodMoonProhibited;
     bool mDeactivateForcedBloodMoon;
-    u16 _6b60e;
+    bool _6b60e;
+    bool _6b60f;
     bool _6b610;
-    bool _6b611;
+    bool mBlockPaletteSetOverride;
     u32 _6b614;
 };
 KSYS_CHECK_SIZE_NX150(EnvMgr, 0x6b618);

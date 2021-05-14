@@ -456,6 +456,45 @@ void EnvMgr::updateBloodMoonFlags() {
         mConcentrationBM = concentration;
 }
 
+bool EnvMgr::returnFalse() const {
+    return false;
+}
+
+bool EnvMgr::isInSandstorm() const {
+    if (mActivePaletteSet != 4 && mActivePaletteSet != 8)
+        return false;
+    return isPaletteSetTransitionDone();
+}
+
+bool EnvMgr::isInYigaClanHideoutArea() const {
+    if (mActivePaletteSet != 15)
+        return false;
+    return isPaletteSetTransitionDone();
+}
+
+float EnvMgr::getConcentrationDarkness() const {
+    if (mActivePaletteSet == 7)
+        return mPaletteSetTransition;
+    return 0.0f;
+}
+
+bool EnvMgr::isPaletteSetTransitionDone() const {
+    if (mPaletteSetTransition >= 1.0f)
+        return true;
+#ifdef MATCHING_HACK_NX_CLANG
+    asm("");
+#endif
+    return false;
+}
+
+void EnvMgr::worldMgrCalc2() {}
+
+int EnvMgr::getPaletteSet() const {
+    if (mPaletteSetOverride >= 0)
+        return mPaletteSetOverride;
+    return mPaletteSetForClimate;
+}
+
 bool EnvMgr::isWaterRelicRainOn(Climate climate) const {
     if (climate != Climate::ZoraTemperateClimate)
         return false;
@@ -468,12 +507,59 @@ bool EnvMgr::isWaterRelicRainOn(Climate climate) const {
     return !on;
 }
 
+void EnvMgr::setPaletteSelSpeed(int speed) {
+    mPaletteSelSpeed = speed;
+    mPaletteSelSpeedTimer = 4;
+}
+
+void EnvMgr::setPaletteSet(int palette) {
+    if (mBlockPaletteSetOverride)
+        return;
+    mPaletteSetOverride = palette;
+    mPaletteSetOverrideTimer = 4;
+    _6b5c8 = 1;
+    _6b5cc = 1;
+    _6b550 = 1.0;
+}
+
+void EnvMgr::setCharAmbientScale(sead::Color4f color) {
+    mCharAmbientScaleTimer = 2;
+    mCharAmbientScale = color;
+}
+
+void EnvMgr::setCharMainLightScale(sead::Color4f color) {
+    mCharMainLightScaleTimer = 2;
+    mCharMainLightScale = color;
+}
+
+void EnvMgr::setWarpMistIntensity(float intensity) {
+    if (mWarpMistIntensity <= intensity && !(intensity >= 1.0 && mWarpMistIntensity <= 0.0)) {
+        mWarpMistIntensity = intensity;
+        mWarpMistTimer = 4;
+    }
+}
+
+void EnvMgr::setFogDirect(bool fog_near_use, bool fog_instant_sw, bool fog_far_use, float fog_ratio,
+                          float fog_near, float fog_far) {
+    mFogSetDirectTimer = 2;
+    mFogRatio = fog_ratio;
+    mFogNear = fog_near;
+    mFogNearUse = fog_near_use;
+    mFogFar = fog_far;
+    mFogFagUse = fog_far_use;
+    mFogInstantSW = fog_instant_sw;
+}
+
 float EnvMgr::getBloodMoonProgress() const {
     if (mBloodMoonStartState == 2)
         return mBloodMoonProgress;
     if (mBloodMoonEndState == 2)
         return 1.0f - mBloodMoonProgress;
     return 0.0f;
+}
+
+void EnvMgr::allowPaletteOverride() {
+    mBlockPaletteSetOverride = false;
 }
 
 }  // namespace ksys::world

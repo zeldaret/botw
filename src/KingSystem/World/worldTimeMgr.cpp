@@ -188,7 +188,7 @@ bool TimeMgr::isInRelicBattle() const {
             in_battle = true;
     }
 
-    if (wm->getSkyMgr()->checkConcentrationDarkness())
+    if (wm->getSkyMgr()->isInYigaClanHideoutArea())
         in_battle = true;
 
     return in_battle;
