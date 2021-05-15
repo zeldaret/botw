@@ -132,10 +132,11 @@ public:
     void calcType2_() override;
     JobType getType() const override { return JobType::Sky; }
 
+    void reset();
     void onTimeUpdate();
 
 private:
-    void loadInfo();
+    friend class Manager;
 
     struct StructA {
         sead::Vector3f _0;

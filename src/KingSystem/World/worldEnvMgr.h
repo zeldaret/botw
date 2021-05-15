@@ -212,6 +212,14 @@ protected:
     void calc_() override;
 
 private:
+    friend class Manager;
+
+    static constexpr int NumEnvPalettes = 207;
+    static constexpr int NumCdanAddFog = 4;
+    static constexpr int NumEnvAttributes = 59;
+    static constexpr int NumWeatherInfluences = 4;
+    static constexpr int NumRemains = 7;
+
     void initEnvAttribute(int idx);
     void initEnvPalette(int idx);
     void initWeatherInfluence(int idx);
@@ -235,12 +243,12 @@ private:
     int mPreviousPaletteSet = 0;
     int mActivePaletteSet = 0;
     float mPaletteSetTransition = 0.0;
-    sead::SafeArray<EnvPalette, 207> mEnvPalettes;
-    sead::SafeArray<CdanAddFog, 4> mCdanAddFog;
+    sead::SafeArray<EnvPalette, NumEnvPalettes> mEnvPalettes;
+    sead::SafeArray<CdanAddFog, NumCdanAddFog> mCdanAddFog;
     EnvPaletteStatic mEnvPaletteStaticUnused;
-    sead::SafeArray<EnvAttribute, 59> mEnvAttributes;
-    sead::SafeArray<WeatherInfluence, 4> mWeatherInfluences;
-    sead::SafeArray<Remains, 7> mRemains;
+    sead::SafeArray<EnvAttribute, NumEnvAttributes> mEnvAttributes;
+    sead::SafeArray<WeatherInfluence, NumWeatherInfluences> mWeatherInfluences;
+    sead::SafeArray<Remains, NumRemains> mRemains;
     IndoorPalette mIndoorPalette;
     sead::Color4f _6b4e8;
     sead::Color4f _6b4f8;

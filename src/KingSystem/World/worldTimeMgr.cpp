@@ -53,7 +53,7 @@ void TimeMgr::resetForStageUnload() {
     mAnimalMasterCtrl.resetState();
 }
 
-void TimeMgr::loadInfo() {
+void TimeMgr::reset() {
     mTimeStep = DefaultTimeStep;
     mTimeUpdateMode = TimeUpdateMode::Normal;
     mBloodMoonForceMode = {};
@@ -188,7 +188,7 @@ bool TimeMgr::isInRelicBattle() const {
             in_battle = true;
     }
 
-    if (wm->getSkyMgr()->isInYigaClanHideoutArea())
+    if (wm->getEnvMgr()->isInYigaClanHideoutArea())
         in_battle = true;
 
     return in_battle;
@@ -206,7 +206,7 @@ void TimeMgr::handleNewDay(HandleNewDayMode mode) {
 
     ++mNumberOfDays;
 
-    if (mode == HandleNewDayMode::Normal && wm->getSkyMgr()->isBloodMoonNight()) {
+    if (mode == HandleNewDayMode::Normal && wm->getEnvMgr()->isBloodMoonNight()) {
         if (isBloodMoonProhibited() || isInRelicBattle()) {
             mBloodMoonTimer = 8_days;
         } else {
@@ -270,7 +270,7 @@ void TimeMgr::calc_() {
         (mTimeUpdateMode == TimeUpdateMode::Forced || mTimeUpdateMode == TimeUpdateMode::Normal)) {
         mTime = mNewTime;
         mNewTime = -1.0;
-        wm->getCloudMgr()->onTimeUpdate();
+        wm->getSkyMgr()->onTimeUpdate();
     }
 
     if (mNeedToHandleNewDay) {

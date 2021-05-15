@@ -33,35 +33,35 @@ namespace ksys::world {
 struct ClimateInfo {
     static constexpr int NumClimateTemp = 11;
 
-    agl::utl::Parameter<int> weatherType;
-    agl::utl::Parameter<int> weatherBlueskyRate;
-    agl::utl::Parameter<int> weatherCloudyRate;
-    agl::utl::Parameter<int> weatherRainRate;
-    agl::utl::Parameter<int> weatherHeavyRainRate;
-    agl::utl::Parameter<int> weatherStormRate;
-    agl::utl::Parameter<bool> dayLockBlueSky;
-    agl::utl::Parameter<bool> nightLockBlueSky;
-    sead::SafeArray<agl::utl::Parameter<float>, NumClimateTemp> climateTempDay;
-    sead::SafeArray<agl::utl::Parameter<float>, NumClimateTemp> climateTempNight;
-    agl::utl::Parameter<float> moistureMax;
-    agl::utl::Parameter<float> moistureMin;
-    agl::utl::Parameter<float> windPower;
+    agl::utl::Parameter<int> WeatherType;
+    agl::utl::Parameter<int> WeatherBlueskyRate;
+    agl::utl::Parameter<int> WeatherCloudyRate;
+    agl::utl::Parameter<int> WeatherRainRate;
+    agl::utl::Parameter<int> WeatherHeavyRainRate;
+    agl::utl::Parameter<int> WeatherStormRate;
+    agl::utl::Parameter<bool> DayLockBlueSky;
+    agl::utl::Parameter<bool> NightLockBlueSky;
+    sead::SafeArray<agl::utl::Parameter<float>, NumClimateTemp> ClimateTempDay;
+    sead::SafeArray<agl::utl::Parameter<float>, NumClimateTemp> ClimateTempNight;
+    agl::utl::Parameter<float> MoistureMax;
+    agl::utl::Parameter<float> MoistureMin;
+    agl::utl::Parameter<float> WindPower;
     agl::utl::ParameterObj obj;
-    u32 windDirectionType;
-    float windPowerMultiplier;
-    agl::utl::Parameter<int> ignitedLevel;
-    agl::utl::Parameter<sead::Color4f> featureColor;
-    agl::utl::Parameter<float> _4a0;
-    agl::utl::Parameter<float> _4c0;
-    agl::utl::Parameter<float> _4e0;
-    agl::utl::Parameter<float> _500;
-    agl::utl::Parameter<float> _520;
-    agl::utl::Parameter<float> _540;
-    agl::utl::Parameter<float> _560;
-    agl::utl::Parameter<int> paletteSetSelect;
-    agl::utl::Parameter<int> fogType;
-    agl::utl::Parameter<bool> forbidComeback;
-    agl::utl::Parameter<int> _5e0;
+    u32 WindDirectionType;
+    float WindPowerMultiplier;
+    agl::utl::Parameter<int> IgnitedLevel;
+    agl::utl::Parameter<sead::Color4f> FeatureColor;
+    agl::utl::Parameter<float> CalcRayleigh;
+    agl::utl::Parameter<float> CalcMieSymmetrical;
+    agl::utl::Parameter<float> CalcMie;
+    agl::utl::Parameter<float> CalcSfParamNear;
+    agl::utl::Parameter<float> CalcSfParamAttenuation;
+    agl::utl::Parameter<float> CalcAmbientIntencity;
+    agl::utl::Parameter<float> CalcVolumeMaskIntencity;
+    agl::utl::Parameter<int> PaletteSetSelect;
+    agl::utl::Parameter<int> FogType;
+    agl::utl::Parameter<bool> ForbidComeback;
+    agl::utl::Parameter<int> BlueSkyRainPat;
 };
 KSYS_CHECK_SIZE_NX150(ClimateInfo, 0x600);
 
@@ -132,7 +132,7 @@ public:
     void init(sead::Heap* heap);
     void resetForStageUnload();
     void loadWorldInfoRes();
-    void loadWorldInfo();
+    void onStageInit(StageType stage_type, bool is_demo, bool is_main_field);
     void updateRemainsType();
     void updateGraphicsMap(StageType type);
 
@@ -196,12 +196,12 @@ public:
     CalcType getCalcType() const { return mCalcType; }
 
     TimeMgr* getTimeMgr() const { return static_cast<TimeMgr*>(mMgrs[0]); }
-    SkyMgr* getCloudMgr() const { return static_cast<SkyMgr*>(mMgrs[1]); }
+    SkyMgr* getSkyMgr() const { return static_cast<SkyMgr*>(mMgrs[1]); }
     ShootingStarMgr* getShootingStarMgr() const { return static_cast<ShootingStarMgr*>(mMgrs[2]); }
     WeatherMgr* getWeatherMgr() const { return static_cast<WeatherMgr*>(mMgrs[3]); }
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }
     WindMgr* getWindMgr() const { return static_cast<WindMgr*>(mMgrs[5]); }
-    EnvMgr* getSkyMgr() const { return static_cast<EnvMgr*>(mMgrs[6]); }
+    EnvMgr* getEnvMgr() const { return static_cast<EnvMgr*>(mMgrs[6]); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
 
@@ -220,6 +220,9 @@ private:
     void updateOverrides();
     void updateTimers();
     void updateWindDirections();
+    void updateFieldType();
+
+    static constexpr float PlaceholderTemp = 99999.9;
 
     WorldInfo mWorldInfo;
     DungeonEnv mDungeonEnv;
@@ -239,8 +242,8 @@ private:
     StageType mStageType{};
     StageType mStageType2{};
 
-    u32 _6c0 = 0;
-    u32 _6c4 = 30;
+    u32 mTicks = 0;
+    int mTimer = 30;
     u32 _6c8 = 0;
     bool _6cc = false;
     bool mGameSceneInitialized = false;
@@ -254,10 +257,10 @@ private:
     float mClimateTransitionProgress = 1.0;
     float mMapEdgeWindSpeed = 1.0;
     float mManualWindSpeed = 5.0;
-    float mTempDirectDayExtra = 99999.9;
-    float mTempDirectNightExtra = 99999.9;
-    float mTempDirectDay = 99999.9;
-    float mTempDirectNight = 99999.9;
+    float mTempDirectDayExtra = PlaceholderTemp;
+    float mTempDirectNightExtra = PlaceholderTemp;
+    float mTempDirectDay = PlaceholderTemp;
+    float mTempDirectNight = PlaceholderTemp;
     float _770 = 0.0;
     float mFocusDist = 100.0;
     float mIgnitedRadius = -1.0;
@@ -267,10 +270,10 @@ private:
     int mWindDirectionType = 0;
     int mManualWindTimer = 0;
     u32 mMapEdgeWindDirectionType = 0;
-    u32 _794 = 0;
+    int mWeatherTypeTimer = 0;
     int _798 = -1;
-    u32 _79c = 0;
-    u32 _7a0 = 0;
+    int _79c = 0;
+    int mTempDirectTimer = 0;
     int mTempDirectDayTimer = 0;
     int mTempDirectNightTimer = 0;
     u32 _7ac = 0;
@@ -280,7 +283,7 @@ private:
     RemainsType mRemainsType{};
     FieldType mFieldType{};
     ScalingMode mScalingMode{};
-    u32 mWindChangeFinalTimer = 0;
+    int mWindChangeFinalTimer = 0;
     float mWindSpeedAocField = 0.75;
     WorldInfoLoadStatus mWorldInfoLoadStatus = WorldInfoLoadStatus::NotLoaded;
     sead::SizedEnum<WeatherType, u8> mWeatherType = WeatherType::Invalid;

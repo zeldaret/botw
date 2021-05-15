@@ -12,6 +12,7 @@ public:
 
     JobType getType() const override { return JobType::Weather; }
 
+    void reset();
     void onUnload();
     void rerollClimateWindPowers();
 

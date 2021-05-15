@@ -394,7 +394,7 @@ SkyMgr::SkyMgr() {
         mCloudSpd[i].mCloudPatWindPow.init(0.004, "CLOUDPAT_windPow", "", &mCloudSpd[i].mObj);
     }
 
-    loadInfo();
+    reset();
 }
 
 SkyMgr::~SkyMgr() = default;

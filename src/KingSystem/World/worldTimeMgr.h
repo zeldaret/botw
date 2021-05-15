@@ -68,7 +68,7 @@ public:
 
     JobType getType() const override { return JobType::Time; }
 
-    void loadInfo();
+    void reset();
     void resetForStageUnload();
 
     void callBloodMoonDemo();

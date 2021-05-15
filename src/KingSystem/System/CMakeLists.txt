@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   BasicProfiler.h
   CameraEditor.cpp
   CameraEditor.h
+  CameraMgr.cpp
+  CameraMgr.h
   DebugMessage.h
   HavokWorkerMgr.cpp
   HavokWorkerMgr.h
