@@ -20,8 +20,6 @@ Considering the large size of the executable (~40MB), it is not expected to reac
 
 As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will NOT help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
 
-Currently, the focus is on decompiling AI classes and KingSystem framework code.
-
 ## Frequently Asked Questions
 
 ### Isn't this risky?
