@@ -33,8 +33,10 @@ public:
     enum class ActorFlag {
         _18 = 0x18,
         _25 = 0x25,
+        _29 = 0x29,
         _2b = 0x2b,
         _2e = 0x2e,
+        _39 = 0x39,
     };
 
     enum class ActorFlag2 {

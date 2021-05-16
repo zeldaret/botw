@@ -102,7 +102,7 @@ public:
     f32 getDispDistance(const PlacementActors* pa, bool get_diameter, bool ignore_radius) const;
     f32 getDispDistance(const ActorData* data, bool get_diameter, u32 unused,
                         bool ignore_radius) const;
-    f32 getDispDistance(bool get_diameter, bool ignore_radius) const;
+    f32 getDispDistance(bool get_diameter = false, bool ignore_radius = false) const;
 
     f32 getTraverseDist(const ActorData* data, bool get_diameter, u32 unused,
                         bool ignore_radius) const;

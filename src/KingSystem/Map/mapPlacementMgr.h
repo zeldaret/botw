@@ -93,11 +93,21 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
 
+// FIXME: move this to another header and rename
+// FIXME: incomplete
+class PlacementStruct1 {
+public:
+    sead::BitFlag16 mFlags;
+    bool mIsOneHitChallengeActive;
+};
+
 class PlacementActors {
 public:
-    u8 TEMP1[0x538];
+    u8 _0[0xe0 - 0x0];
+    PlacementStruct1* mStruct1;
+    u8 _e8[0x538 - 0xe8];
     sead::SafeArray<ActorData, 6000> mActorData;
-    u8 TEMP2[0x46598];
+    u8 _261b38[0x2a80d0 - 0x261b38];
 };
 KSYS_CHECK_SIZE_NX150(PlacementActors, 0x2A80D0);
 

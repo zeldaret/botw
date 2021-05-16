@@ -1,4 +1,7 @@
 target_sources(uking PRIVATE
+  LOD/actLodState.cpp
+  LOD/actLodState.h
+
   Profiles/actPlayerBase.cpp
   Profiles/actPlayerBase.h
   Profiles/actRopeBase.cpp
