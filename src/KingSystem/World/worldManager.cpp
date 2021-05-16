@@ -546,7 +546,6 @@ void Manager::onStageInit(StageType stage_type, bool is_demo, bool is_main_field
             mWorldInfo.addObj(&getDofMgr()->mDofMgrParamObj,
                               sead::FormatFixedSafeString<128>("DofMgrParam"));
 
-            auto* sky_mgr = getSkyMgr();
             auto& prc = getSkyMgr()->mPrCloud;
             auto& prcv = getSkyMgr()->mPrCloudV;
             auto& skypal0 = getSkyMgr()->mSkyPalette0;
