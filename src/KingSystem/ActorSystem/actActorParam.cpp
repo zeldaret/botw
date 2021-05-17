@@ -3,7 +3,13 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorTemplate.h"
+#include "KingSystem/Resource/resResourceAS.h"
+#include "KingSystem/Resource/resResourceASList.h"
+#include "KingSystem/Resource/resResourceAttClient.h"
+#include "KingSystem/Resource/resResourceRagdollConfig.h"
+#include "KingSystem/Resource/resResourceRagdollConfigList.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include "KingSystem/Utils/ParamIO.h"
 
 namespace ksys::act {
 
@@ -86,6 +92,51 @@ void ActorParam::waitForEvent() {
 
 bool ActorParam::isSignalSet() const {
     return mEvent.isSignalSet();
+}
+
+int ActorParam::updateResource(const char* data, char* data1, char* data2) {
+    for (int i = 0; i < mRes.mArray.size(); ++i) {
+        if (mRes.mArray[i] && mRes.mArray[i]->getPath().include(data)) {
+            if (mRes.mArray[i]->ParamIO_m0(data1))
+                return 1;
+            if (mRes.mArray[i]->applyResourceUpdate(data1, data2))
+                return 0;
+        }
+    }
+
+    for (int i = 0; i < mRes.mASList->getASDefines().size(); ++i) {
+        if (mRes.mASList->getASDefines()[i].as &&
+            mRes.mASList->getASDefines()[i].as->getPath().include(data)) {
+            if (mRes.mASList->getASDefines()[i].as->ParamIO_m0(data1))
+                return 1;
+            if (mRes.mASList->getASDefines()[i].as->applyResourceUpdate(data1, data2))
+                return 0;
+        }
+    }
+
+    auto* atcllist = mRes.mAttClientList;
+    for (int i = 0; i < atcllist->getClients().size(); ++i) {
+        auto* client = atcllist->getClients()[i].client;
+        if (client->getPath().include(data)) {
+            if (client->ParamIO_m0(data1))
+                return 1;
+            if (client->applyResourceUpdate(data1, data2))
+                return 0;
+        }
+    }
+
+    auto* rgconfiglist = mRes.mRagdollConfigList;
+    for (int i = 0; i < rgconfiglist->getImpulseParams().size(); ++i) {
+        auto* config = rgconfiglist->getImpulseParams()[i].config;
+        if (config->getPath().include(data)) {
+            if (config->ParamIO_m0(data1))
+                return 1;
+            if (config->applyResourceUpdate(data1, data2))
+                return 0;
+        }
+    }
+
+    return 2;
 }
 
 res::Handle* ActorParam::allocHandle() {

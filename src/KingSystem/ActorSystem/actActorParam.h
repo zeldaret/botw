@@ -13,6 +13,8 @@
 
 namespace ksys {
 
+class ParamIO;
+
 namespace res {
 class AIProgram;
 class AISchedule;
@@ -109,7 +111,7 @@ public:
             res::UMii* mUMii;
             res::AnimInfo* mAnimationInfo;
         };
-        sead::SafeArray<void*, 25> mArray;
+        sead::SafeArray<ParamIO*, 25> mArray;
     };
     KSYS_CHECK_SIZE_NX150(Resources, 0xc8);
 
@@ -144,7 +146,7 @@ private:
     void setEventSignal();
     void waitForEvent();
     bool isSignalSet() const;
-    int updateResource(const char* data, const char* data1, const char* data2);
+    int updateResource(const char* data, char* data1, char* data2);
 
     res::Handle* allocHandle();
     void freeLastHandle();

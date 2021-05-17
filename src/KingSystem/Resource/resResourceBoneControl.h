@@ -139,7 +139,7 @@ public:
 
     void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
-    bool ParamIO_m0() override { return true; }
+    bool ParamIO_m0(char* data) override { return true; }
     bool needsParse() const override { return true; }
 
     const Whole& getWhole() const { return mWhole; }

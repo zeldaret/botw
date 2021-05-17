@@ -36,7 +36,7 @@ public:
     float getWeightBlendRate(int state_idx, int weight_idx) const;
     int findStateIdx(const sead::SafeString& key) const;
 
-    bool ParamIO_m0() override { return true; }
+    bool ParamIO_m0(char* data) override { return true; }
     void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;

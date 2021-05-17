@@ -12,7 +12,7 @@ class ParamIO : public agl::utl::IParameterIO, public sead::hostio::Node {
 public:
     using agl::utl::IParameterIO::IParameterIO;
 
-    virtual bool ParamIO_m0() { return false; }
+    virtual bool ParamIO_m0(char* data) { return false; }
 
     bool applyResourceUpdate(char* data, char* data1);
 

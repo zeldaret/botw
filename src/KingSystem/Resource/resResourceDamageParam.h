@@ -15,7 +15,7 @@ public:
     ~DamageParam() override = default;
 
     bool needsParse() const override { return true; }
-    bool ParamIO_m0() override { return false; }
+    bool ParamIO_m0(char* data) override { return false; }
 
     f32 getDamageRate(const sead::SafeString& damage_source);
     const sead::SafeString& getDamageReaction(const sead::SafeString& damage_source,

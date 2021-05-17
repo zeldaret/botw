@@ -15,7 +15,7 @@ public:
     GParamList() : ParamIO("bgparamlist", 0) {}
     ~GParamList() override = default;
 
-    bool ParamIO_m0() override { return false; }
+    bool ParamIO_m0(char* data) override { return false; }
     void doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) override;
     bool needsParse() const override { return true; }
 

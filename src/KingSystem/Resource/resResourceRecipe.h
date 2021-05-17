@@ -28,7 +28,7 @@ public:
 
     Recipe() : ParamIO("recipe", 0) {}
 
-    bool ParamIO_m0() override { return true; }
+    bool ParamIO_m0(char* data) override { return true; }
     void doCreate_(u8*, u32, sead::Heap*) override {}
     bool needsParse() const override { return true; }
 
