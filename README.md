@@ -8,7 +8,7 @@ This project only concerns the main executable which contains all the game code 
 
 Progress: https://botw.link/progress
 
-The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in a permanent, umambiguous form which helps further reverse engineer the game.
+The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in a permanent, unambiguous form which helps further reverse engineer the game.
 
 Considering the large size of the executable (~40MB), it is not expected to reach 100% progress within a reasonable timeframe.
 
