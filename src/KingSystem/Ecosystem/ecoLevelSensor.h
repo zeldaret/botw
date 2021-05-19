@@ -52,7 +52,7 @@ private:
     f32 mEnemyPoints{};
     bool _14{};
     f32 mDefaultPoints = -1;
-    al::ByamlIter* mBymlIter = nullptr;
+    al::ByamlIter* mRootIter = nullptr;
     res::Handle mResHandle;
 };
 KSYS_CHECK_SIZE_NX150(LevelSensor, 0x78);
