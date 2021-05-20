@@ -128,6 +128,21 @@ Reminder: **this will not produce a playable game.** This project will not allow
 
 ## Resources
 
+#### Breath of the Wild documentation and datamining
+
 * The [ZeldaMods](https://zeldamods.org/wiki/Main_Page) wiki
 * [MrCheeze's botw-tools](https://github.com/MrCheeze/botw-tools)
 * [botw-re-notes](https://github.com/leoetlino/botw-re-notes)
+
+#### AArch64
+
+* AArch64 ISA overview: https://developer.arm.com/documentation/102374/0101 (read this first if you're new to AArch64)
+* ARMv8 A64 Quick Reference: https://courses.cs.washington.edu/courses/cse469/18wi/Materials/arm64.pdf
+* Arm ARMv8 ARM (Architecture Reference Manual): https://developer.arm.com/documentation/ddi0487/latest/ (extremely detailed)
+
+#### Tools
+
+* IDA Pro + Hex-Rays (7.5+ required if you want to use this project's database/IDC)
+* HexRaysPyTools: https://github.com/igogo-x86/HexRaysPyTools
+* How to create C++ types and vtables in IDA (7.2+): https://www.hex-rays.com/products/ida/support/idadoc/1691.shtml
+* Ghidra: https://ghidra-sre.org/
