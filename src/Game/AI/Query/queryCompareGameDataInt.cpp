@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryCompareGameDataInt.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 #include <functional>
 #include "KingSystem/GameData/gdtManager.h"
 

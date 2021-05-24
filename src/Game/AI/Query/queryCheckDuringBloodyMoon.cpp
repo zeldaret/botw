@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryCheckDuringBloodyMoon.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 
 namespace uking::query {
 

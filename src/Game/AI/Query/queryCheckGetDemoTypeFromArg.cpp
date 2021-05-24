@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryCheckGetDemoTypeFromArg.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"

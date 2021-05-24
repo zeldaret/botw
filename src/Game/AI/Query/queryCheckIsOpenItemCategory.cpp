@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryCheckIsOpenItemCategory.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::query {

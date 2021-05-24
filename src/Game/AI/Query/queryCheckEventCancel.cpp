@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryCheckEventCancel.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 
 namespace uking::query {
 

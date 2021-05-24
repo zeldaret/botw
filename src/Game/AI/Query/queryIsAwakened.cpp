@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryIsAwakened.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 
 namespace uking::query {
 

@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryCheckHorseDeadCause.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 
 namespace uking::query {
 

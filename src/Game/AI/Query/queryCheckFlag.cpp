@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryCheckFlag.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
