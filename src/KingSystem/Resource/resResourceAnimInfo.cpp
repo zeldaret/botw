@@ -101,9 +101,13 @@ bool AnimInfo::parse_(u8* data, size_t size, sead::Heap* heap) {
             /// The only reason using SwordBlur::name doesn't crash is that Clang and GHS
             /// are smart enough to devirtualize sead::SafeString virtual function calls,
             /// which removes the need to go through the vtable.
+#ifdef AVOID_UB
+            info->entries = new (heap) SwordBlur[info->num_entries];
+#else
             info->entries = static_cast<SwordBlur*>(
                 heap->tryAlloc(sizeof(SwordBlur) * info->num_entries, alignof(SwordBlur)));
             std::memset(info->entries, 0, sizeof(SwordBlur) * info->num_entries);
+#endif
         }
 
         // TODO / FIXME: finish this
