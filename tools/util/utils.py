@@ -67,7 +67,11 @@ def get_functions(path: tp.Optional[Path] = None) -> tp.Iterable[FunctionInfo]:
         reader = csv.reader(f)
         for row in reader:
             try:
-                yield parse_function_csv_entry(row)
+                entry = parse_function_csv_entry(row)
+                # excluded library function
+                if entry.decomp_name == "l":
+                    continue
+                yield entry
             except ValueError as e:
                 raise Exception(f"Failed to parse line {reader.line_num}") from e
 
