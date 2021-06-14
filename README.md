@@ -14,6 +14,22 @@ Considering the large size of the executable (~40MB), it is not expected to reac
 
 As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will **not** help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
 
+## Scope
+
+* Main executable (main NSO)
+    * *Breath of the Wild* code
+        * Actual game code (`Game` / uking:: namespace)
+        * Framework/engine code (`KingSystem` / ksys:: namespace)
+    * Statically linked libraries
+        * First-party libraries (e.g. sead, agl, EventFlow, etc.)
+        * NintendoSDK inlined utilities
+        * Any other statically linked library, except:
+            * libcurl
+            * NintendoSDK-NEX
+            * Havok (physics engine)
+
+Excluded libraries will not be fully decompiled but may be partly re-implemented or decompiled, and (reverse-engineered) headers will still be provided so that the rest of the codebase can still use those libraries.
+
 ## Frequently Asked Questions
 
 ### What is (matching) decompilation?
