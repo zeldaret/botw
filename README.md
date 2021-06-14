@@ -52,6 +52,16 @@ Getting perfect matches on the first try happens pretty routinely, even for medi
 
 Most functions tend to call several other inline functions, notably utility functions from sead; as many core sead modules have already been reversed, decompiling a function sometimes only requires recognizing those function calls: decompilation at a higher level of abstraction!
 
+### Doesn't this mean the end result will be quite inaccurate?
+
+Even though Clang is generally less picky than ancient compilers, it is still able to reveal a lot of interesting information about how the original source code was written.
+
+Granted, Clang will *not* reveal things such as whether developers put two statements on the same line, but in many cases we can still figure how they organised the source code and whether separate inline functions or classes were used.
+
+Coupled with all the strings and all the information C++ language features leak (e.g. classes, virtual functions, hierarchy, etc.), we actually still get relevant, useful info (e.g. abstractions) that *actually* helps understand a modern codebase.
+
+It is also important to remember that this is still a matching decompilation, which means that the code already perfectly matches the original *assembly*; matching functions are guaranteed to be fully equivalent to the original code, and thanks to Clang being picky *where it matters* most of the abstractions should match the original *source*.
+
 ### What version is being decompiled?
 
 The Switch 1.5.0 version. Working with Clang is so much nicer than working with the Wii U's proprietary compiler (GHS). And at least an order of magnitude nicer than dealing with most compilers that are used for other matching decomp projects for that matter.
