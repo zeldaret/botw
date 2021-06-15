@@ -6,8 +6,8 @@
 #include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Attention/actAttention.h"
+#include "KingSystem/Resource/Actor/resResourceAttPos.h"
 #include "KingSystem/Resource/resResource.h"
-#include "KingSystem/Resource/resResourceAttPos.h"
 #include "KingSystem/Utils/ParamIO.h"
 #include "KingSystem/Utils/Types.h"
 

@@ -7,9 +7,9 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
-#include "KingSystem/Resource/resResourceGParamList.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking::act {

@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/Event/evtEvent.h"
 #include "KingSystem/Event/evtManager.h"
-#include "KingSystem/Resource/resResourceModelList.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Byaml/ByamlArrayIter.h"
 #include "KingSystem/Utils/Byaml/ByamlData.h"

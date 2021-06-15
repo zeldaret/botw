@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceAttPos.h"
+#include "KingSystem/Resource/Actor/resResourceAttPos.h"
 
 namespace ksys::res {
 

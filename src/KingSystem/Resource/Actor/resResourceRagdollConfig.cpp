@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceRagdollConfig.h"
+#include "KingSystem/Resource/Actor/resResourceRagdollConfig.h"
 
 namespace ksys::res {
 

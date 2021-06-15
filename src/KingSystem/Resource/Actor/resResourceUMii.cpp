@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceUMii.h"
+#include "KingSystem/Resource/Actor/resResourceUMii.h"
 
 namespace ksys::res {
 

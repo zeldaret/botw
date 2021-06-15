@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceASResourceExtension.h"
+#include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"
 #include <container/seadSafeArray.h>
 #include <optional>
 #include <prim/seadSafeString.h>

@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceBoneControl.h"
+#include "KingSystem/Resource/Actor/resResourceBoneControl.h"
 
 namespace ksys::res {
 

@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceAIProgram.h"
+#include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 #include <agl/Utils/aglParameter.h>
 #include <heap/seadHeapMgr.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"

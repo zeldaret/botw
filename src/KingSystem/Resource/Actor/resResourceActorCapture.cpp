@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceActorCapture.h"
+#include "KingSystem/Resource/Actor/resResourceActorCapture.h"
 
 namespace ksys::res {
 

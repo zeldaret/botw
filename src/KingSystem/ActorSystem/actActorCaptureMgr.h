@@ -2,8 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/Resource/Actor/resResourceActorCapture.h"
 #include "KingSystem/Resource/resHandle.h"
-#include "KingSystem/Resource/resResourceActorCapture.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
 

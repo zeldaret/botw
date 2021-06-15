@@ -3,7 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Mii/miiModelCreator.h"
-#include "KingSystem/Resource/resResourceUMii.h"
+#include "KingSystem/Resource/Actor/resResourceUMii.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::mii {

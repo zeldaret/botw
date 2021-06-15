@@ -1,7 +1,7 @@
-#include "KingSystem/Resource/resResourceASResource.h"
+#include "KingSystem/Resource/Actor/resResourceASResource.h"
 #include <limits>
 #include <prim/seadSafeString.h>
-#include "KingSystem/Resource/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceAS.h"
 
 namespace ksys::as {
 class Element;

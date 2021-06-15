@@ -7,8 +7,8 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/resHandle.h"
-#include "KingSystem/Resource/resResourceActorLink.h"
 #include "KingSystem/Utils/Thread/Event.h"
 
 namespace ksys {

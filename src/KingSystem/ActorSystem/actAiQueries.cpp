@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiQuery.h"
 #include "KingSystem/ActorSystem/queryDummyQuery.h"
-#include "KingSystem/Resource/resResourceAIProgram.h"
+#include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 
 namespace ksys::act::ai {
 

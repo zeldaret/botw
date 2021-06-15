@@ -1,6 +1,6 @@
-#include "KingSystem/Resource/resResourceAttClient.h"
+#include "resResourceAttClient.h"
 #include <container/seadSafeArray.h>
-#include "KingSystem/Resource/resResourceAttCheck.h"
+#include "resResourceAttCheck.h"
 
 namespace ksys::res {
 

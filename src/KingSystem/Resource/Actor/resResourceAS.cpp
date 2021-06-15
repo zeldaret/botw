@@ -1,9 +1,9 @@
-#include "KingSystem/Resource/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceAS.h"
 #include <memory>
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/Resource/resResourceASResource.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
+#include "resResourceASResource.h"
 
 namespace ksys::res {
 

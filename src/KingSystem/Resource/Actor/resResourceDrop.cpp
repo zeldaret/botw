@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceDrop.h"
+#include "KingSystem/Resource/Actor/resResourceDrop.h"
 #include <random/seadGlobalRandom.h>
 
 namespace ksys::res {

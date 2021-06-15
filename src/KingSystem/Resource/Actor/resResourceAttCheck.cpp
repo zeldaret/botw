@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceAttCheck.h"
+#include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
 namespace ksys::res {
 

@@ -6,8 +6,8 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
-#include "KingSystem/Resource/resResourceGParamList.h"
 
 namespace uking::dmg {
 

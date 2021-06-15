@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourcePhysics.h"
+#include "KingSystem/Resource/Actor/resResourcePhysics.h"
 
 namespace ksys::res {
 

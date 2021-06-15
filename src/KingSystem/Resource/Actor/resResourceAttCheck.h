@@ -4,8 +4,8 @@
 #include <agl/Utils/aglParameterList.h>
 #include <agl/Utils/aglParameterObj.h>
 #include <prim/seadRuntimeTypeInfo.h>
-#include "KingSystem/Resource/resResourceAttClient.h"
-#include "KingSystem/Resource/resResourceAttPos.h"
+#include "resResourceAttClient.h"
+#include "resResourceAttPos.h"
 
 namespace ksys::res {
 

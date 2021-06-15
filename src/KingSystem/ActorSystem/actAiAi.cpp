@@ -7,7 +7,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/aiDummyAi.h"
-#include "KingSystem/Resource/resResourceAIProgram.h"
+#include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 
 namespace ksys::act::ai {
 

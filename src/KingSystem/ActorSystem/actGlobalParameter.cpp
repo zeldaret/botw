@@ -1,8 +1,8 @@
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/resResourceArchive.h"
-#include "KingSystem/Resource/resResourceGParamList.h"
 
 namespace ksys::act {
 

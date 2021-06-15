@@ -11,9 +11,9 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
-#include "KingSystem/Resource/resResourceActorLink.h"
-#include "KingSystem/Resource/resResourceGParamList.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
 

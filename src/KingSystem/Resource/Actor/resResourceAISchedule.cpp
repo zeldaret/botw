@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceAISchedule.h"
+#include "KingSystem/Resource/Actor/resResourceAISchedule.h"
 
 namespace ksys::res {
 

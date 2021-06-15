@@ -1,5 +1,5 @@
-#include "KingSystem/Resource/resResourceASList.h"
-#include "KingSystem/Resource/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
+#include "KingSystem/Resource/Actor/resResourceAS.h"
 
 namespace ksys::res {
 

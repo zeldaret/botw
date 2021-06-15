@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceAnimInfo.h"
+#include "KingSystem/Resource/Actor/resResourceAnimInfo.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/SafeDelete.h"
 

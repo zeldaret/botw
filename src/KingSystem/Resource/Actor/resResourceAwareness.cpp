@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceAwareness.h"
+#include "KingSystem/Resource/Actor/resResourceAwareness.h"
 
 namespace ksys::res {
 

@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceModelList.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include <container/seadSafeArray.h>
 #include "KingSystem/Resource/resModelResourceDivide.h"
 

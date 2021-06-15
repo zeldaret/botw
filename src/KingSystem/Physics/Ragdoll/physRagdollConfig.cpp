@@ -1,5 +1,5 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollConfig.h"
-#include "KingSystem/Resource/resResourceRagdollConfig.h"
+#include "KingSystem/Resource/Actor/resResourceRagdollConfig.h"
 
 namespace ksys::phys {
 

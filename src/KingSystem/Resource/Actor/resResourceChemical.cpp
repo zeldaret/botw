@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceChemical.h"
+#include "KingSystem/Resource/Actor/resResourceChemical.h"
 
 namespace ksys::res {
 

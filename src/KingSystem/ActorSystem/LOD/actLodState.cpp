@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
-#include "KingSystem/Resource/resResourceLod.h"
+#include "KingSystem/Resource/Actor/resResourceLod.h"
 #include "KingSystem/System/OcclusionQueryCylinder.h"
 
 namespace ksys::act {

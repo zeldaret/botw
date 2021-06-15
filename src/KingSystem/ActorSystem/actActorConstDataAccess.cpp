@@ -5,12 +5,12 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseTargetedInfo.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
-#include "KingSystem/Resource/resResourceGParamList.h"
 
 namespace ksys::act {
 

@@ -7,7 +7,7 @@
 #include "KingSystem/Physics/SupportBone/physSupportBoneParam.h"
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physContactInfoParam.h"
-#include "KingSystem/Resource/resResourcePhysics.h"
+#include "KingSystem/Resource/Actor/resResourcePhysics.h"
 
 namespace ksys::phys {
 

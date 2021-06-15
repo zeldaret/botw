@@ -128,70 +128,71 @@ target_sources(uking PRIVATE
 
   resResource.cpp
   resResource.h
-  resResourceActorCapture.cpp
-  resResourceActorCapture.h
-  resResourceActorLink.cpp
-  resResourceActorLink.h
-  resResourceAIProgram.cpp
-  resResourceAIProgram.h
-  resResourceAISchedule.cpp
-  resResourceAISchedule.h
-  resResourceAnimInfo.cpp
-  resResourceAnimInfo.h
-  resResourceAS.cpp
-  resResourceAS.h
-  resResourceASList.cpp
-  resResourceASList.h
-  resResourceASResource.cpp
-  resResourceASResource.h
-  resResourceASResourceExtension.cpp
-  resResourceASResourceExtension.h
   resResourceASSetting.cpp
   resResourceASSetting.h
-  resResourceAttCheck.cpp
-  resResourceAttCheck.h
-  resResourceAttClient.cpp
-  resResourceAttClient.h
-  resResourceAttPos.cpp
-  resResourceAttPos.h
   resResourceArchive.cpp
   resResourceArchive.h
-  resResourceAwareness.cpp
-  resResourceAwareness.h
-  resResourceBoneControl.cpp
-  resResourceBoneControl.h
-  resResourceChemical.cpp
-  resResourceChemical.h
-  resResourceDamageParam.cpp
-  resResourceDamageParam.h
   resResourceDemo.cpp
   resResourceDemo.h
-  resResourceDrop.cpp
-  resResourceDrop.h
   resResourceGameData.cpp
   resResourceGameData.h
   resResourceGameSaveData.cpp
   resResourceGameSaveData.h
-  resResourceGParamList.cpp
-  resResourceGParamList.h
-  resResourceLifeCondition.cpp
-  resResourceLifeCondition.h
-  resResourceLod.cpp
-  resResourceLod.h
-  resResourceModelList.cpp
-  resResourceModelList.h
-  resResourcePhysics.cpp
-  resResourcePhysics.h
-  resResourceRagdollBlendWeight.cpp
-  resResourceRagdollBlendWeight.h
-  resResourceRagdollConfig.cpp
-  resResourceRagdollConfig.h
-  resResourceRagdollConfigList.cpp
-  resResourceRagdollConfigList.h
-  resResourceRecipe.cpp
-  resResourceRecipe.h
-  resResourceShop.cpp
-  resResourceShop.h
-  resResourceUMii.cpp
-  resResourceUMii.h
+
+  Actor/resResourceActorCapture.cpp
+  Actor/resResourceActorCapture.h
+  Actor/resResourceActorLink.cpp
+  Actor/resResourceActorLink.h
+  Actor/resResourceAIProgram.cpp
+  Actor/resResourceAIProgram.h
+  Actor/resResourceAISchedule.cpp
+  Actor/resResourceAISchedule.h
+  Actor/resResourceAnimInfo.cpp
+  Actor/resResourceAnimInfo.h
+  Actor/resResourceAS.cpp
+  Actor/resResourceAS.h
+  Actor/resResourceASList.cpp
+  Actor/resResourceASList.h
+  Actor/resResourceASResource.cpp
+  Actor/resResourceASResource.h
+  Actor/resResourceASResourceExtension.cpp
+  Actor/resResourceASResourceExtension.h
+  Actor/resResourceAttCheck.cpp
+  Actor/resResourceAttCheck.h
+  Actor/resResourceAttClient.cpp
+  Actor/resResourceAttClient.h
+  Actor/resResourceAttPos.cpp
+  Actor/resResourceAttPos.h
+  Actor/resResourceAwareness.cpp
+  Actor/resResourceAwareness.h
+  Actor/resResourceBoneControl.cpp
+  Actor/resResourceBoneControl.h
+  Actor/resResourceChemical.cpp
+  Actor/resResourceChemical.h
+  Actor/resResourceDamageParam.cpp
+  Actor/resResourceDamageParam.h
+  Actor/resResourceDrop.cpp
+  Actor/resResourceDrop.h
+  Actor/resResourceGParamList.cpp
+  Actor/resResourceGParamList.h
+  Actor/resResourceLifeCondition.cpp
+  Actor/resResourceLifeCondition.h
+  Actor/resResourceLod.cpp
+  Actor/resResourceLod.h
+  Actor/resResourceModelList.cpp
+  Actor/resResourceModelList.h
+  Actor/resResourcePhysics.cpp
+  Actor/resResourcePhysics.h
+  Actor/resResourceRagdollBlendWeight.cpp
+  Actor/resResourceRagdollBlendWeight.h
+  Actor/resResourceRagdollConfig.cpp
+  Actor/resResourceRagdollConfig.h
+  Actor/resResourceRagdollConfigList.cpp
+  Actor/resResourceRagdollConfigList.h
+  Actor/resResourceRecipe.cpp
+  Actor/resResourceRecipe.h
+  Actor/resResourceShop.cpp
+  Actor/resResourceShop.h
+  Actor/resResourceUMii.cpp
+  Actor/resResourceUMii.h
 )

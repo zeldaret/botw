@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceLifeCondition.h"
+#include "KingSystem/Resource/Actor/resResourceLifeCondition.h"
 
 namespace ksys::res {
 

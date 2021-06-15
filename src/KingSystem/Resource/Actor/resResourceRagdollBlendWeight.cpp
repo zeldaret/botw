@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceRagdollBlendWeight.h"
+#include "KingSystem/Resource/Actor/resResourceRagdollBlendWeight.h"
 
 namespace ksys::res {
 

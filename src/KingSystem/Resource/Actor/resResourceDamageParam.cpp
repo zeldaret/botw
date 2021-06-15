@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceDamageParam.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 
 namespace ksys::res {
 

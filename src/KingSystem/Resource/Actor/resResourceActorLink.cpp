@@ -1,4 +1,4 @@
-#include "KingSystem/Resource/resResourceActorLink.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include <codec/seadHashCRC32.h>
 #include <heap/seadHeapMgr.h>
 
