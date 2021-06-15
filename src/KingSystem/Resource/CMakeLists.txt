@@ -132,8 +132,6 @@ target_sources(uking PRIVATE
   resResourceASSetting.h
   resResourceArchive.cpp
   resResourceArchive.h
-  resResourceDemo.cpp
-  resResourceDemo.h
   resResourceGameData.cpp
   resResourceGameData.h
   resResourceGameSaveData.cpp
@@ -195,4 +193,7 @@ target_sources(uking PRIVATE
   Actor/resResourceShop.h
   Actor/resResourceUMii.cpp
   Actor/resResourceUMii.h
+
+  Event/resResourceDemo.cpp
+  Event/resResourceDemo.h
 )
