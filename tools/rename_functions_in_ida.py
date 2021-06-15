@@ -14,7 +14,7 @@ with open(csv_path, "r") as f:
     for fn in reader:
         addr = int(fn[0], 16)
         decomp_name = fn[3]
-        if not decomp_name:
+        if not decomp_name or decomp_name == "l":
             continue
 
         # Get rid of status markers.
