@@ -44,6 +44,8 @@ public:
         FileDeviceError = 13,
         /// "Canceled" (16)
         Cancelled = 14,
+        /// Unknown
+        Unknown = 15,
     };
 
     Handle();
