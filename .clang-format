@@ -71,4 +71,5 @@ SpacesInSquareBrackets: false
 Standard: c++17
 TabWidth:        4
 UseTab:          Never
+WhitespaceSensitiveMacros: ["SEAD_ENUM", "SEAD_ENUM_EX", "SEAD_ENUM_EX_VALUES"]
 ...

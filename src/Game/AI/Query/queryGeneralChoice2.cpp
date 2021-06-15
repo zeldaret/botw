@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryGeneralChoice2.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 
 namespace uking::query {
 

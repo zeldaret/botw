@@ -3,7 +3,6 @@
 
 namespace ksys::res {
 
-// NON_MATCHING: reorderings for the "テーブルの数" SafeString ctor
 bool Drop::parse_(u8* data, size_t, sead::Heap* heap) {
     mTableNum.init(0, "TableNum", "テーブルの数", &mObj);
     addObj(&mObj, "Header");
@@ -29,7 +28,7 @@ bool Drop::parse_(u8* data, size_t, sead::Heap* heap) {
         mTables[i].name.init("", name, "テーブル名", &mObj);
     }
 
-    mObj.applyResParameterObj(header_obj, nullptr);
+    mObj.applyResParameterObj(header_obj);
 
     for (s32 i = 0; i < num_tables; ++i) {
         const auto obj = root.getResParameterObj(i + 1);
@@ -43,7 +42,7 @@ bool Drop::parse_(u8* data, size_t, sead::Heap* heap) {
 
         addObj(&mTables[i].obj, mTables[i].name.ref());
         applyResParameterArchive(agl::utl::ResParameterArchive{data});
-        mTables[i].obj.applyResParameterObj(obj, nullptr);
+        mTables[i].obj.applyResParameterObj(obj);
 
         if (mTables[i].column_num.ref() > 0) {
             mTables[i].items.allocBufferAssert(mTables[i].column_num.ref(), heap);

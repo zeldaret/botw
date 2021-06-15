@@ -33,8 +33,10 @@ public:
 
     RagdollConfigList();
     ~RagdollConfigList() override;
+    RagdollConfigList(const RagdollConfigList&) = delete;
+    auto operator=(const RagdollConfigList&) = delete;
 
-    void doCreate_(u8*, u32, sead::Heap*) override {}
+    void doCreate_(u8*, u32, sead::Heap*) override;
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
     bool finishParsing_() override;

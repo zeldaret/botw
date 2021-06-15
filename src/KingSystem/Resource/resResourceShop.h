@@ -35,7 +35,7 @@ public:
     s32 findTableIndexOrNormal(const sead::SafeString& table_name) const;
     s32 findTableIndex(const sead::SafeString& table_name) const;
 
-    bool ParamIO_m0() override { return true; }
+    bool ParamIO_m0(char* data) override { return true; }
     void doCreate_(u8*, u32, sead::Heap*) override {}
     bool needsParse() const override { return true; }
 

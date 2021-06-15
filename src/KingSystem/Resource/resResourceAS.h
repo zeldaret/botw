@@ -10,20 +10,34 @@
 
 namespace ksys::res {
 
+class ASResource;
+
 class AS : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AS, Resource)
 public:
-    struct Element {};
-
     AS();
+    ~AS() override;
+    AS(const AS&) = delete;
+    auto operator=(const AS&) = delete;
 
-    void doCreate_(u8*, u32, sead::Heap*) override {}
+    void doCreate_(u8*, u32, sead::Heap*) override;
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
     void finalize_() override;
 
+    const sead::Buffer<ASResource*>& getElementResources() const { return mElementResources; }
+    const auto& getRandomRateMin() const { return *mRandomRateMin; }
+    const auto& getRandomRateMax() const { return *mRandomRateMax; }
+    const auto& getForbidPartialDemoAs() const { return *mForbidPartialDemoAS; }
+    const auto& getUseIk() const { return *mUseIK; }
+
+    ASResource* getFirstResource() const;
+    float getRandomRate() const;
+
 private:
-    sead::Buffer<Element*> mElements;
+    friend class ASList;
+
+    sead::Buffer<ASResource*> mElementResources;
     agl::utl::ParameterList mElementsList;
 
     agl::utl::ParameterObj mCommonParams;

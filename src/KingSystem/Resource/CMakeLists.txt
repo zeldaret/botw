@@ -98,6 +98,8 @@ target_sources(uking PRIVATE
   resCurrentResNameMgr.h
   resEntryFactory.cpp
   resEntryFactory.h
+  resGameResourceSystem.cpp
+  resGameResourceSystem.h
   resHandle.cpp
   resHandle.h
   resInfoContainer.cpp
@@ -140,10 +142,18 @@ target_sources(uking PRIVATE
   resResourceAS.h
   resResourceASList.cpp
   resResourceASList.h
+  resResourceASResource.cpp
+  resResourceASResource.h
+  resResourceASResourceExtension.cpp
+  resResourceASResourceExtension.h
+  resResourceASSetting.cpp
+  resResourceASSetting.h
+  resResourceAttCheck.cpp
+  resResourceAttCheck.h
   resResourceAttClient.cpp
   resResourceAttClient.h
-  resResourceAttClientList.cpp
-  resResourceAttClientList.h
+  resResourceAttPos.cpp
+  resResourceAttPos.h
   resResourceArchive.cpp
   resResourceArchive.h
   resResourceAwareness.cpp

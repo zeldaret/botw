@@ -13,10 +13,12 @@
 
 namespace ksys {
 
+class ParamIO;
+
 namespace res {
 class AIProgram;
 class AISchedule;
-class AnimationInfo;
+class AnimInfo;
 class ASList;
 class AttClientList;
 class Awareness;
@@ -107,9 +109,9 @@ public:
             res::BoneControl* mBoneControl;
             res::LifeCondition* mLifeCondition;
             res::UMii* mUMii;
-            res::AnimationInfo* mAnimationInfo;
+            res::AnimInfo* mAnimationInfo;
         };
-        sead::SafeArray<void*, 25> mArray;
+        sead::SafeArray<ParamIO*, 25> mArray;
     };
     KSYS_CHECK_SIZE_NX150(Resources, 0xc8);
 
@@ -121,6 +123,8 @@ public:
     const char* getClassName() const { return mClassName; }
     Priority getPriority() const { return mPriority; }
     const Resources& getRes() const { return mRes; }
+
+    bool isA() const { return _a; }
 
     bool isDummyParam(res::ActorLink::User user) const;
 
@@ -142,7 +146,7 @@ private:
     void setEventSignal();
     void waitForEvent();
     bool isSignalSet() const;
-    void updateResource(const char* name, const char* data, const char* data1);
+    int updateResource(const char* data, char* data1, char* data2);
 
     res::Handle* allocHandle();
     void freeLastHandle();
@@ -160,7 +164,7 @@ private:
 
     u8 _8 = 0;
     u8 _9 = 0;
-    u8 _a = 0;
+    bool _a = false;
     sead::FixedSafeString<64> mActorName;
     sead::SafeString mProfile;
     const char* mClassName{};

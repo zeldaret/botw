@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actAiClassDef.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/aiDummyAi.h"
 #include "KingSystem/Resource/resResourceAIProgram.h"
@@ -212,7 +214,7 @@ bool Ai::isCurrentAction(const sead::SafeString& name) {
     return name == action->getName();
 }
 
-void Ai::changeChildIdx(u16 new_idx) {
+void Ai::changeChildIdx(int new_idx) {
     const auto prev_idx = mChildIdx;
     mChildIdx = new_idx;
     mPrevChildIdx = prev_idx;

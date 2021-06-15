@@ -11,11 +11,11 @@ namespace ksys::res {
 class LifeCondition : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(LifeCondition, Resource)
 public:
-    LifeCondition();
+    LifeCondition() : ParamIO("lifecondition", 0) {}
     ~LifeCondition() override = default;
 
     bool needsParse() const override { return true; }
-    bool ParamIO_m0() override { return true; }
+    bool ParamIO_m0(char* data) override { return true; }
 
 private:
     void doCreate_(u8*, u32, sead::Heap*) override {}

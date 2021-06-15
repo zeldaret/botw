@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadTypedBitFlag.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
@@ -33,7 +34,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(InlineParamPack* params) override;
     void leave_() override;
-    bool handleMessage_(mes::Message* message) override;
+    bool handleMessage_(Message* message) override;
     void calc() override;
 
     const ParamPack& getMapUnitParams() const { return mMapUnitParams; }

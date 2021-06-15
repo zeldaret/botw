@@ -1,22 +1,108 @@
-# uking
+# The Legend of Zelda: Breath of the Wild
 
-This is a decompilation of U-King v1.5.0 (Switch).
+This is an experimental, WIP decompilation of *The Legend of Zelda: Breath of the Wild* v1.5.0 (Switch).
 
-File names, class or function names and the file organization come from leftover strings. Unlike some other first-party games such as *Super Mario Odyssey*, all known public versions of U-King are completely stripped, so most names are just more or less educated guesses.
+This project only concerns the main executable which contains all the game code and statically linked libraries. The RomFS and the SDK libraries are *out of the scope* of this project.
 
 **This repository does not contain game assets or RomFS content and *cannot* be used to play *Breath of the Wild*.**
 
-## Goal
+Progress: https://botw.link/progress
 
-The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in something less fragile than an IDA database.
+The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in a permanent, unambiguous form which helps further reverse engineer the game.
 
-Considering the large size of the executable (~40MB), it is not expected to reach 100% progress within a reasonable timeframe. That's actually not really an objective since the KingSystem framework represents less than 50% of the executable. Nevertheless, this project still uses the percentage of decompiled bytes to track progress for the components we are interested in.
+Considering the large size of the executable (~40MB), it is not expected to reach 100% progress within a reasonable timeframe.
 
-As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will NOT help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
+As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will **not** help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
+
+## Scope
+
+* Main executable (main NSO)
+    * *Breath of the Wild* code
+        * Actual game code (`Game` / uking:: namespace)
+        * Framework/engine code (`KingSystem` / ksys:: namespace)
+    * Statically linked libraries
+        * First-party libraries (e.g. sead, agl, EventFlow, etc.)
+        * NintendoSDK inlined utilities
+        * Any other statically linked library, except:
+            * libcurl
+            * NintendoSDK-NEX
+            * Havok (physics engine)
+
+Excluded libraries will not be fully decompiled but may be partly re-implemented or decompiled, and (reverse-engineered) headers will still be provided so that the rest of the codebase can still use those libraries.
+
+## Frequently Asked Questions
+
+### What is (matching) decompilation?
+
+Decompiling is the process of turning the game's compiled code back into equivalent, readable C++ source code.
+
+Matching decompilation goes one step further and produces original source code that **compiles to the exact same assembly**. This process makes functional correctness extremely easy to verify since the assembly can simply be compared against the original executable. Thanks to Clang, this is easier than one would expect.
+
+#### Matching decomp in this project
+
+Given the impossibility of automatically splitting the assembly and generating a matching binary (as is done in many other decomp projects), the sheer size of the main executable and the usage of many software libraries, this project takes a somewhat experimental approach to matching decompilation.
+
+Because meaningfully splitting the code is not feasible, the built executable currently only contains functions that have been decompiled and no effort is being made to put functions and data at the correct addresses.
+
+Instead of trying to match the entire executable, each function is matched individually and source code is organized in whichever way makes the most sense. Libraries are not treated as being part of the game code, but as external dependencies. The result is that the codebase looks a lot more like a regular software project than a decompilation codebase. Since C++ code makes heavy use of inline functions and zero-cost abstractions that disappear in compiled code, contributors have a lot more leeway when it comes to organizing files and adding abstractions.
+
+### How do you name things?
+
+File names, class or function names, and the file organization come from leftover strings. Unlike some other first-party games such as *Super Mario Odyssey*, all known public versions of U-King are completely stripped, so most names are just more or less educated guesses that try to fill in the blanks.
+
+As more parts of the game get decompiled, it becomes easier to figure out what the rest of the game is doing and equally easier to name functions. It's a positive feedback loop.
+
+### How easy is it to match functions?
+
+Compared to other decomp projects for older compilers: **extremely easy**. Clang is an extremely reasonable compiler with much fewer memes than older compilers such as IDO or older versions of GCC:
+
+* Stack reordering issues are extremely rare, given that AArch64 uses its registers a lot more efficiently. Even when the stack is used, things Just Work™ in the vast majority of cases.
+* Pure register allocation (regalloc) issues are almost non-existent. If you see something that looks like a regalloc problem, it usually means your code is not semantically equivalent.
+* No `if (1)` shenanigans.
+* No "same line" memes (codegen being different if two statements are put on the same line).
+* Whitespace doesn't matter.
+
+In general, two equivalent constructs that *should* clearly produce the same code actually produce the exact same code. There are exceptions, of course, but many things simply do not matter at all for matching. Inline functions do often affect codegen, though.
+
+Getting perfect matches on the first try happens pretty routinely, even for medium-sized and large functions (>1kB).
+
+Most functions tend to call several other inline functions, notably utility functions from sead; as many core sead modules have already been reversed, decompiling a function sometimes only requires recognizing those function calls: decompilation at a higher level of abstraction!
+
+### Doesn't this mean the end result will be quite inaccurate?
+
+Even though Clang is generally less picky than ancient compilers, it is still able to reveal a lot of interesting information about how the original source code was written.
+
+Granted, Clang will *not* reveal things such as whether developers put two statements on the same line, but in many cases we can still figure how they organised the source code and whether separate inline functions or classes were used.
+
+Coupled with all the strings and all the information C++ language features leak (e.g. classes, virtual functions, hierarchy, etc.), we actually still get relevant, useful info (e.g. abstractions) that *actually* helps understand a modern codebase.
+
+It is also important to remember that this is still a matching decompilation, which means that the code already perfectly matches the original *assembly*; matching functions are guaranteed to be fully equivalent to the original code, and thanks to Clang being picky *where it matters* most of the abstractions should match the original *source*.
+
+### What version is being decompiled?
+
+The Switch 1.5.0 version. Working with Clang is so much nicer than working with the Wii U's proprietary compiler (GHS). And at least an order of magnitude nicer than dealing with most compilers that are used for other matching decomp projects for that matter.
+
+Having access to the Wii U 1.5.0 version is occasionally useful though, because GHS often optimizes and inlines differently, which can help reveal the existence of inline functions.
+
+### I only have 1.6.0. Can I still contribute?
+
+Yes, you can! A delta patch is provided to turn a 1.6.0 executable into 1.5.0, so if you are able to dump 1.6.0 from your console you will also be able to get 1.5.0. For more information, refer to the [contributing guidelines](Contributing.md).
+
+### Do I need to be a game dev or a C++ expert to contribute?
+
+No, of course not. You only need to be familiar with software development practices and C++, or another language with object-oriented aspects such as Java.
+
+Unlike many other decomp projects, familiary with C or assembly helps but is not required. The reason for this is that BotW is a modern game with many layers of abstractions. Many functions can be decompiled simply by recognizing code patterns / inline functions. Our assembly comparing tool ([asm-differ](https://github.com/simonlindholm/asm-differ)) is also capable of showing what each line of assembly corresponds to in the source code, so you won't get lost in the assembly even if you're unfamiliar with AArch64.
+
+AArch64 assembly is also nicer to deal with than x86/x86-64 and should feel familiar to you if you have already worked with e.g. ARM or MIPS.
+
+This is pretty much an open source project, and even small contributions can make a large difference!
+
+While you certainly do not need to be a C++ expert, you do need to be familiar with basic language features and concepts like namespaces or classes. Otherwise, you will be unable to contribute in any efficient or meaningful way.
 
 ### Isn't this risky?
 
-As with other game decompilations, this project is probably in a legal gray zone. However, the authors of this project believe that it is unlikely to bother NCL for the following reasons:
+Just like other game decompilations, this project is probably in a legal gray zone. However, the authors of this project believe that it is unlikely to bother NCL for the following reasons:
 
 * Contributing to this repository requires owning the game on a Switch console and dumping the executable.
 * This project is completely useless to anybody who does not have the game.
@@ -34,11 +120,9 @@ As with other game decompilations, this project is probably in a legal gray zone
     * The compiler is just Clang 4.0.1 which is open source and freely available on [LLVM's website](https://releases.llvm.org/). The SDK compiler is **not** used.
     * Anyone who has had access to leaked information is not allowed to contribute.
 
-## Status
+### Alright, how do I start contributing?
 
-Currently, the focus is on decompiling AI classes and KingSystem framework code.
-
-Because meaningfully splitting the code is not feasible, the built executable currently only contains functions that have been decompiled and no effort is being made to put functions and data at the correct addresses.
+First, set up the build environment by following the instructions below. Then follow the [contributing guidelines here](Contributing.md).
 
 ## Building
 
@@ -59,170 +143,32 @@ Using Linux (or WSL) is recommended but not required. The rest of this guide ass
 ### Building for Switch
 
 1. After cloning this repository, run: `git submodule update --init --recursive`
-2. `env UKING_CLANG=$1 DEVKITA64=$2 cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=../ToolchainNX64.cmake -B build`
-    * Replace `$1` with the path to the extracted Clang archive, such that `$1/bin/clang` exists.
+2. Run: `env UKING_CLANG=$1 DEVKITA64=$2 cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=../ToolchainNX64.cmake -B build`
+    * Replace `$1` with the path to the extracted Clang archive, such that `$1/bin/clang` exists. This should be an absolute path; use `/home/<name>` instead of `~`.
     * Replace `$2` with the path to devkitA64. On Linux, this is typically `/opt/devkitpro/devkitA64`.
-3. `ninja -C build` to start the build
+3. Start the build by running: `ninja -C build`
 
 On subsequent builds, just run `ninja -C build` from the project root.
 
-**THIS WILL NOT PRODUCE A PLAYABLE GAME.**
+Reminder: **this will not produce a playable game.** This project will not allow you to play the game if you don't already own it on a Switch.
 
-## Contributing
+## Resources
 
-To contribute to the project, you will also need:
-
-* A disassembler or a decompiler such as Hex-Rays or Ghidra.
-* Python 3 and pip for the diff script
-* These Python modules: `capstone colorama cxxfilt pyelftools` (install them with `pip install ...`)
-* The original 1.5.0 `main` NSO executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
-    * Copy it to data/main.elf -- it is used for the diff script and other tools.
-    * The uncompressed NSO has the following SHA256 hash: `d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106`
-
-Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
-
-Using a decompiler is strongly recommended for efficiency reasons. If you have IDA 7.0+, ping @leoetlino to get a copy of the IDC which will make decompilation easier and help with understanding the code more generally.
-
-Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discord server if you have any questions.
-
-### How to decompile
-
-0. Open the executable in the disassembler of your choice.
-
-1. **Pick a function that you want to decompile.**
-    * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
-    * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
-    * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
-
-2. **Decompile it** using Hex-Rays or Ghidra.
-    * Rename variables, add structures, do everything you can to make the output as clean as possible.
-    * Again, understanding the function is very important.
-    * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
-
-3. **Implement the function in C++.**
-    * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
-    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
-    * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
-    * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
-
-4. **Build**.
-5. **Get the mangled name** of your function. For example, if you are decompiling BaseProcMgr::createInstance:
-
-      ```
-      $ tools/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
-      UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
-      ```
-
-6. **Add the mangled function name to the list of decompiled functions.**
-    * To do so, open data/uking_functions.csv and search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
-    * Example: `0x00000071010c0d60,sub_71010C0D60,136,_ZN4ksys4util13TaskQueueBaseD1Ev`
-
-7. **Compare the assembly** with `./diff.py --source <mangled function name>`
-    * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
-    * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
-
-8. **Tweak the code to get a perfectly matching function**.
-    * Clang is usually quite reasonable so it is very common for functions -- even complicated code -- to match on the first try.
-    * **Focus on large differences.** If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
-    * **Regalloc:** If you only have regalloc differences left in a function that *looks* semantically equivalent, double-check whether it is truly equivalent: such differences are typically caused by using the wrong variable. It is rare for LLVM to use a different set of registers if the code is equivalent.
-    * This is usually the most difficult part of matching decomp. Please ask on Discord if you need help!
-
-9. **Update the list of decompiled functions**.
-    * If you have a function that matches perfectly, great!
-    * If there are still minor differences left, add a `// NON_MATCHING: ` comment to explain what is wrong and add a `?` at the end of the mangled function name in the CSV.
-    * For major differences (lots of entirely red/green/blue lines in the diff), add a `!` at the end of the function name.
-
-10. Before opening a PR, reformat the code with clang-format and run `tools/check.py`.
-
-### Non-inlined functions
-
-When **implementing non-inlined functions**, please compare the assembly output against the original function and make it match the original code. At this scale, that is pretty much the only reliable way to ensure accuracy and functional equivalency.
-
-However, given the large number of functions, certain kinds of small differences can be ignored when a function would otherwise be equivalent:
-
-* Regalloc differences.
-    * Warning: ensure that the return type of the function is correct. Differences that involve the X0-X7, W0-W7 or S0-S3 registers at the end of a function are suspicious.
-
-* Instruction reorderings when it is obvious the function is still semantically equivalent (e.g. two add/mov instructions that operate on entirely different registers being reordered)
-
-### Header utilities or inlined functions
-
-For **header-only utilities** (like container classes), use pilot/debug builds, assertion messages and common sense to try to undo function inlining. For example, if you see the same assertion appear in many functions and the file name is a header file, or if you see identical snippets of code in many different places, chances are that you are dealing with an inlined function. In that case, you should refactor the inlined code into its own function.
-
-Also note that introducing inlined functions is sometimes necessary to get the desired codegen.
-
-If a function is inlined, you should try as hard as possible to make it match perfectly. For inlined functions, it is better to use weird code or small hacks to force a match as differences would otherwise appear in every single function that inlines the non-matching code, which drastically complicates matching other functions. If a hack is used, wrap it inside a `#ifdef MATCHING_HACK_{PLATFORM}` (see below for a list of defines).
-
-### Matching hacks
-
-This project sometimes uses small hacks to force particular code to be generated by the compiler. Those have no semantic effects but can help with matching assembly code especially when the hacks are used for functions that are inlined.
-
-* `MATCHING_HACK_NX_CLANG`: Hacks for Switch, when compiling with Clang.
-
-### For people who are familiar with C or other decomp projects
-
-Given the impossibility of automatically splitting the assembly and generating a matching binary, the sheer size of the main executable and the usage of many software libraries, this project takes a different and somewhat experimental approach to matching decompilation.
-
-Instead of trying to match the entire executable, each function is matched individually and source code is organized in whichever way makes the most sense. Libraries are not treated as being part of the game code, but as external dependencies. The result is that the codebase looks a lot more like a regular software project than a decompilation codebase. Since C++ code makes heavy use of inline functions and zero-cost abstractions that disappear in compiled code, contributors have a lot more leeway when it comes to organizing files and adding abstractions.
-
-#### How easy is it to get matching code?
-
-Compared to other decomp projects for older compilers: **extremely easy**. So outrageously easy that it is almost unfair to their contributors.
-
-Clang is an extremely reasonable compiler with much fewer memes than older compilers such as IDO:
-
-* Stack reordering issues are extremely rare, given that AArch64 uses its registers a lot more efficiently. And even when the stack is used, things Just Work™ in the vast majority of cases.
-* Pure register allocation (regalloc) issues are almost non-existent. If you see something that looks like a regalloc problem, it usually means your code is not semantically equivalent.
-* No `if (1)` shenanigans.
-* No same line memes (codegen being different if two statements are put on the same line).
-* Whitespace doesn't matter.
-
-In general, two equivalent constructs that *should* clearly produce the same code actually produce the exact same code. There are exceptions, of course, but many things simply do not matter at all for matching. Inline functions do sometimes affect codegen, though.
-
-Getting perfect matches on the first try happens pretty routinely, even for medium-sized and large functions (>1kB).
-
-Most functions tend to call several other inline functions, notably utility functions from sead; as many core sead modules have already been reversed, decompiling a function sometimes only requires recognizing those function calls: decompilation at a higher level of abstraction!
-
-#### Writing proper C++
-
-Unlike most other decompilation projects, this one targets a large modern game that is written in C++. While C and C++ have similar syntax, C++ is somewhat more complex than C and has many more language features. To avoid getting lost in C++ code, please familiarize yourself with the following, preferably *before* decompiling:
-
-* [namespaces](https://en.cppreference.com/w/cpp/language/namespace)
-    * Instead of using prefixes such as `z_` to avoid name conflicts, C++ code instead relies on namespaces.
-* [classes](https://en.cppreference.com/w/cpp/language/class), including inheritance, polymorphism, virtual functions
-    * C++ classes/structs are basically C structs on steroids. Notably, C++ classes can contain member functions.
-    * Member functions get an implicit `this` argument, which is passed as if it were the first argument.
-    * [Virtual member functions](https://en.cppreference.com/w/cpp/language/virtual) are member functions that can be overridden in derived classes.
-    * Virtual member functions are usually implemented with a virtual function table or "vtable", which is a table of function pointers.
-* [const correctness](https://isocpp.org/wiki/faq/const-correctness) for member functions
-* iterators
-* range-based for loops
-* using nullptr instead of NULL
-* C++11 / C++14 / C++17 features more generally
-
-### Project tools
-
-* Check all decompiled functions for issues: `tools/check.py`
-* To compare assembly: `./diff.py <mangled function name>`
-    * The function **must be listed in data/uking_functions.csv first**.
-        * To do so, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
-    * Pass the `--source` flag to show source code interleaved with assembly code.
-    * Add the `--inlines` flag to show inline function calls. This is not enabled by default because it usually produces too much output to be useful.
-    * For more options, see [asm-differ](https://github.com/simonlindholm/asm-differ).
-* To print progress: `tools/progress.py`
-    * Note that progress is only approximate because of inline functions, templating and compiler-generated functions.
-* To dump symbols: `tools/print_decomp_symbols.py`
-    * `-u` for undefined symbols (default)
-    * `-a` for all symbols
-    * Useful for getting the mangled name of a function. For example:
-
-        ```
-        $ tools/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
-      UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
-        ```
-
-### Resources
+#### Breath of the Wild documentation and datamining
 
 * The [ZeldaMods](https://zeldamods.org/wiki/Main_Page) wiki
 * [MrCheeze's botw-tools](https://github.com/MrCheeze/botw-tools)
 * [botw-re-notes](https://github.com/leoetlino/botw-re-notes)
+
+#### AArch64
+
+* AArch64 ISA overview: https://developer.arm.com/documentation/102374/0101 (read this first if you're new to AArch64)
+* ARMv8 A64 Quick Reference: https://courses.cs.washington.edu/courses/cse469/18wi/Materials/arm64.pdf
+* Arm ARMv8 ARM (Architecture Reference Manual): https://developer.arm.com/documentation/ddi0487/latest/ (extremely detailed)
+
+#### Tools
+
+* IDA Pro + Hex-Rays (7.5+ required if you want to use this project's database/IDC)
+* HexRaysPyTools: https://github.com/igogo-x86/HexRaysPyTools
+* How to create C++ types and vtables in IDA (7.2+): https://www.hex-rays.com/products/ida/support/idadoc/1691.shtml
+* Ghidra: https://ghidra-sre.org/

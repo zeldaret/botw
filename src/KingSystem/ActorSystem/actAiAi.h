@@ -43,7 +43,7 @@ public:
 protected:
     virtual void calc_() {}
     virtual void handlePendingChildChange_() { changeChild(mPendingChildIdx); }
-    void changeChildIdx(u16 new_idx);
+    void changeChildIdx(int new_idx);
 
     static constexpr u16 InvalidIdx = 0xffff;
 

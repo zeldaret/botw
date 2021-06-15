@@ -1,3 +1,27 @@
 target_sources(uking PRIVATE
+  worldChemicalMgr.cpp
+  worldChemicalMgr.h
+  worldDefines.h
+  worldDofMgr.cpp
+  worldDofMgr.h
+  worldEnvMgr.cpp
+  worldEnvMgr.h
+  worldJob.cpp
+  worldJob.h
+  worldManager.cpp
   worldManager.h
+  worldShootingStarMgr.cpp
+  worldShootingStarMgr.h
+  worldShootingStarMgrEx.cpp
+  worldShootingStarMgrEx.h
+  worldSkyMgr.cpp
+  worldSkyMgr.h
+  worldTempMgr.cpp
+  worldTempMgr.h
+  worldTimeMgr.cpp
+  worldTimeMgr.h
+  worldWeatherMgr.cpp
+  worldWeatherMgr.h
+  worldWindMgr.cpp
+  worldWindMgr.h
 )

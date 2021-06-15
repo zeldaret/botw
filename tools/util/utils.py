@@ -64,8 +64,16 @@ def get_functions(path: tp.Optional[Path] = None) -> tp.Iterable[FunctionInfo]:
     if path is None:
         path = get_functions_csv_path()
     with path.open() as f:
-        for row in csv.reader(f):
-            yield parse_function_csv_entry(row)
+        reader = csv.reader(f)
+        for row in reader:
+            try:
+                entry = parse_function_csv_entry(row)
+                # excluded library function
+                if entry.decomp_name == "l":
+                    continue
+                yield entry
+            except ValueError as e:
+                raise Exception(f"Failed to parse line {reader.line_num}") from e
 
 
 def add_decompiled_functions(new_matches: tp.Dict[int, str],

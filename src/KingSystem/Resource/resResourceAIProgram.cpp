@@ -8,8 +8,6 @@
 
 namespace ksys::res {
 
-AIProgram::AIProgram() : ParamIO("aiprog", 0) {}
-
 AIProgram::~AIProgram() = default;
 
 const sead::Buffer<AIProgram::AIActionDef>&

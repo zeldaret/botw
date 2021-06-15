@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/Event/evtEvent.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Resource/resResourceModelList.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Byaml/ByamlArrayIter.h"
 #include "KingSystem/Utils/Byaml/ByamlData.h"
@@ -210,20 +211,9 @@ s32 InfoData::getIntByKey(const al::ByamlIter& iter, const char* key, s32 defaul
 }
 
 const char* InfoData::getStringByKey(const al::ByamlIter& iter, const char* key,
-                                     const sead::SafeString& default_) {
+                                     const sead::SafeString& default_, bool) {
     const char* value;
     return iter.tryGetStringByKey(&value, key) ? value : default_.cstr();
-}
-
-[[gnu::noinline]] static InfoData::Locator::Type
-getLocatorTypeFromStr(const sead::SafeString& type) {
-    static constexpr const char* types[] = {"Trunk",  "Branch",   "GlowStone",
-                                            "OnTree", "MagnePos", "StopTimerPos"};
-    for (s32 i = 0; i < s32(std::size(types)); ++i) {
-        if (type == types[i])
-            return InfoData::Locator::Type(i);
-    }
-    return InfoData::Locator::Type::Invalid;
 }
 
 void InfoData::getLocators(const char* actor, Locators& info) const {
@@ -255,7 +245,8 @@ void InfoData::getLocators(const char* actor, Locators& info) const {
         it.tryGetFloatByKey(&locator.rot.z, "rot_z");
 
         it.tryGetStringByKey(&type_str, "type");
-        locator.type = type_str ? getLocatorTypeFromStr(type_str) : Locator::Type::Invalid;
+        locator.type =
+            type_str ? res::ModelList::getLocatorTypeFromStr(type_str) : Locator::Type::Invalid;
 
         locator.rot *= 2 * sead::numbers::pi / 360.0;
     }

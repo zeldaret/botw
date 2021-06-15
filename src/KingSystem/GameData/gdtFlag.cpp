@@ -2,8 +2,6 @@
 
 namespace ksys::gdt {
 
-SEAD_ENUM_IMPL(FlagType)
-
 FlagProperties::FlagProperties() = default;
 
 FlagProperties::~FlagProperties() = default;

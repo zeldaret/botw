@@ -4,27 +4,24 @@
 #include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
 #include <container/seadTreeMap.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
-#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/ActorSystem/actBaseProcMap.h"
 #include "KingSystem/Utils/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys {
-
-namespace act {
+namespace ksys::act {
 
 class ActorLinkConstDataAccess;
 class BaseProc;
 class BaseProcLinkData;
 class BaseProcJobHandler;
 class BaseProcUnit;
-class BaseProcHandle;
 
 /// Actor base class that encapsulates all the low-level actor lifetime logic.
 class BaseProc {
@@ -44,7 +41,13 @@ public:
         _0 = 0,
         _1 = 1,
         _2 = 2,
-        _15 = 15,
+        BaseProcMgrDeleteAll = 4,
+        _f = 0xf,
+        _15 = 0x15,
+        _16 = 0x16,
+        _17 = 0x17,
+        _18 = 0x18,
+        _19 = 0x19,
     };
 
     enum class SleepWakeReason : u32 {
@@ -65,6 +68,10 @@ public:
         sead::SafeString actor_name;
     };
     KSYS_CHECK_SIZE_NX150(CreateArg, 0x28);
+
+    struct PreDeleteArg {
+        bool do_not_destruct_immediately = false;
+    };
 
     explicit BaseProc(const CreateArg& arg);
     virtual ~BaseProc();
@@ -91,11 +98,11 @@ public:
     bool isInit() const { return mState == State::Init; }
     bool isCalc() const { return mState == State::Calc; }
     bool isSleep() const { return mState == State::Sleep; }
+    bool isDelete() const { return mState == State::Delete; }
     bool isDeletedOrDeleting() const {
         return mState == State::Delete || mStateFlags.isOn(StateFlags::RequestDelete);
     }
 
-    bool isInitialized() const { return mFlags.isOn(Flags::Initialized); }
     /// For BaseProcLink or ActorLinkConstDataAccess.
     bool acquire(ActorLinkConstDataAccess& accessor);
     BaseProcLinkData* getBaseProcLinkData() const { return mBaseProcLinkData; }
@@ -115,8 +122,25 @@ public:
     void setJobPriority(u8 actorparam_priority, JobType type);
     void setJobPriority2(u8 actorparam_priority, JobType type);
 
+    void setCreatePriorityState1();
     void setCreatePriorityState2();
-    bool setStateFlag(u8 idx);
+
+    void onJobPush(JobType type) {
+        onJobPush1_(type);
+        onJobPush2_(type);
+    }
+
+    /// Actually pre-delete the actor. Called from BaseProcDeleter.
+    void doPreDelete(const PreDeleteArg& arg);
+
+    /// Set the BaseProcUnit. Only for use by BaseProcCreateTask.
+    void setUnitForBaseProcCreateTask(BaseProcUnit* unit) { mProcUnit = unit; }
+    void setInitializedFlag() { mFlags.set(Flags::Initialized); }
+    bool requestDeleteProcUnit() { return setStateFlag(StateFlags::RequestDeleteProcUnit); }
+
+    bool isInitialized() const { return mFlags.isOn(Flags::Initialized); }
+    bool isDeleting() const { return mFlags.isOn(Flags::PreDeleteStarted); }
+    bool isDeleteRequested() const { return mStateFlags.isOn(StateFlags::RequestDelete); }
 
 protected:
     friend class BaseProcLinkDataMgr;
@@ -134,6 +158,11 @@ protected:
         _100 = 0x100,
         PreDeleting = 0x200,
         SleepWakeReason0 = 0x400,
+        SleepWakeReason1 = 0x800,
+        SleepWakeReason2 = 0x1000,
+        SleepWakeReason3 = 0x2000,
+        SleepWakeReasonAny =
+            SleepWakeReason0 | SleepWakeReason1 | SleepWakeReason2 | SleepWakeReason3,
     };
 
     enum class StateFlags : u32 {
@@ -218,20 +247,20 @@ protected:
     virtual void onEnterSleep_();
 
     /// Called to actually pre-delete (third and final callback).
-    virtual void preDelete3_(bool* do_not_destruct_immediately);
+    virtual void preDelete3_(const PreDeleteArg& arg);
 
     virtual bool prepareInit_(sead::Heap* heap, PrepareArg& arg);
 
     /// Called when pre-delete actually starts (after preparation, before requesting it).
     virtual void onPreDeleteStart_(PrepareArg&);
     /// Called to actually pre-delete (second callback).
-    virtual void preDelete2_(bool* do_not_destruct_immediately);
+    virtual void preDelete2_(const PreDeleteArg& arg);
     /// Called to actually pre-delete (first callback).
     virtual void preDelete1_();
 
     virtual IsSpecialJobTypeResult isSpecialJobType_(JobType type);
     virtual bool canWakeUp_();
-    virtual void queueExtraJobPush_(JobType type);
+    virtual void queueExtraJobPush_(JobType type, int idx);
     virtual bool hasJobType_(JobType type);
     /// Called after processStateUpdate() is called for all actors in the update state list.
     virtual void afterUpdateState_();
@@ -244,8 +273,6 @@ protected:
 
     bool processStateUpdate(u8 counter);
     void processPreDelete();
-    /// Actually pre-delete the actor. Called from BaseProcDeleter.
-    void doPreDelete(bool* do_not_destruct_immediately);
     void startDelete_();
 
     /// Called from BaseProcMgr when a job for this process is invoked.
@@ -254,6 +281,12 @@ protected:
     bool isSpecialJobTypeForThisActor_(JobType type) const {
         return mSpecialJobTypesMask.isOnBit(int(type));
     }
+
+    BaseProcJobHandler*& getJobHandler(JobType type) { return mJobHandlers[int(type)]; }
+    BaseProcJobHandler* getJobHandler(JobType type) const { return mJobHandlers[int(type)]; }
+
+    bool setStateFlag(u32 flag_bit);
+    bool setStateFlag(StateFlags flag) { return setStateFlag(sead::log2(u32(flag))); }
 
     bool x00000071011ba9fc();
 
@@ -273,9 +306,9 @@ protected:
     BaseProc* mConnectedCalcParentNew = nullptr;
     BaseProc* mConnectedCalcChildNew = nullptr;
     sead::SafeArray<BaseProcJobHandler*, 7> mJobHandlers{};
-    sead::Delegate<BaseProc> mInvoker;  // TODO: is this correct?
-    sead::ListNode mPostDeleteListNode;
-    sead::ListNode mDeleteListNode;
+    sead::Delegate1R<BaseProc, void*, bool> mInvoker;
+    sead::ListNode mPreDeleteListNode;
+    sead::ListNode mUpdateStateListNode;
     BaseProcMapNode mMapNode{this};
     BaseProcUnit* mProcUnit = nullptr;
     sead::Atomic<s32> mRefCount = 0;
@@ -291,12 +324,12 @@ private:
     void handleWakeUpRequest_();
     void handleJobPriorityChangeRequest_();
 
+    void setJobPriorityDuringCalc_(BaseProcJobHandler*& handler, JobType type);
+
     bool canWakeUpOrFlagsSet_() {
         return mFlags.isOn(Flags::_80) ? mFlags.isOn(Flags::_100) : canWakeUp_();
     }
 };
 KSYS_CHECK_SIZE_NX150(BaseProc, 0x180);
 
-}  // namespace act
-
-}  // namespace ksys
+}  // namespace ksys::act

@@ -8,6 +8,7 @@
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -16,11 +17,17 @@ class ByamlIter;
 }
 
 namespace ksys::act {
+class BaseProcLink;
 class InfoData;
-}
+}  // namespace ksys::act
 
 namespace uking::act {
+enum class WeaponModifier : u32;
 struct WeaponModifierInfo;
+}  // namespace uking::act
+
+namespace ksys {
+struct CookItem;
 }
 
 namespace uking::ui {
@@ -44,6 +51,8 @@ constexpr int ItemStackSizeMax = 999;
 // TODO: figure out what this is
 constexpr int NumPouch50 = 50;
 
+constexpr int NumGrabbableItems = 5;
+
 enum class PouchItemType {
     Sword = 0,
     Bow = 1,
@@ -65,12 +74,20 @@ constexpr bool isPouchItemWeapon(PouchItemType type) {
            type == PouchItemType::Arrow || type == PouchItemType::Shield;
 }
 
+constexpr bool isPouchItemBowOrArrow(PouchItemType type) {
+    return type == PouchItemType::Bow || type == PouchItemType::Arrow;
+}
+
 constexpr bool isPouchItemNotWeapon(PouchItemType type) {
     return !isPouchItemWeapon(type);
 }
 
 constexpr bool isPouchItemArmor(PouchItemType type) {
     return PouchItemType::ArmorHead <= type && type <= PouchItemType::ArmorLower;
+}
+
+constexpr bool isPouchItemEquipment(PouchItemType type) {
+    return isPouchItemWeapon(type) || isPouchItemArmor(type);
 }
 
 constexpr bool isPouchItemInvalid(PouchItemType type) {
@@ -100,6 +117,28 @@ enum class EquipmentSlot {
     ArmorLower = 6,
 };
 
+enum class ItemUse {
+    WeaponSmallSword = 0,
+    WeaponLargeSword = 1,
+    WeaponSpear = 2,
+    WeaponBow = 3,
+    WeaponShield = 4,
+    ArmorHead = 5,
+    ArmorUpper = 6,
+    ArmorLower = 7,
+    Item = 8,
+    ImportantItem = 9,
+    CureItem = 10,
+    Invalid = -1,
+};
+
+constexpr int NumDyeColors = 15;
+constexpr int FirstDyeColorIndex = 1;
+constexpr int LastDyeColorIndex = 15;
+static_assert(NumDyeColors == LastDyeColorIndex - FirstDyeColorIndex + 1,
+              "Dye color indices must be contiguous");
+constexpr int NumRequiredDyeItemsPerColor = 5;
+
 struct CookTagInfo {
     u32 is_tag;
     sead::SafeString name;
@@ -109,6 +148,7 @@ struct CookTagInfo {
 class PouchItem {
 public:
     struct CookData {
+        f32 getStaminaRecoverValue() const { return f32(mStaminaRecoverY) * 30.0f; }
         void setStaminaRecoverX(int x) { mStaminaRecoverX = x; }
         void setStaminaRecoverY(int y) { mStaminaRecoverY = y; }
         void setCookEffect1(int effect) { mCookEffect1 = effect; }
@@ -135,6 +175,7 @@ public:
     bool isEquipped() const { return mEquipped; }
     u8 get25() const { return _25; }
     const sead::SafeString& getName() const { return mName; }
+    ItemUse getItemUse() const { return mItemUse; }
 
     bool isWeapon() const { return getType() <= PouchItemType::Shield; }
 
@@ -149,10 +190,17 @@ public:
 
     const sead::SafeString& getIngredient(s32 idx) const { return *mIngredients[idx]; }
     void setIngredient(s32 idx, const sead::SafeString& value) const { *mIngredients[idx] = value; }
+    void sortIngredients();
 
     // Only valid if this is a weapon.
     WeaponData& getWeaponData() { return mData.weapon; }
     const WeaponData& getWeaponData() const { return mData.weapon; }
+
+    sead::TypedBitFlag<act::WeaponModifier> getWeaponAddFlags() const {
+        if (!isWeapon())
+            return {};
+        return sead::TypedBitFlag<act::WeaponModifier>{mData.weapon.mAddType};
+    }
 
     u32 getWeaponAddValue() const {
         if (!isWeapon())
@@ -184,7 +232,7 @@ private:
 
     sead::ListNode mListNode;
     PouchItemType mType = PouchItemType::Invalid;
-    s32 _1c = -1;
+    ItemUse mItemUse = ItemUse::Invalid;
     s32 mValue = 0;
     bool mEquipped = false;
     u8 _25 = 1;
@@ -213,13 +261,34 @@ public:
     bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
 
     void itemGet(const sead::SafeString& name, int value, const act::WeaponModifierInfo* modifier);
+    void cookItemGet(const ksys::CookItem& cook_item);
+
+    void setCookDataOnLastAddedItem(const ksys::CookItem& cook_item);
+
+    void autoEquipLastAddedItem();
+    const sead::SafeString& autoEquip(PouchItem* item, const sead::OffsetList<PouchItem>& list);
+    /// Unequip all inventory items with the specified type.
+    /// If type is PouchItemType::Invalid, all inventory items will be unequipped.
+    void unequipAll(PouchItemType type = PouchItemType::Invalid);
+
+    void removeItem(const sead::SafeString& name);
+    void removeWeaponIfEquipped(const sead::SafeString& name);
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
-    int getItemCount(const sead::SafeString& name, bool x = true) const;
-    void setWeaponItemValue(s32 value, PouchItemType type);
+
+    int getItemCount(const sead::SafeString& name, bool count_equipped = true) const;
+
+    // TODO: requires CreatePlayerEquipActorMgr
+    void createPlayerEquipment();
+    void setEquippedWeaponItemValue(s32 value, PouchItemType type);
     const sead::SafeString& getDefaultEquipment(EquipmentSlot idx) const;
+
     bool hasItem(const sead::SafeString& name) const;
     PouchItem* getMasterSword() const;
 
+    void removeGrabbedItems();
+    bool addGrabbedItem(ksys::act::BaseProcLink* link);
+
+    bool getEquippedArrowType(sead::BufferedSafeString* name, int* count) const;
     int getArrowCount(const sead::SafeString& name) const;
     /// Get the number of arrows in the real inventory (ignoring any temporary inventory data).
     /// This was added in 1.3.1 to patch the Trial of the Sword arrow restock glitch.
@@ -228,25 +297,80 @@ public:
     void breakMasterSword();
     void restoreMasterSword(bool only_if_broken);
 
+    bool checkAddOrRemoveItem(const sead::SafeString& name, int count,
+                              bool include_equipped_items) const;
+    int getFreeSlotCount() const;
+
+    int calculateEnemyMaterialMamo() const;
+    void removeAllEnemyMaterials();
+
+    int countItemsWithProfile(const sead::SafeString& profile, bool count_stacked_items) const;
+    int countItemsWithTag(u32 tag, bool count_stacked_items) const;
+    int countCookResults(const sead::SafeString& name = {}, s32 effect_type = 0x11,
+                         bool check_effect_type = false) const;
+    int countItemsWithCategory(PouchCategory category) const;
+    PouchCategory getCategoryForType(PouchItemType type) const;
+
+    void removeCookResult(const sead::SafeString& name = {}, s32 effect_type = 0x11,
+                          bool check_effect = false);
+
+    bool switchEquipment(const sead::SafeString& name, int* value = nullptr,
+                         act::WeaponModifierInfo* modifier = nullptr);
+
+    void initPouchForQuest();
+    void restorePouchForQuest();
+
+    void sortItems(PouchCategory category, bool do_not_save = false);
+
+    const sead::SafeString* getEquippedItemName(PouchItemType type) const;
+    const PouchItem* getEquippedItem(PouchItemType type) const;
+    int getItemValue(const sead::SafeString& name) const;
+
+    bool getFromShop(const sead::SafeString& name, int value,
+                     const act::WeaponModifierInfo* modifier = nullptr);
+
+    int countArmorDye() const;
+    int countAlreadyDyedArmor() const;
+
+    int getNextGrabbedItemIndex() const;
+    bool canGrabAnotherItem() const;
+    bool isNothingBeingGrabbed() const;
+
     bool isHeroSoulEnabled(const sead::SafeString& name) const;
     bool hasRitoSoulPlus() const;
     bool hasGoronSoulPlus() const;
     bool hasGerudoSoulPlus() const;
     bool hasZoraSoulPlus() const;
 
+    int countItemsWithCategoryByType(PouchCategory category) const;
+    const PouchItem* getItemByIndex(PouchCategory category, int index) const;
+
+    bool hasItemDye() const;
+    bool hasItemDye(int color) const;
+
+    const PouchItem* getLastAddedItem() const;
+
+    void updateEquippedItemArray();
+    void resetEquippedItemArray();
+
     bool isOverCategoryLimit(PouchItemType type) const;
+
+    int countArmors(const sead::SafeString& lowest_rank_armor_name) const;
+
     void openItemCategoryIfNeeded() const;
 
-    auto get44800() const { return _44800; }
+    void initInventoryForOpenWorldDemo();
+
+    PouchCategory getCategoryToSort() const { return mCategoryToSort; }
 
 private:
     // TODO: rename
-    struct ItemInfo {
+    struct GrabbedItemInfo {
         PouchItem* item{};
-        u8 _8{};
-        u8 _9{};
+        bool _8{};
+        bool _9{};
     };
-    KSYS_CHECK_SIZE_NX150(ItemInfo, 0x10);
+    KSYS_CHECK_SIZE_NX150(GrabbedItemInfo, 0x10);
 
     struct Lists {
         Lists() {
@@ -256,6 +380,13 @@ private:
                 new (&item) PouchItem();
                 list2.pushFront(&item);
             }
+        }
+
+        void destroyAndRecycleItem(PouchItem* item) {
+            list1.erase(item);
+            item->~PouchItem();
+            new (item) PouchItem;
+            list2.pushFront(item);
         }
 
         sead::OffsetList<PouchItem> list1;
@@ -278,7 +409,32 @@ private:
     PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
     bool isList2Empty() const { return mItemLists.list2.isEmpty(); }
 
+    const PouchItem* getItemByIndex(PouchItemType type, int index) const;
+
+    void destroyAndRecycleItem(PouchItem* item) {
+        item->~PouchItem();
+        new (item) PouchItem;
+        mItemLists.list2.pushFront(item);
+    }
+
+    void destroyAndRecycleItem(Lists& lists, PouchItem* item) {
+        if (mItem_444f0 == item)
+            mItem_444f0 = nullptr;
+        if (mLastAddedItem == item)
+            mLastAddedItem = nullptr;
+
+        lists.destroyAndRecycleItem(item);
+    }
+
     void resetItem();
+
+    void resetItemAndPointers() {
+        mLastAddedItem = nullptr;
+        mItem_444f0 = nullptr;
+        _444f8 = -1;
+        resetItem();
+    }
+
     void setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier);
 
     void doLoadFromGameData();
@@ -296,6 +452,12 @@ private:
                       bool equipped, const act::WeaponModifierInfo* modifier = nullptr,
                       bool is_inventory_load = false);
 
+    void deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem* item,
+                     const sead::SafeString& name);
+
+    void addNonDefaultItem(const sead::SafeString& name, int value,
+                           const act::WeaponModifierInfo* modifier = nullptr);
+
     bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 
     /// @param num_cleared_beasts The number of divine beasts that have been done.
@@ -306,11 +468,11 @@ private:
     sead::SafeArray<PouchItem**, NumPouchCategories> mListHeads;
     sead::SafeArray<PouchItem*, NumPouch50> mArray1;
     sead::SafeArray<PouchItemType, NumPouch50> mArray2;
-    PouchItem* mItem_44488{};
+    PouchItem* mLastAddedItem{};
     s32 _44490 = -1;
     s32 _44494 = -1;
     s32 _44498{};
-    sead::SafeArray<ItemInfo, 5> mArray3;
+    sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
     PouchItem* mItem_444f0{};
     s32 _444f8 = -1;
     s32 _444fc{};
@@ -330,22 +492,21 @@ private:
     /// Indicates if a temporary inventory ("pouch for quest") is being used.
     bool mIsPouchForQuest = false;
 
-    u64 _447e0;
-    u64 _447e8;
-    u64 _447f0;
-    u64 _447f8;
-    PouchCategory _44800 = PouchCategory::Invalid;
+    sead::SafeArray<PouchItem*, 4> mEquippedWeapons;
+    PouchCategory mCategoryToSort = PouchCategory::Invalid;
 };
 KSYS_CHECK_SIZE_NX150(PauseMenuDataMgr, 0x44808);
 
-int sortWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortBow(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
-int sortKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareBow(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
+int compareKeyItem(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data);
 
 int getCookItemOrder(const PouchItem* item, ksys::act::InfoData* data);
+
+ItemUse getItemUse(const sead::SafeString& name);
 
 }  // namespace uking::ui

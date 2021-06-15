@@ -40,21 +40,7 @@ constexpr bool paramKindHasValue(AIDefInstParamKind kind) {
 
 constexpr s32 NumAIDefInstParamKinds = 4;
 
-enum class AIDefParamType {
-    String = 0,
-    Int = 1,
-    Float = 2,
-    Vec3 = 3,
-    Bool = 4,
-    Tree = 5,
-    AITreeVariablePointer = 6,
-    UInt = 7,
-    BaseProcLink = 8,
-    MesTransceiverId = 9,
-    BaseProcHandle = 10,
-    Rail = 11,
-    Other = 12,
-};
+enum class AIDefParamType;
 
 enum class CalcTiming {
     AIAfter = 0,

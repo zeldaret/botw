@@ -57,8 +57,8 @@ class FileDevicePrefix {
 public:
     FileDevicePrefix() = default;
 
-    sead::FileDevice* getFileDevice() const { return mFileDevice; }
-    void setFileDevice(sead::FileDevice* device) { mFileDevice = device; }
+    void* getUserData() const { return mUserData; }
+    void setUserData(void* userdata) { mUserData = userdata; }
 
     const sead::SafeString& getPrefix() const { return mPrefix; }
     void setPrefix(const sead::SafeString& prefix) { mPrefix = prefix; }
@@ -66,11 +66,15 @@ public:
     bool getField28() const { return _28; }
     void setField28(bool value) { _28 = value; }
 
+    void registerPrefix(const sead::SafeString& prefix, void* userdata, bool set28);
+    void registerPrefix(const char* prefix, void* userdata, bool set28);
+    void deregister();
+
     static constexpr size_t getListNodeOffset() { return offsetof(FileDevicePrefix, mListNode); }
 
 private:
     sead::ListNode mListNode;
-    sead::FileDevice* mFileDevice = nullptr;
+    void* mUserData = nullptr;
     sead::SafeString mPrefix;
     bool _28 = false;
 };
@@ -118,6 +122,9 @@ public:
     void requestDefragAllMemoryMgr();
     bool isDefragDone() const;
     f32 getDefragProgress() const;
+
+    void registerFactory(sead::ResourceFactory* factory, const sead::SafeString& name);
+    void unregisterFactory(sead::ResourceFactory* factory);
 
     s32 getCacheIdx(const sead::SafeString& path) const;
 
@@ -171,7 +178,7 @@ public:
 
     void unloadSeadResource(sead::Resource* resource);
 
-    u32 getResourceSize(const sead::SafeString& name, sead::FileDevice* file_device) const;
+    u32 getResourceSize(const sead::SafeString& name, void* userdata) const;
 
     void registerFileDevicePrefix(FileDevicePrefix& prefix);
     void deregisterFileDevicePrefix(FileDevicePrefix& prefix);
@@ -403,5 +410,23 @@ private:
 KSYS_CHECK_SIZE_NX150(sead::TaskBase, 0xd0);
 KSYS_CHECK_SIZE_NX150(sead::MethodTreeNode, 0x98);
 KSYS_CHECK_SIZE_NX150(ResourceMgrTask, 0x9c0eb8);
+
+inline void FileDevicePrefix::registerPrefix(const sead::SafeString& prefix, void* userdata,
+                                             bool set28) {
+    setUserData(userdata);
+    setPrefix(prefix);
+    if (set28)
+        setField28(true);
+    ResourceMgrTask::instance()->registerFileDevicePrefix(*this);
+}
+
+inline void FileDevicePrefix::registerPrefix(const char* prefix, void* userdata, bool set28) {
+    registerPrefix(sead::SafeString(prefix), userdata, set28);
+}
+
+inline void FileDevicePrefix::deregister() {
+    if (mListNode.isLinked())
+        ResourceMgrTask::instance()->deregisterFileDevicePrefix(*this);
+}
 
 }  // namespace ksys::res

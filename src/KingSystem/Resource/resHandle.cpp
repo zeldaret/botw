@@ -65,17 +65,17 @@ Handle::~Handle() {
 }
 
 void Handle::requestUnload() {
-    if (!mFlags.isOn(Flag::_2))
+    if (!mFlags.isOn(Flag::LoadRequested))
         return;
 
-    mFlags.reset(Flag::_7);
-    mFlags.set(Flag::_4);
+    mFlags.reset(Flag::LoadUnloadFlags);
+    mFlags.set(Flag::UnloadRequested);
 
     if (mTaskHandle.hasTask()) {
         mTaskHandle.removeTaskFromQueue();
         if (!mUnit) {
             stubbedLogFunction();
-            mStatus = Status::_14;
+            mStatus = Status::Cancelled;
             return;
         }
     }
@@ -94,7 +94,7 @@ sead::DirectResource* Handle::getResource() const {
 }
 
 bool Handle::isSuccess() const {
-    if (mFlags.isOff(Flag::_2))
+    if (mFlags.isOff(Flag::LoadRequested))
         return false;
 
     if (isBusy())
@@ -119,7 +119,7 @@ void Handle::setStatusForResourceMgr_(const Status& status) {
 }
 
 inline bool Handle::checkPathChange_(const sead::SafeString& path) {
-    if (!mFlags.isOn(Flag::_2))
+    if (!mFlags.isOn(Flag::LoadRequested))
         return true;
 
     stubbedLogFunction();
@@ -132,9 +132,9 @@ inline bool Handle::checkPathChange_(const sead::SafeString& path) {
 sead::DirectResource* Handle::load(const sead::SafeString& path, const ILoadRequest* request,
                                    Handle::Status* out_status) {
     if (checkPathChange_(path)) {
-        mFlags.reset(Flag::_F);
-        mFlags.set(Flag::_2);
-        mStatus = Status::_0;
+        mFlags.reset(Flag::AllStatusFlags);
+        mFlags.set(Flag::LoadRequested);
+        mStatus = Status::NoFile;
         if (request) {
             ResourceMgrTask::instance()->requestLoadForSync(this, path, *request);
         } else {
@@ -151,16 +151,16 @@ sead::DirectResource* Handle::load(const sead::SafeString& path, const ILoadRequ
     return getResource();
 }
 
-bool Handle::isFlag2Set() const {
-    return mFlags.isOn(Flag::_2);
+bool Handle::requestedLoad() const {
+    return mFlags.isOn(Flag::LoadRequested);
 }
 
 bool Handle::requestLoad(const sead::SafeString& path, const ILoadRequest* request,
                          Handle::Status* out_status) {
     if (checkPathChange_(path)) {
-        mFlags.reset(Flag::_F);
-        mFlags.set(Flag::_2);
-        mStatus = Status::_0;
+        mFlags.reset(Flag::AllStatusFlags);
+        mFlags.set(Flag::LoadRequested);
+        mStatus = Status::NoFile;
 
         Handle::Status ret;
         if (request) {
@@ -203,33 +203,34 @@ bool Handle::waitForReady(const sead::TickSpan& span) {
 }
 
 bool Handle::parseResource(Context* context) {
-    if (mFlags.isOn(Flag::_8))
+    if (mFlags.isOn(Flag::Parsed))
         return true;
 
-    if (mFlags.isOn(Flag::_4))
+    if (mFlags.isOn(Flag::UnloadRequested))
         return false;
 
     if (mTaskHandle.getStatus() == util::ManagedTaskHandle::Status::TaskRemoved ||
         (mUnit && mUnit->isTask1NotQueued())) {
         stubbedLogFunction();
-        mStatus = Status::_14;
+        mStatus = Status::Cancelled;
         updateResourceMgrFlag_();
         requestUnload();
-        mFlags.set(Flag::_8);
+        mFlags.set(Flag::Parsed);
         return true;
     }
 
-    if (mStatus == Status::_1 || mStatus == Status::_2 || mStatus == Status::_3 ||
-        mStatus == Status::_8 || mStatus == Status::_9 || mStatus == Status::_10 ||
-        mStatus == Status::_11 || mStatus == Status::_12 || mStatus == Status::_13 ||
-        mStatus == Status::_14) {
+    if (mStatus == Status::_1 || mStatus == Status::SizeZero || mStatus == Status::_3 ||
+        mStatus == Status::_8 || mStatus == Status::ParseFailed ||
+        mStatus == Status::BadAllocSize || mStatus == Status::Edited ||
+        mStatus == Status::BadHeapSize || mStatus == Status::FileDeviceError ||
+        mStatus == Status::Cancelled) {
         updateResourceMgrFlag_();
         requestUnload();
-        mFlags.set(Flag::_8);
+        mFlags.set(Flag::Parsed);
         return true;
     }
 
-    if (mStatus == Status::_0)
+    if (mStatus == Status::NoFile)
         return false;
 
     if (!mUnit) {
@@ -252,10 +253,10 @@ bool Handle::parseResource(Context* context) {
         break;
     case ResourceUnit::Status::_12:
     case ResourceUnit::Status::_15:
-        mStatus = Status::_9;
+        mStatus = Status::ParseFailed;
         updateResourceMgrFlag_();
         requestUnload();
-        mFlags.set(Flag::_8);
+        mFlags.set(Flag::Parsed);
         return true;
     case ResourceUnit::Status::_14:
         if (mStatus == Status::_7)
@@ -266,12 +267,12 @@ bool Handle::parseResource(Context* context) {
         break;
     }
 
-    mFlags.set(Flag::_8);
+    mFlags.set(Flag::Parsed);
     return true;
 }
 
-bool Handle::isFlag8Set() const {
-    return mFlags.isOn(Flag::_8);
+bool Handle::hasParsedResource() const {
+    return mFlags.isOn(Flag::Parsed);
 }
 
 // NON_MATCHING: switch
@@ -329,17 +330,17 @@ void Handle::updateStatusAndUnload_() {
             if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::FailedMaybe))
                 return Status::_1;
             if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::FileSizeIsZero))
-                return Status::_2;
+                return Status::SizeZero;
             if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::_400))
-                return Status::_9;
+                return Status::ParseFailed;
             if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::FileSizeExceedsAllocSize))
-                return Status::_10;
-            if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::_1000))
-                return Status::_11;
+                return Status::BadAllocSize;
+            if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::Edited))
+                return Status::Edited;
             if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::FileOrResInstanceTooLargeForHeap))
-                return Status::_12;
+                return Status::BadHeapSize;
             if (unit->mStatusFlags.isOn(ResourceUnit::StatusFlag::LoadFailed))
-                return Status::_13;
+                return Status::FileDeviceError;
 
 #ifdef MATCHING_HACK_NX_CLANG
             asm("");
@@ -356,17 +357,17 @@ void Handle::requestUnload2() {
 }
 
 void Handle::unload() {
-    if (!mFlags.isOn(Flag::_2))
+    if (!mFlags.isOn(Flag::LoadRequested))
         return;
 
-    mFlags.reset(Flag::_7);
-    mFlags.set(Flag::_4);
+    mFlags.reset(Flag::LoadUnloadFlags);
+    mFlags.set(Flag::UnloadRequested);
 
     if (mTaskHandle.hasTask()) {
         mTaskHandle.removeTaskFromQueue();
         if (!mUnit) {
             stubbedLogFunction();
-            mStatus = Status::_14;
+            mStatus = Status::Cancelled;
             return;
         }
     }
@@ -376,17 +377,17 @@ void Handle::unload() {
 }
 
 void Handle::unloadAndResetUnitFlag20000() {
-    if (!mFlags.isOn(Flag::_2))
+    if (!mFlags.isOn(Flag::LoadRequested))
         return;
 
-    mFlags.reset(Flag::_7);
-    mFlags.set(Flag::_4);
+    mFlags.reset(Flag::LoadUnloadFlags);
+    mFlags.set(Flag::UnloadRequested);
 
     if (mTaskHandle.hasTask()) {
         mTaskHandle.removeTaskFromQueue();
         if (!mUnit) {
             stubbedLogFunction();
-            mStatus = Status::_14;
+            mStatus = Status::Cancelled;
             return;
         }
     }
@@ -401,7 +402,7 @@ void Handle::unloadAndResetUnitFlag20000() {
 }
 
 void Handle::resetUnitFlag20000IfSuccess() {
-    if (mFlags.isOff(Flag::_2))
+    if (mFlags.isOff(Flag::LoadRequested))
         return;
 
     ResourceUnit* unit = mUnit;
@@ -420,14 +421,14 @@ bool Handle::isBusy() const {
     if (mTaskHandle.isTaskAttached())
         return true;
 
-    if (mFlags.isOn(Flag::_2) && mUnit)
+    if (mFlags.isOn(Flag::LoadRequested) && mUnit)
         return mUnit->isTask1ActiveOrStatus7();
 
     return false;
 }
 
 bool Handle::isReadyOrNeedsParse() const {
-    if ((mFlags.getDirect() & 0xA) != u32(Flag::_2) || isBusy())
+    if ((mFlags.getDirect() & 0xA) != u32(Flag::LoadRequested) || isBusy())
         return false;
 
     if (isReady())
@@ -448,13 +449,14 @@ bool Handle::checkLoadStatus() const {
         return false;
 
     bool ok = false;
-    if (mFlags.isOn(Flag::_2) && mUnit)
+    if (mFlags.isOn(Flag::LoadRequested) && mUnit)
         ok = mUnit->isStatus9_12_15();
 
-    ok |= mStatus == Status::_1 || mStatus == Status::_2 || mStatus == Status::_3 ||
-          mStatus == Status::_8 || mStatus == Status::_9 || mStatus == Status::_10 ||
-          mStatus == Status::_11 || mStatus == Status::_12 || mStatus == Status::_13 ||
-          mStatus == Status::_14;
+    ok |= mStatus == Status::_1 || mStatus == Status::SizeZero || mStatus == Status::_3 ||
+          mStatus == Status::_8 || mStatus == Status::ParseFailed ||
+          mStatus == Status::BadAllocSize || mStatus == Status::Edited ||
+          mStatus == Status::BadHeapSize || mStatus == Status::FileDeviceError ||
+          mStatus == Status::Cancelled;
 
     return ok;
 }
@@ -476,7 +478,7 @@ void Handle::waitForResourceAndParse_(Context* context) {
         return;
     }
 
-    mStatus = Status::_9;
+    mStatus = Status::ParseFailed;
     updateResourceMgrFlag_();
     requestUnload();
 }

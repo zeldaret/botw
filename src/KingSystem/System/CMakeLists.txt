@@ -1,7 +1,19 @@
 target_sources(uking PRIVATE
   Account.cpp
   Account.h
+  BasicProfiler.cpp
+  BasicProfiler.h
+  CameraEditor.cpp
+  CameraEditor.h
+  CameraMgr.cpp
+  CameraMgr.h
+  DebugMessage.h
+  HavokWorkerMgr.cpp
+  HavokWorkerMgr.h
+  KingEditor.cpp
   KingEditor.h
+  OcclusionQueryCylinder.cpp
+  OcclusionQueryCylinder.h
   OverlayArena.cpp
   OverlayArena.h
   OverlayArenaSystem.cpp
@@ -16,9 +28,19 @@ target_sources(uking PRIVATE
   Quest.h
   QuestMgr.cpp
   QuestMgr.h
+  Revision.cpp
+  Revision.h
+  StageInfo.cpp
+  StageInfo.h
   StringBoard.h
   SystemPauseMgr.cpp
   SystemPauseMgr.h
   Timer.cpp
   Timer.h
+  UIGlue.cpp
+  UIGlue.h
+  VFR.cpp
+  VFR.h
+  VFRValue.cpp
+  VFRValue.h
 )

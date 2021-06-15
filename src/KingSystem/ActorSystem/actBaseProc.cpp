@@ -1,4 +1,7 @@
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include <thread/seadThread.h>
+#include <time/seadTickSpan.h>
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -24,7 +27,7 @@ BaseProc::~BaseProc() {
     unlinkCalcChild_();
     unlinkCalcParent_();
 
-    if (mDeleteListNode.isLinked())
+    if (mUpdateStateListNode.isLinked())
         BaseProcMgr::instance()->eraseFromUpdateStateList(*this);
 }
 
@@ -47,6 +50,50 @@ bool BaseProc::init(sead::Heap* heap, bool sleep_after_init) {
     return context.result == InitResult::Ok && mStateFlags.isOff(StateFlags::RequestDelete);
 }
 
+void BaseProc::sleep(BaseProc::SleepWakeReason reason) {
+    if (isDeletedOrDeleting())
+        return;
+
+    const auto lock = sead::makeScopedLock(BaseProcMgr::instance()->getProcUpdateStateListCS());
+
+    const bool reason_changed = mFlags.getStorage().setBitOn(int(reason) + 10);
+    const auto state = mState;
+
+    bool requested = mStateFlags.reset(StateFlags::RequestWakeUp);
+    if (state != State::Sleep)
+        requested = BaseProcMgr::instance()->setProcFlag(*this, StateFlags::RequestSleep);
+
+    if (reason_changed || requested)
+        onSleepRequested_(reason);
+}
+
+void BaseProc::wakeUp(BaseProc::SleepWakeReason reason) {
+    if (isDeletedOrDeleting())
+        return;
+
+    const auto lock = sead::makeScopedLock(BaseProcMgr::instance()->getProcUpdateStateListCS());
+
+    const bool reason_changed = mFlags.getStorage().setBitOff(int(reason) + 10);
+    if (mFlags.isOn(Flags::SleepWakeReasonAny)) {
+        if (reason_changed)
+            onWakeUpRequested_(reason);
+    } else if (isInit() || isSleep()) {
+        mStateFlags.reset(StateFlags::RequestSleep);
+        bool requested = BaseProcMgr::instance()->setProcFlag(*this, StateFlags::RequestWakeUp);
+        if (reason_changed || requested)
+            onWakeUpRequested_(reason);
+    } else {
+        bool cancelled_sleep = mStateFlags.reset(StateFlags::RequestSleep);
+        if (reason_changed || cancelled_sleep)
+            onWakeUpRequested_(reason);
+    }
+
+    if (mProcUnit && !mProcUnit->isParentHandleDefault()) {
+        sead::FixedSafeString<0x100> message;
+        message.format("BaseProcUnit:%p BaseProc(%s:%p)", mProcUnit, mName.cstr(), this);
+    }
+}
+
 bool BaseProc::deleteLater(DeleteReason reason) {
     if (isDeletedOrDeleting())
         return false;
@@ -66,7 +113,7 @@ bool BaseProc::deleteLater(DeleteReason reason) {
         }
     }
 
-    if (!BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestDelete))
+    if (BaseProcMgr::instance()->setProcFlag(*this, StateFlags::RequestDelete))
         onDeleteRequested_(reason);
 
     if (!is_high_prio)
@@ -110,7 +157,7 @@ BaseProc::PreDeletePrepareResult BaseProc::prepareForPreDelete_() {
 
 // NON_MATCHING: branching
 bool BaseProc::startPreparingForPreDelete_() {
-    if (mDeleteListNode.isLinked())
+    if (mUpdateStateListNode.isLinked())
         return false;
 
     return !mBaseProcLinkData || mBaseProcLinkData->refCount() <= 0 ||
@@ -142,7 +189,7 @@ void BaseProc::onEnterDelete_() {}
 
 void BaseProc::onEnterSleep_() {}
 
-void BaseProc::preDelete3_(bool*) {}
+void BaseProc::preDelete3_(const PreDeleteArg& arg) {}
 
 bool BaseProc::prepareInit_(sead::Heap*, BaseProc::PrepareArg&) {
     return true;
@@ -150,7 +197,7 @@ bool BaseProc::prepareInit_(sead::Heap*, BaseProc::PrepareArg&) {
 
 void BaseProc::onPreDeleteStart_(PrepareArg&) {}
 
-void BaseProc::preDelete2_(bool*) {}
+void BaseProc::preDelete2_(const PreDeleteArg& arg) {}
 
 void BaseProc::preDelete1_() {}
 
@@ -161,17 +208,84 @@ BaseProc::IsSpecialJobTypeResult BaseProc::isSpecialJobType_(JobType type) {
     return IsSpecialJobTypeResult::No;
 }
 
+bool BaseProc::isSpecialJobType(JobType type) {
+    if (isSpecialJobType_(type) != IsSpecialJobTypeResult::No)
+        return true;
+
+    const auto check = [&](auto self, BaseProc* proc) {
+        if (!proc)
+            return false;
+        const auto result = proc->isSpecialJobType_(type);
+        if (result == IsSpecialJobTypeResult::Yes)
+            return true;
+        if (result == IsSpecialJobTypeResult::_2)
+            return false;
+        return self(self, proc->mConnectedCalcParent);
+    };
+    return check(check, mConnectedCalcParent);
+}
+
 bool BaseProc::canWakeUp_() {
     return true;
 }
 
-void BaseProc::queueExtraJobPush_(JobType type) {
+void BaseProc::queueExtraJobPush_(JobType type, int idx) {
     if (!isDeletedOrDeleting())
-        BaseProcMgr::instance()->queueExtraJobPush(&mJobHandlers[int(type)]->getLink());
+        BaseProcMgr::instance()->queueExtraJobPush(&getJobHandler(type)->getLink());
+}
+
+bool BaseProc::shouldSkipJobPush(JobType type) {
+    bool skip = mSkippedJobTypesMask.isOnBit(int(type)) || shouldSkipJobPush_(type);
+
+    BaseProc* proc = this;
+    while ((proc = proc->mConnectedCalcParent)) {
+        if (proc->getState() == State::Delete)
+            break;
+        skip = proc->mSkippedJobTypesMask.isOnBit(int(type)) || proc->shouldSkipJobPush_(type);
+    }
+    return skip;
+}
+
+inline void BaseProc::setJobPriorityDuringCalc_(BaseProcJobHandler*& handler, JobType type) {
+    BaseProcMgr* mgr = BaseProcMgr::instance();
+    if (mgr->isPushingJobs() || mgr->getJobType() == type) {
+        mgr->setProcFlag(*this, StateFlags::RequestChangeCalcJobPriority);
+    } else {
+        BaseProcMgr::instance()->eraseJob(*this, type);
+        handler->getLink().loadNewPriority();
+        handler->getLink().loadNewPriority2();
+        BaseProcMgr::instance()->pushJob(*this, type);
+    }
+}
+
+void BaseProc::setJobPriority(u8 actorparam_priority, JobType type) {
+    if (isDeletedOrDeleting())
+        return;
+
+    auto& handler = getJobHandler(type);
+    handler->getLink().setNewPriority(actorparam_priority);
+    if (isCalc()) {
+        setJobPriorityDuringCalc_(handler, type);
+    } else {
+        handler->getLink().loadNewPriority();
+    }
+}
+
+void BaseProc::setJobPriority2(u8 actorparam_priority, JobType type) {
+    if (isDeletedOrDeleting())
+        return;
+
+    auto& handler = getJobHandler(type);
+    handler->getLink().setNewPriority2(actorparam_priority);
+    if (isCalc()) {
+        setJobPriorityDuringCalc_(handler, type);
+    } else {
+        handler->getLink().loadNewPriority2();
+    }
 }
 
 bool BaseProc::hasJobType_(JobType type) {
-    return mJobHandlers[int(type)] != nullptr;
+    return getJobHandler(type) != nullptr;
 }
 
 void BaseProc::afterUpdateState_() {
@@ -186,6 +300,51 @@ bool BaseProc::shouldSkipJobPush_(JobType) {
 void BaseProc::onJobPush1_(JobType) {}
 
 void BaseProc::onJobPush2_(JobType) {}
+
+void BaseProc::jobInvoked(JobType type) {
+    for (auto* proc = mConnectedCalcParent; proc; proc = proc->mConnectedCalcParent) {
+        if (proc->hasJobType_(type))
+            return;
+    }
+
+    IsSpecialJobTypeResult special;
+
+    if (mStateFlags.isOn(StateFlags::RequestDelete)) {
+        if (type == JobType::Calc4)
+            getJobHandler(JobType::Calc4)->invoke();
+        special = IsSpecialJobTypeResult::Yes;
+    } else {
+        special = isSpecialJobType_(type);
+        auto* handler = getJobHandler(type);
+        if (special != IsSpecialJobTypeResult::No)
+            handler->invokeSpecial();
+        else
+            handler->invoke();
+    }
+
+    for (auto* child = mConnectedCalcChild; child; child = child->mConnectedCalcChild) {
+        if (!child->hasJobType_(type) || !child->isCalc())
+            continue;
+
+        const auto child_special = child->isSpecialJobType_(type);
+        if (child->mStateFlags.isOn(StateFlags::RequestDelete)) {
+            if (type == JobType::Calc4)
+                child->getJobHandler(JobType::Calc4)->invoke();
+            special = IsSpecialJobTypeResult::Yes;
+        } else {
+            auto* handler = child->getJobHandler(type);
+            if (special == IsSpecialJobTypeResult::Yes ||
+                child_special != IsSpecialJobTypeResult::No) {
+                handler->invokeSpecial();
+                special = child_special != IsSpecialJobTypeResult::No ? child_special :
+                                                                        IsSpecialJobTypeResult::Yes;
+            } else {
+                handler->invoke();
+                special = IsSpecialJobTypeResult::No;
+            }
+        }
+    }
+}
 
 // NON_MATCHING: branching
 bool BaseProc::processStateUpdate(u8 counter) {
@@ -312,12 +471,16 @@ void BaseProc::processPreDelete() {
     }
 }
 
-void BaseProc::doPreDelete(bool* do_not_destruct_immediately) {
-    preDelete1_();
-    preDelete2_(do_not_destruct_immediately);
-    preDelete3_(do_not_destruct_immediately);
+void BaseProc::freeLinkData() {
+    BaseProcLinkDataMgr::instance()->releaseLink(this);
+}
 
-    if (*do_not_destruct_immediately)
+void BaseProc::doPreDelete(const PreDeleteArg& arg) {
+    preDelete1_();
+    preDelete2_(arg);
+    preDelete3_(arg);
+
+    if (arg.do_not_destruct_immediately)
         return;
 
     mFlags.set(Flags::Destructed);
@@ -425,9 +588,79 @@ bool BaseProc::x00000071011ba9fc() {
     return true;
 }
 
+bool BaseProc::setStateFlag(u32 flag_bit) {
+    return BaseProcMgr::instance()->setProcFlag(*this, flag_bit);
+}
+
+bool BaseProc::acquire(ActorLinkConstDataAccess& accessor) {
+    if (mState == State::Delete)
+        return false;
+
+    if (!BaseProcMgr::instance()->isHighPriorityThread()) {
+        int ref_count = std::max(0, mRefCount.load());
+        int current_ref_count;
+        while (!mRefCount.compareExchange(ref_count, ref_count + 1, &current_ref_count)) {
+            if (current_ref_count == -1)
+                return false;
+
+            sead::TickSpan span;
+            span.setNanoSeconds(1);
+            sead::Thread::sleep(span);
+            ref_count = current_ref_count;
+        }
+        accessor.mAcquired = true;
+    }
+
+    accessor.mProc = this;
+    return true;
+}
+
 void BaseProc::release() {
     if (mRefCount >= 1)
         mRefCount--;
+}
+
+void BaseProc::startDelete_() {
+    BaseProcMgr::instance()->incrementPendingDeletions();
+
+    mState = State::Delete;
+
+    if (mConnectedCalcChildNew) {
+        if (mFlags.isOn(Flags::DeleteChildOnDelete))
+            mConnectedCalcChildNew->deleteLater(DeleteReason::_18);
+        mConnectedCalcChildNew = nullptr;
+    }
+
+    if (mConnectedCalcParentNew) {
+        if (mFlags.isOn(Flags::DeleteParentOnDelete))
+            mConnectedCalcParentNew->deleteLater(DeleteReason::_19);
+        mConnectedCalcParentNew = nullptr;
+    }
+
+    if (mConnectedCalcChild) {
+        if (mFlags.isOn(Flags::DeleteChildOnDelete))
+            mConnectedCalcChild->deleteLater(DeleteReason::_16);
+        if (mConnectedCalcChild) {
+            mConnectedCalcChild->mConnectedCalcParent = nullptr;
+            mConnectedCalcChild = nullptr;
+        }
+    }
+
+    if (mConnectedCalcParent) {
+        if (mFlags.isOn(Flags::DeleteParentOnDelete))
+            mConnectedCalcParent->deleteLater(DeleteReason::_17);
+        if (auto& child = mConnectedCalcParent->mConnectedCalcChild) {
+            child->mConnectedCalcParent = nullptr;
+            child = nullptr;
+        }
+    }
+
+    if (mProcUnit) {
+        mProcUnit->cleanUp(this, false);
+        mProcUnit = nullptr;
+    }
+
+    onEnterDelete_();
 }
 
 BaseProc* BaseProc::getConnectedCalcParent() const {
@@ -444,7 +677,7 @@ bool BaseProc::setConnectedCalcParent(BaseProc* parent, bool delete_parent_on_de
     if (isDeletedOrDeleting() || parent->isDeletedOrDeleting())
         return false;
 
-    if (BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestSetParent))
+    if (!BaseProcMgr::instance()->setProcFlag(*this, StateFlags::RequestSetParent))
         return false;
 
     mConnectedCalcParentNew = parent;
@@ -464,7 +697,7 @@ void BaseProc::resetConnectedCalcParent(bool clear_existing_set_request) {
     }
 
     if (mConnectedCalcParent)
-        BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestResetParent);
+        BaseProcMgr::instance()->setProcFlag(*this, StateFlags::RequestResetParent);
 }
 
 BaseProc* BaseProc::getConnectedCalcChild() const {
@@ -481,7 +714,7 @@ bool BaseProc::setConnectedCalcChild(BaseProc* child, bool delete_child_on_delet
     if (isDeletedOrDeleting() || child->isDeletedOrDeleting())
         return false;
 
-    if (BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestSetChild))
+    if (!BaseProcMgr::instance()->setProcFlag(*this, StateFlags::RequestSetChild))
         return false;
 
     mConnectedCalcChildNew = child;
@@ -501,7 +734,15 @@ void BaseProc::resetConnectedCalcChild(bool clear_existing_set_request) {
     }
 
     if (mConnectedCalcChild)
-        BaseProcMgr::instance()->addToUpdateStateList(*this, StateFlags::RequestResetChild);
+        BaseProcMgr::instance()->setProcFlag(*this, StateFlags::RequestResetChild);
+}
+
+void BaseProc::setCreatePriorityState1() {
+    mCreatePriorityState = 1;
+}
+
+void BaseProc::setCreatePriorityState2() {
+    mCreatePriorityState = 2;
 }
 
 }  // namespace ksys::act

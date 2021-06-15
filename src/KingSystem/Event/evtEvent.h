@@ -1,10 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 
 namespace ksys::evt {
 
+class OrderParam;
 // TODO
 class Event {
 public:

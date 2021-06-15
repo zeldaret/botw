@@ -2,10 +2,6 @@
 
 namespace ksys::res {
 
-Lod::Lod() : ParamIO("lod", 0) {}
-
-Lod::~Lod() = default;
-
 bool Lod::parse_(u8* data, size_t, sead::Heap*) {
     mDisableOutScreenCalcStop.init(false, "DisableOutScreenCalcStop", "", &mHeader);
     mDisableXLinkSkip.init(false, "DisableXLinkSkip", "", &mHeader);

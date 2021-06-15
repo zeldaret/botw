@@ -177,7 +177,7 @@ private:
         FileSizeIsZero = 0x200,
         _400 = 0x400,
         FileSizeExceedsAllocSize = 0x800,
-        _1000 = 0x1000,
+        Edited = 0x1000,
         FileOrResInstanceTooLargeForHeap = 0x2000,
         LoadFailed = 0x4000,
         NeedToIncrementRefCount = 0x8000,

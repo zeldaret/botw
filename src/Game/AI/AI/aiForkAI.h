@@ -12,9 +12,16 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    bool reenter(ActionBase* other, const sead::SafeString& context) override;
+    void calc() override;
     void leave_() override;
-
-protected:
+    bool isFailed() const override;
+    bool isFinished() const override;
+    bool isFlag4Set() const override;
+    bool handleMessage_(ksys::Message* message) override;
+    bool handleMessage2_(ksys::Message* message) override;
+    void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const override;
+    void getNames(sead::BufferedSafeString* out) const override;
 };
 
 }  // namespace uking::ai

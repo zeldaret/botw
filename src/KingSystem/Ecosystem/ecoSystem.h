@@ -94,6 +94,21 @@ private:
     virtual ~Ecosystem();
 
 public:
+    void init();
+    void calc();
+
+    s32 getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const;
+
+    s32 getFieldMapArea(f32 x, f32 z) const { return getMapArea(mFieldMapArea, x, z); }
+
+    void getActorSpawnInfo(s32 areaNum, ActorType actorTypeIdx, ActorSpawnInfo* out) const;
+    void getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx, StatusEffectInfo* out) const;
+    void getAreaNameByNum(s32 areaNum, const char** out) const;
+    void getClimateNameByNum(s32 areaNum, const char** out) const;
+    void getEnvSoundNameByNum(s32 areaNum, const char** out) const;
+    void getEcoTraitsByNum(s32 areaNum, EcosystemTraits* out) const;
+
+private:
     res::Handle mFieldMapAreaFile;
     res::Handle mAreaDataFile;
     res::Handle mMapTowerFile;
@@ -109,18 +124,6 @@ public:
     EcoMapInfo mLoadBalancer{};
     u32 mFlags{};
     u32 mLast;
-
-    void init();
-    void calc();
-
-    s32 getCurrentAreaNum(EcoMapInfo* info, f32 posX, f32 posZ) const;
-
-    void getActorSpawnInfo(s32 areaNum, ActorType actorTypeIdx, ActorSpawnInfo* out) const;
-    void getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx, StatusEffectInfo* out) const;
-    void getAreaNameByNum(s32 areaNum, const char** out) const;
-    void getClimateNameByNum(s32 areaNum, const char** out) const;
-    void getEnvSoundNameByNum(s32 areaNum, const char** out) const;
-    void getEcoTraitsByNum(s32 areaNum, EcosystemTraits* out) const;
 };
 
 }  // namespace ksys::eco

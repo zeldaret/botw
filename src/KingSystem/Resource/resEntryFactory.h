@@ -40,7 +40,7 @@ public:
     sead::DirectResource* newResource_(sead::Heap* heap_, s32 alignment) override {
         sead::Heap* heap = util::getHeapOrCurrentHeap(heap_);
         sead::ScopedCurrentHeapSetter setter{heap};
-        return new (heap, alignment, std::nothrow_t{}) T{};
+        return new (heap, alignment, std::nothrow_t{}) T;
     }
 
 protected:

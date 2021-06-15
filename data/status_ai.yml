@@ -1,0 +1,2522 @@
+ai::ActorWaterDepthSelect:
+  status: pending
+ai::AddBasicLinkOn:
+  status: pending
+ai::AddCarried:
+  status: pending
+ai::AddCarriedBase:
+  status: pending
+ai::AddDemoCall:
+  status: pending
+ai::AddNodeNodeCarried:
+  status: pending
+ai::AddNoiseToTargetPos:
+  status: pending
+ai::AddPlayerLargeAttackJustGuard:
+  status: pending
+ai::AddSwarmMove:
+  status: pending
+ai::AddViewTargetPos:
+  status: pending
+ai::AddViewTargetPosBase:
+  status: pending
+ai::AirOctaBoardBurn:
+  status: pending
+ai::AirOctaBurnReaction:
+  status: pending
+ai::AirOctaFlyUp:
+  status: pending
+ai::AirOctaReaction:
+  status: pending
+ai::AirOctaRoot:
+  status: pending
+ai::AirOctaState:
+  status: pending
+ai::AirOctaWait:
+  status: pending
+ai::AlertCreationNestOnTree:
+  status: pending
+ai::AmbushableWeaponShoot:
+  status: pending
+ai::AnchorRangeSelectTwoAction:
+  status: pending
+ai::AncientNecklaceBall:
+  status: pending
+ai::AncientNecklaceBallBase:
+  status: pending
+ai::AnimalAttackOtherTarget:
+  status: pending
+ai::AnimalBattleAggressive:
+  status: pending
+ai::AnimalBattleMoveLeave:
+  status: pending
+ai::AnimalEscapeAfterDamage:
+  status: pending
+ai::AnimalEscapeAI:
+  status: pending
+ai::AnimalFollowTarget:
+  status: pending
+ai::AnimalLineOfSightSelector:
+  status: pending
+ai::AnimalPreAttack:
+  status: pending
+ai::AnimalRangeKeepMove:
+  status: pending
+ai::AnimalRangeKeepMoveWithLOS:
+  status: pending
+ai::AnimalRoam:
+  status: pending
+ai::AnimalRoamBase:
+  status: pending
+ai::AnimalRoamCheckWater:
+  status: pending
+ai::AnimalRushAttack:
+  status: pending
+ai::AnimalTimelineAI:
+  status: pending
+ai::AppearFromTargetFrontAfterChase:
+  status: pending
+ai::AppearFromTargetFrontGround:
+  status: pending
+ai::AppearNearTarget:
+  status: pending
+ai::AppearNearTargetOutOfScrnGnd:
+  status: pending
+ai::ArmorSearchKorokRoot:
+  status: pending
+ai::AroundEnemyCheckSelect:
+  status: pending
+ai::Arrow:
+  status: pending
+ai::ArrowChargeAndShoot:
+  status: pending
+ai::ArrowDelete:
+  status: pending
+ai::ArrowStickAndPick:
+  status: pending
+ai::AssassinBattle:
+  status: pending
+ai::AssassinBattleMove:
+  status: pending
+ai::AssassinBattleRange:
+  status: pending
+ai::AssassinBossAttackSeq:
+  status: pending
+ai::AssassinBossBattle:
+  status: pending
+ai::AssassinBossEscapeFromTarget:
+  status: pending
+ai::AssassinBossFirstBattle:
+  status: pending
+ai::AssassinBossFirstBattleMove:
+  status: pending
+ai::AssassinBossFirstRangeKeepMove:
+  status: pending
+ai::AssassinBossFirstRoot:
+  status: pending
+ai::AssassinBossIronBallAttack:
+  status: pending
+ai::AssassinBossLastAttack:
+  status: pending
+ai::AssassinBossRoot:
+  status: pending
+ai::AssassinBossRootBase:
+  status: pending
+ai::AssassinCallSelect:
+  status: pending
+ai::AssassinFieldShooterBattle:
+  status: pending
+ai::AssassinFieldShooterBattleBase:
+  status: pending
+ai::AssassinMagicTgtSelect:
+  status: pending
+ai::AssassinMiddleAzitoDlcRoot:
+  status: pending
+ai::AssassinMiddleAzitoNoMemberDemo:
+  status: pending
+ai::AssassinMiddleAzitoRoot:
+  status: pending
+ai::AssassinMiddleAzitoRootAccept:
+  status: pending
+ai::AssassinMiddleDlcGrabAdapter:
+  status: pending
+ai::AssassinMiddleMagicAfter:
+  status: pending
+ai::AssassinMiddleRoot:
+  status: pending
+ai::AssassinNormal:
+  status: pending
+ai::AssassinRoot:
+  status: pending
+ai::AssassinShooterJuniorAzitoRoot:
+  status: pending
+ai::ASWeaponRoot:
+  status: pending
+ai::AttackGrave:
+  status: pending
+ai::AttackGraveChase:
+  status: pending
+ai::AttackGraveChaseWithSensor:
+  status: pending
+ai::AttackHitCheck:
+  status: pending
+ai::AwarenessScale:
+  status: pending
+ai::BackAttackEnemyBattle:
+  status: pending
+ai::BackStepAndAttack:
+  status: pending
+ai::BalloonPlantNormal:
+  status: pending
+ai::BarrelBomb:
+  status: pending
+ai::BasicStatusRoot:
+  status: pending
+ai::BattleBgmRequestFinishTag:
+  status: pending
+ai::BeamExplode:
+  status: pending
+ai::BeamExplodeBase:
+  status: pending
+ai::BeamExplodeEitherHit:
+  status: pending
+ai::BeamosCarried:
+  status: pending
+ai::BeeBattle:
+  status: pending
+ai::BeeSwarmFindPlayer:
+  status: pending
+ai::BeeSwarmNormal:
+  status: pending
+ai::BeeSwarmReaction:
+  status: pending
+ai::BeeSwarmRoot:
+  status: pending
+ai::BirdDead:
+  status: pending
+ai::BirdEscape:
+  status: pending
+ai::BlownOff:
+  status: pending
+ai::BocoblinBackStepAttack:
+  status: pending
+ai::BokoblinArrowAttack:
+  status: pending
+ai::BokoblinArrowBattle:
+  status: pending
+ai::BokoblinHoldArrow:
+  status: pending
+ai::BokoblinNoise:
+  status: pending
+ai::BokoblinRestraint:
+  status: pending
+ai::BokoblinRoam:
+  status: pending
+ai::BossBattleRoomRoot:
+  status: pending
+ai::BowEquiped:
+  status: pending
+ai::BowlPin:
+  status: pending
+ai::BowShoot:
+  status: pending
+ai::BoxWaterRoot:
+  status: pending
+ai::BreathAttackEnemyBattle:
+  status: pending
+ai::BreathEnemyRangeKeepMove:
+  status: pending
+ai::CalledEnemyMove:
+  status: pending
+ai::CameraAI:
+  status: pending
+ai::CameraBow:
+  status: pending
+ai::CameraEditRoot:
+  status: pending
+ai::CameraEvent:
+  status: pending
+ai::CameraEventReturnSavePoint:
+  status: pending
+ai::CameraEventTalk:
+  status: pending
+ai::CameraEventTalkAI:
+  status: pending
+ai::CameraEventTalkAIRet:
+  status: pending
+ai::CameraGameRoot:
+  status: pending
+ai::CameraRoot:
+  status: pending
+ai::CameraTool:
+  status: pending
+ai::CannonBallRoot:
+  status: pending
+ai::CapturedActDeadSelector:
+  status: pending
+ai::CapturedActorReaction:
+  status: pending
+ai::CapturedActorReactionChemical:
+  status: pending
+ai::CarryBox:
+  status: pending
+ai::CastleLynelBattle:
+  status: pending
+ai::ChangeWeatherTagRoot:
+  status: pending
+ai::ChangeWindTagRoot:
+  status: pending
+ai::ChaseSound:
+  status: pending
+ai::ChemicalEnemyFindPlayer:
+  status: pending
+ai::ChemicalEnemyRoot:
+  status: pending
+ai::ChemicalExplode:
+  status: pending
+ai::ChemicalGiantArmorRoot:
+  status: pending
+ai::ChemicalStayObjectRoot:
+  status: pending
+ai::ChemicalWeaponRoot:
+  status: pending
+ai::ChildDeviceReflectArrow:
+  status: pending
+ai::ChildFavoriteSelector:
+  status: pending
+ai::ChildFavoriteSelectorBase:
+  status: pending
+ai::ChildHaveSelect:
+  status: pending
+ai::ChmCheck:
+  status: pending
+ai::ChmVolRateCheck:
+  status: pending
+ai::ChmVolRateCheckBlankOk:
+  status: pending
+ai::ChuchuDieSelect:
+  status: pending
+ai::ChuchuJellyRoot:
+  status: pending
+ai::ChuchuNavMoveTarget:
+  status: pending
+ai::ChuchuRoot:
+  status: pending
+ai::ChuchuTypeSelect:
+  status: pending
+ai::CircleMove:
+  status: pending
+ai::CircleMoveFlying:
+  status: pending
+ai::CircleMoveInFluid:
+  status: pending
+ai::CircleMoveInWater:
+  status: pending
+ai::CircleMovePos:
+  status: pending
+ai::CircleMoveTarget:
+  status: pending
+ai::CliffCheckSelect:
+  status: pending
+ai::CliffCheckTargetDirSelect:
+  status: pending
+ai::CliffCheckToTargetPosDirSelect:
+  status: pending
+ai::CliffDistanceSelectThreeAction:
+  status: pending
+ai::CloseSmallAttack:
+  status: pending
+ai::CloseSmallAttackBase:
+  status: pending
+ai::ClusterRenderCheckTag:
+  status: pending
+ai::ColGroundHitSelect:
+  status: pending
+ai::CollaborationShootingStarRoot:
+  status: pending
+ai::CommonPickedItem:
+  status: pending
+ai::ConditionMoveActionSelect:
+  status: pending
+ai::CookPotRoot:
+  status: pending
+ai::CountSelect:
+  status: pending
+ai::CreateActor:
+  status: pending
+ai::CreateActorWithTarget:
+  status: pending
+ai::CreateCarryActor:
+  status: pending
+ai::CreateOnFaceSelect:
+  status: pending
+ai::CreationNestOnTree:
+  status: pending
+ai::DamageAttrSelect:
+  status: pending
+ai::DamageTypeSelect:
+  status: pending
+ai::DangerAvoidFlagSelect:
+  status: pending
+ai::DashAndAttack:
+  status: pending
+ai::DeadlyBlowWeaponRoot:
+  status: pending
+ai::DeadOrOtherState:
+  status: pending
+ai::DefWanderAI:
+  status: pending
+ai::DemoRailMoveRemains:
+  status: pending
+ai::DemoRootAI:
+  status: pending
+ai::DgnObj_DLC_CogWheel2:
+  status: pending
+ai::DgnObj_DLC_CogWheel_Physics_Ctr:
+  status: pending
+ai::DgnObj_DLC_CWRotDirSwitch:
+  status: pending
+ai::DgnObj_DLC_CW_WithEntityBody00:
+  status: pending
+ai::DgnObj_DLC_DungeonRotateTag:
+  status: pending
+ai::DgnObj_DLC_Faucet:
+  status: pending
+ai::DgnObj_DLC_SliderBlock:
+  status: pending
+ai::DieSelect:
+  status: pending
+ai::DieSelectBombPlus:
+  status: pending
+ai::DieSelectChemicalPlus:
+  status: pending
+ai::DieSelectChemShockPlus:
+  status: pending
+ai::DisplaySelect:
+  status: pending
+ai::DistanceKeepMove:
+  status: pending
+ai::DistanceLostCheck:
+  status: pending
+ai::DoChangeOneTime:
+  status: pending
+ai::DogNormal:
+  status: pending
+ai::DomesticNormal:
+  status: pending
+ai::DominoRoot:
+  status: pending
+ai::DoorRoot:
+  status: pending
+ai::DoubtItemSubTargetSelect:
+  status: pending
+ai::DragonDropItemTargetRootAI:
+  status: pending
+ai::DragonElecRoot:
+  status: pending
+ai::DragonFireRoot:
+  status: pending
+ai::DragonIceRoot:
+  status: pending
+ai::DragonIceWaitRunel:
+  status: pending
+ai::DragonItemRoot:
+  status: pending
+ai::DragonReturn:
+  status: pending
+ai::DragonRoot:
+  status: pending
+ai::DragonRootBase:
+  status: pending
+ai::DragonTurn:
+  status: pending
+ai::DrawnSwordBowSelect:
+  status: pending
+ai::DrawnWeaponSelector:
+  status: pending
+ai::DuckRoot:
+  status: pending
+ai::DungeonCannonBallAutoDelete:
+  status: pending
+ai::DungeonEntranceRoot:
+  status: pending
+ai::DungeonMoveTag:
+  status: pending
+ai::DungeonMoveTagCont:
+  status: pending
+ai::DungeonRemainsFire:
+  status: pending
+ai::DungeonResetPosTag:
+  status: pending
+ai::DungeonRotateTag:
+  status: pending
+ai::DungeonRotateTag3D:
+  status: pending
+ai::DungeonRotateTag4ElecApp:
+  status: pending
+ai::DungeonRotateTag4FireApp:
+  status: pending
+ai::DungeonRotateTag4WaterApp:
+  status: pending
+ai::DungeonRotateTag4WindApp:
+  status: pending
+ai::DungeonRotateTagCont:
+  status: pending
+ai::DungeonRotateTagInOrder:
+  status: pending
+ai::DungeonRotateTagShuttle:
+  status: pending
+ai::DungeonRotateTagWaterChemical:
+  status: pending
+ai::DynTargetStoneShootEnemyBattle:
+  status: pending
+ai::DynTgBreathAttackEnemyBattle:
+  status: pending
+ai::EarthReleaseAttack:
+  status: pending
+ai::ElectricBall:
+  status: pending
+ai::ElectricCable:
+  status: pending
+ai::EnemyAngry:
+  status: pending
+ai::EnemyAttackAndAway:
+  status: pending
+ai::EnemyBaseArrowAttack:
+  status: pending
+ai::EnemyBaseFindPlayer:
+  status: pending
+ai::EnemyBattle:
+  status: pending
+ai::EnemyBattleWithAreaCheck:
+  status: pending
+ai::EnemyCalledAppear:
+  status: pending
+ai::EnemyChaseShield:
+  status: pending
+ai::EnemyChaseTargetAndAction:
+  status: pending
+ai::EnemyChemicalPowerSelect:
+  status: pending
+ai::EnemyChemicalSelect:
+  status: pending
+ai::EnemyChemTargetAction:
+  status: pending
+ai::EnemyChemTargetActionBase:
+  status: pending
+ai::EnemyConfuse:
+  status: pending
+ai::EnemyCutRope:
+  status: pending
+ai::EnemyDefaultReaction:
+  status: pending
+ai::EnemyDemoSumonRecgTgt:
+  status: pending
+ai::EnemyEscape:
+  status: pending
+ai::EnemyEscapeMove:
+  status: pending
+ai::EnemyEscapeRoot:
+  status: pending
+ai::EnemyFeintBattle:
+  status: pending
+ai::EnemyFindBadStatusFriend:
+  status: pending
+ai::EnemyFindHorseRideTarget:
+  status: pending
+ai::EnemyFindShootable:
+  status: pending
+ai::EnemyFortressChat:
+  status: pending
+ai::EnemyFortressMgrTag:
+  status: pending
+ai::EnemyFortressWait:
+  status: pending
+ai::EnemyFortressWatchKeepingWait:
+  status: pending
+ai::EnemyHide:
+  status: pending
+ai::EnemyHideGrass:
+  status: pending
+ai::EnemyHideShootingBattle:
+  status: pending
+ai::EnemyHorseRide:
+  status: pending
+ai::EnemyLifeSelect:
+  status: pending
+ai::EnemyLifted:
+  status: pending
+ai::EnemyLiftShootItem:
+  status: pending
+ai::EnemyLost:
+  status: pending
+ai::EnemyMimicrySelect:
+  status: pending
+ai::EnemyMoveBattle:
+  status: pending
+ai::EnemyMoveToGround:
+  status: pending
+ai::EnemyNoiseTarget:
+  status: pending
+ai::EnemyNormal:
+  status: pending
+ai::EnemyNotice:
+  status: pending
+ai::EnemyNoticeActiveEnemy:
+  status: pending
+ai::EnemyNoticeFearfulLastAttacker:
+  status: pending
+ai::EnemyNoticeFearfulTarget:
+  status: pending
+ai::EnemyNoticeLimit:
+  status: pending
+ai::EnemyNoticeSound:
+  status: pending
+ai::EnemyNoticeSoundSensitive:
+  status: pending
+ai::EnemyNoticeSoundSensitiveTimer:
+  status: pending
+ai::EnemyNoticeSoundWithUI:
+  status: pending
+ai::EnemyNoticeTerror:
+  status: pending
+ai::EnemyPermitAttackSelect:
+  status: pending
+ai::EnemyPursuingArrowBattle:
+  status: pending
+ai::EnemyPursuingAttackCheck:
+  status: pending
+ai::EnemyPursuingBattle:
+  status: pending
+ai::EnemyRandomRepeatSideStep:
+  status: pending
+ai::EnemyRangeKeepMove:
+  status: pending
+ai::EnemyRangeKeepSwimMove:
+  status: pending
+ai::EnemyRecognizeTarget:
+  status: pending
+ai::EnemyRecognizeTargetBase:
+  status: pending
+ai::EnemyRestraintCheckBattle:
+  status: pending
+ai::EnemyReturnSelect:
+  status: pending
+ai::EnemyRoam:
+  status: pending
+ai::EnemyRoamSelect:
+  status: pending
+ai::EnemyRoamViewItem:
+  status: pending
+ai::EnemyRoot:
+  status: pending
+ai::EnemySearchHorse:
+  status: pending
+ai::EnemySearchShieldItemFindPlayer:
+  status: pending
+ai::EnemyShieldSearchOrBattle:
+  status: pending
+ai::EnemyShootAttackExplosives:
+  status: pending
+ai::EnemySittingTogether:
+  status: pending
+ai::EnemySkyArrowAttack:
+  status: pending
+ai::EnemySomeIgniteBattle:
+  status: pending
+ai::EnemySyncAttack:
+  status: pending
+ai::EnemyTargetGearSelect:
+  status: pending
+ai::EnemyTargetInAreaSelect:
+  status: pending
+ai::EnemyTargetInSightSelect:
+  status: pending
+ai::EnemyTimelineAI:
+  status: pending
+ai::EnemyTired:
+  status: pending
+ai::EnemyTreeWeaponSearchOrBattle:
+  status: pending
+ai::EnemyVacuumBombSelect:
+  status: pending
+ai::EnemyVacuumBombSelectBase:
+  status: pending
+ai::EnemyVacuumChangeItemSelect:
+  status: pending
+ai::EnemyVacuumWeaponTypeSelect:
+  status: pending
+ai::EnemyWaitViewItem:
+  status: pending
+ai::EnemyWarnNoticeEndChase:
+  status: pending
+ai::EnemyWarnNoticeSelect:
+  status: pending
+ai::EnemyWatchKeepingWait:
+  status: pending
+ai::EnterFromResetSelect:
+  status: pending
+ai::EnvSeEmitPointRootAI:
+  status: pending
+ai::EquipConditionSelect:
+  status: pending
+ai::EquipHaveSelector:
+  status: pending
+ai::EquipShieldEnemySearchWeapon:
+  status: pending
+ai::EquipStand:
+  status: pending
+ai::EscapeFromTargetFront:
+  status: pending
+ai::EscapeFromTargetFrontRandomDir:
+  status: pending
+ai::EscapeOppositeToTargetInWater:
+  status: pending
+ai::EscapeOrWaitSelect:
+  status: pending
+ai::EternalPlayerTarget:
+  status: pending
+ai::EventTagRootAI:
+  status: pending
+ai::EventTimeRoot:
+  status: pending
+ai::ExceededImpulseCheck:
+  status: pending
+ai::ExplodeCheck:
+  status: pending
+ai::FirstSelect:
+  status: pending
+ai::FishGoToAndNibble:
+  status: pending
+ai::FishRoot:
+  status: pending
+ai::FishSafeReturn:
+  status: pending
+ai::FixableLiftable:
+  status: pending
+ai::FldObjDlcHeroMapRelief:
+  status: pending
+ai::FldObjIvyBurnRoot:
+  status: pending
+ai::FlyingEnemyBackKeepMove:
+  status: pending
+ai::FlyingEnemyDiagonallyKeepMove:
+  status: pending
+ai::FlyingEnemyFindPlayer:
+  status: pending
+ai::FlyingEnemyFrontKeepMove:
+  status: pending
+ai::FlyingEnemyKeepMove:
+  status: pending
+ai::FlyingEnemySideKeepMove:
+  status: pending
+ai::FlyInsectRoam:
+  status: pending
+ai::FlyMoveToTarget:
+  status: pending
+ai::ForbidDoubleNoticeSelect:
+  status: pending
+ai::ForestGiantBattle:
+  status: pending
+ai::ForestGiantBattleMove:
+  status: pending
+ai::ForestGiantChanceWait:
+  status: pending
+ai::ForestGiantClosestAttackSelect:
+  status: pending
+ai::ForestGiantFindPlayer:
+  status: pending
+ai::ForestGiantNormal:
+  status: pending
+ai::ForestGiantNoticeSound:
+  status: pending
+ai::ForestGiantReaction:
+  status: pending
+ai::ForestGiantRecognizeTarget:
+  status: pending
+ai::ForestGiantRoam:
+  status: pending
+ai::ForestGiantRoot:
+  status: pending
+ai::ForestGiantStoneShootBattle:
+  status: pending
+ai::Fork2AI:
+  status: done
+ai::Fork2AIUpperLowerBody:
+  status: done
+ai::Fork3AI:
+  status: done
+ai::Fork4AI:
+  status: done
+ai::Fork5AI:
+  status: done
+ai::Fork6AI:
+  status: done
+ai::ForkActionAndJoin:
+  status: pending
+ai::ForkAI:
+  status: done
+ai::ForkBeastGanonRoot:
+  status: pending
+ai::ForSaleOrNot:
+  status: pending
+ai::FreezeInWaterSelect:
+  status: pending
+ai::FriendCallAction:
+  status: pending
+ai::FromPopPoolDamageSelect:
+  status: pending
+ai::GambleTreasureBoxRoot:
+  status: pending
+ai::GameDataFlagSelector:
+  status: pending
+ai::GanonApproachOnFloorRoot:
+  status: pending
+ai::GanonApproachOnWallRoot:
+  status: pending
+ai::GanonBattleOnFloorRoot:
+  status: pending
+ai::GanonBattleOnWallRoot:
+  status: pending
+ai::GanonBattleRoot:
+  status: pending
+ai::GanonBeamOnFloor:
+  status: pending
+ai::GanonBeamOnWall:
+  status: pending
+ai::GanonBeastDying:
+  status: pending
+ai::GanonBeastMoveSelect:
+  status: pending
+ai::GanonBeastReaction:
+  status: pending
+ai::GanonBeastRoot:
+  status: pending
+ai::GanonBeastStairState:
+  status: pending
+ai::GanonBeastSufferChanger:
+  status: pending
+ai::GanonBeastWait:
+  status: pending
+ai::GanonDemoMoveSeqTwoAction:
+  status: pending
+ai::GanonFarAttackRootOnWall:
+  status: pending
+ai::GanonGrudgeNormal:
+  status: pending
+ai::GanonNearAttackOnFloorRoot:
+  status: pending
+ai::GanonNormalRoot:
+  status: pending
+ai::GanonReaction:
+  status: pending
+ai::GanonRecognizeRoot:
+  status: pending
+ai::GanonShockRoot:
+  status: pending
+ai::GanonStateChangeRoot:
+  status: pending
+ai::GanonThrowActorRoot:
+  status: pending
+ai::GanonThrowMultiActorRoot:
+  status: pending
+ai::GanonWeaponAttackOnFloor:
+  status: pending
+ai::GearRangeSelect:
+  status: pending
+ai::GelEnemyReaction:
+  status: pending
+ai::GerudoHeroSoulGiftRoot:
+  status: pending
+ai::GerudoQueenBattle:
+  status: pending
+ai::GetItemBrightBow:
+  status: pending
+ai::GetItemNormal:
+  status: pending
+ai::GiantArmorAsWeakPoint:
+  status: pending
+ai::GiantArmorRoot:
+  status: pending
+ai::GiantEarthReleaseAttack:
+  status: pending
+ai::GiantEscapeFromDamageWater:
+  status: pending
+ai::GiantNavMoveTarget:
+  status: pending
+ai::GiantNavMoveWithFirstAction:
+  status: pending
+ai::GiantRoamSelect:
+  status: pending
+ai::GiantSleepNormal:
+  status: pending
+ai::GiantSleepReaction:
+  status: pending
+ai::GiantStoneShootAngrySelect:
+  status: pending
+ai::GolemChemicalResetSelect:
+  status: pending
+ai::GolemChemicalVanishedSelect:
+  status: pending
+ai::GolemClimbedSelect:
+  status: pending
+ai::GolemClimbedTimeSelect:
+  status: pending
+ai::GolemFindPlayer:
+  status: pending
+ai::GolemFireREnemyBattle:
+  status: pending
+ai::GolemNormal:
+  status: pending
+ai::GolemNoticeWorry:
+  status: pending
+ai::GolemPartRoot:
+  status: pending
+ai::GolemPartsSelect:
+  status: pending
+ai::GolemReaction:
+  status: pending
+ai::GolemRoot:
+  status: pending
+ai::GolemRootBase:
+  status: pending
+ai::GolemRWeakPointRoot:
+  status: pending
+ai::GolemSleepNormal:
+  status: pending
+ai::GolemSleepTypeSelect:
+  status: pending
+ai::GolemWeakPointRoot:
+  status: pending
+ai::GolfBallRoot:
+  status: pending
+ai::GoronCannon:
+  status: pending
+ai::GoronCannonBase:
+  status: pending
+ai::GoronHeroDescendentRoot:
+  status: pending
+ai::GoronHeroSoulGiftRoot:
+  status: pending
+ai::GroundAngleSelect:
+  status: pending
+ai::GroundHitSelect:
+  status: pending
+ai::GrudgeEyeball:
+  status: pending
+ai::GuardAndRevenge:
+  status: pending
+ai::GuardFlagSelect:
+  status: pending
+ai::GuardFrequencySelect:
+  status: pending
+ai::GuardianAI:
+  status: pending
+ai::GuardianBattleBeamAttack:
+  status: pending
+ai::GuardianBeam:
+  status: pending
+ai::GuardianBeamAttack:
+  status: pending
+ai::GuardianBeamAttackBase:
+  status: pending
+ai::GuardianBezierRailMove:
+  status: pending
+ai::GuardianChase:
+  status: pending
+ai::GuardianCloseBattle:
+  status: pending
+ai::GuardianDown:
+  status: pending
+ai::GuardianMini2ndBattle:
+  status: pending
+ai::GuardianMini2ndBattleAttack:
+  status: pending
+ai::GuardianMiniBattle:
+  status: pending
+ai::GuardianMiniBattleStateSelect:
+  status: pending
+ai::GuardianMiniBeam:
+  status: pending
+ai::GuardianMiniBeamAttack:
+  status: pending
+ai::GuardianMiniBeamAttackMove:
+  status: pending
+ai::GuardianMiniBeamAttackNoWait:
+  status: pending
+ai::GuardianMiniBeamToExplosives:
+  status: pending
+ai::GuardianMiniBlownOff:
+  status: pending
+ai::GuardianMiniChangeWeapon:
+  status: pending
+ai::GuardianMiniFinalBattle:
+  status: pending
+ai::GuardianMiniFindPlayer:
+  status: pending
+ai::GuardianMiniGroggy:
+  status: pending
+ai::GuardianMiniGuardSelect:
+  status: pending
+ai::GuardianMiniNoWeaponSelect:
+  status: pending
+ai::GuardianMiniOnNoNavMesh:
+  status: pending
+ai::GuardianMiniRangeKeepMove:
+  status: pending
+ai::GuardianMiniReaction:
+  status: pending
+ai::GuardianMiniRecognizeTarget:
+  status: pending
+ai::GuardianMiniRollingAttackMove:
+  status: pending
+ai::GuardianMiniRoot:
+  status: pending
+ai::GuardianMiniTargetOnScalffold:
+  status: pending
+ai::GuardianMiniTransformSelect:
+  status: pending
+ai::GuardianMiniViewWait:
+  status: pending
+ai::GuardianRoam:
+  status: pending
+ai::GuardianRoot:
+  status: pending
+ai::GuardianTargetLost:
+  status: pending
+ai::GuardianWait:
+  status: pending
+ai::GuardNearTarget:
+  status: pending
+ai::GyroActivateTerminal:
+  status: pending
+ai::HangedLamp:
+  status: pending
+ai::HasPreActorSelect:
+  status: pending
+ai::HaveNoWeaponSelector:
+  status: pending
+ai::HeightSelectTwoAction:
+  status: pending
+ai::HeroSoulGiftRoot:
+  status: pending
+ai::HiddenKorokRoot:
+  status: pending
+ai::HiddenOctarockFindPlayer:
+  status: pending
+ai::HiddenOctarockNormal:
+  status: pending
+ai::HiddenOctarockSearchTarget:
+  status: pending
+ai::HomePosDistanceSelector:
+  status: pending
+ai::Horse:
+  status: pending
+ai::HorseCheckLineOfSightSelector:
+  status: pending
+ai::HorseCheckLineOfSightSelectorBase:
+  status: pending
+ai::HorseDamageTypeSelect:
+  status: pending
+ai::HorseEscapeRouteRailAI:
+  status: pending
+ai::HorseFollow:
+  status: pending
+ai::HorseGoToEatAI:
+  status: pending
+ai::HorseLoopTarget:
+  status: pending
+ai::HorseLoopTargetAndWaitAI:
+  status: pending
+ai::HorseMoveToPlayer:
+  status: pending
+ai::HorseNatureSelectAI:
+  status: pending
+ai::HorseNotRidden:
+  status: pending
+ai::HorsePrevRiddenStatusSelector:
+  status: pending
+ai::HorseReins:
+  status: pending
+ai::HorseRiddenAI:
+  status: pending
+ai::HorseRiddenByEnemyAI:
+  status: pending
+ai::HorseRiddenByNPC:
+  status: pending
+ai::HorseRiddenByNPCBase:
+  status: pending
+ai::HorseRideChargeAttack:
+  status: pending
+ai::HorseRideChaseBattleAttackMove:
+  status: pending
+ai::HorseRideChaseBattleMove:
+  status: pending
+ai::HorseRideChaseBattleMoveBase:
+  status: pending
+ai::HorseRideDamagedSelector:
+  status: pending
+ai::HorseRideEnemyBattle:
+  status: pending
+ai::HorseRideEnemyFindPlayer:
+  status: pending
+ai::HorseRideEnemyNormal:
+  status: pending
+ai::HorseRideMoveTo:
+  status: pending
+ai::HorseRideRangeKeepMove:
+  status: pending
+ai::HorseRideShooterFindPlayer:
+  status: pending
+ai::HorseRideShootingEnemyBattle:
+  status: pending
+ai::HorseRideTurn:
+  status: pending
+ai::HorseWanderAI:
+  status: pending
+ai::IAIAttack:
+  status: pending
+ai::IbutsuWaterFallRoot:
+  status: pending
+ai::IceEnemyFeintBattle:
+  status: pending
+ai::IceMakerBlock:
+  status: pending
+ai::IncredibleAction:
+  status: pending
+ai::InDemoSelect:
+  status: pending
+ai::InForceEnemyLostAreaSelect:
+  status: pending
+ai::InitFromInCarryBoxSelect:
+  status: pending
+ai::InsectEscape:
+  status: pending
+ai::InsectFairyRoot:
+  status: pending
+ai::InsectRoam:
+  status: pending
+ai::InsectRoot:
+  status: pending
+ai::InTerritorySelector:
+  status: pending
+ai::InvincibleHiddenOctarock:
+  status: pending
+ai::InvisibleKorokRailMove:
+  status: pending
+ai::InWaterKeepSelect:
+  status: pending
+ai::InWaterSelect:
+  status: pending
+ai::IsPlacementAreaEnemy:
+  status: pending
+ai::ItemAmiiboRoot:
+  status: pending
+ai::ItemConductor:
+  status: pending
+ai::ItemOnTree:
+  status: pending
+ai::ItemRoot:
+  status: pending
+ai::JumpAttack:
+  status: pending
+ai::JustAvoidFinishWait:
+  status: pending
+ai::KakarikoKokkoTimeline:
+  status: pending
+ai::KeepBackSelect:
+  status: pending
+ai::KeeseDieSelect:
+  status: pending
+ai::KeeseHangOnCeil:
+  status: pending
+ai::KeeseNormal:
+  status: pending
+ai::KeeseRoam:
+  status: pending
+ai::KeeseSwarmNormal:
+  status: pending
+ai::KeeseSwarmRoam:
+  status: pending
+ai::KeyLockedShutter:
+  status: pending
+ai::KokkoAngry:
+  status: pending
+ai::KokkoAngryTargetSelect:
+  status: pending
+ai::KokkoEscapeAI:
+  status: pending
+ai::KokkoRoot:
+  status: pending
+ai::KorokAnswerResponceRoot:
+  status: pending
+ai::KorokFlowerColorRoot:
+  status: pending
+ai::KorokFlowerRoot:
+  status: pending
+ai::KorokGoalTimerRootAI:
+  status: pending
+ai::KorokPinWheelRoot:
+  status: pending
+ai::KorokPotRootAI:
+  status: pending
+ai::KorokRailMove:
+  status: pending
+ai::KorokStartStandRoot:
+  status: pending
+ai::KorokStoneLift:
+  status: pending
+ai::KorokTargetRailMove:
+  status: pending
+ai::LandHumEnemyFindBait:
+  status: pending
+ai::LandHumEnemyFindBaitWeapon:
+  status: pending
+ai::LandHumEnemyFindPlayer:
+  status: pending
+ai::LandHumEnemyNormal:
+  status: pending
+ai::LandHumEnemyThrowWeapon:
+  status: pending
+ai::LandHumEnemyUnarmedBattle:
+  status: pending
+ai::LandHumGourmandEnemyNormal:
+  status: pending
+ai::LandingChemicalBall:
+  status: pending
+ai::LargeCannonAttackRoot:
+  status: pending
+ai::LargeEnemyFindPlayer:
+  status: pending
+ai::LastAttackerSelect:
+  status: pending
+ai::LastAttackerSpecialActionSelect:
+  status: pending
+ai::LastBossBeamAttackRoot:
+  status: pending
+ai::LastBossDemoWarpMove:
+  status: pending
+ai::LastBossDemoWarpRoot:
+  status: pending
+ai::LastBossNormalWarpRoot:
+  status: pending
+ai::LastBossRailWarpRoot:
+  status: pending
+ai::LastBossRoot:
+  status: pending
+ai::LastBossShieldBash:
+  status: pending
+ai::LastBossShootGaleArrowRoot:
+  status: pending
+ai::LastBossShootNormalArrowRoot:
+  status: pending
+ai::LastBossSwordWhirlSlash:
+  status: pending
+ai::LastBossThunderRoot:
+  status: pending
+ai::LastBossWeaponAttackRoot:
+  status: pending
+ai::LeaderDistanceSelector:
+  status: pending
+ai::LeadToTarget:
+  status: pending
+ai::LeaveFromTarget:
+  status: pending
+ai::LifeChangeDemoCaller:
+  status: pending
+ai::Lifted:
+  status: pending
+ai::LimitedTimeredActorCreator:
+  status: pending
+ai::LineCheckTag:
+  status: pending
+ai::LinkageEnemyNormal:
+  status: pending
+ai::LinkTagCheck:
+  status: pending
+ai::LizalfosBreathAttack:
+  status: pending
+ai::LOSFurthestHitPointFinder:
+  status: pending
+ai::LumberjackFallenTree:
+  status: pending
+ai::LumberjackTree:
+  status: pending
+ai::LynelArrowAttackSelect:
+  status: pending
+ai::LynelArrowAttackSelectBase:
+  status: pending
+ai::LynelArrowAttackSelectOnce:
+  status: pending
+ai::LynelArrowBattle:
+  status: pending
+ai::LynelAttackThroughMove:
+  status: pending
+ai::LynelBackStepFromTarget:
+  status: pending
+ai::LynelBattle:
+  status: pending
+ai::LynelChaseBattleMove:
+  status: pending
+ai::LynelCloseBattle:
+  status: pending
+ai::LynelDirSelect:
+  status: pending
+ai::LynelDistanceLostCheck:
+  status: pending
+ai::LynelEscapeFromTarget:
+  status: pending
+ai::LynelFindPlayer:
+  status: pending
+ai::LynelLineMoveAttack:
+  status: pending
+ai::LynelNavMoveNoStop:
+  status: pending
+ai::LynelNavMoveTarget:
+  status: pending
+ai::LynelNormal:
+  status: pending
+ai::LynelNoticeAttacked:
+  status: pending
+ai::LynelNoticeTerror:
+  status: pending
+ai::LynelOnNoNavMeshPos:
+  status: pending
+ai::LynelRecognizeTarget:
+  status: pending
+ai::LynelRepeatAttack:
+  status: pending
+ai::LynelRoam:
+  status: pending
+ai::LynelRodeo:
+  status: pending
+ai::LynelRoot:
+  status: pending
+ai::LynelTackleMove:
+  status: pending
+ai::LynelThreeBreathAttack:
+  status: pending
+ai::LynelWarp:
+  status: pending
+ai::MagneGearRoot:
+  status: pending
+ai::MagneGrabbedPartsRangeSelector:
+  status: pending
+ai::MagneGrabSelect:
+  status: pending
+ai::MagneShaftRoot:
+  status: pending
+ai::MagneShaftRootBase:
+  status: pending
+ai::MagneSliderBlockRootThunder:
+  status: pending
+ai::MagneStickRoot:
+  status: pending
+ai::Magnetglove:
+  status: pending
+ai::MainFieldDungeonSelect:
+  status: pending
+ai::MasquaradeSubTargetSelect:
+  status: pending
+ai::MasterSwordBase100EnemyRoot:
+  status: pending
+ai::MasterSwordRoot:
+  status: pending
+ai::MergedDungeonPartsRoot:
+  status: pending
+ai::MessageReceiveCheck:
+  status: pending
+ai::MessageReceiveCheckBasic:
+  status: pending
+ai::MessageReceiveCheckEveryFrame:
+  status: pending
+ai::MetalObjectBuried:
+  status: pending
+ai::MetalObjectFixed:
+  status: pending
+ai::MimicCliffStopEnemyNormal:
+  status: pending
+ai::MimicCliffStopEnemyNormalBase:
+  status: pending
+ai::MimicEnemyFindPlayer:
+  status: pending
+ai::MimicEnemyNormal:
+  status: pending
+ai::MimicFlagSelect:
+  status: pending
+ai::MimicryResetCheck:
+  status: pending
+ai::MiniBeamAttack:
+  status: pending
+ai::MiniGolemLifted:
+  status: pending
+ai::MiniGolemReaction:
+  status: pending
+ai::MiniGolemRoot:
+  status: pending
+ai::MiniGolemSleep:
+  status: pending
+ai::MoonAI:
+  status: pending
+ai::MoonNameTag:
+  status: pending
+ai::MoriblinSpearBattle:
+  status: pending
+ai::MoriblinSpearNearBattle:
+  status: pending
+ai::MoriblinUnarmedBattle:
+  status: pending
+ai::MotorcycleRoot:
+  status: pending
+ai::MotorcycleRootBase:
+  status: pending
+ai::MoveAndFreeFallGondola:
+  status: pending
+ai::MoveAroundTarget:
+  status: pending
+ai::MoveLOSFeedback:
+  status: pending
+ai::MoveRemainsElectric:
+  status: pending
+ai::MoveToCameraFrontXZ:
+  status: pending
+ai::MoveToTargetCollisionFeedback:
+  status: pending
+ai::NavMeshTurnAwayFromHitPos:
+  status: pending
+ai::NavMoveNearTarget:
+  status: pending
+ai::NavMoveTarget:
+  status: pending
+ai::NavMoveTargetClosestPoint:
+  status: pending
+ai::NavMoveTargetWithJumpWater:
+  status: pending
+ai::NavViewMove:
+  status: pending
+ai::NearCreateAppearTypeSelect:
+  status: pending
+ai::NearCreateSelect:
+  status: pending
+ai::NewMannequinRoot:
+  status: pending
+ai::NonPlayerHorseRide:
+  status: pending
+ai::NormalHumanEquipableShield:
+  status: pending
+ai::NoticePartsRangeSelector:
+  status: pending
+ai::NPCAlert:
+  status: pending
+ai::NPCArtistRoot:
+  status: pending
+ai::NPCAttack:
+  status: pending
+ai::NPCAttentionAI:
+  status: pending
+ai::NPCAvoid:
+  status: pending
+ai::NPCChasePlayerBlueFire:
+  status: pending
+ai::NPCClerkRoot:
+  status: pending
+ai::NPCConfront:
+  status: pending
+ai::NPCConfrontEnemy:
+  status: pending
+ai::NpcDemoRoot:
+  status: pending
+ai::NPCGerudoQueenRoot:
+  status: pending
+ai::NPCHeartsRoot:
+  status: pending
+ai::NPCHorseRide:
+  status: pending
+ai::NPCHorseRideWait:
+  status: pending
+ai::NPCMamonoShopRoot:
+  status: pending
+ai::NPCMove:
+  status: pending
+ai::NpcMoveToAnchor:
+  status: pending
+ai::NPCMoveToRailPoint:
+  status: pending
+ai::NPCReaction:
+  status: pending
+ai::NPCReturnAnchor:
+  status: pending
+ai::NPCReturnRestPosRoot:
+  status: pending
+ai::NPCRoam:
+  status: pending
+ai::NPCRoot:
+  status: pending
+ai::NPCRunaway:
+  status: pending
+ai::NPCSearch:
+  status: pending
+ai::NPCSurprised:
+  status: pending
+ai::NPCSuspend:
+  status: pending
+ai::NPCTalkBalloon:
+  status: pending
+ai::NpcTebaRoot:
+  status: pending
+ai::NpcTebaTrainingRoot:
+  status: pending
+ai::NPCTerrorAI:
+  status: pending
+ai::NPCTimeline:
+  status: pending
+ai::NPCTravel:
+  status: pending
+ai::NPCTravelBase:
+  status: pending
+ai::NPCTravelerRoot:
+  status: pending
+ai::NPCWander:
+  status: pending
+ai::NushiEscapeSelector:
+  status: pending
+ai::NushiWarp:
+  status: pending
+ai::OctarockBattle:
+  status: pending
+ai::OctarockEscape:
+  status: pending
+ai::OctarockHideEscape:
+  status: pending
+ai::OctarockOptionRoot:
+  status: pending
+ai::OctarockReaction:
+  status: pending
+ai::OctarockRoot:
+  status: pending
+ai::OctarockRootBase:
+  status: pending
+ai::OctarockServiceHideWait:
+  status: pending
+ai::OctarockWaterWait:
+  status: pending
+ai::OnCliffEnemyBattle:
+  status: pending
+ai::OnCliffSurfaceSelect:
+  status: pending
+ai::OnCliffViewWait:
+  status: pending
+ai::OneMemoryMagicBattle:
+  status: pending
+ai::OneMemoryMagicBattleBase:
+  status: pending
+ai::OnEnterEventModeSelect:
+  status: pending
+ai::OnNavFaceSelect:
+  status: pending
+ai::OnRagdollSelect:
+  status: pending
+ai::OptionalWeaponAI:
+  status: pending
+ai::OutOfScreen:
+  status: pending
+ai::PartHaveSelect:
+  status: pending
+ai::PartsNoticeSelect:
+  status: pending
+ai::PartsSleepSelect:
+  status: pending
+ai::PauseMenuPlayerRoot:
+  status: pending
+ai::PickShootItemRoot:
+  status: pending
+ai::PillarCrack:
+  status: pending
+ai::PipeDrawing:
+  status: pending
+ai::PlayerAttack:
+  status: pending
+ai::PlayerBarrierBlow:
+  status: pending
+ai::PlayerBeetle:
+  status: pending
+ai::PlayerCamera:
+  status: pending
+ai::PlayerCaught:
+  status: pending
+ai::PlayerClimb:
+  status: pending
+ai::PlayerCutJump:
+  status: pending
+ai::PlayerDead:
+  status: pending
+ai::PlayerDemoRoot:
+  status: pending
+ai::PlayerGrab:
+  status: pending
+ai::PlayerItem:
+  status: pending
+ai::PlayerLadder:
+  status: pending
+ai::PlayerNavDestinationMove:
+  status: pending
+ai::PlayerNormal:
+  status: pending
+ai::PlayerRideHorse:
+  status: pending
+ai::PlayerRoot:
+  status: pending
+ai::PlayerSetTarget:
+  status: pending
+ai::PlayerSit:
+  status: pending
+ai::PlayerSwim:
+  status: pending
+ai::PlayerWaterFall:
+  status: pending
+ai::PlayerZoraRide:
+  status: pending
+ai::PointWindTagRoot:
+  status: pending
+ai::PracticeGuardianMiniNormal:
+  status: pending
+ai::PreSleepCheck:
+  status: pending
+ai::PrevASEndSeq:
+  status: pending
+ai::PrevASOR2SelectTwo:
+  status: pending
+ai::PrevASSelect:
+  status: pending
+ai::PrevASSkipSeq:
+  status: pending
+ai::PrevSomeASSelect:
+  status: pending
+ai::PreyChemicalDeadReaction:
+  status: pending
+ai::PreyDead:
+  status: pending
+ai::PreyDeadCauseSelector:
+  status: pending
+ai::PreyDefWanderAI:
+  status: pending
+ai::PreyDropItemRoot:
+  status: pending
+ai::PreyLookAtTarget:
+  status: pending
+ai::PreyNormal:
+  status: pending
+ai::PreyReaction:
+  status: pending
+ai::PreyRoot:
+  status: pending
+ai::PreyStun:
+  status: pending
+ai::PriestBossActorCloneRoot:
+  status: pending
+ai::PriestBossActorEnemyRoot:
+  status: pending
+ai::PriestBossActorGiantFouthRoot:
+  status: pending
+ai::PriestBossActorGiantRoot:
+  status: pending
+ai::PriestBossActorNormalMode:
+  status: pending
+ai::PriestBossActorNormalRoot:
+  status: pending
+ai::PriestBossActorPhaseSecondStart:
+  status: pending
+ai::PriestBossActorRoot:
+  status: pending
+ai::PriestBossAfterImageRoot:
+  status: pending
+ai::PriestBossAttackGrave:
+  status: pending
+ai::PriestBossBananaMode:
+  status: pending
+ai::PriestBossBeamExplode:
+  status: pending
+ai::PriestBossBlowoffDamageSelect:
+  status: pending
+ai::PriestBossBlowoffReadyReaction:
+  status: pending
+ai::PriestBossBowEquiped:
+  status: pending
+ai::PriestBossCircleFormationRush:
+  status: pending
+ai::PriestBossCircleFormationShoot:
+  status: pending
+ai::PriestBossCloneBananaMode:
+  status: pending
+ai::PriestBossCloneBulletRoot:
+  status: pending
+ai::PriestBossDamageTypeSelect:
+  status: pending
+ai::PriestBossEyeBeam:
+  status: pending
+ai::PriestBossEyeBeamFourth:
+  status: pending
+ai::PriestBossEyeBeamStandAim:
+  status: pending
+ai::PriestBossEyeBeamThird:
+  status: pending
+ai::PriestBossFastWarpAttack:
+  status: pending
+ai::PriestBossFormation:
+  status: pending
+ai::PriestBossGiantDeadSelector:
+  status: pending
+ai::PriestBossGiantDownSeq:
+  status: pending
+ai::PriestBossGiantEnemyRoot:
+  status: pending
+ai::PriestBossGiantReaction:
+  status: pending
+ai::PriestBossGiantStageRotate:
+  status: pending
+ai::PriestBossGiantStageRotRoot:
+  status: pending
+ai::PriestBossIAIAttack:
+  status: pending
+ai::PriestBossIronBall:
+  status: pending
+ai::PriestBossIronBallRoot:
+  status: pending
+ai::PriestBossIronBallStageRotate:
+  status: pending
+ai::PriestBossLineFormationAppear:
+  status: pending
+ai::PriestBossLineFormationFall:
+  status: pending
+ai::PriestBossLineFormationRush:
+  status: pending
+ai::PriestBossMakeClone:
+  status: pending
+ai::PriestBossMeta:
+  status: pending
+ai::PriestBossMetaAIRoot:
+  status: pending
+ai::PriestBossMode:
+  status: pending
+ai::PriestBossNormalMoveSelector:
+  status: pending
+ai::PriestBossNormalQuickRecover:
+  status: pending
+ai::PriestBossNormalReaction:
+  status: pending
+ai::PriestBossPhase:
+  status: pending
+ai::PriestBossPhaseFinish:
+  status: pending
+ai::PriestBossPhaseFirst:
+  status: pending
+ai::PriestBossPhaseFourth:
+  status: pending
+ai::PriestBossPhaseSecond:
+  status: pending
+ai::PriestBossPhaseSelector:
+  status: pending
+ai::PriestBossPhaseThird:
+  status: pending
+ai::PriestBossShadowCloneEnemyRoot:
+  status: pending
+ai::PriestBossShadowClonesReaction:
+  status: pending
+ai::PriestBossShadowCloneThrow:
+  status: pending
+ai::PriestBossSlowWarpMove:
+  status: pending
+ai::PriestBossStageRotationSelector:
+  status: pending
+ai::PriestBossSynchroMode:
+  status: pending
+ai::PriestBossWalkAttack:
+  status: pending
+ai::PriestBossWarpToSafePos:
+  status: pending
+ai::PriestIronBallAttack:
+  status: pending
+ai::PullOutTree:
+  status: pending
+ai::RailMove:
+  status: pending
+ai::RailMoveObject:
+  status: pending
+ai::RailMoveObjectOneWay:
+  status: pending
+ai::RailMoveRandomIgnoreStop:
+  status: pending
+ai::RailMoveRemains:
+  status: pending
+ai::RailMoveRemainsBGCamera:
+  status: pending
+ai::RailMoveRndIgnrStopPlayAS:
+  status: pending
+ai::RailMoveWithClose:
+  status: pending
+ai::RandomSelectThreeAction:
+  status: pending
+ai::RandomSelectThreeActionBase:
+  status: pending
+ai::RandomSelectTwoAction:
+  status: pending
+ai::RandomSelectTwoActionBase:
+  status: pending
+ai::RangeAttackSelect:
+  status: pending
+ai::RangeCheckSeqTwoAction:
+  status: pending
+ai::RangeHeightSelectTwoAction:
+  status: pending
+ai::RangeLineReachSelectTwoAction:
+  status: pending
+ai::RangeObstacleCheck:
+  status: pending
+ai::RangeSelect:
+  status: pending
+ai::RangeSelectAction:
+  status: pending
+ai::RangeSelectThreeAction:
+  status: pending
+ai::RangeSelectTwoAction:
+  status: pending
+ai::RapidAttackAllowSelect:
+  status: pending
+ai::ReduceDistanceToTargetPos:
+  status: pending
+ai::ReferenceNPCViewWithDynAS:
+  status: pending
+ai::ReflectableBulletThrown:
+  status: pending
+ai::ReflectableEscape:
+  status: pending
+ai::ReflectableIgnitedThrown:
+  status: pending
+ai::ReflectableThrown:
+  status: pending
+ai::RegistedActorNumTwoSelect:
+  status: pending
+ai::RegistedActorNumTwoSelectBase:
+  status: pending
+ai::RemainElectricCannonBeamAttack:
+  status: pending
+ai::RemainElectricCannonRoot:
+  status: pending
+ai::RemainElectricCannonRootBase:
+  status: pending
+ai::RemainsElectricBGCamera:
+  status: pending
+ai::RemainsElectricRoot:
+  status: pending
+ai::RemainsFireBattleMove:
+  status: pending
+ai::RemainsFireBattleStepSelector:
+  status: pending
+ai::RemainsFireDroneNormal:
+  status: pending
+ai::RemainsFireRoot:
+  status: pending
+ai::RemainsLithograph:
+  status: pending
+ai::RemainsRoot:
+  status: pending
+ai::RemainsWaterBattleRoot:
+  status: pending
+ai::RemainsWaterBulletController:
+  status: pending
+ai::RemainsWaterChaseBulletRoot:
+  status: pending
+ai::RemainsWaterNormal:
+  status: pending
+ai::RemainsWaterRoot:
+  status: pending
+ai::RemainsWaterWeakPointRoot:
+  status: pending
+ai::RemainsWindBatteryAttack:
+  status: pending
+ai::RemainsWindBatteryRoot:
+  status: pending
+ai::RemainsWindRoot:
+  status: pending
+ai::RememberMesOneActorEnemyRoot:
+  status: pending
+ai::RemoteBomb:
+  status: pending
+ai::RepeatByLargeDamage:
+  status: pending
+ai::RestLifeSelect:
+  status: pending
+ai::RestreintTired:
+  status: pending
+ai::ReturnFromReactionSelect:
+  status: pending
+ai::ReuseBulletPartsRoot:
+  status: pending
+ai::RideHorseAI:
+  status: pending
+ai::RitoHeroSoulGiftRoot:
+  status: pending
+ai::RodEnemyFindPlayer:
+  status: pending
+ai::RodRoot:
+  status: pending
+ai::RopeRoot:
+  status: pending
+ai::RuinGuardianRoot:
+  status: pending
+ai::RupeeRabbitNormal:
+  status: pending
+ai::SafeMoveAroundTarget:
+  status: pending
+ai::SandfallWithSound:
+  status: pending
+ai::SandwormAttackMove:
+  status: pending
+ai::SandwormBattle:
+  status: pending
+ai::SandwormBlownOff:
+  status: pending
+ai::SandwormCircleMoveTarget:
+  status: pending
+ai::SandwormFindTarget:
+  status: pending
+ai::SandwormLost:
+  status: pending
+ai::SandwormNavSearchWait:
+  status: pending
+ai::SandwormNormal:
+  status: pending
+ai::SandwormNormalBase:
+  status: pending
+ai::SandwormNoticeSound:
+  status: pending
+ai::SandwormReaction:
+  status: pending
+ai::SandwormRNormal:
+  status: pending
+ai::SandwormRoam:
+  status: pending
+ai::SandwormRoot:
+  status: pending
+ai::SandwormRRoot:
+  status: pending
+ai::SandwormStun:
+  status: pending
+ai::SelfXRotSelector:
+  status: pending
+ai::SeqAnimalAttack:
+  status: pending
+ai::SeqAtHitAction:
+  status: pending
+ai::SeqCloseDistTwoAction:
+  status: pending
+ai::SeqDynamicTimeredTwoAction:
+  status: pending
+ai::SeqFirstPointTwo:
+  status: pending
+ai::SeqGroundHit:
+  status: pending
+ai::SeqGroundHitAssassinBoss:
+  status: pending
+ai::SeqHiddenOctarockSearch:
+  status: pending
+ai::SeqIfElseAction:
+  status: pending
+ai::SeqIfFailAction:
+  status: pending
+ai::SeqNextMessage:
+  status: pending
+ai::SeqOctarockAttack:
+  status: pending
+ai::SeqOctarockWigReaction:
+  status: pending
+ai::SeqPredictOctarockAttack:
+  status: pending
+ai::SeqPursuit:
+  status: pending
+ai::SeqRandomRepeat:
+  status: pending
+ai::SeqTargetTwoAction:
+  status: pending
+ai::SeqThreeAction:
+  status: pending
+ai::SeqTimeredAction:
+  status: pending
+ai::SeqTimeredPlusRandomTwoAction:
+  status: pending
+ai::SeqTimeredTwoAction:
+  status: pending
+ai::SeqTrgPartsNotice:
+  status: pending
+ai::SeqTwoAction:
+  status: pending
+ai::SeqTwoLineReachableTargetAction:
+  status: pending
+ai::SeqTwoLineReachableTargetActionBase:
+  status: pending
+ai::SeqTwoWeakPointOnFirstDo:
+  status: pending
+ai::SetPartBind:
+  status: pending
+ai::SetTargetPosForAngryKokko:
+  status: pending
+ai::SetTargetPosForFlyThroughMove:
+  status: pending
+ai::SetTargetPosToPlayer:
+  status: pending
+ai::ShootingEnemyBattle:
+  status: pending
+ai::ShootingEnemyFindPlayer:
+  status: pending
+ai::ShootingStarRoot:
+  status: pending
+ai::ShutterFence:
+  status: pending
+ai::SignaledSpotBgmTrigger:
+  status: pending
+ai::SignalFlowchartRootAI:
+  status: pending
+ai::SignalSendingMagneStickAcceptor:
+  status: pending
+ai::SimpleASBridge:
+  status: pending
+ai::SimpleEnemyNormal:
+  status: pending
+ai::SimpleEscapeFromTarget:
+  status: pending
+ai::SimpleKokkoRoot:
+  status: pending
+ai::SimpleLiftable:
+  status: pending
+ai::SimpleLiftableDLC:
+  status: pending
+ai::SimpleLineBeam:
+  status: pending
+ai::SimpleShootingEnemyFindPlayer:
+  status: pending
+ai::SimpleWildlifeRoot:
+  status: pending
+ai::SiteBossApproachRoot:
+  status: pending
+ai::SiteBossArrowRainAttack:
+  status: pending
+ai::SiteBossAttackRoot:
+  status: pending
+ai::SiteBossBigFlameBall:
+  status: pending
+ai::SiteBossBlowOff:
+  status: pending
+ai::SiteBossBowChildDeviceRoot:
+  status: pending
+ai::SiteBossBowRoot:
+  status: pending
+ai::SiteBossChemicalProjectile:
+  status: pending
+ai::SiteBossFlameBall:
+  status: pending
+ai::SiteBossGaleArrowRoot:
+  status: pending
+ai::SiteBossIceSplinterRoot:
+  status: pending
+ai::SiteBossLswordAttackRoot:
+  status: pending
+ai::SiteBossLswordFireBallRoot:
+  status: pending
+ai::SiteBossLswordRoot:
+  status: pending
+ai::SiteBossLswordTornadoRoot:
+  status: pending
+ai::SiteBossNormalRoot:
+  status: pending
+ai::SiteBossPierceBulletAttack:
+  status: pending
+ai::SiteBossReaction:
+  status: pending
+ai::SiteBossRecognizeRoot:
+  status: pending
+ai::SiteBossRecognizeRootBase:
+  status: pending
+ai::SiteBossReflectArrowRoot:
+  status: pending
+ai::SiteBossRoot:
+  status: pending
+ai::SiteBossShootArrowRoot:
+  status: pending
+ai::SiteBossShootNormalArrowRoot:
+  status: pending
+ai::SiteBossSmallDamageRoot:
+  status: pending
+ai::SiteBossSpearAttackRoot:
+  status: pending
+ai::SiteBossSpearLifeSelector:
+  status: pending
+ai::SiteBossSpearRoot:
+  status: pending
+ai::SiteBossSpearThrow:
+  status: pending
+ai::SiteBossSwordApproachRoot:
+  status: pending
+ai::SiteBossSwordAttackRoot:
+  status: pending
+ai::SiteBossSwordIronPileRoot:
+  status: pending
+ai::SiteBossSwordRailApproach:
+  status: pending
+ai::SiteBossSwordRoot:
+  status: pending
+ai::SiteBossSwordSeqThreeAI:
+  status: pending
+ai::SiteBossSwordWeapon:
+  status: pending
+ai::SiteBossThrowIceRoot:
+  status: pending
+ai::SleepBedRoot:
+  status: pending
+ai::SleepSelect:
+  status: pending
+ai::SnowBallNormal:
+  status: pending
+ai::SnowOctarockBattle:
+  status: pending
+ai::SoundTriggerTag:
+  status: pending
+ai::SpearWeaponSelect:
+  status: pending
+ai::SpecialEnemySleep:
+  status: pending
+ai::SpotBgmTrigger:
+  status: pending
+ai::StalEnemyBlownOff:
+  status: pending
+ai::StalEnemyChasePart:
+  status: pending
+ai::StalEnemyDoShootPartSelect:
+  status: pending
+ai::StalEnemyGrabShootOwnPart:
+  status: pending
+ai::StalEnemyNoHeadWait:
+  status: pending
+ai::StalEnemyReaction:
+  status: pending
+ai::StalEnemyRoot:
+  status: pending
+ai::StalEnemySleep:
+  status: pending
+ai::StalGiantEnemyReaction:
+  status: pending
+ai::StalGiantEnemyRoot:
+  status: pending
+ai::StalGiantSleepNormal:
+  status: pending
+ai::StalHeadLifted:
+  status: pending
+ai::StalHeadPartRoot:
+  status: pending
+ai::StalPartCatch:
+  status: pending
+ai::StalPartNormal:
+  status: pending
+ai::StalPartRoot:
+  status: pending
+ai::StalPartsHasSelect:
+  status: pending
+ai::Stole:
+  status: pending
+ai::StoneBall_BRoot:
+  status: pending
+ai::StoneOctarockBattle:
+  status: pending
+ai::StoneOctarockGuardNearTarget:
+  status: pending
+ai::StoneOctarockWait:
+  status: pending
+ai::StoneShootEnemyBattle:
+  status: pending
+ai::StoneStickRoot:
+  status: pending
+ai::StopTimerObserver:
+  status: pending
+ai::StraightMove:
+  status: pending
+ai::StunBossReaction:
+  status: pending
+ai::StunWithDamageReaction:
+  status: pending
+ai::SubsAngleSelect:
+  status: pending
+ai::SunAI:
+  status: pending
+ai::SunazarashiEscapeMove:
+  status: pending
+ai::SunazarashiNormal:
+  status: pending
+ai::SunazarashiReturn:
+  status: pending
+ai::SunazarashiRoot:
+  status: pending
+ai::SunazarashiTowing:
+  status: pending
+ai::SwarmBattle:
+  status: pending
+ai::SwarmEscapeDie:
+  status: pending
+ai::SwarmRangeKeepCircleMove:
+  status: pending
+ai::SwarmReaction:
+  status: pending
+ai::SwarmRoot:
+  status: pending
+ai::SwarmStopTimerEscape:
+  status: pending
+ai::SwimEnemyFindPlayer:
+  status: pending
+ai::SwimEnemyNormal:
+  status: pending
+ai::SwimEnemyRoam:
+  status: pending
+ai::SwitchAI:
+  status: pending
+ai::SwitchDistance:
+  status: pending
+ai::SwitchElectric:
+  status: pending
+ai::SwitchHit:
+  status: pending
+ai::SwitchHitOnce:
+  status: pending
+ai::SwitchLinkTagCheck:
+  status: pending
+ai::SwitchRightAndWrong:
+  status: pending
+ai::SwitchTimeLag:
+  status: pending
+ai::SwitchTimeLimited:
+  status: pending
+ai::SwitchTimer:
+  status: pending
+ai::SwitchTorch:
+  status: pending
+ai::SwitchWheel:
+  status: pending
+ai::SwitchWindHit:
+  status: pending
+ai::TargetAbsolutePos:
+  status: pending
+ai::TargetActorDistanceSelect:
+  status: pending
+ai::TargetActorGrabAdapter:
+  status: pending
+ai::TargetAngerSelect:
+  status: pending
+ai::TargetAttackAttitudeTgtSelect:
+  status: pending
+ai::TargetAttackAttitudeTgtSelectBase:
+  status: pending
+ai::TargetBaitTypeSelect:
+  status: pending
+ai::TargetBeatCheck:
+  status: pending
+ai::TargetBeatGetDrop:
+  status: pending
+ai::TargetClimbSelect:
+  status: pending
+ai::TargetDirLRInHideSelect:
+  status: pending
+ai::TargetDirLRSelect:
+  status: pending
+ai::TargetDistanceSelect:
+  status: pending
+ai::TargetDynamicActorPos:
+  status: pending
+ai::TargetElevationGapSelect:
+  status: pending
+ai::TargetExistSelect:
+  status: pending
+ai::TargetHomeDir:
+  status: pending
+ai::TargetHomePos:
+  status: pending
+ai::TargetHomeRangeSelect:
+  status: pending
+ai::TargetInAreaSelect:
+  status: pending
+ai::TargetInFanAreaSelect:
+  status: pending
+ai::TargetIsEquipItemSelector:
+  status: pending
+ai::TargetKnockBackBasePos:
+  status: pending
+ai::TargetLastAttackedPos:
+  status: pending
+ai::TargetLastAttacker:
+  status: pending
+ai::TargetLastAttackerPos:
+  status: pending
+ai::TargetLastDamagedPos:
+  status: pending
+ai::TargetLostCheck:
+  status: pending
+ai::TargetMyUp:
+  status: pending
+ai::TargetNPCTypeSelector:
+  status: pending
+ai::TargetOnMovableNavmeshSelect:
+  status: pending
+ai::TargetPartsPos:
+  status: pending
+ai::TargetPickedItem:
+  status: pending
+ai::TargetPlayerPos:
+  status: pending
+ai::TargetPosAI:
+  status: pending
+ai::TargetPosAnchorOffsetSelf:
+  status: pending
+ai::TargetPosAnchorOffsetTarget:
+  status: pending
+ai::TargetPosDirLRSelect:
+  status: pending
+ai::TargetPosDynParamRot:
+  status: pending
+ai::TargetPosDynParamRotFromCtrPos:
+  status: pending
+ai::TargetPosLostCheck:
+  status: pending
+ai::TargetPosOffset:
+  status: pending
+ai::TargetPosOffsetFromMyPos:
+  status: pending
+ai::TargetPosOnNavFaceSelect:
+  status: pending
+ai::TargetPosRotFromMyPos:
+  status: pending
+ai::TargetPosTracking:
+  status: pending
+ai::TargetPredictRotSpdTargetPos:
+  status: pending
+ai::TargetRangeSelect:
+  status: pending
+ai::TargetRepeat:
+  status: pending
+ai::TargetStateSelect:
+  status: pending
+ai::TargetTargetPos:
+  status: pending
+ai::TargetTypeSelector:
+  status: pending
+ai::TemperatureRandSelect:
+  status: pending
+ai::TerminalEnduranceWarpRoot:
+  status: pending
+ai::TimeControlTagRoot:
+  status: pending
+ai::TimedGuardNearTarget:
+  status: pending
+ai::TimelineAI:
+  status: pending
+ai::TimeredViewWait:
+  status: pending
+ai::TimidityEnemyDrawback:
+  status: pending
+ai::TiredDistSelect:
+  status: pending
+ai::TornadoRoot:
+  status: pending
+ai::Towing:
+  status: pending
+ai::TowingPlayer:
+  status: pending
+ai::TreasureBox:
+  status: pending
+ai::TreasureBoxRoot:
+  status: pending
+ai::TreasureSpot:
+  status: pending
+ai::TrgTargetChangeToPlayerSelect:
+  status: pending
+ai::TrolleyGrabbedByMagnet:
+  status: pending
+ai::TrolleyOnRail:
+  status: pending
+ai::TrolleyRoot:
+  status: pending
+ai::TurnForLookingAround:
+  status: pending
+ai::TurnPreAction:
+  status: pending
+ai::TwnObjDlcFlightTrainingTarget:
+  status: pending
+ai::UnarmedEnemyNoiseTarget:
+  status: pending
+ai::UnarmedEnemySearch:
+  status: pending
+ai::UnarmedEnemySearchWeapon:
+  status: pending
+ai::UnarmedWeaponEquipableEnemyAct:
+  status: pending
+ai::UnderWaterDepthSelect:
+  status: pending
+ai::UrbosasFuryDamageSelector:
+  status: pending
+ai::VacuumedBombDamageSelect:
+  status: pending
+ai::VehicleSelector:
+  status: pending
+ai::ViewChaseSound:
+  status: pending
+ai::ViewfrustumCheckTagRoot:
+  status: pending
+ai::ViewMove:
+  status: pending
+ai::ViewWait:
+  status: pending
+ai::ViewWaitEndWhenAimed:
+  status: pending
+ai::ViewWaitRiskAvoid:
+  status: pending
+ai::ViewWaitWithFaceView:
+  status: pending
+ai::ViewWaitWithInstDynActor:
+  status: pending
+ai::WaistRotEnemyArrowAttack:
+  status: pending
+ai::WaitAndFaceLeader:
+  status: pending
+ai::WaitForCloseOrWaterSide:
+  status: pending
+ai::WaitForTargetClose:
+  status: pending
+ai::WaitNearTarget:
+  status: pending
+ai::WaitNearTargetAwarenessRange:
+  status: pending
+ai::WaitPartsSleep:
+  status: pending
+ai::WarpActivateTerminal:
+  status: pending
+ai::WarpSafeTagRoot:
+  status: pending
+ai::WarpTagRoot:
+  status: pending
+ai::WaterFallWithSound:
+  status: pending
+ai::WaterSurface:
+  status: pending
+ai::WaterSurface4RemainsLava:
+  status: pending
+ai::WaterSurfaceBase:
+  status: pending
+ai::WeakPointRoot:
+  status: pending
+ai::WeakStateSelecter:
+  status: pending
+ai::WeaponEquipedAI:
+  status: pending
+ai::WeaponEquipEnemyWakeUp:
+  status: pending
+ai::WeaponHoldSelector:
+  status: pending
+ai::WeaponOnetimeUse:
+  status: pending
+ai::WeaponPrepareSelect:
+  status: pending
+ai::WeaponRangeKindSelect:
+  status: pending
+ai::WeaponRootAI:
+  status: pending
+ai::WeaponSelector:
+  status: pending
+ai::WeaponSubTypeSelect:
+  status: pending
+ai::WeaponThrowerSelector:
+  status: pending
+ai::WeaponTrueFormSelect:
+  status: pending
+ai::WeaponUsageSelect:
+  status: pending
+ai::WeatherReactionCheck:
+  status: pending
+ai::WetSelect:
+  status: pending
+ai::WholeDungeonRotateTag:
+  status: pending
+ai::WildHorseDefWanderAI:
+  status: pending
+ai::WillBallAttackLevelSelect:
+  status: pending
+ai::WillBallFollowAttack:
+  status: pending
+ai::WillBallFollowAttackWithDynAng:
+  status: pending
+ai::WillBallOperated:
+  status: pending
+ai::WillBallRoot:
+  status: pending
+ai::WindBoxPlace:
+  status: pending
+ai::WindGenerator:
+  status: pending
+ai::WindGeneratorSignal:
+  status: pending
+ai::WithoutWeaponArrow:
+  status: pending
+ai::WizzrobeBlownOff:
+  status: pending
+ai::WizzrobeCircleMove:
+  status: pending
+ai::WizzrobeCombat:
+  status: pending
+ai::WizzrobeCombatMove:
+  status: pending
+ai::WizzrobeFindPlayer:
+  status: pending
+ai::WizzrobeRoam:
+  status: pending
+ai::WizzrobeRoot:
+  status: pending
+ai::WizzrobeWeatherMagic:
+  status: pending
+ai::WolfLinkAmiibo:
+  status: pending
+ai::WolfLinkBattleRoot:
+  status: pending
+ai::WolfLinkChainAttack:
+  status: pending
+ai::WolfLinkFollowPlayerRoot:
+  status: pending
+ai::WolfLinkFollowWait:
+  status: pending
+ai::WolfLinkGoToTarget:
+  status: pending
+ai::WolfLinkLeadToTarget:
+  status: pending
+ai::WolfLinkNormalRoot:
+  status: pending
+ai::WolfLinkReaction:
+  status: pending
+ai::WolfLinkRoot:
+  status: pending
+ai::WolfLinkRushAttack:
+  status: pending
+ai::WolfLinkSeqAttack:
+  status: pending
+ai::WolfLinkShiekSensorRoot:
+  status: pending
+ai::WolfLinkWarp:
+  status: pending
+ai::YunBoCannon:
+  status: pending
+ai::YunBoCannonBallRoot:
+  status: pending
+ai::ZokuchoSunazarashi:
+  status: pending
+ai::ZoraHeroRelicBattleNormal:
+  status: pending
+ai::ZoraHeroRelicBattleRidePlayer:
+  status: pending
+ai::ZoraHeroRelicBattleRoot:
+  status: pending
+ai::ZoraHeroSoulGiftRoot:
+  status: pending
+ai::ZoraHeroWarp2Player:
+  status: pending

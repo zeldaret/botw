@@ -74,7 +74,7 @@ void TempResourceLoader::requestLoad(LoadArg& arg) {
 }
 
 sead::DirectResource* TempResourceLoader::getResourceForLoadRequest(Context* context) {
-    if (!mLoadArg.use_handle || !mHandle.isFlag2Set() || mHandle.isFlag8Set() ||
+    if (!mLoadArg.use_handle || !mHandle.requestedLoad() || mHandle.hasParsedResource() ||
         !mHandle.isReadyOrNeedsParse()) {
         return nullptr;
     }

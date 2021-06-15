@@ -1,5 +1,5 @@
 #include "Game/AI/Query/queryRandomChoiceExceptOnFlag.h"
-#include <evfl/query.h>
+#include <evfl/Query.h>
 #include <prim/seadBitFlag.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/GameData/gdtManager.h"

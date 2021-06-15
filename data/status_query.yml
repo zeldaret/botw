@@ -1,0 +1,328 @@
+query::BranchByDyeColor:
+  status: pending
+query::BranchByGameOver:
+  status: pending
+query::CanCreateMakeItemList:
+  status: pending
+query::CanMarkMapPin:
+  status: pending
+query::Check100EnemyActiveTiming:
+  status: pending
+query::CheckActorAction:
+  status: pending
+query::CheckActorAction13:
+  status: pending
+query::CheckActorAction14_2:
+  status: pending
+query::CheckAddPorchItem:
+  status: pending
+query::CheckAppPoint:
+  status: pending
+query::CheckAppShopSelect:
+  status: pending
+query::CheckAreaTransition:
+  status: pending
+query::CheckBalladOfHeroActiveTiming:
+  status: pending
+query::CheckContainerItem:
+  status: done
+query::CheckCookResultStatus:
+  status: pending
+query::CheckCurrentMap:
+  status: pending
+query::CheckCurseRRetryEverOnce:
+  status: pending
+query::CheckDeadHorseResistered:
+  status: pending
+query::CheckDeadlyQuestEscapeTiming:
+  status: pending
+query::CheckDieCnt:
+  status: done
+query::CheckDistanceForWarp:
+  status: pending
+query::CheckDistanceFromPlayer:
+  status: pending
+query::CheckDownloadItemNum:
+  status: pending
+query::CheckDuringBloodyMoon:
+  status: pending
+query::CheckDyeShopSelect:
+  status: pending
+query::CheckE3Mode:
+  status: pending
+query::CheckEatActor:
+  status: pending
+query::CheckElapsedTimeOfMiniGame:
+  status: pending
+query::CheckEquipArmorSeriesType:
+  status: pending
+query::CheckEquipItemType:
+  status: pending
+query::CheckEquipment:
+  status: pending
+query::CheckEventCancel:
+  status: pending
+query::CheckExistActor:
+  status: pending
+query::CheckExistArrow:
+  status: pending
+query::CheckExtraEnergyOfPlayer:
+  status: pending
+query::CheckExtraLifeOfPlayer:
+  status: pending
+query::CheckFadeState:
+  status: pending
+query::CheckFame:
+  status: done
+query::CheckFlag:
+  status: done
+query::CheckGameDataFloat:
+  status: done
+query::CheckGameDataInt:
+  status: done
+query::CheckGetDemoTypeFromArg:
+  status: done
+query::CheckGiveReward:
+  status: done
+query::CheckHasManifactureArmor:
+  status: pending
+query::CheckHorseCustomizeSelect:
+  status: pending
+query::CheckHorseDeadCause:
+  status: pending
+query::CheckHorseRegistered:
+  status: pending
+query::CheckHorseTakenOut:
+  status: pending
+query::CheckIsOpenItemCategory:
+  status: done
+query::CheckItemShopDecide:
+  status: pending
+query::CheckItemShopPorchVacancy:
+  status: pending
+query::CheckItemShopSelect:
+  status: pending
+query::CheckItemShopSelectBuy:
+  status: pending
+query::CheckJustBeforeEventCancel:
+  status: pending
+query::CheckLastDamageAttacker:
+  status: pending
+query::CheckManufactResult:
+  status: pending
+query::CheckMapArea:
+  status: pending
+query::CheckMasterSwordState:
+  status: pending
+query::CheckMaterialValue:
+  status: pending
+query::CheckMiniGameTime:
+  status: pending
+query::CheckMiniGameTimeOver:
+  status: pending
+query::CheckNumOfBuyPicture:
+  status: pending
+query::CheckOwnedHorseFamiliarity:
+  status: pending
+query::CheckPictureBookVacancy:
+  status: pending
+query::CheckPlacedItemSaled:
+  status: pending
+query::CheckPlayerDeadCause:
+  status: pending
+query::CheckPlayerEquip:
+  status: pending
+query::CheckPlayerFastFadeDead:
+  status: pending
+query::CheckPlayerHellType:
+  status: pending
+query::CheckPlayerPullSwordFailEnd:
+  status: pending
+query::CheckPlayerRideHorse:
+  status: pending
+query::CheckPlayerRideSunazarashi:
+  status: pending
+query::CheckPlayerState:
+  status: pending
+query::CheckPlayerTemperatureCondition:
+  status: pending
+query::CheckPlayerWeaponFired:
+  status: pending
+query::CheckPorchInItem:
+  status: pending
+query::CheckProConUse:
+  status: pending
+query::CheckRainRatio:
+  status: pending
+query::CheckRankOfEnemyAttackedNPC:
+  status: pending
+query::CheckReceiveTerrorLevel:
+  status: pending
+query::CheckResultOfNPCConflict:
+  status: pending
+query::CheckRoad:
+  status: pending
+query::CheckRupee:
+  status: pending
+query::CheckSelectPicture:
+  status: pending
+query::CheckSellResult:
+  status: pending
+query::CheckShopSelectedItemName:
+  status: pending
+query::CheckSiteBossDamageAnm:
+  status: pending
+query::CheckStage:
+  status: pending
+query::CheckStarter:
+  status: pending
+query::CheckTerrorLevel:
+  status: pending
+query::CheckTime:
+  status: pending
+query::CheckTimeType:
+  status: pending
+query::CheckTypeOfOwnedHorseForEvent:
+  status: pending
+query::CheckTypeOfWildHorseAssociated:
+  status: pending
+query::CheckVacancyItem:
+  status: pending
+query::CheckWarpMist:
+  status: pending
+query::CheckWeaponVacancyItem:
+  status: pending
+query::CheckWeather:
+  status: pending
+query::CompareGameDataFloat:
+  status: done
+query::CompareGameDataInt:
+  status: done
+query::CompareGameDataTime:
+  status: done
+query::ComparePlayerFireResistantLevel:
+  status: pending
+query::ComparePlayerHeart:
+  status: pending
+query::ComparePlayerMaxHeart:
+  status: pending
+query::ComparePlayerMaxStamina:
+  status: pending
+query::ComparePlayerOriginalHeart:
+  status: pending
+query::CountFlag4:
+  status: pending
+query::EnemyDieCheck:
+  status: pending
+query::EnemyRestLifeRate:
+  status: pending
+query::GeneralChoice2:
+  status: pending
+query::GeneralChoice3:
+  status: pending
+query::GeneralChoice4:
+  status: pending
+query::GeneralChoice8:
+  status: pending
+query::HasArmorAlreadyDyed:
+  status: pending
+query::HasArmorDye:
+  status: pending
+query::HasCookResultInPorch:
+  status: pending
+query::HasEnoughPayment:
+  status: pending
+query::HasItemDye:
+  status: pending
+query::HasItemDyeSpecifiedColor:
+  status: pending
+query::HasPorchArrow:
+  status: pending
+query::HasPorchItem:
+  status: pending
+query::HasPorchItemByCategory:
+  status: pending
+query::HasPouchItemByPouchCategory:
+  status: pending
+query::HasSetItem:
+  status: pending
+query::HasSpecificArmorSeries:
+  status: pending
+query::IsAppAlreadyExchanged:
+  status: pending
+query::IsArriveAnchorForRain:
+  status: pending
+query::IsAwakened:
+  status: pending
+query::IsBloodyMoonTrig:
+  status: pending
+query::IsCurrentAocFieldStage:
+  status: pending
+query::IsCurrentCDungeonStage:
+  status: pending
+query::IsCurrentMainFieldDungeonStage:
+  status: pending
+query::IsCurrentMainFieldStage:
+  status: pending
+query::IsEquipedDyedArmor:
+  status: pending
+query::IsEquippedEnableDye:
+  status: pending
+query::IsEquippedWithLowerBody:
+  status: pending
+query::IsHorseFamiliarityPassedAlready:
+  status: pending
+query::IsHorseNumMax:
+  status: pending
+query::IsIgnitionByArrowFire:
+  status: pending
+query::IsItemInStock:
+  status: pending
+query::IsNeedEquipWeapon:
+  status: pending
+query::IsNoEquipArmorAnyTarget:
+  status: pending
+query::IsOffLinkTag:
+  status: pending
+query::IsOnEnterDungeonFlag:
+  status: pending
+query::IsOnInstEventFlag:
+  status: pending
+query::IsOwnedHorseAssociated:
+  status: pending
+query::IsPlayerGrounded:
+  status: pending
+query::IsRest:
+  status: pending
+query::IsRideHorse:
+  status: pending
+query::IsSoldOut:
+  status: pending
+query::IsSuccessEndLastDemoAction:
+  status: pending
+query::IsTerrorDisappeared:
+  status: pending
+query::IsWaitRevival:
+  status: pending
+query::IsWeaponDrawn:
+  status: pending
+query::KeyInputCheck:
+  status: pending
+query::RandomChoice2:
+  status: done
+query::RandomChoice3:
+  status: done
+query::RandomChoice4:
+  status: done
+query::RandomChoice8:
+  status: done
+query::RandomChoiceExceptOnFlag:
+  status: done
+query::WhatCurrentItem:
+  status: pending
+query::WhatDayOfTheWeek:
+  status: pending
+query::WhatDungeonType:
+  status: pending
+query::WhatMoonName:
+  status: pending

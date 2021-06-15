@@ -19,6 +19,7 @@ class RootAi;
 }
 
 class LifeRecoverInfo;
+class ActorCreator;
 class ActorParam;
 
 class Actor : public BaseProc {
@@ -32,7 +33,14 @@ public:
     enum class ActorFlag {
         _18 = 0x18,
         _25 = 0x25,
+        _29 = 0x29,
         _2b = 0x2b,
+        _2e = 0x2e,
+        _39 = 0x39,
+    };
+
+    enum class ActorFlag2 {
+        NoDistanceCheck = 0x80,
     };
 
     enum class DeleteType {
@@ -70,12 +78,21 @@ public:
 
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
+    sead::TypedBitFlag<ActorFlag2>& getActorFlags2() { return mActorFlags2; }
+    const sead::TypedBitFlag<ActorFlag2>& getActorFlags2() const { return mActorFlags2; }
+
     const sead::TypedBitFlag<StasisFlag>& getStasisFlags() const { return mStasisFlags; }
 
     void onAiEnter(const char* name, const char* context);
 
+    static constexpr size_t getCreatorListNodeOffset() { return offsetof(Actor, mCreatorListNode); }
+
 protected:
-    /* 0x180 */ u8 TEMP_0x180[0x3D8];  // FIXME
+    friend class ActorCreator;
+
+    /* 0x17c */ u8 TEMP_0x17c[0x518 - 0x17c];  // FIXME
+    /* 0x518 */ sead::TypedBitFlag<ActorFlag2> mActorFlags2;
+    /* 0x51c */ u8 TEMP_0x51c[0x558 - 0x51c];
     /* 0x558 */ ai::RootAi* mRootAi;
     /* 0x560 */ void* mASList;   // FIXME
     /* 0x568 */ void* mEffects;  // FIXME
@@ -85,12 +102,13 @@ protected:
     /* 0x658 */ u8 TEMP_0x650[0x710 - 0x658];
     /* ..... */  // The name could be incorrect.
     /* 0x710 */ sead::TypedBitFlag<StasisFlag> mStasisFlags;
-    /* 0x714 */ u8 TEMP_0x714[0x7c8 - 0x714];  // FIXME
+    /* 0x714 */ u8 TEMP_0x714[0x7b0 - 0x714];  // FIXME
+    /* 0x7b0 */ ActorCreator* mCreator{};
+    /* 0x7b8 */ sead::ListNode mCreatorListNode;
     /* 0x7c8 */ map::Object* mMapObject;
     /* 0x7d0 */ u8 TEMP_0x7d0[0x838 - 0x7d0];
 };
 KSYS_CHECK_SIZE_NX150(Actor, 0x838);
-
 }  // namespace act
 
 }  // namespace ksys

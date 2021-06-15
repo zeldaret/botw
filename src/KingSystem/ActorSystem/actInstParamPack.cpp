@@ -39,7 +39,7 @@ bool InstParamPack::Buffer::pop(s32* position, InstParamPack::Entry* out_entry) 
     switch (out_entry->type) {
     case EntryType::Int:
         return read(out_entry->data.i, position);
-    case EntryType::_1:
+    case EntryType::UInt:
         return read(out_entry->data.type1, position);
     case EntryType::Float:
         return read(out_entry->data.f, position);

@@ -1,4 +1,7 @@
 target_sources(uking PRIVATE
+  LOD/actLodState.cpp
+  LOD/actLodState.h
+
   Profiles/actPlayerBase.cpp
   Profiles/actPlayerBase.h
   Profiles/actRopeBase.cpp
@@ -12,6 +15,8 @@ target_sources(uking PRIVATE
   actActorConstDataAccess.h
   actActorCreator.cpp
   actActorCreator.h
+  actActorEditorNode.cpp
+  actActorEditorNode.h
   actActorFactory.cpp
   actActorFactory.h
   actActorHeapUtil.cpp
@@ -24,6 +29,8 @@ target_sources(uking PRIVATE
   actActorParam.h
   actActorParamMgr.cpp
   actActorParamMgr.h
+  actActorSystem.cpp
+  actActorSystem.h
   actActorTemplate.cpp
   actActorTemplate.h
   actActorUtil.cpp
@@ -38,6 +45,7 @@ target_sources(uking PRIVATE
   actAiBehavior.h
   actAiClassDef.cpp
   actAiClassDef.h
+  actAiInlineParam.h
   actAiParam.cpp
   actAiParam.h
   actAiQuery.cpp
@@ -46,16 +54,30 @@ target_sources(uking PRIVATE
   actAiQueries.h
   actAiRoot.cpp
   actAiRoot.h
-  actAttention.cpp
-  actAttention.h
+  actASSetting.cpp
+  actASSetting.h
+  Attention/actAttention.cpp
+  Attention/actAttention.h
   actBaseProc.cpp
   actBaseProc.h
+  actBaseProcCreateTask.cpp
+  actBaseProcCreateTask.h
+  actBaseProcCreateTaskSelector.cpp
+  actBaseProcCreateTaskSelector.h
+  actBaseProcDeleter.cpp
+  actBaseProcDeleter.h
   actBaseProcHandle.cpp
   actBaseProcHandle.h
+  actBaseProcHeapMgr.cpp
+  actBaseProcHeapMgr.h
+  actBaseProcInitializer.cpp
+  actBaseProcInitializer.h
   actBaseProcJob.cpp
   actBaseProcJob.h
   actBaseProcJobHandler.cpp
   actBaseProcJobHandler.h
+  actBaseProcJobQue.cpp
+  actBaseProcJobQue.h
   actBaseProcLink.cpp
   actBaseProcLink.h
   actBaseProcMap.cpp

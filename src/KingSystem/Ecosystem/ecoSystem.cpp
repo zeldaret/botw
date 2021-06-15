@@ -30,28 +30,28 @@ SEAD_SINGLETON_DISPOSER_IMPL(Ecosystem)
 void Ecosystem::calc() {}
 
 // NON_MATCHING: FP instructions rearranged.
-s32 Ecosystem::getCurrentAreaNum(EcoMapInfo* info, f32 posX, f32 posZ) const {
+s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
     posX = sead::clamp(posX, -5000.0F, 4999.0F);
     posZ = sead::clamp(posZ, -4000.0F, 4000.0F);
     f32 epsilon1 = (posX + 5000.0F >= 0.0F) ? 0.5F : -0.5F;
     f32 epsilon2 = (posZ + 4000.0F >= 0.0F) ? 0.5F : -0.5F;
     s32 x = posX + 5000.0F + epsilon1;
-    s32 z = (posZ + 4000.0F + epsilon2) / info->mHeader->divisor;
+    s32 z = (posZ + 4000.0F + epsilon2) / info.mHeader->divisor;
 
-    s32 row = sead::clamp(z, (s32)0, info->mHeader->num_rows - 2);
+    s32 row = sead::clamp(z, (s32)0, info.mHeader->num_rows - 2);
 
-    if (info->mHeader->divisor == 10)
+    if (info.mHeader->divisor == 10)
         x = x / 10;
 
-    s32* offsets = (s32*)info->mRowOffsets + row;
+    s32* offsets = (s32*)info.mRowOffsets + row;
     s32 val0 = offsets[0];
     s32 val1 = offsets[1];
 
     if (val0 >= val1)
         return -1;
 
-    Segment* segmentEnd = reinterpret_cast<Segment*>((char*)info->mRows + 2 * val1);
-    Segment* segment = reinterpret_cast<Segment*>((char*)info->mRows + 2 * val0);
+    Segment* segmentEnd = reinterpret_cast<Segment*>((char*)info.mRows + 2 * val1);
+    Segment* segment = reinterpret_cast<Segment*>((char*)info.mRows + 2 * val0);
     s32 totalLength = 0;
     while (true) {
         totalLength += segment->length;

@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
+#include <resource/seadResource.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -15,8 +16,9 @@ class OverlayArena;
 
 namespace ksys::res {
 
-class EntryFactoryBase;
 class Handle;
+
+class EntryFactoryBase;
 
 class ILoadRequest {
     SEAD_RTTI_BASE(ILoadRequest)

@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  Thread/ActorMessageTransceiver.cpp
+  Thread/ActorMessageTransceiver.h
   Thread/Event.cpp
   Thread/Event.h
   Thread/GameTaskThread.cpp
@@ -7,6 +9,33 @@ target_sources(uking PRIVATE
   Thread/ManagedTask.h
   Thread/ManagedTaskHandle.cpp
   Thread/ManagedTaskHandle.h
+  Thread/Message.cpp
+  Thread/Message.h
+  Thread/MessageAck.cpp
+  Thread/MessageAck.h
+  Thread/MessageBroker.cpp
+  Thread/MessageBroker.h
+  Thread/MessageDispatcher.cpp
+  Thread/MessageDispatcher.h
+  Thread/MessageDispatcherBase.cpp
+  Thread/MessageDispatcherBase.h
+  Thread/MessageProcessor.cpp
+  Thread/MessageProcessor.h
+  Thread/MessageReceiver.cpp
+  Thread/MessageReceiver.h
+  Thread/MessageReceiverAdapter.cpp
+  Thread/MessageReceiverAdapter.h
+  Thread/MessageReceiverEx.cpp
+  Thread/MessageReceiverEx.h
+  Thread/MessageTransceiverBase.cpp
+  Thread/MessageTransceiverBase.h
+  Thread/MessageTransceiverCommon.h
+  Thread/MessageTransceiverId.cpp
+  Thread/MessageTransceiverId.h
+  Thread/MessageTransceiverRxOnly.cpp
+  Thread/MessageTransceiverRxOnly.h
+  Thread/MessageTransceiverTxOnly.cpp
+  Thread/MessageTransceiverTxOnly.h
   Thread/Task.cpp
   Thread/Task.h
   Thread/TaskData.h
@@ -41,9 +70,11 @@ target_sources(uking PRIVATE
   HeapUtil.cpp
   HeapUtil.h
   InitTimeInfo.h
+  ParamIO.cpp
   ParamIO.h
   SafeDelete.h
   StrTreeMap.h
   TypeTraits.h
   Types.h
+  UniqueArrayPtr.h
 )

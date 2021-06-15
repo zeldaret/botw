@@ -2,8 +2,6 @@
 
 namespace ksys::res {
 
-LifeCondition::LifeCondition() : ParamIO("lifecondition", 0) {}
-
 // NON_MATCHING: two instructions swapped
 bool LifeCondition::parse_(u8* data, size_t, sead::Heap* heap) {
     if (!data)
@@ -27,7 +25,7 @@ bool LifeCondition::parse_(u8* data, size_t, sead::Heap* heap) {
     if (display_distance_obj.ptr()) {
         mDisplayDistance.init(0.0, "Item", "表示距離", &mDisplayDistanceObj);
         addObj(&mDisplayDistanceObj, "DisplayDistance");
-        mDisplayDistanceObj.applyResParameterObj(display_distance_obj, nullptr);
+        mDisplayDistanceObj.applyResParameterObj(display_distance_obj);
     }
 
     const auto auto_display_distance_algorithm_obj =
@@ -35,14 +33,14 @@ bool LifeCondition::parse_(u8* data, size_t, sead::Heap* heap) {
     if (auto_display_distance_algorithm_obj.ptr()) {
         mBoundingY.init("Bouding.Y", "Item", "自動距離算出アルゴリズム", &mBoundingYObj);
         addObj(&mBoundingYObj, "AutoDisplayDistanceAlgorithm");
-        mBoundingYObj.applyResParameterObj(auto_display_distance_algorithm_obj, nullptr);
+        mBoundingYObj.applyResParameterObj(auto_display_distance_algorithm_obj);
     }
 
     const auto y_limit_algorithm_obj = agl::utl::getResParameterObj(root, "YLimitAlgorithm");
     if (y_limit_algorithm_obj.ptr()) {
         mYLimitAlgorithm.init("NoLimit", "Item", "Y制限アルゴリズム", &mYLimitAlgorithmObj);
         addObj(&mYLimitAlgorithmObj, "YLimitAlgorithm");
-        mYLimitAlgorithmObj.applyResParameterObj(y_limit_algorithm_obj, nullptr);
+        mYLimitAlgorithmObj.applyResParameterObj(y_limit_algorithm_obj);
     }
 
     const auto delete_weathers_obj = agl::utl::getResParameterObj(root, "DeleteWeathers");
@@ -63,7 +61,7 @@ void LifeCondition::parseArray(const agl::utl::ResParameterObj* data, agl::utl::
                                const sead::SafeString& key, const sead::SafeString& desc,
                                sead::Heap* heap) {
     addObj(obj, key);
-    obj->applyResParameterObj(*data, nullptr);
+    obj->applyResParameterObj(*data);
 
     auto count = data->mPtr->getNumParameters();
     if (count == 0)
@@ -78,7 +76,7 @@ void LifeCondition::parseArray(const agl::utl::ResParameterObj* data, agl::utl::
         (*buffer)[i].init("", s, desc, obj);
     }
 
-    obj->applyResParameterObj(*data, nullptr);
+    obj->applyResParameterObj(*data);
 }
 
 }  // namespace ksys::res

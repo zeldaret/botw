@@ -2,9 +2,18 @@
 #include <algorithm>
 #include <devenv/seadStackTrace.h>
 #include <mc/seadCoreInfo.h>
+#include <time/seadTickTime.h>
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtFlagProxy.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resResourceGameData.h"
 #include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/StageInfo.h"
+#include "KingSystem/System/UIGlue.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/Utils/SafeDelete.h"
@@ -106,6 +115,12 @@ inline Flag<T>* getFlag(const sead::PtrArray<FlagBase>& flags, const sead::SafeS
     if (name.isEmpty())
         return nullptr;
     return getFlag<T>(flags, sead::HashCRC32::calcStringHash(name));
+}
+
+template <typename T>
+inline Flag<T>* getFlagAndIndex(s32* idx, const sead::PtrArray<FlagBase>& flags, u32 name_hash) {
+    *idx = getFlagIndex(flags, name_hash);
+    return getFlagByIndex<T>(flags, *idx);
 }
 
 template <typename T, typename FlagValueType = T>
@@ -375,6 +390,25 @@ bool getFlagArraySize(const sead::PtrArray<sead::PtrArray<FlagBase>>& arrays, s3
     return true;
 }
 
+bool resetFlag(bool* was_reset, const sead::PtrArray<FlagBase>& flags, s32 idx,
+               bool check_permissions) {
+    *was_reset = false;
+
+    auto* flag = getFlagByIndexBase(flags, idx);
+    if (!flag)
+        return false;
+
+    if (check_permissions && !flag->isProgramWritable())
+        return false;
+
+    if (flag->isInitialValue())
+        return true;
+
+    flag->resetToInitialValue();
+    *was_reset = true;
+    return true;
+}
+
 template <typename T>
 inline void copyGameDataResBuffer(sead::Buffer<T>& source, sead::PtrArray<FlagBase>& dest,
                                   sead::Heap* heap) {
@@ -459,6 +493,10 @@ void addFlagCopyRecord(sead::ObjArray<TriggerParam::FlagCopyRecord>& records, Fl
         record->sub_index = sub_index;
     }
     record->bf.makeAllZero();
+}
+
+constexpr bool IsString256ArrayType(FlagType::ValueType type) {
+    return type == FlagType::String256Array;
 }
 }  // namespace
 
@@ -769,7 +807,7 @@ void TriggerParam::initResetData(sead::Heap* heap) {
             mResetEntries[reset_entry_idx].type = TYPE;                                            \
                                                                                                    \
             /* ??? */                                                                              \
-            if constexpr (TYPE == FlagType::String256Array)                                        \
+            if constexpr (IsString256ArrayType(TYPE))                                              \
                 mResetEntries[reset_entry_idx].index = s16(i);                                     \
             else                                                                                   \
                 mResetEntries[reset_entry_idx].index = i;                                          \
@@ -1437,25 +1475,17 @@ SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec4f, getVec4fArrayIdx, cons
 
 #define RESET_FLAG_VALUE_IMPL_(FUNCTION_NAME, FLAGS, T)                                            \
     bool FUNCTION_NAME(s32 idx, bool check_permissions) {                                          \
-        auto* flag = getFlagByIndexBase(FLAGS, idx);                                               \
-        if (!flag)                                                                                 \
-            return false;                                                                          \
-                                                                                                   \
-        if (check_permissions && !flag->isProgramWritable())                                       \
-            return false;                                                                          \
-                                                                                                   \
-        if (flag->isInitialValue())                                                                \
-            return true;                                                                           \
-                                                                                                   \
-        flag->resetToInitialValue();                                                               \
-        recordFlagChange(FLAGS[idx], idx);                                                         \
-        reportFlagChange<T>(FLAGS[idx]);                                                           \
-                                                                                                   \
-        return true;                                                                               \
+        bool was_reset = false;                                                                    \
+        const bool ok = resetFlag(&was_reset, FLAGS, idx, check_permissions);                      \
+        if (was_reset) {                                                                           \
+            recordFlagChange(FLAGS[idx], idx);                                                     \
+            reportFlagChange<T>(FLAGS[idx]);                                                       \
+        }                                                                                          \
+        return ok;                                                                                 \
     }
 
 #define RESET_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, FLAGS, GET_IDX_FN)                            \
-    bool FUNCTION_NAME(const sead::SafeString& name, bool check_permissions) {                     \
+    bool FUNCTION_NAME(const sead::SafeString& name, bool check_permissions, bool) {               \
         return FUNCTION_NAME(GET_IDX_FN(name), check_permissions);                                 \
     }
 
@@ -1487,7 +1517,7 @@ SET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(TriggerParam::setVec4f, getVec4fArrayIdx, cons
     }
 
 #define RESET_ARRAY_FLAG_VALUE_BY_KEY_IMPL_(FUNCTION_NAME, FLAGS, GET_IDX_FN)                      \
-    bool FUNCTION_NAME(const sead::SafeString& name, s32 sub_idx, bool check_permissions) {        \
+    bool FUNCTION_NAME(const sead::SafeString& name, s32 sub_idx, bool check_permissions, bool) {  \
         return FUNCTION_NAME(GET_IDX_FN(name), sub_idx, check_permissions);                        \
     }
 
@@ -1590,6 +1620,255 @@ void TriggerParam::resetAllFlagsToInitialValues() {
         for (s32 j = 0; j < mVector4fArrayFlags[i]->size(); ++j)
             resetVec4f(i, j, false);
     }
+}
+
+int TriggerParam::resetFlagsAccordingToPolicy(sead::BitFlag32 policy, int skip) {
+    [[maybe_unused]] sead::TickTime now;
+    [[maybe_unused]] sead::TickTime time_end;
+
+    auto it = mResetEntries.begin(skip);
+    const auto end = mResetEntries.end();
+
+    int arrows[6];
+    int col1 = 0;
+    int row1 = 0;
+    int col2 = 0;
+    int row2 = 0;
+    const bool main_field = StageInfo::sIsMainField;
+
+    if (policy.isOnBit(int(ResetType::ResetAtMidnight))) {
+        act::getRevivalGridPosition(act::ActorSystem::instance()->getPlayerPos(), &col1, &row1,
+                                    &col2, &row2);
+        for (int i = 0; i < 6; ++i)
+            arrows[i] = ui::getPorchNum(act::arrowTypeToString(static_cast<act::ArrowType>(i)));
+    }
+    sead::Buffer<int> arrow_counts(arrows);
+
+    const auto skip_flag = [&](bool* is_shop_item, FlagBase* flag) {
+        return flag && !flag->isInitialValue() &&
+               shouldSkipRevivingShopItem(is_shop_item, flag->getHash(), main_field, arrow_counts,
+                                          col1, row1, col2, row2);
+    };
+
+    for (int processed = 0; it != end; ++it) {
+        const auto& entry = *it;
+        if (!policy.isOnBit(entry.reset_type.mValue))
+            continue;
+
+        ++processed;
+
+        switch (FlagType(entry.type)) {
+        case FlagType::Bool: {
+            if (entry.reset_type == ResetType::ResetAtMidnight) {
+                auto* flag = getBoolFlag(entry.index);
+                bool is_shop_item = false;
+                if (!flag)
+                    goto reset_bool;
+                if (skip_flag(&is_shop_item, flag))
+                    break;
+                if (!is_shop_item)
+                    goto reset_bool;
+
+                al::ByamlIter iter;
+                if (Manager::instance()->getShopSoldOutInfo(flag->getHash(), &iter)) {
+                    al::ByamlIter flags;
+                    if (!iter.tryGetIterByKey(&flags, "SoldOutFlags"))
+                        goto reset_bool;
+
+                    for (int k = 0, n = flags.getSize(); k < n; ++k) {
+                        u32 name_hash;
+                        if (!flags.tryGetUIntByIndex(&name_hash, k))
+                            continue;
+
+                        int flag_idx;
+                        auto* sold_out_flag = getBoolFlagAndIdx(&flag_idx, name_hash);
+                        if (sold_out_flag && !sold_out_flag->isInitialValue())
+                            resetBool(flag_idx, false);
+                    }
+                }
+            }
+        reset_bool:
+            resetBool(entry.index, false);
+            break;
+        }
+        case FlagType::S32:
+            if (entry.reset_type == ResetType::ResetAtMidnight) {
+                auto* flag = getS32Flag(entry.index);
+                bool is_shop_item = false;
+                if (skip_flag(&is_shop_item, flag))
+                    break;
+            }
+            resetS32(entry.index, false);
+            break;
+        case FlagType::F32:
+            resetF32(entry.index, false);
+            break;
+        case FlagType::String:
+            resetStr(entry.index, false);
+            break;
+        case FlagType::String64:
+            resetStr64(entry.index, false);
+            break;
+        case FlagType::String256:
+            resetStr256(entry.index, false);
+            break;
+        case FlagType::Vector2f:
+            resetVec2f(entry.index, false);
+            break;
+        case FlagType::Vector3f:
+            resetVec3f(entry.index, false);
+            break;
+        case FlagType::Vector4f:
+            resetVec4f(entry.index, false);
+            break;
+        case FlagType::BoolArray: {
+            int size = 0;
+            getBoolArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetBool(entry.index, j, false);
+            break;
+        }
+        case FlagType::S32Array: {
+            int size = 0;
+            getS32ArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetS32(entry.index, j, false);
+            break;
+        }
+        case FlagType::F32Array: {
+            int size = 0;
+            getF32ArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetF32(entry.index, j, false);
+            break;
+        }
+        case FlagType::StringArray: {
+            int size = 0;
+            getStrArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetStr(entry.index, j, false);
+            break;
+        }
+        case FlagType::String64Array: {
+            int size = 0;
+            getStr64ArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetStr64(entry.index, j, false);
+            break;
+        }
+        case FlagType::String256Array: {
+            int size = 0;
+            getStr256ArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetStr256(entry.index, j, false);
+            break;
+        }
+        case FlagType::Vector2fArray: {
+            int size = 0;
+            getVec2fArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetVec2f(entry.index, j, false);
+            break;
+        }
+        case FlagType::Vector3fArray: {
+            int size = 0;
+            getVec3fArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetVec3f(entry.index, j, false);
+            break;
+        }
+        case FlagType::Vector4fArray: {
+            int size = 0;
+            getVec4fArraySize(&size, entry.index);
+            for (int j = 0; j < size; ++j)
+                resetVec4f(entry.index, j, false);
+            break;
+        }
+        case FlagType::Invalid:
+            break;
+        }
+
+        if (processed > 1024)
+            return it.getIndex();
+    }
+    return 0;
+}
+
+bool TriggerParam::shouldSkipRevivingShopItem(bool* is_shop_item, u32 flag_hash, bool is_main_field,
+                                              const sead::Buffer<s32>& arrow_counts, s32 col1,
+                                              s32 row1, s32 col2, s32 row2) const {
+    al::ByamlIter info;
+    if (!Manager::getShopInfoIter(flag_hash, &info, Manager::instance()->getShopAreaInfoValues(),
+                                  Manager::instance()->getShopAreaInfoHashes())) {
+        return false;
+    }
+
+    *is_shop_item = true;
+
+    if (is_main_field) {
+        // Check that the player is in none of the shop areas.
+        // If there is no Area data, the area of the dealer will be used instead.
+        int col = 0;
+        int row = 0;
+        int num = 1;
+        al::ByamlIter iter;
+        al::ByamlIter areas;
+        if (!info.tryGetIterByKey(&areas, "Areas")) {
+            const char* dealer = nullptr;
+            if (!info.tryGetStringByKey(&dealer, "Dealer"))
+                return false;
+
+            sead::Vector3f pos;
+            if (!act::ActorSystem::instance()->getAutoPlacementActorPos(dealer, &pos))
+                return false;
+
+            col = sead::clamp((int(pos.x) + 5000) / 1000, 0, 9);
+            row = sead::clamp((int(pos.z) + 4000) / 1000, 0, 7);
+        } else {
+            num = areas.getSize();
+            if (areas.tryGetIterByIndex(&iter, 0)) {
+                iter.tryGetIntByIndex(&col, 0);
+                iter.tryGetIntByIndex(&row, 1);
+            }
+        }
+
+        int i = 1;
+        while (true) {
+            if (col >= col1 && col <= col2 && row >= row1 && row <= row2)
+                return true;
+            if (i >= num || !areas.tryGetIterByIndex(&iter, i))
+                break;
+            iter.tryGetIntByIndex(&col, 0);
+            iter.tryGetIntByIndex(&row, 1);
+            ++i;
+        }
+    }
+
+    const char* item = nullptr;
+    if (!info.tryGetStringByKey(&item, "Item"))
+        return false;
+
+    auto* info_data = act::InfoData::instance();
+    if (!info_data)
+        return false;
+
+    if (info_data->hasTag(item, act::tags::Arrow)) {
+        sead::FixedSafeString<64> group_name;
+        act::getSameGroupActorName(&group_name, item);
+
+        const auto arrow_type = act::arrowTypeFromString(group_name);
+        if (arrow_type == act::ArrowType::Invalid)
+            return false;
+
+        const int revival_count = act::getItemSaleRevivalCount(info_data, item);
+        if (revival_count <= 0)
+            return false;
+
+        if (arrow_counts[int(arrow_type)] >= revival_count)
+            return true;
+    }
+
+    return false;
 }
 
 bool TriggerParam::getBoolIfCopied(bool* value, const sead::SafeString& name, bool x,
@@ -2003,66 +2282,39 @@ FlagVector4f* TriggerParam::getVec4fFlag(s32 idx) const {
 }
 
 FlagBool* TriggerParam::getBoolFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getBoolIdx(name_hash);
-    if (*idx < 0 || mBoolFlags.size() <= *idx)
-        return nullptr;
-    return getBoolFlag(*idx);
+    return getFlagAndIndex<bool>(idx, mBoolFlags, name_hash);
 }
 
 FlagS32* TriggerParam::getS32FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getS32Idx(name_hash);
-    if (*idx < 0 || mS32Flags.size() <= *idx)
-        return nullptr;
-    return getS32Flag(*idx);
+    return getFlagAndIndex<s32>(idx, mS32Flags, name_hash);
 }
 
 FlagF32* TriggerParam::getF32FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getF32Idx(name_hash);
-    if (*idx < 0 || mF32Flags.size() <= *idx)
-        return nullptr;
-    return getF32Flag(*idx);
+    return getFlagAndIndex<f32>(idx, mF32Flags, name_hash);
 }
 
 FlagString* TriggerParam::getStrFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getStrIdx(name_hash);
-    if (*idx < 0 || mStringFlags.size() <= *idx)
-        return nullptr;
-    return getStrFlag(*idx);
+    return getFlagAndIndex<sead::FixedSafeString<32>>(idx, mStringFlags, name_hash);
 }
 
 FlagString64* TriggerParam::getStr64FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getStr64Idx(name_hash);
-    if (*idx < 0 || mString64Flags.size() <= *idx)
-        return nullptr;
-    return getStr64Flag(*idx);
+    return getFlagAndIndex<sead::FixedSafeString<64>>(idx, mString64Flags, name_hash);
 }
 
 FlagString256* TriggerParam::getStr256FlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getStr256Idx(name_hash);
-    if (*idx < 0 || mString256Flags.size() <= *idx)
-        return nullptr;
-    return getStr256Flag(*idx);
+    return getFlagAndIndex<sead::FixedSafeString<256>>(idx, mString256Flags, name_hash);
 }
 
 FlagVector2f* TriggerParam::getVec2fFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getVec2fIdx(name_hash);
-    if (*idx < 0 || mVector2fFlags.size() <= *idx)
-        return nullptr;
-    return getVec2fFlag(*idx);
+    return getFlagAndIndex<sead::Vector2f>(idx, mVector2fFlags, name_hash);
 }
 
 FlagVector3f* TriggerParam::getVec3fFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getVec3fIdx(name_hash);
-    if (*idx < 0 || mVector3fFlags.size() <= *idx)
-        return nullptr;
-    return getVec3fFlag(*idx);
+    return getFlagAndIndex<sead::Vector3f>(idx, mVector3fFlags, name_hash);
 }
 
 FlagVector4f* TriggerParam::getVec4fFlagAndIdx(s32* idx, u32 name_hash) const {
-    *idx = getVec4fIdx(name_hash);
-    if (*idx < 0 || mVector4fFlags.size() <= *idx)
-        return nullptr;
-    return getVec4fFlag(*idx);
+    return getFlagAndIndex<sead::Vector4f>(idx, mVector4fFlags, name_hash);
 }
 
 FlagS32* TriggerParam::getS32FlagByHash(u32 name_hash) const {

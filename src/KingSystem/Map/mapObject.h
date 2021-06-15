@@ -76,6 +76,8 @@ public:
 
     void free();
 
+    void onBaseProcCreated(act::BaseProc* proc);
+
     bool getActorWithAccessor(act::ActorLinkConstDataAccess& accessor) const;
     act::Actor* getActor() const;
     void registerBaseProc(act::BaseProc* proc);
@@ -100,7 +102,7 @@ public:
     f32 getDispDistance(const PlacementActors* pa, bool get_diameter, bool ignore_radius) const;
     f32 getDispDistance(const ActorData* data, bool get_diameter, u32 unused,
                         bool ignore_radius) const;
-    f32 getDispDistance(bool get_diameter, bool ignore_radius) const;
+    f32 getDispDistance(bool get_diameter = false, bool ignore_radius = false) const;
 
     f32 getTraverseDist(const ActorData* data, bool get_diameter, u32 unused,
                         bool ignore_radius) const;
@@ -137,10 +139,10 @@ public:
     Object* findSrcLODLinkObject() const;
     bool isRevivalGameDataFlagOn() const;
 
-    auto getFlags0() const { return mFlags0; }
-    auto getFlags() const { return mFlags; }
-    auto getActorFlags8() const { return mActorFlags8; }
-    auto getHardModeFlags() const { return mHardModeFlags; }
+    const auto& getFlags0() const { return mFlags0; }
+    const auto& getFlags() const { return mFlags; }
+    const auto& getActorFlags8() const { return mActorFlags8; }
+    const auto& getHardModeFlags() const { return mHardModeFlags; }
 
     auto getActorDataIdx() const { return mActorDataIdx; }
     auto getIdx() const { return mIdx; }

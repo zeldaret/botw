@@ -96,7 +96,7 @@ void WeaponModifierInfo::saveEquipStandBowFlag(int idx) const {
 
 void WeaponModifierInfo::addModifierParams(ksys::act::InstParamPack& params) const {
     params->add(value, "AddParam");
-    params->add(flags.getDirect(), "AddSpecialFlag");
+    params->add(int(flags.getDirect()), "AddSpecialFlag");
 }
 
 void WeaponModifierInfo::set(u32 type_, u32 value_) {
@@ -144,8 +144,8 @@ bool WeaponModifierRanges::loadTierYellow(const sead::SafeString& actor) {
     addLifeMin = ksys::act::getWeaponCommonPoweredSharpAddLifeMin(iter);
     addLifeMax = ksys::act::getWeaponCommonPoweredSharpAddLifeMax(iter);
 
-    addGuardMin = ksys::act::getWeaponCommonPoweredSharpAddGuardMin(iter);
-    addGuardMax = ksys::act::getWeaponCommonPoweredSharpAddGuardMax(iter);
+    addGuardMin = ksys::act::getWeaponCommonPoweredSharpWeaponAddGuardMin(iter);
+    addGuardMax = ksys::act::getWeaponCommonPoweredSharpWeaponAddGuardMax(iter);
 
     addThrowMin = ksys::act::getWeaponCommonPoweredSharpAddThrowMin(iter);
     addThrowMax = ksys::act::getWeaponCommonPoweredSharpAddThrowMax(iter);

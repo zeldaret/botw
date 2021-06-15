@@ -2,9 +2,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/resResourceAIProgram.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys::act::ai {
 
@@ -223,7 +225,7 @@ Action* ActionBase::getCurrentAction() {
     }
 }
 
-bool ActionBase::handleMessage(mes::Message* message) {
+bool ActionBase::handleMessage(Message* message) {
     auto* action = this;
     while (!action->handleMessage_(message)) {
         action = action->getCurrentChild();
@@ -233,7 +235,7 @@ bool ActionBase::handleMessage(mes::Message* message) {
     return true;
 }
 
-bool ActionBase::handleMessage2(mes::Message* message) {
+bool ActionBase::handleMessage2(Message* message) {
     auto* action = this;
     while (!action->handleMessage2_(message)) {
         action = action->getCurrentChild();
@@ -327,7 +329,7 @@ struct ComplexDefaults {
     BaseProcHandle* base_proc_handle;
     sead::Vector3f vec3{0, 0, 0};
     sead::SafeString string;
-    mes::TransceiverId transceiver_id;
+    MesTransceiverId transceiver_id;
 };
 ComplexDefaults sDefaults;
 
@@ -357,7 +359,7 @@ BaseProcLink* getDefaultBaseProcLink() {
     return &sDefaultBaseProcLink;
 }
 
-mes::TransceiverId* getDefaultMesTransceiverId() {
+MesTransceiverId* getDefaultMesTransceiverId() {
     return &sDefaults.transceiver_id;
 }
 

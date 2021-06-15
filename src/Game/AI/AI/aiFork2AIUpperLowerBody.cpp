@@ -14,6 +14,8 @@ void Fork2AIUpperLowerBody::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkAI::enter_(params);
 }
 
+void Fork2AIUpperLowerBody::calc_() {}
+
 void Fork2AIUpperLowerBody::leave_() {
     ForkAI::leave_();
 }
