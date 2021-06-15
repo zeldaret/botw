@@ -12,6 +12,10 @@ target_sources(uking PRIVATE
   PlayReportMgr.h
   ProductReporter.cpp
   ProductReporter.h
+  Quest.cpp
+  Quest.h
+  QuestMgr.cpp
+  QuestMgr.h
   StringBoard.h
   SystemPauseMgr.cpp
   SystemPauseMgr.h
