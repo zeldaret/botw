@@ -12,6 +12,8 @@ class Demo : public sead::DirectResource, public agl::utl::IParameterIO {
 public:
     Demo();
 
+    static void registerFactory(sead::Heap* heap);
+
     void doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) override;
 
     agl::utl::ParameterObj mDemoSettingObj;

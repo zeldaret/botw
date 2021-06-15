@@ -1,6 +1,19 @@
 #include "KingSystem/Resource/Event/resResourceDemo.h"
+#include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resSystem.h"
 
 namespace ksys::res {
+
+void Demo::registerFactory(sead::Heap* heap) {
+    auto* rm = sead::ResourceMgr::instance();
+    if (!rm)
+        return;
+
+    if (rm->getDefaultFactory() != rm->findFactory("bdemo"))
+        return;
+
+    res::registerEntryFactory(new (heap) EntryFactory<Demo>(1.0, sizeof(Demo)), "bdemo");
+}
 
 Demo::Demo() : agl::utl::IParameterIO(".bdemo", 0) {}
 

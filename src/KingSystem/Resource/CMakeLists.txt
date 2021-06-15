@@ -196,4 +196,6 @@ target_sources(uking PRIVATE
 
   Event/resResourceDemo.cpp
   Event/resResourceDemo.h
+  Event/resResourceEventFlow.cpp
+  Event/resResourceEventFlow.h
 )
