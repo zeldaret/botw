@@ -38,6 +38,23 @@ public:
     const sead::PtrArray<const evfl::ResQuery>& getQueries() const { return mQueries; }
     ActorBindings* getParent() const { return mParent; }
 
+    void allocActions(sead::Heap* heap) {
+        if (mNumActionsToAlloc > 0)
+            mActions.allocBuffer(mNumActionsToAlloc, heap);
+    }
+
+    void allocQueries(sead::Heap* heap) {
+        if (mNumQueriesToAlloc > 0)
+            mQueries.allocBuffer(mNumQueriesToAlloc, heap);
+    }
+
+    void finalize() {
+        if (mActions.isBufferReady())
+            mActions.freeBuffer();
+        if (mQueries.isBufferReady())
+            mQueries.freeBuffer();
+    }
+
 private:
     const evfl::ResActor* mResActor = nullptr;
     sead::PtrArray<const evfl::ResAction> mActions;
@@ -46,6 +63,7 @@ private:
     int _30 = 0;
     int mNumActionsToAlloc = 0;
     int mNumQueriesToAlloc = 0;
+    bool _3c = false;
 };
 
 }  // namespace ksys::evt

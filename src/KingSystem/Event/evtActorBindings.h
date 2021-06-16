@@ -2,22 +2,33 @@
 
 #include <container/seadPtrArray.h>
 
+namespace evfl {
+struct ResActor;
+}
+
+namespace sead {
+class Heap;
+}
+
 namespace ksys::evt {
 
 class ActorBinding;
 
-// TODO
 class ActorBindings {
 public:
-    ActorBindings();
+    ActorBindings() = default;
     virtual ~ActorBindings();
 
-    int getNumActors() const { return mNumActors; }
+    void allocBindings(sead::Heap* heap);
+    void allocBindingsActions(sead::Heap* heap);
+    void allocBindingsQueries(sead::Heap* heap);
+    ActorBinding* bindActor(const evfl::ResActor* res_actor, sead::Heap* heap);
+
     int isInitialized() const { return mInitialized; }
 
 private:
     sead::PtrArray<ActorBinding> mBindings;
-    int mNumActors = 0;
+    int mNumActorsToAlloc = 0;
     int mInitialized = 0;
 };
 
