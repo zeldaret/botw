@@ -23,7 +23,8 @@ public:
     // TODO: rename these values after figuring out what they do
     SEAD_ENUM(ActorCreateMode, k0, k1, k2, k3, k4, k5, k6, k7, k8)
 
-    ActorBinding(const evfl::ResActor* res, ActorBindings* parent) : mResActor(res), mParent(parent) {}
+    ActorBinding(const evfl::ResActor* res, ActorBindings* parent)
+        : mResActor(res), mParent(parent) {}
 
     void bindAction(const evfl::ResAction* action);
     void bindQuery(const evfl::ResQuery* query);
