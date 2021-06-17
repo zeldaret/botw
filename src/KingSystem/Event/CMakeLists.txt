@@ -3,6 +3,8 @@ target_sources(uking PRIVATE
   evtActorBinding.h
   evtActorBindings.cpp
   evtActorBindings.h
+  evtActorManager.cpp
+  evtActorManager.h
   evtDemoInfo.cpp
   evtDemoInfo.h
   evtEvent.cpp
