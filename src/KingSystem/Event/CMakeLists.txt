@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   evtDemoInfo.h
   evtEvent.cpp
   evtEvent.h
+  evtEventResource.cpp
+  evtEventResource.h
   evtInfoData.cpp
   evtInfoData.h
   evtManager.cpp
@@ -17,4 +19,6 @@ target_sources(uking PRIVATE
   evtMetadata.h
   evtOrderParam.cpp
   evtOrderParam.h
+  evtResourceFlowchart.cpp
+  evtResourceFlowchart.h
 )
