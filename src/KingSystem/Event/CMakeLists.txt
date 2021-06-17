@@ -21,4 +21,6 @@ target_sources(uking PRIVATE
   evtOrderParam.h
   evtResourceFlowchart.cpp
   evtResourceFlowchart.h
+  evtResourceTimeline.cpp
+  evtResourceTimeline.h
 )
