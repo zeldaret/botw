@@ -5,4 +5,7 @@ target_sources(uking PRIVATE
   chmRoot.h
   chmShape.cpp
   chmShape.h
+  chmSystemConfig.cpp
+  chmSystemConfig.h
+  chmSystemConfigObjs.cpp
 )
