@@ -84,7 +84,7 @@ bool Query::loadInt(const evfl::ParamAccessor& accessor, const sead::SafeString&
     if (!accessor.FindInt(&value, param.cstr()))
         return false;
 
-    return mParamPack.setVariable(param, AIDefParamType::Int, value);
+    return mParamPack.setAITreeVariable(param, AIDefParamType::Int, value);
 }
 
 bool Query::loadFloat(const evfl::ParamAccessor& accessor, const sead::SafeString& param) {
@@ -92,7 +92,7 @@ bool Query::loadFloat(const evfl::ParamAccessor& accessor, const sead::SafeStrin
     if (!accessor.FindFloat(&value, param.cstr()))
         return false;
 
-    return mParamPack.setVariable(param, AIDefParamType::Float, value);
+    return mParamPack.setAITreeVariable(param, AIDefParamType::Float, value);
 }
 
 bool Query::loadBool(const evfl::ParamAccessor& accessor, const sead::SafeString& param) {
@@ -100,7 +100,7 @@ bool Query::loadBool(const evfl::ParamAccessor& accessor, const sead::SafeString
     if (!accessor.FindBool(&value, param.cstr()))
         return false;
 
-    return mParamPack.setVariable(param, AIDefParamType::Bool, value);
+    return mParamPack.setAITreeVariable(param, AIDefParamType::Bool, value);
 }
 
 bool Query::getAITreeVariable(sead::SafeString** value, const sead::SafeString& param) const {

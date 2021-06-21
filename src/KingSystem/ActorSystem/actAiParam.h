@@ -82,6 +82,15 @@ public:
         return true;
     }
 
+    template <typename T>
+    bool setAITreeVariable(const sead::SafeString& key, AIDefParamType type, const T& val) const {
+        auto* variable = static_cast<T*>(getAITreeVariablePointer(key, type, true));
+        if (!variable)
+            return false;
+        *variable = val;
+        return true;
+    }
+
     bool load(const Actor& actor, const ParamNameTypePairs& pairs, s32 count, sead::Heap* heap);
     void* getAITreeVariablePointer(const sead::SafeString& key, AIDefParamType type,
                                    bool x = false) const;
