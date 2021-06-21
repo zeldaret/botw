@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckCurseRRetryEverOnce.h"
 #include <evfl/Query.h>
+#include "Game/DLC/aocChampionBalladManager.h"
 
 namespace uking::query {
 
@@ -8,9 +9,15 @@ CheckCurseRRetryEverOnce::CheckCurseRRetryEverOnce(const InitArg& arg)
 
 CheckCurseRRetryEverOnce::~CheckCurseRRetryEverOnce() = default;
 
-// FIXME: implement
 int CheckCurseRRetryEverOnce::doQuery() {
-    return -1;
+    auto* manager = ChampionBalladManager::instance();
+    if (!manager)
+        return 0;
+
+    auto blight = BlightType(*mCurseRType);
+    if (blight <= BlightType::Water)
+        return manager->getBlightRematchCount(blight) > 0;
+    return 0;
 }
 
 void CheckCurseRRetryEverOnce::loadParams(const evfl::QueryArg& arg) {
