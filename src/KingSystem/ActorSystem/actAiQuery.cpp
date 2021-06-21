@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actAiQuery.h"
+#include <evfl/Param.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
@@ -68,6 +69,38 @@ bool Query::getDynamicParam(bool** value, const sead::SafeString& param) const {
     auto ret = static_cast<bool*>(mParamPack.getAITreeVariablePointer(param, AIDefParamType::Bool));
     *value = ret ? ret : &sDefault;
     return ret != nullptr;
+}
+
+bool Query::loadString(const evfl::ParamAccessor& accessor, const sead::SafeString& param) {
+    ore::StringView value;
+    if (!accessor.FindString(&value, param.cstr()))
+        return false;
+
+    return mParamPack.setString(value.data(), param);
+}
+
+bool Query::loadInt(const evfl::ParamAccessor& accessor, const sead::SafeString& param) {
+    int value;
+    if (!accessor.FindInt(&value, param.cstr()))
+        return false;
+
+    return mParamPack.setVariable(param, AIDefParamType::Int, value);
+}
+
+bool Query::loadFloat(const evfl::ParamAccessor& accessor, const sead::SafeString& param) {
+    float value;
+    if (!accessor.FindFloat(&value, param.cstr()))
+        return false;
+
+    return mParamPack.setVariable(param, AIDefParamType::Float, value);
+}
+
+bool Query::loadBool(const evfl::ParamAccessor& accessor, const sead::SafeString& param) {
+    bool value;
+    if (!accessor.FindBool(&value, param.cstr()))
+        return false;
+
+    return mParamPack.setVariable(param, AIDefParamType::Bool, value);
 }
 
 bool Query::getAITreeVariable(sead::SafeString** value, const sead::SafeString& param) const {

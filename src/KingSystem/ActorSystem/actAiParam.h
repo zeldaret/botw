@@ -74,10 +74,12 @@ public:
     T* getVariable(const sead::SafeString& key, AIDefParamType type, bool a4 = true) const;
 
     template <typename T>
-    void setVariable(const sead::SafeString& key, AIDefParamType type, const T& val) const {
+    bool setVariable(const sead::SafeString& key, AIDefParamType type, const T& val) const {
         T* variable = getVariable<T>(key, type, true);
-        if (variable)
-            *variable = val;
+        if (!variable)
+            return false;
+        *variable = val;
+        return true;
     }
 
     bool load(const Actor& actor, const ParamNameTypePairs& pairs, s32 count, sead::Heap* heap);
