@@ -611,7 +611,7 @@ action::CreateGanonChemicalPillar:
 action::CreateObjectsOfOwnedHorse:
   status: pending
 action::CurseRRematchCount:
-  status: pending
+  status: done
 action::CustomDuckingEndAction:
   status: pending
 action::CustomDuckingStartAction:

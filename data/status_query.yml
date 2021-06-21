@@ -31,7 +31,7 @@ query::CheckCookResultStatus:
 query::CheckCurrentMap:
   status: pending
 query::CheckCurseRRetryEverOnce:
-  status: pending
+  status: done
 query::CheckDeadHorseResistered:
   status: pending
 query::CheckDeadlyQuestEscapeTiming:
