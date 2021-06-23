@@ -5,19 +5,19 @@
 
 namespace ksys::snd {
 
-// FIXME: incomplete
 class SoundResource {
     SEAD_SINGLETON_DISPOSER(SoundResource)
     SoundResource() = default;
     virtual ~SoundResource();
 
 public:
+    void init(sead::Heap* heap, sead::Heap* debug_heap, bool extra_large);
     sead::Heap* getSoundDebugHeap() const { return mSoundDebugHeap; }
 
 private:
-    sead::Heap* mSoundResourceHeap;
-    void* _30;
-    sead::Heap* mSoundDebugHeap;
+    sead::Heap* mSoundResourceHeap = nullptr;
+    sead::Heap* _30 = nullptr;  // TODO find out what this does
+    sead::Heap* mSoundDebugHeap = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(SoundResource, 0x40);
 
