@@ -6,6 +6,8 @@ import capstone as cs
 
 from util import dsym, elf, utils
 
+_store_instructions = ("str", "strb", "strh", "stur", "sturb", "sturh")
+
 
 class FunctionChecker:
     def __init__(self, log_mismatch_cause: bool = False):
@@ -111,7 +113,7 @@ class FunctionChecker:
                 adrp_pair_registers.add(reg)
                 continue
 
-            if i1.mnemonic == 'ldr' or i1.mnemonic == 'str':
+            if i1.mnemonic == 'ldr' or i1.mnemonic in _store_instructions:
                 if i1.operands[0].reg != i2.operands[0].reg:
                     return False
                 if i1.operands[1].value.mem.base != i2.operands[1].value.mem.base:
