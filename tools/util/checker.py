@@ -60,12 +60,12 @@ class FunctionChecker:
                     gprs1[i1.operands[0].reg] = i1.operands[1].imm
                     gprs2[i2.operands[0].reg] = i2.operands[1].imm
                     adrp_pair_registers.add(i1.operands[0].reg)
-                elif i1.mnemonic == 'ldr':
-                    reg = i1.operands[1].value.mem.base
+                elif i1.mnemonic == 'ldp' or i1.mnemonic == 'ldpsw':
+                    reg = i1.operands[2].value.mem.base
                     if reg in adrp_pair_registers:
                         adrp_pair_registers.remove(reg)
-                elif i1.mnemonic == 'ldp':
-                    reg = i1.operands[2].value.mem.base
+                elif i1.mnemonic.startswith('ld'):
+                    reg = i1.operands[1].value.mem.base
                     if reg in adrp_pair_registers:
                         adrp_pair_registers.remove(reg)
                 elif i1.mnemonic == 'add':
@@ -113,24 +113,7 @@ class FunctionChecker:
                 adrp_pair_registers.add(reg)
                 continue
 
-            if i1.mnemonic == 'ldr' or i1.mnemonic in _store_instructions:
-                if i1.operands[0].reg != i2.operands[0].reg:
-                    return False
-                if i1.operands[1].value.mem.base != i2.operands[1].value.mem.base:
-                    return False
-                reg = i1.operands[1].value.mem.base
-                if reg not in adrp_pair_registers:
-                    return False
-
-                gprs1[reg] += i1.operands[1].value.mem.disp
-                gprs2[reg] += i2.operands[1].value.mem.disp
-                if not self._check_data_symbol_load(i1, i2, gprs1[reg], gprs2[reg]):
-                    return False
-
-                adrp_pair_registers.remove(reg)
-                continue
-
-            if i1.mnemonic == 'ldp' or i1.mnemonic == 'stp':
+            if i1.mnemonic == 'ldp' or i1.mnemonic == 'ldpsw' or i1.mnemonic == 'stp':
                 if i1.operands[0].reg != i2.operands[0].reg:
                     return False
                 if i1.operands[1].reg != i2.operands[1].reg:
@@ -143,6 +126,23 @@ class FunctionChecker:
 
                 gprs1[reg] += i1.operands[2].value.mem.disp
                 gprs2[reg] += i2.operands[2].value.mem.disp
+                if not self._check_data_symbol_load(i1, i2, gprs1[reg], gprs2[reg]):
+                    return False
+
+                adrp_pair_registers.remove(reg)
+                continue
+
+            if i1.mnemonic.startswith('ld') or i1.mnemonic in _store_instructions:
+                if i1.operands[0].reg != i2.operands[0].reg:
+                    return False
+                if i1.operands[1].value.mem.base != i2.operands[1].value.mem.base:
+                    return False
+                reg = i1.operands[1].value.mem.base
+                if reg not in adrp_pair_registers:
+                    return False
+
+                gprs1[reg] += i1.operands[1].value.mem.disp
+                gprs2[reg] += i2.operands[1].value.mem.disp
                 if not self._check_data_symbol_load(i1, i2, gprs1[reg], gprs2[reg]):
                     return False
 
