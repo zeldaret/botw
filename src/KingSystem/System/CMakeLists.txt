@@ -12,6 +12,8 @@ target_sources(uking PRIVATE
   HavokWorkerMgr.h
   KingEditor.cpp
   KingEditor.h
+  MemoryProfiler.cpp
+  MemoryProfiler.h
   OcclusionQueryCylinder.cpp
   OcclusionQueryCylinder.h
   OverlayArena.cpp
