@@ -1,6 +1,8 @@
 target_sources(uking PRIVATE
   Account.cpp
   Account.h
+  AutoDim.cpp
+  AutoDim.h
   BasicProfiler.cpp
   BasicProfiler.h
   CameraEditor.cpp
