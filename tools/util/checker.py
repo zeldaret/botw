@@ -54,29 +54,24 @@ class FunctionChecker:
                 self._set_mismatch_cause(None, None, "different function length")
             return False
 
+        def forget_modified_registers(insn):
+            _, regs_write = insn.regs_access()
+            for reg in regs_write:
+                adrp_pair_registers.discard(reg)
+
         for i1, i2 in zip(self.md.disasm(base_fn.data, base_fn.addr), self.md.disasm(my_fn.data, my_fn.addr)):
             if i1.bytes == i2.bytes:
                 if i1.mnemonic == 'adrp':
                     gprs1[i1.operands[0].reg] = i1.operands[1].imm
                     gprs2[i2.operands[0].reg] = i2.operands[1].imm
                     adrp_pair_registers.add(i1.operands[0].reg)
-                elif i1.mnemonic == 'ldp' or i1.mnemonic == 'ldpsw':
-                    reg = i1.operands[2].value.mem.base
-                    if reg in adrp_pair_registers:
-                        adrp_pair_registers.remove(reg)
-                elif i1.mnemonic.startswith('ld'):
-                    reg = i1.operands[1].value.mem.base
-                    if reg in adrp_pair_registers:
-                        adrp_pair_registers.remove(reg)
-                elif i1.mnemonic == 'add':
-                    reg = i1.operands[1].reg
-                    if reg in adrp_pair_registers:
-                        adrp_pair_registers.remove(reg)
                 elif i1.mnemonic == 'b':
                     branch_target = i1.operands[0].imm
                     if not (base_fn.addr <= branch_target < base_fn.addr + size):
                         if not self._check_function_call(i1, i2, branch_target, i2.operands[0].imm):
                             return False
+                else:
+                    forget_modified_registers(i1)
                 continue
 
             if i1.mnemonic != i2.mnemonic:
@@ -129,7 +124,7 @@ class FunctionChecker:
                 if not self._check_data_symbol_load(i1, i2, gprs1[reg], gprs2[reg]):
                     return False
 
-                adrp_pair_registers.remove(reg)
+                forget_modified_registers(i1)
                 continue
 
             if i1.mnemonic.startswith('ld') or i1.mnemonic in _store_instructions:
@@ -146,7 +141,7 @@ class FunctionChecker:
                 if not self._check_data_symbol_load(i1, i2, gprs1[reg], gprs2[reg]):
                     return False
 
-                adrp_pair_registers.remove(reg)
+                forget_modified_registers(i1)
                 continue
 
             if i1.mnemonic == 'add':
@@ -163,7 +158,7 @@ class FunctionChecker:
                 if not self._check_data_symbol(i1, i2, gprs1[reg], gprs2[reg]):
                     return False
 
-                adrp_pair_registers.remove(reg)
+                forget_modified_registers(i1)
                 continue
 
             return False
