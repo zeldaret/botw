@@ -6,26 +6,26 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actDebug.h"
+#include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/Map/mapDebug.h"
 #include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
 class BaseProc;
-}
+class BaseProcInitializer;
+class BaseProcCreateTask;
+}  // namespace ksys::act
 
 namespace ksys::map {
-
-class Object;
 
 class ObjectLinkData;
 struct ObjectLink;
 struct ObjectLinkArray;
-
 class LinkTag;
 
-// FIXME: incomplete
 class Object {
 public:
     // TODO: rename
@@ -35,12 +35,29 @@ public:
         _8 = 0x8,
         _10 = 0x10,
         _20 = 0x20,
+        _40 = 0x40,
         _80 = 0x80,
+        _100 = 0x100,
+        ActorCreated = 0x200,
+        _400 = 0x400,
+        _2000 = 0x2000,
+        _4000 = 0x4000,
         _8000 = 0x8000,
         _40000 = 0x40000,
         _80000 = 0x80000,
-        Freed = 0xC65067E6,
+        _100000 = 0x100000,
+        _400000 = 0x400000,
+        _2000000 = 0x2000000,
+        _4000000 = 0x4000000,
+        _40000000 = 0x40000000,
         _80000000 = 0x80000000,
+        ResetOnUnlinkFailed = _100 | _2000,
+        ResetOnUnlink = _2 | _4 | _80 | _100 | ActorCreated | _400 | _2000,
+        _400400 = _400 | _400000,
+        _500400 = _400400 | _100000,
+        _80002106 = _2 | _4 | _100 | _2000 | _80000000,
+        ResetOnFreed = ResetOnUnlink | _500400 | _20 | _40 | _4000 | _2000000 | _4000000 |
+                       _40000000 | _80000000,
     };
 
     enum class Flag {
@@ -74,21 +91,38 @@ public:
     Object();
     ~Object();
 
+    void initData(MubinIter* iter, u8 idx, u32 actor_data_idx, ActorData* data);
     void free();
 
-    void onBaseProcCreated(act::BaseProc* proc);
-
-    bool getActorWithAccessor(act::ActorLinkConstDataAccess& accessor) const;
-    act::Actor* getActor() const;
     void registerBaseProc(act::BaseProc* proc);
     void setBaseProcDirect(act::BaseProc* proc);
+    void onBaseProcCreated(act::BaseProc* proc);
+    act::BaseProc* tryGetProc(bool force);
+    void unlinkProc(bool force);
+
+    bool getActorWithAccessor(act::ActorLinkConstDataAccess& accessor);
+    act::Actor* tryGetActor(bool force);
+    act::Actor* getActor();
+
+    LinkTag* tryGetLinkTag(bool force);
 
     bool isEnemyOrNpcOrActiveOrMapPassive() const;
     bool isFlags8Cleared() const;
     bool isNpcOrActiveOrMapPassiveOrFlag1() const;
     bool isMapPassive(const PlacementActors* pa) const;
-    bool checkActorDataFlag(const PlacementActors* pa, ActorData::Flag flag) const;
     bool isEnemyOrNpc(const PlacementActors* pa) const;
+    bool isRevivalGameDataFlagOn() const;
+    bool checkActorDataFlag(const PlacementActors* pa, ActorData::Flag flag) const;
+    bool checkTraverseFlags() const;
+    bool checkRevivalFlag(ActorData::Flag bit) const;
+
+    void setRevivalFlagValueIf(ActorData::Flag bit, bool value);
+    void setRevivalFlagValue(bool value);
+    void setFieldATrue();
+
+    sead::Vector3f getScale() const;
+    sead::Vector3f getRotate() const;
+    void setTranslate(const sead::Vector3f& translate);
 
     f32 getDispDistanceMultiplier() const {
         f32 mult = 1.0;
@@ -99,18 +133,18 @@ public:
         return mult;
     }
 
+    void getTraversePosAndLoadDistance(sead::Vector3f* traverse_pos, f32* load_dist) const;
     f32 getDispDistance(const PlacementActors* pa, bool get_diameter, bool ignore_radius) const;
     f32 getDispDistance(const ActorData* data, bool get_diameter, u32 unused,
                         bool ignore_radius) const;
     f32 getDispDistance(bool get_diameter = false, bool ignore_radius = false) const;
-
     f32 getTraverseDist(const ActorData* data, bool get_diameter, u32 unused,
                         bool ignore_radius) const;
     f32 getTraverseDistForLOD() const;
-    sead::Vector3f getScale() const;
 
     const char* getUnitConfigName() const;
     const char* getUnitConfigNameFromByaml() const;
+    void getUniqueName(const char** out) const;
 
     Object* findPlacementLODLinkObject(const PlacementActors* unused) const;
     Object* findPlacementLODLinkObject() const;
@@ -118,26 +152,28 @@ public:
     const char* getHashIdStringDebug() const;
     const char* getHashIdStringDebug_0() const;
 
+    bool x_18() const;
+    bool x_20() const;
+    s32 x_22() const;
+
+    bool hasGenGroup() const;
+    void spawnGenGroupActorsIfNeeded(Object* obj);
+
     void* getRails() const;
     void* getRails_0() const;
+    bool setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap);
     bool allocLinkData(sead::Heap* heap);
-    bool hasGenGroup() const;
     void incrementLinkNum();
     void decrementLinkNum();
+    bool checkCreateOrDeleteLinkObjRevival() const;
 
-    sead::Vector3f getRotate() const;
-    void getTraversePosAndLoadDistance(sead::Vector3f* traverse_pos, f32* load_dist) const;
-    void getUniqueName(const char** out) const;
-    void setTranslate(const sead::Vector3f& translate);
+    bool shouldSkipSpawn() const;
+    bool shouldSkipSpawn_(bool x) const;
 
     // TODO:
-    void initData(MubinIter* iter, u8 idx, u32 actor_data_idx, ActorData* data);
     void initRevivalGameDataFlagAndMiscFlags(ActorData* data, bool zero);
-    act::BaseProc* getActor_0(bool a1) const;
-    LinkTag* x_10(bool a1) const;
     f32 getLoadDistance(bool get_diameter) const;
     Object* findSrcLODLinkObject() const;
-    bool isRevivalGameDataFlagOn() const;
 
     const auto& getFlags0() const { return mFlags0; }
     const auto& getFlags() const { return mFlags; }
@@ -159,7 +195,7 @@ public:
     act::BaseProc* getProc() const { return mProc; }
     ObjectLinkData* getLinkData() const { return mLinkData; }
 
-    u32 getRevivalGameDataFlagHash() const { return mRevivalGameDataFlagHash; }
+    gdt::FlagHandle getRevivalGameDataFlagHash() const { return mRevivalGameDataFlagHash; }
     u32 getHashId() const { return mHashId; }
 
     const sead::Vector3f& getTranslate() const { return mTranslate; }
@@ -182,7 +218,7 @@ private:
     MubinIter mMubinIter;
     act::BaseProc* mProc = nullptr;
     ObjectLinkData* mLinkData = nullptr;
-    u32 mRevivalGameDataFlagHash = 0xffffffff;
+    gdt::FlagHandle mRevivalGameDataFlagHash = gdt::InvalidHandle;
     void* _50 = nullptr;
     u32 mHashId = 0;
     sead::Vector3f mTranslate;

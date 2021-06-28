@@ -5,12 +5,13 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
+class Actor;
 class ActorLinkConstDataAccess;
-class BaseProc;
 }  // namespace ksys::act
 
 namespace ksys::map {
 
+class GenGroup;
 class Object;
 
 enum class MapLinkDefType {
@@ -60,18 +61,27 @@ enum class MapLinkDefType {
 };
 
 struct ObjectLink {
-    act::BaseProc* getObjectProc() const;
+    act::Actor* getObjectActor() const;
     bool getObjectProcWithAccessor(act::ActorLinkConstDataAccess& accessor) const;
+    const char* getDescription() const;
+    static const char* getDescriptionForType(MapLinkDefType t);
+    static MapLinkDefType getTypeForName(const sead::SafeString& name);
+    static bool sub_7100D4E310(MapLinkDefType t);
+    static bool isPlacementLODOrForSaleLink(MapLinkDefType t);
 
-    Object* other_obj;
-    u32 type;
-    MubinIter iter;
+    Object* other_obj = nullptr;
+    MapLinkDefType type = MapLinkDefType::Invalid;
+    MubinIter iter{};
 };
 KSYS_CHECK_SIZE_NX150(ObjectLink, 0x20);
 
 struct ObjectLinkArray {
-    ObjectLink* findLinkWithType(MapLinkDefType link_type);
-    u32 num_links = 0;
+    bool checkLink(MapLinkDefType t, bool b);
+
+    ObjectLink* findLinkWithType(MapLinkDefType type);
+    ObjectLink* findLinkWithType_0(MapLinkDefType type);
+
+    s32 num_links = 0;
     ObjectLink* links = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ObjectLinkArray, 0x10);
@@ -80,7 +90,25 @@ class ObjectLinkData {
 public:
     ObjectLinkData();
 
+    void deleteArrays();
     void release(Object* obj, bool a1);
+    bool allocLinksToSelf(s32 num_links, sead::Heap* heap);
+
+    bool sub_7100D4EC40(Object* src, ObjectLink* link, Object* dest);
+    void sub_7100D4FB78(Object* obj);
+    bool checkCreateLinkObjRevival() const;
+    bool checkDeleteLinkObjRevival() const;
+
+    ObjectLink* findLinkWithType(MapLinkDefType t);
+    ObjectLink* findLinkWithType_0(MapLinkDefType t);
+
+    void setGenGroup(GenGroup* group);
+
+    void x_1(act::Actor* actor, Object* obj);
+
+    bool checkCreateOrDeleteLinkObjRevival() const {
+        return checkDeleteLinkObjRevival() || checkCreateLinkObjRevival();
+    }
 
     Object* mCreateLinksSrcObj = nullptr;
     Object* mDeleteLinksSrcObj = nullptr;
@@ -97,7 +125,7 @@ public:
     bool mNoAutoDemoMember = false;
     bool field_57 = false;
 
-    void* mGenGroup = nullptr;
+    GenGroup* mGenGroup = nullptr;
     void* mRails = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ObjectLinkData, 0x68);

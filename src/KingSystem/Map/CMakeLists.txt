@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  mapClusteredRenderer.cpp
+  mapClusteredRenderer.h
   mapTypes.h
   mapDebug.cpp
   mapDebug.h
@@ -6,8 +8,16 @@ target_sources(uking PRIVATE
   mapMubinIter.h
   mapObject.cpp
   mapObject.h
+  mapObjectGenGroup.cpp
+  mapObjectGenGroup.h
   mapObjectLink.cpp
   mapObjectLink.h
+  mapPlacementActors.cpp
+  mapPlacementActors.h
   mapPlacementMgr.cpp
   mapPlacementMgr.h
+  mapPlacementTree.cpp
+  mapPlacementTree.h
+  mapStagePreActorCache.cpp
+  mapStagePreActorCache.h
 )
