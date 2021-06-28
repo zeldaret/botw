@@ -15,7 +15,7 @@ bool RagdollBlendWeight::parse_(u8* data, size_t size, sead::Heap* heap) {
     const auto num_states = root.getResParameterListNum();
 
     if (num_states != 0) {
-        mStates.allocBufferAssert(num_states, heap);
+        mStates.tryAllocBuffer(num_states, heap);
 
         int state_idx = 1;
         for (auto it = mStates.begin(), end = mStates.end(); it != end; ++it) {
@@ -31,7 +31,7 @@ bool RagdollBlendWeight::parse_(u8* data, size_t size, sead::Heap* heap) {
 
                 if (int num_weights; InputWeightList &&
                                      (num_weights = InputWeightList.getResParameterObjNum()) != 0) {
-                    it->input_weights.allocBufferAssert(num_weights, heap);
+                    it->input_weights.tryAllocBuffer(num_weights, heap);
 
                     int weight_idx = 1;
                     for (auto wit = it->input_weights.begin(), wend = it->input_weights.end();
