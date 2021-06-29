@@ -190,6 +190,7 @@ public:
                mScalingMode == ScalingMode::Disabled;
     }
 
+    bool isDemo() const { return mIsDemo; }
     StageType getStageType() const { return mStageType; }
     FieldType getFieldType() const { return mFieldType; }
     ScalingMode getScalingMode() const { return mScalingMode; }
