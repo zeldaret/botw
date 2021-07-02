@@ -7,9 +7,8 @@ CheckProConUse::CheckProConUse(const InitArg& arg) : ksys::act::ai::Query(arg) {
 
 CheckProConUse::~CheckProConUse() = default;
 
-// FIXME: implement
 int CheckProConUse::doQuery() {
-    return -1;
+    return 0;
 }
 
 void CheckProConUse::loadParams(const evfl::QueryArg& arg) {}

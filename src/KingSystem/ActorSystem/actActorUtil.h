@@ -165,4 +165,6 @@ bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& defau
                            al::ByamlIter* actor_info);
 bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& actor_name);
 
+s32 getSelectedChoiceIdx(s32 max, const char* query_name);
+
 }  // namespace ksys::act

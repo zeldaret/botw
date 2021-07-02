@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryComparePlayerOriginalHeart.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -8,9 +9,20 @@ ComparePlayerOriginalHeart::ComparePlayerOriginalHeart(const InitArg& arg)
 
 ComparePlayerOriginalHeart::~ComparePlayerOriginalHeart() = default;
 
-// FIXME: implement
 int ComparePlayerOriginalHeart::doQuery() {
-    return -1;
+    using PlayerInfo = ksys::act::PlayerInfo;
+
+    if (PlayerInfo::instance() == nullptr)
+        return 0;
+
+    s32 life = PlayerInfo::instance()->getLife();
+    s32 hearts = PlayerInfo::instance()->getMaxHearts();
+    s32 compare;
+    if (life <= hearts)
+        compare = life;
+    else
+        compare = hearts;
+    return compare >= *mThreshold;
 }
 
 void ComparePlayerOriginalHeart::loadParams(const evfl::QueryArg& arg) {

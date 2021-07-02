@@ -87,13 +87,13 @@ query::CheckGiveReward:
 query::CheckHasManifactureArmor:
   status: pending
 query::CheckHorseCustomizeSelect:
-  status: pending
+  status: done
 query::CheckHorseDeadCause:
   status: pending
 query::CheckHorseRegistered:
   status: pending
 query::CheckHorseTakenOut:
-  status: pending
+  status: done
 query::CheckIsOpenItemCategory:
   status: done
 query::CheckItemShopDecide:
@@ -109,7 +109,7 @@ query::CheckJustBeforeEventCancel:
 query::CheckLastDamageAttacker:
   status: pending
 query::CheckManufactResult:
-  status: pending
+  status: done
 query::CheckMapArea:
   status: pending
 query::CheckMasterSwordState:
@@ -151,7 +151,7 @@ query::CheckPlayerWeaponFired:
 query::CheckPorchInItem:
   status: pending
 query::CheckProConUse:
-  status: pending
+  status: done
 query::CheckRainRatio:
   status: pending
 query::CheckRankOfEnemyAttackedNPC:
@@ -167,9 +167,9 @@ query::CheckRupee:
 query::CheckSelectPicture:
   status: pending
 query::CheckSellResult:
-  status: pending
+  status: done
 query::CheckShopSelectedItemName:
-  status: pending
+  status: done
 query::CheckSiteBossDamageAnm:
   status: pending
 query::CheckStage:
@@ -181,7 +181,7 @@ query::CheckTerrorLevel:
 query::CheckTime:
   status: pending
 query::CheckTimeType:
-  status: pending
+  status: done
 query::CheckTypeOfOwnedHorseForEvent:
   status: pending
 query::CheckTypeOfWildHorseAssociated:
@@ -189,7 +189,7 @@ query::CheckTypeOfWildHorseAssociated:
 query::CheckVacancyItem:
   status: pending
 query::CheckWarpMist:
-  status: pending
+  status: done
 query::CheckWeaponVacancyItem:
   status: pending
 query::CheckWeather:
@@ -203,67 +203,67 @@ query::CompareGameDataTime:
 query::ComparePlayerFireResistantLevel:
   status: pending
 query::ComparePlayerHeart:
-  status: pending
+  status: done
 query::ComparePlayerMaxHeart:
-  status: pending
+  status: done
 query::ComparePlayerMaxStamina:
-  status: pending
+  status: done
 query::ComparePlayerOriginalHeart:
-  status: pending
+  status: done
 query::CountFlag4:
-  status: pending
+  status: done
 query::EnemyDieCheck:
-  status: pending
+  status: done
 query::EnemyRestLifeRate:
-  status: pending
+  status: done
 query::GeneralChoice2:
-  status: pending
+  status: done
 query::GeneralChoice3:
-  status: pending
+  status: done
 query::GeneralChoice4:
-  status: pending
+  status: done
 query::GeneralChoice8:
-  status: pending
+  status: done
 query::HasArmorAlreadyDyed:
-  status: pending
+  status: done
 query::HasArmorDye:
-  status: pending
+  status: done
 query::HasCookResultInPorch:
-  status: pending
+  status: done
 query::HasEnoughPayment:
-  status: pending
+  status: done
 query::HasItemDye:
-  status: pending
+  status: done
 query::HasItemDyeSpecifiedColor:
   status: pending
 query::HasPorchArrow:
-  status: pending
+  status: done
 query::HasPorchItem:
-  status: pending
+  status: done
 query::HasPorchItemByCategory:
-  status: pending
+  status: done
 query::HasPouchItemByPouchCategory:
-  status: pending
+  status: done
 query::HasSetItem:
   status: pending
 query::HasSpecificArmorSeries:
   status: pending
 query::IsAppAlreadyExchanged:
-  status: pending
+  status: done
 query::IsArriveAnchorForRain:
   status: pending
 query::IsAwakened:
   status: pending
 query::IsBloodyMoonTrig:
-  status: pending
+  status: done
 query::IsCurrentAocFieldStage:
-  status: pending
+  status: done
 query::IsCurrentCDungeonStage:
-  status: pending
+  status: done
 query::IsCurrentMainFieldDungeonStage:
-  status: pending
+  status: done
 query::IsCurrentMainFieldStage:
-  status: pending
+  status: done
 query::IsEquipedDyedArmor:
   status: pending
 query::IsEquippedEnableDye:
@@ -277,7 +277,7 @@ query::IsHorseNumMax:
 query::IsIgnitionByArrowFire:
   status: pending
 query::IsItemInStock:
-  status: pending
+  status: done
 query::IsNeedEquipWeapon:
   status: pending
 query::IsNoEquipArmorAnyTarget:
@@ -285,9 +285,9 @@ query::IsNoEquipArmorAnyTarget:
 query::IsOffLinkTag:
   status: pending
 query::IsOnEnterDungeonFlag:
-  status: pending
+  status: done
 query::IsOnInstEventFlag:
-  status: pending
+  status: done
 query::IsOwnedHorseAssociated:
   status: pending
 query::IsPlayerGrounded:
@@ -299,7 +299,7 @@ query::IsRideHorse:
 query::IsSoldOut:
   status: pending
 query::IsSuccessEndLastDemoAction:
-  status: pending
+  status: done
 query::IsTerrorDisappeared:
   status: pending
 query::IsWaitRevival:
@@ -321,8 +321,8 @@ query::RandomChoiceExceptOnFlag:
 query::WhatCurrentItem:
   status: pending
 query::WhatDayOfTheWeek:
-  status: pending
+  status: done
 query::WhatDungeonType:
-  status: pending
+  status: done
 query::WhatMoonName:
-  status: pending
+  status: done

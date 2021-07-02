@@ -14,6 +14,9 @@ class PlayerInfo {
 
 public:
     PlayerBase* getPlayer() const;
+    s32 getLife() const;
+    u32 getMaxHearts() const;
+    f32 getMaxStamina() const;
 };
 
 }  // namespace ksys::act

@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsCurrentAocFieldStage.h"
 #include <evfl/Query.h>
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ IsCurrentAocFieldStage::IsCurrentAocFieldStage(const InitArg& arg) : ksys::act::
 
 IsCurrentAocFieldStage::~IsCurrentAocFieldStage() = default;
 
-// FIXME: implement
 int IsCurrentAocFieldStage::doQuery() {
-    return -1;
+    return ksys::StageInfo::sIsAocField;
 }
 
 void IsCurrentAocFieldStage::loadParams(const evfl::QueryArg& arg) {}

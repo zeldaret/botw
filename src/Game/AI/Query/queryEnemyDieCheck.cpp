@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryEnemyDieCheck.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ EnemyDieCheck::EnemyDieCheck(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 EnemyDieCheck::~EnemyDieCheck() = default;
 
-// FIXME: implement
 int EnemyDieCheck::doQuery() {
-    return -1;
+    return mActor->getActorFlags2().isOff(ksys::act::Actor::ActorFlag2::Alive);
 }
 
 void EnemyDieCheck::loadParams(const evfl::QueryArg& arg) {}

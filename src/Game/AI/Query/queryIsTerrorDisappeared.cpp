@@ -7,9 +7,8 @@ IsTerrorDisappeared::IsTerrorDisappeared(const InitArg& arg) : ksys::act::ai::Qu
 
 IsTerrorDisappeared::~IsTerrorDisappeared() = default;
 
-// FIXME: implement
 int IsTerrorDisappeared::doQuery() {
-    return -1;
+    return 0;
 }
 
 void IsTerrorDisappeared::loadParams(const evfl::QueryArg& arg) {}

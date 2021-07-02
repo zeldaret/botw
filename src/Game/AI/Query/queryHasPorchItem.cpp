@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryHasPorchItem.h"
 #include <evfl/Query.h>
+#include "Game/UI/uiUtils.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ HasPorchItem::HasPorchItem(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 HasPorchItem::~HasPorchItem() = default;
 
-// FIXME: implement
 int HasPorchItem::doQuery() {
-    return -1;
+    return ui::getItemValue(mPorchItemName) >= *mCount;
 }
 
 void HasPorchItem::loadParams(const evfl::QueryArg& arg) {

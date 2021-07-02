@@ -7,9 +7,8 @@ IsAppAlreadyExchanged::IsAppAlreadyExchanged(const InitArg& arg) : ksys::act::ai
 
 IsAppAlreadyExchanged::~IsAppAlreadyExchanged() = default;
 
-// FIXME: implement
 int IsAppAlreadyExchanged::doQuery() {
-    return -1;
+    return 1;
 }
 
 void IsAppAlreadyExchanged::loadParams(const evfl::QueryArg& arg) {}

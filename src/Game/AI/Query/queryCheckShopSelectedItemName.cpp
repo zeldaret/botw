@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckShopSelectedItemName.h"
 #include <evfl/Query.h>
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::query {
 
@@ -8,9 +9,10 @@ CheckShopSelectedItemName::CheckShopSelectedItemName(const InitArg& arg)
 
 CheckShopSelectedItemName::~CheckShopSelectedItemName() = default;
 
-// FIXME: implement
 int CheckShopSelectedItemName::doQuery() {
-    return -1;
+    const char* result = &sead::SafeString::cNullChar;
+    ksys::gdt::getStr64ByKey(&result, "Shop_SelectItemName");
+    return mPorchItemName == result;
 }
 
 void CheckShopSelectedItemName::loadParams(const evfl::QueryArg& arg) {
