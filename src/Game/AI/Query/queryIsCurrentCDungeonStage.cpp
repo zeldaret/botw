@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsCurrentCDungeonStage.h"
 #include <evfl/Query.h>
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ IsCurrentCDungeonStage::IsCurrentCDungeonStage(const InitArg& arg) : ksys::act::
 
 IsCurrentCDungeonStage::~IsCurrentCDungeonStage() = default;
 
-// FIXME: implement
 int IsCurrentCDungeonStage::doQuery() {
-    return -1;
+    return ksys::StageInfo::sIsCDungeon;
 }
 
 void IsCurrentCDungeonStage::loadParams(const evfl::QueryArg& arg) {}

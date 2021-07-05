@@ -40,7 +40,9 @@ public:
     };
 
     enum class ActorFlag2 {
+        InstEvent = 0x8,
         NoDistanceCheck = 0x80,
+        Alive = 0x4000000,
     };
 
     enum class DeleteType {
@@ -70,7 +72,7 @@ public:
                        bool is_life_infinite, int i, int life) const;
 
     virtual s32 getMaxLife();
-
+    virtual s32* getLife();
     virtual LifeRecoverInfo* getLifeRecoverInfo();
 
     void emitBasicSigOn();

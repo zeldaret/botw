@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsBloodyMoonTrig.h"
 #include <evfl/Query.h>
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ IsBloodyMoonTrig::IsBloodyMoonTrig(const InitArg& arg) : ksys::act::ai::Query(ar
 
 IsBloodyMoonTrig::~IsBloodyMoonTrig() = default;
 
-// FIXME: implement
 int IsBloodyMoonTrig::doQuery() {
-    return -1;
+    return ksys::world::Manager::instance()->getTimeMgr()->wasBloodyDayAndDayPassed();
 }
 
 void IsBloodyMoonTrig::loadParams(const evfl::QueryArg& arg) {}

@@ -98,6 +98,7 @@ public:
     BloodMoonForceMode getBloodMoonForceMode() const { return mBloodMoonForceMode; }
     bool isPlayedDemo103Or997() const { return mPlayedDemo103Or997; }
     bool isFindDungeonActivated() const { return mFindDungeonActivated; }
+    bool wasBloodyDayAndDayPassed() const { return mWasBloodyDayAndDayPassed; }
     bool isResetGdtOnNextSceneUnloadForBloodMoon() const {
         return mResetGdtOnNextSceneUnloadForBloodMoon;
     }

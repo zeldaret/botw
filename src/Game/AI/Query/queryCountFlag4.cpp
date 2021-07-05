@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCountFlag4.h"
 #include <evfl/Query.h>
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,30 @@ CountFlag4::CountFlag4(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 CountFlag4::~CountFlag4() = default;
 
-// FIXME: implement
 int CountFlag4::doQuery() {
-    return -1;
+    auto* gdm = ksys::gdt::Manager::instance();
+    if (gdm == nullptr)
+        return 0;
+
+    bool x = false;
+    int result = 0;
+
+    auto isOn = [&](const sead::SafeString& s) {
+        return gdm->getParamBypassPerm().get().getBool(&x, s) && x;
+    };
+
+    if (!mGameDataFlagNo0.isEmpty())
+        result += isOn(mGameDataFlagNo0);
+    if (!mGameDataFlagNo1.isEmpty())
+        result += isOn(mGameDataFlagNo1);
+    if (!mGameDataFlagNo2.isEmpty())
+        result += isOn(mGameDataFlagNo2);
+    if (!mGameDataFlagNo3.isEmpty())
+        result += isOn(mGameDataFlagNo3);
+    if (!mGameDataFlagNo4.isEmpty())
+        result += isOn(mGameDataFlagNo4);
+
+    return result;
 }
 
 void CountFlag4::loadParams(const evfl::QueryArg& arg) {

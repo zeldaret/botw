@@ -34,4 +34,8 @@ int getItemGeneralLife(const char* name);
 // TODO: move this to yet another translation unit (TBD but not the same one as the above)
 void addItemForDebug(const sead::SafeString& name, int value);
 
+int countCookResultsCheck(const sead::SafeString& name, s32 effect_type);
+int countCookResultsAllOk(const sead::SafeString& name);
+int getItemValue(const sead::SafeString& name);
+
 }  // namespace uking::ui

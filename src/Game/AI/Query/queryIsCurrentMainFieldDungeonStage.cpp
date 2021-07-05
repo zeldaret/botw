@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsCurrentMainFieldDungeonStage.h"
 #include <evfl/Query.h>
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::query {
 
@@ -8,9 +9,8 @@ IsCurrentMainFieldDungeonStage::IsCurrentMainFieldDungeonStage(const InitArg& ar
 
 IsCurrentMainFieldDungeonStage::~IsCurrentMainFieldDungeonStage() = default;
 
-// FIXME: implement
 int IsCurrentMainFieldDungeonStage::doQuery() {
-    return -1;
+    return ksys::StageInfo::sIsMainFieldDungeon;
 }
 
 void IsCurrentMainFieldDungeonStage::loadParams(const evfl::QueryArg& arg) {}

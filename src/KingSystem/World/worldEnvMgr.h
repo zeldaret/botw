@@ -207,6 +207,8 @@ public:
 
     void allowPaletteOverride();
 
+    float getWarpMistIntensity() const { return mWarpMistIntensity; }
+
 protected:
     void init_(sead::Heap* heap) override;
     void calc_() override;

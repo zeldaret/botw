@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckWarpMist.h"
 #include <evfl/Query.h>
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ CheckWarpMist::CheckWarpMist(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 CheckWarpMist::~CheckWarpMist() = default;
 
-// FIXME: implement
 int CheckWarpMist::doQuery() {
-    return -1;
+    return ksys::world::Manager::instance()->getEnvMgr()->getWarpMistIntensity() > 0.0f;
 }
 
 void CheckWarpMist::loadParams(const evfl::QueryArg& arg) {}

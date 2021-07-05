@@ -11,6 +11,8 @@ public:
     ~HasCookResultInPorch() override;
     int doQuery() override;
 
+    int getEffect() const;
+
     void loadParams() override;
     void loadParams(const evfl::QueryArg& arg) override;
 

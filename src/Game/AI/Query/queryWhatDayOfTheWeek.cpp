@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryWhatDayOfTheWeek.h"
 #include <evfl/Query.h>
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ WhatDayOfTheWeek::WhatDayOfTheWeek(const InitArg& arg) : ksys::act::ai::Query(ar
 
 WhatDayOfTheWeek::~WhatDayOfTheWeek() = default;
 
-// FIXME: implement
 int WhatDayOfTheWeek::doQuery() {
-    return -1;
+    return u8(ksys::world::Manager::instance()->getTimeMgr()->getNumberOfDays() % 7);
 }
 
 void WhatDayOfTheWeek::loadParams(const evfl::QueryArg& arg) {}

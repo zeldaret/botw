@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryHasArmorAlreadyDyed.h"
 #include <evfl/Query.h>
+#include "Game/UI/uiPauseMenuDataMgr.h"
 
 namespace uking::query {
 
@@ -7,9 +8,12 @@ HasArmorAlreadyDyed::HasArmorAlreadyDyed(const InitArg& arg) : ksys::act::ai::Qu
 
 HasArmorAlreadyDyed::~HasArmorAlreadyDyed() = default;
 
-// FIXME: implement
 int HasArmorAlreadyDyed::doQuery() {
-    return -1;
+    auto* pm = ui::PauseMenuDataMgr::instance();
+    if (pm == nullptr)
+        return 0;
+
+    return pm->countAlreadyDyedArmor() > 0;
 }
 
 void HasArmorAlreadyDyed::loadParams(const evfl::QueryArg& arg) {}

@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryEnemyRestLifeRate.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::query {
 
@@ -7,9 +8,16 @@ EnemyRestLifeRate::EnemyRestLifeRate(const InitArg& arg) : ksys::act::ai::Query(
 
 EnemyRestLifeRate::~EnemyRestLifeRate() = default;
 
-// FIXME: implement
 int EnemyRestLifeRate::doQuery() {
-    return -1;
+    s32* life = mActor->getLife();
+    float value;
+
+    if (life != nullptr)
+        value = *life;
+    else
+        value = 1.0f;
+
+    return mActor->getMaxLife() * *mCheckRate <= value;
 }
 
 void EnemyRestLifeRate::loadParams(const evfl::QueryArg& arg) {
