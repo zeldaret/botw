@@ -8,10 +8,10 @@ CheckRupee::CheckRupee(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 CheckRupee::~CheckRupee() = default;
 
-// NON_MATCHING
 int CheckRupee::doQuery() {
+    auto* mgr = ksys::gdt::Manager::instance();
     s32 value = 0;
-    if (!ksys::gdt::Manager::instance()->getParamBypassPerm().get().getS32(&value, "CurrentRupee"))
+    if (!mgr->getParamBypassPerm().get().getS32(&value, "CurrentRupee"))
         return 0;
     return value >= *mValue;
 }
