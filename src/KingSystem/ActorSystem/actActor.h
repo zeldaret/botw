@@ -21,6 +21,7 @@ class RootAi;
 class LifeRecoverInfo;
 class ActorCreator;
 class ActorParam;
+class BaseProcLink;
 
 class Actor : public BaseProc {
 public:
@@ -111,6 +112,9 @@ protected:
     /* 0x7d0 */ u8 TEMP_0x7d0[0x838 - 0x7d0];
 };
 KSYS_CHECK_SIZE_NX150(Actor, 0x838);
+
+BaseProcLink& getDummyBaseProcLink();
+
 }  // namespace act
 
 }  // namespace ksys
