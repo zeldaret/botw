@@ -138,44 +138,24 @@ bool ObjectLink::getObjectProcWithAccessor(act::ActorLinkConstDataAccess& access
 ObjectLinkData::ObjectLinkData() = default;
 
 void ObjectLinkData::deleteArrays() {
-    if (mRails) {
-        delete mRails;
-        mRails = nullptr;
+    if (mRail) {
+        delete mRail;
+        mRail = nullptr;
     }
 
-    if (mLinksOther.links) {
-        delete mLinksOther.links;
-        mLinksOther.links = nullptr;
-        mLinksOther.num_links = 0;
-    }
-
-    if (mLinksCs.links) {
-        delete mLinksCs.links;
-        mLinksCs.links = nullptr;
-        mLinksCs.num_links = 0;
-    }
-
-    if (mLinksReference) {
-        delete mLinksReference;
-        mLinksReference = nullptr;
-        mNumLinksReference = 0;
-    }
-
-    if (mLinksToSelf.links) {
-        delete mLinksToSelf.links;
-        mLinksToSelf.links = nullptr;
-        mLinksToSelf.num_links = 0;
-    }
+    mLinksOther.links.freeBuffer();
+    mLinksCs.links.freeBuffer();
+    mObjects.freeBuffer();
+    mLinksToSelf.links.freeBuffer();
 }
 
 bool ObjectLinkData::allocLinksToSelf(s32 num_links, sead::Heap* heap) {
-    if (num_links < 1)
-        return true;
-
-    mLinksToSelf.links = new (heap, std::nothrow_t()) ObjectLink[num_links]();
-    mLinksToSelf.num_links = num_links;
-
-    return mLinksToSelf.links != nullptr;
+    if (num_links >= 1) {
+        mLinksToSelf.links.tryAllocBuffer(num_links, heap);
+        if (!mLinksToSelf.links.isBufferReady())
+            return false;
+    }
+    return true;
 }
 
 ObjectLink* ObjectLinkData::findLinkWithType(MapLinkDefType t) {
@@ -241,7 +221,7 @@ ObjectLink* ObjectLinkArray::findLinkWithType(MapLinkDefType type) {
 }
 
 ObjectLink* ObjectLinkArray::findLinkWithType_0(MapLinkDefType type) {
-    for (int i = 0; i != num_links; ++i) {
+    for (int i = 0; i < links.size(); ++i) {
         if (links[i].type == type)
             return &links[i];
     }

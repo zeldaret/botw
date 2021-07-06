@@ -3,12 +3,11 @@
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 
-namespace ksys::map {
+namespace ksys::gfx {
+class ForestRenderer;
+}
 
-class ForestRenderer {
-public:
-    s32 x_7(const sead::Vector3f& vec);
-};
+namespace ksys::map {
 
 // TODO
 class StagePreActorCache {
@@ -19,7 +18,7 @@ public:
     auto* getForestRenderer() { return mForestRenderer; }
 
 private:
-    ForestRenderer* mForestRenderer;
+    gfx::ForestRenderer* mForestRenderer;
 };
 
 }  // namespace ksys::map

@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapStagePreActorCache.h"
@@ -430,7 +431,7 @@ bool Object::setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap) {
             return false;
     }
 
-    if (mLinkData->mLinksToSelf.links != nullptr)
+    if (mLinkData->mLinksToSelf.links.isBufferReady())
         return mLinkData->sub_7100D4EC40(src, link, this);
 
     if (!mLinkData->allocLinksToSelf(mNumLinksPointingToMe, heap))
@@ -498,7 +499,7 @@ void* Object::getRails() const {
 void* Object::getRails_0() const {
     if (mLinkData == nullptr)
         return nullptr;
-    return mLinkData->mRails;
+    return mLinkData->mRail;
 }
 
 bool Object::allocLinkData(sead::Heap* heap) {

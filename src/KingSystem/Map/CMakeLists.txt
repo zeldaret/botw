@@ -1,6 +1,4 @@
 target_sources(uking PRIVATE
-  mapClusteredRenderer.cpp
-  mapClusteredRenderer.h
   mapTypes.h
   mapDebug.cpp
   mapDebug.h
@@ -18,6 +16,8 @@ target_sources(uking PRIVATE
   mapPlacementMgr.h
   mapPlacementTree.cpp
   mapPlacementTree.h
+  mapRail.cpp
+  mapRail.h
   mapStagePreActorCache.cpp
   mapStagePreActorCache.h
 )

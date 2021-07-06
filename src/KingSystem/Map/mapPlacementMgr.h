@@ -7,12 +7,12 @@
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace ksys::act {
+class ClusteredRenderer;
 class InstParamPack;
-}
+}  // namespace ksys::act
 
 namespace ksys::map {
 
-class ClusteredRenderer;
 class Object;
 class PlacementTree;
 class PlacementActors;
@@ -131,7 +131,7 @@ public:
     PlacementTree* mPlacementTree = nullptr;
     u32 _7a8;
     void* mMassRenderer = nullptr;
-    ClusteredRenderer* mClusteredRenderer = nullptr;
+    act::ClusteredRenderer* mClusteredRenderer = nullptr;
     void* mPlacementNavi = nullptr;
     u32 mMassRendererReqCount = 0;
     u32 mMassRendererStatus = 0;

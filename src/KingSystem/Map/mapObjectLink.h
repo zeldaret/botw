@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -13,6 +14,7 @@ namespace ksys::map {
 
 class GenGroup;
 class Object;
+class Rail;
 
 enum class MapLinkDefType {
     BasicSig = 0,
@@ -61,6 +63,7 @@ enum class MapLinkDefType {
 };
 
 struct ObjectLink {
+    ~ObjectLink() {}
     act::Actor* getObjectActor() const;
     bool getObjectProcWithAccessor(act::ActorLinkConstDataAccess& accessor) const;
     const char* getDescription() const;
@@ -81,8 +84,7 @@ struct ObjectLinkArray {
     ObjectLink* findLinkWithType(MapLinkDefType type);
     ObjectLink* findLinkWithType_0(MapLinkDefType type);
 
-    s32 num_links = 0;
-    ObjectLink* links = nullptr;
+    sead::Buffer<ObjectLink> links;
 };
 KSYS_CHECK_SIZE_NX150(ObjectLinkArray, 0x10);
 
@@ -112,9 +114,8 @@ public:
 
     Object* mCreateLinksSrcObj = nullptr;
     Object* mDeleteLinksSrcObj = nullptr;
-    u32 mNumLinksReference = 0;
 
-    void* mLinksReference = nullptr;
+    sead::Buffer<Object*> mObjects;
     ObjectLinkArray mLinksOther{};
     ObjectLinkArray mLinksCs{};
     ObjectLinkArray mLinksToSelf{};
@@ -126,7 +127,7 @@ public:
     bool field_57 = false;
 
     GenGroup* mGenGroup = nullptr;
-    void* mRails = nullptr;
+    Rail* mRail = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ObjectLinkData, 0x68);
 
