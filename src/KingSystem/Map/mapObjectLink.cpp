@@ -139,9 +139,9 @@ bool ObjectLink::getObjectProcWithAccessor(act::ActorLinkConstDataAccess& access
 ObjectLinkData::ObjectLinkData() = default;
 
 void ObjectLinkData::deleteArrays() {
-    if (mRail) {
-        delete mRail;
-        mRail = nullptr;
+    if (mRails) {
+        delete[] mRails;
+        mRails = nullptr;
     }
 
     mLinksOther.links.freeBuffer();
@@ -222,9 +222,9 @@ ObjectLink* ObjectLinkArray::findLinkWithType(MapLinkDefType type) {
 }
 
 ObjectLink* ObjectLinkArray::findLinkWithType_0(MapLinkDefType type) {
-    for (int i = 0; i < links.size(); ++i) {
-        if (links[i].type == type)
-            return &links[i];
+    for (auto it = links.begin(), end = links.end(); it != end; ++it) {
+        if (it->type == type)
+            return &*it;
     }
     return nullptr;
 }

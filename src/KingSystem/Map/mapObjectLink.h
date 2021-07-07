@@ -127,7 +127,7 @@ public:
     bool field_57 = false;
 
     GenGroup* mGenGroup = nullptr;
-    Rail* mRail = nullptr;
+    Rail* mRails = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ObjectLinkData, 0x68);
 

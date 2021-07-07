@@ -499,7 +499,7 @@ void* Object::getRails() const {
 void* Object::getRails_0() const {
     if (mLinkData == nullptr)
         return nullptr;
-    return mLinkData->mRail;
+    return mLinkData->mRails;
 }
 
 bool Object::allocLinkData(sead::Heap* heap) {
