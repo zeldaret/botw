@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectGenGroup.h"
+#include "KingSystem/Map/mapRail.h"
 
 namespace ksys::map {
 

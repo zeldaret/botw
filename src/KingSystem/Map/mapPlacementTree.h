@@ -9,6 +9,8 @@ using F32Limits = std::numeric_limits<f32>;
 
 namespace ksys::map {
 
+class Object;
+
 // FIXME
 class PlacementTree {
     struct TreeObject {
@@ -27,7 +29,7 @@ public:
     sead::Buffer<TreeObject> mBuffer{};
     sead::Buffer<u32*> mObjects{};
     void* _20{};
-    void* _28{};
+    Object** _28{};
     u32 _30{};
     f32 _34 = F32Limits::max();
     f32 _38 = F32Limits::max();
