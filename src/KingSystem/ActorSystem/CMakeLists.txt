@@ -86,6 +86,8 @@ target_sources(uking PRIVATE
   actBaseProcMgr.h
   actBaseProcUnit.cpp
   actBaseProcUnit.h
+  actClusteredRenderer.cpp
+  actClusteredRenderer.h
   actDebug.cpp
   actDebug.h
   actGlobalParameter.cpp

@@ -1,131 +1,149 @@
 #pragma once
 
-#include <container/seadSafeArray.h>
+#include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
-#include <prim/seadSafeString.h>
-#include <prim/seadTypedBitFlag.h>
-#include <prim/seadTypedLongBitFlag.h>
-#include <thread/seadAtomic.h>
-#include "KingSystem/Utils/Types.h"
+#include <heap/seadExpHeap.h>
+#include <thread/seadDelegateThread.h>
+#include "KingSystem/ActorSystem/actActor.h"
+
+namespace ksys::act {
+class ClusteredRenderer;
+class InstParamPack;
+}  // namespace ksys::act
 
 namespace ksys::map {
 
-// TODO: rename
-enum class ActorFlag8 {
-    EnemyOrNpcOrActiveOrAreaOrAirWall = 0x2,
-    MapPassiveOrFlag1 = 0x4,
-};
-
-class ActorData {
-public:
-    enum class Flag {
-        MapPassive = 0,
-        _1 = 1,
-        _2 = 2,
-        _3 = 3,
-        _4 = 4,
-        _5 = 5,
-        _6 = 6,
-        _7 = 7,
-        MapConstActive = 8,
-        TraverseDist200 = 9,
-        TraverseDist400 = 10,
-        TraverseDist800 = 11,
-        TraverseDistReset = 12,
-        TraverseDist2000 = 13,
-        TraverseDist4000 = 14,
-        _15 = 15,
-        _16 = 16,
-        RevivalEnable = 17,
-        RevivalForUsed = 18,
-        RevivalForDrop = 19,
-        RevivalRandom = 20,
-        RevivalBloodyMoon = 21,
-        RevivalUnderGodTimeOrNoneForUsed = 22,
-        EnableRemainsScene = 23,
-        _24 = 24,
-        EnemyOrNpc_DisableFlashback = 25,
-        _26 = 26,
-        LimitYDiff = 27,
-        IsGrassCut = 28,
-        HasFar = 29,
-        Fairy = 30,
-        UnderGodForest = 31,
-
-        EnemyOrNpc = 32,
-        MapConstPassive = 33,
-        RandomCreateNotRain = 34,
-        _35 = 35,
-        MessageDialogViewBoard = 36,
-        _37 = 37,
-        NpcOrNonGanonAndNonGuardianEnemy = 38,
-        IgnoreBoundingAtAreaCulling = 39,
-        _40 = 40,
-        EnemyHuge = 41,
-        Enemy = 42,
-        _43 = 43,
-        EnemyLookOrGrassCutTagOrFirePillarOrDgnWater = 44,
-        _45 = 45,
-        MapPassiveOrFlag1 = 46,
-        _47 = 47,
-        _48 = 48,
-        SheikSensorTargetDeadOrAlive = 49,
-        Dragon = 50,
-        TreeOrBush = 51,
-        GuardianC = 52,
-        _53 = 53,
-        HasStopTimerFlag = 54,
-        AllRadarOrZukanActor = 55,
-        NoCreateForStackLink = 56,
-        OnLowTree = 57,
-        _58 = 58,
-        _59 = 59,
-        _60 = 60,
-        _61 = 61,
-        _62 = 62,
-        _63 = 63,
-    };
-
-    sead::TypedLongBitFlag<64, Flag, sead::Atomic<u32>> mFlags;
-    sead::TypedBitFlag<ActorFlag8, u8> mActorFlags8;
-    u8 TEMP[0x13F];
-    sead::FixedSafeString<64> mActorName;
-};
-KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
-
-// FIXME: move this to another header and rename
-// FIXME: incomplete
-class PlacementStruct1 {
-public:
-    sead::BitFlag16 mFlags;
-    bool mIsOneHitChallengeActive;
-};
-
-class PlacementActors {
-public:
-    u8 _0[0xe0 - 0x0];
-    PlacementStruct1* mStruct1;
-    u8 _e8[0x538 - 0xe8];
-    sead::SafeArray<ActorData, 6000> mActorData;
-    u8 _261b38[0x2a80d0 - 0x261b38];
-};
-KSYS_CHECK_SIZE_NX150(PlacementActors, 0x2A80D0);
+class Object;
+class PlacementTree;
+class PlacementActors;
 
 class PlacementMgr {
     SEAD_SINGLETON_DISPOSER(PlacementMgr)
     PlacementMgr();
     virtual ~PlacementMgr();
 
+    struct TraverseResults {
+        sead::PtrArray<act::Actor> pre_actors;
+        sead::PtrArray<act::Actor> actors;
+        sead::PtrArray<u32> _20;
+        sead::PtrArray<u32> _30;
+        sead::PtrArray<u32> _40;
+        sead::PtrArray<u32> _50;
+        sead::PtrArray<u32> dragon_item_drop_targets;
+        sead::PtrArray<u32> _70;
+    };
+    KSYS_CHECK_SIZE_NX150(TraverseResults, 0x80);
+
 public:
+    void releaseTree();
+    void x_3();
+    void reset7F0();
+    void initClusteredRenderer();
+    void auto0();
+    bool auto1();
+    void x_0(sead::Vector3f* pos, act::InstParamPack* pack);
+    void printDebugInfo();
+    void loadModel(Object* obj);
+    void incrementCounter();
+    void x();
+    void auto5();
+    void auto16();
+    bool someFlagCheck() const;
+
+    void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
+
     enum class MgrFlag {
+        _1 = 0x1,
+        _2 = 0x2,
+        _20 = 0x20,
+        _40000 = 0x40000,
+        _80000 = 0x80000,
+        _100000 = 0x100000,
+        _200000 = 0x200000,
+        _400000 = 0x400000,
         _1000000 = 0x1000000,
     };
 
-    u8 TEMP1[0x1C8];
+    enum class MgrStaticFlags {
+        debug = 0x1,
+    };
+
+    static sead::TypedBitFlag<MgrStaticFlags, u32> sFlags;
+
+    u32 _28;
+    u32 _2c = 0;
+    u32 _30 = 0;
+
+    u8 TEMP[0x108];
+    sead::Delegate2<PlacementMgr, sead::Thread*, sead::MessageQueue::Element> mThreadParams;
+    sead::DelegateThread* mThread;
+    u32 mTraverseResultIdx;
+    u16 mRequestedMsg = 0;
+
+    sead::Vector3f mCameraPos{};
+    sead::Vector3f mPlayerPos{};
+    sead::Vector3f mPrevPlayerPos{};
+    sead::ExpHeap* mDynamicHeap;
+    sead::ExpHeap* mThreadHeap;
+    sead::ExpHeap* mVillagerHeap;
+    sead::ExpHeap* mTraverseResultHeap;
+    void* mActorCreator;
+    u32 mLoadedActorCount;
+    void* mTeraSystem;
+    s32 mIntTime;
+    f32 mTime;
+    bool mTimeUpdated;
+
+    s32 mMassMemoryUsage;
+    s32 mClusteredMemoryUsage;
+    void* mDebugHeap;
     PlacementActors* mPlacementActors;
-    u8 TEMP2[0x48C];
+
+    void* mVillagerManager;
+
+    u32 mNumStaticObjs;
+    u32 mActorDataMapSize;
+    u8 TEMP2[0x70];
+
+    u32 _278;
+
+    u32 mPreActorNumDone;
+    u32 mLoadActorNumTotal;
+    sead::Vector3f mPrevCameraPos{};
+    f32 mDeltaCameraDistance;
+    sead::FixedSafeString<256> mStr1;
+    sead::FixedSafeString<256> mStr2;
+    sead::FixedSafeString<256> mStr3;
+    sead::CriticalSection mCS{};
+
+    u64 mStartTick;
+    u8 TEMP3[0x5c];
+
     sead::TypedBitFlag<MgrFlag, sead::Atomic<u32>> mFlags;
-    u8 TEMP3[0x190];
+    bool mThreadStarted = false;
+    bool _689 = false;
+    bool _68a = false;
+    u32 _68c;
+    u32 _690;
+    u32 mMessage = 0;
+    u32 mJobType = 0;
+    TraverseResults mTraverseResults[2];
+    PlacementTree* mPlacementTree = nullptr;
+    u32 _7a8;
+    void* mMassRenderer = nullptr;
+    act::ClusteredRenderer* mClusteredRenderer = nullptr;
+    void* mPlacementNavi = nullptr;
+    u32 mMassRendererReqCount = 0;
+    u32 mMassRendererStatus = 0;
+
+    // fix these
+    sead::DelegateFunc mInvoker{};
+    u8 TEMP4[0x10];
+
+    s32 _7f0 = -1;
+
+    sead::DelegateFunc mInvoker2{};
+    u8 TEMP5[0x10];
 };
 KSYS_CHECK_SIZE_NX150(PlacementMgr, 0x818);
 

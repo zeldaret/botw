@@ -102,6 +102,7 @@ public:
     bool isDeletedOrDeleting() const {
         return mState == State::Delete || mStateFlags.isOn(StateFlags::RequestDelete);
     }
+    bool isDeleteOrInvalid() const { return mState >= act::BaseProc::State::Delete; }
 
     /// For BaseProcLink or ActorLinkConstDataAccess.
     bool acquire(ActorLinkConstDataAccess& accessor);

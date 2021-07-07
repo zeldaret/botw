@@ -126,6 +126,7 @@ public:
     u32 getModelFlags(const char* actor) const;
     bool getVariationMatAnim(const char* actor, const char** anim, f32* frame) const;
     bool getName(al::ByamlIter* iter, const char** name, s32 idx) const;
+    bool sub_7100D30DF8(InvalidLifeConditions& info, const sead::Vector3f& vec);
 
     const char* getString(const char* actor, const char* key,
                           const sead::SafeString& default_ = sead::SafeString::cEmptyString,

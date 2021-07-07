@@ -43,6 +43,9 @@ public:
     void setActorFactory(ActorFactory* factory) { mActorFactory = factory; }
     bool get5a() const { return _5a; }
 
+    sead::OffsetList<Actor>& getActorList() { return mActorList; }
+    sead::CriticalSection& getCS() { return mActorListCS; }
+
     static void addScale(InstParamPack& pack, float scale);
     static void addScale(InstParamPack& pack, const sead::Vector3f& scale);
     static bool isAITreeParam(const InstParamPack::Entry& entry);

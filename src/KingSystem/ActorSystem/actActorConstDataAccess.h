@@ -92,6 +92,7 @@ public:
     f32 getAttackSpHitRatio() const;
     s32 getAttackPower() const;
 
+    bool checkLinkTagActivated(bool a, bool b);
     map::ObjectLinkData* getMapObjectLinkData() const;
     map::Object* getMapObject() const;
 

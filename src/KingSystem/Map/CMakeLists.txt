@@ -6,8 +6,18 @@ target_sources(uking PRIVATE
   mapMubinIter.h
   mapObject.cpp
   mapObject.h
+  mapObjectGenGroup.cpp
+  mapObjectGenGroup.h
   mapObjectLink.cpp
   mapObjectLink.h
+  mapPlacementActors.cpp
+  mapPlacementActors.h
   mapPlacementMgr.cpp
   mapPlacementMgr.h
+  mapPlacementTree.cpp
+  mapPlacementTree.h
+  mapRail.cpp
+  mapRail.h
+  mapStagePreActorCache.cpp
+  mapStagePreActorCache.h
 )
