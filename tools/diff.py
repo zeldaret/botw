@@ -6,6 +6,8 @@ import cxxfilt
 from colorama import Fore, Style
 
 from util import utils
+import util.checker
+import check
 
 parser = argparse.ArgumentParser(description="Diff assembly")
 parser.add_argument(
@@ -26,23 +28,30 @@ def find_function_info(name: str):
 
     return None
 
+def check_func(info):
+    checker = util.checker.FunctionChecker(log_mismatch_cause=True)
+    return check.check_function(checker, info.addr, info.size, info.decomp_name)
 
 info = find_function_info(args.function)
 if info is not None:
     if not info.decomp_name:
         utils.fail(f"{args.function} has not been decompiled")
-
-    print(
-        f"diffing: {Style.BRIGHT}{Fore.BLUE}{cxxfilt.demangle(info.decomp_name)}{Style.RESET_ALL} {Style.DIM}({info.decomp_name}){Style.RESET_ALL}")
-    addr_end = info.addr + info.size
-    subprocess.call(["tools/asm-differ/diff.py", "-I", "-e", info.decomp_name, "0x%016x" %
+    
+    print("comparing functions...")
+    if(check_func(info)):
+        print("matching function!")
+    else:
+        print(
+            f"diffing: {Style.BRIGHT}{Fore.BLUE}{cxxfilt.demangle(info.decomp_name)}{Style.RESET_ALL} {Style.DIM}({info.decomp_name}){Style.RESET_ALL}")
+        addr_end = info.addr + info.size
+        subprocess.call(["tools/asm-differ/diff.py", "-I", "-e", info.decomp_name, "0x%016x" %
                      info.addr, "0x%016x" % addr_end] + unknown)
 
-    if info.status == utils.FunctionStatus.NonMatching:
-        utils.warn(
-            f"{info.decomp_name} is marked as non-matching and possibly NOT functionally equivalent")
-    elif info.status == utils.FunctionStatus.Equivalent:
-        utils.warn(f"{info.decomp_name} is marked as functionally equivalent but non-matching")
+        if info.status == utils.FunctionStatus.NonMatching:
+            utils.warn(
+                f"{info.decomp_name} is marked as non-matching and possibly NOT functionally equivalent")
+        elif info.status == utils.FunctionStatus.Equivalent:
+            utils.warn(f"{info.decomp_name} is marked as functionally equivalent but non-matching")
 
 else:
     if find_wip:
