@@ -33,8 +33,8 @@ public:
     u32 _30{};
     f32 _34 = F32Limits::max();
     f32 _38 = F32Limits::max();
-    f32 _3c = F32Limits::max();
-    f32 _40 = F32Limits::max();
+    f32 _3c = F32Limits::lowest();
+    f32 _40 = F32Limits::lowest();
     sead::ReadWriteLock mLock{};
 };
 

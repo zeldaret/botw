@@ -94,7 +94,7 @@ void PlacementMgr::printDebugInfo() {
         mMassMemoryUsage / 1024, mClusteredMemoryUsage / 1024);
     // Dynamic heap remaining:%dk
     sead::FormatFixedSafeString<128> s4("動的ヒープ残り:%dk",
-                                        int(mDynamicHeap->getFreeSize()) / 1024);
+                                        u32(mDynamicHeap->getFreeSize() / 1024));
 }
 
 void PlacementMgr::incrementCounter() {

@@ -420,7 +420,6 @@ bool Object::x_18() const {
     return !id->sub_7100D30DF8(info, temp);
 }
 
-// NON_MATCHING
 bool Object::setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap) {
     if (mNumLinksPointingToMe == 0)
         return false;
@@ -431,11 +430,10 @@ bool Object::setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap) {
             return false;
     }
 
-    if (mLinkData->mLinksToSelf.links.isBufferReady())
-        return mLinkData->sub_7100D4EC40(src, link, this);
-
-    if (!mLinkData->allocLinksToSelf(mNumLinksPointingToMe, heap))
-        return false;
+    if (!mLinkData->mLinksToSelf.links.isBufferReady()) {
+        if (!mLinkData->allocLinksToSelf(mNumLinksPointingToMe, heap))
+            return false;
+    }
 
     return mLinkData->sub_7100D4EC40(src, link, this);
 }

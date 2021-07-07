@@ -77,7 +77,7 @@ public:
     u8 TEMP[0x108];
     sead::Delegate2<PlacementMgr, sead::Thread*, sead::MessageQueue::Element> mThreadParams;
     sead::DelegateThread* mThread;
-    u32 mTraverseResultIdx;
+    int mTraverseResultIdx;
     u16 mRequestedMsg = 0;
 
     sead::Vector3f mCameraPos{};
@@ -106,6 +106,8 @@ public:
     u8 TEMP2[0x70];
 
     u32 _278;
+    sead::Vector3f _27c;
+    u32 _288;
 
     u32 mPreActorNumDone;
     u32 mLoadActorNumTotal;
@@ -117,7 +119,7 @@ public:
     sead::CriticalSection mCS{};
 
     u64 mStartTick;
-    u8 TEMP3[0x5c];
+    u8 TEMP3[0x4c];
 
     sead::TypedBitFlag<MgrFlag, sead::Atomic<u32>> mFlags;
     bool mThreadStarted = false;
@@ -146,5 +148,6 @@ public:
     u8 TEMP5[0x10];
 };
 KSYS_CHECK_SIZE_NX150(PlacementMgr, 0x818);
+static_assert(offsetof(PlacementMgr, mThreadStarted) == 0x688);
 
 }  // namespace ksys::map
