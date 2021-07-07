@@ -13,6 +13,9 @@ target_sources(uking PRIVATE
   RigidBody/physRigidBodySetParam.h
   SupportBone/physSupportBoneParam.cpp
   SupportBone/physSupportBoneParam.h
+  SupportBone/physSupportBoneResource.cpp
+  SupportBone/physSupportBoneResource.h
+  SupportBone/physSupportBoneResourceMainBone.cpp
   System/physCharacterControllerParam.cpp
   System/physCharacterControllerParam.h
   System/physContactInfoParam.cpp
