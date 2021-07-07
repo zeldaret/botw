@@ -50,3 +50,4 @@ else:
 
     utils.fail(
         f"unknown function '{args.function}'\nfor constructors and destructors, list the complete object constructor (C1) or destructor (D1)")
+        
