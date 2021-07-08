@@ -11,6 +11,7 @@
 #include "KingSystem/Utils/Byaml/ByamlArrayIter.h"
 #include "KingSystem/Utils/Byaml/ByamlData.h"
 #include "KingSystem/Utils/Byaml/ByamlHashIter.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::act {
 
@@ -715,6 +716,38 @@ bool InfoData::getName(al::ByamlIter* iter, const char** name, s32 idx) const {
         return false;
 
     return iter->tryConvertString(name, &data);
+}
+
+bool InfoData::InvalidLifeConditions::containsCurrentTimeOrWeather(
+    const sead::Vector3f& pos) const {
+    return containsCurrentTime() || containsCurrentWeather(pos);
+}
+
+bool InfoData::InvalidLifeConditions::containsCurrentTime() const {
+    if (num_times < 1 || !world::Manager::instance() || world::Manager::instance()->isAocField()) {
+        return false;
+    }
+    const char* time_type_name =
+        world::TimeType::text(world::Manager::instance()->getTimeMgr()->getTimeType());
+    for (int i = 0; i < num_times; i++) {
+        if (times[i] == time_type_name)
+            return true;
+    }
+    return false;
+}
+
+bool InfoData::InvalidLifeConditions::containsCurrentWeather(const sead::Vector3f& pos) const {
+    if (num_weathers < 1 || !world::Manager::instance() ||
+        world::Manager::instance()->isAocField()) {
+        return false;
+    }
+    auto current_weather = world::WeatherType(world::Manager::instance()->sub_71010F337C(pos));
+    const char* current_weather_name = world::Manager::getWeatherTypeString(current_weather);
+    for (int i = 0; i < num_weathers; i++) {
+        if (weathers[i] == current_weather_name)
+            return true;
+    }
+    return false;
 }
 
 }  // namespace ksys::act
