@@ -91,6 +91,7 @@ public:
     bool isTimeFlowingNormally() const;
 
     int getTimeDivision() const { return mTimeDivision; }
+    int getTimeType() const { return mTimeType; }
     sead::DelegateEvent<const NewDayEvent&>& getNewDaySignal() { return mNewDaySignal; }
     float getTimeStep() const { return mTimeStep; }
     float getBloodMoonTimer() const { return mBloodMoonTimer; }

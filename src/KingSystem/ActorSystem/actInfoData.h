@@ -74,6 +74,10 @@ public:
         sead::SafeArray<sead::SafeString, 16> times;
         s32 num_weathers;
         sead::SafeArray<sead::SafeString, 16> weathers;
+
+        bool containsCurrentTimeOrWeather(const sead::Vector3f& pos) const;
+        bool containsCurrentTime() const;
+        bool containsCurrentWeather(const sead::Vector3f& pos) const;
     };
     KSYS_CHECK_SIZE_NX150(InvalidLifeConditions, 0x210);
 
