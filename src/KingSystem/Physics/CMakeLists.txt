@@ -21,6 +21,8 @@ target_sources(uking PRIVATE
   System/physDefines.h
   System/physParamSet.cpp
   System/physParamSet.h
+  System/physRagdollControllerKeyList.h
+  System/physRagdollControllerKeyList.cpp
   System/physShapeParam.cpp
   System/physShapeParam.h
 )
