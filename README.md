@@ -135,17 +135,14 @@ First, set up the build environment by following the instructions below. Then fo
     * For Ubuntu or Debian users, install it with `sudo apt install ninja-build`
 * CMake 3.13+
     * If you are on Ubuntu 18.04, you must [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
-* devkitA64
-    * [Follow this guide to set it up.](https://switchbrew.org/wiki/Setting_up_Development_Environment#Setup)
 
 Using Linux (or WSL) is recommended but not required. The rest of this guide assumes that you are using a Linux environment, though.
 
 ### Building for Switch
 
 1. After cloning this repository, run: `git submodule update --init --recursive`
-2. Run: `env UKING_CLANG=$1 DEVKITA64=$2 cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=../ToolchainNX64.cmake -B build`
-    * Replace `$1` with the path to the extracted Clang archive, such that `$1/bin/clang` exists. This should be an absolute path; use `/home/<name>` instead of `~`.
-    * Replace `$2` with the path to devkitA64. On Linux, this is typically `/opt/devkitpro/devkitA64`.
+2. Run: `env UKING_CLANG=$$$$$ cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -B build`
+    * Replace `$$$$$` with the path to the extracted Clang archive, such that `$1/bin/clang` exists. This should be an absolute path; use `/home/<name>` instead of `~`.
 3. Start the build by running: `ninja -C build`
 
 On subsequent builds, just run `ninja -C build` from the project root.

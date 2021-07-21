@@ -29,3 +29,4 @@ perf.mData.old
 
 .DS_Store
 tools/aarch64-none-elf-objdump
+toolchain/clang/

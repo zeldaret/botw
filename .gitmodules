@@ -13,3 +13,6 @@
 [submodule "lib/EventFlow"]
 	path = lib/EventFlow
 	url = https://github.com/open-ead/EventFlow
+[submodule "toolchain/musl"]
+	path = toolchain/musl
+	url = https://github.com/open-ead/botw-lib-musl
