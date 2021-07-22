@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-import os
 import platform
 from pathlib import Path
+import subprocess
 import sys
 import tarfile
 import tempfile
@@ -74,7 +74,8 @@ def create_build_dir():
         print("build directory already exists: nothing to do")
         return
 
-    os.system("cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -B build/")
+    subprocess.check_call(
+        "cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -B build/".split(" "))
     print(">>> created build directory")
 
 
