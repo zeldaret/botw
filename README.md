@@ -122,32 +122,54 @@ Just like other game decompilations, this project is probably in a legal gray zo
 
 ### Alright, how do I start contributing?
 
-First, set up the build environment by following the instructions below. Then follow the [contributing guidelines here](Contributing.md).
+First, set up the build environment by following the instructions below.
 
 ## Building
 
-### Dependencies
-
-* Clang 4.0.1
-    * Download [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and extract the archive to a convenient location of your choice.
-    * You might also need libtinfo5. For Ubuntu or Debian users, install it with `sudo apt install libtinfo5`
-* Ninja
-    * For Ubuntu or Debian users, install it with `sudo apt install ninja-build`
-* CMake 3.13+
-    * If you are on Ubuntu 18.04, you must [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
-
-Using Linux (or WSL) is recommended but not required. The rest of this guide assumes that you are using a Linux environment, though.
-
-### Building for Switch
-
-1. After cloning this repository, run: `git submodule update --init --recursive`
-2. Run: `env UKING_CLANG=$$$$$ cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -B build`
-    * Replace `$$$$$` with the path to the extracted Clang archive, such that `$1/bin/clang` exists. This should be an absolute path; use `/home/<name>` instead of `~`.
-3. Start the build by running: `ninja -C build`
-
-On subsequent builds, just run `ninja -C build` from the project root.
-
 Reminder: **this will not produce a playable game.** This project will not allow you to play the game if you don't already own it on a Switch.
+
+### For Windows users
+
+While Linux is not a hard requirement, it is strongly advised to [set up WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to simplify the setup process. Ubuntu 20.04 is usually a good choice.
+
+The instructions below assume that you are using Linux (native or WSL) or macOS.
+
+### 1. Set up dependencies
+
+* Python 3.6 or newer
+* Ninja
+* CMake 3.13+
+    * If you are on Ubuntu 18.04, you must first [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
+* [Optional] ccache (to speed up builds)
+
+Ubuntu users can install those dependencies by running:
+
+```shell
+sudo apt install python3 ninja-build cmake ccache
+```
+
+### 2. Set up the repository
+
+1. Clone this repository.
+2. Run `git submodule update --init --recursive`
+3. Run `tools/setup.py`
+    * This will set up [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and create a build directory in `build/`.
+
+### 3. Build
+
+To start the build, just run
+
+```shell
+ninja -C build
+```
+
+By default, Ninja will perform a multithreaded build. There is no need to pass -j manually.
+
+To check whether everything built correctly, just run `tools/check.py` after the build completes.
+
+## Contributing
+
+Follow the [contributing guidelines here](Contributing.md).
 
 ## Resources
 
