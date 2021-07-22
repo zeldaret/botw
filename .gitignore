@@ -21,7 +21,8 @@ bin/
 *.nam
 *.til
 
-main.elf
+data/*.elf
+data/*.nso
 
 perf.mData
 perf.mData.old

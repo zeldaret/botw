@@ -16,3 +16,6 @@
 [submodule "toolchain/musl"]
 	path = toolchain/musl
 	url = https://github.com/open-ead/botw-lib-musl
+[submodule "tools/nx-decomp-tools-binaries"]
+	path = tools/nx-decomp-tools-binaries
+	url = https://github.com/open-ead/nx-decomp-tools-binaries

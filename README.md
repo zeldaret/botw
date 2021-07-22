@@ -148,12 +148,25 @@ Ubuntu users can install those dependencies by running:
 sudo apt install python3 ninja-build cmake ccache
 ```
 
-### 2. Set up the repository
+### 2. Set up the project
 
 1. Clone this repository. If you are using WSL, please clone the repo *inside* WSL, *not* on the Windows side (for performance reasons).
+
 2. Run `git submodule update --init --recursive`
-3. Run `tools/setup.py`
-    * This will set up [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and create a build directory in `build/`.
+
+    Next, you'll need to acquire the **original 1.5.0 or 1.6.0 `main` NSO executable**.
+
+    * To dump it from a Switch, follow [the instructions on the wiki](https://zeldamods.org/wiki/Help:Dumping_games#Dumping_binaries_.28executable_files.29).
+    * You do not need to dump the entire game (RomFS + ExeFS + DLC). Just dumping the 1.5.0 or 1.6.0 ExeFS is sufficient.
+    * The decompressed 1.5.0 NSO has the following SHA256 hash: `d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106`
+        * If you have a compressed NSO or a 1.6.0 executable, don't worry about this.
+
+3. Run `tools/setup.py [path to the NSO]`
+    * This will:
+        * convert the executable if necessary
+        * set up [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) by downloading it from the official LLVM website
+        * create a build directory in `build/`
+    * If something goes wrong, follow the instructions given to you by the script.
 
 ### 3. Build
 
@@ -169,7 +182,7 @@ To check whether everything built correctly, just run `tools/check.py` after the
 
 ## Contributing
 
-Follow the [contributing guidelines here](Contributing.md).
+Follow the [contributing guidelines here](Contributing.md). Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discord server if you have any questions.
 
 ## Resources
 

@@ -5,12 +5,6 @@ To contribute to the project, you will need:
 * A disassembler or a decompiler such as Hex-Rays or Ghidra.
 * Python 3 and pip for the diff script
 * These Python modules: `capstone colorama cxxfilt pyelftools` (install them with `pip install ...`)
-* The original 1.5.0 `main` NSO executable, converted to ELF format with [nx2elf](https://github.com/shuffle2/nx2elf).
-    * To dump it, follow [the instructions on the wiki](https://zeldamods.org/wiki/Help:Dumping_games#Dumping_binaries_.28executable_files.29). If you only have 1.6.0 on your console, you should still dump it.
-    * Decompress the `main` NSO with [hactool](https://github.com/SciresM/hactool).
-    * If you have a 1.6.0 dump, use xdelta3 on the decompressed NSO to turn it into a 1.5.0 NSO. [The patch is available here.](https://s.botw.link/v150_downgrade/v160_to_v150.patch)
-    * The uncompressed NSO has the following SHA256 hash: `d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106`
-    * Copy it to data/main.elf -- it is used for the diff script and other tools.
 
 Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
