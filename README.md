@@ -150,7 +150,7 @@ sudo apt install python3 ninja-build cmake ccache
 
 ### 2. Set up the repository
 
-1. Clone this repository.
+1. Clone this repository. If you are using WSL, please clone the repo *inside* WSL, *not* on the Windows side (for performance reasons).
 2. Run `git submodule update --init --recursive`
 3. Run `tools/setup.py`
     * This will set up [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) and create a build directory in `build/`.
