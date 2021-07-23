@@ -120,6 +120,11 @@ public:
 
 1. **Pick a function that you want to decompile.**
     * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
+    * Use our [Trello project board](https://botw.link/trello) to figure out what needs to be decompiled. Make sure it's not already being worked on by somebody else!
+        * The "Blocked" label means that the task cannot be easily done at the moment because it requires something else to be decompiled or stubbed first.
+        * "Easy" tasks are recommended to familiarize yourself with the process. They can typically be done pretty quickly.
+        * "Requires library integration" tasks require decompiling an external library (e.g. agl, sead, ...) and integrating it into the project.
+        * "Manager/singleton" means that the task is about a manager or a singleton (a class with only a single instance).
     * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
     * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
 
