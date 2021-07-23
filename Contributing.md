@@ -132,6 +132,7 @@ public:
     * Rename variables, add structures, do everything you can to make the output as clean as possible.
     * Again, understanding the function is very important.
     * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
+    * The [cheatsheet](Cheatsheet.md) might help you recognize inline functions.
 
 3. **Implement the function in C++.**
     * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
@@ -160,6 +161,7 @@ public:
     * **Focus on large differences.** If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
     * **Regalloc:** If you only have regalloc differences left in a function that *looks* semantically equivalent, double-check whether it is truly equivalent: such differences are typically caused by using the wrong variable. It is rare for LLVM to use a different set of registers if the code is equivalent.
     * This is usually the most difficult part of matching decomp. Please ask on Discord if you need help!
+    * The [cheatsheet](Cheatsheet.md) might help you recognize code patterns and contains a checklist for common matching issues.
 
 9. **Update the list of decompiled functions**.
     * If you have a function that matches perfectly, great!
