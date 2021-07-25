@@ -34,8 +34,8 @@ bin/
 *.rep/
 
 # Debugging
-perf.mData
-perf.mData.old
+perf.data
+perf.data.old
 .gdb_history
 
 # Tooling
