@@ -1052,7 +1052,8 @@ void PauseMenuDataMgr::autoEquipLastAddedItem() {
     }
 }
 
-// NON_MATCHING: branching
+// branching
+#ifdef NON_MATCHING
 const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
                                                     const sead::OffsetList<PouchItem>& list) {
     const auto type = item->getType();
@@ -1083,8 +1084,10 @@ const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
     saveToGameData(list);
     return sead::SafeString::cEmptyString;
 }
+#endif
 
-// NON_MATCHING: harmless reordering
+// harmless reordering
+#ifdef NON_MATCHING
 void PauseMenuDataMgr::unequipAll(PouchItemType type) {
     const auto lock = sead::makeScopedLock(mCritSection);
 
@@ -1108,6 +1111,7 @@ void PauseMenuDataMgr::unequipAll(PouchItemType type) {
         }
     }
 }
+#endif
 
 KSYS_ALWAYS_INLINE inline void
 PauseMenuDataMgr::deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem* item,
@@ -1192,7 +1196,8 @@ void PauseMenuDataMgr::removeArrow(const sead::SafeString& arrow_name, int count
         ksys::gdt::setFlag_PorchItem_Value1(num, idx);
 }
 
-// NON_MATCHING: branch merging -- but this is pretty clearly equivalent
+// branch merging -- but this is pretty clearly equivalent
+#ifdef NON_MATCHING
 int PauseMenuDataMgr::getItemCount(const sead::SafeString& name, bool count_equipped) const {
     const auto type = getType(name);
     if (isPouchItemInvalid(type))
@@ -1259,6 +1264,7 @@ int PauseMenuDataMgr::getItemCount(const sead::SafeString& name, bool count_equi
     }
     return count;
 }
+#endif
 
 void PauseMenuDataMgr::setEquippedWeaponItemValue(s32 value, PouchItemType type) {
     if (isPouchItemNotWeapon(type))
@@ -1336,7 +1342,8 @@ void PauseMenuDataMgr::removeGrabbedItems() {
     saveToGameData(items);
 }
 
-// NON_MATCHING: mostly branching (which leads to other differences), but visibly equivalent
+// mostly branching (which leads to other differences), but visibly equivalent
+#ifdef NON_MATCHING
 bool PauseMenuDataMgr::addGrabbedItem(ksys::act::BaseProcLink* link) {
     if (!link || !link->hasProc())
         return false;
@@ -1376,6 +1383,7 @@ bool PauseMenuDataMgr::addGrabbedItem(ksys::act::BaseProcLink* link) {
     mGrabbedItems[4] = {};
     return found;
 }
+#endif
 
 bool PauseMenuDataMgr::getEquippedArrowType(sead::BufferedSafeString* name, int* count) const {
     const auto lock = sead::makeScopedLock(mCritSection);
@@ -1646,7 +1654,8 @@ PouchCategory PauseMenuDataMgr::getCategoryForType(PouchItemType type) const {
     }
 }
 
-// NON_MATCHING: two harmless reorderings
+// two harmless reorderings
+#ifdef NON_MATCHING
 void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect_type,
                                         bool check_effect) {
     auto* info = ksys::act::InfoData::instance();
@@ -1705,6 +1714,7 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
     updateInventoryInfo(items);
     updateListHeads();
 }
+#endif
 
 bool PauseMenuDataMgr::switchEquipment(const sead::SafeString& name, int* value,
                                        act::WeaponModifierInfo* modifier) {
@@ -2191,7 +2201,8 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
     return (*fn)(lhs, rhs, info_data);
 }
 
-// NON_MATCHING: branching, but this is so trivial it isn't worth spending time on matching this
+// branching, but this is so trivial it isn't worth spending time on matching this
+#ifdef NON_MATCHING
 const sead::SafeString* PauseMenuDataMgr::getEquippedItemName(PouchItemType type) const {
     const auto lock = sead::makeScopedLock(mCritSection);
     const auto& items = getItems();
@@ -2206,6 +2217,7 @@ const sead::SafeString* PauseMenuDataMgr::getEquippedItemName(PouchItemType type
     }
     return nullptr;
 }
+#endif
 
 const PouchItem* PauseMenuDataMgr::getEquippedItem(PouchItemType type) const {
     const auto lock = sead::makeScopedLock(mCritSection);
@@ -2542,7 +2554,8 @@ bool PauseMenuDataMgr::isOverCategoryLimit(PouchItemType type) const {
     return true;
 }
 
-// NON_MATCHING: branching (really weird issue...)
+// branching (really weird issue...)
+#ifdef NON_MATCHING
 int PauseMenuDataMgr::countArmors(const sead::SafeString& lowest_rank_armor_name) const {
     if (!isPouchItemArmor(getType(lowest_rank_armor_name)))
         return 0;
@@ -2569,6 +2582,7 @@ int PauseMenuDataMgr::countArmors(const sead::SafeString& lowest_rank_armor_name
     }
     return count;
 }
+#endif
 
 void PauseMenuDataMgr::addNonDefaultItem(const sead::SafeString& name, int value,
                                          const act::WeaponModifierInfo* modifier) {

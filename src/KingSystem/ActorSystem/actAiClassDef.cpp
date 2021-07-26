@@ -42,7 +42,8 @@ void AIClassDef::init(const sead::SafeString& aidef_file_name, sead::Heap* heap)
     mData->load(heap);
 }
 
-// NON_MATCHING: not trying to match the heap sort. The rest should be equivalent
+// not trying to match the heap sort. The rest should be equivalent
+#ifdef NON_MATCHING
 bool AIClassDef::Data::load(sead::Heap* heap) {
     root_iter.tryGetIterByKey(&iters[s32(AIDefType::AI)], str_AIs);
     root_iter.tryGetIterByKey(&iters[s32(AIDefType::Action)], str_Actions);
@@ -82,6 +83,7 @@ bool AIClassDef::Data::load(sead::Heap* heap) {
 
     return true;
 }
+#endif
 
 s32 AIClassDef::getRawDefIdx(const sead::SafeString& def_name, AIDefType type) const {
     const auto hash = sead::HashCRC32::calcStringHash(def_name);
@@ -137,7 +139,8 @@ void AIClassDef::getDef(const sead::SafeString& class_name, AIDefSet* set,
              data->inst_params_key_idx[s32(AIDefInstParamKind::AITree)]);
 }
 
-// NON_MATCHING: CalcTiming ifs are reordered
+// CalcTiming ifs are reordered
+#ifdef NON_MATCHING
 void AIClassDef::doGetDef(AIDef* def, const al::ByamlIter& iter, AIDefInstParamKind param_kind,
                           AIDefType class_type, s32 key_idx) const {
     def->no_stop = false;
@@ -259,6 +262,7 @@ void AIClassDef::doGetDef(AIDef* def, const al::ByamlIter& iter, AIDefInstParamK
         ++def->num_params;
     }
 }
+#endif
 
 void AIClassDef::getDef(AIDef* def, const sead::SafeString& class_name,
                         AIDefInstParamKind param_kind, AIDefType class_type) const {

@@ -478,7 +478,8 @@ void ResourceMgrTask::updateResourceArenasFlag8() {
     mArenaForResourceL.updateFlag8(false);
 }
 
-// NON_MATCHING: branching
+// branching
+#ifdef NON_MATCHING
 sead::Heap* ResourceMgrTask::makeHeapForUnit(const MakeHeapArg& arg) {
     const auto heap_size = arg.heap_size;
     const auto path = arg.path;
@@ -507,6 +508,7 @@ sead::Heap* ResourceMgrTask::makeHeapForUnit(const MakeHeapArg& arg) {
     *arg.out_arena2 = arena;
     return heap;
 }
+#endif
 
 ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
     auto* unit = mUnitPool.tryAlloc();
@@ -627,7 +629,8 @@ bool ResourceMgrTask::getUncompressedSize(u32* size, const sead::SafeString& pat
     return true;
 }
 
-// NON_MATCHING: reordering
+// reordering
+#ifdef NON_MATCHING
 void ResourceMgrTask::setCompactionStopped(bool stopped) {
     u32 old_counter;
     if (stopped)
@@ -639,6 +642,7 @@ void ResourceMgrTask::setCompactionStopped(bool stopped) {
     if (mCompactionCounter == 0 || old_counter == 0)
         stubbedLogFunction();
 }
+#endif
 
 bool ResourceMgrTask::isCompactionStopped() const {
     return mCompactionCounter == 0;

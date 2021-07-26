@@ -2,7 +2,8 @@
 
 namespace ksys::res {
 
-// NON_MATCHING: first line (see also Drop::parse_)
+// first line (see also Drop::parse_)
+#ifdef NON_MATCHING
 bool Recipe::parse_(u8* data, size_t, sead::Heap* heap) {
     mTableNum.init(0, "TableNum", "テーブルの数", &mObj);
     addObj(&mObj, "Header");
@@ -50,6 +51,7 @@ bool Recipe::parse_(u8* data, size_t, sead::Heap* heap) {
     applyResParameterArchive(agl::utl::ResParameterArchive{data});
     return true;
 }
+#endif
 
 void Recipe::parseTable_(const s32& table_idx) {
     const s32 num = mTables[table_idx].column_num.ref();

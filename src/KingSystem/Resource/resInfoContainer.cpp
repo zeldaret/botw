@@ -11,7 +11,8 @@ ResourceInfoContainer::ResourceInfoContainer() = default;
 
 ResourceInfoContainer::~ResourceInfoContainer() = default;
 
-// NON_MATCHING: LoadRequest field write order
+// LoadRequest field write order
+#ifdef NON_MATCHING
 bool ResourceInfoContainer::loadResourceSizeTable() {
     const auto load_res = [&] {
         LoadRequest req;
@@ -78,8 +79,10 @@ bool ResourceInfoContainer::loadResourceSizeTable() {
     stubbedLogFunction();
     return true;
 }
+#endif
 
-// NON_MATCHING: missing mStringEntries(string_entry_idx).res_size > 0 check
+// missing mStringEntries(string_entry_idx).res_size > 0 check
+#ifdef NON_MATCHING
 u32 ResourceInfoContainer::getResourceSize(const sead::SafeString& name) const {
     const u32 name_hash = sead::HashCRC32::calcStringHash(name);
 
@@ -94,6 +97,7 @@ u32 ResourceInfoContainer::getResourceSize(const sead::SafeString& name) const {
 
     return 0;
 }
+#endif
 
 namespace {
 [[gnu::noinline]] bool stringLessThan(const sead::SafeString& a, const sead::SafeString& b) {

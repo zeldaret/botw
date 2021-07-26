@@ -5,12 +5,14 @@
 
 namespace ksys::qst {
 
-// NON_MATCHING: regalloc
+// regalloc
+#ifdef NON_MATCHING
 Step::Step(const u8** iter_data, sead::Heap* heap) : heap(heap) {
     if (*iter_data != nullptr) {
         iter = new (heap, std::nothrow_t()) al::ByamlIter(*iter_data);
     }
 }
+#endif
 
 bool Step::sub_7100FDB89C(act::Actor* actor) const {
     for (int i = 0; i < links.size(); ++i) {

@@ -118,7 +118,8 @@ long bindActorActions(evfl::TimelineObj& obj, res::EventFlowActionBinder binder)
     return int(ok) | (int(failed) << 8);
 }
 
-// NON_MATCHING: minor reordering for the buildTimeline loop
+// minor reordering for the buildTimeline loop
+#ifdef NON_MATCHING
 bool ResourceTimeline::setUpBindings(ActorBindings* bindings, sead::Heap* heap) {
     sead::Buffer<evfl::TimelineObj> timeline_objs;
     timeline_objs.allocBufferAssert(mTimelines.size(), heap);
@@ -162,6 +163,7 @@ bool ResourceTimeline::setUpBindings(ActorBindings* bindings, sead::Heap* heap) 
     timeline_objs.freeBuffer();
     return true;
 }
+#endif
 
 bool ResourceTimeline::buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap* heap) {
     auto& timeline = mTimelines[idx];

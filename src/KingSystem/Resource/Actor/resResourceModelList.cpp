@@ -36,7 +36,8 @@ ModelList::~ModelList() {
 
 void ModelList::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {}
 
-// NON_MATCHING: reorderings
+// reorderings
+#ifdef NON_MATCHING
 bool ModelList::parse_(u8* data, size_t size, sead::Heap* heap) {
     agl::utl::ResParameterArchive archive{data};
     const auto root = archive.getRootList();
@@ -103,6 +104,7 @@ bool ModelList::parse_(u8* data, size_t size, sead::Heap* heap) {
 
     return true;
 }
+#endif
 
 bool ModelList::parseModelData(const agl::utl::ResParameterList& res, sead::Heap* heap) {
     if (!mModelData.tryAllocBuffer(res.getResParameterListNum() != 0, heap))
@@ -310,7 +312,8 @@ act::InfoData::Locator::Type ModelList::getLocatorTypeFromStr(const sead::SafeSt
     return act::InfoData::Locator::Type::Invalid;
 }
 
-// NON_MATCHING: weird unrolling and Vector3f store (str should be a stp)
+// weird unrolling and Vector3f store (str should be a stp)
+#ifdef NON_MATCHING
 bool ModelList::getLocatorInfo(act::InfoData::Locator* info,
                                act::InfoData::Locator::Type type) const {
     agl::utl::ResParameterArchive archive{mRawData};
@@ -335,6 +338,7 @@ bool ModelList::getLocatorInfo(act::InfoData::Locator* info,
 
     return false;
 }
+#endif
 
 bool ModelList::isParticalEnable(int anm_target_idx) const {
     return mAnmTargets[anm_target_idx].is_partical_enable.ref();
