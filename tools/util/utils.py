@@ -28,32 +28,31 @@ class FunctionInfo(tp.NamedTuple):
     name: str
     size: int
     decomp_name: str
+    library: bool
     status: FunctionStatus
     raw_row: tp.List[str]
 
 
 _markers = {
-    "?": FunctionStatus.Equivalent,
-    "!": FunctionStatus.NonMatching,
-    "|": FunctionStatus.Wip,
+    "O": FunctionStatus.Matching,
+    "m": FunctionStatus.Equivalent,
+    "M": FunctionStatus.NonMatching,
+    "W": FunctionStatus.Wip,
+    "U": FunctionStatus.NotDecompiled,
+    "L": FunctionStatus.NotDecompiled,
 }
 
 
 def parse_function_csv_entry(row) -> FunctionInfo:
-    ea, name, size, decomp_name = row
-    if decomp_name:
-        status = FunctionStatus.Matching
+    ea, stat, size, name = row
+    status = _markers.get(stat, FunctionStatus.NotDecompiled)
+    decomp_name = ""
 
-        for marker, new_status in _markers.items():
-            if decomp_name[-1] == marker:
-                status = new_status
-                decomp_name = decomp_name[:-1]
-                break
-    else:
-        status = FunctionStatus.NotDecompiled
+    if status != FunctionStatus.NotDecompiled:
+        decomp_name = name
 
     addr = int(ea, 16) - 0x7100000000
-    return FunctionInfo(addr, name, int(size, 0), decomp_name, status, row)
+    return FunctionInfo(addr, name, int(size), decomp_name, stat == "L", status, row)
 
 
 def get_functions_csv_path() -> Path:
@@ -65,11 +64,13 @@ def get_functions(path: tp.Optional[Path] = None) -> tp.Iterable[FunctionInfo]:
         path = get_functions_csv_path()
     with path.open() as f:
         reader = csv.reader(f)
+        # Skip headers
+        next(reader)
         for row in reader:
             try:
                 entry = parse_function_csv_entry(row)
                 # excluded library function
-                if entry.decomp_name == "l":
+                if entry.library:
                     continue
                 yield entry
             except ValueError as e:
@@ -82,7 +83,7 @@ def add_decompiled_functions(new_matches: tp.Dict[int, str],
     writer = csv.writer(buffer, lineterminator="\n")
     for func in get_functions():
         if new_orig_names is not None and func.status == FunctionStatus.NotDecompiled and func.addr in new_orig_names:
-            func.raw_row[1] = new_orig_names[func.addr]
+            func.raw_row[3] = new_orig_names[func.addr]
         if func.status == FunctionStatus.NotDecompiled and func.addr in new_matches:
             func.raw_row[3] = new_matches[func.addr]
         writer.writerow(func.raw_row)
