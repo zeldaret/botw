@@ -12,7 +12,8 @@ Indicator::~Indicator() {
     finalize();
 }
 
-// NON_MATCHING: Confusing control flow
+// Confusing control flow
+#ifdef NON_MATCHING
 bool Indicator::init(al::ByamlIter* iter, sead::BufferedSafeString* out_message) {
     if (!iter->isValid()) {
         // Step (%s) is invalid data.
@@ -142,6 +143,7 @@ bool Indicator::init(al::ByamlIter* iter, sead::BufferedSafeString* out_message)
     acquireActors();
     return true;
 }
+#endif
 
 void Indicator::finalize() {
     actors.freeBuffer();

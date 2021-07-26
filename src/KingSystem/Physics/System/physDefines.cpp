@@ -72,7 +72,8 @@ WallCode wallCodeFromText(const sead::SafeString& text) {
     return 0;
 }
 
-// NON_MATCHING: duplicated branches?
+// duplicated branches?
+#ifdef NON_MATCHING
 MotionType motionTypeFromText(const sead::SafeString& text) {
     if (text == "Dynamic")
         return MotionType::Dynamic;
@@ -82,5 +83,6 @@ MotionType motionTypeFromText(const sead::SafeString& text) {
         return MotionType::Keyframed;
     return MotionType::Unknown;
 }
+#endif
 
 }  // namespace ksys::phys

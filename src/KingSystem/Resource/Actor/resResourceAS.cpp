@@ -18,7 +18,8 @@ AS::~AS() = default;
 
 void AS::doCreate_(u8*, u32, sead::Heap*) {}
 
-// NON_MATCHING: SafeString vtable load is reordered
+// SafeString vtable load is reordered
+#ifdef NON_MATCHING
 bool AS::parse_(u8* data, size_t size, sead::Heap* parent_heap) {
     mHeap = util::tryCreateDualHeap(parent_heap);
     if (!mHeap)
@@ -143,6 +144,7 @@ bool AS::parse_(u8* data, size_t size, sead::Heap* parent_heap) {
     mHeap->adjust();
     return true;
 }
+#endif
 
 ASResource* AS::getFirstResource() const {
     if (mElementResources.size() == 0)

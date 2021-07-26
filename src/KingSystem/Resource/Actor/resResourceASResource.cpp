@@ -216,7 +216,8 @@ ASResourceWithChildren::~ASResourceWithChildren() {
     mChildren.freeBuffer();
 }
 
-// NON_MATCHING: getParameterData (redundant uxtw which leads to localised regalloc diffs)
+// getParameterData (redundant uxtw which leads to localised regalloc diffs)
+#ifdef NON_MATCHING
 bool ASResourceWithChildren::doParse(const ASResource::ParseArgs& args) {
     const auto Children = agl::utl::getResParameterObj(args.list, "Children");
     if (!Children)
@@ -238,6 +239,7 @@ bool ASResourceWithChildren::doParse(const ASResource::ParseArgs& args) {
 
     return true;
 }
+#endif
 
 int ASResourceWithChildren::callOnChildren_(MemberFunction fn) {
     int ret = 0;

@@ -8,7 +8,8 @@ HasSetItem::HasSetItem(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 HasSetItem::~HasSetItem() = default;
 
-// NON_MATCHING: temp duplication
+// temp duplication
+#ifdef NON_MATCHING
 int HasSetItem::doQuery() {
     auto* gdm = ksys::gdt::Manager::instance();
     if (gdm == nullptr)
@@ -27,6 +28,7 @@ int HasSetItem::doQuery() {
     }
     return 0;
 }
+#endif
 
 void HasSetItem::loadParams(const evfl::QueryArg& arg) {
     loadInt(arg.param_accessor, "Count");

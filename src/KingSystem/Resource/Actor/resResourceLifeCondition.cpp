@@ -2,7 +2,8 @@
 
 namespace ksys::res {
 
-// NON_MATCHING: two instructions swapped
+// two instructions swapped
+#ifdef NON_MATCHING
 bool LifeCondition::parse_(u8* data, size_t, sead::Heap* heap) {
     if (!data)
         return true;
@@ -55,6 +56,7 @@ bool LifeCondition::parse_(u8* data, size_t, sead::Heap* heap) {
 
     return true;
 }
+#endif
 
 void LifeCondition::parseArray(const agl::utl::ResParameterObj* data, agl::utl::IParameterObj* obj,
                                sead::Buffer<agl::utl::Parameter<sead::SafeString>>* buffer,

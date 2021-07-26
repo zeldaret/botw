@@ -234,7 +234,8 @@ void TaskQueueBase::blockTasks(u8 id) {
         mLanes[id].blocked = true;
 }
 
-// NON_MATCHING: the while (!areAllThreadsPaused()) loop generates weird code in the original
+// the while (!areAllThreadsPaused()) loop generates weird code in the original
+#ifdef NON_MATCHING
 void TaskQueueBase::blockTasksAndReloadThreads(u8 id) {
     blockTasks(id);
 
@@ -257,6 +258,7 @@ void TaskQueueBase::blockTasksAndReloadThreads(u8 id) {
             thread.resume();
     }
 }
+#endif
 
 void TaskQueueBase::unblockTasks(u8 id) {
     if (mLanes[id].blocked) {
@@ -407,7 +409,8 @@ void TaskQueueBase::removeTask(Task* task, bool b) {
     unlock();
 }
 
-// NON_MATCHING: regalloc inside the task lambda + reorderings for the loop counters.
+// regalloc inside the task lambda + reorderings for the loop counters.
+#ifdef NON_MATCHING
 void TaskQueueBase::fetchTask(Task** out_task) {
     lock();
 
@@ -481,5 +484,6 @@ void TaskQueueBase::fetchTask(Task** out_task) {
 
     unlock();
 }
+#endif
 
 }  // namespace ksys::util

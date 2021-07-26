@@ -15,7 +15,8 @@ void ASSetting::init(const sead::SafeString& config_path, sead::Heap* heap) {
     mHandle.load(config_path, &req);
 }
 
-// NON_MATCHING: sead::DirectResource to res::ASSetting cast nullptr check; branching for the return
+// sead::DirectResource to res::ASSetting cast nullptr check; branching for the return
+#ifdef NON_MATCHING
 res::ASParamParser* ASSetting::getBoneParams(const sead::SafeString& key) const {
     auto* res = sead::DynamicCast<res::ASSetting>(mHandle.getResource());
     if (!res)
@@ -27,5 +28,6 @@ res::ASParamParser* ASSetting::getBoneParams(const sead::SafeString& key) const 
     }
     return nullptr;
 }
+#endif
 
 }  // namespace ksys::act
