@@ -11,7 +11,7 @@
 
 namespace ksys::map {
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 Object::Object() {
     mHardModeFlags.makeAllZero();
     _b = 0xFF;
@@ -20,6 +20,7 @@ Object::Object() {
     mProc = nullptr;
     mLinkData = nullptr;
 }
+#endif
 
 Object::~Object() {
     if (mLinkData != nullptr) {
@@ -49,7 +50,7 @@ void Object::free() {
         mLinkData->field_57 = 0;
 }
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 void Object::initData(MubinIter* iter, u8 idx, u32 actor_data_idx, ActorData* data) {
     mActorDataIdx = 0xFFFF;
     mFlags0.makeAllZero();
@@ -100,6 +101,7 @@ void Object::initData(MubinIter* iter, u8 idx, u32 actor_data_idx, ActorData* da
     }
     initRevivalGameDataFlagAndMiscFlags(data, false);
 }
+#endif
 
 act::BaseProc* Object::tryGetProc(bool force) {
     auto* bpm = act::BaseProcMgr::instance();
@@ -403,7 +405,7 @@ void Object::setRevivalFlagValue(bool value) {
     gdt::Manager::instance()->setBool(value, mRevivalGameDataFlagHash);
 }
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 bool Object::x_18() const {
     act::InfoData::InvalidLifeConditions info;
     const char* s;
@@ -419,6 +421,7 @@ bool Object::x_18() const {
     sead::Vector3f temp = mTranslate;
     return !id->sub_7100D30DF8(info, temp);
 }
+#endif
 
 bool Object::setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap) {
     if (mNumLinksPointingToMe == 0)
@@ -454,7 +457,7 @@ bool Object::checkTraverseFlags() const {
     return mFlags0.isOn(Flag0::_500400);
 }
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 bool Object::x_20() const {
     if (getActorData().mFlags.isOffBit(ActorData::Flag::RevivalEnable))
         return false;
@@ -467,6 +470,7 @@ bool Object::x_20() const {
     }
     return false;
 }
+#endif
 
 void Object::onBaseProcCreated(act::BaseProc* actor) {
     if (actor != nullptr) {
@@ -543,7 +547,8 @@ sead::Vector3f Object::getRotate() const {
     return result;
 }
 
-// NON_MATCHING: Vec3f copy incorrect
+// Vec3f copy incorrect
+#ifdef NON_MATCHING
 void Object::getTraversePosAndLoadDistance(sead::Vector3f* traverse_pos, f32* load_dist) const {
     if (mFlags.isOn(Flag::HasTraversePos))
         mMubinIter.tryGetFloatArrayByKey(&traverse_pos->x, "TraversePos");
@@ -551,6 +556,7 @@ void Object::getTraversePosAndLoadDistance(sead::Vector3f* traverse_pos, f32* lo
         *traverse_pos = mTranslate;
     *load_dist = getLoadDistance(false);
 }
+#endif
 
 void Object::getUniqueName(const char** out) const {
     if (mFlags.isOff(Flag::HasUniqueName) || !mMubinIter.tryGetParamStringByKey(out, "UniqueName"))

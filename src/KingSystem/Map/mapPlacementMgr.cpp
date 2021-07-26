@@ -28,7 +28,7 @@ void PlacementMgr::releaseTree() {
     mPlacementTree = nullptr;
 }
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 void PlacementMgr::x_3() {
     auto ac = act::ActorCreator::instance();
     const auto loc = sead::makeScopedLock(ac->getCS());
@@ -41,12 +41,13 @@ void PlacementMgr::x_3() {
         }
     }
 }
+#endif
 
 void PlacementMgr::reset7F0() {
     _7f0 = 0;
 }
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 void PlacementMgr::initClusteredRenderer() {
     if (mThread != nullptr && mClusteredRenderer == nullptr)
         return;
@@ -68,6 +69,7 @@ void PlacementMgr::initClusteredRenderer() {
         mClusteredRenderer->startThread();
     }
 }
+#endif
 
 void PlacementMgr::auto0() {
     if (mThread == nullptr)

@@ -18,9 +18,11 @@ DamageManagerBase_UnknownBase1::DamageManagerBase_UnknownBase1(ksys::act::Actor*
 // when writing the vtable and Actor.
 // The original Compiler writes (0x8, 0x10) in one 'stp', and writes 0x0 and 0x18 individually with
 // 'str'. The rest seems to fall out of sync due to that, but it's otherwise functionally the same.
-// NON_MATCHING: Incorrect order.
+// Incorrect order.
+#ifdef NON_MATCHING
 DamageManagerBase::DamageManagerBase(ksys::act::Actor* actor)
     : DamageManagerBase_UnknownBase1(actor) {}
+#endif
 
 u32 DamageManagerBase::getDamage() {
     u32 result;

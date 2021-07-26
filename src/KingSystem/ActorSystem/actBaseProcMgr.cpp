@@ -40,7 +40,8 @@ BaseProcMgr::~BaseProcMgr() {
     BaseProcHeapMgr::deleteInstance();
 }
 
-// NON_MATCHING: mJobLists.allocBufferAssert - BaseProcJobLists ctor
+// mJobLists.allocBufferAssert - BaseProcJobLists ctor
+#ifdef NON_MATCHING
 void BaseProcMgr::init(sead::Heap* heap, s32 num_job_types, u32 main_thread_id,
                        u32 havok_thread_id1, u32 havok_thread_id2,
                        const BaseProcInitializerArgs& initializer_args) {
@@ -66,6 +67,7 @@ void BaseProcMgr::init(sead::Heap* heap, s32 num_job_types, u32 main_thread_id,
     BaseProcHeapMgr::createInstance(heap);
     BaseProcLinkDataMgr::createInstance(heap);
 }
+#endif
 
 void BaseProcMgr::generateProcId(u32* id) {
     *id = mCreatedProcCounter.increment();
@@ -529,7 +531,8 @@ BaseProc* BaseProcMgr::getProc(const u32& id, BaseProcMgr::ProcFilters filters) 
     return proc;
 }
 
-// NON_MATCHING: stack
+// stack
+#ifdef NON_MATCHING
 void BaseProcMgr::forEachProc(sead::IDelegate1<BaseProc*>& callback, ProcFilters filters) {
     const auto lock = sead::makeScopedLock(mProcMapCS);
 
@@ -542,6 +545,7 @@ void BaseProcMgr::forEachProc(sead::IDelegate1<BaseProc*>& callback, ProcFilters
     mProcMap.forEach(sead::Delegate1<ProcForEachContext, util::StrTreeMapNode*>(
         &context, &ProcForEachContext::forEach));
 }
+#endif
 
 void BaseProcMgr::forEachProc(const sead::SafeString& proc_name,
                               sead::IDelegate1<BaseProc*>& callback,
@@ -633,12 +637,15 @@ void BaseProcMgr::decrementUnk3() {
         --mUnk3;
 }
 
-// NON_MATCHING: reorderings
+// reorderings
+#ifdef NON_MATCHING
 void BaseProcMgr::queueExtraJobPush(BaseProcJobLink* job_link) {
     getExtraJobs().pushBack(job_link);
 }
+#endif
 
-// NON_MATCHING: ???
+// ???
+#ifdef NON_MATCHING
 void BaseProcMgr::moveExtraJobsToOtherBuffer(JobType type) {
     const auto old_idx = mCurrentExtraJobArrayIdx;
     swapExtraJobArray();
@@ -647,6 +654,7 @@ void BaseProcMgr::moveExtraJobsToOtherBuffer(JobType type) {
         link.getProc()->queueExtraJobPush_(type, mCurrentExtraJobArrayIdx);
     }
 }
+#endif
 
 bool BaseProcMgr::hasExtraJobLink(BaseProcJobLink* job_link, s32 idx) {
     for (auto& ptr : mExtraJobLinkArrays.ref()[idx]) {

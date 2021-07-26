@@ -44,7 +44,8 @@ bool Manager::isQuestActor(act::Actor* actor) const {
     return false;
 }
 
-// NON_MATCHING: leftovers from a stripped debug function
+// leftovers from a stripped debug function
+#ifdef NON_MATCHING
 void Manager::auto0(act::Actor* actor) {
     if (actor == nullptr)
         return;
@@ -55,6 +56,7 @@ void Manager::auto0(act::Actor* actor) {
             quest->x_9(actor);
     }
 }
+#endif
 
 bool Manager::auto4(act::Actor* actor) const {
     auto end = mQuests.end();
@@ -65,7 +67,8 @@ bool Manager::auto4(act::Actor* actor) const {
     return true;
 }
 
-// NON_MATCHING: loops are nonmatching
+// loops are nonmatching
+#ifdef NON_MATCHING
 bool Manager::sub_7100FD78F8() {
     s32 size = mQuests.size();
     u32 data_count = 0;
@@ -90,6 +93,7 @@ bool Manager::sub_7100FD78F8() {
     }
     return true;
 }
+#endif
 
 bool Manager::sub_7100FD7B30(const sead::SafeString& quest_name, const sead::SafeString& step_name,
                              bool setAocVersionFlag1) {
@@ -102,7 +106,8 @@ bool Manager::setQuestStepFromEvent(const sead::SafeString& quest_name,
     return setQuestStep(quest_name, step_name, true, force_run_telop, setAocVersionFlag1);
 }
 
-// NON_MATCHING: quest is dereferenced several times
+// quest is dereferenced several times
+#ifdef NON_MATCHING
 bool Manager::setQuestStep(const sead::SafeString& quest_name, const sead::SafeString& step_name,
                            bool copy_name, bool force_run_telop, bool setAocVersionFlag1) {
     u32 hash = sead::HashCRC32::calcStringHash(quest_name.cstr());
@@ -135,5 +140,6 @@ bool Manager::setQuestStep(const sead::SafeString& quest_name, const sead::SafeS
         quest->mAocVersionFlags |= 1;
     return true;
 }
+#endif
 
 }  // namespace ksys::qst

@@ -80,7 +80,8 @@ bool BaseProcJobQue::pushJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists,
     return true;
 }
 
-// NON_MATCHING: sxtw + madd -> smaddl
+// sxtw + madd -> smaddl
+#ifdef NON_MATCHING
 bool BaseProcJobQue::pushExtraJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists, int priority,
                                    JobType type) {
     const auto& list = lists->getList(priority);
@@ -104,6 +105,7 @@ bool BaseProcJobQue::pushExtraJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* l
 
     return true;
 }
+#endif
 
 bool BaseProcJobQue::pushExtraJobs(sead::FixedSizeJQ* queue,
                                    const agl::utl::AtomicPtrArray<BaseProcJobLink>& links) {

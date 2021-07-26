@@ -30,7 +30,7 @@ void ShootingStarMgr::init_(sead::Heap* heap) {
         initSchedule();
 }
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 void ShootingStarMgr::initSchedule() {
     if (sHours.start >= sHours.end) {
         sead::FixedObjArray<u32, 24> validHours;
@@ -54,6 +54,7 @@ void ShootingStarMgr::initSchedule() {
     mFallMinute = sead::GlobalRandom::instance()->getU32(59);
     mInitialised = true;
 }
+#endif
 
 void ShootingStarMgr::calc_() {
     if (Manager::instance() != nullptr) {

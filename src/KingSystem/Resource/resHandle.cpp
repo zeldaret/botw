@@ -275,7 +275,8 @@ bool Handle::hasParsedResource() const {
     return mFlags.isOn(Flag::Parsed);
 }
 
-// NON_MATCHING: switch
+// switch
+#ifdef NON_MATCHING
 void Handle::updateResourceMgrFlag_() {
     sead::FixedSafeString<128> path("***");
     if (mUnit)
@@ -322,6 +323,7 @@ void Handle::updateResourceMgrFlag_() {
         (heap->getName().startsWith("Sound") || heap->getName().startsWith("Audio")) ? 0 : 1;
     res::ResourceMgrTask::instance()->setFlag2000Or5000(type);
 }
+#endif
 
 void Handle::updateStatusAndUnload_() {
     auto* unit = mUnit;

@@ -34,7 +34,8 @@ void Task::deleteDelegate_() {
     }
 }
 
-// NON_MATCHING: mDelegate2 = nullptr store
+// mDelegate2 = nullptr store
+#ifdef NON_MATCHING
 void Task::finalize_() {
     if (mStatus == Status::Finalized)
         return;
@@ -47,6 +48,7 @@ void Task::finalize_() {
     mRemoveCallback = nullptr;
     mStatus = Status::Finalized;
 }
+#endif
 
 bool Task::setDelegate(const TaskDelegateSetter& setter) {
     mDelegate = setter.getDelegate();
@@ -56,7 +58,8 @@ bool Task::setDelegate(const TaskDelegateSetter& setter) {
     return onSetDelegate_(setter);
 }
 
-// NON_MATCHING: branching
+// branching
+#ifdef NON_MATCHING
 bool Task::submitRequest(TaskRequest& request) {
     // Processing this request is impossible if there is no thread *and* no queue!
     if (request.mThread == nullptr && request.mQueue == nullptr)
@@ -114,6 +117,7 @@ bool Task::submitRequest(TaskRequest& request) {
     }
     return push_ok || b;
 }
+#endif
 
 bool Task::canSubmitRequest() const {
     const bool run_finished_on_current_thread =

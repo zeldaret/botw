@@ -165,7 +165,7 @@ public:
 
 9. **Update the list of decompiled functions**.
     * If you have a function that matches perfectly, great!
-    * If there are still minor differences left, add a `// NON_MATCHING: ` comment to explain what is wrong and add a `?` at the end of the mangled function name in the CSV.
+    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and add a `?` at the end of the mangled function name in the CSV.
     * For major differences (lots of entirely red/green/blue lines in the diff), add a `!` at the end of the function name.
 
 10. Before opening a PR, reformat the code with clang-format and run `tools/check.py`.

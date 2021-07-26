@@ -8,7 +8,7 @@ Quest::~Quest() {
     mSteps.freeBuffer();
 }
 
-// NON_MATCHING
+#ifdef NON_MATCHING
 Quest::Quest(const sead::SafeString& name, sead::Heap* heap) : mName(name), mHeap(heap) {
     _8 = 0;
     _c = 0;
@@ -16,6 +16,7 @@ Quest::Quest(const sead::SafeString& name, sead::Heap* heap) : mName(name), mHea
     mNameHash = agl::utl::ParameterBase::calcHash(mName);
     mAocVersionFlags = 0;
 }
+#endif
 
 void Quest::initFlags(gdt::Manager* gdm) {
     if (gdm == nullptr)
