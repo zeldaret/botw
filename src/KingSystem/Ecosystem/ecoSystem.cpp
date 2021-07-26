@@ -29,7 +29,8 @@ SEAD_SINGLETON_DISPOSER_IMPL(Ecosystem)
 
 void Ecosystem::calc() {}
 
-// NON_MATCHING: FP instructions rearranged.
+// FP instructions rearranged.
+#ifdef NON_MATCHING
 s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
     posX = sead::clamp(posX, -5000.0F, 4999.0F);
     posZ = sead::clamp(posZ, -4000.0F, 4000.0F);
@@ -62,6 +63,7 @@ s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
             return -1;
     }
 }
+#endif
 
 void Ecosystem::getAreaNameByNum(s32 areaNum, const char** out) const {
     *out = nullptr;
@@ -75,7 +77,8 @@ void Ecosystem::getAreaNameByNum(s32 areaNum, const char** out) const {
         iter.tryGetStringByKey(out, "Area");
 }
 
-// NON_MATCHING: Equivalent, minor conditional differences and register usage
+// Equivalent, minor conditional differences and register usage
+#ifdef NON_MATCHING
 void Ecosystem::getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx,
                                     eco::StatusEffectInfo* out) const {
     al::ByamlIter listIter;
@@ -135,6 +138,7 @@ void Ecosystem::getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx,
         out->val._f32 = val2;
     }
 }
+#endif
 
 void Ecosystem::getClimateNameByNum(s32 areaNum, const char** out) const {
     *out = nullptr;

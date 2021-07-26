@@ -44,7 +44,8 @@ s32 GameSaveData::File::findFlagIndex(u32 flag_name_hash) const {
     return -1;
 }
 
-// NON_MATCHING: cNullChar is loaded too late (which throws off a lot of things) and Clang is
+// cNullChar is loaded too late (which throws off a lot of things) and Clang is
+#ifdef NON_MATCHING
 // using a different register to access file->info
 void GameSaveData::doCreate_(u8* buffer, u32, sead::Heap*) {
     auto* heap = gdt::Manager::instance()->getSaveAreaHeap();
@@ -113,6 +114,7 @@ void GameSaveData::doCreate_(u8* buffer, u32, sead::Heap*) {
 
     mFiles.pushBack(file);
 }
+#endif
 
 void GameSaveData::finalize() {
     if (mSaveInfo)

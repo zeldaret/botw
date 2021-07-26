@@ -239,7 +239,8 @@ bool MessageDispatcher::Queues::sendMessageOnProcessingThread(const MesTransceiv
     return mMainQueue.addMessage(message);
 }
 
-// NON_MATCHING: branching: deduplicated Message destructor call
+// branching: deduplicated Message destructor call
+#ifdef NON_MATCHING
 bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& src,
                                                       const MesTransceiverId& dest,
                                                       const MessageType& type, void* user_data,
@@ -248,6 +249,7 @@ bool MessageDispatcher::sendMessageOnProcessingThread(const MesTransceiverId& sr
         return false;
     return mQueues->sendMessageOnProcessingThread(src, dest, type, user_data, ack);
 }
+#endif
 
 struct AddMessageContext : IMessageBrokerRegister::IForEachContext {
     AddMessageContext(MessageQueue* queue, Message* message) : queue(queue), message(message) {}
@@ -331,7 +333,8 @@ void MessageDispatcher::Queues::process() {
     mIsProcessing = false;
 }
 
-// NON_MATCHING: regalloc
+// regalloc
+#ifdef NON_MATCHING
 void MessageDispatcher::update() {
     mUpdateEndEvent.resetSignal();
     mProcessingThread = sead::ThreadMgr::instance()->getCurrentThread();
@@ -342,5 +345,6 @@ void MessageDispatcher::update() {
     mProcessingThread = nullptr;
     mUpdateEndEvent.setSignal();
 }
+#endif
 
 }  // namespace ksys

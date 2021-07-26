@@ -136,7 +136,8 @@ bool TaskThread::isLookingForTask() const {
     return mFlags.isOn(Flag::IsLookingForTask);
 }
 
-// NON_MATCHING: branching for `if (mTaskQueue->getNumActiveTasks() == 0)`:
+// branching for `if (mTaskQueue->getNumActiveTasks() == 0)`:
+#ifdef NON_MATCHING
 // Clang got rid of the branch and merged the two mFlags writes
 void TaskThread::calc_(sead::MessageQueue::Element msg) {
     if (mFlags.isOn(Flag::Paused)) {
@@ -239,6 +240,7 @@ void TaskThread::calc_(sead::MessageQueue::Element msg) {
     mFlags.reset(Flag::IsActive);
     mFlags.reset(Flag::IsLookingForTask);
 }
+#endif
 
 bool TaskThread::receivedPauseMsg() const {
     return mMessageQueue.peek(sead::MessageQueue::BlockType::NonBlocking) == cMessage_Pause;

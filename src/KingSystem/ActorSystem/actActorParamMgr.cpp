@@ -175,7 +175,8 @@ ActorParam* ActorParamMgr::allocParam(const char* actor_name, bool* allocated_ne
     return param;
 }
 
-// NON_MATCHING: addressing mode
+// addressing mode
+#ifdef NON_MATCHING
 ActorParam* ActorParamMgr::getParam(const char* actor_name, ActorParam** out_free_param) const {
     auto lock = sead::makeScopedLock(mCS);
     for (s32 i = 0; i < NumParams; ++i) {
@@ -189,6 +190,7 @@ ActorParam* ActorParamMgr::getParam(const char* actor_name, ActorParam** out_fre
     }
     return nullptr;
 }
+#endif
 
 ActorParam* ActorParamMgr::loadParam(const char* actor_name, res::Handle* pack_handle, void* x,
                                      u32 load_req_c) {
@@ -291,7 +293,8 @@ bool ActorParamMgr::loadFileAsync(ActorParam* param, ActorParam::ResourceType ty
     return true;
 }
 
-// NON_MATCHING: different address calculation for static_cast<ParamIO*>(res)->getPath()
+// different address calculation for static_cast<ParamIO*>(res)->getPath()
+#ifdef NON_MATCHING
 template <typename T>
 T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::ResourceType type,
                                       void*) {
@@ -329,6 +332,7 @@ T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::R
 
     return res;
 }
+#endif
 
 bool ActorParamMgr::finishLoadingActorLink(ActorParam* param, void* x) {
     s32 idx = 0;

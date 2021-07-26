@@ -16,7 +16,8 @@ OverlayArena::~OverlayArena() {
     destroy();
 }
 
-// NON_MATCHING: branching at the end (csel instead of a branch)
+// branching at the end (csel instead of a branch)
+#ifdef NON_MATCHING
 bool OverlayArena::init(const OverlayArena::InitArg& arg) {
     if (!arg.heap) {
         res::stubbedLogFunction();
@@ -59,6 +60,7 @@ bool OverlayArena::init(const OverlayArena::InitArg& arg) {
 
     return true;
 }
+#endif
 
 void OverlayArena::stubbed() {}
 
@@ -126,7 +128,8 @@ bool OverlayArena::checkIsOom() const {
 // FIXME: figure out what sead function this is
 bool seadCheckPointer(void* ptr);
 
-// NON_MATCHING: branching
+// branching
+#ifdef NON_MATCHING
 util::DualHeap* OverlayArena::makeDualHeap(u32 size, const sead::SafeString& name,
                                            sead::Heap::HeapDirection direction,
                                            res::ResourceUnit* unit, bool) {
@@ -157,6 +160,7 @@ util::DualHeap* OverlayArena::makeDualHeap(u32 size, const sead::SafeString& nam
     mFlags.set(Flag::_4);
     return heap;
 }
+#endif
 
 void OverlayArena::addSize(s32 size) {
     mSize += size;

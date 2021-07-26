@@ -69,11 +69,13 @@ const char* ParamIO::getString(const agl::utl::ResParameterObj& obj, const char*
     return param.getData<const char>();
 }
 
-// NON_MATCHING: how the default_value Vec3f is stored on the stack
+// how the default_value Vec3f is stored on the stack
+#ifdef NON_MATCHING
 sead::Vector3f ParamIO::getVec3(const agl::utl::ResParameterObj& obj, const char* key,
                                 sead::Vector3f default_value, void*) const {
     const auto param = agl::utl::getResParameter(obj, key);
     return param.ptr() ? *param.getData<sead::Vector3f>() : default_value;
 }
+#endif
 
 }  // namespace ksys

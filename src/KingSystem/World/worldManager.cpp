@@ -321,8 +321,10 @@ void Manager::unload() {
     getWeatherMgr()->onUnload();
 }
 
-// NON_MATCHING: stores in a different order (handwritten assignments?) but should be equivalent
+// stores in a different order (handwritten assignments?) but should be equivalent
+#ifdef NON_MATCHING
 Manager::Manager() = default;
+#endif
 
 static Job* makeJob(JobType type, sead::Heap* heap) {
     switch (type) {
@@ -877,7 +879,8 @@ void Manager::setTemperatureNight(float temp) {
     mTempDirectNightTimer = 4;
 }
 
-// NON_MATCHING: mPlayerPos.y gets loaded into s8 instead of w20
+// mPlayerPos.y gets loaded into s8 instead of w20
+#ifdef NON_MATCHING
 void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
     mIgnitedTimer = 4;
     mIgnitedRadius = radius;
@@ -890,5 +893,6 @@ void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
         mIgnitedRadius = 7.0;
     }
 }
+#endif
 
 }  // namespace ksys::world
