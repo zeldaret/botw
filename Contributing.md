@@ -149,8 +149,9 @@ public:
       ```
 
 6. **Add the mangled function name to the list of decompiled functions.**
-    * To do so, open data/uking_functions.csv and search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
-    * Example: `0x00000071010c0d60,sub_71010C0D60,136,_ZN4ksys4util13TaskQueueBaseD1Ev`
+    * To do so, open `data/uking_functions.csv`, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
+    * Be sure to change the status column from `U` (undecompiled) to `O` (OK).
+    * Example: `0x00000071010c0d60,O,136,_ZN4ksys4util13TaskQueueBaseD1Ev`
 
 7. **Compare the assembly** with `./diff.py --source <mangled function name>`
     * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
@@ -165,8 +166,8 @@ public:
 
 9. **Update the list of decompiled functions**.
     * If you have a function that matches perfectly, great!
-    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and add a `?` at the end of the mangled function name in the CSV.
-    * For major differences (lots of entirely red/green/blue lines in the diff), add a `!` at the end of the function name.
+    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status to `m` (minor difference) in the CSV.
+    * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
 
 10. Before opening a PR, reformat the code with clang-format and run `tools/check.py`.
 
