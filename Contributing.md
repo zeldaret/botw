@@ -139,6 +139,7 @@ public:
     * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
     * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
     * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
+    * Non-inline function calls can just be stubbed if you don't feel like decompiling them at the moment. To "stub" a function, just declare the function (and the enclosing class/namespace/etc. if needed) without implementing/defining it.
 
 4. **Build**.
 5. **Get the mangled name** of your function. For example, if you are decompiling BaseProcMgr::createInstance:
