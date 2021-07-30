@@ -2,8 +2,6 @@
 import argparse
 from collections import defaultdict
 from colorama import Back, Fore, Style
-import enum
-from pathlib import Path
 from util import utils
 from util.utils import FunctionStatus
 import typing as tp
@@ -17,23 +15,12 @@ parser.add_argument("--print-eq", "-e", action="store_true",
                     help="Print non-matching functions with minor issues")
 parser.add_argument("--print-ok", "-m", action="store_true",
                     help="Print matching functions")
-parser.add_argument("--hide-nonmatchings-with-dumps", "-H", help="Hide non-matching functions that have expected "
-                                                                 "output dumps", action="store_true")
 args = parser.parse_args()
 
 code_size_total = 0
 num_total = 0
 code_size: tp.DefaultDict[FunctionStatus, int] = defaultdict(int)
 counts: tp.DefaultDict[FunctionStatus, int] = defaultdict(int)
-
-nonmatching_fns_with_dump = {p.stem for p in (Path(__file__).parent.parent / "expected").glob("*.bin")}
-
-
-def should_hide_nonmatching(name: str) -> bool:
-    if not args.hide_nonmatchings_with_dumps:
-        return False
-    return name in nonmatching_fns_with_dump
-
 
 for info in utils.get_functions():
     code_size_total += info.size
@@ -47,10 +34,10 @@ for info in utils.get_functions():
 
     if not args.csv:
         if info.status == FunctionStatus.NonMatching:
-            if args.print_nm and not should_hide_nonmatching(info.decomp_name):
+            if args.print_nm:
                 print(f"{Fore.RED}NM{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
         elif info.status == FunctionStatus.Equivalent:
-            if args.print_eq and not should_hide_nonmatching(info.decomp_name):
+            if args.print_eq:
                 print(f"{Fore.YELLOW}EQ{Fore.RESET} {utils.format_symbol_name(info.decomp_name)}")
         elif info.status == FunctionStatus.Matching:
             if args.print_ok:
