@@ -1,0 +1,28 @@
+[package]
+name = "viking"
+version = "1.0.0"
+edition = "2018"
+
+[profile.release]
+debug = 1
+lto = "thin"
+
+[dependencies]
+anyhow = "1.0"
+capstone = { git = "https://github.com/leoetlino/capstone-rs" }
+colored = "2"
+cpp_demangle = "0.3.3"
+csv = "1.1"
+goblin = "0.4"
+itertools = "0.10.1"
+lazy-init = "0.5.0"
+memmap = "0.6.1"
+mimalloc = { version = "*", default-features = false }
+owning_ref = "0.4.1"
+rayon = "1.5.1"
+rustc-hash = "1.1.0"
+textwrap = "0.14.2"
+
+[[bin]]
+name = "botw-check"
+path = "src/tools/check.rs"
