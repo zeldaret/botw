@@ -106,7 +106,7 @@ bool AnimInfo::parse_(u8* data, size_t size, sead::Heap* heap) {
 #else
             info->entries = static_cast<SwordBlur*>(
                 heap->tryAlloc(sizeof(SwordBlur) * info->num_entries, alignof(SwordBlur)));
-            std::memset(info->entries, 0, sizeof(SwordBlur) * info->num_entries);
+            std::memset((void*)info->entries, 0, sizeof(SwordBlur) * info->num_entries);
 #endif
         }
 
