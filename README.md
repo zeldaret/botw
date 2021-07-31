@@ -140,7 +140,7 @@ The instructions below assume that you are using Linux (native or WSL) or macOS.
 * Ninja
 * CMake 3.13+
     * If you are on Ubuntu 18.04, you must first [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
-* [Optional] ccache (to speed up builds)
+* ccache (to speed up builds)
 
 Ubuntu users can install those dependencies by running:
 
@@ -148,11 +148,17 @@ Ubuntu users can install those dependencies by running:
 sudo apt install python3 ninja-build cmake ccache
 ```
 
+Additionally, you'll also need:
+
+* A Rust toolchain ([follow the instructions here](https://www.rust-lang.org/tools/install))
+
 ### 2. Set up the project
 
 1. Clone this repository. If you are using WSL, please clone the repo *inside* WSL, *not* on the Windows side (for performance reasons).
 
 2. Run `git submodule update --init --recursive`
+
+3. Run `cargo install --path tools/viking`
 
     Next, you'll need to acquire the **original 1.5.0 or 1.6.0 `main` NSO executable**.
 
@@ -161,7 +167,7 @@ sudo apt install python3 ninja-build cmake ccache
     * The decompressed 1.5.0 NSO has the following SHA256 hash: `d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106`
         * If you have a compressed NSO or a 1.6.0 executable, don't worry about this.
 
-3. Run `tools/setup.py [path to the NSO]`
+4. Run `tools/setup.py [path to the NSO]`
     * This will:
         * convert the executable if necessary
         * set up [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) by downloading it from the official LLVM website
@@ -178,7 +184,7 @@ ninja -C build
 
 By default, Ninja will perform a multithreaded build. There is no need to pass -j manually.
 
-To check whether everything built correctly, just run `tools/check.py` after the build completes.
+To check whether everything built correctly, just run `botw-check` after the build completes.
 
 ## Contributing
 
