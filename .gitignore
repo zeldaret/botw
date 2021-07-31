@@ -32,6 +32,7 @@ bin/
 # Ghidra
 *.gpr
 *.rep/
+*.lock
 
 # Debugging
 perf.data
