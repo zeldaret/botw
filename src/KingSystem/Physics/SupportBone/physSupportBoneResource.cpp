@@ -233,22 +233,22 @@ float SupportBoneResource::getInterpolatedConnectionCurve(u32 index, float looku
     return std::isnan(result) ? 0.0f : result;
 }
 
-// NON_MATCHING: Due to seadQuat::normalize() mismatch, this function does not match.
 void SupportBoneResource::BaseBone::postRead_() {
     sead::Vector3f aim_local = aim.ref();
     sead::Vector3f up_local = up.ref();
     aim_local.normalize();
 
     side = sead::cross(aim_local, up_local);
-    side.normalize();
+    // XXX: this looks like a hack. Why does this not match without an inline function?
+    [&] { side.normalize(); }();
 
     up_local = sead::cross(side, aim_local);
     up_local.normalize();
-    aim = aim_local;
     up = up_local;
+    aim = aim_local;
 
     base_rotate->normalize();
-    reverse_rotate = base_rotate->inverse();
+    base_rotate->invert(&reverse_rotate);
 }
 
 }  // namespace ksys::phys
