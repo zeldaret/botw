@@ -8,6 +8,7 @@ pub enum Status {
     NonMatchingMinor,
     NonMatchingMajor,
     NotDecompiled,
+    Wip,
     Library,
 }
 
@@ -51,6 +52,7 @@ fn parse_function_csv_entry(record: &csv::StringRecord) -> Result<Info> {
         Some('M') => Status::NonMatchingMajor,
         Some('O') => Status::Matching,
         Some('U') => Status::NotDecompiled,
+        Some('W') => Status::Wip,
         Some('L') => Status::Library,
         Some(code) => bail!("unexpected status code: {}", code),
         None => bail!("missing status code"),
