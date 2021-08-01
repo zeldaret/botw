@@ -79,7 +79,7 @@ fn check_function(
             }
         }
 
-        Status::NonMatchingMinor | Status::NonMatchingMajor => {
+        Status::NonMatchingMinor | Status::NonMatchingMajor | Status::Wip => {
             let orig_fn = get_orig_fn()?;
 
             let result = checker
