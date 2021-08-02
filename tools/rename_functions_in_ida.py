@@ -14,5 +14,5 @@ with open(csv_path, "r") as f:
     for fn in reader:
         addr = int(fn[0], 16)
         name = fn[3]
-        if name and fn[1] != "L":
+        if name and not name.startswith("nullsub_") and not name.startswith("sub_"):
             idc.set_name(addr, name)
