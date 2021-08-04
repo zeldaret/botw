@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -19,5 +20,18 @@ protected:
     BaseProcJobLink mLink;
 };
 KSYS_CHECK_SIZE_NX150(BaseProcJobHandler, 0x30);
+
+/// For binding actor member functions.
+template <typename T>
+class BaseProcJobHandlerT : public BaseProcJobHandler {
+public:
+    BaseProcJobHandlerT(BaseProc* proc, void (T::*fn)())
+        : BaseProcJobHandler(proc), mDelegate(proc, fn) {}
+
+    void invoke() override { mDelegate.invoke(); }
+
+private:
+    sead::Delegate<T> mDelegate;
+};
 
 }  // namespace ksys::act
