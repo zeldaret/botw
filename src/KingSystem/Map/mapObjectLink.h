@@ -112,6 +112,11 @@ public:
         return checkDeleteLinkObjRevival() || checkCreateLinkObjRevival();
     }
 
+    // TODO requires implementation: 0x7100D4FA70
+    bool isGenGroupInitState3() const;
+    // TODO requires implementation: 0x7100D4FA90
+    void sub_7100D4FA90();
+
     Object* mCreateLinksSrcObj = nullptr;
     Object* mDeleteLinksSrcObj = nullptr;
 
