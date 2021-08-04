@@ -214,6 +214,7 @@ public:
     void incrementPendingDeletions() { mNumPendingDeletions.increment(); }
     void decrementPendingDeletions() { mNumPendingDeletions.decrement(); }
 
+    s8 getCurrentExtraJobArrayIdx() const { return mCurrentExtraJobArrayIdx; }
     Status getStatus() const { return mStatus; }
     JobType getJobType() const { return mJobType; }
     u32 getNumJobTypes() const { return mJobLists.size(); }
