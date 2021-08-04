@@ -5,6 +5,7 @@
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 namespace ksys {
 
@@ -64,6 +65,7 @@ public:
     const ActorParam* getParam() const { return mActorParam; }
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
+    map::MapLinkDefType getEmittedSignalType() const { return mEmittedSignalType; }
 
     bool checkFlag(ActorFlag flag) const;
     bool deleteEx(DeleteType type, DeleteReason reason, bool* ok = nullptr);
@@ -105,7 +107,8 @@ protected:
     /* 0x658 */ u8 TEMP_0x650[0x710 - 0x658];
     /* ..... */  // The name could be incorrect.
     /* 0x710 */ sead::TypedBitFlag<StasisFlag> mStasisFlags;
-    /* 0x714 */ u8 TEMP_0x714[0x7b0 - 0x714];  // FIXME
+    /* 0x714 */ map::MapLinkDefType mEmittedSignalType;
+    /* 0x718 */ u8 TEMP_0x714[0x7b0 - 0x718];  // FIXME
     /* 0x7b0 */ ActorCreator* mCreator{};
     /* 0x7b8 */ sead::ListNode mCreatorListNode;
     /* 0x7c8 */ map::Object* mMapObject;
