@@ -16,6 +16,7 @@
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Utils/AtomicLongBitFlag.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
@@ -137,6 +138,7 @@ public:
     const ActorParam* getParam() const { return mActorParam; }
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
+    map::MapLinkDefType getEmittedSignalType() const { return mEmittedSignalType; }
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }
@@ -457,7 +459,8 @@ protected:
     /* 0x700 */ int _700 = 0;
     /* 0x708 */ ImpulseBaseProcLink* mImpulseBaseProcLink = nullptr;
     /* 0x710 */ sead::TypedBitFlag<StasisFlag> mStasisFlags;  // TODO: probably need to rename this
-    /* 0x714 */ float mLodLoadDistanceMultiplier = 1.0;
+    /* 0x714 */ map::MapLinkDefType mEmittedSignalType;
+    ///* 0x714 */ float mLodLoadDistanceMultiplier = 1.0;
     /* 0x718 */ float _718 = 0.0;
     /* 0x71c */ sead::BitFlag32 mSignals;
     /* 0x720 */ sead::BitFlag32 _720;

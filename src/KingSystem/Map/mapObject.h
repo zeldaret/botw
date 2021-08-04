@@ -52,6 +52,8 @@ public:
         _400000 = 0x400000,
         _2000000 = 0x2000000,
         _4000000 = 0x4000000,
+        _10000000 = 0x10000000,
+        _20000000 = 0x20000000,
         _40000000 = 0x40000000,
         _80000000 = 0x80000000,
         ResetOnUnlinkFailed = _100 | _2000,
@@ -181,6 +183,7 @@ public:
     const auto& getFlags0() const { return mFlags0; }
     void setFlags0(Flag0 bit) { mFlags0.set(bit); }
     void resetFlags0(Flag0 bit) { mFlags0.reset(bit); }
+    auto& getFlags0() { return mFlags0; }
     const auto& getFlags() const { return mFlags; }
     const auto& getActorFlags8() const { return mActorFlags8; }
     const auto& getHardModeFlags() const { return mHardModeFlags; }
