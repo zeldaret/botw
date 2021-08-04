@@ -27,12 +27,14 @@ fn check_function(
     decomp_symtab: &elf::SymbolTableByName,
     function: &functions::Info,
 ) -> Result<bool> {
-    if !function.is_decompiled() {
-        return Ok(true);
-    }
-
     let name = function.name.as_str();
     let decomp_fn = elf::get_function_by_name(&decomp_elf, &decomp_symtab, &name);
+
+    match function.status {
+        Status::NotDecompiled if decomp_fn.is_err() => return Ok(true),
+        Status::Library => return Ok(true),
+        _ => (),
+    }
 
     if decomp_fn.is_err() {
         let error = decomp_fn.err().unwrap();
@@ -79,7 +81,10 @@ fn check_function(
             }
         }
 
-        Status::NonMatchingMinor | Status::NonMatchingMajor | Status::Wip => {
+        Status::NotDecompiled
+        | Status::NonMatchingMinor
+        | Status::NonMatchingMajor
+        | Status::Wip => {
             let orig_fn = get_orig_fn()?;
 
             let result = checker
@@ -88,13 +93,14 @@ fn check_function(
 
             if result.is_none() {
                 ui::print_note(&format!(
-                    "function {} is marked as non-matching but matches",
+                    "function {} is marked as {} but matches",
                     ui::format_symbol_name(name),
+                    function.status.description(),
                 ));
             }
         }
 
-        Status::NotDecompiled | Status::Library => unreachable!(),
+        Status::Library => unreachable!(),
     };
 
     Ok(true)

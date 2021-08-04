@@ -15,6 +15,19 @@ pub enum Status {
     Library,
 }
 
+impl Status {
+    pub fn description(&self) -> &'static str {
+        match &self {
+            Status::Matching => "matching",
+            Status::NonMatchingMinor => "non-matching (minor)",
+            Status::NonMatchingMajor => "non-matching (major)",
+            Status::NotDecompiled => "not decompiled",
+            Status::Wip => "WIP",
+            Status::Library => "library function",
+        }
+    }
+}
+
 pub struct Info {
     pub addr: u64,
     pub size: u32,
@@ -145,7 +158,7 @@ pub fn make_known_function_map(functions: &[Info]) -> FxHashMap<u64, &Info> {
         FxHashMap::with_capacity_and_hasher(functions.len(), Default::default());
 
     for function in functions {
-        if !function.is_decompiled() {
+        if function.name.is_empty() {
             continue;
         }
         known_functions.insert(function.addr, function);
