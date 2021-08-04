@@ -99,6 +99,8 @@ target_sources(uking PRIVATE
   actInstParamPack.cpp
   actInstParamPack.h
   actLifeRecoveryInfo.h
+  actLinkTag.cpp
+  actLinkTag.h
   actPlayerInfo.cpp
   actPlayerInfo.h
   actTag.h
