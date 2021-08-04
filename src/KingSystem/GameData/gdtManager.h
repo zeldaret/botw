@@ -518,6 +518,11 @@ public:
         mResetFlags.set(ResetFlag::AnimalMaster);
     }
 
+    // TODO needs implementation: 0x7100D39C9C
+    void setS32ByIdxForLinkTag(s32, FlagHandle);
+    // TODO needs implementation: 0x7100247B3C
+    bool setBoolByHash(bool, FlagHandle);
+
 private:
     enum class BitFlag {
         _1 = 0x1,
