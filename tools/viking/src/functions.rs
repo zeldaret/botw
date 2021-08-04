@@ -1,7 +1,10 @@
 use crate::repo;
 use anyhow::{bail, ensure, Context, Result};
 use rustc_hash::FxHashMap;
-use std::path::{Path, PathBuf};
+use std::{
+    collections::HashSet,
+    path::{Path, PathBuf},
+};
 
 pub enum Status {
     Matching,
@@ -84,6 +87,7 @@ pub fn get_functions_for_path(csv_path: &Path) -> Result<Vec<Info>> {
     let mut result = Vec::with_capacity(110_000);
     let mut record = csv::StringRecord::new();
     let mut line_number = 1;
+    let mut num_names = 0;
     if reader.read_record(&mut record)? {
         // Verify that the CSV has the correct format.
         ensure!(record.len() == 4, "invalid record; expected 4 fields");
@@ -98,12 +102,36 @@ pub fn get_functions_for_path(csv_path: &Path) -> Result<Vec<Info>> {
     }
 
     while reader.read_record(&mut record)? {
-        result.push(
-            parse_function_csv_entry(&record)
-                .with_context(|| format!("failed to parse CSV record at line {}", line_number))?,
-        );
+        let entry = parse_function_csv_entry(&record)
+            .with_context(|| format!("failed to parse CSV record at line {}", line_number))?;
+
+        if !entry.name.is_empty() {
+            num_names += 1;
+        }
+
+        result.push(entry);
         line_number += 1;
     }
+
+    // Check for duplicate names in the CSV.
+    let mut known_names = HashSet::with_capacity(num_names);
+    let mut duplicates = Vec::new();
+    for entry in &result {
+        if entry.is_decompiled() && entry.name.is_empty() {
+            bail!(
+                "function at {:016x} is marked as O/M/m but has an empty name",
+                entry.addr | ADDRESS_BASE
+            );
+        }
+
+        if !entry.name.is_empty() && !known_names.insert(&entry.name) {
+            duplicates.push(&entry.name);
+        }
+    }
+    if !duplicates.is_empty() {
+        bail!("found duplicates: {:#?}", duplicates);
+    }
+
     Ok(result)
 }
 
