@@ -25,8 +25,7 @@ KSYS_CHECK_SIZE_NX150(BaseProcJobHandler, 0x30);
 template <typename T>
 class BaseProcJobHandlerT : public BaseProcJobHandler {
 public:
-    BaseProcJobHandlerT(BaseProc* proc, void (T::*fn)())
-        : BaseProcJobHandler(proc), mDelegate(proc, fn) {}
+    BaseProcJobHandlerT(T* proc, void (T::*fn)()) : BaseProcJobHandler(proc), mDelegate(proc, fn) {}
 
     void invoke() override { mDelegate.invoke(); }
 
