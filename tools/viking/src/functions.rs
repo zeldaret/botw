@@ -1,11 +1,13 @@
 use crate::repo;
 use anyhow::{bail, ensure, Context, Result};
+use rayon::prelude::*;
 use rustc_hash::FxHashMap;
 use std::{
     collections::HashSet,
     path::{Path, PathBuf},
 };
 
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Status {
     Matching,
     NonMatchingMinor,
@@ -28,6 +30,7 @@ impl Status {
     }
 }
 
+#[derive(Clone, Debug)]
 pub struct Info {
     pub addr: u64,
     pub size: u32,
@@ -41,6 +44,7 @@ impl Info {
     }
 }
 
+pub const CSV_HEADER: &[&str] = &["Address", "Quality", "Size", "Name"];
 pub const ADDRESS_BASE: u64 = 0x71_0000_0000;
 
 fn parse_base_16(value: &str) -> Result<u64> {
@@ -104,11 +108,7 @@ pub fn get_functions_for_path(csv_path: &Path) -> Result<Vec<Info>> {
     if reader.read_record(&mut record)? {
         // Verify that the CSV has the correct format.
         ensure!(record.len() == 4, "invalid record; expected 4 fields");
-        ensure!(
-            &record[0] == "Address"
-                && &record[1] == "Quality"
-                && &record[2] == "Size"
-                && &record[3] == "Name",
+        ensure!(record == *CSV_HEADER,
             "wrong CSV format; this program only works with the new function list format (added in commit 1d4c815fbae3)"
         );
         line_number += 1;
@@ -148,9 +148,36 @@ pub fn get_functions_for_path(csv_path: &Path) -> Result<Vec<Info>> {
     Ok(result)
 }
 
+pub fn write_functions_to_path(csv_path: &Path, functions: &[Info]) -> Result<()> {
+    let mut writer = csv::Writer::from_path(csv_path)?;
+    writer.write_record(CSV_HEADER)?;
+
+    for function in functions {
+        let addr = format!("0x{:016x}", function.addr | ADDRESS_BASE);
+        let status = match function.status {
+            Status::Matching => "O",
+            Status::NonMatchingMinor => "m",
+            Status::NonMatchingMajor => "M",
+            Status::NotDecompiled => "U",
+            Status::Wip => "W",
+            Status::Library => "L",
+        }
+        .to_string();
+        let size = format!("{:06}", function.size);
+        let name = function.name.clone();
+        writer.write_record(&[addr, status, size, name])?;
+    }
+
+    Ok(())
+}
+
 /// Returns a Vec of all known functions in the executable.
 pub fn get_functions() -> Result<Vec<Info>> {
     get_functions_for_path(get_functions_csv_path()?.as_path())
+}
+
+pub fn write_functions(functions: &[Info]) -> Result<()> {
+    write_functions_to_path(get_functions_csv_path()?.as_path(), functions)
 }
 
 pub fn make_known_function_map(functions: &[Info]) -> FxHashMap<u64, &Info> {
@@ -176,4 +203,19 @@ pub fn demangle_str(name: &str) -> Result<String> {
     let symbol = cpp_demangle::Symbol::new(name)?;
     let options = cpp_demangle::DemangleOptions::new();
     Ok(symbol.demangle(&options)?)
+}
+
+pub fn find_function_fuzzy<'a>(functions: &'a [Info], name: &str) -> Option<&'a Info> {
+    functions
+        .par_iter()
+        .find_first(|function| function.name == name)
+        .or_else(|| {
+            // Comparing the demangled names is more expensive than a simple string comparison,
+            // so only do this as a last resort.
+            functions.par_iter().find_first(|function| {
+                demangle_str(&function.name)
+                    .unwrap_or_else(|_| "".to_string())
+                    .contains(name)
+            })
+        })
 }

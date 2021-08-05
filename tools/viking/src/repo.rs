@@ -18,3 +18,7 @@ pub fn get_repo_root() -> Result<PathBuf> {
         };
     }
 }
+
+pub fn get_tools_path() -> Result<PathBuf> {
+    Ok(get_repo_root()?.join("tools"))
+}
