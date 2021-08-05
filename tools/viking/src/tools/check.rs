@@ -121,6 +121,41 @@ thread_local! {
     static CAPSTONE: RefCell<cs::Capstone> = RefCell::new(make_cs().unwrap());
 }
 
+fn check_all(
+    functions: &[functions::Info],
+    checker: &FunctionChecker,
+    orig_elf: &elf::OwnedElf,
+    decomp_elf: &elf::OwnedElf,
+    decomp_symtab: &elf::SymbolTableByName,
+) -> Result<()> {
+    let failed = AtomicBool::new(false);
+
+    functions.par_iter().try_for_each(|function| {
+        CAPSTONE.with(|cs| -> Result<()> {
+            let mut cs = cs.borrow_mut();
+            let ok = check_function(
+                &checker,
+                &mut cs,
+                &orig_elf,
+                &decomp_elf,
+                &decomp_symtab,
+                function,
+            )?;
+            if !ok {
+                failed.store(true, std::sync::atomic::Ordering::Relaxed);
+            }
+
+            Ok(())
+        })
+    })?;
+
+    if failed.load(std::sync::atomic::Ordering::Relaxed) {
+        bail!("found at least one error");
+    } else {
+        Ok(())
+    }
+}
+
 fn main() -> Result<()> {
     let orig_elf = elf::load_orig_elf().with_context(|| "failed to load original ELF")?;
     let decomp_elf = elf::load_decomp_elf().with_context(|| "failed to load decomp ELF")?;
@@ -157,30 +192,7 @@ fn main() -> Result<()> {
     )
     .with_context(|| "failed to construct FunctionChecker")?;
 
-    let failed = AtomicBool::new(false);
+    check_all(&functions, &checker, &orig_elf, &decomp_elf, &decomp_symtab)?;
 
-    functions.par_iter().try_for_each(|function| {
-        CAPSTONE.with(|cs| -> Result<()> {
-            let mut cs = cs.borrow_mut();
-            let ok = check_function(
-                &checker,
-                &mut cs,
-                &orig_elf,
-                &decomp_elf,
-                &decomp_symtab,
-                function,
-            )?;
-            if !ok {
-                failed.store(true, std::sync::atomic::Ordering::Relaxed);
-            }
-
-            Ok(())
-        })
-    })?;
-
-    if failed.load(std::sync::atomic::Ordering::Relaxed) {
-        bail!("found at least one error");
-    } else {
-        Ok(())
-    }
+    Ok(())
 }
