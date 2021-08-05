@@ -1,4 +1,14 @@
 target_sources(uking PRIVATE
+  Attention/actAttention.cpp
+  Attention/actAttention.h
+
+  Awareness/actAwareness.cpp
+  Awareness/actAwareness.h
+  Awareness/actAwarenessDefs.cpp
+  Awareness/actAwarenessDefs.h
+  Awareness/actAwarenessInstance.cpp
+  Awareness/actAwarenessInstance.h
+
   LOD/actLodState.cpp
   LOD/actLodState.h
 
@@ -56,8 +66,6 @@ target_sources(uking PRIVATE
   actAiRoot.h
   actASSetting.cpp
   actASSetting.h
-  Attention/actAttention.cpp
-  Attention/actAttention.h
   actBaseProc.cpp
   actBaseProc.h
   actBaseProcCreateTask.cpp
