@@ -177,9 +177,3 @@ pub fn demangle_str(name: &str) -> Result<String> {
     let options = cpp_demangle::DemangleOptions::new();
     Ok(symbol.demangle(&options)?)
 }
-
-pub fn get_expected_dir_path() -> Result<PathBuf> {
-    let mut path = repo::get_repo_root()?;
-    path.push("expected");
-    Ok(path)
-}
