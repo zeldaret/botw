@@ -154,7 +154,7 @@ public:
     * Be sure to change the status column from `U` (undecompiled) to `O` (OK).
     * Example: `0x00000071010c0d60,O,136,_ZN4ksys4util13TaskQueueBaseD1Ev`
 
-7. **Compare the assembly** with `./diff.py --source <mangled function name>`
+7. **Compare the assembly** with `botw-check --source <mangled function name>`
     * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
     * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
 
@@ -170,7 +170,7 @@ public:
     * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status to `m` (minor difference) in the CSV.
     * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
 
-10. Before opening a PR, reformat the code with clang-format and run `tools/check.py`.
+10. Before opening a PR, reformat the code with clang-format and run `botw-check`.
 
 ## Non-inlined functions
 
@@ -199,8 +199,8 @@ This project sometimes uses small hacks to force particular code to be generated
 
 ## Project tools
 
-* Check all decompiled functions for issues: `tools/check.py`
-* To compare assembly: `./diff.py <mangled function name>`
+* Check all decompiled functions for issues: `botw-check`
+* To compare assembly: `botw-check <mangled function name>`
     * The function **must be listed in data/uking_functions.csv first**.
         * To do so, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
     * Pass the `--source` flag to show source code interleaved with assembly code.
