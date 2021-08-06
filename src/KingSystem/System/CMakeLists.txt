@@ -35,6 +35,8 @@ target_sources(uking PRIVATE
   StringBoard.h
   SystemPauseMgr.cpp
   SystemPauseMgr.h
+  SystemTimers.cpp
+  SystemTimers.h
   Timer.cpp
   Timer.h
   UIGlue.cpp
