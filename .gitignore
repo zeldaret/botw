@@ -38,6 +38,3 @@ bin/
 perf.data
 perf.data.old
 .gdb_history
-
-# Tooling
-/toolchain/clang/
