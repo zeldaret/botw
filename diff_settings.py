@@ -1,1 +1,1 @@
-tools/diff_settings.py
+tools/common/diff_settings.py

@@ -4,7 +4,7 @@ To contribute to the project, you will need:
 
 * A disassembler or a decompiler such as Hex-Rays or Ghidra.
 * Python 3 and pip for the diff script
-* These Python modules: `capstone colorama cxxfilt pyelftools` (install them with `pip install ...`)
+* These Python modules: `capstone colorama cxxfilt pyelftools ansiwrap watchdog python-Levenshtein toml` (install them with `pip install ...`)
 
 Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
@@ -145,7 +145,7 @@ public:
 5. **Get the mangled name** of your function. For example, if you are decompiling BaseProcMgr::createInstance:
 
       ```
-      $ tools/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
+      $ tools/common/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
       UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
       ```
 
@@ -206,15 +206,15 @@ This project sometimes uses small hacks to force particular code to be generated
     * Pass the `--source` flag to show source code interleaved with assembly code.
     * Add the `--inlines` flag to show inline function calls. This is not enabled by default because it usually produces too much output to be useful.
     * For more options, see [asm-differ](https://github.com/simonlindholm/asm-differ).
-* To print progress: `tools/progress.py`
+* To print progress: `tools/common/progress.py`
     * Note that progress is only approximate because of inline functions, templating and compiler-generated functions.
 * To print AI class decompilation status: `tools/ai_progress.py`
     * Use this to figure out which AI classes have not been decompiled yet.
-* To dump symbols: `tools/print_decomp_symbols.py`
+* To dump symbols: `tools/common/print_decomp_symbols.py`
     * Pass `-a` to list all symbols
     * Useful for getting the mangled name of a function. For example:
 
         ```
-        $ tools/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
+        $ tools/common/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
       UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
         ```
