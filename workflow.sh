@@ -21,14 +21,14 @@ FILE_SYNC_PY=../file-sync.py
 WORKING_FILES=../file-list.txt
 #Path to uking_functions.csv
 UKING_FUNCTIONS=data/uking_functions.csv    
-#Path to temporarily put the output of tools/print_decomp_symbols.py
+#Path to temporarily put the output of tools/common/print_decomp_symbols.py
 SYMBOL_OUT=build/symbols.txt                
 #Path to diff.py
 DIFF_PY=./diff.py
 #Path to print_decomp_symbols.py
-PRINT_DECOMP_SYMBOLS_PY=tools/print_decomp_symbols.py
+PRINT_DECOMP_SYMBOLS_PY=tools/common/print_decomp_symbols.py
 #Path to check.py
-CHECK_PY=tools/check.py
+CHECK_PY=tools/common/check.py
 #clang-format
 CLANG_FORMAT=clang-format
 
@@ -231,7 +231,7 @@ check|c )
     echo "         [-f]            Search only, do not update function list"
     echo "d|diff   <function>    Diff function"
     echo "         [-v]            verbose, show source when diffing"
-    echo "c|check                Format source code and run tools/check.py"
+    echo "c|check                Format source code and run tools/common/check.py"
     if [[ ${FILE_SYNC} == "ON" ]]
     then
     echo "         [-w]            sync formatted code"
