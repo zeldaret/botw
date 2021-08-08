@@ -83,6 +83,7 @@ def main():
                         help="Path to the original NSO (1.5.0 or 1.6.0, compressed or not)")
     args = parser.parse_args()
 
+    setup.install_viking()
     prepare_executable(args.original_nso)
     setup.set_up_compiler("4.0.1")
     setup.create_build_dir()
