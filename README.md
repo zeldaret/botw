@@ -158,8 +158,6 @@ Additionally, you'll also need:
 
 2. Run `git submodule update --init --recursive`
 
-3. Run `cargo install --path tools/common/viking`
-
     Next, you'll need to acquire the **original 1.5.0 or 1.6.0 `main` NSO executable**.
 
     * To dump it from a Switch, follow [the instructions on the wiki](https://zeldamods.org/wiki/Help:Dumping_games#Dumping_binaries_.28executable_files.29).
@@ -167,8 +165,9 @@ Additionally, you'll also need:
     * The decompressed 1.5.0 NSO has the following SHA256 hash: `d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106`
         * If you have a compressed NSO or a 1.6.0 executable, don't worry about this.
 
-4. Run `tools/common/setup.py [path to the NSO]`
+3. Run `tools/common/setup.py [path to the NSO]`
     * This will:
+        * install tools/check to check for differences in decompiled code
         * convert the executable if necessary
         * set up [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) by downloading it from the official LLVM website
         * create a build directory in `build/`
@@ -184,7 +183,7 @@ ninja -C build
 
 By default, Ninja will perform a multithreaded build. There is no need to pass -j manually.
 
-To check whether everything built correctly, just run `botw-check` after the build completes.
+To check whether everything built correctly, just run `tools/check` after the build completes.
 
 ## Contributing
 
