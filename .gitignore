@@ -41,3 +41,4 @@ perf.data.old
 
 # Tooling
 /toolchain/clang-*
+tools/check
