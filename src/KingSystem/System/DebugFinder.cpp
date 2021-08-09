@@ -9,4 +9,3 @@ DebugFinder::DebugFinder() = default;
 void DebugFinder::init(sead::Heap* heap) {}
 
 }  // namespace ksys
-
