@@ -6,9 +6,7 @@ SEAD_SINGLETON_DISPOSER_IMPL(DebugFinder)
 
 DebugFinder::DebugFinder() = default;
 
-void DebugFinder::init(sead::Heap* heap) {
-    
-}
+void DebugFinder::init(sead::Heap* heap) {}
 
-}
+}  // namespace ksys
 

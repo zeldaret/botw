@@ -5,18 +5,18 @@
 
 namespace ksys {
 
-class DebugFinder{
+class DebugFinder {
     SEAD_SINGLETON_DISPOSER(DebugFinder)
     DebugFinder();
     virtual ~DebugFinder();
-    
+
 public:
     void init(sead::Heap* heap);
-    
+
 private:
     sead::FixedSafeString<0x40> unused_1;
     sead::FixedSafeString<0x100> unused_2;
     u32 unused_3 = 0;
 };
-    
-}  // namespace ksys::evt
+
+}  // namespace ksys
