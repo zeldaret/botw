@@ -1,0 +1,2 @@
+functions_csv = "data/uking_functions.csv"
+build_target = "uking"

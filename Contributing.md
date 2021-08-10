@@ -4,7 +4,7 @@ To contribute to the project, you will need:
 
 * A disassembler or a decompiler such as Hex-Rays or Ghidra.
 * Python 3 and pip for the diff script
-* These Python modules: `capstone colorama cxxfilt pyelftools` (install them with `pip install ...`)
+* These Python modules: `capstone colorama cxxfilt pyelftools ansiwrap watchdog python-Levenshtein toml` (install them with `pip install ...`)
 
 Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
@@ -145,7 +145,7 @@ public:
 5. **Get the mangled name** of your function. For example, if you are decompiling BaseProcMgr::createInstance:
 
       ```
-      $ tools/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
+      $ tools/common/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
       UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
       ```
 
@@ -154,7 +154,7 @@ public:
     * Be sure to change the status column from `U` (undecompiled) to `O` (OK).
     * Example: `0x00000071010c0d60,O,136,_ZN4ksys4util13TaskQueueBaseD1Ev`
 
-7. **Compare the assembly** with `botw-check --source <mangled function name>`
+7. **Compare the assembly** with `tools/check --source <mangled function name>`
     * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
     * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
 
@@ -170,7 +170,7 @@ public:
     * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status to `m` (minor difference) in the CSV.
     * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
 
-10. Before opening a PR, reformat the code with clang-format and run `botw-check`.
+10. Before opening a PR, reformat the code with clang-format and run `tools/check`.
 
 ## Non-inlined functions
 
@@ -199,22 +199,22 @@ This project sometimes uses small hacks to force particular code to be generated
 
 ## Project tools
 
-* Check all decompiled functions for issues: `botw-check`
-* To compare assembly: `botw-check <mangled function name>`
+* Check all decompiled functions for issues: `tools/check`
+* To compare assembly: `tools/check <mangled function name>`
     * The function **must be listed in data/uking_functions.csv first**.
         * To do so, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
     * Pass the `--source` flag to show source code interleaved with assembly code.
     * Add the `--inlines` flag to show inline function calls. This is not enabled by default because it usually produces too much output to be useful.
     * For more options, see [asm-differ](https://github.com/simonlindholm/asm-differ).
-* To print progress: `tools/progress.py`
+* To print progress: `tools/common/progress.py`
     * Note that progress is only approximate because of inline functions, templating and compiler-generated functions.
 * To print AI class decompilation status: `tools/ai_progress.py`
     * Use this to figure out which AI classes have not been decompiled yet.
-* To dump symbols: `tools/print_decomp_symbols.py`
+* To dump symbols: `tools/common/print_decomp_symbols.py`
     * Pass `-a` to list all symbols
     * Useful for getting the mangled name of a function. For example:
 
         ```
-        $ tools/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
+        $ tools/common/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
       UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
         ```

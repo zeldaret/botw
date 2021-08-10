@@ -40,4 +40,5 @@ perf.data.old
 .gdb_history
 
 # Tooling
-/toolchain/clang/
+/toolchain/clang-*
+tools/check

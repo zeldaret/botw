@@ -1,7 +1,7 @@
 if (DEFINED ENV{UKING_CLANG})
     set(UKING_CLANG "$ENV{UKING_CLANG}")
 else()
-    set(UKING_CLANG "${CMAKE_CURRENT_LIST_DIR}/clang")
+    set(UKING_CLANG "${CMAKE_CURRENT_LIST_DIR}/clang-4.0.1")
 endif()
 
 set(NX64_OPT_FLAGS "-O3 -g")
