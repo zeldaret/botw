@@ -2,11 +2,7 @@
 
 This is an experimental, WIP decompilation of *The Legend of Zelda: Breath of the Wild* v1.5.0 (Switch).
 
-This project only concerns the main executable which contains all the game code and statically linked libraries. The RomFS and the SDK libraries are *out of the scope* of this project.
-
 **This repository does not contain game assets or RomFS content and *cannot* be used to play *Breath of the Wild*.**
-
-Progress: https://botw.link/progress
 
 The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in a permanent, unambiguous form which helps further reverse engineer the game.
 
@@ -14,7 +10,11 @@ Considering the large size of the executable (~40MB), it is not expected to reac
 
 As a result, the project is unlikely to produce a working executable in the near future. It will help with understanding and reverse engineering the game even in its incomplete state, but it will **not** help with playing BotW or porting the game to other platforms, which is **explicitly a non-goal**.
 
+Progress: https://botw.link/progress
+
 ## Scope
+
+This project only concerns the main executable which contains all the game code and statically linked libraries. The RomFS and the SDK libraries are *out of the scope* of this project.
 
 * Main executable (main NSO)
     * *Breath of the Wild* code
