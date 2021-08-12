@@ -2,11 +2,7 @@
 
 import argparse
 import hashlib
-import platform
 from pathlib import Path
-import subprocess
-import sys
-import tarfile
 import tempfile
 import urllib.request
 from common import setup_common as setup
