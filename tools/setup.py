@@ -5,6 +5,7 @@ import hashlib
 from pathlib import Path
 import tempfile
 import urllib.request
+from typing import Optional
 from common import setup_common as setup
 
 
@@ -13,7 +14,7 @@ def _download_v160_to_v150_patch(dest: Path):
     urllib.request.urlretrieve("https://s.botw.link/v150_downgrade/v160_to_v150.patch", dest)
 
 
-def prepare_executable(original_nso: Path):
+def prepare_executable(original_nso: Optional[Path]):
     COMPRESSED_V150_HASH = "898dc199301f7c419be5144bb5cb27e2fc346e22b27345ba3fb40c0060c2baf8"
     UNCOMPRESSED_V150_HASH = "d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106"
     COMPRESSED_V160_HASH = "15cfca7b89348956f85d945fade2e215a6af5991ed1071e181f97ca72f7ae20b"
@@ -25,6 +26,9 @@ def prepare_executable(original_nso: Path):
     if setup.TARGET_PATH.is_file() and hashlib.sha256(setup.TARGET_PATH.read_bytes()).hexdigest() == TARGET_HASH and setup.TARGET_ELF_PATH.is_file():
         print(">>> NSO is already set up")
         return
+
+    if original_nso is None:
+        setup.fail("please pass a path to the NSO (refer to the readme for more details)")
 
     if not original_nso.is_file():
         setup.fail(f"{original_nso} is not a file")
@@ -72,11 +76,12 @@ def prepare_executable(original_nso: Path):
     if not setup.TARGET_ELF_PATH.is_file():
         setup.fail("internal error while preparing executable (missing ELF); please report")
 
+
 def main():
     parser = argparse.ArgumentParser(
         "setup.py", description="Set up the Breath of the Wild decompilation project")
     parser.add_argument("original_nso", type=Path,
-                        help="Path to the original NSO (1.5.0 or 1.6.0, compressed or not)")
+                        help="Path to the original NSO (1.5.0 or 1.6.0, compressed or not)", nargs="?")
     args = parser.parse_args()
 
     setup.install_viking()
