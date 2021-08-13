@@ -86,7 +86,7 @@ Having access to the Wii U 1.5.0 version is occasionally useful though, because 
 
 ### I only have 1.6.0. Can I still contribute?
 
-Yes, you can! A delta patch is provided to turn a 1.6.0 executable into 1.5.0, so if you are able to dump 1.6.0 from your console you will also be able to get 1.5.0. For more information, refer to the [contributing guidelines](Contributing.md).
+Yes, you can! A delta patch is provided to turn a 1.6.0 executable into 1.5.0, so if you are able to dump 1.6.0 from your console you will also be able to get 1.5.0. Read on for more information...
 
 ### Do I need to be a game dev or a C++ expert to contribute?
 
