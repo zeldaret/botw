@@ -17,6 +17,8 @@ public:
     ~Archive() override;
 
     void doCreate_(u8* data, u32 size, sead::Heap* heap) override;
+
+    static constexpr size_t cLoadDataAlignment = 0x80;
 };
 KSYS_CHECK_SIZE_NX150(Archive, 0x68);
 

@@ -32,6 +32,8 @@ target_sources(uking PRIVATE
   Revision.h
   StageInfo.cpp
   StageInfo.h
+  StarterPackMgr.cpp
+  StarterPackMgr.h
   StringBoard.h
   SystemPauseMgr.cpp
   SystemPauseMgr.h

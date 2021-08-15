@@ -238,6 +238,10 @@ void ResourceMgrTask::setFlag2000Or5000(s32 type) {
     }
 }
 
+void ResourceMgrTask::resetFlag20000() {
+    mFlags.reset(Flag::_20000);
+}
+
 bool ResourceMgrTask::isFlag4Set() const {
     return mFlags.isOn(Flag::_4);
 }
