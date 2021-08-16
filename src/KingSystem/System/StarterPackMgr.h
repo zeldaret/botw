@@ -1,5 +1,6 @@
 #pragma once
 
+#include <devenv/seadEnvUtil.h>
 #include <heap/seadExpHeap.h>
 #include <prim/seadSafeString.h>
 #include "Game/DLC/aocManager.h"

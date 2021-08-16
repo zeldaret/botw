@@ -85,10 +85,8 @@ void StarterPackMgr::loadBootupPacks() {
         load_req.mArena = mOverlayArena;
         mBootupPack.requestLoad("Pack/Bootup.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
-        // TODO
-        // int region_num = sead::EnvUtil::getRegionLanguage();
-        // char * region_id = sead::RegionLanguageID::text_(region_num);
-        const char* region_id = "USen";
+        sead::RegionLanguageID region_lang = sead::EnvUtil::getRegionLanguage();
+        const char* region_id = region_lang.text();
         lang_pack.format("Pack/Bootup_%s.pack", region_id);
         mBootupLangPack.requestLoad(lang_pack, &load_req, nullptr);
     }
@@ -118,10 +116,8 @@ void StarterPackMgr::loadTitleBGPacks() {
         load_req.mArena = mOverlayArena;
         mTitleBGPack.requestLoad("Pack/TitleBG.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
-        // TODO
-        // int region_num = sead::EnvUtil::getRegionLanguage();
-        // char * region_id = sead::RegionLanguageID::text_(region_num);
-        const char* region_id = "USen";
+        sead::RegionLanguageID region_lang = sead::EnvUtil::getRegionLanguage();
+        const char* region_id = region_lang.text();
         lang_pack.format("Pack/TitleBG_%s.pack", region_id);
         mBootupLangPack.requestLoad(lang_pack, &load_req, nullptr);
     }
