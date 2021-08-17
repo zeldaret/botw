@@ -36,4 +36,8 @@ s32 getDefaultAlignment() {
     return 8;
 }
 
+void registerPackExtension(bool, const sead::SafeString&) {}
+
+void stubbedBool(bool) {}
+
 }  // namespace ksys::res

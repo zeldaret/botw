@@ -8,8 +8,6 @@ namespace res {
 void setResourceMgrPack(Handle*);
 }  // namespace res
 
-void stub(bool, const sead::SafeString&) {}
-
 SEAD_SINGLETON_DISPOSER_IMPL(StarterPackMgr)
 
 StarterPackMgr::StarterPackMgr() = default;
@@ -27,7 +25,6 @@ void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reducedHeapSize
         if (!reducedHeapSize) {
             heap_size = 0xe100000;
         }
-        // TODO nullptr is not so null
         mExpHeap = sead::ExpHeap::create(
             heap_size, "StarterPackMgr",
             res::ResourceMgrTask::instance()->getArenaForResourceL()->getHeap(), -8,
@@ -62,7 +59,7 @@ void StarterPackMgr::deleteArenaAndHeapAndUnregisterFactory() {
 // TODO
 void StarterPackMgr::loadBootupGraphicsPack() {
     if (!GameConfig::getInstance()->mField419) {
-        stub(true, ".pack");
+        res::registerPackExtension(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
         load_req._8 = true;
@@ -75,7 +72,7 @@ void StarterPackMgr::loadBootupGraphicsPack() {
 // TODO
 void StarterPackMgr::loadBootupPacks() {
     if (!GameConfig::getInstance()->mField419) {
-        stub(true, ".pack");
+        res::registerPackExtension(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
         load_req._8 = true;
@@ -84,8 +81,7 @@ void StarterPackMgr::loadBootupPacks() {
         mBootupPack.requestLoad("Pack/Bootup.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
         sead::RegionLanguageID region_lang = sead::EnvUtil::getRegionLanguage();
-        const char* region_id = region_lang.text();
-        lang_pack.format("Pack/Bootup_%s.pack", region_id);
+        lang_pack.format("Pack/Bootup_%s.pack", region_lang.text());
         mBootupLangPack.requestLoad(lang_pack, &load_req, nullptr);
     }
 }
@@ -93,7 +89,7 @@ void StarterPackMgr::loadBootupPacks() {
 // TODO
 void StarterPackMgr::loadTitlePack() {
     if (!GameConfig::getInstance()->mField419) {
-        stub(true, ".pack");
+        res::registerPackExtension(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
         load_req._8 = true;
@@ -106,7 +102,7 @@ void StarterPackMgr::loadTitlePack() {
 // TODO
 void StarterPackMgr::loadTitleBGPacks() {
     if (!GameConfig::getInstance()->mField419) {
-        stub(true, ".pack");
+        res::registerPackExtension(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
         load_req._8 = true;
@@ -115,8 +111,7 @@ void StarterPackMgr::loadTitleBGPacks() {
         mTitleBGPack.requestLoad("Pack/TitleBG.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
         sead::RegionLanguageID region_lang = sead::EnvUtil::getRegionLanguage();
-        const char* region_id = region_lang.text();
-        lang_pack.format("Pack/TitleBG_%s.pack", region_id);
+        lang_pack.format("Pack/TitleBG_%s.pack", region_lang.text());
         mBootupLangPack.requestLoad(lang_pack, &load_req, nullptr);
     }
 }
@@ -140,11 +135,10 @@ bool StarterPackMgr::bootupGraphicsPackReady() {
     return mBootupGfxPack.isReadyOrNeedsParse();
 }
 
-// TODO
 void StarterPackMgr::setPackToBootupGraphics() {
     if (!GameConfig::getInstance()->mField419) {
         mBootupGfxPack.parseResource(nullptr);
-        stub(false, "");
+        res::registerPackExtension(false, "");
         res::setResourceMgrPack(&mBootupGfxPack);
     }
 }
@@ -165,12 +159,11 @@ bool StarterPackMgr::bootupPacksReady() {
     }
 }
 
-// TODO
 void StarterPackMgr::setPackToBootupPack() {
     if (!GameConfig::getInstance()->mField419) {
         mBootupPack.parseResource(nullptr);
         mBootupLangPack.parseResource(nullptr);
-        stub(false, "");
+        res::registerPackExtension(false, "");
         res::setResourceMgrPack(&mBootupPack);
     }
 }
@@ -194,29 +187,28 @@ bool StarterPackMgr::isTitlePackK() {
     return mTitlePack.hasParsedResource();
 }
 
-// TODO
 void StarterPackMgr::setPackToTitlePack() {
     if (!GameConfig::getInstance()->mField419) {
         mTitlePack.parseResource(nullptr);
-        stub(false, "");
+        res::registerPackExtension(false, "");
         res::setResourceMgrPack(&mTitlePack);
     }
 }
 
-// TODO
 void StarterPackMgr::setPackToTitleBGPack() {
-    mTitleBGPack.waitForReady();
-    mTitleBGPack.parseResource(nullptr);
-    mTitleBGLangPack.waitForReady();
-    mTitleBGLangPack.parseResource(nullptr);
-    res::setResourceMgrPack(&mTitleBGPack);
+    if (!GameConfig::getInstance()->mField419) {
+        mTitleBGPack.waitForReady();
+        mTitleBGPack.parseResource(nullptr);
+        mTitleBGLangPack.waitForReady();
+        mTitleBGLangPack.parseResource(nullptr);
 
-    if (uking::aoc::Manager::instance() != nullptr) {
-        uking::aoc::Manager::instance()->registerAocMainFieldPack();
+        if (uking::aoc::Manager::instance() != nullptr) {
+            uking::aoc::Manager::instance()->registerAocMainFieldPack();
+        }
+        res::registerPackExtension(false, "");
+        res::setResourceMgrPack(&mTitleBGPack);
+        res::stubbedBool(false);
     }
-    stub(false, "");
-    res::setResourceMgrPack(&mTitleBGPack);
-    // TODO another stub on this line
 }
 
 void StarterPackMgr::unloadTitleBGAndAocMainFieldPacksAndStuff() {
