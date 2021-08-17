@@ -1,7 +1,5 @@
 #include "KingSystem/System/StarterPackMgr.h"
 
-#define WARCRIME(cmp) (GameConfig::getInstance()->mField419 cmp 0)
-
 // TODO the LoadRequest stuff should be an inline function
 
 namespace ksys {
@@ -48,7 +46,7 @@ void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reducedHeapSize
 }
 
 void StarterPackMgr::deleteArenaAndHeapAndUnregisterFactory() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return;
     if (mOverlayArena != nullptr) {
         delete mOverlayArena;
@@ -63,7 +61,7 @@ void StarterPackMgr::deleteArenaAndHeapAndUnregisterFactory() {
 
 // TODO
 void StarterPackMgr::loadBootupGraphicsPack() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         stub(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
@@ -76,7 +74,7 @@ void StarterPackMgr::loadBootupGraphicsPack() {
 
 // TODO
 void StarterPackMgr::loadBootupPacks() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         stub(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
@@ -94,7 +92,7 @@ void StarterPackMgr::loadBootupPacks() {
 
 // TODO
 void StarterPackMgr::loadTitlePack() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         stub(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
@@ -107,7 +105,7 @@ void StarterPackMgr::loadTitlePack() {
 
 // TODO
 void StarterPackMgr::loadTitleBGPacks() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         stub(true, ".pack");
         res::LoadRequest load_req;
         load_req.mRequester = "StarterPackMgr";
@@ -130,21 +128,21 @@ void StarterPackMgr::loadAocMainFieldPack() {
 }
 
 void StarterPackMgr::unloadBootupGraphicsPack() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return;
     res::setResourceMgrPack(nullptr);
     mBootupGfxPack.requestUnload();
 }
 
 bool StarterPackMgr::bootupGraphicsPackReady() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return true;
     return mBootupGfxPack.isReadyOrNeedsParse();
 }
 
 // TODO
 void StarterPackMgr::setPackToBootupGraphics() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         mBootupGfxPack.parseResource(nullptr);
         stub(false, "");
         res::setResourceMgrPack(&mBootupGfxPack);
@@ -152,7 +150,7 @@ void StarterPackMgr::setPackToBootupGraphics() {
 }
 
 void StarterPackMgr::unloadBootupAndBootupLangPack() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return;
     res::setResourceMgrPack(nullptr);
     mBootupPack.requestUnload();
@@ -160,7 +158,7 @@ void StarterPackMgr::unloadBootupAndBootupLangPack() {
 }
 
 bool StarterPackMgr::bootupPacksReady() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         return mBootupPack.isReadyOrNeedsParse() && mBootupLangPack.isReadyOrNeedsParse();
     } else {
         return true;
@@ -169,7 +167,7 @@ bool StarterPackMgr::bootupPacksReady() {
 
 // TODO
 void StarterPackMgr::setPackToBootupPack() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         mBootupPack.parseResource(nullptr);
         mBootupLangPack.parseResource(nullptr);
         stub(false, "");
@@ -178,27 +176,27 @@ void StarterPackMgr::setPackToBootupPack() {
 }
 
 void StarterPackMgr::unloadTitlePack() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return;
     res::setResourceMgrPack(nullptr);
     mTitlePack.requestUnload();
 }
 
 bool StarterPackMgr::isTitlePackReady() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return true;
     return mTitlePack.isReadyOrNeedsParse();
 }
 
 bool StarterPackMgr::isTitlePackK() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return true;
     return mTitlePack.hasParsedResource();
 }
 
 // TODO
 void StarterPackMgr::setPackToTitlePack() {
-    if (WARCRIME(==)) {
+    if (!GameConfig::getInstance()->mField419) {
         mTitlePack.parseResource(nullptr);
         stub(false, "");
         res::setResourceMgrPack(&mTitlePack);
@@ -222,7 +220,7 @@ void StarterPackMgr::setPackToTitleBGPack() {
 }
 
 void StarterPackMgr::unloadTitleBGAndAocMainFieldPacksAndStuff() {
-    if (WARCRIME(!=))
+    if (GameConfig::getInstance()->mField419)
         return;
     res::setResourceMgrPack(nullptr);
     mTitleBGPack.requestUnload();
