@@ -1,10 +1,10 @@
-[submodule "sead"]
+[submodule "lib/sead"]
 	path = lib/sead
 	url = https://github.com/open-ead/sead
-[submodule "NintendoSDK"]
+[submodule "lib/NintendoSDK"]
 	path = lib/NintendoSDK
 	url = https://github.com/open-ead/nnheaders
-[submodule "agl"]
+[submodule "lib/agl"]
 	path = lib/agl
 	url = https://github.com/open-ead/agl
 [submodule "lib/EventFlow"]
