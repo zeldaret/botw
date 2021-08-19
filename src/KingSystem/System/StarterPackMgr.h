@@ -44,9 +44,10 @@ public:
     void failedLoadTitlePack();
     res::Handle* getBootupLangPack();
     res::Handle* getTitleBGLangPack();
-    inline res::LoadRequest getLoadRequest();
 
 private:
+    inline res::LoadRequest getLoadRequest();
+
     res::Handle mBootupGfxPack;
     res::Handle mBootupPack;
     res::Handle mUnusedPack;

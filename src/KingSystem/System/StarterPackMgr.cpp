@@ -23,10 +23,7 @@ inline res::LoadRequest StarterPackMgr::getLoadRequest() {
 
 StarterPackMgr::StarterPackMgr() = default;
 
-// TODO
-StarterPackMgr::~StarterPackMgr() {
-    deleteInstance();
-}
+StarterPackMgr::~StarterPackMgr() = default;
 
 void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reducedHeapSize) {
     if (mExpHeap == nullptr) {
