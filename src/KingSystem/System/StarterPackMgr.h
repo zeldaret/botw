@@ -46,8 +46,6 @@ public:
     res::Handle* getTitleBGLangPack();
 
 private:
-    inline res::LoadRequest getLoadRequest();
-
     res::Handle mBootupGfxPack;
     res::Handle mBootupPack;
     res::Handle mUnusedPack;

@@ -11,11 +11,6 @@
 namespace ksys {
 SEAD_SINGLETON_DISPOSER_IMPL(StarterPackMgr)
 
-inline res::LoadRequest StarterPackMgr::getLoadRequest() {
-    LOAD_REQ()
-    return load_req;
-}
-
 StarterPackMgr::StarterPackMgr() = default;
 
 StarterPackMgr::~StarterPackMgr() = default;
@@ -61,19 +56,19 @@ void StarterPackMgr::deleteArenaAndHeapAndUnregisterFactory() {
     }
 }
 
-// TODO
 void StarterPackMgr::loadBootupGraphicsPack() {
     if (!GameConfig::getInstance()->mField419) {
-        res::registerPackExtension(true, ".pack");
+        sead::SafeString extension = ".pack";
+        res::registerPackExtension(true, extension);
         LOAD_REQ()
-        mTitlePack.requestLoad("Pack/Bootup_Graphics.pack", &load_req, nullptr);
+        mBootupGfxPack.requestLoad("Pack/Bootup_Graphics.pack", &load_req, nullptr);
     }
 }
 
-// TODO
 void StarterPackMgr::loadBootupPacks() {
     if (!GameConfig::getInstance()->mField419) {
-        res::registerPackExtension(true, ".pack");
+        sead::SafeString extension = ".pack";
+        res::registerPackExtension(true, extension);
         LOAD_REQ()
         mBootupPack.requestLoad("Pack/Bootup.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
@@ -83,19 +78,19 @@ void StarterPackMgr::loadBootupPacks() {
     }
 }
 
-// TODO
 void StarterPackMgr::loadTitlePack() {
     if (!GameConfig::getInstance()->mField419) {
-        res::registerPackExtension(true, ".pack");
+        sead::SafeString extension = ".pack";
+        res::registerPackExtension(true, extension);
         LOAD_REQ()
         mTitlePack.requestLoad("Pack/Title.pack", &load_req, nullptr);
     }
 }
 
-// TODO
 void StarterPackMgr::loadTitleBGPacks() {
     if (!GameConfig::getInstance()->mField419) {
-        res::registerPackExtension(true, ".pack");
+        sead::SafeString extension = ".pack";
+        res::registerPackExtension(true, extension);
         LOAD_REQ()
         mTitleBGPack.requestLoad("Pack/TitleBG.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
