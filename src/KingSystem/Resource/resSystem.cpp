@@ -40,4 +40,8 @@ void registerPackExtension(bool, const sead::SafeString&) {}
 
 void stubbedBool(bool) {}
 
+void setResourceMgrPack(Handle* pack) {
+    ResourceMgrTask::instance()->setPack(pack);
+}
+
 }  // namespace ksys::res

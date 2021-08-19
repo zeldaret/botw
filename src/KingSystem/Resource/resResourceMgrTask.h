@@ -267,6 +267,8 @@ public:
 
     OverlayArena* getArenaForResourceL() { return &mArenaForResourceL; }
 
+    void setPack(Handle*);
+
 private:
     enum class Flag {
         _1 = 1,

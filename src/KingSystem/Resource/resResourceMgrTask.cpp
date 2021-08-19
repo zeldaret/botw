@@ -705,4 +705,9 @@ void ResourceMgrTask::removeOverlayArena(OverlayArena* arena) {
     }
 }
 
+void ResourceMgrTask::setPack(Handle* pack) {
+    mPackHandle = pack;
+    res::stubbedLogFunction();
+}
+
 }  // namespace ksys::res

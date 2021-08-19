@@ -9,11 +9,6 @@
     load_req.mArena = mOverlayArena;
 
 namespace ksys {
-namespace res {
-// TODO
-void setResourceMgrPack(Handle*);
-}  // namespace res
-
 SEAD_SINGLETON_DISPOSER_IMPL(StarterPackMgr)
 
 inline res::LoadRequest StarterPackMgr::getLoadRequest() {

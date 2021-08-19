@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include "resHandle.h"
 
 namespace ksys::res {
 
@@ -34,5 +35,7 @@ void registerPackExtension(bool, const sead::SafeString&);
 // In release builds, this function does nothing.
 // TODO: figure out what this is used for. Stubbed log function?
 void stubbedBool(bool);
+
+void setResourceMgrPack(Handle*);
 
 }  // namespace ksys::res
