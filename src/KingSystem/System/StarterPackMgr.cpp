@@ -21,7 +21,7 @@ StarterPackMgr::StarterPackMgr() = default;
 StarterPackMgr::~StarterPackMgr() = default;
 
 void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reducedHeapSize) {
-    if (mExpHeap == nullptr) {
+    if (!mExpHeap) {
         res::registerEntryFactory(&mArchiveFac, "pack");
         sead::Heap* heap = res::ResourceMgrTask::instance()->getArenaForResourceL()->getHeap();
         u64 heap_size;
@@ -48,17 +48,17 @@ void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reducedHeapSize
 }
 
 void StarterPackMgr::deleteArenaAndHeapAndUnregisterFactory() {
-    if (GameConfig::getInstance()->mField419)
-        return;
-    if (mOverlayArena != nullptr) {
-        delete mOverlayArena;
-        mOverlayArena = nullptr;
+    if (!GameConfig::getInstance()->mField419) {
+        if (mOverlayArena) {
+            delete mOverlayArena;
+            mOverlayArena = nullptr;
+        }
+        if (mExpHeap) {
+            mExpHeap->destroy();
+            mExpHeap = nullptr;
+        }
+        res::unregisterEntryFactory(&mArchiveFac);
     }
-    if (mExpHeap != nullptr) {
-        mExpHeap->destroy();
-        mExpHeap = nullptr;
-    }
-    res::unregisterEntryFactory(&mArchiveFac);
 }
 
 // TODO
@@ -106,22 +106,19 @@ void StarterPackMgr::loadTitleBGPacks() {
 }
 
 void StarterPackMgr::loadAocMainFieldPack() {
-    if (uking::aoc::Manager::instance() != nullptr) {
+    if (uking::aoc::Manager::instance())
         uking::aoc::Manager::instance()->loadAocMainFieldPack(mOverlayArena);
-    }
 }
 
 void StarterPackMgr::unloadBootupGraphicsPack() {
-    if (GameConfig::getInstance()->mField419)
-        return;
-    res::setResourceMgrPack(nullptr);
-    mBootupGfxPack.requestUnload();
+    if (!GameConfig::getInstance()->mField419) {
+        res::setResourceMgrPack(nullptr);
+        mBootupGfxPack.requestUnload();
+    }
 }
 
 bool StarterPackMgr::bootupGraphicsPackReady() {
-    if (GameConfig::getInstance()->mField419)
-        return true;
-    return mBootupGfxPack.isReadyOrNeedsParse();
+    return GameConfig::getInstance()->mField419 || mBootupGfxPack.isReadyOrNeedsParse();
 }
 
 void StarterPackMgr::setPackToBootupGraphics() {
@@ -133,19 +130,16 @@ void StarterPackMgr::setPackToBootupGraphics() {
 }
 
 void StarterPackMgr::unloadBootupAndBootupLangPack() {
-    if (GameConfig::getInstance()->mField419)
-        return;
-    res::setResourceMgrPack(nullptr);
-    mBootupPack.requestUnload();
-    mBootupLangPack.requestUnload();
+    if (!GameConfig::getInstance()->mField419) {
+        res::setResourceMgrPack(nullptr);
+        mBootupPack.requestUnload();
+        mBootupLangPack.requestUnload();
+    }
 }
 
 bool StarterPackMgr::bootupPacksReady() {
-    if (!GameConfig::getInstance()->mField419) {
-        return mBootupPack.isReadyOrNeedsParse() && mBootupLangPack.isReadyOrNeedsParse();
-    } else {
-        return true;
-    }
+    return GameConfig::getInstance()->mField419 ||
+           (mBootupPack.isReadyOrNeedsParse() && mBootupLangPack.isReadyOrNeedsParse());
 }
 
 void StarterPackMgr::setPackToBootupPack() {
@@ -158,22 +152,18 @@ void StarterPackMgr::setPackToBootupPack() {
 }
 
 void StarterPackMgr::unloadTitlePack() {
-    if (GameConfig::getInstance()->mField419)
-        return;
-    res::setResourceMgrPack(nullptr);
-    mTitlePack.requestUnload();
+    if (!GameConfig::getInstance()->mField419) {
+        res::setResourceMgrPack(nullptr);
+        mTitlePack.requestUnload();
+    }
 }
 
 bool StarterPackMgr::isTitlePackReady() {
-    if (GameConfig::getInstance()->mField419)
-        return true;
-    return mTitlePack.isReadyOrNeedsParse();
+    return GameConfig::getInstance()->mField419 || mTitlePack.isReadyOrNeedsParse();
 }
 
 bool StarterPackMgr::isTitlePackK() {
-    if (GameConfig::getInstance()->mField419)
-        return true;
-    return mTitlePack.hasParsedResource();
+    return GameConfig::getInstance()->mField419 || mTitlePack.hasParsedResource();
 }
 
 void StarterPackMgr::setPackToTitlePack() {
@@ -191,9 +181,9 @@ void StarterPackMgr::setPackToTitleBGPack() {
         mTitleBGLangPack.waitForReady();
         mTitleBGLangPack.parseResource(nullptr);
 
-        if (uking::aoc::Manager::instance() != nullptr) {
+        if (uking::aoc::Manager::instance())
             uking::aoc::Manager::instance()->registerAocMainFieldPack();
-        }
+
         res::registerPackExtension(false, "");
         res::setResourceMgrPack(&mTitleBGPack);
         res::stubbedBool(false);
@@ -201,20 +191,19 @@ void StarterPackMgr::setPackToTitleBGPack() {
 }
 
 void StarterPackMgr::unloadTitleBGAndAocMainFieldPacksAndStuff() {
-    if (GameConfig::getInstance()->mField419)
-        return;
-    res::setResourceMgrPack(nullptr);
-    mTitleBGPack.requestUnload();
-    mTitleBGLangPack.requestUnload();
+    if (!GameConfig::getInstance()->mField419) {
+        res::setResourceMgrPack(nullptr);
+        mTitleBGPack.requestUnload();
+        mTitleBGLangPack.requestUnload();
 
-    if (uking::aoc::Manager::instance() != nullptr) {
-        uking::aoc::Manager::instance()->unloadAocMainFieldPack();
+        if (uking::aoc::Manager::instance())
+            uking::aoc::Manager::instance()->unloadAocMainFieldPack();
+
+        for (unsigned char x = 0; x < 5; x++)
+            res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
+
+        res::ResourceMgrTask::instance()->resetFlag20000();
     }
-
-    for (unsigned char x = 0; x < 5; x++)
-        res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
-
-    res::ResourceMgrTask::instance()->resetFlag20000();
 }
 
 void StarterPackMgr::failedLoadTitlePack() {
@@ -222,17 +211,14 @@ void StarterPackMgr::failedLoadTitlePack() {
 }
 
 res::Handle* StarterPackMgr::getTitleBGLangPack() {
-    res::Handle* ret = &mTitleBGLangPack;
-    if (!mTitleBGLangPack.hasParsedResource()) {
-        ret = nullptr;
-    }
-    return ret;
+    if (!mTitleBGLangPack.hasParsedResource())
+        return nullptr;
+    return &mTitleBGLangPack;
 }
 
 res::Handle* StarterPackMgr::getBootupLangPack() {
-    if (!mBootupLangPack.hasParsedResource()) {
+    if (!mBootupLangPack.hasParsedResource())
         return nullptr;
-    }
     return &mBootupLangPack;
 }
 
