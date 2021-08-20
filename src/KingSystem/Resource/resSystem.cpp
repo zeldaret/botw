@@ -36,4 +36,12 @@ s32 getDefaultAlignment() {
     return 8;
 }
 
+void registerPackExtension(bool has_extension, const sead::SafeString& extension) {}
+
+void stubbedBool(bool) {}
+
+void setResourceMgrPack(Handle* pack) {
+    ResourceMgrTask::instance()->setPack(pack);
+}
+
 }  // namespace ksys::res

@@ -238,6 +238,10 @@ void ResourceMgrTask::setFlag2000Or5000(s32 type) {
     }
 }
 
+void ResourceMgrTask::resetFlag20000() {
+    mFlags.reset(Flag::_20000);
+}
+
 bool ResourceMgrTask::isFlag4Set() const {
     return mFlags.isOn(Flag::_4);
 }
@@ -699,6 +703,11 @@ void ResourceMgrTask::removeOverlayArena(OverlayArena* arena) {
         mArenas.erase(arena);
         stubbedLogFunction();
     }
+}
+
+void ResourceMgrTask::setPack(Handle* pack) {
+    mPackHandle = pack;
+    res::stubbedLogFunction();
 }
 
 }  // namespace ksys::res

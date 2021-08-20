@@ -137,6 +137,7 @@ public:
 
     void controlField9c0d88(bool off);
     void setFlag2000Or5000(s32 type);
+    void resetFlag20000();
 
     void copyLoadRequest(ILoadRequest* request, const sead::SafeString& path,
                          const ILoadRequest& source_request);
@@ -264,6 +265,10 @@ public:
     ResourceUnitDelegatePair& getUnitInitLoadFn() { return mUnitInitLoadFn; }
     auto& getUnitAdjustHeapFn() { return mUnitAdjustHeapFn; }
 
+    OverlayArena* getArenaForResourceL() { return &mArenaForResourceL; }
+
+    void setPack(Handle* pack);
+
 private:
     enum class Flag {
         _1 = 1,
@@ -274,6 +279,7 @@ private:
         _1000 = 0x1000,
         _2000 = 0x2000,
         _4000 = 0x4000,
+        _20000 = 0x20000,
     };
 
     enum class CacheControlFlag : u8 {
