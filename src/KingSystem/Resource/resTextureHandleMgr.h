@@ -9,6 +9,9 @@ class TextureHandleMgr {
 public:
     virtual ~TextureHandleMgr();
 
+    void preCalc();
+    void calc();
+
     ArchiveWork* getArchiveWork() const;
     void clearAllCache();
 };

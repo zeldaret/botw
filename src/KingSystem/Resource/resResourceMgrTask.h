@@ -219,8 +219,12 @@ public:
     bool getUncompressedSize(u32* size, const sead::SafeString& path,
                              sead::FileDevice* device) const;
 
+    void updateCompaction();
     void setCompactionStopped(bool stopped);
     bool isCompactionStopped() const;
+
+    void requestCalc();
+    void waitForCalc();
 
     bool initTempResourceLoader(TempResourceLoader* loader, TempResourceLoader::InitArg& arg);
 
@@ -290,6 +294,7 @@ private:
     ~ResourceMgrTask();
 
     bool calc_(void* userdata);
+    void systemCalc_();
     bool callSystemCalc_(void* userdata);
     void clearUnits_();
     static void setInstance(ResourceMgrTask* task);

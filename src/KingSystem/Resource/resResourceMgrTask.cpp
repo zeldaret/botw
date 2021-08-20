@@ -4,6 +4,7 @@
 #include <resource/seadResourceMgr.h>
 #include <resource/seadSZSDecompressor.h>
 #include <thread/seadThreadUtil.h>
+#include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "KingSystem/Resource/resCache.h"
 #include "KingSystem/Resource/resCompactedHeap.h"
 #include "KingSystem/Resource/resEntryFactory.h"
@@ -414,6 +415,11 @@ bool ResourceMgrTask::calc_(void*) {
     return true;
 }
 
+bool ResourceMgrTask::callSystemCalc_(void* userdata) {
+    systemCalc_();
+    return true;
+}
+
 bool ResourceMgrTask::dropSFromExtensionIfNeeded(const sead::SafeString& path,
                                                  sead::BufferedSafeString& new_path, s32 dot_idx,
                                                  const sead::SafeString& extension) const {
@@ -633,6 +639,41 @@ bool ResourceMgrTask::getUncompressedSize(u32* size, const sead::SafeString& pat
     return true;
 }
 
+void ResourceMgrTask::clearUnits_() {
+    const auto lock = sead::makeScopedLock(mUnitsCS);
+
+    const int num_units = mUnits.size();
+    if (num_units != 0 && returnFalse())
+        stubbedLogFunction();
+
+    for (auto it = mUnits.robustBegin(), end = mUnits.robustEnd(); it != end; ++it) {
+        ResourceUnit* unit = &*it;
+        if (it->mTask3.canSubmitRequest()) {
+            mUnits.erase(unit);
+            requestClearCache(&unit);
+        }
+    }
+
+    if (mUnits.size() != 0 || (num_units != 0 && returnFalse()))
+        stubbedLogFunction();
+}
+
+void ResourceMgrTask::systemCalc_() {
+    if (mTask1->canSubmitRequest()) {
+        util::TaskRequest request;
+        request.mSynchronous = false;
+        request.mHasHandle = false;
+        request.mLaneId = u8(LaneId::_6);
+        request.mThread = mResourceControlThread;
+        request.mName = "res::System::calc";
+        mTask1->submitRequest(request);
+    }
+
+    mTexHandleMgr->preCalc();
+    updateCompaction();
+    mTexHandleMgr->calc();
+}
+
 // reordering
 #ifdef NON_MATCHING
 void ResourceMgrTask::setCompactionStopped(bool stopped) {
@@ -650,6 +691,14 @@ void ResourceMgrTask::setCompactionStopped(bool stopped) {
 
 bool ResourceMgrTask::isCompactionStopped() const {
     return mCompactionCounter == 0;
+}
+
+void ResourceMgrTask::requestCalc() {
+    frm::WorkerSupportThreadMgr::instance()->submitRequest(2, &mSystemCalcFn);
+}
+
+void ResourceMgrTask::waitForCalc() {
+    frm::WorkerSupportThreadMgr::instance()->waitForTask(2);
 }
 
 bool ResourceMgrTask::initTempResourceLoader(TempResourceLoader* loader,
