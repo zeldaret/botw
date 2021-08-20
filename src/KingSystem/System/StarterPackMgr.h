@@ -22,7 +22,7 @@ class StarterPackMgr {
     ~StarterPackMgr();
 
 public:
-    void registerPackFactoryAndMakeOverlayArena(bool);
+    void registerPackFactoryAndMakeOverlayArena(bool reducedHeapSize);
     void deleteArenaAndHeapAndUnregisterFactory();
     void loadBootupGraphicsPack();
     void loadBootupPacks();

@@ -36,6 +36,6 @@ void registerPackExtension(bool, const sead::SafeString&);
 // TODO: figure out what this is used for. Stubbed log function?
 void stubbedBool(bool);
 
-void setResourceMgrPack(Handle*);
+void setResourceMgrPack(Handle* pack);
 
 }  // namespace ksys::res

@@ -1,6 +1,5 @@
 #include "KingSystem/System/StarterPackMgr.h"
 
-// TODO the LoadRequest stuff would be nicer as an inline function
 #define LOAD_REQ()                                                                                 \
     res::LoadRequest load_req;                                                                     \
     load_req.mRequester = "StarterPackMgr";                                                        \
