@@ -30,7 +30,7 @@ s32 getDefaultAlignment();
 
 // In release builds, this function does nothing.
 // TODO: figure out what this is used for. Stubbed log function?
-void registerPackExtension(bool, const sead::SafeString&);
+void registerPackExtension(bool has_extension, const sead::SafeString& extension);
 
 // In release builds, this function does nothing.
 // TODO: figure out what this is used for. Stubbed log function?

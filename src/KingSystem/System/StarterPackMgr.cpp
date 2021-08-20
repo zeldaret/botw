@@ -1,12 +1,5 @@
 #include "KingSystem/System/StarterPackMgr.h"
 
-#define LOAD_REQ()                                                                                 \
-    res::LoadRequest load_req;                                                                     \
-    load_req.mRequester = "StarterPackMgr";                                                        \
-    load_req._8 = true;                                                                            \
-    load_req._26 = false;                                                                          \
-    load_req.mArena = mOverlayArena;
-
 namespace ksys {
 SEAD_SINGLETON_DISPOSER_IMPL(StarterPackMgr)
 
@@ -14,12 +7,12 @@ StarterPackMgr::StarterPackMgr() = default;
 
 StarterPackMgr::~StarterPackMgr() = default;
 
-void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reducedHeapSize) {
+void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reduced_heap_size) {
     if (!mExpHeap) {
         res::registerEntryFactory(&mArchiveFac, "pack");
         sead::Heap* heap = res::ResourceMgrTask::instance()->getArenaForResourceL()->getHeap();
         u64 heap_size;
-        if (!reducedHeapSize) {
+        if (!reduced_heap_size) {
             heap_size = 0xe100000;
         } else {
             heap_size = 0x1400000;
@@ -59,7 +52,13 @@ void StarterPackMgr::loadBootupGraphicsPack() {
     if (!GameConfig::getInstance()->mField419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
-        LOAD_REQ()
+
+        res::LoadRequest load_req;
+        load_req.mRequester = "StarterPackMgr";
+        load_req._8 = true;
+        load_req._26 = false;
+        load_req.mArena = mOverlayArena;
+
         mBootupGfxPack.requestLoad("Pack/Bootup_Graphics.pack", &load_req, nullptr);
     }
 }
@@ -68,7 +67,13 @@ void StarterPackMgr::loadBootupPacks() {
     if (!GameConfig::getInstance()->mField419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
-        LOAD_REQ()
+
+        res::LoadRequest load_req;
+        load_req.mRequester = "StarterPackMgr";
+        load_req._8 = true;
+        load_req._26 = false;
+        load_req.mArena = mOverlayArena;
+
         mBootupPack.requestLoad("Pack/Bootup.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
         sead::RegionLanguageID region_lang = sead::EnvUtil::getRegionLanguage();
@@ -81,7 +86,13 @@ void StarterPackMgr::loadTitlePack() {
     if (!GameConfig::getInstance()->mField419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
-        LOAD_REQ()
+
+        res::LoadRequest load_req;
+        load_req.mRequester = "StarterPackMgr";
+        load_req._8 = true;
+        load_req._26 = false;
+        load_req.mArena = mOverlayArena;
+
         mTitlePack.requestLoad("Pack/Title.pack", &load_req, nullptr);
     }
 }
@@ -90,7 +101,13 @@ void StarterPackMgr::loadTitleBGPacks() {
     if (!GameConfig::getInstance()->mField419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
-        LOAD_REQ()
+
+        res::LoadRequest load_req;
+        load_req.mRequester = "StarterPackMgr";
+        load_req._8 = true;
+        load_req._26 = false;
+        load_req.mArena = mOverlayArena;
+
         mTitleBGPack.requestLoad("Pack/TitleBG.pack", &load_req, nullptr);
         sead::FixedSafeString<128> lang_pack;
         sead::RegionLanguageID region_lang = sead::EnvUtil::getRegionLanguage();
@@ -193,7 +210,7 @@ void StarterPackMgr::unloadTitleBGAndAocMainFieldPacksAndStuff() {
         if (uking::aoc::Manager::instance())
             uking::aoc::Manager::instance()->unloadAocMainFieldPack();
 
-        for (unsigned char x = 0; x < 5; x++)
+        for (int x = 0; x < 5; x++)
             res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
 
         res::ResourceMgrTask::instance()->resetFlag20000();

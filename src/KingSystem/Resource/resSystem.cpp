@@ -36,7 +36,7 @@ s32 getDefaultAlignment() {
     return 8;
 }
 
-void registerPackExtension(bool, const sead::SafeString&) {}
+void registerPackExtension(bool has_extension, const sead::SafeString& extension) {}
 
 void stubbedBool(bool) {}
 
