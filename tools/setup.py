@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 from pathlib import Path
+import subprocess
 import tempfile
 import urllib.request
 from typing import Optional
@@ -77,6 +78,17 @@ def prepare_executable(original_nso: Optional[Path]):
         setup.fail("internal error while preparing executable (missing ELF); please report")
 
 
+def create_build_dir():
+    build_dir = setup.ROOT / "build"
+    if build_dir.is_dir():
+        print(">>> build directory already exists: nothing to do")
+        return
+
+    subprocess.check_call(
+        "cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -B build/".split(" "))
+    print(">>> created build directory")
+
+
 def main():
     parser = argparse.ArgumentParser(
         "setup.py", description="Set up the Breath of the Wild decompilation project")
@@ -87,7 +99,7 @@ def main():
     setup.install_viking()
     prepare_executable(args.original_nso)
     setup.set_up_compiler("4.0.1")
-    setup.create_build_dir()
+    create_build_dir()
 
 
 if __name__ == "__main__":
