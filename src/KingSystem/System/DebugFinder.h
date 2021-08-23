@@ -8,10 +8,7 @@ namespace ksys {
 class DebugFinder {
     SEAD_SINGLETON_DISPOSER(DebugFinder)
     DebugFinder();
-    ~DebugFinder();
-
-public:
-    void init(sead::Heap* heap);
+    virtual ~DebugFinder();
 
 private:
     sead::FixedSafeString<0x40> unused_1;
