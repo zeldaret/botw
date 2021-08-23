@@ -84,6 +84,12 @@ The Switch 1.5.0 version. Working with Clang is so much nicer than working with 
 
 Having access to the Wii U 1.5.0 version is occasionally useful though, because GHS often optimizes and inlines differently, which can help reveal the existence of inline functions.
 
+#### Why not decompile 1.6.0?
+
+Because of aggressive compiler optimisations and severe code bloat, 1.6.0 would be extremely painful to reverse engineer, let alone decompile. [See here](https://gist.github.com/leoetlino/3156c286c7232c2e73b9b74b91021353) for a comparison between 1.5.0 and 1.6.0 code of the main function (called `nnMain`).
+
+(The culprit is link time optimisation, which allows LLVM to perform extremely aggressive inlining even across translation units.)
+
 ### I only have 1.6.0. Can I still contribute?
 
 Yes, you can! A delta patch is provided to turn a 1.6.0 executable into 1.5.0, so if you are able to dump 1.6.0 from your console you will also be able to get 1.5.0. Read on for more information...
