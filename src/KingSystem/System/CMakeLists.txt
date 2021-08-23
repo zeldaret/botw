@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   CameraEditor.h
   CameraMgr.cpp
   CameraMgr.h
+  DebugFinder.cpp
+  DebugFinder.h
   DebugMessage.h
   HavokWorkerMgr.cpp
   HavokWorkerMgr.h
