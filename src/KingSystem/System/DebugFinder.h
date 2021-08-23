@@ -8,7 +8,7 @@ namespace ksys {
 class DebugFinder {
     SEAD_SINGLETON_DISPOSER(DebugFinder)
     DebugFinder();
-    virtual ~DebugFinder();
+    ~DebugFinder();
 
 public:
     void init(sead::Heap* heap);
