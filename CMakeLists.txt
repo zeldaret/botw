@@ -39,6 +39,9 @@ target_link_libraries(uking PUBLIC agl)
 add_subdirectory(lib/aal)
 target_link_libraries(uking PRIVATE aal)
 
+add_subdirectory(lib/gsys)
+target_link_libraries(uking PRIVATE gsys)
+
 add_subdirectory(lib/EventFlow)
 target_link_libraries(uking PRIVATE evfl)
 
