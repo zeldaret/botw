@@ -18,6 +18,8 @@ target_sources(uking PRIVATE
   KingEditor.h
   MemoryProfiler.cpp
   MemoryProfiler.h
+  MessageCapture.cpp
+  MessageCapture.h
   OcclusionQueryCylinder.cpp
   OcclusionQueryCylinder.h
   OverlayArena.cpp
