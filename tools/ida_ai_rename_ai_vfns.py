@@ -1,10 +1,11 @@
 import struct
 from typing import Dict
 
-from util import utils, ai_common
+from common.util import utils
+import ai_common
 import idaapi
 
-from util.ai_common import BaseClasses
+from ai_common import BaseClasses
 
 _vtable_fn_names = [
     "_ZNK5uking2ai{}27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE",

@@ -5,7 +5,7 @@ from typing import Dict, Optional
 import yaml
 from colorama import Fore
 
-from util import utils
+from common.util import utils
 
 # TODO: add behaviors after they have been generated
 _TYPES = ("action", "ai", "query")

@@ -5,9 +5,9 @@ from typing import Union
 
 import yaml
 
-from util import ai_common
-from util.ai_common import BaseClasses
-from util.graph import Graph
+import ai_common
+from ai_common import BaseClasses
+from common.util.graph import Graph
 
 _known_vtables = {
     0x71024d8d68: "ActionBase",

@@ -8,12 +8,13 @@ import cxxfilt
 from pathlib import Path
 from typing import Dict, Iterable
 
-import util.checker
-import util.elf
-from util import utils, ai_common
+import common.util.checker
+import common.util.elf
+from common.util import utils
+import ai_common
 
 
-def identify(functions: Dict[str, utils.FunctionInfo], checker: util.checker.FunctionChecker,
+def identify(functions: Dict[str, utils.FunctionInfo], checker: common.util.checker.FunctionChecker,
              new_matches: Dict[int, str], class_names: Iterable[str], get_pairs) -> None:
     for name in class_names:
         orig_name = name
@@ -27,9 +28,9 @@ def identify(functions: Dict[str, utils.FunctionInfo], checker: util.checker.Fun
             if orig_fn_info.status != utils.FunctionStatus.NotDecompiled:
                 continue
 
-            orig_fn = util.elf.get_fn_from_base_elf(orig_fn_info.addr, orig_fn_info.size)
+            orig_fn = common.util.elf.get_fn_from_base_elf(orig_fn_info.addr, orig_fn_info.size)
             try:
-                decomp_fn = util.elf.get_fn_from_my_elf(fn_name)
+                decomp_fn = common.util.elf.get_fn_from_my_elf(fn_name)
             except KeyError:
                 continue
 
@@ -47,7 +48,7 @@ def main() -> None:
     type_: str = args.type
 
     new_matches: Dict[int, str] = dict()
-    checker = util.checker.FunctionChecker()
+    checker = common.util.checker.FunctionChecker()
     functions: Dict[str, utils.FunctionInfo] = {fn.name: fn for fn in utils.get_functions()}
 
     aidef = oead.byml.from_text(Path(args.aidef).read_text(encoding="utf-8"))

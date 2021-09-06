@@ -1,8 +1,8 @@
 from typing import Dict, List
 import yaml
 
-from util import utils
-from util.graph import Graph
+from common.util import utils
+from common.util.graph import Graph
 
 BaseClasses = {
     0x71024d8d68,

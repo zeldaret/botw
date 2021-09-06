@@ -7,7 +7,8 @@ from typing import List, Dict, Iterable, Optional, Set
 
 from pathlib import Path
 import textwrap
-from util import ai_common, elf
+import ai_common
+from common.util import elf
 
 
 def get_member_name(entry) -> str:
