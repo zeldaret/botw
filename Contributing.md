@@ -136,6 +136,8 @@ public:
 
 3. **Implement the function in C++.**
     * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
+    * Do **NOT** copy and paste any pseudocode. **Reimplement it**. While we cannot go for a fully "clean room" approach, you should be reimplementing code, not copy/pasting anything from the original executable.
+        * PRs that violate this rule will be rejected.
     * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
     * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
     * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
