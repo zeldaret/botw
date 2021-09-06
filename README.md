@@ -171,7 +171,7 @@ Additionally, you'll also need:
     * The decompressed 1.5.0 NSO has the following SHA256 hash: `d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106`
         * If you have a compressed NSO or a 1.6.0 executable, don't worry about this.
 
-3. Run `tools/common/setup.py [path to the NSO]`
+3. Run `tools/setup.py [path to the NSO]`
     * This will:
         * install tools/check to check for differences in decompiled code
         * convert the executable if necessary
