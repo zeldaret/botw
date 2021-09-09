@@ -39,7 +39,7 @@ The following actions should help when basic blocks are in the wrong order, or w
 
 ## sinit / static initializer / cxa_atexit
 
-* If the second argument of a `_cxa_atexit` call is nullptr and the destructor is a nullsub, the object in question is likely a C-style array (not a std::array or a sead::SafeArray). 
+* If the second argument of a `_cxa_atexit` call is nullptr and the destructor is a nullsub, the object in question is likely a C-style array (not a std::array or a sead::SafeArray).
 
 ## Inline functions
 
@@ -79,7 +79,7 @@ x._.vptr = &`vtable for'sead::BufferedSafeStringBase<char>;
 x.length = N; // where N is a number
 sead::BufferedSafeStringBase<char>::assureTerminationImpl_(&x);
 *x._.cstr = sead::SafeStringBase<char>::cNullChar;
-x._.vptr = ...; 
+x._.vptr = ...;
 ```
 ⬇️
 ```cpp
@@ -316,10 +316,10 @@ if ( v15 )
 {
     *(_QWORD *)v15 = (signed int)num_tables;
     v16 = (BdropTable *)((char*)v15 + 8);
-    
+
     // loop over each item and call a constructor
     // note: the constructor may be inlined
-    
+
     // at the end:
     buffer->size = num_tables;
     buffer->data = v16;
@@ -339,7 +339,7 @@ if ( v13 )
   *v13 = count;
   v14 = (signed __int64)(v13 + 1);
   // loop over each item and call a constructor
-  // note: the constructor may be inlined  
+  // note: the constructor may be inlined
   // at the end:
   *buffer = count;
   *((_QWORD *)buffer + 1) = v14;
@@ -364,7 +364,7 @@ else
 ```
 ⬇️
 ```cpp
-item = buffer[i]; 
+item = buffer[i];
 ```
 
 ---
@@ -544,7 +544,7 @@ SomeClass::SomeClass(ptr);  //< constructor call
 ```
 ⬇️
 ```cpp
-auto* ptr = new (heap) SomeClass; 
+auto* ptr = new (heap) SomeClass;
 ```
 
 Sometimes, a non-throwing overload of `operator new` is used:
@@ -555,7 +555,7 @@ SomeClass::SomeClass(ptr);  //< constructor call
 ```
 ⬇️
 ```cpp
-auto* ptr = new (heap, std::nothrow) SomeClass; 
+auto* ptr = new (heap, std::nothrow) SomeClass;
 ```
 
 This also applies for `new[]`.
