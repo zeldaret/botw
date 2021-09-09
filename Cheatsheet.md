@@ -369,6 +369,32 @@ item = buffer[i];
 
 ---
 
+#### RTTI (Runtime Type Info)
+
+##### sead::DynamicCast
+
+```cpp
+some_ptr = ...;
+x = __ldar(...);  // usually a guard variable, but the variable is not always named
+another_ptr = some_ptr;
+if ( (x & 1) == 0 && _cxa_guard_acquire_0(...))  // the same guard variable
+{
+  ... = &...;
+  _cxa_guard_release_0(...);  // the same guard variable
+}
+if ( another_ptr && another_ptr->checkDerivedRuntimeTypeInfo(another_ptr, ...) )
+{
+  // code that uses another_ptr
+}
+```
+⬇️
+```cpp
+if (auto* another_ptr = sead::DynamicCast<T>(some_ptr))
+  ...
+```
+
+T is a derived type that should be related to the type of the original pointer.
+
 ### agl
 
 agl is one of Nintendo's in-house graphics libraries.
