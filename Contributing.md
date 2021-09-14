@@ -82,11 +82,12 @@ This will allow your contributions to be reviewed more quickly.
     * `sStaticVariable` if it's a static member variable
 
 ### Classes
-
-* Put access specifiers in this order: `public`, `protected`, `private`.
-* Declare member functions in this order: constructor, destructor, operators, other member functions.
-    * Virtual functions need to match the original order in the executable, though, so ignore this rule if following it would require reordering virtual functions.
-* Declare static member variables before non-static variables.
+* Ordering
+   * Put access specifiers in this order: `public`, `protected`, `private`.
+   * Declare member functions in this order: constructor, destructor, operators, other member functions.
+   * Declare non-static member variables after function declarations.
+   * Declare static member variables before non-static variables.
+   * Virtual functions need to match the original order in the executable, though, so ignore this rule if following it would require reordering virtual functions.
 * If a class uses a macro like `SEAD_SINGLETON_DISPOSER` or one of the SEAD_RTTI macros, put the macro right after the opening brace, before `public:`.
 * Use `= default;` instead of constructors/destructors with an empty body.
 * Use the `override` keyword instead of `virtual` when overriding virtual functions from a parent class.
