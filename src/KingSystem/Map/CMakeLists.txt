@@ -2,6 +2,8 @@ target_sources(uking PRIVATE
   mapTypes.h
   mapDebug.cpp
   mapDebug.h
+  mapLazyTraverseList.cpp
+  mapLazyTraverseList.h
   mapMubinIter.cpp
   mapMubinIter.h
   mapObject.cpp
