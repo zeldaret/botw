@@ -796,11 +796,11 @@ bool Manager::isGerudoDesertClimate() const {
 }
 
 bool Manager::hasCameraOrPlayerMoved(float distance_threshold) const {
-    const auto camera_dist = sead::norm2(mCameraPos - mPrevCameraPos);
-    const auto player_dist = sead::norm2(mPlayerPos - mPrevPlayerPos);
+    const auto camera_dist = (mCameraPos - mPrevCameraPos).length();
+    const auto player_dist = (mPlayerPos - mPrevPlayerPos).length();
     const bool moved = player_dist >= distance_threshold || camera_dist >= distance_threshold;
 
-    if (sead::norm2(mPlayerPos - mPrevPlayerPos) <= 100.0 &&
+    if ((mPlayerPos - mPrevPlayerPos).length() <= 100.0 &&
         evt::Manager::instance()->hasActiveEvent()) {
         return false;
     }
@@ -830,7 +830,7 @@ float Manager::getDungeonLightLongitude() const {
 
 void Manager::setCameraDistForRemainsElectric(sead::Vector3f pos) {
     _7ac = 10;
-    _770 = sead::norm2(mCameraPos - pos);
+    _770 = (mCameraPos - pos).length();
 }
 
 void Manager::setFocusDist(float dist) {
@@ -888,7 +888,7 @@ void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
     const sead::Vector3f unk_center{-2004, mPlayerPos.y, 1710};
     mIgnitedLevel = level;
 
-    if (sead::norm2(mPlayerPos - unk_center) < 20.0) {
+    if ((mPlayerPos - unk_center).length() < 20.0) {
         mIgnitedCenter = unk_center;
         mIgnitedRadius = 7.0;
     }

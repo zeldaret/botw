@@ -533,8 +533,8 @@ bool isAirOctaWoodPlatformDlc(const sead::SafeString& name) {
 }
 
 void getRevivalGridPosition(const sead::Vector3f& pos, int* col1, int* row1, int* col2, int* row2) {
-    const int col = sead::clamp((int(pos.x) + 5000) / 1000, 0, 9);
-    const int row = sead::clamp((int(pos.z) + 4000) / 1000, 0, 7);
+    const int col = sead::Mathi::clamp((int(pos.x) + 5000) / 1000, 0, 9);
+    const int row = sead::Mathi::clamp((int(pos.z) + 4000) / 1000, 0, 7);
 
     const auto x = (float(col) + 0.5f) * 1000.0f - 5000.0f;
     const auto z = (float(row) + 0.5f) * 1000.0f - 4000.0f;

@@ -238,17 +238,17 @@ void SupportBoneResource::BaseBone::postRead_() {
     sead::Vector3f up_local = up.ref();
     aim_local.normalize();
 
-    side = sead::cross(aim_local, up_local);
+    side.setCross(aim_local, up_local);
     // XXX: this looks like a hack. Why does this not match without an inline function?
     [&] { side.normalize(); }();
 
-    up_local = sead::cross(side, aim_local);
+    up_local.setCross(side, aim_local);
     up_local.normalize();
     up = up_local;
     aim = aim_local;
 
     base_rotate->normalize();
-    base_rotate->invert(&reverse_rotate);
+    base_rotate->inverse(&reverse_rotate);
 }
 
 }  // namespace ksys::phys
