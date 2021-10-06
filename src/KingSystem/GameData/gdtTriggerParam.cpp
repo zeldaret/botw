@@ -1822,8 +1822,8 @@ bool TriggerParam::shouldSkipRevivingShopItem(bool* is_shop_item, u32 flag_hash,
             if (!act::ActorSystem::instance()->getAutoPlacementActorPos(dealer, &pos))
                 return false;
 
-            col = sead::clamp((int(pos.x) + 5000) / 1000, 0, 9);
-            row = sead::clamp((int(pos.z) + 4000) / 1000, 0, 7);
+            col = sead::Mathi::clamp((int(pos.x) + 5000) / 1000, 0, 9);
+            row = sead::Mathi::clamp((int(pos.z) + 4000) / 1000, 0, 7);
         } else {
             num = areas.getSize();
             if (areas.tryGetIterByIndex(&iter, 0)) {
