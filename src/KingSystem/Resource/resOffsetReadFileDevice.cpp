@@ -45,8 +45,8 @@ u8* OffsetReadFileDevice::doLoad_(sead::FileDevice::LoadArg& arg) {
                 return nullptr;
             }
         } else {
-            bytesToRead = mOffsetReadOffset + sead::Mathi::roundUpPow2Positive(
-                                                  fileSize, FileDevice::cBufferMinAlignment);
+            bytesToRead = mOffsetReadOffset +
+                          sead::Mathi::roundUpPow2(fileSize, FileDevice::cBufferMinAlignment);
         }
     }
 
@@ -55,7 +55,7 @@ u8* OffsetReadFileDevice::doLoad_(sead::FileDevice::LoadArg& arg) {
 
     if (buf == nullptr) {
         const s32 sign = (arg.alignment < 0) ? -1 : 1;
-        s32 alignment = sead::abs(arg.alignment);
+        s32 alignment = sead::Mathi::abs(arg.alignment);
         alignment = sign * ((alignment < cBufferMinAlignment) ? cBufferMinAlignment : alignment);
 
         sead::Heap* heap = arg.heap;

@@ -32,14 +32,14 @@ void Ecosystem::calc() {}
 // FP instructions rearranged.
 #ifdef NON_MATCHING
 s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
-    posX = sead::clamp(posX, -5000.0F, 4999.0F);
-    posZ = sead::clamp(posZ, -4000.0F, 4000.0F);
+    posX = sead::Mathf::clamp(posX, -5000.0F, 4999.0F);
+    posZ = sead::Mathf::clamp(posZ, -4000.0F, 4000.0F);
     f32 epsilon1 = (posX + 5000.0F >= 0.0F) ? 0.5F : -0.5F;
     f32 epsilon2 = (posZ + 4000.0F >= 0.0F) ? 0.5F : -0.5F;
     s32 x = posX + 5000.0F + epsilon1;
     s32 z = (posZ + 4000.0F + epsilon2) / info.mHeader->divisor;
 
-    s32 row = sead::clamp(z, (s32)0, info.mHeader->num_rows - 2);
+    s32 row = sead::Mathi::clamp(z, 0, info.mHeader->num_rows - 2);
 
     if (info.mHeader->divisor == 10)
         x = x / 10;

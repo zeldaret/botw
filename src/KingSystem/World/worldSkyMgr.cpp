@@ -5,12 +5,6 @@
 
 namespace ksys::world {
 
-static void normalize(sead::Vector3f& v) {
-    const auto norm = sead::norm2(v);
-    if (norm > 0.0)
-        v *= 1.0f / norm;
-}
-
 SkyMgr::SkyMgr() {
     _20._18 = {0, 0, 0};
     _20._24 = {0, 0, 0};
@@ -321,7 +315,7 @@ SkyMgr::SkyMgr() {
     _3f14.x = -0.0;
     _3f14.y = -std::sinf(0.82903141);
     _3f14.z = -std::cosf(0.82903141);
-    normalize(_3f14);
+    _3f14.normalize();
     _3f44 = 0.0;
     _3f48 = 0.0;
     _3f4c = 0.2;

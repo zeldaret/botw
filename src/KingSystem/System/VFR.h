@@ -95,7 +95,7 @@ public:
         const auto f = getLerpFactor(t);
         const auto max_d = instance()->getDeltaTime() * max_delta;
         const auto diff = b - *value;
-        const auto d = f * sead::absf(diff);
+        const auto d = f * sead::Mathf::abs(diff);
         if (d > max_d)
             *value += diff < 0.0 ? -max_d : max_d;
         else
@@ -109,9 +109,9 @@ public:
         const auto min_d = instance()->getDeltaTime() * min_delta;
 
         const auto diff = b - *value;
-        const auto d = f * sead::absf(diff);
+        const auto d = f * sead::Mathf::abs(diff);
 
-        if (sead::absf(diff) <= min_d) {
+        if (sead::Mathf::abs(diff) <= min_d) {
             *value = b;
             return true;
         }

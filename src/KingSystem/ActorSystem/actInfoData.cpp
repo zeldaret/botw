@@ -587,7 +587,7 @@ bool InfoData::getYLimitAlgorithm(const char** algorithm, const char* actor) con
 f32 InfoData::getAabbNorm(const char* actor, bool x) const {
     sead::Vector3f min, max;
     if (getAAbbMinMax(actor, &min, &max, x))
-        return sead::norm2(max - min);
+        return (max - min).length();
     return 0.0;
 }
 
