@@ -30,7 +30,7 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
 
 ## Code style
 
-This project uses clang-format to enforce a consistent coding style. Before opening a PR, please format your code with clang-format and ensure the following guidelines are followed.
+This project uses clang-format to enforce a consistent coding style. Before opening a PR, please format your code with clang-format 12 and ensure the following guidelines are followed.
 
 This will allow your contributions to be reviewed more quickly.
 
