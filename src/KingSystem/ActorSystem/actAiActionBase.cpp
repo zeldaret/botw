@@ -235,9 +235,9 @@ bool ActionBase::handleMessage(Message* message) {
     return true;
 }
 
-bool ActionBase::handleMessage2(Message* message) {
+bool ActionBase::handleAck(MessageAck* message) {
     auto* action = this;
-    while (!action->handleMessage2_(message)) {
+    while (!action->handleAck_(message)) {
         action = action->getCurrentChild();
         if (!action)
             return false;

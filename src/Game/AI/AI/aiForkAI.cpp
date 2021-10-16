@@ -115,17 +115,17 @@ bool ForkAI::handleMessage_(ksys::Message* message) {
     return true;
 }
 
-bool ForkAI::handleMessage2_(ksys::Message* message) {
+bool ForkAI::handleAck_(ksys::MessageAck* message) {
     const int num_children = getNumChildren();
 
     bool ok = false;
     for (int i = 0; i < num_children - 1; ++i)
-        ok |= getChild(i)->handleMessage2(message);
+        ok |= getChild(i)->handleAck(message);
 
     if (!ok)
         return false;
 
-    getChild(num_children - 1)->handleMessage2(message);
+    getChild(num_children - 1)->handleAck(message);
     return true;
 }
 

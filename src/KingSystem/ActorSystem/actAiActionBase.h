@@ -11,6 +11,7 @@
 namespace ksys {
 struct AIDefSet;
 class Message;
+class MessageAck;
 struct MesTransceiverId;
 }  // namespace ksys
 
@@ -70,8 +71,7 @@ public:
 
     Action* getCurrentAction();
     bool handleMessage(Message* message);
-    // TODO: rename
-    bool handleMessage2(Message* message);
+    bool handleAck(MessageAck* message);
 
     Actor* getActor() const { return mActor; }
     s32 getDefinitionIdx() const { return mDefinitionIdx; }
@@ -95,8 +95,7 @@ protected:
     virtual void leave_() {}
     virtual void loadParams_() {}
     virtual bool handleMessage_(Message* message) { return false; }
-    // TODO: rename
-    virtual bool handleMessage2_(Message* message) { return false; }
+    virtual bool handleAck_(MessageAck* message) { return false; }
 
 public:
     virtual bool updateForPreDelete() { return true; }

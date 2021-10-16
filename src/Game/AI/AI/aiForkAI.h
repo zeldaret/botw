@@ -19,7 +19,7 @@ public:
     bool isFinished() const override;
     bool isFlag4Set() const override;
     bool handleMessage_(ksys::Message* message) override;
-    bool handleMessage2_(ksys::Message* message) override;
+    bool handleAck_(ksys::MessageAck* message) override;
     void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const override;
     void getNames(sead::BufferedSafeString* out) const override;
 };
