@@ -18,6 +18,8 @@ target_sources(uking PRIVATE
   SupportBone/physSupportBoneResourceMainBone.cpp
   System/physCharacterControllerParam.cpp
   System/physCharacterControllerParam.h
+  System/physConstraint.cpp
+  System/physConstraint.h
   System/physContactInfoParam.cpp
   System/physContactInfoParam.h
   System/physDefines.cpp
