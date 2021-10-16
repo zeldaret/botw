@@ -101,7 +101,7 @@ bool ForkAI::isFlag4Set() const {
     return true;
 }
 
-bool ForkAI::handleMessage_(ksys::Message* message) {
+bool ForkAI::handleMessage_(const ksys::Message& message) {
     const int num_children = getNumChildren();
 
     bool ok = false;
@@ -115,7 +115,7 @@ bool ForkAI::handleMessage_(ksys::Message* message) {
     return true;
 }
 
-bool ForkAI::handleAck_(ksys::MessageAck* message) {
+bool ForkAI::handleAck_(const ksys::MessageAck& message) {
     const int num_children = getNumChildren();
 
     bool ok = false;

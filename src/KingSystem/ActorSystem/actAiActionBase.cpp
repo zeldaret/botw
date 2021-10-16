@@ -225,7 +225,7 @@ Action* ActionBase::getCurrentAction() {
     }
 }
 
-bool ActionBase::handleMessage(Message* message) {
+bool ActionBase::handleMessage(const Message& message) {
     auto* action = this;
     while (!action->handleMessage_(message)) {
         action = action->getCurrentChild();
@@ -235,7 +235,7 @@ bool ActionBase::handleMessage(Message* message) {
     return true;
 }
 
-bool ActionBase::handleAck(MessageAck* message) {
+bool ActionBase::handleAck(const MessageAck& message) {
     auto* action = this;
     while (!action->handleAck_(message)) {
         action = action->getCurrentChild();

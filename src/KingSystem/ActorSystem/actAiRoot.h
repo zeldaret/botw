@@ -34,7 +34,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(InlineParamPack* params) override;
     void leave_() override;
-    bool handleMessage_(Message* message) override;
+    bool handleMessage_(const Message& message) override;
     void calc() override;
 
     const ParamPack& getMapUnitParams() const { return mMapUnitParams; }
