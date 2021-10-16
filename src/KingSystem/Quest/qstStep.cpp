@@ -1,5 +1,6 @@
 #include "KingSystem/Quest/qstStep.h"
 #include <memory>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Quest/qstActorData.h"
 #include "KingSystem/Quest/qstIndicator.h"
 

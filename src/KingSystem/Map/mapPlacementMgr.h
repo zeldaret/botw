@@ -3,10 +3,14 @@
 #include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
+#include <math/seadVector.h>
+#include <prim/seadDelegate.h>
+#include <prim/seadTypedBitFlag.h>
 #include <thread/seadDelegateThread.h>
-#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
+class Actor;
 class ClusteredRenderer;
 class InstParamPack;
 }  // namespace ksys::act

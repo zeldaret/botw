@@ -3,7 +3,6 @@
 #include <basis/seadTypes.h>
 #include <heap/seadHeap.h>
 #include <prim/seadTypedBitFlag.h>
-#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
@@ -14,6 +13,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
+class Actor;
 class BaseProc;
 class BaseProcInitializer;
 class BaseProcCreateTask;

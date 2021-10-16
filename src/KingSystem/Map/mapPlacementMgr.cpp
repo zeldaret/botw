@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include <thread/seadThreadUtil.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
