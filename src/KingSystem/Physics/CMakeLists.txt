@@ -28,4 +28,6 @@ target_sources(uking PRIVATE
   System/physRagdollControllerKeyList.cpp
   System/physShapeParam.cpp
   System/physShapeParam.h
+  System/physUserTag.cpp
+  System/physUserTag.h
 )
