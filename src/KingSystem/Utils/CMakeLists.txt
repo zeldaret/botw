@@ -64,6 +64,7 @@ target_sources(uking PRIVATE
   Byaml/ByamlLocal.h
   Byaml/ByamlUtil.cpp
 
+  AtomicLongBitFlag.h
   Debug.h
   FixedString.h
   HashUtil.h

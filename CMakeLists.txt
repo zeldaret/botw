@@ -45,4 +45,7 @@ target_link_libraries(uking PRIVATE gsys)
 add_subdirectory(lib/EventFlow)
 target_link_libraries(uking PRIVATE evfl)
 
+add_subdirectory(lib/xlink2)
+target_link_libraries(uking PRIVATE xlink2)
+
 add_subdirectory(src)

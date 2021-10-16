@@ -33,4 +33,19 @@ private:
     sead::Delegate<T> mDelegate;
 };
 
+/// For binding two actor member functions.
+template <typename T>
+class BaseProcJobHandlerDualT : public BaseProcJobHandler {
+public:
+    BaseProcJobHandlerDualT(T* proc, void (T::*fn)(), void (T::*fn_special)())
+        : BaseProcJobHandler(proc), mDelegate(proc, fn), mDelegateSpecial(proc, fn_special) {}
+
+    void invoke() override { mDelegate.invoke(); }
+    void invokeSpecial() override { mDelegateSpecial.invoke(); }
+
+private:
+    sead::Delegate<T> mDelegate;
+    sead::Delegate<T> mDelegateSpecial;
+};
+
 }  // namespace ksys::act
