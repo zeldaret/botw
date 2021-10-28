@@ -24,12 +24,16 @@ target_sources(uking PRIVATE
   System/physContactInfoParam.h
   System/physDefines.cpp
   System/physDefines.h
+  System/physMaterialTable.cpp
+  System/physMaterialTable.h
   System/physParamSet.cpp
   System/physParamSet.h
   System/physRagdollControllerKeyList.h
   System/physRagdollControllerKeyList.cpp
   System/physShapeParam.cpp
   System/physShapeParam.h
+  System/physSystemData.cpp
+  System/physSystemData.h
   System/physUserTag.cpp
   System/physUserTag.h
 )
