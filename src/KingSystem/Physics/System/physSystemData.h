@@ -67,25 +67,20 @@ public:
               MaterialTable* material_table, ContactInfoTable* contact_info_table);
 
 private:
-    enum class LayerTableType {
-        Entity,
-        Sensor,
-    };
-
     using LayerTableInfoContainer = Tables<LayerTableInfo, NumLayers>;
 
-    void loadLayerTable(sead::Heap* heap, LayerTable* table, LayerTableType type);
+    void loadLayerTable(sead::Heap* heap, LayerTable* table, ContactLayerType type);
     void loadMaterialTable(sead::Heap* heap, MaterialTable* table);
     void loadSubMaterialTable(sead::Heap* heap, MaterialTable* table);
-    void loadContactInfoTable(sead::Heap* heap, ContactInfoTable* table, LayerTableType type);
+    void loadContactInfoTable(sead::Heap* heap, ContactInfoTable* table, ContactLayerType type);
     void loadCharacterCtrlTable(sead::Heap* heap);
     void loadRagdollCtrlKeyList(sead::Heap* heap);
 
     agl::utl::ResParameterArchive loadLayerTableRes(const LayerTableInfoContainer& container,
-                                                    LayerTableType type);
+                                                    ContactLayerType type);
     agl::utl::ResParameterArchive loadMaterialTableRes();
     agl::utl::ResParameterArchive loadSubMaterialTableRes();
-    agl::utl::ResParameterArchive loadContactInfoTableRes(LayerTableType type);
+    agl::utl::ResParameterArchive loadContactInfoTableRes(ContactLayerType type);
     agl::utl::ResParameterArchive loadCharacterCtrlTableRes();
 
     sead::SafeArray<LayerTableInfoContainer, 2> mLayerTableInfo{};

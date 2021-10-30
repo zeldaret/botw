@@ -22,6 +22,8 @@ target_sources(uking PRIVATE
   System/physConstraint.h
   System/physContactInfoParam.cpp
   System/physContactInfoParam.h
+  System/physContactInfoTable.cpp
+  System/physContactInfoTable.h
   System/physDefines.cpp
   System/physDefines.h
   System/physMaterialTable.cpp

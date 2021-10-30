@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physSystemData.h"
+#include "KingSystem/Physics/System/physContactInfoTable.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
 #include "KingSystem/Physics/System/physRagdollControllerKeyList.h"
 #include "KingSystem/Resource/resHandle.h"
@@ -38,12 +39,12 @@ SystemData::~SystemData() {
 void SystemData::load(sead::Heap* heap, LayerTable* entity_layer_table,
                       LayerTable* sensor_layer_table, MaterialTable* material_table,
                       ContactInfoTable* contact_info_table) {
-    loadLayerTable(heap, entity_layer_table, LayerTableType::Entity);
-    loadLayerTable(heap, sensor_layer_table, LayerTableType::Sensor);
+    loadLayerTable(heap, entity_layer_table, ContactLayerType::Entity);
+    loadLayerTable(heap, sensor_layer_table, ContactLayerType::Sensor);
     loadMaterialTable(heap, material_table);
     loadSubMaterialTable(heap, material_table);
-    loadContactInfoTable(heap, contact_info_table, LayerTableType::Entity);
-    loadContactInfoTable(heap, contact_info_table, LayerTableType::Sensor);
+    loadContactInfoTable(heap, contact_info_table, ContactLayerType::Entity);
+    loadContactInfoTable(heap, contact_info_table, ContactLayerType::Sensor);
     loadCharacterCtrlTable(heap);
     loadRagdollCtrlKeyList(heap);
 }
@@ -52,6 +53,19 @@ void SystemData::loadMaterialTable(sead::Heap* heap, MaterialTable* table) {
     mMaterialTableHandle = new (heap) res::Handle;
     const auto res = loadMaterialTableRes();
     table->loadMaterialTable(heap, res);
+}
+
+void SystemData::loadSubMaterialTable(sead::Heap* heap, MaterialTable* table) {
+    mSubMaterialTableHandle = new (heap) res::Handle;
+    const auto res = loadSubMaterialTableRes();
+    table->loadSubMaterialTable(heap, res);
+}
+
+void SystemData::loadContactInfoTable(sead::Heap* heap, ContactInfoTable* table,
+                                      ContactLayerType type) {
+    mContactInfoTableHandles[int(type)] = new (heap) res::Handle;
+    const auto res = loadContactInfoTableRes(type);
+    table->load(heap, res, type);
 }
 
 void SystemData::loadCharacterCtrlTable(sead::Heap* heap) {
@@ -83,15 +97,15 @@ void SystemData::loadRagdollCtrlKeyList(sead::Heap* heap) {
 
 agl::utl::ResParameterArchive
 SystemData::loadLayerTableRes(const SystemData::LayerTableInfoContainer& container,
-                              SystemData::LayerTableType type) {
+                              ContactLayerType type) {
     res::LoadRequest request;
     request.mRequester = "physSystemData";
     const char* path{};
     switch (type) {
-    case LayerTableType::Entity:
+    case ContactLayerType::Entity:
         path = "Physics/System/EntityLayerTable.bphyslayer";
         break;
-    case LayerTableType::Sensor:
+    case ContactLayerType::Sensor:
         path = "Physics/System/SensorLayerTable.bphyslayer";
         break;
     }
@@ -118,15 +132,15 @@ agl::utl::ResParameterArchive SystemData::loadSubMaterialTableRes() {
     return agl::utl::ResParameterArchive{direct_resource->getRawData()};
 }
 
-agl::utl::ResParameterArchive SystemData::loadContactInfoTableRes(SystemData::LayerTableType type) {
+agl::utl::ResParameterArchive SystemData::loadContactInfoTableRes(ContactLayerType type) {
     res::LoadRequest request;
     request.mRequester = "physSystemData";
     const char* path{};
     switch (type) {
-    case LayerTableType::Entity:
+    case ContactLayerType::Entity:
         path = "Physics/System/EntityContactInfoTable.bphyscontact";
         break;
-    case LayerTableType::Sensor:
+    case ContactLayerType::Sensor:
         path = "Physics/System/SensorContactInfoTable.bphyscontact";
         break;
     }

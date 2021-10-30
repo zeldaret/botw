@@ -5,6 +5,11 @@
 
 namespace ksys::phys {
 
+enum class ContactLayerType {
+    Entity,
+    Sensor,
+};
+
 SEAD_ENUM(ContactLayer,
 EntityObject,\
 EntitySmallObject,\
@@ -161,7 +166,8 @@ enum class MotionType {
 
 bool isSensorLayer(ContactLayer layer);
 u32 makeContactLayerMask(ContactLayer layer);
-
+u32 getContactLayerBase(ContactLayerType type);
+u32 getContactLayerBaseRelativeValue(ContactLayer layer);
 const char* contactLayerToText(ContactLayer layer);
 ContactLayer contactLayerFromText(const sead::SafeString& text);
 
