@@ -56,13 +56,14 @@ template <auto N, int base = 10>
 constexpr auto Str() {
     constexpr char digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    FixedString<([]() constexpr noexcept {
+    constexpr auto len = [] {
         unsigned int len = N > 0 ? 0 : 1;
         for (auto n = N; n; len++, n /= base)
             continue;
         return len;
-    }())>
-        buf{};
+    }();
+
+    FixedString<len> buf{};
 
     auto ptr = buf.data() + buf.length();
     if (N == 0) {
