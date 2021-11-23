@@ -30,7 +30,7 @@ struct Segment {
 class EcoMapInfo {
 public:
     const EcoMapHeader* mHeader;
-    const u32* mRowOffsets;
+    const s32* mRowOffsets;
     const char* mRows;
 };
 

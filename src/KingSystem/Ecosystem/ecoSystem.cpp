@@ -48,7 +48,7 @@ SEAD_SINGLETON_DISPOSER_IMPL(Ecosystem)
 
 static void setEcoMapInfo(EcoMapInfo& info, const u8* data) {
     info.mHeader = reinterpret_cast<const EcoMapHeader*>(data);
-    info.mRowOffsets = reinterpret_cast<const u32*>(info.mHeader + 1);
+    info.mRowOffsets = reinterpret_cast<const s32*>(info.mHeader + 1);
     info.mRows =
         reinterpret_cast<const char*>(info.mRowOffsets) + sizeof(int) * info.mHeader->num_rows;
 }
@@ -97,41 +97,35 @@ void Ecosystem::init(sead::Heap* heap) {
 
 void Ecosystem::calc() {}
 
-// FP instructions rearranged.
-#ifdef NON_MATCHING
 s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
-    posX = sead::Mathf::clamp(posX, -5000.0F, 4999.0F);
-    posZ = sead::Mathf::clamp(posZ, -4000.0F, 4000.0F);
-    f32 epsilon1 = (posX + 5000.0F >= 0.0F) ? 0.5F : -0.5F;
-    f32 epsilon2 = (posZ + 4000.0F >= 0.0F) ? 0.5F : -0.5F;
-    s32 x = posX + 5000.0F + epsilon1;
-    s32 z = (posZ + 4000.0F + epsilon2) / info.mHeader->divisor;
+    posX = sead::Mathf::clamp(posX, -5000.0f, 4999.0f);
+    posZ = sead::Mathf::clamp(posZ, -4000.0f, 4000.0f);
 
+    const auto epsilon = [](float n) { return n >= 0.0f ? 0.5f : -0.5f; };
+
+    s32 x = s32(posX + 5000.0f + epsilon(posX + 5000.0f));
+    s32 z = s32(posZ + 4000.0f + epsilon(posZ + 4000.0f)) / info.mHeader->divisor;
     s32 row = sead::Mathi::clamp(z, 0, info.mHeader->num_rows - 2);
 
     if (info.mHeader->divisor == 10)
-        x = x / 10;
+        x /= 10;
 
-    s32* offsets = (s32*)info.mRowOffsets + row;
-    s32 val0 = offsets[0];
-    s32 val1 = offsets[1];
-
-    if (val0 >= val1)
+    if (info.mRowOffsets[row] >= info.mRowOffsets[row + 1])
         return -1;
 
-    auto* segmentEnd = reinterpret_cast<const Segment*>(info.mRows + 2 * val1);
-    auto* segment = reinterpret_cast<const Segment*>(info.mRows + 2 * val0);
+    auto* segmentEnd = reinterpret_cast<const Segment*>(info.mRows + 2 * info.mRowOffsets[row + 1]);
+    auto* segment = reinterpret_cast<const Segment*>(info.mRows + 2 * info.mRowOffsets[row]);
     s32 totalLength = 0;
     while (true) {
         totalLength += segment->length;
         if (x < totalLength)
-            return segment->value;
+            break;
         ++segment;
         if (segment >= segmentEnd)
             return -1;
     }
+    return segment->value;
 }
-#endif
 
 void Ecosystem::getAreaItems(s32 areaNum, AreaItemType type, AreaItemSet* out) const {
     out->count = 0;
