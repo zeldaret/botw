@@ -119,8 +119,8 @@ s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
     if (val0 >= val1)
         return -1;
 
-    Segment* segmentEnd = reinterpret_cast<Segment*>((char*)info.mRows + 2 * val1);
-    Segment* segment = reinterpret_cast<Segment*>((char*)info.mRows + 2 * val0);
+    auto* segmentEnd = reinterpret_cast<const Segment*>(info.mRows + 2 * val1);
+    auto* segment = reinterpret_cast<const Segment*>(info.mRows + 2 * val0);
     s32 totalLength = 0;
     while (true) {
         totalLength += segment->length;
