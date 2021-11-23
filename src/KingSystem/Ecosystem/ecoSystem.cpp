@@ -1,6 +1,25 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::eco {
+
+constexpr const char* sAreaItemTypeStr[] = {
+    "Animal",
+    "Fish",
+    "Insect",
+    "Bird",
+    "Mushroom",
+    "Fruit",
+    "Mineral",
+    "Plant",
+    "Enemy",
+    "GrassCut",
+    "AutoCliffMaterial",
+    "AutoPlacementMaterial",
+    "RuinAutoPlacement",
+    "RainBonusMaterial",
+};
 
 static const char* sStatusEffectNames[22] = {"StatusEffect",
                                              "LifeRecover",
@@ -26,6 +45,55 @@ static const char* sStatusEffectNames[22] = {"StatusEffect",
                                              "MaterSwordAttackUp"};
 
 SEAD_SINGLETON_DISPOSER_IMPL(Ecosystem)
+
+static void setEcoMapInfo(EcoMapInfo& info, const u8* data) {
+    info.mHeader = reinterpret_cast<const EcoMapHeader*>(data);
+    info.mRowOffsets = reinterpret_cast<const u32*>(info.mHeader + 1);
+    info.mRows =
+        reinterpret_cast<const char*>(info.mRowOffsets) + sizeof(int) * info.mHeader->num_rows;
+}
+
+void Ecosystem::init(sead::Heap* heap) {
+    res::LoadRequest req;
+    req.mRequester = "Ecosystem";
+
+    req._22 = false;
+    mHandles.mFieldMapArea.load("Ecosystem/FieldMapArea.beco", &req);
+
+    req._22 = true;
+    mHandles.mAreaData.load("Ecosystem/AreaData.byml", &req);
+
+    req._22 = false;
+    mHandles.mMapTower.load("Ecosystem/MapTower.beco", &req);
+
+    req._22 = false;
+    mHandles.mStatusEffectList.load("Ecosystem/StatusEffectList.byml", &req);
+
+    req._22 = false;
+    mHandles.mLoadBalancer.load("Ecosystem/LoadBalancer.beco", &req);
+
+    auto* field_map_area =
+        sead::DynamicCast<sead::DirectResource>(mHandles.mFieldMapArea.getResource());
+    setEcoMapInfo(mFieldMapArea, field_map_area->getRawData());
+
+    auto* map_tower = sead::DynamicCast<sead::DirectResource>(mHandles.mMapTower.getResource());
+    setEcoMapInfo(mMapTower, map_tower->getRawData());
+
+    auto* load_balancer =
+        sead::DynamicCast<sead::DirectResource>(mHandles.mLoadBalancer.getResource());
+    setEcoMapInfo(mLoadBalancer, load_balancer->getRawData());
+
+    auto* area_data = sead::DynamicCast<sead::DirectResource>(mHandles.mAreaData.getResource());
+    mAreaDataIter = new (heap) al::ByamlIter(area_data->getRawData());
+    mAreaDataSize = mAreaDataIter->getSize();
+
+    auto* status_effect_list =
+        sead::DynamicCast<sead::DirectResource>(mHandles.mStatusEffectList.getResource());
+    mStatusEffectListIter = new (heap) al::ByamlIter(status_effect_list->getRawData());
+
+    mLevelSensor = new (heap) LevelSensor;
+    mLevelSensor->init(heap);
+}
 
 void Ecosystem::calc() {}
 
@@ -64,6 +132,64 @@ s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
     }
 }
 #endif
+
+void Ecosystem::getAreaItems(s32 areaNum, AreaItemType type, AreaItemSet* out) const {
+    out->count = 0;
+
+    if (areaNum < 0 || areaNum >= int(mAreaDataSize))
+        return;
+
+    al::ByamlIter area_iter;
+    if (!mAreaDataIter->tryGetIterByIndex(&area_iter, areaNum))
+        return;
+
+    al::ByamlIter items_iter;
+    if (!area_iter.tryGetIterByKey(&items_iter, sAreaItemTypeStr[u32(type)]))
+        return;
+
+    out->count = items_iter.getSize();
+
+    for (int i = 0; i < out->count; ++i) {
+        al::ByamlIter item_iter;
+        if (!items_iter.tryGetIterByIndex(&item_iter, i))
+            continue;
+
+        auto& entry = out->items[i];
+
+        item_iter.tryGetStringByKey(&entry.name, "name");
+        item_iter.tryGetFloatByKey(&entry.num, "num");
+
+        if (!item_iter.tryGetStringByKey(&entry.set, "set"))
+            entry.set = nullptr;
+
+        if (!item_iter.tryGetFloatByKey(&entry.radius, "radius"))
+            entry.radius = 0.0;
+
+        al::ByamlIter weapons_iter;
+        if (item_iter.tryGetIterByKey(&weapons_iter, "weapons")) {
+            // Fill in weapon information now.
+            for (int w_idx = 0; w_idx < weapons_iter.getSize(); ++w_idx) {
+                al::ByamlIter weapon_iter;
+                if (!weapons_iter.tryGetIterByIndex(&weapon_iter, w_idx))
+                    continue;
+
+                auto& weapon = entry.weapons[w_idx];
+                weapon_iter.tryGetStringByKey(&weapon.name, "name");
+                if (!weapon_iter.tryGetFloatByKey(&weapon.prob, "prob")) {
+                    // Try to get `prob` again, this time as an integer.
+                    int prob;
+                    if (weapon_iter.tryGetIntByKey(&prob, "prob"))
+                        weapon.prob = prob;
+                    else
+                        weapon.prob = 100.0;
+                }
+            }
+            entry.num_weapons = weapons_iter.getSize();
+        } else {
+            entry.num_weapons = 0;
+        }
+    }
+}
 
 void Ecosystem::getAreaNameByNum(s32 areaNum, const char** out) const {
     *out = nullptr;
@@ -198,5 +324,7 @@ void Ecosystem::getEcoTraitsByNum(s32 areaNum, EcosystemTraits* out) const {
         iter.tryGetIntByKey(&grp->defoliation._int, "defoliation");
     }
 }
+
+Ecosystem::~Ecosystem() = default;
 
 }  // namespace ksys::eco

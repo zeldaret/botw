@@ -1,19 +1,27 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Ecosystem/ecoLevelSensor.h"
-#include "KingSystem/Utils/Byaml/Byaml.h"
+
+namespace al {
+class ByamlIter;
+}
 
 namespace ksys::eco {
 
 struct EcoMapHeader {
-    u32 unknown;
+    /// File magic (0x00112233).
+    u32 magic;
     s32 num_rows;
     s32 divisor;
+    u32 reserved;
 };
+KSYS_CHECK_SIZE_NX150(EcoMapHeader, 0x10);
+
 struct Segment {
     s16 value;
     s16 length;
@@ -21,14 +29,54 @@ struct Segment {
 
 class EcoMapInfo {
 public:
-    EcoMapHeader* mHeader;
-    u32* mRowOffsets;
-    char* mRows;
+    const EcoMapHeader* mHeader;
+    const u32* mRowOffsets;
+    const char* mRows;
 };
 
-enum ActorType {};
+enum class AreaItemType {
+    Animal,
+    Fish,
+    Insect,
+    Bird,
+    Mushroom,
+    Fruit,
+    Mineral,
+    Plant,
+    Enemy,
+    GrassCut,
+    AutoCliffMaterial,
+    AutoPlacementMaterial,
+    RuinAutoPlacement,
+    RainBonusMaterial,
+};
 
-struct ActorSpawnInfo;
+struct AreaWeapon {
+    /// Weapon name.
+    const char* name;
+    /// Probability of this weapon appearing (0 to 100).
+    float prob;
+};
+
+struct AreaItem {
+    /// Actor name.
+    const char* name;
+    /// Appearance weight.
+    float num;
+    /// Weapons carried by this actor (if this is an enemy).
+    sead::SafeArray<AreaWeapon, 24> weapons;
+    /// Number of valid entries in the `weapons` array.
+    int num_weapons;
+    /// Name of the set this item appears in. Typically used for small fruits like berries.
+    const char* set;
+    float radius;
+};
+
+struct AreaItemSet {
+    sead::SafeArray<AreaItem, 32> items;
+    /// Number of valid entries in the `items` array.
+    int count;
+};
 
 union StatusEffectVal {
     f32 _f32;
@@ -94,14 +142,14 @@ private:
     virtual ~Ecosystem();
 
 public:
-    void init();
+    void init(sead::Heap* heap);
     void calc();
 
     s32 getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const;
 
     s32 getFieldMapArea(f32 x, f32 z) const { return getMapArea(mFieldMapArea, x, z); }
 
-    void getActorSpawnInfo(s32 areaNum, ActorType actorTypeIdx, ActorSpawnInfo* out) const;
+    void getAreaItems(s32 areaNum, AreaItemType type, AreaItemSet* out) const;
     void getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx, StatusEffectInfo* out) const;
     void getAreaNameByNum(s32 areaNum, const char** out) const;
     void getClimateNameByNum(s32 areaNum, const char** out) const;
@@ -109,11 +157,14 @@ public:
     void getEcoTraitsByNum(s32 areaNum, EcosystemTraits* out) const;
 
 private:
-    res::Handle mFieldMapAreaFile;
-    res::Handle mAreaDataFile;
-    res::Handle mMapTowerFile;
-    res::Handle mStatusEffectListFile;
-    res::Handle mLoadBalancerFile;
+    struct Handles {
+        res::Handle mFieldMapArea;
+        res::Handle mAreaData;
+        res::Handle mMapTower;
+        res::Handle mStatusEffectList;
+        res::Handle mLoadBalancer;
+    };
+    Handles mHandles;
 
     al::ByamlIter* mAreaDataIter{};
     u32 mAreaDataSize{};
