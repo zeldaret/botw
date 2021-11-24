@@ -167,4 +167,6 @@ bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& actor
 
 s32 getSelectedChoiceIdx(s32 max, const char* query_name);
 
+bool isInSatoriMountainArea(const sead::Vector3f& pos);
+
 }  // namespace ksys::act

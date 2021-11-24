@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -583,6 +584,10 @@ bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& actor
     }
     *name = value;
     return true;
+}
+
+bool isInSatoriMountainArea(const sead::Vector3f& pos) {
+    return eco::Ecosystem::instance()->getFieldMapArea(pos.x, pos.z) == 64;
 }
 
 }  // namespace ksys::act
