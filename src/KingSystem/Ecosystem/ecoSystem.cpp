@@ -110,11 +110,15 @@ s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
     if (info.mHeader->divisor == 10)
         x /= 10;
 
-    if (info.mRowOffsets[row] >= info.mRowOffsets[row + 1])
+    const int offset_begin = info.mRowOffsets[row];
+    const int offset_end = info.mRowOffsets[row + 1];
+    if (offset_begin >= offset_end)
         return -1;
 
-    auto* segmentEnd = reinterpret_cast<const Segment*>(info.mRows + 2 * info.mRowOffsets[row + 1]);
-    auto* segment = reinterpret_cast<const Segment*>(info.mRows + 2 * info.mRowOffsets[row]);
+    // Offsets to segments are divided by 2 and relative to the start of the row section.
+    static constexpr int OffsetMultiplier = 2;
+    auto* segmentEnd = reinterpret_cast<const Segment*>(info.mRows + OffsetMultiplier * offset_end);
+    auto* segment = reinterpret_cast<const Segment*>(info.mRows + OffsetMultiplier * offset_begin);
     s32 totalLength = 0;
     while (true) {
         totalLength += segment->length;
