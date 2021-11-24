@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <container/seadSafeArray.h>
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -583,6 +584,35 @@ bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& actor
         return false;
     }
     *name = value;
+    return true;
+}
+
+bool getRandomAreaItem(sead::SafeString* item, const eco::AreaItemType& type,
+                       const sead::Vector3f& pos) {
+    auto* eco = eco::Ecosystem::instance();
+    if (!eco)
+        return false;
+
+    const int area = eco->getFieldMapArea(pos.x, pos.z);
+    eco::AreaItemSet items;
+    eco->getAreaItems(area, type, &items);
+
+    int chosen_idx = -1;
+    int running_total = 0;
+
+    for (int idx = 0; idx < items.count; ++idx) {
+        const int num = items.items[idx].num;
+        running_total += num;
+        if (int(sead::GlobalRandom::instance()->getU32(running_total)) < num)
+            chosen_idx = idx;
+    }
+
+    if (chosen_idx < 0) {
+        *item = sead::SafeString::cEmptyString;
+        return false;
+    }
+
+    *item = items.items[chosen_idx].name;
     return true;
 }
 
