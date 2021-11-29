@@ -2,7 +2,7 @@
 
 namespace ksys::phys {
 
-bool isSensorLayer(ContactLayer layer) {
+u32 isSensorLayer(ContactLayer layer) {
     return layer > ContactLayer::EntityEnd;
 }
 

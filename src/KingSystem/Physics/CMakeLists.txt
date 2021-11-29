@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  physInstanceSet.cpp
+  physInstanceSet.h
   Cloth/physClothParam.cpp
   Cloth/physClothParam.h
   Ragdoll/physRagdollConfig.cpp
@@ -7,10 +9,26 @@ target_sources(uking PRIVATE
   Ragdoll/physRagdollParam.h
   RigidBody/physEdgeRigidBodyParam.cpp
   RigidBody/physEdgeRigidBodyParam.h
+  RigidBody/physMotionAccessor.cpp
+  RigidBody/physMotionAccessor.h
+  RigidBody/physRigidBody.cpp
+  RigidBody/physRigidBody.h
+  RigidBody/physRigidBodyFactory.cpp
+  RigidBody/physRigidBodyFactory.h
   RigidBody/physRigidBodyParam.cpp
   RigidBody/physRigidBodyParam.h
   RigidBody/physRigidBodySetParam.cpp
   RigidBody/physRigidBodySetParam.h
+  RigidBody/Shape/physBoxShape.cpp
+  RigidBody/Shape/physBoxShape.h
+  RigidBody/Shape/physCapsuleShape.cpp
+  RigidBody/Shape/physCapsuleShape.h
+  RigidBody/Shape/physCylinderShape.cpp
+  RigidBody/Shape/physCylinderShape.h
+  RigidBody/Shape/physSphereShape.cpp
+  RigidBody/Shape/physSphereShape.h
+  RigidBody/Shape/physWaterCylinderShape.cpp
+  RigidBody/Shape/physWaterCylinderShape.h
   SupportBone/physSupportBoneParam.cpp
   SupportBone/physSupportBoneParam.h
   SupportBone/physSupportBoneResource.cpp
@@ -28,6 +46,8 @@ target_sources(uking PRIVATE
   System/physDefines.h
   System/physMaterialTable.cpp
   System/physMaterialTable.h
+  System/physMemSystem.cpp
+  System/physMemSystem.h
   System/physParamSet.cpp
   System/physParamSet.h
   System/physRagdollControllerKeyList.h
