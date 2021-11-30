@@ -10,6 +10,10 @@ from typing import Optional
 from common import setup_common as setup
 
 
+TARGET_PATH = setup.get_target_path()
+TARGET_ELF_PATH = setup.get_target_elf_path()
+
+
 def _download_v160_to_v150_patch(dest: Path):
     print(">>>> downloading patch...")
     urllib.request.urlretrieve("https://s.botw.link/v150_downgrade/v160_to_v150.patch", dest)
@@ -24,7 +28,7 @@ def prepare_executable(original_nso: Optional[Path]):
     # The uncompressed v1.5.0 main NSO.
     TARGET_HASH = UNCOMPRESSED_V150_HASH
 
-    if setup.TARGET_PATH.is_file() and hashlib.sha256(setup.TARGET_PATH.read_bytes()).hexdigest() == TARGET_HASH and setup.TARGET_ELF_PATH.is_file():
+    if TARGET_PATH.is_file() and hashlib.sha256(TARGET_PATH.read_bytes()).hexdigest() == TARGET_HASH and TARGET_ELF_PATH.is_file():
         print(">>> NSO is already set up")
         return
 
@@ -39,11 +43,11 @@ def prepare_executable(original_nso: Optional[Path]):
 
     if nso_hash == UNCOMPRESSED_V150_HASH:
         print(">>> found uncompressed 1.5.0 NSO")
-        setup.TARGET_PATH.write_bytes(nso_data)
+        TARGET_PATH.write_bytes(nso_data)
 
     elif nso_hash == COMPRESSED_V150_HASH:
         print(">>> found compressed 1.5.0 NSO")
-        setup._decompress_nso(original_nso, setup.TARGET_PATH)
+        setup._decompress_nso(original_nso, TARGET_PATH)
 
     elif nso_hash == UNCOMPRESSED_V160_HASH:
         print(">>> found uncompressed 1.6.0 NSO")
@@ -51,7 +55,7 @@ def prepare_executable(original_nso: Optional[Path]):
         with tempfile.TemporaryDirectory() as tmpdir:
             patch_path = Path(tmpdir) / "patch"
             _download_v160_to_v150_patch(patch_path)
-            setup._apply_xdelta3_patch(original_nso, patch_path, setup.TARGET_PATH)
+            setup._apply_xdelta3_patch(original_nso, patch_path, TARGET_PATH)
 
     elif nso_hash == COMPRESSED_V160_HASH:
         print(">>> found compressed 1.6.0 NSO")
@@ -62,19 +66,19 @@ def prepare_executable(original_nso: Optional[Path]):
 
             setup._decompress_nso(original_nso, decompressed_nso_path)
             _download_v160_to_v150_patch(patch_path)
-            setup._apply_xdelta3_patch(decompressed_nso_path, patch_path, setup.TARGET_PATH)
+            setup._apply_xdelta3_patch(decompressed_nso_path, patch_path, TARGET_PATH)
 
     else:
         setup.fail(f"unknown executable: {nso_hash}")
 
-    if not setup.TARGET_PATH.is_file():
+    if not TARGET_PATH.is_file():
         setup.fail("internal error while preparing executable (missing NSO); please report")
-    if hashlib.sha256(setup.TARGET_PATH.read_bytes()).hexdigest() != TARGET_HASH:
+    if hashlib.sha256(TARGET_PATH.read_bytes()).hexdigest() != TARGET_HASH:
         setup.fail("internal error while preparing executable (wrong NSO hash); please report")
 
-    setup._convert_nso_to_elf(setup.TARGET_PATH)
+    setup._convert_nso_to_elf(TARGET_PATH)
 
-    if not setup.TARGET_ELF_PATH.is_file():
+    if not TARGET_ELF_PATH.is_file():
         setup.fail("internal error while preparing executable (missing ELF); please report")
 
 
