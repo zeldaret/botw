@@ -145,35 +145,28 @@ public:
     * Non-inline function calls can just be stubbed if you don't feel like decompiling them at the moment. To "stub" a function, just declare the function (and the enclosing class/namespace/etc. if needed) without implementing/defining it.
 
 4. **Build**.
-5. **Get the mangled name** of your function. For example, if you are decompiling BaseProcMgr::createInstance:
 
-      ```
-      $ tools/common/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
-      UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
-      ```
+5. **Add the function name to the list of decompiled functions.**
+    * To do so, open `data/uking_functions.csv`, search for the name or the address of function you have decompiled, and add the function name to the last column.
+    * Example: `0x00000071010c0d60,U,136,BaseProcMgr::createInstance`
 
-6. **Add the mangled function name to the list of decompiled functions.**
-    * To do so, open `data/uking_functions.csv`, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
-    * Be sure to change the status column from `U` (undecompiled) to `O` (OK).
-    * Example: `0x00000071010c0d60,O,136,_ZN4ksys4util13TaskQueueBaseD1Ev`
-
-7. **Compare the assembly** with `tools/check --source <mangled function name>`
+6. **Compare the assembly** with `tools/check --source <function name>`
     * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
     * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
 
-8. **Tweak the code to get a perfectly matching function**.
+7. **Tweak the code to get a perfectly matching function**.
     * Clang is usually quite reasonable so it is very common for functions -- even complicated code -- to match on the first try.
     * **Focus on large differences.** If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
     * **Regalloc:** If you only have regalloc differences left in a function that *looks* semantically equivalent, double-check whether it is truly equivalent: such differences are typically caused by using the wrong variable. It is rare for LLVM to use a different set of registers if the code is equivalent.
     * This is usually the most difficult part of matching decomp. Please ask on Discord if you need help!
     * The [cheatsheet](Cheatsheet.md) might help you recognize code patterns and contains a checklist for common matching issues.
 
-9. **Update the list of decompiled functions**.
+8. **Update the list of decompiled functions**.
     * If you have a function that matches perfectly, great!
-    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status to `m` (minor difference) in the CSV.
+    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status (the second column) to `m` (minor difference) in the CSV.
     * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
 
-10. Before opening a PR, reformat the code with clang-format and run `tools/check`.
+9. Before opening a PR, reformat the code with clang-format and run `tools/check`.
 
 ## Non-inlined functions
 
@@ -213,11 +206,4 @@ This project sometimes uses small hacks to force particular code to be generated
     * Note that progress is only approximate because of inline functions, templating and compiler-generated functions.
 * To print AI class decompilation status: `tools/ai_progress.py`
     * Use this to figure out which AI classes have not been decompiled yet.
-* To dump symbols: `tools/common/print_decomp_symbols.py`
-    * Pass `-a` to list all symbols
-    * Useful for getting the mangled name of a function. For example:
-
-        ```
-        $ tools/common/print_decomp_symbols.py -a | grep BaseProcMgr::createInstance
-      UNLISTED  ksys::act::BaseProcMgr::createInstance(sead::Heap*) (_ZN4ksys3act11BaseProcMgr14createInstanceEPN4sead4HeapE)
-        ```
+* To list symbols: `tools/listsym` (pass --help to see available options)
