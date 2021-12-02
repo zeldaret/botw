@@ -150,9 +150,14 @@ public:
     * To do so, open `data/uking_functions.csv`, search for the name or the address of function you have decompiled, and add the function name to the last column.
     * Example: `0x00000071010c0d60,U,136,BaseProcMgr::createInstance`
 
-6. **Compare the assembly** with `tools/check --source <function name>`
+6. **Compare the assembly** with `tools/check -mw <function name>`
     * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
     * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
+    * If you modify a source file while the diff is visible, it will be automatically rebuilt and the diff will update to match the new assembly code.
+      * Remove `-mw` from the command if you do not want automatic rebuilds.
+    * Other useful flags:
+      * To show C++ source code interleaved with the assembly in the diff, pass `-c` or `--source`.
+      * To get a three-column diff (original, decomp, diff with last decomp attempt), pass `-3` (do not use with `-c`).
 
 7. **Tweak the code to get a perfectly matching function**.
     * Clang is usually quite reasonable so it is very common for functions -- even complicated code -- to match on the first try.
@@ -201,6 +206,7 @@ This project sometimes uses small hacks to force particular code to be generated
         * To do so, search for the name or the address of function you have decompiled, and add the mangled function name to the last column.
     * Pass the `--source` flag to show source code interleaved with assembly code.
     * Add the `--inlines` flag to show inline function calls. This is not enabled by default because it usually produces too much output to be useful.
+    * Pass `-mw3` for automatic rebuilds whenever a source file is modified.
     * For more options, see [asm-differ](https://github.com/simonlindholm/asm-differ).
 * To print progress: `tools/common/progress.py`
     * Note that progress is only approximate because of inline functions, templating and compiler-generated functions.
