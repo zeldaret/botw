@@ -129,9 +129,9 @@ public:
     * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
     * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
 
-2. **Decompile it** using Hex-Rays or Ghidra.
+2. **Try to understand** what the function does using Hex-Rays or Ghidra.
+    * Understanding the function is very important.
     * Rename variables, add structures, do everything you can to make the output as clean as possible.
-    * Again, understanding the function is very important.
     * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
     * The [cheatsheet](Cheatsheet.md) might help you recognize inline functions.
 
