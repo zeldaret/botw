@@ -172,6 +172,7 @@ public:
     * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
 
 9. Before opening a PR, reformat the code with clang-format and run `tools/check`.
+    * You can use clang-format via your editor – VSCode and CLion have built-in clang-format support — or by calling `git clang-format` (for files you have `git add`ed and not yet committed).
 
 ## Non-inlined functions
 
