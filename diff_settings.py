@@ -1,1 +1,0 @@
-tools/common/diff_settings.py
