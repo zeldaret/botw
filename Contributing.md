@@ -28,6 +28,66 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
 * [const correctness](https://isocpp.org/wiki/faq/const-correctness) for member functions
 * iterators and range-based for loops (e.g. `for (int i : my_list_of_ints) {}`)
 
+## How to decompile
+
+0. Open the executable in the disassembler of your choice.
+
+1. **Pick a function that you want to decompile.**
+    * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
+    * Use our [Trello project board](https://botw.link/trello) to figure out what needs to be decompiled. Make sure it's not already being worked on by somebody else!
+        * The "Blocked" label means that the task cannot be easily done at the moment because it requires something else to be decompiled or stubbed first.
+        * "Easy" tasks are recommended to familiarize yourself with the process. They can typically be done pretty quickly.
+        * "Requires library integration" tasks require decompiling an external library (e.g. agl, sead, ...) and integrating it into the project.
+        * "Manager/singleton" means that the task is about a manager or a singleton (a class with only a single instance).
+    * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
+    * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
+
+2. **Try to understand** what the function does using Hex-Rays or Ghidra.
+    * Understanding the function is very important.
+    * Rename variables, add structures, do everything you can to make the output as clean as possible.
+    * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
+    * The [cheatsheet](Cheatsheet.md) might help you recognize inline functions.
+
+3. **Implement the function in C++.**
+    * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
+    * Do **NOT** copy and paste any pseudocode. **Reimplement it**. While we cannot go for a fully "clean room" approach, you should be reimplementing code, not copy/pasting anything from the original executable.
+        * PRs that violate this rule will be rejected.
+    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
+    * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
+    * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
+    * Non-inline function calls can just be stubbed if you don't feel like decompiling them at the moment. To "stub" a function, just declare the function (and the enclosing class/namespace/etc. if needed) without implementing/defining it.
+    * Follow the [coding style guidelines](#code-style) where applicable.
+
+4. **Build**.
+
+5. **Add the function name to the list of decompiled functions.**
+    * To do so, open `data/uking_functions.csv`, search for the name or the address of function you have decompiled, and add the function name to the last column.
+    * Example: `0x00000071010c0d60,U,136,BaseProcMgr::createInstance`
+
+6. **Compare the assembly** with `tools/check -mw <function name>`
+    * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
+    * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
+    * If you modify a source file while the diff is visible, it will be automatically rebuilt and the diff will update to match the new assembly code.
+      * Remove `-mw` from the command if you do not want automatic rebuilds.
+    * Other useful flags:
+      * To show C++ source code interleaved with the assembly in the diff, pass `-c` or `--source`.
+      * To get a three-column diff (original, decomp, diff with last decomp attempt), pass `-3` (do not use with `-c`).
+
+7. **Tweak the code to get a perfectly matching function**.
+    * Clang is usually quite reasonable so it is very common for functions -- even complicated code -- to match on the first try.
+    * **Focus on large differences.** If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
+    * **Regalloc:** If you only have regalloc differences left in a function that *looks* semantically equivalent, double-check whether it is truly equivalent: such differences are typically caused by using the wrong variable. It is rare for LLVM to use a different set of registers if the code is equivalent.
+    * This is usually the most difficult part of matching decomp. Please ask on Discord if you need help!
+    * The [cheatsheet](Cheatsheet.md) might help you recognize code patterns and contains a checklist for common matching issues.
+
+8. **Update the list of decompiled functions**.
+    * If you have a function that matches perfectly, great!
+    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status (the second column) to `m` (minor difference) in the CSV.
+    * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
+
+9. Before opening a PR, reformat the code with clang-format and run `tools/check`.
+    * You can use clang-format via your editor – VSCode and CLion have built-in clang-format support — or by calling `git clang-format` (for files you have `git add`ed and not yet committed).
+
 ## Code style
 
 This project uses clang-format to enforce a consistent coding style. Before opening a PR, please format your code with clang-format 12 and ensure the following guidelines are followed.
@@ -114,65 +174,6 @@ public:
     bool isTest() const override { return false; }
 };
 ```
-
-## How to decompile
-
-0. Open the executable in the disassembler of your choice.
-
-1. **Pick a function that you want to decompile.**
-    * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
-    * Use our [Trello project board](https://botw.link/trello) to figure out what needs to be decompiled. Make sure it's not already being worked on by somebody else!
-        * The "Blocked" label means that the task cannot be easily done at the moment because it requires something else to be decompiled or stubbed first.
-        * "Easy" tasks are recommended to familiarize yourself with the process. They can typically be done pretty quickly.
-        * "Requires library integration" tasks require decompiling an external library (e.g. agl, sead, ...) and integrating it into the project.
-        * "Manager/singleton" means that the task is about a manager or a singleton (a class with only a single instance).
-    * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
-    * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
-
-2. **Try to understand** what the function does using Hex-Rays or Ghidra.
-    * Understanding the function is very important.
-    * Rename variables, add structures, do everything you can to make the output as clean as possible.
-    * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
-    * The [cheatsheet](Cheatsheet.md) might help you recognize inline functions.
-
-3. **Implement the function in C++.**
-    * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
-    * Do **NOT** copy and paste any pseudocode. **Reimplement it**. While we cannot go for a fully "clean room" approach, you should be reimplementing code, not copy/pasting anything from the original executable.
-        * PRs that violate this rule will be rejected.
-    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
-    * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
-    * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
-    * Non-inline function calls can just be stubbed if you don't feel like decompiling them at the moment. To "stub" a function, just declare the function (and the enclosing class/namespace/etc. if needed) without implementing/defining it.
-
-4. **Build**.
-
-5. **Add the function name to the list of decompiled functions.**
-    * To do so, open `data/uking_functions.csv`, search for the name or the address of function you have decompiled, and add the function name to the last column.
-    * Example: `0x00000071010c0d60,U,136,BaseProcMgr::createInstance`
-
-6. **Compare the assembly** with `tools/check -mw <function name>`
-    * This will bring up a two-column diff. The code on the left is the original code; the code on the right is your version of the function.
-    * You may ignore address differences (which often show up in adrp+ldr pairs or bl or b).
-    * If you modify a source file while the diff is visible, it will be automatically rebuilt and the diff will update to match the new assembly code.
-      * Remove `-mw` from the command if you do not want automatic rebuilds.
-    * Other useful flags:
-      * To show C++ source code interleaved with the assembly in the diff, pass `-c` or `--source`.
-      * To get a three-column diff (original, decomp, diff with last decomp attempt), pass `-3` (do not use with `-c`).
-
-7. **Tweak the code to get a perfectly matching function**.
-    * Clang is usually quite reasonable so it is very common for functions -- even complicated code -- to match on the first try.
-    * **Focus on large differences.** If you have large differences (e.g. entire sections of code being at the wrong location), focus on getting rid of them first and ignore small differences like regalloc or trivial reorderings.
-    * **Regalloc:** If you only have regalloc differences left in a function that *looks* semantically equivalent, double-check whether it is truly equivalent: such differences are typically caused by using the wrong variable. It is rare for LLVM to use a different set of registers if the code is equivalent.
-    * This is usually the most difficult part of matching decomp. Please ask on Discord if you need help!
-    * The [cheatsheet](Cheatsheet.md) might help you recognize code patterns and contains a checklist for common matching issues.
-
-8. **Update the list of decompiled functions**.
-    * If you have a function that matches perfectly, great!
-    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status (the second column) to `m` (minor difference) in the CSV.
-    * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
-
-9. Before opening a PR, reformat the code with clang-format and run `tools/check`.
-    * You can use clang-format via your editor – VSCode and CLion have built-in clang-format support — or by calling `git clang-format` (for files you have `git add`ed and not yet committed).
 
 ## Non-inlined functions
 
