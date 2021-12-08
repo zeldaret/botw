@@ -39,6 +39,7 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
         * "Easy" tasks are recommended to familiarize yourself with the process. They can typically be done pretty quickly.
         * "Requires library integration" tasks require decompiling an external library (e.g. agl, sead, ...) and integrating it into the project.
         * "Manager/singleton" means that the task is about a manager or a singleton (a class with only a single instance).
+        * If you want to work on libraries rather than on BotW code, take a look at [this board](https://botw.link/trello-libs)!
     * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
     * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
 
