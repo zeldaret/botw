@@ -156,7 +156,7 @@ The instructions below assume that you are using Linux (native or WSL) or macOS.
 
 ### 1. Set up dependencies
 
-* Python 3.6 or newer
+* Python 3.6 or newer with [pip](https://pip.pypa.io/en/stable/installation/)
 * Ninja
 * CMake 3.13+
     * If you are on Ubuntu 18.04, you must first [update CMake by using the official CMake APT repository](https://apt.kitware.com/).
@@ -171,6 +171,8 @@ sudo apt install python3 ninja-build cmake ccache
 Additionally, you'll also need:
 
 * A Rust toolchain ([follow the instructions here](https://www.rust-lang.org/tools/install))
+
+* The following Python modules: `capstone colorama cxxfilt pyelftools ansiwrap watchdog python-Levenshtein toml` (install them with `pip install ...`)
 
 ### 2. Set up the project
 

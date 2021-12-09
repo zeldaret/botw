@@ -1,10 +1,6 @@
 # Contributing
 
-To contribute to the project, you will need:
-
-* A disassembler or a decompiler such as Hex-Rays or Ghidra.
-* Python 3 and pip for the diff script
-* These Python modules: `capstone colorama cxxfilt pyelftools ansiwrap watchdog python-Levenshtein toml` (install them with `pip install ...`)
+To contribute to the project, you will need a disassembler or a decompiler such as Hex-Rays or Ghidra.
 
 Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
