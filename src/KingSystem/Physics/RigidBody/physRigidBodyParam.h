@@ -49,37 +49,42 @@ struct ShapeParam;
 struct RigidBodyParamView {
     SEAD_RTTI_BASE(RigidBodyParamView)
 public:
-    const char* name;
-    u32 _10;
-    MotionType motion_type;
-    float mass;
-    sead::Vector3f inertia;
-    sead::Vector3f center_of_mass;
-    float linear_damping;
-    float angular_damping;
-    u8 _3c[8];
-    float max_linear_velocity;
-    float max_angular_velocity_rad;
-    float max_impulse;
-    float col_impulse_scale;
-    float friction_scale;
-    float restitution_scale;
-    float water_buoyancy_scale;
-    float water_flow_effective_rate;
-    float magne_mass_scaling_factor;
-    bool gap68;
-    bool toi;
-    bool always_character_mass_scaling;
-    bool gap6B[13];
-    ContactLayer contact_layer;
-    GroundHit groundhit;
-    u32 info_5e0;
-    u32 contact_mask;
-    u32 flags;
-    bool ignore_normal_for_impulse;
-    bool no_hit_ground;
-    bool no_hit_water;
-    bool no_char_standing_on;
+    const char* name = "no name";
+    u32 _10 = -1;
+    MotionType motion_type = MotionType::Dynamic;
+    float mass = 1.0f;
+    sead::Vector3f inertia = sead::Vector3f::ones;
+    sead::Vector3f center_of_mass = sead::Vector3f::zero;
+    float linear_damping = 0.0f;
+    float angular_damping = 0.05f;
+    f32 _3c = 1.0f;
+    f32 _40 = 1.0f;
+    float max_linear_velocity = 200.0f;
+    float max_angular_velocity_rad = 200.0f;
+    float max_impulse = -1.0f;
+    float col_impulse_scale = 1.0f;
+    float friction_scale = 1.0f;
+    float restitution_scale = 1.0f;
+    float water_buoyancy_scale = 1.0f;
+    float water_flow_effective_rate = 1.0f;
+    float magne_mass_scaling_factor = 1.0f;
+    bool gap68 = true;
+    bool toi = false;
+    bool always_character_mass_scaling = false;
+    void* p = nullptr;
+    ContactLayer contact_layer = ContactLayer::EntityObject;
+    GroundHit groundhit = GroundHit::HitAll;
+    u32 info_5e0 = 0;
+    u32 contact_mask = 0;
+    u32 flags = 0x80000000;
+    bool ignore_normal_for_impulse = false;
+    bool no_hit_ground = false;
+    bool no_hit_water = false;
+    bool no_char_standing_on = false;
+
+    bool isDynamicSensor() const {
+        return isSensorLayer(contact_layer) == 1 && motion_type == MotionType::Dynamic;
+    }
 };
 KSYS_CHECK_SIZE_NX150(RigidBodyParamView, 0x90);
 
