@@ -83,7 +83,8 @@ public:
     bool no_char_standing_on = false;
 
     bool isDynamicSensor() const {
-        return isSensorLayer(contact_layer) == 1 && motion_type == MotionType::Dynamic;
+        return getContactLayerType(contact_layer) == ContactLayerType::Sensor &&
+               motion_type == MotionType::Dynamic;
     }
 };
 KSYS_CHECK_SIZE_NX150(RigidBodyParamView, 0x90);

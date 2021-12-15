@@ -164,7 +164,7 @@ enum class MotionType {
     Unknown = 3,
 };
 
-u32 isSensorLayer(ContactLayer layer);
+ContactLayerType getContactLayerType(ContactLayer layer);
 u32 makeContactLayerMask(ContactLayer layer);
 u32 getContactLayerBase(ContactLayerType type);
 u32 getContactLayerBaseRelativeValue(ContactLayer layer);

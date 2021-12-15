@@ -2,8 +2,10 @@
 
 namespace ksys::phys {
 
-u32 isSensorLayer(ContactLayer layer) {
-    return layer > ContactLayer::EntityEnd;
+ContactLayerType getContactLayerType(ContactLayer layer) {
+    if (layer > ContactLayer::EntityEnd)
+        return ContactLayerType::Sensor;
+    return ContactLayerType::Entity;
 }
 
 u32 makeContactLayerMask(ContactLayer layer) {

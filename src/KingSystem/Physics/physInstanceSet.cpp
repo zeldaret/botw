@@ -89,7 +89,7 @@ void InstanceSet::sub_7100FBA9BC() {
 }
 
 void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
-    bool sensor = phys::isSensorLayer(layer);
+    bool sensor = phys::getContactLayerType(layer) != ContactLayerType::Entity;
 
     for (auto& rb : mRigidBodySets) {
         rb.disableCollisionMaybe(layer);
