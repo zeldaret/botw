@@ -2,6 +2,7 @@ project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
   Havok/Common/Base/Container/String/hkStringPtr.h
+  Havok/Common/Base/Types/hkBaseDefs.h
   Havok/Common/Base/Types/hkBaseTypes.h
   Havok/Common/Base/hkBase.h
   Havok/Common/Base/Math/hkMath.h

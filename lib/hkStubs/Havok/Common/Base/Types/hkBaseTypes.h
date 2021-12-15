@@ -62,3 +62,59 @@ public:
 private:
     hkInt16 m_value;
 };
+
+/// For storing an enum with a particular storage size when specifying the underlying type of the
+/// enum is not an option.
+template <typename Enum, typename Storage>
+struct hkEnum {
+    HK_ALWAYS_INLINE hkEnum() {}
+
+    hkEnum(Enum value) { *this = value; }  // NOLINT(google-explicit-constructor)
+
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator Enum() const { return static_cast<Enum>(m_storage); }
+
+    hkEnum& operator=(Enum value) {
+        m_storage = static_cast<Storage>(value);
+        return *this;
+    }
+
+    bool operator==(Enum e) const { return m_storage == static_cast<Storage>(e); }
+    bool operator!=(Enum e) const { return m_storage != static_cast<Storage>(e); }
+
+    Storage m_storage;
+};
+
+template <typename, typename Storage>
+class hkFlags {
+public:
+    HK_FORCE_INLINE hkFlags() {}
+    HK_FORCE_INLINE explicit hkFlags(Storage s) : m_storage(s) {}
+
+    HK_FORCE_INLINE void clear() { m_storage = 0; }
+    HK_FORCE_INLINE void clear(Storage mask) { m_storage &= ~mask; }
+    HK_FORCE_INLINE void setAll(Storage s) { m_storage = s; }
+
+    HK_FORCE_INLINE void operator|=(Storage s) { m_storage |= s; }
+    HK_FORCE_INLINE void operator^=(Storage s) { m_storage ^= s; }
+    HK_FORCE_INLINE void operator&=(Storage s) { m_storage &= s; }
+
+    HK_FORCE_INLINE void setWithMask(Storage s, Storage mask) {
+        m_storage = (m_storage & ~mask) | (s & mask);
+    }
+
+    HK_FORCE_INLINE Storage get() const { return m_storage; }
+    HK_FORCE_INLINE bool anyIsSet(Storage mask) const { return (m_storage & mask) != 0; }
+    HK_FORCE_INLINE bool noneIsSet(Storage mask) const { return (m_storage & mask) == 0; }
+    HK_FORCE_INLINE bool allAreSet(Storage mask) const { return (m_storage & mask) == mask; }
+
+    HK_FORCE_INLINE bool operator==(const hkFlags& other) const {
+        return other.m_storage == m_storage;
+    }
+    HK_FORCE_INLINE bool operator!=(const hkFlags& other) const {
+        return other.m_storage != m_storage;
+    }
+
+private:
+    Storage m_storage;
+};
