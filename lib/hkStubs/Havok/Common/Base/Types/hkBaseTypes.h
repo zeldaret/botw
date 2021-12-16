@@ -1,20 +1,27 @@
 #pragma once
 
+#include <Havok/Common/Base/Types/hkBaseDefs.h>
+#include <cstdint>
+
 using hkFloat32 = float;
 using hkDouble64 = double;
 using hkReal = hkFloat32;
 
-using hkChar = signed char;
-using hkInt8 = signed char;
-using hkInt16 = signed short;
-using hkInt32 = signed int;
+using hkChar = char;
+using hkInt8 = std::int8_t;
+using hkInt16 = std::int16_t;
+using hkInt32 = std::int32_t;
+using hkInt64 = std::int64_t;
 
 using hkUchar = unsigned char;
-using hkUint8 = unsigned char;
-using hkUint16 = unsigned short;
-using hkUint32 = unsigned int;
+using hkUint8 = std::uint8_t;
+using hkUint16 = std::uint16_t;
+using hkUint32 = std::uint32_t;
+using hkUint64 = std::uint64_t;
+using hk_size_t = hkUint64;
+using hkLong = long;
+using hkUlong = unsigned long;
 
-using hkUint64 = unsigned long long;
 using m128 = __attribute((vector_size(16))) float;
 
 class hkHalf {
@@ -117,4 +124,37 @@ public:
 
 private:
     Storage m_storage;
+};
+
+enum hkResultEnum {
+    HK_SUCCESS = 0,
+    HK_FAILURE = 1,
+};
+
+struct hkResult {
+    HK_FORCE_INLINE hkResult() {}
+    HK_FORCE_INLINE hkResult(hkResultEnum b) { m_enum = b; }
+
+    HK_FORCE_INLINE hkResult& operator=(hkResultEnum e) {
+        m_enum = e;
+        return *this;
+    }
+
+    HK_FORCE_INLINE bool operator==(hkResultEnum e) const { return m_enum == e; }
+    HK_FORCE_INLINE bool operator!=(hkResultEnum e) const { return m_enum != e; }
+
+    HK_FORCE_INLINE bool isSuccess() const { return m_enum ^ HK_FAILURE; }
+
+    hkResultEnum m_enum;
+};
+
+inline bool operator==(hkResultEnum e, hkResult r) {
+    return r.m_enum == e;
+}
+inline bool operator!=(hkResultEnum e, hkResult r) {
+    return r.m_enum != e;
+}
+
+struct hkFinishLoadedObjectFlag {
+    int m_finishing = 0;
 };

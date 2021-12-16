@@ -2,11 +2,23 @@ project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
   Havok/Common/Base/hkBase.h
+
   Havok/Common/Base/Container/String/hkStringPtr.h
+
   Havok/Common/Base/Math/hkMath.h
   Havok/Common/Base/Math/Vector/hkVector4.h
+
+  Havok/Common/Base/Memory/Allocator/hkMemoryAllocator.h
+  Havok/Common/Base/Memory/Allocator/Lifo/hkLifoAllocator.h
+  Havok/Common/Base/Memory/Router/hkMemoryRouter.h
+
   Havok/Common/Base/Object/hkBaseObject.h
+  Havok/Common/Base/Object/hkReferencedObject.cpp
   Havok/Common/Base/Object/hkReferencedObject.h
+
+  Havok/Common/Base/Thread/Atomic/hkAtomicPrimitives.h
+  Havok/Common/Base/Thread/Thread/hkThreadLocalData.h
+
   Havok/Common/Base/Types/hkBaseDefs.h
   Havok/Common/Base/Types/hkBaseTypes.h
 
@@ -14,6 +26,7 @@ add_library(hkStubs OBJECT
   Havok/Physics/Collide/Shape/Convex/hkpConvexShape.h
   Havok/Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
   Havok/Physics/Collide/Shape/HeightField/hkpSphereRepShape.h
+
   Havok/Physics/Dynamics/Entity/hkpEntity.h
   Havok/Physics/Dynamics/Entity/hkpRigidBody.h
   Havok/Physics/Dynamics/World/hkpWorld.cpp
@@ -25,3 +38,8 @@ target_compile_options(hkStubs PRIVATE -fno-exceptions)
 target_compile_options(hkStubs PRIVATE -fno-strict-aliasing)
 target_compile_options(hkStubs PRIVATE -Wno-invalid-offsetof)
 target_include_directories(hkStubs PUBLIC ./)
+
+if(NOT TARGET NintendoSDK)
+  add_subdirectory(../NintendoSDK)
+endif()
+target_link_libraries(hkStubs PUBLIC NintendoSDK)

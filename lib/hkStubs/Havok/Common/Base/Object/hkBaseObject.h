@@ -4,5 +4,6 @@
 
 class hkBaseObject {
 public:
-    virtual ~hkBaseObject() {}
+    virtual ~hkBaseObject() = default;
+    virtual void __first_virtual_table_function__() {}  // NOLINT(bugprone-reserved-identifier)
 };

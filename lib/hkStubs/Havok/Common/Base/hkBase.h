@@ -7,4 +7,6 @@
 
 #include <Havok/Common/Base/Math/hkMath.h>
 
+#include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
+
 #include <Havok/Common/Base/Container/String/hkStringPtr.h>
