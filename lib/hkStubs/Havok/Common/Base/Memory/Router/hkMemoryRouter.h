@@ -70,6 +70,8 @@ protected:
 };
 
 #define HK_DECLARE_CLASS_ALLOCATOR_IMPL(CLASS_TYPE, ALLOCATOR)                                     \
+    /* clang-tidy fails to understand that the operator delete matches the operator new  */        \
+    /* NOLINTNEXTLINE(misc-new-delete-overloads) */                                                \
     HK_FORCE_INLINE void* operator new(hk_size_t nbytes) {                                         \
         if constexpr (std::is_base_of_v<hkReferencedObject, CLASS_TYPE>) {                         \
             return hkMemoryRouter::getInstance().ALLOCATOR().blockAlloc(static_cast<int>(nbytes)); \
