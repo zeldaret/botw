@@ -8,7 +8,6 @@ public:
 
     virtual hkReal getMaximumProjection(const hkVector4& direction) const;
 
-    hkUchar filler[0x8];
     hkUint64 m_type;
     hkUchar filler2[0x30];
 };
