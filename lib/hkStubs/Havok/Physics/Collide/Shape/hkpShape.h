@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Havok/Common/Base/Object/hkReferencedObject.h>
+#include <Havok/Common/Base/hkBase.h>
 
 class hkpShape : public hkReferencedObject {
 public:

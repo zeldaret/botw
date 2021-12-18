@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Havok/Common/Base/hkBase.h>
+#include <Havok/Common/Base/Types/hkBaseDefs.h>
 
 namespace hkAtomic {
 

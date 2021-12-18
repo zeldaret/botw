@@ -2,6 +2,7 @@
 
 #include <Havok/Common/Base/Memory/Allocator/Lifo/hkLifoAllocator.h>
 #include <Havok/Common/Base/Memory/Allocator/hkMemoryAllocator.h>
+#include <Havok/Common/Base/Object/hkReferencedObject.h>
 #include <Havok/Common/Base/Thread/Thread/hkThreadLocalData.h>
 #include <type_traits>
 
