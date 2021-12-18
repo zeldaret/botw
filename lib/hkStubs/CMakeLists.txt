@@ -3,10 +3,13 @@ project(hkStubs CXX ASM)
 add_library(hkStubs OBJECT
   Havok/Common/Base/hkBase.h
 
+  Havok/Common/Base/Container/hkContainerAllocators.h
+  Havok/Common/Base/Container/Array/hkArray.h
   Havok/Common/Base/Container/String/hkStringPtr.h
 
   Havok/Common/Base/Math/hkMath.h
   Havok/Common/Base/Math/Vector/hkVector4.h
+  Havok/Common/Base/Math/Vector/hkVector4f.h
 
   Havok/Common/Base/Memory/Allocator/hkMemoryAllocator.h
   Havok/Common/Base/Memory/Allocator/Lifo/hkLifoAllocator.h
@@ -21,17 +24,30 @@ add_library(hkStubs OBJECT
 
   Havok/Common/Base/Types/hkBaseDefs.h
   Havok/Common/Base/Types/hkBaseTypes.h
+  Havok/Common/Base/Types/hkRefPtr.h
+  Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
 
-  Havok/Physics/Collide/Shape/hkpShape.h
-  Havok/Physics/Collide/Shape/Convex/hkpConvexShape.h
-  Havok/Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
-  Havok/Physics/Collide/Shape/HeightField/hkpSphereRepShape.h
+  Havok/Physics2012/Collide/Filter/hkpCollidableCollidableFilter.h
+  Havok/Physics2012/Collide/Filter/hkpCollisionFilter.h
+  Havok/Physics2012/Collide/Filter/hkpConvexListFilter.h
+  Havok/Physics2012/Collide/Filter/hkpRayCollidableFilter.h
+  Havok/Physics2012/Collide/Filter/hkpShapeCollectionFilter.h
+  Havok/Physics2012/Collide/Shape/hkpShape.h
+  Havok/Physics2012/Collide/Shape/hkpShapeBase.h
+  Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h
+  Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
+  Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
+  Havok/Physics2012/Collide/Shape/Query/hkpRayShapeCollectionFilter.h
 
-  Havok/Physics/Dynamics/Entity/hkpEntity.h
-  Havok/Physics/Dynamics/Entity/hkpRigidBody.h
-  Havok/Physics/Dynamics/World/hkpWorld.cpp
-  Havok/Physics/Dynamics/World/hkpWorld.h
-  Havok/Physics/Dynamics/World/hkpWorldEntity.h
+  Havok/Physics2012/Dynamics/Entity/hkpEntity.h
+  Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
+  Havok/Physics2012/Dynamics/World/hkpWorld.cpp
+  Havok/Physics2012/Dynamics/World/hkpWorld.h
+  Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
+  Havok/Physics2012/Dynamics/World/hkpWorldCinfo.h
+  Havok/Physics2012/Dynamics/World/hkpWorldEntity.h
+  Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
+  Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h
 )
 
 target_compile_options(hkStubs PRIVATE -fno-exceptions)

@@ -1,5 +1,5 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include <Havok/Physics/Dynamics/Entity/hkpRigidBody.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/System/physMemSystem.h"
 
 namespace ksys::phys {

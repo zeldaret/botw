@@ -71,6 +71,26 @@ private:
     hkInt16 m_value;
 };
 
+class hkBool {
+public:
+    HK_ALWAYS_INLINE hkBool() = default;
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    HK_FORCE_INLINE hkBool(bool b) : m_bool(static_cast<char>(b)) {}
+
+    HK_FORCE_INLINE explicit operator bool() const { return m_bool != 0; }
+
+    HK_FORCE_INLINE hkBool& operator=(bool e) {
+        m_bool = static_cast<char>(e);
+        return *this;
+    }
+
+    HK_FORCE_INLINE hkBool operator==(bool e) const { return (m_bool != 0) == e; }
+    HK_FORCE_INLINE hkBool operator!=(bool e) const { return (m_bool != 0) != e; }
+
+private:
+    char m_bool;
+};
+
 /// For storing an enum with a particular storage size when specifying the underlying type of the
 /// enum is not an option.
 template <typename Enum, typename Storage>

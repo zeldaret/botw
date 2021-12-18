@@ -1,12 +1,12 @@
 #pragma once
 
+#include <Havok/Common/Base/Math/Vector/hkVector4.h>
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 class hkpShape;
-class hkVector4;
 
 namespace ksys::phys {
 
