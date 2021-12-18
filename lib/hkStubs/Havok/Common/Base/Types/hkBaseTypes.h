@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Common/Base/Types/hkBaseDefs.h>
+#include <cstddef>
 #include <cstdint>
 
 using hkFloat32 = float;
@@ -18,7 +19,7 @@ using hkUint8 = std::uint8_t;
 using hkUint16 = std::uint16_t;
 using hkUint32 = std::uint32_t;
 using hkUint64 = std::uint64_t;
-using hk_size_t = hkUint64;
+using hk_size_t = std::size_t;
 using hkLong = long;
 using hkUlong = unsigned long;
 
