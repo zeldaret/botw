@@ -79,9 +79,9 @@ bool AttCheckAreaBox::parse(const CreateArg& arg) {
     mForceEditModelArea.init(false, "ForceEditModelArea", "(モデル範囲)強制編集", "", &mObj);
     mMin.init(sead::Vector3f::zero, "Min", "(モデル範囲)最小", "Min=-100.f,Max=100.f", &mObj);
     mMax.init(sead::Vector3f::zero, "Max", "(モデル範囲)最大", "Min=-100.f,Max=100.f", &mObj);
-    mFixedMin.init(-1 * sead::Vector3f::ones, "FixedMin", "(アテンション範囲)最小",
+    mFixedMin.init(-sead::Vector3f::ones, "FixedMin", "(アテンション範囲)最小",
                    "Min=-1.f,Max=100.f", &mObj);
-    mFixedMax.init(-1 * sead::Vector3f::ones, "FixedMax", "(アテンション範囲)最大",
+    mFixedMax.init(-sead::Vector3f::ones, "FixedMax", "(アテンション範囲)最大",
                    "Min=-1.f,Max=100.f", &mObj);
     mForceEditMargin.init(false, "ForceEditMargin", "(あそびの範囲)強制編集", "", &mObj);
     mMarginMin.init(sead::Vector3f::ones, "MarginMin", "(あそびの範囲)最小", "Min=-100.f,Max=100.f",
