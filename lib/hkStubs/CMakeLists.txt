@@ -28,6 +28,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
 
   Havok/Physics2012/Collide/Filter/hkpCollidableCollidableFilter.h
+  Havok/Physics2012/Collide/Filter/hkpCollisionFilter.cpp
   Havok/Physics2012/Collide/Filter/hkpCollisionFilter.h
   Havok/Physics2012/Collide/Filter/hkpConvexListFilter.h
   Havok/Physics2012/Collide/Filter/hkpRayCollidableFilter.h
