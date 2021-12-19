@@ -15,6 +15,11 @@ public:
     void updateFlags();
     bool wereFlagsUpdated();
 
+    // inline
+    bool empty() {
+        return !mHasEntries;
+    }
+
 private:
     struct Entry {
         sead::FixedSafeString<0x40> flag_name;

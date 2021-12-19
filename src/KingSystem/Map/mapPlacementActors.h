@@ -7,6 +7,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadReadWriteLock.h>
 #include "KingSystem/Map/mapPlacementMap.h"
+#include "KingSystem/Map/mapPlacementData.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
@@ -103,13 +104,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
 
-// FIXME: incomplete
-class PlacementStruct1 {
-public:
-    sead::BitFlag16 mFlags;
-    bool mIsOneHitChallengeActive;
-};
-
 class PlacementActors {
 public:
     u32 getNumStaticObjs() const;
@@ -124,7 +118,7 @@ public:
 
     u8 _0[0x28 - 0x0];
     sead::ReadWriteLock mLock;
-    PlacementStruct1* mStruct1;
+    PlacementData* mStruct1;
     u8 _e8[0x538 - 0xe8];
     sead::SafeArray<ActorData, 6000> mActorData;
     u8 _261b38[0x2a8058 - 0x261b38];

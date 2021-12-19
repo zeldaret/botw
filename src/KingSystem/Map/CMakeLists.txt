@@ -18,6 +18,8 @@ target_sources(uking PRIVATE
   mapPlacementMap.h
   mapPlacementMapMgr.cpp
   mapPlacementMapMgr.h
+  mapPlacementData.cpp
+  mapPlacementData.h
   mapPlacementMgr.cpp
   mapPlacementMgr.h
   mapPlacementTree.cpp
