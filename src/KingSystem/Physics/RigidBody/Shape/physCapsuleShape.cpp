@@ -102,16 +102,12 @@ void CapsuleBody::sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb,
     if (veca != nullptr) {
         hkVector4 tmp;
         tmp.sub_7100FABE80(rb_vec, hkVector4(vertex_a.x, vertex_a.y, vertex_a.z));
-        veca->x = tmp.v[0];
-        veca->y = tmp.v[1];
-        veca->z = tmp.v[2];
+        tmp.store<3>(veca->e.data());
     }
     if (vecb != nullptr) {
         hkVector4 tmp;
         tmp.sub_7100FABE80(rb_vec, hkVector4(vertex_b.x, vertex_b.y, vertex_b.z));
-        vecb->x = tmp.v[0];
-        vecb->y = tmp.v[1];
-        vecb->z = tmp.v[2];
+        tmp.store<3>(vecb->e.data());
     }
 }
 
