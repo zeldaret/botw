@@ -33,6 +33,8 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Filter/hkpConvexListFilter.h
   Havok/Physics2012/Collide/Filter/hkpRayCollidableFilter.h
   Havok/Physics2012/Collide/Filter/hkpShapeCollectionFilter.h
+  Havok/Physics2012/Collide/Filter/Group/hkpGroupFilter.cpp
+  Havok/Physics2012/Collide/Filter/Group/hkpGroupFilter.h
   Havok/Physics2012/Collide/Shape/hkpShape.h
   Havok/Physics2012/Collide/Shape/hkpShapeBase.h
   Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h
