@@ -44,6 +44,8 @@ target_sources(uking PRIVATE
   System/physContactInfoTable.h
   System/physDefines.cpp
   System/physDefines.h
+  System/physGroupFilter.cpp
+  System/physGroupFilter.h
   System/physMaterialTable.cpp
   System/physMaterialTable.h
   System/physMemSystem.cpp

@@ -25,8 +25,8 @@ constexpr int NumLayers = 32;
 
 struct LayerTableInfo : agl::utl::IParameterObj {
     sead::SafeArray<agl::utl::Parameter<int>, NumLayers> params;
-    void* table;
-    int idx = 0;
+    void* table;  // FIXME: type GroupFilter
+    int idx = 0;  // FIXME: ContactLayer
     int count;
 
 protected:
