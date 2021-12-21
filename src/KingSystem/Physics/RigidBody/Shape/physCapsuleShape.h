@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Havok/Common/Base/Math/Vector/hkVector4.h>
+#include <Havok/Common/Base/hkBase.h>
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>

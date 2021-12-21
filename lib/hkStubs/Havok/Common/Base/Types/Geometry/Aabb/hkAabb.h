@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Havok/Common/Base/Math/Vector/hkVector4.h>
-#include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
+#include <Havok/Common/Base/hkBase.h>
 
 /// Axis aligned bounding box
 // FIXME: incomplete

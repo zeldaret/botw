@@ -91,6 +91,9 @@ private:
     char m_bool;
 };
 
+using hkBool32 = hkUint32;
+using hkBoolLL = hkUint64;
+
 /// For storing an enum with a particular storage size when specifying the underlying type of the
 /// enum is not an option.
 template <typename Enum, typename Storage>
@@ -176,6 +179,11 @@ inline bool operator!=(hkResultEnum e, hkResult r) {
     return r.m_enum != e;
 }
 
-struct hkFinishLoadedObjectFlag {
+class hkFinishLoadedObjectFlag {
+public:
     int m_finishing = 0;
 };
+
+HK_FORCE_INLINE hkLong hkGetByteOffset(const void* base, const void* pntr) {
+    return hkLong(pntr) - hkLong(base);
+}
