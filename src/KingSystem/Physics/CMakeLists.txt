@@ -1,6 +1,4 @@
 target_sources(uking PRIVATE
-  physInstanceSet.cpp
-  physInstanceSet.h
   Cloth/physClothParam.cpp
   Cloth/physClothParam.h
   Ragdoll/physRagdollConfig.cpp
@@ -46,6 +44,8 @@ target_sources(uking PRIVATE
   System/physDefines.h
   System/physGroupFilter.cpp
   System/physGroupFilter.h
+  System/physInstanceSet.cpp
+  System/physInstanceSet.h
   System/physMaterialTable.cpp
   System/physMaterialTable.h
   System/physMemSystem.cpp
