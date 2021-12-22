@@ -42,6 +42,8 @@ target_sources(uking PRIVATE
   System/physContactInfoTable.h
   System/physDefines.cpp
   System/physDefines.h
+  System/physEntityGroupFilter.cpp
+  System/physEntityGroupFilter.h
   System/physGroupFilter.cpp
   System/physGroupFilter.h
   System/physInstanceSet.cpp

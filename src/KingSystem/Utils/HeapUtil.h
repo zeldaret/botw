@@ -124,4 +124,10 @@ KSYS_ALWAYS_INLINE inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
                              sead::Heap::cHeapDirection_Forward, false);
 }
 
+template <typename T, typename... Args>
+inline T* alloc(sead::Heap* heap, Args&&... args) {
+    void* storage = heap->alloc(sizeof(T), alignof(T));
+    return new (storage) T(std::forward<Args>(args)...);
+}
+
 }  // namespace ksys::util

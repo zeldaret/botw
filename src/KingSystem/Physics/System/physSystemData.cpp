@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/System/physSystemData.h"
 #include "KingSystem/Physics/System/physContactInfoTable.h"
+#include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
 #include "KingSystem/Physics/System/physRagdollControllerKeyList.h"
 #include "KingSystem/Resource/resHandle.h"
@@ -21,10 +22,10 @@ SystemData::~SystemData() {
     deleteAndNull(mMaterialTableHandle);
     deleteAndNull(mSubMaterialTableHandle);
 
-    deleteAndNull(mLayerTableInfo[0].mResHandle);
+    deleteAndNull(mLayerMatrices[0].mResHandle);
     deleteAndNull(mContactInfoTableHandles[0]);
 
-    deleteAndNull(mLayerTableInfo[1].mResHandle);
+    deleteAndNull(mLayerMatrices[1].mResHandle);
     deleteAndNull(mContactInfoTableHandles[1]);
 
     deleteAndNull(mCharacterCtrlTable.mResHandle);
@@ -36,17 +37,45 @@ SystemData::~SystemData() {
     }
 }
 
-void SystemData::load(sead::Heap* heap, LayerTable* entity_layer_table,
-                      LayerTable* sensor_layer_table, MaterialTable* material_table,
+void SystemData::load(sead::Heap* heap, GroupFilter* entity_group_filter,
+                      GroupFilter* sensor_group_filter, MaterialTable* material_table,
                       ContactInfoTable* contact_info_table) {
-    loadLayerTable(heap, entity_layer_table, ContactLayerType::Entity);
-    loadLayerTable(heap, sensor_layer_table, ContactLayerType::Sensor);
+    loadLayerTable(heap, entity_group_filter, ContactLayerType::Entity);
+    loadLayerTable(heap, sensor_group_filter, ContactLayerType::Sensor);
     loadMaterialTable(heap, material_table);
     loadSubMaterialTable(heap, material_table);
     loadContactInfoTable(heap, contact_info_table, ContactLayerType::Entity);
     loadContactInfoTable(heap, contact_info_table, ContactLayerType::Sensor);
     loadCharacterCtrlTable(heap);
     loadRagdollCtrlKeyList(heap);
+}
+
+void SystemData::loadLayerTable(sead::Heap* heap, GroupFilter* filter, ContactLayerType type) {
+    auto& matrix = mLayerMatrices[int(type)];
+    matrix.addList("LayerTable");
+
+    const int first = filter->getLayerFirst();
+    const int last = filter->getLayerLast();
+    const int num_layers = 1 + last - first;
+
+    for (int i = 0; i < num_layers; ++i) {
+        auto& table = matrix.mTables[i];
+        const ContactLayer layer = first + i;
+        table.num_layers = num_layers;
+        table.filter = filter;
+        table.layer = layer;
+
+        matrix.mParamList.addObj(&table, contactLayerToText(layer));
+
+        for (int j = 0; j < num_layers; ++j) {
+            const char* other_layer_name = contactLayerToText(first + j);
+            table.layer_values[j].init(0, other_layer_name, other_layer_name, &table);
+        }
+    }
+
+    matrix.mResHandle = new (heap) res::Handle;
+    const auto res = loadLayerTableRes(matrix, type);
+    matrix.mParamIO.applyResParameterArchive(res);
 }
 
 void SystemData::loadMaterialTable(sead::Heap* heap, MaterialTable* table) {
@@ -95,9 +124,8 @@ void SystemData::loadRagdollCtrlKeyList(sead::Heap* heap) {
     mRagdollCtrlKeyList = sead::DynamicCast<RagdollControllerKeyList>(res);
 }
 
-agl::utl::ResParameterArchive
-SystemData::loadLayerTableRes(const SystemData::LayerTableInfoContainer& container,
-                              ContactLayerType type) {
+agl::utl::ResParameterArchive SystemData::loadLayerTableRes(const SystemData::LayerMatrix& matrix,
+                                                            ContactLayerType type) {
     res::LoadRequest request;
     request.mRequester = "physSystemData";
     const char* path{};
@@ -109,7 +137,7 @@ SystemData::loadLayerTableRes(const SystemData::LayerTableInfoContainer& contain
         path = "Physics/System/SensorLayerTable.bphyslayer";
         break;
     }
-    const auto& resource = *container.mResHandle->load(path, &request);
+    const auto& resource = *matrix.mResHandle->load(path, &request);
     auto* direct_resource = sead::DynamicCast<const sead::DirectResource>(&resource);
     return agl::utl::ResParameterArchive{direct_resource->getRawData()};
 }
@@ -159,8 +187,20 @@ agl::utl::ResParameterArchive SystemData::loadCharacterCtrlTableRes() {
     return agl::utl::ResParameterArchive{direct_resource->getRawData()};
 }
 
-void LayerTableInfo::postRead_() {
-    // FIXME
+void LayerTable::postRead_() {
+    u32 collision_mask = 0;
+    u32 custom_mask = 0;
+
+    for (int i = 0; i < num_layers; ++i) {
+        const int value = layer_values[i].ref();
+        if (value & 1)
+            collision_mask |= 1 << i;
+        if (value & 2)
+            custom_mask |= 1 << i;
+    }
+
+    filter->setLayerCollisionEnabledMask(layer, collision_mask);
+    filter->setLayerCustomMask(layer, custom_mask);
 }
 
 }  // namespace ksys::phys
