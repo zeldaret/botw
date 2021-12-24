@@ -6,7 +6,7 @@
 class hkAabb;
 class hkpBvTreeShape;
 class hkpCdBody;
-class hkpCollisionInput;
+struct hkpCollisionInput;
 class hkpShapeContainer;
 
 class hkpShapeCollectionFilter {

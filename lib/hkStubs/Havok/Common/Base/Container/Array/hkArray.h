@@ -11,7 +11,7 @@ class hkArrayBase {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkArrayBase<T>)
 
-    enum : int {
+    enum : unsigned int {
         CAPACITY_MASK = 0x3FFFFFFF,
         FLAG_MASK = 0xC0000000,
         DONT_DEALLOCATE_FLAG = 0x80000000,

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
+#include <prim/seadBitUtil.h>
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 
@@ -51,6 +52,9 @@ public:
     void m10() override {}
 
 private:
+    hkBool isCollisionEnabled(u32 infoA, u32 infoB) const;
+    hkBool isCollisionEnabledPhantom(u32 infoPhantom, u32 infoB) const;
+
     void doInitSystemGroupHandlerLists_(sead::Heap* heap) override;
     int getFreeListIndex(const SystemGroupHandler* handler) override;
     void doInit_(sead::Heap* heap) override;
@@ -60,7 +64,18 @@ private:
     sead::SafeArray<u32, ContactLayer::size()> mMasks;
 };
 
-u32 orGroundHitTypeMask(u32 mask, GroundHit type);
-u32 orGroundHitTypeMask(u32 mask, const sead::SafeString& type);
+u32 orEntityGroundHitMask(u32 mask, GroundHit type);
+u32 orEntityGroundHitMask(u32 mask, const sead::SafeString& type);
+
+/// Returns a new collision mask in ground hit mask mode.
+/// @param mask A collision mask that has been built using orEntityGroundHitMask.
+u32 makeEntityGroundHitMask(ContactLayer layer, u32 mask);
+
+/// Returns a new collision mask with the specified layer.
+/// Preserves ground hit mask mode.
+u32 makeEntityCollisionMask(ContactLayer layer, u32 mask);
+
+/// Updates the collision mask with the specified ground hit type (*not* mask).
+u32 setEntityCollisionMaskGroundHit(GroundHit ground_hit, u32 mask);
 
 }  // namespace ksys::phys

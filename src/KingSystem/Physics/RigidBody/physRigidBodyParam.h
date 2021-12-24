@@ -137,7 +137,7 @@ struct RigidBodyParam : agl::utl::ParameterList {
         agl::utl::Parameter<int> shape_num;
         NavMeshType navmesh_val = NavMeshType::NOT_USE;
         NavMeshSubMaterial navmesh_sub_material_val = NavMeshSubMaterial::None;
-        u32 ground_hit_type_mask_val = 0;
+        u32 ground_hit_mask = 0;
 
     protected:
         void postRead_() override;

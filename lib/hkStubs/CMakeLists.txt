@@ -32,11 +32,14 @@ add_library(hkStubs OBJECT
   Havok/Geometry/Collide/Shapes/hkcdShape.h
 
   Havok/Physics2012/Collide/Agent/hkpCollisionInput.h
+  Havok/Physics2012/Collide/Agent/hkpCollisionQualityInfo.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCdBody.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidableQualityType.h
+  Havok/Physics2012/Collide/Agent3/BvTree3/hkpBvTreeAgent3.h
   Havok/Physics2012/Collide/BroadPhase/hkpBroadPhaseHandle.h
   Havok/Physics2012/Collide/BroadPhase/hkpTypedBroadPhaseHandle.h
+  Havok/Physics2012/Collide/Dispatch/hkpCollisionDispatcher.h
   Havok/Physics2012/Collide/Filter/hkpCollidableCollidableFilter.h
   Havok/Physics2012/Collide/Filter/hkpCollisionFilter.cpp
   Havok/Physics2012/Collide/Filter/hkpCollisionFilter.h
@@ -48,12 +51,16 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastInput.h
   Havok/Physics2012/Collide/Shape/hkpShape.h
   Havok/Physics2012/Collide/Shape/hkpShapeBase.h
+  Havok/Physics2012/Collide/Shape/hkpShapeType.h
   Havok/Physics2012/Collide/Shape/hkpShapeContainer.h
+  Havok/Physics2012/Collide/Shape/Compound/Collection/hkpShapeCollection.h
+  Havok/Physics2012/Collide/Shape/Compound/Tree/hkpBvTreeShape.h
   Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h
   Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
   Havok/Physics2012/Collide/Shape/Query/hkpRayShapeCollectionFilter.h
   Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h
+  Havok/Physics2012/Collide/Util/Welding/hkpWeldingUtility.h
 
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
@@ -62,6 +69,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.h
   Havok/Physics2012/Dynamics/World/hkpWorldEntity.h
+  Havok/Physics2012/Dynamics/World/hkpWorldObject.h
   Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
   Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h
 )

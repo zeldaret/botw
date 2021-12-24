@@ -133,7 +133,7 @@ void RigidBodyParam::Info::postRead_() {
     }
 
     if (*use_ground_hit_type_mask && !ground_hit_type_mask->isEmpty()) {
-        ground_hit_type_mask_val = 0;
+        ground_hit_mask = 0;
 
         sead::FixedSafeString<64> type_str;
         auto it = ground_hit_type_mask->tokenBegin(",");
@@ -141,10 +141,10 @@ void RigidBodyParam::Info::postRead_() {
         while (end != it) {
             it.getAndForward(&type_str);
             if (!type_str.isEmpty())
-                ground_hit_type_mask_val = orGroundHitTypeMask(ground_hit_type_mask_val, type_str);
+                ground_hit_mask = orEntityGroundHitMask(ground_hit_mask, type_str);
         }
     } else {
-        ground_hit_type_mask_val = 0;
+        ground_hit_mask = 0;
     }
 }
 

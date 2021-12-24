@@ -23,6 +23,7 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(hkpShapeBase)
     HKCD_DECLARE_SHAPE_TYPE(hkcdShapeType::INVALID)
 
+    HK_FORCE_INLINE hkpShapeBase() = default;
     HK_FORCE_INLINE explicit hkpShapeBase(ShapeType type) : hkcdShape(type) {}
     explicit hkpShapeBase(hkFinishLoadedObjectFlag flag);
 

@@ -18,7 +18,7 @@ CapsuleBody* CapsuleShape::init(sead::Heap* heap) {
         body->unk.shape_type = 1 << 23;
     }
     body->unk._10 = nullptr;
-    hk_shape->m_type = body->unk.shape_type;
+    hk_shape->setUserData(body->unk.shape_type);
     return body;
 }
 
@@ -38,7 +38,7 @@ CapsuleBody* CapsuleBody::clone(sead::Heap* heap) {
     body->unk.shape_type = unk.shape_type;
     body->unk._10 = nullptr;
     if (body->shape != nullptr)
-        body->shape->m_type = unk.shape_type;
+        body->shape->setUserData(unk.shape_type);
     return body;
 }
 

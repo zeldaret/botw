@@ -1,11 +1,55 @@
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
+#include <Havok/Physics2012/Collide/Agent/hkpCollisionInput.h>
+#include <Havok/Physics2012/Collide/Dispatch/hkpCollisionDispatcher.h>
+#include <Havok/Physics2012/Collide/Shape/Compound/Collection/hkpShapeCollection.h>
+#include <Havok/Physics2012/Collide/Shape/Compound/Tree/hkpBvTreeShape.h>
+#include <Havok/Physics2012/Collide/Shape/hkpShapeContainer.h>
+#include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
 #include <heap/seadHeap.h>
+#include "KingSystem/Utils/BitField.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::phys {
 
 constexpr int NumEntityHandlersInList0 = 0x10;
 constexpr int NumEntityHandlers = 0x400;
+
+namespace {
+
+/// Internal representation of collision masks for entities.
+/// This is exposed as a u32 externally.
+union EntityCollisionFilterInfo {
+    union Data {
+        ContactLayer getLayer() const { return int(layer); }
+        GroundHit getGroundHit() const { return int(ground_hit); }
+
+        util::BitField<0, 5, u32> layer;
+        util::BitField<24, 1, u32> unk24;
+        util::BitField<25, 1, u32> unk25;
+        util::BitField<26, 4, u32> ground_hit;
+        util::BitField<30, 1, u32> unk30;
+    };
+
+    union GroundHitMask {
+        ContactLayer getLayer() const { return int(layer); }
+
+        util::BitField<0, 8, u32> unk;
+        util::BitField<8, 16, u32> ground_hit_types;
+        util::BitField<24, 1, u32> unk24;
+        util::BitField<25, 5, u32> layer;
+    };
+
+    explicit EntityCollisionFilterInfo(u32 raw_ = 0) : raw(raw_) {}
+
+    u32 raw;
+    Data data;
+    GroundHitMask ground_hit;
+    util::BitField<31, 1, u32> is_ground_hit_mask;
+};
+static_assert(sizeof(EntityCollisionFilterInfo) == sizeof(u32));
+
+}  // namespace
 
 EntityGroupFilter* EntityGroupFilter::make(ContactLayer::ValueType first,
                                            ContactLayer::ValueType last, sead::Heap* heap) {
@@ -24,6 +68,110 @@ void EntityGroupFilter::doInit_(sead::Heap* heap) {
     mMasks.fill(0xffffffff);
 }
 
+hkBool EntityGroupFilter::isCollisionEnabledPhantom(u32 infoPhantom, u32 infoB) const {
+    if (mInhibitCollisions)
+        return false;
+
+    // TODO: figure out what kind of mask infoPhantom is. Receiver/sensor mask?
+    // RigidBodyParam::getParams and ContactInfoTable seem to manipulate similar looking masks.
+    const EntityCollisionFilterInfo info{infoB};
+    if (info.is_ground_hit_mask)
+        return infoPhantom & (1 << info.ground_hit.getLayer());
+    return (infoPhantom & (1 << info.data.layer)) & 0x1ffff;
+}
+
+hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollidable& a, const hkpCollidable& b) const {
+    if (a.getType() == hkpWorldObject::BROAD_PHASE_PHANTOM &&
+        b.getType() == hkpWorldObject::BROAD_PHASE_PHANTOM) {
+        return false;
+    }
+
+    if (a.getType() == hkpWorldObject::BROAD_PHASE_PHANTOM) {
+        if (a.getShape() != nullptr)
+            return isCollisionEnabled(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+
+        return isCollisionEnabledPhantom(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+    }
+
+    if (b.getType() == hkpWorldObject::BROAD_PHASE_PHANTOM) {
+        if (b.getShape() != nullptr)
+            return isCollisionEnabled(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+
+        return isCollisionEnabledPhantom(b.getCollisionFilterInfo(), a.getCollisionFilterInfo());
+    }
+
+    return isCollisionEnabled(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+}
+
+hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollisionInput& input,
+                                             const hkpCdBody& collectionBodyA,
+                                             const hkpCdBody& collectionBodyB,
+                                             const hkpShapeContainer& containerShapeA,
+                                             const hkpShapeContainer& containerShapeB,
+                                             hkpShapeKey keyA, hkpShapeKey keyB) const {
+    auto infoA = containerShapeA.getCollisionFilterInfo(keyA);
+    if (infoA == 0xffffffff)
+        infoA = collectionBodyA.getRootCollidable()->getCollisionFilterInfo();
+
+    auto infoB = containerShapeB.getCollisionFilterInfo(keyB);
+    if (infoB == 0xffffffff)
+        infoB = collectionBodyB.getRootCollidable()->getCollisionFilterInfo();
+
+    return isCollisionEnabled(infoA, infoB);
+}
+
+hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollisionInput& input, const hkpCdBody& a,
+                                             const hkpCdBody& b,
+                                             const hkpShapeContainer& bContainer,
+                                             hkpShapeKey bKey) const {
+    u32 infoB = bContainer.getCollisionFilterInfo(bKey);
+    if (infoB == 0xffffffff)
+        infoB = b.getRootCollidable()->getCollisionFilterInfo();
+
+    u32 infoA = static_cast<const hkpCollidable&>(a).getCollisionFilterInfo();
+
+    if (a.getParent() != nullptr) {
+        if (mInhibitCollisions)
+            return false;
+
+        hkpCollisionDispatcher* dispatcher = input.m_dispatcher;
+
+        auto* collidable = &a;
+        auto* parent = collidable->getParent();
+        while (parent) {
+            auto* shape = parent->m_shape;
+
+            if (dispatcher->hasAlternateType(shape->m_type, hkcdShapeType::COLLECTION)) {
+                auto* collection = static_cast<const hkpShapeCollection*>(shape);
+                infoA = collection->getCollisionFilterInfo(collidable->getShapeKey());
+                goto end;
+            }
+
+            if (dispatcher->hasAlternateType(shape->m_type, hkcdShapeType::BV_TREE)) {
+                auto* container = shape->getContainer();
+                infoA = container->getCollisionFilterInfo(collidable->getShapeKey());
+                goto end;
+            }
+
+            if (dispatcher->hasAlternateType(shape->m_type, hkcdShapeType::MULTI_SPHERE)) {
+                infoA = a.getRootCollidable()->getCollisionFilterInfo();
+                goto end;
+            }
+
+            if (dispatcher->hasAlternateType(shape->m_type, hkcdShapeType::CONVEX_LIST)) {
+                return true;
+            }
+
+            collidable = parent;
+            parent = collidable->getParent();
+            infoA = static_cast<const hkpCollidable*>(collidable)->getCollisionFilterInfo();
+        }
+    }
+
+end:
+    return isCollisionEnabled(infoA, infoB);
+}
+
 void EntityGroupFilter::doInitSystemGroupHandlerLists_(sead::Heap* heap) {
     for (auto& list : mFreeLists)
         list.initOffset(SystemGroupHandler::getFreeListNodeOffset());
@@ -40,13 +188,50 @@ int EntityGroupFilter::getFreeListIndex(const SystemGroupHandler* handler) {
     return handler->getIndex() < NumEntityHandlersInList0;
 }
 
-u32 orGroundHitTypeMask(u32 mask, GroundHit type) {
-    mask |= (0x100 << type) & 0xffff00;
-    return mask;
+u32 orEntityGroundHitMask(u32 mask, GroundHit type) {
+    EntityCollisionFilterInfo info{mask};
+    info.ground_hit.ground_hit_types |= 1 << type;
+    return info.raw;
 }
 
-u32 orGroundHitTypeMask(u32 mask, const sead::SafeString& type) {
-    return orGroundHitTypeMask(mask, groundHitFromText(type));
+u32 orEntityGroundHitMask(u32 mask, const sead::SafeString& type) {
+    return orEntityGroundHitMask(mask, groundHitFromText(type));
+}
+
+template <bool WithUnk>
+static EntityCollisionFilterInfo makeEntityGroundHitMaskImpl(ContactLayer layer, u32 mask) {
+    const EntityCollisionFilterInfo current{mask};
+    EntityCollisionFilterInfo info{};
+    info.ground_hit.layer.SetUnsafe(layer);
+    info.ground_hit.ground_hit_types = current.ground_hit.ground_hit_types;
+    info.is_ground_hit_mask = true;
+    if constexpr (WithUnk)
+        info.ground_hit.unk = current.ground_hit.unk & 1;
+    return info;
+}
+
+u32 makeEntityGroundHitMask(ContactLayer layer, u32 mask) {
+    return makeEntityGroundHitMaskImpl<false>(layer, mask).raw;
+}
+
+u32 makeEntityCollisionMask(ContactLayer layer, u32 mask) {
+    EntityCollisionFilterInfo current{mask};
+    if (current.is_ground_hit_mask) {
+        return makeEntityGroundHitMaskImpl<true>(layer, mask).raw;
+    } else {
+        current.data.layer.SetUnsafe(layer);
+        return current.raw;
+    }
+}
+
+u32 setEntityCollisionMaskGroundHit(GroundHit ground_hit, u32 mask) {
+    EntityCollisionFilterInfo current{mask};
+    if (current.is_ground_hit_mask) {
+        // This shouldn't happen: this function is not supposed to be called on ground hit masks.
+    } else {
+        current.data.ground_hit.SetUnsafe(ground_hit);
+    }
+    return current.raw;
 }
 
 }  // namespace ksys::phys

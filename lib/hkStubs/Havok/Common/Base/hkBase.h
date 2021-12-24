@@ -9,4 +9,5 @@
 
 #include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
 
+#include <Havok/Common/Base/Container/Array/hkArray.h>
 #include <Havok/Common/Base/Container/String/hkStringPtr.h>

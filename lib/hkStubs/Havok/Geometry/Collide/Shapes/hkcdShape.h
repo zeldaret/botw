@@ -84,6 +84,7 @@ public:
     using DispatchType = hkcdShapeDispatchType::ShapeDispatchTypeEnum;
     using ShapeInfoCodecType = hkcdShapeInfoCodecType::ShapeInfoCodecTypeEnum;
 
+    HK_FORCE_INLINE hkcdShape() = default;
     HK_FORCE_INLINE explicit hkcdShape(ShapeType shapeType)
         : m_type(shapeType), m_dispatchType(hkcdShapeDispatchType::USER), m_bitsPerKey(0),
           m_shapeInfoCodecType(hkcdShapeInfoCodecType::NULL_CODEC) {}
