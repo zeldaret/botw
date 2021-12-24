@@ -40,4 +40,13 @@ int EntityGroupFilter::getFreeListIndex(const SystemGroupHandler* handler) {
     return handler->getIndex() < NumEntityHandlersInList0;
 }
 
+u32 orGroundHitTypeMask(u32 mask, GroundHit type) {
+    mask |= (0x100 << type) & 0xffff00;
+    return mask;
+}
+
+u32 orGroundHitTypeMask(u32 mask, const sead::SafeString& type) {
+    return orGroundHitTypeMask(mask, groundHitFromText(type));
+}
+
 }  // namespace ksys::phys

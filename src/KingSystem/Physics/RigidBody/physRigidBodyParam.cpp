@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physShapeParam.h"
 
 namespace ksys::phys {
@@ -75,12 +76,6 @@ GroundHit RigidBodyParam::getGroundHit() const {
 
 MotionType RigidBodyParam::getMotionType() const {
     return motionTypeFromText(*info.motion_type);
-}
-
-// TODO: move this to another translation unit (figure out where this belongs)
-[[gnu::noinline]] static u32 orGroundHitTypeMask(u32 mask, const sead::SafeString& type) {
-    mask |= (0x100 << groundHitFromText(type)) & 0xffff00;
-    return mask;
 }
 
 namespace {

@@ -60,4 +60,7 @@ private:
     sead::SafeArray<u32, ContactLayer::size()> mMasks;
 };
 
+u32 orGroundHitTypeMask(u32 mask, GroundHit type);
+u32 orGroundHitTypeMask(u32 mask, const sead::SafeString& type);
+
 }  // namespace ksys::phys
