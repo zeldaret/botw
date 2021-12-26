@@ -1,7 +1,9 @@
 #pragma once
 
+#include <basis/seadTypes.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/Utils/BitField.h"
 
 namespace ksys::phys {
 
@@ -68,6 +70,8 @@ SensorNoHit,\
 SensorReserve20,\
 SensorCustomReceiver,\
 SensorEnd)
+
+constexpr int MaxNumLayersPerType = 32;
 
 SEAD_ENUM(Material,
 Undefined,\
@@ -162,6 +166,21 @@ enum class MotionType {
     Fixed = 1,
     Keyframed = 2,
     Unknown = 3,
+};
+
+union ReceiverMask {
+    constexpr ReceiverMask() : raw(0) { unk_flag = true; }
+    constexpr explicit ReceiverMask(u32 raw_) : raw(raw_) {}
+    constexpr ReceiverMask& operator=(const ReceiverMask& m) {
+        raw = m.raw;
+        return *this;
+    }
+
+    u32 raw;
+    // FIXME: is this a sensor layer mask?
+    util::BitField<0, 21, u32> layer_mask;
+    // FIXME: is sensor layer? is layer mask?
+    util::BitField<31, 1, u32> unk_flag;
 };
 
 ContactLayerType getContactLayerType(ContactLayer layer);

@@ -1,5 +1,5 @@
 #include "KingSystem/Physics/System/physSystemData.h"
-#include "KingSystem/Physics/System/physContactInfoTable.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
 #include "KingSystem/Physics/System/physRagdollControllerKeyList.h"
@@ -39,7 +39,7 @@ SystemData::~SystemData() {
 
 void SystemData::load(sead::Heap* heap, GroupFilter* entity_group_filter,
                       GroupFilter* sensor_group_filter, MaterialTable* material_table,
-                      ContactInfoTable* contact_info_table) {
+                      ContactMgr* contact_info_table) {
     loadLayerTable(heap, entity_group_filter, ContactLayerType::Entity);
     loadLayerTable(heap, sensor_group_filter, ContactLayerType::Sensor);
     loadMaterialTable(heap, material_table);
@@ -90,11 +90,10 @@ void SystemData::loadSubMaterialTable(sead::Heap* heap, MaterialTable* table) {
     table->loadSubMaterialTable(heap, res);
 }
 
-void SystemData::loadContactInfoTable(sead::Heap* heap, ContactInfoTable* table,
-                                      ContactLayerType type) {
+void SystemData::loadContactInfoTable(sead::Heap* heap, ContactMgr* table, ContactLayerType type) {
     mContactInfoTableHandles[int(type)] = new (heap) res::Handle;
     const auto res = loadContactInfoTableRes(type);
-    table->load(heap, res, type);
+    table->loadContactInfoTable(heap, res, type);
 }
 
 void SystemData::loadCharacterCtrlTable(sead::Heap* heap) {

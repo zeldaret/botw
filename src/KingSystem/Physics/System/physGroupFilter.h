@@ -60,6 +60,7 @@ public:
 
     ContactLayer::ValueType getLayerFirst() const { return mLayerFirst; }
     ContactLayer::ValueType getLayerLast() const { return mLayerLast; }
+    int getNumLayers() const { return getLayerLast() - getLayerFirst() + 1; }
     ContactLayerType getLayerType() const { return mLayerType; }
 
     void initFilter(sead::Heap* heap);

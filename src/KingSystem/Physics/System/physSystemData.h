@@ -16,15 +16,13 @@ class Handle;
 
 namespace ksys::phys {
 
-class ContactInfoTable;
+class ContactMgr;
 class GroupFilter;
 class MaterialTable;
 class RagdollControllerKeyList;
 
-constexpr int NumLayers = 32;
-
 struct LayerTable : agl::utl::IParameterObj {
-    sead::SafeArray<agl::utl::Parameter<int>, NumLayers> layer_values;
+    sead::SafeArray<agl::utl::Parameter<int>, MaxNumLayersPerType> layer_values;
     GroupFilter* filter;
     ContactLayer layer;
     int num_layers;
@@ -64,15 +62,15 @@ public:
     virtual ~SystemData();
 
     void load(sead::Heap* heap, GroupFilter* entity_group_filter, GroupFilter* sensor_group_filter,
-              MaterialTable* material_table, ContactInfoTable* contact_info_table);
+              MaterialTable* material_table, ContactMgr* contact_info_table);
 
 private:
-    using LayerMatrix = Tables<LayerTable, NumLayers>;
+    using LayerMatrix = Tables<LayerTable, MaxNumLayersPerType>;
 
     void loadLayerTable(sead::Heap* heap, GroupFilter* filter, ContactLayerType type);
     void loadMaterialTable(sead::Heap* heap, MaterialTable* table);
     void loadSubMaterialTable(sead::Heap* heap, MaterialTable* table);
-    void loadContactInfoTable(sead::Heap* heap, ContactInfoTable* table, ContactLayerType type);
+    void loadContactInfoTable(sead::Heap* heap, ContactMgr* table, ContactLayerType type);
     void loadCharacterCtrlTable(sead::Heap* heap);
     void loadRagdollCtrlKeyList(sead::Heap* heap);
 

@@ -2,6 +2,7 @@
 
 #include <container/seadSafeArray.h>
 #include <prim/seadBitUtil.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 
@@ -63,6 +64,11 @@ private:
 
     sead::SafeArray<u32, ContactLayer::size()> mMasks;
 };
+
+void receiverMaskEnableLayer(ReceiverMask* mask, ContactLayer layer);
+bool receiverMaskGetSensorLayerMaskForType(ReceiverMask* mask,
+                                           const sead::SafeString& receiver_type);
+void receiverMaskSetSensorLayerMask(ReceiverMask* mask, u32 layer_mask);
 
 u32 orEntityGroundHitMask(u32 mask, GroundHit type);
 u32 orEntityGroundHitMask(u32 mask, const sead::SafeString& type);

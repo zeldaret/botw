@@ -7,6 +7,8 @@
 #include <Havok/Physics2012/Collide/Shape/hkpShapeContainer.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
 #include <heap/seadHeap.h>
+#include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physMemSystem.h"
 #include "KingSystem/Utils/BitField.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
@@ -50,6 +52,21 @@ union EntityCollisionFilterInfo {
 static_assert(sizeof(EntityCollisionFilterInfo) == sizeof(u32));
 
 }  // namespace
+
+void receiverMaskEnableLayer(ReceiverMask* mask, ContactLayer layer) {
+    mask->raw |= 1 << getContactLayerBaseRelativeValue(layer);
+}
+
+bool receiverMaskGetSensorLayerMaskForType(ReceiverMask* mask,
+                                           const sead::SafeString& receiver_type) {
+    return MemSystem::instance()->getContactMgr()->getSensorLayerMask(mask, receiver_type);
+}
+
+void receiverMaskSetSensorLayerMask(ReceiverMask* mask, u32 layer_mask) {
+    *mask = {};
+    mask->layer_mask = layer_mask;
+    mask->unk_flag = true;
+}
 
 EntityGroupFilter* EntityGroupFilter::make(ContactLayer::ValueType first,
                                            ContactLayer::ValueType last, sead::Heap* heap) {
