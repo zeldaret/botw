@@ -62,7 +62,7 @@ public:
     virtual ~SystemData();
 
     void load(sead::Heap* heap, GroupFilter* entity_group_filter, GroupFilter* sensor_group_filter,
-              MaterialTable* material_table, ContactMgr* contact_info_table);
+              MaterialTable* material_table, ContactMgr* contact_mgr);
 
 private:
     using LayerMatrix = Tables<LayerTable, MaxNumLayersPerType>;
@@ -70,7 +70,7 @@ private:
     void loadLayerTable(sead::Heap* heap, GroupFilter* filter, ContactLayerType type);
     void loadMaterialTable(sead::Heap* heap, MaterialTable* table);
     void loadSubMaterialTable(sead::Heap* heap, MaterialTable* table);
-    void loadContactInfoTable(sead::Heap* heap, ContactMgr* table, ContactLayerType type);
+    void loadContactInfoTable(sead::Heap* heap, ContactMgr* mgr, ContactLayerType type);
     void loadCharacterCtrlTable(sead::Heap* heap);
     void loadRagdollCtrlKeyList(sead::Heap* heap);
 

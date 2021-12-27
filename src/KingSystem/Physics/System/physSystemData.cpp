@@ -39,13 +39,13 @@ SystemData::~SystemData() {
 
 void SystemData::load(sead::Heap* heap, GroupFilter* entity_group_filter,
                       GroupFilter* sensor_group_filter, MaterialTable* material_table,
-                      ContactMgr* contact_info_table) {
+                      ContactMgr* contact_mgr) {
     loadLayerTable(heap, entity_group_filter, ContactLayerType::Entity);
     loadLayerTable(heap, sensor_group_filter, ContactLayerType::Sensor);
     loadMaterialTable(heap, material_table);
     loadSubMaterialTable(heap, material_table);
-    loadContactInfoTable(heap, contact_info_table, ContactLayerType::Entity);
-    loadContactInfoTable(heap, contact_info_table, ContactLayerType::Sensor);
+    loadContactInfoTable(heap, contact_mgr, ContactLayerType::Entity);
+    loadContactInfoTable(heap, contact_mgr, ContactLayerType::Sensor);
     loadCharacterCtrlTable(heap);
     loadRagdollCtrlKeyList(heap);
 }
@@ -90,10 +90,10 @@ void SystemData::loadSubMaterialTable(sead::Heap* heap, MaterialTable* table) {
     table->loadSubMaterialTable(heap, res);
 }
 
-void SystemData::loadContactInfoTable(sead::Heap* heap, ContactMgr* table, ContactLayerType type) {
+void SystemData::loadContactInfoTable(sead::Heap* heap, ContactMgr* mgr, ContactLayerType type) {
     mContactInfoTableHandles[int(type)] = new (heap) res::Handle;
     const auto res = loadContactInfoTableRes(type);
-    table->loadContactInfoTable(heap, res, type);
+    mgr->loadContactInfoTable(heap, res, type);
 }
 
 void SystemData::loadCharacterCtrlTable(sead::Heap* heap) {
