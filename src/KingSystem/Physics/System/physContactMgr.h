@@ -20,6 +20,8 @@ class Heap;
 
 namespace ksys::phys {
 
+class RigidContactPoints;
+
 struct ContactInfoTable {
     struct Receiver : agl::utl::ParameterObj {
         const char* name = nullptr;
@@ -50,6 +52,11 @@ public:
 
     bool getSensorLayerMask(ReceiverMask* mask, const sead::SafeString& receiver_type) const;
 
+    RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
+                                           int a, int b, int c);
+    void registerContactPoints(RigidContactPoints* points);
+    void freeContactPoints(RigidContactPoints* points);
+
 private:
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,
                                 bool skip_params);
@@ -59,7 +66,7 @@ private:
     sead::OffsetList<void*> mList0;
     int mList0Size = 0;
     sead::Atomic<int> _34 = 0;
-    sead::OffsetList<void*> mList1;
+    sead::OffsetList<RigidContactPoints> mRigidContactPoints;
     sead::OffsetList<void*> mList2;
     sead::OffsetList<void*> mList3;
     sead::OffsetList<void*> mList4;

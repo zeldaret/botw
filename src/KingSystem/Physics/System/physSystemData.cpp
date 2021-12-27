@@ -135,6 +135,8 @@ agl::utl::ResParameterArchive SystemData::loadLayerTableRes(const SystemData::La
     case ContactLayerType::Sensor:
         path = "Physics/System/SensorLayerTable.bphyslayer";
         break;
+    case ContactLayerType::Invalid:
+        break;
     }
     const auto& resource = *matrix.mResHandle->load(path, &request);
     auto* direct_resource = sead::DynamicCast<const sead::DirectResource>(&resource);
@@ -169,6 +171,8 @@ agl::utl::ResParameterArchive SystemData::loadContactInfoTableRes(ContactLayerTy
         break;
     case ContactLayerType::Sensor:
         path = "Physics/System/SensorContactInfoTable.bphyscontact";
+        break;
+    case ContactLayerType::Invalid:
         break;
     }
     /// @bug Possible bug? The request is never used.

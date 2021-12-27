@@ -56,6 +56,10 @@ target_sources(uking PRIVATE
   System/physParamSet.h
   System/physRagdollControllerKeyList.h
   System/physRagdollControllerKeyList.cpp
+  System/physRigidContactPoints.cpp
+  System/physRigidContactPoints.h
+  System/physRigidContactPointsEx.cpp
+  System/physRigidContactPointsEx.h
   System/physShapeParam.cpp
   System/physShapeParam.h
   System/physSystemData.cpp

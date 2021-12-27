@@ -10,6 +10,7 @@ namespace ksys::phys {
 enum class ContactLayerType {
     Entity,
     Sensor,
+    Invalid,
 };
 
 SEAD_ENUM(ContactLayer,

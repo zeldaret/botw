@@ -1,13 +1,15 @@
 #include "KingSystem/Physics/System/physContactMgr.h"
+#include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/System/physRigidContactPoints.h"
 
 namespace ksys::phys {
 
 ContactMgr::ContactMgr() {
+    mRigidContactPoints.initOffset(RigidContactPoints::getListNodeOffset());
     // FIXME: figure out what these offsets are
-    mList1.initOffset(0x38);
     mList2.initOffset(0x78);
     mList3.initOffset(0x40);
     mList0.initOffset(0x10);
@@ -60,6 +62,33 @@ void ContactMgr::doLoadContactInfoTable(agl::utl::ResParameterArchive archive,
     }
 
     table.param_io.applyResParameterArchive(archive);
+}
+
+RigidContactPoints* ContactMgr::allocContactPoints(sead::Heap* heap, int num,
+                                                   const sead::SafeString& name, int a, int b,
+                                                   int c) {
+    auto* points = new (heap) RigidContactPoints(name, a, b, c);
+    points->allocPoints(heap, num);
+    return points;
+}
+
+void ContactMgr::registerContactPoints(RigidContactPoints* points) {
+    auto lock = sead::makeScopedLock(mMutex1);
+    if (!points->isLinked())
+        mRigidContactPoints.pushBack(points);
+}
+
+void ContactMgr::freeContactPoints(RigidContactPoints* points) {
+    if (!points)
+        return;
+
+    {
+        auto lock = sead::makeScopedLock(mMutex1);
+        if (points->isLinked())
+            mRigidContactPoints.erase(points);
+    }
+    points->freePoints();
+    delete points;
 }
 
 bool ContactMgr::getSensorLayerMask(ReceiverMask* mask,
