@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/System/physMemSystem.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physRigidContactPoints.h"
 
 namespace ksys::phys {
 
@@ -13,6 +14,12 @@ RigidContactPoints* MemSystem::allocContactPoints(sead::Heap* heap, int num,
 
 void MemSystem::freeContactPoints(RigidContactPoints* points) const {
     mContactMgr->freeContactPoints(points);
+}
+
+RigidContactPointsEx* MemSystem::allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                                      const sead::SafeString& name, int a, int b,
+                                                      int c) const {
+    return mContactMgr->allocContactPointsEx(heap, num, num2, name, a, b, c);
 }
 
 void MemSystem::registerContactPoints(RigidContactPoints* points) const {

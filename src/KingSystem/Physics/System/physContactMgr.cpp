@@ -4,6 +4,7 @@
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physMemSystem.h"
 #include "KingSystem/Physics/System/physRigidContactPoints.h"
+#include "KingSystem/Physics/System/physRigidContactPointsEx.h"
 
 namespace ksys::phys {
 
@@ -72,13 +73,22 @@ RigidContactPoints* ContactMgr::allocContactPoints(sead::Heap* heap, int num,
     return points;
 }
 
-void ContactMgr::registerContactPoints(RigidContactPoints* points) {
+RigidContactPointsEx* ContactMgr::allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                                       const sead::SafeString& name, int a, int b,
+                                                       int c) {
+    auto* points = new (heap) RigidContactPointsEx(name, a, b, c);
+    points->allocPoints(heap, num, num2);
+    registerContactPoints(points);
+    return points;
+}
+
+void ContactMgr::registerContactPoints(IRigidContactPoints* points) {
     auto lock = sead::makeScopedLock(mMutex1);
     if (!points->isLinked())
         mRigidContactPoints.pushBack(points);
 }
 
-void ContactMgr::freeContactPoints(RigidContactPoints* points) {
+void ContactMgr::freeContactPoints(IRigidContactPoints* points) {
     if (!points)
         return;
 

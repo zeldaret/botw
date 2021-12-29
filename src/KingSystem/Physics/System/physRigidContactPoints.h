@@ -19,6 +19,7 @@ public:
     IRigidContactPoints(const sead::SafeString& name, int a, int b, int c)
         : sead::INamable(name), _2c(a), _30(b), _34(c) {}
     virtual ~IRigidContactPoints() = default;
+    virtual void freePoints() = 0;
 
     bool isLinked() const { return mListNode.isLinked(); }
     static constexpr size_t getListNodeOffset() { return offsetof(IRigidContactPoints, mListNode); }
@@ -41,7 +42,7 @@ public:
 
     RigidContactPoints(const sead::SafeString& name, int a, int b, int c);
     ~RigidContactPoints() override;
-    virtual void freePoints();
+    void freePoints() override;
     virtual void allocPoints(sead::Heap* heap, int num);
 
 private:

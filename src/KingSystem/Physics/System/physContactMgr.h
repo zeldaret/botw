@@ -20,7 +20,9 @@ class Heap;
 
 namespace ksys::phys {
 
+class IRigidContactPoints;
 class RigidContactPoints;
+class RigidContactPointsEx;
 
 struct ContactInfoTable {
     struct Receiver : agl::utl::ParameterObj {
@@ -54,8 +56,10 @@ public:
 
     RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
                                            int a, int b, int c);
-    void registerContactPoints(RigidContactPoints* points);
-    void freeContactPoints(RigidContactPoints* points);
+    RigidContactPointsEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                               const sead::SafeString& name, int a, int b, int c);
+    void registerContactPoints(IRigidContactPoints* points);
+    void freeContactPoints(IRigidContactPoints* points);
 
 private:
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,
@@ -66,7 +70,7 @@ private:
     sead::OffsetList<void*> mList0;
     int mList0Size = 0;
     sead::Atomic<int> _34 = 0;
-    sead::OffsetList<RigidContactPoints> mRigidContactPoints;
+    sead::OffsetList<IRigidContactPoints> mRigidContactPoints;
     sead::OffsetList<void*> mList2;
     sead::OffsetList<void*> mList3;
     sead::OffsetList<void*> mList4;

@@ -100,12 +100,13 @@ public:
         const Point* const* mPointsStart = nullptr;
     };
 
-    static RigidContactPointsEx* make();
+    static RigidContactPointsEx* make(sead::Heap* heap, int num, int num2,
+                                      const sead::SafeString& name, int a, int b, int c);
     static void free(RigidContactPointsEx* instance);
 
     RigidContactPointsEx(const sead::SafeString& name, int a, int b, int c);
     ~RigidContactPointsEx() override;
-    virtual void freePoints();
+    void freePoints() override;
     virtual void allocPoints(sead::Heap* heap, int num, int num2);
 
     bool registerLayerPair(ContactLayer layer1, ContactLayer layer2, bool enabled);

@@ -32,6 +32,10 @@ public:
     RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
                                            int a, int b, int c) const;
     void freeContactPoints(RigidContactPoints* points) const;
+    RigidContactPointsEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                               const sead::SafeString& name, int a, int b,
+                                               int c) const;
+    void freeContactPointsEx(RigidContactPointsEx* points) const;
     void registerContactPoints(RigidContactPoints* points) const;
     void registerContactPointLayerPair(RigidContactPointsEx* points, ContactLayer layer1,
                                        ContactLayer layer2, bool enabled);

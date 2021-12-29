@@ -3,6 +3,16 @@
 
 namespace ksys::phys {
 
+RigidContactPointsEx* RigidContactPointsEx::make(sead::Heap* heap, int num, int num2,
+                                                 const sead::SafeString& name, int a, int b,
+                                                 int c) {
+    return MemSystem::instance()->allocContactPointsEx(heap, num, num2, name, a, b, c);
+}
+
+void RigidContactPointsEx::free(RigidContactPointsEx* instance) {
+    MemSystem::instance()->freeContactPointsEx(instance);
+}
+
 bool RigidContactPointsEx::registerLayerPair(ContactLayer layer1, ContactLayer layer2,
                                              bool enabled) {
     if (mLayerType == ContactLayerType::Invalid)
