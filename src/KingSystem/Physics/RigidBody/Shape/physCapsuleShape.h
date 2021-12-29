@@ -5,6 +5,8 @@
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/System/physMaterialMask.h"
 
 class hkpShape;
 
@@ -18,17 +20,11 @@ struct CapsuleBody {
         Modified = 1 << 0,
     };
 
-    struct Unk {
-        Unk(u32 a1, const char* a2, u32 a3, u32 a4, u32 a5);
-        virtual ~Unk();
-
-        u32 shape_type = 0;
-        const char* _10;
-    };
-
-    CapsuleBody(const sead::Vector3f& va, const sead::Vector3f& vb, f32 r, u32 a4, const char* a5,
-                u32 a6, u32 a7, hkpShape* a8)
-        : vertex_a(va), vertex_b(vb), radius(r), unk(a4, a5, a6, a7, 0), shape(a8) {}
+    CapsuleBody(const sead::Vector3f& va, const sead::Vector3f& vb, f32 r, Material material,
+                const char* sub_material, FloorCode floor_code, WallCode wall_code,
+                hkpShape* shape_)
+        : vertex_a(va), vertex_b(vb), radius(r),
+          material_mask(material, sub_material, floor_code, wall_code, false), shape(shape_) {}
     virtual ~CapsuleBody();
 
     virtual hkpShape* getShape();
@@ -49,7 +45,7 @@ struct CapsuleBody {
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> flags{};
     sead::Vector3f vertex_b;
     f32 radius;
-    Unk unk;
+    MaterialMask material_mask;
     hkpShape* shape;
 };
 
@@ -60,11 +56,11 @@ struct CapsuleShape {
     sead::Vector3f vertex_b;
     f32 radius;
     u32 _1c;
-    u32 _20;
-    const char* _28;
-    u32 _30;
-    u32 _34;
-    bool _38;
+    Material material;
+    const char* sub_material = sead::SafeString::cEmptyString.cstr();
+    FloorCode floor_code;
+    WallCode wall_code;
+    bool _38 = false;
 };
 
 class CapsuleView : public RigidBodyParamView {

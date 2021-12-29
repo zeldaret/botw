@@ -13,32 +13,26 @@ CapsuleBody* CapsuleShape::init(sead::Heap* heap) {
     auto* hk_shape =
         new (ptr) hkpCapsuleShape(hkVector4(vertex_a.x, vertex_a.y, vertex_a.z),
                                   hkVector4(vertex_b.x, vertex_b.y, vertex_b.z), radius);
-    auto* body = new (heap) CapsuleBody(vertex_a, vertex_b, radius, _20, _28, _30, _34, hk_shape);
+    auto* body = new (heap) CapsuleBody(vertex_a, vertex_b, radius, material, sub_material,
+                                        floor_code, wall_code, hk_shape);
     if (_38) {
-        body->unk.shape_type = 1 << 23;
+        body->material_mask.getData().flag_23 = true;
     }
-    body->unk._10 = nullptr;
-    hk_shape->setUserData(body->unk.shape_type);
+    body->material_mask.clearSubMaterialNameCache();
+    hk_shape->setUserData(body->material_mask.getRawData());
     return body;
 }
 
 CapsuleBody* CapsuleBody::clone(sead::Heap* heap) {
     CapsuleShape shape;
-
-    shape._20 = 0;
-    shape._28 = sead::SafeString::cEmptyString.cstr();
-    shape._30 = 0;
-    shape._34 = 0;
-    shape._38 = false;
     shape.radius = radius;
     shape.vertex_a = vertex_a;
     shape.vertex_b = vertex_b;
 
     CapsuleBody* body = shape.init(heap);
-    body->unk.shape_type = unk.shape_type;
-    body->unk._10 = nullptr;
+    body->material_mask = material_mask;
     if (body->shape != nullptr)
-        body->shape->setUserData(unk.shape_type);
+        body->shape->setUserData(material_mask.getRawData());
     return body;
 }
 

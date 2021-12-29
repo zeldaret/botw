@@ -116,6 +116,10 @@ struct BitField {
     // so that we can use this within unions
     constexpr BitField() = default;
 
+    // We declare a user-defined copy assignment operator, so the default copy constructor
+    // must be defaulted explicitly to avoid a deprecation warning.
+    constexpr BitField(const BitField&) = default;
+
     // This constructor might be considered ambiguous:
     // Would it initialize the storage or just the bitfield?
     // Hence, delete it. Use the assignment operator to set bitfield values!
@@ -131,6 +135,11 @@ struct BitField {
     inline constexpr void SetUnsafe(T val) {
         storage = (storage & ~GetMask()) | (static_cast<StorageType>(val) << position);
     }
+
+    /// @warning Same as SetUnsafe, but assumes this bitfield's bits are zero.
+    /// This is intended to be called only once to efficiently initialise a bitfield,
+    /// and will break very badly if called more than once. Using Set() is preferred.
+    inline constexpr void Init(T val) { storage |= static_cast<StorageType>(val) << position; }
 
     inline constexpr BitField& operator=(const BitField& other) {
         Set(other.Value());

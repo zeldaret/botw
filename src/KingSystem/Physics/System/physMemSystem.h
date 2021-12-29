@@ -9,9 +9,11 @@ namespace ksys::phys {
 
 class ContactMgr;
 class GroupFilter;
+class MaterialTable;
 class RigidBody;
 class RigidContactPoints;
 class RigidContactPointsEx;
+class SystemData;
 class SystemGroupHandler;
 
 // FIXME: obviously incomplete. Also this should be moved to its own header
@@ -28,6 +30,8 @@ public:
     GroupFilter* getGroupFilter(ContactLayerType type) const;
     ContactMgr* getContactMgr() const { return mContactMgr; }
     RigidBodyRequestMgr* getRigidBodyRequestMgr() const { return mRigidBodyRequestMgr; }
+    SystemData* getSystemData() const { return mSystemData; }
+    MaterialTable* getMaterialTable() const { return mMaterialTable; }
 
     RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
                                            int a, int b, int c) const;
@@ -48,7 +52,11 @@ private:
     void* _150;
     void* _158;
     RigidBodyRequestMgr* mRigidBodyRequestMgr;
-    u8 _168[0x480 - 0x168];
+    void* _168;
+    void* mRigidBodyDividedMeshShapeMgr;
+    SystemData* mSystemData;
+    MaterialTable* mMaterialTable;
+    u8 _188[0x480 - 0x188];
 };
 KSYS_CHECK_SIZE_NX150(MemSystem, 0x480);
 

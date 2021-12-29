@@ -113,6 +113,10 @@ Misc,\
 GrudgeSlow
 )
 
+constexpr bool isInvalidMaterial(Material::ValueType mat) {
+    return mat >= Material::size();
+}
+
 SEAD_ENUM(GroundHit,
 Player,\
 Animal,\

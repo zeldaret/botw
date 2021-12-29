@@ -48,6 +48,8 @@ target_sources(uking PRIVATE
   System/physGroupFilter.h
   System/physInstanceSet.cpp
   System/physInstanceSet.h
+  System/physMaterialMask.cpp
+  System/physMaterialMask.h
   System/physMaterialTable.cpp
   System/physMaterialTable.h
   System/physMemSystem.cpp
