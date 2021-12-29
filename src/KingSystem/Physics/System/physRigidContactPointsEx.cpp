@@ -49,4 +49,53 @@ void RigidContactPointsEx::freePoints() {
     mLayerEntries.freeBuffer();
 }
 
+void RigidContactPointsEx::Iterator::getData(sead::Vector3f* out,
+                                             RigidContactPointsEx::Iterator::Mode mode) const {
+    const float scale = getPoint()->scale;
+    out->e = getPoint()->_10.e;
+
+    switch (mode) {
+    case Mode::_0: {
+        if (getPoint()->flags.isOn(Point::Flag::_2))
+            return;
+        *out += getPoint()->_1c * -scale;
+        break;
+    }
+
+    case Mode::_1: {
+        if (!getPoint()->flags.isOn(Point::Flag::_2))
+            return;
+        *out += getPoint()->_1c * scale;
+        break;
+    }
+
+    case Mode::_2:
+    default: {
+        *out += getPoint()->_1c * scale * 0.5f;
+        break;
+    }
+    }
+}
+
+sead::Vector3f
+RigidContactPointsEx::Iterator::getData(RigidContactPointsEx::Iterator::Mode mode) const {
+    sead::Vector3f out;
+    getData(&out, mode);
+    return out;
+}
+
+RigidContactPointsEx::Iterator::Iterator(const RigidContactPointsEx::Points& points, int count)
+    : mPoints(points.getBufferPtr()), mPointsNum(count), mPointsStart(points.getBufferPtr()) {
+    for (int i = 0; i != count; ++i) {
+        if (!mPoints[i]->flags.isOn(Point::Flag::_1))
+            break;
+        ++mIdx;
+    }
+}
+
+RigidContactPointsEx::IteratorEnd::IteratorEnd(const RigidContactPointsEx::Points& points,
+                                               int count)
+    : mIdx(count), mPoints(points.getBufferPtr()), mPointsNum(count),
+      mPointsStart(points.getBufferPtr()) {}
+
 }  // namespace ksys::phys
