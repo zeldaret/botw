@@ -14,7 +14,7 @@ public:
 
 private:
     bool _8 = false;
-    u32  _c = 0;
+    u32 _c = 0;
 };
 
 }  // namespace ksys
