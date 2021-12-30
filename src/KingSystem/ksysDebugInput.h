@@ -11,10 +11,11 @@ class DebugInput {
 public:
     DebugInput() = default;
     virtual ~DebugInput() = default;
+    void update();
 
 private:
-    bool _8 = false;
-    u32 _c = 0;
+    sead::BitFlag8 mFlags = false;
+    float mLastDelta = 0;
 };
 
 }  // namespace ksys
