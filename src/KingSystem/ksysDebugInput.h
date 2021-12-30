@@ -2,6 +2,7 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <prim/seadTypedBitFlag.h>
 
 namespace ksys {
 
@@ -14,7 +15,7 @@ public:
     void update();
 
 private:
-    sead::BitFlag8 mFlags = false;
+    sead::BitFlag8 mFlags;
     float mLastDelta = 0;
 };
 
