@@ -36,6 +36,7 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
         * "Requires library integration" tasks require decompiling an external library (e.g. agl, sead, ...) and integrating it into the project.
         * "Manager/singleton" means that the task is about a manager or a singleton (a class with only a single instance).
         * If you want to work on libraries rather than on BotW code, take a look at [this board](https://botw.link/trello-libs)!
+        * Search for the card's label in IDA to locate relevant functions to decomp. If you can't find any good match, feel free to ask somebody to clarify the task on the help channel on Discord.
     * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
     * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
 
@@ -84,6 +85,8 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
 
 9. Before opening a PR, reformat the code with clang-format and run `tools/check`.
     * You can use clang-format via your editor – VSCode and CLion have built-in clang-format support — or by calling `git clang-format` (for files you have `git add`ed and not yet committed).
+    * If your editor does not have built-in support for clang-format, or if you need to invoke clang-format in a terminal, you'll need to install it manually.
+      * If your Linux distro or system (e.g. macOS) does not package clang-format 12, you can download it from [the LLVM project website here](https://releases.llvm.org/download.html)
 
 ## Code style
 
