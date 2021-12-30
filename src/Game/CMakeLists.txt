@@ -9,6 +9,4 @@ target_sources(uking PRIVATE
   gameScene.h
   gameStageInfo.cpp
   gameStageInfo.h
-  debugInput.cpp
-  debugInput.h
 )
