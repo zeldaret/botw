@@ -24,6 +24,25 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
 * [const correctness](https://isocpp.org/wiki/faq/const-correctness) for member functions
 * iterators and range-based for loops (e.g. `for (int i : my_list_of_ints) {}`)
 
+## Editor/IDE setup
+
+BotW is mostly set up like a normal C++ project using standard build tools and compilers like Clang, CMake, Ninja, etc. so autocomplete and "IntelliSense" style features should work almost out-of-the-box.
+
+### VSCode
+
+Make sure you have the C++ and the CMake Tools extensions installed and enabled. And then just answer "yes" when you're asked whether you would like CMake Tools to configure IntelliSense for you.
+
+### CLion
+
+CLion interacts with CMake directly, so you need to make sure CLion's build profile is configured correctly.
+
+1. Open the Settings window and go to the Build > CMake pane.
+2. Remove all existing build profiles, and add a new build profile (call it whatever you want):
+    * Build type: RelWithDebInfo
+    * CMake options: `-DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -GNinja`
+    * Build directory: `build`
+3. Press OK; CLion will automatically reload the CMake project.
+
 ## How to decompile
 
 0. Open the executable in the disassembler of your choice.
