@@ -24,6 +24,25 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
 * [const correctness](https://isocpp.org/wiki/faq/const-correctness) for member functions
 * iterators and range-based for loops (e.g. `for (int i : my_list_of_ints) {}`)
 
+## Editor/IDE setup
+
+BotW is mostly set up like a normal C++ project using standard build tools and compilers like Clang, CMake, Ninja, etc. so autocomplete and "IntelliSense" style features should work almost out-of-the-box.
+
+### VSCode
+
+Make sure you have the C++ and the CMake Tools extensions installed and enabled. And then just answer "yes" when you're asked whether you would like CMake Tools to configure IntelliSense for you.
+
+### CLion
+
+CLion interacts with CMake directly, so you need to make sure CLion's build profile is configured correctly.
+
+1. Open the Settings window and go to the Build > CMake pane.
+2. Remove all existing build profiles, and add a new build profile (call it whatever you want):
+    * Build type: RelWithDebInfo
+    * CMake options: `-DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -GNinja`
+    * Build directory: `build`
+3. Press OK; CLion will automatically reload the CMake project.
+
 ## How to decompile
 
 0. Open the executable in the disassembler of your choice.
@@ -36,6 +55,7 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
         * "Requires library integration" tasks require decompiling an external library (e.g. agl, sead, ...) and integrating it into the project.
         * "Manager/singleton" means that the task is about a manager or a singleton (a class with only a single instance).
         * If you want to work on libraries rather than on BotW code, take a look at [this board](https://botw.link/trello-libs)!
+        * Search for the card's label in IDA to locate relevant functions to decomp. If you can't find any good match, feel free to ask somebody to clarify the task on the help channel on Discord.
     * You do not need to fully understand the function, but you should at least have a rough idea of what it does.
     * If you are feeling more ambitious, pick an entire C++ class! This usually allows understanding the code better.
 
@@ -79,17 +99,19 @@ Unlike the vast majority of games that are being decompiled in 2021, *Breath of 
 
 8. **Update the list of decompiled functions**.
     * If you have a function that matches perfectly, great!
-    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status (the second column) to `m` (minor difference) in the CSV.
+    * If there are still minor differences left, write a comment to explain what is wrong (if you think that is necessary), and change the status (the second column) to `m` (minor difference) in the CSV.
     * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
 
 9. Before opening a PR, reformat the code with clang-format and run `tools/check`.
     * You can use clang-format via your editor – VSCode and CLion have built-in clang-format support — or by calling `git clang-format` (for files you have `git add`ed and not yet committed).
+    * If your editor does not have built-in support for clang-format, or if you need to invoke clang-format in a terminal, you'll need to install it manually.
+      * If your Linux distro or system (e.g. macOS) does not package clang-format 12, you can download it from [the LLVM project website here](https://releases.llvm.org/download.html)
 
 ## Code style
 
-This project uses clang-format to enforce a consistent coding style. Before opening a PR, please format your code with clang-format 12 and ensure the following guidelines are followed.
+BotW has 40MB of code and contributors *need* to read and modify existing parts of the codebase very often: inconsistencies lead to a loss of efficiency, and we literally cannot afford that considering our small number of contributors. To avoid wasting time on formatting issues, we use clang-format to automatically enforce a consistent coding style.
 
-This will allow your contributions to be reviewed more quickly.
+Before opening a PR, please format your code with clang-format 12 and ensure the following guidelines are followed. This will allow your contributions to be reviewed more quickly.
 
 ### General
 
@@ -97,7 +119,7 @@ This will allow your contributions to be reviewed more quickly.
 * Use 4 spaces to indent.
 * Use `nullptr`, not `NULL` or `0`.
 * Only use `auto` if the variable type is obvious, too long to type or if it doesn't matter.
-* To compare a value against zero, write `if (value == 0)`, not `if (!value)`.
+* To compare an integer against zero, write `if (value == 0)`, not `if (!value)`. (This rule doesn't apply to booleans.)
 * To compare a value against nullptr, either `if (pointer != nullptr)` or `if (pointer)` is fine.
 
 ### Header files
