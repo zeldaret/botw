@@ -91,6 +91,9 @@ public:
 
     explicit hkcdShape(hkFinishLoadedObjectFlag flag);
 
+    HK_FORCE_INLINE hkcdShape::ShapeType getType() const { return m_type; }
+    HK_FORCE_INLINE void setType(ShapeType newType) { m_type = newType; }
+
     hkEnum<ShapeType, hkUint8> m_type;
     hkEnum<DispatchType, hkUint8> m_dispatchType;
     hkUint8 m_bitsPerKey;
