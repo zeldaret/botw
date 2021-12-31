@@ -109,9 +109,9 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
 
 ## Code style
 
-This project uses clang-format to enforce a consistent coding style. Before opening a PR, please format your code with clang-format 12 and ensure the following guidelines are followed.
+BotW has 40MB of code and contributors *need* to read and modify existing parts of the codebase very often: inconsistencies lead to a loss of efficiency, and we literally cannot afford that considering our small number of contributors. To avoid wasting time on formatting issues, we use clang-format to automatically enforce a consistent coding style.
 
-This will allow your contributions to be reviewed more quickly.
+Before opening a PR, please format your code with clang-format 12 and ensure the following guidelines are followed. This will allow your contributions to be reviewed more quickly.
 
 ### General
 
