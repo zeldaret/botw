@@ -24,4 +24,6 @@ add_subdirectory(XLink)
 target_sources(uking PRIVATE
   ksys.cpp
   ksys.h
+  ksysDebugInput.cpp
+  ksysDebugInput.h
 )
