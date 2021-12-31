@@ -119,7 +119,7 @@ This will allow your contributions to be reviewed more quickly.
 * Use 4 spaces to indent.
 * Use `nullptr`, not `NULL` or `0`.
 * Only use `auto` if the variable type is obvious, too long to type or if it doesn't matter.
-* To compare a value against zero, write `if (value == 0)`, not `if (!value)`.
+* To compare an integer against zero, write `if (value == 0)`, not `if (!value)`. (This rule doesn't apply to booleans.)
 * To compare a value against nullptr, either `if (pointer != nullptr)` or `if (pointer)` is fine.
 
 ### Header files
