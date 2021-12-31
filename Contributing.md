@@ -99,7 +99,7 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
 
 8. **Update the list of decompiled functions**.
     * If you have a function that matches perfectly, great!
-    * If there are still minor differences left, wrap the function in an `#ifdef NON_MATCHING`, add a comment to explain what is wrong, and change the status (the second column) to `m` (minor difference) in the CSV.
+    * If there are still minor differences left, write a comment to explain what is wrong (if you think that is necessary), and change the status (the second column) to `m` (minor difference) in the CSV.
     * For major differences (lots of entirely red/green/blue lines in the diff), use a capital `M` (major difference) in place of `m`.
 
 9. Before opening a PR, reformat the code with clang-format and run `tools/check`.
