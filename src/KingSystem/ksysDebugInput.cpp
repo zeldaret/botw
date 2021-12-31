@@ -1,4 +1,3 @@
-
 #include "KingSystem/ksysDebugInput.h"
 #include "KingSystem/System/VFR.h"
 
