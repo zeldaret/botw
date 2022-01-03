@@ -55,7 +55,7 @@ CapsuleBody::~CapsuleBody() {
 }
 
 bool CapsuleBody::setRadius(f32 r) {
-    if (r <= 0.0f || r == radius) {
+    if (r == radius || r <= 0.0f) {
         return false;
     }
     radius = r;
