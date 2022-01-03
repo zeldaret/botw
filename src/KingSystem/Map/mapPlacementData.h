@@ -21,39 +21,13 @@ namespace ksys::map {
 class LazyTraverseList;
 class MubinIter;
 
-template <typename T, size_t N>
-class FixedArray {
-public:
-    T& create() {
-        return data[count++];
-    }
-
-    T& operator[](s32 idx) {
-        return data[idx];
-    }
-
-    bool empty() {
-        return count <= 0;
-    }
-
-    s32 size() {
-        return count;
-    }
-
-    void reset() {
-        count = 0;
-    }
-
-private:
-    sead::SafeArray<T, N> data{};
-    s32 count;
-};
-
 struct PlacementData {
     PlacementData();
-    ~PlacementData() {}
+    ~PlacementData() {
+        _29aa4_count = 0;
+    }
 
-    bool parseObj(const sead::SafeString& unitConfigName, const MubinIter& objIter);
+    bool parseAreas(const sead::SafeString& unitConfigName, const MubinIter& objIter);
     void _d1e578(); // x
     void _d1e9b0();
     void _d1eb24();
@@ -85,8 +59,7 @@ struct PlacementData {
     // contains + and - of each x, y, z as a vector
     class Axis { 
     public:
-        Axis() {}
-
+        Axis() = default;
         Axis(const sead::Vector3f& v) : Axis(v, v) {}
 
         // parameter names only based on default values
@@ -105,7 +78,7 @@ struct PlacementData {
         }
 
     private:
-        sead::Vector3f data[6];
+        sead::Vector3f data[6]{};
     };
 
     struct Unknown1 {  // only _148 appears in PlacementData's ctor
@@ -150,12 +123,12 @@ struct PlacementData {
             Culling_9B = Culling_80 | Culling_1B,
         };
 
-        Axis base, calc, load, _d8;
-        sead::Vector3f translate;
+        Axis base{}, calc{}, load{}, _d8{};
+        sead::Vector3f translate{};
         u8 _12c; // something to do with _29C54, potentially another enum?
         u8 hideRoomNum;
         u8 _130_idx;
-        sead::SafeArray<int, 6> _130;
+        sead::SafeArray<int, 6> _130{}; // used with field_8, parent?
         struct Params { // _148 : u16
             bool hideOutSide : 1;
             bool isConnectNeighborArea : 1;
@@ -179,18 +152,6 @@ struct PlacementData {
     };
     KSYS_CHECK_SIZE_NX150(OuterNPCMementary, 0x10);
 
-    // this probably doesn't exist
-    struct Unknown2 {
-        Unknown1 alpha, omega;  // parseObj
-        sead::SafeArray<OuterNPCMementary, 26> _298;
-        static s32 _298_idx;
-
-        ~Unknown2() {
-            _298_idx = 0;
-        }
-    };
-    KSYS_CHECK_SIZE_NX150(Unknown2, 0x438);
-
     struct GeneralArea { // InnerOn?
         enum class Type : s16 {
             None = 0,
@@ -206,8 +167,9 @@ struct PlacementData {
 
     struct JudgeArea {
         sead::BoundBox3f bb{};
-        sead::SafeArray<GeneralArea*, 8> parentAreas;
-        FixedArray<u32, 8> parentIds;
+        sead::SafeArray<GeneralArea*, 8> parentAreas{};
+        sead::SafeArray<u32, 8> parentIds{};
+        u32 parentCount = 0;
     };
     KSYS_CHECK_SIZE_NX150(JudgeArea, 0x80);
 
@@ -248,18 +210,24 @@ struct PlacementData {
     bool mIsOneHitChallengeActive = false;
     bool notAocField = false;
     bool _4 = false;
-    FixedArray<Unknown1, 512> _8;  // parseObj
-    Unknown2 _2980c;
+    sead::SafeArray<Unknown1, 512> _8{}; // parseObj
+    s32 _8_count;
+    Unknown1 alpha{}, omega{};  // parseObj
+    sead::SafeArray<OuterNPCMementary, 26> _29aa4{};
+    static s32 _29aa4_count;
     sead::Vector3f playerPos;
     f32 cameraAngleMaybe = 50.0f;  // fov?
-    u32 _29c54;
+    u32 _29c54; // enum?
     LazyTraverseList* objects = StagePreActorCache::instance()->getObjects();
-    FixedArray<JudgeArea, 16> mJudgeArea;
-    FixedArray<char, 128> _2a468;  // probably not char
-    FixedArray<GeneralArea, 64> _2a4ec;
-    FixedArray<Unknown4, 4> _2acf0;
+    sead::SafeArray<JudgeArea, 16> mJudgeArea{};
+    s32 mJudgeArea_count;
+    sead::SafeArray<char, 128> _2a468{}; // probably not char
+    s32 _2a468_count;
+    sead::SafeArray<GeneralArea, 64> _2a4ec{};
+    s32 _2a4ec_count;
+    sead::SafeArray<Unknown4, 4> _2acf0{};
+    s32 _2acf0_count;
     Unknown4* _2adb8;
-    //FixedArray<FarModel, 128> _2adc0;
     sead::SafeArray<FarModel, 128> _2adc0{};
     s32 _2adc0_count;
     f32 _2d5c4; // distance? also doesn't align
@@ -273,6 +241,6 @@ struct PlacementData {
     static sead::TypedBitFlag<UnkFlag> unkFlag;
 };
 KSYS_CHECK_SIZE_NX150(PlacementData, 0x2D5D0);
-CHECK_OFFSET(PlacementData, _2adc0, 0x2adc0);
+CHECK_OFFSET(PlacementData, _29aa4, 0x29aa4);
 
 }  // namespace ksys::map

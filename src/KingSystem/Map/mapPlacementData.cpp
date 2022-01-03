@@ -7,11 +7,41 @@
 
 namespace ksys::map {
 
-s32 PlacementData::Unknown2::_298_idx = 0;
+s32 PlacementData::_29aa4_count = 0;
 sead::TypedBitFlag<PlacementData::UnkFlag> PlacementData::unkFlag;
 
+// used in D21C3C, compiler optimization of function?
+const float scales[] = {
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.85f,
+    0.6f,
+    0.75f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.6f,
+    0.75f,
+    0.6f,
+    0.6f
+};
+
 PlacementData::PlacementData() {
-    _8.reset();
+    _8_count = 0;
     playerPos = sead::Vector3f::zero;
     _29c54 = 0;
 
@@ -19,20 +49,20 @@ PlacementData::PlacementData() {
         unkFlag.set(UnkFlag::_80);
     }
 
-    mJudgeArea.reset();
-    _2a468.reset();
-    _2a4ec.reset();
+    mJudgeArea_count = 0;
+    _2a468_count = 0;
+    _2a4ec_count = 0;
     _2d5c4 = 0.0f;
-    _2acf0.reset();
+    _2acf0_count = 0;
     _2adc0_count = 0;
     _2adb8 = nullptr;
     mFlags.set(Flag::_10);
 }
 
 //#ifdef NON_MATCHING
-bool PlacementData::parseObj(const sead::SafeString& unitConfigName, const MubinIter& objIter) {
+bool PlacementData::parseAreas(const sead::SafeString& unitConfigName, const MubinIter& objIter) {
     if (unitConfigName == "AreaCulling_InnerHide") {
-        auto& area = _8.create();
+        auto& area = _8[_8_count++];
         SRT srt;
         objIter.getSRT(&srt);
 
@@ -195,23 +225,23 @@ bool PlacementData::parseObj(const sead::SafeString& unitConfigName, const Mubin
 
         return true;
     } else if (unitConfigName == "AreaCulling_OuterNPCMementary") {
-        if (_2980c._298_idx > 25) {  // this if statement has ++ but this structure makes more sense
+        if (_29aa4_count > 25) {  // this if statement has ++ but this structure makes more sense
             return true;
         }
 
-        auto& area = _2980c._298[_2980c._298_idx++];
+        auto& area = _29aa4[_29aa4_count++];
         SRT srt;
 
         objIter.getSRT(&srt);
         area.translate = srt.translate;
         area.scale = srt.scale.x;
         return true;
-    } else if (unitConfigName.include("AreaCulling_TwinsHide")) {
+    } else if (unitConfigName.include("AreaCulling_TwinsHide")) { // no objects
         Unknown1* area;
         if (unitConfigName.include("Alpha")) {
-            area = &_2980c.alpha; // 2980C
+            area = &alpha; // 2980C
         } else if (unitConfigName.include("Omega")) {
-            area = &_2980c.omega; // 29958
+            area = &omega; // 29958
         } else {
             return true;
         }
@@ -237,9 +267,9 @@ bool PlacementData::parseObj(const sead::SafeString& unitConfigName, const Mubin
 
         unkFlag.set(UnkFlag::_40);
         return true;
-    } else if (unitConfigName == "AreaCulling_JudgeArea") {
+    } else if (unitConfigName == "AreaCulling_JudgeArea") { // no objects
         SRT srt;
-        auto& area = mJudgeArea.create();
+        auto& area = mJudgeArea[mJudgeArea_count++];
 
         objIter.getSRT(&srt);
         area.bb.set(srt.translate - srt.scale, srt.translate + srt.scale);
@@ -254,16 +284,17 @@ bool PlacementData::parseObj(const sead::SafeString& unitConfigName, const Mubin
             if (links.tryGetIterByIndex(&iter, i)) {
                 u32 _id = 0;
                 if (iter.tryGetParamUIntByKey(&_id, "DestUnitHashId")) {
-                    area.parentIds.create() = _id;
+                    area.parentIds[area.parentCount++] = _id;
                 }
             }
         }
 
         return true;
     } else if (unitConfigName.include("AreaCulling_")) {  // only InnerOn?
-        auto& area = _2a4ec.create();
+        auto& area = _2a4ec[_2a4ec_count++];
         SRT srt;
 
+        objIter.getSRT(&srt);
         area.bb.set(srt.translate - srt.scale, srt.translate + srt.scale);
         objIter.tryGetParamUIntByKey(&area.id, "HashId");
 
@@ -272,16 +303,16 @@ bool PlacementData::parseObj(const sead::SafeString& unitConfigName, const Mubin
             if (sead::SafeString(param) == "LoadOpt") {
                 area.type = GeneralArea::Type::LoadOpt;
 
-                auto& subArea = _2acf0.create();
+                auto& subArea = _2acf0[_2acf0_count++];
                 subArea.parentArea = &area;
                 subArea.id = "Demo102_0";
             } else {
                 area.type = GeneralArea::Type::None;
 
-                auto& subArea = mJudgeArea.create();
+                auto& subArea = mJudgeArea[mJudgeArea_count++];
                 sead::Vector3f offset { 20.0f, 0.0f, 20.0f };
                 subArea.bb.set(srt.translate - srt.scale - offset, srt.translate + srt.scale + offset);
-                subArea.parentIds.create() = 0;
+                subArea.parentIds[subArea.parentCount++] = 0;
                 subArea.parentAreas[0] = &area;
             }
         }
