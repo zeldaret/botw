@@ -74,13 +74,8 @@ bool CapsuleBody::setVertices(const sead::Vector3f& va, const sead::Vector3f& vb
 }
 
 f32 CapsuleBody::getVolume() const {
-    f32 dy = vertex_a.y - vertex_b.y;
-    f32 dx = vertex_a.x - vertex_b.x;
-    f32 dz = vertex_a.z - vertex_b.z;
-    f32 dist = sqrtf(dx * dx + dy * dy + dz * dz);
-    f32 pi_r_sq = radius * radius * sead::Mathf::pi();
-    f32 c = (radius * 4.0f) / 3.0f;
-    return pi_r_sq * (dist + c);
+    f32 dist = (vertex_a - vertex_b).length();
+    return sead::Mathf::pi() * radius * radius * (dist + radius * 4.0f / 3.0f);
 }
 
 hkpShape* CapsuleBody::getShape() {
