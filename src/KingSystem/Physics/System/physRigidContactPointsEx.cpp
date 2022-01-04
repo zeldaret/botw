@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physRigidContactPointsEx.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physMemSystem.h"
 
 namespace ksys::phys {
@@ -66,14 +67,14 @@ void RigidContactPointsEx::Iterator::getData(sead::Vector3f* out,
 
     switch (mode) {
     case Mode::_0: {
-        if (getPoint()->flags.isOn(Point::Flag::_2))
+        if (getPoint()->flags.isOn(ContactPoint::Flag::_2))
             return;
         *out += getPoint()->_1c * -scale;
         break;
     }
 
     case Mode::_1: {
-        if (!getPoint()->flags.isOn(Point::Flag::_2))
+        if (!getPoint()->flags.isOn(ContactPoint::Flag::_2))
             return;
         *out += getPoint()->_1c * scale;
         break;
@@ -97,7 +98,7 @@ RigidContactPointsEx::Iterator::getData(RigidContactPointsEx::Iterator::Mode mod
 RigidContactPointsEx::Iterator::Iterator(const RigidContactPointsEx::Points& points, int count)
     : mPoints(points.getBufferPtr()), mPointsNum(count), mPointsStart(points.getBufferPtr()) {
     for (int i = 0; i != count; ++i) {
-        if (!mPoints[i]->flags.isOn(Point::Flag::_1))
+        if (!mPoints[i]->flags.isOn(ContactPoint::Flag::_1))
             break;
         ++mIdx;
     }

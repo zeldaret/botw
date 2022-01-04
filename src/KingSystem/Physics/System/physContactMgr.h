@@ -13,6 +13,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadMutex.h>
 #include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace sead {
 class Heap;
@@ -41,6 +42,29 @@ struct ContactInfoTable {
     agl::utl::ParameterList contact_info_table_plist;
     sead::Buffer<Receiver> receivers;
 };
+
+// XXX: what exactly is this? Is this really a contact point?
+struct ContactPoint {
+    enum class Flag {
+        _1 = 1 << 0,
+        _2 = 1 << 1,
+    };
+
+    void* _0;
+    void* _8;
+    sead::Vector3f _10;
+    sead::Vector3f _1c;
+    float scale;
+    void* _30;
+    void* _38;
+    void* _40;
+    void* _48;
+    void* _50;
+    void* _58;
+    void* _60;
+    sead::TypedBitFlag<Flag, u8> flags;
+};
+KSYS_CHECK_SIZE_NX150(ContactPoint, 0x70);
 
 class ContactMgr : public sead::hostio::Node {
 public:

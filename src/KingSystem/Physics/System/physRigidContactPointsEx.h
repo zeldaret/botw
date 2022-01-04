@@ -9,32 +9,12 @@
 
 namespace ksys::phys {
 
+struct ContactPoint;
+
 // FIXME: rename. This should be below SensorGroupFilter and StaticCompound stuff
 class RigidContactPointsEx : public IRigidContactPoints {
 public:
-    struct Point {
-        enum class Flag {
-            _1 = 1 << 0,
-            _2 = 1 << 1,
-        };
-
-        void* _0;
-        void* _8;
-        sead::Vector3f _10;
-        sead::Vector3f _1c;
-        float scale;
-        void* _30;
-        void* _38;
-        void* _40;
-        void* _48;
-        void* _50;
-        void* _58;
-        void* _60;
-        sead::TypedBitFlag<Flag, u8> flags;
-    };
-    KSYS_CHECK_SIZE_NX150(Point, 0x70);
-
-    using Points = sead::Buffer<Point*>;
+    using Points = sead::Buffer<ContactPoint*>;
 
     class IteratorEnd;
 
@@ -57,8 +37,8 @@ public:
         void getData(sead::Vector3f* out, Mode mode) const;
         sead::Vector3f getData(Mode mode) const;
 
-        const Point* getPoint() const { return mPoints[mIdx]; }
-        const Point* operator*() const { return getPoint(); }
+        const ContactPoint* getPoint() const { return mPoints[mIdx]; }
+        const ContactPoint* operator*() const { return getPoint(); }
 
         friend bool operator==(const Iterator& lhs, const Iterator& rhs) {
             return lhs.mIdx == rhs.mIdx;
@@ -71,9 +51,9 @@ public:
         friend class IteratorEnd;
 
         int mIdx = 0;
-        const Point* const* mPoints = nullptr;
+        const ContactPoint* const* mPoints = nullptr;
         int mPointsNum = 0;
-        const Point* const* mPointsStart = nullptr;
+        const ContactPoint* const* mPointsStart = nullptr;
     };
 
     class IteratorEnd {
@@ -95,9 +75,9 @@ public:
 
     private:
         int mIdx = 0;
-        const Point* const* mPoints = nullptr;
+        const ContactPoint* const* mPoints = nullptr;
         int mPointsNum = 0;
-        const Point* const* mPointsStart = nullptr;
+        const ContactPoint* const* mPointsStart = nullptr;
     };
 
     static RigidContactPointsEx* make(sead::Heap* heap, int num, int num2,
