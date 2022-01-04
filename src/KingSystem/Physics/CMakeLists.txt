@@ -1,10 +1,12 @@
 target_sources(uking PRIVATE
   Cloth/physClothParam.cpp
   Cloth/physClothParam.h
+
   Ragdoll/physRagdollConfig.cpp
   Ragdoll/physRagdollConfig.h
   Ragdoll/physRagdollParam.cpp
   Ragdoll/physRagdollParam.h
+
   RigidBody/physEdgeRigidBodyParam.cpp
   RigidBody/physEdgeRigidBodyParam.h
   RigidBody/physMotionAccessor.cpp
@@ -27,11 +29,18 @@ target_sources(uking PRIVATE
   RigidBody/Shape/physSphereShape.h
   RigidBody/Shape/physWaterCylinderShape.cpp
   RigidBody/Shape/physWaterCylinderShape.h
+
+  StaticCompound/physStaticCompound.cpp
+  StaticCompound/physStaticCompound.h
+  StaticCompound/physStaticCompoundFieldBodyGroup.cpp
+  StaticCompound/physStaticCompoundFieldBodyGroup.h
+
   SupportBone/physSupportBoneParam.cpp
   SupportBone/physSupportBoneParam.h
   SupportBone/physSupportBoneResource.cpp
   SupportBone/physSupportBoneResource.h
   SupportBone/physSupportBoneResourceMainBone.cpp
+
   System/physCharacterControllerParam.cpp
   System/physCharacterControllerParam.h
   System/physConstraint.cpp
