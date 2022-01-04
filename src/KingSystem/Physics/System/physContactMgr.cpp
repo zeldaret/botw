@@ -18,6 +18,17 @@ ContactMgr::ContactMgr() {
     mList5.initOffset(0x48);
 }
 
+void ContactMgr::initContactPointPool(sead::Heap* heap, IsIndoorStage indoor) {
+    int count = 0x1000;
+    if (indoor == IsIndoorStage::Yes)
+        count = 0x2000;
+    mContactPointPool.allocBufferAssert(count, heap);
+}
+
+void ContactMgr::freeContactPointPool() {
+    mContactPointPool.freeBuffer();
+}
+
 void ContactMgr::loadContactInfoTable(sead::Heap* heap, agl::utl::ResParameterArchive archive,
                                       ContactLayerType type) {
     auto& table = mContactInfoTables[int(type)];

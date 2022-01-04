@@ -13,6 +13,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadMutex.h>
 #include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/System/physMaterialMask.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -21,6 +22,7 @@ class Heap;
 
 namespace ksys::phys {
 
+enum class IsIndoorStage;
 class IRigidContactPoints;
 class RigidContactPoints;
 class RigidContactPointsEx;
@@ -55,12 +57,8 @@ struct ContactPoint {
     sead::Vector3f _10;
     sead::Vector3f _1c;
     float scale;
-    void* _30;
-    void* _38;
-    void* _40;
-    void* _48;
-    void* _50;
-    void* _58;
+    MaterialMask material_mask1;
+    MaterialMask material_mask2;
     void* _60;
     sead::TypedBitFlag<Flag, u8> flags;
 };
@@ -72,6 +70,9 @@ public:
     virtual ~ContactMgr();
 
     void init(sead::Heap* heap);
+
+    void initContactPointPool(sead::Heap* heap, IsIndoorStage indoor);
+    void freeContactPointPool();
 
     void loadContactInfoTable(sead::Heap* heap, agl::utl::ResParameterArchive archive,
                               ContactLayerType type);
@@ -89,8 +90,8 @@ private:
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,
                                 bool skip_params);
 
-    // FIXME: type, name
-    sead::Buffer<void*> mBuffer;
+    // Used to optimise ContactPoint allocations.
+    sead::Buffer<ContactPoint> mContactPointPool;
     sead::OffsetList<void*> mList0;
     int mList0Size = 0;
     sead::Atomic<int> _34 = 0;

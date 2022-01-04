@@ -21,6 +21,11 @@ struct RigidBodyRequestMgr {
     void sub_7100FA6C8C(bool, RigidBody*);
 };
 
+enum class IsIndoorStage {
+    No,
+    Yes,
+};
+
 class MemSystem {
     SEAD_SINGLETON_DISPOSER(MemSystem)
     MemSystem();
