@@ -5,6 +5,21 @@
 
 namespace ksys::phys {
 
+CapsuleBody::CapsuleBody(const CapsuleShape& shape_, hkpShape* hkp_shape_)
+    : vertex_a(shape_.vertex_a), vertex_b(shape_.vertex_b), radius(shape_.radius),
+      material_mask(shape_.material, shape_.sub_material, shape_.floor_code, shape_.wall_code),
+      shape(hkp_shape_) {
+    if (shape_._38)
+        material_mask.getData().setCustomFlag(MaterialMaskData::CustomFlag::_0);
+    setMaterialMask(material_mask);
+}
+
+void CapsuleBody::setMaterialMask(const MaterialMask& mask) {
+    material_mask = mask;
+    if (shape)
+        shape->setUserData(mask.getRawData());
+}
+
 CapsuleBody* CapsuleShape::init(sead::Heap* heap) {
     void* ptr = heap->tryAlloc(sizeof(hkpCapsuleShape), 0x10);
     if (ptr == nullptr)
@@ -13,14 +28,7 @@ CapsuleBody* CapsuleShape::init(sead::Heap* heap) {
     auto* hk_shape =
         new (ptr) hkpCapsuleShape(hkVector4(vertex_a.x, vertex_a.y, vertex_a.z),
                                   hkVector4(vertex_b.x, vertex_b.y, vertex_b.z), radius);
-    auto* body = new (heap) CapsuleBody(vertex_a, vertex_b, radius, material, sub_material,
-                                        floor_code, wall_code, hk_shape);
-    if (_38) {
-        body->material_mask.getData().flag_23 = true;
-    }
-    body->material_mask.clearSubMaterialNameCache();
-    hk_shape->setUserData(body->material_mask.getRawData());
-    return body;
+    return new (heap) CapsuleBody(*this, hk_shape);
 }
 
 CapsuleBody* CapsuleBody::clone(sead::Heap* heap) {
