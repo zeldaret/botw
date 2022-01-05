@@ -7,6 +7,7 @@
 using hkFloat32 = float;
 using hkDouble64 = double;
 using hkReal = hkFloat32;
+#define HK_REAL_IS_FLOAT
 
 using hkChar = char;
 using hkInt8 = std::int8_t;
@@ -75,17 +76,17 @@ class hkBool {
 public:
     HK_ALWAYS_INLINE hkBool() = default;
     // NOLINTNEXTLINE(google-explicit-constructor)
-    HK_FORCE_INLINE hkBool(bool b) : m_bool(static_cast<char>(b)) {}
+    HK_FORCE_INLINE constexpr hkBool(bool b) : m_bool(static_cast<char>(b)) {}
 
-    HK_FORCE_INLINE explicit operator bool() const { return m_bool != 0; }
+    HK_FORCE_INLINE constexpr explicit operator bool() const { return m_bool != 0; }
 
-    HK_FORCE_INLINE hkBool& operator=(bool e) {
+    HK_FORCE_INLINE constexpr hkBool& operator=(bool e) {
         m_bool = static_cast<char>(e);
         return *this;
     }
 
-    HK_FORCE_INLINE hkBool operator==(bool e) const { return (m_bool != 0) == e; }
-    HK_FORCE_INLINE hkBool operator!=(bool e) const { return (m_bool != 0) != e; }
+    HK_FORCE_INLINE constexpr hkBool operator==(bool e) const { return (m_bool != 0) == e; }
+    HK_FORCE_INLINE constexpr hkBool operator!=(bool e) const { return (m_bool != 0) != e; }
 
 private:
     char m_bool;
@@ -100,18 +101,19 @@ template <typename Enum, typename Storage>
 struct hkEnum {
     HK_ALWAYS_INLINE hkEnum() {}
 
-    hkEnum(Enum value) { *this = value; }  // NOLINT(google-explicit-constructor)
+    constexpr hkEnum(Enum value)  // NOLINT(google-explicit-constructor)
+        : m_storage(static_cast<Storage>(value)) {}
 
     // NOLINTNEXTLINE(google-explicit-constructor)
-    operator Enum() const { return static_cast<Enum>(m_storage); }
+    constexpr operator Enum() const { return static_cast<Enum>(m_storage); }
 
-    hkEnum& operator=(Enum value) {
+    constexpr hkEnum& operator=(Enum value) {
         m_storage = static_cast<Storage>(value);
         return *this;
     }
 
-    bool operator==(Enum e) const { return m_storage == static_cast<Storage>(e); }
-    bool operator!=(Enum e) const { return m_storage != static_cast<Storage>(e); }
+    constexpr bool operator==(Enum e) const { return m_storage == static_cast<Storage>(e); }
+    constexpr bool operator!=(Enum e) const { return m_storage != static_cast<Storage>(e); }
 
     Storage m_storage;
 };
@@ -120,29 +122,31 @@ template <typename, typename Storage>
 class hkFlags {
 public:
     HK_FORCE_INLINE hkFlags() {}
-    HK_FORCE_INLINE explicit hkFlags(Storage s) : m_storage(s) {}
+    HK_FORCE_INLINE constexpr explicit hkFlags(Storage s) : m_storage(s) {}
 
-    HK_FORCE_INLINE void clear() { m_storage = 0; }
-    HK_FORCE_INLINE void clear(Storage mask) { m_storage &= ~mask; }
-    HK_FORCE_INLINE void setAll(Storage s) { m_storage = s; }
+    HK_FORCE_INLINE constexpr void clear() { m_storage = 0; }
+    HK_FORCE_INLINE constexpr void clear(Storage mask) { m_storage &= ~mask; }
+    HK_FORCE_INLINE constexpr void setAll(Storage s) { m_storage = s; }
 
-    HK_FORCE_INLINE void operator|=(Storage s) { m_storage |= s; }
-    HK_FORCE_INLINE void operator^=(Storage s) { m_storage ^= s; }
-    HK_FORCE_INLINE void operator&=(Storage s) { m_storage &= s; }
+    HK_FORCE_INLINE constexpr void operator|=(Storage s) { m_storage |= s; }
+    HK_FORCE_INLINE constexpr void operator^=(Storage s) { m_storage ^= s; }
+    HK_FORCE_INLINE constexpr void operator&=(Storage s) { m_storage &= s; }
 
-    HK_FORCE_INLINE void setWithMask(Storage s, Storage mask) {
+    HK_FORCE_INLINE constexpr void setWithMask(Storage s, Storage mask) {
         m_storage = (m_storage & ~mask) | (s & mask);
     }
 
-    HK_FORCE_INLINE Storage get() const { return m_storage; }
-    HK_FORCE_INLINE bool anyIsSet(Storage mask) const { return (m_storage & mask) != 0; }
-    HK_FORCE_INLINE bool noneIsSet(Storage mask) const { return (m_storage & mask) == 0; }
-    HK_FORCE_INLINE bool allAreSet(Storage mask) const { return (m_storage & mask) == mask; }
+    HK_FORCE_INLINE constexpr Storage get() const { return m_storage; }
+    HK_FORCE_INLINE constexpr bool anyIsSet(Storage mask) const { return (m_storage & mask) != 0; }
+    HK_FORCE_INLINE constexpr bool noneIsSet(Storage mask) const { return (m_storage & mask) == 0; }
+    HK_FORCE_INLINE constexpr bool allAreSet(Storage mask) const {
+        return (m_storage & mask) == mask;
+    }
 
-    HK_FORCE_INLINE bool operator==(const hkFlags& other) const {
+    HK_FORCE_INLINE constexpr bool operator==(const hkFlags& other) const {
         return other.m_storage == m_storage;
     }
-    HK_FORCE_INLINE bool operator!=(const hkFlags& other) const {
+    HK_FORCE_INLINE constexpr bool operator!=(const hkFlags& other) const {
         return other.m_storage != m_storage;
     }
 
@@ -187,3 +191,12 @@ public:
 HK_FORCE_INLINE hkLong hkGetByteOffset(const void* base, const void* pntr) {
     return hkLong(pntr) - hkLong(base);
 }
+
+class hkClass;
+
+struct hkVariant {
+    void* m_object;
+    const hkClass* m_class;
+};
+
+#define HK_DECLARE_REFLECTION() static const hkClass& staticClass();

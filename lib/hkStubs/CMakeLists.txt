@@ -21,6 +21,11 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Object/hkReferencedObject.cpp
   Havok/Common/Base/Object/hkReferencedObject.h
 
+  Havok/Common/Base/Reflection/hkClass.h
+  Havok/Common/Base/Reflection/hkClassEnum.h
+  Havok/Common/Base/Reflection/hkClassMember.h
+  Havok/Common/Base/Reflection/hkTypeInfo.h
+
   Havok/Common/Base/Thread/Atomic/hkAtomicPrimitives.h
   Havok/Common/Base/Thread/Thread/hkThreadLocalData.h
 
