@@ -4,7 +4,7 @@
 #include <Havok/Common/Base/Object/hkReferencedObject.h>
 
 class hkpCdBody;
-class hkpCollisionInput;
+struct hkpCollisionInput;
 
 class hkpConvexListFilter : public hkReferencedObject {
 public:
