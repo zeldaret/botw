@@ -17,6 +17,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Memory/Allocator/hkMemoryAllocator.h
   Havok/Common/Base/Memory/Allocator/Lifo/hkLifoAllocator.h
   Havok/Common/Base/Memory/Router/hkMemoryRouter.h
+  Havok/Common/Base/Memory/Util/hkMemUtil.h
 
   Havok/Common/Base/Object/hkBaseObject.h
   Havok/Common/Base/Object/hkReferencedObject.cpp
@@ -73,6 +74,7 @@ add_library(hkStubs OBJECT
 
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
+  Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h
   Havok/Physics2012/Dynamics/World/hkpWorld.cpp
   Havok/Physics2012/Dynamics/World/hkpWorld.h
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
@@ -81,6 +83,8 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/hkpWorldObject.h
   Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
   Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h
+
+  Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h
 )
 
 target_compile_options(hkStubs PRIVATE -fno-exceptions)

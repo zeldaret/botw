@@ -2,6 +2,7 @@
 
 #include <Havok/Common/Base/Container/Array/hkArrayUtil.h>
 #include <Havok/Common/Base/Container/hkContainerAllocators.h>
+#include <Havok/Common/Base/Memory/Util/hkMemUtil.h>
 #include <Havok/Common/Base/Types/hkBaseDefs.h>
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 #include <type_traits>
@@ -186,6 +187,27 @@ inline void hkArrayBase<T>::_clearAndDeallocate(hkMemoryAllocator& allocator) {
     }
     m_data = nullptr;
     m_capacityAndFlags = DONT_DEALLOCATE_FLAG;
+}
+
+template <typename T>
+inline void hkArrayBase<T>::removeAt(int index) {
+    hkArrayUtil::destruct(&m_data[index], 1);
+    m_size--;
+    if (m_size != index)
+        hkMemUtil::memCpyOneAligned<sizeof(T), alignof(T)>(m_data + index, m_data + m_size);
+}
+
+template <typename T>
+inline void hkArrayBase<T>::removeAtAndCopy(int index) {
+    removeAtAndCopy(index, 1);
+}
+
+template <typename T>
+inline void hkArrayBase<T>::removeAtAndCopy(int index, int numToRemove) {
+    hkArrayUtil::destruct(m_data + index, numToRemove);
+    m_size -= numToRemove;
+    hkMemUtil::memCpy<alignof(T)>(m_data + index, m_data + index + numToRemove,
+                                  (m_size - index) * sizeof(T));
 }
 
 template <typename T>

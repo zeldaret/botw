@@ -11,6 +11,7 @@ public:
     };
 
     hkStringPtr();
+    explicit hkStringPtr(hkFinishLoadedObjectFlag f);
 
     inline const char* cString() const;
     inline operator const char*() const;
