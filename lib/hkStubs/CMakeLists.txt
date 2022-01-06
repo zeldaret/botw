@@ -5,6 +5,7 @@ add_library(hkStubs OBJECT
 
   Havok/Common/Base/Container/hkContainerAllocators.h
   Havok/Common/Base/Container/Array/hkArray.h
+  Havok/Common/Base/Container/Array/hkArrayUtil.h
   Havok/Common/Base/Container/String/hkStringPtr.h
 
   Havok/Common/Base/Math/hkMath.h
