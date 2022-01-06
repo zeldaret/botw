@@ -33,7 +33,10 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/hkBaseDefs.h
   Havok/Common/Base/Types/hkBaseTypes.h
   Havok/Common/Base/Types/hkRefPtr.h
+  Havok/Common/Base/Types/hkRefVariant.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
+
+  Havok/Common/Serialize/Util/hkRootLevelContainer.h
 
   Havok/Geometry/Collide/Shapes/hkcdShape.h
 
