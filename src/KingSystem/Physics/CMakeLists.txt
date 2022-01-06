@@ -1,6 +1,8 @@
 target_sources(uking PRIVATE
   Cloth/physClothParam.cpp
   Cloth/physClothParam.h
+  Cloth/physClothResource.cpp
+  Cloth/physClothResource.h
 
   Ragdoll/physRagdollConfig.cpp
   Ragdoll/physRagdollConfig.h
