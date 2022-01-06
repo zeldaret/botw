@@ -10,9 +10,15 @@
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::map {
+class Object;
+}
+
 namespace ksys::phys {
 
-class FieldBodyGroup;
+struct ActorInfo;
+class BodyGroup;
+struct StaticCompoundInfo;
 
 class StaticCompound : public res::Resource, public sead::hostio::Node {
     SEAD_RTTI_OVERRIDE(StaticCompound, res::Resource)
@@ -21,11 +27,16 @@ public:
     StaticCompound();
     ~StaticCompound() override;
 
-    FieldBodyGroup* getFieldBodyGroup(int idx);
-    bool hasFieldBodyGroup(FieldBodyGroup* group) const;
+    void setMapObject(u32 hash_id, u32 srt_hash, map::Object* object);
+    map::Object* getMapObject(int shape_idx) const;
+
+    bool disableCollision(int actor_idx, bool x);
+
+    BodyGroup* getFieldBodyGroup(int idx);
+    bool hasFieldBodyGroup(BodyGroup* group) const;
 
     // res::Resource interface
-    void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
+    void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* parent_heap) override;
     bool needsParse() const override { return true; }
     bool finishParsing_() override;
     bool m7_() override;
@@ -37,15 +48,15 @@ private:
 
     sead::TypedBitFlag<Flag> mFlags;
     sead::Heap* mHeap{};
-    void* _50{};
-    void* mData{};
-    int _60{};
-    void* _68{};
-    int _70{};
-    sead::Buffer<FieldBodyGroup> mFieldBodyGroups;
+    const StaticCompoundInfo* mStaticCompoundInfo{};
+    void* mBuffer{};
+    int mBufferSize{};
+    void* mContainerBuffer{};
+    int mContainerBufferSize{};
+    sead::Buffer<BodyGroup> mFieldBodyGroups;
     sead::FixedSafeString<32> mName;
     sead::Matrix34f mMtx = sead::Matrix34f::ident;
-    sead::Buffer<void*> _f0{};
+    sead::Buffer<map::Object*> mMapObjects{};
     sead::CriticalSection mCS;
 };
 KSYS_CHECK_SIZE_NX150(StaticCompound, 0x140);
