@@ -92,6 +92,9 @@ public:
                                            hkBool32 shrinkExact = false);
 
 protected:
+    HK_FORCE_INLINE hkArrayBase<T>& copyFromArray(hkMemoryAllocator& allocator,
+                                                  const hkArrayBase<T>& src);
+
     T* m_data;
     int m_size;
     int m_capacityAndFlags;
@@ -241,6 +244,24 @@ inline hkBool hkArrayBase<T>::tryPushBack(const T& t) {
 }
 
 template <typename T>
+inline hkResult hkArrayBase<T>::_reserve(hkMemoryAllocator& alloc, int n) {
+    const int capacity = getCapacity();
+    if (capacity < n) {
+        int newCapacity = 2 * capacity;
+        int newSize = n < newCapacity ? newCapacity : n;
+        return hkArrayUtil::_reserve(alloc, this, newSize, sizeof(T));
+    }
+    return HK_SUCCESS;
+}
+
+template <typename T>
+inline hkResult hkArrayBase<T>::_reserveExactly(hkMemoryAllocator& alloc, int n) {
+    if (getCapacity() < n)
+        return hkArrayUtil::_reserve(alloc, this, n, sizeof(T));
+    return HK_SUCCESS;
+}
+
+template <typename T>
 inline typename hkArrayBase<T>::iterator hkArrayBase<T>::begin() {
     return m_data;
 }
@@ -284,6 +305,48 @@ template <typename T>
 inline void hkArrayBase<T>::setDataUserFree(T* ptr, int size, int capacity) {
     static_assert(std::is_pod_v<T>, "T must be a POD type");
     _setDataUnchecked(ptr, size, capacity | DONT_DEALLOCATE_FLAG);
+}
+
+template <typename T>
+inline hkArrayBase<T>& hkArrayBase<T>::copyFromArray(hkMemoryAllocator& allocator,
+                                                     const hkArrayBase<T>& src) {
+    if constexpr (std::is_pod_v<T>) {
+        if (getCapacity() < src.getSize()) {
+            if ((m_capacityAndFlags & DONT_DEALLOCATE_FLAG) == 0) {
+                allocator._bufFree<T>(m_data, getCapacity());
+            }
+            const int n = src.getSize();
+            m_data = allocator._bufAlloc<T>(n);
+            m_capacityAndFlags = n;
+        }
+        m_size = src.getSize();
+        copy(m_data, src.m_data, m_size);
+
+    } else {
+        const int oldSize = m_size;
+        const int newSize = src.getSize();
+        const int copiedSize = newSize > oldSize ? oldSize : newSize;
+
+        _reserve(allocator, newSize);
+        hkArrayUtil::destruct(m_data + newSize, oldSize - newSize);
+        copy(m_data, src.m_data, copiedSize);
+        hkArrayUtil::constructWithArray(m_data + copiedSize, newSize - copiedSize,
+                                        src.m_data + copiedSize);
+        m_size = newSize;
+    }
+    return *this;
+}
+
+template <typename T, typename Allocator>
+inline hkArray<T, Allocator>& hkArray<T, Allocator>::operator=(const hkArrayBase<T>& a) {
+    this->copyFromArray(Allocator().get(), a);
+    return *this;
+}
+
+template <typename T, typename Allocator>
+inline hkArray<T, Allocator>& hkArray<T, Allocator>::operator=(const hkArray& a) {
+    this->copyFromArray(Allocator().get(), a);
+    return *this;
 }
 
 template <typename T, typename Allocator>
