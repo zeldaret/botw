@@ -95,6 +95,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h
   Havok/Physics2012/Collide/Util/Welding/hkpWeldingUtility.h
 
+  Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h
   Havok/Physics2012/Dynamics/Common/hkpMaterial.h
   Havok/Physics2012/Dynamics/Common/hkpProperty.h
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h

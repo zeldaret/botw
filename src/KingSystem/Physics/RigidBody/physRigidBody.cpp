@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/System/physMemSystem.h"
 
@@ -17,7 +18,7 @@ RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead:
     mHkBody->enableDeactivation(true);
     mHkBody->getCollidableRw()->m_allowedPenetrationDepth = 0.1f;
     if (mFlags.isOff(Flag1::MassScaling)) {
-        mHkBody->m_responseModifierFlags |= 1;
+        mHkBody->m_responseModifierFlags |= hkpResponseModifier::Flags::MASS_SCALING;
     }
 
     mFlags.change(Flag1::_80, _b4 == 5);
