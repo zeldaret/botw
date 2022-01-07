@@ -6,6 +6,8 @@ target_sources(uking PRIVATE
 
   Ragdoll/physRagdollConfig.cpp
   Ragdoll/physRagdollConfig.h
+  Ragdoll/physRagdollControllerKeyList.h
+  Ragdoll/physRagdollControllerKeyList.cpp
   Ragdoll/physRagdollParam.cpp
   Ragdoll/physRagdollParam.h
   Ragdoll/physRagdollResource.cpp
@@ -78,8 +80,6 @@ target_sources(uking PRIVATE
   System/physMemSystem.h
   System/physParamSet.cpp
   System/physParamSet.h
-  System/physRagdollControllerKeyList.h
-  System/physRagdollControllerKeyList.cpp
   System/physRigidContactPoints.cpp
   System/physRigidContactPoints.h
   System/physRigidContactPointsEx.cpp
