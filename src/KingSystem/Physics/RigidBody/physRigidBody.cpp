@@ -5,7 +5,6 @@
 
 namespace ksys::phys {
 
-// NON_MATCHING
 RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
                      sead::Heap* heap, bool a7)
     : mCS(heap), mHkBody(hk_body), mHkBodyMgr(hk_body), _b4(a) {
