@@ -32,7 +32,8 @@ template <typename T>
 class EntryFactory : public EntryFactoryBase {
     SEAD_RTTI_OVERRIDE(EntryFactory<T>, EntryFactoryBase)
 public:
-    using EntryFactoryBase::EntryFactoryBase;
+    explicit EntryFactory(f32 size_multiplier = 1.0, u32 size_constant = 0)
+        : EntryFactoryBase(size_multiplier, size_constant) {}
 
     u32 getResourceSize() const override { return sizeof(T); }
     u32 getLoadDataAlignment() const override { return T::cLoadDataAlignment; }

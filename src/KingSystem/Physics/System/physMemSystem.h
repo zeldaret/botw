@@ -1,7 +1,9 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -38,6 +40,8 @@ public:
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
 
+    void initSystemData(sead::Heap* heap);
+
     RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
                                            int a, int b, int c) const;
     void freeContactPoints(RigidContactPoints* points) const;
@@ -52,7 +56,15 @@ public:
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 
 private:
-    u8 _28[0x148 - 0x28];
+    u8 _28[0xa8 - 0x28];
+    sead::CriticalSection mCS;
+    void* _e8{};
+    void* _f0{};
+    GroupFilter* mEntityGroupFilter{};
+    GroupFilter* mSensorGroupFilter{};
+    sead::FixedPtrArray<GroupFilter, 2> mGroupFilters;
+    // FIXME: type
+    sead::FixedPtrArray<void*, 2> _128;
     ContactMgr* mContactMgr;
     void* _150;
     void* _158;
@@ -61,7 +73,15 @@ private:
     void* mRigidBodyDividedMeshShapeMgr;
     SystemData* mSystemData;
     MaterialTable* mMaterialTable;
-    u8 _188[0x480 - 0x188];
+    void* _188{};
+    void* _190{};
+    void* _198{};
+    void* _1a0{};
+    sead::Heap* mPhysicsSystemHeap{};
+    sead::Heap* mDebugHeap{};
+    sead::Heap* mPhysicsTempDefaultHeap{};
+    sead::Heap* mPhysicsTempLowHeap{};
+    u8 _1c8[0x480 - 0x1c8];
 };
 KSYS_CHECK_SIZE_NX150(MemSystem, 0x480);
 

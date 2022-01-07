@@ -84,6 +84,8 @@ target_sources(uking PRIVATE
   System/physRigidContactPoints.h
   System/physRigidContactPointsEx.cpp
   System/physRigidContactPointsEx.h
+  System/physSensorGroupFilter.cpp
+  System/physSensorGroupFilter.h
   System/physShapeParam.cpp
   System/physShapeParam.h
   System/physSystemData.cpp
