@@ -7,21 +7,21 @@ namespace ksys::phys {
 // NON_MATCHING
 RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
                      sead::Heap* heap, bool a7)
-    : mHkBody(hk_body), mHkBodyMgr(hk_body), _b4(a) {
+    : mCS(heap), mHkBody(hk_body), mHkBodyMgr(hk_body), _b4(a) {
     if (!name.isEmpty()) {
-        hk_body->setName(name.cstr());
+        mHkBody->setName(name.cstr());
     }
-    hk_body->setUserData(reinterpret_cast<hkUlong>(this));
-    hk_body->m_motion.m_savedMotion = nullptr;
-    hk_body->m_motion.m_motionState.m_timeFactor.setOne();
-    hk_body->enableDeactivation(true);
-    hk_body->getCollidableRw()->m_allowedPenetrationDepth = 0.1f;
-    if (mFlags.isOn(Flag1::MassScaling)) {
-        hk_body->m_responseModifierFlags |= 1;
+    mHkBody->setUserData(reinterpret_cast<hkUlong>(this));
+    mHkBody->m_motion.m_savedMotion = nullptr;
+    mHkBody->m_motion.m_motionState.m_timeFactor.setOne();
+    mHkBody->enableDeactivation(true);
+    mHkBody->getCollidableRw()->m_allowedPenetrationDepth = 0.1f;
+    if (mFlags.isOff(Flag1::MassScaling)) {
+        mHkBody->m_responseModifierFlags |= 1;
     }
 
     mFlags.change(Flag1::_80, _b4 == 5);
-    mFlags.change(Flag1::MassScaling, mass_scaling);
+    mFlags.change(Flag1::MassScaling, mass_scaling == 1);
     mFlags.change(Flag1::_10, a7);
     mFlags.set(Flag1::_100);
 }

@@ -19,7 +19,7 @@ class MotionAccessor;
 
 class RigidBase {
 public:
-    virtual ~RigidBase();
+    virtual ~RigidBase() = 0;
 };
 
 class RigidBody : public sead::IDisposer, public RigidBase {
@@ -56,7 +56,21 @@ public:
 
     RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
               sead::Heap* heap, bool a7);
-    virtual ~RigidBody();
+    ~RigidBody() override;
+
+    // FIXME: types and names
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    // FIXME: should be pure
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
 
     void sub_7100F8CFA0();
     void setMotionFlag(MotionFlag);
@@ -94,10 +108,11 @@ private:
     void* _90 = nullptr;
     u16 _98 = 0;
     HkBodyMgr mHkBodyMgr;
-    f32 _b0 = 0.0f;
-    u32 _b4;
+    f32 _b0 = 1.0f;
+    u32 _b4 = 0;
     MotionAccessor* mMotionAccessor = nullptr;
     u16 _c0 = 0;
+    u16 _c2 = 0;
     void* _c8 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(RigidBody, 0xD0);
