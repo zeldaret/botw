@@ -12,6 +12,7 @@ class hkpAction;
 class hkpBreakableBody;
 class hkpConstraintInstance;
 class hkpContactListener;
+class hkpDynamicsContactMgr;
 class hkpEntityActivationListener;
 class hkpEntityListener;
 class hkpSimulationIsland;
@@ -67,6 +68,70 @@ public:
     explicit hkpEntity(hkFinishLoadedObjectFlag flag);
     ~hkpEntity() override;
 
+    void addEntityListener(hkpEntityListener* el);
+    void removeEntityListener(hkpEntityListener* el);
+
+    void addEntityActivationListener(hkpEntityActivationListener* el);
+    void removeEntityActivationListener(hkpEntityActivationListener* el);
+
+    void addContactListener(hkpContactListener* cl);
+    void removeContactListener(hkpContactListener* cl);
+
+    inline const hkSmallArray<hkpEntityListener*>& getEntityListeners() const;
+    inline const hkSmallArray<hkpEntityActivationListener*>& getEntityActivationListeners() const;
+    inline const hkSmallArray<hkpContactListener*>& getContactListeners() const;
+    inline bool areContactListenersAdded() const;
+
+    inline hkUint16 getContactPointCallbackDelay() const;
+    inline void setContactPointCallbackDelay(hkUint16 delay);
+
+    inline hkpMaterial& getMaterial();
+    inline const hkpMaterial& getMaterial() const;
+
+    inline hkBool isFixed() const;
+    inline hkBool isFixedOrKeyframed() const;
+    inline hkUint32 getUid() const;
+
+    hkpDynamicsContactMgr* findContactMgrTo(const hkpEntity* entity) const;
+
+    hkpBreakableBody* getBreakableBody() const;
+
+    void activate();
+    void requestDeactivation();
+    void deactivate();
+    void activateAsCriticalOperation();
+    void requestDeactivationAsCriticalOperation();
+    void deactivateAsCriticalOperation();
+    hkBool isActive() const;
+
+    inline int getNumActions() const;
+    inline hkpAction* getAction(int i);
+
+    int getNumConstraints() const;
+    hkpConstraintInstance* getConstraint(int i);
+    void getAllConstraints(hkArray<hkpConstraintInstance*>& constraints);
+    const hkpConstraintInstance* getConstraint(int i) const;
+    inline const hkSmallArray<struct hkConstraintInternal>& getConstraintMasters() const;
+    inline hkSmallArray<struct hkConstraintInternal>& getConstraintMastersRw();
+    inline const hkArray<class hkpConstraintInstance*>& getConstraintSlaves() const;
+
+    void sortConstraintsSlavesDeterministically();
+
+    void setCachedShapeData(const hkpWorld* world, const hkpShape* shape);
+
+    void updateCachedAabb();
+
+protected:
+    const hkSmallArray<struct hkConstraintInternal>& getConstraintMastersImpl() const;
+    hkSmallArray<struct hkConstraintInternal>& getConstraintMastersRwImpl();
+    const hkArray<class hkpConstraintInstance*>& getConstraintSlavesImpl() const;
+
+    explicit hkpEntity(const hkpShape* shape);
+
+public:
+    inline hkpMotion* getMotion();
+    inline hkpSimulationIsland* getSimulationIsland() const;
+
     virtual void deallocateInternalArrays();
     hkMotionState* getMotionState() override { return nullptr; }
 
@@ -93,3 +158,84 @@ public:
     mutable ExtendedListeners* m_extendedListeners;
     hkUint32 m_npData;
 };
+
+inline const hkSmallArray<hkpEntityListener*>& hkpEntity::getEntityListeners() const {
+    if (!m_extendedListeners)
+        m_extendedListeners = new ExtendedListeners;
+    return m_extendedListeners->m_entityListeners;
+}
+
+inline const hkSmallArray<hkpEntityActivationListener*>&
+hkpEntity::getEntityActivationListeners() const {
+    if (!m_extendedListeners)
+        m_extendedListeners = new ExtendedListeners;
+    return m_extendedListeners->m_activationListeners;
+}
+
+inline const hkSmallArray<hkpContactListener*>& hkpEntity::getContactListeners() const {
+    return m_contactListeners;
+}
+
+inline bool hkpEntity::areContactListenersAdded() const {
+    return m_contactListeners.getSize() > 0;
+}
+
+inline hkUint16 hkpEntity::getContactPointCallbackDelay() const {
+    return m_contactPointCallbackDelay;
+}
+
+inline void hkpEntity::setContactPointCallbackDelay(hkUint16 delay) {
+    m_contactPointCallbackDelay = delay;
+}
+
+inline hkpMaterial& hkpEntity::getMaterial() {
+    return m_material;
+}
+
+inline const hkpMaterial& hkpEntity::getMaterial() const {
+    return m_material;
+}
+
+inline hkBool hkpEntity::isFixed() const {
+    return m_motion.getType() == hkpMotion::MOTION_FIXED;
+}
+
+inline hkBool hkpEntity::isFixedOrKeyframed() const {
+    return isFixed() || m_motion.getType() == hkpMotion::MOTION_KEYFRAMED;
+}
+
+inline hkUint32 hkpEntity::getUid() const {
+    return m_uid;
+}
+
+inline hkpBreakableBody* hkpEntity::getBreakableBody() const {
+    return m_breakableBody;
+}
+
+inline const hkSmallArray<struct hkConstraintInternal>& hkpEntity::getConstraintMasters() const {
+    return getConstraintMastersImpl();
+}
+
+inline hkSmallArray<struct hkConstraintInternal>& hkpEntity::getConstraintMastersRw() {
+    return getConstraintMastersRwImpl();
+}
+
+inline const hkArray<class hkpConstraintInstance*>& hkpEntity::getConstraintSlaves() const {
+    return getConstraintSlavesImpl();
+}
+
+inline hkpMotion* hkpEntity::getMotion() {
+    return &m_motion;
+}
+
+inline hkpSimulationIsland* hkpEntity::getSimulationIsland() const {
+    return m_simulationIsland;
+}
+
+inline hkpAction* hkpEntity::getAction(int i) {
+    return m_actions[i];
+}
+
+inline int hkpEntity::getNumActions() const {
+    return m_actions.getSize();
+}

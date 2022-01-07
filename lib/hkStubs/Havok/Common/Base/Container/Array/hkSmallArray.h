@@ -28,6 +28,9 @@ public:
     HK_FORCE_INLINE int getSize() const;
     HK_FORCE_INLINE int getCapacity() const;
 
+    HK_FORCE_INLINE T& operator[](int i);
+    HK_FORCE_INLINE const T& operator[](int i) const;
+
 protected:
     void releaseMemory();
 
@@ -53,6 +56,16 @@ inline int hkSmallArray<T>::getSize() const {
 template <typename T>
 inline int hkSmallArray<T>::getCapacity() const {
     return m_capacityAndFlags & CAPACITY_MASK;
+}
+
+template <typename T>
+inline T& hkSmallArray<T>::operator[](int i) {
+    return m_data[i];
+}
+
+template <typename T>
+inline const T& hkSmallArray<T>::operator[](int i) const {
+    return m_data[i];
 }
 
 template <typename T>
