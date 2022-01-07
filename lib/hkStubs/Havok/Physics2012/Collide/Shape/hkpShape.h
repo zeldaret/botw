@@ -32,3 +32,26 @@ public:
 
     hkUlong m_userData;
 };
+
+class hkpShapeKeyPair {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(hkpShapeKeyPair)
+
+    hkpShapeKey m_shapeKeyA;
+    hkpShapeKey m_shapeKeyB;
+
+    HK_FORCE_INLINE bool operator==(const hkpShapeKeyPair& p1) const {
+        return m_shapeKeyB == p1.m_shapeKeyB && m_shapeKeyA == p1.m_shapeKeyA;
+    }
+
+    HK_FORCE_INLINE bool operator<(const hkpShapeKeyPair& p1) const {
+        return (m_shapeKeyA < p1.m_shapeKeyA) ||
+               (m_shapeKeyA == p1.m_shapeKeyA && m_shapeKeyB < p1.m_shapeKeyB);
+    }
+};
+
+class hkpShapeModifier {
+public:
+    virtual ~hkpShapeModifier() = default;
+    virtual void modifyShape(hkpShape* shapeInOut) = 0;
+};

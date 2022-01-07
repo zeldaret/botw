@@ -4,7 +4,6 @@
 #include <Havok/Physics2012/Collide/Shape/hkpShape.h>
 
 class hkMotionState;
-class hkTransform;
 class hkpCollidable;
 
 class hkpCdBody {

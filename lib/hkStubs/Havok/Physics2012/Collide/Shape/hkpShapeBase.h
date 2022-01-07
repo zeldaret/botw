@@ -8,7 +8,6 @@ using hkpShapeKey = hkUint32;
 
 class hkAabb;
 class hkSphere;
-class hkTransform;
 class hkcdVertex;
 class hkpCdBody;
 class hkpRayHitCollector;

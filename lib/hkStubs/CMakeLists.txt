@@ -6,9 +6,24 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Container/hkContainerAllocators.h
   Havok/Common/Base/Container/Array/hkArray.h
   Havok/Common/Base/Container/Array/hkArrayUtil.h
+  Havok/Common/Base/Container/Array/hkSmallArray.h
   Havok/Common/Base/Container/String/hkStringPtr.h
 
+  Havok/Common/Base/DebugUtil/MultiThreadCheck/hkMultiThreadCheck.h
+
   Havok/Common/Base/Math/hkMath.h
+  Havok/Common/Base/Math/Matrix/hkMatrix3.h
+  Havok/Common/Base/Math/Matrix/hkMatrix3f.h
+  Havok/Common/Base/Math/Matrix/hkRotation.h
+  Havok/Common/Base/Math/Matrix/hkRotationf.h
+  Havok/Common/Base/Math/Matrix/hkTransform.h
+  Havok/Common/Base/Math/Matrix/hkTransformf.h
+  Havok/Common/Base/Math/Quaternion/hkQuaternion.h
+  Havok/Common/Base/Math/Quaternion/hkQuaternionf.h
+  Havok/Common/Base/Math/SweptTransform/hkSweptTransform.h
+  Havok/Common/Base/Math/SweptTransform/hkSweptTransformf.h
+  Havok/Common/Base/Math/Vector/hkSimdFloat32.h
+  Havok/Common/Base/Math/Vector/hkSimdReal.h
   Havok/Common/Base/Math/Vector/hkVector4.h
   Havok/Common/Base/Math/Vector/hkVector4f.h
   Havok/Common/Base/Math/Vector/hkVector4Comparison.h
@@ -28,6 +43,8 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Reflection/hkClassMember.h
   Havok/Common/Base/Reflection/hkTypeInfo.h
 
+  Havok/Common/Base/System/StackTracer/hkStackTracer.h
+
   Havok/Common/Base/Thread/Atomic/hkAtomicPrimitives.h
   Havok/Common/Base/Thread/Thread/hkThreadLocalData.h
 
@@ -36,6 +53,8 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/hkRefPtr.h
   Havok/Common/Base/Types/hkRefVariant.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
+  Havok/Common/Base/Types/Physics/MotionState/hkMotionState.h
+  Havok/Common/Base/Types/Properties/hkSimpleProperty.h
 
   Havok/Common/Serialize/Resource/hkResource.h
   Havok/Common/Serialize/Util/hkNativePackfileUtils.h
@@ -49,6 +68,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidableQualityType.h
   Havok/Physics2012/Collide/Agent3/BvTree3/hkpBvTreeAgent3.h
+  Havok/Physics2012/Collide/Agent3/Machine/Nn/hkpLinkedCollidable.h
   Havok/Physics2012/Collide/BroadPhase/hkpBroadPhaseHandle.h
   Havok/Physics2012/Collide/BroadPhase/hkpTypedBroadPhaseHandle.h
   Havok/Physics2012/Collide/Dispatch/hkpCollisionDispatcher.h
@@ -74,14 +94,17 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h
   Havok/Physics2012/Collide/Util/Welding/hkpWeldingUtility.h
 
+  Havok/Physics2012/Dynamics/Common/hkpMaterial.h
+  Havok/Physics2012/Dynamics/Common/hkpProperty.h
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
+  Havok/Physics2012/Dynamics/Motion/hkpMotion.h
+  Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h
   Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h
   Havok/Physics2012/Dynamics/World/hkpWorld.cpp
   Havok/Physics2012/Dynamics/World/hkpWorld.h
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.h
-  Havok/Physics2012/Dynamics/World/hkpWorldEntity.h
   Havok/Physics2012/Dynamics/World/hkpWorldObject.h
   Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
   Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h

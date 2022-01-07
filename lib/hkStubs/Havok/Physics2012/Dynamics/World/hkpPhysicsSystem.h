@@ -2,7 +2,6 @@
 
 #include <Havok/Common/Base/hkBase.h>
 
-class hkTransform;
 class hkpRigidBody;
 class hkpConstraintInstance;
 class hkpAction;

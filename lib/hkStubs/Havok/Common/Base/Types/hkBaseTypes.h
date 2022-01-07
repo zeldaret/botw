@@ -24,6 +24,9 @@ using hk_size_t = std::size_t;
 using hkLong = long;
 using hkUlong = unsigned long;
 
+using hkObjectIndex = hkUint16;
+using hkTime = hkReal;
+
 using m128 = __attribute((vector_size(16))) float;
 
 class hkHalf {

@@ -11,13 +11,13 @@ RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead:
     if (!name.isEmpty()) {
         hk_body->setName(name.cstr());
     }
-    hk_body->setUserData(this);
-    hk_body->m_motion._128 = nullptr;
-    hk_body->m_motion.m_motionState__m_timeFactor.setOne();
+    hk_body->setUserData(reinterpret_cast<hkUlong>(this));
+    hk_body->m_motion.m_savedMotion = nullptr;
+    hk_body->m_motion.m_motionState.m_timeFactor.setOne();
     hk_body->enableDeactivation(true);
-    hk_body->_88 = 0.1f;
+    hk_body->getCollidableRw()->m_allowedPenetrationDepth = 0.1f;
     if (mFlags.isOn(Flag1::MassScaling)) {
-        hk_body->_132 |= 1;
+        hk_body->m_responseModifierFlags |= 1;
     }
 
     mFlags.change(Flag1::_80, _b4 == 5);

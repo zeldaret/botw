@@ -70,6 +70,18 @@ protected:
     static HK_THREAD_LOCAL(hkMemoryRouter*) s_memoryRouter;
 };
 
+template <typename TYPE>
+HK_FORCE_INLINE TYPE* hkAllocateChunk(int numberOfObjects) {
+    return static_cast<TYPE*>(hkMemoryRouter::getInstance().heap().blockAlloc(
+        numberOfObjects * hkSizeOfTypeOrVoid<TYPE>::val));
+}
+
+template <typename TYPE>
+HK_FORCE_INLINE void hkDeallocateChunk(TYPE* ptr, int numberOfObjects) {
+    hkMemoryRouter::getInstance().heap().blockFree(static_cast<void*>(ptr),
+                                                   numberOfObjects * hkSizeOfTypeOrVoid<TYPE>::val);
+}
+
 #define HK_DECLARE_CLASS_ALLOCATOR_IMPL(CLASS_TYPE, ALLOCATOR)                                     \
     /* clang-tidy fails to understand that the operator delete matches the operator new  */        \
     /* NOLINTNEXTLINE(misc-new-delete-overloads) */                                                \

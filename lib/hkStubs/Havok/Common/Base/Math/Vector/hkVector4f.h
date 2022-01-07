@@ -9,6 +9,9 @@
 #define HK_VECTOR4F_AARCH64_NEON
 #endif
 
+using hkVector4fParameter = const class hkVector4f&;
+using hkVector4fComparisonParameter = const class hkVector4fComparison&;
+
 class hkVector4f {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkVector4f)
