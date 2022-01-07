@@ -75,6 +75,9 @@ private:
     hkInt16 m_value;
 };
 
+using hkBool32 = hkUint32;
+using hkBoolLL = hkUint64;
+
 class hkBool {
 public:
     HK_ALWAYS_INLINE hkBool() = default;
@@ -82,6 +85,8 @@ public:
     HK_FORCE_INLINE constexpr hkBool(bool b) : m_bool(static_cast<char>(b)) {}
 
     HK_FORCE_INLINE constexpr explicit operator bool() const { return m_bool != 0; }
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    HK_FORCE_INLINE constexpr operator hkBool32() const { return m_bool != 0; }
 
     HK_FORCE_INLINE constexpr hkBool& operator=(bool e) {
         m_bool = static_cast<char>(e);
@@ -94,9 +99,6 @@ public:
 private:
     char m_bool;
 };
-
-using hkBool32 = hkUint32;
-using hkBoolLL = hkUint64;
 
 /// For storing an enum with a particular storage size when specifying the underlying type of the
 /// enum is not an option.
