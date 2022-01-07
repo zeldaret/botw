@@ -35,6 +35,10 @@ target_sources(uking PRIVATE
   RigidBody/Shape/physSphereShape.h
   RigidBody/Shape/physWaterCylinderShape.cpp
   RigidBody/Shape/physWaterCylinderShape.h
+  RigidBody/TeraMesh/physTeraMeshRigidBody.cpp
+  RigidBody/TeraMesh/physTeraMeshRigidBody.h
+  RigidBody/TeraMesh/physTeraMeshRigidBodyResource.cpp
+  RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h
 
   StaticCompound/physStaticCompound.cpp
   StaticCompound/physStaticCompound.h

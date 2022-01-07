@@ -99,8 +99,7 @@ private:
     MotionAccessor* mMotionAccessor = nullptr;
     u16 _c0 = 0;
     void* _c8 = nullptr;
-    void* _d0;
 };
-KSYS_CHECK_SIZE_NX150(RigidBody, 0xD8);
+KSYS_CHECK_SIZE_NX150(RigidBody, 0xD0);
 
 }  // namespace ksys::phys
