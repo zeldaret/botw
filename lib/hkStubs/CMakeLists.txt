@@ -27,6 +27,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Vector/hkSimdReal.h
   Havok/Common/Base/Math/Vector/hkVector4.h
   Havok/Common/Base/Math/Vector/hkVector4f.h
+  Havok/Common/Base/Math/Vector/hkVector4f.inl
   Havok/Common/Base/Math/Vector/hkVector4Comparison.h
   Havok/Common/Base/Math/Vector/hkVector4fComparison.h
 

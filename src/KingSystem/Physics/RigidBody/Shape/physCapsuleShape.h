@@ -49,7 +49,7 @@ struct CapsuleBody {
     bool setRadius(f32 r);
     bool setVertices(const sead::Vector3f& va, const sead::Vector3f& vb);
     f32 getVolume() const;
-    void sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb, const hkVector4& rb_vec);
+    void sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb, const hkTransformf& rb_vec);
     void setMaterialMask(const MaterialMask& mask);
 
     sead::Vector3f vertex_a;

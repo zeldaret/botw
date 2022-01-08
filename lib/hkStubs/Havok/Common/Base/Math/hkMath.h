@@ -1,5 +1,7 @@
 #pragma once
 
+#define HK_MATH_H
+
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 
 #include <Havok/Common/Base/Math/Matrix/hkMatrix3.h>
@@ -9,3 +11,5 @@
 #include <Havok/Common/Base/Math/Vector/hkSimdReal.h>
 #include <Havok/Common/Base/Math/Vector/hkVector4.h>
 #include <Havok/Common/Base/Math/Vector/hkVector4Comparison.h>
+
+#include <Havok/Common/Base/Math/Vector/hkVector4f.inl>

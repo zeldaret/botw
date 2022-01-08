@@ -95,15 +95,15 @@ const hkpShape* CapsuleBody::getShape() const {
 }
 
 void CapsuleBody::sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb,
-                                 const hkVector4& rb_vec) {
+                                 const hkTransformf& rb_vec) {
     if (veca != nullptr) {
         hkVector4 tmp;
-        tmp.sub_7100FABE80(rb_vec, hkVector4(vertex_a.x, vertex_a.y, vertex_a.z));
+        tmp.setTransformedPos(rb_vec, hkVector4(vertex_a.x, vertex_a.y, vertex_a.z));
         tmp.store<3>(veca->e.data());
     }
     if (vecb != nullptr) {
         hkVector4 tmp;
-        tmp.sub_7100FABE80(rb_vec, hkVector4(vertex_b.x, vertex_b.y, vertex_b.z));
+        tmp.setTransformedPos(rb_vec, hkVector4(vertex_b.x, vertex_b.y, vertex_b.z));
         tmp.store<3>(vecb->e.data());
     }
 }

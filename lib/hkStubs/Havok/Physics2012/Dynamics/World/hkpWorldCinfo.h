@@ -1,11 +1,7 @@
 #pragma once
 
-#include <Havok/Common/Base/Math/Vector/hkVector4.h>
-#include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
-#include <Havok/Common/Base/Object/hkReferencedObject.h>
 #include <Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h>
-#include <Havok/Common/Base/Types/hkBaseTypes.h>
-#include <Havok/Common/Base/Types/hkRefPtr.h>
+#include <Havok/Common/Base/hkBase.h>
 #include <Havok/Physics2012/Collide/Filter/hkpCollisionFilter.h>
 #include <Havok/Physics2012/Collide/Filter/hkpConvexListFilter.h>
 #include <Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h>
