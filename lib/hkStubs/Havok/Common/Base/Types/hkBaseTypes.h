@@ -28,6 +28,7 @@ using hkObjectIndex = hkUint16;
 using hkTime = hkReal;
 
 using m128 = __attribute((vector_size(16))) float;
+using m128u = __attribute((vector_size(16))) hkUint32;
 
 class hkHalf {
 public:
