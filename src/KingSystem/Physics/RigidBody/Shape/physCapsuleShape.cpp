@@ -2,6 +2,7 @@
 #include <Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <heap/seadHeap.h>
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
 
@@ -98,12 +99,12 @@ void CapsuleBody::sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb,
                                  const hkTransformf& rb_vec) {
     if (veca != nullptr) {
         hkVector4 tmp;
-        tmp.setTransformedPos(rb_vec, hkVector4(vertex_a.x, vertex_a.y, vertex_a.z));
+        tmp.setTransformedPos(rb_vec, toHkVec4(vertex_a));
         tmp.store<3>(veca->e.data());
     }
     if (vecb != nullptr) {
         hkVector4 tmp;
-        tmp.setTransformedPos(rb_vec, hkVector4(vertex_b.x, vertex_b.y, vertex_b.z));
+        tmp.setTransformedPos(rb_vec, toHkVec4(vertex_b));
         tmp.store<3>(vecb->e.data());
     }
 }

@@ -23,6 +23,7 @@ public:
     HK_FORCE_INLINE hkVector4f() {}
     HK_FORCE_INLINE hkVector4f(hkFloat32 x, hkFloat32 y, hkFloat32 z, hkFloat32 w = 0);
     HK_FORCE_INLINE hkVector4f(const hkVector4f& other);
+    HK_FORCE_INLINE hkVector4f& operator=(hkVector4fParameter) = default;
 
     // ========== Vector initialization
 
@@ -75,7 +76,22 @@ public:
 
     // ========== Comparisons
 
+    HK_FORCE_INLINE hkVector4fComparison less(hkVector4fParameter a) const;
+    HK_FORCE_INLINE hkVector4fComparison lessEqual(hkVector4fParameter a) const;
+    HK_FORCE_INLINE hkVector4fComparison greater(hkVector4fParameter a) const;
+    HK_FORCE_INLINE hkVector4fComparison greaterEqual(hkVector4fParameter a) const;
+    HK_FORCE_INLINE hkVector4fComparison equal(hkVector4fParameter a) const;
+    HK_FORCE_INLINE hkVector4fComparison notEqual(hkVector4fParameter a) const;
+    HK_FORCE_INLINE hkVector4fComparison lessZero() const;
+    HK_FORCE_INLINE hkVector4fComparison lessEqualZero() const;
+    HK_FORCE_INLINE hkVector4fComparison greaterZero() const;
+    HK_FORCE_INLINE hkVector4fComparison greaterEqualZero() const;
+    HK_FORCE_INLINE hkVector4fComparison equalZero() const;
+    HK_FORCE_INLINE hkVector4fComparison notEqualZero() const;
+
     // ========== Sign, comparisons, clamping
+
+    void setAbs(hkVector4fParameter a);
 
     // ========== Matrix operations (out-of-line)
 
@@ -93,8 +109,21 @@ public:
 
     // ========== Component access
 
-    hkSimdFloat32 operator()(int i) const { return v[i]; }
-    hkSimdFloat32 operator[](int i) const { return v[i]; }
+    hkFloat32& operator()(int i) { return reinterpret_cast<float*>(&v)[i]; }
+    hkFloat32& operator[](int i) { return reinterpret_cast<float*>(&v)[i]; }
+    const hkFloat32& operator()(int i) const { return reinterpret_cast<const float*>(&v)[i]; }
+    const hkFloat32& operator[](int i) const { return reinterpret_cast<const float*>(&v)[i]; }
+
+    hkSimdFloat32 getComponent(int i) const { return v[i]; }
+    hkSimdFloat32 getX() const { return getComponent(0); }
+    hkSimdFloat32 getY() const { return getComponent(1); }
+    hkSimdFloat32 getZ() const { return getComponent(2); }
+    hkSimdFloat32 getW() const { return getComponent(3); }
+    void setComponent(int i, hkSimdFloat32Parameter val) { v[i] = val; }
+    void setX(hkSimdFloat32Parameter val) { setComponent(0, val); }
+    void setY(hkSimdFloat32Parameter val) { setComponent(1, val); }
+    void setZ(hkSimdFloat32Parameter val) { setComponent(2, val); }
+    void setW(hkSimdFloat32Parameter val) { setComponent(3, val); }
 
     // ========== Load/store
 

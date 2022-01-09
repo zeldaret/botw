@@ -19,6 +19,8 @@ target_sources(uking PRIVATE
   RigidBody/physMotionAccessor.h
   RigidBody/physRigidBody.cpp
   RigidBody/physRigidBody.h
+  RigidBody/physRigidBodyAccessor.cpp
+  RigidBody/physRigidBodyAccessor.h
   RigidBody/physRigidBodyFactory.cpp
   RigidBody/physRigidBodyFactory.h
   RigidBody/physRigidBodyParam.cpp
@@ -92,4 +94,6 @@ target_sources(uking PRIVATE
   System/physSystemData.h
   System/physUserTag.cpp
   System/physUserTag.h
+
+  physConversions.h
 )

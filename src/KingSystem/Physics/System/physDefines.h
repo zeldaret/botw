@@ -171,6 +171,7 @@ enum class MotionType {
     Fixed = 1,
     Keyframed = 2,
     Unknown = 3,
+    Invalid = -1,
 };
 
 union ReceiverMask {

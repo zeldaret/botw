@@ -63,7 +63,7 @@ inline void hkVector4f::mul(hkSimdFloat32Parameter a) {
 
 inline void hkVector4f::setMul(hkVector4fParameter a, hkSimdFloat32Parameter r) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
-    v = vmulq_n_f32(v, r);
+    v = vmulq_n_f32(a.v, r);
 #else
     v *= r.val();
 #endif
@@ -75,7 +75,7 @@ inline void hkVector4f::setMul(hkSimdFloat32Parameter r, hkVector4fParameter a) 
 
 inline void hkVector4f::setAdd(hkVector4fParameter a, hkSimdFloat32Parameter b) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
-    v = vaddq_f32(v, vdupq_n_f32(b));
+    v = vaddq_f32(a.v, vdupq_n_f32(b));
 #else
     v += b.val();
 #endif
@@ -83,7 +83,7 @@ inline void hkVector4f::setAdd(hkVector4fParameter a, hkSimdFloat32Parameter b) 
 
 inline void hkVector4f::setSub(hkVector4fParameter a, hkSimdFloat32Parameter b) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
-    v = vsubq_f32(v, vdupq_n_f32(b));
+    v = vsubq_f32(a.v, vdupq_n_f32(b));
 #else
     v -= b.val();
 #endif
@@ -167,12 +167,31 @@ inline void hkVector4f::setCross(hkVector4fParameter a, hkVector4fParameter b) {
     //	x = a[1] * b[2] - b[1] * a[2]
     //	y = a[2] * b[0] - b[2] * a[0]
     //      ----   ----   ----   ----
-    //        a     bb     b      aa
-
+    //        1      2      3      4
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    // Shuffle a and b to get the column vectors 2 and 4
+    const auto a_yzwx = vextq_f32(a.v, a.v, 1);
+    const auto b_yzwx = vextq_f32(b.v, b.v, 1);
+    const auto a_yz = vget_low_f32(a_yzwx);
+    const auto b_yz = vget_low_f32(b_yzwx);
+    const auto a_wx = vget_high_f32(a_yzwx);
+    const auto b_wx = vget_high_f32(b_yzwx);
+    const auto a_xw = vrev64_f32(a_wx);
+    const auto b_xw = vrev64_f32(b_wx);
+    const auto a_yzxw = vcombine_f32(a_yz, a_xw);
+    const auto b_yzxw = vcombine_f32(b_yz, b_xw);
+    const auto cross = (a.v * b_yzxw) - (a_yzxw * b.v);
+    // Shuffle `cross` back to the correct order (zxyw -> xyzw)
+    const auto cross_yzwx = vextq_f32(cross, cross, 1);
+    const auto c_xy = vget_low_f32(cross);
+    const auto c_yz = vget_low_f32(cross_yzwx);
+    v = vcombine_f32(c_yz, c_xy);
+#else
     auto cross0 = a.v * __builtin_shufflevector(b.v, b.v, 1, 2, 0, 3);
     auto cross1 = b.v * __builtin_shufflevector(a.v, a.v, 1, 2, 0, 3);
     auto diff = cross0 - cross1;
     v = __builtin_shufflevector(diff, diff, 1, 2, 0, 3);
+#endif
 }
 
 inline void hkVector4f::setInterpolate(hkVector4fParameter v0, hkVector4fParameter v1,
@@ -181,6 +200,63 @@ inline void hkVector4f::setInterpolate(hkVector4fParameter v0, hkVector4fParamet
     hkVector4f diff;
     diff.setSub(v1, v0);
     setAddMul(v0, diff, t);
+}
+
+inline hkVector4fComparison hkVector4f::less(hkVector4fParameter a) const {
+    return hkVector4fComparison::convert(v < a.v);
+}
+
+inline hkVector4fComparison hkVector4f::lessEqual(hkVector4fParameter a) const {
+    return hkVector4fComparison::convert(v <= a.v);
+}
+
+inline hkVector4fComparison hkVector4f::greater(hkVector4fParameter a) const {
+    return hkVector4fComparison::convert(v > a.v);
+}
+
+inline hkVector4fComparison hkVector4f::greaterEqual(hkVector4fParameter a) const {
+    return hkVector4fComparison::convert(v >= a.v);
+}
+
+inline hkVector4fComparison hkVector4f::equal(hkVector4fParameter a) const {
+    return hkVector4fComparison::convert(v == a.v);
+}
+
+inline hkVector4fComparison hkVector4f::notEqual(hkVector4fParameter a) const {
+    return hkVector4fComparison::convert(v != a.v);
+}
+
+inline hkVector4fComparison hkVector4f::lessZero() const {
+    return hkVector4fComparison::convert(v < m128());
+}
+
+inline hkVector4fComparison hkVector4f::lessEqualZero() const {
+    return hkVector4fComparison::convert(v <= m128());
+}
+
+inline hkVector4fComparison hkVector4f::greaterZero() const {
+    return hkVector4fComparison::convert(v > m128());
+}
+
+inline hkVector4fComparison hkVector4f::greaterEqualZero() const {
+    return hkVector4fComparison::convert(v >= m128());
+}
+
+inline hkVector4fComparison hkVector4f::equalZero() const {
+    return hkVector4fComparison::convert(v == m128());
+}
+
+inline hkVector4fComparison hkVector4f::notEqualZero() const {
+    return hkVector4fComparison::convert(v != m128());
+}
+
+inline void hkVector4f::setAbs(hkVector4fParameter a) {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    v = vabsq_f32(a.v);
+#else
+    for (int i = 0; i < 4; ++i)
+        v[i] = std::abs(a[i]);
+#endif
 }
 
 inline void hkVector4f::_setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b) {

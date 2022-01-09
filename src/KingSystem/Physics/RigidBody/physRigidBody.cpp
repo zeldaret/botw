@@ -7,7 +7,7 @@ namespace ksys::phys {
 
 RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
                      sead::Heap* heap, bool a7)
-    : mCS(heap), mHkBody(hk_body), mHkBodyMgr(hk_body), _b4(a) {
+    : mCS(heap), mHkBody(hk_body), mRigidBodyAccessor(hk_body), _b4(a) {
     if (!name.isEmpty()) {
         mHkBody->setName(name.cstr());
     }
@@ -69,7 +69,7 @@ MotionType RigidBody::getMotionInfo() const {
         return MotionType::Keyframed;
     if (mMotionFlags.isOn(MotionFlag::Fixed))
         return MotionType::Fixed;
-    return mHkBodyMgr.getMotionInfo();
+    return mRigidBodyAccessor.getMotionType();
 }
 
 void RigidBody::setContactMask(u32 value) {

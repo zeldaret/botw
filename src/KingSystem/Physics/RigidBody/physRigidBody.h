@@ -6,6 +6,7 @@
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Physics/RigidBody/physRigidBodyAccessor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Utils/Types.h"
@@ -25,14 +26,6 @@ public:
 class RigidBody : public sead::IDisposer, public RigidBase {
     SEAD_RTTI_BASE(RigidBody)
 public:
-    struct HkBodyMgr {
-        explicit HkBodyMgr(hkpRigidBody* body);
-        virtual ~HkBodyMgr();
-        MotionType getMotionInfo() const;
-
-        void* p;
-    };
-
     enum class Flag1 {
         MassScaling = 1 << 0,
         _2 = 1 << 1,
@@ -107,7 +100,7 @@ private:
     void* _88 = nullptr;
     void* _90 = nullptr;
     u16 _98 = 0;
-    HkBodyMgr mHkBodyMgr;
+    RigidBodyAccessor mRigidBodyAccessor;
     f32 _b0 = 1.0f;
     u32 _b4 = 0;
     MotionAccessor* mMotionAccessor = nullptr;

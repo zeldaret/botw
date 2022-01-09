@@ -177,7 +177,7 @@ inline const hkVector4& hkpMotion::getLinearVelocity() const {
 }
 
 inline const hkVector4& hkpMotion::getAngularVelocity() const {
-    return m_linearVelocity;
+    return m_angularVelocity;
 }
 
 inline void hkpMotion::getPointVelocity(const hkVector4& p, hkVector4& vecOut) const {
