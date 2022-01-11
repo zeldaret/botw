@@ -16,14 +16,14 @@ RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead:
     mHkBody->m_motion.m_motionState.m_timeFactor.setOne();
     mHkBody->enableDeactivation(true);
     mHkBody->getCollidableRw()->m_allowedPenetrationDepth = 0.1f;
-    if (mFlags.isOff(Flag1::MassScaling)) {
+    if (mFlags.isOff(Flag::MassScaling)) {
         mHkBody->m_responseModifierFlags |= hkpResponseModifier::Flags::MASS_SCALING;
     }
 
-    mFlags.change(Flag1::_80, _b4 == 5);
-    mFlags.change(Flag1::MassScaling, mass_scaling == 1);
-    mFlags.change(Flag1::_10, a7);
-    mFlags.set(Flag1::_100);
+    mFlags.change(Flag::_80, _b4 == 5);
+    mFlags.change(Flag::MassScaling, mass_scaling == 1);
+    mFlags.change(Flag::_10, a7);
+    mFlags.set(Flag::_100);
 }
 
 void RigidBody::setMotionFlag(MotionFlag flag) {
@@ -31,15 +31,15 @@ void RigidBody::setMotionFlag(MotionFlag flag) {
 
     mMotionFlags.set(flag);
 
-    if (mFlags.isOff(Flag1::_20) && mFlags.isOff(Flag1::_2)) {
-        mFlags.set(Flag1::_2);
+    if (mFlags.isOff(Flag::_20) && mFlags.isOff(Flag::_2)) {
+        mFlags.set(Flag::_2);
         MemSystem::instance()->getRigidBodyRequestMgr()->sub_7100FA6C8C(
-            mFlags.isOn(Flag1::MassScaling), this);
+            mFlags.isOn(Flag::MassScaling), this);
     }
 }
 
 bool RigidBody::sub_7100F8D1F8() const {
-    return mFlags.isOn(Flag1::_8);
+    return mFlags.isOn(Flag::_8);
 }
 
 bool RigidBody::sub_7100F8D204() const {
@@ -57,7 +57,7 @@ void RigidBody::sub_7100F8D21C() {
     if (mMotionFlags.isOn(MotionFlag::_1)) {
         mMotionFlags.reset(MotionFlag::_1);
         mMotionFlags.set(MotionFlag::_2);
-    } else if (mFlags.isOn(Flag1::_8)) {
+    } else if (mFlags.isOn(Flag::_8)) {
         setMotionFlag(MotionFlag::_2);
     }
 }

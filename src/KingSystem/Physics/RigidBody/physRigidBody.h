@@ -26,7 +26,7 @@ public:
 class RigidBody : public sead::IDisposer, public RigidBase {
     SEAD_RTTI_BASE(RigidBody)
 public:
-    enum class Flag1 {
+    enum class Flag {
         MassScaling = 1 << 0,
         _2 = 1 << 1,
         _4 = 1 << 2,
@@ -86,13 +86,13 @@ public:
     void sub_7100F8FA44(ContactLayer, u32);
     hkpMotion* getMotion() const;
 
-    bool isMassScaling() const { return mFlags.isOn(Flag1::MassScaling); }
+    bool isMassScaling() const { return mFlags.isOn(Flag::MassScaling); }
     const auto& getMotionFlags() const { return mMotionFlags; }
     void resetMotionFlagDirect(const MotionFlag flag) { mMotionFlags.reset(flag); }
 
 private:
     sead::CriticalSection mCS;
-    sead::TypedBitFlag<Flag1, sead::Atomic<u32>> mFlags{};
+    sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};
     sead::TypedBitFlag<MotionFlag, sead::Atomic<u32>> mMotionFlags{};
     sead::BitFlag32 mContactMask{};
     hkpRigidBody* mHkBody;
