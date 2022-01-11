@@ -81,7 +81,7 @@ void InstanceSet::sub_7100FBA9BC() {
     }
 
     for (auto& body : mList) {
-        body->sub_7100F8CFA0();
+        body->x_0();
     }
 
     if (mCollisionController != nullptr)

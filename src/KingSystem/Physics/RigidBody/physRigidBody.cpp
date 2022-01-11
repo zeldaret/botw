@@ -26,6 +26,13 @@ RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead:
     mFlags.set(Flag::_100);
 }
 
+sead::SafeString RigidBody::getName() const {
+    const char* name = mHkBody->getName();
+    if (!name)
+        return sead::SafeString::cEmptyString;
+    return name;
+}
+
 void RigidBody::setMotionFlag(MotionFlag flag) {
     auto lock = sead::makeScopedLock(mCS);
 
@@ -36,6 +43,10 @@ void RigidBody::setMotionFlag(MotionFlag flag) {
         MemSystem::instance()->getRigidBodyRequestMgr()->sub_7100FA6C8C(
             mFlags.isOn(Flag::MassScaling), this);
     }
+}
+
+bool RigidBody::isActive() const {
+    return mHkBody->isActive();
 }
 
 bool RigidBody::sub_7100F8D1F8() const {
@@ -50,8 +61,10 @@ bool RigidBody::sub_7100F8D210() const {
     return mMotionFlags.isOn(MotionFlag::_2);
 }
 
-// NON_MATCHING: mFlags is loaded differently
 void RigidBody::sub_7100F8D21C() {
+    // debug code that survived because mFlags is atomic?
+    static_cast<void>(mFlags.isOn(Flag::_8));
+
     auto lock = sead::makeScopedLock(mCS);
 
     if (mMotionFlags.isOn(MotionFlag::_1)) {

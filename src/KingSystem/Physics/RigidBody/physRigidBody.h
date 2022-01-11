@@ -17,6 +17,8 @@ class hkpMotion;
 namespace ksys::phys {
 
 class MotionAccessor;
+class RigidContactPoints;
+class UserTag;
 
 class RigidBase {
 public:
@@ -56,7 +58,7 @@ public:
     virtual void m5();
     virtual void m6();
     virtual void m7();
-    virtual void m8();
+    virtual void m8(float);
     // FIXME: should be pure
     virtual void m9();
     virtual void m10();
@@ -65,14 +67,71 @@ public:
     virtual void m13();
     virtual void m14();
 
-    void sub_7100F8CFA0();
+    // 0x0000007100f8ca50
+    bool initMotionAccessor(sead::Heap* heap);
+    // 0x0000007100f8cc98
+    void initMotionAndAccessor();
+    // 0x0000007100f8cd44
+    void initMotion();
+
+    sead::SafeString getName() const;
+
+    // 0x0000007100f8cfa0
+    void x_0();
+
     void setMotionFlag(MotionFlag);
+
+    bool isActive() const;
+
+    // 0x0000007100f8d1f8
     bool sub_7100F8D1F8() const;
+    // 0x0000007100f8d204
     bool sub_7100F8D204() const;
+    // 0x0000007100f8d210
     bool sub_7100F8D210() const;
+    // 0x0000007100f8d21c
     void sub_7100F8D21C();
-    void sub_7100F8D680();
+    // 0x0000007100f8d308
+    bool x_6();
+
+    // 0x0000007100f8d680
+    // FIXME: rename after we figure out what the two types of MotionAccessor are
+    MotionAccessor* getMotionAccessorType1();
+    // 0x0000007100f8d70c
+    void* getMotionAccessorType2Stuff();
+    // 0x0000007100f8d7a8
+    void motionAccessorType2Stuff2();
+    // 0x0000007100f8d840
+    void x_8();
+
     MotionType getMotionInfo() const;
+
+    // Motion functions
+    // 0x0000007100f8dcfc
+    void x_9();
+    // 0x0000007100f8e110
+    void x_10();
+    // 0x0000007100f8e3fc
+    void x_11();
+
+    // 0x0000007100f8e72c
+    void x_12();
+    // 0x0000007100f8e7b4
+    void setContactPoints(RigidContactPoints* points);
+
+    // 0x0000007100f8e7e8
+    void x_13(bool a, bool b);
+    // 0x0000007100f8e8f0
+    void x_14(bool a, bool b, bool c);
+    // 0x0000007100f8eabc
+    void x_15(bool a, bool b);
+    // 0x0000007100f8ec3c
+    bool setLinearVelocityMaybe(const sead::Vector3f& velocity, float x);
+    // 0x0000007100f8ed74
+    bool setAngularVelocityMaybe(const sead::Vector3f& velocity, float x);
+    // 0x0000007100f8ee38
+    void x_16();
+
     u32 addContactLayer(ContactLayer);
     u32 removeContactLayer(ContactLayer);
     void setContactMask(u32);
@@ -96,7 +155,7 @@ private:
     sead::TypedBitFlag<MotionFlag, sead::Atomic<u32>> mMotionFlags{};
     sead::BitFlag32 mContactMask{};
     hkpRigidBody* mHkBody;
-    void* mActor = nullptr;
+    UserTag* mUserTag = nullptr;
     void* _88 = nullptr;
     void* _90 = nullptr;
     u16 _98 = 0;
