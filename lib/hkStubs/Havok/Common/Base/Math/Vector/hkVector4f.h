@@ -105,6 +105,15 @@ public:
 
     // ========== Length and normalization
 
+    template <int N>
+    HK_FORCE_INLINE hkSimdFloat32 dot(hkVector4fParameter a) const;
+
+    template <int N>
+    HK_FORCE_INLINE void setDot(hkVector4fParameter a, hkVector4fParameter b);
+
+    template <int N>
+    HK_FORCE_INLINE hkSimdFloat32 lengthSquared() const;
+
     // ========== Misc
 
     // ========== Component access

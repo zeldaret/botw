@@ -278,6 +278,48 @@ inline void hkVector4f::_setTransformedPos(const hkTransformf& a, hkVector4fPara
     setAdd(t, a.getTranslation());
 }
 
+#ifdef HK_VECTOR4F_AARCH64_NEON
+template <int N>
+HK_FORCE_INLINE hkSimdFloat32 hkVector4f::dot(hkVector4fParameter a) const {
+    if constexpr (N == 2) {
+        float32x4_t x2 = v * a.v;
+        float32x2_t low = vget_low_f32(x2);
+        float32x2_t xy = vpadd_f32(low, low);
+        return xy[0];
+    } else if constexpr (N == 3 || N == 4) {
+        float32x4_t x2 = v * a.v;
+        float32x2_t low = vget_low_f32(x2);
+        float32x2_t high = vget_high_f32(x2);
+        if constexpr (N == 3)
+            high = vset_lane_f32(0, high, 1);
+        float32x2_t xy_zw = vpadd_f32(low, high);
+        float32x2_t xyzw = vpadd_f32(xy_zw, xy_zw);
+        return xyzw[0];
+    } else {
+        static_assert(2 <= N && N <= 4, "invalid N");
+    }
+}
+#else
+template <int N>
+HK_FORCE_INLINE hkSimdFloat32 hkVector4f::dot(hkVector4fParameter a) const {
+    static_assert(2 <= N && N <= 4, "invalid N");
+    float sum = 0.0f;
+    for (int i = 0; i < N; ++i)
+        sum += v[i] * a.v[i];
+    return sum;
+}
+#endif
+
+template <int N>
+inline void hkVector4f::setDot(hkVector4fParameter a, hkVector4fParameter b) {
+    setAll(a.dot<N>(b));
+}
+
+template <int N>
+inline hkSimdFloat32 hkVector4f::lengthSquared() const {
+    return dot<N>(*this);
+}
+
 template <int N>
 inline void hkVector4f::store(hkFloat32* out) const {
     static_assert(1 <= N && N <= 4, "invalid N");
