@@ -19,11 +19,11 @@ void MotionAccessor::setMotionFlag(RigidBody::MotionFlag flag) {
     mBody->setMotionFlag(flag);
 }
 
-bool MotionAccessor::hasMotionSet(RigidBody::MotionFlag flag) const {
+bool MotionAccessor::hasMotionFlagSet(RigidBody::MotionFlag flag) const {
     return mBody->getMotionFlags().isOn(flag);
 }
 
-bool MotionAccessor::hasMotionDisabled(RigidBody::MotionFlag flag) const {
+bool MotionAccessor::hasMotionFlagDisabled(RigidBody::MotionFlag flag) const {
     return mBody->getMotionFlags().isOff(flag);
 }
 

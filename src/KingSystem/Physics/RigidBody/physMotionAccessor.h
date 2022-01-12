@@ -16,8 +16,8 @@ public:
     MotionType getMotionInfo() const;
     hkpMotion* getMotion() const;
     void setMotionFlag(RigidBody::MotionFlag flag);
-    bool hasMotionSet(RigidBody::MotionFlag flag) const;
-    bool hasMotionDisabled(RigidBody::MotionFlag flag) const;
+    bool hasMotionFlagSet(RigidBody::MotionFlag flag) const;
+    bool hasMotionFlagDisabled(RigidBody::MotionFlag flag) const;
     void disableMotionFlag(RigidBody::MotionFlag flag);
 
 private:
