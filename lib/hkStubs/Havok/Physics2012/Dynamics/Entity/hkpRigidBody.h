@@ -99,7 +99,7 @@ public:
     inline hkpMotion::MotionType getMotionType() const;
     hkpMotion* getStoredDynamicMotion();
     const hkpMotion* getStoredDynamicMotion() const;
-    void updateCachedShapeInfo(const hkpShape* shape, hkVector4& extentOut);
+    void updateCachedShapeInfo(const hkVector4& centerOfMassInLocal);
 
     inline hkReal getFriction() const;
     inline hkReal getRollingFrictionMultiplier() const;
