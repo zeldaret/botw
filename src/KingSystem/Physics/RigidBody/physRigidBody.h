@@ -47,6 +47,12 @@ public:
         Keyframed = 1 << 3,
         Fixed = 1 << 4,
         _20 = 1 << 5,
+        _40 = 1 << 6,
+        _80 = 1 << 7,
+        _100 = 1 << 8,
+        _200 = 1 << 9,
+        _400 = 1 << 10,
+        _800 = 1 << 11,
     };
 
     RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
@@ -84,11 +90,11 @@ public:
     bool isActive() const;
 
     // 0x0000007100f8d1f8
-    bool sub_7100F8D1F8() const;
+    bool isFlag8Set() const;
     // 0x0000007100f8d204
-    bool sub_7100F8D204() const;
+    bool isMotionFlag1Set() const;
     // 0x0000007100f8d210
-    bool sub_7100F8D210() const;
+    bool isMotionFlag2Set() const;
     // 0x0000007100f8d21c
     void sub_7100F8D21C();
     // 0x0000007100f8d308
@@ -148,6 +154,8 @@ public:
     bool isMassScaling() const { return mFlags.isOn(Flag::MassScaling); }
     const auto& getMotionFlags() const { return mMotionFlags; }
     void resetMotionFlagDirect(const MotionFlag flag) { mMotionFlags.reset(flag); }
+
+    hkpRigidBody* getHkBody() const { return mHkBody; }
 
 private:
     sead::CriticalSection mCS;

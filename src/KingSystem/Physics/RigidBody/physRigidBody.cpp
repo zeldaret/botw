@@ -49,15 +49,15 @@ bool RigidBody::isActive() const {
     return mHkBody->isActive();
 }
 
-bool RigidBody::sub_7100F8D1F8() const {
+bool RigidBody::isFlag8Set() const {
     return mFlags.isOn(Flag::_8);
 }
 
-bool RigidBody::sub_7100F8D204() const {
+bool RigidBody::isMotionFlag1Set() const {
     return mMotionFlags.isOn(MotionFlag::_1);
 }
 
-bool RigidBody::sub_7100F8D210() const {
+bool RigidBody::isMotionFlag2Set() const {
     return mMotionFlags.isOn(MotionFlag::_2);
 }
 

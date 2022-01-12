@@ -58,7 +58,7 @@ public:
     float linear_damping = 0.0f;
     float angular_damping = 0.05f;
     f32 _3c = 1.0f;
-    f32 _40 = 1.0f;
+    f32 time_factor = 1.0f;
     float max_linear_velocity = 200.0f;
     float max_angular_velocity_rad = 200.0f;
     float max_impulse = -1.0f;
