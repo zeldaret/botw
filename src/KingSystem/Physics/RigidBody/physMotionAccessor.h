@@ -20,7 +20,7 @@ public:
     explicit MotionAccessor(RigidBody* body);
 
     MotionType getMotionInfo() const;
-    hkpMotion* getMotion() const;
+    hkpMotion* getRigidBodyMotion() const;
     void setMotionFlag(RigidBody::MotionFlag flag);
     bool hasMotionFlagSet(RigidBody::MotionFlag flag) const;
     bool hasMotionFlagDisabled(RigidBody::MotionFlag flag) const;

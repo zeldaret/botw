@@ -11,7 +11,7 @@ MotionType MotionAccessor::getMotionInfo() const {
     return mBody->getMotionInfo();
 }
 
-hkpMotion* MotionAccessor::getMotion() const {
+hkpMotion* MotionAccessor::getRigidBodyMotion() const {
     return mBody->getMotion();
 }
 
