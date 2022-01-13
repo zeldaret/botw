@@ -39,6 +39,8 @@ public:
         m_value = hkInt16(t >> 16);
     }
 
+    hkHalf(const hkHalf&) = default;
+
     hkHalf& operator=(const float& f) {
         int t = ((const int*)&f)[0];
         m_value = hkInt16(t >> 16);
