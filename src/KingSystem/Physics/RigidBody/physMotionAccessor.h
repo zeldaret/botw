@@ -26,8 +26,8 @@ public:
     bool hasMotionFlagDisabled(RigidBody::MotionFlag flag) const;
     void disableMotionFlag(RigidBody::MotionFlag flag);
 
-    virtual void setTransform(const sead::Matrix34f& mtx, bool notify) = 0;
-    virtual void setPosition(const sead::Vector3f& position, bool notify) = 0;
+    virtual void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) = 0;
+    virtual void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) = 0;
     virtual void getPosition(sead::Vector3f* position) = 0;
     virtual void getRotation(sead::Quatf* rotation) = 0;
     virtual void getTransform(sead::Matrix34f* mtx) = 0;
@@ -53,8 +53,12 @@ public:
     virtual void getRotation(hkQuaternionf* quat) = 0;
     virtual void setTimeFactor(float factor) = 0;
     virtual float getTimeFactor() = 0;
-    virtual void m25(bool a, bool b, bool c) = 0;
-    virtual void m26() = 0;
+
+    virtual void freeze(bool freeze, bool preserve_velocities, bool preserve_max_impulse) = 0;
+    virtual void resetFrozenState() = 0;
+
+    RigidBody* getBody() const { return mBody; }
+    hkpRigidBody* getHkBody() const { return mBody->getHkBody(); }
 
 protected:
     RigidBody* mBody = nullptr;

@@ -16,8 +16,8 @@ public:
 
     explicit RigidBodyMotionProxy(RigidBody* body);
 
-    void setTransform(const sead::Matrix34f& mtx, bool notify) override;
-    void setPosition(const sead::Vector3f& position, bool notify) override;
+    void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) override;
+    void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) override;
     // 0x0000007100fa4318
     void setTransformMaybe(const sead::Matrix34f& mtx);
     // 0x0000007100fa4594
@@ -47,8 +47,8 @@ public:
     void resetLinkedRigidBody();
     RigidBody* getLinkedRigidBody() const;
     bool isFlag40000Set() const;
-    // 0x0000007100fa5058 - main update function? triggers shape, position, velocity updates
-    void update();
+    // 0x0000007100fa5058 - triggers shape, position, velocity updates
+    void copyMotionFromLinkedRigidBody();
 
     ~RigidBodyMotionProxy() override;
 
@@ -56,8 +56,8 @@ public:
     void getRotation(hkQuaternionf* quat) override;
     void setTimeFactor(float factor) override;
     float getTimeFactor() override;
-    void m25(bool a, bool b, bool c) override;
-    void m26() override;
+    void freeze(bool freeze, bool preserve_velocities, bool preserve_max_impulse) override;
+    void resetFrozenState() override;
 
 private:
     void setTransformImpl(const sead::Matrix34f& mtx);

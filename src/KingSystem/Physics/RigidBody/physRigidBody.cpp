@@ -5,9 +5,9 @@
 
 namespace ksys::phys {
 
-RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
-                     sead::Heap* heap, bool a7)
-    : mCS(heap), mHkBody(hk_body), mRigidBodyAccessor(hk_body), _b4(a) {
+RigidBody::RigidBody(Type type, u32 mass_scaling, hkpRigidBody* hk_body,
+                     const sead::SafeString& name, sead::Heap* heap, bool a7)
+    : mCS(heap), mHkBody(hk_body), mRigidBodyAccessor(hk_body), mType(type) {
     if (!name.isEmpty()) {
         mHkBody->setName(name.cstr());
     }
@@ -20,13 +20,13 @@ RigidBody::RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead:
         mHkBody->m_responseModifierFlags |= hkpResponseModifier::Flags::MASS_SCALING;
     }
 
-    mFlags.change(Flag::_80, _b4 == 5);
+    mFlags.change(Flag::IsCharacterController, isCharacterControllerType());
     mFlags.change(Flag::MassScaling, mass_scaling == 1);
     mFlags.change(Flag::_10, a7);
     mFlags.set(Flag::_100);
 }
 
-sead::SafeString RigidBody::getName() const {
+sead::SafeString RigidBody::getHkBodyName() const {
     const char* name = mHkBody->getName();
     if (!name)
         return sead::SafeString::cEmptyString;

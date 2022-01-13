@@ -28,6 +28,16 @@ public:
 class RigidBody : public sead::IDisposer, public RigidBase {
     SEAD_RTTI_BASE(RigidBody)
 public:
+    enum class Type {
+        _0 = 0,
+        _1 = 1,
+        _2 = 2,
+        TerrainHeightField = 3,
+        _4 = 4,
+        CharacterController = 5,
+        TeraMesh = 6,
+    };
+
     enum class Flag {
         MassScaling = 1 << 0,
         _2 = 1 << 1,
@@ -36,8 +46,19 @@ public:
         _10 = 1 << 4,
         _20 = 1 << 5,
         _40 = 1 << 6,
-        _80 = 1 << 7,
+        IsCharacterController = 1 << 7,
         _100 = 1 << 8,
+        _200 = 1 << 9,
+        _400 = 1 << 10,
+        _800 = 1 << 11,
+        _1000 = 1 << 12,
+        _2000 = 1 << 13,
+        _4000 = 1 << 14,
+        _8000 = 1 << 15,
+        _10000 = 1 << 16,
+        _20000 = 1 << 17,
+        _40000 = 1 << 18,
+        _80000 = 1 << 19,
     };
 
     enum class MotionFlag {
@@ -53,9 +74,17 @@ public:
         _200 = 1 << 9,
         _400 = 1 << 10,
         _800 = 1 << 11,
+        _1000 = 1 << 12,
+        _2000 = 1 << 13,
+        _4000 = 1 << 14,
+        _8000 = 1 << 15,
+        _10000 = 1 << 16,
+        _20000 = 1 << 17,
+        _40000 = 1 << 18,
+        _80000 = 1 << 19,
     };
 
-    RigidBody(u32 a, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
+    RigidBody(Type type, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
               sead::Heap* heap, bool a7);
     ~RigidBody() override;
 
@@ -71,16 +100,17 @@ public:
     virtual void m11();
     virtual void m12();
     virtual void m13();
-    virtual void m14();
+    virtual const char* getName();
 
     // 0x0000007100f8ca50
     bool initMotionAccessor(sead::Heap* heap);
     // 0x0000007100f8cc98
     void initMotionAndAccessor();
     // 0x0000007100f8cd44
-    void initMotion();
+    void initMotion(hkpMotion* motion, MotionType motion_type,
+                    const RigidBodyInstanceParam& params);
 
-    sead::SafeString getName() const;
+    sead::SafeString getHkBodyName() const;
 
     // 0x0000007100f8cfa0
     void x_0();
@@ -151,11 +181,61 @@ public:
     void sub_7100F8FA44(ContactLayer, u32);
     hkpMotion* getMotion() const;
 
+    // 0x0000007100f9004c
+    void getTransform(sead::Matrix34f* mtx) const;
+    // 0x0000007100f8fb08
+    void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions);
+
+    // 0x0000007100f8ec3c
+    bool setLinearVelocity(const sead::Vector3f& velocity, float epsilon);
+    // 0x0000007100f9118c
+    void getLinearVelocity(sead::Vector3f* velocity) const;
+    // 0x0000007100f911ac
+    sead::Vector3f getLinearVelocity() const;
+
+    // 0x0000007100f8ed74
+    bool setAngularVelocity(const sead::Vector3f& velocity, float epsilon);
+    // 0x0000007100f911f8
+    void getAngularVelocity(sead::Vector3f* velocity) const;
+    // 0x0000007100f91218
+    sead::Vector3f getAngularVelocity() const;
+
+    // 0x0000007100f93348
+    void setMass(float mass);
+    // 0x0000007100f933fc
+    float getMass() const;
+    // 0x0000007100f93498
+    float getMassInv() const;
+
+    // 0x0000007100f93534
+    void setInertiaLocal(const sead::Vector3f& inertia);
+    // 0x0000007100f935dc
+    void getInertiaLocal(sead::Vector3f* inertia) const;
+    // 0x0000007100f9368c
+    sead::Vector3f getInertiaLocal() const;
+
+    // 0x0000007100f93750
+    void setLinearDamping(float value);
+    // 0x0000007100f93804
+    float getLinearDamping() const;
+    // 0x0000007100f938a0
+    void setAngularDamping(float value);
+    // 0x0000007100f93954
+    float getAngularDamping() const;
+    // 0x0000007100f939f0
+    void setGravityFactor(float value);
+    // 0x0000007100f93a9c
+    float getGravityFactor() const;
+
     bool isMassScaling() const { return mFlags.isOn(Flag::MassScaling); }
+    bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
     const auto& getMotionFlags() const { return mMotionFlags; }
     void resetMotionFlagDirect(const MotionFlag flag) { mMotionFlags.reset(flag); }
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
+
+    Type getType() const { return mType; }
+    bool isCharacterControllerType() const { return mType == Type::CharacterController; }
 
 private:
     sead::CriticalSection mCS;
@@ -169,7 +249,7 @@ private:
     u16 _98 = 0;
     RigidBodyAccessor mRigidBodyAccessor;
     f32 _b0 = 1.0f;
-    u32 _b4 = 0;
+    Type mType{};
     MotionAccessor* mMotionAccessor = nullptr;
     u16 _c0 = 0;
     u16 _c2 = 0;

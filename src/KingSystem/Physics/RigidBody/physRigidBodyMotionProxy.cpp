@@ -25,12 +25,14 @@ KSYS_ALWAYS_INLINE void RigidBodyMotionProxy::setTransformImpl(const sead::Matri
     mBody->getHkBody()->getMotion()->setTransform(transform);
 }
 
-void RigidBodyMotionProxy::setTransform(const sead::Matrix34f& mtx, bool notify) {
+void RigidBodyMotionProxy::setTransform(const sead::Matrix34f& mtx,
+                                        bool propagate_to_linked_motions) {
     mTransform = mtx;
     setTransformImpl(mtx);
 }
 
-void RigidBodyMotionProxy::setPosition(const sead::Vector3f& position, bool notify) {
+void RigidBodyMotionProxy::setPosition(const sead::Vector3f& position,
+                                       bool propagate_to_linked_motions) {
     if (hasMotionFlagDisabled(RigidBody::MotionFlag::_20)) {
         getTransform(&mTransform);
     }
