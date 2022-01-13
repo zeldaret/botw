@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Havok/Common/Base/Math/Quaternion/hkQuaternionf.h>
-#include <Havok/Common/Base/Math/Vector/hkVector4f.h>
+#include <Havok/Common/Base/hkBase.h>
 
 class hkSweptTransformf {
 public:
