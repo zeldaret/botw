@@ -192,7 +192,7 @@ inline hkReal hkpMotion::getLinearDamping() const {
 }
 
 inline void hkpMotion::setLinearDamping(hkReal d) {
-    m_motionState.m_linearDamping = d;
+    m_motionState.m_linearDamping.set<true>(d);
 }
 
 inline hkReal hkpMotion::getAngularDamping() const {
@@ -200,7 +200,7 @@ inline hkReal hkpMotion::getAngularDamping() const {
 }
 
 inline void hkpMotion::setAngularDamping(hkReal d) {
-    m_motionState.m_angularDamping = d;
+    m_motionState.m_angularDamping.set<true>(d);
 }
 
 inline hkReal hkpMotion::getTimeFactor() const {
@@ -208,7 +208,7 @@ inline hkReal hkpMotion::getTimeFactor() const {
 }
 
 inline void hkpMotion::setTimeFactor(hkReal f) {
-    m_motionState.m_timeFactor = f;
+    m_motionState.m_timeFactor.set<true>(f);
 }
 
 inline hkReal hkpMotion::getGravityFactor() const {
@@ -216,7 +216,7 @@ inline hkReal hkpMotion::getGravityFactor() const {
 }
 
 inline void hkpMotion::setGravityFactor(hkReal gravityFactor) {
-    m_gravityFactor = gravityFactor;
+    m_gravityFactor.set<true>(gravityFactor);
 }
 
 inline int hkpMotion::getDeactivationClass() const {

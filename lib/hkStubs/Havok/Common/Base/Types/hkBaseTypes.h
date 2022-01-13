@@ -61,6 +61,19 @@ public:
 
     void setOne() { m_value = 0x3F80; }
 
+    template <bool Round>
+    void set(const float& r) {
+        union {
+            float f;
+            int i;
+        } u;
+        if constexpr (Round)
+            u.f = r * (1.0f + 1.0f / 256.f);
+        else
+            u.f = r;
+        m_value = hkInt16(u.i >> 16);
+    }
+
     operator float() const {
         union {
             int i;
