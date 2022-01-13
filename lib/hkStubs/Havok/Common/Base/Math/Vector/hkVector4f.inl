@@ -250,6 +250,33 @@ inline hkVector4fComparison hkVector4f::notEqualZero() const {
     return hkVector4fComparison::convert(v != m128());
 }
 
+template <int N>
+inline hkBool32 hkVector4f::allEqual(hkVector4fParameter rhs,
+                                     hkSimdFloat32Parameter epsilon) const {
+    static_assert(1 <= N && N <= 4, "invalid N");
+
+    if constexpr (N == 1) {
+        hkSimdFloat32 t = getX() - rhs.getX();
+        t.setAbs(t);
+        return t <= epsilon;
+
+    } else {
+        hkVector4f diff;
+        diff.setSub(*this, rhs);
+        diff.setAbs(diff);
+        hkVector4f epsilon_v;
+        epsilon_v.setAll(epsilon);
+
+        constexpr auto mask = static_cast<hkVector4fComparison::Mask>([] {
+            int mask = 0;
+            for (int i = 0; i < N; ++i)
+                mask |= 1 << i;
+            return mask;
+        }());
+        return diff.lessEqual(epsilon_v).allAreSet<mask>();
+    }
+}
+
 inline void hkVector4f::setAbs(hkVector4fParameter a) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
     v = vabsq_f32(a.v);

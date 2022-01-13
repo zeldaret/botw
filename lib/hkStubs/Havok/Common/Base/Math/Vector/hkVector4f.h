@@ -89,6 +89,12 @@ public:
     HK_FORCE_INLINE hkVector4fComparison equalZero() const;
     HK_FORCE_INLINE hkVector4fComparison notEqualZero() const;
 
+    /// Whether the first N components of this vector are within `epsilon`
+    /// of the corresponding components in `v`.
+    template <int N>
+    HK_FORCE_INLINE hkBool32 allEqual(hkVector4fParameter rhs,
+                                      hkSimdFloat32Parameter epsilon) const;
+
     // ========== Sign, comparisons, clamping
 
     void setAbs(hkVector4fParameter a);
