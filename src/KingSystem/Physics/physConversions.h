@@ -5,10 +5,6 @@
 #include <math/seadQuat.h>
 #include <math/seadVector.h>
 
-#ifdef __aarch64__
-#include <arm_neon.h>
-#endif
-
 namespace ksys::phys {
 
 inline void toVec3(sead::Vector3f* out, const hkVector4f& vec) {
@@ -49,38 +45,18 @@ inline void toMtx34(sead::Matrix34f* out, const hkTransformf& transform) {
     const hkRotationf& rotate = transform.getRotation();
     const hkVector4f& translate = transform.getTranslation();
 
-    hkVector4f row0, row1, row2;
+    hkVector4f mtx[3];
+    for (int j = 0; j < 3; ++j) {
+        for (int i = 0; i < 3; ++i) {
+            mtx[i][j] = rotate(i, j);
+        }
+    }
+    for (int i = 0; i < 3; ++i)
+        mtx[i][3] = translate(i);
 
-#ifdef __aarch64__
-    // XXX: this leads to really poor codegen (compared to using getRows, which
-    // is optimised into Neon zip/transpose instructions). Is Nintendo to blame
-    // for this bad usage of Neon intrinsics, or did Havok mess up their Neon getRows?
-
-    row0.v = vld1q_lane_f32(&rotate(0, 0), row0.v, 0);
-    row1.v = vld1q_lane_f32(&rotate(1, 0), row1.v, 0);
-    row2.v = vld1q_lane_f32(&rotate(2, 0), row2.v, 0);
-
-    row0.v = vld1q_lane_f32(&rotate(0, 1), row0.v, 1);
-    row1.v = vld1q_lane_f32(&rotate(1, 1), row1.v, 1);
-    row2.v = vld1q_lane_f32(&rotate(2, 1), row2.v, 1);
-
-    row0.v = vld1q_lane_f32(&rotate(0, 2), row0.v, 2);
-    row1.v = vld1q_lane_f32(&rotate(1, 2), row1.v, 2);
-    row2.v = vld1q_lane_f32(&rotate(2, 2), row2.v, 2);
-
-    row0.v = vld1q_lane_f32(&translate(0), row0.v, 3);
-    row1.v = vld1q_lane_f32(&translate(1), row1.v, 3);
-    row2.v = vld1q_lane_f32(&translate(2), row2.v, 3);
-#else
-    rotate.getRows(row0, row1, row2);
-    row0[3] = translate[0];
-    row1[3] = translate[1];
-    row2[3] = translate[2];
-#endif
-
-    row0.store<4>(out->m[0]);
-    row1.store<4>(out->m[1]);
-    row2.store<4>(out->m[2]);
+    mtx[0].store<4>(out->m[0]);
+    mtx[1].store<4>(out->m[1]);
+    mtx[2].store<4>(out->m[2]);
 }
 
 }  // namespace ksys::phys
