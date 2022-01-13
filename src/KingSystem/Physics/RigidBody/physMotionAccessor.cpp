@@ -7,8 +7,8 @@ MotionAccessor::MotionAccessor(RigidBody* body) : mBody(body) {}
 
 MotionAccessor::~MotionAccessor() = default;
 
-MotionType MotionAccessor::getMotionInfo() const {
-    return mBody->getMotionInfo();
+MotionType MotionAccessor::getMotionType() const {
+    return mBody->getMotionType();
 }
 
 hkpMotion* MotionAccessor::getRigidBodyMotion() const {

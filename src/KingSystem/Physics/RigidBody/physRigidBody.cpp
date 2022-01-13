@@ -75,7 +75,7 @@ void RigidBody::sub_7100F8D21C() {
     }
 }
 
-MotionType RigidBody::getMotionInfo() const {
+MotionType RigidBody::getMotionType() const {
     if (mMotionFlags.isOn(MotionFlag::Dynamic))
         return MotionType::Dynamic;
     if (mMotionFlags.isOn(MotionFlag::Keyframed))

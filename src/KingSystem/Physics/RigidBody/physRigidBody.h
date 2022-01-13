@@ -110,7 +110,7 @@ public:
     // 0x0000007100f8d840
     void x_8();
 
-    MotionType getMotionInfo() const;
+    MotionType getMotionType() const;
 
     // Motion functions
     // 0x0000007100f8dcfc
