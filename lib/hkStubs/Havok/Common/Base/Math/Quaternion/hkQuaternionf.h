@@ -7,8 +7,11 @@ using hkQuaternionfParameter = const class hkQuaternionf&;
 class hkQuaternionf {
 public:
     hkQuaternionf() {}  // NOLINT(modernize-use-equals-default)
+    HK_FORCE_INLINE hkQuaternionf(const hkQuaternionf&) = default;
     HK_FORCE_INLINE hkQuaternionf(hkFloat32 ix, hkFloat32 iy, hkFloat32 iz, hkFloat32 r);
     HK_FORCE_INLINE void set(hkFloat32 ix, hkFloat32 iy, hkFloat32 iz, hkFloat32 r);
+
+    HK_FORCE_INLINE hkQuaternionf& operator=(const hkQuaternionf& q);
 
     hkVector4f m_vec;
 };
@@ -19,4 +22,9 @@ inline hkQuaternionf::hkQuaternionf(hkFloat32 ix, hkFloat32 iy, hkFloat32 iz, hk
 
 inline void hkQuaternionf::set(hkFloat32 ix, hkFloat32 iy, hkFloat32 iz, hkFloat32 r) {
     m_vec.set(ix, iy, iz, r);
+}
+
+inline hkQuaternionf& hkQuaternionf::operator=(const hkQuaternionf& q) {
+    m_vec = q.m_vec;
+    return *this;
 }

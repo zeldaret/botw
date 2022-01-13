@@ -12,7 +12,14 @@ inline hkVector4f::hkVector4f(hkFloat32 x, hkFloat32 y, hkFloat32 z, hkFloat32 w
     set(x, y, z, w);
 }
 
-inline hkVector4f::hkVector4f(const hkVector4f& other) = default;
+inline hkVector4f::hkVector4f(const hkVector4f& other) {
+    v = other.v;
+}
+
+inline hkVector4f& hkVector4f::operator=(hkVector4fParameter other) {
+    v = other.v;
+    return *this;
+}
 
 inline void hkVector4f::set(hkFloat32 x, hkFloat32 y, hkFloat32 z, hkFloat32 w) {
     v[0] = x;

@@ -23,7 +23,7 @@ public:
     HK_FORCE_INLINE hkVector4f() {}
     HK_FORCE_INLINE hkVector4f(hkFloat32 x, hkFloat32 y, hkFloat32 z, hkFloat32 w = 0);
     HK_FORCE_INLINE hkVector4f(const hkVector4f& other);
-    HK_FORCE_INLINE hkVector4f& operator=(hkVector4fParameter) = default;
+    HK_FORCE_INLINE hkVector4f& operator=(hkVector4fParameter other);
 
     // ========== Vector initialization
 
