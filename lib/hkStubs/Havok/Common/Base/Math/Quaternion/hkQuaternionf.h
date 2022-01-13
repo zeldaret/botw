@@ -2,6 +2,8 @@
 
 #include <Havok/Common/Base/Math/Vector/hkVector4f.h>
 
+using hkQuaternionfParameter = const class hkQuaternionf&;
+
 class hkQuaternionf {
 public:
     hkQuaternionf() {}  // NOLINT(modernize-use-equals-default)
