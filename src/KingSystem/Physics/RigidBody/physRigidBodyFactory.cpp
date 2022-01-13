@@ -8,49 +8,49 @@
 
 namespace ksys::phys {
 
-RigidBody* RigidBodyFactory::createSphere(RigidBodyParamView* view, sead::Heap* heap) {
-    if (view->isDynamicSensor())
-        view->motion_type = MotionType::Keyframed;
+RigidBody* RigidBodyFactory::createSphere(RigidBodyInstanceParam* params, sead::Heap* heap) {
+    if (params->isDynamicSensor())
+        params->motion_type = MotionType::Keyframed;
 
-    auto* v = sead::DynamicCast<SphereView>(view);
+    auto* v = sead::DynamicCast<SphereParam>(params);
     SphereBody* body = v->shape.init(heap);
-    return body->init(1, view, heap);
+    return body->init(1, params, heap);
 }
 
-RigidBody* RigidBodyFactory::createCapsule(RigidBodyParamView* view, sead::Heap* heap) {
-    if (view->isDynamicSensor())
-        view->motion_type = MotionType::Keyframed;
+RigidBody* RigidBodyFactory::createCapsule(RigidBodyInstanceParam* params, sead::Heap* heap) {
+    if (params->isDynamicSensor())
+        params->motion_type = MotionType::Keyframed;
 
-    auto* v = sead::DynamicCast<CapsuleView>(view);
+    auto* v = sead::DynamicCast<CapsuleParam>(params);
     CapsuleBody* body = v->shape.init(heap);
-    return body->init(1, view, heap);
+    return body->init(1, params, heap);
 }
 
-RigidBody* RigidBodyFactory::createCylinder(RigidBodyParamView* view, sead::Heap* heap) {
-    if (view->isDynamicSensor())
-        view->motion_type = MotionType::Keyframed;
+RigidBody* RigidBodyFactory::createCylinder(RigidBodyInstanceParam* params, sead::Heap* heap) {
+    if (params->isDynamicSensor())
+        params->motion_type = MotionType::Keyframed;
 
-    auto* v = sead::DynamicCast<CylinderView>(view);
+    auto* v = sead::DynamicCast<CylinderParam>(params);
     CylinderBody* body = v->shape.init(heap);
-    return body->init(1, view, heap);
+    return body->init(1, params, heap);
 }
 
-RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyParamView* view, sead::Heap* heap) {
-    if (view->isDynamicSensor())
-        view->motion_type = MotionType::Keyframed;
+RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyInstanceParam* params, sead::Heap* heap) {
+    if (params->isDynamicSensor())
+        params->motion_type = MotionType::Keyframed;
 
-    auto* v = sead::DynamicCast<WaterCylinderView>(view);
+    auto* v = sead::DynamicCast<WaterCylinderParam>(params);
     WaterCylinderBody* body = v->shape.init(heap);
-    return body->init(1, view, heap);
+    return body->init(1, params, heap);
 }
 
-RigidBody* RigidBodyFactory::createBox(RigidBodyParamView* view, sead::Heap* heap) {
-    if (view->isDynamicSensor())
-        view->motion_type = MotionType::Keyframed;
+RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Heap* heap) {
+    if (params->isDynamicSensor())
+        params->motion_type = MotionType::Keyframed;
 
-    auto* v = sead::DynamicCast<BoxView>(view);
+    auto* v = sead::DynamicCast<BoxParam>(params);
     BoxBody* body = v->shape.init(heap);
-    return body->init(1, view, heap);
+    return body->init(1, params, heap);
 }
 
 }  // namespace ksys::phys

@@ -4,20 +4,20 @@
 
 namespace ksys::phys {
 
-class WaterCylinderView;
+class WaterCylinderParam;
 
 struct WaterCylinderBody {
     virtual ~WaterCylinderBody();
 
-    RigidBody* init(u32 flag, RigidBodyParamView* view, sead::Heap* heap);
+    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
 };
 
 struct WaterCylinderShape {
     WaterCylinderBody* init(sead::Heap* heap);
 };
 
-class WaterCylinderView : public RigidBodyParamView {
-    SEAD_RTTI_OVERRIDE(WaterCylinderView, RigidBodyParamView)
+class WaterCylinderParam : public RigidBodyInstanceParam {
+    SEAD_RTTI_OVERRIDE(WaterCylinderParam, RigidBodyInstanceParam)
 public:
     u8 _90;
     float _94;

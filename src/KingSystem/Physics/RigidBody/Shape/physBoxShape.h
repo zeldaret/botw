@@ -4,20 +4,20 @@
 
 namespace ksys::phys {
 
-class BoxView;
+class BoxParam;
 
 struct BoxBody {
     virtual ~BoxBody();
 
-    RigidBody* init(u32 flag, RigidBodyParamView* view, sead::Heap* heap);
+    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
 };
 
 struct BoxShape {
     BoxBody* init(sead::Heap* heap);
 };
 
-class BoxView : public RigidBodyParamView {
-    SEAD_RTTI_OVERRIDE(BoxView, RigidBodyParamView)
+class BoxParam : public RigidBodyInstanceParam {
+    SEAD_RTTI_OVERRIDE(BoxParam, RigidBodyInstanceParam)
 public:
     u8 _90;
     float _94;

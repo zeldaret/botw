@@ -4,20 +4,20 @@
 
 namespace ksys::phys {
 
-class SphereView;
+class SphereParam;
 
 struct SphereBody {
     virtual ~SphereBody();
 
-    RigidBody* init(u32 flag, RigidBodyParamView* view, sead::Heap* heap);
+    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
 };
 
 struct SphereShape {
     SphereBody* init(sead::Heap* heap);
 };
 
-class SphereView : public RigidBodyParamView {
-    SEAD_RTTI_OVERRIDE(SphereView, RigidBodyParamView)
+class SphereParam : public RigidBodyInstanceParam {
+    SEAD_RTTI_OVERRIDE(SphereParam, RigidBodyInstanceParam)
 public:
     u8 _90;
     float _94;

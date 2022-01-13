@@ -12,7 +12,7 @@ class hkpShape;
 
 namespace ksys::phys {
 
-class CapsuleView;
+class CapsuleParam;
 struct CapsuleBody;
 
 struct CapsuleShape {
@@ -42,7 +42,7 @@ struct CapsuleBody {
     virtual void updateChanges();
     virtual void scaleVerts(f32 scale);
 
-    RigidBody* init(u32 flag, RigidBodyParamView* view, sead::Heap* heap);
+    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
     CapsuleBody* clone(sead::Heap* heap);
     f32 getRadius() const;
     void getVertices(sead::Vector3f* va, sead::Vector3f* vb) const;
@@ -60,8 +60,8 @@ struct CapsuleBody {
     hkpShape* shape;
 };
 
-class CapsuleView : public RigidBodyParamView {
-    SEAD_RTTI_OVERRIDE(CapsuleView, RigidBodyParamView)
+class CapsuleParam : public RigidBodyInstanceParam {
+    SEAD_RTTI_OVERRIDE(CapsuleParam, RigidBodyInstanceParam)
 public:
     u8 _90;
     float _94;

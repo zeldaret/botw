@@ -127,17 +127,18 @@ void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* pa
     if (body == nullptr)
         return;
 
-    phys::RigidBodyParamView view;
-    param->getParams(&view);
-    if (view.contact_layer == phys::ContactLayer::SensorCustomReceiver) {
-        body->sub_7100F8F9E8(&view.flags, _188[body->isMassScaling()]);
-    } else if (view.info_5e0) {
-        body->sub_7100F8FA44(view.contact_layer, view.info_5e0);
+    phys::RigidBodyInstanceParam instance_params;
+    param->getParams(&instance_params);
+    if (instance_params.contact_layer == phys::ContactLayer::SensorCustomReceiver) {
+        body->sub_7100F8F9E8(&instance_params.flags, _188[body->isMassScaling()]);
+    } else if (instance_params.info_5e0) {
+        body->sub_7100F8FA44(instance_params.contact_layer, instance_params.info_5e0);
     } else {
-        body->sub_7100F8F8CC(view.contact_layer, view.groundhit, _188[body->isMassScaling()]);
+        body->sub_7100F8F8CC(instance_params.contact_layer, instance_params.groundhit,
+                             _188[body->isMassScaling()]);
     }
-    body->setCollideGround(view.no_hit_ground == 0);
-    body->setCollideWater(view.no_hit_water == 0);
+    body->setCollideGround(instance_params.no_hit_ground == 0);
+    body->setCollideWater(instance_params.no_hit_water == 0);
     body->sub_7100F8F51C();
 }
 

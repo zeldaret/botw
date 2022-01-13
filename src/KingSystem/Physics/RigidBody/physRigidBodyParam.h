@@ -46,8 +46,8 @@ enum class NavMeshSubMaterial {
 
 struct ShapeParam;
 
-struct RigidBodyParamView {
-    SEAD_RTTI_BASE(RigidBodyParamView)
+struct RigidBodyInstanceParam {
+    SEAD_RTTI_BASE(RigidBodyInstanceParam)
 public:
     const char* name = "no name";
     u32 _10 = -1;
@@ -87,7 +87,7 @@ public:
                motion_type == MotionType::Dynamic;
     }
 };
-KSYS_CHECK_SIZE_NX150(RigidBodyParamView, 0x90);
+KSYS_CHECK_SIZE_NX150(RigidBodyInstanceParam, 0x90);
 
 struct RigidBodyParam : agl::utl::ParameterList {
     struct Info : agl::utl::ParameterObj {
@@ -152,7 +152,7 @@ struct RigidBodyParam : agl::utl::ParameterList {
 
     // TODO: types and names
     void* createRigidBody(void* x, sead::Heap* heap, bool y);
-    bool getParams(RigidBodyParamView* view) const;
+    bool getParams(RigidBodyInstanceParam* params) const;
     void* createEntityShape(void* x, void* y, sead::Heap* heap);
 
     ContactLayer getContactLayer() const;
