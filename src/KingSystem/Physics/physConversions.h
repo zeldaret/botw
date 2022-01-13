@@ -38,11 +38,11 @@ inline void toQuat(sead::Quatf* out, const hkQuaternionf& quat) {
 }
 
 inline void toHkQuat(hkQuaternionf* out, const sead::Quatf& quat) {
-    out->set(quat.x, quat.y, quat.x, quat.w);
+    out->set(quat.x, quat.y, quat.z, quat.w);
 }
 
 [[nodiscard]] inline hkQuaternionf toHkQuat(const sead::Quatf& quat) {
-    return {quat.x, quat.y, quat.x, quat.w};
+    return {quat.x, quat.y, quat.z, quat.w};
 }
 
 inline void toMtx34(sead::Matrix34f* out, const hkTransformf& transform) {
