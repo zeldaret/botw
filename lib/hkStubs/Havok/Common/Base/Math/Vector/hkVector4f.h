@@ -146,6 +146,9 @@ public:
 
     // ========== Load/store
 
+    template <int Constant>
+    HK_FORCE_INLINE static const hkVector4f& getConstant();
+
     /// Store N floats to out.
     template <int N>
     void store(hkFloat32* out) const;

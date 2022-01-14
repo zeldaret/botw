@@ -4,6 +4,7 @@
 
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 
+#include <Havok/Common/Base/Math/Header/hkMathHeaderConstants.h>
 #include <Havok/Common/Base/Math/Matrix/hkMatrix3.h>
 #include <Havok/Common/Base/Math/Matrix/hkRotation.h>
 #include <Havok/Common/Base/Math/Matrix/hkTransform.h>

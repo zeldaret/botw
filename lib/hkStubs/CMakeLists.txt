@@ -13,6 +13,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/DebugUtil/MultiThreadCheck/hkMultiThreadCheck.h
 
   Havok/Common/Base/Math/hkMath.h
+  Havok/Common/Base/Math/Header/hkMathHeaderConstants.h
   Havok/Common/Base/Math/Matrix/hkMatrix3.h
   Havok/Common/Base/Math/Matrix/hkMatrix3f.h
   Havok/Common/Base/Math/Matrix/hkRotation.h

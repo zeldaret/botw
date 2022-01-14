@@ -354,6 +354,11 @@ inline hkSimdFloat32 hkVector4f::lengthSquared() const {
     return dot<N>(*this);
 }
 
+template <int Constant>
+inline const hkVector4f& hkVector4f::getConstant() {
+    return reinterpret_cast<const hkVector4f&>(g_vectorfConstants[Constant]);
+}
+
 template <int N>
 inline void hkVector4f::store(hkFloat32* out) const {
     static_assert(1 <= N && N <= 4, "invalid N");
