@@ -3,6 +3,7 @@
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h>
 #include <Havok/Physics2012/Dynamics/Motion/hkpMotion.h>
 #include <basis/seadTypes.h>
+#include <cstring>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
