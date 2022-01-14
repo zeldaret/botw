@@ -129,11 +129,15 @@ public:
     const hkFloat32& operator()(int i) const { return reinterpret_cast<const float*>(&v)[i]; }
     const hkFloat32& operator[](int i) const { return reinterpret_cast<const float*>(&v)[i]; }
 
+    template <int I>
+    HK_FORCE_INLINE hkSimdFloat32 getComponent() const {
+        return v[I];
+    }
     hkSimdFloat32 getComponent(int i) const { return v[i]; }
-    hkSimdFloat32 getX() const { return getComponent(0); }
-    hkSimdFloat32 getY() const { return getComponent(1); }
-    hkSimdFloat32 getZ() const { return getComponent(2); }
-    hkSimdFloat32 getW() const { return getComponent(3); }
+    hkSimdFloat32 getX() const { return getComponent<0>(); }
+    hkSimdFloat32 getY() const { return getComponent<1>(); }
+    hkSimdFloat32 getZ() const { return getComponent<2>(); }
+    hkSimdFloat32 getW() const { return getComponent<3>(); }
     void setComponent(int i, hkSimdFloat32Parameter val) { v[i] = val; }
     void setX(hkSimdFloat32Parameter val) { setComponent(0, val); }
     void setY(hkSimdFloat32Parameter val) { setComponent(1, val); }
