@@ -295,9 +295,9 @@ inline void hkVector4f::setAbs(hkVector4fParameter a) {
 
 inline void hkVector4f::_setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
-    auto col0 = vmulq_laneq_f32(a.m_col0.v, v, 0);
-    auto col1 = vmulq_laneq_f32(a.m_col1.v, v, 1);
-    auto col2 = vmulq_laneq_f32(a.m_col2.v, v, 2);
+    auto col0 = vmulq_laneq_f32(a.m_col0.v, b.v, 0);
+    auto col1 = vmulq_laneq_f32(a.m_col1.v, b.v, 1);
+    auto col2 = vmulq_laneq_f32(a.m_col2.v, b.v, 2);
     v = col0 + col1 + col2;
 #else
     setMul(a.m_col0, b[0]);
