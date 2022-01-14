@@ -141,7 +141,7 @@ public:
 };
 
 inline hkSimdReal hkpMotion::getMassInv() const {
-    return m_inertiaAndMassInv(3);
+    return m_inertiaAndMassInv.getW();
 }
 
 inline const hkVector4& hkpMotion::getCenterOfMassLocal() const {
