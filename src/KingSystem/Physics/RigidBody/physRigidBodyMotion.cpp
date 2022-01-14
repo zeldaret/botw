@@ -52,7 +52,7 @@ void RigidBodyMotion::setTransform(const sead::Matrix34f& mtx, bool propagate_to
     if (propagate_to_linked_motions) {
         for (int i = 0, n = mLinkedAccessors.size(); i < n; ++i) {
             auto* accessor = mLinkedAccessors[i];
-            accessor->setTransformMaybe(mtx);
+            accessor->setTransformFromLinkedBody(mtx);
             accessor->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
             accessor->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
         }
@@ -76,7 +76,7 @@ void RigidBodyMotion::setPosition(const sead::Vector3f& position,
     if (propagate_to_linked_motions) {
         for (int i = 0, n = mLinkedAccessors.size(); i < n; ++i) {
             auto* accessor = mLinkedAccessors[i];
-            accessor->setTransformMaybe(hk_position, hk_rotate);
+            accessor->setTransformFromLinkedBody(hk_position, hk_rotate);
         }
     }
 }
@@ -578,9 +578,9 @@ void RigidBodyMotion::freeze(bool freeze, bool preserve_velocities, bool preserv
     mGravityFactor = mBody->getGravityFactor();
     mMaxImpulseCopy = mMaxImpulse;
 
-    mBody->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+    mBody->setLinearVelocity(sead::Vector3f::zero);
     mBody->setLinearDamping(1.0);
-    mBody->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+    mBody->setAngularVelocity(sead::Vector3f::zero);
     mBody->setAngularDamping(1.0);
 
     mBody->setInertiaLocal(mInertiaLocal * mass_factor);

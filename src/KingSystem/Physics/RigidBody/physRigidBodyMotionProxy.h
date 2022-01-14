@@ -12,16 +12,17 @@ class RigidBodyMotionProxy : public MotionAccessor {
 public:
     enum class Flag {
         _40000 = 1 << 18,
+        _80000 = 1 << 19,
+        _100000 = 1 << 20,
+        HasLinkedRigidBodyWithoutFlag10 = 1 << 21,
     };
 
     explicit RigidBodyMotionProxy(RigidBody* body);
 
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) override;
     void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) override;
-    // 0x0000007100fa4318
-    void setTransformMaybe(const sead::Matrix34f& mtx);
-    // 0x0000007100fa4594
-    void setTransformMaybe(const hkVector4f& translate, const hkQuaternionf& rotate);
+    void setTransformFromLinkedBody(const sead::Matrix34f& mtx);
+    void setTransformFromLinkedBody(const hkVector4f& hk_translate, const hkQuaternionf& hk_rotate);
     void getPosition(sead::Vector3f* position) override;
     void getRotation(sead::Quatf* rotation) override;
     void getTransform(sead::Matrix34f* mtx) override;
@@ -41,9 +42,7 @@ public:
     void setMaxAngularVelocity(float max) override;
     float getMaxAngularVelocity() override;
 
-    // 0x0000007100fa4f48 - called from RigidBody, sets a secondary rigid body
     void setLinkedRigidBody(RigidBody* body);
-    // 0x0000007100fa3f8c - called from RigidBody and inlined by the destructor
     void resetLinkedRigidBody();
     RigidBody* getLinkedRigidBody() const;
     bool isFlag40000Set() const;
@@ -56,14 +55,18 @@ public:
     void getRotation(hkQuaternionf* quat) override;
     void setTimeFactor(float factor) override;
     float getTimeFactor() override;
+
     void freeze(bool freeze, bool preserve_velocities, bool preserve_max_impulse) override;
-    void resetFrozenState() override;
+    void resetFrozenState() override {
+        mFrozenLinearVelocity.set(0, 0, 0);
+        mFrozenAngularVelocity.set(0, 0, 0);
+    }
 
 private:
     void setTransformImpl(const sead::Matrix34f& mtx);
 
-    sead::Vector3f _18 = sead::Vector3f::zero;
-    sead::Vector3f _24 = sead::Vector3f::zero;
+    sead::Vector3f mFrozenLinearVelocity = sead::Vector3f::zero;
+    sead::Vector3f mFrozenAngularVelocity = sead::Vector3f::zero;
     sead::Vector3f mLinearVelocity = sead::Vector3f::zero;
     float mMaxLinearVelocity{};
     sead::Vector3f mAngularVelocity = sead::Vector3f::zero;
@@ -72,8 +75,8 @@ private:
     RigidBody* mLinkedRigidBody{};
     sead::Matrix34f mTransform = sead::Matrix34f::ident;
     float mTimeFactor = 1.0f;
-    sead::Vector3f _9c = sead::Vector3f::zero;
-    sead::Quatf _a8 = sead::Quatf::unit;
+    sead::Vector3f mLinkedBodyExtraTranslate = sead::Vector3f::zero;
+    sead::Quatf mLinkedBodyExtraRotate = sead::Quatf::unit;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};
 };
 

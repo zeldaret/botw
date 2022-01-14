@@ -2,6 +2,7 @@
 
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
@@ -17,6 +18,7 @@ class hkpMotion;
 namespace ksys::phys {
 
 class MotionAccessor;
+class RigidBodyMotion;
 class RigidContactPoints;
 class UserTag;
 
@@ -131,8 +133,9 @@ public:
     bool x_6();
 
     // 0x0000007100f8d680
-    // FIXME: rename after we figure out what the two types of MotionAccessor are
-    MotionAccessor* getMotionAccessorType1();
+    RigidBodyMotion* getMotionAccessor() const;
+    // 0x0000007100f90f28 - for internal use
+    RigidBodyMotion* getMotionAccessorForProxy() const;
     // 0x0000007100f8d70c
     void* getMotionAccessorType2Stuff();
     // 0x0000007100f8d7a8
@@ -187,14 +190,14 @@ public:
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions);
 
     // 0x0000007100f8ec3c
-    bool setLinearVelocity(const sead::Vector3f& velocity, float epsilon);
+    bool setLinearVelocity(const sead::Vector3f& velocity, float epsilon = sead::Mathf::epsilon());
     // 0x0000007100f9118c
     void getLinearVelocity(sead::Vector3f* velocity) const;
     // 0x0000007100f911ac
     sead::Vector3f getLinearVelocity() const;
 
     // 0x0000007100f8ed74
-    bool setAngularVelocity(const sead::Vector3f& velocity, float epsilon);
+    bool setAngularVelocity(const sead::Vector3f& velocity, float epsilon = sead::Mathf::epsilon());
     // 0x0000007100f911f8
     void getAngularVelocity(sead::Vector3f* velocity) const;
     // 0x0000007100f91218
@@ -236,6 +239,30 @@ public:
 
     Type getType() const { return mType; }
     bool isCharacterControllerType() const { return mType == Type::CharacterController; }
+
+    // 0x0000007100f969a0
+    void lock(bool also_lock_world);
+    // 0x0000007100f969e8
+    void unlock(bool also_unlock_world);
+
+    class ScopedLock {
+    public:
+        explicit ScopedLock(RigidBody* body, bool also_lock_world)
+            : mBody(body), mAlsoLockWorld(also_lock_world) {
+            mBody->lock(also_lock_world);
+        }
+        ~ScopedLock() { mBody->unlock(mAlsoLockWorld); }
+        ScopedLock(const ScopedLock&) = delete;
+        auto operator=(const ScopedLock&) = delete;
+
+    private:
+        RigidBody* mBody;
+        bool mAlsoLockWorld;
+    };
+
+    [[nodiscard]] auto makeScopedLock(bool also_lock_world) {
+        return ScopedLock(this, also_lock_world);
+    }
 
 private:
     sead::CriticalSection mCS;
