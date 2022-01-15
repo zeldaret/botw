@@ -485,7 +485,7 @@ bool RigidBodyMotion::registerAccessor(RigidBodyMotionProxy* accessor) {
                 list.appendWithFormat(", ");
             list.appendWithFormat("%s:%s", mLinkedAccessors[i]->getBody()->getName(),
                                   mLinkedAccessors[i]->getBody()->getHkBodyName().cstr());
-        };
+        }
         util::PrintDebugFmt("failed to register accessor. existing list: %s", list);
         return false;
     }
