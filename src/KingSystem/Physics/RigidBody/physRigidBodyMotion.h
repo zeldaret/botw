@@ -91,13 +91,14 @@ public:
     static void setMaxImpulse(float max_impulse);
 
 private:
-    hkpMotion* getMotionDependingOnFlag(RigidBody::MotionFlag use_local_motion_condition) const {
+    hkpMotion*
+    getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag use_local_motion_condition) const {
         if (hasMotionFlagSet(use_local_motion_condition))
             return mMotion;
         return getRigidBodyMotion();
     }
 
-    bool bodyHasFlag80000() const { return mBody->hasFlag(RigidBody::Flag::_80000); }
+    bool arePropertyChangesBlocked() const { return mBody->hasFlag(RigidBody::Flag::_80000); }
 
     sead::Vector3f mLinearVelocity = sead::Vector3f::zero;
     float mLinearDamping{};

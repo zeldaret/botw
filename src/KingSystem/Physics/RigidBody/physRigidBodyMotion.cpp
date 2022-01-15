@@ -44,7 +44,7 @@ void RigidBodyMotion::setTransform(const sead::Matrix34f& mtx, bool propagate_to
     mMotion->setTransform(transform);
 
     if (mBody->isFlag8Set()) {
-        setMotionFlag(RigidBody::MotionFlag::_20);
+        setMotionFlag(RigidBody::MotionFlag::DirtyTransform);
     } else {
         getHkBody()->getMotion()->setTransform(transform);
     }
@@ -61,14 +61,14 @@ void RigidBodyMotion::setTransform(const sead::Matrix34f& mtx, bool propagate_to
 
 void RigidBodyMotion::setPosition(const sead::Vector3f& position,
                                   bool propagate_to_linked_motions) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_20);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     const auto hk_position = toHkVec4(position);
     const auto& hk_rotate = motion->getRotation();
 
     mMotion->setPositionAndRotation(hk_position, hk_rotate);
 
     if (mBody->isFlag8Set()) {
-        setMotionFlag(RigidBody::MotionFlag::_20);
+        setMotionFlag(RigidBody::MotionFlag::DirtyTransform);
     } else {
         getHkBody()->getMotion()->setPositionAndRotation(hk_position, hk_rotate);
     }
@@ -82,18 +82,18 @@ void RigidBodyMotion::setPosition(const sead::Vector3f& position,
 }
 
 void RigidBodyMotion::getPosition(sead::Vector3f* position) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_20);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     const auto hk_position = motion->getPosition();
     storeToVec3(position, hk_position);
 }
 
 void RigidBodyMotion::getRotation(sead::Quatf* rotation) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_20);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     toQuat(rotation, motion->getRotation());
 }
 
 void RigidBodyMotion::getTransform(sead::Matrix34f* mtx) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_20);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     setMtxRotation(mtx, motion->getTransform().getRotation());
     setMtxTranslation(mtx, motion->getTransform().getTranslation());
 }
@@ -103,7 +103,7 @@ void RigidBodyMotion::setCenterOfMassInLocal(const sead::Vector3f& center) {
     mMotion->setCenterOfMassInLocal(hk_center);
 
     if (mBody->isFlag8Set())
-        setMotionFlag(RigidBody::MotionFlag::_800);
+        setMotionFlag(RigidBody::MotionFlag::DirtyCenterOfMassLocal);
     else
         getHkBody()->setCenterOfMassLocal(hk_center);
 }
@@ -120,22 +120,22 @@ bool RigidBodyMotion::setLinearVelocity(const sead::Vector3f& velocity, float ep
         return false;
 
     mMotion->setLinearVelocity(toHkVec4(velocity));
-    setMotionFlag(RigidBody::MotionFlag::_40);
+    setMotionFlag(RigidBody::MotionFlag::DirtyLinearVelocity);
     return true;
 }
 
 bool RigidBodyMotion::setLinearVelocity(const hkVector4f& velocity, float epsilon) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_40);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyLinearVelocity);
     if (velocity.allEqual<3>(motion->getLinearVelocity(), epsilon))
         return false;
 
     mMotion->setLinearVelocity(velocity);
-    setMotionFlag(RigidBody::MotionFlag::_40);
+    setMotionFlag(RigidBody::MotionFlag::DirtyLinearVelocity);
     return true;
 }
 
 void RigidBodyMotion::getLinearVelocity(sead::Vector3f* velocity) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_40);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyLinearVelocity);
     const auto hk_vel = motion->getLinearVelocity();
     storeToVec3(velocity, hk_vel);
 }
@@ -147,29 +147,29 @@ bool RigidBodyMotion::setAngularVelocity(const sead::Vector3f& velocity, float e
         return false;
 
     mMotion->setAngularVelocity(toHkVec4(velocity));
-    setMotionFlag(RigidBody::MotionFlag::_80);
+    setMotionFlag(RigidBody::MotionFlag::DirtyAngularVelocity);
     return true;
 }
 
 bool RigidBodyMotion::setAngularVelocity(const hkVector4f& velocity, float epsilon) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_80);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyAngularVelocity);
     if (velocity.allEqual<3>(motion->getAngularVelocity(), epsilon))
         return false;
 
     mMotion->setAngularVelocity(velocity);
-    setMotionFlag(RigidBody::MotionFlag::_80);
+    setMotionFlag(RigidBody::MotionFlag::DirtyAngularVelocity);
     return true;
 }
 
 void RigidBodyMotion::getAngularVelocity(sead::Vector3f* velocity) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_80);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyAngularVelocity);
     const auto hk_vel = motion->getAngularVelocity();
     storeToVec3(velocity, hk_vel);
 }
 
 void RigidBodyMotion::setMaxLinearVelocity(float max) {
     mMotion->getMotionState()->m_maxLinearVelocity = max;
-    setMotionFlag(RigidBody::MotionFlag::_100);
+    setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
 float RigidBodyMotion::getMaxLinearVelocity() {
@@ -178,7 +178,7 @@ float RigidBodyMotion::getMaxLinearVelocity() {
 
 void RigidBodyMotion::setMaxAngularVelocity(float max) {
     mMotion->getMotionState()->m_maxAngularVelocity = max;
-    setMotionFlag(RigidBody::MotionFlag::_100);
+    setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
 float RigidBodyMotion::getMaxAngularVelocity() {
@@ -195,12 +195,12 @@ bool RigidBodyMotion::applyLinearImpulse(const sead::Vector3f& impulse) {
     if (impulse.equals(sead::Vector3f::zero, sImpulseEpsilon))
         return false;
 
-    if (hasMotionFlagDisabled(RigidBody::MotionFlag::_40)) {
+    if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyLinearVelocity)) {
         mMotion->setLinearVelocity(getRigidBodyMotion()->getLinearVelocity());
     }
 
     mMotion->applyLinearImpulse(toHkVec4(impulse));
-    setMotionFlag(RigidBody::MotionFlag::_40);
+    setMotionFlag(RigidBody::MotionFlag::DirtyLinearVelocity);
     return true;
 }
 
@@ -214,17 +214,17 @@ bool RigidBodyMotion::applyAngularImpulse(const sead::Vector3f& impulse) {
     if (impulse.equals(sead::Vector3f::zero, sImpulseEpsilon))
         return false;
 
-    if (hasMotionFlagDisabled(RigidBody::MotionFlag::_20)) {
+    if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyTransform)) {
         auto& rotation = mMotion->getMotionState()->getSweptTransform().m_rotation1;
         rotation = getRigidBodyMotion()->getRotation();
     }
 
-    if (hasMotionFlagDisabled(RigidBody::MotionFlag::_80)) {
+    if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyAngularVelocity)) {
         mMotion->setAngularVelocity(getRigidBodyMotion()->getAngularVelocity());
     }
 
     mMotion->applyAngularImpulse(toHkVec4(impulse));
-    setMotionFlag(RigidBody::MotionFlag::_80);
+    setMotionFlag(RigidBody::MotionFlag::DirtyAngularVelocity);
     return true;
 }
 
@@ -239,11 +239,11 @@ bool RigidBodyMotion::applyPointImpulse(const sead::Vector3f& impulse,
     if (impulse.equals(sead::Vector3f::zero, sImpulseEpsilon))
         return false;
 
-    if (hasMotionFlagDisabled(RigidBody::MotionFlag::_20)) {
+    if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyTransform)) {
         auto* state = mMotion->getMotionState();
         auto* body_state = getRigidBodyMotion()->getMotionState();
 
-        if (hasMotionFlagDisabled(RigidBody::MotionFlag::_800)) {
+        if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyCenterOfMassLocal)) {
             state->getSweptTransform().m_centerOfMass1 =
                 body_state->getSweptTransform().m_centerOfMass1;
         }
@@ -251,49 +251,49 @@ bool RigidBodyMotion::applyPointImpulse(const sead::Vector3f& impulse,
         state->getTransform() = body_state->getTransform();
     }
 
-    if (hasMotionFlagDisabled(RigidBody::MotionFlag::_40)) {
+    if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyLinearVelocity)) {
         mMotion->setLinearVelocity(getRigidBodyMotion()->getLinearVelocity());
     }
 
-    if (hasMotionFlagDisabled(RigidBody::MotionFlag::_80)) {
+    if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyAngularVelocity)) {
         mMotion->setAngularVelocity(getRigidBodyMotion()->getAngularVelocity());
     }
 
     mMotion->applyPointImpulse(toHkVec4(impulse), toHkVec4(point));
-    setMotionFlag(RigidBody::MotionFlag::_40);
-    setMotionFlag(RigidBody::MotionFlag::_80);
+    setMotionFlag(RigidBody::MotionFlag::DirtyLinearVelocity);
+    setMotionFlag(RigidBody::MotionFlag::DirtyAngularVelocity);
     return true;
 }
 
 void RigidBodyMotion::setMass(float mass) {
-    if (bodyHasFlag80000()) {
+    if (arePropertyChangesBlocked()) {
         mMass = mass;
         return;
     }
 
     mMotion->setMass(mass);
     if (mBody->isFlag8Set())
-        setMotionFlag(RigidBody::MotionFlag::_400);
+        setMotionFlag(RigidBody::MotionFlag::DirtyMass);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->getMotion()->setMass(mass);
 }
 
 float RigidBodyMotion::getMass() const {
-    if (bodyHasFlag80000())
+    if (arePropertyChangesBlocked())
         return mMass;
 
     return mMotion->getMass();
 }
 
 float RigidBodyMotion::getMassInv() const {
-    if (bodyHasFlag80000())
+    if (arePropertyChangesBlocked())
         return 1.0f / mMass;
 
     return mMotion->getMassInv();
 }
 
 void RigidBodyMotion::getInertiaLocal(sead::Vector3f* inertia) const {
-    if (bodyHasFlag80000()) {
+    if (arePropertyChangesBlocked()) {
         inertia->e = mInertiaLocal.e;
         return;
     }
@@ -306,60 +306,60 @@ void RigidBodyMotion::getInertiaLocal(sead::Vector3f* inertia) const {
 }
 
 void RigidBodyMotion::setLinearDamping(float value) {
-    if (bodyHasFlag80000()) {
+    if (arePropertyChangesBlocked()) {
         mLinearDamping = value;
         return;
     }
 
     mMotion->setLinearDamping(value);
     if (mBody->isFlag8Set())
-        setMotionFlag(RigidBody::MotionFlag::_2000);
+        setMotionFlag(RigidBody::MotionFlag::DirtyDampingOrGravityFactor);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->setLinearDamping(getTimeFactor() * value);
 }
 
 float RigidBodyMotion::getLinearDamping() const {
-    if (bodyHasFlag80000())
+    if (arePropertyChangesBlocked())
         return mLinearDamping;
 
     return mMotion->getLinearDamping();
 }
 
 void RigidBodyMotion::setAngularDamping(float value) {
-    if (bodyHasFlag80000()) {
+    if (arePropertyChangesBlocked()) {
         mAngularDamping = value;
         return;
     }
 
     mMotion->setAngularDamping(value);
     if (mBody->isFlag8Set())
-        setMotionFlag(RigidBody::MotionFlag::_2000);
+        setMotionFlag(RigidBody::MotionFlag::DirtyDampingOrGravityFactor);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->setAngularDamping(getTimeFactor() * value);
 }
 
 float RigidBodyMotion::getAngularDamping() const {
-    if (bodyHasFlag80000())
+    if (arePropertyChangesBlocked())
         return mAngularDamping;
 
     return mMotion->getAngularDamping();
 }
 
 void RigidBodyMotion::setGravityFactor(float value) {
-    if (bodyHasFlag80000()) {
+    if (arePropertyChangesBlocked()) {
         mGravityFactor = value;
         return;
     }
 
     mMotion->setGravityFactor(value);
     if (mBody->isFlag8Set())
-        setMotionFlag(RigidBody::MotionFlag::_2000);
+        setMotionFlag(RigidBody::MotionFlag::DirtyDampingOrGravityFactor);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->setGravityFactor(value);
 }
 
 float RigidBodyMotion::getGravityFactor() const {
-    if (bodyHasFlag80000())
+    if (arePropertyChangesBlocked())
         return mGravityFactor;
 
     return mMotion->getGravityFactor();
@@ -367,7 +367,7 @@ float RigidBodyMotion::getGravityFactor() const {
 
 void RigidBodyMotion::setTimeFactor(float factor) {
     mMotion->setTimeFactor(factor);
-    setMotionFlag(RigidBody::MotionFlag::_100);
+    setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
 float RigidBodyMotion::getTimeFactor() {
@@ -375,7 +375,7 @@ float RigidBodyMotion::getTimeFactor() {
 }
 
 void RigidBodyMotion::getRotation(hkQuaternionf* quat) {
-    auto* motion = getMotionDependingOnFlag(RigidBody::MotionFlag::_20);
+    auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     *quat = motion->getRotation();
 }
 
@@ -383,21 +383,21 @@ void RigidBodyMotion::processUpdateFlags() {
     auto* body = getHkBody();
     auto* body_motion = body->getMotion();
 
-    if (hasMotionFlagSet(RigidBody::MotionFlag::_400)) {
+    if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyMass)) {
         body_motion->setMassInv(mMotion->getMassInv());
-        disableMotionFlag(RigidBody::MotionFlag::_400);
+        disableMotionFlag(RigidBody::MotionFlag::DirtyMass);
     }
 
-    if (hasMotionFlagSet(RigidBody::MotionFlag::_1000)) {
+    if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyInertiaLocal)) {
         if (!mBody->isCharacterControllerType()) {
             hkMatrix3 inertia;
             mMotion->getInertiaInvLocal(inertia);
             body_motion->setInertiaInvLocal(inertia);
         }
-        disableMotionFlag(RigidBody::MotionFlag::_1000);
+        disableMotionFlag(RigidBody::MotionFlag::DirtyInertiaLocal);
     }
 
-    if (hasMotionFlagSet(RigidBody::MotionFlag::_2000)) {
+    if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyDampingOrGravityFactor)) {
         if (mBody->hasFlag(RigidBody::Flag::_20000)) {
             body->setLinearDamping(1.0);
             body->setAngularDamping(1.0);
@@ -407,12 +407,12 @@ void RigidBodyMotion::processUpdateFlags() {
             body->setAngularDamping(mMotion->getAngularDamping());
             body->setGravityFactor(mMotion->getGravityFactor());
         }
-        disableMotionFlag(RigidBody::MotionFlag::_2000);
+        disableMotionFlag(RigidBody::MotionFlag::DirtyDampingOrGravityFactor);
     }
 
-    if (hasMotionFlagSet(RigidBody::MotionFlag::_200)) {
+    if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyMiscState)) {
         updateRigidBodyMotionExceptState();
-        disableMotionFlag(RigidBody::MotionFlag::_200);
+        disableMotionFlag(RigidBody::MotionFlag::DirtyMiscState);
     }
 }
 
