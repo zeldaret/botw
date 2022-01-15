@@ -2,12 +2,12 @@
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpBoxMotion.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h>
+#include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h>
 #include <Havok/Physics2012/Dynamics/Motion/hkpMotion.h>
 #include <basis/seadTypes.h>
 #include <cstring>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
-#include "Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/Debug.h"
