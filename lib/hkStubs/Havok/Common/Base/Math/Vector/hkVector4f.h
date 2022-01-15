@@ -29,6 +29,7 @@ public:
 
     HK_FORCE_INLINE void set(hkFloat32 x, hkFloat32 y, hkFloat32 z, hkFloat32 w = 0);
     HK_FORCE_INLINE void setAll(hkFloat32 x);
+    HK_FORCE_INLINE void setZero();
 
     // ========== Vector operations
 

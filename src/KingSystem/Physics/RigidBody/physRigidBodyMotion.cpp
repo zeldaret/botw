@@ -1,11 +1,13 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotion.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpBoxMotion.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h>
 #include <Havok/Physics2012/Dynamics/Motion/hkpMotion.h>
 #include <basis/seadTypes.h>
 #include <cstring>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
+#include "Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/Debug.h"
@@ -82,14 +84,21 @@ void RigidBodyMotion::setPosition(const sead::Vector3f& position,
 }
 
 void RigidBodyMotion::getPosition(sead::Vector3f* position) {
+    storeToVec3(position, getPosition());
+}
+
+hkVector4f RigidBodyMotion::getPosition() const {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
-    const auto hk_position = motion->getPosition();
-    storeToVec3(position, hk_position);
+    return motion->getPosition();
 }
 
 void RigidBodyMotion::getRotation(sead::Quatf* rotation) {
+    toQuat(rotation, getRotation());
+}
+
+hkQuaternionf RigidBodyMotion::getRotation() const {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
-    toQuat(rotation, motion->getRotation());
+    return motion->getRotation();
 }
 
 void RigidBodyMotion::getTransform(sead::Matrix34f* mtx) {
@@ -290,6 +299,87 @@ float RigidBodyMotion::getMassInv() const {
         return 1.0f / mMass;
 
     return mMotion->getMassInv();
+}
+
+static inline float max3(float a, float b, float c) {
+    return sead::Mathf::max(c, a > b ? a : b);
+}
+
+static inline float min3(float a, float b, float c) {
+    return sead::Mathf::min(a < b ? a : b, c);
+}
+
+void RigidBodyMotion::setInertiaLocal(const sead::Vector3f& inertia) {
+    if (mBody->isCharacterControllerType())
+        return;
+
+    if (arePropertyChangesBlocked()) {
+        mInertiaLocal = inertia;
+        return;
+    }
+
+    const float max = max3(inertia.x, inertia.y, inertia.z);
+    const float min = min3(inertia.x, inertia.y, inertia.z);
+    const float threshold = max * 0.8f;
+
+    bool need_to_recreate_motion = false;
+    switch (mMotion->getType()) {
+    case hkpMotion::MOTION_BOX_INERTIA:
+        need_to_recreate_motion = min > threshold;
+        break;
+    case hkpMotion::MOTION_SPHERE_INERTIA:
+        need_to_recreate_motion = min > threshold;
+        // The condition is inverted for spheres.
+        need_to_recreate_motion ^= true;
+        break;
+    default:
+        break;
+    }
+
+    if (need_to_recreate_motion) {
+        const float mass = getMass();
+        const auto position = getPosition();
+        const auto rotation = getRotation();
+        const auto gravity_factor = getGravityFactor();
+
+        // Recreate the Havok motion.
+        if (min > threshold) {
+            hkpSphereMotion tmp_motion(position, rotation);
+            mMotion->getMotionStateAndVelocitiesAndDeactivationType(&tmp_motion);
+            new (mMotion) hkpSphereMotion(position, rotation);
+            tmp_motion.getMotionStateAndVelocitiesAndDeactivationType(mMotion);
+        } else {
+            // This little trick lets us copy the motion state and various other state
+            // out of the existing Havok motion so we can recreate it safely.
+            hkpBoxMotion tmp_motion(position, rotation);
+            mMotion->getMotionStateAndVelocitiesAndDeactivationType(&tmp_motion);
+            new (mMotion) hkpBoxMotion(position, rotation);
+            tmp_motion.getMotionStateAndVelocitiesAndDeactivationType(mMotion);
+        }
+
+        // Some properties are not automatically transferred over. Copy them manually.
+        mMotion->setGravityFactor(gravity_factor);
+        mMotion->setMass(mass);
+        if (mBody->isFlag8Set())
+            setMotionFlag(RigidBody::MotionFlag::DirtyMiscState);
+        else if (mBody->getMotionType() == MotionType::Dynamic)
+            updateRigidBodyMotionExceptState();
+    }
+
+    hkMatrix3f hk_inertia;
+    hk_inertia.m_col0.set(inertia.x, 0, 0);
+    hk_inertia.m_col1.set(0, inertia.y, 0);
+    hk_inertia.m_col2.set(0, 0, inertia.z);
+    mMotion->setInertiaLocal(hk_inertia);
+
+    if (mBody->isFlag8Set()) {
+        setMotionFlag(RigidBody::MotionFlag::DirtyInertiaLocal);
+    } else if (mBody->getMotionType() == MotionType::Dynamic &&
+               !mBody->isCharacterControllerType()) {
+        hkMatrix3f inertia_inv;
+        mMotion->getInertiaInvLocal(inertia_inv);
+        getHkBody()->getMotion()->setInertiaInvLocal(inertia_inv);
+    }
 }
 
 void RigidBodyMotion::getInertiaLocal(sead::Vector3f* inertia) const {

@@ -32,6 +32,10 @@ inline void hkVector4f::setAll(hkReal x) {
     v = {x, x, x, x};
 }
 
+inline void hkVector4f::setZero() {
+    setAll(0);
+}
+
 inline void hkVector4f::add(hkVector4fParameter a) {
     setAdd(*this, a);
 }

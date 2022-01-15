@@ -27,7 +27,9 @@ public:
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) override;
     void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) override;
     void getPosition(sead::Vector3f* position) override;
+    hkVector4f getPosition() const;
     void getRotation(sead::Quatf* rotation) override;
+    hkQuaternionf getRotation() const;
     void getTransform(sead::Matrix34f* mtx) override;
 
     void setCenterOfMassInLocal(const sead::Vector3f& center) override;
@@ -66,8 +68,7 @@ public:
     float getMass() const;
     float getMassInv() const;
 
-    // 0x0000007100fa2b68
-    void setInertiaLocal(const sead::Vector3f&);
+    void setInertiaLocal(const sead::Vector3f& inertia);
     void getInertiaLocal(sead::Vector3f* inertia) const;
 
     void setLinearDamping(float value);
