@@ -16,6 +16,12 @@ public:
     HK_FORCE_INLINE const hkFloat32& operator()(int i) const;
     template <int I>
     HK_FORCE_INLINE hkSimdFloat32 getComponent() const;
+    HK_FORCE_INLINE hkFloat32 getReal() const;
+    HK_FORCE_INLINE hkSimdFloat32 getRealPart() const;
+    HK_FORCE_INLINE const hkVector4f& getImag() const;
+
+    HK_FORCE_INLINE void mul(hkQuaternionfParameter q);
+    HK_FORCE_INLINE void setMul(hkQuaternionfParameter q0, hkQuaternionfParameter q1);
 
     hkVector4f m_vec;
 };
@@ -40,4 +46,33 @@ inline const hkFloat32& hkQuaternionf::operator()(int i) const {
 template <int I>
 inline hkSimdFloat32 hkQuaternionf::getComponent() const {
     return m_vec.getComponent<I>();
+}
+
+inline hkFloat32 hkQuaternionf::getReal() const {
+    return m_vec(3);
+}
+
+inline hkSimdFloat32 hkQuaternionf::getRealPart() const {
+    return m_vec.getW();
+}
+
+inline const hkVector4f& hkQuaternionf::getImag() const {
+    return m_vec;
+}
+
+inline void hkQuaternionf::mul(hkQuaternionfParameter q) {
+    setMul(*this, q);
+}
+
+inline void hkQuaternionf::setMul(hkQuaternionfParameter r, hkQuaternionfParameter q) {
+    const auto rImag = r.getImag();
+    const auto qImag = q.getImag();
+    const auto rReal = r.getRealPart();
+    const auto qReal = q.getRealPart();
+
+    hkVector4f vec;
+    vec.setCross(rImag, qImag);
+    vec.addMul(rReal, qImag);
+    vec.addMul(qReal, rImag);
+    m_vec.setXYZ_W(vec, (rReal * qReal) - rImag.dot<3>(qImag));
 }

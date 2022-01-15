@@ -31,6 +31,26 @@ inline void hkVector4f::set(hkFloat32 x, hkFloat32 y, hkFloat32 z, hkFloat32 w) 
 #endif
 }
 
+inline void hkVector4f::setXYZ(hkVector4fParameter xyz) {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    v = vsetq_lane_f32(vgetq_lane_f32(v, 3), xyz.v, 3);
+#else
+    auto newValue = xyz.v;
+    newValue[3] = v[3];
+    v = newValue;
+#endif
+}
+
+inline void hkVector4f::setXYZ_W(hkVector4fParameter xyz, hkSimdFloat32Parameter w) {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    v = vsetq_lane_f32(w, xyz.v, 3);
+#else
+    auto newValue = xyz.v;
+    newValue[3] = w;
+    v = newValue;
+#endif
+}
+
 inline void hkVector4f::setAll(hkReal x) {
     v = {x, x, x, x};
 }
