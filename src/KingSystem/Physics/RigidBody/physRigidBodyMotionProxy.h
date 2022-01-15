@@ -12,8 +12,8 @@ class RigidBodyMotionProxy : public MotionAccessor {
 public:
     enum class Flag {
         _40000 = 1 << 18,
-        _80000 = 1 << 19,
-        _100000 = 1 << 20,
+        HasExtraTranslateForLinkedRigidBody = 1 << 19,
+        HasExtraRotateForLinkedRigidBody = 1 << 20,
         HasLinkedRigidBodyWithoutFlag10 = 1 << 21,
     };
 
@@ -46,7 +46,6 @@ public:
     void resetLinkedRigidBody();
     RigidBody* getLinkedRigidBody() const;
     bool isFlag40000Set() const;
-    // 0x0000007100fa5058 - triggers shape, position, velocity updates
     void copyMotionFromLinkedRigidBody();
 
     ~RigidBodyMotionProxy() override;

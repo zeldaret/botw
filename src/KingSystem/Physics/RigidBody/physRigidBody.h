@@ -12,6 +12,8 @@
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
+class hkQuaternionf;
+class hkVector4f;
 class hkpRigidBody;
 class hkpMotion;
 
@@ -202,6 +204,10 @@ public:
     void getAngularVelocity(sead::Vector3f* velocity) const;
     // 0x0000007100f91218
     sead::Vector3f getAngularVelocity() const;
+
+    // 0x0000007100f92b74
+    void computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
+                           const hkVector4f& position, const hkQuaternionf& rotation);
 
     // 0x0000007100f93348
     void setMass(float mass);

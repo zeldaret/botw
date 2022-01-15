@@ -59,6 +59,8 @@ public:
 
     RigidBody* getBody() const { return mBody; }
     hkpRigidBody* getHkBody() const { return mBody->getHkBody(); }
+    u32 get10() const { return _10; }
+    u32 get14() const { return _14; }
 
 protected:
     RigidBody* mBody = nullptr;

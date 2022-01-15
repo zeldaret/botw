@@ -47,7 +47,8 @@ void RigidBodyMotionProxy::setPosition(const sead::Vector3f& position,
 }
 
 void RigidBodyMotionProxy::setTransformFromLinkedBody(const sead::Matrix34f& mtx) {
-    if (mFlags.isOff(Flag::_80000) && mFlags.isOff(Flag::_100000)) {
+    if (mFlags.isOff(Flag::HasExtraTranslateForLinkedRigidBody) &&
+        mFlags.isOff(Flag::HasExtraRotateForLinkedRigidBody)) {
         setTransform(mtx, false);
         return;
     }
@@ -55,13 +56,13 @@ void RigidBodyMotionProxy::setTransformFromLinkedBody(const sead::Matrix34f& mtx
     sead::Matrix34f new_mtx = mtx;
 
     sead::Vector3f translate;
-    if (mFlags.isOn(Flag::_80000)) {
+    if (mFlags.isOn(Flag::HasExtraTranslateForLinkedRigidBody)) {
         translate.setMul(mtx, mLinkedBodyExtraTranslate);
     } else {
         mtx.getTranslation(translate);
     }
 
-    if (mFlags.isOn(Flag::_100000)) {
+    if (mFlags.isOn(Flag::HasExtraRotateForLinkedRigidBody)) {
         sead::Quatf quat;
         mtx.toQuat(quat);
         quat *= mLinkedBodyExtraRotate;
@@ -124,7 +125,8 @@ static sead::Matrix34f makeRT(const hkQuaternionf& r, const hkVector4f& t) {
 // NON_MATCHING: two fmul instructions reordered in sead::Matrix34f mtx = makeRT(...)
 void RigidBodyMotionProxy::setTransformFromLinkedBody(const hkVector4f& hk_translate,
                                                       const hkQuaternionf& hk_rotate) {
-    if (mFlags.isOff(Flag::_80000) && mFlags.isOff(Flag::_100000)) {
+    if (mFlags.isOff(Flag::HasExtraTranslateForLinkedRigidBody) &&
+        mFlags.isOff(Flag::HasExtraRotateForLinkedRigidBody)) {
         setTransform(makeRT(hk_rotate, hk_translate), false);
         return;
     }
@@ -132,13 +134,13 @@ void RigidBodyMotionProxy::setTransformFromLinkedBody(const hkVector4f& hk_trans
     sead::Matrix34f mtx = makeRT(hk_rotate, hk_translate);
 
     sead::Vector3f translate;
-    if (mFlags.isOn(Flag::_80000)) {
+    if (mFlags.isOn(Flag::HasExtraTranslateForLinkedRigidBody)) {
         translate.setMul(mtx, mLinkedBodyExtraTranslate);
     } else {
         storeToVec3(&translate, hk_translate);
     }
 
-    if (mFlags.isOn(Flag::_100000)) {
+    if (mFlags.isOn(Flag::HasExtraRotateForLinkedRigidBody)) {
         sead::Quatf quat;
         toQuat(&quat, hk_rotate);
         quat *= mLinkedBodyExtraRotate;
@@ -318,6 +320,83 @@ RigidBody* RigidBodyMotionProxy::getLinkedRigidBody() const {
 
 bool RigidBodyMotionProxy::isFlag40000Set() const {
     return mFlags.isOn(Flag::_40000);
+}
+
+void RigidBodyMotionProxy::copyMotionFromLinkedRigidBody() {
+    auto lock = mBody->makeScopedLock(mBody->isFlag8Set());
+
+    auto* accessor = mLinkedRigidBody->getMotionAccessorForProxy();
+    auto* linked_hk_body = mLinkedRigidBody->getHkBody();
+    auto* this_hk_body = mBody->getHkBody();
+
+    bool reset_needed = false;
+    if (mFlags.isOn(Flag::HasLinkedRigidBodyWithoutFlag10)) {
+        if (_14 != accessor->get14()) {
+            _14 = accessor->get14();
+            this_hk_body->setShape(linked_hk_body->getCollidable()->getShape());
+            reset_needed = true;
+        }
+
+        if (_10 != accessor->get10()) {
+            _10 = accessor->get10();
+            this_hk_body->updateShape();
+            reset_needed = true;
+        }
+    }
+
+    if (mFlags.isOff(Flag::_40000)) {
+        hkVector4f position;
+        if (mFlags.isOn(Flag::HasExtraTranslateForLinkedRigidBody)) {
+            position.setTransformedPos(linked_hk_body->getTransform(),
+                                       toHkVec4(mLinkedBodyExtraTranslate));
+        } else {
+            position = linked_hk_body->getPosition();
+        }
+
+        hkQuaternionf rotation;
+        if (mFlags.isOn(Flag::HasExtraRotateForLinkedRigidBody)) {
+            rotation.setMul(linked_hk_body->getRotation(), toHkQuat(mLinkedBodyExtraRotate));
+        } else {
+            rotation = linked_hk_body->getRotation();
+        }
+
+        if (mLinkedRigidBody->getMotionType() != MotionType::Fixed) {
+            hkVector4f lin_vel;
+            hkVector4f ang_vel;
+            mBody->computeVelocities(&lin_vel, &ang_vel, position, rotation);
+
+            hkVector4f zero;
+            zero.setZero();
+
+            hkVector4f vel_threshold;
+            vel_threshold.setAll(0.01);
+            constexpr auto mask = hkVector4fComparison::MASK_XYZ;
+
+            const auto set_velocity = [&](const hkVector4f& velocity, auto get, auto set) {
+                // abs(vel) > 0.01?
+                hkVector4f abs_vel;
+                abs_vel.setAbs(velocity);
+                if (!vel_threshold.greaterEqual(abs_vel).allAreSet<mask>()) {
+                    this_hk_body->activate();
+                    set(velocity);
+                } else if (!get().equalZero().template allAreSet<mask>()) {
+                    this_hk_body->activate();
+                    set(zero);
+                }
+            };
+
+            set_velocity(
+                lin_vel, [&] { return this_hk_body->getLinearVelocity(); },
+                [&](const auto& vel) { this_hk_body->setLinearVelocity(vel); });
+
+            set_velocity(
+                ang_vel, [&] { return this_hk_body->getAngularVelocity(); },
+                [&](const auto& vel) { this_hk_body->setAngularVelocity(vel); });
+        }
+    }
+
+    if (reset_needed)
+        hkpRigidBody::updateBroadphaseAndResetCollisionInformationOfWarpedBody(this_hk_body);
 }
 
 void RigidBodyMotionProxy::getRotation(hkQuaternionf* quat) {
