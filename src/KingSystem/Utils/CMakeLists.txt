@@ -64,6 +64,7 @@ target_sources(uking PRIVATE
   Byaml/ByamlLocal.h
   Byaml/ByamlUtil.cpp
 
+  Container/LockFreeQueue.h
   Container/StrTreeMap.h
   Container/UniqueArrayPtr.h
 
