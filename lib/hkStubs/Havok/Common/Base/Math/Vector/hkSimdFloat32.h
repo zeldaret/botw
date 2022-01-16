@@ -16,22 +16,21 @@ public:
 #ifdef HK_SIMD_FLOAT32_AARCH64_NEON
     using Storage = __attribute__((vector_size(2 * sizeof(float)))) float;
 #else
-    using Storage = float;
+    using Storage = __attribute__((vector_size(4 * sizeof(float)))) float;
 #endif
 
     hkSimdFloat32() = default;
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    hkSimdFloat32(const Storage& x) { m_real = x; }
 
 #ifdef HK_SIMD_FLOAT32_AARCH64_NEON
     // NOLINTNEXTLINE(google-explicit-constructor)
     hkSimdFloat32(const float& x) { m_real = vdup_n_f32(x); }
-    // NOLINTNEXTLINE(google-explicit-constructor)
-    hkSimdFloat32(const Storage& x) { m_real = x; }
-    hkFloat32 val() const { return m_real[0]; }
 #else
-    hkSimdFloat32(float x) : m_real{x} {}  // NOLINT(google-explicit-constructor)
-    hkFloat32 val() const { return m_real; }
+    hkSimdFloat32(float x) : m_real{x, x, x, x} {}  // NOLINT(google-explicit-constructor)
 #endif
 
+    hkFloat32 val() const { return m_real[0]; }
     operator float() const { return val(); }  // NOLINT(google-explicit-constructor)
 
     template <int Constant>
@@ -55,6 +54,7 @@ inline void hkSimdFloat32::setAbs(hkSimdFloat32Parameter x) {
 #ifdef HK_SIMD_FLOAT32_AARCH64_NEON
     m_real = vabs_f32(m_real);
 #else
-    m_real = std::abs(x.m_real);
+    for (int i = 0; i < 4; ++i)
+        m_real[i] = std::abs(x.m_real[i]);
 #endif
 }
