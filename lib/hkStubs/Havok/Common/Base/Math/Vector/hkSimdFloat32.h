@@ -36,6 +36,28 @@ public:
     template <int Constant>
     HK_FORCE_INLINE static hkSimdFloat32 getConstant();
 
+    HK_FORCE_INLINE hkSimdFloat32 operator-() const;
+    HK_FORCE_INLINE hkSimdFloat32 operator+(hkSimdFloat32Parameter r) const;
+    HK_FORCE_INLINE hkSimdFloat32 operator-(hkSimdFloat32Parameter r) const;
+    HK_FORCE_INLINE hkSimdFloat32 operator*(hkSimdFloat32Parameter r) const;
+    HK_FORCE_INLINE hkSimdFloat32 operator/(hkSimdFloat32Parameter r) const;
+
+    HK_FORCE_INLINE void add(hkSimdFloat32Parameter a);
+    HK_FORCE_INLINE void sub(hkSimdFloat32Parameter a);
+    HK_FORCE_INLINE void mul(hkSimdFloat32Parameter a);
+    HK_FORCE_INLINE void div(hkSimdFloat32Parameter a);
+    HK_FORCE_INLINE void addMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b);
+    HK_FORCE_INLINE void subMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b);
+
+    HK_FORCE_INLINE void setAdd(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b);
+    HK_FORCE_INLINE void setSub(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b);
+    HK_FORCE_INLINE void setMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b);
+    HK_FORCE_INLINE void setDiv(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b);
+    HK_FORCE_INLINE void setAddMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b,
+                                   hkSimdFloat32Parameter c);
+    HK_FORCE_INLINE void setSubMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b,
+                                   hkSimdFloat32Parameter c);
+
     void setAbs(hkSimdFloat32Parameter x);
 
     Storage m_real;
@@ -48,6 +70,76 @@ inline hkSimdFloat32 hkSimdFloat32::getConstant() {
 #else
     return g_vectorfConstants[Constant][0];
 #endif
+}
+
+inline hkSimdFloat32 hkSimdFloat32::operator-() const {
+    return -m_real;
+}
+
+inline hkSimdFloat32 hkSimdFloat32::operator+(hkSimdFloat32Parameter r) const {
+    return m_real + r.m_real;
+}
+
+inline hkSimdFloat32 hkSimdFloat32::operator-(hkSimdFloat32Parameter r) const {
+    return m_real - r.m_real;
+}
+
+inline hkSimdFloat32 hkSimdFloat32::operator*(hkSimdFloat32Parameter r) const {
+    return m_real * r.m_real;
+}
+
+inline hkSimdFloat32 hkSimdFloat32::operator/(hkSimdFloat32Parameter r) const {
+    return m_real / r.m_real;
+}
+
+inline void hkSimdFloat32::add(hkSimdFloat32Parameter a) {
+    setAdd(*this, a);
+}
+
+inline void hkSimdFloat32::sub(hkSimdFloat32Parameter a) {
+    setSub(*this, a);
+}
+
+inline void hkSimdFloat32::mul(hkSimdFloat32Parameter a) {
+    setMul(*this, a);
+}
+
+inline void hkSimdFloat32::div(hkSimdFloat32Parameter a) {
+    setDiv(*this, a);
+}
+
+inline void hkSimdFloat32::addMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b) {
+    setAddMul(*this, a, b);
+}
+
+inline void hkSimdFloat32::subMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b) {
+    setSubMul(*this, a, b);
+}
+
+inline void hkSimdFloat32::setAdd(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b) {
+    m_real = a.m_real + b.m_real;
+}
+
+inline void hkSimdFloat32::setSub(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b) {
+    m_real = a.m_real - b.m_real;
+}
+
+inline void hkSimdFloat32::setMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b) {
+    m_real = a.m_real * b.m_real;
+}
+
+inline void hkSimdFloat32::setDiv(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b) {
+    m_real = a.m_real / b.m_real;
+}
+
+inline void hkSimdFloat32::setAddMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b,
+                                     hkSimdFloat32Parameter c) {
+    m_real = a.m_real + b.m_real * c.m_real;
+}
+
+inline void hkSimdFloat32::setSubMul(hkSimdFloat32Parameter a, hkSimdFloat32Parameter b,
+                                     hkSimdFloat32Parameter c) {
+    m_real = a.m_real - b.m_real * c.m_real;
 }
 
 inline void hkSimdFloat32::setAbs(hkSimdFloat32Parameter x) {
