@@ -21,6 +21,8 @@ public:
     virtual ~IRigidContactPoints() = default;
     virtual void freePoints() = 0;
 
+    void set30(u32 value) { _30 = value; }
+
     bool isLinked() const { return mListNode.isLinked(); }
     static constexpr size_t getListNodeOffset() { return offsetof(IRigidContactPoints, mListNode); }
 

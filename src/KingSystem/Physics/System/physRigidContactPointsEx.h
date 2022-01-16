@@ -2,6 +2,7 @@
 
 #include <container/seadObjArray.h>
 #include <math/seadVector.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physRigidContactPoints.h"
@@ -80,6 +81,9 @@ public:
         const ContactPoint* const* mPointsStart = nullptr;
     };
 
+    // FIXME: figure out the types
+    using Callback = sead::IDelegate1<void*>;
+
     static RigidContactPointsEx* make(sead::Heap* heap, int num, int num2,
                                       const sead::SafeString& name, int a, int b, int c);
     static void free(RigidContactPointsEx* instance);
@@ -89,8 +93,10 @@ public:
     void freePoints() override;
     virtual void allocPoints(sead::Heap* heap, int num, int num2);
 
-    bool registerLayerPair(ContactLayer layer1, ContactLayer layer2, bool enabled);
+    bool registerLayerPair(ContactLayer layer1, ContactLayer layer2, bool enabled = true);
     bool isPairUnknown(ContactLayer layer1, ContactLayer layer2) const;
+
+    void setCallback(Callback* callback) { mCallback = callback; }
 
     auto begin() const { return Iterator(mPoints, _18); }
     auto end() const { return IteratorEnd(mPoints, _18); }
@@ -105,7 +111,7 @@ private:
     Points mPoints{};
     sead::ObjArray<LayerEntry> mLayerEntries;
     ContactLayerType mLayerType = ContactLayerType::Invalid;
-    void* _80 = nullptr;
+    Callback* mCallback = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(RigidContactPointsEx, 0x88);
 
