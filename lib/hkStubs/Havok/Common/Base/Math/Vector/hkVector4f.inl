@@ -323,7 +323,7 @@ HK_FORCE_INLINE hkSimdFloat32 hkVector4f::dot(hkVector4fParameter a) const {
         float32x4_t x2 = v * a.v;
         float32x2_t low = vget_low_f32(x2);
         float32x2_t xy = vpadd_f32(low, low);
-        return xy[0];
+        return xy;
     } else if constexpr (N == 3 || N == 4) {
         float32x4_t x2 = v * a.v;
         float32x2_t low = vget_low_f32(x2);
@@ -332,7 +332,7 @@ HK_FORCE_INLINE hkSimdFloat32 hkVector4f::dot(hkVector4fParameter a) const {
             high = vset_lane_f32(0, high, 1);
         float32x2_t xy_zw = vpadd_f32(low, high);
         float32x2_t xyzw = vpadd_f32(xy_zw, xy_zw);
-        return xyzw[0];
+        return xyzw;
     } else {
         static_assert(2 <= N && N <= 4, "invalid N");
     }
