@@ -66,6 +66,36 @@ bool RigidBodyParam::parse(const agl::utl::ResParameterList& res_list, sead::Hea
     return true;
 }
 
+void RigidBodyParam::makeInstanceParam(RigidBodyInstanceParam* param) const {
+    param->mass = *info.mass;
+    param->name = info.rigid_body_name->cstr();
+    param->inertia = *info.inertia;
+    param->center_of_mass = *info.center_of_mass;
+    param->max_linear_velocity = *info.max_linear_velocity;
+    param->max_angular_velocity_rad = *info.max_angular_velocity_rad;
+    param->toi = *info.toi;
+    param->motion_type = getMotionType();
+    param->linear_damping = *info.linear_damping;
+    param->angular_damping = *info.angular_damping;
+    param->max_impulse = *info.max_impulse;
+    param->col_impulse_scale = *info.col_impulse_scale;
+    param->ignore_normal_for_impulse = *info.ignore_normal_for_impulse;
+    param->always_character_mass_scaling = *info.always_character_mass_scaling;
+    param->friction_scale = *info.friction_scale;
+    param->restitution_scale = *info.restitution_scale;
+    param->water_buoyancy_scale = *info.water_buoyancy_scale;
+    param->water_flow_effective_rate = *info.water_flow_effective_rate;
+    param->magne_mass_scaling_factor = *info.magne_mass_scaling_factor;
+    param->contact_layer = getContactLayer();
+    param->groundhit = getGroundHit();
+    param->groundhit_mask = info.ground_hit_mask;
+    param->contact_mask = *info.contact_mask;
+    param->no_hit_ground = *info.no_hit_ground;
+    param->no_hit_water = *info.no_hit_water;
+    param->no_char_standing_on = *info.no_char_standing_on;
+    receiverMaskGetSensorLayerMaskForType(&param->receiver_mask, *info.receiver_type);
+}
+
 ContactLayer RigidBodyParam::getContactLayer() const {
     return contactLayerFromText(*info.layer);
 }

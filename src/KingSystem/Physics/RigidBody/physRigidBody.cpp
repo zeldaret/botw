@@ -1,7 +1,12 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include "KingSystem/Physics/RigidBody/physMotionAccessor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotion.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
 
@@ -24,6 +29,52 @@ RigidBody::RigidBody(Type type, u32 mass_scaling, hkpRigidBody* hk_body,
     mFlags.change(Flag::MassScaling, mass_scaling == 1);
     mFlags.change(Flag::_10, a7);
     mFlags.set(Flag::_100);
+}
+
+RigidBody::~RigidBody() {
+    if (mType != Type::_0 && mType != Type::TerrainHeightField &&
+        mType != Type::CharacterController) {
+        mHkBody->setName(nullptr);
+        mHkBody->deallocateInternalArrays();
+    }
+
+    if (mMotionAccessor) {
+        delete mMotionAccessor;
+        mMotionAccessor = nullptr;
+    }
+}
+
+namespace {
+struct RigidBodyDynamicInstanceParam : RigidBodyInstanceParam {};
+}  // namespace
+
+bool RigidBody::initMotionAccessorForDynamicMotion(sead::Heap* heap) {
+    if (isMassScaling())
+        mMotionAccessor = new (heap) RigidBodyMotionProxy(this);
+    else
+        mMotionAccessor = new (heap) RigidBodyMotion(this);
+
+    RigidBodyDynamicInstanceParam param;
+    auto* body = getHkBody();
+    param.motion_type = MotionType::Dynamic;
+    param.mass = body->getMass();
+
+    hkMatrix3 inertia;
+    body->getInertiaLocal(inertia);
+    constexpr float MinInertia = 0.001;
+    param.inertia = {sead::Mathf::max(inertia(0, 0), MinInertia),
+                     sead::Mathf::max(inertia(1, 1), MinInertia),
+                     sead::Mathf::max(inertia(2, 2), MinInertia)};
+    param.center_of_mass = toVec3(body->getCenterOfMassLocal());
+    param.linear_damping = body->getLinearDamping();
+    param.angular_damping = body->getAngularDamping();
+    param.gravity_factor = body->getGravityFactor();
+    param.time_factor = body->getTimeFactor();
+    param.max_linear_velocity = body->getMaxLinearVelocity();
+    param.max_angular_velocity_rad = body->getMaxAngularVelocity();
+
+    mMotionAccessor->init(param, heap);
+    return true;
 }
 
 sead::SafeString RigidBody::getHkBodyName() const {

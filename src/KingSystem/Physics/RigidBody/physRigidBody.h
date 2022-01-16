@@ -8,7 +8,6 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyAccessor.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -20,13 +19,14 @@ class hkpMotion;
 namespace ksys::phys {
 
 class MotionAccessor;
+struct RigidBodyInstanceParam;
 class RigidBodyMotion;
 class RigidContactPoints;
 class UserTag;
 
 class RigidBase {
 public:
-    virtual ~RigidBase() = 0;
+    virtual ~RigidBase() = default;
 };
 
 class RigidBody : public sead::IDisposer, public RigidBase {
@@ -107,9 +107,9 @@ public:
     virtual const char* getName();
 
     // 0x0000007100f8ca50
-    bool initMotionAccessor(sead::Heap* heap);
+    bool initMotionAccessorForDynamicMotion(sead::Heap* heap);
     // 0x0000007100f8cc98
-    void initMotionAndAccessor();
+    void initMotionAccessor();
     // 0x0000007100f8cd44
     void initMotion(hkpMotion* motion, MotionType motion_type,
                     const RigidBodyInstanceParam& params);
@@ -182,7 +182,7 @@ public:
     void setCollideWater(bool);
     void sub_7100F8F51C();
     void sub_7100F8F8CC(ContactLayer, GroundHit, void*);
-    void sub_7100F8F9E8(u32*, void*);
+    void sub_7100F8F9E8(ReceiverMask*, void*);
     void sub_7100F8FA44(ContactLayer, u32);
     hkpMotion* getMotion() const;
 

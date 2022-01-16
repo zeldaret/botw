@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 
 namespace ksys::phys {
 

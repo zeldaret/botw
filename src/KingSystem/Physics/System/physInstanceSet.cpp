@@ -122,17 +122,16 @@ void* InstanceSet::sub_7100FBAEDC(s32 idx1, s32 idx2) const {
     return mRigidBodySets[idx1]->getRigidBody(idx2);
 }
 
-// NON_MATCHING
 void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* param) {
     if (body == nullptr)
         return;
 
     phys::RigidBodyInstanceParam instance_params;
-    param->getParams(&instance_params);
+    param->makeInstanceParam(&instance_params);
     if (instance_params.contact_layer == phys::ContactLayer::SensorCustomReceiver) {
-        body->sub_7100F8F9E8(&instance_params.flags, _188[body->isMassScaling()]);
-    } else if (instance_params.info_5e0) {
-        body->sub_7100F8FA44(instance_params.contact_layer, instance_params.info_5e0);
+        body->sub_7100F8F9E8(&instance_params.receiver_mask, _188[body->isMassScaling()]);
+    } else if (instance_params.groundhit_mask) {
+        body->sub_7100F8FA44(instance_params.contact_layer, instance_params.groundhit_mask);
     } else {
         body->sub_7100F8F8CC(instance_params.contact_layer, instance_params.groundhit,
                              _188[body->isMassScaling()]);

@@ -5,6 +5,7 @@
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physMaterialMask.h"
 

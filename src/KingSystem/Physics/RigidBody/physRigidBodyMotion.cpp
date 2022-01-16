@@ -9,6 +9,7 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/Debug.h"
 

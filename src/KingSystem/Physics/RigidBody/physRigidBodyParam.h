@@ -57,7 +57,7 @@ public:
     sead::Vector3f center_of_mass = sead::Vector3f::zero;
     float linear_damping = 0.0f;
     float angular_damping = 0.05f;
-    f32 _3c = 1.0f;
+    f32 gravity_factor = 1.0f;
     f32 time_factor = 1.0f;
     float max_linear_velocity = 200.0f;
     float max_angular_velocity_rad = 200.0f;
@@ -74,20 +74,21 @@ public:
     void* p = nullptr;
     ContactLayer contact_layer = ContactLayer::EntityObject;
     GroundHit groundhit = GroundHit::HitAll;
-    u32 info_5e0 = 0;
+    u32 groundhit_mask = 0;
     u32 contact_mask = 0;
-    u32 flags = 0x80000000;
+    ReceiverMask receiver_mask;
     bool ignore_normal_for_impulse = false;
     bool no_hit_ground = false;
     bool no_hit_water = false;
     bool no_char_standing_on = false;
+    bool _90 = false;
 
     bool isDynamicSensor() const {
         return getContactLayerType(contact_layer) == ContactLayerType::Sensor &&
                motion_type == MotionType::Dynamic;
     }
 };
-KSYS_CHECK_SIZE_NX150(RigidBodyInstanceParam, 0x90);
+KSYS_CHECK_SIZE_NX150(RigidBodyInstanceParam, 0x98);
 
 struct RigidBodyParam : agl::utl::ParameterList {
     struct Info : agl::utl::ParameterObj {
@@ -152,7 +153,7 @@ struct RigidBodyParam : agl::utl::ParameterList {
 
     // TODO: types and names
     void* createRigidBody(void* x, sead::Heap* heap, bool y);
-    bool getParams(RigidBodyInstanceParam* params) const;
+    void makeInstanceParam(RigidBodyInstanceParam* param) const;
     void* createEntityShape(void* x, void* y, sead::Heap* heap);
 
     ContactLayer getContactLayer() const;

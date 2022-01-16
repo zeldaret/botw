@@ -2,6 +2,7 @@
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotion.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
