@@ -3,7 +3,7 @@
 #include <hostio/seadHostIONode.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resUnit.h"
-#include "KingSystem/Utils/StrTreeMap.h"
+#include "KingSystem/Utils/Container/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {

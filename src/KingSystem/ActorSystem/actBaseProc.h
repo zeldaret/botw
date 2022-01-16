@@ -12,7 +12,7 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/ActorSystem/actBaseProcMap.h"
-#include "KingSystem/Utils/StrTreeMap.h"
+#include "KingSystem/Utils/Container/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {

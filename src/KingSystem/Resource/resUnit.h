@@ -1,6 +1,5 @@
 #pragma once
 
-#include <KingSystem/Utils/StrTreeMap.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -9,6 +8,7 @@
 #include <resource/seadResourceMgr.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Utils/Container/StrTreeMap.h"
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Types.h"

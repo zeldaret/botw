@@ -64,6 +64,9 @@ target_sources(uking PRIVATE
   Byaml/ByamlLocal.h
   Byaml/ByamlUtil.cpp
 
+  Container/StrTreeMap.h
+  Container/UniqueArrayPtr.h
+
   AtomicLongBitFlag.h
   Debug.h
   FixedString.h
@@ -74,8 +77,6 @@ target_sources(uking PRIVATE
   ParamIO.cpp
   ParamIO.h
   SafeDelete.h
-  StrTreeMap.h
   TypeTraits.h
   Types.h
-  UniqueArrayPtr.h
 )

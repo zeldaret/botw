@@ -7,10 +7,10 @@
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Utils/Container/UniqueArrayPtr.h"
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Thread/MessageDispatcherBase.h"
 #include "KingSystem/Utils/Thread/MessageProcessor.h"
-#include "KingSystem/Utils/UniqueArrayPtr.h"
 
 namespace sead {
 class Thread;
