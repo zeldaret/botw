@@ -7,6 +7,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotion.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/System/physMemSystem.h"
 #include "KingSystem/Physics/physConversions.h"
 

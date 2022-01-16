@@ -13,15 +13,11 @@ class ContactMgr;
 class GroupFilter;
 class MaterialTable;
 class RigidBody;
+class RigidBodyRequestMgr;
 class RigidContactPoints;
 class RigidContactPointsEx;
 class SystemData;
 class SystemGroupHandler;
-
-// FIXME: obviously incomplete. Also this should be moved to its own header
-struct RigidBodyRequestMgr {
-    void sub_7100FA6C8C(bool, RigidBody*);
-};
 
 enum class IsIndoorStage {
     No,

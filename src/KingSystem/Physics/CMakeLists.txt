@@ -29,6 +29,8 @@ target_sources(uking PRIVATE
   RigidBody/physRigidBodyMotionProxy.h
   RigidBody/physRigidBodyParam.cpp
   RigidBody/physRigidBodyParam.h
+  RigidBody/physRigidBodyRequestMgr.cpp
+  RigidBody/physRigidBodyRequestMgr.h
   RigidBody/physRigidBodyResource.cpp
   RigidBody/physRigidBodyResource.h
   RigidBody/physRigidBodySetParam.cpp
