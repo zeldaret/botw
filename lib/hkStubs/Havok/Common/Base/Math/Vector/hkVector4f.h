@@ -152,6 +152,12 @@ public:
     template <int Constant>
     HK_FORCE_INLINE static const hkVector4f& getConstant();
 
+    HK_FORCE_INLINE static hkVector4f zero() {
+        hkVector4f u;
+        u.setZero();
+        return u;
+    }
+
     /// Store N floats to out.
     template <int N>
     void store(hkFloat32* out) const;
