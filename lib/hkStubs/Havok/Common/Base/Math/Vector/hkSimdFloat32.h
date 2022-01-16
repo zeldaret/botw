@@ -13,13 +13,19 @@ using hkSimdFloat32Parameter = class hkSimdFloat32;
 
 class hkSimdFloat32 {
 public:
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    using Storage = __attribute__((vector_size(2 * sizeof(float)))) float;
+#else
+    using Storage = float;
+#endif
+
     hkSimdFloat32() = default;
 
 #ifdef HK_SIMD_FLOAT32_AARCH64_NEON
     // NOLINTNEXTLINE(google-explicit-constructor)
     hkSimdFloat32(const float& x) { m_real = vdup_n_f32(x); }
     // NOLINTNEXTLINE(google-explicit-constructor)
-    hkSimdFloat32(__attribute__((vector_size(2 * sizeof(float)))) float x) { m_real = x; }
+    hkSimdFloat32(const Storage& x) { m_real = x; }
     hkFloat32 val() const { return m_real[0]; }
 #else
     hkSimdFloat32(float x) : m_real{x} {}  // NOLINT(google-explicit-constructor)
@@ -33,11 +39,7 @@ public:
 
     void setAbs(hkSimdFloat32Parameter x);
 
-#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
-    __attribute__((vector_size(2 * sizeof(float)))) float m_real;
-#else
-    hkFloat32 m_real;
-#endif
+    Storage m_real;
 };
 
 template <int Constant>
