@@ -14,6 +14,7 @@
 class hkQuaternionf;
 class hkVector4f;
 class hkpRigidBody;
+class hkpMaxSizeMotion;
 class hkpMotion;
 
 namespace ksys::phys {
@@ -63,6 +64,14 @@ public:
         _20000 = 1 << 17,
         _40000 = 1 << 18,
         _80000 = 1 << 19,
+        _100000 = 1 << 20,
+        _200000 = 1 << 21,
+        _400000 = 1 << 22,
+        _800000 = 1 << 23,
+        _1000000 = 1 << 24,
+        _2000000 = 1 << 25,
+        _4000000 = 1 << 26,
+        _8000000 = 1 << 27,
     };
 
     enum class MotionFlag {
@@ -106,13 +115,12 @@ public:
     virtual void m13();
     virtual const char* getName();
 
-    // 0x0000007100f8ca50
     bool initMotionAccessorForDynamicMotion(sead::Heap* heap);
-    // 0x0000007100f8cc98
-    void initMotionAccessor();
-    // 0x0000007100f8cd44
-    void initMotion(hkpMotion* motion, MotionType motion_type,
-                    const RigidBodyInstanceParam& params);
+    bool initMotionAccessor(const RigidBodyInstanceParam& param, sead::Heap* heap,
+                            bool init_motion);
+    /// Create a hkpMotion in the specified motion storage and initialise it.
+    bool createMotion(hkpMaxSizeMotion* motion, MotionType motion_type,
+                      const RigidBodyInstanceParam& param);
 
     sead::SafeString getHkBodyName() const;
 
@@ -184,7 +192,6 @@ public:
     void sub_7100F8F8CC(ContactLayer, GroundHit, void*);
     void sub_7100F8F9E8(ReceiverMask*, void*);
     void sub_7100F8FA44(ContactLayer, u32);
-    hkpMotion* getMotion() const;
 
     // 0x0000007100f9004c
     void getTransform(sead::Matrix34f* mtx) const;
@@ -251,6 +258,8 @@ public:
     // 0x0000007100f969e8
     void unlock(bool also_unlock_world);
 
+    hkpMotion* getMotion() const;
+
     class ScopedLock {
     public:
         explicit ScopedLock(RigidBody* body, bool also_lock_world)
@@ -271,6 +280,8 @@ public:
     }
 
 private:
+    void createMotionAccessor(sead::Heap* heap);
+
     sead::CriticalSection mCS;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};
     sead::TypedBitFlag<MotionFlag, sead::Atomic<u32>> mMotionFlags{};

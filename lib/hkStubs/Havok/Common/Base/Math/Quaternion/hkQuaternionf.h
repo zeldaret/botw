@@ -23,6 +23,8 @@ public:
     HK_FORCE_INLINE void mul(hkQuaternionfParameter q);
     HK_FORCE_INLINE void setMul(hkQuaternionfParameter q0, hkQuaternionfParameter q1);
 
+    HK_FORCE_INLINE static const hkQuaternionf& getIdentity();
+
     hkVector4f m_vec;
 };
 
@@ -75,4 +77,8 @@ inline void hkQuaternionf::setMul(hkQuaternionfParameter r, hkQuaternionfParamet
     vec.addMul(rReal, qImag);
     vec.addMul(qReal, rImag);
     m_vec.setXYZ_W(vec, (rReal * qReal) - rImag.dot<3>(qImag));
+}
+
+inline const hkQuaternionf& hkQuaternionf::getIdentity() {
+    return reinterpret_cast<const hkQuaternionf&>(g_vectorfConstants[HK_QUADREAL_0001]);
 }

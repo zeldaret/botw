@@ -7,6 +7,7 @@
 #include "KingSystem/Physics/RigidBody/physMotionAccessor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
+class hkpMaxSizeMotion;
 class hkpMotion;
 
 namespace ksys::phys {

@@ -17,16 +17,21 @@ inline void toVec3(sead::Vector3f* out, const hkVector4f& vec) {
     return {vec.getX(), vec.getY(), vec.getZ()};
 }
 
-inline void storeToVec3(sead::Vector3f* out, const hkVector4f& vec) {
-    vec.store<3>(out->e.data());
-}
-
 inline void toHkVec4(hkVector4f* out, const sead::Vector3f& vec) {
     out->set(vec.x, vec.y, vec.z);
 }
 
 [[nodiscard]] inline hkVector4f toHkVec4(const sead::Vector3f& vec) {
     return {vec.x, vec.y, vec.z};
+}
+
+inline void storeToVec3(sead::Vector3f* out, const hkVector4f& vec) {
+    vec.store<3>(out->e.data());
+}
+
+inline void loadFromVec3(hkVector4f* out, const sead::Vector3f& vec) {
+    out->load<3>(vec.e.data());
+    out->setW(0);
 }
 
 inline void toQuat(sead::Quatf* out, const hkQuaternionf& quat) {

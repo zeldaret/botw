@@ -30,7 +30,7 @@ RigidBodyMotion::~RigidBodyMotion() {
 bool RigidBodyMotion::init(const RigidBodyInstanceParam& params, sead::Heap* heap) {
     auto* motion_storage = new (heap, alignof(hkpMaxSizeMotion)) u8[sizeof(hkpMaxSizeMotion)];
     mMotion = new (motion_storage) hkpMaxSizeMotion;
-    mBody->initMotion(mMotion, MotionType::Dynamic, params);
+    mBody->createMotion(static_cast<hkpMaxSizeMotion*>(mMotion), MotionType::Dynamic, params);
     mMaxImpulse = params.max_impulse;
     mColImpulseScale = params.col_impulse_scale;
     mFrictionScale = params.friction_scale;
