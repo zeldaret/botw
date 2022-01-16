@@ -23,7 +23,7 @@ inline hkVector4f& hkVector4f::operator=(hkVector4fParameter other) {
 
 inline void hkVector4f::set(hkFloat32 x, hkFloat32 y, hkFloat32 z, hkFloat32 w) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
-    // Annoyingly, v = {x, y, z, w} and vcombine_f32({x, y}, {z, w} lead to different codegen.
+    // Annoyingly, v = {x, y, z, w} and vcombine_f32({x, y}, {z, w}) lead to different codegen.
     // It is unclear why Havok decided to split the load in two parts.
     v = vcombine_f32(float32x2_t{x, y}, float32x2_t{z, w});
 #else
