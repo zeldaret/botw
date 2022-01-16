@@ -387,6 +387,37 @@ inline const hkVector4f& hkVector4f::getConstant() {
 }
 
 template <int N>
+inline void hkVector4f::load(const hkFloat32* in) {
+    static_assert(1 <= N && N <= 4, "invalid N");
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    switch (N) {
+    case 1:
+        v = vld1q_dup_f32(in);
+        break;
+    case 2: {
+        auto xy = vld1_f32(in);
+        v = vcombine_f32(xy, xy);
+        break;
+    }
+    case 3: {
+        auto xy = vld1_f32(in);
+        auto zz = vld1_dup_f32(in + 2);
+        v = vcombine_f32(xy, zz);
+        break;
+    }
+    case 4:
+        v = vld1q_f32(in);
+        break;
+    default:
+        break;
+    }
+#else
+    for (int i = 0; i < N; ++i)
+        v[i] = in[i];
+#endif
+}
+
+template <int N>
 inline void hkVector4f::store(hkFloat32* out) const {
     static_assert(1 <= N && N <= 4, "invalid N");
 #ifdef HK_VECTOR4F_AARCH64_NEON

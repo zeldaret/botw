@@ -158,6 +158,10 @@ public:
         return u;
     }
 
+    /// Load N floats from in.
+    template <int N>
+    void load(const hkFloat32* in);
+
     /// Store N floats to out.
     template <int N>
     void store(hkFloat32* out) const;
