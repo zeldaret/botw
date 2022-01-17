@@ -15,6 +15,7 @@
 
 namespace ksys::phys {
 
+class MotionAccessor;
 class RigidBody;
 
 class RigidBodyRequestMgr : public sead::hostio::Node {
@@ -24,7 +25,10 @@ public:
 
     void init(sead::Heap* heap);
 
-    void sub_7100FA6C8C(bool, RigidBody*);
+    bool pushRigidBody(int type, RigidBody* body);
+
+    bool registerMotionAccessor(MotionAccessor* accessor);
+    bool deregisterMotionAccessor(MotionAccessor* accessor);
 
 private:
     struct Unk1;
@@ -74,7 +78,7 @@ private:
     util::LockFreeQueue<Unk3> _b0;
     util::LockFreeQueue<Unk4> _c8;
     util::LockFreeQueue<Unk4> _e0;
-    sead::PtrArray<void*> _f8;
+    sead::PtrArray<MotionAccessor> mMotionAccessors;
     sead::Buffer<Unk5> _108;
     sead::Atomic<u32> _118;
     sead::Buffer<Unk6> _120;

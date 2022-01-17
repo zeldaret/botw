@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
+#include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physMaterialMask.h"
 
 namespace ksys::phys {
@@ -20,7 +21,7 @@ RigidBodyRequestMgr::~RigidBodyRequestMgr() {
     _120.freeBuffer();
     _138.freeBuffer();
     _108.freeBuffer();
-    _f8.freeBuffer();
+    mMotionAccessors.freeBuffer();
 
     if (mContactPoints) {
         ksys::phys::RigidContactPointsEx::free(mContactPoints);
@@ -46,7 +47,7 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
     _50.alloc(0x800, heap);
     _98.alloc(0x100, heap);
     _b0.alloc(0x100, heap);
-    _f8.allocBuffer(0x400, heap);
+    mMotionAccessors.allocBuffer(0x400, heap);
     _138.allocBufferAssert(Buffer138Size, heap);
     _c8.alloc(0x800, heap);
     _e0.alloc(Buffer138Size, heap);
@@ -77,6 +78,29 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
     mWaterIceSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Ice");
     mWaterHotSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Hot");
     mWaterPoisonSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Poison");
+}
+
+bool RigidBodyRequestMgr::pushRigidBody(int type, RigidBody* body) {
+    static_cast<void>(mRigidBodies1[type].getSize());
+    return mRigidBodies1[type].push(body);
+}
+
+bool RigidBodyRequestMgr::registerMotionAccessor(MotionAccessor* accessor) {
+    auto lock = sead::makeScopedLock(mCS);
+    bool ok = !mMotionAccessors.isFull();
+    mMotionAccessors.pushBack(accessor);
+    return ok;
+}
+
+bool RigidBodyRequestMgr::deregisterMotionAccessor(MotionAccessor* accessor) {
+    auto lock = sead::makeScopedLock(mCS);
+
+    int idx = mMotionAccessors.indexOf(accessor);
+    if (idx < 0)
+        return false;
+
+    mMotionAccessors.erase(idx);
+    return true;
 }
 
 }  // namespace ksys::phys

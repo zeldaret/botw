@@ -169,7 +169,7 @@ void RigidBody::setMotionFlag(MotionFlag flag) {
 
     if (mFlags.isOff(Flag::_20) && mFlags.isOff(Flag::_2)) {
         mFlags.set(Flag::_2);
-        MemSystem::instance()->getRigidBodyRequestMgr()->sub_7100FA6C8C(
+        MemSystem::instance()->getRigidBodyRequestMgr()->pushRigidBody(
             mFlags.isOn(Flag::MassScaling), this);
     }
 }

@@ -29,6 +29,7 @@ public:
 
     void freeBuffer() { mBuffer.freeBuffer(); }
 
+    int getSize() const { return mWriteIdx - mReadIdx; }
     int getCapacity() const { return mBuffer.size(); }
 
     /// Pop an element from the front of the queue. Non-blocking.
