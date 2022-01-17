@@ -83,9 +83,9 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
     mWaterPoisonSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Poison");
 }
 
-bool RigidBodyRequestMgr::pushRigidBody(int type, RigidBody* body) {
-    static_cast<void>(mRigidBodies1[type].getSize());
-    return mRigidBodies1[type].push(body);
+bool RigidBodyRequestMgr::pushRigidBody(ContactLayerType type, RigidBody* body) {
+    static_cast<void>(mRigidBodies1[int(type)].getSize());
+    return mRigidBodies1[int(type)].push(body);
 }
 
 bool RigidBodyRequestMgr::registerMotionAccessor(MotionAccessor* accessor) {

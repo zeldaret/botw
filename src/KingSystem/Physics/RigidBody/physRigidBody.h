@@ -45,7 +45,7 @@ public:
     };
 
     enum class Flag {
-        MassScaling = 1 << 0,
+        IsSensor = 1 << 0,
         _2 = 1 << 1,
         _4 = 1 << 2,
         _8 = 1 << 3,
@@ -98,8 +98,8 @@ public:
         _80000 = 1 << 19,
     };
 
-    RigidBody(Type type, u32 mass_scaling, hkpRigidBody* hk_body, const sead::SafeString& name,
-              sead::Heap* heap, bool a7);
+    RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
+              const sead::SafeString& name, sead::Heap* heap, bool a7);
     ~RigidBody() override;
 
     // FIXME: types and names
@@ -259,7 +259,11 @@ public:
     // 0x0000007100f93a9c
     float getGravityFactor() const;
 
-    bool isMassScaling() const { return mFlags.isOn(Flag::MassScaling); }
+    bool isSensor() const { return mFlags.isOn(Flag::IsSensor); }
+    ContactLayerType getLayerType() const {
+        return isSensor() ? ContactLayerType::Sensor : ContactLayerType::Entity;
+    }
+
     bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
     const auto& getMotionFlags() const { return mMotionFlags; }
     void resetMotionFlagDirect(const MotionFlag flag) { mMotionFlags.reset(flag); }
@@ -297,10 +301,6 @@ public:
     }
 
 private:
-    ContactLayerType getLayerType() const {
-        return !isMassScaling() ? ContactLayerType::Entity : ContactLayerType::Sensor;
-    }
-
     void createMotionAccessor(sead::Heap* heap);
     void onInvalidParameter(int code = 0);
     void notifyUserTag(int code);

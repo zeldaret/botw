@@ -9,6 +9,7 @@
 #include <prim/seadDelegate.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physRigidContactPointsEx.h"
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include "KingSystem/Utils/Types.h"
@@ -43,7 +44,7 @@ public:
 
     void init(sead::Heap* heap);
 
-    bool pushRigidBody(int type, RigidBody* body);
+    bool pushRigidBody(ContactLayerType type, RigidBody* body);
 
     bool registerMotionAccessor(MotionAccessor* accessor);
     bool deregisterMotionAccessor(MotionAccessor* accessor);

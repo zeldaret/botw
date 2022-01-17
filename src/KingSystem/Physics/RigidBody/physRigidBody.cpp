@@ -25,7 +25,7 @@ static bool isVectorInvalid(const sead::Vector3f& vec) {
     return false;
 }
 
-RigidBody::RigidBody(Type type, u32 mass_scaling, hkpRigidBody* hk_body,
+RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
                      const sead::SafeString& name, sead::Heap* heap, bool a7)
     : mCS(heap), mHkBody(hk_body), mRigidBodyAccessor(hk_body), mType(type) {
     if (!name.isEmpty()) {
@@ -36,12 +36,12 @@ RigidBody::RigidBody(Type type, u32 mass_scaling, hkpRigidBody* hk_body,
     mHkBody->m_motion.m_motionState.m_timeFactor.setOne();
     mHkBody->enableDeactivation(true);
     mHkBody->getCollidableRw()->m_allowedPenetrationDepth = 0.1f;
-    if (mFlags.isOff(Flag::MassScaling)) {
+    if (mFlags.isOff(Flag::IsSensor)) {
         mHkBody->m_responseModifierFlags |= hkpResponseModifier::Flags::MASS_SCALING;
     }
 
     mFlags.change(Flag::IsCharacterController, isCharacterControllerType());
-    mFlags.change(Flag::MassScaling, mass_scaling == 1);
+    mFlags.change(Flag::IsSensor, layer_type == ContactLayerType::Sensor);
     mFlags.change(Flag::_10, a7);
     mFlags.set(Flag::_100);
 }
@@ -60,7 +60,7 @@ RigidBody::~RigidBody() {
 }
 
 inline void RigidBody::createMotionAccessor(sead::Heap* heap) {
-    if (isMassScaling())
+    if (isSensor())
         mMotionAccessor = new (heap) RigidBodyMotionProxy(this);
     else
         mMotionAccessor = new (heap) RigidBodyMotion(this);
@@ -179,8 +179,7 @@ void RigidBody::setMotionFlag(MotionFlag flag) {
 
     if (mFlags.isOff(Flag::_20) && mFlags.isOff(Flag::_2)) {
         mFlags.set(Flag::_2);
-        MemSystem::instance()->getRigidBodyRequestMgr()->pushRigidBody(
-            mFlags.isOn(Flag::MassScaling), this);
+        MemSystem::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
     }
 }
 
@@ -223,7 +222,7 @@ RigidBodyMotion* RigidBody::getMotionAccessorForProxy() const {
 }
 
 RigidBodyMotionProxy* RigidBody::getMotionProxy() const {
-    if (!isMassScaling())
+    if (!isSensor())
         return nullptr;
     if (!mMotionAccessor)
         return nullptr;
@@ -327,7 +326,7 @@ bool RigidBody::setLinearVelocity(const sead::Vector3f& velocity, float epsilon)
         return false;
     }
 
-    if (!isMassScaling() && RigidBodyRequestMgr::Config::isLinearVelocityTooHigh(velocity)) {
+    if (!isSensor() && RigidBodyRequestMgr::Config::isLinearVelocityTooHigh(velocity)) {
         onInvalidParameter(1);
         return false;
     }
@@ -444,7 +443,7 @@ void RigidBody::applyLinearImpulse(const sead::Vector3f& impulse) {
         return;
     }
 
-    if (!isMassScaling())
+    if (!isSensor())
         getMotionAccessor()->applyLinearImpulse(impulse);
 }
 
@@ -460,7 +459,7 @@ void RigidBody::applyAngularImpulse(const sead::Vector3f& impulse) {
         return;
     }
 
-    if (!isMassScaling())
+    if (!isSensor())
         getMotionAccessor()->applyAngularImpulse(impulse);
 }
 
@@ -481,24 +480,24 @@ void RigidBody::applyPointImpulse(const sead::Vector3f& impulse, const sead::Vec
         return;
     }
 
-    if (!isMassScaling())
+    if (!isSensor())
         getMotionAccessor()->applyPointImpulse(impulse, point);
 }
 
 void RigidBody::setMass(float mass) {
-    if (isMassScaling())
+    if (isSensor())
         return;
     getMotionAccessor()->setMass(mass);
 }
 
 float RigidBody::getMass() const {
-    if (isMassScaling())
+    if (isSensor())
         return 0.0;
     return getMotionAccessor()->getMass();
 }
 
 float RigidBody::getMassInv() const {
-    if (isMassScaling())
+    if (isSensor())
         return 0.0;
     return getMotionAccessor()->getMassInv();
 }

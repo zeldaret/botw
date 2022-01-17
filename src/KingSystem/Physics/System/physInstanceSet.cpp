@@ -129,12 +129,12 @@ void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* pa
     phys::RigidBodyInstanceParam instance_params;
     param->makeInstanceParam(&instance_params);
     if (instance_params.contact_layer == phys::ContactLayer::SensorCustomReceiver) {
-        body->sub_7100F8F9E8(&instance_params.receiver_mask, _188[body->isMassScaling()]);
+        body->sub_7100F8F9E8(&instance_params.receiver_mask, _188[body->isSensor()]);
     } else if (instance_params.groundhit_mask) {
         body->sub_7100F8FA44(instance_params.contact_layer, instance_params.groundhit_mask);
     } else {
         body->sub_7100F8F8CC(instance_params.contact_layer, instance_params.groundhit,
-                             _188[body->isMassScaling()]);
+                             _188[body->isSensor()]);
     }
     body->setCollideGround(instance_params.no_hit_ground == 0);
     body->setCollideWater(instance_params.no_hit_water == 0);

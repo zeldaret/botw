@@ -286,8 +286,7 @@ void RigidBodyMotionProxy::setLinkedRigidBody(RigidBody* body) {
     }
 
     if (body) {
-        if (!body->hasFlag(RigidBody::Flag::MassScaling) &&
-            mFlags.isOff(Flag::HasLinkedRigidBodyWithoutFlag10)) {
+        if (!body->isSensor() && mFlags.isOff(Flag::HasLinkedRigidBodyWithoutFlag10)) {
             RigidBodyMotion* accessor = body->getMotionAccessorForProxy();
             if (accessor && accessor->registerAccessor(this)) {
                 mLinkedRigidBody = body;
