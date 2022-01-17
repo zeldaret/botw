@@ -59,6 +59,8 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/Physics/MotionState/hkMotionState.h
   Havok/Common/Base/Types/Properties/hkSimpleProperty.h
 
+  Havok/Common/GeometryUtilities/Inertia/hkInertiaTensorComputer.h
+
   Havok/Common/Serialize/Resource/hkResource.h
   Havok/Common/Serialize/Util/hkNativePackfileUtils.h
   Havok/Common/Serialize/Util/hkRootLevelContainer.h
@@ -108,6 +110,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBodyCinfo.h
+  Havok/Physics2012/Dynamics/Inertia/hkpInertiaTensorComputer.h
   Havok/Physics2012/Dynamics/Motion/hkpMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpBoxMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpFixedRigidMotion.h

@@ -141,3 +141,11 @@ public:
     struct hkConstraintInternal* m_internal;
     hkUint32 m_uid;
 };
+
+inline const hkpConstraintData* hkpConstraintInstance::getData() const {
+    return m_data;
+}
+
+inline hkpConstraintData* hkpConstraintInstance::getDataRw() const {
+    return m_data;
+}

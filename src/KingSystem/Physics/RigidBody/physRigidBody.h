@@ -105,8 +105,14 @@ public:
     // FIXME: types and names
     virtual float m4();
     virtual void m5();
-    virtual void m6();
-    virtual void m7();
+
+    /// Recalculate inertia, volume and center of mass based on the shape and mass of the rigid body
+    /// and update this rigid body to match the computed values.
+    virtual void resetInertiaAndCenterOfMass();
+
+    /// All three parameters may be null.
+    virtual void computeShapeVolumeMassProperties(float* volume, sead::Vector3f* center_of_mass,
+                                                  sead::Vector3f* inertia_tensor);
 
     bool initMotionAccessorForDynamicMotion(sead::Heap* heap);
     bool initMotionAccessor(const RigidBodyInstanceParam& param, sead::Heap* heap,
@@ -298,6 +304,17 @@ public:
 
     Type getType() const { return mType; }
     bool isCharacterControllerType() const { return mType == Type::CharacterController; }
+
+    bool hasConstraintWithUserData();
+    // 0x0000007100f94e80
+    bool x_103(int a);
+    // 0x0000007100f94f18
+    bool x_104(RigidBody* other_body, int a, int b);
+    // 0x0000007100f950ac
+    bool x_105();
+
+    void setEntityMotionFlag40(bool set);
+    bool isEntityMotionFlag40On() const;
 
     void lock();
     void lock(bool also_lock_world);

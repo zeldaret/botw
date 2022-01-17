@@ -141,6 +141,10 @@ public:
     hkSimdFloat32 getY() const { return getComponent<1>(); }
     hkSimdFloat32 getZ() const { return getComponent<2>(); }
     hkSimdFloat32 getW() const { return getComponent<3>(); }
+    template <int I>
+    HK_FORCE_INLINE void setComponent(hkSimdFloat32Parameter val) {
+        v[I] = val;
+    }
     void setComponent(int i, hkSimdFloat32Parameter val) { v[i] = val; }
     void setX(hkSimdFloat32Parameter val) { setComponent(0, val); }
     void setY(hkSimdFloat32Parameter val) { setComponent(1, val); }

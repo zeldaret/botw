@@ -1,6 +1,9 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
+#include <Havok/Physics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include <Havok/Physics2012/Dynamics/Inertia/hkpInertiaTensorComputer.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpFixedRigidMotion.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h>
 #include <cmath>
@@ -766,6 +769,63 @@ float RigidBody::getColImpulseScale() const {
     if (!isEntity() || !mMotionAccessor)
         return 1.0;
     return getEntityMotionAccessor()->getColImpulseScale();
+}
+
+bool RigidBody::hasConstraintWithUserData() {
+    auto lock = makeScopedLock(true);
+
+    for (int i = 0, n = getHkBody()->getNumConstraints(); i < n; ++i) {
+        auto* constraint = getHkBody()->getConstraint(i);
+        if (constraint->getData()->getType() != hkpConstraintData::CONSTRAINT_TYPE_CONTACT &&
+            constraint->m_userData != 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void RigidBody::setEntityMotionFlag40(bool set) {
+    if (!isEntity() || isCharacterControllerType())
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_40, set);
+}
+
+bool RigidBody::isEntityMotionFlag40On() const {
+    if (!isEntity() || !mMotionAccessor || isCharacterControllerType())
+        return false;
+    return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_40);
+}
+
+void RigidBody::resetInertiaAndCenterOfMass() {
+    float volume;
+    sead::Vector3f center_of_mass;
+    sead::Vector3f inertia;
+    computeShapeVolumeMassProperties(&volume, &center_of_mass, &inertia);
+
+    setInertiaLocal(inertia);
+    setCenterOfMassInLocal(center_of_mass);
+}
+
+void RigidBody::computeShapeVolumeMassProperties(float* volume, sead::Vector3f* center_of_mass,
+                                                 sead::Vector3f* inertia_tensor) {
+    hkMassProperties properties;
+    const auto shape = getHkBody()->getCollidable()->getShape();
+    const float mass = getMass();
+    hkpInertiaTensorComputer::computeShapeVolumeMassProperties(shape, mass, properties);
+
+    if (volume != nullptr)
+        *volume = properties.m_volume;
+
+    if (center_of_mass != nullptr)
+        storeToVec3(center_of_mass, properties.m_centerOfMass);
+
+    if (inertia_tensor != nullptr) {
+        hkVector4f diagonal{properties.m_inertiaTensor.get<0, 0>(),
+                            properties.m_inertiaTensor.get<1, 1>(),
+                            properties.m_inertiaTensor.get<2, 2>()};
+        storeToVec3(inertia_tensor, diagonal);
+    }
 }
 
 void RigidBody::resetPosition() {
