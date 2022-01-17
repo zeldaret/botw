@@ -21,8 +21,8 @@ namespace ksys::phys {
 
 class MotionAccessor;
 struct RigidBodyInstanceParam;
-class RigidBodyMotion;
-class RigidBodyMotionProxy;
+class RigidBodyMotionEntity;
+class RigidBodyMotionSensor;
 class RigidContactPoints;
 class UserTag;
 
@@ -137,17 +137,17 @@ public:
     // 0x0000007100f8d308
     bool x_6();
 
-    /// Get the motion accessor if it is a RigidBodyMotion. Returns nullptr otherwise.
-    RigidBodyMotion* getMotionAccessor() const;
-    /// Get the motion accessor if it is a RigidBodyMotion. Returns nullptr otherwise.
+    /// Get the motion accessor if it is a RigidBodyMotionEntity. Returns nullptr otherwise.
+    RigidBodyMotionEntity* getEntityMotionAccessor() const;
+    /// Get the motion accessor if it is a RigidBodyMotionEntity. Returns nullptr otherwise.
     /// For internal use by the physics system.
-    RigidBodyMotion* getMotionAccessorForProxy() const;
+    RigidBodyMotionEntity* getEntityMotionAccessorForSensor() const;
 
-    /// Get the motion accessor if it is a RigidBodyMotionProxy. Returns nullptr otherwise.
-    RigidBodyMotionProxy* getMotionProxy() const;
-    /// Get the linked rigid body from the motion proxy (or nullptr if there is none).
+    /// Get the motion accessor if it is a RigidBodyMotionSensor. Returns nullptr otherwise.
+    RigidBodyMotionSensor* getSensorMotionAccessor() const;
+    /// Get the linked rigid body from the sensor motion accessor (or nullptr if there is none).
     RigidBody* getLinkedRigidBody() const;
-    /// Reset the linked rigid body if we have a motion proxy.
+    /// Reset the linked rigid body if we have a sensor motion accessor.
     void resetLinkedRigidBody() const;
 
     // 0x0000007100f8d840

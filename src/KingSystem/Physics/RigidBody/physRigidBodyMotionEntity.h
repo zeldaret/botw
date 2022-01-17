@@ -12,10 +12,10 @@ class hkpMotion;
 
 namespace ksys::phys {
 
-class RigidBodyMotionProxy;
+class RigidBodyMotionSensor;
 
-class RigidBodyMotion : public MotionAccessor {
-    SEAD_RTTI_OVERRIDE(RigidBodyMotion, MotionAccessor)
+class RigidBodyMotionEntity : public MotionAccessor {
+    SEAD_RTTI_OVERRIDE(RigidBodyMotionEntity, MotionAccessor)
 public:
     enum class Flag {
         _1 = 1 << 0,
@@ -23,7 +23,7 @@ public:
         _200 = 1 << 9,
     };
 
-    explicit RigidBodyMotion(RigidBody* body);
+    explicit RigidBodyMotionEntity(RigidBody* body);
 
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) override;
     void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) override;
@@ -48,7 +48,7 @@ public:
     void setMaxAngularVelocity(float max) override;
     float getMaxAngularVelocity() override;
 
-    ~RigidBodyMotion() override;
+    ~RigidBodyMotionEntity() override;
 
     bool init(const RigidBodyInstanceParam& params, sead::Heap* heap) override;
     void getRotation(hkQuaternionf* quat) override;
@@ -83,8 +83,8 @@ public:
     void updateRigidBodyMotionExceptState();
     void updateRigidBodyMotionExceptStateAndVel();
 
-    bool registerAccessor(RigidBodyMotionProxy* accessor);
-    bool deregisterAccessor(RigidBodyMotionProxy* accessor);
+    bool registerAccessor(RigidBodyMotionSensor* accessor);
+    bool deregisterAccessor(RigidBodyMotionSensor* accessor);
     bool deregisterAllAccessors();
     void copyTransformToAllLinkedBodies();
     void copyMotionToAllLinkedBodies();
@@ -111,7 +111,7 @@ private:
     float mGravityFactor{};
     float mMaxImpulseCopy{};
     hkpMotion* mMotion{};
-    sead::FixedPtrArray<RigidBodyMotionProxy, 8> mLinkedAccessors;
+    sead::FixedPtrArray<RigidBodyMotionSensor, 8> mLinkedAccessors;
     float mWaterBuoyancyScale = 1.0f;
     float mWaterFlowEffectiveRate = 1.0f;
     float mMagneMassScalingFactor = 1.0f;

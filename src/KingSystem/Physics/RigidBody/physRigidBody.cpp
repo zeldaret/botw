@@ -5,8 +5,8 @@
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h>
 #include <cmath>
 #include "KingSystem/Physics/RigidBody/physMotionAccessor.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyMotion.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionEntity.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/System/physMemSystem.h"
@@ -61,9 +61,9 @@ RigidBody::~RigidBody() {
 
 inline void RigidBody::createMotionAccessor(sead::Heap* heap) {
     if (isSensor())
-        mMotionAccessor = new (heap) RigidBodyMotionProxy(this);
+        mMotionAccessor = new (heap) RigidBodyMotionSensor(this);
     else
-        mMotionAccessor = new (heap) RigidBodyMotion(this);
+        mMotionAccessor = new (heap) RigidBodyMotionEntity(this);
 }
 
 namespace {
@@ -213,34 +213,34 @@ void RigidBody::sub_7100F8D21C() {
     }
 }
 
-RigidBodyMotion* RigidBody::getMotionAccessor() const {
-    return sead::DynamicCast<RigidBodyMotion>(mMotionAccessor);
+RigidBodyMotionEntity* RigidBody::getEntityMotionAccessor() const {
+    return sead::DynamicCast<RigidBodyMotionEntity>(mMotionAccessor);
 }
 
-RigidBodyMotion* RigidBody::getMotionAccessorForProxy() const {
-    return getMotionAccessor();
+RigidBodyMotionEntity* RigidBody::getEntityMotionAccessorForSensor() const {
+    return getEntityMotionAccessor();
 }
 
-RigidBodyMotionProxy* RigidBody::getMotionProxy() const {
+RigidBodyMotionSensor* RigidBody::getSensorMotionAccessor() const {
     if (!isSensor())
         return nullptr;
     if (!mMotionAccessor)
         return nullptr;
-    return sead::DynamicCast<RigidBodyMotionProxy>(mMotionAccessor);
+    return sead::DynamicCast<RigidBodyMotionSensor>(mMotionAccessor);
 }
 
 RigidBody* RigidBody::getLinkedRigidBody() const {
-    auto* proxy = getMotionProxy();
-    if (!proxy)
+    auto* accessor = getSensorMotionAccessor();
+    if (!accessor)
         return nullptr;
-    return proxy->getLinkedRigidBody();
+    return accessor->getLinkedRigidBody();
 }
 
 void RigidBody::resetLinkedRigidBody() const {
-    auto* proxy = getMotionProxy();
-    if (!proxy)
+    auto* accessor = getSensorMotionAccessor();
+    if (!accessor)
         return;
-    proxy->resetLinkedRigidBody();
+    accessor->resetLinkedRigidBody();
 }
 
 MotionType RigidBody::getMotionType() const {
@@ -444,7 +444,7 @@ void RigidBody::applyLinearImpulse(const sead::Vector3f& impulse) {
     }
 
     if (!isSensor())
-        getMotionAccessor()->applyLinearImpulse(impulse);
+        getEntityMotionAccessor()->applyLinearImpulse(impulse);
 }
 
 void RigidBody::applyAngularImpulse(const sead::Vector3f& impulse) {
@@ -460,7 +460,7 @@ void RigidBody::applyAngularImpulse(const sead::Vector3f& impulse) {
     }
 
     if (!isSensor())
-        getMotionAccessor()->applyAngularImpulse(impulse);
+        getEntityMotionAccessor()->applyAngularImpulse(impulse);
 }
 
 void RigidBody::applyPointImpulse(const sead::Vector3f& impulse, const sead::Vector3f& point) {
@@ -481,25 +481,25 @@ void RigidBody::applyPointImpulse(const sead::Vector3f& impulse, const sead::Vec
     }
 
     if (!isSensor())
-        getMotionAccessor()->applyPointImpulse(impulse, point);
+        getEntityMotionAccessor()->applyPointImpulse(impulse, point);
 }
 
 void RigidBody::setMass(float mass) {
     if (isSensor())
         return;
-    getMotionAccessor()->setMass(mass);
+    getEntityMotionAccessor()->setMass(mass);
 }
 
 float RigidBody::getMass() const {
     if (isSensor())
         return 0.0;
-    return getMotionAccessor()->getMass();
+    return getEntityMotionAccessor()->getMass();
 }
 
 float RigidBody::getMassInv() const {
     if (isSensor())
         return 0.0;
-    return getMotionAccessor()->getMassInv();
+    return getEntityMotionAccessor()->getMassInv();
 }
 
 void RigidBody::lock(bool also_lock_world) {

@@ -1,26 +1,26 @@
-#include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionSensor.h"
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
-#include "KingSystem/Physics/RigidBody/physRigidBodyMotion.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionEntity.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
 
-RigidBodyMotionProxy::RigidBodyMotionProxy(RigidBody* body) : MotionAccessor(body) {}
+RigidBodyMotionSensor::RigidBodyMotionSensor(RigidBody* body) : MotionAccessor(body) {}
 
-RigidBodyMotionProxy::~RigidBodyMotionProxy() {
+RigidBodyMotionSensor::~RigidBodyMotionSensor() {
     resetLinkedRigidBody();
 }
 
-bool RigidBodyMotionProxy::init(const RigidBodyInstanceParam& params, sead::Heap* heap) {
+bool RigidBodyMotionSensor::init(const RigidBodyInstanceParam& params, sead::Heap* heap) {
     mMaxLinearVelocity = params.max_linear_velocity;
     mMaxAngularVelocity = params.max_angular_velocity_rad;
     mTimeFactor = params.time_factor;
     return true;
 }
 
-KSYS_ALWAYS_INLINE void RigidBodyMotionProxy::setTransformImpl(const sead::Matrix34f& mtx) {
+KSYS_ALWAYS_INLINE void RigidBodyMotionSensor::setTransformImpl(const sead::Matrix34f& mtx) {
     if (mBody->isFlag8Set()) {  // flag 8 = block updates?
         setMotionFlag(RigidBody::MotionFlag::DirtyTransform);
         return;
@@ -31,14 +31,14 @@ KSYS_ALWAYS_INLINE void RigidBodyMotionProxy::setTransformImpl(const sead::Matri
     mBody->getHkBody()->getMotion()->setTransform(transform);
 }
 
-void RigidBodyMotionProxy::setTransform(const sead::Matrix34f& mtx,
-                                        bool propagate_to_linked_motions) {
+void RigidBodyMotionSensor::setTransform(const sead::Matrix34f& mtx,
+                                         bool propagate_to_linked_motions) {
     mTransform = mtx;
     setTransformImpl(mtx);
 }
 
-void RigidBodyMotionProxy::setPosition(const sead::Vector3f& position,
-                                       bool propagate_to_linked_motions) {
+void RigidBodyMotionSensor::setPosition(const sead::Vector3f& position,
+                                        bool propagate_to_linked_motions) {
     if (hasMotionFlagDisabled(RigidBody::MotionFlag::DirtyTransform)) {
         getTransform(&mTransform);
     }
@@ -47,7 +47,7 @@ void RigidBodyMotionProxy::setPosition(const sead::Vector3f& position,
     setTransformImpl(mTransform);
 }
 
-void RigidBodyMotionProxy::setTransformFromLinkedBody(const sead::Matrix34f& mtx) {
+void RigidBodyMotionSensor::setTransformFromLinkedBody(const sead::Matrix34f& mtx) {
     if (mFlags.isOff(Flag::HasExtraTranslateForLinkedRigidBody) &&
         mFlags.isOff(Flag::HasExtraRotateForLinkedRigidBody)) {
         setTransform(mtx, false);
@@ -124,8 +124,8 @@ static sead::Matrix34f makeRT(const hkQuaternionf& r, const hkVector4f& t) {
 }
 
 // NON_MATCHING: two fmul instructions reordered in sead::Matrix34f mtx = makeRT(...)
-void RigidBodyMotionProxy::setTransformFromLinkedBody(const hkVector4f& hk_translate,
-                                                      const hkQuaternionf& hk_rotate) {
+void RigidBodyMotionSensor::setTransformFromLinkedBody(const hkVector4f& hk_translate,
+                                                       const hkQuaternionf& hk_rotate) {
     if (mFlags.isOff(Flag::HasExtraTranslateForLinkedRigidBody) &&
         mFlags.isOff(Flag::HasExtraRotateForLinkedRigidBody)) {
         setTransform(makeRT(hk_rotate, hk_translate), false);
@@ -152,7 +152,7 @@ void RigidBodyMotionProxy::setTransformFromLinkedBody(const hkVector4f& hk_trans
     setTransform(mtx, false);
 }
 
-void RigidBodyMotionProxy::getPosition(sead::Vector3f* position) {
+void RigidBodyMotionSensor::getPosition(sead::Vector3f* position) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyTransform)) {
         mTransform.getTranslation(*position);
     } else {
@@ -161,7 +161,7 @@ void RigidBodyMotionProxy::getPosition(sead::Vector3f* position) {
     }
 }
 
-void RigidBodyMotionProxy::getRotation(sead::Quatf* rotation) {
+void RigidBodyMotionSensor::getRotation(sead::Quatf* rotation) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyTransform)) {
         mTransform.toQuat(*rotation);
     } else {
@@ -171,7 +171,7 @@ void RigidBodyMotionProxy::getRotation(sead::Quatf* rotation) {
     rotation->normalize();
 }
 
-void RigidBodyMotionProxy::getTransform(sead::Matrix34f* mtx) {
+void RigidBodyMotionSensor::getTransform(sead::Matrix34f* mtx) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyTransform)) {
         *mtx = mTransform;
     } else {
@@ -181,7 +181,7 @@ void RigidBodyMotionProxy::getTransform(sead::Matrix34f* mtx) {
     }
 }
 
-void RigidBodyMotionProxy::setCenterOfMassInLocal(const sead::Vector3f& center) {
+void RigidBodyMotionSensor::setCenterOfMassInLocal(const sead::Vector3f& center) {
     mCenterOfMassInLocal.e = center.e;
 
     if (mBody->isFlag8Set()) {
@@ -192,7 +192,7 @@ void RigidBodyMotionProxy::setCenterOfMassInLocal(const sead::Vector3f& center) 
     mBody->getHkBody()->setCenterOfMassLocal(toHkVec4(center));
 }
 
-void RigidBodyMotionProxy::getCenterOfMassInLocal(sead::Vector3f* center) {
+void RigidBodyMotionSensor::getCenterOfMassInLocal(sead::Vector3f* center) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyCenterOfMassLocal)) {
         center->e = mCenterOfMassInLocal.e;
     } else {
@@ -201,7 +201,7 @@ void RigidBodyMotionProxy::getCenterOfMassInLocal(sead::Vector3f* center) {
     }
 }
 
-bool RigidBodyMotionProxy::setLinearVelocity(const sead::Vector3f& velocity, float epsilon) {
+bool RigidBodyMotionSensor::setLinearVelocity(const sead::Vector3f& velocity, float epsilon) {
     if (velocity.equals(mLinearVelocity, epsilon))
         return false;
 
@@ -210,13 +210,13 @@ bool RigidBodyMotionProxy::setLinearVelocity(const sead::Vector3f& velocity, flo
     return true;
 }
 
-bool RigidBodyMotionProxy::setLinearVelocity(const hkVector4f& velocity, float epsilon) {
+bool RigidBodyMotionSensor::setLinearVelocity(const hkVector4f& velocity, float epsilon) {
     sead::Vector3f vec;
     storeToVec3(&vec, velocity);
     return setLinearVelocity(vec, epsilon);
 }
 
-void RigidBodyMotionProxy::getLinearVelocity(sead::Vector3f* velocity) {
+void RigidBodyMotionSensor::getLinearVelocity(sead::Vector3f* velocity) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyLinearVelocity)) {
         velocity->e = mLinearVelocity.e;
     } else {
@@ -225,7 +225,7 @@ void RigidBodyMotionProxy::getLinearVelocity(sead::Vector3f* velocity) {
     }
 }
 
-bool RigidBodyMotionProxy::setAngularVelocity(const sead::Vector3f& velocity, float epsilon) {
+bool RigidBodyMotionSensor::setAngularVelocity(const sead::Vector3f& velocity, float epsilon) {
     if (velocity.equals(mAngularVelocity, sead::Mathf::epsilon()))
         return false;
 
@@ -234,13 +234,13 @@ bool RigidBodyMotionProxy::setAngularVelocity(const sead::Vector3f& velocity, fl
     return true;
 }
 
-bool RigidBodyMotionProxy::setAngularVelocity(const hkVector4f& velocity, float epsilon) {
+bool RigidBodyMotionSensor::setAngularVelocity(const hkVector4f& velocity, float epsilon) {
     sead::Vector3f vec;
     storeToVec3(&vec, velocity);
     return setAngularVelocity(vec, epsilon);
 }
 
-void RigidBodyMotionProxy::getAngularVelocity(sead::Vector3f* velocity) {
+void RigidBodyMotionSensor::getAngularVelocity(sead::Vector3f* velocity) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyAngularVelocity)) {
         velocity->e = mAngularVelocity.e;
     } else {
@@ -249,31 +249,31 @@ void RigidBodyMotionProxy::getAngularVelocity(sead::Vector3f* velocity) {
     }
 }
 
-void RigidBodyMotionProxy::setMaxLinearVelocity(float max) {
+void RigidBodyMotionSensor::setMaxLinearVelocity(float max) {
     mMaxLinearVelocity = max;
     setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
-float RigidBodyMotionProxy::getMaxLinearVelocity() {
+float RigidBodyMotionSensor::getMaxLinearVelocity() {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor))
         return mMaxLinearVelocity;
 
     return getRigidBodyMotion()->getMotionState()->m_maxLinearVelocity;
 }
 
-void RigidBodyMotionProxy::setMaxAngularVelocity(float max) {
+void RigidBodyMotionSensor::setMaxAngularVelocity(float max) {
     mMaxAngularVelocity = max;
     setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
-float RigidBodyMotionProxy::getMaxAngularVelocity() {
+float RigidBodyMotionSensor::getMaxAngularVelocity() {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor))
         return mMaxAngularVelocity;
 
     return getRigidBodyMotion()->getMotionState()->m_maxAngularVelocity;
 }
 
-void RigidBodyMotionProxy::setLinkedRigidBody(RigidBody* body) {
+void RigidBodyMotionSensor::setLinkedRigidBody(RigidBody* body) {
     auto lock = mBody->makeScopedLock(mBody->isFlag8Set());
 
     if (mLinkedRigidBody == body)
@@ -281,13 +281,13 @@ void RigidBodyMotionProxy::setLinkedRigidBody(RigidBody* body) {
 
     if (mLinkedRigidBody) {
         // If we already have a linked rigid body, unlink it first.
-        mLinkedRigidBody->getMotionAccessorForProxy()->deregisterAccessor(this);
+        mLinkedRigidBody->getEntityMotionAccessorForSensor()->deregisterAccessor(this);
         mLinkedRigidBody = nullptr;
     }
 
     if (body) {
         if (!body->isSensor() && mFlags.isOff(Flag::HasLinkedRigidBodyWithoutFlag10)) {
-            RigidBodyMotion* accessor = body->getMotionAccessorForProxy();
+            RigidBodyMotionEntity* accessor = body->getEntityMotionAccessorForSensor();
             if (accessor && accessor->registerAccessor(this)) {
                 mLinkedRigidBody = body;
                 if (mBody->hasFlag(RigidBody::Flag::_10))
@@ -302,30 +302,30 @@ void RigidBodyMotionProxy::setLinkedRigidBody(RigidBody* body) {
     }
 }
 
-void RigidBodyMotionProxy::resetLinkedRigidBody() {
+void RigidBodyMotionSensor::resetLinkedRigidBody() {
     if (!mLinkedRigidBody)
         return;
 
     auto lock = mBody->makeScopedLock(mBody->isFlag8Set());
     if (mLinkedRigidBody) {
-        mLinkedRigidBody->getMotionAccessorForProxy()->deregisterAccessor(this);
+        mLinkedRigidBody->getEntityMotionAccessorForSensor()->deregisterAccessor(this);
         mLinkedRigidBody = nullptr;
         mFlags.reset(Flag::HasLinkedRigidBodyWithoutFlag10);
     }
 }
 
-RigidBody* RigidBodyMotionProxy::getLinkedRigidBody() const {
+RigidBody* RigidBodyMotionSensor::getLinkedRigidBody() const {
     return mLinkedRigidBody;
 }
 
-bool RigidBodyMotionProxy::isFlag40000Set() const {
+bool RigidBodyMotionSensor::isFlag40000Set() const {
     return mFlags.isOn(Flag::_40000);
 }
 
-void RigidBodyMotionProxy::copyMotionFromLinkedRigidBody() {
+void RigidBodyMotionSensor::copyMotionFromLinkedRigidBody() {
     auto lock = mBody->makeScopedLock(mBody->isFlag8Set());
 
-    auto* accessor = mLinkedRigidBody->getMotionAccessorForProxy();
+    auto* accessor = mLinkedRigidBody->getEntityMotionAccessorForSensor();
     auto* linked_hk_body = mLinkedRigidBody->getHkBody();
     auto* this_hk_body = mBody->getHkBody();
 
@@ -399,23 +399,23 @@ void RigidBodyMotionProxy::copyMotionFromLinkedRigidBody() {
         hkpRigidBody::updateBroadphaseAndResetCollisionInformationOfWarpedBody(this_hk_body);
 }
 
-void RigidBodyMotionProxy::getRotation(hkQuaternionf* quat) {
+void RigidBodyMotionSensor::getRotation(hkQuaternionf* quat) {
     sead::Quatf rotation;
     getRotation(&rotation);
     toHkQuat(quat, rotation);
 }
 
-void RigidBodyMotionProxy::setTimeFactor(float factor) {
+void RigidBodyMotionSensor::setTimeFactor(float factor) {
     mTimeFactor = factor;
     setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
-float RigidBodyMotionProxy::getTimeFactor() {
+float RigidBodyMotionSensor::getTimeFactor() {
     return mTimeFactor;
 }
 
-void RigidBodyMotionProxy::freeze(bool freeze, bool preserve_velocities,
-                                  bool preserve_max_impulse) {
+void RigidBodyMotionSensor::freeze(bool freeze, bool preserve_velocities,
+                                   bool preserve_max_impulse) {
     if (!freeze) {
         mBody->setLinearVelocity(mFrozenLinearVelocity);
         mBody->setAngularVelocity(mFrozenAngularVelocity);

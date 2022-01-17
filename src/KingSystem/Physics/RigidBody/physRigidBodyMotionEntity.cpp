@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/RigidBody/physRigidBodyMotion.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionEntity.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpBoxMotion.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h>
@@ -8,7 +8,7 @@
 #include <cstring>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
-#include "KingSystem/Physics/RigidBody/physRigidBodyMotionProxy.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/Debug.h"
@@ -18,16 +18,16 @@ namespace ksys::phys {
 static float sImpulseEpsilon = 1e-05;
 static float sMaxImpulse = 1700.0;
 
-RigidBodyMotion::RigidBodyMotion(RigidBody* body) : MotionAccessor(body) {}
+RigidBodyMotionEntity::RigidBodyMotionEntity(RigidBody* body) : MotionAccessor(body) {}
 
-RigidBodyMotion::~RigidBodyMotion() {
+RigidBodyMotionEntity::~RigidBodyMotionEntity() {
     if (mMotion) {
         delete[] reinterpret_cast<u8*>(mMotion);
         mMotion = nullptr;
     }
 }
 
-bool RigidBodyMotion::init(const RigidBodyInstanceParam& params, sead::Heap* heap) {
+bool RigidBodyMotionEntity::init(const RigidBodyInstanceParam& params, sead::Heap* heap) {
     auto* motion_storage = new (heap, alignof(hkpMaxSizeMotion)) u8[sizeof(hkpMaxSizeMotion)];
     mMotion = new (motion_storage) hkpMaxSizeMotion;
     mBody->createMotion(static_cast<hkpMaxSizeMotion*>(mMotion), MotionType::Dynamic, params);
@@ -41,7 +41,8 @@ bool RigidBodyMotion::init(const RigidBodyInstanceParam& params, sead::Heap* hea
     return true;
 }
 
-void RigidBodyMotion::setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) {
+void RigidBodyMotionEntity::setTransform(const sead::Matrix34f& mtx,
+                                         bool propagate_to_linked_motions) {
     hkTransformf transform;
     toHkTransform(&transform, mtx);
     mMotion->setTransform(transform);
@@ -62,8 +63,8 @@ void RigidBodyMotion::setTransform(const sead::Matrix34f& mtx, bool propagate_to
     }
 }
 
-void RigidBodyMotion::setPosition(const sead::Vector3f& position,
-                                  bool propagate_to_linked_motions) {
+void RigidBodyMotionEntity::setPosition(const sead::Vector3f& position,
+                                        bool propagate_to_linked_motions) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     const auto hk_position = toHkVec4(position);
     const auto& hk_rotate = motion->getRotation();
@@ -84,31 +85,31 @@ void RigidBodyMotion::setPosition(const sead::Vector3f& position,
     }
 }
 
-void RigidBodyMotion::getPosition(sead::Vector3f* position) {
+void RigidBodyMotionEntity::getPosition(sead::Vector3f* position) {
     storeToVec3(position, getPosition());
 }
 
-hkVector4f RigidBodyMotion::getPosition() const {
+hkVector4f RigidBodyMotionEntity::getPosition() const {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     return motion->getPosition();
 }
 
-void RigidBodyMotion::getRotation(sead::Quatf* rotation) {
+void RigidBodyMotionEntity::getRotation(sead::Quatf* rotation) {
     toQuat(rotation, getRotation());
 }
 
-hkQuaternionf RigidBodyMotion::getRotation() const {
+hkQuaternionf RigidBodyMotionEntity::getRotation() const {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     return motion->getRotation();
 }
 
-void RigidBodyMotion::getTransform(sead::Matrix34f* mtx) {
+void RigidBodyMotionEntity::getTransform(sead::Matrix34f* mtx) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     setMtxRotation(mtx, motion->getTransform().getRotation());
     setMtxTranslation(mtx, motion->getTransform().getTranslation());
 }
 
-void RigidBodyMotion::setCenterOfMassInLocal(const sead::Vector3f& center) {
+void RigidBodyMotionEntity::setCenterOfMassInLocal(const sead::Vector3f& center) {
     const auto hk_center = toHkVec4(center);
     mMotion->setCenterOfMassInLocal(hk_center);
 
@@ -118,12 +119,12 @@ void RigidBodyMotion::setCenterOfMassInLocal(const sead::Vector3f& center) {
         getHkBody()->setCenterOfMassLocal(hk_center);
 }
 
-void RigidBodyMotion::getCenterOfMassInLocal(sead::Vector3f* center) {
+void RigidBodyMotionEntity::getCenterOfMassInLocal(sead::Vector3f* center) {
     const auto hk_center = mMotion->getCenterOfMassLocal();
     storeToVec3(center, hk_center);
 }
 
-bool RigidBodyMotion::setLinearVelocity(const sead::Vector3f& velocity, float epsilon) {
+bool RigidBodyMotionEntity::setLinearVelocity(const sead::Vector3f& velocity, float epsilon) {
     sead::Vector3f current_vel;
     getLinearVelocity(&current_vel);
     if (current_vel.equals(velocity, epsilon))
@@ -134,7 +135,7 @@ bool RigidBodyMotion::setLinearVelocity(const sead::Vector3f& velocity, float ep
     return true;
 }
 
-bool RigidBodyMotion::setLinearVelocity(const hkVector4f& velocity, float epsilon) {
+bool RigidBodyMotionEntity::setLinearVelocity(const hkVector4f& velocity, float epsilon) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyLinearVelocity);
     if (velocity.allEqual<3>(motion->getLinearVelocity(), epsilon))
         return false;
@@ -144,13 +145,13 @@ bool RigidBodyMotion::setLinearVelocity(const hkVector4f& velocity, float epsilo
     return true;
 }
 
-void RigidBodyMotion::getLinearVelocity(sead::Vector3f* velocity) {
+void RigidBodyMotionEntity::getLinearVelocity(sead::Vector3f* velocity) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyLinearVelocity);
     const auto hk_vel = motion->getLinearVelocity();
     storeToVec3(velocity, hk_vel);
 }
 
-bool RigidBodyMotion::setAngularVelocity(const sead::Vector3f& velocity, float epsilon) {
+bool RigidBodyMotionEntity::setAngularVelocity(const sead::Vector3f& velocity, float epsilon) {
     sead::Vector3f current_vel;
     getAngularVelocity(&current_vel);
     if (current_vel.equals(velocity, epsilon))
@@ -161,7 +162,7 @@ bool RigidBodyMotion::setAngularVelocity(const sead::Vector3f& velocity, float e
     return true;
 }
 
-bool RigidBodyMotion::setAngularVelocity(const hkVector4f& velocity, float epsilon) {
+bool RigidBodyMotionEntity::setAngularVelocity(const hkVector4f& velocity, float epsilon) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyAngularVelocity);
     if (velocity.allEqual<3>(motion->getAngularVelocity(), epsilon))
         return false;
@@ -171,31 +172,31 @@ bool RigidBodyMotion::setAngularVelocity(const hkVector4f& velocity, float epsil
     return true;
 }
 
-void RigidBodyMotion::getAngularVelocity(sead::Vector3f* velocity) {
+void RigidBodyMotionEntity::getAngularVelocity(sead::Vector3f* velocity) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyAngularVelocity);
     const auto hk_vel = motion->getAngularVelocity();
     storeToVec3(velocity, hk_vel);
 }
 
-void RigidBodyMotion::setMaxLinearVelocity(float max) {
+void RigidBodyMotionEntity::setMaxLinearVelocity(float max) {
     mMotion->getMotionState()->m_maxLinearVelocity = max;
     setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
-float RigidBodyMotion::getMaxLinearVelocity() {
+float RigidBodyMotionEntity::getMaxLinearVelocity() {
     return mMotion->getMotionState()->m_maxLinearVelocity;
 }
 
-void RigidBodyMotion::setMaxAngularVelocity(float max) {
+void RigidBodyMotionEntity::setMaxAngularVelocity(float max) {
     mMotion->getMotionState()->m_maxAngularVelocity = max;
     setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
-float RigidBodyMotion::getMaxAngularVelocity() {
+float RigidBodyMotionEntity::getMaxAngularVelocity() {
     return mMotion->getMotionState()->m_maxAngularVelocity;
 }
 
-bool RigidBodyMotion::applyLinearImpulse(const sead::Vector3f& impulse) {
+bool RigidBodyMotionEntity::applyLinearImpulse(const sead::Vector3f& impulse) {
     if (getMotionType() != MotionType::Dynamic)
         return false;
 
@@ -214,7 +215,7 @@ bool RigidBodyMotion::applyLinearImpulse(const sead::Vector3f& impulse) {
     return true;
 }
 
-bool RigidBodyMotion::applyAngularImpulse(const sead::Vector3f& impulse) {
+bool RigidBodyMotionEntity::applyAngularImpulse(const sead::Vector3f& impulse) {
     if (getMotionType() != MotionType::Dynamic)
         return false;
 
@@ -238,8 +239,8 @@ bool RigidBodyMotion::applyAngularImpulse(const sead::Vector3f& impulse) {
     return true;
 }
 
-bool RigidBodyMotion::applyPointImpulse(const sead::Vector3f& impulse,
-                                        const sead::Vector3f& point) {
+bool RigidBodyMotionEntity::applyPointImpulse(const sead::Vector3f& impulse,
+                                              const sead::Vector3f& point) {
     if (getMotionType() != MotionType::Dynamic)
         return false;
 
@@ -275,7 +276,7 @@ bool RigidBodyMotion::applyPointImpulse(const sead::Vector3f& impulse,
     return true;
 }
 
-void RigidBodyMotion::setMass(float mass) {
+void RigidBodyMotionEntity::setMass(float mass) {
     if (arePropertyChangesBlocked()) {
         mMass = mass;
         return;
@@ -288,14 +289,14 @@ void RigidBodyMotion::setMass(float mass) {
         getHkBody()->getMotion()->setMass(mass);
 }
 
-float RigidBodyMotion::getMass() const {
+float RigidBodyMotionEntity::getMass() const {
     if (arePropertyChangesBlocked())
         return mMass;
 
     return mMotion->getMass();
 }
 
-float RigidBodyMotion::getMassInv() const {
+float RigidBodyMotionEntity::getMassInv() const {
     if (arePropertyChangesBlocked())
         return 1.0f / mMass;
 
@@ -310,7 +311,7 @@ static inline float min3(float a, float b, float c) {
     return sead::Mathf::min(a < b ? a : b, c);
 }
 
-void RigidBodyMotion::setInertiaLocal(const sead::Vector3f& inertia) {
+void RigidBodyMotionEntity::setInertiaLocal(const sead::Vector3f& inertia) {
     if (mBody->isCharacterControllerType())
         return;
 
@@ -383,7 +384,7 @@ void RigidBodyMotion::setInertiaLocal(const sead::Vector3f& inertia) {
     }
 }
 
-void RigidBodyMotion::getInertiaLocal(sead::Vector3f* inertia) const {
+void RigidBodyMotionEntity::getInertiaLocal(sead::Vector3f* inertia) const {
     if (arePropertyChangesBlocked()) {
         inertia->e = mInertiaLocal.e;
         return;
@@ -396,7 +397,7 @@ void RigidBodyMotion::getInertiaLocal(sead::Vector3f* inertia) const {
     inertia->z = hk_inertia.getColumn(2).getZ();
 }
 
-void RigidBodyMotion::setLinearDamping(float value) {
+void RigidBodyMotionEntity::setLinearDamping(float value) {
     if (arePropertyChangesBlocked()) {
         mLinearDamping = value;
         return;
@@ -409,14 +410,14 @@ void RigidBodyMotion::setLinearDamping(float value) {
         getHkBody()->setLinearDamping(getTimeFactor() * value);
 }
 
-float RigidBodyMotion::getLinearDamping() const {
+float RigidBodyMotionEntity::getLinearDamping() const {
     if (arePropertyChangesBlocked())
         return mLinearDamping;
 
     return mMotion->getLinearDamping();
 }
 
-void RigidBodyMotion::setAngularDamping(float value) {
+void RigidBodyMotionEntity::setAngularDamping(float value) {
     if (arePropertyChangesBlocked()) {
         mAngularDamping = value;
         return;
@@ -429,14 +430,14 @@ void RigidBodyMotion::setAngularDamping(float value) {
         getHkBody()->setAngularDamping(getTimeFactor() * value);
 }
 
-float RigidBodyMotion::getAngularDamping() const {
+float RigidBodyMotionEntity::getAngularDamping() const {
     if (arePropertyChangesBlocked())
         return mAngularDamping;
 
     return mMotion->getAngularDamping();
 }
 
-void RigidBodyMotion::setGravityFactor(float value) {
+void RigidBodyMotionEntity::setGravityFactor(float value) {
     if (arePropertyChangesBlocked()) {
         mGravityFactor = value;
         return;
@@ -449,28 +450,28 @@ void RigidBodyMotion::setGravityFactor(float value) {
         getHkBody()->setGravityFactor(value);
 }
 
-float RigidBodyMotion::getGravityFactor() const {
+float RigidBodyMotionEntity::getGravityFactor() const {
     if (arePropertyChangesBlocked())
         return mGravityFactor;
 
     return mMotion->getGravityFactor();
 }
 
-void RigidBodyMotion::setTimeFactor(float factor) {
+void RigidBodyMotionEntity::setTimeFactor(float factor) {
     mMotion->setTimeFactor(factor);
     setMotionFlag(RigidBody::MotionFlag::DirtyMaxVelOrTimeFactor);
 }
 
-float RigidBodyMotion::getTimeFactor() {
+float RigidBodyMotionEntity::getTimeFactor() {
     return mMotion->getTimeFactor();
 }
 
-void RigidBodyMotion::getRotation(hkQuaternionf* quat) {
+void RigidBodyMotionEntity::getRotation(hkQuaternionf* quat) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyTransform);
     *quat = motion->getRotation();
 }
 
-void RigidBodyMotion::processUpdateFlags() {
+void RigidBodyMotionEntity::processUpdateFlags() {
     auto* body = getHkBody();
     auto* body_motion = body->getMotion();
 
@@ -507,7 +508,7 @@ void RigidBodyMotion::processUpdateFlags() {
     }
 }
 
-void RigidBodyMotion::updateRigidBodyMotionExceptState() {
+void RigidBodyMotionEntity::updateRigidBodyMotionExceptState() {
     // Copy everything from our hkpMotion to the rigid body's internal motion
     // except the hkMotionState data.
     const hkMotionState state = *getHkBody()->getMotion()->getMotionState();
@@ -547,7 +548,7 @@ void RigidBodyMotion::updateRigidBodyMotionExceptState() {
         getHkBody()->updateCachedShapeInfo(shape, extent_out);
 }
 
-void RigidBodyMotion::updateRigidBodyMotionExceptStateAndVel() {
+void RigidBodyMotionEntity::updateRigidBodyMotionExceptStateAndVel() {
     // See updateRigidBodyMotionExceptState() for explanations.
     const hkMotionState state = *getHkBody()->getMotion()->getMotionState();
     const auto linear_vel = getHkBody()->getMotion()->getLinearVelocity();
@@ -566,7 +567,7 @@ void RigidBodyMotion::updateRigidBodyMotionExceptStateAndVel() {
     getHkBody()->getMotion()->m_deactivationIntegrateCounter = deactivation_counter;
 }
 
-bool RigidBodyMotion::registerAccessor(RigidBodyMotionProxy* accessor) {
+bool RigidBodyMotionEntity::registerAccessor(RigidBodyMotionSensor* accessor) {
     auto lock = sead::makeScopedLock(mCS);
 
     if (mLinkedAccessors.isFull()) {
@@ -589,7 +590,7 @@ bool RigidBodyMotion::registerAccessor(RigidBodyMotionProxy* accessor) {
     return true;
 }
 
-bool RigidBodyMotion::deregisterAccessor(RigidBodyMotionProxy* accessor) {
+bool RigidBodyMotionEntity::deregisterAccessor(RigidBodyMotionSensor* accessor) {
     auto lock = sead::makeScopedLock(mCS);
 
     const int idx = mLinkedAccessors.indexOf(accessor);
@@ -603,7 +604,7 @@ bool RigidBodyMotion::deregisterAccessor(RigidBodyMotionProxy* accessor) {
     return true;
 }
 
-bool RigidBodyMotion::deregisterAllAccessors() {
+bool RigidBodyMotionEntity::deregisterAllAccessors() {
     auto lock = sead::makeScopedLock(mCS);
 
     // For efficiency reasons, deregister starting from the end of the array.
@@ -618,7 +619,7 @@ bool RigidBodyMotion::deregisterAllAccessors() {
     return true;
 }
 
-void RigidBodyMotion::copyTransformToAllLinkedBodies() {
+void RigidBodyMotionEntity::copyTransformToAllLinkedBodies() {
     auto lock = sead::makeScopedLock(mCS);
 
     for (int i = 0, n = mLinkedAccessors.size(); i < n; ++i) {
@@ -631,7 +632,7 @@ void RigidBodyMotion::copyTransformToAllLinkedBodies() {
     }
 }
 
-void RigidBodyMotion::copyMotionToAllLinkedBodies() {
+void RigidBodyMotionEntity::copyMotionToAllLinkedBodies() {
     auto lock = sead::makeScopedLock(mCS);
 
     for (int i = 0, n = mLinkedAccessors.size(); i < n; ++i) {
@@ -639,7 +640,8 @@ void RigidBodyMotion::copyMotionToAllLinkedBodies() {
     }
 }
 
-void RigidBodyMotion::freeze(bool freeze, bool preserve_velocities, bool preserve_max_impulse) {
+void RigidBodyMotionEntity::freeze(bool freeze, bool preserve_velocities,
+                                   bool preserve_max_impulse) {
     if (!freeze) {
         setLinearVelocity(mLinearVelocity, sead::Mathf::epsilon());
         setAngularVelocity(mAngularVelocity, sead::Mathf::epsilon());
@@ -682,11 +684,11 @@ void RigidBodyMotion::freeze(bool freeze, bool preserve_velocities, bool preserv
         mMaxImpulse = sMaxImpulse;
 }
 
-void RigidBodyMotion::setImpulseEpsilon(float epsilon) {
+void RigidBodyMotionEntity::setImpulseEpsilon(float epsilon) {
     sImpulseEpsilon = epsilon;
 }
 
-void RigidBodyMotion::setMaxImpulse(float max_impulse) {
+void RigidBodyMotionEntity::setMaxImpulse(float max_impulse) {
     sMaxImpulse = max_impulse;
 }
 

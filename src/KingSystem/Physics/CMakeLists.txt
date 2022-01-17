@@ -23,10 +23,10 @@ target_sources(uking PRIVATE
   RigidBody/physRigidBodyAccessor.h
   RigidBody/physRigidBodyFactory.cpp
   RigidBody/physRigidBodyFactory.h
-  RigidBody/physRigidBodyMotion.cpp
-  RigidBody/physRigidBodyMotion.h
-  RigidBody/physRigidBodyMotionProxy.cpp
-  RigidBody/physRigidBodyMotionProxy.h
+  RigidBody/physRigidBodyMotionEntity.cpp
+  RigidBody/physRigidBodyMotionEntity.h
+  RigidBody/physRigidBodyMotionSensor.cpp
+  RigidBody/physRigidBodyMotionSensor.h
   RigidBody/physRigidBodyParam.cpp
   RigidBody/physRigidBodyParam.h
   RigidBody/physRigidBodyRequestMgr.cpp

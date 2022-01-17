@@ -7,8 +7,8 @@
 namespace ksys::phys {
 
 /// A MotionAccessor that uses the RigidBody's internal motion instance directly.
-class RigidBodyMotionProxy : public MotionAccessor {
-    SEAD_RTTI_OVERRIDE(RigidBodyMotionProxy, MotionAccessor)
+class RigidBodyMotionSensor : public MotionAccessor {
+    SEAD_RTTI_OVERRIDE(RigidBodyMotionSensor, MotionAccessor)
 public:
     enum class Flag {
         _40000 = 1 << 18,
@@ -17,7 +17,7 @@ public:
         HasLinkedRigidBodyWithoutFlag10 = 1 << 21,
     };
 
-    explicit RigidBodyMotionProxy(RigidBody* body);
+    explicit RigidBodyMotionSensor(RigidBody* body);
 
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) override;
     void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) override;
@@ -48,7 +48,7 @@ public:
     bool isFlag40000Set() const;
     void copyMotionFromLinkedRigidBody();
 
-    ~RigidBodyMotionProxy() override;
+    ~RigidBodyMotionSensor() override;
 
     bool init(const RigidBodyInstanceParam& params, sead::Heap* heap) override;
     void getRotation(hkQuaternionf* quat) override;
