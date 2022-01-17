@@ -20,6 +20,24 @@ class RigidBody;
 
 class RigidBodyRequestMgr : public sead::hostio::Node {
 public:
+    struct Config {
+        float _0 = 0.6;
+        float _4 = 0.7;
+        float _8 = 1.25;
+        float _c = 1.0;
+        float _10 = 0.2;
+        float _14 = 0.9;
+        float _18 = 0.5;
+        float _1c = 1.0;
+        float _20 = 4.0;
+        // 5000m/s (squared)
+        float linear_velocity_threshold_sq = 2.5e7;
+
+        static Config& get();
+        static bool isLinearVelocityTooHigh(const sead::Vector3f& velocity);
+        static void enableLinearVelocityChecks(bool enable);
+    };
+
     RigidBodyRequestMgr();
     virtual ~RigidBodyRequestMgr();
 

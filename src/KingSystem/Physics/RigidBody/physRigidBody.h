@@ -22,6 +22,7 @@ namespace ksys::phys {
 class MotionAccessor;
 struct RigidBodyInstanceParam;
 class RigidBodyMotion;
+class RigidBodyMotionProxy;
 class RigidContactPoints;
 class UserTag;
 
@@ -127,29 +128,28 @@ public:
     // 0x0000007100f8cfa0
     void x_0();
 
-    void setMotionFlag(MotionFlag);
-
     bool isActive() const;
 
-    // 0x0000007100f8d1f8
     bool isFlag8Set() const;
-    // 0x0000007100f8d204
     bool isMotionFlag1Set() const;
-    // 0x0000007100f8d210
     bool isMotionFlag2Set() const;
-    // 0x0000007100f8d21c
     void sub_7100F8D21C();
     // 0x0000007100f8d308
     bool x_6();
 
-    // 0x0000007100f8d680
+    /// Get the motion accessor if it is a RigidBodyMotion. Returns nullptr otherwise.
     RigidBodyMotion* getMotionAccessor() const;
-    // 0x0000007100f90f28 - for internal use
+    /// Get the motion accessor if it is a RigidBodyMotion. Returns nullptr otherwise.
+    /// For internal use by the physics system.
     RigidBodyMotion* getMotionAccessorForProxy() const;
-    // 0x0000007100f8d70c
-    void* getMotionAccessorType2Stuff();
-    // 0x0000007100f8d7a8
-    void motionAccessorType2Stuff2();
+
+    /// Get the motion accessor if it is a RigidBodyMotionProxy. Returns nullptr otherwise.
+    RigidBodyMotionProxy* getMotionProxy() const;
+    /// Get the linked rigid body from the motion proxy (or nullptr if there is none).
+    RigidBody* getLinkedRigidBody() const;
+    /// Reset the linked rigid body if we have a motion proxy.
+    void resetLinkedRigidBody() const;
+
     // 0x0000007100f8d840
     void x_8();
 
@@ -174,12 +174,8 @@ public:
     void x_14(bool a, bool b, bool c);
     // 0x0000007100f8eabc
     void x_15(bool a, bool b);
-    // 0x0000007100f8ec3c
-    bool setLinearVelocityMaybe(const sead::Vector3f& velocity, float x);
-    // 0x0000007100f8ed74
-    bool setAngularVelocityMaybe(const sead::Vector3f& velocity, float x);
     // 0x0000007100f8ee38
-    void x_16();
+    void resetFrozenState();
 
     u32 addContactLayer(ContactLayer);
     u32 removeContactLayer(ContactLayer);
@@ -193,32 +189,52 @@ public:
     void sub_7100F8F9E8(ReceiverMask*, void*);
     void sub_7100F8FA44(ContactLayer, u32);
 
-    // 0x0000007100f9004c
+    void getPosition(sead::Vector3f* position) const;
+    sead::Vector3f getPosition() const;
+
+    void getRotation(sead::Quatf* rotation) const;
+    sead::Quatf getRotation() const;
+
+    void getPositionAndRotation(sead::Vector3f* position, sead::Quatf* rotation) const;
+
     void getTransform(sead::Matrix34f* mtx) const;
+    sead::Matrix34f getTransform() const;
     // 0x0000007100f8fb08
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions);
 
-    // 0x0000007100f8ec3c
     bool setLinearVelocity(const sead::Vector3f& velocity, float epsilon = sead::Mathf::epsilon());
-    // 0x0000007100f9118c
     void getLinearVelocity(sead::Vector3f* velocity) const;
-    // 0x0000007100f911ac
     sead::Vector3f getLinearVelocity() const;
 
-    // 0x0000007100f8ed74
     bool setAngularVelocity(const sead::Vector3f& velocity, float epsilon = sead::Mathf::epsilon());
-    // 0x0000007100f911f8
     void getAngularVelocity(sead::Vector3f* velocity) const;
-    // 0x0000007100f91218
     sead::Vector3f getAngularVelocity() const;
+
+    // 0x0000007100f91264
+    void getPointVelocity(sead::Vector3f* velocity, const sead::Vector3f& point) const;
 
     // 0x0000007100f92b74
     void computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
                            const hkVector4f& position, const hkQuaternionf& rotation);
 
-    // 0x0000007100f93348
+    void setCenterOfMassInLocal(const sead::Vector3f& center);
+    void getCenterOfMassInLocal(sead::Vector3f* center) const;
+    sead::Vector3f getCenterOfMassInLocal() const;
+
+    void getCenterOfMassInWorld(sead::Vector3f* center) const;
+    sead::Vector3f getCenterOfMassInWorld() const;
+
+    void setMaxLinearVelocity(float max);
+    float getMaxLinearVelocity() const;
+
+    void setMaxAngularVelocity(float max);
+    float getMaxAngularVelocity() const;
+
+    void applyLinearImpulse(const sead::Vector3f& impulse);
+    void applyAngularImpulse(const sead::Vector3f& impulse);
+    void applyPointImpulse(const sead::Vector3f& impulse, const sead::Vector3f& point);
+
     void setMass(float mass);
-    // 0x0000007100f933fc
     float getMass() const;
     // 0x0000007100f93498
     float getMassInv() const;
@@ -247,6 +263,7 @@ public:
     bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
     const auto& getMotionFlags() const { return mMotionFlags; }
     void resetMotionFlagDirect(const MotionFlag flag) { mMotionFlags.reset(flag); }
+    void setMotionFlag(MotionFlag flag);
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
 
@@ -280,7 +297,13 @@ public:
     }
 
 private:
+    ContactLayerType getLayerType() const {
+        return !isMassScaling() ? ContactLayerType::Entity : ContactLayerType::Sensor;
+    }
+
     void createMotionAccessor(sead::Heap* heap);
+    void onInvalidParameter(int code = 0);
+    void notifyUserTag(int code);
 
     sead::CriticalSection mCS;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};
@@ -288,7 +311,7 @@ private:
     sead::BitFlag32 mContactMask{};
     hkpRigidBody* mHkBody;
     UserTag* mUserTag = nullptr;
-    void* _88 = nullptr;
+    RigidContactPoints* mContactPoints = nullptr;
     void* _90 = nullptr;
     u16 _98 = 0;
     RigidBodyAccessor mRigidBodyAccessor;

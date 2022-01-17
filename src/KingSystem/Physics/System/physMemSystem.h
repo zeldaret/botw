@@ -36,6 +36,8 @@ public:
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
 
+    bool isPaused() const;
+
     void initSystemData(sead::Heap* heap);
 
     RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
@@ -50,6 +52,9 @@ public:
                                        ContactLayer layer2, bool enabled);
 
     void removeSystemGroupHandler(SystemGroupHandler* handler);
+
+    void lockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
+    void unlockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
 
 private:
     u8 _28[0xa8 - 0x28];

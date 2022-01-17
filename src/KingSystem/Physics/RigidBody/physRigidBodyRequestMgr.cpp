@@ -4,6 +4,9 @@
 
 namespace ksys::phys {
 
+static RigidBodyRequestMgr::Config sRigidBodyRequestMgrConfig;
+static bool sEnableLinearVelocityChecks;
+
 RigidBodyRequestMgr::RigidBodyRequestMgr() = default;
 
 RigidBodyRequestMgr::~RigidBodyRequestMgr() {
@@ -101,6 +104,21 @@ bool RigidBodyRequestMgr::deregisterMotionAccessor(MotionAccessor* accessor) {
 
     mMotionAccessors.erase(idx);
     return true;
+}
+
+RigidBodyRequestMgr::Config& RigidBodyRequestMgr::Config::get() {
+    return sRigidBodyRequestMgrConfig;
+}
+
+bool RigidBodyRequestMgr::Config::isLinearVelocityTooHigh(const sead::Vector3f& velocity) {
+    if (!sEnableLinearVelocityChecks)
+        return false;
+
+    return velocity.squaredLength() > get().linear_velocity_threshold_sq;
+}
+
+void RigidBodyRequestMgr::Config::enableLinearVelocityChecks(bool enable) {
+    sEnableLinearVelocityChecks = enable;
 }
 
 }  // namespace ksys::phys

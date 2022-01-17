@@ -23,7 +23,7 @@ public:
     void m4() override;
     void m5() override;
     const sead::SafeString& getName() const override;
-    void m7() override;
+    void m7(phys::RigidBody* rigid_body, int a) override;
     const sead::SafeString& getName2() const override;
 
 private:

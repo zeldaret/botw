@@ -14,6 +14,6 @@ void UserTag::m4() {}
 
 void UserTag::m5() {}
 
-void UserTag::m7() {}
+void UserTag::m7(RigidBody* rigid_body, int a) {}
 
 }  // namespace ksys::phys
