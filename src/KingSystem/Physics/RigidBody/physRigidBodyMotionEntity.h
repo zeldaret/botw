@@ -20,6 +20,13 @@ public:
     enum class Flag {
         _1 = 1 << 0,
         _2 = 1 << 1,
+        _4 = 1 << 2,
+        _8 = 1 << 3,
+        _10 = 1 << 4,
+        _20 = 1 << 5,
+        _40 = 1 << 6,
+        _80 = 1 << 7,
+        _100 = 1 << 8,
         _200 = 1 << 9,
     };
 
@@ -79,6 +86,27 @@ public:
     void setGravityFactor(float value);
     float getGravityFactor() const;
 
+    float getWaterBuoyancyScale() const { return mWaterBuoyancyScale; }
+    void setWaterBuoyancyScale(float scale) { mWaterBuoyancyScale = scale; }
+
+    float getWaterFlowEffectiveRate() const { return mWaterFlowEffectiveRate; }
+    void setWaterFlowEffectiveRate(float rate) { mWaterFlowEffectiveRate = rate; }
+
+    float getMagneMassScalingFactor() const { return mMagneMassScalingFactor; }
+    void setMagneMassScalingFactor(float factor) { mMagneMassScalingFactor = factor; }
+
+    float getFrictionScale() const { return mFrictionScale; }
+    void setFrictionScale(float scale) { mFrictionScale = scale; }
+
+    float getRestitutionScale() const { return mRestitutionScale; }
+    void setRestitutionScale(float scale) { mRestitutionScale = scale; }
+
+    float getMaxImpulse() const { return mMaxImpulse; }
+    void setMaxImpulse(float max) { mMaxImpulse = max; }
+
+    float getColImpulseScale() const { return mColImpulseScale; }
+    void setColImpulseScale(float scale) { mColImpulseScale = scale; }
+
     void processUpdateFlags();
     void updateRigidBodyMotionExceptState();
     void updateRigidBodyMotionExceptStateAndVel();
@@ -89,8 +117,13 @@ public:
     void copyTransformToAllLinkedBodies();
     void copyMotionToAllLinkedBodies();
 
+    bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
+    void setFlag(Flag flag) { mFlags.set(flag); }
+    void resetFlag(Flag flag) { mFlags.reset(flag); }
+    void changeFlag(Flag flag, bool on) { mFlags.change(flag, on); }
+
     static void setImpulseEpsilon(float epsilon);
-    static void setMaxImpulse(float max_impulse);
+    static void setDefaultMaxImpulse(float max_impulse);
 
 private:
     hkpMotion*

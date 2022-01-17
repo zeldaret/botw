@@ -243,6 +243,31 @@ void RigidBody::resetLinkedRigidBody() const {
     accessor->resetLinkedRigidBody();
 }
 
+bool RigidBody::setLinkedRigidBody(RigidBody* body) {
+    if (!isSensor())
+        return false;
+
+    if (body != nullptr && hasFlag(Flag::_20))
+        return false;
+
+    if (!mMotionAccessor)
+        return false;
+
+    auto* accessor = sead::DynamicCast<RigidBodyMotionSensor>(mMotionAccessor);
+    if (!accessor)
+        return false;
+
+    accessor->setLinkedRigidBody(body);
+    return true;
+}
+
+bool RigidBody::isSensorMotionFlag40000Set() const {
+    auto* accessor = getSensorMotionAccessor();
+    if (!accessor)
+        return false;
+    return accessor->isFlag40000Set();
+}
+
 MotionType RigidBody::getMotionType() const {
     if (mMotionFlags.isOn(MotionFlag::Dynamic))
         return MotionType::Dynamic;
@@ -274,6 +299,15 @@ void RigidBody::setContactAll() {
 
 void RigidBody::setContactNone() {
     mContactMask.makeAllZero();
+}
+
+void RigidBody::setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) {
+    if (isVectorInvalid(position)) {
+        onInvalidParameter();
+        return;
+    }
+
+    mMotionAccessor->setPosition(position, propagate_to_linked_motions);
 }
 
 void RigidBody::getPosition(sead::Vector3f* position) const {
@@ -502,14 +536,264 @@ float RigidBody::getMassInv() const {
     return getEntityMotionAccessor()->getMassInv();
 }
 
-void RigidBody::lock(bool also_lock_world) {
-    if (also_lock_world)
-        MemSystem::instance()->lockWorld(getLayerType());
+void RigidBody::setInertiaLocal(const sead::Vector3f& inertia) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setInertiaLocal(inertia);
+}
+
+void RigidBody::getInertiaLocal(sead::Vector3f* inertia) const {
+    if (isEntity()) {
+        getEntityMotionAccessor()->getInertiaLocal(inertia);
+    } else {
+        inertia->set(0, 0, 0);
+    }
+}
+
+void RigidBody::setLinearDamping(float value) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setLinearDamping(value);
+}
+
+float RigidBody::getLinearDamping() const {
+    if (!isEntity())
+        return 0.0;
+    return getEntityMotionAccessor()->getLinearDamping();
+}
+
+void RigidBody::setAngularDamping(float value) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setAngularDamping(value);
+}
+
+float RigidBody::getAngularDamping() const {
+    if (!isEntity())
+        return 0.0;
+    return getEntityMotionAccessor()->getAngularDamping();
+}
+
+void RigidBody::setGravityFactor(float value) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->setGravityFactor(value);
+}
+
+float RigidBody::getGravityFactor() const {
+    if (!mMotionAccessor || !isEntity())
+        return 1.0;
+    return getEntityMotionAccessor()->getGravityFactor();
+}
+
+bool RigidBody::setTimeFactor(float value) {
+    if (!mMotionAccessor)
+        return false;
+
+    const float current_time_factor = getTimeFactor();
+    if (sead::Mathf::equalsEpsilon(current_time_factor, value, 0.001))
+        return false;
+
+    if (hasFlag(Flag::_80000))
+        return false;
+
+    mMotionAccessor->setTimeFactor(value);
+
+    if (value != 0.0 && current_time_factor != 0.0 && isEntity()) {
+        setLinearDamping(getLinearDamping());
+        setAngularDamping(getAngularDamping());
+    }
+
+    return true;
+}
+
+float RigidBody::getTimeFactor() const {
+    return mMotionAccessor->getTimeFactor();
+}
+
+sead::Vector3f RigidBody::getInertiaLocal() const {
+    sead::Vector3f inertia;
+    getInertiaLocal(&inertia);
+    return inertia;
+}
+
+float RigidBody::m12(float x, float y) {
+    return y;
+}
+
+float RigidBody::m4() {
+    return 0.0;
+}
+
+void RigidBody::setWaterBuoyancyScale(float scale) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setWaterBuoyancyScale(scale);
+}
+
+float RigidBody::getWaterBuoyancyScale() const {
+    if (!isEntity())
+        return 0.0;
+    return getEntityMotionAccessor()->getWaterBuoyancyScale();
+}
+
+void RigidBody::setWaterFlowEffectiveRate(float rate) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setWaterFlowEffectiveRate(rate);
+}
+
+float RigidBody::getWaterFlowEffectiveRate() const {
+    if (!isEntity())
+        return 0.0;
+    return getEntityMotionAccessor()->getWaterFlowEffectiveRate();
+}
+
+void RigidBody::setMagneMassScalingFactor(float factor) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setMagneMassScalingFactor(factor);
+}
+
+float RigidBody::getMagneMassScalingFactor() const {
+    if (!isEntity())
+        return 0.0;
+    return getEntityMotionAccessor()->getMagneMassScalingFactor();
+}
+
+void RigidBody::setFrictionScale(float scale) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setFrictionScale(scale);
+}
+
+float RigidBody::getFrictionScale() const {
+    if (!isEntity() || !mMotionAccessor)
+        return 1.0;
+    return getEntityMotionAccessor()->getFrictionScale();
+}
+
+void RigidBody::setRestitutionScale(float scale) {
+    if (!isEntity())
+        return;
+    scale = sead::Mathf::clamp(scale, 0.0, 1.0);
+    getEntityMotionAccessor()->setRestitutionScale(scale);
+}
+
+float RigidBody::getRestitutionScale() const {
+    if (!isEntity() || !mMotionAccessor)
+        return 1.0;
+    return getEntityMotionAccessor()->getRestitutionScale();
+}
+
+float RigidBody::getEffectiveRestitutionScale() const {
+    if (hasFlag(Flag::_2000) || hasFlag(Flag::_4000) || hasFlag(Flag::_8000) ||
+        hasFlag(Flag::_10000)) {
+        return getRestitutionScale() * 0.5f;
+    }
+
+    return getRestitutionScale();
+}
+
+void RigidBody::setMaxImpulse(float max) {
+    if (!isEntity())
+        return;
+    getEntityMotionAccessor()->setMaxImpulse(max);
+}
+
+float RigidBody::getMaxImpulse() const {
+    if (!isEntity() || !mMotionAccessor)
+        return 1.0;
+    return getEntityMotionAccessor()->getMaxImpulse();
+}
+
+void RigidBody::clearEntityMotionFlag4(bool clear) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_4, !clear);
+}
+
+bool RigidBody::isEntityMotionFlag4Off() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return !getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_4);
+}
+
+void RigidBody::setEntityMotionFlag8(bool set) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_8, set);
+}
+
+bool RigidBody::isEntityMotionFlag8On() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_8);
+}
+
+void RigidBody::clearEntityMotionFlag10(bool clear) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_10, !clear);
+}
+
+bool RigidBody::isEntityMotionFlag10Off() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return !getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_10);
+}
+
+void RigidBody::clearEntityMotionFlag20(bool clear) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_20, !clear);
+}
+
+bool RigidBody::isEntityMotionFlag20Off() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return !getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_20);
+}
+
+void RigidBody::setColImpulseScale(float scale) {
+    if (!isEntity())
+        return;
+    scale = sead::Mathf::max(scale, 0.0);
+    getEntityMotionAccessor()->setColImpulseScale(scale);
+}
+
+float RigidBody::getColImpulseScale() const {
+    if (!isEntity() || !mMotionAccessor)
+        return 1.0;
+    return getEntityMotionAccessor()->getColImpulseScale();
+}
+
+void RigidBody::resetPosition() {
+    // debug logging?
+    [[maybe_unused]] sead::Vector3f position = getPosition();
+    setPosition(sead::Vector3f::zero, true);
+}
+
+const char* RigidBody::getName() {
+    return mUserTag ? mUserTag->getName().cstr() : getHkBodyName().cstr();
+}
+
+void RigidBody::lock() {
     mCS.lock();
 }
 
-void RigidBody::unlock(bool also_unlock_world) {
+void RigidBody::lock(bool also_lock_world) {
+    if (also_lock_world)
+        MemSystem::instance()->lockWorld(getLayerType());
+    lock();
+}
+
+void RigidBody::unlock() {
     mCS.unlock();
+}
+
+void RigidBody::unlock(bool also_unlock_world) {
+    unlock();
     if (also_unlock_world)
         MemSystem::instance()->unlockWorld(getLayerType());
 }

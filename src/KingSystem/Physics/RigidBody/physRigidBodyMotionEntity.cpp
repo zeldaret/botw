@@ -688,7 +688,7 @@ void RigidBodyMotionEntity::setImpulseEpsilon(float epsilon) {
     sImpulseEpsilon = epsilon;
 }
 
-void RigidBodyMotionEntity::setMaxImpulse(float max_impulse) {
+void RigidBodyMotionEntity::setDefaultMaxImpulse(float max_impulse) {
     sMaxImpulse = max_impulse;
 }
 

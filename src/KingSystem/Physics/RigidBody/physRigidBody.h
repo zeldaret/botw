@@ -103,18 +103,10 @@ public:
     ~RigidBody() override;
 
     // FIXME: types and names
-    virtual void m4();
+    virtual float m4();
     virtual void m5();
     virtual void m6();
     virtual void m7();
-    virtual void m8(float);
-    // FIXME: should be pure
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual const char* getName();
 
     bool initMotionAccessorForDynamicMotion(sead::Heap* heap);
     bool initMotionAccessor(const RigidBodyInstanceParam& param, sead::Heap* heap,
@@ -149,6 +141,9 @@ public:
     RigidBody* getLinkedRigidBody() const;
     /// Reset the linked rigid body if we have a sensor motion accessor.
     void resetLinkedRigidBody() const;
+    /// Set the linked rigid body. This can only be done for sensor rigid bodies.
+    bool setLinkedRigidBody(RigidBody* body);
+    bool isSensorMotionFlag40000Set() const;
 
     // 0x0000007100f8d840
     void x_8();
@@ -189,6 +184,7 @@ public:
     void sub_7100F8F9E8(ReceiverMask*, void*);
     void sub_7100F8FA44(ContactLayer, u32);
 
+    void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions);
     void getPosition(sead::Vector3f* position) const;
     sead::Vector3f getPosition() const;
 
@@ -210,7 +206,6 @@ public:
     void getAngularVelocity(sead::Vector3f* velocity) const;
     sead::Vector3f getAngularVelocity() const;
 
-    // 0x0000007100f91264
     void getPointVelocity(sead::Vector3f* velocity, const sead::Vector3f& point) const;
 
     // 0x0000007100f92b74
@@ -236,28 +231,57 @@ public:
 
     void setMass(float mass);
     float getMass() const;
-    // 0x0000007100f93498
     float getMassInv() const;
 
-    // 0x0000007100f93534
     void setInertiaLocal(const sead::Vector3f& inertia);
-    // 0x0000007100f935dc
     void getInertiaLocal(sead::Vector3f* inertia) const;
-    // 0x0000007100f9368c
     sead::Vector3f getInertiaLocal() const;
 
-    // 0x0000007100f93750
     void setLinearDamping(float value);
-    // 0x0000007100f93804
     float getLinearDamping() const;
-    // 0x0000007100f938a0
+
     void setAngularDamping(float value);
-    // 0x0000007100f93954
     float getAngularDamping() const;
-    // 0x0000007100f939f0
+
     void setGravityFactor(float value);
-    // 0x0000007100f93a9c
     float getGravityFactor() const;
+
+    virtual bool setTimeFactor(float value);
+    float getTimeFactor() const;
+
+    void setWaterBuoyancyScale(float scale);
+    float getWaterBuoyancyScale() const;
+
+    void setWaterFlowEffectiveRate(float rate);
+    float getWaterFlowEffectiveRate() const;
+
+    void setMagneMassScalingFactor(float factor);
+    float getMagneMassScalingFactor() const;
+
+    void setFrictionScale(float scale);
+    float getFrictionScale() const;
+
+    void setRestitutionScale(float scale);
+    float getRestitutionScale() const;
+    float getEffectiveRestitutionScale() const;
+
+    void setMaxImpulse(float max);
+    float getMaxImpulse() const;
+
+    void setColImpulseScale(float scale);
+    float getColImpulseScale() const;
+
+    void clearEntityMotionFlag4(bool clear);
+    bool isEntityMotionFlag4Off() const;
+
+    void setEntityMotionFlag8(bool set);
+    bool isEntityMotionFlag8On() const;
+
+    void clearEntityMotionFlag10(bool clear);
+    bool isEntityMotionFlag10Off() const;
+
+    void clearEntityMotionFlag20(bool clear);
+    bool isEntityMotionFlag20Off() const;
 
     bool isSensor() const { return mFlags.isOn(Flag::IsSensor); }
     bool isEntity() const { return !mFlags.isOn(Flag::IsSensor); }
@@ -275,9 +299,9 @@ public:
     Type getType() const { return mType; }
     bool isCharacterControllerType() const { return mType == Type::CharacterController; }
 
-    // 0x0000007100f969a0
+    void lock();
     void lock(bool also_lock_world);
-    // 0x0000007100f969e8
+    void unlock();
     void unlock(bool also_unlock_world);
 
     hkpMotion* getMotion() const;
@@ -300,6 +324,14 @@ public:
     [[nodiscard]] auto makeScopedLock(bool also_lock_world) {
         return ScopedLock(this, also_lock_world);
     }
+
+    // FIXME: should be pure
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual float m12(float x, float y);
+    virtual void resetPosition();
+    virtual const char* getName();
 
 private:
     void createMotionAccessor(sead::Heap* heap);
