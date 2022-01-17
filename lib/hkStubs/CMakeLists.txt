@@ -65,6 +65,11 @@ add_library(hkStubs OBJECT
 
   Havok/Geometry/Collide/Shapes/hkcdShape.h
 
+  Havok/Physics/Constraint/hkpConstraintInstance.h
+  Havok/Physics/Constraint/Atom/hkpConstraintAtom.h
+  Havok/Physics/Constraint/Data/hkpConstraintData.h
+  Havok/Physics/Constraint/Data/hkpConstraintInfo.h
+
   Havok/Physics2012/Collide/Agent/hkpCollisionInput.h
   Havok/Physics2012/Collide/Agent/hkpCollisionQualityInfo.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCdBody.h
