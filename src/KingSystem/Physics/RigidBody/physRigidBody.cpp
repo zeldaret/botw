@@ -326,7 +326,7 @@ bool RigidBody::setLinearVelocity(const sead::Vector3f& velocity, float epsilon)
         return false;
     }
 
-    if (!isSensor() && RigidBodyRequestMgr::Config::isLinearVelocityTooHigh(velocity)) {
+    if (isEntity() && RigidBodyRequestMgr::Config::isLinearVelocityTooHigh(velocity)) {
         onInvalidParameter(1);
         return false;
     }
@@ -443,7 +443,7 @@ void RigidBody::applyLinearImpulse(const sead::Vector3f& impulse) {
         return;
     }
 
-    if (!isSensor())
+    if (isEntity())
         getEntityMotionAccessor()->applyLinearImpulse(impulse);
 }
 
@@ -459,7 +459,7 @@ void RigidBody::applyAngularImpulse(const sead::Vector3f& impulse) {
         return;
     }
 
-    if (!isSensor())
+    if (isEntity())
         getEntityMotionAccessor()->applyAngularImpulse(impulse);
 }
 
@@ -480,24 +480,24 @@ void RigidBody::applyPointImpulse(const sead::Vector3f& impulse, const sead::Vec
         return;
     }
 
-    if (!isSensor())
+    if (isEntity())
         getEntityMotionAccessor()->applyPointImpulse(impulse, point);
 }
 
 void RigidBody::setMass(float mass) {
-    if (isSensor())
+    if (!isEntity())
         return;
     getEntityMotionAccessor()->setMass(mass);
 }
 
 float RigidBody::getMass() const {
-    if (isSensor())
+    if (!isEntity())
         return 0.0;
     return getEntityMotionAccessor()->getMass();
 }
 
 float RigidBody::getMassInv() const {
-    if (isSensor())
+    if (!isEntity())
         return 0.0;
     return getEntityMotionAccessor()->getMassInv();
 }

@@ -286,7 +286,7 @@ void RigidBodyMotionSensor::setLinkedRigidBody(RigidBody* body) {
     }
 
     if (body) {
-        if (!body->isSensor() && mFlags.isOff(Flag::HasLinkedRigidBodyWithoutFlag10)) {
+        if (body->isEntity() && mFlags.isOff(Flag::HasLinkedRigidBodyWithoutFlag10)) {
             RigidBodyMotionEntity* accessor = body->getEntityMotionAccessorForSensor();
             if (accessor && accessor->registerAccessor(this)) {
                 mLinkedRigidBody = body;

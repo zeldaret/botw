@@ -260,6 +260,7 @@ public:
     float getGravityFactor() const;
 
     bool isSensor() const { return mFlags.isOn(Flag::IsSensor); }
+    bool isEntity() const { return !mFlags.isOn(Flag::IsSensor); }
     ContactLayerType getLayerType() const {
         return isSensor() ? ContactLayerType::Sensor : ContactLayerType::Entity;
     }
