@@ -31,6 +31,7 @@ public:
     HK_FORCE_INLINE void setXYZ(hkVector4fParameter xyz);
     HK_FORCE_INLINE void setXYZ_W(hkVector4fParameter xyz, hkSimdFloat32Parameter w);
     HK_FORCE_INLINE void setAll(hkFloat32 x);
+    HK_FORCE_INLINE void setAll(hkSimdFloat32Parameter x);
     HK_FORCE_INLINE void setZero();
 
     // ========== Vector operations

@@ -55,6 +55,10 @@ inline void hkVector4f::setAll(hkReal x) {
     v = {x, x, x, x};
 }
 
+inline void hkVector4f::setAll(hkSimdFloat32Parameter x) {
+    v = x.toQuad();
+}
+
 inline void hkVector4f::setZero() {
     setAll(0);
 }
@@ -96,11 +100,7 @@ inline void hkVector4f::mul(hkSimdFloat32Parameter a) {
 }
 
 inline void hkVector4f::setMul(hkVector4fParameter a, hkSimdFloat32Parameter r) {
-#ifdef HK_VECTOR4F_AARCH64_NEON
-    v = vmulq_n_f32(a.v, r);
-#else
-    v *= r.val();
-#endif
+    v = a.v * r.toQuad();
 }
 
 inline void hkVector4f::setMul(hkSimdFloat32Parameter r, hkVector4fParameter a) {
@@ -108,19 +108,11 @@ inline void hkVector4f::setMul(hkSimdFloat32Parameter r, hkVector4fParameter a) 
 }
 
 inline void hkVector4f::setAdd(hkVector4fParameter a, hkSimdFloat32Parameter b) {
-#ifdef HK_VECTOR4F_AARCH64_NEON
-    v = vaddq_f32(a.v, vdupq_n_f32(b));
-#else
-    v += b.val();
-#endif
+    v = a.v + b.toQuad();
 }
 
 inline void hkVector4f::setSub(hkVector4fParameter a, hkSimdFloat32Parameter b) {
-#ifdef HK_VECTOR4F_AARCH64_NEON
-    v = vsubq_f32(a.v, vdupq_n_f32(b));
-#else
-    v -= b.val();
-#endif
+    v = a.v - b.toQuad();
 }
 
 inline void hkVector4f::setReciprocal(hkVector4fParameter a) {

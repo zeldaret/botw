@@ -2,6 +2,7 @@
 
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
+#include <math/seadBoundBox.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
@@ -98,21 +99,27 @@ public:
         _80000 = 1 << 19,
     };
 
+    class ScopedLock {
+    public:
+        explicit ScopedLock(RigidBody* body, bool also_lock_world)
+            : mBody(body), mAlsoLockWorld(also_lock_world) {
+            mBody->lock(also_lock_world);
+        }
+        ~ScopedLock() { mBody->unlock(mAlsoLockWorld); }
+        ScopedLock(const ScopedLock&) = delete;
+        auto operator=(const ScopedLock&) = delete;
+
+    private:
+        RigidBody* mBody;
+        bool mAlsoLockWorld;
+    };
+
     RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
               const sead::SafeString& name, sead::Heap* heap, bool a7);
     ~RigidBody() override;
 
     // FIXME: types and names
     virtual float m4();
-    virtual void m5();
-
-    /// Recalculate inertia, volume and center of mass based on the shape and mass of the rigid body
-    /// and update this rigid body to match the computed values.
-    virtual void resetInertiaAndCenterOfMass();
-
-    /// All three parameters may be null.
-    virtual void computeShapeVolumeMassProperties(float* volume, sead::Vector3f* center_of_mass,
-                                                  sead::Vector3f* inertia_tensor);
 
     bool initMotionAccessorForDynamicMotion(sead::Heap* heap);
     bool initMotionAccessor(const RigidBodyInstanceParam& param, sead::Heap* heap,
@@ -193,6 +200,9 @@ public:
     void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions);
     void getPosition(sead::Vector3f* position) const;
     sead::Vector3f getPosition() const;
+    virtual void logPosition() const;
+    void getAabbInLocal(sead::BoundBox3f* aabb) const;
+    void getAabbInWorld(sead::BoundBox3f* aabb) const;
 
     void getRotation(sead::Quatf* rotation) const;
     sead::Quatf getRotation() const;
@@ -243,6 +253,14 @@ public:
     void getInertiaLocal(sead::Vector3f* inertia) const;
     sead::Vector3f getInertiaLocal() const;
 
+    /// Recalculate inertia, volume and center of mass based on the shape and mass of the rigid body
+    /// and update this rigid body to match the computed values.
+    virtual void resetInertiaAndCenterOfMass();
+
+    /// All three parameters may be null.
+    virtual void computeShapeVolumeMassProperties(float* volume, sead::Vector3f* center_of_mass,
+                                                  sead::Vector3f* inertia_tensor);
+
     void setLinearDamping(float value);
     float getLinearDamping() const;
 
@@ -289,6 +307,9 @@ public:
     void clearEntityMotionFlag20(bool clear);
     bool isEntityMotionFlag20Off() const;
 
+    void setEntityMotionFlag80(bool set);
+    bool isEntityMotionFlag80On() const;
+
     bool isSensor() const { return mFlags.isOn(Flag::IsSensor); }
     bool isEntity() const { return !mFlags.isOn(Flag::IsSensor); }
     ContactLayerType getLayerType() const {
@@ -316,36 +337,33 @@ public:
     void setEntityMotionFlag40(bool set);
     bool isEntityMotionFlag40On() const;
 
+    void clearFlag2000000(bool clear);
+    void clearFlag4000000(bool clear);
+    void clearFlag8000000(bool clear);
+
     void lock();
     void lock(bool also_lock_world);
     void unlock();
     void unlock(bool also_unlock_world);
-
-    hkpMotion* getMotion() const;
-
-    class ScopedLock {
-    public:
-        explicit ScopedLock(RigidBody* body, bool also_lock_world)
-            : mBody(body), mAlsoLockWorld(also_lock_world) {
-            mBody->lock(also_lock_world);
-        }
-        ~ScopedLock() { mBody->unlock(mAlsoLockWorld); }
-        ScopedLock(const ScopedLock&) = delete;
-        auto operator=(const ScopedLock&) = delete;
-
-    private:
-        RigidBody* mBody;
-        bool mAlsoLockWorld;
-    };
-
     [[nodiscard]] auto makeScopedLock(bool also_lock_world) {
         return ScopedLock(this, also_lock_world);
     }
 
+    hkpMotion* getMotion() const;
+
+    void setEntityMotionFlag1(bool set);
+    bool isEntityMotionFlag1On() const;
+
+    void setEntityMotionFlag100(bool set);
+    bool isEntityMotionFlag100On() const;
+
+    void setEntityMotionFlag200(bool set);
+    bool isEntityMotionFlag200On() const;
+
     // FIXME: should be pure
     virtual void m9();
-    virtual void m10();
-    virtual void m11();
+    virtual void* m10();
+    virtual void* m11();
     virtual float m12(float x, float y);
     virtual void resetPosition();
     virtual const char* getName();
@@ -354,6 +372,7 @@ private:
     void createMotionAccessor(sead::Heap* heap);
     void onInvalidParameter(int code = 0);
     void notifyUserTag(int code);
+    void updateDeactivation();
 
     sead::CriticalSection mCS;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};

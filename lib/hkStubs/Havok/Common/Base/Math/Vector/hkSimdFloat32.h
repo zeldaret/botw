@@ -60,6 +60,8 @@ public:
 
     void setAbs(hkSimdFloat32Parameter x);
 
+    HK_FORCE_INLINE m128 toQuad() const;
+
     Storage m_real;
 };
 
@@ -148,5 +150,13 @@ inline void hkSimdFloat32::setAbs(hkSimdFloat32Parameter x) {
 #else
     for (int i = 0; i < 4; ++i)
         m_real[i] = std::abs(x.m_real[i]);
+#endif
+}
+
+inline m128 hkSimdFloat32::toQuad() const {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    return vcombine_f32(m_real, m_real);
+#else
+    return m_real;
 #endif
 }

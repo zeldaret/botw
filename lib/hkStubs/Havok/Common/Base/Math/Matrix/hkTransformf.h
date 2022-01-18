@@ -21,6 +21,8 @@ public:
 
     HK_FORCE_INLINE void set(const hkRotationf& r, hkVector4fParameter t);
     HK_FORCE_INLINE void set(hkQuaternionfParameter q, hkVector4fParameter t);
+
+    HK_FORCE_INLINE static const hkTransformf& getIdentity();
     HK_FORCE_INLINE void setIdentity();
 
     hkRotationf m_rotation;
@@ -54,6 +56,10 @@ inline void hkTransformf::set(const hkRotationf& r, const hkVector4f& t) {
 inline void hkTransformf::set(const hkQuaternionf& q, const hkVector4f& t) {
     m_rotation.set(q);
     m_translation = t;
+}
+
+inline const hkTransformf& hkTransformf::getIdentity() {
+    return reinterpret_cast<const hkTransformf&>(g_vectorfConstants[HK_QUADREAL_1000]);
 }
 
 inline void hkTransformf::setIdentity() {

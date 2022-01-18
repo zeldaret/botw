@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h>
 #include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
 #include <Havok/Physics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
@@ -653,14 +654,14 @@ float RigidBody::getWaterFlowEffectiveRate() const {
 }
 
 void RigidBody::setMagneMassScalingFactor(float factor) {
-    if (!isEntity())
+    if (!isEntity() || !mMotionAccessor)
         return;
     getEntityMotionAccessor()->setMagneMassScalingFactor(factor);
 }
 
 float RigidBody::getMagneMassScalingFactor() const {
-    if (!isEntity())
-        return 0.0;
+    if (!isEntity() || !mMotionAccessor)
+        return -1.0;
     return getEntityMotionAccessor()->getMagneMassScalingFactor();
 }
 
@@ -758,6 +759,18 @@ bool RigidBody::isEntityMotionFlag20Off() const {
     return !getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_20);
 }
 
+void RigidBody::setEntityMotionFlag80(bool set) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_80, set);
+}
+
+bool RigidBody::isEntityMotionFlag80On() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_80);
+}
+
 void RigidBody::setColImpulseScale(float scale) {
     if (!isEntity())
         return;
@@ -828,6 +841,50 @@ void RigidBody::computeShapeVolumeMassProperties(float* volume, sead::Vector3f* 
     }
 }
 
+void RigidBody::clearFlag2000000(bool clear) {
+    if (mFlags.isOff(Flag::_2000000) == clear)
+        return;
+
+    mFlags.change(Flag::_2000000, !clear);
+
+    if (isFlag8Set())
+        setMotionFlag(MotionFlag::_10000);
+    else
+        updateDeactivation();
+}
+
+void RigidBody::clearFlag4000000(bool clear) {
+    if (mFlags.isOff(Flag::_4000000) == clear)
+        return;
+
+    mFlags.change(Flag::_4000000, !clear);
+
+    if (isFlag8Set())
+        setMotionFlag(MotionFlag::_10000);
+    else
+        updateDeactivation();
+}
+
+void RigidBody::clearFlag8000000(bool clear) {
+    if (mFlags.isOff(Flag::_8000000) == clear)
+        return;
+
+    mFlags.change(Flag::_8000000, !clear);
+
+    if (isFlag8Set())
+        setMotionFlag(MotionFlag::_10000);
+    else
+        updateDeactivation();
+}
+
+void* RigidBody::m10() {
+    return nullptr;
+}
+
+void* RigidBody::m11() {
+    return nullptr;
+}
+
 void RigidBody::resetPosition() {
     // debug logging?
     [[maybe_unused]] sead::Vector3f position = getPosition();
@@ -836,6 +893,39 @@ void RigidBody::resetPosition() {
 
 const char* RigidBody::getName() {
     return mUserTag ? mUserTag->getName().cstr() : getHkBodyName().cstr();
+}
+
+void RigidBody::logPosition() const {
+    sead::Vector3f position;
+    getPosition(&position);
+    // debug logging?
+}
+
+static void convertHkAabb(const hkAabb& hk_aabb, sead::BoundBox3f* aabb) {
+    hkVector4f center;
+    hk_aabb.getCenter(center);
+
+    hkVector4f extents;
+    hk_aabb.getExtents(extents);
+    auto half_extents = 0.5f * toVec3(extents);
+
+    aabb->setMin(toVec3(center) - half_extents);
+    aabb->setMax(toVec3(center) + half_extents);
+}
+
+void RigidBody::getAabbInLocal(sead::BoundBox3f* aabb) const {
+    hkAabb hk_aabb;
+    getHkBody()->getCollidable()->getShape()->getAabb(hkTransformf::getIdentity(), 0.0, hk_aabb);
+    convertHkAabb(hk_aabb, aabb);
+}
+
+// NON_MATCHING: paired stores in convertHkAabb that shouldn't be paired
+void RigidBody::getAabbInWorld(sead::BoundBox3f* aabb) const {
+    hkTransformf hk_transform;
+    toHkTransform(&hk_transform, getTransform());
+    hkAabb hk_aabb;
+    getHkBody()->getCollidable()->getShape()->getAabb(hk_transform, 0.0, hk_aabb);
+    convertHkAabb(hk_aabb, aabb);
 }
 
 void RigidBody::lock() {
@@ -862,6 +952,42 @@ hkpMotion* RigidBody::getMotion() const {
     return getHkBody()->getMotion();
 }
 
+void RigidBody::setEntityMotionFlag1(bool set) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_1, set);
+}
+
+bool RigidBody::isEntityMotionFlag1On() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_1);
+}
+
+void RigidBody::setEntityMotionFlag100(bool set) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_100, set);
+}
+
+bool RigidBody::isEntityMotionFlag100On() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_100);
+}
+
+void RigidBody::setEntityMotionFlag200(bool set) {
+    if (!isEntity() || !mMotionAccessor)
+        return;
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_200, set);
+}
+
+bool RigidBody::isEntityMotionFlag200On() const {
+    if (!isEntity() || !mMotionAccessor)
+        return false;
+    return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_200);
+}
+
 void RigidBody::onInvalidParameter(int code) {
     sead::Vector3f pos, lin_vel, ang_vel;
     mRigidBodyAccessor.getPosition(&pos);
@@ -874,6 +1000,15 @@ void RigidBody::onInvalidParameter(int code) {
 void RigidBody::notifyUserTag(int code) {
     if (mUserTag)
         mUserTag->m7(this, code);
+}
+
+void RigidBody::updateDeactivation() {
+    if (mFlags.isOn(Flag::_2000000) || mFlags.isOn(Flag::_4000000) || mFlags.isOn(Flag::_8000000)) {
+        if (getHkBody()->isDeactivationEnabled())
+            mHkBody->enableDeactivation(false);
+    } else if (!getHkBody()->isDeactivationEnabled()) {
+        mHkBody->enableDeactivation(true);
+    }
 }
 
 }  // namespace ksys::phys
