@@ -525,7 +525,7 @@ void RigidBodyMotionEntity::updateRigidBodyMotionExceptState() {
     // Fix up pointers and invalidate cached info.
     switch (mBody->getMotionType()) {
     case MotionType::Dynamic:
-        getHkBody()->setQualityType(mBody->hasFlag(RigidBody::Flag::IsCharacterController) ?
+        getHkBody()->setQualityType(mBody->hasFlag(RigidBody::Flag::HighQualityCollidable) ?
                                         HK_COLLIDABLE_QUALITY_BULLET :
                                         HK_COLLIDABLE_QUALITY_DEBRIS);
         break;
@@ -561,7 +561,7 @@ void RigidBodyMotionEntity::updateRigidBodyMotionExceptStateAndVel() {
     *getHkBody()->getMotion()->getMotionState() = state;
     getHkBody()->getMotion()->m_linearVelocity = linear_vel;
     getHkBody()->getMotion()->m_angularVelocity = angular_vel;
-    getHkBody()->setQualityType(mBody->hasFlag(RigidBody::Flag::IsCharacterController) ?
+    getHkBody()->setQualityType(mBody->hasFlag(RigidBody::Flag::HighQualityCollidable) ?
                                     HK_COLLIDABLE_QUALITY_BULLET :
                                     HK_COLLIDABLE_QUALITY_DEBRIS);
     getHkBody()->getMotion()->m_deactivationIntegrateCounter = deactivation_counter;

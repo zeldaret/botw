@@ -54,7 +54,8 @@ public:
         _10 = 1 << 4,
         _20 = 1 << 5,
         _40 = 1 << 6,
-        IsCharacterController = 1 << 7,
+        /// Indicates whether the Havok collidable has been configured to use a higher quality type.
+        HighQualityCollidable = 1 << 7,
         _100 = 1 << 8,
         _200 = 1 << 9,
         _400 = 1 << 10,

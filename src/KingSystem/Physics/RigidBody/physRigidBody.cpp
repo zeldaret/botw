@@ -44,7 +44,7 @@ RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_bo
         mHkBody->m_responseModifierFlags |= hkpResponseModifier::Flags::MASS_SCALING;
     }
 
-    mFlags.change(Flag::IsCharacterController, isCharacterControllerType());
+    mFlags.change(Flag::HighQualityCollidable, isCharacterControllerType());
     mFlags.change(Flag::IsSensor, layer_type == ContactLayerType::Sensor);
     mFlags.change(Flag::_10, a7);
     mFlags.set(Flag::_100);
@@ -370,7 +370,7 @@ void RigidBody::updateCollidableQualityType(bool high_quality) {
 
     if (isCharacterControllerType()) {
         setCollidableQualityType(HK_COLLIDABLE_QUALITY_CHARACTER);
-        mFlags.set(Flag::IsCharacterController);
+        mFlags.set(Flag::HighQualityCollidable);
         return;
     }
 
@@ -392,7 +392,7 @@ void RigidBody::updateCollidableQualityType(bool high_quality) {
         break;
     }
 
-    mFlags.change(Flag::IsCharacterController, high_quality);
+    mFlags.change(Flag::HighQualityCollidable, high_quality);
 }
 
 void RigidBody::setCollidableQualityType(hkpCollidableQualityType quality) {
