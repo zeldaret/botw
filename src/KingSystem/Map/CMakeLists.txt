@@ -22,4 +22,6 @@ target_sources(uking PRIVATE
   mapRail.h
   mapStagePreActorCache.cpp
   mapStagePreActorCache.h
+  mapPlacementMap.cpp
+  mapPlacementMap.h
 )
