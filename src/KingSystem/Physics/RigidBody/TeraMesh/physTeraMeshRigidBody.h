@@ -8,6 +8,8 @@ namespace ksys::phys {
 class TeraMeshRigidBody : public RigidBody {
 public:
     TeraMeshRigidBody(hkpRigidBody* hk_body, sead::Heap* heap);
+
+    void m9() override;
 };
 
 }  // namespace ksys::phys

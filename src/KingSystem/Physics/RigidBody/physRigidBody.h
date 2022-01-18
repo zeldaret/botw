@@ -118,7 +118,6 @@ public:
               const sead::SafeString& name, sead::Heap* heap, bool a7);
     ~RigidBody() override;
 
-    // FIXME: types and names
     virtual float m4();
 
     bool initMotionAccessorForDynamicMotion(sead::Heap* heap);
@@ -360,8 +359,7 @@ public:
     void setEntityMotionFlag200(bool set);
     bool isEntityMotionFlag200On() const;
 
-    // FIXME: should be pure
-    virtual void m9();
+    virtual void m9() = 0;
     virtual void* m10();
     virtual void* m11();
     virtual float m12(float x, float y);
