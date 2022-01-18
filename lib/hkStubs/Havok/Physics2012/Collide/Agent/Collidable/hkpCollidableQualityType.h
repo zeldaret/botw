@@ -1,6 +1,6 @@
 #pragma once
 
-enum hkpCollidableQualityType {
+enum hkpCollidableQualityType : int {
     HK_COLLIDABLE_QUALITY_INVALID = -1,
     HK_COLLIDABLE_QUALITY_FIXED = 0,
     HK_COLLIDABLE_QUALITY_KEYFRAMED,

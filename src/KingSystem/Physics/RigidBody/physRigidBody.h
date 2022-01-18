@@ -12,6 +12,7 @@
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
+enum hkpCollidableQualityType : int;
 class hkQuaternionf;
 class hkVector4f;
 class hkpRigidBody;
@@ -129,7 +130,6 @@ public:
 
     sead::SafeString getHkBodyName() const;
 
-    // 0x0000007100f8cfa0
     void x_0();
 
     bool isActive() const;
@@ -175,14 +175,12 @@ public:
     // 0x0000007100f8e7b4
     void setContactPoints(RigidContactPoints* points);
 
-    // 0x0000007100f8e7e8
-    void x_13(bool a, bool b);
-    // 0x0000007100f8e8f0
-    void x_14(bool a, bool b, bool c);
-    // 0x0000007100f8eabc
-    void x_15(bool a, bool b);
-    // 0x0000007100f8ee38
+    void freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse);
+    void setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty);
+    void setFixed(bool fixed, bool preserve_velocities);
     void resetFrozenState();
+
+    void updateCollidableQualityType(bool high_quality);
 
     u32 addContactLayer(ContactLayer);
     u32 removeContactLayer(ContactLayer);
@@ -371,6 +369,7 @@ private:
     void onInvalidParameter(int code = 0);
     void notifyUserTag(int code);
     void updateDeactivation();
+    void setCollidableQualityType(hkpCollidableQualityType quality);
 
     sead::CriticalSection mCS;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};

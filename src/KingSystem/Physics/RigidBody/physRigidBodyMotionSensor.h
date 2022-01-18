@@ -15,6 +15,7 @@ public:
         HasExtraTranslateForLinkedRigidBody = 1 << 19,
         HasExtraRotateForLinkedRigidBody = 1 << 20,
         HasLinkedRigidBodyWithoutFlag10 = 1 << 21,
+        _400000 = 1 << 22,
     };
 
     explicit RigidBodyMotionSensor(RigidBody* body);
@@ -60,6 +61,8 @@ public:
         mFrozenLinearVelocity.set(0, 0, 0);
         mFrozenAngularVelocity.set(0, 0, 0);
     }
+
+    bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
 
 private:
     void setTransformImpl(const sead::Matrix34f& mtx);

@@ -176,6 +176,32 @@ sead::SafeString RigidBody::getHkBodyName() const {
     return name;
 }
 
+// NON_MATCHING: ldr w8, [x20, #0x68] should be ldr w8, [x22] (equivalent)
+void RigidBody::x_0() {
+    // debug code that survived because mFlags is atomic
+    static_cast<void>(isFlag8Set());
+
+    auto lock = makeScopedLock(false);
+
+    if (mMotionAccessor) {
+        const bool use_system_time_factor = hasFlag(Flag::_100);
+        setTimeFactor(use_system_time_factor ? MemSystem::instance()->getTimeFactor() : 1.0f);
+
+        if (isSensor()) {
+            auto* accessor = sead::DynamicCast<RigidBodyMotionSensor>(mMotionAccessor);
+            if (accessor->hasFlag(RigidBodyMotionSensor::Flag::_400000))
+                return;
+        }
+    }
+
+    if (isMotionFlag2Set()) {
+        mMotionFlags.reset(MotionFlag::_2);
+        mMotionFlags.set(MotionFlag::_1);
+    } else if (!isMotionFlag1Set()) {
+        setMotionFlag(MotionFlag::_1);
+    }
+}
+
 void RigidBody::setMotionFlag(MotionFlag flag) {
     auto lock = sead::makeScopedLock(mCS);
 
@@ -288,9 +314,89 @@ void RigidBody::setContactPoints(RigidContactPoints* points) {
         MemSystem::instance()->registerContactPoints(points);
 }
 
+void RigidBody::freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse) {
+    if (hasFlag(Flag::_80000) == should_freeze) {
+        if (should_freeze) {
+            setLinearVelocity(sead::Vector3f::zero);
+            setAngularVelocity(sead::Vector3f::zero);
+        }
+        return;
+    }
+
+    if (!mMotionAccessor) {
+        mFlags.change(Flag::_80000, should_freeze);
+        return;
+    }
+
+    if (should_freeze) {
+        mMotionAccessor->freeze(true, preserve_velocities, preserve_max_impulse);
+        mFlags.set(Flag::_80000);
+    } else {
+        mFlags.reset(Flag::_80000);
+        mMotionAccessor->freeze(false, preserve_velocities, preserve_max_impulse);
+    }
+}
+
+void RigidBody::setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty) {
+    if (hasFlag(Flag::_20000) != fixed) {
+        mFlags.change(Flag::_20000, fixed);
+        if (!fixed && mark_linear_vel_as_dirty) {
+            setMotionFlag(MotionFlag::DirtyLinearVelocity);
+        }
+    }
+
+    freeze(hasFlag(Flag::_20000) || hasFlag(Flag::_40000), true, true);
+}
+
+void RigidBody::setFixed(bool fixed, bool preserve_velocities) {
+    if (hasFlag(Flag::_40000) != fixed) {
+        mFlags.change(Flag::_40000, fixed);
+        if (!fixed) {
+            setMotionFlag(MotionFlag::DirtyLinearVelocity);
+            setMotionFlag(MotionFlag::_40000);
+        }
+    }
+
+    freeze(hasFlag(Flag::_20000) || hasFlag(Flag::_40000), preserve_velocities, false);
+}
+
 void RigidBody::resetFrozenState() {
     if (mMotionAccessor)
         mMotionAccessor->resetFrozenState();
+}
+
+void RigidBody::updateCollidableQualityType(bool high_quality) {
+    auto lock = makeScopedLock(isFlag8Set());
+
+    if (isCharacterControllerType()) {
+        setCollidableQualityType(HK_COLLIDABLE_QUALITY_CHARACTER);
+        mFlags.set(Flag::IsCharacterController);
+        return;
+    }
+
+    switch (getMotionType()) {
+    case MotionType::Dynamic:
+        setCollidableQualityType(high_quality ? HK_COLLIDABLE_QUALITY_BULLET :
+                                                HK_COLLIDABLE_QUALITY_DEBRIS_SIMPLE_TOI);
+        break;
+    case MotionType::Fixed:
+        setCollidableQualityType(HK_COLLIDABLE_QUALITY_FIXED);
+        break;
+    case MotionType::Keyframed:
+        setCollidableQualityType(isEntity() && high_quality ?
+                                     HK_COLLIDABLE_QUALITY_MOVING :
+                                     HK_COLLIDABLE_QUALITY_KEYFRAMED_REPORTING);
+        break;
+    case MotionType::Unknown:
+    case MotionType::Invalid:
+        break;
+    }
+
+    mFlags.change(Flag::IsCharacterController, high_quality);
+}
+
+void RigidBody::setCollidableQualityType(hkpCollidableQualityType quality) {
+    getHkBody()->getCollidableRw()->setQualityType(quality);
 }
 
 void RigidBody::setContactMask(u32 value) {

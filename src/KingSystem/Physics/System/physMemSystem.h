@@ -30,6 +30,7 @@ class MemSystem {
     virtual ~MemSystem();
 
 public:
+    float getTimeFactor() const { return mTimeFactor; }
     GroupFilter* getGroupFilter(ContactLayerType type) const;
     ContactMgr* getContactMgr() const { return mContactMgr; }
     RigidBodyRequestMgr* getRigidBodyRequestMgr() const { return mRigidBodyRequestMgr; }
@@ -57,7 +58,9 @@ public:
     void unlockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
 
 private:
-    u8 _28[0xa8 - 0x28];
+    u8 _28[0x74 - 0x28];
+    float mTimeFactor{};
+    u8 _78[0xa8 - 0x78];
     sead::CriticalSection mCS;
     void* _e8{};
     void* _f0{};
