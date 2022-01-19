@@ -59,7 +59,7 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
         _e0.push(&_138[i]);
     }
 
-    _148 = 0;
+    mNumEntitiesInWorld = 0;
 
     mContactPoints =
         RigidContactPointsEx::make(heap, 0x1000, 11, "RigidBodyRequestMgr::Water", 0, 0, 0);

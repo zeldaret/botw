@@ -52,6 +52,9 @@ public:
     void registerContactPointLayerPair(RigidContactPointsEx* points, ContactLayer layer1,
                                        ContactLayer layer2, bool enabled);
 
+    // 0x0000007101216a20
+    void x_1(RigidBody* body);
+
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 
     void lockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);

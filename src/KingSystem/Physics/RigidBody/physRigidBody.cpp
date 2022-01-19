@@ -231,16 +231,58 @@ bool RigidBody::isMotionFlag2Set() const {
 
 void RigidBody::sub_7100F8D21C() {
     // debug code that survived because mFlags is atomic?
-    static_cast<void>(mFlags.isOn(Flag::_8));
+    static_cast<void>(mFlags.getDirect());
 
     auto lock = sead::makeScopedLock(mCS);
 
     if (mMotionFlags.isOn(MotionFlag::_1)) {
         mMotionFlags.reset(MotionFlag::_1);
         mMotionFlags.set(MotionFlag::_2);
-    } else if (mFlags.isOn(Flag::_8)) {
+    } else if (isFlag8Set()) {
         setMotionFlag(MotionFlag::_2);
     }
+}
+
+bool RigidBody::x_6() {
+    // debug code that survived because mFlags is atomic?
+    static_cast<void>(mFlags.getDirect());
+
+    auto lock = makeScopedLock(false);
+
+    bool result = true;
+
+    if (isFlag8Set()) {
+        mFlags.reset(Flag::_20);
+
+        if (mMotionFlags.isOn(MotionFlag::_1)) {
+            mMotionFlags.reset(MotionFlag::_1);
+            mMotionFlags.set(MotionFlag::_2);
+        }
+
+        setMotionFlag(MotionFlag::_2);
+        result = false;
+    } else if (mFlags.isOn(Flag::UpdateRequested)) {
+        MemSystem::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
+        result = false;
+    }
+
+    if (isSensor()) {
+        auto* accessor = getSensorMotionAccessor();
+        if (accessor && accessor->getLinkedRigidBody() != nullptr) {
+            mFlags.reset(Flag::_20);
+            resetLinkedRigidBody();
+            result = false;
+        }
+    } else if (mMotionAccessor &&
+               getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_2)) {
+        mFlags.reset(Flag::_20);
+        getEntityMotionAccessor()->deregisterAllAccessors();
+        result = false;
+    }
+
+    mFlags.set(Flag::_20);
+    mFlags.set(Flag::_4);
+    return result;
 }
 
 RigidBodyMotionEntity* RigidBody::getEntityMotionAccessor() const {

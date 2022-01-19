@@ -14,6 +14,8 @@
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include "KingSystem/Utils/Types.h"
 
+class hkpEntity;
+
 namespace ksys::phys {
 
 class MotionAccessor;
@@ -45,6 +47,12 @@ public:
     void init(sead::Heap* heap);
 
     bool pushRigidBody(ContactLayerType type, RigidBody* body);
+    // 0x0000007100fa6d48
+    void addEntityToWorld(ContactLayerType type, hkpEntity* entity);
+    // 0x0000007100fa6dac
+    void removeEntityToWorld(ContactLayerType type, hkpEntity* entity);
+    // 0x0000007100fa6ebc
+    void removeRigidBody(ContactLayerType type, RigidBody* body);
 
     bool registerMotionAccessor(MotionAccessor* accessor);
     bool deregisterMotionAccessor(MotionAccessor* accessor);
@@ -103,7 +111,7 @@ private:
     sead::Buffer<Unk6> _120;
     sead::Atomic<u32> _130;
     sead::Buffer<Unk4> _138;
-    u32 _148{};
+    u32 mNumEntitiesInWorld{};
     RigidContactPointsEx* mContactPoints{};
     sead::SafeArray<sead::CriticalSection, NumRigidBodyBuffers> mCriticalSections;
     sead::CriticalSection mCS;
