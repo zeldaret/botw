@@ -48,7 +48,7 @@ public:
 
     enum class Flag {
         IsSensor = 1 << 0,
-        _2 = 1 << 1,
+        UpdateRequested = 1 << 1,
         _4 = 1 << 2,
         _8 = 1 << 3,
         _10 = 1 << 4,
@@ -56,7 +56,7 @@ public:
         _40 = 1 << 6,
         /// Indicates whether the Havok collidable has been configured to use a higher quality type.
         HighQualityCollidable = 1 << 7,
-        _100 = 1 << 8,
+        UseSystemTimeFactor = 1 << 8,
         _200 = 1 << 9,
         _400 = 1 << 10,
         _800 = 1 << 11,
@@ -65,9 +65,9 @@ public:
         _4000 = 1 << 14,
         _8000 = 1 << 15,
         _10000 = 1 << 16,
-        _20000 = 1 << 17,
-        _40000 = 1 << 18,
-        _80000 = 1 << 19,
+        FixedWithImpulsePreserved = 1 << 17,
+        Fixed = 1 << 18,
+        Frozen = 1 << 19,
         _100000 = 1 << 20,
         _200000 = 1 << 21,
         _400000 = 1 << 22,

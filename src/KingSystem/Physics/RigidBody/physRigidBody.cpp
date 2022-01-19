@@ -47,7 +47,7 @@ RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_bo
     mFlags.change(Flag::HighQualityCollidable, isCharacterControllerType());
     mFlags.change(Flag::IsSensor, layer_type == ContactLayerType::Sensor);
     mFlags.change(Flag::_10, a7);
-    mFlags.set(Flag::_100);
+    mFlags.set(Flag::UseSystemTimeFactor);
 }
 
 RigidBody::~RigidBody() {
@@ -184,7 +184,7 @@ void RigidBody::x_0() {
     auto lock = makeScopedLock(false);
 
     if (mMotionAccessor) {
-        const bool use_system_time_factor = hasFlag(Flag::_100);
+        const bool use_system_time_factor = hasFlag(Flag::UseSystemTimeFactor);
         setTimeFactor(use_system_time_factor ? MemSystem::instance()->getTimeFactor() : 1.0f);
 
         if (isSensor()) {
@@ -207,8 +207,8 @@ void RigidBody::setMotionFlag(MotionFlag flag) {
 
     mMotionFlags.set(flag);
 
-    if (mFlags.isOff(Flag::_20) && mFlags.isOff(Flag::_2)) {
-        mFlags.set(Flag::_2);
+    if (mFlags.isOff(Flag::_20) && mFlags.isOff(Flag::UpdateRequested)) {
+        mFlags.set(Flag::UpdateRequested);
         MemSystem::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
     }
 }
@@ -315,7 +315,7 @@ void RigidBody::setContactPoints(RigidContactPoints* points) {
 }
 
 void RigidBody::freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse) {
-    if (hasFlag(Flag::_80000) == should_freeze) {
+    if (hasFlag(Flag::Frozen) == should_freeze) {
         if (should_freeze) {
             setLinearVelocity(sead::Vector3f::zero);
             setAngularVelocity(sead::Vector3f::zero);
@@ -324,40 +324,41 @@ void RigidBody::freeze(bool should_freeze, bool preserve_velocities, bool preser
     }
 
     if (!mMotionAccessor) {
-        mFlags.change(Flag::_80000, should_freeze);
+        mFlags.change(Flag::Frozen, should_freeze);
         return;
     }
 
     if (should_freeze) {
         mMotionAccessor->freeze(true, preserve_velocities, preserve_max_impulse);
-        mFlags.set(Flag::_80000);
+        mFlags.set(Flag::Frozen);
     } else {
-        mFlags.reset(Flag::_80000);
+        mFlags.reset(Flag::Frozen);
         mMotionAccessor->freeze(false, preserve_velocities, preserve_max_impulse);
     }
 }
 
 void RigidBody::setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty) {
-    if (hasFlag(Flag::_20000) != fixed) {
-        mFlags.change(Flag::_20000, fixed);
+    if (hasFlag(Flag::FixedWithImpulsePreserved) != fixed) {
+        mFlags.change(Flag::FixedWithImpulsePreserved, fixed);
         if (!fixed && mark_linear_vel_as_dirty) {
             setMotionFlag(MotionFlag::DirtyLinearVelocity);
         }
     }
 
-    freeze(hasFlag(Flag::_20000) || hasFlag(Flag::_40000), true, true);
+    freeze(hasFlag(Flag::FixedWithImpulsePreserved) || hasFlag(Flag::Fixed), true, true);
 }
 
 void RigidBody::setFixed(bool fixed, bool preserve_velocities) {
-    if (hasFlag(Flag::_40000) != fixed) {
-        mFlags.change(Flag::_40000, fixed);
+    if (hasFlag(Flag::Fixed) != fixed) {
+        mFlags.change(Flag::Fixed, fixed);
         if (!fixed) {
             setMotionFlag(MotionFlag::DirtyLinearVelocity);
             setMotionFlag(MotionFlag::_40000);
         }
     }
 
-    freeze(hasFlag(Flag::_20000) || hasFlag(Flag::_40000), preserve_velocities, false);
+    freeze(hasFlag(Flag::FixedWithImpulsePreserved) || hasFlag(Flag::Fixed), preserve_velocities,
+           false);
 }
 
 void RigidBody::resetFrozenState() {
@@ -704,7 +705,7 @@ bool RigidBody::setTimeFactor(float value) {
     if (sead::Mathf::equalsEpsilon(current_time_factor, value, 0.001))
         return false;
 
-    if (hasFlag(Flag::_80000))
+    if (hasFlag(Flag::Frozen))
         return false;
 
     mMotionAccessor->setTimeFactor(value);

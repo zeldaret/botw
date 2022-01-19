@@ -490,7 +490,7 @@ void RigidBodyMotionEntity::processUpdateFlags() {
     }
 
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyDampingOrGravityFactor)) {
-        if (mBody->hasFlag(RigidBody::Flag::_20000)) {
+        if (mBody->hasFlag(RigidBody::Flag::FixedWithImpulsePreserved)) {
             body->setLinearDamping(1.0);
             body->setAngularDamping(1.0);
             body->setGravityFactor(0.0);

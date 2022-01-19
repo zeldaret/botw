@@ -133,7 +133,7 @@ private:
         return getRigidBodyMotion();
     }
 
-    bool arePropertyChangesBlocked() const { return mBody->hasFlag(RigidBody::Flag::_80000); }
+    bool arePropertyChangesBlocked() const { return mBody->hasFlag(RigidBody::Flag::Frozen); }
 
     sead::Vector3f mLinearVelocity = sead::Vector3f::zero;
     float mLinearDamping{};
