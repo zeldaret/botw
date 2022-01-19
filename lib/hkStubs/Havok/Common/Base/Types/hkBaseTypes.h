@@ -3,6 +3,7 @@
 #include <Havok/Common/Base/Types/hkBaseDefs.h>
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 using hkFloat32 = float;
 using hkDouble64 = double;
@@ -211,6 +212,17 @@ public:
 
 HK_FORCE_INLINE hkLong hkGetByteOffset(const void* base, const void* pntr) {
     return hkLong(pntr) - hkLong(base);
+}
+
+template <typename T>
+using hkAddConstPointer =
+    std::conditional_t<std::is_pointer_v<T>,
+                       std::add_pointer_t<std::add_const_t<std::remove_pointer_t<T>>>,
+                       std::add_const_t<T>>;
+
+template <typename T>
+HK_ALWAYS_INLINE T hkSelectOther(hkAddConstPointer<T> a, T pairA, T pairB) {
+    return reinterpret_cast<T>(hkUlong(a) ^ hkUlong(pairA) ^ hkUlong(pairB));
 }
 
 class hkClass;
