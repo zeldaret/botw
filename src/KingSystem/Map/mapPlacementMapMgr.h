@@ -40,9 +40,7 @@ public:
     ~PlacementMapMgr() = default;
 
 private:
-    s32 mNumMaps;
-    s32 _4;
-    PlacementMap* mMaps;
+    sead::Buffer<PlacementMap> mMaps;
     MapProperties* mMapProps;
     s32 _18;
     s32 _1c;
