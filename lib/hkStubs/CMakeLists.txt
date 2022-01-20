@@ -128,6 +128,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/hkpWorldObject.h
   Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
   Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h
+  Havok/Physics2012/Dynamics/World/Simulation/hkpSimulation.h
 
   Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h
 )
