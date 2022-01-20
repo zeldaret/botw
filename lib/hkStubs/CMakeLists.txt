@@ -134,6 +134,13 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.h
   Havok/Physics2012/Dynamics/World/hkpWorldObject.h
+  Havok/Physics2012/Dynamics/World/Listener/hkpIslandActivationListener.h
+  Havok/Physics2012/Dynamics/World/Listener/hkpIslandPostCollideListener.h
+  Havok/Physics2012/Dynamics/World/Listener/hkpIslandPostIntegrateListener.h
+  Havok/Physics2012/Dynamics/World/Listener/hkpWorldDeletionListener.h
+  Havok/Physics2012/Dynamics/World/Listener/hkpWorldPostCollideListener.h
+  Havok/Physics2012/Dynamics/World/Listener/hkpWorldPostIntegrateListener.h
+  Havok/Physics2012/Dynamics/World/Listener/hkpWorldPostSimulationListener.h
   Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
   Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h
   Havok/Physics2012/Dynamics/World/Simulation/hkpSimulation.h
