@@ -77,6 +77,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidableQualityType.h
   Havok/Physics2012/Collide/Agent3/BvTree3/hkpBvTreeAgent3.h
+  Havok/Physics2012/Collide/Agent3/Machine/Nn/hkpAgentNnTrack.h
   Havok/Physics2012/Collide/Agent3/Machine/Nn/hkpLinkedCollidable.h
   Havok/Physics2012/Collide/BroadPhase/hkpBroadPhaseHandle.h
   Havok/Physics2012/Collide/BroadPhase/hkpTypedBroadPhaseHandle.h

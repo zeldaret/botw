@@ -122,6 +122,27 @@ protected:
     HK_FORCE_INLINE hkArray(const hkArray& other);
 };
 
+template <typename T, unsigned N, typename Allocator = hkContainerHeapAllocator>
+class hkInplaceArray : public hkArray<T, Allocator> {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(hkInplaceArray)
+
+    HK_FORCE_INLINE explicit hkInplaceArray(int size = 0);
+    HK_FORCE_INLINE hkInplaceArray(const hkInplaceArray& other);
+    explicit hkInplaceArray(hkFinishLoadedObjectFlag f) : hkArray<T, Allocator>(f) {}
+    HK_FORCE_INLINE ~hkInplaceArray() = default;
+
+    using hkArray<T, Allocator>::operator=;
+
+    HK_FORCE_INLINE void optimizeCapacity(int numFreeElemsLeft, hkBool32 shrinkExact = false);
+
+    HK_FORCE_INLINE hkBool wasReallocated() const;
+
+    HK_FORCE_INLINE int stillInplaceUsingMask() const;
+
+    T m_storage[N];
+};
+
 template <typename T>
 inline hkArrayBase<T>::hkArrayBase()
     : m_data(nullptr), m_size(0), m_capacityAndFlags(DONT_DEALLOCATE_FLAG) {}
@@ -357,4 +378,24 @@ inline void hkArray<T, Allocator>::clearAndDeallocate() {
 template <typename T, typename Allocator>
 inline void hkArray<T, Allocator>::pushBack(const T& e) {
     this->_pushBack(AllocatorType().get(), e);
+}
+
+template <typename T, unsigned N, typename Allocator>
+inline hkInplaceArray<T, N, Allocator>::hkInplaceArray(int size)
+    : hkArray<T, Allocator>(m_storage, size, N) {}
+
+template <typename T, unsigned N, typename Allocator>
+inline hkInplaceArray<T, N, Allocator>::hkInplaceArray(const hkInplaceArray& other)
+    : hkArray<T, Allocator>(m_storage, 0, N) {
+    *this = other;
+}
+
+template <typename T, unsigned N, typename Allocator>
+inline hkBool hkInplaceArray<T, N, Allocator>::wasReallocated() const {
+    return this->m_data != m_storage;
+}
+
+template <typename T, unsigned N, typename Allocator>
+inline int hkInplaceArray<T, N, Allocator>::stillInplaceUsingMask() const {
+    return hkArray<T, Allocator>::m_capacityAndFlags & hkArrayBase<T>::DONT_DEALLOCATE_FLAG;
 }
