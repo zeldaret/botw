@@ -107,6 +107,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Common/hkpMaterial.h
   Havok/Physics2012/Dynamics/Common/hkpProperty.h
   Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h
+  Havok/Physics2012/Dynamics/Constraint/hkpConstraintOwner.h
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBodyCinfo.h
