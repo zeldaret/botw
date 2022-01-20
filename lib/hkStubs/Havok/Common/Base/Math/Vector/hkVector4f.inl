@@ -312,6 +312,41 @@ inline void hkVector4f::setAbs(hkVector4fParameter a) {
 #endif
 }
 
+template <int N>
+inline void hkVector4f::setNeg(hkVector4fParameter a) {
+    static_assert(1 <= N && N <= 4, "invalid N");
+
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    switch (N) {
+    case 1: {
+        auto xy = vget_low_f32(a.v);
+        v = vsetq_lane_f32(vget_lane_f32(vneg_f32(xy), 0), a.v, 0);
+        break;
+    }
+    case 2: {
+        auto xy = vget_low_f32(a.v);
+        auto zw = vget_high_f32(a.v);
+        v = vcombine_f32(vneg_f32(xy), zw);
+        break;
+    }
+    case 3: {
+        auto zw = vget_high_f32(a.v);
+        v = vnegq_f32(v);
+        v = vsetq_lane_f32(vget_lane_f32(zw, 1), v, 3);
+        break;
+    }
+    case 4:
+        v = vnegq_f32(a.v);
+        break;
+    default:
+        break;
+    }
+#else
+    for (int i = 0; i < N; ++i)
+        v[i] = -a[i];
+#endif
+}
+
 inline void hkVector4f::_setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
     auto col0 = vmulq_laneq_f32(a.m_col0.v, b.v, 0);

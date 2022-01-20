@@ -57,6 +57,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/hkRefVariant.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
   Havok/Common/Base/Types/Physics/hkStepInfo.h
+  Havok/Common/Base/Types/Physics/ContactPoint/hkContactPointMaterial.h
   Havok/Common/Base/Types/Physics/MotionState/hkMotionState.h
   Havok/Common/Base/Types/Properties/hkSimpleProperty.h
 
@@ -71,7 +72,9 @@ add_library(hkStubs OBJECT
   Havok/Physics/Constraint/Atom/hkpConstraintAtom.h
   Havok/Physics/Constraint/Data/hkpConstraintData.h
   Havok/Physics/Constraint/Data/hkpConstraintInfo.h
+  Havok/Physics/ConstraintSolver/Accumulator/hkpVelocityAccumulator.h
   Havok/Physics/ConstraintSolver/Solve/hkpSolverInfo.h
+  Havok/Physics/ConstraintSolver/Solve/hkpSolverResults.h
 
   Havok/Physics2012/Collide/Agent/hkpCollisionInput.h
   Havok/Physics2012/Collide/Agent/hkpCollisionQualityInfo.h
@@ -108,10 +111,14 @@ add_library(hkStubs OBJECT
 
   Havok/Physics2012/Dynamics/Action/hkpAction.h
   Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h
+  Havok/Physics2012/Dynamics/Collide/ContactListener/hkpCollisionEvent.h
+  Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactListener.h
+  Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h
   Havok/Physics2012/Dynamics/Common/hkpMaterial.h
   Havok/Physics2012/Dynamics/Common/hkpProperty.h
   Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h
   Havok/Physics2012/Dynamics/Constraint/hkpConstraintOwner.h
+  Havok/Physics2012/Dynamics/Constraint/Contact/hkpContactPointProperties.h
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBodyCinfo.h

@@ -101,7 +101,9 @@ public:
 
     // ========== Sign, comparisons, clamping
 
-    void setAbs(hkVector4fParameter a);
+    HK_FORCE_INLINE void setAbs(hkVector4fParameter a);
+    template <int N>
+    HK_FORCE_INLINE void setNeg(hkVector4fParameter a);
 
     // ========== Matrix operations (out-of-line)
 

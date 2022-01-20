@@ -22,4 +22,8 @@ HK_FORCE_INLINE T1 max2(T1 x, T2 y) {
     return x > static_cast<T1>(y) ? x : static_cast<T1>(y);
 }
 
+HK_FORCE_INLINE int hkToIntFast(hkFloat32 r) {
+    return int(r);
+}
+
 }  // namespace hkMath
