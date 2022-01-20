@@ -108,6 +108,8 @@ public:
     using AllocatorType = Allocator;
 
     HK_FORCE_INLINE hkArray() = default;
+    HK_FORCE_INLINE hkArray(T* buffer, int size, int capacity)
+        : hkArrayBase<T>(buffer, size, capacity) {}
     explicit hkArray(hkFinishLoadedObjectFlag f) : hkArrayBase<T>(f) {}
 
     HK_FORCE_INLINE ~hkArray() { clearAndDeallocate(); }
