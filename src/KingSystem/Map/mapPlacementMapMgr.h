@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include "KingSystem/Map/mapPlacementMap.h"
