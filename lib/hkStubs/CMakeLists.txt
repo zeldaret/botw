@@ -128,12 +128,14 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpFixedRigidMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h
+  Havok/Physics2012/Dynamics/Phantom/hkpPhantomOverlapListener.h
   Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h
   Havok/Physics2012/Dynamics/World/hkpSimulationIsland.h
   Havok/Physics2012/Dynamics/World/hkpWorld.h
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.h
   Havok/Physics2012/Dynamics/World/hkpWorldObject.h
+  Havok/Physics2012/Dynamics/World/BroadPhaseBorder/hkpBroadPhaseBorder.h
   Havok/Physics2012/Dynamics/World/Listener/hkpIslandActivationListener.h
   Havok/Physics2012/Dynamics/World/Listener/hkpIslandPostCollideListener.h
   Havok/Physics2012/Dynamics/World/Listener/hkpIslandPostIntegrateListener.h
