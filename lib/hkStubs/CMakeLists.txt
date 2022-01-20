@@ -56,6 +56,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/hkRefPtr.h
   Havok/Common/Base/Types/hkRefVariant.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
+  Havok/Common/Base/Types/Physics/hkStepInfo.h
   Havok/Common/Base/Types/Physics/MotionState/hkMotionState.h
   Havok/Common/Base/Types/Properties/hkSimpleProperty.h
 
@@ -70,6 +71,7 @@ add_library(hkStubs OBJECT
   Havok/Physics/Constraint/Atom/hkpConstraintAtom.h
   Havok/Physics/Constraint/Data/hkpConstraintData.h
   Havok/Physics/Constraint/Data/hkpConstraintInfo.h
+  Havok/Physics/ConstraintSolver/Solve/hkpSolverInfo.h
 
   Havok/Physics2012/Collide/Agent/hkpCollisionInput.h
   Havok/Physics2012/Collide/Agent/hkpCollisionQualityInfo.h
@@ -121,7 +123,6 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h
   Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h
   Havok/Physics2012/Dynamics/World/hkpSimulationIsland.h
-  Havok/Physics2012/Dynamics/World/hkpWorld.cpp
   Havok/Physics2012/Dynamics/World/hkpWorld.h
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.h
