@@ -67,7 +67,6 @@ add_library(hkStubs OBJECT
 
   Havok/Geometry/Collide/Shapes/hkcdShape.h
 
-  Havok/Physics/Constraint/hkpConstraintInstance.h
   Havok/Physics/Constraint/Atom/hkpConstraintAtom.h
   Havok/Physics/Constraint/Data/hkpConstraintData.h
   Havok/Physics/Constraint/Data/hkpConstraintInfo.h
@@ -107,6 +106,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h
   Havok/Physics2012/Dynamics/Common/hkpMaterial.h
   Havok/Physics2012/Dynamics/Common/hkpProperty.h
+  Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBodyCinfo.h

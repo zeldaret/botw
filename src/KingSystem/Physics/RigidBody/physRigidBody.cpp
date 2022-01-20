@@ -1,8 +1,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h>
 #include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
-#include <Havok/Physics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
+#include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/Inertia/hkpInertiaTensorComputer.h>
 #include <Havok/Physics2012/Dynamics/Motion/Rigid/hkpFixedRigidMotion.h>
