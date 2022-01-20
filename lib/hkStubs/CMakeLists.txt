@@ -120,6 +120,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h
   Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h
+  Havok/Physics2012/Dynamics/World/hkpSimulationIsland.h
   Havok/Physics2012/Dynamics/World/hkpWorld.cpp
   Havok/Physics2012/Dynamics/World/hkpWorld.h
   Havok/Physics2012/Dynamics/World/hkpWorldCinfo.cpp

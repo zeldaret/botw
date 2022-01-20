@@ -26,6 +26,8 @@ using hkLong = long;
 using hkUlong = unsigned long;
 
 using hkObjectIndex = hkUint16;
+constexpr hkObjectIndex HK_INVALID_OBJECT_INDEX = 0xffff;
+
 using hkTime = hkReal;
 
 using m128 = __attribute((vector_size(16))) float;
