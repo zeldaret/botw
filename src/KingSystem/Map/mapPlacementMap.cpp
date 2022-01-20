@@ -5,7 +5,7 @@ namespace ksys::map {
 PlacementMap::PlacementMap() {
     mInitStatus = InitStatus::None;
     mParsedNumStaticObjs = 0xFFFFFFFF;
-    mStaticMapLoaded = StaticMap_None;
+    mStaticMapLoaded = StaticMap::None;
     mNumStaticObjs = 0xFFFFFFFF;
     mMat = sead::Matrix34f::ident;
     mDistanceToCurrentMapUnit = 0;

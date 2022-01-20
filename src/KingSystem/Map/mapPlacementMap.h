@@ -18,9 +18,9 @@ namespace ksys::map {
 class PlacementMapMgr;
 
 class PlacementMap {
-public:
     struct HkscRes {
-        enum class Status {
+    public:
+        enum class Status : int {
             _0 = 0,
             _1 = 1,
             _2 = 2,  // Call cleanupHkscMaybe(), if ok, set to 3
@@ -32,10 +32,6 @@ public:
         HkscRes() = default;
         ~HkscRes() = default;
 
-        res::Handle mRes;
-        Status mStatus;
-        // bool _pad[4];
-
         void cleanup() {
             auto* r = mRes.getResource();
             if (auto sc = sead::DynamicCast<phys::StaticCompound>(r)) {
@@ -44,12 +40,14 @@ public:
                 }
             }
         }
+
+        res::Handle mRes;
+        Status mStatus;
     };
     KSYS_CHECK_SIZE_NX150(HkscRes, 0x58);
 
-    // This enum is used on a u16. enum classses are 32 bit
-    enum { StaticMap_None = 0, StaticMap_Loaded = 1 << 0, StaticMap_Parsed = 1 << 8 };
-    enum class InitStatus {
+    enum class StaticMap : u16 { None = 0, Loaded = 1 << 0, Parsed = 1 << 8 };
+    enum class InitStatus : int {
         None = 0,
         StaticLoaded = 1,
         DynamicLoadStarted = 2,
@@ -59,10 +57,12 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(InitStatus, 4);
 
+public:
     PlacementMap();
     ~PlacementMap();
 
-    s32 loadStaticMap_(bool load);
+private:
+    int loadStaticMap_(bool load);
     void doLoadStaticMap_(bool load);
 
     bool parseStaticMap_(sead::Heap* heap, u8* data);
@@ -70,34 +70,34 @@ public:
 
     bool loadDynamicMap();
 
-    s32 parseDynamicMap();
+    int parseDynamicMap();
 
     void resetDynamic();
     void unload();
     void unloadStaticMubin();
-    s32 x_6();
+    int x_6();
     void x_5();
-    s64 traverseStuff(sead::Vector3f* vec, PlacementActors* pa, int id);
+    int traverseStuff(sead::Vector3f* vec, PlacementActors* pa, int id);
 
-    phys::BodyGroup* getFieldBodyGroup(u32 field_body_group_id);
+    phys::BodyGroup* getFieldBodyGroup(u32 field_body_group_index);
     void cleanupPhysics();
-    bool loadStaticCompound(int id, bool is_auto_gen_mu, bool load_maybe);
-    s32 x_2(s32 id);
+    bool loadStaticCompound(int index, bool is_auto_gen_mu, bool load_maybe);
+    int x_2(int id);
     void x(int id, Object* obj);
-    void unloadHksc(s32 id);
-    s32 x_4(s64 id);
-    s32 x_1(s64 id);
-    bool staticCompoundStuff(s32 sc_id, bool cleanup);
-    s64 cleanHkscMaybe(s32 id);
-    bool sub_7100D43F18(sead::Vector3f& pos);
+    void unloadHksc(int id);
+    int x_4(int id);
+    int x_1(int id);
+    bool staticCompoundStuff(int sc_id, bool cleanup);
+    int cleanHkscMaybe(int id);
+    bool sub_7100D43F18(const sead::Vector3f& pos);
     void doDisableObjStaticCompound(Object* obj, bool disable);
     void x_9();
 
-    void x_7(int idx, int unknown, char column, char row, sead::SafeString* mubinPath,
-             sead::SafeString* folderAndFile, int map_id_maybe, bool skip_load_static_map);
+    void x_7(int idx, int unknown, char column, char row, const sead::SafeString& mubinPath,
+             const sead::SafeString& folderAndFile, int map_id_maybe, bool skip_load_static_map);
 
     u16 mSkipLoadStaticMap;
-    u16 mStaticMapLoaded;
+    StaticMap mStaticMapLoaded;
     u16 _04;
     s16 _06;
     sead::FixedSafeString<128> mMubinPath;
@@ -106,23 +106,23 @@ public:
     sead::SafeArray<HkscRes, 4> mRes;
     res::Handle mStaticMubinRes;
     res::Handle mDynamicMubinRes;
-    s32 mDynamicGroupIdx;
-    s32 mParsedNumStaticObjs;
-    s32 mNumStaticObjs;
+    int mDynamicGroupIdx;
+    int mParsedNumStaticObjs;
+    int mNumStaticObjs;
     InitStatus mInitStatus;
     s8 mCol;
     s8 mRow;
     u16 _352;
     sead::Matrix34f mMat;
-    s32 mDistanceToCurrentMapUnit;
+    int mDistanceToCurrentMapUnit;
     u32 _388;  // 388 check x_7() called ....
     u32 _38c;  // 38c ... from MapMgr::ctor (a8)
     PlacementActors* mPa;
     PlacementMapMgr* mMgr;
     void* mP18;
     sead::Buffer<void*> mRoutes;
-    s32 mNumRoutes;
-    s32 gap_38c;
+    int mNumRoutes;
+    int gap_38c;
     sead::CriticalSection mCs;
 };
 
