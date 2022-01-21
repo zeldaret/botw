@@ -365,6 +365,18 @@ public:
     virtual void resetPosition();
     virtual const char* getName();
 
+    // Internal.
+    void onCollisionAdded() {
+        if (mCollisionCount.increment() == 0)
+            clearFlag4000000(false);
+    }
+
+    // Internal.
+    void onCollisionRemoved() {
+        if (mCollisionCount.decrement() == 1)
+            clearFlag4000000(true);
+    }
+
 private:
     void createMotionAccessor(sead::Heap* heap);
     void onInvalidParameter(int code = 0);
@@ -385,8 +397,7 @@ private:
     f32 _b0 = 1.0f;
     Type mType{};
     MotionAccessor* mMotionAccessor = nullptr;
-    u16 _c0 = 0;
-    u16 _c2 = 0;
+    sead::Atomic<int> mCollisionCount;
     void* _c8 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(RigidBody, 0xD0);

@@ -70,6 +70,8 @@ target_sources(uking PRIVATE
   System/physConstraint.h
   System/physContactInfoParam.cpp
   System/physContactInfoParam.h
+  System/physContactListener.cpp
+  System/physContactListener.h
   System/physContactMgr.cpp
   System/physContactMgr.h
   System/physDefines.cpp
