@@ -8,7 +8,7 @@
 #include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
 #include <heap/seadHeap.h>
 #include "KingSystem/Physics/System/physContactMgr.h"
-#include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/BitField.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
@@ -59,7 +59,7 @@ void receiverMaskEnableLayer(ReceiverMask* mask, ContactLayer layer) {
 
 bool receiverMaskGetSensorLayerMaskForType(ReceiverMask* mask,
                                            const sead::SafeString& receiver_type) {
-    return MemSystem::instance()->getContactMgr()->getSensorLayerMask(mask, receiver_type);
+    return System::instance()->getContactMgr()->getSensorLayerMask(mask, receiver_type);
 }
 
 void receiverMaskSetSensorLayerMask(ReceiverMask* mask, u32 layer_mask) {

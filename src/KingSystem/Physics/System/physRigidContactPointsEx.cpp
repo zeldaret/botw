@@ -1,17 +1,17 @@
 #include "KingSystem/Physics/System/physRigidContactPointsEx.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
-#include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
 RigidContactPointsEx* RigidContactPointsEx::make(sead::Heap* heap, int num, int num2,
                                                  const sead::SafeString& name, int a, int b,
                                                  int c) {
-    return MemSystem::instance()->allocContactPointsEx(heap, num, num2, name, a, b, c);
+    return System::instance()->allocContactPointsEx(heap, num, num2, name, a, b, c);
 }
 
 void RigidContactPointsEx::free(RigidContactPointsEx* instance) {
-    MemSystem::instance()->freeContactPointsEx(instance);
+    System::instance()->freeContactPointsEx(instance);
 }
 
 bool RigidContactPointsEx::registerLayerPair(ContactLayer layer1, ContactLayer layer2,
@@ -30,7 +30,7 @@ bool RigidContactPointsEx::registerLayerPair(ContactLayer layer1, ContactLayer l
     entry->layer1 = layer1;
     entry->layer2 = layer2;
     entry->enabled = enabled;
-    [&] { MemSystem::instance()->registerContactPointLayerPair(this, layer1, layer2, enabled); }();
+    [&] { System::instance()->registerContactPointLayerPair(this, layer1, layer2, enabled); }();
     return true;
 }
 

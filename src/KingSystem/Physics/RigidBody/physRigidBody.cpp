@@ -13,7 +13,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
-#include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Physics/physConversions.h"
 
@@ -185,7 +185,7 @@ void RigidBody::x_0() {
 
     if (mMotionAccessor) {
         const bool use_system_time_factor = hasFlag(Flag::UseSystemTimeFactor);
-        setTimeFactor(use_system_time_factor ? MemSystem::instance()->getTimeFactor() : 1.0f);
+        setTimeFactor(use_system_time_factor ? System::instance()->getTimeFactor() : 1.0f);
 
         if (isSensor()) {
             auto* accessor = sead::DynamicCast<RigidBodyMotionSensor>(mMotionAccessor);
@@ -209,7 +209,7 @@ void RigidBody::setMotionFlag(MotionFlag flag) {
 
     if (mFlags.isOff(Flag::_20) && mFlags.isOff(Flag::UpdateRequested)) {
         mFlags.set(Flag::UpdateRequested);
-        MemSystem::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
+        System::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
     }
 }
 
@@ -262,7 +262,7 @@ bool RigidBody::x_6() {
         setMotionFlag(MotionFlag::_2);
         result = false;
     } else if (mFlags.isOn(Flag::UpdateRequested)) {
-        MemSystem::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
+        System::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
         result = false;
     }
 
@@ -353,7 +353,7 @@ MotionType RigidBody::getMotionType() const {
 void RigidBody::setContactPoints(RigidContactPoints* points) {
     mContactPoints = points;
     if (isFlag8Set() && mContactPoints && !mContactPoints->isLinked())
-        MemSystem::instance()->registerContactPoints(points);
+        System::instance()->registerContactPoints(points);
 }
 
 void RigidBody::freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse) {
@@ -619,7 +619,7 @@ float RigidBody::getMaxAngularVelocity() const {
 }
 
 void RigidBody::applyLinearImpulse(const sead::Vector3f& impulse) {
-    if (MemSystem::instance()->isPaused())
+    if (System::instance()->isPaused())
         return;
 
     if (hasFlag(Flag::_400) || hasFlag(Flag::_40))
@@ -635,7 +635,7 @@ void RigidBody::applyLinearImpulse(const sead::Vector3f& impulse) {
 }
 
 void RigidBody::applyAngularImpulse(const sead::Vector3f& impulse) {
-    if (MemSystem::instance()->isPaused())
+    if (System::instance()->isPaused())
         return;
 
     if (hasFlag(Flag::_400) || hasFlag(Flag::_40))
@@ -651,7 +651,7 @@ void RigidBody::applyAngularImpulse(const sead::Vector3f& impulse) {
 }
 
 void RigidBody::applyPointImpulse(const sead::Vector3f& impulse, const sead::Vector3f& point) {
-    if (MemSystem::instance()->isPaused())
+    if (System::instance()->isPaused())
         return;
 
     if (hasFlag(Flag::_400) || hasFlag(Flag::_40))
@@ -1083,7 +1083,7 @@ void RigidBody::lock() {
 
 void RigidBody::lock(bool also_lock_world) {
     if (also_lock_world)
-        MemSystem::instance()->lockWorld(getLayerType());
+        System::instance()->lockWorld(getLayerType());
     lock();
 }
 
@@ -1094,7 +1094,7 @@ void RigidBody::unlock() {
 void RigidBody::unlock(bool also_unlock_world) {
     unlock();
     if (also_unlock_world)
-        MemSystem::instance()->unlockWorld(getLayerType());
+        System::instance()->unlockWorld(getLayerType());
 }
 
 hkpMotion* RigidBody::getMotion() const {

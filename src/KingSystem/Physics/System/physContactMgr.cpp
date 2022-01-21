@@ -2,9 +2,9 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
-#include "KingSystem/Physics/System/physMemSystem.h"
 #include "KingSystem/Physics/System/physRigidContactPoints.h"
 #include "KingSystem/Physics/System/physRigidContactPointsEx.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
@@ -53,7 +53,7 @@ void ContactMgr::doLoadContactInfoTable(agl::utl::ResParameterArchive archive,
     const auto root = archive.getRootList();
     const auto names = root.getResParameterObj(0);
 
-    const auto* filter = MemSystem::instance()->getGroupFilter(type);
+    const auto* filter = System::instance()->getGroupFilter(type);
     const auto layer_base = static_cast<int>(getContactLayerBase(type));
 
     for (int i = 0; i < table.receivers.size(); ++i) {

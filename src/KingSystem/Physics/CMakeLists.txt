@@ -84,8 +84,6 @@ target_sources(uking PRIVATE
   System/physMaterialMask.h
   System/physMaterialTable.cpp
   System/physMaterialTable.h
-  System/physMemSystem.cpp
-  System/physMemSystem.h
   System/physParamSet.cpp
   System/physParamSet.h
   System/physRigidContactPoints.cpp
@@ -96,6 +94,8 @@ target_sources(uking PRIVATE
   System/physSensorGroupFilter.h
   System/physShapeParam.cpp
   System/physShapeParam.h
+  System/physSystem.cpp
+  System/physSystem.h
   System/physSystemData.cpp
   System/physSystemData.h
   System/physUserTag.cpp

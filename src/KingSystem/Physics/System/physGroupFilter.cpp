@@ -1,6 +1,6 @@
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include <prim/seadScopedLock.h>
-#include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
@@ -55,7 +55,7 @@ u32 SystemGroupHandler::m7() {
 }
 
 void SystemGroupHandler::removeThis() {
-    MemSystem::instance()->removeSystemGroupHandler(this);
+    System::instance()->removeSystemGroupHandler(this);
 }
 
 }  // namespace ksys::phys

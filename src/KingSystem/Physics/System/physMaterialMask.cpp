@@ -1,6 +1,6 @@
 #include "KingSystem/Physics/System/physMaterialMask.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
-#include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
@@ -57,15 +57,15 @@ const char* MaterialMask::getSubMaterialName() const {
 }
 
 int MaterialMask::getSubMaterialIdx(Material mat, const sead::SafeString& submat_name) {
-    return MemSystem::instance()->getMaterialTable()->getSubMaterialIdx(mat, submat_name);
+    return System::instance()->getMaterialTable()->getSubMaterialIdx(mat, submat_name);
 }
 
 const sead::SafeString& MaterialMask::getSubMaterialName(Material mat, int submat_idx) {
-    return MemSystem::instance()->getMaterialTable()->getSubMaterial(mat, submat_idx);
+    return System::instance()->getMaterialTable()->getSubMaterial(mat, submat_idx);
 }
 
 int MaterialMask::getNumSubMaterials(Material mat) {
-    return MemSystem::instance()->getMaterialTable()->getNumSubMaterials(mat);
+    return System::instance()->getMaterialTable()->getNumSubMaterials(mat);
 }
 
 const sead::SafeString& MaterialMask::getSubMaterialName(int mat, int submat_idx) {

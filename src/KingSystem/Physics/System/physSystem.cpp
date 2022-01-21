@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/System/physMemSystem.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/Cloth/physClothResource.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerKeyList.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
@@ -17,9 +17,9 @@
 
 namespace ksys::phys {
 
-SEAD_SINGLETON_DISPOSER_IMPL(MemSystem)
+SEAD_SINGLETON_DISPOSER_IMPL(System)
 
-void MemSystem::initSystemData(sead::Heap* heap) {
+void System::initSystemData(sead::Heap* heap) {
     res::registerEntryFactory(new (heap) res::EntryFactory<RigidBodyResource>(1.0, 0x400), "hkrb");
     res::registerEntryFactory(new (heap) res::EntryFactory<RagdollResource>(1.0, 0x400), "hkrg");
     res::registerEntryFactory(new (heap) res::EntryFactory<SupportBoneResource>(1.0, 0x100000),
@@ -48,23 +48,23 @@ void MemSystem::initSystemData(sead::Heap* heap) {
                       mContactMgr);
 }
 
-RigidContactPoints* MemSystem::allocContactPoints(sead::Heap* heap, int num,
-                                                  const sead::SafeString& name, int a, int b,
-                                                  int c) const {
+RigidContactPoints* System::allocContactPoints(sead::Heap* heap, int num,
+                                               const sead::SafeString& name, int a, int b,
+                                               int c) const {
     return mContactMgr->allocContactPoints(heap, num, name, a, b, c);
 }
 
-void MemSystem::freeContactPoints(RigidContactPoints* points) const {
+void System::freeContactPoints(RigidContactPoints* points) const {
     mContactMgr->freeContactPoints(points);
 }
 
-RigidContactPointsEx* MemSystem::allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                                      const sead::SafeString& name, int a, int b,
-                                                      int c) const {
+RigidContactPointsEx* System::allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                                   const sead::SafeString& name, int a, int b,
+                                                   int c) const {
     return mContactMgr->allocContactPointsEx(heap, num, num2, name, a, b, c);
 }
 
-void MemSystem::registerContactPoints(RigidContactPoints* points) const {
+void System::registerContactPoints(RigidContactPoints* points) const {
     mContactMgr->registerContactPoints(points);
 }
 

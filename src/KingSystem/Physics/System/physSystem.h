@@ -24,10 +24,10 @@ enum class IsIndoorStage {
     Yes,
 };
 
-class MemSystem {
-    SEAD_SINGLETON_DISPOSER(MemSystem)
-    MemSystem();
-    virtual ~MemSystem();
+class System {
+    SEAD_SINGLETON_DISPOSER(System)
+    System();
+    virtual ~System();
 
 public:
     float getTimeFactor() const { return mTimeFactor; }
@@ -90,6 +90,6 @@ private:
     sead::Heap* mPhysicsTempLowHeap{};
     u8 _1c8[0x480 - 0x1c8];
 };
-KSYS_CHECK_SIZE_NX150(MemSystem, 0x480);
+KSYS_CHECK_SIZE_NX150(System, 0x480);
 
 }  // namespace ksys::phys
