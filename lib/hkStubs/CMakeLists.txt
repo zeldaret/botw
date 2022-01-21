@@ -24,6 +24,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Quaternion/hkQuaternionf.h
   Havok/Common/Base/Math/SweptTransform/hkSweptTransform.h
   Havok/Common/Base/Math/SweptTransform/hkSweptTransformf.h
+  Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h
   Havok/Common/Base/Math/Vector/hkSimdFloat32.h
   Havok/Common/Base/Math/Vector/hkSimdReal.h
   Havok/Common/Base/Math/Vector/hkVector4.h

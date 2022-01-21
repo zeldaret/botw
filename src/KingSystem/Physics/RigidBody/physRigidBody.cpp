@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h>
 #include <Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h>
 #include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
@@ -176,6 +177,10 @@ sead::SafeString RigidBody::getHkBodyName() const {
     return name;
 }
 
+hkpCollidable* RigidBody::getCollidable() const {
+    return getHkBody()->getCollidableRw();
+}
+
 // NON_MATCHING: ldr w8, [x20, #0x68] should be ldr w8, [x22] (equivalent)
 void RigidBody::x_0() {
     // debug code that survived because mFlags is atomic
@@ -350,6 +355,111 @@ MotionType RigidBody::getMotionType() const {
     return mRigidBodyAccessor.getMotionType();
 }
 
+void RigidBody::replaceMotionObject() {
+    auto* motion = getMotion();
+    const hkMotionState motion_state = *motion->getMotionState();
+    const auto linvel = mHkBody->getLinearVelocity();
+    const auto angvel = mHkBody->getAngularVelocity();
+    const auto counter = motion->m_deactivationIntegrateCounter;
+    const auto frame0 = motion->m_deactivationNumInactiveFrames[0];
+    const auto frame1 = motion->m_deactivationNumInactiveFrames[1];
+
+    if (mMotionFlags.isOn(MotionFlag::Fixed)) {
+        const auto position = motion->getPosition();
+        const auto rotation = motion->getRotation();
+        new (motion) hkpFixedRigidMotion(position, rotation);
+
+        // Restore relevant motion state.
+        *motion->getMotionState() = motion_state;
+        mHkBody->m_solverData = 0;
+        mHkBody->setQualityType(HK_COLLIDABLE_QUALITY_FIXED);
+
+        mMotionFlags.reset(MotionFlag::Fixed);
+
+        motion->m_deactivationIntegrateCounter = counter;
+        motion->m_deactivationNumInactiveFrames[0] = frame0;
+        motion->m_deactivationNumInactiveFrames[1] = frame1;
+
+        // Freeze the motion state.
+        const auto inv_delta = motion_state.getSweptTransform().getInvDeltaTimeSr();
+        if (!inv_delta.isEqualZero()) {
+            hkSimdReal time;
+            if (auto* world = mHkBody->getWorld()) {
+                time = world->getCurrentTime();
+            } else {
+                time = inv_delta.reciprocal() + motion_state.getSweptTransform().getBaseTimeSr();
+            }
+            hkSweptTransformUtil::freezeMotionState(time, *motion->getMotionState());
+        }
+
+    } else if (mMotionFlags.isOn(MotionFlag::Keyframed)) {
+        const auto position = motion->getPosition();
+        const auto rotation = motion->getRotation();
+        new (getMotion()) hkpKeyframedRigidMotion(position, rotation);
+
+        // Restore relevant motion state.
+        *motion->getMotionState() = motion_state;
+        motion->m_linearVelocity = linvel;
+        motion->m_angularVelocity = angvel;
+        mHkBody->m_solverData = 0;
+        motion->m_deactivationIntegrateCounter = counter;
+        motion->m_deactivationNumInactiveFrames[0] = frame0;
+        motion->m_deactivationNumInactiveFrames[1] = frame1;
+        const bool is_entity = isEntity();
+        mHkBody->setQualityType(is_entity && hasFlag(Flag::HighQualityCollidable) ?
+                                    HK_COLLIDABLE_QUALITY_MOVING :
+                                    HK_COLLIDABLE_QUALITY_KEYFRAMED_REPORTING);
+        mMotionFlags.reset(MotionFlag::Keyframed);
+
+    } else if (mMotionFlags.isOn(MotionFlag::Dynamic)) {
+        getEntityMotionAccessor()->updateRigidBodyMotionExceptStateAndVel();
+        mHkBody->setQualityType(hasFlag(RigidBody::Flag::HighQualityCollidable) ?
+                                    HK_COLLIDABLE_QUALITY_BULLET :
+                                    HK_COLLIDABLE_QUALITY_DEBRIS_SIMPLE_TOI);
+        mMotionFlags.reset(MotionFlag::Dynamic);
+    }
+
+    mHkBody->getCollidableRw()->setMotionState(getMotion()->getMotionState());
+    // XXX: what the heck?
+    mHkBody->getCollidableRw()->setMotionState(getMotion()->getMotionState());
+
+    if (auto* shape = mHkBody->getCollidable()->getShape()) {
+        hkVector4 extent_out;
+        mHkBody->updateCachedShapeInfo(shape, extent_out);
+    }
+
+    if (auto* world = mHkBody->getWorld()) {
+        hkpSolverInfo* solver_info = world->getSolverInfo();
+        getMotion()->setWorldSelectFlagsNeg(
+            solver_info->m_deactivationNumInactiveFramesSelectFlag[0],
+            solver_info->m_deactivationNumInactiveFramesSelectFlag[1],
+            solver_info->m_deactivationIntegrateCounter);
+    }
+}
+
+void RigidBody::x_10() {
+    auto lock = makeScopedLock(isFlag8Set());
+
+    if (isEntity()) {
+        if (mMotionAccessor &&
+            getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_2)) {
+            mFlags.reset(Flag::_20);
+            getEntityMotionAccessor()->deregisterAllAccessors();
+        }
+    } else {  // isSensor()
+        auto* accessor = getSensorMotionAccessor();
+        if (accessor && accessor->getLinkedRigidBody() != nullptr) {
+            mFlags.reset(Flag::_20);
+            resetLinkedRigidBody();
+        }
+    }
+
+    mFlags.set(Flag::_20);
+    mFlags.set(Flag::_4);
+
+    x_8(nullptr);
+}
+
 void RigidBody::setContactPoints(RigidContactPoints* points) {
     mContactPoints = points;
     if (isFlag8Set() && mContactPoints && !mContactPoints->isLinked())
@@ -442,6 +552,22 @@ void RigidBody::setCollidableQualityType(hkpCollidableQualityType quality) {
     getHkBody()->getCollidableRw()->setQualityType(quality);
 }
 
+static int getLayerBit(int layer, ContactLayerType type) {
+    // This is layer for Entity layers and layer - 0x20 for Sensor layers.
+    // XXX: this should be using makeContactLayerMask.
+    return layer - ContactLayer::SensorObject * int(type);
+}
+
+void RigidBody::addContactLayer(ContactLayer layer) {
+    assertLayerType(layer);
+    mContactMask.setBit(getLayerBit(layer, getLayerType()));
+}
+
+void RigidBody::removeContactLayer(ContactLayer layer) {
+    assertLayerType(layer);
+    mContactMask.resetBit(getLayerBit(layer, getLayerType()));
+}
+
 void RigidBody::setContactMask(u32 value) {
     mContactMask.setDirect(value);
 }
@@ -452,6 +578,73 @@ void RigidBody::setContactAll() {
 
 void RigidBody::setContactNone() {
     mContactMask.makeAllZero();
+}
+
+void RigidBody::enableGroundCollision(bool enabled) {
+    if (!isEntity() || isGroundCollisionEnabled() == enabled)
+        return;
+
+    if (int(getContactLayer()) == ContactLayer::EntityRagdoll)
+        return;
+
+    const auto current_info = getCollisionFilterInfo();
+    auto info = current_info;
+    info.unk5 = false;
+    info.no_ground_collision.SetBit(!enabled);
+    if (current_info != info)
+        setCollisionFilterInfo(info.raw);
+}
+
+bool RigidBody::isGroundCollisionEnabled() const {
+    if (!isEntity())
+        return false;
+
+    const auto info = getCollisionFilterInfo();
+
+    bool enabled = false;
+    enabled |= info.unk5;
+    enabled |= info.unk30;
+    enabled |= !info.no_ground_collision;
+    return enabled;
+}
+
+void RigidBody::enableWaterCollision(bool enabled) {
+    if (!isEntity() || isWaterCollisionEnabled() == enabled)
+        return;
+
+    if (int(getContactLayer()) == ContactLayer::EntityRagdoll)
+        return;
+
+    const auto current_info = getCollisionFilterInfo();
+    auto info = current_info;
+    info.no_water_collision = !enabled;
+    if (current_info != info)
+        setCollisionFilterInfo(info.raw);
+}
+
+bool RigidBody::isWaterCollisionEnabled() const {
+    if (!isEntity())
+        return false;
+
+    const auto info = getCollisionFilterInfo();
+
+    bool enabled = false;
+    // unk30 enables all collisions?
+    enabled |= info.unk30;
+    enabled |= !info.no_water_collision;
+    return enabled;
+}
+
+ContactLayer RigidBody::getContactLayer() const {
+    return getContactLayer(getCollisionFilterInfo());
+}
+
+ContactLayer RigidBody::getContactLayer(EntityCollisionFilterInfo info) const {
+    return isSensor() ? info.getLayerSensor() : info.getLayer();
+}
+
+EntityCollisionFilterInfo RigidBody::getCollisionFilterInfo() const {
+    return EntityCollisionFilterInfo(mHkBody->getCollisionFilterInfo());
 }
 
 void RigidBody::setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) {
@@ -1135,6 +1328,12 @@ bool RigidBody::isEntityMotionFlag200On() const {
     if (!isEntity() || !mMotionAccessor)
         return false;
     return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_200);
+}
+
+void RigidBody::assertLayerType(ContactLayer layer) const {
+    const auto type = getContactLayerType(layer);
+    const auto expected_type = getLayerType();
+    SEAD_ASSERT(type == expected_type);
 }
 
 void RigidBody::onInvalidParameter(int code) {

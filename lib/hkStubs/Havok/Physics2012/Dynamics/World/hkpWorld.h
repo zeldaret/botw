@@ -540,3 +540,7 @@ public:
     hkEnum<hkpWorldCinfo::ContactPointGeneration, hkInt8> m_contactPointGeneration;
     hkBool m_useCompoundSpuElf;
 };
+
+inline hkpSolverInfo* hkpWorld::getSolverInfo() {
+    return &m_dynamicsStepInfo.m_solverInfo;
+}

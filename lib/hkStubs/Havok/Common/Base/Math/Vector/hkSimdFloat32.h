@@ -9,7 +9,7 @@
 #include <cmath>
 #endif
 
-using hkSimdFloat32Parameter = class hkSimdFloat32;
+using hkSimdFloat32Parameter = const class hkSimdFloat32&;
 
 class hkSimdFloat32 {
 public:
@@ -19,7 +19,8 @@ public:
     using Storage = __attribute__((vector_size(4 * sizeof(float)))) float;
 #endif
 
-    hkSimdFloat32() = default;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init,modernize-use-equals-default)
+    hkSimdFloat32() {}
     // NOLINTNEXTLINE(google-explicit-constructor)
     hkSimdFloat32(const Storage& x) { m_real = x; }
 
@@ -59,6 +60,11 @@ public:
                                    hkSimdFloat32Parameter c);
 
     void setAbs(hkSimdFloat32Parameter x);
+
+    HK_FORCE_INLINE void setReciprocal(hkSimdFloat32Parameter a);
+    HK_FORCE_INLINE hkSimdFloat32 reciprocal() const;
+
+    HK_FORCE_INLINE hkBool32 isEqualZero() const;
 
     HK_FORCE_INLINE m128 toQuad() const;
 
@@ -151,6 +157,29 @@ inline void hkSimdFloat32::setAbs(hkSimdFloat32Parameter x) {
     for (int i = 0; i < 4; ++i)
         m_real[i] = std::abs(x.m_real[i]);
 #endif
+}
+
+inline void hkSimdFloat32::setReciprocal(hkSimdFloat32Parameter a) {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    auto r0 = vrecpe_f32(a.m_real);
+    auto r1 = vmul_f32(r0, vrecps_f32(a.m_real, r0));
+    auto r2 = vmul_f32(r1, vrecps_f32(a.m_real, r1));
+    m_real = r2;
+#else
+    for (int i = 0; i < 4; ++i)
+        m_real[i] = 1.0f / a.m_real[i];
+#endif
+}
+
+inline hkSimdFloat32 hkSimdFloat32::reciprocal() const {
+    hkSimdFloat32 r;
+    r.setReciprocal(*this);
+    return r;
+}
+
+inline hkBool32 hkSimdFloat32::isEqualZero() const {
+    auto cmp = m_real == 0.0;
+    return cmp[0];
 }
 
 inline m128 hkSimdFloat32::toQuad() const {

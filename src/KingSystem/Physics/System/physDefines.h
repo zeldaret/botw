@@ -189,6 +189,54 @@ union ReceiverMask {
     util::BitField<31, 1, u32> unk_flag;
 };
 
+union EntityCollisionFilterInfo {
+    union Data {
+        ContactLayer getLayer() const { return int(layer); }
+        ContactLayer getLayerSensor() const { return int(layer + ContactLayer::SensorObject); }
+        GroundHit getGroundHit() const { return int(ground_hit); }
+
+        util::BitField<0, 5, u32> layer;
+        util::BitField<24, 1, u32> unk24;
+        util::BitField<25, 1, u32> unk25;
+        util::BitField<26, 4, u32> ground_hit;
+    };
+
+    union GroundHitMask {
+        ContactLayer getLayer() const { return int(layer); }
+
+        util::BitField<0, 1, u32> unk;
+        util::BitField<8, 16, u32> ground_hit_types;
+        util::BitField<24, 1, u32> unk24;
+        util::BitField<25, 5, u32> layer;
+    };
+
+    explicit EntityCollisionFilterInfo(u32 raw_ = 0) : raw(raw_) {}
+
+    bool operator==(EntityCollisionFilterInfo rhs) const { return raw == rhs.raw; }
+    bool operator!=(EntityCollisionFilterInfo rhs) const { return raw != rhs.raw; }
+
+    ContactLayer getLayer() const {
+        return is_ground_hit_mask ? ground_hit.getLayer() : data.getLayer();
+    }
+
+    ContactLayer getLayerSensor() const {
+        return is_ground_hit_mask ? ContactLayer(ContactLayer::SensorCustomReceiver) :
+                                    data.getLayerSensor();
+    }
+
+    u32 raw;
+    Data data;
+    GroundHitMask ground_hit;
+    util::BitField<5, 1, bool, u32> unk5;
+    /// Whether ground collision is disabled.
+    util::BitField<6, 1, bool, u32> no_ground_collision;
+    /// Whether water collision is disabled.
+    util::BitField<7, 1, bool, u32> no_water_collision;
+    util::BitField<30, 1, bool, u32> unk30;
+    util::BitField<31, 1, bool, u32> is_ground_hit_mask;
+};
+static_assert(sizeof(EntityCollisionFilterInfo) == sizeof(u32));
+
 ContactLayerType getContactLayerType(ContactLayer layer);
 u32 makeContactLayerMask(ContactLayer layer);
 u32 getContactLayerBase(ContactLayerType type);

@@ -136,8 +136,8 @@ void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* pa
         body->sub_7100F8F8CC(instance_params.contact_layer, instance_params.groundhit,
                              _188[body->isSensor()]);
     }
-    body->setCollideGround(instance_params.no_hit_ground == 0);
-    body->setCollideWater(instance_params.no_hit_water == 0);
+    body->enableGroundCollision(instance_params.no_hit_ground == 0);
+    body->enableWaterCollision(instance_params.no_hit_water == 0);
     body->sub_7100F8F51C();
 }
 

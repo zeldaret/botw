@@ -17,42 +17,6 @@ namespace ksys::phys {
 constexpr int NumEntityHandlersInList0 = 0x10;
 constexpr int NumEntityHandlers = 0x400;
 
-namespace {
-
-/// Internal representation of collision masks for entities.
-/// This is exposed as a u32 externally.
-union EntityCollisionFilterInfo {
-    union Data {
-        ContactLayer getLayer() const { return int(layer); }
-        GroundHit getGroundHit() const { return int(ground_hit); }
-
-        util::BitField<0, 5, u32> layer;
-        util::BitField<24, 1, u32> unk24;
-        util::BitField<25, 1, u32> unk25;
-        util::BitField<26, 4, u32> ground_hit;
-        util::BitField<30, 1, u32> unk30;
-    };
-
-    union GroundHitMask {
-        ContactLayer getLayer() const { return int(layer); }
-
-        util::BitField<0, 8, u32> unk;
-        util::BitField<8, 16, u32> ground_hit_types;
-        util::BitField<24, 1, u32> unk24;
-        util::BitField<25, 5, u32> layer;
-    };
-
-    explicit EntityCollisionFilterInfo(u32 raw_ = 0) : raw(raw_) {}
-
-    u32 raw;
-    Data data;
-    GroundHitMask ground_hit;
-    util::BitField<31, 1, u32> is_ground_hit_mask;
-};
-static_assert(sizeof(EntityCollisionFilterInfo) == sizeof(u32));
-
-}  // namespace
-
 void receiverMaskEnableLayer(ReceiverMask* mask, ContactLayer layer) {
     mask->raw |= 1 << getContactLayerBaseRelativeValue(layer);
 }

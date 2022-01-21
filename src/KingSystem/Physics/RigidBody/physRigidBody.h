@@ -15,6 +15,7 @@
 enum hkpCollidableQualityType : int;
 class hkQuaternionf;
 class hkVector4f;
+class hkpCollidable;
 class hkpRigidBody;
 class hkpMaxSizeMotion;
 class hkpMotion;
@@ -130,6 +131,7 @@ public:
                       const RigidBodyInstanceParam& param);
 
     sead::SafeString getHkBodyName() const;
+    hkpCollidable* getCollidable() const;
 
     void x_0();
 
@@ -139,7 +141,6 @@ public:
     bool isMotionFlag1Set() const;
     bool isMotionFlag2Set() const;
     void sub_7100F8D21C();
-    // 0x0000007100f8d308
     bool x_6();
 
     /// Get the motion accessor if it is a RigidBodyMotionEntity. Returns nullptr otherwise.
@@ -159,13 +160,11 @@ public:
     bool isSensorMotionFlag40000Set() const;
 
     // 0x0000007100f8d840
-    void x_8();
+    void x_8(void* arg);
 
     MotionType getMotionType() const;
 
-    // Motion functions
-    // 0x0000007100f8dcfc
-    void x_9();
+    void replaceMotionObject();
     // 0x0000007100f8e110
     void x_10();
     // 0x0000007100f8e3fc
@@ -173,7 +172,6 @@ public:
 
     // 0x0000007100f8e72c
     void x_12();
-    // 0x0000007100f8e7b4
     void setContactPoints(RigidContactPoints* points);
 
     void freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse);
@@ -183,13 +181,24 @@ public:
 
     void updateCollidableQualityType(bool high_quality);
 
-    u32 addContactLayer(ContactLayer);
-    u32 removeContactLayer(ContactLayer);
+    void addContactLayer(ContactLayer layer);
+    void removeContactLayer(ContactLayer layer);
     void setContactMask(u32);
     void setContactAll();
     void setContactNone();
-    void setCollideGround(bool);
-    void setCollideWater(bool);
+
+    void enableGroundCollision(bool enabled);
+    bool isGroundCollisionEnabled() const;
+
+    void enableWaterCollision(bool enabled);
+    bool isWaterCollisionEnabled() const;
+
+    ContactLayer getContactLayer() const;
+    ContactLayer getContactLayer(EntityCollisionFilterInfo info) const;
+    EntityCollisionFilterInfo getCollisionFilterInfo() const;
+    // 0x0000007100f8f1c4
+    void setCollisionFilterInfo(u32 info);
+
     void sub_7100F8F51C();
     void sub_7100F8F8CC(ContactLayer, GroundHit, void*);
     void sub_7100F8F9E8(ReceiverMask*, void*);
@@ -379,6 +388,7 @@ public:
 
 private:
     void createMotionAccessor(sead::Heap* heap);
+    void assertLayerType(ContactLayer layer) const;
     void onInvalidParameter(int code = 0);
     void notifyUserTag(int code);
     void updateDeactivation();
