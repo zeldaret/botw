@@ -19,6 +19,8 @@ public:
         BVTREE_MAX
     };
 
+    HK_FORCE_INLINE hkpBvTreeShape() {}
+
     inline hkpBvTreeShape(ShapeType type, BvTreeType bvType)
         : hkpShape(type), m_bvTreeType(bvType) {}
 

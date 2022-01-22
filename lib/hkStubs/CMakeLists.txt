@@ -104,6 +104,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Compound/Collection/hkpShapeCollection.h
   Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h
   Havok/Physics2012/Collide/Shape/Compound/Tree/hkpBvTreeShape.h
+  Havok/Physics2012/Collide/Shape/Compound/Tree/Mopp/hkpMoppBvTreeShape.h
   Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h
   Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
@@ -148,6 +149,8 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/Memory/hkpWorldMemoryAvailableWatchDog.h
   Havok/Physics2012/Dynamics/World/Memory/Default/hkpDefaultWorldMemoryWatchDog.h
   Havok/Physics2012/Dynamics/World/Simulation/hkpSimulation.h
+
+  Havok/Physics2012/Internal/Collide/Mopp/Code/hkpMoppCode.h
 
   Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h
 )

@@ -37,6 +37,7 @@ public:
 
     HK_DECLARE_CLASS_ALLOCATOR(hkpSingleShapeContainer)
 
+    hkpSingleShapeContainer() {}
     explicit hkpSingleShapeContainer(hkFinishLoadedObjectFlag) {}
 
     ~hkpSingleShapeContainer() override {
