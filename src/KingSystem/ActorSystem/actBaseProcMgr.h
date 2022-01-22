@@ -173,9 +173,13 @@ public:
     // region BaseProc iteration
 
     BaseProc* getNextProc(sead::CriticalSection* cs, BaseProc* current_proc, ProcFilters filters);
+    /// Get the first BaseProc with the specified name (subject to filters).
     BaseProc* getProc(const sead::SafeString& name, ProcFilters filters);
+    /// Get the first BaseProc with the specified ID (subject to filters).
     BaseProc* getProc(const u32& id, ProcFilters filters);
+    /// Execute a callback for every process (subject to filters).
     void forEachProc(sead::IDelegate1<BaseProc*>& callback, ProcFilters filters);
+    /// Execute a callback for every process with the specified name (subject to filters).
     void forEachProc(const sead::SafeString& proc_name, sead::IDelegate1<BaseProc*>& callback,
                      ProcFilters filters);
     ProcIteratorContext getProcs(ProcFilter filters) { return {*this, filters}; }
