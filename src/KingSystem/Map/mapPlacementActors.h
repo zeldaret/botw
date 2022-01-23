@@ -7,7 +7,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadReadWriteLock.h>
 #include "KingSystem/Map/mapPlacementMap.h"
-#include "KingSystem/Map/mapPlacementData.h"
+#include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
@@ -118,7 +118,7 @@ public:
 
     u8 _0[0x28 - 0x0];
     sead::ReadWriteLock mLock;
-    PlacementData* mStruct1;
+    PlacementAreaMgr* mStruct1;
     u8 _e8[0x538 - 0xe8];
     sead::SafeArray<ActorData, 6000> mActorData;
     u8 _261b38[0x2a8058 - 0x261b38];
