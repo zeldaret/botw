@@ -41,6 +41,9 @@ public:
     bool finishParsing_() override;
     bool m7_() override;
 
+    void cleanUp();
+    bool calledFromMapDtor();
+
 private:
     enum class Flag {
         Initialised = 1 << 0,
