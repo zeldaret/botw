@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadPtrArray.h>
+#include <gfx/seadColor.h>
 #include <heap/seadDisposer.h>
 #include <math/seadBoundBox.h>
 #include <math/seadMathCalcCommon.h>
@@ -27,6 +28,7 @@ struct RigidBodyInstanceParam;
 class RigidBodyMotionEntity;
 class RigidBodyMotionSensor;
 class RigidContactPoints;
+class SystemGroupHandler;
 class UserTag;
 
 class RigidBase {
@@ -193,16 +195,62 @@ public:
     void enableWaterCollision(bool enabled);
     bool isWaterCollisionEnabled() const;
 
+    // region Collision filter info, receiver, group handler
+
     ContactLayer getContactLayer() const;
     ContactLayer getContactLayer(EntityCollisionFilterInfo info) const;
-    EntityCollisionFilterInfo getCollisionFilterInfo() const;
-    // 0x0000007100f8f1c4
+    /// Set a new contact layer. Its type must match the layer type of this rigid body.
+    /// (Otherwise, this function does nothing.)
+    void setContactLayer(ContactLayer layer);
+
+    u32 getCollisionFilterInfo() const;
     void setCollisionFilterInfo(u32 info);
 
-    void sub_7100F8F51C();
-    void sub_7100F8F8CC(ContactLayer, GroundHit, void*);
-    void sub_7100F8F9E8(ReceiverMask*, void*);
-    void sub_7100F8FA44(ContactLayer, u32);
+    auto getEntityCollisionFilterInfo() const {
+        return EntityCollisionFilterInfo(getCollisionFilterInfo());
+    }
+
+    /// Only works for sensor rigid bodies that do not use a custom receiver.
+    // TODO: rename once we figure out what this layer is used for
+    void setSensorReceiverLayer2(ContactLayer layer);
+    /// Only works for sensor rigid bodies that do not use a custom receiver.
+    void clearSensorReceiverLayer2();
+
+    void setContactLayerAndHandler(ContactLayer layer, SystemGroupHandler* handler);
+    void setContactLayerAndGroundHit(ContactLayer layer, GroundHit ground_hit);
+    void setContactLayerAndGroundHitAndHandler(ContactLayer layer, GroundHit ground_hit,
+                                               SystemGroupHandler* handler);
+
+    void setSystemGroupHandler(SystemGroupHandler* handler);
+
+    void setSensorCustomReceiver(const ReceiverMask& mask);
+    void setSensorCustomReceiver(const ReceiverMask& mask, const SystemGroupHandler* handler);
+
+    // endregion
+
+    // region Ground hit
+
+    /// Replace the current collision filter info with a ground hit mask.
+    /// @param layer Contact layer (must be an entity layer; this function does nothing otherwise)
+    /// @param mask  The new ground hit mask
+    void setGroundHitMask(ContactLayer layer, u32 mask);
+
+    /// Add a ground hit type to an existing ground hit mask.
+    /// If this rigid body does not already have a ground hit mask or isn't an entity,
+    /// then this function does nothing.
+    void addGroundTypeToGroundHitMask(GroundHit ground_hit);
+
+    /// Get the ground hit type for this rigid body.
+    /// Only valid for entity rigid bodies that do *not* have a ground hit mask
+    /// but a normal entity mask. Returns 0 if this is a sensor, HitAll if in ground hit mask mode.
+    GroundHit getGroundHitType() const;
+
+    /// Set a ground hit type. This can only be done for entity rigid bodies.
+    void setGroundHitType(GroundHit ground_hit);
+
+    // endregion
+
+    void setColor(const sead::Color4f& color, const void* a, bool b);
 
     void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions);
     void getPosition(sead::Vector3f* position) const;

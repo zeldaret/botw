@@ -12,7 +12,7 @@ class EntitySystemGroupHandler : public SystemGroupHandler {
 public:
     explicit EntitySystemGroupHandler(int i) : SystemGroupHandler(i, ContactLayerType::Entity) {}
 
-    u32 m5() override;
+    u32 makeCollisionFilterInfo(u32 info, ContactLayer layer, GroundHit ground_hit) override;
     u32 m6() override;
     bool m8() override;
 };

@@ -53,7 +53,7 @@ public:
                                        ContactLayer layer2, bool enabled);
 
     // 0x0000007101216a20
-    void x_1(RigidBody* body);
+    void registerRigidBodyForContactSystem(RigidBody* body);
 
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 

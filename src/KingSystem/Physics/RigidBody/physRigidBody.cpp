@@ -2,6 +2,8 @@
 #include <Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h>
 #include <Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h>
 #include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
+#include <Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h>
+#include <Havok/Physics2012/Collide/Shape/Compound/Tree/Mopp/hkpMoppBvTreeShape.h>
 #include <Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h>
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
@@ -14,6 +16,9 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
+#include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Physics/System/physGroupFilter.h"
+#include "KingSystem/Physics/System/physSensorGroupFilter.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Physics/physConversions.h"
@@ -587,7 +592,7 @@ void RigidBody::enableGroundCollision(bool enabled) {
     if (int(getContactLayer()) == ContactLayer::EntityRagdoll)
         return;
 
-    const auto current_info = getCollisionFilterInfo();
+    const auto current_info = getEntityCollisionFilterInfo();
     auto info = current_info;
     info.unk5 = false;
     info.no_ground_collision.SetBit(!enabled);
@@ -599,7 +604,7 @@ bool RigidBody::isGroundCollisionEnabled() const {
     if (!isEntity())
         return false;
 
-    const auto info = getCollisionFilterInfo();
+    const auto info = getEntityCollisionFilterInfo();
 
     bool enabled = false;
     enabled |= info.unk5;
@@ -615,7 +620,7 @@ void RigidBody::enableWaterCollision(bool enabled) {
     if (int(getContactLayer()) == ContactLayer::EntityRagdoll)
         return;
 
-    const auto current_info = getCollisionFilterInfo();
+    const auto current_info = getEntityCollisionFilterInfo();
     auto info = current_info;
     info.no_water_collision = !enabled;
     if (current_info != info)
@@ -626,7 +631,7 @@ bool RigidBody::isWaterCollisionEnabled() const {
     if (!isEntity())
         return false;
 
-    const auto info = getCollisionFilterInfo();
+    const auto info = getEntityCollisionFilterInfo();
 
     bool enabled = false;
     // unk30 enables all collisions?
@@ -636,15 +641,194 @@ bool RigidBody::isWaterCollisionEnabled() const {
 }
 
 ContactLayer RigidBody::getContactLayer() const {
-    return getContactLayer(getCollisionFilterInfo());
+    return getContactLayer(getEntityCollisionFilterInfo());
 }
 
 ContactLayer RigidBody::getContactLayer(EntityCollisionFilterInfo info) const {
     return isSensor() ? info.getLayerSensor() : info.getLayer();
 }
 
-EntityCollisionFilterInfo RigidBody::getCollisionFilterInfo() const {
-    return EntityCollisionFilterInfo(mHkBody->getCollisionFilterInfo());
+void RigidBody::setContactLayer(ContactLayer layer) {
+    if (getLayerType() != getContactLayerType(layer))
+        return;
+
+    const auto current_info = getCollisionFilterInfo();
+    auto info = current_info;
+    if (isSensor())
+        info = sensorReceiverMaskSetLayer(layer, info);
+    else
+        info = makeEntityCollisionMask(layer, info);
+
+    if (current_info != info)
+        setCollisionFilterInfo(info);
+}
+
+u32 RigidBody::getCollisionFilterInfo() const {
+    return mHkBody->getCollisionFilterInfo();
+}
+
+static void resetCollisionFilterInfoForListShapes(const hkpShape* shape) {
+    while (true) {
+        switch (shape->getType()) {
+        case hkcdShapeType::LIST: {
+            auto* list = static_cast<const hkpListShape*>(shape);
+            for (auto k = list->getFirstKey(); k != HK_INVALID_SHAPE_KEY; k = list->getNextKey(k)) {
+                // XXX: eww, can we get rid of this const_cast?
+                auto* mut_list = const_cast<hkpListShape*>(list);
+                mut_list->setCollisionFilterInfo(k, 0xffffffff);
+            }
+            return;
+        }
+
+        case hkcdShapeType::MOPP:
+            shape = static_cast<const hkpMoppBvTreeShape*>(shape)->getChild();
+            continue;
+
+        default:
+            return;
+        }
+    }
+}
+
+void RigidBody::setCollisionFilterInfo(u32 info) {
+    const auto current_layer = getContactLayer();
+
+    const auto lock = makeScopedLock(isFlag8Set());
+
+    if (getCollisionFilterInfo() != info) {
+        if (isFlag8Set()) {
+            if (int(current_layer) != getContactLayer(EntityCollisionFilterInfo(info)))
+                System::instance()->registerRigidBodyForContactSystem(this);
+        }
+
+        mHkBody->setCollisionFilterInfo(info);
+        if (auto* shape = mHkBody->getCollidableRw()->getShape())
+            resetCollisionFilterInfoForListShapes(shape);
+
+        if (isFlag8Set())
+            setMotionFlag(MotionFlag::_8000);
+    }
+}
+
+void RigidBody::setSensorReceiverLayer2(ContactLayer layer) {
+    static_cast<void>(isSensor());
+    static_cast<void>(isSensor());
+    const auto info = sensorReceiverMaskSetLayer2(true, layer, getCollisionFilterInfo());
+    setCollisionFilterInfo(info);
+}
+
+void RigidBody::clearSensorReceiverLayer2() {
+    if (!isSensor())
+        return;
+
+    if (getContactLayer() == ContactLayer::SensorCustomReceiver)
+        return;
+
+    // The layer we pass here is actually irrelevant because we're clearing the layer value anyway.
+    const auto info =
+        sensorReceiverMaskSetLayer2(false, ContactLayer::SensorNoHit, getCollisionFilterInfo());
+
+    setCollisionFilterInfo(info);
+}
+
+void RigidBody::setContactLayerAndHandler(ContactLayer layer, SystemGroupHandler* handler) {
+    setContactLayer(layer);
+    setSystemGroupHandler(handler);
+}
+
+void RigidBody::setContactLayerAndGroundHit(ContactLayer layer, GroundHit ground_hit) {
+    setContactLayer(layer);
+    if (isEntity())
+        setGroundHitType(ground_hit);
+}
+
+void RigidBody::setContactLayerAndGroundHitAndHandler(ContactLayer layer, GroundHit ground_hit,
+                                                      SystemGroupHandler* handler) {
+    setContactLayer(layer);
+    if (isEntity())
+        setGroundHitType(ground_hit);
+    setSystemGroupHandler(handler);
+}
+
+void RigidBody::setSystemGroupHandler(SystemGroupHandler* handler) {
+    const auto layer = getContactLayer();
+    const auto ground_hit = getGroundHitType();
+    const auto info = getCollisionFilterInfo();
+
+    if (handler) {
+        if (handler->getLayerType() == getLayerType()) {
+            setCollisionFilterInfo(handler->makeCollisionFilterInfo(info, layer, ground_hit));
+        } else {
+            SEAD_WARN("handler layer type doesn't match rigid body type; ignoring handler");
+        }
+    } else if (isEntity()) {
+        setCollisionFilterInfo(EntityCollisionFilterInfo::make(layer, ground_hit).raw);
+    } else {
+        setCollisionFilterInfo(ReceiverMask::make(layer).raw);
+    }
+}
+
+void RigidBody::setSensorCustomReceiver(const ReceiverMask& mask) {
+    ReceiverMask info = mask;
+
+    if (!isSensor())
+        return;
+
+    info.raw = sensorReceiverMaskSetLayer(ContactLayer::SensorCustomReceiver, info.raw);
+    setCollisionFilterInfo(info.raw);
+}
+
+void RigidBody::setSensorCustomReceiver(const ReceiverMask& mask,
+                                        const SystemGroupHandler* handler) {
+    ReceiverMask info = mask;
+
+    if (!isSensor())
+        return;
+
+    info.raw = sensorReceiverMaskSetLayer(ContactLayer::SensorCustomReceiver, info.raw);
+    if (handler) {
+        info.custom_receiver_data.group_handler_index.SetUnsafe(handler->getIndex());
+    }
+    setCollisionFilterInfo(info.raw);
+}
+
+void RigidBody::setGroundHitMask(ContactLayer layer, u32 mask) {
+    if (getContactLayerType(layer) == ContactLayerType::Entity)
+        setCollisionFilterInfo(makeEntityGroundHitMask(layer, mask));
+}
+
+void RigidBody::addGroundTypeToGroundHitMask(GroundHit ground_hit) {
+    auto info = getEntityCollisionFilterInfo();
+
+    if (!isEntity() || !info.is_ground_hit_mask)
+        return;
+
+    info.ground_hit.addGroundHit(ground_hit);
+    setCollisionFilterInfo(info.raw);
+}
+
+GroundHit RigidBody::getGroundHitType() const {
+    const auto info = getEntityCollisionFilterInfo();
+    if (!isEntity())
+        return {};
+    return info.getGroundHit();
+}
+
+void RigidBody::setGroundHitType(GroundHit ground_hit) {
+    if (!isEntity())
+        return;
+
+    const auto current_info = getCollisionFilterInfo();
+    auto info = current_info;
+    info = setEntityCollisionMaskGroundHit(ground_hit, info);
+
+    if (current_info != info)
+        setCollisionFilterInfo(info);
+}
+
+void RigidBody::setColor(const sead::Color4f& color, const void* a, bool b) {
+    // Stubbed debug function? This would probably have been used to see Area actors
+    // (which are normally invisible).
 }
 
 void RigidBody::setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) {

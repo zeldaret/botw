@@ -18,6 +18,8 @@ public:
 
 namespace ksys::phys {
 
+class SystemGroupHandler;
+
 class Ragdoll {};
 
 class RagdollController {
@@ -117,7 +119,7 @@ private:
     u8 _e0[0x148 - 0xe0];
     sead::TList<RigidBody*> mList;
     u8 _160[0x188 - 0x160];
-    void* _188[2];
+    SystemGroupHandler* _188[2];
 };
 KSYS_CHECK_SIZE_NX150(InstanceSet, 0x198);
 

@@ -17,7 +17,7 @@ public:
         : mIndex(index), mLayerType(layer_type) {}
 
     virtual ~SystemGroupHandler() = default;
-    virtual u32 m5() = 0;
+    virtual u32 makeCollisionFilterInfo(u32 info, ContactLayer layer, GroundHit ground_hit) = 0;
     virtual u32 m6() = 0;
     virtual u32 m7();
     virtual bool m8() = 0;

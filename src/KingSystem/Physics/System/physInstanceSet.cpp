@@ -129,16 +129,16 @@ void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* pa
     phys::RigidBodyInstanceParam instance_params;
     param->makeInstanceParam(&instance_params);
     if (instance_params.contact_layer == phys::ContactLayer::SensorCustomReceiver) {
-        body->sub_7100F8F9E8(&instance_params.receiver_mask, _188[body->isSensor()]);
+        body->setSensorCustomReceiver(instance_params.receiver_mask, _188[body->isSensor()]);
     } else if (instance_params.groundhit_mask) {
-        body->sub_7100F8FA44(instance_params.contact_layer, instance_params.groundhit_mask);
+        body->setGroundHitMask(instance_params.contact_layer, instance_params.groundhit_mask);
     } else {
-        body->sub_7100F8F8CC(instance_params.contact_layer, instance_params.groundhit,
-                             _188[body->isSensor()]);
+        body->setContactLayerAndGroundHitAndHandler(
+            instance_params.contact_layer, instance_params.groundhit, _188[body->isSensor()]);
     }
     body->enableGroundCollision(instance_params.no_hit_ground == 0);
     body->enableWaterCollision(instance_params.no_hit_water == 0);
-    body->sub_7100F8F51C();
+    body->clearSensorReceiverLayer2();
 }
 
 void* InstanceSet::sub_7100FBBC28(const sead::SafeString& name) const {

@@ -185,15 +185,14 @@ struct BitField {
     static constexpr bool IsSigned() { return std::is_signed<T>(); }
     static constexpr std::size_t StartBit() { return position; }
     static constexpr std::size_t NumBits() { return bits; }
-
-private:
-    // Unsigned version of StorageType
-    using StorageTypeU = std::make_unsigned_t<StorageType>;
-
     static constexpr StorageType GetMask() {
         return (std::numeric_limits<StorageTypeU>::max() >> (8 * sizeof(StorageType) - bits))
                << position;
     }
+
+private:
+    // Unsigned version of StorageType
+    using StorageTypeU = std::make_unsigned_t<StorageType>;
 
     StorageType storage;
 
@@ -206,5 +205,23 @@ private:
     static_assert(bits > 0, "Invalid number of bits");
 };
 #pragma pack()
+
+/// Return the combined mask for all specified BitFields.
+template <typename Storage, typename... BitFields>
+constexpr Storage getMaskForBitFields() {
+    Storage mask{};
+    ((mask |= BitFields::GetMask()), ...);
+    return mask;
+}
+
+/// Clear several BitFields at once.
+///
+/// This can sometimes produce better codegen compared to setting each BitField to zero.
+/// (This function builds a mask for all the BitFields and clears those bits in one pass.)
+template <typename Storage, typename... BitFields>
+constexpr void clearBitFields(Storage* storage, const BitFields&... fields) {
+    constexpr Storage mask = getMaskForBitFields<Storage, BitFields...>();
+    *storage &= ~mask;
+}
 
 }  // namespace ksys::util

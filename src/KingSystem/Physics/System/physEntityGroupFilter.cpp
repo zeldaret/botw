@@ -29,7 +29,7 @@ bool receiverMaskGetSensorLayerMaskForType(ReceiverMask* mask,
 void receiverMaskSetSensorLayerMask(ReceiverMask* mask, u32 layer_mask) {
     *mask = {};
     mask->layer_mask = layer_mask;
-    mask->unk_flag = true;
+    mask->is_custom_receiver = true;
 }
 
 EntityGroupFilter* EntityGroupFilter::make(ContactLayer::ValueType first,

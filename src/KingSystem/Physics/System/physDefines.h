@@ -181,18 +181,44 @@ enum class MotionType {
 };
 
 union ReceiverMask {
-    constexpr ReceiverMask() : raw(0) { unk_flag = true; }
+    union Data {
+        util::BitField<0, 5, u32> layer;
+        // TODO: rename once we figure out what this layer is used for
+        util::BitField<5, 1, bool, u32> has_layer2;
+        util::BitField<6, 5, u32> layer2;
+    };
+
+    union CustomReceiverData {
+        util::BitField<0, 21, u32> layer;
+        util::BitField<21, 10, u32> group_handler_index;
+    };
+
+    constexpr ReceiverMask() : raw(0) { is_custom_receiver = true; }
     constexpr explicit ReceiverMask(u32 raw_) : raw(raw_) {}
+    constexpr ReceiverMask(const ReceiverMask&) = default;
     constexpr ReceiverMask& operator=(const ReceiverMask& m) {
         raw = m.raw;
         return *this;
     }
 
+    static ReceiverMask make(ContactLayer layer) {
+        ReceiverMask mask;
+        if (layer == ContactLayer::SensorCustomReceiver) {
+            mask.is_custom_receiver = true;
+            mask.custom_receiver_data.layer.Init(ContactLayer::SensorCustomReceiver - FirstSensor);
+        } else {
+            mask.is_custom_receiver = false;
+            mask.data.layer.Init(layer - FirstSensor);
+        }
+        return mask;
+    }
+
     u32 raw;
+    Data data;
+    CustomReceiverData custom_receiver_data;
     // FIXME: is this a sensor layer mask?
     util::BitField<0, 21, u32> layer_mask;
-    // FIXME: is sensor layer? is layer mask?
-    util::BitField<31, 1, u32> unk_flag;
+    util::BitField<31, 1, bool, u32> is_custom_receiver;
 };
 
 union EntityCollisionFilterInfo {
@@ -201,6 +227,7 @@ union EntityCollisionFilterInfo {
         ContactLayer getLayerSensor() const { return int(layer + FirstSensor); }
         GroundHit getGroundHit() const { return int(ground_hit); }
 
+        u32 raw;
         util::BitField<0, 5, u32> layer;
         util::BitField<24, 1, u32> unk24;
         util::BitField<25, 1, u32> unk25;
@@ -210,16 +237,33 @@ union EntityCollisionFilterInfo {
     union GroundHitMask {
         ContactLayer getLayer() const { return int(layer); }
 
+        void addGroundHit(GroundHit hit) {
+            raw |= (1 << hit) << decltype(ground_hit_types)::StartBit();
+        }
+
+        u32 raw;
         util::BitField<0, 1, u32> unk;
         util::BitField<8, 16, u32> ground_hit_types;
         util::BitField<24, 1, u32> unk24;
         util::BitField<25, 5, u32> layer;
     };
 
-    explicit EntityCollisionFilterInfo(u32 raw_ = 0) : raw(raw_) {}
+    constexpr explicit EntityCollisionFilterInfo(u32 raw_ = 0) : raw(raw_) {}
+    constexpr EntityCollisionFilterInfo(const EntityCollisionFilterInfo&) = default;
+    constexpr EntityCollisionFilterInfo& operator=(const EntityCollisionFilterInfo& m) {
+        raw = m.raw;
+        return *this;
+    }
 
     bool operator==(EntityCollisionFilterInfo rhs) const { return raw == rhs.raw; }
     bool operator!=(EntityCollisionFilterInfo rhs) const { return raw != rhs.raw; }
+
+    static EntityCollisionFilterInfo make(ContactLayer layer, GroundHit ground_hit) {
+        EntityCollisionFilterInfo mask;
+        mask.data.layer.Init(layer);
+        mask.data.ground_hit.Init(ground_hit);
+        return mask;
+    }
 
     ContactLayer getLayer() const {
         return is_ground_hit_mask ? ground_hit.getLayer() : data.getLayer();
@@ -228,6 +272,10 @@ union EntityCollisionFilterInfo {
     ContactLayer getLayerSensor() const {
         return is_ground_hit_mask ? ContactLayer(ContactLayer::SensorCustomReceiver) :
                                     data.getLayerSensor();
+    }
+
+    GroundHit getGroundHit() const {
+        return is_ground_hit_mask ? GroundHit::HitAll : data.getGroundHit();
     }
 
     u32 raw;
