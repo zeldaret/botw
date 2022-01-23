@@ -9,20 +9,19 @@ ContactLayerType getContactLayerType(ContactLayer layer) {
 }
 
 u32 makeContactLayerMask(ContactLayer layer) {
-    if (layer < ContactLayer::SensorObject)
+    if (layer < FirstSensor)
         return 1 << layer;
-    return 1 << (layer - ContactLayer::SensorObject);
+    return 1 << (layer - FirstSensor);
 }
 
 u32 getContactLayerBase(ContactLayerType type) {
     if (type == ContactLayerType::Entity)
-        return ContactLayer::EntityObject;
-    return ContactLayer::SensorObject;
+        return FirstEntity;
+    return FirstSensor;
 }
 
 u32 getContactLayerBaseRelativeValue(ContactLayer layer) {
-    return layer - (layer < ContactLayer::SensorObject ? ContactLayer::EntityObject :
-                                                         ContactLayer::SensorObject);
+    return layer - (layer < FirstSensor ? FirstEntity : FirstSensor);
 }
 
 const char* contactLayerToText(ContactLayer layer) {

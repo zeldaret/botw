@@ -31,9 +31,8 @@ void System::initSystemData(sead::Heap* heap) {
     res::registerEntryFactory(new (heap) res::EntryFactory<RagdollControllerKeyList>(1.0, 0x4000),
                               "brgcon");
 
-    mEntityGroupFilter = EntityGroupFilter::make(ContactLayer::EntityObject,
-                                                 ContactLayer::EntityMeshVisualizer, heap);
-    mSensorGroupFilter = SensorGroupFilter::make(ContactLayer::SensorCustomReceiver, heap);
+    mEntityGroupFilter = EntityGroupFilter::make(FirstEntity, LastEntity, heap);
+    mSensorGroupFilter = SensorGroupFilter::make(LastSensor, heap);
     mGroupFilters.pushBack(mEntityGroupFilter);
     mGroupFilters.pushBack(mSensorGroupFilter);
 

@@ -74,6 +74,12 @@ SensorEnd)
 
 constexpr int MaxNumLayersPerType = 32;
 
+constexpr auto FirstEntity = ContactLayer::EntityObject;
+constexpr auto LastEntity = ContactLayer::EntityMeshVisualizer;
+
+constexpr auto FirstSensor = ContactLayer::SensorObject;
+constexpr auto LastSensor = ContactLayer::SensorCustomReceiver;
+
 SEAD_ENUM(Material,
 Undefined,\
 Soil,\
@@ -192,7 +198,7 @@ union ReceiverMask {
 union EntityCollisionFilterInfo {
     union Data {
         ContactLayer getLayer() const { return int(layer); }
-        ContactLayer getLayerSensor() const { return int(layer + ContactLayer::SensorObject); }
+        ContactLayer getLayerSensor() const { return int(layer + FirstSensor); }
         GroundHit getGroundHit() const { return int(ground_hit); }
 
         util::BitField<0, 5, u32> layer;
