@@ -13,8 +13,8 @@ namespace ksys::phys {
 class SystemGroupHandler {
     SEAD_RTTI_BASE(SystemGroupHandler)
 public:
-    explicit SystemGroupHandler(int index, int filter_index)
-        : mIndex(index), mFilterIndex(filter_index) {}
+    explicit SystemGroupHandler(int index, ContactLayerType layer_type)
+        : mIndex(index), mLayerType(layer_type) {}
 
     virtual ~SystemGroupHandler() = default;
     virtual u32 m5() = 0;
@@ -23,7 +23,7 @@ public:
     virtual bool m8() = 0;
 
     int getIndex() const { return mIndex; }
-    int getFilterIndex() const { return mFilterIndex; }
+    ContactLayerType getLayerType() const { return mLayerType; }
 
     const char* getActorName() const { return mActorName; }
     void setActorName(const char* name) { mActorName = name; }
@@ -46,7 +46,7 @@ protected:
     const char* mActorName = nullptr;
     const char* mActorProfile = nullptr;
     int mIndex = 0;
-    int mFilterIndex = 0;
+    ContactLayerType mLayerType{};
     sead::ListNode mFreeListNode;
     sead::ListNode mUsedListNode;
 };

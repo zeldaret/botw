@@ -161,7 +161,7 @@ void EntityGroupFilter::doInitSystemGroupHandlerLists_(sead::Heap* heap) {
 
     for (int i = 1; i < NumEntityHandlers; ++i) {
         auto& list = mFreeLists[i < NumEntityHandlersInList0];
-        list.pushBack(new (heap) EntitySystemGroupHandler(i, 0));
+        list.pushBack(new (heap) EntitySystemGroupHandler(i));
     }
 }
 
