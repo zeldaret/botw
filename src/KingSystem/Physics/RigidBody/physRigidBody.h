@@ -18,6 +18,7 @@ class hkQuaternionf;
 class hkVector4f;
 class hkpCollidable;
 class hkpRigidBody;
+class hkpShape;
 class hkpMaxSizeMotion;
 class hkpMotion;
 
@@ -79,6 +80,10 @@ public:
         _2000000 = 1 << 25,
         _4000000 = 1 << 26,
         _8000000 = 1 << 27,
+        _10000000 = 1 << 28,
+        _20000000 = 1 << 29,
+        _40000000 = 1 << 30,
+        _80000000 = 1 << 31,
     };
 
     enum class MotionFlag {
@@ -96,7 +101,7 @@ public:
         DirtyCenterOfMassLocal = 1 << 11,
         DirtyInertiaLocal = 1 << 12,
         DirtyDampingOrGravityFactor = 1 << 13,
-        _4000 = 1 << 14,
+        DirtyShape = 1 << 14,
         _8000 = 1 << 15,
         _10000 = 1 << 16,
         _20000 = 1 << 17,
@@ -266,8 +271,19 @@ public:
 
     void getTransform(sead::Matrix34f* mtx) const;
     sead::Matrix34f getTransform() const;
-    // 0x0000007100f8fb08
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions);
+    bool isTransformDirty() const;
+
+    void updateShape();
+    void updateShapeIfNeeded(float x);
+
+    void changeMotionType(MotionType motion_type);
+    // 0x0000007100f9045c - calls a bunch of Havok world functions
+    void doChangeMotionType(MotionType x, MotionType y);
+    // 0x0000007100f908c8
+    void x_40();
+    void updateMotionTypeRelatedFlags();
+    void triggerScheduledMotionTypeChange();
 
     bool setLinearVelocity(const sead::Vector3f& velocity, float epsilon = sead::Mathf::epsilon());
     void getLinearVelocity(sead::Vector3f* velocity) const;
@@ -279,9 +295,16 @@ public:
 
     void getPointVelocity(sead::Vector3f* velocity, const sead::Vector3f& point) const;
 
-    // 0x0000007100f92b74
+    /// Compute the linear velocity that would be necessary to instantly warp to the target.
+    void computeVelocityForWarping(sead::Vector3f* linear_velocity,
+                                   const sead::Vector3f& target_position,
+                                   bool take_angular_velocity_into_account);
     void computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
                            const hkVector4f& position, const hkQuaternionf& rotation);
+    // 0x0000007100f91780
+    void computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
+                           const hkVector4f& position, const hkQuaternionf& rotation, float factor);
+    float getVelocityComputeTimeFactor() const;
 
     void setCenterOfMassInLocal(const sead::Vector3f& center);
     void getCenterOfMassInLocal(sead::Vector3f* center) const;
@@ -416,7 +439,7 @@ public:
     bool isEntityMotionFlag200On() const;
 
     virtual void m9() = 0;
-    virtual void* m10();
+    virtual const hkpShape* getNewShape();
     virtual void* m11();
     virtual float m12(float x, float y);
     virtual void resetPosition();

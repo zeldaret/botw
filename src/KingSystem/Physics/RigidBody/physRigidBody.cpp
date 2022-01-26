@@ -35,6 +35,14 @@ static bool isVectorInvalid(const sead::Vector3f& vec) {
     return false;
 }
 
+static bool isMatrixInvalid(const sead::Matrix34f& matrix) {
+    for (float x : matrix.a) {
+        if (std::isnan(x))
+            return true;
+    }
+    return false;
+}
+
 RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
                      const sead::SafeString& name, sead::Heap* heap, bool a7)
     : mCS(heap), mHkBody(hk_body), mRigidBodyAccessor(hk_body), mType(type) {
@@ -884,6 +892,153 @@ sead::Matrix34f RigidBody::getTransform() const {
     return transform;
 }
 
+void RigidBody::setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) {
+    if (isMatrixInvalid(mtx)) {
+        onInvalidParameter();
+        return;
+    }
+
+    mMotionAccessor->setTransform(mtx, propagate_to_linked_motions);
+}
+
+bool RigidBody::isTransformDirty() const {
+    return mMotionFlags.isOn(MotionFlag::DirtyTransform);
+}
+
+void RigidBody::updateShape() {
+    if (isFlag8Set()) {
+        setMotionFlag(MotionFlag::DirtyShape);
+        return;
+    }
+
+    auto* shape = getNewShape();
+    if (shape) {
+        mHkBody->setShape(shape);
+        if (isEntity() && mMotionAccessor)
+            mMotionAccessor->increment14();
+    } else {
+        mHkBody->updateShape();
+        if (isEntity() && mMotionAccessor)
+            mMotionAccessor->increment10();
+    }
+
+    if (mUserTag)
+        mUserTag->onBodyShapeChanged(this);
+}
+
+void RigidBody::updateShapeIfNeeded(float x) {
+    if (!hasFlag(Flag::_10))
+        return;
+
+    if (x <= 0.0)
+        x = 1.0;
+
+    if (sead::Mathf::equalsEpsilon(_b0, x))
+        return;
+
+    _b0 = m12(x, _b0);
+    updateShape();
+}
+
+void RigidBody::changeMotionType(MotionType motion_type) {
+    if (getMotionType() == motion_type)
+        return;
+
+    if (isFlag8Set()) {
+        switch (motion_type) {
+        case MotionType::Dynamic:
+            if (isEntity()) {
+                setMotionFlag(MotionFlag::Dynamic);
+                mMotionFlags.reset(MotionFlag::Fixed);
+                mMotionFlags.reset(MotionFlag::Keyframed);
+            }
+            break;
+        case MotionType::Fixed:
+            setMotionFlag(MotionFlag::Fixed);
+            mMotionFlags.reset(MotionFlag::Dynamic);
+            mMotionFlags.reset(MotionFlag::Keyframed);
+            break;
+        case MotionType::Keyframed:
+            setMotionFlag(MotionFlag::Keyframed);
+            mMotionFlags.reset(MotionFlag::Dynamic);
+            mMotionFlags.reset(MotionFlag::Fixed);
+            break;
+        case MotionType::Unknown:
+        case MotionType::Invalid:
+            break;
+        }
+        return;
+    }
+
+    switch (motion_type) {
+    case MotionType::Dynamic:
+        if (!isEntity())
+            return;
+        mMotionFlags.set(MotionFlag::Dynamic);
+        break;
+    case MotionType::Fixed:
+        mMotionFlags.set(MotionFlag::Fixed);
+        break;
+    case MotionType::Keyframed:
+        mMotionFlags.set(MotionFlag::Keyframed);
+        break;
+    case MotionType::Unknown:
+    case MotionType::Invalid:
+        break;
+    }
+
+    doChangeMotionType(motion_type, getMotionType());
+    mMotionFlags.set(MotionFlag::DirtyMass);
+    mMotionFlags.set(MotionFlag::DirtyInertiaLocal);
+    mMotionFlags.set(MotionFlag::DirtyMaxVelOrTimeFactor);
+    mMotionFlags.set(MotionFlag::DirtyDampingOrGravityFactor);
+    mMotionFlags.set(MotionFlag::DirtyCenterOfMassLocal);
+    x_40();
+}
+
+void RigidBody::updateMotionTypeRelatedFlags() {
+    if (hasFlag(Flag::_20000000) || hasFlag(Flag::_80000000) || hasFlag(Flag::_40000000))
+        return;
+
+    switch (getMotionType()) {
+    case MotionType::Dynamic:
+        mFlags.set(Flag::_80000000);
+        mFlags.reset(Flag::_20000000);
+        mFlags.reset(Flag::_40000000);
+        return;
+    case MotionType::Fixed:
+        mFlags.set(Flag::_40000000);
+        mFlags.reset(Flag::_20000000);
+        mFlags.reset(Flag::_80000000);
+        return;
+    case MotionType::Keyframed:
+        mFlags.set(Flag::_20000000);
+        mFlags.reset(Flag::_40000000);
+        mFlags.reset(Flag::_80000000);
+        return;
+    case MotionType::Unknown:
+    case MotionType::Invalid:
+        break;
+    }
+
+    mFlags.reset(Flag::_20000000);
+    mFlags.reset(Flag::_40000000);
+    mFlags.reset(Flag::_80000000);
+}
+
+void RigidBody::triggerScheduledMotionTypeChange() {
+    if (hasFlag(Flag::_20000000)) {
+        changeMotionType(MotionType::Keyframed);
+        mFlags.reset(Flag::_20000000);
+    } else if (hasFlag(Flag::_40000000)) {
+        changeMotionType(MotionType::Fixed);
+        mFlags.reset(Flag::_40000000);
+    } else if (hasFlag(Flag::_80000000)) {
+        changeMotionType(MotionType::Dynamic);
+        mFlags.reset(Flag::_80000000);
+    }
+}
+
 bool RigidBody::setLinearVelocity(const sead::Vector3f& velocity, float epsilon) {
     if (isVectorInvalid(velocity)) {
         onInvalidParameter();
@@ -937,6 +1092,43 @@ void RigidBody::getPointVelocity(sead::Vector3f* velocity, const sead::Vector3f&
     const auto rel_pos = point - getCenterOfMassInWorld();
     velocity->setCross(getAngularVelocity(), rel_pos);
     velocity->add(getLinearVelocity());
+}
+
+void RigidBody::computeVelocityForWarping(sead::Vector3f* linear_velocity,
+                                          const sead::Vector3f& target_position,
+                                          bool take_angular_velocity_into_account) {
+    const float factor = getVelocityComputeTimeFactor();
+    const auto hk_target_pos = toHkVec4(target_position);
+    auto hk_current_pos = toHkVec4(getPosition());
+
+    if (take_angular_velocity_into_account) {
+        const auto center = getCenterOfMassInLocal();
+        if (center.x == 0 && center.y == 0 && center.z == 0) {
+            hkVector4f rel_pos;
+            rel_pos.setSub(hk_current_pos, toHkVec4(getCenterOfMassInWorld()));
+
+            hkVector4f correction;
+            correction.setCross(toHkVec4(getAngularVelocity()), rel_pos);
+            correction.mul(1.0f / factor);
+            hk_current_pos.add(correction);
+        }
+    }
+
+    hkVector4f result;
+    result.setSub(hk_target_pos, hk_current_pos);
+    result.mul(factor);
+    storeToVec3(linear_velocity, result);
+}
+
+void RigidBody::computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
+                                  const hkVector4f& position, const hkQuaternionf& rotation) {
+    const float factor = getVelocityComputeTimeFactor();
+    computeVelocities(linear_velocity, angular_velocity, position, rotation, factor);
+}
+
+float RigidBody::getVelocityComputeTimeFactor() const {
+    const float time_factor = getTimeFactor();
+    return time_factor == 0 ? 0 : (1.f / (time_factor * System::instance()->get64()));
 }
 
 void RigidBody::setCenterOfMassInLocal(const sead::Vector3f& center) {
@@ -1403,7 +1595,7 @@ void RigidBody::clearFlag8000000(bool clear) {
         updateDeactivation();
 }
 
-void* RigidBody::m10() {
+const hkpShape* RigidBody::getNewShape() {
     return nullptr;
 }
 

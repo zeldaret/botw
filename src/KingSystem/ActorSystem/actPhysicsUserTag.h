@@ -20,7 +20,7 @@ public:
 
     void m2(void* a) override;
     void m3(void* a, void* b, float c) override;
-    void m4() override;
+    void onBodyShapeChanged(phys::RigidBody* body) override;
     void m5() override;
     const sead::SafeString& getName() const override;
     void m7(phys::RigidBody* rigid_body, int a) override;

@@ -20,8 +20,13 @@ public:
     HK_FORCE_INLINE hkSimdFloat32 getRealPart() const;
     HK_FORCE_INLINE const hkVector4f& getImag() const;
 
+    HK_FORCE_INLINE hkFloat32 getAngle() const;
+    hkSimdFloat32 getAngleSr() const;
+
     HK_FORCE_INLINE void mul(hkQuaternionfParameter q);
     HK_FORCE_INLINE void setMul(hkQuaternionfParameter q0, hkQuaternionfParameter q1);
+
+    HK_FORCE_INLINE void setInverse(hkQuaternionfParameter q);
 
     HK_FORCE_INLINE static const hkQuaternionf& getIdentity();
 
@@ -62,6 +67,10 @@ inline const hkVector4f& hkQuaternionf::getImag() const {
     return m_vec;
 }
 
+inline hkFloat32 hkQuaternionf::getAngle() const {
+    return getAngleSr().val();
+}
+
 inline void hkQuaternionf::mul(hkQuaternionfParameter q) {
     setMul(*this, q);
 }
@@ -77,6 +86,10 @@ inline void hkQuaternionf::setMul(hkQuaternionfParameter r, hkQuaternionfParamet
     vec.addMul(rReal, qImag);
     vec.addMul(qReal, rImag);
     m_vec.setXYZ_W(vec, (rReal * qReal) - rImag.dot<3>(qImag));
+}
+
+inline void hkQuaternionf::setInverse(const hkQuaternionf& q) {
+    m_vec.setNeg<3>(q.getImag());
 }
 
 inline const hkQuaternionf& hkQuaternionf::getIdentity() {

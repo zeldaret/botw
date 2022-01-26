@@ -61,6 +61,8 @@ public:
     hkpRigidBody* getHkBody() const { return mBody->getHkBody(); }
     u32 get10() const { return _10; }
     u32 get14() const { return _14; }
+    void increment10() { ++_10; }
+    void increment14() { ++_14; }
 
 protected:
     RigidBody* mBody = nullptr;

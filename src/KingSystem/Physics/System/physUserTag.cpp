@@ -10,7 +10,7 @@ void UserTag::m3(void* a, void* b, float c) {
     // FIXME
 }
 
-void UserTag::m4() {}
+void UserTag::onBodyShapeChanged(RigidBody* body) {}
 
 void UserTag::m5() {}
 

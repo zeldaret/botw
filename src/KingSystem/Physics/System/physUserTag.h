@@ -17,7 +17,7 @@ public:
     virtual void m2(void* a);
     // a and b are probably physics bodies?
     virtual void m3(void* a, void* b, float c);
-    virtual void m4();
+    virtual void onBodyShapeChanged(RigidBody* body);
     virtual void m5();
     virtual const sead::SafeString& getName() const { return sead::SafeString::cEmptyString; }
     virtual void m7(RigidBody* rigid_body, int a);

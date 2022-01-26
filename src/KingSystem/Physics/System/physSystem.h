@@ -30,6 +30,7 @@ class System {
     virtual ~System();
 
 public:
+    float get64() const { return _64; }
     float getTimeFactor() const { return mTimeFactor; }
     GroupFilter* getGroupFilter(ContactLayerType type) const;
     ContactMgr* getContactMgr() const { return mContactMgr; }
@@ -61,7 +62,11 @@ public:
     void unlockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
 
 private:
-    u8 _28[0x74 - 0x28];
+    u8 _28[0x64 - 0x28];
+    float _64 = 1.0 / 30.0;
+    float _68 = 1.0 / 30.0;
+    float _6c = 1.0;
+    float _70 = 1.0 / 30.0;
     float mTimeFactor{};
     u8 _78[0xa8 - 0x78];
     sead::CriticalSection mCS;
