@@ -212,27 +212,33 @@ inline void hkpRigidBody::getPointVelocity(const hkVector4& p, hkVector4& vecOut
 }
 
 inline void hkpRigidBody::applyLinearImpulse(const hkVector4& imp) {
+    activate();
     getRigidMotion()->applyLinearImpulse(imp);
 }
 
 inline void hkpRigidBody::applyPointImpulse(const hkVector4& imp, const hkVector4& p) {
+    activate();
     getRigidMotion()->applyPointImpulse(imp, p);
 }
 
 inline void hkpRigidBody::applyAngularImpulse(const hkVector4& imp) {
+    activate();
     getRigidMotion()->applyAngularImpulse(imp);
 }
 
 inline void hkpRigidBody::applyForce(const hkReal deltaTime, const hkVector4& force) {
+    activate();
     getRigidMotion()->applyForce(deltaTime, force);
 }
 
 inline void hkpRigidBody::applyForce(const hkReal deltaTime, const hkVector4& force,
                                      const hkVector4& p) {
+    activate();
     getRigidMotion()->applyForce(deltaTime, force, p);
 }
 
 inline void hkpRigidBody::applyTorque(const hkReal deltaTime, const hkVector4& torque) {
+    activate();
     getRigidMotion()->applyTorque(deltaTime, torque);
 }
 
