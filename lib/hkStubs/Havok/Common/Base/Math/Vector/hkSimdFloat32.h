@@ -63,6 +63,14 @@ public:
 
     HK_FORCE_INLINE void setReciprocal(hkSimdFloat32Parameter a);
     HK_FORCE_INLINE hkSimdFloat32 reciprocal() const;
+    /// Returns the square root (or zero if the value is negative).
+    HK_FORCE_INLINE hkSimdFloat32 sqrt() const;
+    /// Returns the square root. Does not check if the value is negative.
+    HK_FORCE_INLINE hkSimdFloat32 sqrtUnsafe() const;
+    /// Return the inverse square root (or zero if the value is negative or zero).
+    HK_FORCE_INLINE hkSimdFloat32 sqrtInverse() const;
+    /// Return the inverse square root. Does not check if the value is negative or zero.
+    HK_FORCE_INLINE hkSimdFloat32 sqrtInverseUnsafe() const;
 
     HK_FORCE_INLINE hkBool32 isEqualZero() const;
 
@@ -175,6 +183,51 @@ inline hkSimdFloat32 hkSimdFloat32::reciprocal() const {
     hkSimdFloat32 r;
     r.setReciprocal(*this);
     return r;
+}
+
+inline hkSimdFloat32 hkSimdFloat32::sqrt() const {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    const auto equalsZero = vcle_f32(m_real, vcreate_f32(0));
+    const auto inv = sqrtInverseUnsafe().m_real;
+    const auto r = m_real * inv;
+    return vbic_u32(r, equalsZero);
+#else
+    for (int i = 0; i < 4; ++i)
+        m_real[i] = m_real[i] >= 0.0f ? std::sqrt(m_real[i]) : 0.0f;
+#endif
+}
+
+inline hkSimdFloat32 hkSimdFloat32::sqrtUnsafe() const {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    const auto inv = sqrtInverseUnsafe();
+    return m_real * inv.m_real;
+#else
+    for (int i = 0; i < 4; ++i)
+        m_real[i] = std::sqrt(m_real[i]);
+#endif
+}
+
+inline hkSimdFloat32 hkSimdFloat32::sqrtInverse() const {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    const auto equalsZero = vcle_f32(m_real, vcreate_f32(0));
+    const auto inv = sqrtInverseUnsafe().m_real;
+    return vbic_u32(inv, equalsZero);
+#else
+    for (int i = 0; i < 4; ++i)
+        m_real[i] = m_real[i] > 0.0f ? (1.0f / std::sqrt(m_real[i])) : 0.0f;
+#endif
+}
+
+inline hkSimdFloat32 hkSimdFloat32::sqrtInverseUnsafe() const {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    auto r0 = vrsqrte_f32(m_real);
+    r0 = vrsqrts_f32(m_real, r0 * r0) * r0;
+    r0 = vrsqrts_f32(m_real, r0 * r0) * r0;
+    return r0;
+#else
+    for (int i = 0; i < 4; ++i)
+        m_real[i] = 1.0f / std::sqrt(m_real[i]);
+#endif
 }
 
 inline hkBool32 hkSimdFloat32::isEqualZero() const {
