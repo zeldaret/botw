@@ -1094,11 +1094,109 @@ void RigidBody::getPointVelocity(sead::Vector3f* velocity, const sead::Vector3f&
     velocity->add(getLinearVelocity());
 }
 
-void RigidBody::computeVelocityForWarping(sead::Vector3f* linear_velocity,
-                                          const sead::Vector3f& target_position,
-                                          bool take_angular_velocity_into_account) {
-    const float factor = getVelocityComputeTimeFactor();
-    const auto hk_target_pos = toHkVec4(target_position);
+void RigidBody::changePositionAndRotation(const sead::Matrix34f& transform, float epsilon) {
+    const float inv_delta_time = getInvDeltaTime();
+
+    sead::Quatf rotation;
+    transform.toQuat(rotation);
+    rotation.normalize();
+
+    sead::Vector3f position;
+    transform.getTranslation(position);
+
+    const auto hk_position = toHkVec4(position);
+    const auto hk_rotation = toHkQuat(rotation);
+
+    hkVector4f linear_velocity, angular_velocity;
+    computeLinearVelocity(&linear_velocity, hk_position, hk_rotation, inv_delta_time);
+    computeAngularVelocity(&angular_velocity, hk_rotation, inv_delta_time);
+
+    mMotionAccessor->setLinearVelocity(linear_velocity, epsilon);
+    mMotionAccessor->setAngularVelocity(angular_velocity, epsilon);
+}
+
+void RigidBody::changePosition(const sead::Vector3f& target_position, bool keep_angular_velocity,
+                               float epsilon) {
+    hkVector4f velocity;
+    computeLinearVelocity(&velocity, target_position, keep_angular_velocity);
+
+    mMotionAccessor->setLinearVelocity(velocity, epsilon);
+
+    if (!keep_angular_velocity)
+        mMotionAccessor->setAngularVelocity(sead::Vector3f::zero, epsilon);
+}
+
+void RigidBody::changeRotation(const sead::Quatf& target_rotation, float epsilon) {
+    hkVector4f velocity;
+    computeAngularVelocity(&velocity, target_rotation);
+    mMotionAccessor->setAngularVelocity(velocity, epsilon);
+}
+
+void RigidBody::changeRotation(const sead::Matrix34f& rotation_matrix, float epsilon) {
+    hkVector4f velocity;
+    sead::Quatf rotation;
+    rotation_matrix.toQuat(rotation);
+    rotation.normalize();
+
+    computeAngularVelocity(&velocity, rotation);
+    mMotionAccessor->setAngularVelocity(velocity, epsilon);
+}
+
+void RigidBody::computeAngularVelocity(hkVector4f* velocity, const hkQuaternionf& target_rotation,
+                                       float inv_delta_time) const {
+    hkQuaternionf hk_current_rot;
+    mMotionAccessor->getRotation(&hk_current_rot);
+
+    hkQuaternionf rotation;
+    rotation.setMulInverse(target_rotation, hk_current_rot);
+    rotation.normalize();
+
+    if (rotation.hasValidAxis()) {
+        rotation.getAxis(*velocity);
+        velocity->mul(inv_delta_time * rotation.getAngleSr());
+    } else {
+        velocity->setZero();
+    }
+}
+
+void RigidBody::computeAngularVelocity(hkVector4f* velocity,
+                                       const sead::Quatf& target_rotation) const {
+    const float inv_delta_time = getInvDeltaTime();
+    const auto hk_target_rot = toHkQuat(target_rotation);
+    computeAngularVelocity(velocity, hk_target_rot, inv_delta_time);
+}
+
+void RigidBody::computeAngularVelocity(sead::Vector3f* velocity,
+                                       const sead::Quatf& target_rotation) const {
+    hkVector4f result;
+    computeAngularVelocity(&result, target_rotation);
+    storeToVec3(velocity, result);
+}
+
+void RigidBody::computeAngularVelocity(sead::Vector3f* velocity,
+                                       const sead::Matrix34f& rotation_matrix) const {
+    sead::Quatf rotation;
+    rotation_matrix.toQuat(rotation);
+    rotation.normalize();
+    computeAngularVelocity(velocity, rotation);
+}
+
+void RigidBody::computeLinearVelocity(hkVector4f* velocity, const hkVector4f& target_position,
+                                      const hkQuaternionf& rotation, float inv_delta_time) const {
+    const auto center_local = toHkVec4(getCenterOfMassInLocal());
+
+    hkVector4f new_center_world;
+    new_center_world._setRotatedDir(rotation, center_local);
+    new_center_world.add(target_position);
+
+    velocity->setSub(new_center_world, toHkVec4(getCenterOfMassInWorld()));
+    velocity->mul(inv_delta_time);
+}
+
+KSYS_ALWAYS_INLINE void RigidBody::computeLinearVelocity(hkVector4f* velocity,
+                                                         const hkVector4f& target_position,
+                                                         bool take_angular_velocity_into_account,
+                                                         float inv_delta_time) const {
     auto hk_current_pos = toHkVec4(getPosition());
 
     if (take_angular_velocity_into_account) {
@@ -1109,24 +1207,69 @@ void RigidBody::computeVelocityForWarping(sead::Vector3f* linear_velocity,
 
             hkVector4f correction;
             correction.setCross(toHkVec4(getAngularVelocity()), rel_pos);
-            correction.mul(1.0f / factor);
+            correction.mul(1.0f / inv_delta_time);
             hk_current_pos.add(correction);
         }
     }
 
+    velocity->setSub(target_position, hk_current_pos);
+    velocity->mul(inv_delta_time);
+}
+
+KSYS_ALWAYS_INLINE void
+RigidBody::computeLinearVelocity(hkVector4f* velocity, const sead::Vector3f& target_position,
+                                 bool take_angular_velocity_into_account) const {
+    const float inv_delta_time = getInvDeltaTime();
+    const auto hk_target_pos = toHkVec4(target_position);
+    computeLinearVelocity(velocity, hk_target_pos, take_angular_velocity_into_account,
+                          inv_delta_time);
+}
+
+void RigidBody::computeLinearVelocity(sead::Vector3f* velocity,
+                                      const sead::Vector3f& target_position,
+                                      bool take_angular_velocity_into_account) const {
     hkVector4f result;
-    result.setSub(hk_target_pos, hk_current_pos);
-    result.mul(factor);
-    storeToVec3(linear_velocity, result);
+    computeLinearVelocity(&result, target_position, take_angular_velocity_into_account);
+    storeToVec3(velocity, result);
+}
+
+void RigidBody::computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
+                                  const hkVector4f& position, const hkQuaternionf& rotation,
+                                  float inv_delta_time) {
+    computeLinearVelocity(linear_velocity, position, rotation, inv_delta_time);
+    computeAngularVelocity(angular_velocity, rotation, inv_delta_time);
 }
 
 void RigidBody::computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
                                   const hkVector4f& position, const hkQuaternionf& rotation) {
-    const float factor = getVelocityComputeTimeFactor();
-    computeVelocities(linear_velocity, angular_velocity, position, rotation, factor);
+    const float inv_delta_time = getInvDeltaTime();
+    computeVelocities(linear_velocity, angular_velocity, position, rotation, inv_delta_time);
 }
 
-float RigidBody::getVelocityComputeTimeFactor() const {
+void RigidBody::computeVelocities(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
+                                  const sead::Matrix34f& transform) {
+    const float inv_delta_time = getInvDeltaTime();
+
+    sead::Quatf rotation;
+    transform.toQuat(rotation);
+    rotation.normalize();
+
+    sead::Vector3f position;
+    transform.getTranslation(position);
+
+    const auto hk_position = toHkVec4(position);
+    const auto hk_rotation = toHkQuat(rotation);
+
+    hkVector4f hk_linear_velocity;
+    hkVector4f hk_angular_velocity;
+    computeLinearVelocity(&hk_linear_velocity, hk_position, hk_rotation, inv_delta_time);
+    computeAngularVelocity(&hk_angular_velocity, hk_rotation, inv_delta_time);
+
+    storeToVec3(linear_velocity, hk_linear_velocity);
+    storeToVec3(angular_velocity, hk_angular_velocity);
+}
+
+float RigidBody::getInvDeltaTime() const {
     const float time_factor = getTimeFactor();
     return time_factor == 0 ? 0 : (1.f / (time_factor * System::instance()->get64()));
 }

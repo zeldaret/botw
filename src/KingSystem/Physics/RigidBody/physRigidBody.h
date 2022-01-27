@@ -285,6 +285,8 @@ public:
     void updateMotionTypeRelatedFlags();
     void triggerScheduledMotionTypeChange();
 
+    // region Velocity
+
     bool setLinearVelocity(const sead::Vector3f& velocity, float epsilon = sead::Mathf::epsilon());
     void getLinearVelocity(sead::Vector3f* velocity) const;
     sead::Vector3f getLinearVelocity() const;
@@ -295,16 +297,70 @@ public:
 
     void getPointVelocity(sead::Vector3f* velocity, const sead::Vector3f& point) const;
 
-    /// Compute the linear velocity that would be necessary to instantly warp to the target.
-    void computeVelocityForWarping(sead::Vector3f* linear_velocity,
-                                   const sead::Vector3f& target_position,
-                                   bool take_angular_velocity_into_account);
+    /// Move to the specified position and rotation by changing the linear and angular velocities.
+    ///
+    /// This is less expensive and less error prone than setTransform which may trigger a costly
+    /// broadphase update and result in interpenetration.
+    void changePositionAndRotation(const sead::Matrix34f& transform,
+                                   float epsilon = sead::Mathf::epsilon());
+
+    /// Modify the body's position by changing the linear velocity.
+    /// This is preferable to setting the position directly (see changePositionAndRotation for an
+    /// explanation).
+    void changePosition(const sead::Vector3f& target_position, bool keep_angular_velocity,
+                        float epsilon = sead::Mathf::epsilon());
+
+    /// Modify the body's rotation by changing the angular velocity.
+    /// This is preferable to setting the rotation directly (see changePositionAndRotation for an
+    /// explanation).
+    void changeRotation(const sead::Quatf& target_rotation, float epsilon = sead::Mathf::epsilon());
+    /// Modify the body's rotation by changing the angular velocity.
+    /// This is preferable to setting the rotation directly (see changePositionAndRotation for an
+    /// explanation).
+    void changeRotation(const sead::Matrix34f& rotation_matrix,
+                        float epsilon = sead::Mathf::epsilon());
+
+    /// Compute the angular velocity that would be necessary to instantly reach the target rotation.
+    void computeAngularVelocity(hkVector4f* velocity, const hkQuaternionf& target_rotation,
+                                float inv_delta_time) const;
+    /// Compute the angular velocity that would be necessary to instantly reach the target rotation.
+    void computeAngularVelocity(hkVector4f* velocity, const sead::Quatf& target_rotation) const;
+    /// Compute the angular velocity that would be necessary to instantly reach the target rotation.
+    void computeAngularVelocity(sead::Vector3f* velocity, const sead::Quatf& target_rotation) const;
+    /// Compute the angular velocity that would be necessary to instantly reach the target rotation.
+    void computeAngularVelocity(sead::Vector3f* velocity,
+                                const sead::Matrix34f& rotation_matrix) const;
+
+    /// Compute the linear velocity that would be necessary to instantly reach the target position.
+    void computeLinearVelocity(hkVector4f* velocity, const hkVector4f& target_position,
+                               const hkQuaternionf& rotation, float inv_delta_time) const;
+    /// Compute the linear velocity that would be necessary to instantly reach the target position.
+    void computeLinearVelocity(hkVector4f* velocity, const hkVector4f& target_position,
+                               bool take_angular_velocity_into_account, float inv_delta_time) const;
+    /// Compute the linear velocity that would be necessary to instantly reach the target position.
+    void computeLinearVelocity(hkVector4f* velocity, const sead::Vector3f& target_position,
+                               bool take_angular_velocity_into_account) const;
+    /// Compute the linear velocity that would be necessary to instantly reach the target position.
+    void computeLinearVelocity(sead::Vector3f* velocity, const sead::Vector3f& target_position,
+                               bool take_angular_velocity_into_account) const;
+
+    /// Compute the linear and angular velocities that would be necessary to instantly reach the
+    /// target position and rotation.
+    void computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
+                           const hkVector4f& position, const hkQuaternionf& rotation,
+                           float inv_delta_time);
+    /// Compute the linear and angular velocities that would be necessary to instantly reach the
+    /// target position and rotation.
     void computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
                            const hkVector4f& position, const hkQuaternionf& rotation);
-    // 0x0000007100f91780
-    void computeVelocities(hkVector4f* linear_velocity, hkVector4f* angular_velocity,
-                           const hkVector4f& position, const hkQuaternionf& rotation, float factor);
-    float getVelocityComputeTimeFactor() const;
+    /// Compute the linear and angular velocities that would be necessary to instantly reach the
+    /// target position and rotation.
+    void computeVelocities(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
+                           const sead::Matrix34f& transform);
+
+    float getInvDeltaTime() const;
+
+    // endregion
 
     void setCenterOfMassInLocal(const sead::Vector3f& center);
     void getCenterOfMassInLocal(sead::Vector3f* center) const;
