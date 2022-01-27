@@ -347,6 +347,30 @@ inline void hkVector4f::setNeg(hkVector4fParameter a) {
 #endif
 }
 
+inline void hkVector4f::setFlipSign(hkVector4fParameter a, hkVector4fComparisonParameter mask) {
+    static constexpr m128u signbits = {0x80000000, 0x80000000, 0x80000000, 0x80000000};
+    v = m128u(a.v) ^ (mask.m_mask & signbits);
+}
+
+inline void hkVector4f::setFlipSign(hkVector4fParameter a, hkVector4fParameter signs) {
+    static constexpr m128u signbits = {0x80000000, 0x80000000, 0x80000000, 0x80000000};
+    v = m128u(a.v) ^ (m128u(signs.v) & signbits);
+}
+
+inline void hkVector4f::setFlipSign(hkVector4fParameter a, hkSimdFloat32Parameter sign) {
+    setFlipSign(a, hkVector4fComparison::convert(sign.toQuad()));
+}
+
+inline hkVector4fComparison hkVector4f::signBitSet() const {
+    static constexpr m128u signbits = {0x80000000, 0x80000000, 0x80000000, 0x80000000};
+    return hkVector4fComparison::convert((m128u(v) & signbits) != m128u());
+}
+
+inline hkVector4fComparison hkVector4f::signBitClear() const {
+    static constexpr m128u signbits = {0x80000000, 0x80000000, 0x80000000, 0x80000000};
+    return hkVector4fComparison::convert((m128u(v) & signbits) == m128u());
+}
+
 inline void hkVector4f::_setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
     auto col0 = vmulq_laneq_f32(a.m_col0.v, b.v, 0);

@@ -105,6 +105,18 @@ public:
     template <int N>
     HK_FORCE_INLINE void setNeg(hkVector4fParameter a);
 
+    /// v[i] = mask[i] ? -a[i] : a[i]
+    HK_FORCE_INLINE void setFlipSign(hkVector4fParameter a, hkVector4fComparisonParameter mask);
+    /// v[i] = signs[i] < 0 ? -a[i] : a[i]
+    HK_FORCE_INLINE void setFlipSign(hkVector4fParameter a, hkVector4fParameter signs);
+    /// v[i] = sign < 0 ? -a[i] : a[i]
+    HK_FORCE_INLINE void setFlipSign(hkVector4fParameter a, hkSimdFloat32Parameter sign);
+
+    /// Whether the sign bit is set. (True for -0.0.)
+    HK_FORCE_INLINE hkVector4fComparison signBitSet() const;
+    /// Whether the sign bit is cleared.
+    HK_FORCE_INLINE hkVector4fComparison signBitClear() const;
+
     // ========== Matrix operations (out-of-line)
 
     void setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b);
