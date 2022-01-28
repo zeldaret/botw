@@ -93,11 +93,12 @@ private:
     void doDisableObjStaticCompound(Object* obj, bool disable);
     void x_9();
 
-    void x_7(int idx, int unknown, char column, char row, const sead::SafeString& mubinPath,
+    void x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubinPath,
              const sead::SafeString& folderAndFile, int map_id_maybe, bool skip_load_static_map);
 
-    u16 mSkipLoadStaticMap;
-    StaticMap mStaticMapLoaded;
+    u8 _0;
+    u8 mSkipLoadStaticMap;
+    u8 mStaticMapLoaded[2];
     u16 _04;
     s16 _06;
     sead::FixedSafeString<128> mMubinPath;
