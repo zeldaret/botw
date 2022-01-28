@@ -20,6 +20,9 @@ public:
     HK_FORCE_INLINE hkSimdFloat32 getRealPart() const;
     HK_FORCE_INLINE const hkVector4f& getImag() const;
 
+    HK_FORCE_INLINE hkBool32 hasValidAxis() const;
+    /// @warning This should only be called if hasValidAxis() is true.
+    HK_FORCE_INLINE void getAxis(hkVector4f& axis) const;
     HK_FORCE_INLINE hkFloat32 getAngle() const;
     hkSimdFloat32 getAngleSr() const;
 
@@ -27,6 +30,8 @@ public:
     HK_FORCE_INLINE void setMul(hkQuaternionfParameter q0, hkQuaternionfParameter q1);
 
     HK_FORCE_INLINE void setInverse(hkQuaternionfParameter q);
+
+    HK_FORCE_INLINE void normalize();
 
     HK_FORCE_INLINE static const hkQuaternionf& getIdentity();
 
@@ -67,6 +72,16 @@ inline const hkVector4f& hkQuaternionf::getImag() const {
     return m_vec;
 }
 
+inline hkBool32 hkQuaternionf::hasValidAxis() const {
+    return m_vec.lengthSquared<3>().isGreater(hkSimdFloat32::getConstant<HK_QUADREAL_EPS_SQRD>());
+}
+
+void hkQuaternionf::getAxis(hkVector4f& axis) const {
+    hkVector4f result = getImag();
+    result.normalize<3>();
+    axis.setFlipSign(result, getRealPart().lessZero());
+}
+
 inline hkFloat32 hkQuaternionf::getAngle() const {
     return getAngleSr().val();
 }
@@ -90,6 +105,10 @@ inline void hkQuaternionf::setMul(hkQuaternionfParameter r, hkQuaternionfParamet
 
 inline void hkQuaternionf::setInverse(const hkQuaternionf& q) {
     m_vec.setNeg<3>(q.getImag());
+}
+
+inline void hkQuaternionf::normalize() {
+    m_vec.normalizeUnsafe<4>();
 }
 
 inline const hkQuaternionf& hkQuaternionf::getIdentity() {

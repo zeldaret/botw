@@ -135,8 +135,27 @@ public:
     template <int N>
     HK_FORCE_INLINE void setDot(hkVector4fParameter a, hkVector4fParameter b);
 
+    /// Get the squared length (|v|^2) of this vector as if it had N components.
     template <int N>
     HK_FORCE_INLINE hkSimdFloat32 lengthSquared() const;
+
+    /// Get the inverse length (1/|v|) of this vector as if it had N components.
+    template <int N>
+    HK_FORCE_INLINE hkSimdFloat32 lengthInverse() const;
+
+    /// Get the inverse length (1/|v|) of this vector as if it had N components.
+    /// Does not check for negative sqrt values or divide-by-zero.
+    template <int N>
+    HK_FORCE_INLINE hkSimdFloat32 lengthInverseUnsafe() const;
+
+    /// Normalize this vector as if it had N components.
+    template <int N>
+    HK_FORCE_INLINE void normalize();
+
+    /// Normalize this vector as if it had N components.
+    /// Does not check for negative sqrt values or divide-by-zero.
+    template <int N>
+    HK_FORCE_INLINE void normalizeUnsafe();
 
     // ========== Misc
 

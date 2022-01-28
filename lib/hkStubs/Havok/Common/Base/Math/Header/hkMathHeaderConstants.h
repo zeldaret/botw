@@ -38,7 +38,9 @@ enum hkVectorConstant {
     HK_QUADREAL_0001,
     HK_QUADREAL_MAX,
     HK_QUADREAL_HIGH,
+    /// Epsilon.
     HK_QUADREAL_EPS,
+    /// Epsilon squared.
     HK_QUADREAL_EPS_SQRD,
     HK_QUADREAL_MIN,
     HK_QUADREAL_MINUS_MAX,

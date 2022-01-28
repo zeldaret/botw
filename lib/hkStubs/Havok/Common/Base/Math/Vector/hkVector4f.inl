@@ -432,6 +432,28 @@ inline hkSimdFloat32 hkVector4f::lengthSquared() const {
     return dot<N>(*this);
 }
 
+template <int N>
+inline hkSimdFloat32 hkVector4f::lengthInverse() const {
+    const hkSimdFloat32 len = lengthSquared<N>();
+    return len.sqrtInverse();
+}
+
+template <int N>
+inline hkSimdFloat32 hkVector4f::lengthInverseUnsafe() const {
+    const hkSimdFloat32 len = lengthSquared<N>();
+    return len.sqrtInverseUnsafe();
+}
+
+template <int N>
+inline void hkVector4f::normalize() {
+    mul(lengthInverse<N>());
+}
+
+template <int N>
+inline void hkVector4f::normalizeUnsafe() {
+    mul(lengthInverseUnsafe<N>());
+}
+
 template <int Constant>
 inline const hkVector4f& hkVector4f::getConstant() {
     return reinterpret_cast<const hkVector4f&>(g_vectorfConstants[Constant]);
