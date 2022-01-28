@@ -222,10 +222,10 @@ inline hkSimdFloat32 hkSimdFloat32::reciprocal() const {
 
 inline hkSimdFloat32 hkSimdFloat32::sqrt() const {
 #ifdef HK_SIMD_FLOAT32_AARCH64_NEON
-    const auto equalsZero = vcle_f32(m_real, vcreate_f32(0));
+    const auto leqZero = vclez_f32(m_real);
     const auto inv = sqrtInverseUnsafe().m_real;
     const auto r = m_real * inv;
-    return vbic_u32(r, equalsZero);
+    return vbic_u32(r, leqZero);
 #else
     for (int i = 0; i < 4; ++i)
         m_real[i] = m_real[i] >= 0.0f ? std::sqrt(m_real[i]) : 0.0f;
@@ -244,9 +244,9 @@ inline hkSimdFloat32 hkSimdFloat32::sqrtUnsafe() const {
 
 inline hkSimdFloat32 hkSimdFloat32::sqrtInverse() const {
 #ifdef HK_SIMD_FLOAT32_AARCH64_NEON
-    const auto equalsZero = vcle_f32(m_real, vcreate_f32(0));
+    const auto leqZero = vclez_f32(m_real);
     const auto inv = sqrtInverseUnsafe().m_real;
-    return vbic_u32(inv, equalsZero);
+    return vbic_u32(inv, leqZero);
 #else
     for (int i = 0; i < 4; ++i)
         m_real[i] = m_real[i] > 0.0f ? (1.0f / std::sqrt(m_real[i])) : 0.0f;
