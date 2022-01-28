@@ -26,8 +26,14 @@ public:
     HK_FORCE_INLINE hkFloat32 getAngle() const;
     hkSimdFloat32 getAngleSr() const;
 
+    /// self = self * q
     HK_FORCE_INLINE void mul(hkQuaternionfParameter q);
-    HK_FORCE_INLINE void setMul(hkQuaternionfParameter q0, hkQuaternionfParameter q1);
+    /// self = r * q
+    HK_FORCE_INLINE void setMul(hkQuaternionfParameter r, hkQuaternionfParameter q);
+    /// self = r * q^-1
+    HK_FORCE_INLINE void setMulInverse(hkQuaternionfParameter r, hkQuaternionfParameter q);
+    /// self = r^-1 * q
+    HK_FORCE_INLINE void setInverseMul(hkQuaternionfParameter r, hkQuaternionfParameter q);
 
     HK_FORCE_INLINE void setInverse(hkQuaternionfParameter q);
 
@@ -101,6 +107,28 @@ inline void hkQuaternionf::setMul(hkQuaternionfParameter r, hkQuaternionfParamet
     vec.addMul(rReal, qImag);
     vec.addMul(qReal, rImag);
     m_vec.setXYZ_W(vec, (rReal * qReal) - rImag.dot<3>(qImag));
+}
+
+inline void hkQuaternionf::setMulInverse(hkQuaternionfParameter r, hkQuaternionfParameter q) {
+    const auto rImag = r.getImag();
+    const auto qImag = q.getImag();
+
+    hkVector4f vec;
+    vec.setCross(qImag, rImag);
+    vec.subMul(r.getRealPart(), qImag);
+    vec.addMul(q.getRealPart(), rImag);
+    m_vec.setXYZ_W(vec, rImag.dot<4>(qImag));
+}
+
+inline void hkQuaternionf::setInverseMul(hkQuaternionfParameter r, hkQuaternionfParameter q) {
+    const auto rImag = r.getImag();
+    const auto qImag = q.getImag();
+
+    hkVector4f vec;
+    vec.setCross(qImag, rImag);
+    vec.addMul(r.getRealPart(), qImag);
+    vec.subMul(q.getRealPart(), rImag);
+    m_vec.setXYZ_W(vec, rImag.dot<4>(qImag));
 }
 
 inline void hkQuaternionf::setInverse(const hkQuaternionf& q) {
