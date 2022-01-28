@@ -43,6 +43,7 @@ public:
 
     void cleanUp();
     bool calledFromMapDtor();
+    int getNumFieldBodyGroups() const { return mFieldBodyGroups.size(); }
 
 private:
     enum class Flag {
