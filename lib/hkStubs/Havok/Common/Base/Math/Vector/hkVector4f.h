@@ -9,12 +9,6 @@
 #error "Include <Havok/Common/Base/Math/hkMath.h> or hkBase.h"
 #endif
 
-using hkVector4fParameter = const class hkVector4f&;
-using hkVector4fComparisonParameter = const class hkVector4fComparison&;
-
-class hkMatrix3f;
-class hkTransformf;
-
 class hkVector4f {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkVector4f)

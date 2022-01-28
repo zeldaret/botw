@@ -2,18 +2,43 @@
 
 #define HK_MATH_H
 
-#include <Havok/Common/Base/Types/hkBaseTypes.h>
+// Note: these headers have to be included in a specific order.
+// clang-format off
 
+#include <Havok/Common/Base/Types/hkBaseTypes.h>
 #include <Havok/Common/Base/Math/Header/hkMathHeaderConstants.h>
+
+// Forward declarations
+class hkVector4f;
+class hkVector4fComparison;
+class hkSimdFloat32;
+class hkQuaternionf;
+class hkMatrix3f;
+class hkRotationf;
+class hkTransformf;
+
+// Type aliases
+using hkVector4fParameter = const hkVector4f&;
+using hkVector4fComparisonParameter = const hkVector4fComparison&;
+using hkSimdFloat32Parameter = const hkSimdFloat32&;
+using hkQuaternionfParameter = const hkQuaternionf&;
+
+// Headers
+#include <Havok/Common/Base/Math/Vector/hkVector4.h>
+#include <Havok/Common/Base/Math/Vector/hkVector4Comparison.h>
+#include <Havok/Common/Base/Math/Vector/hkSimdReal.h>
+#include <Havok/Common/Base/Math/Quaternion/hkQuaternion.h>
 #include <Havok/Common/Base/Math/Matrix/hkMatrix3.h>
 #include <Havok/Common/Base/Math/Matrix/hkRotation.h>
 #include <Havok/Common/Base/Math/Matrix/hkTransform.h>
-#include <Havok/Common/Base/Math/Quaternion/hkQuaternion.h>
-#include <Havok/Common/Base/Math/Vector/hkSimdReal.h>
-#include <Havok/Common/Base/Math/Vector/hkVector4.h>
-#include <Havok/Common/Base/Math/Vector/hkVector4Comparison.h>
 
+// Implementations
 #include <Havok/Common/Base/Math/Vector/hkVector4f.inl>
+#include <Havok/Common/Base/Math/Vector/hkVector4fComparison.inl>
+#include <Havok/Common/Base/Math/Quaternion/hkQuaternionf.inl>
+#include <Havok/Common/Base/Math/Matrix/hkMatrix3f.inl>
+
+// clang-format on
 
 namespace hkMath {
 

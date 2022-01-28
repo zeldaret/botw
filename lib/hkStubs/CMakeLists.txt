@@ -16,12 +16,14 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Header/hkMathHeaderConstants.h
   Havok/Common/Base/Math/Matrix/hkMatrix3.h
   Havok/Common/Base/Math/Matrix/hkMatrix3f.h
+  Havok/Common/Base/Math/Matrix/hkMatrix3f.inl
   Havok/Common/Base/Math/Matrix/hkRotation.h
   Havok/Common/Base/Math/Matrix/hkRotationf.h
   Havok/Common/Base/Math/Matrix/hkTransform.h
   Havok/Common/Base/Math/Matrix/hkTransformf.h
   Havok/Common/Base/Math/Quaternion/hkQuaternion.h
   Havok/Common/Base/Math/Quaternion/hkQuaternionf.h
+  Havok/Common/Base/Math/Quaternion/hkQuaternionf.inl
   Havok/Common/Base/Math/SweptTransform/hkSweptTransform.h
   Havok/Common/Base/Math/SweptTransform/hkSweptTransformf.h
   Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h
@@ -32,6 +34,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Vector/hkVector4f.inl
   Havok/Common/Base/Math/Vector/hkVector4Comparison.h
   Havok/Common/Base/Math/Vector/hkVector4fComparison.h
+  Havok/Common/Base/Math/Vector/hkVector4fComparison.inl
 
   Havok/Common/Base/Memory/Allocator/hkMemoryAllocator.h
   Havok/Common/Base/Memory/Allocator/Lifo/hkLifoAllocator.h

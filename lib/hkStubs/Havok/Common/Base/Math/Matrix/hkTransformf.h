@@ -1,9 +1,5 @@
 #pragma once
 
-#include <Havok/Common/Base/Math/Matrix/hkRotationf.h>
-#include <Havok/Common/Base/Math/Quaternion/hkQuaternionf.h>
-#include <Havok/Common/Base/Math/Vector/hkVector4f.h>
-
 class hkTransformf {
 public:
     HK_FORCE_INLINE hkTransformf() = default;

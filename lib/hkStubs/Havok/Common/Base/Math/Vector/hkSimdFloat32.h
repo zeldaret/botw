@@ -11,8 +11,6 @@
 #include <cmath>
 #endif
 
-using hkSimdFloat32Parameter = const class hkSimdFloat32&;
-
 class hkSimdFloat32 {
 public:
 #ifdef HK_SIMD_FLOAT32_AARCH64_NEON
