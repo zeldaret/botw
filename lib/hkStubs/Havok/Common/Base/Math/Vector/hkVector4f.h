@@ -119,6 +119,9 @@ public:
     // ========== Matrix operations (inline)
 
     HK_FORCE_INLINE void _setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b);
+    HK_FORCE_INLINE void _setRotatedDir(hkQuaternionfParameter quat, hkVector4fParameter vec);
+    HK_FORCE_INLINE void _setRotatedInverseDir(hkQuaternionfParameter quat,
+                                               hkVector4fParameter vec);
     HK_FORCE_INLINE void _setTransformedPos(const hkTransformf& a, hkVector4fParameter b);
 
     // ========== Length and normalization

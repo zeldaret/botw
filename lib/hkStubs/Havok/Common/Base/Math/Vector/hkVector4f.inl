@@ -382,6 +382,38 @@ inline void hkVector4f::_setRotatedDir(const hkMatrix3f& a, hkVector4fParameter 
 #endif
 }
 
+inline void hkVector4f::_setRotatedDir(hkQuaternionfParameter quat, hkVector4fParameter vec) {
+    // Rodrigues' rotation formula
+
+    const auto& u = quat.getImag();
+    const hkSimdFloat32 s = quat.getRealPart();
+
+    hkVector4f result;
+    result.setMul(vec, s * s - hkSimdFloat32::getConstant<HK_QUADREAL_INV_2>());
+    result.addMul(u, u.dot<3>(vec));
+
+    hkVector4f cross;
+    cross.setCross(u, vec);
+    result.addMul(cross, s);
+
+    setAdd(result, result);
+}
+
+inline void hkVector4f::_setRotatedInverseDir(hkQuaternionfParameter quat, hkVector4fParameter vec) {
+    const auto& u = quat.getImag();
+    const hkSimdFloat32 s = quat.getRealPart();
+
+    hkVector4f result;
+    result.setMul(vec, s * s - hkSimdFloat32::getConstant<HK_QUADREAL_INV_2>());
+    result.addMul(u, u.dot<3>(vec));
+
+    hkVector4f cross;
+    cross.setCross(vec, u);
+    result.addMul(cross, s);
+
+    setAdd(result, result);
+}
+
 inline void hkVector4f::_setTransformedPos(const hkTransformf& a, hkVector4fParameter b) {
     hkVector4f t;
     t._setRotatedDir(a.getRotation(), b);
