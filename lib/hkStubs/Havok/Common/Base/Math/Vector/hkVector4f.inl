@@ -178,14 +178,12 @@ inline void hkVector4f::subMul(hkSimdFloat32Parameter r, hkVector4fParameter a) 
 
 inline void hkVector4f::setAddMul(hkVector4fParameter a, hkVector4fParameter b,
                                   hkSimdFloat32Parameter r) {
-    m128 rr{r, r, r, r};
-    v = a.v + rr * b.v;
+    v = a.v + r.toQuad() * b.v;
 }
 
 inline void hkVector4f::setSubMul(hkVector4fParameter a, hkVector4fParameter b,
                                   hkSimdFloat32Parameter r) {
-    m128 rr{r, r, r, r};
-    v = a.v - rr * b.v;
+    v = a.v - r.toQuad() * b.v;
 }
 
 inline void hkVector4f::setCross(hkVector4fParameter a, hkVector4fParameter b) {
