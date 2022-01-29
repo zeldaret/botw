@@ -43,9 +43,11 @@ public:
         _2000 = 0x2000,
         _4000 = 0x4000,
         _8000 = 0x8000,
+        _10000 = 0x10000,
         _40000 = 0x40000,
         _80000 = 0x80000,
         _100000 = 0x100000,
+        _200000 = 0x200000,
         _400000 = 0x400000,
         _2000000 = 0x2000000,
         _4000000 = 0x4000000,
@@ -176,6 +178,8 @@ public:
     Object* findSrcLODLinkObject() const;
 
     const auto& getFlags0() const { return mFlags0; }
+    void setFlags0(Flag0 bit) { mFlags0.set(bit); }
+    void resetFlags0(Flag0 bit) { mFlags0.reset(bit); }
     const auto& getFlags() const { return mFlags; }
     const auto& getActorFlags8() const { return mActorFlags8; }
     const auto& getHardModeFlags() const { return mHardModeFlags; }

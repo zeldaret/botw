@@ -44,6 +44,9 @@ public:
     void cleanUp();
     bool calledFromMapDtor();
     int getNumFieldBodyGroups() const { return mFieldBodyGroups.size(); }
+    bool x_3();
+    void x_4();
+    StaticCompound* sub_7100FCAD0C(sead::Matrix34f& mtx);
 
 private:
     enum class Flag {

@@ -6,11 +6,13 @@
 #include <prim/seadTypedLongBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadReadWriteLock.h>
+#include "KingSystem/Map/mapPlacementMap.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
 
 class Object;
+class PlacementMap;
 
 // TODO: rename
 enum class ActorFlag8 {
@@ -114,7 +116,11 @@ public:
     Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
     void x_9();
-    Object* resetGroup(int groupIdx);
+    Object* resetGroup(int group_idx);
+    int getNumObjs(int group_idx) const;
+    Object* getObj(int group_idx, int object_idx);
+    Object* getStaticObj_0(int object_idx);
+    u32 allocGroupForDynamicMap(PlacementMap* pmap);
 
     u8 _0[0x28 - 0x0];
     sead::ReadWriteLock mLock;
