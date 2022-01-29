@@ -173,8 +173,8 @@ void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
     }
 
     int idx = getStaticCompoundIdFromPosition(obj->getTranslate());
-    auto* r = mRes[idx].mRes.getResource();
-    if (auto* sc = sead::DynamicCast<ksys::phys::StaticCompound>(r)) {
+    auto* resource = mRes[idx].mRes.getResource();
+    if (auto* sc = sead::DynamicCast<ksys::phys::StaticCompound>(resource)) {
         s16 sc_id = obj->getStaticCompoundId();
         sc->disableCollision(sc_id, disable);
     }
