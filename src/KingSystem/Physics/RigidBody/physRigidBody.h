@@ -456,7 +456,7 @@ public:
     void setMotionFlag(MotionFlag flag);
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
-
+    UserTag* getUserTag() const { return mUserTag; }
     Type getType() const { return mType; }
     bool isCharacterControllerType() const { return mType == Type::CharacterController; }
 
@@ -498,7 +498,16 @@ public:
     virtual const hkpShape* getNewShape();
     virtual void* m11();
     virtual float m12(float x, float y);
-    virtual void resetPosition();
+
+    /// Called when the rigid body goes beyond the broadphase border.
+    ///
+    /// Note: this is not guaranteed to be called if we have a user tag.
+    /// The tag may choose not to invoke this callback.
+    ///
+    /// The default implementation just resets the position to the origin.
+    virtual void onMaxPositionExceeded();
+
+    /// Get the name of this rigid body or its user.
     virtual const char* getName();
 
     // Internal.

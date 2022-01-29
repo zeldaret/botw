@@ -13,8 +13,9 @@ class UserTag {
 public:
     UserTag() = default;
 
-    // FIXME: names and types
-    virtual void m2(void* a);
+    /// Called when a rigid body goes beyond the broadphase border.
+    /// The default implementation just notifies the rigid body of this callback.
+    virtual void onMaxPositionExceeded(RigidBody* body);
     // a and b are probably physics bodies?
     virtual void m3(void* a, void* b, float c);
     virtual void onBodyShapeChanged(RigidBody* body);

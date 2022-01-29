@@ -1746,7 +1746,7 @@ void* RigidBody::m11() {
     return nullptr;
 }
 
-void RigidBody::resetPosition() {
+void RigidBody::onMaxPositionExceeded() {
     // debug logging?
     [[maybe_unused]] sead::Vector3f position = getPosition();
     setPosition(sead::Vector3f::zero, true);
