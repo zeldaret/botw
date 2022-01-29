@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Resource/Actor/resResourceRagdollBlendWeight.h"
 
 namespace ksys::phys {
 

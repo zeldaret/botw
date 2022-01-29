@@ -7,17 +7,18 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 
+namespace gsys {
+class Model;
+}
+
 namespace ksys::res {
-
-class RagdollBlendWeight {
-public:
-    s32 findStateIdx(const sead::SafeString& name) const;
-};
-
+class RagdollBlendWeight;
+class RagdollConfigList;
 }  // namespace ksys::res
 
 namespace ksys::phys {
 
+class ParamSet;
 class RigidBodySet;
 class SystemGroupHandler;
 
@@ -62,6 +63,9 @@ public:
         _80000000 = 1u << 31,
     };
 
+    const sead::SafeString& getName() const { return mName; }
+    ParamSet* getParamSet() const { return mParamSet; }
+
     void setFlag2();
     void clothVisibleStuff();
     void setInDemo();
@@ -85,9 +89,10 @@ public:
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;
 
 private:
-    u8 _8[0x18];
+    sead::SafeString mName;
+    ParamSet* mParamSet;
     sead::TypedBitFlag<Flag> mFlags;
-    void* _28;
+    gsys::Model* mModel;
     f32 mScale;
     u8 _34[0x40 - 0x34];
     sead::PtrArray<RigidBodySet> mRigidBodySets;
@@ -100,11 +105,13 @@ private:
     RagdollController* mRagdollController;
     u8 _98[0xb8 - 0x98];
     res::RagdollBlendWeight* mRagdollBlendWt;
-    u8 _c0[0xd8 - 0xc0];
+    res::RagdollConfigList* mRagdollConfigList;
+    u8 _c8[0xd8 - 0xc8];
     void* _d8;
     u8 _e0[0x148 - 0xe0];
     sead::TList<RigidBody*> mList;
-    u8 _160[0x188 - 0x160];
+    u8 _160[0x178 - 0x160];
+    SystemGroupHandler* _178[2];
     SystemGroupHandler* _188[2];
 };
 KSYS_CHECK_SIZE_NX150(InstanceSet, 0x198);
