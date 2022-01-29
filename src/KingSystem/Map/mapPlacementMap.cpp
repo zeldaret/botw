@@ -53,16 +53,18 @@ bool PlacementMap::parseStaticMap_(sead::Heap* heap, u8* data) {
     return false;
 }
 
-bool PlacementMap::isDynamicLoaded(const sead::Vector3f& pos) {
-    int k = 0;
+int PlacementMap::getStaticCompoundIdFromPosition(const sead::Vector3f& pos) {
     if (mMgr->isShrineOrDivineBeast()) {
-        k = 0;
-    } else {
-        float dx = (float)(pos.x - (float)(1000 * mCol - 5000));
-        float dz = (float)(pos.z - (float)(1000 * mRow - 4000));
-        k = (2 * (dz > 500.0)) | (dx > 500.0);
+        return 0;
     }
-    return mRes[k].mStatus == HkscRes::Status::_3;  // Likely InitStatus::DynamicLoaded
+    float dx = (pos.x - (1000 * mCol - 5000));
+    float dz = (pos.z - (1000 * mRow - 4000));
+    return (2 * (dz > 500.0)) + (dx > 500.0);
+}
+
+bool PlacementMap::isDynamicLoaded(const sead::Vector3f& pos) {
+    int idx = getStaticCompoundIdFromPosition(pos);
+    return mRes[idx].mStatus == HkscRes::Status::_3;  // Likely InitStatus::DynamicLoaded
 }
 
 bool PlacementMap::x_6() {
@@ -70,12 +72,13 @@ bool PlacementMap::x_6() {
         return true;
     }
     bool ret = true;
-    s32 nobjs = mPa->getNumObjs(mDynamicGroupIdx);
-    for (int i = 0; i < nobjs; i++) {
+    int num_objs = mPa->getNumObjs(mDynamicGroupIdx);
+
+    for (int i = 0; i < num_objs; i++) {
         Object* obj = mPa->getObj(mDynamicGroupIdx, i);
         obj->setFlags0(Object::Flag0::_4000);
 
-        auto& f = obj->getFlags0();
+        const auto& f = obj->getFlags0();
         if (f.isOn(Object::Flag0::_2) || f.isOn(Object::Flag0::_4)) {
             ret &= f.isOn(Object::Flag0::_80);
         }
@@ -101,18 +104,18 @@ bool PlacementMap::loadDynamicMap() {
         return false;
     }
 
-    ksys::res::LoadRequest arg;
+    res::LoadRequest arg;
     arg.mRequester = "PlacementMap";
     arg._22 = 1;
 
     sead::FixedSafeString<128> path;
 
-    s32 path_len = mMubinPath.findIndex(".");
+    int path_len = mMubinPath.findIndex(".");
     path.copy(mMubinPath, path_len);
     if (act::ActorDebug::instance() &&
         (act::ActorDebug::instance()->hasFlag(act::ActorDebug::Flag::_10000000))) {
         path.append("_DynamicPast.mubin");
-    } else if (Patrol::instance() && (Patrol::instance()->loadStaticPhysUnstableMapUnit)) {
+    } else if (Patrol::instance() && Patrol::instance()->mLoadStaticPhysUnstableMapUnit) {
         path.append("_Dynamic_PhysUnstable.mubin");
     } else if (PlacementMgr::instance()->isGrudgeMerge() || mMgr->isShrineOrDivineBeast()) {
         path.append("_Dynamic.mubin");
@@ -126,64 +129,55 @@ bool PlacementMap::loadDynamicMap() {
 }
 
 // Objects: Static and Dynamic
-int PlacementMap::x_2(int hksc_idx) {
-    res::Handle* h = &mRes[hksc_idx].mRes;
-    if (!h->isReadyOrNeedsParse()) {
-        return 2;
+PlacementMap::MapObjStatus PlacementMap::x_2(int hksc_idx) {
+    res::Handle* handle = &mRes[hksc_idx].mRes;
+    if (!handle->isReadyOrNeedsParse()) {
+        return MapObjStatus::NotReady;
     }
-    h->parseResource(0);
-    if (h->checkLoadStatus()) {
-        return 1;
+    handle->parseResource(0);
+    if (handle->checkLoadStatus()) {
+        return MapObjStatus::Ready;
     }
-    phys::StaticCompound* sc = nullptr;
-    auto r = h->getResource();
-    if (auto dr = sead::DynamicCast<phys::StaticCompound>(r)) {
-        sc = dr;
-    }
+
+    auto r = handle->getResource();
+    auto* sc = sead::DynamicCast<phys::StaticCompound>(r);
 
     sc->sub_7100FCAD0C(mMat);
     int i = mParsedNumStaticObjs;
     if (i <= mNumStaticObjs) {
         do {
-            x(hksc_idx, mPa->getStaticObj_0(i));
+            x_0(hksc_idx, mPa->getStaticObj_0(i));
         } while (i++ < mNumStaticObjs);
     }
-    int gid = mDynamicGroupIdx;
+    const int gid = mDynamicGroupIdx;
     if (gid >= 0) {
         int n = mPa->getNumObjs(gid);
-        i = 0;
-        for (i = 0; i < n; i++) {
-            x(hksc_idx, mPa->getObj(gid, i));
+        for (int i = 0; i < n; i++) {
+            x_0(hksc_idx, mPa->getObj(gid, i));
         }
     }
-    return 0;
+    return MapObjStatus::Loading;
 }
 
 void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
-    if ((s16)obj->getStaticCompoundId() >= 0) {
-        const auto lock = sead::makeScopedLock(mCs);
+    if ((s16)obj->getStaticCompoundId() < 0) {
+        return;
+    }
+    const auto lock = sead::makeScopedLock(mCs);
 
-        // Is Flag0::_200000 a flag to disable an object?
-        if ((disable ^ obj->getFlags0().isOn(Object::Flag0::_200000)) != 0) {
-            if (disable) {
-                obj->setFlags0(Object::Flag0::_200000);
-            } else {
-                obj->resetFlags0(Object::Flag0::_200000);
-            }
+    // Is Flag0::_200000 a flag to disable an object?
+    if (disable != obj->getFlags0().isOn(Object::Flag0::_200000)) {
+        if (disable) {
+            obj->setFlags0(Object::Flag0::_200000);
+        } else {
+            obj->resetFlags0(Object::Flag0::_200000);
+        }
 
-            s32 k = 0;
-            if (mMgr->isShrineOrDivineBeast()) {
-                k = 0;
-            } else {
-                float dx = (float)(obj->getTranslate().x - (float)(1000 * mCol - 5000));
-                float dz = (float)(obj->getTranslate().z - (float)(1000 * mRow - 4000));
-                k = (2 * (dz > 500.0)) | (dx > 500.0);
-            }
-            auto* r = mRes[k].mRes.getResource();
-            if (auto ptr = sead::DynamicCast<ksys::phys::StaticCompound>(r)) {
-                s16 sc = obj->getStaticCompoundId();
-                ptr->disableCollision(sc, disable);
-            }
+        int idx = getStaticCompoundIdFromPosition(obj->getTranslate());
+        auto* r = mRes[idx].mRes.getResource();
+        if (auto ptr = sead::DynamicCast<ksys::phys::StaticCompound>(r)) {
+            s16 sc = obj->getStaticCompoundId();
+            ptr->disableCollision(sc, disable);
         }
     }
 }
@@ -191,7 +185,7 @@ void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
 // Should this be renamed to what x_3() and/or x_4() does
 int PlacementMap::doSomethingStaticCompound(int hksc_idx) {
     auto* r = mRes[hksc_idx].mRes.getResource();
-    if (phys::StaticCompound* sc = sead::DynamicCast<phys::StaticCompound>(r)) {
+    if (auto* sc = sead::DynamicCast<phys::StaticCompound>(r)) {
         if (!sc->calledFromMapDtor() && !sc->x_3()) {
             sc->x_4();
         }
@@ -200,7 +194,7 @@ int PlacementMap::doSomethingStaticCompound(int hksc_idx) {
 }
 bool PlacementMap::loadStaticCompound(int hksc_idx, bool auto_gen_mu, bool req_arg_8) {
     sead::FixedSafeString<0x100> path;
-    ksys::res::LoadRequest arg;
+    res::LoadRequest arg;
 
     arg.mRequester = "PlacementMgr";
     arg._8 = req_arg_8;
@@ -240,39 +234,37 @@ void PlacementMap::cleanupPhysics() {
     mInitStatus = InitStatus::StaticLoaded;
 }
 
-s32 PlacementMap::parseDynamicMap() {
+PlacementMap::MapObjStatus PlacementMap::parseDynamicMap() {
     if (!mDynamicMubinRes.isReadyOrNeedsParse()) {
-        return 2;
+        return MapObjStatus::NotReady;
     }
-    mDynamicMubinRes.parseResource(0);
+    mDynamicMubinRes.parseResource(nullptr);
     if (mDynamicMubinRes.checkLoadStatus()) {
         sead::ReadWriteLock* lock = &mPa->mLock;
         lock->writeLock();
         mPa->resetGroup(mDynamicGroupIdx);
         mDynamicGroupIdx = 0xFFFFFFFF;
         lock->writeUnlock();
-        return 1;
+        return MapObjStatus::Ready;
     }
     auto* r = mDynamicMubinRes.getResource();
-    sead::DirectResource* resource = nullptr;
-    if (auto* res = sead::DynamicCast<sead::DirectResource>(r)) {
-        resource = res;
-    }
+    auto* resource = sead::DynamicCast<sead::DirectResource>(r);
+
     sead::ReadWriteLock* lock = &mPa->mLock;
     lock->writeLock();
     parseMap_(0, resource->getRawData(), mDynamicGroupIdx, mIdx);
     lock->writeUnlock();
-    return 0;
+    return MapObjStatus::Loading;
 }
 
-int PlacementMap::loadStaticMap_(bool load) {
+bool PlacementMap::loadStaticMap_(bool load) {
     if (!mMubinPath.isEmpty()) {
         mStaticMapParsed = true;
         if (!mSkipLoadStaticMap) {
             doLoadStaticMap_(load);
         }
     }
-    return 1;
+    return true;
 }
 
 void PlacementMap::unload() {

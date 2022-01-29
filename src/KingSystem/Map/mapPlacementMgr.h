@@ -74,7 +74,7 @@ public:
         GrudgeMerge = 0x20,
     };
 
-    bool isGrudgeMerge() { return sFlags.isOn(MgrStaticFlags::GrudgeMerge); }
+    bool isGrudgeMerge() const { return sFlags.isOn(MgrStaticFlags::GrudgeMerge); }
 
     static sead::TypedBitFlag<MgrStaticFlags, u32> sFlags;
 

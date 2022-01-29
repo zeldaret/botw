@@ -12,22 +12,13 @@
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/System/Patrol.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
 
 class PlacementMapMgr;
 class PlacementActors;
-
-class Patrol {
-public:
-    static Patrol* instance() { return sInstance; }
-    u8 _0[0x23 - 0x0];
-    bool loadStaticPhysUnstableMapUnit;
-
-protected:
-    static Patrol* sInstance;
-};
 
 class PlacementMap {
     struct HkscRes {
@@ -68,12 +59,19 @@ class PlacementMap {
     };
     KSYS_CHECK_SIZE_NX150(InitStatus, 4);
 
+    // Rename when better information is available
+    enum class MapObjStatus : int {
+        Loading = 0,
+        Ready = 1,
+        NotReady = 2,
+    };
+
 public:
     PlacementMap();
     ~PlacementMap();
 
 private:
-    int loadStaticMap_(bool load);
+    bool loadStaticMap_(bool load);
     void doLoadStaticMap_(bool load);
 
     bool parseStaticMap_(sead::Heap* heap, u8* data);
@@ -81,7 +79,7 @@ private:
 
     bool loadDynamicMap();
 
-    int parseDynamicMap();
+    MapObjStatus parseDynamicMap();
 
     void resetDynamic();
     void unload();
@@ -93,8 +91,8 @@ private:
     phys::BodyGroup* getFieldBodyGroup(int field_group_idx);
     void cleanupPhysics();
     bool loadStaticCompound(int hksc_idx, bool is_auto_gen_mu, bool req_arg_8);
-    int x_2(int hksc_idx);
-    void x(int id, Object* obj);
+    MapObjStatus x_2(int hksc_idx);
+    void x_0(int id, Object* obj);
     void unloadHksc(int hksc_idx);
     int x_4(int id);
     int x_1(int id);
@@ -106,6 +104,8 @@ private:
 
     void x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubin_path,
              const sead::SafeString& folder_and_file, int map_id_maybe, bool skip_load_static_map);
+
+    int getStaticCompoundIdFromPosition(const sead::Vector3f& pos);
 
     u8 _0;
     u8 mSkipLoadStaticMap;

@@ -117,7 +117,7 @@ public:
     bool sub_7100D524B4() const;
     void x_9();
     Object* resetGroup(int group_idx);
-    int getNumObjs(int group_idx);
+    int getNumObjs(int group_idx) const;
     Object* getObj(int group_idx, int object_idx);
     Object* getStaticObj_0(int object_idx);
     u32 allocGroupForDynamicMap(PlacementMap* pmap);
