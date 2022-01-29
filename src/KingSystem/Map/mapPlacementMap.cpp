@@ -1,5 +1,6 @@
 
 #include "KingSystem/Map/mapPlacementMap.h"
+#include <prim/seadScopedLock.h>
 #include <thread/seadReadWriteLock.h>
 
 namespace ksys::map {
@@ -54,7 +55,7 @@ phys::BodyGroup* PlacementMap::getFieldBodyGroup(int field_group_idx) {
 
     auto* r = mRes[0].mRes.getResource();
     if (auto* sc = sead::DynamicCast<phys::StaticCompound>(r)) {
-        if (field_group_idx < sc->fieldBodyGroupSize()) {
+        if (field_group_idx < sc->getNumFieldBodyGroups()) {
             return sc->getFieldBodyGroup(field_group_idx);
         }
     }
