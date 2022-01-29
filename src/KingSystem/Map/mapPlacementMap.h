@@ -11,11 +11,23 @@
 #include "KingSystem/Map/mapPlacementMapMgr.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
 
 class PlacementMapMgr;
+class PlacementActors;
+
+class Patrol {
+public:
+    static Patrol* instance() { return sInstance; }
+    u8 _0[0x23 - 0x0];
+    bool loadStaticPhysUnstableMapUnit;
+
+protected:
+    static Patrol* sInstance;
+};
 
 class PlacementMap {
     struct HkscRes {
@@ -74,21 +86,21 @@ private:
     void resetDynamic();
     void unload();
     void unloadStaticMubin();
-    int x_6();
+    bool x_6();
     void x_5();
     int traverseStuff(sead::Vector3f* vec, PlacementActors* pa, int id);
 
-    phys::BodyGroup* getFieldBodyGroup(int field_body_group_index);
+    phys::BodyGroup* getFieldBodyGroup(int field_group_idx);
     void cleanupPhysics();
-    bool loadStaticCompound(int index, bool is_auto_gen_mu, bool load_maybe);
-    int x_2(int id);
+    bool loadStaticCompound(int hksc_idx, bool is_auto_gen_mu, bool req_arg_8);
+    int x_2(int hksc_idx);
     void x(int id, Object* obj);
     void unloadHksc(int hksc_idx);
     int x_4(int id);
     int x_1(int id);
     bool staticCompoundStuff(int sc_id, bool cleanup);
-    int cleanHkscMaybe(int id);
-    bool sub_7100D43F18(const sead::Vector3f& pos);
+    int doSomethingStaticCompound(int hksc_idx);
+    bool isDynamicLoaded(const sead::Vector3f& pos);
     void doDisableObjStaticCompound(Object* obj, bool disable);
     void x_9();
 
