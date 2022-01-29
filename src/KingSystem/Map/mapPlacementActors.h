@@ -117,7 +117,7 @@ public:
     Object* resetGroup(int groupIdx);
 
     u8 _0[0x28 - 0x0];
-    sead::ReadWriteLock lock;
+    sead::ReadWriteLock mLock;
     PlacementStruct1* mStruct1;
     u8 _e8[0x538 - 0xe8];
     sead::SafeArray<ActorData, 6000> mActorData;

@@ -7,8 +7,8 @@ namespace ksys::map {
 PlacementMap::PlacementMap() {
     mInitStatus = InitStatus::None;
     mParsedNumStaticObjs = 0xFFFFFFFF;
-    mStaticMapLoaded[0] = 0;
-    mStaticMapLoaded[1] = 0;
+    mStaticMapLoaded = false;
+    mStaticMapParsed = false;
     mNumStaticObjs = 0xFFFFFFFF;
     mMat = sead::Matrix34f::ident;
     mDistanceToCurrentMapUnit = 0;
@@ -38,7 +38,7 @@ PlacementMap::~PlacementMap() {
 }
 
 void PlacementMap::unload() {
-    sead::ReadWriteLock* lock = &mPa->lock;
+    sead::ReadWriteLock* lock = &mPa->mLock;
     lock->writeLock();
     mPa->resetGroup(mDynamicGroupIdx);
     mDynamicGroupIdx = 0xFFFFFFFF;
@@ -49,38 +49,33 @@ void PlacementMap::unload() {
     mCs.unlock();
 }
 
-phys::BodyGroup* PlacementMap::getFieldBodyGroup(u32 field_group) {
-    mCs.lock();
-    phys::BodyGroup* retval = nullptr;
+phys::BodyGroup* PlacementMap::getFieldBodyGroup(int field_group_idx) {
+    const auto lock = sead::makeScopedLock(mCs);
+
     auto* r = mRes[0].mRes.getResource();
     if (auto* sc = sead::DynamicCast<phys::StaticCompound>(r)) {
-        if (sc->fieldBodyGroupSize() > (s32)field_group) {
-            retval = sc->getFieldBodyGroup(field_group);
+        if (field_group_idx < sc->fieldBodyGroupSize()) {
+            return sc->getFieldBodyGroup(field_group_idx);
         }
-    } else {
-        retval = nullptr;
     }
-
-    mCs.unlock();
-    return retval;
+    return nullptr;
 }
 
-void PlacementMap::x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubinPath,
-                       const sead::SafeString& folderAndFile, int map_id_maybe,
+void PlacementMap::x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubin_path,
+                       const sead::SafeString& folder_and_file, int map_id_maybe,
                        bool skip_load_static_map) {
-    _388 = unknown;  // Unknown
+    _388 = unknown;
     mIdx = idx;
     mCol = column;
     mRow = row;
-    mMubinPath.copy(mubinPath);
-    mFolderAndFile.copy(folderAndFile);
-    _38c = map_id_maybe; /* Index in open world map */
+    mMubinPath.copy(mubin_path);
+    mFolderAndFile.copy(folder_and_file);
+    _38c = map_id_maybe;  // Index in open world map
     mSkipLoadStaticMap = skip_load_static_map;
 }
 
-void PlacementMap::unloadHksc(s32 a2) {
-    u64 k = ((u64)a2 < 4) ? a2 : 0;
-    mRes[k].mRes.requestUnload();
+void PlacementMap::unloadHksc(int hksc_idx) {
+    mRes[hksc_idx].mRes.requestUnload();
 }
 
 }  // namespace ksys::map

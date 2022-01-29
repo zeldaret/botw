@@ -43,7 +43,7 @@ public:
 
     void cleanUp();
     bool calledFromMapDtor();
-    inline s32 fieldBodyGroupSize() { return mFieldBodyGroups.size(); }
+    int fieldBodyGroupSize() const { return mFieldBodyGroups.size(); }
 
 private:
     enum class Flag {
