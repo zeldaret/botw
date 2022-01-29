@@ -13,6 +13,7 @@ namespace ksys::map {
 class MapProperties;
 class Placement18;
 class FarActorMerge;
+class PlacementActors;
 
 class PlacementMap;
 
@@ -39,6 +40,8 @@ class PlacementMapMgr {
 public:
     PlacementMapMgr() = default;
     ~PlacementMapMgr() = default;
+
+    bool isShrineOrDivineBeast() const { return mIsShrineOrDivineBeast; }
 
 private:
     sead::Buffer<PlacementMap> mMaps;

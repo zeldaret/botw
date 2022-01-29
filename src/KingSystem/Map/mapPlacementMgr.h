@@ -70,7 +70,11 @@ public:
 
     enum class MgrStaticFlags {
         debug = 0x1,
+        DemoMode = 0x4,
+        GrudgeMerge = 0x20,
     };
+
+    bool isGrudgeMerge() const { return sFlags.isOn(MgrStaticFlags::GrudgeMerge); }
 
     static sead::TypedBitFlag<MgrStaticFlags, u32> sFlags;
 

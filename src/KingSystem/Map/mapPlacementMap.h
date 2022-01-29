@@ -11,11 +11,14 @@
 #include "KingSystem/Map/mapPlacementMapMgr.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResource.h"
+#include "KingSystem/System/Patrol.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
 
 class PlacementMapMgr;
+class PlacementActors;
 
 class PlacementMap {
     struct HkscRes {
@@ -56,12 +59,19 @@ class PlacementMap {
     };
     KSYS_CHECK_SIZE_NX150(InitStatus, 4);
 
+    // Rename when better information is available
+    enum class MapObjStatus : int {
+        Loading = 0,
+        Ready = 1,
+        NotReady = 2,
+    };
+
 public:
     PlacementMap();
     ~PlacementMap();
 
 private:
-    int loadStaticMap_(bool load);
+    bool loadStaticMap_(bool load);
     void doLoadStaticMap_(bool load);
 
     bool parseStaticMap_(sead::Heap* heap, u8* data);
@@ -69,31 +79,33 @@ private:
 
     bool loadDynamicMap();
 
-    int parseDynamicMap();
+    MapObjStatus parseDynamicMap();
 
     void resetDynamic();
     void unload();
     void unloadStaticMubin();
-    int x_6();
+    bool x_6();
     void x_5();
     int traverseStuff(sead::Vector3f* vec, PlacementActors* pa, int id);
 
-    phys::BodyGroup* getFieldBodyGroup(int field_body_group_index);
+    phys::BodyGroup* getFieldBodyGroup(int field_group_idx);
     void cleanupPhysics();
-    bool loadStaticCompound(int index, bool is_auto_gen_mu, bool load_maybe);
-    int x_2(int id);
-    void x(int id, Object* obj);
+    bool loadStaticCompound(int hksc_idx, bool is_auto_gen_mu, bool req_arg_8);
+    MapObjStatus x_2(int hksc_idx);
+    void x_0(int id, Object* obj);
     void unloadHksc(int hksc_idx);
     int x_4(int id);
     int x_1(int id);
     bool staticCompoundStuff(int sc_id, bool cleanup);
-    int cleanHkscMaybe(int id);
-    bool sub_7100D43F18(const sead::Vector3f& pos);
+    int doSomethingStaticCompound(int hksc_idx);
+    bool isDynamicLoaded(const sead::Vector3f& pos);
     void doDisableObjStaticCompound(Object* obj, bool disable);
     void x_9();
 
     void x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubin_path,
              const sead::SafeString& folder_and_file, int map_id_maybe, bool skip_load_static_map);
+
+    int getStaticCompoundIdFromPosition(const sead::Vector3f& pos) const;
 
     u8 _0;
     u8 mSkipLoadStaticMap;
