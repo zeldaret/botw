@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace ksys::phys {
 
@@ -77,7 +78,7 @@ u32 InstanceSet::sub_7100FB9C2C() const {
 
 void InstanceSet::sub_7100FBA9BC() {
     for (auto& rb : mRigidBodySets) {
-        rb.sub_7100FA97FC();
+        rb.callRigidBody_x_0();
     }
 
     for (auto& body : mList) {
@@ -92,7 +93,7 @@ void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
     bool sensor = phys::getContactLayerType(layer) != ContactLayerType::Entity;
 
     for (auto& rb : mRigidBodySets) {
-        rb.disableCollisionMaybe(layer);
+        rb.disableContactLayer(layer);
     }
     if (sensor)
         return;
@@ -106,7 +107,7 @@ void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
 
 void InstanceSet::sub_7100FBAD74() {
     for (auto& rb : mRigidBodySets) {
-        rb.disableAllContact();
+        rb.disableAllContactLayers();
     }
     if (mRagdollController != nullptr) {
         mRagdollController->sub_71012217A8();
@@ -143,7 +144,7 @@ void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* pa
 
 void* InstanceSet::sub_7100FBBC28(const sead::SafeString& name) const {
     for (auto& rb : mRigidBodySets) {
-        void* p = rb.findXByName(name);
+        void* p = rb.findBodyByHavokName(name);
         if (p != nullptr)
             return p;
     }

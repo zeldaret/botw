@@ -147,7 +147,7 @@ public:
     bool isFlag8Set() const;
     bool isMotionFlag1Set() const;
     bool isMotionFlag2Set() const;
-    void sub_7100F8D21C();
+    void addOrRemoveRigidBodyToWorld();
     bool x_6();
 
     /// Get the motion accessor if it is a RigidBodyMotionEntity. Returns nullptr otherwise.
@@ -191,8 +191,8 @@ public:
 
     void updateCollidableQualityType(bool high_quality);
 
-    void addContactLayer(ContactLayer layer);
-    void removeContactLayer(ContactLayer layer);
+    void enableContactLayer(ContactLayer layer);
+    void disableContactLayer(ContactLayer layer);
     void setContactMask(u32);
     void setContactAll();
     void setContactNone();
@@ -278,7 +278,7 @@ public:
     bool isTransformDirty() const;
 
     void updateShape();
-    void updateShapeIfNeeded(float x);
+    void setScale(float scale);
 
     void changeMotionType(MotionType motion_type);
     // 0x0000007100f9045c - calls a bunch of Havok world functions
@@ -459,9 +459,12 @@ public:
     void setMotionFlag(MotionFlag flag);
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
-    UserTag* getUserTag() const { return mUserTag; }
+
     Type getType() const { return mType; }
     bool isCharacterControllerType() const { return mType == Type::CharacterController; }
+
+    UserTag* getUserTag() const { return mUserTag; }
+    void setUserTag(UserTag* tag) { mUserTag = tag; }
 
     bool hasConstraintWithUserData();
     // 0x0000007100f94e80
@@ -522,6 +525,13 @@ public:
     virtual const char* getName();
 
     // Internal.
+    void setUseSystemTimeFactor(bool use) { mFlags.change(Flag::UseSystemTimeFactor, use); }
+    // Internal.
+    void setFlag400000(bool set) { mFlags.change(Flag::_400000, set); }
+    // Internal.
+    void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
+
+    // Internal.
     void onCollisionAdded() {
         if (mCollisionCount.increment() == 0)
             clearFlag4000000(false);
@@ -551,7 +561,7 @@ private:
     void* _90 = nullptr;
     u16 _98 = 0;
     RigidBodyAccessor mRigidBodyAccessor;
-    f32 _b0 = 1.0f;
+    f32 mScale = 1.0f;
     Type mType{};
     MotionAccessor* mMotionAccessor = nullptr;
     sead::Atomic<int> mCollisionCount;

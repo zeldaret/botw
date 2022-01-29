@@ -18,6 +18,7 @@ public:
 
 namespace ksys::phys {
 
+class RigidBodySet;
 class SystemGroupHandler;
 
 class Ragdoll {};
@@ -44,21 +45,6 @@ struct CollisionInfo {
 struct ContactInfo {
     u8 filler[0x8];
     sead::SafeString mName;
-};
-
-class RigidBodySet {
-public:
-    void disableAllContact();
-    void sub_7100FA97FC();
-    void disableCollisionMaybe(ContactLayer);
-    void* findXByName(const sead::SafeString& name) const;
-
-    RigidBody* getRigidBody() const { return mBodies[0]; }
-    RigidBody* getRigidBody(s32 idx) const { return mBodies[idx]; }
-
-private:
-    u8 _0[0x18];
-    sead::PtrArray<RigidBody> mBodies;
 };
 
 class InstanceSet : public sead::hostio::Node {

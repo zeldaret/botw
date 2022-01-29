@@ -247,7 +247,7 @@ bool RigidBody::isMotionFlag2Set() const {
     return mMotionFlags.isOn(MotionFlag::_2);
 }
 
-void RigidBody::sub_7100F8D21C() {
+void RigidBody::addOrRemoveRigidBodyToWorld() {
     // debug code that survived because mFlags is atomic?
     static_cast<void>(mFlags.getDirect());
 
@@ -571,12 +571,12 @@ static int getLayerBit(int layer, ContactLayerType type) {
     return layer - FirstSensor * int(type);
 }
 
-void RigidBody::addContactLayer(ContactLayer layer) {
+void RigidBody::enableContactLayer(ContactLayer layer) {
     assertLayerType(layer);
     mContactMask.setBit(getLayerBit(layer, getLayerType()));
 }
 
-void RigidBody::removeContactLayer(ContactLayer layer) {
+void RigidBody::disableContactLayer(ContactLayer layer) {
     assertLayerType(layer);
     mContactMask.resetBit(getLayerBit(layer, getLayerType()));
 }
@@ -926,17 +926,17 @@ void RigidBody::updateShape() {
         mUserTag->onBodyShapeChanged(this);
 }
 
-void RigidBody::updateShapeIfNeeded(float x) {
+void RigidBody::setScale(float scale) {
     if (!hasFlag(Flag::_10))
         return;
 
-    if (x <= 0.0)
-        x = 1.0;
+    if (scale <= 0.0)
+        scale = 1.0;
 
-    if (sead::Mathf::equalsEpsilon(_b0, x))
+    if (sead::Mathf::equalsEpsilon(mScale, scale))
         return;
 
-    _b0 = m12(x, _b0);
+    mScale = m12(scale, mScale);
     updateShape();
 }
 
