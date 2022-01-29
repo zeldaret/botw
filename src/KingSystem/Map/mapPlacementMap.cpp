@@ -53,7 +53,7 @@ bool PlacementMap::parseStaticMap_(sead::Heap* heap, u8* data) {
     return false;
 }
 
-int PlacementMap::getStaticCompoundIdFromPosition(const sead::Vector3f& pos) {
+int PlacementMap::getStaticCompoundIdFromPosition(const sead::Vector3f& pos) const {
     if (mMgr->isShrineOrDivineBeast()) {
         return 0;
     }
@@ -78,11 +78,11 @@ bool PlacementMap::x_6() {
         Object* obj = mPa->getObj(mDynamicGroupIdx, i);
         obj->setFlags0(Object::Flag0::_4000);
 
-        const auto& f = obj->getFlags0();
-        if (f.isOn(Object::Flag0::_2) || f.isOn(Object::Flag0::_4)) {
-            ret &= f.isOn(Object::Flag0::_80);
+        const auto& flags = obj->getFlags0();
+        if (flags.isOn(Object::Flag0::_2) || flags.isOn(Object::Flag0::_4)) {
+            ret &= flags.isOn(Object::Flag0::_80);
         }
-        if (f.isOn(Object::Flag0::_10000) || f.isOn(Object::Flag0::_80000000)) {
+        if (flags.isOn(Object::Flag0::_10000) || flags.isOn(Object::Flag0::_80000000)) {
             ret = false;
         }
     }
@@ -134,20 +134,17 @@ PlacementMap::MapObjStatus PlacementMap::x_2(int hksc_idx) {
     if (!handle->isReadyOrNeedsParse()) {
         return MapObjStatus::NotReady;
     }
-    handle->parseResource(0);
+    handle->parseResource(nullptr);
     if (handle->checkLoadStatus()) {
         return MapObjStatus::Ready;
     }
 
-    auto r = handle->getResource();
-    auto* sc = sead::DynamicCast<phys::StaticCompound>(r);
+    auto* resource = handle->getResource();
+    auto* sc = sead::DynamicCast<phys::StaticCompound>(resource);
 
     sc->sub_7100FCAD0C(mMat);
-    int i = mParsedNumStaticObjs;
-    if (i <= mNumStaticObjs) {
-        do {
-            x_0(hksc_idx, mPa->getStaticObj_0(i));
-        } while (i++ < mNumStaticObjs);
+    for (int i = mParsedNumStaticObjs; i <= mNumStaticObjs; i++) {
+        x_0(hksc_idx, mPa->getStaticObj_0(i));
     }
     const int gid = mDynamicGroupIdx;
     if (gid >= 0) {
@@ -166,26 +163,27 @@ void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
     const auto lock = sead::makeScopedLock(mCs);
 
     // Is Flag0::_200000 a flag to disable an object?
-    if (disable != obj->getFlags0().isOn(Object::Flag0::_200000)) {
-        if (disable) {
-            obj->setFlags0(Object::Flag0::_200000);
-        } else {
-            obj->resetFlags0(Object::Flag0::_200000);
-        }
+    if (disable == obj->getFlags0().isOn(Object::Flag0::_200000)) {
+        return;
+    }
+    if (disable) {
+        obj->setFlags0(Object::Flag0::_200000);
+    } else {
+        obj->resetFlags0(Object::Flag0::_200000);
+    }
 
-        int idx = getStaticCompoundIdFromPosition(obj->getTranslate());
-        auto* r = mRes[idx].mRes.getResource();
-        if (auto ptr = sead::DynamicCast<ksys::phys::StaticCompound>(r)) {
-            s16 sc = obj->getStaticCompoundId();
-            ptr->disableCollision(sc, disable);
-        }
+    int idx = getStaticCompoundIdFromPosition(obj->getTranslate());
+    auto* r = mRes[idx].mRes.getResource();
+    if (auto* sc = sead::DynamicCast<ksys::phys::StaticCompound>(r)) {
+        s16 sc_id = obj->getStaticCompoundId();
+        sc->disableCollision(sc_id, disable);
     }
 }
 
 // Should this be renamed to what x_3() and/or x_4() does
 int PlacementMap::doSomethingStaticCompound(int hksc_idx) {
-    auto* r = mRes[hksc_idx].mRes.getResource();
-    if (auto* sc = sead::DynamicCast<phys::StaticCompound>(r)) {
+    auto* resource = mRes[hksc_idx].mRes.getResource();
+    if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
         if (!sc->calledFromMapDtor() && !sc->x_3()) {
             sc->x_4();
         }
@@ -224,8 +222,8 @@ void PlacementMap::cleanupPhysics() {
     const auto lock = sead::makeScopedLock(mCs);
 
     for (int i = 0; i < 4; i++) {
-        auto r = mRes[i].mRes.getResource();
-        if (auto* sc = sead::DynamicCast<phys::StaticCompound>(r)) {
+        auto resource = mRes[i].mRes.getResource();
+        if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
             sc->cleanUp();
         }
         mRes[i].mRes.requestUnload2();

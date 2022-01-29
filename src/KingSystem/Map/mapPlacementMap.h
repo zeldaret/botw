@@ -105,7 +105,7 @@ private:
     void x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubin_path,
              const sead::SafeString& folder_and_file, int map_id_maybe, bool skip_load_static_map);
 
-    int getStaticCompoundIdFromPosition(const sead::Vector3f& pos);
+    int getStaticCompoundIdFromPosition(const sead::Vector3f& pos) const;
 
     u8 _0;
     u8 mSkipLoadStaticMap;
