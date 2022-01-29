@@ -186,6 +186,9 @@ public:
     void setFixed(bool fixed, bool preserve_velocities);
     void resetFrozenState();
 
+    // 0x0000007100f8ee50 - FIXME: figure out what type is
+    void x_17(u8 type);
+
     void updateCollidableQualityType(bool high_quality);
 
     void addContactLayer(ContactLayer layer);
@@ -471,9 +474,14 @@ public:
     void setEntityMotionFlag40(bool set);
     bool isEntityMotionFlag40On() const;
 
+    // 0x0000007100f955c0 - FIXME: types
+    void processUpdateRequests(void* data, void* data2);
+
     void clearFlag2000000(bool clear);
     void clearFlag4000000(bool clear);
     void clearFlag8000000(bool clear);
+    // 0x0000007100f95f8c
+    void x_114(bool unk);
 
     void lock();
     void lock(bool also_lock_world);
@@ -484,6 +492,9 @@ public:
     }
 
     hkpMotion* getMotion() const;
+
+    // 0x0000007100f96a4c
+    void x_123(bool unk);
 
     void setEntityMotionFlag1(bool set);
     bool isEntityMotionFlag1On() const;
