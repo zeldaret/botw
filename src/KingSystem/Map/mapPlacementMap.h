@@ -46,7 +46,6 @@ class PlacementMap {
     };
     KSYS_CHECK_SIZE_NX150(HkscRes, 0x58);
 
-    enum class StaticMap : u16 { None = 0, Loaded = 1 << 0, Parsed = 1 << 8 };
     enum class InitStatus : int {
         None = 0,
         StaticLoaded = 1,
@@ -79,12 +78,12 @@ private:
     void x_5();
     int traverseStuff(sead::Vector3f* vec, PlacementActors* pa, int id);
 
-    phys::BodyGroup* getFieldBodyGroup(u32 field_body_group_index);
+    phys::BodyGroup* getFieldBodyGroup(int field_body_group_index);
     void cleanupPhysics();
     bool loadStaticCompound(int index, bool is_auto_gen_mu, bool load_maybe);
     int x_2(int id);
     void x(int id, Object* obj);
-    void unloadHksc(int id);
+    void unloadHksc(int hksc_idx);
     int x_4(int id);
     int x_1(int id);
     bool staticCompoundStuff(int sc_id, bool cleanup);
@@ -93,11 +92,13 @@ private:
     void doDisableObjStaticCompound(Object* obj, bool disable);
     void x_9();
 
-    void x_7(int idx, int unknown, char column, char row, const sead::SafeString& mubinPath,
-             const sead::SafeString& folderAndFile, int map_id_maybe, bool skip_load_static_map);
+    void x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubin_path,
+             const sead::SafeString& folder_and_file, int map_id_maybe, bool skip_load_static_map);
 
-    u16 mSkipLoadStaticMap;
-    StaticMap mStaticMapLoaded;
+    u8 _0;
+    u8 mSkipLoadStaticMap;
+    bool mStaticMapLoaded;
+    bool mStaticMapParsed;
     u16 _04;
     s16 _06;
     sead::FixedSafeString<128> mMubinPath;

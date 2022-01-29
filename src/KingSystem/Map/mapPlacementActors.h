@@ -5,6 +5,7 @@
 #include <prim/seadTypedBitFlag.h>
 #include <prim/seadTypedLongBitFlag.h>
 #include <thread/seadAtomic.h>
+#include <thread/seadReadWriteLock.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
@@ -110,11 +111,13 @@ public:
 class PlacementActors {
 public:
     u32 getNumStaticObjs() const;
-    map::Object* getStaticObj_2(s32 idx) const;
+    Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
     void x_9();
+    Object* resetGroup(int groupIdx);
 
-    u8 _0[0xe0 - 0x0];
+    u8 _0[0x28 - 0x0];
+    sead::ReadWriteLock mLock;
     PlacementStruct1* mStruct1;
     u8 _e8[0x538 - 0xe8];
     sead::SafeArray<ActorData, 6000> mActorData;
