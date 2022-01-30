@@ -4,6 +4,8 @@
 #include <Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h>
 #include <Havok/Physics2012/Collide/Shape/hkpShape.h>
 
+extern hkReal hkConvexShapeDefaultRadius;
+
 class hkpConvexShape : public hkpSphereRepShape {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkpConvexShape)

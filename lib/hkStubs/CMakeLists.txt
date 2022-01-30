@@ -109,6 +109,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Compound/Tree/hkpBvTreeShape.h
   Havok/Physics2012/Collide/Shape/Compound/Tree/Mopp/hkpMoppBvTreeShape.h
   Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h
+  Havok/Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h
   Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
   Havok/Physics2012/Collide/Shape/Query/hkpRayShapeCollectionFilter.h
