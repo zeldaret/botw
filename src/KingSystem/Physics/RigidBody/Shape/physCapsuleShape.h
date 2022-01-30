@@ -14,10 +14,10 @@ class hkpShape;
 namespace ksys::phys {
 
 class CapsuleParam;
-struct CapsuleBody;
+struct CapsuleShape;
 
-struct CapsuleShape {
-    CapsuleBody* init(sead::Heap* heap);
+struct CapsuleShapeParam {
+    CapsuleShape* createShape(sead::Heap* heap);
 
     sead::Vector3f vertex_a;
     sead::Vector3f vertex_b;
@@ -30,21 +30,21 @@ struct CapsuleShape {
     bool _38 = false;
 };
 
-struct CapsuleBody {
+struct CapsuleShape {
     enum class Flag {
         Modified = 1 << 0,
     };
 
-    CapsuleBody(const CapsuleShape& shape_, hkpShape* hkp_shape_);
-    virtual ~CapsuleBody();
+    CapsuleShape(const CapsuleShapeParam& shape_, hkpShape* hkp_shape_);
+    virtual ~CapsuleShape();
 
     virtual hkpShape* getShape();
     virtual const hkpShape* getShape() const;
     virtual void updateChanges();
     virtual void scaleVerts(f32 scale);
 
-    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
-    CapsuleBody* clone(sead::Heap* heap);
+    RigidBody* createBody(u32 flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
+    CapsuleShape* clone(sead::Heap* heap);
     f32 getRadius() const;
     void getVertices(sead::Vector3f* va, sead::Vector3f* vb) const;
     bool setRadius(f32 r);
@@ -66,7 +66,7 @@ class CapsuleParam : public RigidBodyInstanceParam {
 public:
     u8 _90;
     float _94;
-    CapsuleShape shape;
+    CapsuleShapeParam shape;
 };
 
 }  // namespace ksys::phys

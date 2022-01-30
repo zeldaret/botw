@@ -13,8 +13,8 @@ RigidBody* RigidBodyFactory::createSphere(RigidBodyInstanceParam* params, sead::
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<SphereParam>(params);
-    SphereBody* body = v->shape.init(heap);
-    return body->init(1, params, heap);
+    auto* shape = v->shape.createShape(heap);
+    return shape->createBody(1, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createCapsule(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -22,8 +22,8 @@ RigidBody* RigidBodyFactory::createCapsule(RigidBodyInstanceParam* params, sead:
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<CapsuleParam>(params);
-    CapsuleBody* body = v->shape.init(heap);
-    return body->init(1, params, heap);
+    auto* shape = v->shape.createShape(heap);
+    return shape->createBody(1, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createCylinder(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -31,8 +31,8 @@ RigidBody* RigidBodyFactory::createCylinder(RigidBodyInstanceParam* params, sead
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<CylinderParam>(params);
-    CylinderBody* body = v->shape.init(heap);
-    return body->init(1, params, heap);
+    auto* shape = v->shape.createShape(heap);
+    return shape->createBody(1, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -40,8 +40,8 @@ RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyInstanceParam* params,
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<WaterCylinderParam>(params);
-    WaterCylinderBody* body = v->shape.init(heap);
-    return body->init(1, params, heap);
+    auto* body = v->shape.createShape(heap);
+    return body->createBody(1, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -49,8 +49,8 @@ RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Hea
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<BoxParam>(params);
-    BoxBody* body = v->shape.init(heap);
-    return body->init(1, params, heap);
+    auto* body = v->shape.createShape(heap);
+    return body->createBody(1, *params, heap);
 }
 
 }  // namespace ksys::phys

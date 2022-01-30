@@ -6,7 +6,7 @@
 
 namespace ksys::phys {
 
-CapsuleBody::CapsuleBody(const CapsuleShape& shape_, hkpShape* hkp_shape_)
+CapsuleShape::CapsuleShape(const CapsuleShapeParam& shape_, hkpShape* hkp_shape_)
     : vertex_a(shape_.vertex_a), vertex_b(shape_.vertex_b), radius(shape_.radius),
       material_mask(shape_.material, shape_.sub_material, shape_.floor_code, shape_.wall_code),
       shape(hkp_shape_) {
@@ -15,13 +15,13 @@ CapsuleBody::CapsuleBody(const CapsuleShape& shape_, hkpShape* hkp_shape_)
     setMaterialMask(material_mask);
 }
 
-void CapsuleBody::setMaterialMask(const MaterialMask& mask) {
+void CapsuleShape::setMaterialMask(const MaterialMask& mask) {
     material_mask = mask;
     if (shape)
         shape->setUserData(mask.getRawData());
 }
 
-CapsuleBody* CapsuleShape::init(sead::Heap* heap) {
+CapsuleShape* CapsuleShapeParam::createShape(sead::Heap* heap) {
     void* ptr = heap->tryAlloc(sizeof(hkpCapsuleShape), 0x10);
     if (ptr == nullptr)
         return nullptr;
@@ -29,41 +29,41 @@ CapsuleBody* CapsuleShape::init(sead::Heap* heap) {
     auto* hk_shape =
         new (ptr) hkpCapsuleShape(hkVector4(vertex_a.x, vertex_a.y, vertex_a.z),
                                   hkVector4(vertex_b.x, vertex_b.y, vertex_b.z), radius);
-    return new (heap) CapsuleBody(*this, hk_shape);
+    return new (heap) CapsuleShape(*this, hk_shape);
 }
 
-CapsuleBody* CapsuleBody::clone(sead::Heap* heap) {
-    CapsuleShape shape;
-    shape.radius = radius;
-    shape.vertex_a = vertex_a;
-    shape.vertex_b = vertex_b;
+CapsuleShape* CapsuleShape::clone(sead::Heap* heap) {
+    CapsuleShapeParam param_clone;
+    param_clone.radius = radius;
+    param_clone.vertex_a = vertex_a;
+    param_clone.vertex_b = vertex_b;
 
-    CapsuleBody* body = shape.init(heap);
-    body->material_mask = material_mask;
-    if (body->shape != nullptr)
-        body->shape->setUserData(material_mask.getRawData());
-    return body;
+    CapsuleShape* cloned = param_clone.createShape(heap);
+    cloned->material_mask = material_mask;
+    if (cloned->shape != nullptr)
+        cloned->shape->setUserData(material_mask.getRawData());
+    return cloned;
 }
 
-f32 CapsuleBody::getRadius() const {
+f32 CapsuleShape::getRadius() const {
     return radius;
 }
 
-void CapsuleBody::getVertices(sead::Vector3f* va, sead::Vector3f* vb) const {
+void CapsuleShape::getVertices(sead::Vector3f* va, sead::Vector3f* vb) const {
     if (va != nullptr)
         *va = vertex_a;
     if (vb != nullptr)
         *vb = vertex_b;
 }
 
-CapsuleBody::~CapsuleBody() {
+CapsuleShape::~CapsuleShape() {
     if (shape != nullptr) {
         ::operator delete(shape);
         shape = nullptr;
     }
 }
 
-bool CapsuleBody::setRadius(f32 r) {
+bool CapsuleShape::setRadius(f32 r) {
     if (r == radius || r <= 0.0f) {
         return false;
     }
@@ -72,7 +72,7 @@ bool CapsuleBody::setRadius(f32 r) {
     return true;
 }
 
-bool CapsuleBody::setVertices(const sead::Vector3f& va, const sead::Vector3f& vb) {
+bool CapsuleShape::setVertices(const sead::Vector3f& va, const sead::Vector3f& vb) {
     if (vertex_a == va && vertex_b == vb) {
         return false;
     }
@@ -82,21 +82,21 @@ bool CapsuleBody::setVertices(const sead::Vector3f& va, const sead::Vector3f& vb
     return true;
 }
 
-f32 CapsuleBody::getVolume() const {
+f32 CapsuleShape::getVolume() const {
     f32 dist = (vertex_a - vertex_b).length();
     return sead::Mathf::pi() * radius * radius * (dist + radius * 4.0f / 3.0f);
 }
 
-hkpShape* CapsuleBody::getShape() {
+hkpShape* CapsuleShape::getShape() {
     return shape;
 }
 
-const hkpShape* CapsuleBody::getShape() const {
+const hkpShape* CapsuleShape::getShape() const {
     return shape;
 }
 
-void CapsuleBody::sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb,
-                                 const hkTransformf& rb_vec) {
+void CapsuleShape::sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb,
+                                  const hkTransformf& rb_vec) {
     if (veca != nullptr) {
         hkVector4 tmp;
         tmp.setTransformedPos(rb_vec, toHkVec4(vertex_a));

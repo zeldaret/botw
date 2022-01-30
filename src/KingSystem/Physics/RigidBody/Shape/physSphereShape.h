@@ -7,14 +7,14 @@ namespace ksys::phys {
 
 class SphereParam;
 
-struct SphereBody {
-    virtual ~SphereBody();
+struct SphereShape {
+    virtual ~SphereShape();
 
-    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
+    RigidBody* createBody(u32 flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 };
 
-struct SphereShape {
-    SphereBody* init(sead::Heap* heap);
+struct SphereShapeParam {
+    SphereShape* createShape(sead::Heap* heap);
 };
 
 class SphereParam : public RigidBodyInstanceParam {
@@ -22,7 +22,7 @@ class SphereParam : public RigidBodyInstanceParam {
 public:
     u8 _90;
     float _94;
-    SphereShape shape;
+    SphereShapeParam shape;
 };
 
 }  // namespace ksys::phys

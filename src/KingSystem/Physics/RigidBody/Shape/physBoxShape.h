@@ -7,14 +7,14 @@ namespace ksys::phys {
 
 class BoxParam;
 
-struct BoxBody {
-    virtual ~BoxBody();
+struct BoxShape {
+    virtual ~BoxShape();
 
-    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
+    RigidBody* createBody(u32 flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 };
 
-struct BoxShape {
-    BoxBody* init(sead::Heap* heap);
+struct BoxShapeParam {
+    BoxShape* createShape(sead::Heap* heap);
 };
 
 class BoxParam : public RigidBodyInstanceParam {
@@ -22,7 +22,7 @@ class BoxParam : public RigidBodyInstanceParam {
 public:
     u8 _90;
     float _94;
-    BoxShape shape;
+    BoxShapeParam shape;
 };
 
 }  // namespace ksys::phys

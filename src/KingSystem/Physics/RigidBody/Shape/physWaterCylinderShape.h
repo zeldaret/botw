@@ -7,14 +7,14 @@ namespace ksys::phys {
 
 class WaterCylinderParam;
 
-struct WaterCylinderBody {
-    virtual ~WaterCylinderBody();
+struct WaterCylinderShape {
+    virtual ~WaterCylinderShape();
 
-    RigidBody* init(u32 flag, RigidBodyInstanceParam* params, sead::Heap* heap);
+    RigidBody* createBody(u32 flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 };
 
-struct WaterCylinderShape {
-    WaterCylinderBody* init(sead::Heap* heap);
+struct WaterCylinderShapeParam {
+    WaterCylinderShape* createShape(sead::Heap* heap);
 };
 
 class WaterCylinderParam : public RigidBodyInstanceParam {
@@ -22,7 +22,7 @@ class WaterCylinderParam : public RigidBodyInstanceParam {
 public:
     u8 _90;
     float _94;
-    WaterCylinderShape shape;
+    WaterCylinderShapeParam shape;
 };
 
 }  // namespace ksys::phys
