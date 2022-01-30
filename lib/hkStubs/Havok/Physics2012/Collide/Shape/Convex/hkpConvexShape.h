@@ -3,6 +3,7 @@
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h>
 #include <Havok/Physics2012/Collide/Shape/hkpShape.h>
+#include <Havok/Physics2012/Collide/Shape/hkpShapeContainer.h>
 
 extern hkReal hkConvexShapeDefaultRadius;
 
@@ -45,6 +46,26 @@ protected:
     }
 
     hkReal m_radius;
+};
+
+class hkpConvexTransformShapeBase : public hkpConvexShape {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(hkpConvexTransformShapeBase)
+    HK_DECLARE_REFLECTION()
+
+public:
+    hkpConvexTransformShapeBase() {}
+
+    explicit hkpConvexTransformShapeBase(hkFinishLoadedObjectFlag flag)
+        : hkpConvexShape(flag), m_childShape(flag) {}
+
+protected:
+    hkpConvexTransformShapeBase(ShapeType type, hkReal radius, const hkpConvexShape* childShape,
+                                hkpShapeContainer::ReferencePolicy ref);
+    void getChildShapeFromPpu(int thisShapeSize) const;
+
+    hkpSingleShapeContainer m_childShape;
+    mutable int m_childShapeSizeForSpu;
 };
 
 inline const hkReal& hkpConvexShape::getRadius() const {

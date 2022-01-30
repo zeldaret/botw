@@ -98,3 +98,7 @@ inline void hkQuaternionf::normalize() {
 inline const hkQuaternionf& hkQuaternionf::getIdentity() {
     return reinterpret_cast<const hkQuaternionf&>(g_vectorfConstants[HK_QUADREAL_0001]);
 }
+
+inline void hkQuaternionf::setIdentity() {
+    m_vec = hkVector4f::getConstant<HK_QUADREAL_0001>();
+}

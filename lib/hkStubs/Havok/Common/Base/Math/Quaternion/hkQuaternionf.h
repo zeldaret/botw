@@ -36,6 +36,7 @@ public:
     HK_FORCE_INLINE void normalize();
 
     HK_FORCE_INLINE static const hkQuaternionf& getIdentity();
+    HK_FORCE_INLINE void setIdentity();
 
     hkVector4f m_vec;
 };

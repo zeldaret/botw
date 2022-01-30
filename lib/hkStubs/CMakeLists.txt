@@ -21,6 +21,9 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Matrix/hkRotationf.h
   Havok/Common/Base/Math/Matrix/hkTransform.h
   Havok/Common/Base/Math/Matrix/hkTransformf.h
+  Havok/Common/Base/Math/QsTransform/hkQsTransform.h
+  Havok/Common/Base/Math/QsTransform/hkQsTransformf.h
+  Havok/Common/Base/Math/QsTransform/hkQsTransformf.inl
   Havok/Common/Base/Math/Quaternion/hkQuaternion.h
   Havok/Common/Base/Math/Quaternion/hkQuaternionf.h
   Havok/Common/Base/Math/Quaternion/hkQuaternionf.inl
@@ -111,6 +114,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h
   Havok/Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h
   Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
+  Havok/Physics2012/Collide/Shape/Convex/ConvexTransform/hkpConvexTransformShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
   Havok/Physics2012/Collide/Shape/Query/hkpRayShapeCollectionFilter.h
   Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h

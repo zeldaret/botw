@@ -5,3 +5,5 @@
 #define HK_NEVER_INLINE __attribute__((noinline))
 
 #define HK_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+
+#define HK_RESTRICT __restrict
