@@ -5,20 +5,20 @@
 
 namespace ksys::phys {
 
-class WaterCylinderParam;
+class CylinderWaterParam;
 
-struct WaterCylinderShape {
-    virtual ~WaterCylinderShape();
+struct CylinderWaterShape {
+    virtual ~CylinderWaterShape();
 
     RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 };
 
 struct WaterCylinderShapeParam {
-    WaterCylinderShape* createShape(sead::Heap* heap);
+    CylinderWaterShape* createShape(sead::Heap* heap);
 };
 
-class WaterCylinderParam : public RigidBodyInstanceParam {
-    SEAD_RTTI_OVERRIDE(WaterCylinderParam, RigidBodyInstanceParam)
+class CylinderWaterParam : public RigidBodyInstanceParam {
+    SEAD_RTTI_OVERRIDE(CylinderWaterParam, RigidBodyInstanceParam)
 public:
     u8 _90;
     float _94;

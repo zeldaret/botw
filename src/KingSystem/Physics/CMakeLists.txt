@@ -48,6 +48,8 @@ target_sources(uking PRIVATE
   RigidBody/Shape/physCharacterPrismShape.h
   RigidBody/Shape/physCylinderShape.cpp
   RigidBody/Shape/physCylinderShape.h
+  RigidBody/Shape/physCylinderWaterShape.cpp
+  RigidBody/Shape/physCylinderWaterShape.h
   RigidBody/Shape/physPolytopeShape.cpp
   RigidBody/Shape/physPolytopeShape.h
   RigidBody/Shape/physShape.h
@@ -55,8 +57,6 @@ target_sources(uking PRIVATE
   RigidBody/Shape/physShapeParamObj.h
   RigidBody/Shape/physSphereShape.cpp
   RigidBody/Shape/physSphereShape.h
-  RigidBody/Shape/physWaterCylinderShape.cpp
-  RigidBody/Shape/physWaterCylinderShape.h
 
   RigidBody/TeraMesh/physTeraMeshRigidBody.cpp
   RigidBody/TeraMesh/physTeraMeshRigidBody.h

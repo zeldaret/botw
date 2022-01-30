@@ -3,8 +3,8 @@
 #include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCylinderWaterShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/physWaterCylinderShape.h"
 
 namespace ksys::phys {
 
@@ -35,11 +35,11 @@ RigidBody* RigidBodyFactory::createCylinder(RigidBodyInstanceParam* params, sead
     return shape->createBody(true, *params, heap);
 }
 
-RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyInstanceParam* params, sead::Heap* heap) {
+RigidBody* RigidBodyFactory::createCylinderWater(RigidBodyInstanceParam* params, sead::Heap* heap) {
     if (params->isDynamicSensor())
         params->motion_type = MotionType::Keyframed;
 
-    auto* v = sead::DynamicCast<WaterCylinderParam>(params);
+    auto* v = sead::DynamicCast<CylinderWaterParam>(params);
     auto* shape = v->shape.createShape(heap);
     return shape->createBody(true, *params, heap);
 }
