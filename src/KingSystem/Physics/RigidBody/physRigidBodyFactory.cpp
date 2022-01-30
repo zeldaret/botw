@@ -40,8 +40,8 @@ RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyInstanceParam* params,
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<WaterCylinderParam>(params);
-    auto* body = v->shape.createShape(heap);
-    return body->createBody(1, *params, heap);
+    auto* shape = v->shape.createShape(heap);
+    return shape->createBody(1, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -49,8 +49,8 @@ RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Hea
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<BoxParam>(params);
-    auto* body = v->shape.createShape(heap);
-    return body->createBody(1, *params, heap);
+    auto* shape = v->shape.createShape(heap);
+    return shape->createBody(1, *params, heap);
 }
 
 }  // namespace ksys::phys
