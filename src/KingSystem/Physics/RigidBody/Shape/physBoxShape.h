@@ -8,11 +8,12 @@
 namespace ksys::phys {
 
 class BoxParam;
+class BoxRigidBody;
 
-struct BoxShape {
-    virtual ~BoxShape();
+struct BoxShape : Shape {
+    ~BoxShape() override;
 
-    RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
+    BoxRigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 };
 
 struct BoxShapeParam {

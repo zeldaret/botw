@@ -128,7 +128,7 @@ public:
               const sead::SafeString& name, sead::Heap* heap, bool set_flag_10);
     ~RigidBody() override;
 
-    virtual float m4();
+    virtual float getVolume();
 
     bool initMotionAccessorForDynamicMotion(sead::Heap* heap);
     bool initMotionAccessor(const RigidBodyInstanceParam& param, sead::Heap* heap,

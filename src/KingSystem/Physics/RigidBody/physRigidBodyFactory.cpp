@@ -44,7 +44,7 @@ RigidBody* RigidBodyFactory::createCylinderWater(RigidBodyInstanceParam* params,
     return shape->createBody(true, *params, heap);
 }
 
-RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Heap* heap) {
+BoxRigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Heap* heap) {
     if (params->isDynamicSensor())
         params->motion_type = MotionType::Keyframed;
 

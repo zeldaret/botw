@@ -1486,7 +1486,7 @@ float RigidBody::updateScale_(float scale, float old_scale) {
     return old_scale;
 }
 
-float RigidBody::m4() {
+float RigidBody::getVolume() {
     return 0.0;
 }
 
