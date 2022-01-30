@@ -1,6 +1,8 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
+#include "KingSystem/Physics/System/physDefines.h"
 
 class hkpShape;
 
@@ -27,6 +29,14 @@ public:
     virtual const hkpShape* getHavokShape() const = 0;
     virtual void updateHavokShape() = 0;
     virtual void setScale(float scale) = 0;
+};
+
+struct CommonShapeParam {
+    Material material;
+    const char* sub_material = sead::SafeString::cEmptyString.cstr();
+    FloorCode floor_code;
+    WallCode wall_code;
+    bool item_code_disable_stick = false;
 };
 
 }  // namespace ksys::phys

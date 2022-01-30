@@ -23,12 +23,7 @@ struct CapsuleShapeParam {
     sead::Vector3f vertex_a;
     sead::Vector3f vertex_b;
     f32 radius;
-    u32 _1c;
-    Material material;
-    const char* sub_material = sead::SafeString::cEmptyString.cstr();
-    FloorCode floor_code;
-    WallCode wall_code;
-    bool _38 = false;
+    CommonShapeParam common;
 };
 
 struct CapsuleShape : Shape {

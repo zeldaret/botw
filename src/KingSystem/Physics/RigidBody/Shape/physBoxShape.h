@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 
@@ -15,6 +17,12 @@ struct BoxShape {
 
 struct BoxShapeParam {
     BoxShape* createShape(sead::Heap* heap);
+
+    sead::Vector3f translate_1;
+    sead::Vector3f translate_0;
+    sead::Vector3f rotate;
+    float convex_radius;
+    CommonShapeParam common;
 };
 
 class BoxParam : public RigidBodyInstanceParam {

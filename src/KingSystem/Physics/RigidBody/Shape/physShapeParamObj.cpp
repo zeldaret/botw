@@ -1,5 +1,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
+#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCharacterPrismShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 
 namespace ksys::phys {
 
@@ -62,20 +68,20 @@ void ShapeParamObj::getCommon(CommonShapeParam* param) const {
     param->item_code_disable_stick = *item_code_disable_stick;
 }
 
-void ShapeParamObj::getSphere(SphereParam* param) const {
+void ShapeParamObj::getSphere(SphereShapeParam* param) const {
     param->radius = *radius;
     param->translate = *translate_0;
     getCommon(&param->common);
 }
 
-void ShapeParamObj::getCapsule(CapsuleParam* param) const {
+void ShapeParamObj::getCapsule(CapsuleShapeParam* param) const {
     param->radius = *radius;
-    param->translate_0 = *translate_0;
-    param->translate_1 = *translate_1;
+    param->vertex_a = *translate_0;
+    param->vertex_b = *translate_1;
     getCommon(&param->common);
 }
 
-void ShapeParamObj::getCylinder(CylinderParam* param) const {
+void ShapeParamObj::getCylinder(CylinderShapeParam* param) const {
     param->radius = *radius;
     param->convex_radius = *convex_radius;
     param->translate_0 = *translate_0;
@@ -83,7 +89,7 @@ void ShapeParamObj::getCylinder(CylinderParam* param) const {
     getCommon(&param->common);
 }
 
-void ShapeParamObj::getBox(BoxParam* param) const {
+void ShapeParamObj::getBox(BoxShapeParam* param) const {
     param->translate_0 = *translate_0;
     param->translate_1 = *translate_1;
     param->rotate = *rotate;
@@ -91,12 +97,12 @@ void ShapeParamObj::getBox(BoxParam* param) const {
     getCommon(&param->common);
 }
 
-void ShapeParamObj::getPolytope(PolytopeParam* param) const {
+void ShapeParamObj::getPolytope(PolytopeShapeParam* param) const {
     param->vertex_num = *vertex_num;
     getCommon(&param->common);
 }
 
-void ShapeParamObj::getCharacterPrism(CharacterPrismParam* param) const {
+void ShapeParamObj::getCharacterPrism(CharacterPrismShapeParam* param) const {
     param->radius = *radius;
     param->translate_0 = *translate_0;
     param->translate_1 = *translate_1;

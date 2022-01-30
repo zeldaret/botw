@@ -8,9 +8,10 @@ namespace ksys::phys {
 
 CapsuleShape::CapsuleShape(const CapsuleShapeParam& shape_, hkpShape* hkp_shape_)
     : vertex_a(shape_.vertex_a), vertex_b(shape_.vertex_b), radius(shape_.radius),
-      material_mask(shape_.material, shape_.sub_material, shape_.floor_code, shape_.wall_code),
+      material_mask(shape_.common.material, shape_.common.sub_material, shape_.common.floor_code,
+                    shape_.common.wall_code),
       shape(hkp_shape_) {
-    if (shape_._38)
+    if (shape_.common.item_code_disable_stick)
         material_mask.getData().setCustomFlag(MaterialMaskData::CustomFlag::_0);
     setMaterialMask(material_mask);
 }
