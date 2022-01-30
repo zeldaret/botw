@@ -44,7 +44,7 @@ static bool isMatrixInvalid(const sead::Matrix34f& matrix) {
 }
 
 RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
-                     const sead::SafeString& name, sead::Heap* heap, bool a7)
+                     const sead::SafeString& name, sead::Heap* heap, bool set_flag_10)
     : mCS(heap), mHkBody(hk_body), mRigidBodyAccessor(hk_body), mType(type) {
     if (!name.isEmpty()) {
         mHkBody->setName(name.cstr());
@@ -60,12 +60,12 @@ RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_bo
 
     mFlags.change(Flag::HighQualityCollidable, isCharacterControllerType());
     mFlags.change(Flag::IsSensor, layer_type == ContactLayerType::Sensor);
-    mFlags.change(Flag::_10, a7);
+    mFlags.change(Flag::_10, set_flag_10);
     mFlags.set(Flag::UseSystemTimeFactor);
 }
 
 RigidBody::~RigidBody() {
-    if (mType != Type::_0 && mType != Type::TerrainHeightField &&
+    if (mType != Type::FromShape && mType != Type::TerrainHeightField &&
         mType != Type::CharacterController) {
         mHkBody->setName(nullptr);
         mHkBody->deallocateInternalArrays();
@@ -911,7 +911,7 @@ void RigidBody::updateShape() {
         return;
     }
 
-    auto* shape = getNewShape();
+    auto* shape = getNewHavokShape_();
     if (shape) {
         mHkBody->setShape(shape);
         if (isEntity() && mMotionAccessor)
@@ -936,7 +936,7 @@ void RigidBody::setScale(float scale) {
     if (sead::Mathf::equalsEpsilon(mScale, scale))
         return;
 
-    mScale = m12(scale, mScale);
+    mScale = updateScale_(scale, mScale);
     updateShape();
 }
 
@@ -1482,8 +1482,8 @@ sead::Vector3f RigidBody::getInertiaLocal() const {
     return inertia;
 }
 
-float RigidBody::m12(float x, float y) {
-    return y;
+float RigidBody::updateScale_(float scale, float old_scale) {
+    return old_scale;
 }
 
 float RigidBody::m4() {
@@ -1738,7 +1738,7 @@ void RigidBody::clearFlag8000000(bool clear) {
         updateDeactivation();
 }
 
-const hkpShape* RigidBody::getNewShape() {
+const hkpShape* RigidBody::getNewHavokShape_() {
     return nullptr;
 }
 

@@ -13,7 +13,7 @@ struct RigidBodySetParam : agl::utl::ParameterList {
     enum class Type {
         Invalid = 0,
         FromShapeType = 1,
-        Other = 2,
+        FromResource = 2,
     };
 
     RigidBodySetParam();

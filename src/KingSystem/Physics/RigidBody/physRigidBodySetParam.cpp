@@ -21,7 +21,7 @@ bool RigidBodySetParam::parse(agl::utl::ResParameterList res_list, sead::Heap* h
     if (*type == "from_shape_type")
         type_val = Type::FromShapeType;
     else
-        type_val = Type::Other;
+        type_val = Type::FromResource;
 
     const int num_bodies = *num;
     if (num_bodies == 0 || res_list.getResParameterListNum() != num_bodies)

@@ -41,7 +41,7 @@ class RigidBody : public sead::IDisposer, public RigidBase {
     SEAD_RTTI_BASE(RigidBody)
 public:
     enum class Type {
-        _0 = 0,
+        FromShape = 0,
         _1 = 1,
         _2 = 2,
         TerrainHeightField = 3,
@@ -125,7 +125,7 @@ public:
     };
 
     RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
-              const sead::SafeString& name, sead::Heap* heap, bool a7);
+              const sead::SafeString& name, sead::Heap* heap, bool set_flag_10);
     ~RigidBody() override;
 
     virtual float m4();
@@ -508,11 +508,19 @@ public:
     void setEntityMotionFlag200(bool set);
     bool isEntityMotionFlag200On() const;
 
+protected:
     virtual void m9() = 0;
-    virtual const hkpShape* getNewShape();
-    virtual void* m11();
-    virtual float m12(float x, float y);
 
+    /// Called whenever a shape update is requested.
+    /// @return the new shape to use for the Havok rigid body or null to keep the current hkpShape
+    virtual const hkpShape* getNewHavokShape_();
+
+    virtual void* m11();
+
+    /// @return the new scale
+    virtual float updateScale_(float scale, float old_scale);
+
+public:
     /// Called when the rigid body goes beyond the broadphase border.
     ///
     /// Note: this is not guaranteed to be called if we have a user tag.
@@ -543,7 +551,7 @@ public:
             clearFlag4000000(true);
     }
 
-private:
+protected:
     void createMotionAccessor(sead::Heap* heap);
     void assertLayerType(ContactLayer layer) const;
     void onInvalidParameter(int code = 0);

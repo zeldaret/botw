@@ -87,11 +87,11 @@ f32 CapsuleShape::getVolume() const {
     return sead::Mathf::pi() * radius * radius * (dist + radius * 4.0f / 3.0f);
 }
 
-hkpShape* CapsuleShape::getShape() {
+hkpShape* CapsuleShape::getHavokShape() {
     return shape;
 }
 
-const hkpShape* CapsuleShape::getShape() const {
+const hkpShape* CapsuleShape::getHavokShape() const {
     return shape;
 }
 

@@ -23,6 +23,8 @@ target_sources(uking PRIVATE
   RigidBody/physRigidBodyAccessor.h
   RigidBody/physRigidBodyFactory.cpp
   RigidBody/physRigidBodyFactory.h
+  RigidBody/physRigidBodyFromShape.cpp
+  RigidBody/physRigidBodyFromShape.h
   RigidBody/physRigidBodyMotionEntity.cpp
   RigidBody/physRigidBodyMotionEntity.h
   RigidBody/physRigidBodyMotionSensor.cpp
@@ -43,6 +45,7 @@ target_sources(uking PRIVATE
   RigidBody/Shape/physCapsuleShape.h
   RigidBody/Shape/physCylinderShape.cpp
   RigidBody/Shape/physCylinderShape.h
+  RigidBody/Shape/physShape.h
   RigidBody/Shape/physSphereShape.cpp
   RigidBody/Shape/physSphereShape.h
   RigidBody/Shape/physWaterCylinderShape.cpp

@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
+#include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physDefines.h"
@@ -30,18 +31,20 @@ struct CapsuleShapeParam {
     bool _38 = false;
 };
 
-struct CapsuleShape {
+struct CapsuleShape : Shape {
+    SEAD_RTTI_OVERRIDE(CapsuleShape, Shape)
+public:
     enum class Flag {
         Modified = 1 << 0,
     };
 
     CapsuleShape(const CapsuleShapeParam& shape_, hkpShape* hkp_shape_);
-    virtual ~CapsuleShape();
+    ~CapsuleShape() override;
 
-    virtual hkpShape* getShape();
-    virtual const hkpShape* getShape() const;
-    virtual void updateChanges();
-    virtual void scaleVerts(f32 scale);
+    hkpShape* getHavokShape() override;
+    const hkpShape* getHavokShape() const override;
+    void updateHavokShape() override;
+    void setScale(float scale) override;
 
     RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
     CapsuleShape* clone(sead::Heap* heap);
