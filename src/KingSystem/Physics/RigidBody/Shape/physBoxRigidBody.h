@@ -4,7 +4,7 @@
 
 namespace ksys::phys {
 
-struct BoxShape;
+class BoxShape;
 struct RigidBodyInstanceParam;
 
 class BoxRigidBody : public RigidBodyFromShape {

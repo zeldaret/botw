@@ -124,9 +124,15 @@ KSYS_ALWAYS_INLINE inline sead::Heap* tryCreateDualHeap(sead::Heap* parent) {
                              sead::Heap::cHeapDirection_Forward, false);
 }
 
+/// Allocate uninitialised, suitably aligned storage for an object of type T.
+template <typename T>
+inline void* allocStorage(sead::Heap* heap) {
+    return heap->alloc(sizeof(T), alignof(T));
+}
+
 template <typename T, typename... Args>
 inline T* alloc(sead::Heap* heap, Args&&... args) {
-    void* storage = heap->alloc(sizeof(T), alignof(T));
+    void* storage = allocStorage<T>(heap);
     return new (storage) T(std::forward<Args>(args)...);
 }
 

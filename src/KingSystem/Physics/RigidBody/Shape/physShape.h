@@ -3,6 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/System/physMaterialMask.h"
 
 class hkpShape;
 
@@ -28,12 +29,16 @@ public:
     virtual ~Shape() = default;
     virtual hkpShape* getHavokShape() = 0;
     virtual const hkpShape* getHavokShape() const = 0;
-    virtual hkpShape* updateHavokShape() = 0;
+    virtual const hkpShape* updateHavokShape() = 0;
     /// @param scale New scale (relative to the current scale)
     virtual void setScale(float scale) = 0;
 };
 
 struct CommonShapeParam {
+    MaterialMask getMaterialMask(bool flag = false) const {
+        return {material, sub_material, floor_code, wall_code, flag};
+    }
+
     Material material;
     const char* sub_material = sead::SafeString::cEmptyString.cstr();
     FloorCode floor_code;

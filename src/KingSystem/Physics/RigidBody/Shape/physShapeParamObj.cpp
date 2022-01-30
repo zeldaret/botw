@@ -90,8 +90,8 @@ void ShapeParamObj::getCylinder(CylinderShapeParam* param) const {
 }
 
 void ShapeParamObj::getBox(BoxShapeParam* param) const {
-    param->translate_0 = *translate_0;
-    param->translate_1 = *translate_1;
+    param->translate = *translate_0;
+    param->extents = *translate_1;
     param->rotate = *rotate;
     param->convex_radius = *convex_radius;
     getCommon(&param->common);

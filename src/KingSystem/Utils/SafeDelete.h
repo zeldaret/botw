@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 namespace ksys::util {
 
 template <typename T>
@@ -31,6 +33,26 @@ inline void safeDeleteHeap(T*& heap) {
         heap->destroy();
         heap = nullptr;
     }
+}
+
+/// @warning This does not call T's destructor.
+///          This should only be used if T is trivially destructible (or if you know T's destructor
+///          can be skipped).
+template <typename T>
+inline void deallocateObjectUnsafe(T*& pointer) {
+    if (pointer) {
+        operator delete(pointer);
+        pointer = nullptr;
+    }
+}
+
+/// @warning This does not call T's destructor.
+template <typename T>
+inline void deallocateObject(T*& pointer) {
+    static_assert(std::is_trivially_destructible_v<T>,
+                  "T must be trivially destructible: use safeDelete "
+                  "(or use deallocateObjectUnsafe if you know T's destructor can be skipped)");
+    deallocateObjectUnsafe(pointer);
 }
 
 }  // namespace ksys::util
