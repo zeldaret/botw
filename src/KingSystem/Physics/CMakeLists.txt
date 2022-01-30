@@ -46,6 +46,8 @@ target_sources(uking PRIVATE
   RigidBody/Shape/physCylinderShape.cpp
   RigidBody/Shape/physCylinderShape.h
   RigidBody/Shape/physShape.h
+  RigidBody/Shape/physShapeParamObj.cpp
+  RigidBody/Shape/physShapeParamObj.h
   RigidBody/Shape/physSphereShape.cpp
   RigidBody/Shape/physSphereShape.h
   RigidBody/Shape/physWaterCylinderShape.cpp
@@ -99,8 +101,6 @@ target_sources(uking PRIVATE
   System/physRigidContactPointsEx.h
   System/physSensorGroupFilter.cpp
   System/physSensorGroupFilter.h
-  System/physShapeParam.cpp
-  System/physShapeParam.h
   System/physSystem.cpp
   System/physSystem.h
   System/physSystemData.cpp

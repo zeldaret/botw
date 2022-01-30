@@ -1,6 +1,6 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
-#include "KingSystem/Physics/System/physShapeParam.h"
 
 namespace ksys::phys {
 

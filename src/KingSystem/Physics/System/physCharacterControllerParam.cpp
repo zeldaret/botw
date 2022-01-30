@@ -1,5 +1,5 @@
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
-#include "KingSystem/Physics/System/physShapeParam.h"
+#include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
 
 namespace ksys::phys {
 

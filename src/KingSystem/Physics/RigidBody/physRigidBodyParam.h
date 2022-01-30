@@ -44,7 +44,7 @@ enum class NavMeshSubMaterial {
     None = 0x15,
 };
 
-struct ShapeParam;
+struct ShapeParamObj;
 
 struct RigidBodyInstanceParam {
     SEAD_RTTI_BASE(RigidBodyInstanceParam)
@@ -161,7 +161,7 @@ struct RigidBodyParam : agl::utl::ParameterList {
     MotionType getMotionType() const;
 
     Info info;
-    sead::Buffer<ShapeParam> shapes;
+    sead::Buffer<ShapeParamObj> shapes;
 };
 
 }  // namespace ksys::phys

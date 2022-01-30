@@ -8,7 +8,7 @@
 
 namespace ksys::phys {
 
-struct ShapeParam;
+struct ShapeParamObj;
 
 SEAD_ENUM(NavMeshCharacterType,
 Player,
@@ -56,7 +56,7 @@ struct CharacterControllerParam : agl::utl::ParameterList, ICharacterControllerP
         agl::utl::ParameterObj form_header_obj;
         agl::utl::Parameter<int> shape_num;
         agl::utl::Parameter<sead::FixedSafeString<32>> form_type;
-        sead::Buffer<ShapeParam> shape_params;
+        sead::Buffer<ShapeParamObj> shape_params;
     };
 
     CharacterControllerParam();

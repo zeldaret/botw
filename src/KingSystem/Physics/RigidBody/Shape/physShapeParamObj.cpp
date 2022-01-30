@@ -1,8 +1,9 @@
-#include "KingSystem/Physics/System/physShapeParam.h"
+#include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
+#include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 
 namespace ksys::phys {
 
-ShapeParam::ShapeParam()
+ShapeParamObj::ShapeParamObj()
     : shape_type(sead::SafeString::cEmptyString, "shape_type", this), radius(1.0, "radius", this),
       convex_radius(0.05, "convex_radius", this),
       translate_0(sead::Vector3f::zero, "translate_0", this),
@@ -13,11 +14,11 @@ ShapeParam::ShapeParam()
       wall_code({"None"}, "wall_code", this), floor_code({"None"}, "floor_code", this),
       item_code_disable_stick(false, "item_code_disable_stick", this) {}
 
-ShapeParam::~ShapeParam() {
+ShapeParamObj::~ShapeParamObj() {
     vertices.freeBuffer();
 }
 
-bool ShapeParam::parse(const agl::utl::ResParameterObj& res_obj, sead::Heap* heap) {
+bool ShapeParamObj::parse(const agl::utl::ResParameterObj& res_obj, sead::Heap* heap) {
     vertices.freeBuffer();
 
     applyResParameterObj(res_obj);
@@ -36,24 +37,24 @@ bool ShapeParam::parse(const agl::utl::ResParameterObj& res_obj, sead::Heap* hea
     return true;
 }
 
-ShapeParam::Shape ShapeParam::getShape() const {
+ShapeType ShapeParamObj::getShapeType() const {
     if (*shape_type == "sphere")
-        return Shape::Sphere;
+        return ShapeType::Sphere;
     if (*shape_type == "capsule")
-        return Shape::Capsule;
+        return ShapeType::Capsule;
     if (*shape_type == "cylinder")
-        return Shape::Cylinder;
+        return ShapeType::Cylinder;
     if (*shape_type == "box")
-        return Shape::Box;
+        return ShapeType::Box;
     if (*shape_type == "polytope")
-        return Shape::Polytope;
+        return ShapeType::Polytope;
     if (*shape_type == "character_prism")
-        return Shape::CharacterPrism;
+        return ShapeType::CharacterPrism;
 
-    return Shape::Unknown;
+    return ShapeType::Unknown;
 }
 
-void ShapeParam::getCommon(CommonShapeParam* param) const {
+void ShapeParamObj::getCommon(CommonShapeParam* param) const {
     param->material = materialFromText(*material);
     param->sub_material = sub_material->cstr();
     param->floor_code = floorCodeFromText(*floor_code);
@@ -61,20 +62,20 @@ void ShapeParam::getCommon(CommonShapeParam* param) const {
     param->item_code_disable_stick = *item_code_disable_stick;
 }
 
-void ShapeParam::getSphere(SphereParam* param) const {
+void ShapeParamObj::getSphere(SphereParam* param) const {
     param->radius = *radius;
     param->translate = *translate_0;
     getCommon(&param->common);
 }
 
-void ShapeParam::getCapsule(CapsuleParam* param) const {
+void ShapeParamObj::getCapsule(CapsuleParam* param) const {
     param->radius = *radius;
     param->translate_0 = *translate_0;
     param->translate_1 = *translate_1;
     getCommon(&param->common);
 }
 
-void ShapeParam::getCylinder(CylinderParam* param) const {
+void ShapeParamObj::getCylinder(CylinderParam* param) const {
     param->radius = *radius;
     param->convex_radius = *convex_radius;
     param->translate_0 = *translate_0;
@@ -82,7 +83,7 @@ void ShapeParam::getCylinder(CylinderParam* param) const {
     getCommon(&param->common);
 }
 
-void ShapeParam::getBox(BoxParam* param) const {
+void ShapeParamObj::getBox(BoxParam* param) const {
     param->translate_0 = *translate_0;
     param->translate_1 = *translate_1;
     param->rotate = *rotate;
@@ -90,12 +91,12 @@ void ShapeParam::getBox(BoxParam* param) const {
     getCommon(&param->common);
 }
 
-void ShapeParam::getPolytope(PolytopeParam* param) const {
+void ShapeParamObj::getPolytope(PolytopeParam* param) const {
     param->vertex_num = *vertex_num;
     getCommon(&param->common);
 }
 
-void ShapeParam::getCharacterPrism(CharacterPrismParam* param) const {
+void ShapeParamObj::getCharacterPrism(CharacterPrismParam* param) const {
     param->radius = *radius;
     param->translate_0 = *translate_0;
     param->translate_1 = *translate_1;

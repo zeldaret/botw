@@ -4,6 +4,8 @@
 
 namespace ksys::phys {
 
+class Shape;
+
 class RigidBodyFromShape : public RigidBody {
     SEAD_RTTI_OVERRIDE(RigidBodyFromShape, RigidBody)
 public:
@@ -15,8 +17,8 @@ protected:
     const hkpShape* getNewHavokShape_() override;
     float updateScale_(float scale, float old_scale) override;
 
-    virtual void m15() = 0;
-    virtual void m16() = 0;
+    virtual Shape* getShape_() = 0;
+    virtual const Shape* getShape_() const = 0;
 };
 
 }  // namespace ksys::phys

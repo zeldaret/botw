@@ -6,6 +6,16 @@ class hkpShape;
 
 namespace ksys::phys {
 
+enum class ShapeType {
+    Sphere = 0,
+    Capsule = 1,
+    Box = 2,
+    Cylinder = 3,
+    Polytope = 4,
+    CharacterPrism = 6,
+    Unknown = -1,
+};
+
 class Shape {
     SEAD_RTTI_BASE(Shape)
 

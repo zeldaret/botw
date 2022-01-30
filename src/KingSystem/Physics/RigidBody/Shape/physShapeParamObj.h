@@ -9,6 +9,8 @@
 
 namespace ksys::phys {
 
+enum class ShapeType;
+
 struct CommonShapeParam {
     Material material;
     const char* sub_material;
@@ -64,25 +66,15 @@ struct CharacterPrismParam {
 };
 KSYS_CHECK_SIZE_NX150(CharacterPrismParam, 0x40);
 
-struct ShapeParam : agl::utl::ParameterObj {
-    enum class Shape {
-        Sphere = 0,
-        Capsule = 1,
-        Box = 2,
-        Cylinder = 3,
-        Polytope = 4,
-        CharacterPrism = 6,
-        Unknown = -1,
-    };
-
-    ShapeParam();
-    ~ShapeParam() override;
-    ShapeParam(const ShapeParam&) = delete;
-    auto operator=(const ShapeParam&) = delete;
+struct ShapeParamObj : agl::utl::ParameterObj {
+    ShapeParamObj();
+    ~ShapeParamObj() override;
+    ShapeParamObj(const ShapeParamObj&) = delete;
+    auto operator=(const ShapeParamObj&) = delete;
 
     bool parse(const agl::utl::ResParameterObj& res_obj, sead::Heap* heap);
 
-    Shape getShape() const;
+    ShapeType getShapeType() const;
     void getCommon(CommonShapeParam* param) const;
     void getSphere(SphereParam* param) const;
     void getCapsule(CapsuleParam* param) const;
