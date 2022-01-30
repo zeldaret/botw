@@ -36,9 +36,11 @@ public:
     CapsuleShape(const CapsuleShapeParam& shape_, hkpShape* hkp_shape_);
     ~CapsuleShape() override;
 
+    ShapeType getType() const override { return ShapeType::Capsule; }
+    float getVolume() const override;
     hkpShape* getHavokShape() override;
     const hkpShape* getHavokShape() const override;
-    void updateHavokShape() override;
+    hkpShape* updateHavokShape() override;
     void setScale(float scale) override;
 
     RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
@@ -47,7 +49,6 @@ public:
     void getVertices(sead::Vector3f* va, sead::Vector3f* vb) const;
     bool setRadius(f32 r);
     bool setVertices(const sead::Vector3f& va, const sead::Vector3f& vb);
-    f32 getVolume() const;
     void sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb, const hkTransformf& rb_vec);
     void setMaterialMask(const MaterialMask& mask);
 

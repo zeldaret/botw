@@ -4,6 +4,7 @@
 
 namespace ksys::phys {
 
+class MaterialMask;
 class Shape;
 
 class RigidBodyFromShape : public RigidBody {
@@ -12,6 +13,8 @@ public:
     RigidBodyFromShape(hkpRigidBody* hkp_rigid_body, ContactLayerType layer_type,
                        const sead::SafeString& name, bool set_flag_10, sead::Heap* heap);
     ~RigidBodyFromShape() override;
+
+    const MaterialMask* getMaterialMask() const;
 
 protected:
     const hkpShape* getNewHavokShape_() override;

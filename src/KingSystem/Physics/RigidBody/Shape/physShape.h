@@ -23,11 +23,13 @@ class Shape {
 
 public:
     Shape() = default;
+    virtual ShapeType getType() const = 0;
+    virtual float getVolume() const = 0;
     virtual ~Shape() = default;
-
     virtual hkpShape* getHavokShape() = 0;
     virtual const hkpShape* getHavokShape() const = 0;
-    virtual void updateHavokShape() = 0;
+    virtual hkpShape* updateHavokShape() = 0;
+    /// @param scale New scale (relative to the current scale)
     virtual void setScale(float scale) = 0;
 };
 
