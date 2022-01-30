@@ -10,7 +10,7 @@ class SphereParam;
 struct SphereShape {
     virtual ~SphereShape();
 
-    RigidBody* createBody(u32 flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
+    RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 };
 
 struct SphereShapeParam {

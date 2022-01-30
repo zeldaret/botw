@@ -43,7 +43,7 @@ struct CapsuleShape {
     virtual void updateChanges();
     virtual void scaleVerts(f32 scale);
 
-    RigidBody* createBody(u32 flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
+    RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
     CapsuleShape* clone(sead::Heap* heap);
     f32 getRadius() const;
     void getVertices(sead::Vector3f* va, sead::Vector3f* vb) const;

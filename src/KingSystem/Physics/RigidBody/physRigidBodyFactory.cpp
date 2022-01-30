@@ -14,7 +14,7 @@ RigidBody* RigidBodyFactory::createSphere(RigidBodyInstanceParam* params, sead::
 
     auto* v = sead::DynamicCast<SphereParam>(params);
     auto* shape = v->shape.createShape(heap);
-    return shape->createBody(1, *params, heap);
+    return shape->createBody(true, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createCapsule(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -23,7 +23,7 @@ RigidBody* RigidBodyFactory::createCapsule(RigidBodyInstanceParam* params, sead:
 
     auto* v = sead::DynamicCast<CapsuleParam>(params);
     auto* shape = v->shape.createShape(heap);
-    return shape->createBody(1, *params, heap);
+    return shape->createBody(true, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createCylinder(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -32,7 +32,7 @@ RigidBody* RigidBodyFactory::createCylinder(RigidBodyInstanceParam* params, sead
 
     auto* v = sead::DynamicCast<CylinderParam>(params);
     auto* shape = v->shape.createShape(heap);
-    return shape->createBody(1, *params, heap);
+    return shape->createBody(true, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -41,7 +41,7 @@ RigidBody* RigidBodyFactory::createWaterCylinder(RigidBodyInstanceParam* params,
 
     auto* v = sead::DynamicCast<WaterCylinderParam>(params);
     auto* shape = v->shape.createShape(heap);
-    return shape->createBody(1, *params, heap);
+    return shape->createBody(true, *params, heap);
 }
 
 RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Heap* heap) {
@@ -50,7 +50,7 @@ RigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Hea
 
     auto* v = sead::DynamicCast<BoxParam>(params);
     auto* shape = v->shape.createShape(heap);
-    return shape->createBody(1, *params, heap);
+    return shape->createBody(true, *params, heap);
 }
 
 }  // namespace ksys::phys

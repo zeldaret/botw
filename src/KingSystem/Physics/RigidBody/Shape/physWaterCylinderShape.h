@@ -10,7 +10,7 @@ class WaterCylinderParam;
 struct WaterCylinderShape {
     virtual ~WaterCylinderShape();
 
-    RigidBody* createBody(u32 flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
+    RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 };
 
 struct WaterCylinderShapeParam {
