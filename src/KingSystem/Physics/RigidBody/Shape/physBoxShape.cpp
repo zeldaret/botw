@@ -36,6 +36,16 @@ BoxShape* BoxShapeParam::createShape(sead::Heap* heap) const {
     return new (heap) BoxShape(*this, box, transform_shape);
 }
 
+BoxShape* BoxShape::clone(sead::Heap* heap) const {
+    BoxShapeParam param;
+    param.extents = mExtents;
+    param.translate = mTranslate;
+    param.rotate = mRotate;
+    auto* cloned = param.createShape(heap);
+    cloned->setMaterialMask(mMaterialMask);
+    return cloned;
+}
+
 BoxShape::BoxShape(const BoxShapeParam& param, hkpBoxShape* shape,
                    hkpConvexTransformShape* transform_shape)
     : mExtents(param.extents), mTranslate(param.translate), mRotate(param.rotate),

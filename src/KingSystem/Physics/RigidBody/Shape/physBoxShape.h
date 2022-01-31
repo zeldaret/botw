@@ -34,6 +34,7 @@ public:
              hkpConvexTransformShape* transform_shape);
     ~BoxShape() override;
 
+    BoxShape* clone(sead::Heap* heap) const;
     BoxRigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
 
     bool setExtents(const sead::Vector3f& extents);
@@ -66,7 +67,7 @@ struct BoxShapeParam {
     sead::Vector3f extents;
     sead::Vector3f translate;
     sead::Vector3f rotate;
-    float convex_radius;
+    float convex_radius = 0.05;
     CommonShapeParam common;
 };
 
