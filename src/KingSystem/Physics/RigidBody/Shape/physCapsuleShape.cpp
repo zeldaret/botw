@@ -3,6 +3,7 @@
 #include <heap/seadHeap.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::phys {
 
@@ -21,7 +22,7 @@ void CapsuleShape::setMaterialMask(const MaterialMask& mask) {
 }
 
 CapsuleShape* CapsuleShapeParam::createShape(sead::Heap* heap) {
-    void* ptr = heap->tryAlloc(sizeof(hkpCapsuleShape), 0x10);
+    void* ptr = util::allocStorage<hkpCapsuleShape>(heap);
     if (ptr == nullptr)
         return nullptr;
 
