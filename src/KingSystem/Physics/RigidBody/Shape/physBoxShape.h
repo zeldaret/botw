@@ -61,7 +61,7 @@ public:
 };
 
 struct BoxShapeParam {
-    BoxShape* createShape(sead::Heap* heap);
+    BoxShape* createShape(sead::Heap* heap) const;
 
     sead::Vector3f extents;
     sead::Vector3f translate;

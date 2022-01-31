@@ -7,7 +7,7 @@
 
 namespace ksys::phys {
 
-BoxShape* BoxShapeParam::createShape(sead::Heap* heap) {
+BoxShape* BoxShapeParam::createShape(sead::Heap* heap) const {
     hkpBoxShape* box = nullptr;
     if (auto* storage = util::allocStorage<hkpBoxShape>(heap)) {
         const auto radius = convex_radius;
