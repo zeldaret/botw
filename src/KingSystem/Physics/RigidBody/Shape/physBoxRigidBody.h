@@ -16,12 +16,24 @@ public:
                  const sead::SafeString& name, bool set_flag_10, sead::Heap* heap);
     ~BoxRigidBody() override;
 
+    /// Set the box extents and trigger a shape update.
+    void setExtents(const sead::Vector3f& extents);
+    /// Set the box translation and trigger a shape update.
+    void setTranslate(const sead::Vector3f& translate);
+
+    const sead::Vector3f& getExtents() const;
+    const sead::Vector3f& getTranslate() const;
+    void getTransformedTranslate(sead::Vector3f* translate);
+
+    void setMaterialMask(const MaterialMask& mask);
+    const MaterialMask& getMaterialMask() const;
+
     float getVolume() override;
 
 protected:
     Shape* getShape_() override;
     const Shape* getShape_() const override;
-    void m9() override;
+    u32 getCollisionMasks(CollisionMasks* masks) override;
 
     BoxShape* mShape;
 };

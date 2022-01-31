@@ -14,7 +14,7 @@ public:
                        const sead::SafeString& name, bool set_flag_10, sead::Heap* heap);
     ~RigidBodyFromShape() override;
 
-    const MaterialMask* getMaterialMask() const;
+    const MaterialMask* tryGetMaterialMask() const;
 
 protected:
     const hkpShape* getNewHavokShape_() override;

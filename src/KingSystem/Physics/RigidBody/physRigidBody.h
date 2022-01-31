@@ -40,6 +40,16 @@ public:
 class RigidBody : public sead::IDisposer, public RigidBase {
     SEAD_RTTI_BASE(RigidBody)
 public:
+    struct CollisionMasks {
+        /// See MaterialMaskData.
+        u32 material_mask;
+        /// EntityCollisionFilterInfo or ReceiverMask.
+        u32 collision_filter_info;
+        /// Contact layers we do not collide with.
+        /// One bit per ContactLayer -- layers are relative to the layer base value.
+        u32 ignored_layers;
+    };
+
     enum class Type {
         FromShape = 0,
         _1 = 1,
@@ -509,7 +519,8 @@ public:
     bool isEntityMotionFlag200On() const;
 
 protected:
-    virtual void m9() = 0;
+    // FIXME: return type
+    virtual u32 getCollisionMasks(CollisionMasks* masks) = 0;
 
     /// Called whenever a shape update is requested.
     /// @return the new shape to use for the Havok rigid body or null to keep the current hkpShape
