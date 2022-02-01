@@ -399,7 +399,8 @@ inline void hkVector4f::_setRotatedDir(hkQuaternionfParameter quat, hkVector4fPa
     setAdd(result, result);
 }
 
-inline void hkVector4f::_setRotatedInverseDir(hkQuaternionfParameter quat, hkVector4fParameter vec) {
+inline void hkVector4f::_setRotatedInverseDir(hkQuaternionfParameter quat,
+                                              hkVector4fParameter vec) {
     const auto& u = quat.getImag();
     const hkSimdFloat32 s = quat.getRealPart();
 
@@ -482,6 +483,20 @@ inline void hkVector4f::normalize() {
 template <int N>
 inline void hkVector4f::normalizeUnsafe() {
     mul(lengthInverseUnsafe<N>());
+}
+
+inline hkSimdFloat32 hkVector4f::dot4xyz1(hkVector4fParameter a) const {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    float32x4_t x2 = v * a.v;
+    float32x2_t low = vget_low_f32(x2);
+    float32x2_t high = vget_high_f32(x2);
+    high = vset_lane_f32(vgetq_lane_f32(v, 3), high, 1);
+    float32x2_t xy_zw = vpadd_f32(low, high);
+    float32x2_t xyzw = vpadd_f32(xy_zw, xy_zw);
+    return xyzw;
+#else
+    return (v[0] * a.v[0]) + (v[1] * a.v[1]) + (v[2] * a.v[2]) + v[3];
+#endif
 }
 
 template <int Constant>

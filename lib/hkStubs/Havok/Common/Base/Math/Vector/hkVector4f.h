@@ -156,6 +156,9 @@ public:
 
     // ========== Misc
 
+    /// Dot product of this vector and (a.x, a.y, a.z, 1).
+    hkSimdFloat32 dot4xyz1(hkVector4fParameter a) const;
+
     // ========== Component access
 
     hkFloat32& operator()(int i) { return reinterpret_cast<float*>(&v)[i]; }
