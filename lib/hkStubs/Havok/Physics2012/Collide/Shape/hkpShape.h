@@ -18,7 +18,6 @@ public:
     HK_FORCE_INLINE hkpShape() = default;
     HK_FORCE_INLINE explicit hkpShape(ShapeType type) : hkpShapeBase(type), m_userData(0) {}
     explicit hkpShape(hkFinishLoadedObjectFlag flag);
-    ~hkpShape() override;
 
     virtual const hkpShapeContainer* getContainer() const { return nullptr; }
     virtual hkReal getMaximumProjection(const hkVector4& direction) const;
