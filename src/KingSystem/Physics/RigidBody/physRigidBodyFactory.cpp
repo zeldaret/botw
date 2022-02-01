@@ -49,7 +49,7 @@ BoxRigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::
         params->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<BoxParam>(params);
-    auto* shape = v->shape.createShape(heap);
+    auto* shape = BoxShape::make(v->shape, heap);
     return shape->createBody(true, *params, heap);
 }
 

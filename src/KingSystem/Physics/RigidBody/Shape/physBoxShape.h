@@ -30,6 +30,8 @@ public:
         DirtyTransform = 1 << 2,
     };
 
+    static BoxShape* make(const BoxShapeParam& param, sead::Heap* heap);
+
     BoxShape(const BoxShapeParam& param, hkpBoxShape* shape,
              hkpConvexTransformShape* transform_shape);
     ~BoxShape() override;
@@ -62,8 +64,6 @@ public:
 };
 
 struct BoxShapeParam {
-    BoxShape* createShape(sead::Heap* heap) const;
-
     sead::Vector3f extents;
     sead::Vector3f translate;
     sead::Vector3f rotate;

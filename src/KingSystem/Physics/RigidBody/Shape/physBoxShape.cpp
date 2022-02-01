@@ -7,21 +7,21 @@
 
 namespace ksys::phys {
 
-BoxShape* BoxShapeParam::createShape(sead::Heap* heap) const {
+BoxShape* BoxShape::make(const BoxShapeParam& param, sead::Heap* heap) {
     hkpBoxShape* box = nullptr;
     if (auto* storage = util::allocStorage<hkpBoxShape>(heap)) {
-        const auto radius = convex_radius;
-        const hkVector4f half_extents{sead::Mathf::max(extents.x / 2 - radius, 0.001),
-                                      sead::Mathf::max(extents.y / 2 - radius, 0.001),
-                                      sead::Mathf::max(extents.z / 2 - radius, 0.001)};
+        const auto radius = param.convex_radius;
+        const hkVector4f half_extents{sead::Mathf::max(param.extents.x / 2 - radius, 0.001),
+                                      sead::Mathf::max(param.extents.y / 2 - radius, 0.001),
+                                      sead::Mathf::max(param.extents.z / 2 - radius, 0.001)};
         box = new (storage) hkpBoxShape(half_extents, radius);
     }
 
     hkpConvexTransformShape* transform_shape = nullptr;
     if (auto* storage = util::allocStorage<hkpConvexTransformShape>(heap)) {
         sead::Quatf rotation;
-        rotation.setRPY(rotate.x, rotate.y, rotate.z);
-        hkQsTransformf transform{toHkVec4(translate), toHkQuat(rotation)};
+        rotation.setRPY(param.rotate.x, param.rotate.y, param.rotate.z);
+        hkQsTransformf transform{toHkVec4(param.translate), toHkQuat(rotation)};
         transform_shape = new (storage) hkpConvexTransformShape(box, transform);
     }
 
@@ -33,7 +33,7 @@ BoxShape* BoxShapeParam::createShape(sead::Heap* heap) const {
         return nullptr;
     }
 
-    return new (heap) BoxShape(*this, box, transform_shape);
+    return new (heap) BoxShape(param, box, transform_shape);
 }
 
 BoxShape* BoxShape::clone(sead::Heap* heap) const {
@@ -41,7 +41,7 @@ BoxShape* BoxShape::clone(sead::Heap* heap) const {
     param.extents = mExtents;
     param.translate = mTranslate;
     param.rotate = mRotate;
-    auto* cloned = param.createShape(heap);
+    auto* cloned = make(param, heap);
     cloned->setMaterialMask(mMaterialMask);
     return cloned;
 }
