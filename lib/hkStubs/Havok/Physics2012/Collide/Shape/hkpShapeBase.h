@@ -11,10 +11,10 @@ class hkSphere;
 class hkcdVertex;
 class hkpCdBody;
 class hkpRayHitCollector;
-class hkpShapeRayBundleCastInput;
-class hkpShapeRayBundleCastOutput;
-class hkpShapeRayCastInput;
-class hkpShapeRayCastOutput;
+struct hkpShapeRayBundleCastInput;
+struct hkpShapeRayBundleCastOutput;
+struct hkpShapeRayCastInput;
+struct hkpShapeRayCastOutput;
 
 /// Base interface for all physics shapes.
 class hkpShapeBase : public hkcdShape {

@@ -3,8 +3,8 @@
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 #include <Havok/Physics2012/Collide/Shape/hkpShapeBase.h>
 
-class hkpShapeRayCastInput;
 class hkpShapeContainer;
+struct hkpShapeRayCastInput;
 
 class hkpRayShapeCollectionFilter {
 public:
