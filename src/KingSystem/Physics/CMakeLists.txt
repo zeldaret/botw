@@ -42,6 +42,8 @@ target_sources(uking PRIVATE
 
   RigidBody/Shape/physBoxShape.cpp
   RigidBody/Shape/physBoxShape.h
+  RigidBody/Shape/physBoxWaterShape.cpp
+  RigidBody/Shape/physBoxWaterShape.h
   RigidBody/Shape/physBoxRigidBody.cpp
   RigidBody/Shape/physBoxRigidBody.h
   RigidBody/Shape/physCapsuleShape.cpp

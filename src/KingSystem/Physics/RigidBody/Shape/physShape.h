@@ -16,6 +16,7 @@ enum class ShapeType {
     Cylinder = 3,
     Polytope = 4,
     CharacterPrism = 6,
+    BoxWater = 7,
     Unknown = -1,
 };
 
