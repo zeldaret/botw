@@ -63,6 +63,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/hkRefPtr.h
   Havok/Common/Base/Types/hkRefVariant.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
+  Havok/Common/Base/Types/Geometry/Sphere/hkSphere.h
   Havok/Common/Base/Types/Physics/hkStepInfo.h
   Havok/Common/Base/Types/Physics/ContactPoint/hkContactPointMaterial.h
   Havok/Common/Base/Types/Physics/MotionState/hkMotionState.h
