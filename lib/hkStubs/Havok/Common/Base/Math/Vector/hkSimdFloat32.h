@@ -99,6 +99,8 @@ public:
     HK_FORCE_INLINE hkVector4fComparison notEqualZero() const;
 
     HK_FORCE_INLINE m128 toQuad() const;
+    HK_FORCE_INLINE void load(const float* out);
+    HK_FORCE_INLINE void store(float* out) const;
 
     Storage m_real;
 
@@ -388,5 +390,21 @@ inline m128 hkSimdFloat32::toQuad() const {
     return vcombine_f32(m_real, m_real);
 #else
     return m_real;
+#endif
+}
+
+inline void hkSimdFloat32::load(const float* out) {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    m_real = vld1_dup_f32(out);
+#else
+    *this = *out;
+#endif
+}
+
+inline void hkSimdFloat32::store(float* out) const {
+#ifdef HK_SIMD_FLOAT32_AARCH64_NEON
+    vst1_lane_f32(out, m_real, 0);
+#else
+    *out = val();
 #endif
 }
