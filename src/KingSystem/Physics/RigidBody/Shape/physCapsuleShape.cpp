@@ -21,27 +21,24 @@ void CapsuleShape::setMaterialMask(const MaterialMask& mask) {
         shape->setUserData(mask.getRawData());
 }
 
-CapsuleShape* CapsuleShapeParam::createShape(sead::Heap* heap) {
+CapsuleShape* CapsuleShape::make(const CapsuleShapeParam& param, sead::Heap* heap) {
     void* ptr = util::allocStorage<hkpCapsuleShape>(heap);
     if (ptr == nullptr)
         return nullptr;
 
     auto* hk_shape =
-        new (ptr) hkpCapsuleShape(hkVector4(vertex_a.x, vertex_a.y, vertex_a.z),
-                                  hkVector4(vertex_b.x, vertex_b.y, vertex_b.z), radius);
-    return new (heap) CapsuleShape(*this, hk_shape);
+        new (ptr) hkpCapsuleShape(toHkVec4(param.vertex_a), toHkVec4(param.vertex_b), param.radius);
+    return new (heap) CapsuleShape(param, hk_shape);
 }
 
-CapsuleShape* CapsuleShape::clone(sead::Heap* heap) {
+CapsuleShape* CapsuleShape::clone(sead::Heap* heap) const {
     CapsuleShapeParam param_clone;
     param_clone.radius = radius;
     param_clone.vertex_a = vertex_a;
     param_clone.vertex_b = vertex_b;
 
-    CapsuleShape* cloned = param_clone.createShape(heap);
-    cloned->material_mask = material_mask;
-    if (cloned->shape != nullptr)
-        cloned->shape->setUserData(material_mask.getRawData());
+    CapsuleShape* cloned = make(param_clone, heap);
+    cloned->setMaterialMask(material_mask);
     return cloned;
 }
 
@@ -95,8 +92,28 @@ const hkpShape* CapsuleShape::getHavokShape() const {
     return shape;
 }
 
-void CapsuleShape::sub_7100FABE80(sead::Vector3f* veca, sead::Vector3f* vecb,
-                                  const hkTransformf& rb_vec) {
+hkpShape* CapsuleShape::updateHavokShape() {
+    if (!flags.isOn(Flag::Modified))
+        return nullptr;
+
+    const auto ref_count = shape->getReferenceCount();
+    shape = new (shape) hkpCapsuleShape(toHkVec4(vertex_a), toHkVec4(vertex_b), radius);
+    shape->setReferenceCount(ref_count);
+
+    setMaterialMask(material_mask);
+
+    flags.reset(Flag::Modified);
+    return nullptr;
+}
+
+// NON_MATCHING: float regalloc
+void CapsuleShape::setScale(float scale) {
+    setRadius(radius * scale);
+    setVertices(vertex_a * scale, vertex_b * scale);
+}
+
+void CapsuleShape::transformVertices(sead::Vector3f* veca, sead::Vector3f* vecb,
+                                     const hkTransformf& rb_vec) {
     if (veca != nullptr) {
         hkVector4 tmp;
         tmp.setTransformedPos(rb_vec, toHkVec4(vertex_a));

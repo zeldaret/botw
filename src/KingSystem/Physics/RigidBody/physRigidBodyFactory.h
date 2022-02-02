@@ -10,13 +10,14 @@ namespace ksys::phys {
 
 class BoxRigidBody;
 class BoxWaterRigidBody;
+class CapsuleRigidBody;
 class RigidBody;
 struct RigidBodyInstanceParam;
 
 class RigidBodyFactory {
 public:
     static RigidBody* createSphere(RigidBodyInstanceParam* params, sead::Heap* heap);
-    static RigidBody* createCapsule(RigidBodyInstanceParam* params, sead::Heap* heap);
+    static CapsuleRigidBody* createCapsule(RigidBodyInstanceParam* params, sead::Heap* heap);
     static RigidBody* createCylinder(RigidBodyInstanceParam* params, sead::Heap* heap);
     static RigidBody* createCylinderWater(RigidBodyInstanceParam* params, sead::Heap* heap);
     static BoxRigidBody* createBox(RigidBodyInstanceParam* params, sead::Heap* heap);
