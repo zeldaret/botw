@@ -120,6 +120,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
   Havok/Physics2012/Collide/Shape/HeightField/Plane/hkpPlaneShape.h
   Havok/Physics2012/Collide/Shape/Query/hkpRayShapeCollectionFilter.h
+  Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastCollectorOutput.h
   Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h
   Havok/Physics2012/Collide/Util/Welding/hkpWeldingUtility.h
 
