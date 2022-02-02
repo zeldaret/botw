@@ -10,6 +10,11 @@ class Shape;
 class RigidBodyFromShape : public RigidBody {
     SEAD_RTTI_OVERRIDE(RigidBodyFromShape, RigidBody)
 public:
+    // TODO
+    template <typename RigidBodyType, typename ShapeType>
+    static RigidBodyType* make(const ShapeType& shape, bool set_flag_10,
+                               const RigidBodyInstanceParam& param, sead::Heap* heap);
+
     RigidBodyFromShape(hkpRigidBody* hkp_rigid_body, ContactLayerType layer_type,
                        const sead::SafeString& name, bool set_flag_10, sead::Heap* heap);
     ~RigidBodyFromShape() override;

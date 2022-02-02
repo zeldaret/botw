@@ -1,7 +1,12 @@
 #include "KingSystem/Physics/RigidBody/Shape/physBoxWaterRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/physBoxWaterShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 
 namespace ksys::phys {
+
+BoxWaterRigidBody* BoxWaterRigidBody::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
+    return RigidBodyFactory::createBoxWater(param, heap);
+}
 
 BoxWaterRigidBody::BoxWaterRigidBody(hkpRigidBody* hk_body, BoxWaterShape* shape,
                                      ContactLayerType layer_type, const sead::SafeString& name,

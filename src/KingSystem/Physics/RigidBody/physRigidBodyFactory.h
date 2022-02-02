@@ -9,6 +9,7 @@ class Heap;
 namespace ksys::phys {
 
 class BoxRigidBody;
+class BoxWaterRigidBody;
 class RigidBody;
 struct RigidBodyInstanceParam;
 
@@ -19,7 +20,7 @@ public:
     static RigidBody* createCylinder(RigidBodyInstanceParam* params, sead::Heap* heap);
     static RigidBody* createCylinderWater(RigidBodyInstanceParam* params, sead::Heap* heap);
     static BoxRigidBody* createBox(RigidBodyInstanceParam* params, sead::Heap* heap);
-    static RigidBody* createWaterBox(RigidBodyInstanceParam* params, sead::Heap* heap);
+    static BoxWaterRigidBody* createBoxWater(RigidBodyInstanceParam* params, sead::Heap* heap);
     static RigidBody* createPolytope(RigidBodyInstanceParam* params, sead::Heap* heap);
     static RigidBody* createCollection(RigidBodyInstanceParam* params, sead::Heap* heap);
 };
