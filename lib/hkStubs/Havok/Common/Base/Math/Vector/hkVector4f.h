@@ -40,6 +40,8 @@ public:
     HK_FORCE_INLINE void setMul(hkVector4fParameter a, hkVector4fParameter b);
     HK_FORCE_INLINE void setDiv(hkVector4fParameter a, hkVector4fParameter b);
 
+    HK_FORCE_INLINE void add(hkSimdFloat32Parameter a);
+    HK_FORCE_INLINE void sub(hkSimdFloat32Parameter a);
     HK_FORCE_INLINE void mul(hkSimdFloat32Parameter a);
     HK_FORCE_INLINE void setMul(hkVector4fParameter a, hkSimdFloat32Parameter r);
     HK_FORCE_INLINE void setMul(hkSimdFloat32Parameter r, hkVector4fParameter a);

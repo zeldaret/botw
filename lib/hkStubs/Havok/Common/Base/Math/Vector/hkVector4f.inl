@@ -95,6 +95,14 @@ inline void hkVector4f::setDiv(hkVector4fParameter a, hkVector4fParameter b) {
     v = a.v / b.v;
 }
 
+inline void hkVector4f::add(hkSimdFloat32Parameter a) {
+    setAdd(*this, a);
+}
+
+inline void hkVector4f::sub(hkSimdFloat32Parameter a) {
+    setSub(*this, a);
+}
+
 inline void hkVector4f::mul(hkSimdFloat32Parameter a) {
     setMul(*this, a);
 }
