@@ -45,7 +45,8 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
 
 ## How to decompile
 
-0. Open the executable in the disassembler of your choice.
+0. Open the NSO executable in the disassembler of your choice.
+   * If you are using IDA, make sure you have the [NSO loader](https://github.com/reswitched/loaders) set up first!
 
 1. **Pick a function that you want to decompile.**
     * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
