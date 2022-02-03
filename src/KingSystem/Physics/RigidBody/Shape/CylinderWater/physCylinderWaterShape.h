@@ -29,6 +29,7 @@ public:
 
     CylinderWaterShape* clone(sead::Heap* heap) const;
 
+    const MaterialMask& getMaterialMask() const { return mMaterialMask; }
     float getRadius() const;
     float getHeight() const;
 

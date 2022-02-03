@@ -4,9 +4,37 @@
 
 namespace ksys::phys {
 
-// TODO
+class CylinderWaterShape;
+
 class CylinderWaterRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(CylinderWaterRigidBody, RigidBodyFromShape)
+public:
+    static CylinderWaterRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
+
+    CylinderWaterRigidBody(hkpRigidBody* hk_body, CylinderWaterShape* shape,
+                           ContactLayerType layer_type, const sead::SafeString& name,
+                           bool set_flag_10, sead::Heap* heap);
+    ~CylinderWaterRigidBody() override;
+
+    void setRadius(float radius);
+    void setHeight(float height);
+
+    float getRadius() const;
+    float getHeight() const;
+
+    void setMaterialMask(const MaterialMask& mask);
+    const MaterialMask& getMaterialMask() const;
+
+    float getVolume() override;
+
+protected:
+    Shape* getShape_() override;
+    const Shape* getShape_() const override;
+    u32 getCollisionMasks(CollisionMasks* masks) override;
+
+private:
+    CylinderWaterShape* mShape{};
+    float _d8 = 1.0;
 };
 
 }  // namespace ksys::phys
