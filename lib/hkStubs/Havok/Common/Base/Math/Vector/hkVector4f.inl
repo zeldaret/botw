@@ -379,9 +379,12 @@ inline hkVector4fComparison hkVector4f::signBitClear() const {
 
 inline void hkVector4f::_setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
-    auto col0 = vmulq_laneq_f32(a.m_col0.v, b.v, 0);
-    auto col1 = vmulq_laneq_f32(a.m_col1.v, b.v, 1);
-    auto col2 = vmulq_laneq_f32(a.m_col2.v, b.v, 2);
+    const auto c0 = a.m_col0.v;
+    const auto c1 = a.m_col1.v;
+    const auto c2 = a.m_col2.v;
+    auto col0 = vmulq_laneq_f32(c0, b.v, 0);
+    auto col1 = vmulq_laneq_f32(c1, b.v, 1);
+    auto col2 = vmulq_laneq_f32(c2, b.v, 2);
     v = col0 + col1 + col2;
 #else
     setMul(a.m_col0, b[0]);
