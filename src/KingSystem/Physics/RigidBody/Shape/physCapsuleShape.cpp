@@ -106,10 +106,12 @@ hkpShape* CapsuleShape::updateHavokShape() {
     return nullptr;
 }
 
-// NON_MATCHING: float regalloc
 void CapsuleShape::setScale(float scale) {
     setRadius(radius * scale);
-    setVertices(vertex_a * scale, vertex_b * scale);
+
+    sead::Vector3f va, vb;
+    getVertices(&va, &vb);
+    setVertices(va * scale, vb * scale);
 }
 
 void CapsuleShape::transformVertices(sead::Vector3f* veca, sead::Vector3f* vecb,
