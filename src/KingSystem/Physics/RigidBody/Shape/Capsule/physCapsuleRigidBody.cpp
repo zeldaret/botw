@@ -1,6 +1,6 @@
-#include "KingSystem/Physics/RigidBody/Shape/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
-#include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Utils/SafeDelete.h"
 

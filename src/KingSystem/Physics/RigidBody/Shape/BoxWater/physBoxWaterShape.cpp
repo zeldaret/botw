@@ -1,9 +1,9 @@
-#include "KingSystem/Physics/RigidBody/Shape/physBoxWaterShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterShape.h"
 #include <Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h>
 #include <Havok/Common/Base/Types/Geometry/Sphere/hkSphere.h>
 #include <Havok/Physics2012/Collide/Shape/HeightField/Plane/hkpPlaneShape.h>
 #include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastOutput.h>
-#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"

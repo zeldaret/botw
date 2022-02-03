@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include <Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <heap/seadHeap.h>
 #include <math/seadMathCalcCommon.h>

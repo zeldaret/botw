@@ -1,11 +1,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
-#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/physCharacterPrismShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 
 namespace ksys::phys {
 

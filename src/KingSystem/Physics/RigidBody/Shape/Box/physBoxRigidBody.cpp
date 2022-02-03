@@ -1,6 +1,6 @@
-#include "KingSystem/Physics/RigidBody/Shape/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
-#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 
 namespace ksys::phys {

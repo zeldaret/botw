@@ -40,33 +40,33 @@ target_sources(uking PRIVATE
   RigidBody/physRigidBodySetParam.cpp
   RigidBody/physRigidBodySetParam.h
 
-  RigidBody/Shape/physBoxRigidBody.cpp
-  RigidBody/Shape/physBoxRigidBody.h
-  RigidBody/Shape/physBoxShape.cpp
-  RigidBody/Shape/physBoxShape.h
-  RigidBody/Shape/physBoxWaterRigidBody.cpp
-  RigidBody/Shape/physBoxWaterRigidBody.h
-  RigidBody/Shape/physBoxWaterShape.cpp
-  RigidBody/Shape/physBoxWaterShape.h
-  RigidBody/Shape/physCapsuleRigidBody.cpp
-  RigidBody/Shape/physCapsuleRigidBody.h
-  RigidBody/Shape/physCapsuleShape.cpp
-  RigidBody/Shape/physCapsuleShape.h
-  RigidBody/Shape/physCharacterPrismShape.cpp
-  RigidBody/Shape/physCharacterPrismShape.h
-  RigidBody/Shape/physCylinderRigidBody.cpp
-  RigidBody/Shape/physCylinderRigidBody.h
-  RigidBody/Shape/physCylinderShape.cpp
-  RigidBody/Shape/physCylinderShape.h
-  RigidBody/Shape/physCylinderWaterShape.cpp
-  RigidBody/Shape/physCylinderWaterShape.h
-  RigidBody/Shape/physPolytopeShape.cpp
-  RigidBody/Shape/physPolytopeShape.h
+  RigidBody/Shape/Box/physBoxRigidBody.cpp
+  RigidBody/Shape/Box/physBoxRigidBody.h
+  RigidBody/Shape/Box/physBoxShape.cpp
+  RigidBody/Shape/Box/physBoxShape.h
+  RigidBody/Shape/BoxWater/physBoxWaterRigidBody.cpp
+  RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h
+  RigidBody/Shape/BoxWater/physBoxWaterShape.cpp
+  RigidBody/Shape/BoxWater/physBoxWaterShape.h
+  RigidBody/Shape/Capsule/physCapsuleRigidBody.cpp
+  RigidBody/Shape/Capsule/physCapsuleRigidBody.h
+  RigidBody/Shape/Capsule/physCapsuleShape.cpp
+  RigidBody/Shape/Capsule/physCapsuleShape.h
+  RigidBody/Shape/CharacterPrism/physCharacterPrismShape.cpp
+  RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h
+  RigidBody/Shape/Cylinder/physCylinderRigidBody.cpp
+  RigidBody/Shape/Cylinder/physCylinderRigidBody.h
+  RigidBody/Shape/Cylinder/physCylinderShape.cpp
+  RigidBody/Shape/Cylinder/physCylinderShape.h
+  RigidBody/Shape/CylinderWater/physCylinderWaterShape.cpp
+  RigidBody/Shape/CylinderWater/physCylinderWaterShape.h
+  RigidBody/Shape/Polytope/physPolytopeShape.cpp
+  RigidBody/Shape/Polytope/physPolytopeShape.h
+  RigidBody/Shape/Sphere/physSphereShape.cpp
+  RigidBody/Shape/Sphere/physSphereShape.h
   RigidBody/Shape/physShape.h
   RigidBody/Shape/physShapeParamObj.cpp
   RigidBody/Shape/physShapeParamObj.h
-  RigidBody/Shape/physSphereShape.cpp
-  RigidBody/Shape/physSphereShape.h
 
   RigidBody/TeraMesh/physTeraMeshRigidBody.cpp
   RigidBody/TeraMesh/physTeraMeshRigidBody.h

@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
 #include <Havok/Physics2012/Collide/Shape/Convex/Cylinder/hkpCylinderShape.h>
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/HeapUtil.h"

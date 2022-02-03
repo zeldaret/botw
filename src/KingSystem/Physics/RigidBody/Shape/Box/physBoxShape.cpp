@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
 #include <Havok/Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/ConvexTransform/hkpConvexTransformShape.h>
 #include "KingSystem/Physics/physConversions.h"
