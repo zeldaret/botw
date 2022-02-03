@@ -84,8 +84,8 @@ void ShapeParamObj::getCapsule(CapsuleShapeParam* param) const {
 void ShapeParamObj::getCylinder(CylinderShapeParam* param) const {
     param->radius = *radius;
     param->convex_radius = *convex_radius;
-    param->translate_0 = *translate_0;
-    param->translate_1 = *translate_1;
+    param->vertex_a = *translate_0;
+    param->vertex_b = *translate_1;
     getCommon(&param->common);
 }
 

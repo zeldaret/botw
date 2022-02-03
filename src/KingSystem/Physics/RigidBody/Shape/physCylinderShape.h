@@ -1,27 +1,72 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <prim/seadTypedBitFlag.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/System/physMaterialMask.h"
+
+class hkTransformf;
+class hkpCylinderShape;
 
 namespace ksys::phys {
 
 class CylinderParam;
+struct CylinderShapeParam;
 
-struct CylinderShape {
-    virtual ~CylinderShape();
+class CylinderShape : public Shape {
+    SEAD_RTTI_OVERRIDE(CylinderShape, Shape)
+public:
+    enum class Flag {
+        Dirty = 1 << 0,
+    };
 
-    RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
+    static CylinderShape* make(const CylinderShapeParam& param, sead::Heap* heap);
+
+    CylinderShape(const CylinderShapeParam& param, hkpCylinderShape* hk_shape);
+    ~CylinderShape() override;
+
+    const MaterialMask& getMaterialMask() const { return mMaterialMask; }
+    void setMaterialMask(const MaterialMask& mask);
+
+    float getRadius() const;
+    bool setRadius(float radius);
+
+    void getVertices(sead::Vector3f* va, sead::Vector3f* vb);
+    bool setVertices(const sead::Vector3f& va, const sead::Vector3f& vb);
+
+    CylinderShape* clone(sead::Heap* heap) const;
+
+    ShapeType getType() const override { return ShapeType::Cylinder; }
+    float getVolume() const override;
+    hkpShape* getHavokShape() override;
+    const hkpShape* getHavokShape() const override;
+    const hkpShape* updateHavokShape() override;
+    void setScale(float scale) override;
+
+    void transformVertices(sead::Vector3f* va, sead::Vector3f* vb, const hkTransformf& transform);
+
+private:
+    sead::Vector3f mVertexA;
+    sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags;
+    sead::Vector3f mVertexB;
+    float mRadius;
+    MaterialMask mMaterialMask;
+    hkpCylinderShape* mHavokShape;
 };
 
 struct CylinderShapeParam {
-    CylinderShape* createShape(sead::Heap* heap);
-
-    sead::Vector3f translate_0;
+    /// The center of the first circular base.
+    sead::Vector3f vertex_a;
+    /// The radius of the circular bases.
     float radius;
-    sead::Vector3f translate_1;
-    float convex_radius;
+    /// The center of the second circular base.
+    sead::Vector3f vertex_b;
+    /// Additional shell radius around the cylinder.
+    /// @warning This is ignored by CylinderShape.
+    float convex_radius = 0.05;
     CommonShapeParam common;
 };
 
