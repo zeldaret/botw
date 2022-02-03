@@ -63,6 +63,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/hkRefPtr.h
   Havok/Common/Base/Types/hkRefVariant.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
+  Havok/Common/Base/Types/Geometry/Aabb/hkAabbUtil.h
   Havok/Common/Base/Types/Geometry/Sphere/hkSphere.h
   Havok/Common/Base/Types/Physics/hkStepInfo.h
   Havok/Common/Base/Types/Physics/ContactPoint/hkContactPointMaterial.h
@@ -103,6 +104,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Filter/hkpShapeCollectionFilter.h
   Havok/Physics2012/Collide/Filter/Group/hkpGroupFilter.cpp
   Havok/Physics2012/Collide/Filter/Group/hkpGroupFilter.h
+  Havok/Physics2012/Collide/Query/hkpRayHitCollector.h
   Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastInput.h
   Havok/Physics2012/Collide/Shape/hkpShape.h
   Havok/Physics2012/Collide/Shape/hkpShapeBase.h

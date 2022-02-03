@@ -1,9 +1,28 @@
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterShape.h"
+#include <Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h>
+#include <Havok/Common/Base/Types/Geometry/Aabb/hkAabbUtil.h>
+#include <Havok/Common/Base/Types/Geometry/Sphere/hkSphere.h>
+#include <Havok/Physics2012/Collide/Agent/Collidable/hkpCdBody.h>
+#include <Havok/Physics2012/Collide/Query/hkpRayHitCollector.h>
 #include <Havok/Physics2012/Collide/Shape/HeightField/hkpHeightFieldShape.h>
+#include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastOutput.h>
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
+
+static void addAabb(const hkTransform localToWorld, const hkVector4& halfExtents, hkAabb& aabbOut) {
+    hkVector4f x, y, z;
+    x.setMul(halfExtents.getComponent<0>(), localToWorld.getRotation().getColumn<0>());
+    y.setMul(halfExtents.getComponent<1>(), localToWorld.getRotation().getColumn<1>());
+    z.setMul(halfExtents.getComponent<2>(), localToWorld.getRotation().getColumn<2>());
+
+    hkVector4f max;
+    max.setAdd(x, y);
+    max.add(z);
+    aabbOut.m_min.add(max);
+    aabbOut.m_max.add(max);
+}
 
 class alignas(16) HavokCylinderWaterShape : public hkpHeightFieldShape {
 public:
@@ -13,15 +32,46 @@ public:
 
     void setRadius(float radius) { m_radius = radius; }
 
-    void getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& aabbOut) const override;
+    void getAabb(const hkTransform& localToWorld, hkReal tolerance,
+                 hkAabb& aabbOut) const override {
+        hkVector4 half_extents(m_height / 2, m_radius / 2, m_radius / 2);
+        hkAabbUtil::calcAabb(localToWorld, half_extents, tolerance, aabbOut);
 
-    hkBool castRay(const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& output) const override;
+        hkVector4 half_extents2(0, -m_radius / 2, m_radius / 2);
+        addAabb(localToWorld, half_extents2, aabbOut);
+    }
+
+    hkBool castRay(const hkpShapeRayCastInput& input,
+                   hkpShapeRayCastOutput& output) const override {
+        // FIXME: implement
+        return false;
+    }
 
     void castRayWithCollector(const hkpShapeRayCastInput& input, const hkpCdBody& cdBody,
-                              hkpRayHitCollector& collector) const override;
+                              hkpRayHitCollector& collector) const override {
+        hkpShapeRayCastOutput output;
+        output.m_hitFraction = collector.m_earlyOutHitFraction;
+        if (castRay(input, output)) {
+            output.m_normal._setRotatedDir(cdBody.getTransform().getRotation(), output.m_normal);
+            collector.addRayHit(cdBody, output);
+        }
+    }
 
     void collideSpheres(const CollideSpheresInput& input,
-                        SphereCollisionOutput* outputArray) const override;
+                        SphereCollisionOutput* outputArray) const override {
+        auto* sphere = input.m_spheres;
+        const hkSphere dummy({0, 1, 0}, hkSimdReal::getConstant<HK_QUADREAL_MAX>());
+
+        for (int i = input.m_numSpheres - 1; i >= 0; --i) {
+            hkSphere out = dummy;
+
+            // FIXME: implement the rest of this function
+
+            *outputArray = out.getPositionAndRadius();
+            ++sphere;
+            ++outputArray;
+        }
+    }
 
     void castSphere(const hkpSphereCastInput& input, const hkpCdBody& cdBody,
                     hkpRayHitCollector& collector) const override {}
