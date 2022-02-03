@@ -5,6 +5,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
@@ -40,13 +41,9 @@ CylinderRigidBody* RigidBodyFactory::createCylinder(RigidBodyInstanceParam* para
     return createRigidBody<CylinderRigidBody, CylinderShape, CylinderParam>(params, heap);
 }
 
-RigidBody* RigidBodyFactory::createCylinderWater(RigidBodyInstanceParam* params, sead::Heap* heap) {
-    if (params->isDynamicSensor())
-        params->motion_type = MotionType::Keyframed;
-
-    auto* v = sead::DynamicCast<CylinderWaterParam>(params);
-    auto* shape = v->shape.createShape(heap);
-    return shape->createBody(true, *params, heap);
+CylinderWaterRigidBody* RigidBodyFactory::createCylinderWater(RigidBodyInstanceParam* params,
+                                                              sead::Heap* heap) {
+    return createRigidBody<CylinderWaterRigidBody, CylinderWaterShape, CylinderParam>(params, heap);
 }
 
 BoxRigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::Heap* heap) {

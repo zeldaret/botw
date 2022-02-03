@@ -1,28 +1,48 @@
 #pragma once
 
+#include <prim/seadTypedBitFlag.h>
+#include <thread/seadAtomic.h>
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/System/physMaterialMask.h"
 
 namespace ksys::phys {
 
-class CylinderWaterParam;
+class HavokCylinderWaterShape;
 
-struct CylinderWaterShape {
-    virtual ~CylinderWaterShape();
-
-    RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
-};
-
-struct WaterCylinderShapeParam {
-    CylinderWaterShape* createShape(sead::Heap* heap);
-};
-
-class CylinderWaterParam : public RigidBodyInstanceParam {
-    SEAD_RTTI_OVERRIDE(CylinderWaterParam, RigidBodyInstanceParam)
+class CylinderWaterShape : public Shape {
+    SEAD_RTTI_OVERRIDE(CylinderWaterShape, Shape)
 public:
-    u8 _90;
-    float _94;
-    WaterCylinderShapeParam shape;
+    enum class Flag {
+        Dirty = 1 << 0,
+    };
+
+    static CylinderWaterShape* make(const CylinderShapeParam& param, sead::Heap* heap);
+
+    CylinderWaterShape(const CylinderShapeParam& param, HavokCylinderWaterShape* shape);
+    ~CylinderWaterShape() override;
+
+    void setMaterialMask(const MaterialMask& mask);
+    bool setRadius(float radius);
+    bool setHeight(float height);
+
+    CylinderWaterShape* clone(sead::Heap* heap) const;
+
+    float getRadius() const;
+    float getHeight() const;
+
+    float getVolume() const override;
+    hkpShape* getHavokShape() override;
+    const hkpShape* getHavokShape() const override;
+    const hkpShape* updateHavokShape() override;
+    void setScale(float scale) override;
+    ShapeType getType() const override { return ShapeType::CylinderWater; }
+
+private:
+    MaterialMask mMaterialMask;
+    sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags;
+    HavokCylinderWaterShape* mHavokShape;
 };
 
 }  // namespace ksys::phys

@@ -58,6 +58,10 @@ private:
 };
 
 struct CylinderShapeParam {
+    CylinderShapeParam() = default;
+    CylinderShapeParam(const sead::Vector3f& va, const sead::Vector3f& vb)
+        : vertex_a(va), vertex_b(vb) {}
+
     /// The center of the first circular base.
     sead::Vector3f vertex_a;
     /// The radius of the circular bases.

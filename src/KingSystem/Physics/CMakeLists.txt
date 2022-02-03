@@ -58,6 +58,8 @@ target_sources(uking PRIVATE
   RigidBody/Shape/Cylinder/physCylinderRigidBody.h
   RigidBody/Shape/Cylinder/physCylinderShape.cpp
   RigidBody/Shape/Cylinder/physCylinderShape.h
+  RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.cpp
+  RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h
   RigidBody/Shape/CylinderWater/physCylinderWaterShape.cpp
   RigidBody/Shape/CylinderWater/physCylinderWaterShape.h
   RigidBody/Shape/Polytope/physPolytopeShape.cpp
