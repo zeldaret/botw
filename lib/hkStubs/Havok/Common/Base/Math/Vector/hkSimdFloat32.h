@@ -227,8 +227,10 @@ inline hkSimdFloat32 hkSimdFloat32::sqrt() const {
     const auto r = m_real * inv;
     return vbic_u32(r, leqZero);
 #else
+    hkSimdFloat32 result;
     for (int i = 0; i < 4; ++i)
-        m_real[i] = m_real[i] >= 0.0f ? std::sqrt(m_real[i]) : 0.0f;
+        result.m_real[i] = m_real[i] >= 0.0f ? std::sqrt(m_real[i]) : 0.0f;
+    return result;
 #endif
 }
 
@@ -237,8 +239,10 @@ inline hkSimdFloat32 hkSimdFloat32::sqrtUnsafe() const {
     const auto inv = sqrtInverseUnsafe();
     return m_real * inv.m_real;
 #else
+    hkSimdFloat32 result;
     for (int i = 0; i < 4; ++i)
-        m_real[i] = std::sqrt(m_real[i]);
+        result.m_real[i] = std::sqrt(m_real[i]);
+    return result;
 #endif
 }
 
@@ -248,8 +252,10 @@ inline hkSimdFloat32 hkSimdFloat32::sqrtInverse() const {
     const auto inv = sqrtInverseUnsafe().m_real;
     return vbic_u32(inv, leqZero);
 #else
+    hkSimdFloat32 result;
     for (int i = 0; i < 4; ++i)
-        m_real[i] = m_real[i] > 0.0f ? (1.0f / std::sqrt(m_real[i])) : 0.0f;
+        result.m_real[i] = m_real[i] > 0.0f ? (1.0f / std::sqrt(m_real[i])) : 0.0f;
+    return result;
 #endif
 }
 
@@ -260,8 +266,10 @@ inline hkSimdFloat32 hkSimdFloat32::sqrtInverseUnsafe() const {
     r0 = vrsqrts_f32(m_real, r0 * r0) * r0;
     return r0;
 #else
+    hkSimdFloat32 result;
     for (int i = 0; i < 4; ++i)
-        m_real[i] = 1.0f / std::sqrt(m_real[i]);
+        result.m_real[i] = 1.0f / std::sqrt(m_real[i]);
+    return result;
 #endif
 }
 
