@@ -17,38 +17,13 @@ enum class UnkFlag : u8 {
     _4 = 1 << 2,
     _20 = 1 << 5,
     _40 = 1 << 6,
-    _80 = 1 << 7 
+    _80 = 1 << 7
 };
 static sead::TypedBitFlag<UnkFlag> unkFlag;
 
-static sead::SafeArray<float, 26> mNpcScales = {{
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.85f,
-    0.6f,
-    0.75f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.6f,
-    0.75f,
-    0.6f,
-    0.6f
-}};
+static sead::SafeArray<float, 26> mNpcScales = {
+    {0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0.85f, 0.6f, 0.75f, 0.6f, 0.6f,  0.6f, 0.6f,
+     0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0.6f,  0.6f, 0.6f,  0.6f, 0.75f, 0.6f, 0.6f}};
 
 // NON_MATCHING: weird memsets, hard to replicate
 PlacementAreaMgr::PlacementAreaMgr() {
@@ -75,7 +50,8 @@ PlacementAreaMgr::~PlacementAreaMgr() {
 }
 
 // NON_MATCHING: I'm just bad but should be a template to try and fix
-bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const MubinIter& objIter) {
+bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName,
+                                  const MubinIter& objIter) {
     if (unitConfigName == "AreaCulling_InnerHide") {
         auto& area = mInnerHide[mInnerHide_count++];
         SRT srt;
@@ -88,47 +64,48 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
         s32 culling = 0;
         objIter.tryGetIntByKey(&culling, "CullingOption");
         switch (static_cast<Unknown1::CullingOption>(culling)) {
-            case Unknown1::CullingOption::_0:
-                area.params.culling = Unknown1::CullingType::None;
-                break;
-            case Unknown1::CullingOption::_1:
-                area.params.culling = Unknown1::CullingType::Culling_1;
-                break;
-            case Unknown1::CullingOption::_2:
-                area.params.culling = Unknown1::CullingType::Culling_3;
-                break;
-            case Unknown1::CullingOption::_3:
-                area.params.culling = Unknown1::CullingType::Culling_F;
-                break;
-            case Unknown1::CullingOption::_4:
-                area.params.culling = Unknown1::CullingType::Culling_1F;
-                break;
-            case Unknown1::CullingOption::_5:
-                area.params.culling = Unknown1::CullingType::Culling_33;
-                break;
-            case Unknown1::CullingOption::_6:
-                area.params.culling = Unknown1::CullingType::Culling_3B;
-                break;
-            case Unknown1::CullingOption::_7:
-                area.params.culling = Unknown1::CullingType::Culling_1B;
-                break;
-            case Unknown1::CullingOption::_8:
-                area.params.culling = Unknown1::CullingType::Culling_18;
-                break;
-            case Unknown1::CullingOption::_9:
-                area.params.culling = Unknown1::CullingType::Culling_10;
-                break;
-            case Unknown1::CullingOption::_A:
-                area.params.culling = Unknown1::CullingType::Culling_13;
-                break;
-            case Unknown1::CullingOption::_B:
-                area.params.culling = Unknown1::CullingType::Culling_43;
-                break;
-            case Unknown1::CullingOption::_C:
-                area.params.culling = Unknown1::CullingType::Culling_9B;
-                break;
-            
-            default: break;
+        case Unknown1::CullingOption::_0:
+            area.params.culling = Unknown1::CullingType::None;
+            break;
+        case Unknown1::CullingOption::_1:
+            area.params.culling = Unknown1::CullingType::Culling_1;
+            break;
+        case Unknown1::CullingOption::_2:
+            area.params.culling = Unknown1::CullingType::Culling_3;
+            break;
+        case Unknown1::CullingOption::_3:
+            area.params.culling = Unknown1::CullingType::Culling_F;
+            break;
+        case Unknown1::CullingOption::_4:
+            area.params.culling = Unknown1::CullingType::Culling_1F;
+            break;
+        case Unknown1::CullingOption::_5:
+            area.params.culling = Unknown1::CullingType::Culling_33;
+            break;
+        case Unknown1::CullingOption::_6:
+            area.params.culling = Unknown1::CullingType::Culling_3B;
+            break;
+        case Unknown1::CullingOption::_7:
+            area.params.culling = Unknown1::CullingType::Culling_1B;
+            break;
+        case Unknown1::CullingOption::_8:
+            area.params.culling = Unknown1::CullingType::Culling_18;
+            break;
+        case Unknown1::CullingOption::_9:
+            area.params.culling = Unknown1::CullingType::Culling_10;
+            break;
+        case Unknown1::CullingOption::_A:
+            area.params.culling = Unknown1::CullingType::Culling_13;
+            break;
+        case Unknown1::CullingOption::_B:
+            area.params.culling = Unknown1::CullingType::Culling_43;
+            break;
+        case Unknown1::CullingOption::_C:
+            area.params.culling = Unknown1::CullingType::Culling_9B;
+            break;
+
+        default:
+            break;
         }
 
         bool connect;
@@ -140,18 +117,19 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
 
         bool weirdCheck = false;
         // is this some sort of hack?
-        if (srt.translate.x > -440.0f && srt.translate.x < -436.0f && srt.translate.z > -1036.0f && srt.translate.z < -1032.0f) {
+        if (srt.translate.x > -440.0f && srt.translate.x < -436.0f && srt.translate.z > -1036.0f &&
+            srt.translate.z < -1032.0f) {
             srt.scale.x = 27.863f;
             srt.translate.x = -439.24f;
             weirdCheck = true;
             srt.translate.z = -1033.4f;
             srt.scale.z = 40.908f;
         }
-        
+
         area.translate = srt.translate;
-        
-        float scale = sead::Mathf::max3(srt.scale.x, srt.scale.y, srt.scale.z); // same logic
-        
+
+        float scale = sead::Mathf::max3(srt.scale.x, srt.scale.y, srt.scale.z);  // same logic
+
         float calcMaxSize = sead::Mathf::max(scale * 0.5f, 4.0f);
         float calcXPlus = -1.0f;
         objIter.tryGetParamFloatByKey(&calcXPlus, "CalcMarginXPlus");
@@ -221,12 +199,14 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
         if (loadZMinus < 0.0f) {
             loadZMinus = loadMaxSize;
         }
-        
+
         // same code in AreaCulling_TwinsHide
-        area.base = Axis{ srt.scale };
-        area.calc = Axis{ srt.scale + sead::Vector3f{ calcXPlus, calcYPlus, calcZPlus }, srt.scale + sead::Vector3f{ calcXMinus, calcYMinus, calcZMinus }};
-        area.load = Axis{ srt.scale + sead::Vector3f{ loadXPlus, loadYPlus, loadZPlus }, srt.scale + sead::Vector3f{ loadXMinus, loadYMinus, loadZMinus }};
-        area._d8 = Axis{ -sead::Vector3f::ones };
+        area.base = Axis{srt.scale};
+        area.calc = Axis{srt.scale + sead::Vector3f{calcXPlus, calcYPlus, calcZPlus},
+                         srt.scale + sead::Vector3f{calcXMinus, calcYMinus, calcZMinus}};
+        area.load = Axis{srt.scale + sead::Vector3f{loadXPlus, loadYPlus, loadZPlus},
+                         srt.scale + sead::Vector3f{loadXMinus, loadYMinus, loadZMinus}};
+        area._d8 = Axis{-sead::Vector3f::ones};
 
         sead::Matrix33f m;
         m.makeR(srt.rotate);
@@ -251,12 +231,12 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
         area.mTranslate = srt.translate;
         area.mScale = srt.scale.x;
         return true;
-    } else if (unitConfigName.include("AreaCulling_TwinsHide")) { // no objects
+    } else if (unitConfigName.include("AreaCulling_TwinsHide")) {  // no objects
         Unknown1* area;
         if (unitConfigName.include("Alpha")) {
-            area = &alpha; // 2980C
+            area = &alpha;  // 2980C
         } else if (unitConfigName.include("Omega")) {
-            area = &omega; // 29958
+            area = &omega;  // 29958
         } else {
             return true;
         }
@@ -264,11 +244,11 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
         SRT srt;
         objIter.getSRT(&srt);
         area->translate = srt.translate;
-        
-        area->base = Axis{ srt.scale };
-        area->calc = Axis{ srt.scale };
-        area->load = Axis{ -sead::Vector3f::ones };
-        area->_d8 = Axis{ -sead::Vector3f::ones };
+
+        area->base = Axis{srt.scale};
+        area->calc = Axis{srt.scale};
+        area->load = Axis{-sead::Vector3f::ones};
+        area->_d8 = Axis{-sead::Vector3f::ones};
 
         sead::Matrix33f m;
         m.makeR(srt.rotate);
@@ -282,7 +262,7 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
 
         unkFlag.set(UnkFlag::_40);
         return true;
-    } else if (unitConfigName == "AreaCulling_JudgeArea") { // no objects
+    } else if (unitConfigName == "AreaCulling_JudgeArea") {  // no objects
         SRT srt;
         auto& area = mJudgeArea[mJudgeArea_count++];
 
@@ -313,9 +293,8 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
         area.bb.set(srt.translate - srt.scale, srt.translate + srt.scale);
         objIter.tryGetParamUIntByKey(&area.id, "HashId");
 
-        
         area.type = GeneralArea::Type::None;
-        
+
         const char* param = nullptr;
         if (objIter.tryGetParamStringByKey(&param, "UniqueName")) {
             if (sead::SafeString(param) == "LoadOpt") {
@@ -327,10 +306,9 @@ bool PlacementAreaMgr::parseAreas(const sead::SafeString& unitConfigName, const 
             auto& subArea = mOptAreas[mOptAreas_count++];
             subArea.parentArea = &area;
             subArea.id = "Demo102_0";
-        }
-        else {
+        } else {
             auto& subArea = mJudgeArea[mJudgeArea_count++];
-            sead::Vector3f offset { 20.0f, 0.0f, 20.0f };
+            sead::Vector3f offset{20.0f, 0.0f, 20.0f};
             subArea.bb.set(srt.translate - srt.scale - offset, srt.translate + srt.scale + offset);
             subArea.parentIds[subArea.parentCount++] = 0;
             subArea.parentAreas[0] = &area;
@@ -388,7 +366,8 @@ void PlacementAreaMgr::x() {
             auto& subarea = mInnerHide[j];
 
             if (i != j) {
-                if (subarea.hideRoomNum != 0xFF && area._12c == subarea._12c && area.hideRoomNum == subarea.hideRoomNum) {
+                if (subarea.hideRoomNum != 0xFF && area._12c == subarea._12c &&
+                    area.hideRoomNum == subarea.hideRoomNum) {
                     area._130[area._130_count++] = j;
                     break;
                 }
@@ -398,11 +377,11 @@ void PlacementAreaMgr::x() {
 
     for (int i = 0; i < mInnerHide_count; i++) {
         auto& area = mInnerHide[i];
-        
+
         if (area.params.isConnectNeighborArea) {
             for (int j = 0; j < mInnerHide_count; j++) {
                 auto& subarea = mInnerHide[j];
-            
+
                 if (subarea.params.isConnectNeighborArea && i != j) {
                     if (area._12c == subarea._12c && (x_0(i, j) || x_0(j, i))) {
                         addLinkPair(i, j);
@@ -428,12 +407,11 @@ void PlacementAreaMgr::x() {
         }
     }
 }
-    
+
 void PlacementAreaMgr::Unknown1::addLink(const int& idx) {
     if (_130_count == 0) {
         _130[_130_count++] = idx;
-    }
-    else {
+    } else {
         // check to see if idx is in _130, add to end if not
         for (u8 i = 0; i < _130_count && _130[i] != idx; i++) {
             if (i == (_130_count - 1)) {
@@ -469,25 +447,22 @@ bool PlacementAreaMgr::insideInnerHideTrans(const int& idx) {
                 if (mFlags.isOn(Flag::AocField)) {
                     return true;
                 }
-                
-                if (mActiveNpc != 21 && 
-                    mActiveNpc != 16 && 
-                    mActiveNpc != 14 && 
-                    mActiveNpc != 7 &&
-                    mActiveNpc != 2 &&
-                    mActiveNpc != 0) {
-                    return playerPos.sqrFlatDistance(mInnerHide[idx].translate) < sead::Mathf::square(200.0f);
+
+                if (mActiveNpc != 21 && mActiveNpc != 16 && mActiveNpc != 14 && mActiveNpc != 7 &&
+                    mActiveNpc != 2 && mActiveNpc != 0) {
+                    return playerPos.sqrXZDistance(mInnerHide[idx].translate) <
+                           sead::Mathf::square(200.0f);
                 }
             }
         }
-        return playerPos.sqrFlatDistance(mInnerHide[idx].translate) < sead::Mathf::square(500.0f);
+        return playerPos.sqrXZDistance(mInnerHide[idx].translate) < sead::Mathf::square(500.0f);
     }
-    return playerPos.sqrFlatDistance(mInnerHide[idx].translate) < sead::Mathf::square(1000.0f);
+    return playerPos.sqrXZDistance(mInnerHide[idx].translate) < sead::Mathf::square(1000.0f);
 }
 
-bool PlacementAreaMgr::outsideInnerHideBase(const int& idx) {
+bool PlacementAreaMgr::insideInnerHideBase(const int& idx) {
     for (int i = 0; i < 6; i++) {
-        if (playerPos.sqrDistance(mInnerHide[idx].base[i], mInnerHide[idx]._d8[i]) < 0.0f) {
+        if ((playerPos - mInnerHide[idx].base[i]).dot(mInnerHide[idx]._d8[i]) < 0.0f) {
             return false;
         }
     }
@@ -495,9 +470,9 @@ bool PlacementAreaMgr::outsideInnerHideBase(const int& idx) {
     return true;
 }
 
-bool PlacementAreaMgr::outsideInnerHideCalc(const int& idx) {
+bool PlacementAreaMgr::insideInnerHideCalc(const int& idx) {
     for (int i = 0; i < 6; i++) {
-        if (playerPos.sqrDistance(mInnerHide[idx].calc[i], mInnerHide[idx]._d8[i]) < 0.0f) {
+        if ((playerPos - mInnerHide[idx].calc[i]).dot(mInnerHide[idx]._d8[i]) < 0.0f) {
             return false;
         }
     }
@@ -505,9 +480,9 @@ bool PlacementAreaMgr::outsideInnerHideCalc(const int& idx) {
     return true;
 }
 
-bool PlacementAreaMgr::outsideInnerHideLoad(const int& idx) {
+bool PlacementAreaMgr::insideInnerHideLoad(const int& idx) {
     for (int i = 0; i < 6; i++) {
-        if (playerPos.sqrDistance(mInnerHide[idx].load[i], mInnerHide[idx]._d8[i]) < 0.0f) {
+        if ((playerPos - mInnerHide[idx].load[i]).dot(mInnerHide[idx]._d8[i]) < 0.0f) {
             return false;
         }
     }
@@ -515,9 +490,10 @@ bool PlacementAreaMgr::outsideInnerHideLoad(const int& idx) {
     return true;
 }
 
-bool PlacementAreaMgr::outsideInnerHideBase(const sead::Vector3f& pos, const float& sqrDistance, const int& idx) {
+bool PlacementAreaMgr::insideInnerHideBase(const sead::Vector3f& pos, const float& distFromFace,
+                                           const int& idx) {
     for (int i = 0; i < 6; i++) {
-        if (pos.sqrDistance(mInnerHide[idx].base[i], mInnerHide[idx]._d8[i]) <= sqrDistance) {
+        if ((pos - mInnerHide[idx].base[i]).dot(mInnerHide[idx]._d8[i]) <= distFromFace) {
             return false;
         }
     }
@@ -525,9 +501,10 @@ bool PlacementAreaMgr::outsideInnerHideBase(const sead::Vector3f& pos, const flo
     return true;
 }
 
-bool PlacementAreaMgr::outsideInnerHideCalc(const sead::Vector3f& pos, const float& sqrDistance, const int& idx) {
+bool PlacementAreaMgr::insideInnerHideCalc(const sead::Vector3f& pos, const float& distFromFace,
+                                           const int& idx) {
     for (int i = 0; i < 6; i++) {
-        if (pos.sqrDistance(mInnerHide[idx].calc[i], mInnerHide[idx]._d8[i]) <= sqrDistance) {
+        if ((pos - mInnerHide[idx].calc[i]).dot(mInnerHide[idx]._d8[i]) <= distFromFace) {
             return false;
         }
     }
@@ -535,9 +512,9 @@ bool PlacementAreaMgr::outsideInnerHideCalc(const sead::Vector3f& pos, const flo
     return true;
 }
 
-bool PlacementAreaMgr::outsideAlphaBase() {
+bool PlacementAreaMgr::insideAlphaBase() {
     for (int i = 0; i < 6; i++) {
-        if (playerPos.sqrDistance(alpha.base[i], alpha._d8[i]) < 0.0f) {
+        if ((playerPos - alpha.base[i]).dot(alpha._d8[i]) < 0.0f) {
             return false;
         }
     }
@@ -545,9 +522,9 @@ bool PlacementAreaMgr::outsideAlphaBase() {
     return true;
 }
 
-bool PlacementAreaMgr::outsideAlphaBase(const sead::Vector3f& pos, const float& sqrDistance) {
+bool PlacementAreaMgr::insideAlphaBase(const sead::Vector3f& pos, const float& distFromFace) {
     for (int i = 0; i < 6; i++) {
-        if (pos.sqrDistance(alpha.base[i], alpha._d8[i]) < sqrDistance) {
+        if ((pos - alpha.base[i]).dot(alpha._d8[i]) < distFromFace) {
             return false;
         }
     }
@@ -555,9 +532,9 @@ bool PlacementAreaMgr::outsideAlphaBase(const sead::Vector3f& pos, const float& 
     return true;
 }
 
-bool PlacementAreaMgr::outsideOmegaBase() {
+bool PlacementAreaMgr::insideOmegaBase() {
     for (int i = 0; i < 6; i++) {
-        if (playerPos.sqrDistance(omega.base[i], omega._d8[i]) < 0.0f) {
+        if ((playerPos - omega.base[i]).dot(omega._d8[i]) < 0.0f) {
             return false;
         }
     }
@@ -565,9 +542,9 @@ bool PlacementAreaMgr::outsideOmegaBase() {
     return true;
 }
 
-bool PlacementAreaMgr::outsideOmegaBase(const sead::Vector3f& pos, const float& sqrDistance) {
+bool PlacementAreaMgr::insideOmegaBase(const sead::Vector3f& pos, const float& distFromFace) {
     for (int i = 0; i < 6; i++) {
-        if (pos.sqrDistance(omega.base[i], omega._d8[i]) < sqrDistance) {
+        if ((pos - omega.base[i]).dot(omega._d8[i]) < distFromFace) {
             return false;
         }
     }
@@ -578,7 +555,8 @@ bool PlacementAreaMgr::outsideOmegaBase(const sead::Vector3f& pos, const float& 
 bool PlacementAreaMgr::isPlayerInsideNpc(const sead::Vector3f& pos) {
     // matches with 2 && but this looks cleaner
     if (mActiveNpc >= 0 && !isInsideNpc(pos)) {
-        if (playerPos.sqrFlatDistance(mNpc[mActiveNpc].mTranslate) < (mNpc[mActiveNpc].mScale * mNpcScales[mActiveNpc])) {
+        if (playerPos.sqrXZDistance(mNpc[mActiveNpc].mTranslate) <
+            (mNpc[mActiveNpc].mScale * mNpcScales[mActiveNpc])) {
             return true;
         }
     }
@@ -609,7 +587,7 @@ bool PlacementAreaMgr::isInsideNpc(const sead::Vector3f& pos) {
     if (unkFlag.isOff(UnkFlag::_4)) {
         return false;
     }
-    
+
     // XXX: what the heck Nintendo
     int i = 0;
     while (i < mNpc.size()) {
@@ -617,8 +595,7 @@ bool PlacementAreaMgr::isInsideNpc(const sead::Vector3f& pos) {
             if (mNpc[i].isInside(pos) && !mNpc[i + 1].isInside(pos)) {
                 return true;
             }
-        }
-        else {
+        } else {
             if (mNpc[i].isInside(pos)) {
                 return true;
             }
