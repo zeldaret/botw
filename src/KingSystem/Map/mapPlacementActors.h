@@ -6,8 +6,8 @@
 #include <prim/seadTypedLongBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadReadWriteLock.h>
-#include "KingSystem/Map/mapPlacementMap.h"
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
+#include "KingSystem/Map/mapPlacementMap.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
