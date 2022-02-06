@@ -432,6 +432,11 @@ void PlacementAreaMgr::addLinkPair(const int& idx, const int& sub_idx) {
     mInnerHide[sub_idx].addLink(idx);
 }
 
+// too specific for sead
+float sqXZDistance(const sead::Vector3f& a, const sead::Vector3f& b) {
+    return sead::Mathf::square(a.x - b.x) + sead::Mathf::square(a.z - b.z);
+}
+
 bool PlacementAreaMgr::insideInnerHideTrans(const int& idx) {
     if (mActiveNpc == mInnerHide[idx]._12c) {
         if (mActiveNpc == 5) {
@@ -450,14 +455,14 @@ bool PlacementAreaMgr::insideInnerHideTrans(const int& idx) {
 
                 if (mActiveNpc != 21 && mActiveNpc != 16 && mActiveNpc != 14 && mActiveNpc != 7 &&
                     mActiveNpc != 2 && mActiveNpc != 0) {
-                    return playerPos.sqrXZDistance(mInnerHide[idx].translate) <
+                    return sqXZDistance(playerPos, mInnerHide[idx].translate) <
                            sead::Mathf::square(200.0f);
                 }
             }
         }
-        return playerPos.sqrXZDistance(mInnerHide[idx].translate) < sead::Mathf::square(500.0f);
+        return sqXZDistance(playerPos, mInnerHide[idx].translate) < sead::Mathf::square(500.0f);
     }
-    return playerPos.sqrXZDistance(mInnerHide[idx].translate) < sead::Mathf::square(1000.0f);
+    return sqXZDistance(playerPos, mInnerHide[idx].translate) < sead::Mathf::square(1000.0f);
 }
 
 bool PlacementAreaMgr::insideInnerHideBase(const int& idx) {
@@ -555,7 +560,7 @@ bool PlacementAreaMgr::insideOmegaBase(const sead::Vector3f& pos, const float& d
 bool PlacementAreaMgr::isPlayerInsideNpc(const sead::Vector3f& pos) {
     // matches with 2 && but this looks cleaner
     if (mActiveNpc >= 0 && !isInsideNpc(pos)) {
-        if (playerPos.sqrXZDistance(mNpc[mActiveNpc].mTranslate) <
+        if (sqXZDistance(playerPos, mNpc[mActiveNpc].mTranslate) <
             (mNpc[mActiveNpc].mScale * mNpcScales[mActiveNpc])) {
             return true;
         }

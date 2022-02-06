@@ -106,7 +106,7 @@ class PlacementAreaMgr {
 
         // should probably remove
         bool isInside(const sead::Vector3f& pos) const {
-            return pos.sqrDistance(mTranslate) < sead::Mathf::square(mScale);
+            return (pos - mTranslate).squaredLength() < sead::Mathf::square(mScale);
         }
     };
     KSYS_CHECK_SIZE_NX150(OuterNPCMementary, 0x10);
