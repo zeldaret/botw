@@ -17,7 +17,7 @@ class StagePreActorCache {
     StagePreActorCache();
 
 public:
-    LazyTraverseList* getObjects() { return mObjects; }
+    LazyTraverseList* getObjects() const { return mObjects; }
     auto* getForestRenderer() { return mForestRenderer; }
 
 private:

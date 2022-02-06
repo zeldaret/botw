@@ -15,7 +15,7 @@ public:
     void updateFlags();
     bool wereFlagsUpdated();
 
-    bool empty() { return !mHasEntries; }
+    bool empty() const { return !mHasEntries; }
 
 private:
     struct Entry {

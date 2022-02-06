@@ -21,12 +21,12 @@ class MubinIter;
 class Object;
 
 class PlacementAreaMgr {
-    // not axis and probably not in this class but I dunno what it does
+    // not "Axis" and probably not in this class but I dunno what it does
     // contains + and - of each x, y, z as a vector
     class Axis {
     public:
         Axis() = default;
-        Axis(const sead::Vector3f& v) : Axis(v, v) {}
+        explicit Axis(const sead::Vector3f& v) : Axis(v, v) {}
 
         // parameter names only based on default values
         Axis(const sead::Vector3f& plus, const sead::Vector3f& minus) {
@@ -47,7 +47,7 @@ class PlacementAreaMgr {
         sead::Vector3f data[6]{};
     };
 
-    struct Unknown1 {  // only _148 appears in PlacementAreaMgr's ctor
+    struct Unknown1 {  // only params appears in PlacementAreaMgr's ctor
         // unsure about these culling enums and the params bitfield
         enum class CullingOption : s32 { _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B, _C };
 
@@ -79,12 +79,12 @@ class PlacementAreaMgr {
         Axis base{}, calc{}, load{}, _d8{};
         sead::Vector3f translate{};
         s8 _12c;  // something to do with _29C54/mActiveNpc
-        u8 hideRoomNum;
+        u8 hide_room_num;
         u8 _130_count;
-        sead::SafeArray<int, 6> _130{};  // used with field_8, parent idx?
+        sead::SafeArray<int, 6> _130{};  // used to index mInnerHide, parent idx?
         struct Params {                  // _148 : u16
-            bool hideOutSide : 1;
-            bool isConnectNeighborArea : 1;
+            bool hide_out_side : 1;
+            bool is_connect_neighbor_area : 1;
             bool _4 : 1;
             bool _8 : 1;
             bool _10 : 1;
@@ -101,12 +101,12 @@ class PlacementAreaMgr {
     KSYS_CHECK_SIZE_NX150(Unknown1, 0x14C);
 
     struct OuterNPCMementary {
-        sead::Vector3f mTranslate;
-        f32 mScale;
+        sead::Vector3f translate;
+        f32 scale;
 
         // should probably remove
         bool isInside(const sead::Vector3f& pos) const {
-            return (pos - mTranslate).squaredLength() < sead::Mathf::square(mScale);
+            return (pos - translate).squaredLength() < sead::Mathf::square(scale);
         }
     };
     KSYS_CHECK_SIZE_NX150(OuterNPCMementary, 0x10);
@@ -123,14 +123,14 @@ class PlacementAreaMgr {
 
     struct JudgeArea {
         sead::BoundBox3f bb{};
-        sead::SafeArray<GeneralArea*, 8> parentAreas{};
-        sead::SafeArray<u32, 8> parentIds{};
-        s32 parentCount = 0;
+        sead::SafeArray<GeneralArea*, 8> parent_areas{};
+        sead::SafeArray<u32, 8> parent_ids{};
+        s32 parent_count = 0;
     };
     KSYS_CHECK_SIZE_NX150(JudgeArea, 0x80);
 
     struct OptArea {
-        GeneralArea* parentArea;
+        GeneralArea* parent_area;
         sead::FixedSafeString<16> id{};
     };
     KSYS_CHECK_SIZE_NX150(OptArea, 0x30);
@@ -163,68 +163,80 @@ public:
         FinalTrial = 1 << 15
     };
 
+    // d1f4d8
     static bool getIsPlayedDemo145AndFirstInCastleBossRoom(ksys::gdt::Manager& gdm,
-                                                           bool* firstInGanonBossRoom,
-                                                           bool* playedDemo145);  // d1f4d8
+                                                           bool* first_in_ganon_boss_room,
+                                                           bool* played_demo_145);
 
+    // d1c8c0
     PlacementAreaMgr();
     ~PlacementAreaMgr();
 
-    bool parseAreas(const sead::SafeString& unitConfigName, const MubinIter& objIter);  // d1cecc
-    void x();                                                                           // d1e578
-    void addLinkPair(const int& idx, const int& sub_idx);                               // d1e9b0
-    void postPlaceActorsUpdateFlagsAndLazyTraverse();                                   // d1eb24
-    bool insideInnerHideTrans(const int& idx);                                          // d1f5cc
-    bool insideInnerHideBase(const int& idx);                                           // d1f734
-    bool insideInnerHideCalc(const int& idx);                                           // d1f900
-    bool insideInnerHideLoad(const int& idx);                                           // d1facc
-    void loadDemoCulling(const sead::SafeString& demoName);                             // d1fc98
-    void unloadDemoCulling();                                                           // d1fe1c
-    bool shouldSkipSpawnOneHitChallengeActor(const Object& obj);                        // d1fe78
-    bool shouldSkipSpawn(const Object& obj, bool a3);                                   // d20bcc
-    bool insideInnerHideBase(const sead::Vector3f& pos, const float& distFromFace,
-                             const int& idx);           // d21a88
-    bool isPlayerInsideNpc(const sead::Vector3f& pos);  // d21c3c
-    void boundsChecking();                              // d21ddc
-    bool insideInnerHideCalc(const sead::Vector3f& pos, const float& distFromFace,
-                             const int& idx);                                    // d224f8
-    bool insideAlphaBase(const sead::Vector3f& pos, const float& distFromFace);  // d226ac
-    bool insideOmegaBase();                                                      // d22968
-    bool insideOmegaBase(const sead::Vector3f& pos, const float& distFromFace);  // d22c3c
-    bool insideAlphaBase();                                                      // d22ef8
-    void boundsChecking_1();                                                     // d231cc
-    void weirdSetup();                             // d2388c (perhaps used with teleport feature?)
-    bool isInsideNpc(const sead::Vector3f& pos);   // d242dc
-    void pushFarModels();                          // d24400
-    bool x_0(const int& idx, const int& sub_idx);  // d2449c
+    // d1cecc
+    bool parseAreas(const sead::SafeString& unit_config_name, const MubinIter& obj_iter);
+    // d1e578
+    void x();
+    void addLinkPair(const int& idx, const int& sub_idx);
+    // d1eb24
+    void postPlaceActorsUpdateFlagsAndLazyTraverse();
+    bool insideInnerHideTrans(const int& idx);
+    bool insideInnerHideBase(const int& idx);
+    bool insideInnerHideCalc(const int& idx);
+    bool insideInnerHideLoad(const int& idx);
+    void loadDemoCulling(const sead::SafeString& demo_name);
+    void unloadDemoCulling();
+    // d1fe78
+    bool shouldSkipSpawnOneHitChallengeActor(const Object& obj);
+    // d20bcc
+    bool shouldSkipSpawn(const Object& obj, bool a3);
+    bool insideInnerHideBase(const sead::Vector3f& pos, const float& dist_from_face,
+                             const int& idx);
+    bool isPlayerInsideNpc(const sead::Vector3f& pos);
+    // d21ddc
+    void boundsChecking();
+    bool insideInnerHideCalc(const sead::Vector3f& pos, const float& dist_from_face,
+                             const int& idx);
+    bool insideAlphaBase(const sead::Vector3f& pos, const float& dist_from_face);
+    bool insideOmegaBase();
+    bool insideOmegaBase(const sead::Vector3f& pos, const float& dist_from_face);
+    bool insideAlphaBase();
+    // d231cc
+    void boundsChecking_1();  // looks eerily similar to boundsChecking
+    // d2388c
+    void weirdSetup();  // perhaps used with teleport feature?
+    bool isInsideNpc(const sead::Vector3f& pos);
+    // d24400
+    void pushFarModels();
+    // d2449c
+    bool x_0(const int& idx, const int& sub_idx);
 
     s8 isInsideNpcIdx(const sead::Vector3f& pos);
     GeneralArea* findGeneralArea(const u32& id);
 
     sead::TypedBitFlag<Flag> mFlags;
     bool mIsOneHitChallengeActive = false;
-    bool notAocField = false;
+    bool mNotAocField = false;
     bool _4 = false;
     sead::SafeArray<Unknown1, 512> mInnerHide{};  // parseObj
-    s32 mInnerHide_count;
-    Unknown1 alpha{}, omega{};  // parseObj
+    s32 mInnerHideCount;
+    Unknown1 mAlpha{}, mOmega{};  // parseObj
     sead::SafeArray<OuterNPCMementary, 26> mNpc{};
-    sead::Vector3f playerPos;
-    f32 cameraAngleMaybe = 50.0f;  // fov?
-    s32 mActiveNpc;                // 0 - 25
-    LazyTraverseList* objects = StagePreActorCache::instance()->getObjects();
+    sead::Vector3f mPlayerPos;
+    f32 mCameraAngleMaybe = 50.0f;  // fov?
+    s32 mActiveNpc;                 // 0 - 25
+    LazyTraverseList* mObjects = StagePreActorCache::instance()->getObjects();
     sead::SafeArray<JudgeArea, 16> mJudgeArea{};
-    s32 mJudgeArea_count;
+    s32 mJudgeAreaCount;
     sead::SafeArray<char, 128> _2a468{};  // probably not char
-    s32 _2a468_count;
+    s32 _2a468Count;
     sead::SafeArray<GeneralArea, 64> mGeneralAreas{};
-    s32 mGeneralAreas_count;
+    s32 mGeneralAreasCount;
     sead::SafeArray<OptArea, 4> mOptAreas{};
-    s32 mOptAreas_count;
+    s32 mOptAreasCount;
     OptArea* mIntroArea;
     sead::SafeArray<FarModel, 128> mFarModels{};
-    s32 mFarModels_count;
-    f32 _2d5c4;     // distance? also doesn't align
+    s32 mFarModelsCount;
+    f32 _2d5c4;     // distance?
     u8 _2d5c8 = 0;  // enum potentially
 };
 KSYS_CHECK_SIZE_NX150(PlacementAreaMgr, 0x2D5D0);
