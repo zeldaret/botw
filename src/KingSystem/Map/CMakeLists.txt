@@ -14,6 +14,8 @@ target_sources(uking PRIVATE
   mapObjectLink.h
   mapPlacementActors.cpp
   mapPlacementActors.h
+  mapPlacementAreaMgr.cpp
+  mapPlacementAreaMgr.h
   mapPlacementMap.cpp
   mapPlacementMap.h
   mapPlacementMapMgr.cpp

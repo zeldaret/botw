@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/Actor/resResourceLod.h"
 #include "KingSystem/System/OcclusionQueryCylinder.h"
@@ -156,10 +157,10 @@ LodState::LodState(sead::Heap* heap, sead::BitFlag32 flags, Actor* actor,
     }
 
     auto* pm = map::PlacementMgr::instance();
-    map::PlacementStruct1* ps1 = nullptr;
+    map::PlacementAreaMgr* ps1 = nullptr;
     if (pm && pm->mPlacementActors && (ps1 = pm->mPlacementActors->mStruct1)) {
         if (!ps1->mIsOneHitChallengeActive) {
-            if (ps1->mFlags.isOnBit(15)) {
+            if (ps1->mFlags.isOn(map::PlacementAreaMgr::Flag::FinalTrial)) {
                 if (actor->getName() == "DgnObj_DLC_IbutsuEx_Candle_A_01" ||
                     actor->getName() == "TBox_Dungeon_Stone" ||
                     actor->getName() == "DgnObj_DLC_SwordLight_A_01") {
