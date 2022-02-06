@@ -434,16 +434,18 @@ void PlacementAreaMgr::addLinkPair(const int& idx, const int& sub_idx) {
 }
 
 bool PlacementAreaMgr::insideInnerHideTrans(const int& idx) {
-    if (mActiveNpc != mInnerHide[idx]._12c)
+    if (mActiveNpc != mInnerHide[idx]._12c) {
         return util::sqXZDistance(mPlayerPos, mInnerHide[idx].translate) <
                sead::Mathf::square(1000.0f);
+    }
 
     if (mActiveNpc == 5)
         return true;
 
-    if (mActiveNpc == 6)
+    if (mActiveNpc == 6) {
         return util::sqXZDistance(mPlayerPos, mInnerHide[idx].translate) <
                sead::Mathf::square(500.0f);
+    }
 
     if (mFlags.isOn(Flag::FinalTrial) || mFlags.isOn(Flag::_4000)) {
         return true;
