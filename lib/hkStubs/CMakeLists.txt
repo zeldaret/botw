@@ -108,8 +108,9 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastInput.h
   Havok/Physics2012/Collide/Shape/hkpShape.h
   Havok/Physics2012/Collide/Shape/hkpShapeBase.h
-  Havok/Physics2012/Collide/Shape/hkpShapeType.h
+  Havok/Physics2012/Collide/Shape/hkpShapeBuffer.h
   Havok/Physics2012/Collide/Shape/hkpShapeContainer.h
+  Havok/Physics2012/Collide/Shape/hkpShapeType.h
   Havok/Physics2012/Collide/Shape/Compound/Collection/hkpShapeCollection.h
   Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h
   Havok/Physics2012/Collide/Shape/Compound/Tree/hkpBvTreeShape.h
@@ -168,6 +169,8 @@ add_library(hkStubs OBJECT
 
   Havok/Physics2012/Internal/Collide/Mopp/Code/hkpMoppCode.h
 
+  Havok/Physics2012/Utilities/Collide/ShapeUtils/ShapeScaling/hkpShapeScalingUtility.h
+  Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h
   Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h
 )
 

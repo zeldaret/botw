@@ -520,7 +520,7 @@ public:
 
 protected:
     // FIXME: return type
-    virtual u32 getCollisionMasks(CollisionMasks* masks) = 0;
+    virtual u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) = 0;
 
     /// Called whenever a shape update is requested.
     /// @return the new shape to use for the Havok rigid body or null to keep the current hkpShape

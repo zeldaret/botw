@@ -31,7 +31,7 @@ public:
 protected:
     Shape* getShape_() override;
     const Shape* getShape_() const override;
-    u32 getCollisionMasks(CollisionMasks* masks) override;
+    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) override;
 
     BoxWaterShape* mShape;
     u32 _d8{};

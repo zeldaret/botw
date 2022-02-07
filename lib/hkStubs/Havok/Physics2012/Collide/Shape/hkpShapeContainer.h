@@ -2,8 +2,7 @@
 
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Physics2012/Collide/Shape/hkpShape.h>
-
-class hkpShapeBuffer;
+#include <Havok/Physics2012/Collide/Shape/hkpShapeBuffer.h>
 
 class hkpShapeContainer {
 public:

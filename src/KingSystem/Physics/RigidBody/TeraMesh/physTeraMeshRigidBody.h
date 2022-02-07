@@ -9,7 +9,7 @@ class TeraMeshRigidBody : public RigidBody {
 public:
     TeraMeshRigidBody(hkpRigidBody* hk_body, sead::Heap* heap);
 
-    u32 getCollisionMasks(CollisionMasks* masks) override;
+    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) override;
 };
 
 }  // namespace ksys::phys
