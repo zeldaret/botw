@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   Thread/Event.h
   Thread/GameTaskThread.cpp
   Thread/GameTaskThread.h
+  Thread/LowPrioThreadMgr.h
+  Thread/LowPrioThreadMgr.cpp
   Thread/ManagedTask.cpp
   Thread/ManagedTask.h
   Thread/ManagedTaskHandle.cpp
