@@ -3,6 +3,7 @@
 #include <agl/Utils/aglAtomicPtrArray.h>
 #include <array>
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include <mc/seadJob.h>
 #include <mc/seadJobQueue.h>
 #include <thread/seadAtomic.h>
@@ -35,11 +36,12 @@ public:
 private:
     bool pushJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists, int priority,
                   bool should_reset_job_idx, JobType type);
+    bool isIndexValid(int idx) const { return u32(idx) < u32(mPool.size()); }
 
     int mFreeJobIdx = 0;
     sead::FixedSizeJQ mJobQueue;
-    std::array<BaseProcJob, 1200> mPool;
-    sead::Atomic<u32> mNumExtraJobs = 0;
+    sead::SafeArray<BaseProcJob, 1200> mPool;
+    sead::Atomic<int> mNumExtraJobs = 0;
 };
 KSYS_CHECK_SIZE_NX150(BaseProcJobQue, 0xbc38);
 

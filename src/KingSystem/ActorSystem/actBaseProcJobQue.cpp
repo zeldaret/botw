@@ -59,8 +59,8 @@ bool BaseProcJobQue::pushJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists,
             for (int i = 1; link && i <= rounds; ++i)
                 link = static_cast<BaseProcJobLink*>(lists->getNextJob(link));
 
-            mPool[mFreeJobIdx].set(batch_head, rounds);
-            queue->enque(&mPool[mFreeJobIdx]);
+            mPool(mFreeJobIdx).set(batch_head, rounds);
+            queue->enque(&mPool(mFreeJobIdx));
             num_remaining_jobs -= rounds;
             rounds = std::min(rounds, num_remaining_jobs);
             ++mFreeJobIdx;
@@ -70,8 +70,8 @@ bool BaseProcJobQue::pushJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists,
     for (int i = 1; link && i <= num_remaining_jobs; ++i) {
         link->getProc()->onJobPush(type);
         if (!link->getProc()->shouldSkipJobPush(type)) {
-            mPool[mFreeJobIdx].set(link, 1);
-            queue->enque(&mPool[mFreeJobIdx]);
+            mPool(mFreeJobIdx).set(link, 1);
+            queue->enque(&mPool(mFreeJobIdx));
             ++mFreeJobIdx;
         }
         link = static_cast<BaseProcJobLink*>(lists->getNextJob(link));
@@ -80,8 +80,6 @@ bool BaseProcJobQue::pushJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists,
     return true;
 }
 
-// sxtw + madd -> smaddl
-#ifdef NON_MATCHING
 bool BaseProcJobQue::pushExtraJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists, int priority,
                                    JobType type) {
     const auto& list = lists->getList(priority);
@@ -91,21 +89,21 @@ bool BaseProcJobQue::pushExtraJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* l
     for (auto* link = static_cast<BaseProcJobLink*>(list.front()); link;
          link = static_cast<BaseProcJobLink*>(lists->getNextJob(link))) {
         const auto idx = mNumExtraJobs.increment();
-        if (idx >= mPool.size())
+        if (!isIndexValid(idx))
             return false;
 
         link->getProc()->onJobPush(type);
 
+        BaseProcJob& job = mPool[idx];
         if (!link->getProc()->shouldSkipJobPush(type)) {
-            mPool[idx].set(link, 1);
-            if (!queue->enque(&mPool[idx]))
+            job.set(link, 1);
+            if (!queue->enque(&job))
                 return false;
         }
     }
 
     return true;
 }
-#endif
 
 bool BaseProcJobQue::pushExtraJobs(sead::FixedSizeJQ* queue,
                                    const agl::utl::AtomicPtrArray<BaseProcJobLink>& links) {
@@ -114,7 +112,7 @@ bool BaseProcJobQue::pushExtraJobs(sead::FixedSizeJQ* queue,
 
     for (auto it = links.begin(), end = links.end(); it != end; ++it) {
         const auto idx = mNumExtraJobs.increment();
-        if (idx >= mPool.size())
+        if (!isIndexValid(idx))
             return false;
 
         mPool[idx].mJobLink = &*it;
