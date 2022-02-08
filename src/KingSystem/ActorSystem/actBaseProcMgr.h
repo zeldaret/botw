@@ -9,7 +9,6 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadScopedLock.h>
 #include <prim/seadSizedEnum.h>
-#include <prim/seadStorageFor.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
@@ -266,8 +265,7 @@ private:
     u32 mHavokThreadId1 = 0;
     u32 mHavokThreadId2 = 0;
     u32 mUnk4 = 0;
-    sead::StorageFor<sead::SafeArray<ExtraJobLinkArray, 2>> mExtraJobLinkArrays{
-        sead::ZeroInitializeTag{}};
+    sead::SafeArray<ExtraJobLinkArray, 2> mExtraJobLinkArrays{};
 };
 KSYS_CHECK_SIZE_NX150(BaseProcMgr, 0x21a0);
 

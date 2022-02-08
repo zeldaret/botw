@@ -4,7 +4,6 @@
 #include <agl/Utils/aglParameterObj.h>
 #include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
-#include <prim/seadStorageFor.h>
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
@@ -132,8 +131,8 @@ public:
     bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
-    const ControllerInfo& getControllerInfo() const { return mControllerInfo.ref(); }
-    const Attention& getAttention() const { return mAttention.ref(); }
+    const ControllerInfo& getControllerInfo() const { return mControllerInfo; }
+    const Attention& getAttention() const { return mAttention; }
     const sead::Buffer<ModelData>& getModelData() const { return mModelData; }
     const sead::Buffer<AnmTarget>& getAnmTargets() const { return mAnmTargets; }
 
@@ -155,8 +154,8 @@ private:
     bool parseModelData(const agl::utl::ResParameterList& res, sead::Heap* heap);
     bool parseAnmTarget(const agl::utl::ResParameterList& res, sead::Heap* heap);
 
-    sead::StorageFor<ControllerInfo, true> mControllerInfo{sead::ZeroInitializeTag{}};
-    sead::StorageFor<Attention, true> mAttention{sead::ZeroInitializeTag{}};
+    ControllerInfo mControllerInfo;
+    Attention mAttention;
     u8* mRawData{};
     sead::Buffer<ModelData> mModelData;
     agl::utl::ParameterList mModelDataList;

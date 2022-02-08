@@ -20,12 +20,7 @@
 
 namespace ksys::gdt {
 
-TriggerParam::TriggerParam() {
-    for (auto& buffer : mFlagChangeRecords)
-        buffer.constructDefault();
-    for (auto& cs : mCriticalSections)
-        cs.constructDefault();
-    mBitFlags.constructDefault();
+TriggerParam::TriggerParam() : mFlagChangeRecords(), mCriticalSections() {
     mFlagChangeRecordIndices.fill(0);
     mNumBoolFlagsPerCategory0.fill(0);
     mNumBoolFlagsPerCategory.fill(0);
@@ -920,7 +915,7 @@ void TriggerParam::copyAllFlags(const TriggerParam& src, sead::Heap* heap, bool 
 
     if (init_reset_data) {
         for (auto& array : mFlagChangeRecords)
-            array.ref().allocBufferAssert(num_flags, heap);
+            array.allocBufferAssert(num_flags, heap);
         initResetData(heap);
         initRevivalRandomBools(heap);
     }
@@ -1331,7 +1326,7 @@ bool TriggerParam::getMaxValueForS32(s32* max, const sead::SafeString& name) con
                                                                                                    \
         if constexpr (std::is_same<T, bool>()) {                                                   \
             if (FLAGS[idx]->getProperties().isEventAssociated())                                   \
-                mBitFlags.ref().set(BitFlag::EventAssociatedFlagModified);                         \
+                mBitFlags.set(BitFlag::EventAssociatedFlagModified);                               \
         }                                                                                          \
                                                                                                    \
         return ret;                                                                                \
@@ -1407,11 +1402,11 @@ void TriggerParam::recordFlagChange(const FlagBase* flag, s32 idx, s32 sub_idx) 
     const auto core = sead::CoreInfo::getCurrentCoreId();
     const u32 platform_core_id = sead::CoreInfo::getPlatformCoreId(core);
 
-    auto& buffer = mFlagChangeRecords[platform_core_id].ref();
+    auto& buffer = mFlagChangeRecords[platform_core_id];
     if (buffer.size() < 1)
         return;
 
-    auto lock = sead::makeScopedLock(mCriticalSections[platform_core_id].ref());
+    auto lock = sead::makeScopedLock(mCriticalSections[platform_core_id]);
 
     buffer[mFlagChangeRecordIndices[platform_core_id]].type.mValue = u8(flag->getType());
     buffer[mFlagChangeRecordIndices[platform_core_id]].index = idx;
@@ -1419,7 +1414,7 @@ void TriggerParam::recordFlagChange(const FlagBase* flag, s32 idx, s32 sub_idx) 
     ++mFlagChangeRecordIndices[platform_core_id];
 
     if (flag->getType() == FlagType::Bool)
-        mBitFlags.ref().set(BitFlag::_8);
+        mBitFlags.set(BitFlag::_8);
 }
 
 SET_FLAG_VALUE_IMPL_(TriggerParam::setS32, s32, mS32Flags, s32, value)
@@ -1928,10 +1923,10 @@ void TriggerParam::copyChangedFlags(TriggerParam& other, bool set_all_flags, boo
                                     bool ignore_temp_flags) {
     if (!set_all_flags) {
         for (s32 i = 0; i < 3; ++i) {
-            auto lock = sead::makeScopedLock(other.mCriticalSections[i].ref());
+            auto lock = sead::makeScopedLock(other.mCriticalSections[i]);
 
             for (s32 j = 0; j < mFlagChangeRecordIndices[i]; ++i) {
-                const FlagChangeRecord& record = mFlagChangeRecords[i].ref()[j];
+                const FlagChangeRecord& record = mFlagChangeRecords[i][j];
                 const auto idx = record.index;
                 const auto sub_idx = record.sub_index;
                 switch (record.type) {
@@ -2112,7 +2107,7 @@ void TriggerParam::copyChangedFlags(TriggerParam& other, bool set_all_flags, boo
             }
 
             mFlagChangeRecordIndices[i] = 0;
-            other.mBitFlags.ref().reset(BitFlag::_8);
+            other.mBitFlags.reset(BitFlag::_8);
         }
         return;
     }

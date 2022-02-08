@@ -50,7 +50,7 @@ constexpr int NumDungeons = 16;
 
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
-Manager::Manager() : mGdtReinitSlot{this, &Manager::onGdtReinit} {
+Manager::Manager() : mVersionFile(), mGdtReinitSlot{this, &Manager::onGdtReinit} {
     resetFlags();
 }
 
@@ -113,7 +113,7 @@ void Manager::loadVersionFile() {
     req._26 = false;
     req.mAocFileDevice = mFileDevice;
     const sead::SafeString path = "System/AocVersion.txt";
-    mVersionFile->file_handle.requestLoad(path, &req);
+    mVersionFile.file_handle.requestLoad(path, &req);
 }
 
 void Manager::loadAocMainFieldPack(ksys::OverlayArena* arena) {
@@ -404,19 +404,19 @@ bool Manager::changeMoviePath(sead::BufferedSafeString& path) const {
 }
 
 bool Manager::parseVersion() {
-    if (!mVersionFile->readVersion())
+    if (!mVersionFile.readVersion())
         return false;
 
-    if (mVersionFile->string.isEmpty()) {
+    if (mVersionFile.string.isEmpty()) {
         mVersion = 0;
         return true;
     }
 
     {
-        const int dot_index = mVersionFile->string.findIndex(".");
+        const int dot_index = mVersionFile.string.findIndex(".");
         const int minor_index = dot_index + 1;
-        if (dot_index <= 0 || minor_index >= mVersionFile->string.calcLength()) {
-            mVersionFile->string.clear();
+        if (dot_index <= 0 || minor_index >= mVersionFile.string.calcLength()) {
+            mVersionFile.string.clear();
             mVersion = 0;
             return true;
         }
@@ -424,13 +424,13 @@ bool Manager::parseVersion() {
         u32 major, minor;
         const auto parse = [&] {
             sead::FixedSafeString<16> major_str;
-            major_str.copy(mVersionFile->string, dot_index);
+            major_str.copy(mVersionFile.string, dot_index);
 
             constexpr auto base = sead::StringUtil::CardinalNumber::Base10;
             if (!sead::StringUtil::tryParseU32(&major, major_str, base))
                 return false;
 
-            const auto minor_str = mVersionFile->string.getPart(minor_index);
+            const auto minor_str = mVersionFile.string.getPart(minor_index);
             if (!sead::StringUtil::tryParseU32(&minor, minor_str, base))
                 return false;
 
@@ -438,7 +438,7 @@ bool Manager::parseVersion() {
         };
 
         if (!parse()) {
-            mVersionFile->string.clear();
+            mVersionFile.string.clear();
             mVersion = 0;
             return true;
         }

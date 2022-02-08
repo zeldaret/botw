@@ -4,7 +4,6 @@
 #include <container/seadOffsetList.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
-#include <prim/seadStorageFor.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -13,8 +12,8 @@ namespace ksys::act {
 
 class ActorLimiter {
     SEAD_SINGLETON_DISPOSER(ActorLimiter)
-    ActorLimiter() = default;
-    ~ActorLimiter() { mLists.destruct(); }
+    ActorLimiter() : mLists() {}
+    ~ActorLimiter() = default;
 
 public:
     enum class Category {
@@ -51,11 +50,11 @@ public:
 
     bool init(sead::Heap* heap, const sead::SafeArray<int, NumCategories>& capacities);
 
-    List& get(Category category) { return mLists.ref()[s32(category)]; }
-    const List& get(Category category) const { return mLists.ref()[s32(category)]; }
+    List& get(Category category) { return mLists[s32(category)]; }
+    const List& get(Category category) const { return mLists[s32(category)]; }
 
 private:
-    sead::StorageFor<sead::SafeArray<List, NumCategories>> mLists{sead::ZeroInitializeTag{}};
+    sead::SafeArray<List, NumCategories> mLists{};
 };
 KSYS_CHECK_SIZE_NX150(ActorLimiter, 0x360);
 

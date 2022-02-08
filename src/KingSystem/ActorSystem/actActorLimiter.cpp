@@ -62,7 +62,7 @@ SEAD_SINGLETON_DISPOSER_IMPL(ActorLimiter)
 
 bool ActorLimiter::init(sead::Heap* heap, const sead::SafeArray<int, NumCategories>& capacities) {
     for (s32 i = 0; i < NumCategories; ++i) {
-        if (!mLists.ref()[i].init(heap, capacities[i]))
+        if (!mLists[i].init(heap, capacities[i]))
             return false;
     }
     return true;

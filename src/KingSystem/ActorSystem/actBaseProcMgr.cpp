@@ -14,7 +14,7 @@ namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(BaseProcMgr)
 
-BaseProcMgr::BaseProcMgr() {
+BaseProcMgr::BaseProcMgr() : mExtraJobLinkArrays() {
     mProcPreDeleteList.initOffset(offsetof(BaseProc, mPreDeleteListNode));
     mProcUpdateStateList.initOffset(offsetof(BaseProc, mUpdateStateListNode));
 }
@@ -162,7 +162,7 @@ void BaseProcMgr::processPreDeleteList() {
 }
 
 BaseProcMgr::ExtraJobLinkArray& BaseProcMgr::getExtraJobs() {
-    return mExtraJobLinkArrays.ref()[mCurrentExtraJobArrayIdx];
+    return mExtraJobLinkArrays[mCurrentExtraJobArrayIdx];
 }
 
 void BaseProcMgr::swapExtraJobArray() {
@@ -637,19 +637,16 @@ void BaseProcMgr::decrementUnk3() {
         --mUnk3;
 }
 
-// reorderings
-#ifdef NON_MATCHING
 void BaseProcMgr::queueExtraJobPush(BaseProcJobLink* job_link) {
     getExtraJobs().pushBack(job_link);
 }
-#endif
 
 // ???
 #ifdef NON_MATCHING
 void BaseProcMgr::moveExtraJobsToOtherBuffer(JobType type) {
     const auto old_idx = mCurrentExtraJobArrayIdx;
     swapExtraJobArray();
-    auto& array = mExtraJobLinkArrays.ref()[old_idx];
+    auto& array = mExtraJobLinkArrays[old_idx];
     for (auto& link : array) {
         link.getProc()->queueExtraJobPush_(type, mCurrentExtraJobArrayIdx);
     }
@@ -657,7 +654,7 @@ void BaseProcMgr::moveExtraJobsToOtherBuffer(JobType type) {
 #endif
 
 bool BaseProcMgr::hasExtraJobLink(BaseProcJobLink* job_link, s32 idx) {
-    for (auto& ptr : mExtraJobLinkArrays.ref()[idx]) {
+    for (auto& ptr : mExtraJobLinkArrays[idx]) {
         if (&ptr == job_link)
             return true;
     }
@@ -665,8 +662,8 @@ bool BaseProcMgr::hasExtraJobLink(BaseProcJobLink* job_link, s32 idx) {
 }
 
 void BaseProcMgr::clearExtraJobArrays() {
-    mExtraJobLinkArrays.ref()[0].clear();
-    mExtraJobLinkArrays.ref()[1].clear();
+    mExtraJobLinkArrays[0].clear();
+    mExtraJobLinkArrays[1].clear();
 }
 
 }  // namespace ksys::act

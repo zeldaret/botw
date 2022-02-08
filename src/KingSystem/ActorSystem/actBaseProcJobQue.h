@@ -5,7 +5,6 @@
 #include <basis/seadTypes.h>
 #include <mc/seadJob.h>
 #include <mc/seadJobQueue.h>
-#include <prim/seadStorageFor.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/Utils/Types.h"
@@ -37,22 +36,9 @@ private:
     bool pushJobs(sead::FixedSizeJQ* queue, BaseProcJobLists* lists, int priority,
                   bool should_reset_job_idx, JobType type);
 
-    struct Pool {
-        Pool() {
-            for (auto& job : mPool)
-                job.constructDefault();
-        }
-
-        u32 size() const { return u32(mPool.size()); }
-        auto& operator[](int idx) { return mPool[idx].ref(); }
-        auto& operator[](int idx) const { return mPool[idx].ref(); }
-
-        std::array<sead::StorageFor<BaseProcJob, true>, 1200> mPool{};
-    };
-
     int mFreeJobIdx = 0;
     sead::FixedSizeJQ mJobQueue;
-    Pool mPool;
+    std::array<BaseProcJob, 1200> mPool;
     sead::Atomic<u32> mNumExtraJobs = 0;
 };
 KSYS_CHECK_SIZE_NX150(BaseProcJobQue, 0xbc38);

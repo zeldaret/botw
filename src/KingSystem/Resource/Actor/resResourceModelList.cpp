@@ -22,7 +22,7 @@ sead::SafeArray<const char*, 6> sLocatorTypes{{
 constexpr u32 NumUnitMax = 8;
 }  // namespace
 
-ModelList::ModelList() : ParamIO("modellist", 0) {}
+ModelList::ModelList() : ParamIO("modellist", 0), mControllerInfo(), mAttention() {}
 
 ModelList::~ModelList() {
     for (auto& entry : mModelData)
@@ -36,8 +36,6 @@ ModelList::~ModelList() {
 
 void ModelList::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {}
 
-// reorderings
-#ifdef NON_MATCHING
 bool ModelList::parse_(u8* data, size_t size, sead::Heap* heap) {
     agl::utl::ResParameterArchive archive{data};
     const auto root = archive.getRootList();
@@ -56,46 +54,43 @@ bool ModelList::parse_(u8* data, size_t size, sead::Heap* heap) {
     }
     addList(&mAnmTargetList, str_AnmTarget);
 
-    mControllerInfo->mAddColor.init({0.0, 0.0, 0.0, 0.0}, "AddColor", "", &mControllerInfo->mObj);
-    mControllerInfo->mMulColor.init({1.0, 1.0, 1.0, 1.0}, "MulColor", "", &mControllerInfo->mObj);
-    mControllerInfo->mBaseScale.init(sead::Vector3f::ones, "BaseScale", "", &mControllerInfo->mObj);
-    mControllerInfo->mVariationMatAnim.init("", "VariationMatAnim", "", &mControllerInfo->mObj);
-    mControllerInfo->mVariationMatAnimFrame.init(0, "VariationMatAnimFrame", "",
-                                                 &mControllerInfo->mObj);
-    mControllerInfo->mVariationShaderAnim.init("", "VariationShaderAnim", "",
-                                               &mControllerInfo->mObj);
-    mControllerInfo->mVariationShaderAnimFrame.init(0, "VariationShaderAnimFrame", "",
-                                                    &mControllerInfo->mObj);
-    mControllerInfo->mCalcAABBASKey.init("Wait", "CalcAABBASKey", "", &mControllerInfo->mObj);
-    addObj(&mControllerInfo->mObj, sead::FormatFixedSafeString<128>("ControllerInfo"));
+    mControllerInfo.mAddColor.init({0.0, 0.0, 0.0, 0.0}, "AddColor", "", &mControllerInfo.mObj);
+    mControllerInfo.mMulColor.init({1.0, 1.0, 1.0, 1.0}, "MulColor", "", &mControllerInfo.mObj);
+    mControllerInfo.mBaseScale.init(sead::Vector3f::ones, "BaseScale", "", &mControllerInfo.mObj);
+    mControllerInfo.mVariationMatAnim.init("", "VariationMatAnim", "", &mControllerInfo.mObj);
+    mControllerInfo.mVariationMatAnimFrame.init(0, "VariationMatAnimFrame", "",
+                                                &mControllerInfo.mObj);
+    mControllerInfo.mVariationShaderAnim.init("", "VariationShaderAnim", "", &mControllerInfo.mObj);
+    mControllerInfo.mVariationShaderAnimFrame.init(0, "VariationShaderAnimFrame", "",
+                                                   &mControllerInfo.mObj);
+    mControllerInfo.mCalcAABBASKey.init("Wait", "CalcAABBASKey", "", &mControllerInfo.mObj);
+    addObj(&mControllerInfo.mObj, sead::FormatFixedSafeString<128>("ControllerInfo"));
 
-    mAttention->mIsEnableAttention.init(false, "IsEnableAttention", "", &mAttention->mObj);
-    mAttention->mLookAtBone.init("", "LookAtBone", "", &mAttention->mObj);
-    mAttention->mLookAtOffset.init(sead::Vector3f::zero, "LookAtOffset", "", &mAttention->mObj);
-    mAttention->mCursorOffsetY.init(0.0, "CursorOffsetY", "", &mAttention->mObj);
-    mAttention->mAIInfoOffsetY.init(0.0, "AIInfoOffsetY", "", &mAttention->mObj);
-    mAttention->mCutTargetBone.init("", "CutTargetBone", "", &mAttention->mObj);
-    mAttention->mCutTargetOffset.init(sead::Vector3f::zero, "CutTargetOffset", "",
-                                      &mAttention->mObj);
-    mAttention->mGameCameraBone.init("", "GameCameraBone", "", &mAttention->mObj);
-    mAttention->mGameCameraOffset.init(sead::Vector3f::zero, "GameCameraOffset", "",
-                                       &mAttention->mObj);
-    mAttention->mBowCameraBone.init("", "BowCameraBone", "", &mAttention->mObj);
-    mAttention->mBowCameraOffset.init(sead::Vector3f::zero, "BowCameraOffset", "",
-                                      &mAttention->mObj);
-    mAttention->mAttackTargetBone.init("", "AttackTargetBone", "", &mAttention->mObj);
-    mAttention->mAttackTargetOffset.init(sead::Vector3f::zero, "AttackTargetOffset", "",
-                                         &mAttention->mObj);
-    mAttention->mAttackTargetOffsetBack.init(0.0, "AttackTargetOffsetBack", "", &mAttention->mObj);
-    mAttention->mAtObstacleChkUseLookAtPos.init(true, "AtObstacleChkUseLookAtPos", "",
-                                                &mAttention->mObj);
-    mAttention->mAtObstacleChkOffsetBone.init("", "AtObstacleChkOffsetBone", "", &mAttention->mObj);
-    mAttention->mAtObstacleChkOffset.init(sead::Vector3f::zero, "AtObstacleChkOffset", "",
-                                          &mAttention->mObj);
-    mAttention->mCursorAIInfoBaseBone.init("", "CursorAIInfoBaseBone", "", &mAttention->mObj);
-    mAttention->mCursorAIInfoBaseOffset.init(sead::Vector3f::zero, "CursorAIInfoBaseOffset", "",
-                                             &mAttention->mObj);
-    addObj(&mAttention->mObj, sead::FormatFixedSafeString<128>("Attention"));
+    mAttention.mIsEnableAttention.init(false, "IsEnableAttention", "", &mAttention.mObj);
+    mAttention.mLookAtBone.init("", "LookAtBone", "", &mAttention.mObj);
+    mAttention.mLookAtOffset.init(sead::Vector3f::zero, "LookAtOffset", "", &mAttention.mObj);
+    mAttention.mCursorOffsetY.init(0.0, "CursorOffsetY", "", &mAttention.mObj);
+    mAttention.mAIInfoOffsetY.init(0.0, "AIInfoOffsetY", "", &mAttention.mObj);
+    mAttention.mCutTargetBone.init("", "CutTargetBone", "", &mAttention.mObj);
+    mAttention.mCutTargetOffset.init(sead::Vector3f::zero, "CutTargetOffset", "", &mAttention.mObj);
+    mAttention.mGameCameraBone.init("", "GameCameraBone", "", &mAttention.mObj);
+    mAttention.mGameCameraOffset.init(sead::Vector3f::zero, "GameCameraOffset", "",
+                                      &mAttention.mObj);
+    mAttention.mBowCameraBone.init("", "BowCameraBone", "", &mAttention.mObj);
+    mAttention.mBowCameraOffset.init(sead::Vector3f::zero, "BowCameraOffset", "", &mAttention.mObj);
+    mAttention.mAttackTargetBone.init("", "AttackTargetBone", "", &mAttention.mObj);
+    mAttention.mAttackTargetOffset.init(sead::Vector3f::zero, "AttackTargetOffset", "",
+                                        &mAttention.mObj);
+    mAttention.mAttackTargetOffsetBack.init(0.0, "AttackTargetOffsetBack", "", &mAttention.mObj);
+    mAttention.mAtObstacleChkUseLookAtPos.init(true, "AtObstacleChkUseLookAtPos", "",
+                                               &mAttention.mObj);
+    mAttention.mAtObstacleChkOffsetBone.init("", "AtObstacleChkOffsetBone", "", &mAttention.mObj);
+    mAttention.mAtObstacleChkOffset.init(sead::Vector3f::zero, "AtObstacleChkOffset", "",
+                                         &mAttention.mObj);
+    mAttention.mCursorAIInfoBaseBone.init("", "CursorAIInfoBaseBone", "", &mAttention.mObj);
+    mAttention.mCursorAIInfoBaseOffset.init(sead::Vector3f::zero, "CursorAIInfoBaseOffset", "",
+                                            &mAttention.mObj);
+    addObj(&mAttention.mObj, sead::FormatFixedSafeString<128>("Attention"));
 
     if (data) {
         applyResParameterArchive(agl::utl::ResParameterArchive{data});
@@ -104,7 +99,6 @@ bool ModelList::parse_(u8* data, size_t size, sead::Heap* heap) {
 
     return true;
 }
-#endif
 
 bool ModelList::parseModelData(const agl::utl::ResParameterList& res, sead::Heap* heap) {
     if (!mModelData.tryAllocBuffer(res.getResParameterListNum() != 0, heap))
@@ -228,11 +222,11 @@ void ModelList::getModelDataInfo(ModelList::ModelDataInfo* info) const {
         }
     }
 
-    info->base_scale = mControllerInfo->mBaseScale.ref();
+    info->base_scale = mControllerInfo.mBaseScale.ref();
 }
 
 bool ModelList::getAttentionInfo(AttentionInfo* info) const {
-    if (!mAttention->mIsEnableAttention.ref()) {
+    if (!mAttention.mIsEnableAttention.ref()) {
         info->look_at_bone = {};
         info->look_at_offset = sead::Vector3f::zero;
 
@@ -258,35 +252,35 @@ bool ModelList::getAttentionInfo(AttentionInfo* info) const {
         return false;
     }
 
-    info->look_at_bone = mAttention->mLookAtBone.ref().cstr();
-    info->look_at_offset = mAttention->mLookAtOffset.ref();
+    info->look_at_bone = mAttention.mLookAtBone.ref().cstr();
+    info->look_at_offset = mAttention.mLookAtOffset.ref();
 
-    info->cursor_offset_y = mAttention->mCursorOffsetY.ref();
-    info->ai_info_offset_y = mAttention->mAIInfoOffsetY.ref();
+    info->cursor_offset_y = mAttention.mCursorOffsetY.ref();
+    info->ai_info_offset_y = mAttention.mAIInfoOffsetY.ref();
 
-    info->cut_target_bone = mAttention->mCutTargetBone.ref().cstr();
-    info->cut_target_offset = mAttention->mCutTargetOffset.ref();
+    info->cut_target_bone = mAttention.mCutTargetBone.ref().cstr();
+    info->cut_target_offset = mAttention.mCutTargetOffset.ref();
 
-    info->game_camera_bone = mAttention->mGameCameraBone.ref().cstr();
-    info->game_camera_offset = mAttention->mGameCameraOffset.ref();
+    info->game_camera_bone = mAttention.mGameCameraBone.ref().cstr();
+    info->game_camera_offset = mAttention.mGameCameraOffset.ref();
 
-    info->bow_camera_bone = mAttention->mBowCameraBone.ref().cstr();
-    info->bow_camera_offset = mAttention->mBowCameraOffset.ref();
+    info->bow_camera_bone = mAttention.mBowCameraBone.ref().cstr();
+    info->bow_camera_offset = mAttention.mBowCameraOffset.ref();
 
-    info->attack_target_bone = mAttention->mAttackTargetBone.ref().cstr();
-    info->attack_target_offset = mAttention->mAttackTargetOffset.ref();
-    info->attack_target_offset_back = mAttention->mAttackTargetOffsetBack.ref();
+    info->attack_target_bone = mAttention.mAttackTargetBone.ref().cstr();
+    info->attack_target_offset = mAttention.mAttackTargetOffset.ref();
+    info->attack_target_offset_back = mAttention.mAttackTargetOffsetBack.ref();
 
-    if (mAttention->mAtObstacleChkUseLookAtPos.ref()) {
-        info->at_obstacle_chk_bone = mAttention->mLookAtBone.ref().cstr();
-        info->at_obstacle_chk_offset = mAttention->mLookAtOffset.ref();
+    if (mAttention.mAtObstacleChkUseLookAtPos.ref()) {
+        info->at_obstacle_chk_bone = mAttention.mLookAtBone.ref().cstr();
+        info->at_obstacle_chk_offset = mAttention.mLookAtOffset.ref();
     } else {
-        info->at_obstacle_chk_bone = mAttention->mAtObstacleChkOffsetBone.ref().cstr();
-        info->at_obstacle_chk_offset = mAttention->mAtObstacleChkOffset.ref();
+        info->at_obstacle_chk_bone = mAttention.mAtObstacleChkOffsetBone.ref().cstr();
+        info->at_obstacle_chk_offset = mAttention.mAtObstacleChkOffset.ref();
     }
 
-    info->cursor_ai_info_base_bone = mAttention->mCursorAIInfoBaseBone.ref().cstr();
-    info->cursor_ai_info_base_offset = mAttention->mCursorAIInfoBaseOffset.ref();
+    info->cursor_ai_info_base_bone = mAttention.mCursorAIInfoBaseBone.ref().cstr();
+    info->cursor_ai_info_base_offset = mAttention.mCursorAIInfoBaseOffset.ref();
 
     const auto clear_if_empty = [](const char** s) {
         if (!(*s)[0])

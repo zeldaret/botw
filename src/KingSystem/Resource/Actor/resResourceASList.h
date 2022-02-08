@@ -4,7 +4,6 @@
 #include <agl/Utils/aglParameterList.h>
 #include <agl/Utils/aglParameterObj.h>
 #include <container/seadBuffer.h>
-#include <prim/seadStorageFor.h>
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
 
@@ -77,7 +76,7 @@ public:
     const sead::Buffer<ASDefine>& getASDefines() const { return mASDefines; }
     const sead::Buffer<CFDefine>& getCFDefines() const { return mCFDefines; }
     const sead::Buffer<AddRes>& getAddReses() const { return mAddReses; }
-    const Common& getCommon() const { return mCommon.ref(); }
+    const Common& getCommon() const { return mCommon; }
 
     void addAS_(s32 index, AS* as);
 
@@ -102,7 +101,7 @@ private:
     agl::utl::ParameterList mCFDefinesList;
     agl::utl::ParameterList mASDefinesList;
     agl::utl::ParameterList mAddResesList;
-    sead::StorageFor<Common, true> mCommon{sead::ZeroInitializeTag{}};
+    Common mCommon;
 };
 KSYS_CHECK_SIZE_NX150(ASList, 0x410);
 

@@ -1039,7 +1039,7 @@ void Manager::syncUpdate(const char* data) {
 
 void Manager::recordFlagChange(u32 platform_core_id, TriggerParam* tparam, u8 type, const s32& idx,
                                const s32& sub_idx) {
-    auto& buffer = tparam->mFlagChangeRecords[platform_core_id].ref();
+    auto& buffer = tparam->mFlagChangeRecords[platform_core_id];
     buffer[tparam->mFlagChangeRecordIndices[platform_core_id]].type.mValue = type;
     buffer[tparam->mFlagChangeRecordIndices[platform_core_id]].index = idx;
     buffer[tparam->mFlagChangeRecordIndices[platform_core_id]].sub_index = sub_idx;

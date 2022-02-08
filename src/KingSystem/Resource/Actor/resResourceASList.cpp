@@ -7,7 +7,7 @@ namespace {
 [[maybe_unused]] sead::SafeArray<sead::FixedSafeString<128>, 3> sStrings;
 }
 
-ASList::ASList() : ParamIO("aslist", 0) {}
+ASList::ASList() : ParamIO("aslist", 0), mCommon() {}
 
 ASList::~ASList() {
     mASDefines.freeBuffer();
@@ -129,10 +129,10 @@ bool ASList::parse_(u8* data, size_t size, sead::Heap* heap) {
     if (agl::utl::getResParameterObj(root, "Common").ptr()) {
         const sead::SafeString name = "RateAll";
         const sead::SafeString label = "";
-        mCommon->rate_all.init(1.0, name, label, &mCommon->obj);
-        addObj(&mCommon->obj, "Common");
+        mCommon.rate_all.init(1.0, name, label, &mCommon.obj);
+        addObj(&mCommon.obj, "Common");
     } else {
-        mCommon->rate_all = 1.0;
+        mCommon.rate_all = 1.0;
     }
 
     applyResParameterArchive(agl::utl::ResParameterArchive{data});

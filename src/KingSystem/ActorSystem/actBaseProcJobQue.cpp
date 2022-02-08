@@ -4,7 +4,7 @@
 
 namespace ksys::act {
 
-BaseProcJobQue::BaseProcJobQue() = default;
+BaseProcJobQue::BaseProcJobQue() : mPool() {}
 
 BaseProcJobQue::~BaseProcJobQue() {
     mJobQueue.clear();

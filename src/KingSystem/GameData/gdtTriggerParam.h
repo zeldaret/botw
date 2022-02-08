@@ -9,7 +9,6 @@
 #include <container/seadSafeArray.h>
 #include <gfx/seadColor.h>
 #include <prim/seadBitFlag.h>
-#include <prim/seadStorageFor.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/GameData/gdtFlag.h"
 #include "KingSystem/Utils/Types.h"
@@ -476,7 +475,7 @@ private:
 
     void recordFlagChange(const FlagBase* flag, s32 idx, s32 sub_idx = -1);
 
-    bool shouldFindExistingCopyRecord() const { return mBitFlags.ref().isOn(BitFlag::_7); }
+    bool shouldFindExistingCopyRecord() const { return mBitFlags.isOn(BitFlag::_7); }
 
     bool shouldSkipRevivingShopItem(bool* is_shop_item, u32 flag_hash, bool is_main_field,
                                     const sead::Buffer<s32>& arrow_counts, s32 col1, s32 row1,
@@ -504,7 +503,7 @@ private:
     sead::PtrArray<sead::PtrArray<FlagBase>> mVector3fArrayFlags;
     sead::PtrArray<sead::PtrArray<FlagBase>> mVector4fArrayFlags;
 
-    sead::SafeArray<sead::StorageFor<sead::Buffer<FlagChangeRecord>>, 3> mFlagChangeRecords{};
+    sead::SafeArray<sead::Buffer<FlagChangeRecord>, 3> mFlagChangeRecords;
 
     sead::ObjArray<FlagCopyRecord> mCopiedBoolFlags;
     sead::ObjArray<FlagCopyRecord> mCopiedS32Flags;
@@ -524,8 +523,8 @@ private:
     std::array<s32, 3> mFlagChangeRecordIndices;
     sead::SafeArray<s32, 15> mNumBoolFlagsPerCategory0;
     sead::SafeArray<s32, 15> mNumBoolFlagsPerCategory;
-    sead::SafeArray<sead::StorageFor<sead::CriticalSection>, 3> mCriticalSections{};
-    sead::StorageFor<sead::TypedBitFlag<BitFlag>> mBitFlags;
+    sead::SafeArray<sead::CriticalSection, 3> mCriticalSections;
+    sead::TypedBitFlag<BitFlag> mBitFlags;
 };
 KSYS_CHECK_SIZE_NX150(TriggerParam, 0x3f0);
 

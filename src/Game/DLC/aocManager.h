@@ -6,7 +6,6 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
-#include <prim/seadStorageFor.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
@@ -106,7 +105,7 @@ private:
     sead::FileDevice* mFileDevice{};
 
     ksys::res::FileDevicePrefix mVersionFileDevPrefix;
-    sead::StorageFor<VersionFile, true> mVersionFile{sead::ZeroInitializeTag{}};
+    VersionFile mVersionFile{};
     u32 mVersion{};
 
     ksys::res::Handle mAocMainFieldPack;
