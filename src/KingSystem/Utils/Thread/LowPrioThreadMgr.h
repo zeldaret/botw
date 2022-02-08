@@ -44,10 +44,10 @@ public:
     LowPrioThreadMgr() = default;
     virtual ~LowPrioThreadMgr();
 
-    auto startThread(LowPrioThreadMgr::InitArg* initArg) -> bool;
-    auto submitRequest(const LowPrioThreadMgr::Request& request) -> bool;
-    auto pauseAllThreads() -> void;
-    auto resumeAllThreads() -> void;
+    bool startThread(LowPrioThreadMgr::InitArg* initArg);
+    bool submitRequest(const LowPrioThreadMgr::Request& request);
+    void pauseAllThreads();
+    void resumeAllThreads();
 
 private:
     sead::Buffer<CoreThreadTask> mCoreThreadTasks{};

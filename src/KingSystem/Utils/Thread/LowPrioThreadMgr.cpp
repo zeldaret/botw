@@ -2,13 +2,25 @@
 #include <limits>
 #include <mc/seadCoreInfo.h>
 #include <thread/seadThreadUtil.h>
+#include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Thread/TaskQueue.h"
 
 namespace ksys::util {
 
 SEAD_SINGLETON_DISPOSER_IMPL(LowPrioThreadMgr)
 
-auto LowPrioThreadMgr::startThread(LowPrioThreadMgr::InitArg* initArg) -> bool {
+LowPrioThreadMgr::~LowPrioThreadMgr() {
+    const s32 numCores = mCoreThreadTasks.size();
+
+    for (s32 i = 0; i < numCores; i++) {
+        mCoreThreadTasks[i].taskThread->quitAndWaitDoneSingleThread(false);
+        util::safeDelete(mCoreThreadTasks[i].taskThread);
+        util::safeDelete(mCoreThreadTasks[i].taskMgr);
+    }
+    mCoreThreadTasks.freeBuffer();
+}
+
+bool LowPrioThreadMgr::startThread(LowPrioThreadMgr::InitArg* initArg) {
     const u32 numCores = sead::CoreInfo::getNumCores();
 
     mCoreThreadTasks.tryAllocBuffer(numCores, initArg->heap);
@@ -42,9 +54,9 @@ auto LowPrioThreadMgr::startThread(LowPrioThreadMgr::InitArg* initArg) -> bool {
     return true;
 }
 
-auto LowPrioThreadMgr::submitRequest(const LowPrioThreadMgr::Request& request) -> bool {
+bool LowPrioThreadMgr::submitRequest(const LowPrioThreadMgr::Request& request) {
     const s32 numCores = mCoreThreadTasks.size();
-    const auto mask = request.flags;
+    const sead::BitFlag32 mask = request.flags;
     s32 foundIdx = -1;
     s32 min = std::numeric_limits<s32>::max();
 
@@ -85,7 +97,7 @@ auto LowPrioThreadMgr::submitRequest(const LowPrioThreadMgr::Request& request) -
     return true;
 }
 
-auto LowPrioThreadMgr::pauseAllThreads() -> void {
+void LowPrioThreadMgr::pauseAllThreads() {
     const s32 numCores = mCoreThreadTasks.size();
 
     for (s32 i = 0; i < numCores; i++) {
@@ -93,7 +105,7 @@ auto LowPrioThreadMgr::pauseAllThreads() -> void {
     }
 }
 
-auto LowPrioThreadMgr::resumeAllThreads() -> void {
+void LowPrioThreadMgr::resumeAllThreads() {
     const s32 numCores = mCoreThreadTasks.size();
 
     for (s32 i = 0; i < numCores; i++) {
