@@ -7,6 +7,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
 
@@ -53,6 +54,11 @@ BoxRigidBody* RigidBodyFactory::createBox(RigidBodyInstanceParam* params, sead::
 BoxWaterRigidBody* RigidBodyFactory::createBoxWater(RigidBodyInstanceParam* params,
                                                     sead::Heap* heap) {
     return createRigidBody<BoxWaterRigidBody, BoxWaterShape, BoxParam>(params, heap);
+}
+
+PolytopeRigidBody* RigidBodyFactory::createPolytope(RigidBodyInstanceParam* params,
+                                                    sead::Heap* heap) {
+    return createRigidBody<PolytopeRigidBody, PolytopeShape, PolytopeParam>(params, heap);
 }
 
 }  // namespace ksys::phys
