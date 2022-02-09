@@ -30,6 +30,8 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/SweptTransform/hkSweptTransform.h
   Havok/Common/Base/Math/SweptTransform/hkSweptTransformf.h
   Havok/Common/Base/Math/SweptTransform/hkSweptTransformfUtil.h
+  Havok/Common/Base/Math/Vector/hkFourTransposedPoints.h
+  Havok/Common/Base/Math/Vector/hkFourTransposedPointsf.h
   Havok/Common/Base/Math/Vector/hkSimdFloat32.h
   Havok/Common/Base/Math/Vector/hkSimdReal.h
   Havok/Common/Base/Math/Vector/hkVector4.h
@@ -119,6 +121,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h
   Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
   Havok/Physics2012/Collide/Shape/Convex/ConvexTransform/hkpConvexTransformShape.h
+  Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h
   Havok/Physics2012/Collide/Shape/Convex/Cylinder/hkpCylinderShape.h
   Havok/Physics2012/Collide/Shape/Convex/Sphere/hkpSphereShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpHeightFieldShape.h
