@@ -9,8 +9,7 @@ namespace ksys::util {
 /// It is safe for the pointer to be already nullptr.
 template <typename T>
 inline void safeDelete(T*& pointer) {
-    if (pointer)
-        delete pointer;
+    delete pointer;
     pointer = nullptr;
 }
 
@@ -19,8 +18,7 @@ inline void safeDelete(T*& pointer) {
 /// It is safe for the pointer to be already nullptr.
 template <typename T>
 inline void safeDeleteArray(T*& pointer) {
-    if (pointer)
-        delete[] pointer;
+    delete[] pointer;
     pointer = nullptr;
 }
 
