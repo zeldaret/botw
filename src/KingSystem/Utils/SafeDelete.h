@@ -4,7 +4,7 @@
 
 namespace ksys::util {
 
-/// Deletes an object that was allocatd with a new expression and sets the pointer to nullptr,
+/// Deletes an object that was allocated with a new expression and sets the pointer to nullptr,
 /// preventing it from being accidentally reused.
 /// It is safe for the pointer to be already nullptr.
 template <typename T>
@@ -13,7 +13,7 @@ inline void safeDelete(T*& pointer) {
     pointer = nullptr;
 }
 
-/// Deletes an array that was allocatd with a new[] expression and sets the pointer to nullptr,
+/// Deletes an array that was allocated with a new[] expression and sets the pointer to nullptr,
 /// preventing it from being accidentally reused.
 /// It is safe for the pointer to be already nullptr.
 template <typename T>
