@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskMgr.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
@@ -16,24 +17,24 @@ public:
     struct InitArg {
         sead::Heap* heap;
         s32 priority;
-        s32 queueSize;
+        s32 queue_size;
     };
     KSYS_CHECK_SIZE_NX150(InitArg, 0x10);
 
     struct CoreThreadTask {
-        TaskThread* taskThread{};
-        TaskMgr* taskMgr{};
+        TaskThread* task_thread{};
+        TaskMgr* task_mgr{};
     };
     KSYS_CHECK_SIZE_NX150(CoreThreadTask, 0x10);
 
     struct Request {
-        s8 unk_00;
-        s32 laneId;
+        bool try_submit;
+        s32 lane_id;
         sead::BitFlag32 flags;
         TaskDelegate* delegate;
-        void* userData;
-        TaskRemoveCallback* removeCallback;
-        TaskPostRunCallback* postCallback;
+        void* user_data;
+        TaskRemoveCallback* remove_callback;
+        TaskPostRunCallback* post_callback;
         ManagedTask* task;
         TaskMgr* mgr;
         ManagedTaskHandle* handle;
@@ -44,10 +45,11 @@ public:
     LowPrioThreadMgr() = default;
     virtual ~LowPrioThreadMgr();
 
-    bool startThread(LowPrioThreadMgr::InitArg* initArg);
+    bool startThread(const LowPrioThreadMgr::InitArg& initArg);
     bool submitRequest(const LowPrioThreadMgr::Request& request);
-    void pauseAllThreads();
-    void resumeAllThreads();
+    void pauseAllTasks();
+    void resumeAllTasks();
+    void sub_710127AC40();
 
 private:
     sead::Buffer<CoreThreadTask> mCoreThreadTasks{};
