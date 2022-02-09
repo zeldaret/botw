@@ -40,6 +40,7 @@ public:
     void nerfHpRestore(s32* hp) const;
     void modifyEnemyNoticeDuration(f32* value) const;
 
+    static bool shouldCreateLifeRecoverInfo(ksys::act::Actor* actor);
     static bool
     shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstDataAccess& accessor);
     static void buffDamage(s32& damage);

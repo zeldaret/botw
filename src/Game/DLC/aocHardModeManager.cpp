@@ -1,5 +1,7 @@
 #include "Game/DLC/aocHardModeManager.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
@@ -73,6 +75,26 @@ void HardModeManager::nerfHpRestore(s32* hp) const {
 
 void HardModeManager::modifyEnemyNoticeDuration(f32* value) const {
     *value = sead::Mathf::max(*value * getMultiplier(MultiplierType::EnemyNoticeDuration), 0);
+}
+
+bool HardModeManager::shouldCreateLifeRecoverInfo(ksys::act::Actor* actor) {
+    // Health regen should only apply to enemy actors.
+    if (!ksys::act::isEnemyProfile(actor))
+        return false;
+
+    // But not to wolves or bears...
+    if (ksys::act::isWolfOrBear(actor))
+        return false;
+
+    // and not to Dark Beast Ganon...
+    if (actor->getName() == "Enemy_GanonBeast")
+        return false;
+
+    // and not to enemy swarms...
+    if (actor->getProfile() == "EnemySwarm")
+        return false;
+
+    return actor->getMaxLife() > 1;
 }
 
 bool HardModeManager::shouldApplyMasterModeDamageMultiplier(
