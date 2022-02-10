@@ -3,6 +3,7 @@
 #include <Havok/Physics2012/Collide/Shape/Convex/ConvexTransform/hkpConvexTransformShape.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadScopedLock.h>
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
@@ -95,8 +96,58 @@ const hkpShape* PolytopeShape::getHavokShape() const {
 }
 
 const hkpShape* PolytopeShape::updateHavokShape() {
-    // TODO
-    return nullptr;
+    bool return_new_shape = false;
+
+    if (mFlags.isOn(Flag::_1)) {
+        auto lock = sead::makeScopedLock(mCS);
+
+        mHavokShape->setConnectivity(nullptr, false);
+
+        hkStridedVertices vertices;
+        vertices.set(mVertices.getBufferPtr(), mNumVertices);
+        if (auto* shape = new hkpConvexVerticesShape(vertices)) {
+            // TODO
+
+            for (int i = 0, n = shape->getReferenceCount(); i < n; ++i)
+                shape->removeReference();
+        }
+
+        if (mFlags.isOn(Flag::InvalidVolume)) {
+            if (auto* connectivity = mHavokShape->getConnectivity()) {
+                // TODO: recalculate volume
+                mVolume = {};
+            } else {
+                // TODO
+            }
+            mFlags.reset(Flag::InvalidVolume);
+        }
+
+        mFlags.reset(Flag::_1);
+    }
+
+    if (mFlags.isOn(Flag::_4)) {
+        auto lock = sead::makeScopedLock(mCS);
+
+        hkQsTransform transform;
+        transform.setIdentity();
+        transform.m_scale.setAll(mScale);
+        const auto ref_count = mTransformShape->getReferenceCount();
+        mTransformShape = new (mTransformShape) hkpConvexTransformShape(
+            mHavokShape, transform, hkpShapeContainer::REFERENCE_POLICY_IGNORE);
+        mTransformShape->setReferenceCount(ref_count);
+
+        mFlags.reset(Flag::_4);
+    }
+
+    setMaterialMask(mMaterialMask);
+
+    if (mFlags.isOn(Flag::_10)) {
+        mFlags.reset(Flag::_10);
+    } else if (!return_new_shape) {
+        return nullptr;
+    }
+
+    return std::as_const(*this).getHavokShape();
 }
 
 void PolytopeShape::setScale(float scale) {
