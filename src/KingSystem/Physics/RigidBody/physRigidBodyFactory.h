@@ -13,6 +13,7 @@ class BoxWaterRigidBody;
 class CapsuleRigidBody;
 class CylinderRigidBody;
 class CylinderWaterRigidBody;
+class ListShapeRigidBody;
 class PolytopeRigidBody;
 class RigidBody;
 struct RigidBodyInstanceParam;
@@ -28,7 +29,7 @@ public:
     static BoxRigidBody* createBox(RigidBodyInstanceParam* params, sead::Heap* heap);
     static BoxWaterRigidBody* createBoxWater(RigidBodyInstanceParam* params, sead::Heap* heap);
     static PolytopeRigidBody* createPolytope(RigidBodyInstanceParam* params, sead::Heap* heap);
-    static RigidBody* createCollection(RigidBodyInstanceParam* params, sead::Heap* heap);
+    static ListShapeRigidBody* createList(RigidBodyInstanceParam* params, sead::Heap* heap);
 };
 
 }  // namespace ksys::phys

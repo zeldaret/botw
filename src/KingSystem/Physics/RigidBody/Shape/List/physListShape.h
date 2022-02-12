@@ -100,7 +100,6 @@ private:
 class ListShapeRigidBodyParam : public RigidBodyInstanceParam {
     SEAD_RTTI_OVERRIDE(ListShapeRigidBodyParam, RigidBodyInstanceParam)
 public:
-    u8 _90;
     ListShapeParam shape;
 };
 
