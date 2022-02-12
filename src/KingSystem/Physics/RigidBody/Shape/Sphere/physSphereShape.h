@@ -9,18 +9,16 @@ namespace ksys::phys {
 
 class SphereParam;
 
-struct SphereShape {
-    virtual ~SphereShape();
-
-    RigidBody* createBody(bool flag, const RigidBodyInstanceParam& params, sead::Heap* heap);
-};
-
 struct SphereShapeParam {
-    SphereShape* createShape(sead::Heap* heap);
-
     sead::Vector3f translate;
     float radius;
     CommonShapeParam common;
+};
+
+class SphereShape : public Shape {
+    SEAD_RTTI_OVERRIDE(SphereShape, Shape)
+public:
+    static SphereShape* make(const SphereShapeParam& param, sead::Heap* heap);
 };
 
 class SphereParam : public RigidBodyInstanceParam {

@@ -68,6 +68,8 @@ target_sources(uking PRIVATE
   RigidBody/Shape/Polytope/physPolytopeRigidBody.h
   RigidBody/Shape/Polytope/physPolytopeShape.cpp
   RigidBody/Shape/Polytope/physPolytopeShape.h
+  RigidBody/Shape/Sphere/physSphereRigidBody.cpp
+  RigidBody/Shape/Sphere/physSphereRigidBody.h
   RigidBody/Shape/Sphere/physSphereShape.cpp
   RigidBody/Shape/Sphere/physSphereShape.h
   RigidBody/Shape/physShape.h

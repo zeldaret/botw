@@ -23,13 +23,8 @@ static RigidBodyType* createRigidBody(RigidBodyInstanceParam* param, sead::Heap*
     return RigidBodyFromShape::make<RigidBodyType, ShapeType>(*shape, true, *param, heap);
 }
 
-RigidBody* RigidBodyFactory::createSphere(RigidBodyInstanceParam* params, sead::Heap* heap) {
-    if (params->isDynamicSensor())
-        params->motion_type = MotionType::Keyframed;
-
-    auto* v = sead::DynamicCast<SphereParam>(params);
-    auto* shape = v->shape.createShape(heap);
-    return shape->createBody(true, *params, heap);
+SphereRigidBody* RigidBodyFactory::createSphere(RigidBodyInstanceParam* params, sead::Heap* heap) {
+    return createRigidBody<SphereRigidBody, SphereShape, SphereParam>(params, heap);
 }
 
 CapsuleRigidBody* RigidBodyFactory::createCapsule(RigidBodyInstanceParam* params,

@@ -16,10 +16,11 @@ class CylinderWaterRigidBody;
 class PolytopeRigidBody;
 class RigidBody;
 struct RigidBodyInstanceParam;
+class SphereRigidBody;
 
 class RigidBodyFactory {
 public:
-    static RigidBody* createSphere(RigidBodyInstanceParam* params, sead::Heap* heap);
+    static SphereRigidBody* createSphere(RigidBodyInstanceParam* params, sead::Heap* heap);
     static CapsuleRigidBody* createCapsule(RigidBodyInstanceParam* params, sead::Heap* heap);
     static CylinderRigidBody* createCylinder(RigidBodyInstanceParam* params, sead::Heap* heap);
     static CylinderWaterRigidBody* createCylinderWater(RigidBodyInstanceParam* params,
