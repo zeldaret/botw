@@ -21,7 +21,7 @@ static RigidBodyType* createRigidBody(RigidBodyInstanceParam* param, sead::Heap*
 
     auto* v = sead::DynamicCast<ParamType>(param);
     auto* shape = ShapeType::make(v->shape, heap);
-    return RigidBodyFromShape::make<RigidBodyType, ShapeType>(*shape, true, *param, heap);
+    return RigidBodyFromShape::make<RigidBodyType, ShapeType>(shape, true, *param, heap);
 }
 
 SphereRigidBody* RigidBodyFactory::createSphere(RigidBodyInstanceParam* params, sead::Heap* heap) {

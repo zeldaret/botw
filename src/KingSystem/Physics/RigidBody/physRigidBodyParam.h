@@ -10,6 +10,8 @@
 
 namespace ksys::phys {
 
+class SystemGroupHandler;
+
 // TODO: maybe move this to NavMesh/?
 enum class NavMeshType {
     NOT_USE,
@@ -68,10 +70,10 @@ public:
     float water_buoyancy_scale = 1.0f;
     float water_flow_effective_rate = 1.0f;
     float magne_mass_scaling_factor = 1.0f;
-    bool gap68 = true;
+    bool enable_deactivation = true;
     bool toi = false;
     bool always_character_mass_scaling = false;
-    void* p = nullptr;
+    SystemGroupHandler* system_group_handler = nullptr;
     ContactLayer contact_layer = ContactLayer::EntityObject;
     GroundHit groundhit = GroundHit::HitAll;
     u32 groundhit_mask = 0;

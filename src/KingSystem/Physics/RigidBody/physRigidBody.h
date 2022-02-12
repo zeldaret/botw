@@ -90,7 +90,7 @@ public:
         _2000000 = 1 << 25,
         _4000000 = 1 << 26,
         _8000000 = 1 << 27,
-        _10000000 = 1 << 28,
+        NoCharStandingOn = 1 << 28,
         _20000000 = 1 << 29,
         _40000000 = 1 << 30,
         _80000000 = 1 << 31,
@@ -549,6 +549,8 @@ public:
     void setFlag400000(bool set) { mFlags.change(Flag::_400000, set); }
     // Internal.
     void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
+    // Internal.
+    void setFlag20() { mFlags.set(Flag::_20); }
 
     // Internal.
     void onCollisionAdded() {
