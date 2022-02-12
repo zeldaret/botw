@@ -58,28 +58,22 @@ private:
 };
 
 struct CylinderShapeParam {
-    CylinderShapeParam() = default;
-    CylinderShapeParam(const sead::Vector3f& va, const sead::Vector3f& vb)
-        : vertex_a(va), vertex_b(vb) {}
-
     /// The center of the first circular base.
-    sead::Vector3f vertex_a;
+    sead::Vector3f vertex_a = -1 * sead::Vector3f::ey;
     /// The radius of the circular bases.
-    float radius;
+    float radius = 1.0;
     /// The center of the second circular base.
-    sead::Vector3f vertex_b;
+    sead::Vector3f vertex_b = +1 * sead::Vector3f::ey;
     /// Additional shell radius around the cylinder.
     /// @warning This is ignored by CylinderShape.
     float convex_radius = 0.05;
     CommonShapeParam common;
 };
 
-class CylinderParam : public RigidBodyInstanceParam {
+class CylinderParam : public RigidBodyInstanceParam, public CylinderShapeParam {
     SEAD_RTTI_OVERRIDE(CylinderParam, RigidBodyInstanceParam)
 public:
-    u8 _90;
-    float _94;
-    CylinderShapeParam shape;
+    CylinderParam() : RigidBodyInstanceParam(ShapeType::Cylinder) {}
 };
 
 }  // namespace ksys::phys

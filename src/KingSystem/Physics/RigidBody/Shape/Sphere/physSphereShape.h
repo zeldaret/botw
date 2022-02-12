@@ -10,8 +10,8 @@ namespace ksys::phys {
 class SphereParam;
 
 struct SphereShapeParam {
-    sead::Vector3f translate;
-    float radius;
+    sead::Vector3f translate = sead::Vector3f::zero;
+    float radius = 1.0;
     CommonShapeParam common;
 };
 
@@ -29,12 +29,10 @@ private:
     MaterialMask mMaterialMask;
 };
 
-class SphereParam : public RigidBodyInstanceParam {
+class SphereParam : public RigidBodyInstanceParam, public SphereShapeParam {
     SEAD_RTTI_OVERRIDE(SphereParam, RigidBodyInstanceParam)
 public:
-    u8 _90;
-    float _94;
-    SphereShapeParam shape;
+    SphereParam() : RigidBodyInstanceParam(ShapeType::Sphere) {}
 };
 
 }  // namespace ksys::phys

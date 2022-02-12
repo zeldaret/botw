@@ -65,19 +65,17 @@ public:
 };
 
 struct BoxShapeParam {
-    sead::Vector3f extents;
-    sead::Vector3f translate;
-    sead::Vector3f rotate;
+    sead::Vector3f extents = {0.5, 0.5, 0.5};
+    sead::Vector3f translate = sead::Vector3f::zero;
+    sead::Vector3f rotate = sead::Vector3f::zero;
     float convex_radius = 0.05;
     CommonShapeParam common;
 };
 
-class BoxParam : public RigidBodyInstanceParam {
+class BoxParam : public RigidBodyInstanceParam, public BoxShapeParam {
     SEAD_RTTI_OVERRIDE(BoxParam, RigidBodyInstanceParam)
 public:
-    u8 _90;
-    float _94;
-    BoxShapeParam shape;
+    BoxParam() : RigidBodyInstanceParam(ShapeType::Box) {}
 };
 
 }  // namespace ksys::phys

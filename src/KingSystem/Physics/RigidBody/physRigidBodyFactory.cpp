@@ -20,7 +20,7 @@ static RigidBodyType* createRigidBody(RigidBodyInstanceParam* param, sead::Heap*
         param->motion_type = MotionType::Keyframed;
 
     auto* v = sead::DynamicCast<ParamType>(param);
-    auto* shape = ShapeType::make(v->shape, heap);
+    auto* shape = ShapeType::make(*v, heap);
     return RigidBodyFromShape::make<RigidBodyType, ShapeType>(shape, true, *param, heap);
 }
 

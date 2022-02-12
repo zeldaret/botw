@@ -488,7 +488,7 @@ public:
     bool isEntityMotionFlag40On() const;
 
     // 0x0000007100f955c0 - FIXME: types
-    void processUpdateRequests(void* data, void* data2);
+    void processUpdateRequests(void* data = nullptr, void* data2 = nullptr);
 
     void clearFlag2000000(bool clear);
     void clearFlag4000000(bool clear);

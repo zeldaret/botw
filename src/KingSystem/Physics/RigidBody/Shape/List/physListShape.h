@@ -20,7 +20,7 @@ struct SphereShapeParam;
 class MaterialMask;
 
 struct ListShapeParam {
-    u8 num_shapes = 1;
+    u8 num_shapes = 4;
 };
 
 class ListShape : public Shape {
@@ -97,10 +97,10 @@ private:
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{Flag::NeedsHavokShapeUpdate};
 };
 
-class ListShapeRigidBodyParam : public RigidBodyInstanceParam {
+class ListShapeRigidBodyParam : public RigidBodyInstanceParam, public ListShapeParam {
     SEAD_RTTI_OVERRIDE(ListShapeRigidBodyParam, RigidBodyInstanceParam)
 public:
-    ListShapeParam shape;
+    ListShapeRigidBodyParam() : RigidBodyInstanceParam(ShapeType::List) {}
 };
 
 }  // namespace ksys::phys

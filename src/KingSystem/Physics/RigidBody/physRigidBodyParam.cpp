@@ -1,6 +1,26 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include <basis/seadRawPrint.h>
+#include <functional>
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/List/physListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/List/physListShapeRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
@@ -96,6 +116,193 @@ void RigidBodyParam::makeInstanceParam(RigidBodyInstanceParam* param) const {
     receiverMaskGetSensorLayerMaskForType(&param->receiver_mask, *info.receiver_type);
 }
 
+template <auto Getter, typename ParamT>
+static bool makeParamImpl(const RigidBodyParam& param, RigidBodyInstanceParam* out,
+                          ShapeType shape_type) {
+    if (param.getShapeType() != shape_type)
+        return false;
+
+    param.makeInstanceParam(out);
+    std::invoke(Getter, param.shapes[0], static_cast<ParamT*>(out));
+    return true;
+}
+
+template <auto Getter, typename ParamT>
+static bool makeParam(const RigidBodyParam& param, ParamT* out, ShapeType shape_type) {
+    return makeParamImpl<Getter, ParamT>(param, out, shape_type);
+}
+
+static bool makeSphereParam(const RigidBodyParam& param, SphereParam* out) {
+    return makeParam<&ShapeParamObj::getSphere>(param, out, ShapeType::Sphere);
+}
+
+static bool makeCapsuleParam(const RigidBodyParam& param, CapsuleParam* out) {
+    return makeParam<&ShapeParamObj::getCapsule>(param, out, ShapeType::Capsule);
+}
+
+static bool makeBoxParam(const RigidBodyParam& param, BoxParam* out) {
+    return makeParam<&ShapeParamObj::getBox>(param, out, ShapeType::Box);
+}
+
+static bool makeCylinderParam(const RigidBodyParam& param, CylinderParam* out) {
+    return makeParam<&ShapeParamObj::getCylinder>(param, out, ShapeType::Cylinder);
+}
+
+static bool makePolytopeParam(const RigidBodyParam& param, PolytopeParam* out) {
+    return makeParam<&ShapeParamObj::getPolytope>(param, out, ShapeType::Polytope);
+}
+
+RigidBody*
+RigidBodyParam::createRigidBody(SystemGroupHandler* group_handler, sead::Heap* heap,
+                                RigidBodyParam::CreateFixedBoxWithNoCollision no_collision) const {
+    if (no_collision == CreateFixedBoxWithNoCollision::Yes) {
+        BoxParam param;
+        makeInstanceParam(&param);
+
+        if (getContactLayerType(param.contact_layer) == ContactLayerType::Entity)
+            param.contact_layer = ContactLayer::EntityNoHit;
+        else
+            param.contact_layer = ContactLayer::SensorNoHit;
+
+        param.motion_type = MotionType::Fixed;
+        param.translate = *info.bounding_center;
+        param.extents = *info.bounding_extents;
+        param.system_group_handler = group_handler;
+        auto* body = BoxRigidBody::make(&param, heap);
+        body->setFlag20();
+        return body;
+    }
+
+    const int num_shapes = *info.shape_num;
+
+    if (num_shapes == 1) {
+        switch (getShapeType()) {
+        case ShapeType::Sphere: {
+            SphereParam param;
+            makeSphereParam(*this, &param);
+            param.system_group_handler = group_handler;
+            return SphereRigidBody::make(&param, heap);
+        }
+
+        case ShapeType::Capsule: {
+            CapsuleParam param;
+            makeCapsuleParam(*this, &param);
+            param.system_group_handler = group_handler;
+            return CapsuleRigidBody::make(&param, heap);
+        }
+
+        case ShapeType::Box: {
+            BoxParam param;
+            makeBoxParam(*this, &param);
+            param.system_group_handler = group_handler;
+            if (param.contact_layer == ContactLayer::EntityWater)
+                return BoxWaterRigidBody::make(&param, heap);
+            return BoxRigidBody::make(&param, heap);
+        }
+
+        case ShapeType::Cylinder: {
+            CylinderParam param;
+            makeCylinderParam(*this, &param);
+            param.system_group_handler = group_handler;
+            if (param.contact_layer == ContactLayer::EntityWater)
+                return CylinderWaterRigidBody::make(&param, heap);
+            return CylinderRigidBody::make(&param, heap);
+        }
+
+        case ShapeType::Polytope: {
+            PolytopeParam param;
+            makePolytopeParam(*this, &param);
+            param.system_group_handler = group_handler;
+
+            auto* body = PolytopeRigidBody::make(&param, heap);
+            for (int i = 0, n = *shapes[0].vertex_num; i < n; ++i)
+                body->setVertex(i, *shapes[0].vertices[i]);
+
+            body->setVolume(*info.volume);
+            body->updateShape();
+            return body;
+        }
+
+        case ShapeType::List:
+        case ShapeType::CharacterPrism:
+        case ShapeType::BoxWater:
+        case ShapeType::CylinderWater:
+        case ShapeType::Unknown:
+            break;
+        }
+        SEAD_ASSERT_MSG(false, "unexpected shape type (shape_num=1)");
+        return nullptr;
+    }
+
+    // Multiple shapes. Use a ListShape.
+
+    ListShapeRigidBodyParam list_param;
+    makeInstanceParam(&list_param);
+    list_param.system_group_handler = group_handler;
+    list_param.num_shapes = num_shapes;
+
+    auto* list_body = ListShapeRigidBody::make(&list_param, heap);
+    list_body->setUpdateRequestedFlag();
+
+    for (int i = 0; i < num_shapes; ++i) {
+        switch (shapes[i].getShapeType()) {
+        case ShapeType::Sphere: {
+            SphereShapeParam param;
+            shapes[i].getSphere(&param);
+            list_body->replaceWithNewSphere(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Capsule: {
+            CapsuleShapeParam param;
+            shapes[i].getCapsule(&param);
+            list_body->replaceWithNewCapsule(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Box: {
+            BoxShapeParam param;
+            shapes[i].getBox(&param);
+            list_body->replaceWithNewBox(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Cylinder: {
+            CylinderShapeParam param;
+            shapes[i].getCylinder(&param);
+            list_body->replaceWithNewCylinder(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Polytope: {
+            PolytopeShapeParam param;
+            shapes[i].getPolytope(&param);
+            auto* polytope =
+                static_cast<PolytopeShape*>(list_body->replaceWithNewPolytope(i, param, heap));
+            for (int vertex_idx = 0, n = *shapes[i].vertex_num; vertex_idx < n; ++vertex_idx)
+                polytope->setVertex(vertex_idx, *shapes[i].vertices[vertex_idx]);
+            continue;
+        }
+
+        case ShapeType::List:
+        case ShapeType::CharacterPrism:
+        case ShapeType::BoxWater:
+        case ShapeType::CylinderWater:
+        case ShapeType::Unknown:
+            break;
+        }
+        SEAD_ASSERT_MSG(false, "unexpected shape type for list shape");
+        util::safeDelete(list_body);
+    }
+
+    if (!list_body)
+        return nullptr;
+
+    list_body->updateShape();
+    list_body->processUpdateRequests();
+    return list_body;
+}
+
 ContactLayer RigidBodyParam::getContactLayer() const {
     return contactLayerFromText(*info.layer);
 }
@@ -106,6 +313,13 @@ GroundHit RigidBodyParam::getGroundHit() const {
 
 MotionType RigidBodyParam::getMotionType() const {
     return motionTypeFromText(*info.motion_type);
+}
+
+ShapeType RigidBodyParam::getShapeType() const {
+    if (*info.shape_num > 1)
+        return ShapeType::List;
+
+    return shapes[0].getShapeType();
 }
 
 namespace {

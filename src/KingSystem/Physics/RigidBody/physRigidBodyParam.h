@@ -5,12 +5,15 @@
 #include <agl/Utils/aglParameterObj.h>
 #include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
 
+struct ShapeParamObj;
 class SystemGroupHandler;
+class RigidBody;
 
 // TODO: maybe move this to NavMesh/?
 enum class NavMeshType {
@@ -46,13 +49,14 @@ enum class NavMeshSubMaterial {
     None = 0x15,
 };
 
-struct ShapeParamObj;
-
 struct RigidBodyInstanceParam {
     SEAD_RTTI_BASE(RigidBodyInstanceParam)
 public:
+    RigidBodyInstanceParam() = default;
+    explicit RigidBodyInstanceParam(ShapeType type) : shape_type(type) {}
+
     const char* name = "no name";
-    u32 _10 = -1;
+    ShapeType shape_type = ShapeType::Unknown;
     MotionType motion_type = MotionType::Dynamic;
     float mass = 1.0f;
     sead::Vector3f inertia = sead::Vector3f::ones;
@@ -146,6 +150,11 @@ struct RigidBodyParam : agl::utl::ParameterList {
         void postRead_() override;
     };
 
+    enum class CreateFixedBoxWithNoCollision : bool {
+        Yes = true,
+        No = false,
+    };
+
     RigidBodyParam();
     ~RigidBodyParam() override;
     RigidBodyParam(const RigidBodyParam&) = delete;
@@ -153,14 +162,19 @@ struct RigidBodyParam : agl::utl::ParameterList {
 
     bool parse(const agl::utl::ResParameterList& res_list, sead::Heap* heap);
 
-    // TODO: types and names
-    void* createRigidBody(void* x, sead::Heap* heap, bool y);
     void makeInstanceParam(RigidBodyInstanceParam* param) const;
+
+    RigidBody* createRigidBody(
+        SystemGroupHandler* group_handler, sead::Heap* heap,
+        CreateFixedBoxWithNoCollision no_collision = CreateFixedBoxWithNoCollision::No) const;
+
+    // TODO: types and names
     void* createEntityShape(void* x, void* y, sead::Heap* heap);
 
     ContactLayer getContactLayer() const;
     GroundHit getGroundHit() const;
     MotionType getMotionType() const;
+    ShapeType getShapeType() const;
 
     Info info;
     sead::Buffer<ShapeParamObj> shapes;

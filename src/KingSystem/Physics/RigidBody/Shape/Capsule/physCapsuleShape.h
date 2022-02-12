@@ -18,9 +18,9 @@ class CapsuleParam;
 struct CapsuleShape;
 
 struct CapsuleShapeParam {
-    sead::Vector3f vertex_a;
-    sead::Vector3f vertex_b;
-    f32 radius;
+    sead::Vector3f vertex_a = -1 * sead::Vector3f::ey;
+    sead::Vector3f vertex_b = +1 * sead::Vector3f::ey;
+    f32 radius = 1.0;
     CommonShapeParam common;
 };
 
@@ -60,12 +60,10 @@ public:
     hkpShape* shape;
 };
 
-class CapsuleParam : public RigidBodyInstanceParam {
+class CapsuleParam : public RigidBodyInstanceParam, public CapsuleShapeParam {
     SEAD_RTTI_OVERRIDE(CapsuleParam, RigidBodyInstanceParam)
 public:
-    u8 _90;
-    float _94;
-    CapsuleShapeParam shape;
+    CapsuleParam() : RigidBodyInstanceParam(ShapeType::Capsule) {}
 };
 
 }  // namespace ksys::phys

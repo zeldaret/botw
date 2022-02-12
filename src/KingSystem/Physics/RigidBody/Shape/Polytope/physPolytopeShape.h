@@ -17,7 +17,7 @@ namespace ksys::phys {
 
 struct PolytopeShapeParam {
     /// Number of vertices.
-    u16 vertex_num;
+    u16 vertex_num = 32;
     CommonShapeParam common;
 };
 
@@ -75,10 +75,10 @@ constexpr PolytopeShape::Flag operator|(PolytopeShape::Flag a, PolytopeShape::Fl
     return PolytopeShape::Flag(u32(a) | u32(b));
 }
 
-class PolytopeParam : public RigidBodyInstanceParam {
+class PolytopeParam : public RigidBodyInstanceParam, public PolytopeShapeParam {
     SEAD_RTTI_OVERRIDE(PolytopeParam, RigidBodyInstanceParam)
 public:
-    PolytopeShapeParam shape;
+    PolytopeParam() : RigidBodyInstanceParam(ShapeType::Polytope) {}
 };
 
 }  // namespace ksys::phys

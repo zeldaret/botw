@@ -131,9 +131,8 @@ bool CylinderWaterShape::setHeight(float height) {
     return true;
 }
 
-// NON_MATCHING: useless store to param.vertex_a.x
 CylinderWaterShape* CylinderWaterShape::clone(sead::Heap* heap) const {
-    CylinderShapeParam param(-sead::Vector3f::ey, sead::Vector3f::ey);
+    CylinderShapeParam param;
     param.radius = getRadius();
     param.vertex_a.x = getHeight();
     auto* cloned = make(param, heap);
