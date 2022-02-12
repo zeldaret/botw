@@ -4,6 +4,7 @@
 #include <Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/physHeapUtil.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
@@ -71,14 +72,7 @@ PolytopeShape::PolytopeShape(const PolytopeShapeParam& param)
 }
 
 PolytopeShape::~PolytopeShape() {
-    if (mHavokShape) {
-        /// @bug This is not how reference counting is supposed to work.
-        for (int i = 0, n = mHavokShape->getReferenceCount(); i < n; ++i)
-            mHavokShape->removeReference();
-
-        mHavokShape = nullptr;
-    }
-
+    deleteRefCountedHavokObject(mHavokShape);
     util::deallocateObjectUnsafe(mTransformShape);
     mVertices.freeBuffer();
 }
@@ -147,7 +141,7 @@ const hkpShape* PolytopeShape::updateHavokShape() {
         return nullptr;
     }
 
-    return std::as_const(*this).getHavokShape();
+    return getHavokShapeConst();
 }
 
 void PolytopeShape::setScale(float scale) {

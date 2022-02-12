@@ -34,6 +34,9 @@ public:
     HK_FORCE_INLINE int getCapacityAndFlags() const;
     HK_FORCE_INLINE hkBool isEmpty() const;
 
+    HK_FORCE_INLINE T* data() { return m_data; }
+    HK_FORCE_INLINE const T* data() const { return m_data; }
+
     HK_FORCE_INLINE T& operator[](int i);
     HK_FORCE_INLINE const T& operator[](int i) const;
 

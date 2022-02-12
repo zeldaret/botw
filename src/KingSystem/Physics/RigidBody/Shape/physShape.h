@@ -15,6 +15,7 @@ enum class ShapeType {
     Box = 2,
     Cylinder = 3,
     Polytope = 4,
+    List = 5,
     CharacterPrism = 6,
     BoxWater = 7,
     CylinderWater = 8,
@@ -29,11 +30,18 @@ public:
     virtual ShapeType getType() const = 0;
     virtual float getVolume() const = 0;
     virtual ~Shape() = default;
+
     virtual hkpShape* getHavokShape() = 0;
     virtual const hkpShape* getHavokShape() const = 0;
+
+    /// Update the underlying Havok shape if necessary. This may recreate the Havok shape.
+    /// @return a pointer to the new underlying Havok shape if it was recreated, null otherwise
     virtual const hkpShape* updateHavokShape() = 0;
+
     /// @param scale New scale (relative to the current scale)
     virtual void setScale(float scale) = 0;
+
+    const hkpShape* getHavokShapeConst() const { return getHavokShape(); }
 };
 
 struct CommonShapeParam {

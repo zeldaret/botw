@@ -50,6 +50,7 @@ public:
     bool setVertices(const sead::Vector3f& va, const sead::Vector3f& vb);
     void transformVertices(sead::Vector3f* veca, sead::Vector3f* vecb, const hkTransformf& rb_vec);
     void setMaterialMask(const MaterialMask& mask);
+    const MaterialMask& getMaterialMask() const { return material_mask; }
 
     sead::Vector3f vertex_a;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> flags{};

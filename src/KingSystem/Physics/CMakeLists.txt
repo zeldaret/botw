@@ -64,6 +64,10 @@ target_sources(uking PRIVATE
   RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h
   RigidBody/Shape/CylinderWater/physCylinderWaterShape.cpp
   RigidBody/Shape/CylinderWater/physCylinderWaterShape.h
+  RigidBody/Shape/List/physListShape.cpp
+  RigidBody/Shape/List/physListShape.h
+  RigidBody/Shape/List/physListShapeRigidBody.cpp
+  RigidBody/Shape/List/physListShapeRigidBody.h
   RigidBody/Shape/Polytope/physPolytopeRigidBody.cpp
   RigidBody/Shape/Polytope/physPolytopeRigidBody.h
   RigidBody/Shape/Polytope/physPolytopeShape.cpp
@@ -133,4 +137,5 @@ target_sources(uking PRIVATE
   System/physUserTag.h
 
   physConversions.h
+  physHeapUtil.h
 )

@@ -19,6 +19,14 @@ class SphereShape : public Shape {
     SEAD_RTTI_OVERRIDE(SphereShape, Shape)
 public:
     static SphereShape* make(const SphereShapeParam& param, sead::Heap* heap);
+    SphereShape* clone(sead::Heap* heap) const;
+
+    void setMaterialMask(const MaterialMask& mask);
+    const MaterialMask& getMaterialMask() const { return mMaterialMask; }
+
+private:
+    char _8[0x28 - 0x8];
+    MaterialMask mMaterialMask;
 };
 
 class SphereParam : public RigidBodyInstanceParam {

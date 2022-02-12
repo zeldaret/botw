@@ -145,7 +145,7 @@ const hkpShape* BoxShape::updateHavokShape() {
 
     if (mFlags.isOn(Flag::DirtyTransform)) {
         mFlags.reset(Flag::DirtyTransform);
-        return std::as_const(*this).getHavokShape();
+        return getHavokShapeConst();
     }
 
     return nullptr;

@@ -42,6 +42,7 @@ public:
     bool setExtents(const sead::Vector3f& extents);
     bool setTranslate(const sead::Vector3f& translate);
     void setMaterialMask(const MaterialMask& mask);
+    const MaterialMask& getMaterialMask() const { return mMaterialMask; }
 
     ShapeType getType() const override { return ShapeType::Box; }
     float getVolume() const override;
