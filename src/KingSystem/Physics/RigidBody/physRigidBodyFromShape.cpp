@@ -8,6 +8,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterShape.h"
@@ -20,6 +21,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
@@ -63,6 +65,101 @@ ListShapeRigidBody* RigidBodyFromShape::createList(RigidBodyInstanceParam* param
     return make<ListShapeRigidBody, ListShape, ListShapeRigidBodyParam>(param, heap);
 }
 
+RigidBody* RigidBodyFromShape::clone(sead::Heap* heap, SystemGroupHandler* group_handler) const {
+    switch (getShapeType()) {
+    case ShapeType::Sphere:
+        return cloneImpl<SphereRigidBody, SphereShape, SphereParam>(heap, group_handler);
+    case ShapeType::Capsule:
+        return cloneImpl<CapsuleRigidBody, CapsuleShape, CapsuleParam>(heap, group_handler);
+    case ShapeType::Cylinder:
+        return cloneImpl<CylinderRigidBody, CylinderShape, CylinderParam>(heap, group_handler);
+    case ShapeType::CylinderWater:
+        return cloneImpl<CylinderWaterRigidBody, CylinderWaterShape, CylinderParam>(heap,
+                                                                                    group_handler);
+    case ShapeType::Box:
+        return cloneImpl<BoxRigidBody, BoxShape, BoxParam>(heap, group_handler);
+    case ShapeType::BoxWater:
+        return cloneImpl<BoxWaterRigidBody, BoxWaterShape, BoxParam>(heap, group_handler);
+    case ShapeType::Polytope:
+        return cloneImpl<PolytopeRigidBody, PolytopeShape, PolytopeParam>(heap, group_handler);
+    case ShapeType::List:
+        return cloneImpl<ListShapeRigidBody, ListShape, ListShapeRigidBodyParam>(heap,
+                                                                                 group_handler);
+    case ShapeType::CharacterPrism:
+    case ShapeType::Unknown:
+        break;
+    }
+    return nullptr;
+}
+
+RigidBody* RigidBodyFromShape::create(const Shape& shape, RigidBodyInstanceParam* param,
+                                      sead::Heap* heap, const SystemGroupHandler* group_handler) {
+    switch (shape.getType()) {
+    case ShapeType::Sphere:
+        return make<SphereRigidBody, SphereShape>(shape, param, heap, group_handler);
+    case ShapeType::Capsule:
+        return make<CapsuleRigidBody, CapsuleShape>(shape, param, heap, group_handler);
+    case ShapeType::Cylinder:
+        return make<CylinderRigidBody, CylinderShape>(shape, param, heap, group_handler);
+    case ShapeType::CylinderWater:
+        return make<CylinderWaterRigidBody, CylinderWaterShape>(shape, param, heap, group_handler);
+    case ShapeType::Box:
+        return make<BoxRigidBody, BoxShape>(shape, param, heap, group_handler);
+    case ShapeType::BoxWater:
+        return make<BoxWaterRigidBody, BoxWaterShape>(shape, param, heap, group_handler);
+    case ShapeType::Polytope:
+        return make<PolytopeRigidBody, PolytopeShape>(shape, param, heap, group_handler);
+    case ShapeType::List:
+        return make<ListShapeRigidBody, ListShape>(shape, param, heap, group_handler);
+    case ShapeType::CharacterPrism: {
+        auto* prism = sead::DynamicCast<const CharacterPrismShape>(&shape);
+        if (!prism || !prism->getUnderlyingShape())
+            break;
+        return make<PolytopeRigidBody, PolytopeShape>(*prism->getUnderlyingShape(), param, heap,
+                                                      group_handler);
+    }
+    case ShapeType::Unknown:
+        break;
+    }
+    return nullptr;
+}
+
+RigidBody* RigidBodyFromShape::createEntityShapeBody(const sead::SafeString& name,
+                                                     ContactLayer layer,
+                                                     RigidBodyFromShape* linked_body,
+                                                     sead::Heap* heap,
+                                                     SystemGroupHandler* group_handler) {
+    switch (linked_body->getShapeType()) {
+    case ShapeType::Sphere:
+        return createEntityShapeBodyImpl<SphereRigidBody, SphereShape, SphereParam>(
+            name, layer, linked_body, heap, group_handler);
+    case ShapeType::Capsule:
+        return createEntityShapeBodyImpl<CapsuleRigidBody, CapsuleShape, CapsuleParam>(
+            name, layer, linked_body, heap, group_handler);
+    case ShapeType::Cylinder:
+        return createEntityShapeBodyImpl<CylinderRigidBody, CylinderShape, CylinderParam>(
+            name, layer, linked_body, heap, group_handler);
+    case ShapeType::CylinderWater:
+        return createEntityShapeBodyImpl<CylinderWaterRigidBody, CylinderWaterShape, CylinderParam>(
+            name, layer, linked_body, heap, group_handler);
+    case ShapeType::Box:
+        return createEntityShapeBodyImpl<BoxRigidBody, BoxShape, BoxParam>(name, layer, linked_body,
+                                                                           heap, group_handler);
+    case ShapeType::BoxWater:
+        break;
+    case ShapeType::Polytope:
+        return createEntityShapeBodyImpl<PolytopeRigidBody, PolytopeShape, PolytopeParam>(
+            name, layer, linked_body, heap, group_handler);
+    case ShapeType::List:
+        return createEntityShapeBodyImpl<ListShapeRigidBody, ListShape, ListShapeRigidBodyParam>(
+            name, layer, linked_body, heap, group_handler);
+    case ShapeType::CharacterPrism:
+    case ShapeType::Unknown:
+        break;
+    }
+    return nullptr;
+}
+
 RigidBodyFromShape::RigidBodyFromShape(hkpRigidBody* hkp_rigid_body, ContactLayerType layer_type,
                                        const sead::SafeString& name, bool set_flag_10,
                                        sead::Heap* heap)
@@ -75,6 +172,10 @@ RigidBodyFromShape::~RigidBodyFromShape() {
     /// calling operator delete directly does not call the destructor.
     if (mHkBody)
         operator delete(mHkBody);
+}
+
+ShapeType RigidBodyFromShape::getShapeType() const {
+    return getShape_()->getType();
 }
 
 const MaterialMask* RigidBodyFromShape::tryGetMaterialMask() const {
@@ -224,6 +325,111 @@ RigidBodyT* RigidBodyFromShape::make(ShapeT* shape, bool set_flag_10,
     body->setEntityMotionFlag1(param.always_character_mass_scaling);
     body->processUpdateRequests(nullptr, nullptr);
 
+    return static_cast<RigidBodyT*>(body);
+}
+
+template <typename RigidBodyT, typename ShapeT>
+RigidBodyT* RigidBodyFromShape::make(const Shape& shape, RigidBodyInstanceParam* param,
+                                     sead::Heap* heap, const SystemGroupHandler* group_handler) {
+    auto* derived_shape = sead::DynamicCast<const ShapeT>(&shape);
+    auto* cloned_shape = derived_shape->clone(heap);
+
+    RigidBody* body = make<RigidBodyT, ShapeT>(cloned_shape, true, *param, heap);
+
+    body->setUpdateRequestedFlag();
+
+    u32 collision_filter_info = body->getCollisionFilterInfo();
+
+    if (body->isEntity()) {
+        const u32 idx = group_handler ? group_handler->getIndex() : 0;
+        collision_filter_info = [&] {
+            EntityCollisionFilterInfo info{collision_filter_info};
+            info.group_handler_index.SetUnsafe(idx);
+            return info.raw;
+        }();
+    } else {
+        const u32 idx = group_handler ? group_handler->getIndex() : 0;
+        collision_filter_info = [&] {
+            ReceiverMask info{collision_filter_info};
+            info.custom_receiver_data.group_handler_index.SetUnsafe(idx);
+            return info.raw;
+        }();
+    }
+
+    body->setCollisionFilterInfo(collision_filter_info);
+    body->processUpdateRequests();
+    return static_cast<RigidBodyT*>(body);
+}
+
+template <typename RigidBodyT, typename ShapeT, typename ParamT>
+RigidBodyT* RigidBodyFromShape::cloneImpl(sead::Heap* heap,
+                                          SystemGroupHandler* group_handler) const {
+    ParamT derived_param;
+    RigidBodyInstanceParam& param = derived_param;
+    param.name = getHkBodyName().cstr();
+    param.motion_type = getMotionType();
+    param.mass = getMass();
+    param.inertia = getInertiaLocal();
+    param.center_of_mass = getCenterOfMassInLocal();
+    param.linear_damping = getLinearDamping();
+    param.angular_damping = getAngularDamping();
+    param.gravity_factor = getGravityFactor();
+    param.time_factor = getTimeFactor();
+    param.max_linear_velocity = getMaxLinearVelocity();
+    param.max_angular_velocity_rad = getMaxAngularVelocity();
+    param.magne_mass_scaling_factor = getMagneMassScalingFactor();
+    param.enable_deactivation = !hasFlag(RigidBody::Flag::_2000000);
+    param.toi = hasFlag(RigidBody::Flag::HighQualityCollidable);
+    param.system_group_handler = group_handler;
+    param.contact_layer = getContactLayer();
+    param.groundhit = getGroundHitType();
+    param.contact_mask = mContactMask;
+
+    if (isEntity()) {
+        param.max_impulse = getMaxImpulse();
+        param.col_impulse_scale = getColImpulseScale();
+        param.water_buoyancy_scale = getWaterBuoyancyScale();
+        param.water_flow_effective_rate = getWaterFlowEffectiveRate();
+        param.water_flow_effective_rate = getWaterFlowEffectiveRate();
+        param.friction_scale = getFrictionScale();
+        param.restitution_scale = getRestitutionScale();
+    }
+
+    auto* shape = getShape_();
+    return make<RigidBodyT, ShapeT>(*shape, &param, heap, group_handler);
+}
+
+template <typename RigidBodyT, typename ShapeT, typename ParamT>
+RigidBodyT*
+RigidBodyFromShape::createEntityShapeBodyImpl(const sead::SafeString& name, ContactLayer layer,
+                                              RigidBodyFromShape* linked_body, sead::Heap* heap,
+                                              SystemGroupHandler* group_handler) {
+    auto* shape_base = std::as_const(*linked_body).getShape_();
+    // XXX: get rid of the const_cast!
+    auto* shape = sead::DynamicCast<ShapeT>(const_cast<Shape*>(shape_base));
+
+    ParamT derived_param;
+    RigidBodyInstanceParam& param = derived_param;
+    param.name = name.cstr();
+    param.motion_type = linked_body->getMotionType() == MotionType::Fixed ? MotionType::Fixed :
+                                                                            MotionType::Keyframed;
+    param.mass = linked_body->getMass();
+    param.inertia = linked_body->getInertiaLocal();
+    param.center_of_mass = linked_body->getCenterOfMassInLocal();
+    param.linear_damping = linked_body->getLinearDamping();
+    param.angular_damping = linked_body->getAngularDamping();
+    param.gravity_factor = linked_body->getGravityFactor();
+    param.time_factor = linked_body->getTimeFactor();
+    param.max_linear_velocity = linked_body->getMaxLinearVelocity();
+    param.max_angular_velocity_rad = linked_body->getMaxAngularVelocity();
+    param.enable_deactivation = true;
+    param.toi = linked_body->hasFlag(RigidBody::Flag::HighQualityCollidable);
+    param.contact_layer = layer;
+    param.groundhit = linked_body->getGroundHitType();
+    param.system_group_handler = group_handler;
+
+    RigidBody* body = make<RigidBodyT, ShapeT>(shape, false, param, heap);
+    body->setLinkedRigidBody(linked_body);
     return static_cast<RigidBodyT*>(body);
 }
 

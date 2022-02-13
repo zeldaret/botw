@@ -286,6 +286,7 @@ union EntityCollisionFilterInfo {
     util::BitField<6, 1, bool, u32> no_ground_collision;
     /// Whether water collision is disabled.
     util::BitField<7, 1, bool, u32> no_water_collision;
+    util::BitField<16, 10, u32> group_handler_index;
     util::BitField<30, 1, bool, u32> unk30;
     util::BitField<31, 1, bool, u32> is_ground_hit_mask;
 };
