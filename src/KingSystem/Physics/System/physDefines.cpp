@@ -84,17 +84,23 @@ WallCode wallCodeFromText(const sead::SafeString& text) {
     return 0;
 }
 
-// duplicated branches?
-#ifdef NON_MATCHING
 MotionType motionTypeFromText(const sead::SafeString& text) {
-    if (text == "Dynamic")
-        return MotionType::Dynamic;
-    if (text == "Fixed")
-        return MotionType::Fixed;
-    if (text == "Keyframed")
-        return MotionType::Keyframed;
+    static constexpr const char* texts[] = {
+        "Dynamic",
+        "Fixed",
+        "Keyframed",
+    };
+    static_assert(int(MotionType::Dynamic) == 0);
+    static_assert(int(MotionType::Fixed) == 1);
+    static_assert(int(MotionType::Keyframed) == 2);
+
+    int type = 0;
+    for (const char* type_text : texts) {
+        if (text == type_text)
+            return static_cast<MotionType>(type);
+        ++type;
+    }
     return MotionType::Unknown;
 }
-#endif
 
 }  // namespace ksys::phys
