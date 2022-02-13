@@ -5,8 +5,8 @@
 #include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
-#include "KingSystem/Physics/System/physMaterialMask.h"
 #include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::phys {
 

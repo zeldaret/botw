@@ -12,8 +12,8 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadMutex.h>
-#include "KingSystem/Physics/System/physDefines.h"
-#include "KingSystem/Physics/System/physMaterialMask.h"
+#include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {

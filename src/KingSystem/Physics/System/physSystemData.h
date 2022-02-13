@@ -7,7 +7,7 @@
 #include <agl/Utils/aglResParameter.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadEnum.h>
-#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {

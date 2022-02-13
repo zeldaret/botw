@@ -3,8 +3,8 @@
 #include <container/seadSafeArray.h>
 #include <prim/seadBitUtil.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::phys {
 

@@ -4,8 +4,8 @@
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadTypedBitFlag.h>
-#include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physRigidContactPoints.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {

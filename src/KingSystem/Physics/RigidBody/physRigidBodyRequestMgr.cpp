@@ -1,6 +1,6 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include <prim/seadScopedLock.h>
-#include "KingSystem/Physics/System/physMaterialMask.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::phys {
 

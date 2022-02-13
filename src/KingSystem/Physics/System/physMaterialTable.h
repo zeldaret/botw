@@ -6,7 +6,7 @@
 #include <agl/Utils/aglParameterObj.h>
 #include <agl/Utils/aglResParameter.h>
 #include <container/seadSafeArray.h>
-#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {

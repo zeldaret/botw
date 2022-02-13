@@ -4,7 +4,7 @@
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
-#include "KingSystem/Physics/System/physMaterialMask.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 
 class hkpPlaneShape;
 

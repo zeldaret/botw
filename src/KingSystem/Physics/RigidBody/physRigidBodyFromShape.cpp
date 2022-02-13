@@ -20,9 +20,9 @@
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
-#include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::phys {

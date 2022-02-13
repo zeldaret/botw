@@ -3,7 +3,7 @@
 #include <basis/seadTypes.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/BitField.h"
 
 namespace ksys::phys {

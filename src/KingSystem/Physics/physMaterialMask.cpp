@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/System/physMaterialMask.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
 #include "KingSystem/Physics/System/physSystem.h"
 

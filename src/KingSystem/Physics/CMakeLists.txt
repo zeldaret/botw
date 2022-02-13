@@ -107,16 +107,12 @@ target_sources(uking PRIVATE
   System/physContactListener.h
   System/physContactMgr.cpp
   System/physContactMgr.h
-  System/physDefines.cpp
-  System/physDefines.h
   System/physEntityGroupFilter.cpp
   System/physEntityGroupFilter.h
   System/physGroupFilter.cpp
   System/physGroupFilter.h
   System/physInstanceSet.cpp
   System/physInstanceSet.h
-  System/physMaterialMask.cpp
-  System/physMaterialMask.h
   System/physMaterialTable.cpp
   System/physMaterialTable.h
   System/physParamSet.cpp
@@ -134,6 +130,10 @@ target_sources(uking PRIVATE
   System/physUserTag.cpp
   System/physUserTag.h
 
+  physDefines.cpp
+  physDefines.h
   physConversions.h
   physHeapUtil.h
+  physMaterialMask.cpp
+  physMaterialMask.h
 )

@@ -8,7 +8,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
-#include "KingSystem/Physics/System/physMaterialMask.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 
 class hkpConvexTransformShape;
 class hkpConvexVerticesShape;

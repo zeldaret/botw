@@ -1,7 +1,7 @@
 #pragma once
 
-#include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::phys {
 

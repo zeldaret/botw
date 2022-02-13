@@ -3,7 +3,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadQuat.h>
 #include <math/seadVector.h>
-#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/physDefines.h"
 
 class hkpRigidBody;
 

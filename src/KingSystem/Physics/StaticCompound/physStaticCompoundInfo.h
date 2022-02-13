@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Havok/Common/Base/hkBase.h>
-#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/physDefines.h"
 
 class hkTypeInfo;
 

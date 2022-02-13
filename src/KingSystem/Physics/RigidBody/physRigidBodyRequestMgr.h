@@ -9,8 +9,8 @@
 #include <prim/seadDelegate.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
-#include "KingSystem/Physics/System/physDefines.h"
 #include "KingSystem/Physics/System/physRigidContactPointsEx.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include "KingSystem/Utils/Types.h"
 

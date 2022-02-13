@@ -4,7 +4,7 @@
 #include <agl/Utils/aglParameterObj.h>
 #include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::phys {
 

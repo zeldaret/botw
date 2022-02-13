@@ -6,7 +6,7 @@
 #include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
-#include "KingSystem/Physics/System/physDefines.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
