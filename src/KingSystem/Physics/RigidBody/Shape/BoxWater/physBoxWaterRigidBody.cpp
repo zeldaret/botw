@@ -1,11 +1,10 @@
 #include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 
 namespace ksys::phys {
 
 BoxWaterRigidBody* BoxWaterRigidBody::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
-    return RigidBodyFactory::createBoxWater(param, heap);
+    return createBoxWater(param, heap);
 }
 
 BoxWaterRigidBody::BoxWaterRigidBody(hkpRigidBody* hk_body, BoxWaterShape* shape,

@@ -21,8 +21,6 @@ target_sources(uking PRIVATE
   RigidBody/physRigidBody.h
   RigidBody/physRigidBodyAccessor.cpp
   RigidBody/physRigidBodyAccessor.h
-  RigidBody/physRigidBodyFactory.cpp
-  RigidBody/physRigidBodyFactory.h
   RigidBody/physRigidBodyFromResource.cpp
   RigidBody/physRigidBodyFromResource.h
   RigidBody/physRigidBodyFromShape.cpp

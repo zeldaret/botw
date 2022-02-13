@@ -1,13 +1,12 @@
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
 CylinderWaterRigidBody* CylinderWaterRigidBody::make(RigidBodyInstanceParam* param,
                                                      sead::Heap* heap) {
-    return RigidBodyFactory::createCylinderWater(param, heap);
+    return createCylinderWater(param, heap);
 }
 
 CylinderWaterRigidBody::CylinderWaterRigidBody(hkpRigidBody* hk_body, CylinderWaterShape* shape,

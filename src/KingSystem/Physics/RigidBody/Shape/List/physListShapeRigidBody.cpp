@@ -1,12 +1,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/List/physListShapeRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/List/physListShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
 ListShapeRigidBody* ListShapeRigidBody::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
-    return RigidBodyFactory::createList(param, heap);
+    return createList(param, heap);
 }
 
 ListShapeRigidBody::ListShapeRigidBody(hkpRigidBody* hk_body, ListShape* shape,

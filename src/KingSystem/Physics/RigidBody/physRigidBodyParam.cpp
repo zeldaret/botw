@@ -18,7 +18,6 @@
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Utils/SafeDelete.h"
 

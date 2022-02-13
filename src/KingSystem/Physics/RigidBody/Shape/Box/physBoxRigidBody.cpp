@@ -1,12 +1,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 
 namespace ksys::phys {
 
 BoxRigidBody* BoxRigidBody::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
-    return RigidBodyFactory::createBox(param, heap);
+    return createBox(param, heap);
 }
 
 BoxRigidBody::BoxRigidBody(hkpRigidBody* hk_body, BoxShape* shape, ContactLayerType layer_type,

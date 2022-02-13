@@ -1,13 +1,12 @@
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
 CapsuleRigidBody* CapsuleRigidBody::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
-    return RigidBodyFactory::createCapsule(param, heap);
+    return createCapsule(param, heap);
 }
 
 CapsuleRigidBody::CapsuleRigidBody(hkpRigidBody* hk_body, CapsuleShape* shape,

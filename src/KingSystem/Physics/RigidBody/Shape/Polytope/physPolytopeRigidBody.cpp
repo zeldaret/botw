@@ -1,12 +1,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
 PolytopeRigidBody* PolytopeRigidBody::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
-    return RigidBodyFactory::createPolytope(param, heap);
+    return createPolytope(param, heap);
 }
 
 PolytopeRigidBody::PolytopeRigidBody(hkpRigidBody* hk_body, PolytopeShape* shape,

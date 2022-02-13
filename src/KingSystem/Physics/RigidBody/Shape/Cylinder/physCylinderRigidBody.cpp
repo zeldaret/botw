@@ -1,13 +1,12 @@
 #include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBodyFactory.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
 CylinderRigidBody* CylinderRigidBody::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
-    return RigidBodyFactory::createCylinder(param, heap);
+    return createCylinder(param, heap);
 }
 
 CylinderRigidBody::CylinderRigidBody(hkpRigidBody* hk_body, CylinderShape* shape,

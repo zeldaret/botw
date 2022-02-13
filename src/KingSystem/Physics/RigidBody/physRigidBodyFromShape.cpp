@@ -25,6 +25,44 @@
 
 namespace ksys::phys {
 
+SphereRigidBody* RigidBodyFromShape::createSphere(RigidBodyInstanceParam* param, sead::Heap* heap) {
+    return make<SphereRigidBody, SphereShape, SphereParam>(param, heap);
+}
+
+CapsuleRigidBody* RigidBodyFromShape::createCapsule(RigidBodyInstanceParam* param,
+                                                    sead::Heap* heap) {
+    return make<CapsuleRigidBody, CapsuleShape, CapsuleParam>(param, heap);
+}
+
+CylinderRigidBody* RigidBodyFromShape::createCylinder(RigidBodyInstanceParam* param,
+                                                      sead::Heap* heap) {
+    return make<CylinderRigidBody, CylinderShape, CylinderParam>(param, heap);
+}
+
+CylinderWaterRigidBody* RigidBodyFromShape::createCylinderWater(RigidBodyInstanceParam* param,
+                                                                sead::Heap* heap) {
+    return make<CylinderWaterRigidBody, CylinderWaterShape, CylinderParam>(param, heap);
+}
+
+BoxRigidBody* RigidBodyFromShape::createBox(RigidBodyInstanceParam* param, sead::Heap* heap) {
+    return make<BoxRigidBody, BoxShape, BoxParam>(param, heap);
+}
+
+BoxWaterRigidBody* RigidBodyFromShape::createBoxWater(RigidBodyInstanceParam* param,
+                                                      sead::Heap* heap) {
+    return make<BoxWaterRigidBody, BoxWaterShape, BoxParam>(param, heap);
+}
+
+PolytopeRigidBody* RigidBodyFromShape::createPolytope(RigidBodyInstanceParam* param,
+                                                      sead::Heap* heap) {
+    return make<PolytopeRigidBody, PolytopeShape, PolytopeParam>(param, heap);
+}
+
+ListShapeRigidBody* RigidBodyFromShape::createList(RigidBodyInstanceParam* param,
+                                                   sead::Heap* heap) {
+    return make<ListShapeRigidBody, ListShape, ListShapeRigidBodyParam>(param, heap);
+}
+
 RigidBodyFromShape::RigidBodyFromShape(hkpRigidBody* hkp_rigid_body, ContactLayerType layer_type,
                                        const sead::SafeString& name, bool set_flag_10,
                                        sead::Heap* heap)
@@ -90,6 +128,16 @@ float RigidBodyFromShape::updateScale_(float scale, float old_scale) {
     }
 
     return scale;
+}
+
+template <typename RigidBodyT, typename ShapeT, typename ParamType>
+RigidBodyT* RigidBodyFromShape::make(RigidBodyInstanceParam* param, sead::Heap* heap) {
+    if (param->isDynamicSensor())
+        param->motion_type = MotionType::Keyframed;
+
+    auto* v = sead::DynamicCast<ParamType>(param);
+    auto* shape = ShapeT::make(*v, heap);
+    return make<RigidBodyT>(shape, true, *param, heap);
 }
 
 template <typename RigidBodyT, typename ShapeT>
@@ -178,38 +226,5 @@ RigidBodyT* RigidBodyFromShape::make(ShapeT* shape, bool set_flag_10,
 
     return static_cast<RigidBodyT*>(body);
 }
-
-template SphereRigidBody* RigidBodyFromShape::make(SphereShape* shape, bool set_flag_10,
-                                                   const RigidBodyInstanceParam& param,
-                                                   sead::Heap* heap);
-
-template CapsuleRigidBody* RigidBodyFromShape::make(CapsuleShape* shape, bool set_flag_10,
-                                                    const RigidBodyInstanceParam& param,
-                                                    sead::Heap* heap);
-
-template CylinderRigidBody* RigidBodyFromShape::make(CylinderShape* shape, bool set_flag_10,
-                                                     const RigidBodyInstanceParam& param,
-                                                     sead::Heap* heap);
-
-template CylinderWaterRigidBody* RigidBodyFromShape::make(CylinderWaterShape* shape,
-                                                          bool set_flag_10,
-                                                          const RigidBodyInstanceParam& param,
-                                                          sead::Heap* heap);
-
-template BoxRigidBody* RigidBodyFromShape::make(BoxShape* shape, bool set_flag_10,
-                                                const RigidBodyInstanceParam& param,
-                                                sead::Heap* heap);
-
-template BoxWaterRigidBody* RigidBodyFromShape::make(BoxWaterShape* shape, bool set_flag_10,
-                                                     const RigidBodyInstanceParam& param,
-                                                     sead::Heap* heap);
-
-template PolytopeRigidBody* RigidBodyFromShape::make(PolytopeShape* shape, bool set_flag_10,
-                                                     const RigidBodyInstanceParam& param,
-                                                     sead::Heap* heap);
-
-template ListShapeRigidBody* RigidBodyFromShape::make(ListShape* shape, bool set_flag_10,
-                                                      const RigidBodyInstanceParam& param,
-                                                      sead::Heap* heap);
 
 }  // namespace ksys::phys
