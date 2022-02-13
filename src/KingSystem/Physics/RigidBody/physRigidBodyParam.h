@@ -168,8 +168,9 @@ struct RigidBodyParam : agl::utl::ParameterList {
         SystemGroupHandler* group_handler, sead::Heap* heap,
         CreateFixedBoxWithNoCollision no_collision = CreateFixedBoxWithNoCollision::No) const;
 
-    // TODO: types and names
-    void* createEntityShape(void* x, void* y, sead::Heap* heap);
+    /// @param linked_body Must be a RigidBodyFromShape.
+    RigidBody* createEntityShapeBody(RigidBody* linked_body, SystemGroupHandler* group_handler,
+                                     sead::Heap* heap) const;
 
     ContactLayer getContactLayer() const;
     GroundHit getGroundHit() const;

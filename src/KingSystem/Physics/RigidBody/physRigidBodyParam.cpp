@@ -302,6 +302,28 @@ RigidBodyParam::createRigidBody(SystemGroupHandler* group_handler, sead::Heap* h
     return list_body;
 }
 
+RigidBody* RigidBodyParam::createEntityShapeBody(RigidBody* linked_body,
+                                                 SystemGroupHandler* group_handler,
+                                                 sead::Heap* heap) const {
+    auto* linked_shape_body = sead::DynamicCast<RigidBodyFromShape>(linked_body);
+    if (!linked_shape_body)
+        return nullptr;
+
+    auto* body = RigidBodyFromShape::createEntityShapeBody(*info.rigid_body_name, getContactLayer(),
+                                                           linked_shape_body, heap, group_handler);
+    if (!body)
+        return nullptr;
+
+    body->setUpdateRequestedFlag();
+    body->setMaxLinearVelocity(*info.max_linear_velocity);
+    body->setMaxAngularVelocity(*info.max_angular_velocity_rad);
+    body->setCenterOfMassInLocal(*info.center_of_mass);
+    body->updateCollidableQualityType(*info.toi);
+    body->processUpdateRequests();
+
+    return body;
+}
+
 ContactLayer RigidBodyParam::getContactLayer() const {
     return contactLayerFromText(*info.layer);
 }
