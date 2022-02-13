@@ -8,9 +8,9 @@ namespace ksys::phys {
 class PolytopeShape;
 
 struct CharacterPrismShapeParam {
-    float radius;
-    sead::Vector3f translate_0;
-    sead::Vector3f translate_1;
+    float radius = 0.35;
+    sead::Vector3f translate_0 = {0.5, 1.5, 1.8};
+    sead::Vector3f translate_1 = sead::Vector3f::zero;
     CommonShapeParam common;
 };
 

@@ -8,6 +8,7 @@
 
 namespace ksys::phys {
 
+class Shape;
 struct ShapeParamObj;
 
 SEAD_ENUM(NavMeshCharacterType,
@@ -37,8 +38,7 @@ bool navMeshCharacterTypeFromText(NavMeshCharacterType& value, const sead::SafeS
 
 struct ICharacterControllerParam {
     virtual int getNumForms() = 0;
-    // TODO: return type
-    virtual void* createForm(int form_idx, sead::Heap* heap) = 0;
+    virtual Shape* createShape(int form_idx, sead::Heap* heap) = 0;
 };
 
 struct CharacterControllerParam : agl::utl::ParameterList, ICharacterControllerParam {
@@ -50,8 +50,7 @@ struct CharacterControllerParam : agl::utl::ParameterList, ICharacterControllerP
 
         bool parse(agl::utl::ResParameterList res_list, sead::Heap* heap);
 
-        // TODO: return type
-        void* createForm(sead::Heap* heap);
+        Shape* createShape(sead::Heap* heap) const;
 
         agl::utl::ParameterObj form_header_obj;
         agl::utl::Parameter<int> shape_num;
@@ -65,7 +64,7 @@ struct CharacterControllerParam : agl::utl::ParameterList, ICharacterControllerP
     auto operator=(const CharacterControllerParam&) = delete;
 
     int getNumForms() override { return forms.size(); }
-    void* createForm(int form_idx, sead::Heap* heap) override;
+    Shape* createShape(int form_idx, sead::Heap* heap) override;
 
     // TODO: return type
     void* createController(sead::Heap* heap);

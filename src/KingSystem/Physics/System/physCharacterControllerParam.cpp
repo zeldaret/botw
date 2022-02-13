@@ -1,5 +1,15 @@
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
+#include <basis/seadRawPrint.h>
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/List/physListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
+#include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
@@ -66,10 +76,10 @@ bool CharacterControllerParam::parse(agl::utl::ResParameterList res_list, sead::
     return true;
 }
 
-void* CharacterControllerParam::createForm(int form_idx, sead::Heap* heap) {
+Shape* CharacterControllerParam::createShape(int form_idx, sead::Heap* heap) {
     if (form_idx >= getNumForms() || form_idx < 0)
         return nullptr;
-    return forms[form_idx].createForm(heap);
+    return forms[form_idx].createShape(heap);
 }
 
 CharacterControllerParam::Form::Form()
@@ -100,6 +110,131 @@ bool CharacterControllerParam::Form::parse(agl::utl::ResParameterList res_list, 
     }
 
     return true;
+}
+
+Shape* CharacterControllerParam::Form::createShape(sead::Heap* heap) const {
+    if (*shape_num == 1) {
+        switch (shape_params[0].getShapeType()) {
+        case ShapeType::Sphere: {
+            SphereShapeParam param;
+            shape_params[0].getSphere(&param);
+            return SphereShape::make(param, heap);
+        }
+
+        case ShapeType::Capsule: {
+            CapsuleShapeParam param;
+            shape_params[0].getCapsule(&param);
+            return CapsuleShape::make(param, heap);
+        }
+
+        case ShapeType::Box: {
+            BoxShapeParam param;
+            shape_params[0].getBox(&param);
+            return BoxShape::make(param, heap);
+        }
+
+        case ShapeType::Cylinder: {
+            CylinderShapeParam param;
+            shape_params[0].getCylinder(&param);
+            return CylinderShape::make(param, heap);
+        }
+
+        case ShapeType::Polytope: {
+            PolytopeShapeParam param;
+            shape_params[0].getPolytope(&param);
+            auto* shape = PolytopeShape::make(param, heap);
+            for (int i = 0, n = *shape_params[0].vertex_num; i < n; ++i) {
+                shape->setVertex(i, *shape_params[0].vertices[i]);
+            }
+            shape->updateHavokShape();
+            return shape;
+        }
+
+        case ShapeType::CharacterPrism: {
+            CharacterPrismShapeParam param;
+            shape_params[0].getCharacterPrism(&param);
+            return CharacterPrismShape::make(param, heap);
+        }
+
+        case ShapeType::List:
+        case ShapeType::BoxWater:
+        case ShapeType::CylinderWater:
+        case ShapeType::Unknown:
+            break;
+        }
+
+        SEAD_ASSERT_MSG(false, "unsupported shape type for CharacterController with one shape");
+        return nullptr;
+    }
+
+    ListShapeParam list_param;
+    list_param.num_shapes = static_cast<decltype(list_param.num_shapes)>(*shape_num);
+
+    auto* list_shape = ListShape::make(list_param, heap);
+
+    for (int i = 0; i < int(list_param.num_shapes); ++i) {
+        switch (shape_params[i].getShapeType()) {
+        case ShapeType::Sphere: {
+            SphereShapeParam param;
+            shape_params[i].getSphere(&param);
+            list_shape->replaceWithNewSphere(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Capsule: {
+            CapsuleShapeParam param;
+            shape_params[i].getCapsule(&param);
+            list_shape->replaceWithNewCapsule(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Box: {
+            BoxShapeParam param;
+            shape_params[i].getBox(&param);
+            list_shape->replaceWithNewBox(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Cylinder: {
+            CylinderShapeParam param;
+            shape_params[i].getCylinder(&param);
+            list_shape->replaceWithNewCylinder(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::Polytope: {
+            PolytopeShapeParam param;
+            shape_params[i].getPolytope(&param);
+            auto* shape =
+                static_cast<PolytopeShape*>(list_shape->replaceWithNewPolytope(i, param, heap));
+            for (int vertex = 0, n = *shape_params[i].vertex_num; vertex < n; ++vertex) {
+                shape->setVertex(vertex, *shape_params[i].vertices[vertex]);
+            }
+            shape->updateHavokShape();
+            continue;
+        }
+
+        case ShapeType::CharacterPrism: {
+            CharacterPrismShapeParam param;
+            shape_params[i].getCharacterPrism(&param);
+            list_shape->replaceWithNewCharacterPrism(i, param, heap);
+            continue;
+        }
+
+        case ShapeType::List:
+        case ShapeType::BoxWater:
+        case ShapeType::CylinderWater:
+        case ShapeType::Unknown:
+            break;
+        }
+
+        SEAD_ASSERT_MSG(false, "unsupported child shape type for CharacterController");
+        util::safeDelete(list_shape);
+        return nullptr;
+    }
+
+    list_shape->updateHavokShape();
+    return list_shape;
 }
 
 int CharacterControllerParam::findFormIdx(const sead::SafeString& form_type) const {
