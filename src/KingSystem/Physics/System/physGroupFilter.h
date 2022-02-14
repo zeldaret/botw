@@ -18,8 +18,8 @@ public:
 
     virtual ~SystemGroupHandler() = default;
     virtual u32 makeCollisionFilterInfo(u32 info, ContactLayer layer, GroundHit ground_hit) = 0;
-    virtual u32 m6() = 0;
-    virtual u32 m7();
+    virtual u32 makeQueryCollisionMask(u32 layer_mask, GroundHit ground_hit, bool unk) = 0;
+    virtual u32 makeRagdollCollisionFilterInfo(GroundHit ground_hit);
     virtual bool m8() = 0;
 
     int getIndex() const { return mIndex; }
@@ -75,15 +75,31 @@ public:
         m_collisionLookupTable[layer - getLayerFirst()] = mask;
     }
 
-    virtual bool m2() { return true; }
-    virtual void m3() = 0;
-    virtual void m4() = 0;
-    virtual void m5() = 0;
-    virtual void m6() = 0;
-    virtual void m7() = 0;
-    virtual void m8() = 0;
+    virtual bool m2(ContactLayer layerA, ContactLayer layerB) { return true; }
+
+    /// Make a collision filter mask with the specified layer and ground hit type.
+    virtual u32 makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit) = 0;
+
+    /// Get the layer from a collision filter mask.
+    virtual ContactLayer getCollisionFilterInfoLayer(u32 info) = 0;
+
+    /// Make a query collision mask with the specified layer mask, ground hit type and flag.
+    virtual u32 makeQueryCollisionMask(u32 layer_mask, GroundHit ground_hit, bool unk) = 0;
+
+    /// Get the ground hit type from a query collision mask.
+    virtual GroundHit getQueryCollisionMaskGroundHit(u32 info) = 0;
+
+    /// Get the layer and ground hit type from a collision filter mask.
+    virtual void getCollisionFilterInfoLayerAndGroundHit(u32 info, ContactLayer* layer,
+                                                         GroundHit* ground_hit) = 0;
+
+    /// Get the layer from a collision filter mask.
+    virtual const char* getCollisionFilterInfoLayerText(u32 info) = 0;
+
     virtual void setLayerCustomMask(ContactLayer layer, u32 mask) {}
-    virtual void m10() = 0;
+
+    /// Get the group handler index from a collision filter mask.
+    virtual u32 getCollisionFilterInfoGroupHandlerIdx(u32 info) = 0;
 
 protected:
     virtual void doInitSystemGroupHandlerLists_(sead::Heap* heap) = 0;

@@ -2,11 +2,15 @@
 #include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
 #include <Havok/Physics2012/Collide/Agent/hkpCollisionInput.h>
 #include <Havok/Physics2012/Collide/Dispatch/hkpCollisionDispatcher.h>
+#include <Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastInput.h>
 #include <Havok/Physics2012/Collide/Shape/Compound/Collection/hkpShapeCollection.h>
 #include <Havok/Physics2012/Collide/Shape/Compound/Tree/hkpBvTreeShape.h>
+#include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h>
 #include <Havok/Physics2012/Collide/Shape/hkpShapeContainer.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
 #include <heap/seadHeap.h>
+#include "Havok/Physics2012/Dynamics/Entity/hkpEntity.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/BitField.h"
@@ -49,16 +53,170 @@ void EntityGroupFilter::doInit_(sead::Heap* heap) {
     mMasks.fill(0xffffffff);
 }
 
-hkBool EntityGroupFilter::isCollisionEnabledPhantom(u32 infoPhantom, u32 infoB) const {
+hkBool EntityGroupFilter::shouldHandleGroundCollision(u32 infoA, u32 infoB,
+                                                      ContactLayer::ValueType layerA,
+                                                      ContactLayer::ValueType layerB) const {
+    const EntityCollisionFilterInfo a{infoA};
+    const EntityCollisionFilterInfo b{infoB};
+
+    if (EntityCollisionFilterInfo(infoA | infoB).ground_col_mode != GroundCollisionMode::Normal) {
+        if (a.ground_col_mode != GroundCollisionMode::Normal) {
+            bool ground = isEntityGroundLayer(layerB);
+            if (a.ground_col_mode == GroundCollisionMode::IgnoreNonGround && !ground)
+                return false;
+            if (a.ground_col_mode == GroundCollisionMode::IgnoreGround && ground)
+                return false;
+        }
+
+        if (b.ground_col_mode != GroundCollisionMode::Normal) {
+            bool ground = isEntityGroundLayer(layerA);
+            if (b.ground_col_mode == GroundCollisionMode::IgnoreNonGround && !ground)
+                return false;
+            if (b.ground_col_mode == GroundCollisionMode::IgnoreGround && ground)
+                return false;
+        }
+    }
+    return true;
+}
+
+hkBool EntityGroupFilter::shouldHandleWaterCollision(u32 infoA, u32 infoB,
+                                                     ContactLayer::ValueType layerA,
+                                                     ContactLayer::ValueType layerB) const {
+    const EntityCollisionFilterInfo a{infoA};
+    const EntityCollisionFilterInfo b{infoB};
+
+    if (EntityCollisionFilterInfo(infoA | infoB).water_col_mode != WaterCollisionMode::Normal) {
+        if (a.water_col_mode == WaterCollisionMode::IgnoreWater &&
+            layerB == ContactLayer::EntityWater) {
+            return false;
+        }
+        if (b.water_col_mode == WaterCollisionMode::IgnoreWater &&
+            layerA == ContactLayer::EntityWater) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// XXX: find a better name
+static bool testHandler(u32 idx) {
+    return idx != 0 && idx <= 15;
+}
+
+// NON_MATCHING: deduplicated branch: `return a.data.query_custom_receiver_layer_mask & (1 << ...)`
+hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
     if (mInhibitCollisions)
         return false;
 
-    // TODO: figure out what kind of mask infoPhantom is. Receiver/sensor mask?
-    // RigidBodyParam::getParams and ContactInfoTable seem to manipulate similar looking masks.
+    const EntityCollisionFilterInfo a{infoA};
+    const EntityCollisionFilterInfo b{infoB};
+
+    constexpr auto GroupHandlerIdxMask = decltype(a.group_handler_index)::GetMask();
+    constexpr auto GroupHandlerIdxShift = decltype(a.group_handler_index)::StartBit();
+
+    if (!EntityCollisionFilterInfo(infoA | infoB).is_ground_hit_mask) {
+        if (a.unk30 && b.unk30) {
+            if (((infoA ^ infoB) & GroupHandlerIdxMask) != 0) {
+                if (testHandler(a.group_handler_index) || testHandler(b.group_handler_index))
+                    return false;
+            } else if ((infoA & GroupHandlerIdxMask) >> GroupHandlerIdxShift != 0) {
+                if (a.data.unk5 == b.data.unk10 || b.data.unk5 == a.data.unk10)
+                    return false;
+            }
+            return true;
+        }
+
+        const auto layerA = static_cast<ContactLayer::ValueType>(a.data.layer.Value());
+        const auto layerB = static_cast<ContactLayer::ValueType>(b.data.layer.Value());
+
+        if (layerA != ContactLayer::EntityQueryCustomReceiver &&
+            layerB != ContactLayer::EntityQueryCustomReceiver) {
+            if (!a.unk30 && !b.unk30) {
+                if (!shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
+                    return false;
+                if (!shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
+                    return false;
+            }
+
+            if (((infoA ^ infoB) & GroupHandlerIdxMask) != 0) {
+                if (testHandler(a.group_handler_index) || testHandler(b.group_handler_index))
+                    return false;
+            } else if (((infoA & GroupHandlerIdxMask) >> GroupHandlerIdxShift) > 15) {
+                return false;
+            }
+            return testLayerCollision(layerA, layerB);
+        }
+
+        if (layerA == ContactLayer::EntityQueryCustomReceiver &&
+            layerB == ContactLayer::EntityQueryCustomReceiver) {
+            return false;
+        }
+
+        if (layerA == ContactLayer::EntityQueryCustomReceiver)
+            return a.data.query_custom_receiver_layer_mask & (1 << layerB);
+        else
+            return b.data.query_custom_receiver_layer_mask & (1 << layerA);
+    }
+
+    if (a.is_ground_hit_mask && b.is_ground_hit_mask) {
+        const auto layerA = static_cast<ContactLayer::ValueType>(a.ground_hit.layer.Value());
+        const auto layerB = static_cast<ContactLayer::ValueType>(b.ground_hit.layer.Value());
+
+        if (!shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
+            return false;
+        if (!shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
+            return false;
+        if (!testLayerCollision(layerA, layerB))
+            return false;
+        return !a.ground_hit.unk23 && !b.ground_hit.unk23;
+    }
+
+    EntityCollisionFilterInfo entity_mask, ground_hit_mask;
+
+    if (a.is_ground_hit_mask && !b.is_ground_hit_mask) {
+        const auto layerA = static_cast<ContactLayer::ValueType>(a.ground_hit.layer.Value());
+        const auto layerB = static_cast<ContactLayer::ValueType>(b.data.layer.Value());
+        entity_mask = b;
+        ground_hit_mask = a;
+
+        if (layerB == ContactLayer::EntityQueryCustomReceiver)
+            return b.data.query_custom_receiver_layer_mask & (1 << layerA);
+
+        if (!b.unk30 && !shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
+            return false;
+        if (!b.unk30 && !shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
+            return false;
+        if (!testLayerCollision(layerA, layerB))
+            return false;
+
+    } else /* A entity, B ground hit */ {
+        const auto layerA = static_cast<ContactLayer::ValueType>(a.data.layer.Value());
+        const auto layerB = static_cast<ContactLayer::ValueType>(b.ground_hit.layer.Value());
+        entity_mask = a;
+        ground_hit_mask = b;
+
+        if (layerA == ContactLayer::EntityQueryCustomReceiver)
+            return a.data.query_custom_receiver_layer_mask & (1 << layerB);
+
+        if (!a.unk30 && !shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
+            return false;
+        if (!a.unk30 && !shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
+            return false;
+        if (!testLayerCollision(layerB, layerA))
+            return false;
+    }
+    return !(ground_hit_mask.ground_hit.ground_hit_types & (1 << entity_mask.data.ground_hit));
+}
+
+hkBool EntityGroupFilter::testCollisionForPhantom(u32 infoPhantom, u32 infoB) const {
+    if (mInhibitCollisions)
+        return false;
+
+    RayCastCollisionMask infoPhantomData{infoPhantom};
     const EntityCollisionFilterInfo info{infoB};
     if (info.is_ground_hit_mask)
-        return infoPhantom & (1 << info.ground_hit.getLayer());
-    return (infoPhantom & (1 << info.data.layer)) & 0x1ffff;
+        return infoPhantomData.raw & (1 << info.ground_hit.getLayer());
+    return infoPhantomData.layer_mask & (1 << info.data.layer);
 }
 
 hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollidable& a, const hkpCollidable& b) const {
@@ -69,19 +227,19 @@ hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollidable& a, const hkpCo
 
     if (a.getType() == hkpWorldObject::BROAD_PHASE_PHANTOM) {
         if (a.getShape() != nullptr)
-            return isCollisionEnabled(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+            return testCollisionForEntities(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
 
-        return isCollisionEnabledPhantom(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+        return testCollisionForPhantom(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
     }
 
     if (b.getType() == hkpWorldObject::BROAD_PHASE_PHANTOM) {
         if (b.getShape() != nullptr)
-            return isCollisionEnabled(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+            return testCollisionForEntities(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
 
-        return isCollisionEnabledPhantom(b.getCollisionFilterInfo(), a.getCollisionFilterInfo());
+        return testCollisionForPhantom(b.getCollisionFilterInfo(), a.getCollisionFilterInfo());
     }
 
-    return isCollisionEnabled(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
+    return testCollisionForEntities(a.getCollisionFilterInfo(), b.getCollisionFilterInfo());
 }
 
 hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollisionInput& input,
@@ -98,7 +256,7 @@ hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollisionInput& input,
     if (infoB == 0xffffffff)
         infoB = collectionBodyB.getRootCollidable()->getCollisionFilterInfo();
 
-    return isCollisionEnabled(infoA, infoB);
+    return testCollisionForEntities(infoA, infoB);
 }
 
 hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollisionInput& input, const hkpCdBody& a,
@@ -150,7 +308,72 @@ hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollisionInput& input, con
     }
 
 end:
-    return isCollisionEnabled(infoA, infoB);
+    return testCollisionForEntities(infoA, infoB);
+}
+
+static hkBool
+checkCollisionWithGroundHitMask(EntityCollisionFilterInfo::GroundHitMask ground_hit_mask,
+                                RayCastCollisionMask ray_cast) {
+    if (!(ray_cast.layer_mask & (1 << ground_hit_mask.getLayer())))
+        return false;
+
+    if (ground_hit_mask.unk & ray_cast.unk)
+        return false;
+
+    if (ground_hit_mask.ground_hit_types & (1 << ray_cast.ground_hit_type))
+        return false;
+
+    return true;
+}
+
+hkBool EntityGroupFilter::testCollisionForRayCasting(u32 infoRayCast, u32 info) const {
+    if (mInhibitCollisions)
+        return false;
+
+    RayCastCollisionMask a{infoRayCast};
+    EntityCollisionFilterInfo b{info};
+
+    if (b.is_ground_hit_mask)
+        return checkCollisionWithGroundHitMask(b.ground_hit, a);
+
+    const u32 bHandlerIdx = b.group_handler_index;
+    const u32 aHandlerIdx = a.group_handler_index;
+
+    if (aHandlerIdx == bHandlerIdx) {
+        if (bHandlerIdx > 15)
+            return false;
+        return a.layer_mask & (1 << b.data.layer);
+    }
+
+    if (testHandler(aHandlerIdx) || testHandler(bHandlerIdx))
+        return false;
+
+    return a.layer_mask & (1 << b.data.layer);
+}
+
+KSYS_ALWAYS_INLINE hkBool EntityGroupFilter::isCollisionEnabled(const hkpShapeRayCastInput& aInput,
+                                                                const hkpShapeContainer& bContainer,
+                                                                hkpShapeKey bKey) const {
+    u32 bInfo = bContainer.getCollisionFilterInfo(bKey);
+    if (bInfo == 0)
+        return true;
+
+    if (bInfo == 0xffffffff)
+        bInfo = aInput.m_collidable->getCollisionFilterInfo();
+
+    return testCollisionForRayCasting(aInput.m_filterInfo, bInfo);
+}
+
+hkBool EntityGroupFilter::isCollisionEnabled(const hkpWorldRayCastInput& inputA,
+                                             const hkpCollidable& collidableB) const {
+    if (collidableB.getType() == hkpWorldObject::BROAD_PHASE_ENTITY) {
+        auto* entity = static_cast<const hkpEntity*>(collidableB.getOwner());
+        auto* body = entity ? reinterpret_cast<RigidBody*>(entity->getUserData()) : nullptr;
+        if (body && body->hasFlag(RigidBody::Flag::_200))
+            return false;
+    }
+
+    return testCollisionForRayCasting(inputA.m_filterInfo, collidableB.getCollisionFilterInfo());
 }
 
 void EntityGroupFilter::doInitSystemGroupHandlerLists_(sead::Heap* heap) {

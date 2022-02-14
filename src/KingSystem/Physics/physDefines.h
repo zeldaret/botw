@@ -80,6 +80,11 @@ constexpr auto LastEntity = ContactLayer::EntityMeshVisualizer;
 constexpr auto FirstSensor = ContactLayer::SensorObject;
 constexpr auto LastSensor = ContactLayer::SensorCustomReceiver;
 
+constexpr bool isEntityGroundLayer(ContactLayer::ValueType layer) {
+    return layer == ContactLayer::EntityGround || layer == ContactLayer::EntityGroundSmooth ||
+           layer == ContactLayer::EntityGroundRough;
+}
+
 SEAD_ENUM(Material,
 Undefined,\
 Soil,\
@@ -180,6 +185,22 @@ enum class MotionType {
     Invalid = -1,
 };
 
+enum class GroundCollisionMode {
+    /// Ground collision is not handled in any special way.
+    Normal = 0,
+    /// Any collision with a non-ground layer is ignored.
+    IgnoreNonGround = 1,
+    /// Any collision with a ground layer is ignored.
+    IgnoreGround = 2,
+};
+
+enum class WaterCollisionMode {
+    /// Water collision is not handled in any special way.
+    Normal = 0,
+    /// Any collision with a water layer is ignored.
+    IgnoreWater = 1,
+};
+
 union ReceiverMask {
     union Data {
         util::BitField<0, 5, u32> layer;
@@ -229,6 +250,12 @@ union EntityCollisionFilterInfo {
 
         u32 raw;
         util::BitField<0, 5, u32> layer;
+        // TODO: figure out what this is
+        util::BitField<5, 5, u32> unk5;
+        util::BitField<10, 5, u32> unk10;
+        /// Layers to collide with for EntityQueryCustomReceiver entities.
+        // XXX: was 17 chosen because ContactLayer::EntityQueryCustomReceiver = 17?
+        util::BitField<5, 17, u32> query_custom_receiver_layer_mask;
         util::BitField<24, 1, u32> unk24;
         util::BitField<25, 1, u32> unk25;
         util::BitField<26, 4, u32> ground_hit;
@@ -244,7 +271,7 @@ union EntityCollisionFilterInfo {
         u32 raw;
         util::BitField<0, 1, u32> unk;
         util::BitField<8, 16, u32> ground_hit_types;
-        util::BitField<24, 1, u32> unk24;
+        util::BitField<23, 1, u32> unk23;
         util::BitField<25, 5, u32> layer;
     };
 
@@ -281,16 +308,34 @@ union EntityCollisionFilterInfo {
     u32 raw;
     Data data;
     GroundHitMask ground_hit;
-    util::BitField<5, 1, bool, u32> unk5;
-    /// Whether ground collision is disabled.
-    util::BitField<6, 1, bool, u32> no_ground_collision;
-    /// Whether water collision is disabled.
-    util::BitField<7, 1, bool, u32> no_water_collision;
+    util::BitField<5, 2, GroundCollisionMode, u32> ground_col_mode;
+    util::BitField<7, 1, WaterCollisionMode, u32> water_col_mode;
     util::BitField<16, 10, u32> group_handler_index;
+    /// If this flag is set, then this entity will always collide with ground or water,
+    /// regardless of the configured GroundCollisionMode or WaterCollisionMode modes.
+    // TODO: is this "is_ragdoll"? See EntitySystemGroupHandler::makeCollisionFilterInfo.
     util::BitField<30, 1, bool, u32> unk30;
     util::BitField<31, 1, bool, u32> is_ground_hit_mask;
 };
 static_assert(sizeof(EntityCollisionFilterInfo) == sizeof(u32));
+
+/// Collision mask that is used for raycast-based queries.
+union RayCastCollisionMask {
+    constexpr explicit RayCastCollisionMask(u32 raw_ = 0) : raw(raw_) {}
+    constexpr RayCastCollisionMask(const RayCastCollisionMask&) = default;
+    constexpr RayCastCollisionMask& operator=(const RayCastCollisionMask& m) {
+        raw = m.raw;
+        return *this;
+    }
+    constexpr bool operator==(RayCastCollisionMask rhs) const { return raw == rhs.raw; }
+    constexpr bool operator!=(RayCastCollisionMask rhs) const { return raw != rhs.raw; }
+
+    util::BitField<0, 17, u32> layer_mask;
+    util::BitField<17, 1, u32> unk;
+    util::BitField<18, 10, u32> group_handler_index;
+    util::BitField<28, 4, GroundHit::ValueType, u32> ground_hit_type;
+    u32 raw;
+};
 
 ContactLayerType getContactLayerType(ContactLayer layer);
 u32 makeContactLayerMask(ContactLayer layer);

@@ -132,8 +132,7 @@ struct BitField {
 
     template <auto bits_ = bits, typename = std::enable_if_t<bits_ == 1>>
     inline constexpr void SetBit(bool set) {
-        const auto mask = set ? ((static_cast<StorageType>(1) << position) & GetMask()) : 0;
-        storage = (storage & ~GetMask()) | mask;
+        storage = (storage & ~GetMask()) | (set ? GetMask() : 0);
     }
 
     /// @warning This does *not* check whether the value fits within the mask,

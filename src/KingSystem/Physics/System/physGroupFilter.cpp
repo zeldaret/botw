@@ -50,7 +50,7 @@ void GroupFilter::removeSystemGroupHandler(SystemGroupHandler* handler) {
     mUsedList.erase(handler);
 }
 
-u32 SystemGroupHandler::m7() {
+u32 SystemGroupHandler::makeRagdollCollisionFilterInfo(GroundHit ground_hit) {
     return 0;
 }
 

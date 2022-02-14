@@ -602,8 +602,8 @@ void RigidBody::enableGroundCollision(bool enabled) {
 
     const auto current_info = getEntityCollisionFilterInfo();
     auto info = current_info;
-    info.unk5 = false;
-    info.no_ground_collision.SetBit(!enabled);
+    info.ground_col_mode =
+        enabled ? GroundCollisionMode::Normal : GroundCollisionMode::IgnoreGround;
     if (current_info != info)
         setCollisionFilterInfo(info.raw);
 }
@@ -615,9 +615,8 @@ bool RigidBody::isGroundCollisionEnabled() const {
     const auto info = getEntityCollisionFilterInfo();
 
     bool enabled = false;
-    enabled |= info.unk5;
+    enabled |= info.ground_col_mode != GroundCollisionMode::IgnoreGround;
     enabled |= info.unk30;
-    enabled |= !info.no_ground_collision;
     return enabled;
 }
 
@@ -630,7 +629,7 @@ void RigidBody::enableWaterCollision(bool enabled) {
 
     const auto current_info = getEntityCollisionFilterInfo();
     auto info = current_info;
-    info.no_water_collision = !enabled;
+    info.water_col_mode = enabled ? WaterCollisionMode::Normal : WaterCollisionMode::IgnoreWater;
     if (current_info != info)
         setCollisionFilterInfo(info.raw);
 }
@@ -644,7 +643,7 @@ bool RigidBody::isWaterCollisionEnabled() const {
     bool enabled = false;
     // unk30 enables all collisions?
     enabled |= info.unk30;
-    enabled |= !info.no_water_collision;
+    enabled |= info.water_col_mode != WaterCollisionMode::IgnoreWater;
     return enabled;
 }
 

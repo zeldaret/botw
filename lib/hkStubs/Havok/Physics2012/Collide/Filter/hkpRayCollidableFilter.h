@@ -2,8 +2,8 @@
 
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 
-class hkpWorldRayCastInput;
 class hkpCollidable;
+struct hkpWorldRayCastInput;
 
 class hkpRayCollidableFilter {
 public:

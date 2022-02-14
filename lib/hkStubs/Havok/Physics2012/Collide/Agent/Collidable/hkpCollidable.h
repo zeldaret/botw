@@ -63,6 +63,7 @@ public:
     inline hkUint32 getCollisionFilterInfo() const;
     inline void setCollisionFilterInfo(hkUint32 info);
 
+    /// @see hkpWorldObject::BroadPhaseType
     inline int getType() const;
 
 protected:
