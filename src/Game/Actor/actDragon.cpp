@@ -21,7 +21,7 @@ bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f&
     pos.fill(sead::Vector3f::zero);
 
     bool ok = false;
-    for (const auto& obj : results.dragon_item_drop_targets) {
+    for (const map::Object& obj : results.dragon_item_drop_targets) {
         const sead::Vector3f& obj_pos = obj.getTranslate();
         if (!(obj_pos.y < current_pos.y)) {
             continue;
