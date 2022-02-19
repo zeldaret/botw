@@ -38,4 +38,5 @@ void DragonItemRoot::loadParams_() {
     getAITreeVariable(&mIsInitFromCarryBox_a, "IsInitFromCarryBox");
     getAITreeVariable(&mIsInsideObserverArea_a, "IsInsideObserverArea");
 }
+
 }  // namespace uking::ai
