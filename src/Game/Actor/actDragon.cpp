@@ -4,7 +4,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 
-namespace ksys::act {
+namespace uking::act {
 
 inline float sqXYZDistance(const sead::Vector3f& a, const sead::Vector3f& b) {
     sead::Vector3f diff = a;
@@ -21,7 +21,7 @@ bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f&
     pos.fill(sead::Vector3f::zero);
 
     bool ok = false;
-    for (const map::Object& obj : results.dragon_item_drop_targets) {
+    for (const auto& obj : results.dragon_item_drop_targets) {
         const sead::Vector3f& obj_pos = obj.getTranslate();
         if (!(obj_pos.y < current_pos.y)) {
             continue;
@@ -47,4 +47,4 @@ bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f&
     return true;
 }
 
-}  // namespace ksys::act
+}  // namespace uking::act
