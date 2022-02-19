@@ -33,7 +33,7 @@ class PlacementMgr {
         sead::PtrArray<u32> _30;
         sead::PtrArray<u32> _40;
         sead::PtrArray<u32> _50;
-        sead::PtrArray<u32> dragon_item_drop_targets;
+        sead::PtrArray<map::Object> dragon_item_drop_targets;
         sead::PtrArray<u32> _70;
     };
     KSYS_CHECK_SIZE_NX150(TraverseResults, 0x80);
