@@ -1,8 +1,4 @@
 #include "Game/AI/AI/aiDragonItemRoot.h"
-#include <math/seadVector.h>
-#include <random/seadGlobalRandom.h>
-#include "KingSystem/Map/mapObject.h"
-#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking::ai {
 

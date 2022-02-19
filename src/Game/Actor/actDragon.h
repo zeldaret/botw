@@ -1,3 +1,4 @@
+#pragma once
 #include <math/seadVector.h>
 
 namespace uking::act {
