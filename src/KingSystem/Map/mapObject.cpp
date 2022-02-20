@@ -61,7 +61,7 @@ void Object::initData(MubinIter* iter, u8 idx, u32 actor_data_idx, ActorData* da
     mFlags.makeAllZero();
     mIdx = 0;
     mNumLinksPointingToMe = 0;
-    mStaticCompoundId = 0xFFFF;
+    mStaticCompoundActorId = -1;
     _18 = nullptr;
     _20 = nullptr;
     _10 = nullptr;
@@ -88,7 +88,7 @@ void Object::initData(MubinIter* iter, u8 idx, u32 actor_data_idx, ActorData* da
     _10 = nullptr;
     _18 = nullptr;
     _20 = nullptr;
-    mStaticCompoundId = 0xFFFF;
+    mStaticCompoundActorId = -1;
     mActorDataIdx = actor_data_idx;
     mProc = nullptr;
     mLinkData = nullptr;

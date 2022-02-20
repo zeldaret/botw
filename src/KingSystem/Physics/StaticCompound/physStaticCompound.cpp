@@ -62,11 +62,11 @@ void StaticCompound::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* parent_h
     mHeap->adjust();
 }
 
-void StaticCompound::setMapObject(u32 hash_id, u32 srt_hash, map::Object* object) {
+int StaticCompound::setMapObject(u32 hash_id, u32 srt_hash, map::Object* object) {
     int idx = mStaticCompoundInfo->getActorIdx(hash_id, srt_hash);
-    if (idx < 0 || idx >= mMapObjects.size())
-        return;
-    mMapObjects[idx] = object;
+    if (idx >= 0 && idx < mMapObjects.size())
+        mMapObjects[idx] = object;
+    return idx;
 }
 
 map::Object* StaticCompound::getMapObject(int shape_idx) const {

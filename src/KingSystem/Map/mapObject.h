@@ -40,6 +40,7 @@ public:
         _100 = 0x100,
         ActorCreated = 0x200,
         _400 = 0x400,
+        _800 = 0x800,
         _2000 = 0x2000,
         _4000 = 0x4000,
         _8000 = 0x8000,
@@ -187,7 +188,8 @@ public:
     auto getActorDataIdx() const { return mActorDataIdx; }
     auto getIdx() const { return mIdx; }
     auto getId() const { return mId; }
-    auto getStaticCompoundId() const { return mStaticCompoundId; }
+    auto getStaticCompoundActorId() const { return mStaticCompoundActorId; }
+    void setStaticCompoundActorId(s16 id) { mStaticCompoundActorId = id; }
 
     const ActorData& getActorData() const {
         return PlacementMgr::instance()->mPlacementActors->mActorData[mActorDataIdx];
@@ -215,7 +217,7 @@ private:
     sead::TypedBitFlag<ActorFlag8, u8> mActorFlags8;
     u8 _b = 0xff;
     u16 mId = 0;
-    u16 mStaticCompoundId = 0xffff;
+    s16 mStaticCompoundActorId = -1;
     void* _10 = nullptr;
     void* _18 = nullptr;
     void* _20 = nullptr;
