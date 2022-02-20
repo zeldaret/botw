@@ -53,7 +53,7 @@ bool PlacementMap::clearStaticCompoundActorId(int idx) {
 
     for (int i = mParsedNumStaticObjs; i <= mNumStaticObjs; i++) {
         auto* obj = mPa->getStaticObj_2(i);
-        if (getStaticCompoundIdFromPosition(obj->getTranslate()) == idx) {
+        if (getStaticCompoundActorIdFromPosition(*obj) == idx) {
             obj->setStaticCompoundActorId(-1);
         }
     }
@@ -63,7 +63,7 @@ bool PlacementMap::clearStaticCompoundActorId(int idx) {
         int num_objs = mPa->getNumObjs(gid);
         for (int i = 0; i < num_objs; i++) {
             auto* obj = mPa->getObj(gid, i);
-            if (getStaticCompoundIdFromPosition(obj->getTranslate()) == idx) {
+            if (getStaticCompoundActorIdFromPosition(*obj) == idx) {
                 obj->setStaticCompoundActorId(-1);
             }
         }
@@ -75,7 +75,7 @@ void PlacementMap::updateObjectCollisionAndId(int index, Object* obj) {
     if (PlacementMgr::instance()->auto17(obj)) {
         return;
     }
-    if (getStaticCompoundIdFromPosition(obj->getTranslate()) != index) {
+    if (getStaticCompoundActorIdFromPosition(obj->getTranslate()) != index) {
         return;
     }
     auto& t = mRes[index];
@@ -121,21 +121,19 @@ bool PlacementMap::parseStaticMap_(sead::Heap* heap, u8* data) {
     mStaticMapLoaded = true;
     return false;
 }
-int PlacementMap::getStaticCompoundIdFromPosition(float x, float z) const {
-    float dx = (x - (1000 * mCol - 5000));
-    float dz = (z - (1000 * mRow - 4000));
-    return (2 * (dz > 500.0f)) + (dx > 500.0f);
-}
-
-int PlacementMap::getStaticCompoundIdFromPosition(const sead::Vector3f& pos) const {
+int PlacementMap::getStaticCompoundActorIdFromPosition(const Object& object) const {
     if (mMgr->isShrineOrDivineBeast()) {
         return 0;
     }
-    return getStaticCompoundIdFromPosition(pos.x, pos.z);
+    return getStaticCompoundActorIdFromPosition(object.getTranslate().x, object.getTranslate().z);
 }
-// There must be a better way to handle this
-// This version works for ::isDynamicLoaded()
-int PlacementMap::getStaticCompoundIdFromPosition2(const sead::Vector3f& pos) const {
+int PlacementMap::getStaticCompoundActorIdFromPosition(float x, float z) const {
+    if (mMgr->isShrineOrDivineBeast()) {
+        return 0;
+    }
+    return getStaticCompoundActorIdFromPosition(sead::Vector3f(x, 0, z));
+}
+int PlacementMap::getStaticCompoundActorIdFromPosition(const sead::Vector3f& pos) const {
     if (mMgr->isShrineOrDivineBeast()) {
         return 0;
     }
@@ -145,7 +143,7 @@ int PlacementMap::getStaticCompoundIdFromPosition2(const sead::Vector3f& pos) co
 }
 
 bool PlacementMap::isDynamicLoaded(const sead::Vector3f& pos) {
-    int idx = getStaticCompoundIdFromPosition2(pos);
+    int idx = getStaticCompoundActorIdFromPosition(pos);
     return mRes[idx].mStatus == HkscRes::Status::_3;  // Likely InitStatus::DynamicLoaded
 }
 
@@ -254,7 +252,7 @@ void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
         obj->resetFlags0(Object::Flag0::_200000);
     }
 
-    int idx = getStaticCompoundIdFromPosition(obj->getTranslate());
+    int idx = getStaticCompoundActorIdFromPosition(obj->getTranslate());
     auto* resource = mRes[idx].mRes.getResource();
     if (auto* sc = sead::DynamicCast<ksys::phys::StaticCompound>(resource)) {
         s16 sc_id = obj->getStaticCompoundActorId();
