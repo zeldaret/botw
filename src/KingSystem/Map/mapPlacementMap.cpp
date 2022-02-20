@@ -40,6 +40,75 @@ PlacementMap::~PlacementMap() {
         r.cleanup();
     }
 }
+bool PlacementMap::clearStaticCompoundActorId(int idx) {
+    const auto lock = sead::makeScopedLock(mCs);
+    const auto& resource = mRes[idx].mRes.getResource();
+    if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
+        if (sc->calledFromMapDtor()) {
+            idx = 0;
+            return false;
+        }
+        mRes[idx].mRes.requestUnload();
+    }
+
+    for (int i = mParsedNumStaticObjs; i <= mNumStaticObjs; i++) {
+        auto* obj = mPa->getStaticObj_2(i);
+        if (getStaticCompoundIdFromPosition(obj->getTranslate()) == idx) {
+            obj->setStaticCompoundActorId(-1);
+        }
+    }
+
+    int gid = mDynamicGroupIdx;
+    if (gid >= 0) {
+        int num_objs = mPa->getNumObjs(gid);
+        for (int i = 0; i < num_objs; i++) {
+            auto* obj = mPa->getObj(gid, i);
+            if (getStaticCompoundIdFromPosition(obj->getTranslate()) == idx) {
+                obj->setStaticCompoundActorId(-1);
+            }
+        }
+    }
+    return true;
+}
+
+void PlacementMap::updateObjectCollisionAndId(int index, Object* obj) {
+    if (PlacementMgr::instance()->auto17(obj)) {
+        return;
+    }
+    if (getStaticCompoundIdFromPosition(obj->getTranslate()) != index) {
+        return;
+    }
+    auto& t = mRes[index];
+    obj->setStaticCompoundActorId(-1);
+
+    const auto lock = sead::makeScopedLock(mCs);
+
+    auto* r = t.mRes.getResource();
+    auto* sc = sead::DynamicCast<phys::StaticCompound>(r);
+    if (!sc) {
+        return;
+    }
+    u32 hash_id = obj->getHashId();
+    int srt_hash = 0;
+    obj->getMubinIter().tryGetParamIntByKey(&srt_hash, "SRTHash");
+    int idx = sc->setMapObject(hash_id, static_cast<u32>(srt_hash), obj);
+    obj->setStaticCompoundActorId(idx);
+    if (obj->getStaticCompoundActorId() < 0) {
+        return;
+    }
+    bool disable = false;
+    if (obj->shouldSkipSpawn() ||
+        (obj->checkActorDataFlag(mPa, map::ActorData::Flag::MapConstPassive) &&
+         obj->getFlags0().isOn(Object::Flag0::_800))) {
+        obj->resetFlags0(Object::Flag0::_200000);
+        disable = false;
+    } else {
+        obj->setFlags0(Object::Flag0::_200000);
+        disable = true;
+    }
+    sc->disableCollision(idx, disable);
+}
+
 bool PlacementMap::parseStaticMap_(sead::Heap* heap, u8* data) {
     if (!mMubinPath.isEmpty()) {
         if (!mSkipLoadStaticMap) {
@@ -52,18 +121,31 @@ bool PlacementMap::parseStaticMap_(sead::Heap* heap, u8* data) {
     mStaticMapLoaded = true;
     return false;
 }
+int PlacementMap::getStaticCompoundIdFromPosition(float x, float z) const {
+    float dx = (x - (1000 * mCol - 5000));
+    float dz = (z - (1000 * mRow - 4000));
+    return (2 * (dz > 500.0f)) + (dx > 500.0f);
+}
 
 int PlacementMap::getStaticCompoundIdFromPosition(const sead::Vector3f& pos) const {
     if (mMgr->isShrineOrDivineBeast()) {
         return 0;
     }
+    return getStaticCompoundIdFromPosition(pos.x, pos.z);
+}
+// There must be a better way to handle this
+// This version works for ::isDynamicLoaded()
+int PlacementMap::getStaticCompoundIdFromPosition2(const sead::Vector3f& pos) const {
+    if (mMgr->isShrineOrDivineBeast()) {
+        return 0;
+    }
     float dx = (pos.x - (1000 * mCol - 5000));
     float dz = (pos.z - (1000 * mRow - 4000));
-    return (2 * (dz > 500.0)) + (dx > 500.0);
+    return (2 * (dz > 500.0f)) + (dx > 500.0f);
 }
 
 bool PlacementMap::isDynamicLoaded(const sead::Vector3f& pos) {
-    int idx = getStaticCompoundIdFromPosition(pos);
+    int idx = getStaticCompoundIdFromPosition2(pos);
     return mRes[idx].mStatus == HkscRes::Status::_3;  // Likely InitStatus::DynamicLoaded
 }
 
@@ -144,20 +226,20 @@ PlacementMap::MapObjStatus PlacementMap::x_2(int hksc_idx) {
 
     sc->sub_7100FCAD0C(mMat);
     for (int i = mParsedNumStaticObjs; i <= mNumStaticObjs; i++) {
-        x_0(hksc_idx, mPa->getStaticObj_0(i));
+        updateObjectCollisionAndId(hksc_idx, mPa->getStaticObj_0(i));
     }
     const int gid = mDynamicGroupIdx;
     if (gid >= 0) {
         int n = mPa->getNumObjs(gid);
         for (int i = 0; i < n; i++) {
-            x_0(hksc_idx, mPa->getObj(gid, i));
+            updateObjectCollisionAndId(hksc_idx, mPa->getObj(gid, i));
         }
     }
     return MapObjStatus::Loading;
 }
 
 void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
-    if ((s16)obj->getStaticCompoundId() < 0) {
+    if ((s16)obj->getStaticCompoundActorId() < 0) {
         return;
     }
     const auto lock = sead::makeScopedLock(mCs);
@@ -175,7 +257,7 @@ void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
     int idx = getStaticCompoundIdFromPosition(obj->getTranslate());
     auto* resource = mRes[idx].mRes.getResource();
     if (auto* sc = sead::DynamicCast<ksys::phys::StaticCompound>(resource)) {
-        s16 sc_id = obj->getStaticCompoundId();
+        s16 sc_id = obj->getStaticCompoundActorId();
         sc->disableCollision(sc_id, disable);
     }
 }

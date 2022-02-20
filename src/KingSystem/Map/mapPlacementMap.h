@@ -92,9 +92,9 @@ private:
     void cleanupPhysics();
     bool loadStaticCompound(int hksc_idx, bool is_auto_gen_mu, bool req_arg_8);
     MapObjStatus x_2(int hksc_idx);
-    void x_0(int id, Object* obj);
+    void updateObjectCollisionAndId(int id, Object* obj);
     void unloadHksc(int hksc_idx);
-    int x_4(int id);
+    bool clearStaticCompoundActorId(int id);
     int x_1(int id);
     bool staticCompoundStuff(int sc_id, bool cleanup);
     int doSomethingStaticCompound(int hksc_idx);
@@ -106,7 +106,8 @@ private:
              const sead::SafeString& folder_and_file, int map_id_maybe, bool skip_load_static_map);
 
     int getStaticCompoundIdFromPosition(const sead::Vector3f& pos) const;
-
+    int getStaticCompoundIdFromPosition(float x, float z) const;
+    int getStaticCompoundIdFromPosition2(const sead::Vector3f& pos) const;
     u8 _0;
     u8 mSkipLoadStaticMap;
     bool mStaticMapLoaded;

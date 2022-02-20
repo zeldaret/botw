@@ -55,6 +55,7 @@ public:
     bool someFlagCheck() const;
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
+    bool auto17(Object* obj);
 
     enum class MgrFlag {
         _1 = 0x1,
