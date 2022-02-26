@@ -372,8 +372,6 @@ public:
 
     void grabbedItemStuff(PouchItem* item);
 
-    static void dropItemStuff(const char* name, sead::Heap* heap, int w2_0, bool a4, s64 a5,
-                              bool a6, float a7, float a8);
     void updateInventoryCategories(const sead::OffsetList<PouchItem>& list);
 
 private:
@@ -455,6 +453,7 @@ private:
 
     void doLoadFromGameData();
 
+    // 710096c954
     void updateInventoryInfo(const sead::OffsetList<PouchItem>& list);
     void updateListHeads();
     void saveToGameData(const sead::OffsetList<PouchItem>& list) const;

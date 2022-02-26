@@ -7,6 +7,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameItemUtils.h"
 #include "Game/gameScene.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -2804,14 +2805,15 @@ void PauseMenuDataMgr::grabbedItemStuff(PouchItem* item) {
                     info.item = item;
                     info._8 = true;
                     info._9 = false;
-                    dropItemStuff(item->getName().cstr(),
-                                  ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), -1, 0, 0,
-                                  1, 0.8, -0.8);
+                    spawnDroppedInventoryItem(
+                        item->getName().cstr(),
+                        ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), -1, 0, 0, 1, 0.8,
+                        -0.8);
                     break;
                 }
             }
         }
-        updateInventoryCategories(mItemLists.list1);
+        updateInventoryInfo(mItemLists.list1);
         saveToGameData(mItemLists.list1);
     }
 }

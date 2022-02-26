@@ -5,6 +5,8 @@ add_subdirectory(DLC)
 add_subdirectory(UI)
 
 target_sources(uking PRIVATE
+  gameItemUtils.cpp
+  gameItemUtils.h
   gameScene.cpp
   gameScene.h
   gameStageInfo.cpp
