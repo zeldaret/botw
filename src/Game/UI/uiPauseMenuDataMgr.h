@@ -370,6 +370,12 @@ public:
     // FIXME: types
     bool useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item);
 
+    void grabbedItemStuff(PouchItem* item);
+
+    static void dropItemStuff(const char* name, sead::Heap* heap, int w2_0, bool a4, s64 a5,
+                              bool a6, float a7, float a8);
+    void updateInventoryCategories(const sead::OffsetList<PouchItem>& list);
+
 private:
     // TODO: rename
     struct GrabbedItemInfo {

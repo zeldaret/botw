@@ -10,6 +10,7 @@
 #include "Game/gameScene.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -2780,6 +2781,39 @@ bool PauseMenuDataMgr::useItemFromRecipeAndSave(void* unk, int multiplier, Pouch
     useItemFromRecipe(&mItemLists, unk, multiplier, item);
     saveToGameData(mItemLists.list1);
     return true;
+}
+
+void PauseMenuDataMgr::grabbedItemStuff(PouchItem* item) {
+    auto lock = sead::makeScopedLock(mCritSection);
+
+    for (auto& cur : mItemLists.list1) {
+        if (&cur == item && item->mType == PouchItemType::Material) {
+            if (item->mValue > 1) {
+                item->mValue -= 1;
+            } else {
+                item->mEquipped = false;
+                item->mValue = 0;
+            }
+
+            for (auto& info : mGrabbedItems) {
+                if (info.item) {
+                    if (info.item == item) {
+                        info._9 = true;
+                    }
+                } else {
+                    info.item = item;
+                    info._8 = true;
+                    info._9 = false;
+                    dropItemStuff(item->getName().cstr(),
+                                  ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), -1, 0, 0,
+                                  1, 0.8, -0.8);
+                    break;
+                }
+            }
+        }
+        updateInventoryCategories(mItemLists.list1);
+        saveToGameData(mItemLists.list1);
+    }
 }
 
 }  // namespace uking::ui
