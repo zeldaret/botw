@@ -363,6 +363,8 @@ public:
 
     PouchCategory getCategoryToSort() const { return mCategoryToSort; }
 
+    void equipWeapon(PouchItem* weapon);
+    void unequip(PouchItem* item);
 private:
     // TODO: rename
     struct GrabbedItemInfo {
