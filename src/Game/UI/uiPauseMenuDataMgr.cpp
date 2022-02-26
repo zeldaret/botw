@@ -2773,4 +2773,13 @@ void PauseMenuDataMgr::unequip(PouchItem* item) {
     item->mEquipped = false;
     saveToGameData(mItemLists.list1);
 }
+
+// FIXME: types
+bool PauseMenuDataMgr::useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item) {
+    auto lock = sead::makeScopedLock(mCritSection);
+    useItemFromRecipe(&mItemLists, unk, multiplier, item);
+    saveToGameData(mItemLists.list1);
+    return true;
+}
+
 }  // namespace uking::ui
