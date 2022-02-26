@@ -368,7 +368,7 @@ public:
     void unequip(PouchItem* item);
 
     // FIXME: types
-    int x_28(void* unk, int a3, PouchItem* item);
+    int useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item);
 
 private:
     // TODO: rename
@@ -405,7 +405,7 @@ private:
     const sead::OffsetList<PouchItem>& getItems() const { return mItemLists.list1; }
 
     // FIXME: types
-    int pouchUseFromRecipe(Lists* lists, void* unk, int a4, PouchItem* a5);
+    int useItemFromRecipe(Lists* lists, void* unk, int multiplier, PouchItem* item);
 
     PouchItem* getItemHead(PouchCategory category) const {
         auto* p_head = mListHeads[u32(category)];

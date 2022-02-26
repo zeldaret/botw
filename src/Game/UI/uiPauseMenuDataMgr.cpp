@@ -2775,9 +2775,9 @@ void PauseMenuDataMgr::unequip(PouchItem* item) {
 }
 
 // FIXME: types
-int PauseMenuDataMgr::x_28(void* unk, int a3, PouchItem* item) {
+int PauseMenuDataMgr::useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item) {
     auto lock = sead::makeScopedLock(mCritSection);
-    pouchUseFromRecipe(&mItemLists, unk, a3, item);
+    useItemFromRecipe(&mItemLists, unk, multiplier, item);
     saveToGameData(mItemLists.list1);
     return 1;
 }
