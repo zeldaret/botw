@@ -405,7 +405,7 @@ private:
     const sead::OffsetList<PouchItem>& getItems() const { return mItemLists.list1; }
 
     // FIXME: types
-    int useItemFromRecipe(Lists* lists, void* unk, int multiplier, PouchItem* item);
+    bool useItemFromRecipe(Lists* lists, void* unk, int multiplier, PouchItem* item);
 
     PouchItem* getItemHead(PouchCategory category) const {
         auto* p_head = mListHeads[u32(category)];
