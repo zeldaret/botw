@@ -2807,8 +2807,8 @@ void PauseMenuDataMgr::grabbedItemStuff(PouchItem* item) {
                     info._9 = false;
                     spawnDroppedInventoryItem(
                         item->getName().cstr(),
-                        ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), -1, 0, 0, 1, 0.8,
-                        -0.8);
+                        ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), -1,
+                        SleepAfterInit::No, nullptr, SpawnViaCarryBox::Yes, 0.8, -0.8);
                     break;
                 }
             }

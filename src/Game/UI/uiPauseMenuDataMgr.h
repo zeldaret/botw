@@ -372,8 +372,6 @@ public:
 
     void grabbedItemStuff(PouchItem* item);
 
-    void updateInventoryCategories(const sead::OffsetList<PouchItem>& list);
-
 private:
     // TODO: rename
     struct GrabbedItemInfo {
