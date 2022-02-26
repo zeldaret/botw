@@ -2749,7 +2749,6 @@ void PauseMenuDataMgr::updateDivineBeastClearFlags(int num_cleared_beasts) {
     }
 }
 
-// was x_32
 void PauseMenuDataMgr::equipWeapon(PouchItem* weapon) {
     if (!weapon) {
         return;
@@ -2768,7 +2767,7 @@ void PauseMenuDataMgr::equipWeapon(PouchItem* weapon) {
     weapon->mEquipped = true;
     saveToGameData(mItemLists.list1);
 }
-// was x_33
+
 void PauseMenuDataMgr::unequip(PouchItem* item) {
     if (!item) {
         return;

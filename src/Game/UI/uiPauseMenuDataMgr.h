@@ -365,6 +365,7 @@ public:
 
     void equipWeapon(PouchItem* weapon);
     void unequip(PouchItem* item);
+
 private:
     // TODO: rename
     struct GrabbedItemInfo {
