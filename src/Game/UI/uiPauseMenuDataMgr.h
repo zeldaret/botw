@@ -368,7 +368,7 @@ public:
     void unequip(PouchItem* item);
 
     // FIXME: types
-    int useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item);
+    bool useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item);
 
 private:
     // TODO: rename

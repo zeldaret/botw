@@ -2775,11 +2775,11 @@ void PauseMenuDataMgr::unequip(PouchItem* item) {
 }
 
 // FIXME: types
-int PauseMenuDataMgr::useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item) {
+bool PauseMenuDataMgr::useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item) {
     auto lock = sead::makeScopedLock(mCritSection);
     useItemFromRecipe(&mItemLists, unk, multiplier, item);
     saveToGameData(mItemLists.list1);
-    return 1;
+    return true;
 }
 
 }  // namespace uking::ui
