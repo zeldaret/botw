@@ -2749,4 +2749,28 @@ void PauseMenuDataMgr::updateDivineBeastClearFlags(int num_cleared_beasts) {
     }
 }
 
+void PauseMenuDataMgr::equipWeapon(PouchItem* weapon) {
+    if (!weapon) {
+        return;
+    }
+    auto lock = sead::makeScopedLock(mCritSection);
+    auto* item = mItemLists.list1.nth(0);
+    while (item && item->isWeapon()) {
+        if (item->mType == weapon->mType) {
+            item->mEquipped = false;
+        }
+        item = mItemLists.list1.next(item);
+    }
+    weapon->mEquipped = true;
+    saveToGameData(mItemLists.list1);
+}
+
+void PauseMenuDataMgr::unequip(PouchItem* item) {
+    if (!item) {
+        return;
+    }
+    auto lock = sead::makeScopedLock(mCritSection);
+    item->mEquipped = false;
+    saveToGameData(mItemLists.list1);
+}
 }  // namespace uking::ui
