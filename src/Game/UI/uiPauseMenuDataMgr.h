@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
 #include <container/seadObjArray.h>
 #include <container/seadOffsetList.h>
@@ -366,6 +367,9 @@ public:
     void equipWeapon(PouchItem* weapon);
     void unequip(PouchItem* item);
 
+    // FIXME: types
+    int x_28(void* unk, int a3, PouchItem* item);
+
 private:
     // TODO: rename
     struct GrabbedItemInfo {
@@ -399,6 +403,9 @@ private:
 
     sead::OffsetList<PouchItem>& getItems() { return mItemLists.list1; }
     const sead::OffsetList<PouchItem>& getItems() const { return mItemLists.list1; }
+
+    // FIXME: types
+    int pouchUseFromRecipe(Lists* lists, void* unk, int a4, PouchItem* a5);
 
     PouchItem* getItemHead(PouchCategory category) const {
         auto* p_head = mListHeads[u32(category)];
