@@ -2755,10 +2755,7 @@ void PauseMenuDataMgr::equipWeapon(PouchItem* weapon) {
     }
     auto lock = sead::makeScopedLock(mCritSection);
     auto* item = mItemLists.list1.nth(0);
-    while (item) {
-        if (s32(item->mType) > 3) {  // isPouchItemNotWeapon(item->mType) produces b.hi not b.gt :(
-            break;
-        }
+    while (item && item->isWeapon()) {
         if (item->mType == weapon->mType) {
             item->mEquipped = false;
         }
