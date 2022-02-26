@@ -1,8 +1,5 @@
 #pragma once
 
-#include <heap/seadHeap.h>
-#include "Game/Actor/actWeapon.h"
-
 namespace sead {
 class Heap;
 }  // namespace sead
