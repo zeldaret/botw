@@ -370,6 +370,8 @@ public:
     // FIXME: types
     bool useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item);
 
+    void grabbedItemStuff(PouchItem* item);
+
 private:
     // TODO: rename
     struct GrabbedItemInfo {
@@ -449,6 +451,7 @@ private:
 
     void doLoadFromGameData();
 
+    // 710096c954
     void updateInventoryInfo(const sead::OffsetList<PouchItem>& list);
     void updateListHeads();
     void saveToGameData(const sead::OffsetList<PouchItem>& list) const;
