@@ -2740,15 +2740,15 @@ void PauseMenuDataMgr::equipWeapon(PouchItem* weapon) {
         return;
     }
     auto lock = sead::makeScopedLock(mCritSection);
-    auto* item = mItemLists.list1.nth(0);
+    auto* item = getItems().nth(0);
     while (item && item->isWeapon()) {
         if (item->mType == weapon->mType) {
             item->mEquipped = false;
         }
-        item = mItemLists.list1.next(item);
+        item = getItems().next(item);
     }
     weapon->mEquipped = true;
-    saveToGameData(mItemLists.list1);
+    saveToGameData(getItems());
 }
 
 void PauseMenuDataMgr::unequip(PouchItem* item) {
@@ -2757,21 +2757,21 @@ void PauseMenuDataMgr::unequip(PouchItem* item) {
     }
     auto lock = sead::makeScopedLock(mCritSection);
     item->mEquipped = false;
-    saveToGameData(mItemLists.list1);
+    saveToGameData(getItems());
 }
 
 // FIXME: types
 bool PauseMenuDataMgr::useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item) {
     auto lock = sead::makeScopedLock(mCritSection);
     useItemFromRecipe(&mItemLists, unk, multiplier, item);
-    saveToGameData(mItemLists.list1);
+    saveToGameData(getItems());
     return true;
 }
 
 void PauseMenuDataMgr::grabbedItemStuff(PouchItem* item) {
     auto lock = sead::makeScopedLock(mCritSection);
 
-    for (auto& cur : mItemLists.list1) {
+    for (auto& cur : getItems()) {
         if (&cur == item && item->mType == PouchItemType::Material) {
             if (item->mValue > 1) {
                 item->mValue -= 1;
@@ -2797,8 +2797,8 @@ void PauseMenuDataMgr::grabbedItemStuff(PouchItem* item) {
                 }
             }
         }
-        updateInventoryInfo(mItemLists.list1);
-        saveToGameData(mItemLists.list1);
+        updateInventoryInfo(getItems());
+        saveToGameData(getItems());
     }
 }
 
