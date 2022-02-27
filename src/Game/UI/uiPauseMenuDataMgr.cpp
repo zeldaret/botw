@@ -1338,44 +1338,42 @@ void PauseMenuDataMgr::removeGrabbedItems() {
     saveToGameData(items);
 }
 
-// NON_MATCHING: mostly branching (which leads to other differences), but visibly equivalent
 bool PauseMenuDataMgr::removeGrabbedItem(ksys::act::BaseProcLink* link) {
-    if (!link || !link->hasProc())
-        return false;
-
-    ksys::act::ActorConstDataAccess accessor;
-    ksys::act::acquireActor(link, &accessor);
-    const auto name = accessor.getName();
-    auto& cs = mCritSection;
-    const auto& items = getItems();
     bool found = false;
+    if (link && link->hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        const auto name = accessor.getName();
+        auto& cs = mCritSection;
+        const auto& items = getItems();
 
-    for (s32 i = 0; i < NumGrabbableItems; ++i) {
-        auto& entry = mGrabbedItems[i];
-        if (found) {
-            mGrabbedItems[i - 1].item = entry.item;
-            mGrabbedItems[i - 1]._8 = entry._8;
-            mGrabbedItems[i - 1]._9 = entry._9;
-            continue;
+        for (s32 i = 0; i < NumGrabbableItems; ++i) {
+            auto& entry = mGrabbedItems[i];
+            if (found) {
+                mGrabbedItems[i - 1].item = entry.item;
+                mGrabbedItems[i - 1]._8 = entry._8;
+                mGrabbedItems[i - 1]._9 = entry._9;
+                continue;
+            }
+
+            if (!entry.item || name != entry.item->getName())
+                continue;
+
+            if (entry.item->getValue() == 0 && !entry._9) {
+                const auto lock = sead::makeScopedLock(cs);
+                auto* item = entry.item;
+                destroyAndRecycleItem(mItemLists, item);
+                updateInventoryInfo(items);
+                updateListHeads();
+                saveToGameData(items);
+                mLastAddedItem = nullptr;
+            }
+
+            found = true;
+            entry = {};
         }
-
-        if (!entry.item || name != entry.item->getName())
-            continue;
-
-        if (entry.item->getValue() == 0 && !entry._9) {
-            const auto lock = sead::makeScopedLock(cs);
-            auto* item = entry.item;
-            destroyAndRecycleItem(mItemLists, item);
-            updateInventoryInfo(items);
-            updateListHeads();
-            saveToGameData(items);
-            mLastAddedItem = nullptr;
-        }
-
-        found = true;
-        entry = {};
+        mGrabbedItems[4] = {};
     }
-    mGrabbedItems[4] = {};
     return found;
 }
 
