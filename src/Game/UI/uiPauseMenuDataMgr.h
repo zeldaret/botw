@@ -287,7 +287,7 @@ public:
     PouchItem* getMasterSword() const;
 
     void removeGrabbedItems();
-    bool addGrabbedItem(ksys::act::BaseProcLink* link);
+    bool removeGrabbedItem(ksys::act::BaseProcLink* link);
 
     bool getEquippedArrowType(sead::BufferedSafeString* name, int* count) const;
     int getArrowCount(const sead::SafeString& name) const;

@@ -1339,7 +1339,7 @@ void PauseMenuDataMgr::removeGrabbedItems() {
 }
 
 // NON_MATCHING: mostly branching (which leads to other differences), but visibly equivalent
-bool PauseMenuDataMgr::addGrabbedItem(ksys::act::BaseProcLink* link) {
+bool PauseMenuDataMgr::removeGrabbedItem(ksys::act::BaseProcLink* link) {
     if (!link || !link->hasProc())
         return false;
 
