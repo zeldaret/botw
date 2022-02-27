@@ -185,7 +185,7 @@ void ObjectLinkData::setGenGroup(GenGroup* group) {
         mGenGroup = group;
 }
 
-#ifdef NON_MATCHING
+// NON_MATCHING
 bool ObjectLinkArray::checkLink(MapLinkDefType t, bool b) {
     bool x_exists;
     ObjectLink* link = nullptr;
@@ -216,7 +216,6 @@ done:
         acc.acquire(nullptr);
     return acc.checkLinkTagActivated(b, x_exists);
 }
-#endif
 
 ObjectLink* ObjectLinkArray::findLinkWithType(MapLinkDefType type) {
     return findLinkWithType_0(type);

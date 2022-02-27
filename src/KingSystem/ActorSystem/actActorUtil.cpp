@@ -115,8 +115,7 @@ bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeStri
     return false;
 }
 
-// this version doesn't have unnecessary register moves.
-#ifdef NON_MATCHING
+// NON_MATCHING: this version doesn't have unnecessary register moves.
 bool shouldSkipSpawnWhenRaining(map::Object* obj) {
     if (obj->getFlags().isOff(map::Object::Flag::CreateNotRain))
         return false;
@@ -127,7 +126,6 @@ bool shouldSkipSpawnWhenRaining(map::Object* obj) {
     const auto pos = obj->getTranslate();
     return !world::Manager::instance()->isRaining(pos);
 }
-#endif
 
 bool shouldSkipSpawnIfGodForestOff(map::Object* obj) {
     bool value = false;
@@ -181,8 +179,7 @@ auto initSpawnConditionGameDataFlags_dummy() {
     return sIsGetStopTimerLv2Handle;
 }
 
-// redundant branches in the original code.
-#ifdef NON_MATCHING
+// NON_MATCHING: redundant branches in the original code.
 bool hasAnyRevivalTag(const sead::SafeString& actor) {
     auto* info = InfoData::instance();
     al::ByamlIter iter;
@@ -203,7 +200,6 @@ bool hasAnyRevivalTag(const sead::SafeString& actor) {
     }
     return false;
 }
-#endif
 
 bool hasStopTimerMiddleTag(Actor* actor) {
     return hasTag(actor, tags::StopTimerMiddle);
@@ -213,12 +209,10 @@ bool hasStopTimerShortTag(Actor* actor) {
     return hasTag(actor, tags::StopTimerShort);
 }
 
-// ???
-#ifdef NON_MATCHING
+// NON_MATCHING: ???
 const char* arrowTypeToString(ArrowType idx) {
     return sArrowTypes[u32(idx)];
 }
-#endif
 
 ArrowType arrowTypeFromString(const sead::SafeString& name) {
     for (s32 i = 0; i < sArrowTypes.size(); ++i) {

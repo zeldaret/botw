@@ -166,8 +166,7 @@ bool ActorCreator::requestCreateActor(const char* name, sead::Heap* heap, BasePr
     return requestCreateActor_(actor_class, name, heap, map_object, handle, task_lane_id, params);
 }
 
-// OffsetList iteration
-#ifdef NON_MATCHING
+// NON_MATCHING: OffsetList iteration
 void ActorCreator::enableDistanceUnloadChecks() {
     const auto lock = sead::makeScopedLock(mActorListCS);
     for (auto it = mActorList.robustBegin(); it != mActorList.robustEnd(); ++it) {
@@ -177,7 +176,6 @@ void ActorCreator::enableDistanceUnloadChecks() {
     }
     mEnableDistanceChecks = true;
 }
-#endif
 
 void ActorCreator::eraseActor(Actor* actor) {
     const auto lock = sead::makeScopedLock(mActorListCS);

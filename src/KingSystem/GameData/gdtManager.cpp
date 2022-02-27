@@ -76,8 +76,7 @@ Manager::~Manager() {
     }
 }
 
-// address differences for the static bgdata_factory that causes different regalloc
-#ifdef NON_MATCHING
+// NON_MATCHING: address differences for the static bgdata_factory that causes different regalloc
 void Manager::init(sead::Heap* heap, sead::Framework* framework) {
     sead::TickTime a;
     sead::TickTime b;
@@ -138,7 +137,6 @@ void Manager::init(sead::Heap* heap, sead::Framework* framework) {
     mBitFlags.set(BitFlag::_1000);
     mNumFlagsToReset = 0;
 }
-#endif
 
 void Manager::loadShopGameDataInfo(const sead::SafeString& path) {
     res::LoadRequest req;
@@ -797,8 +795,7 @@ void Manager::syncStart() {
     util::safeDeleteArray(buffer);
 }
 
-// recordFlagChange calls not being merged, or merged in the wrong way
-#ifdef NON_MATCHING
+// NON_MATCHING: recordFlagChange calls not being merged, or merged in the wrong way
 void Manager::syncUpdate(const char* data) {
     const sead::SafeString cmd = data;
     auto it = cmd.tokenBegin("|");
@@ -1035,7 +1032,6 @@ void Manager::syncUpdate(const char* data) {
         return;
     }
 }
-#endif
 
 void Manager::recordFlagChange(u32 platform_core_id, TriggerParam* tparam, u8 type, const s32& idx,
                                const s32& sub_idx) {

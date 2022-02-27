@@ -68,8 +68,7 @@ static bool parseBehaviorIdx(agl::utl::ResParameterObj obj, sead::Buffer<u8>& bu
     return true;
 }
 
-// the parameter iteration loops in parseAIActionIdx and parseBehaviorIdx
-#ifdef NON_MATCHING
+// NON_MATCHING: the parameter iteration loops in parseAIActionIdx and parseBehaviorIdx
 bool AIProgram::parse_(u8* data, size_t, sead::Heap* parent_heap) {
     if (data) {
         auto* heap = util::tryCreateDualHeap(parent_heap);
@@ -107,10 +106,8 @@ bool AIProgram::parse_(u8* data, size_t, sead::Heap* parent_heap) {
     mHeap->adjust();
     return true;
 }
-#endif
 
-// the parameter iteration loops in parseAIActionIdx and parseBehaviorIdx
-#ifdef NON_MATCHING
+// NON_MATCHING: the parameter iteration loops in parseAIActionIdx and parseBehaviorIdx
 bool AIProgram::parseAIActions(sead::Buffer<AIActionDef>& defs, sead::Heap* heap,
                                agl::utl::ParameterList& target_list,
                                const agl::utl::ResParameterList& root, const char* type_name) {
@@ -173,7 +170,6 @@ bool AIProgram::parseAIActions(sead::Buffer<AIActionDef>& defs, sead::Heap* heap
     addList(&target_list, type_name);
     return true;
 }
-#endif
 
 bool AIProgram::parseBehaviors(sead::Heap* heap, const agl::utl::ResParameterList& root) {
     const auto list = agl::utl::getResParameterList(root, "Behavior");

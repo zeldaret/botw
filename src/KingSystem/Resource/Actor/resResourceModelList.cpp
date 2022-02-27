@@ -36,6 +36,7 @@ ModelList::~ModelList() {
 
 void ModelList::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {}
 
+// NON_MATCHING: reorderings
 bool ModelList::parse_(u8* data, size_t size, sead::Heap* heap) {
     agl::utl::ResParameterArchive archive{data};
     const auto root = archive.getRootList();
@@ -306,8 +307,7 @@ act::InfoData::Locator::Type ModelList::getLocatorTypeFromStr(const sead::SafeSt
     return act::InfoData::Locator::Type::Invalid;
 }
 
-// weird unrolling and Vector3f store (str should be a stp)
-#ifdef NON_MATCHING
+// NON_MATCHING: weird unrolling and Vector3f store (str should be a stp)
 bool ModelList::getLocatorInfo(act::InfoData::Locator* info,
                                act::InfoData::Locator::Type type) const {
     agl::utl::ResParameterArchive archive{mRawData};
@@ -332,7 +332,6 @@ bool ModelList::getLocatorInfo(act::InfoData::Locator* info,
 
     return false;
 }
-#endif
 
 bool ModelList::isParticalEnable(int anm_target_idx) const {
     return mAnmTargets[anm_target_idx].is_partical_enable.ref();

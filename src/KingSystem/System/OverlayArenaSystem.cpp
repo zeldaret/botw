@@ -63,8 +63,7 @@ void OverlayArenaSystem::destroyHeaps() {
     mFlags.set(Flag::_2);
 }
 
-// reordering for TaskThread::InitArg
-#ifdef NON_MATCHING
+// NON_MATCHING: reordering for TaskThread::InitArg
 bool OverlayArenaSystem::init(const InitArg& arg, sead::Heap* heap) {
     mSystemPauseMgr = arg.system_pause_mgr;
 
@@ -126,7 +125,6 @@ bool OverlayArenaSystem::init(const InitArg& arg, sead::Heap* heap) {
 
     return true;
 }
-#endif
 
 void OverlayArenaSystem::getSzsDecompressor(sead::SZSDecompressor** decompressor) const {
     if (decompressor)

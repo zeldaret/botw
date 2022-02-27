@@ -2457,8 +2457,7 @@ bool shouldLogFlagChange(const sead::SafeString& flag_name, FlagType type) {
     return sConfig.shouldLog(flag_name, event_type);
 }
 
-// reorderings (which result in other small differences)
-#ifdef NON_MATCHING
+// NON_MATCHING: reorderings (which result in other small differences)
 sead::Color4f getFlagColor(FlagType type) {
     if (s32(type) == FlagType::Bool || s32(type) == FlagType::BoolArray)
         return sead::Color4f::cRed;
@@ -2476,6 +2475,5 @@ sead::Color4f getFlagColor(FlagType type) {
 
     return sead::Color4f::cBlue;
 }
-#endif
 
 }  // namespace ksys::gdt

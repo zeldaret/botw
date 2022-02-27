@@ -97,6 +97,7 @@ void Ecosystem::init(sead::Heap* heap) {
 
 void Ecosystem::calc() {}
 
+// NON_MATCHING: FP instructions rearranged.
 s32 Ecosystem::getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const {
     posX = sead::Mathf::clamp(posX, -5000.0f, 4999.0f);
     posZ = sead::Mathf::clamp(posZ, -4000.0f, 4000.0f);
@@ -201,8 +202,7 @@ void Ecosystem::getAreaNameByNum(s32 areaNum, const char** out) const {
         iter.tryGetStringByKey(out, "Area");
 }
 
-// Equivalent, minor conditional differences and register usage
-#ifdef NON_MATCHING
+// NON_MATCHING: Equivalent, minor conditional differences and register usage
 void Ecosystem::getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx,
                                     eco::StatusEffectInfo* out) const {
     al::ByamlIter listIter;
@@ -262,7 +262,6 @@ void Ecosystem::getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx,
         out->val._f32 = val2;
     }
 }
-#endif
 
 void Ecosystem::getClimateNameByNum(s32 areaNum, const char** out) const {
     *out = nullptr;

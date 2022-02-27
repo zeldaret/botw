@@ -16,8 +16,7 @@ BoneControl::~BoneControl() {
 
 void BoneControl::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {}
 
-// mFootIkController.isInvalidFt (???)
-#ifdef NON_MATCHING
+// NON_MATCHING: mFootIkController.isInvalidFt (???)
 bool BoneControl::parse_(u8* data, size_t size, sead::Heap* heap) {
     if (!data)
         return true;
@@ -226,7 +225,6 @@ bool BoneControl::parse_(u8* data, size_t size, sead::Heap* heap) {
     applyResParameterArchive(agl::utl::ResParameterArchive{data});
     return true;
 }
-#endif
 
 const BoneControl::BoneGroup* BoneControl::getBoneGroup(const sead::SafeString& name) const {
     const auto idx = mBoneGroups.binarySearch(

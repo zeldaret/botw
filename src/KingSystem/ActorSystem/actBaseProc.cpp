@@ -155,8 +155,7 @@ BaseProc::PreDeletePrepareResult BaseProc::prepareForPreDelete_() {
     return PreDeletePrepareResult::Done;
 }
 
-// branching
-#ifdef NON_MATCHING
+// NON_MATCHING: branching
 bool BaseProc::startPreparingForPreDelete_() {
     if (mUpdateStateListNode.isLinked())
         return false;
@@ -164,7 +163,6 @@ bool BaseProc::startPreparingForPreDelete_() {
     return !mBaseProcLinkData || mBaseProcLinkData->refCount() <= 0 ||
            BaseProcMgr::instance()->getUnk3() || tera::checkTeraSystemStatus();
 }
-#endif
 
 void BaseProc::destruct_(int should_destruct) {
     if (should_destruct == 1) {
@@ -348,8 +346,7 @@ void BaseProc::jobInvoked(JobType type) {
     }
 }
 
-// branching
-#ifdef NON_MATCHING
+// NON_MATCHING: branching
 bool BaseProc::processStateUpdate(u8 counter) {
     const bool delete_requested = mStateFlags.isOn(StateFlags::RequestDelete);
     const bool initialized = mFlags.isOn(Flags::Initialized);
@@ -447,7 +444,6 @@ bool BaseProc::processStateUpdate(u8 counter) {
     mStateFlags = new_flags;
     return ret;
 }
-#endif
 
 void BaseProc::processPreDelete() {
     if (!mFlags.isOn(Flags::Initialized))

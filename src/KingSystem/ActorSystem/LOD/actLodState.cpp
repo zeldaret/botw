@@ -10,8 +10,7 @@
 
 namespace ksys::act {
 
-// reorders at the beginning because of initFlags -- should be equivalent
-#ifdef NON_MATCHING
+// NON_MATCHING: reorders at the beginning because of initFlags -- should be equivalent
 LodState::LodState(sead::Heap* heap, sead::BitFlag32 flags, Actor* actor,
                    int disable_calc_skip_frame, float x)
     : mFlags14(flags), mActor(actor), _44(x), mDisableCalcSkipFrame(disable_calc_skip_frame) {
@@ -302,15 +301,13 @@ LodState::LodState(sead::Heap* heap, sead::BitFlag32 flags, Actor* actor,
         _50 = 3.0f;
     }
 }
-#endif
 
 LodState::~LodState() {
     if (mOcclusionQueryCylinder)
         delete mOcclusionQueryCylinder;
 }
 
-// ????? reordering
-#ifdef NON_MATCHING
+// NON_MATCHING: ????? reordering
 void LodState::initFlags() {
     _28 = 1.0;
     _40 = 0.0;
@@ -331,6 +328,5 @@ void LodState::initFlags() {
     _60 = 0xFFFF;
     _64 = -3;
 }
-#endif
 
 }  // namespace ksys::act

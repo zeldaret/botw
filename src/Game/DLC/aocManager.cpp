@@ -450,8 +450,7 @@ bool Manager::parseVersion() {
     return true;
 }
 
-// stack and duplicated branch -- volatile variables are painful
-#ifdef NON_MATCHING
+// NON_MATCHING: stack and duplicated branch -- volatile variables are painful
 void Manager::checkVersion() {
     if (mVersion == 0)
         return;
@@ -470,7 +469,6 @@ void Manager::checkVersion() {
     mVersionFlags.isOnBit(VersionError(VersionError::TooOld));
     mVersionFlags.isOnBit(VersionError(VersionError::TooNew));
 }
-#endif
 
 bool Manager::VersionFile::readVersion() {
     if (!file_handle.requestedLoad())

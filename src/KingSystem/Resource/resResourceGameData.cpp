@@ -163,7 +163,7 @@ KSYS_ALWAYS_INLINE inline bool tryGetVector(const al::ByamlIter& value_iter, T* 
 }
 }  // namespace
 
-#ifdef NON_MATCHING
+// NON_MATCHING:
 // * stack layout and reordering (possibly caused by the stack differences).
 // * In init_string_array_flag_config, some calls to memcpy (for string copies) are replaced
 //   with memset and calcLength() is optimized out.
@@ -404,7 +404,6 @@ void GameData::doCreate_(u8* data, u32, sead::Heap*) {
                    gdt::FlagType::Vector4fArray, init_vector_array_flag_config,
                    init_vector_array_child_flag_config);
 }
-#endif
 
 void GameData::loadDebugData(gdt::FlagDebugData* data, const al::ByamlIter& iter) {
     if (!data)

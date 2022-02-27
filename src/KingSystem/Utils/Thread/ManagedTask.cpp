@@ -83,8 +83,7 @@ void ManagedTask::attachHandle(ManagedTaskHandle* handle, TaskQueueBase* queue) 
     mHandle = handle;
 }
 
-// switch
-#ifdef NON_MATCHING
+// NON_MATCHING: switch
 void ManagedTask::detachHandle() {
     TaskQueueLock lock;
     lock.lock(mQueue);
@@ -103,6 +102,5 @@ void ManagedTask::detachHandle() {
         }
     }
 }
-#endif
 
 }  // namespace ksys::util

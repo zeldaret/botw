@@ -57,12 +57,10 @@ VFRVec3f::VFRVec3f() : value{0, 0, 0}, prev_value{0, 0, 0}, mean{0, 0, 0} {}
 
 VFRVec3f::VFRVec3f(const sead::Vector3f& value) : value{value}, prev_value{value}, mean{value} {}
 
-// float regalloc
-#ifdef NON_MATCHING
+// NON_MATCHING: float regalloc
 void VFRVec3f::updateStats() {
     updateStatsImpl(value, &prev_value, &mean);
 }
-#endif
 
 void VFRVec3f::operator*=(f32 scalar) {
     VFR::multiply(&value, scalar);

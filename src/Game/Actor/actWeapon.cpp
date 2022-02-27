@@ -309,8 +309,7 @@ bool WeaponModifierInfo::pickRandomYellowModifierAmiibo(const sead::SafeString& 
     return pickRandomModifierAmiibo(ranges);
 }
 
-// isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-#ifdef NON_MATCHING
+// NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
 bool WeaponModifierInfo::pickRandomBlueModifierTbox(const sead::SafeString& actor) {
     auto* info = ksys::act::InfoData::instance();
     if (!info)
@@ -329,7 +328,6 @@ bool WeaponModifierInfo::pickRandomBlueModifierTbox(const sead::SafeString& acto
 
     return pickRandomModifier(ranges);
 }
-#endif
 
 bool WeaponModifierInfo::pickRandomModifier(const WeaponModifierRanges& ranges) {
     const auto modifier = ranges.getRandomModifier();
@@ -410,8 +408,7 @@ bool WeaponModifierRanges::loadTierBlue(const ksys::res::GParamList& gparamlist)
     return true;
 }
 
-// isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-#ifdef NON_MATCHING
+// NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
 bool WeaponModifierInfo::pickRandomBlueModifierActor(const ksys::act::ActorConstDataAccess& acc) {
     WeaponModifierRanges ranges;
     const auto& gparamlist = *acc.getGParamList();
@@ -422,10 +419,8 @@ bool WeaponModifierInfo::pickRandomBlueModifierActor(const ksys::act::ActorConst
     }
     return false;
 }
-#endif
 
-// isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-#ifdef NON_MATCHING
+// NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
 bool WeaponModifierInfo::pickRandomYellowModifierTbox(const sead::SafeString& actor) {
     auto* info = ksys::act::InfoData::instance();
     if (!info)
@@ -444,7 +439,6 @@ bool WeaponModifierInfo::pickRandomYellowModifierTbox(const sead::SafeString& ac
 
     return pickRandomModifier(ranges);
 }
-#endif
 
 bool WeaponModifierRanges::loadTierYellow(const ksys::res::GParamList& gparamlist) {
     const auto* param = gparamlist.getWeaponCommon();
@@ -465,8 +459,7 @@ bool WeaponModifierRanges::loadTierYellow(const ksys::res::GParamList& gparamlis
     return true;
 }
 
-// isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-#ifdef NON_MATCHING
+// NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
 bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorConstDataAccess& acc) {
     WeaponModifierRanges ranges;
     const auto& gparamlist = *acc.getGParamList();
@@ -477,6 +470,5 @@ bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorCon
     }
     return false;
 }
-#endif
 
 }  // namespace uking::act

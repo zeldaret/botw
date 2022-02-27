@@ -146,14 +146,12 @@ static const ResourceUnit::Status sUnitStatusTransitionTable[] = {
     ResourceUnit::Status::_14, ResourceUnit::Status::_14,
 };
 
-// ldr + sxtw -> ldrsw
-#ifdef NON_MATCHING
+// NON_MATCHING: ldr + sxtw -> ldrsw
 void ResourceUnit::updateStatus() {
     const s32 idx = mStatus;
     if (Status::_2 <= idx && idx <= Status::_6)
         mStatus = sUnitStatusTransitionTable[idx];
 }
-#endif
 
 bool ResourceUnit::isTask1NotQueued() const {
     return mTask1.getStatus() == util::Task::Status::RemovedFromQueue;
@@ -186,8 +184,7 @@ bool ResourceUnit::isStatus9_12_15() const {
     return mStatus == Status::_9 || mStatus == Status::_12 || mStatus == Status::_15;
 }
 
-// branching for the second if
-#ifdef NON_MATCHING
+// NON_MATCHING: branching for the second if
 bool ResourceUnit::isParseOk() const {
     auto* ksys_res = sead::DynamicCast<res::Resource>(mResource);
 
@@ -204,7 +201,6 @@ bool ResourceUnit::isParseOk() const {
 
     return false;
 }
-#endif
 
 bool ResourceUnit::isStatusFlag8000Set() const {
     return mStatusFlags.isOn(StatusFlag::NeedToIncrementRefCount);

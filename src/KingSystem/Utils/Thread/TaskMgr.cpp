@@ -80,8 +80,7 @@ void TaskMgr::submitRequest(TaskMgrRequest& request) {
         request.task = nullptr;
 }
 
-// reorderings
-#ifdef NON_MATCHING
+// NON_MATCHING: reorderings
 bool TaskMgr::fetchIdleTaskForRequest_(TaskMgrRequest& request, bool retry_until_success) {
     if (!hasTasks())
         return false;
@@ -109,7 +108,6 @@ bool TaskMgr::fetchIdleTaskForRequest_(TaskMgrRequest& request, bool retry_until
     request.task = task;
     return true;
 }
-#endif
 
 void TaskMgr::freeTask(ManagedTask* task) {
     auto lock = sead::makeScopedLock(mCS2);
@@ -157,8 +155,7 @@ bool TaskMgr::trySubmitRequest(TaskMgrRequest& request) {
     return ok;
 }
 
-// the factory invoke function pointer is loaded earlier in the original code
-#ifdef NON_MATCHING
+// NON_MATCHING: the factory invoke function pointer is loaded earlier in the original code
 void TaskMgr::init(s32 num_tasks, sead::Heap* heap, ManagedTaskFactory& factory) {
     if (!heap->isFreeable())
         mFlags.reset(Flag::HeapIsFreeable);
@@ -180,7 +177,6 @@ void TaskMgr::init(s32 num_tasks, sead::Heap* heap, ManagedTaskFactory& factory)
 
     factory(&mTask);
 }
-#endif
 
 bool TaskMgr::hasTasks() const {
     return mTasks.size() > 0;

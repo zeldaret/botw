@@ -42,8 +42,6 @@ ActorLink::ActorLink() : ParamIO("xml", 0) {
     addObj(&mUsers.obj, "LinkTarget");
 }
 
-// getResParameter (redundant uxtw; i and res increment order)
-#ifdef NON_MATCHING
 bool ActorLink::parse_(u8* data, size_t, sead::Heap* heap) {
     if (!data)
         return true;
@@ -52,7 +50,7 @@ bool ActorLink::parse_(u8* data, size_t, sead::Heap* heap) {
     const auto root = archive.getRootList();
 
     const s32 tags_idx = root.searchObjIndex(agl::utl::ParameterBase::calcHash("Tags"));
-
+    // NON_MATCHING: getResParameter (redundant uxtw; i and res increment order)
     const auto parse_tags = [&] {
         if (tags_idx == -1)
             return;
@@ -81,7 +79,6 @@ bool ActorLink::parse_(u8* data, size_t, sead::Heap* heap) {
     applyResParameterArchive(agl::utl::ResParameterArchive{data});
     return true;
 }
-#endif
 
 void ActorLink::finalize_() {
     if (!mTags.isBufferReady())
@@ -94,12 +91,10 @@ void ActorLink::finalize_() {
     mTags.freeBuffer();
 }
 
-// operands are swapped for an equality comparison in binarySearch
-#ifdef NON_MATCHING
+// NON_MATCHING: operands are swapped for an equality comparison in binarySearch
 bool ActorLink::hasTag(const char* tag_name) const {
     return mTags.size() >= 1 && mTags.binarySearch(sead::HashCRC32::calcStringHash(tag_name)) != -1;
 }
-#endif
 
 bool ActorLink::hasTag(u32 tag) const {
     return mTags.size() >= 1 && mTags.binarySearch(tag) != -1;

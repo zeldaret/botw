@@ -9,8 +9,7 @@ void InstParamPack::Buffer::clear() {
     mData.fill(0);
 }
 
-// write()
-#ifdef NON_MATCHING
+// NON_MATCHING: write()
 void InstParamPack::Buffer::add(const void* data, const sead::SafeString& name, s32 byte_size,
                                 InstParamPack::EntryType type) {
     if (byte_size + mPosition + u32(sizeof(const char*)) + 1 > mData.getByteSize()) {
@@ -23,16 +22,13 @@ void InstParamPack::Buffer::add(const void* data, const sead::SafeString& name, 
     writeBytes(data, byte_size);
     ++mNumItems;
 }
-#endif
 
-// write()
-#ifdef NON_MATCHING
+// NON_MATCHING: write()
 void InstParamPack::Buffer::add(ActorCallback* callback, const sead::SafeString& name) {
     add(callback, name, sizeof(callback), EntryType::UInt64);
 }
-#endif
 
-#ifdef NON_MATCHING
+// NON_MATCHING
 bool InstParamPack::Buffer::pop(s32* position, InstParamPack::Entry* out_entry) {
     if (!read(out_entry->key, position))
         return false;
@@ -71,7 +67,6 @@ bool InstParamPack::Buffer::pop(s32* position, InstParamPack::Entry* out_entry) 
         return false;
     }
 }
-#endif
 
 InstParamPack::Buffer& InstParamPack::Buffer::operator=(const InstParamPack::Buffer& other) {
     size_t pos = other.mPosition;
