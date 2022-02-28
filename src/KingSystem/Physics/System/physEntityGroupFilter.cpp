@@ -7,9 +7,9 @@
 #include <Havok/Physics2012/Collide/Shape/Compound/Tree/hkpBvTreeShape.h>
 #include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h>
 #include <Havok/Physics2012/Collide/Shape/hkpShapeContainer.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpEntity.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
 #include <heap/seadHeap.h>
-#include "Havok/Physics2012/Dynamics/Entity/hkpEntity.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
@@ -32,7 +32,7 @@ bool receiverMaskGetSensorLayerMaskForType(SensorCollisionMask* mask,
 
 void receiverMaskSetSensorLayerMask(SensorCollisionMask* mask, u32 layer_mask) {
     *mask = {};
-    mask->layer_mask = layer_mask;
+    mask->custom_receiver_data.layer_mask = layer_mask;
     mask->is_custom_receiver = true;
 }
 

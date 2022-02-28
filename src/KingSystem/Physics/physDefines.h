@@ -317,6 +317,7 @@ union SensorCollisionMask {
 
     union CustomReceiverData {
         util::BitField<0, NumRegularSensorLayers, u32> layer;
+        util::BitField<0, NumRegularSensorLayers, u32> layer_mask;
     };
 
     constexpr SensorCollisionMask() : raw(0) {}
@@ -349,8 +350,6 @@ union SensorCollisionMask {
     u32 raw;
     Data data;
     CustomReceiverData custom_receiver_data;
-    /// Sensor layer mask.
-    util::BitField<0, NumRegularSensorLayers, u32> layer_mask;
     util::BitField<21, 10, u32> group_handler_index;
     util::BitField<31, 1, bool, u32> is_custom_receiver;
 };

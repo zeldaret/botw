@@ -52,6 +52,7 @@ public:
 protected:
     /// Checks whether two sensors are colliding.
     hkBool testCollisionForSensors(u32 infoA, u32 infoB) const;
+    hkBool testCollisionForRayCasting(u32 infoRayCast, u32 info) const;
 
     void doInitSystemGroupHandlerLists_(sead::Heap* heap) override;
     int getFreeListIndex(const SystemGroupHandler* handler) override;
