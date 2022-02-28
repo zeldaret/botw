@@ -58,23 +58,23 @@ protected:
     void doInit_(sead::Heap* heap) override;
 };
 
-/// Set the contact layer in a sensor receiver mask.
+/// Set the contact layer in a sensor collision mask.
 /// @param layer A sensor contact layer
-/// @param mask An existing receiver mask
-u32 sensorReceiverMaskSetLayer(ContactLayer layer, u32 mask);
+/// @param mask An existing sensor collision mask
+u32 sensorCollisionMaskSetLayer(ContactLayer layer, u32 mask);
 
-/// Set or clear a second contact layer in a sensor receiver mask.
+/// Set or clear a second contact layer in a sensor collision mask.
 /// This function does nothing when using a custom receiver.
 /// @param set If true, set the specified layer. Clear it otherwise
 /// @param layer A sensor contact layer
-/// @param mask An existing receiver mask
+/// @param mask An existing sensor collision mask
 // TODO: rename once we figure out what this layer is used for
-u32 sensorReceiverMaskSetLayer2(bool set, ContactLayer layer, u32 mask);
+u32 sensorCollisionMaskSetLayer2(bool set, ContactLayer layer, u32 mask);
 
 inline u32 SensorSystemGroupHandler::makeCollisionFilterInfo(u32 info, ContactLayer layer,
                                                              GroundHit ground_hit) {
-    const ReceiverMask current_info{info};
-    ReceiverMask result;
+    const SensorCollisionMask current_info{info};
+    SensorCollisionMask result;
 
     if (layer == ContactLayer::SensorCustomReceiver) {
         result.is_custom_receiver = true;
@@ -101,11 +101,11 @@ inline bool SensorSystemGroupHandler::m8() {
 }
 
 inline u32 SensorGroupFilter::makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit) {
-    return ReceiverMask::make(layer).raw;
+    return SensorCollisionMask::make(layer).raw;
 }
 
 inline ContactLayer SensorGroupFilter::getCollisionFilterInfoLayer(u32 info) {
-    return ReceiverMask(info).getLayer();
+    return SensorCollisionMask(info).getLayer();
 }
 
 inline u32 SensorGroupFilter::makeQueryCollisionMask(u32 layer_mask, GroundHit ground_hit,
@@ -122,7 +122,7 @@ inline GroundHit SensorGroupFilter::getQueryCollisionMaskGroundHit(u32 info) {
 inline void SensorGroupFilter::getCollisionFilterInfoLayerAndGroundHit(u32 info,
                                                                        ContactLayer* layer,
                                                                        GroundHit* ground_hit) {
-    ReceiverMask mask{info};
+    SensorCollisionMask mask{info};
     *layer = mask.getLayer();
     *ground_hit = {};
 }
@@ -132,7 +132,7 @@ inline const char* SensorGroupFilter::getCollisionFilterInfoLayerText(u32 info) 
 }
 
 inline u32 SensorGroupFilter::getCollisionFilterInfoGroupHandlerIdx(u32 info) {
-    return ReceiverMask(info).group_handler_index;
+    return SensorCollisionMask(info).group_handler_index;
 }
 
 inline u32 SensorGroupFilter::makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit,

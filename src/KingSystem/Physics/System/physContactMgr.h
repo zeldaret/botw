@@ -77,7 +77,7 @@ public:
     void loadContactInfoTable(sead::Heap* heap, agl::utl::ResParameterArchive archive,
                               ContactLayerType type);
 
-    bool getSensorLayerMask(ReceiverMask* mask, const sead::SafeString& receiver_type) const;
+    bool getSensorLayerMask(SensorCollisionMask* mask, const sead::SafeString& receiver_type) const;
 
     RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
                                            int a, int b, int c);

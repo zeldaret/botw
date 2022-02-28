@@ -21,16 +21,16 @@ namespace ksys::phys {
 constexpr int NumEntityHandlersInList0 = 0x10;
 constexpr int NumEntityHandlers = 0x400;
 
-void receiverMaskEnableLayer(ReceiverMask* mask, ContactLayer layer) {
+void receiverMaskEnableLayer(SensorCollisionMask* mask, ContactLayer layer) {
     mask->raw |= 1 << getContactLayerBaseRelativeValue(layer);
 }
 
-bool receiverMaskGetSensorLayerMaskForType(ReceiverMask* mask,
+bool receiverMaskGetSensorLayerMaskForType(SensorCollisionMask* mask,
                                            const sead::SafeString& receiver_type) {
     return System::instance()->getContactMgr()->getSensorLayerMask(mask, receiver_type);
 }
 
-void receiverMaskSetSensorLayerMask(ReceiverMask* mask, u32 layer_mask) {
+void receiverMaskSetSensorLayerMask(SensorCollisionMask* mask, u32 layer_mask) {
     *mask = {};
     mask->layer_mask = layer_mask;
     mask->is_custom_receiver = true;
@@ -56,10 +56,10 @@ void EntityGroupFilter::doInit_(sead::Heap* heap) {
 hkBool EntityGroupFilter::shouldHandleGroundCollision(u32 infoA, u32 infoB,
                                                       ContactLayer::ValueType layerA,
                                                       ContactLayer::ValueType layerB) const {
-    const EntityCollisionFilterInfo a{infoA};
-    const EntityCollisionFilterInfo b{infoB};
+    const EntityCollisionMask a{infoA};
+    const EntityCollisionMask b{infoB};
 
-    if (EntityCollisionFilterInfo(infoA | infoB).ground_col_mode != GroundCollisionMode::Normal) {
+    if (EntityCollisionMask(infoA | infoB).ground_col_mode != GroundCollisionMode::Normal) {
         if (a.ground_col_mode != GroundCollisionMode::Normal) {
             bool ground = isEntityGroundLayer(layerB);
             if (a.ground_col_mode == GroundCollisionMode::IgnoreNonGround && !ground)
@@ -82,10 +82,10 @@ hkBool EntityGroupFilter::shouldHandleGroundCollision(u32 infoA, u32 infoB,
 hkBool EntityGroupFilter::shouldHandleWaterCollision(u32 infoA, u32 infoB,
                                                      ContactLayer::ValueType layerA,
                                                      ContactLayer::ValueType layerB) const {
-    const EntityCollisionFilterInfo a{infoA};
-    const EntityCollisionFilterInfo b{infoB};
+    const EntityCollisionMask a{infoA};
+    const EntityCollisionMask b{infoB};
 
-    if (EntityCollisionFilterInfo(infoA | infoB).water_col_mode != WaterCollisionMode::Normal) {
+    if (EntityCollisionMask(infoA | infoB).water_col_mode != WaterCollisionMode::Normal) {
         if (a.water_col_mode == WaterCollisionMode::IgnoreWater &&
             layerB == ContactLayer::EntityWater) {
             return false;
@@ -108,13 +108,13 @@ hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
     if (mInhibitCollisions)
         return false;
 
-    const EntityCollisionFilterInfo a{infoA};
-    const EntityCollisionFilterInfo b{infoB};
+    const EntityCollisionMask a{infoA};
+    const EntityCollisionMask b{infoB};
 
     constexpr auto GroupHandlerIdxMask = decltype(a.group_handler_index)::GetMask();
     constexpr auto GroupHandlerIdxShift = decltype(a.group_handler_index)::StartBit();
 
-    if (!EntityCollisionFilterInfo(infoA | infoB).is_ground_hit_mask) {
+    if (!EntityCollisionMask(infoA | infoB).is_ground_hit_mask) {
         if (a.unk30 && b.unk30) {
             if (((infoA ^ infoB) & GroupHandlerIdxMask) != 0) {
                 if (testHandler(a.group_handler_index) || testHandler(b.group_handler_index))
@@ -171,7 +171,7 @@ hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
         return !a.ground_hit.unk23 && !b.ground_hit.unk23;
     }
 
-    EntityCollisionFilterInfo entity_mask, ground_hit_mask;
+    EntityCollisionMask entity_mask, ground_hit_mask;
 
     if (a.is_ground_hit_mask && !b.is_ground_hit_mask) {
         const auto layerA = static_cast<ContactLayer::ValueType>(a.ground_hit.layer.Value());
@@ -212,8 +212,8 @@ hkBool EntityGroupFilter::testCollisionForPhantom(u32 infoPhantom, u32 infoB) co
     if (mInhibitCollisions)
         return false;
 
-    RayCastCollisionMask infoPhantomData{infoPhantom};
-    const EntityCollisionFilterInfo info{infoB};
+    EntityQueryCollisionMask infoPhantomData{infoPhantom};
+    const EntityCollisionMask info{infoB};
     if (info.is_ground_hit_mask)
         return infoPhantomData.raw & (1 << info.ground_hit.getLayer());
     return infoPhantomData.layer_mask & (1 << info.data.layer);
@@ -311,9 +311,8 @@ end:
     return testCollisionForEntities(infoA, infoB);
 }
 
-static hkBool
-checkCollisionWithGroundHitMask(EntityCollisionFilterInfo::GroundHitMask ground_hit_mask,
-                                RayCastCollisionMask ray_cast) {
+static hkBool checkCollisionWithGroundHitMask(EntityCollisionMask::GroundHitMask ground_hit_mask,
+                                              EntityQueryCollisionMask ray_cast) {
     if (!(ray_cast.layer_mask & (1 << ground_hit_mask.getLayer())))
         return false;
 
@@ -330,8 +329,8 @@ hkBool EntityGroupFilter::testCollisionForRayCasting(u32 infoRayCast, u32 info) 
     if (mInhibitCollisions)
         return false;
 
-    RayCastCollisionMask a{infoRayCast};
-    EntityCollisionFilterInfo b{info};
+    EntityQueryCollisionMask a{infoRayCast};
+    EntityCollisionMask b{info};
 
     if (b.is_ground_hit_mask)
         return checkCollisionWithGroundHitMask(b.ground_hit, a);
@@ -393,7 +392,7 @@ int EntityGroupFilter::getFreeListIndex(const SystemGroupHandler* handler) {
 }
 
 u32 orEntityGroundHitMask(u32 mask, GroundHit type) {
-    EntityCollisionFilterInfo info{mask};
+    EntityCollisionMask info{mask};
     info.ground_hit.ground_hit_types |= 1 << type;
     return info.raw;
 }
@@ -403,9 +402,9 @@ u32 orEntityGroundHitMask(u32 mask, const sead::SafeString& type) {
 }
 
 template <bool WithUnk>
-static EntityCollisionFilterInfo makeEntityGroundHitMaskImpl(ContactLayer layer, u32 mask) {
-    const EntityCollisionFilterInfo current{mask};
-    EntityCollisionFilterInfo info{};
+static EntityCollisionMask makeEntityGroundHitMaskImpl(ContactLayer layer, u32 mask) {
+    const EntityCollisionMask current{mask};
+    EntityCollisionMask info{};
     info.ground_hit.layer.SetUnsafe(layer);
     info.ground_hit.ground_hit_types = current.ground_hit.ground_hit_types;
     info.is_ground_hit_mask = true;
@@ -419,7 +418,7 @@ u32 makeEntityGroundHitMask(ContactLayer layer, u32 mask) {
 }
 
 u32 makeEntityCollisionMask(ContactLayer layer, u32 mask) {
-    EntityCollisionFilterInfo current{mask};
+    EntityCollisionMask current{mask};
     if (current.is_ground_hit_mask) {
         return makeEntityGroundHitMaskImpl<true>(layer, mask).raw;
     } else {
@@ -429,7 +428,7 @@ u32 makeEntityCollisionMask(ContactLayer layer, u32 mask) {
 }
 
 u32 setEntityCollisionMaskGroundHit(GroundHit ground_hit, u32 mask) {
-    EntityCollisionFilterInfo current{mask};
+    EntityCollisionMask current{mask};
     if (current.is_ground_hit_mask) {
         // This shouldn't happen: this function is not supposed to be called on ground hit masks.
     } else {

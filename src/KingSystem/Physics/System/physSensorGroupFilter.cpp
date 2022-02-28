@@ -73,10 +73,10 @@ int SensorGroupFilter::getFreeListIndex(const SystemGroupHandler* handler) {
     return handler->getIndex() < NumSensorHandlersInList0;
 }
 
-u32 sensorReceiverMaskSetLayer(ContactLayer layer, u32 mask) {
+u32 sensorCollisionMaskSetLayer(ContactLayer layer, u32 mask) {
     SEAD_ASSERT(getContactLayerType(layer) == ContactLayerType::Sensor);
 
-    ReceiverMask info{mask};
+    SensorCollisionMask info{mask};
 
     if (layer == ContactLayer::SensorCustomReceiver) {
         info.is_custom_receiver = true;
@@ -98,10 +98,10 @@ u32 sensorReceiverMaskSetLayer(ContactLayer layer, u32 mask) {
     return info.raw;
 }
 
-u32 sensorReceiverMaskSetLayer2(bool set, ContactLayer layer, u32 mask) {
+u32 sensorCollisionMaskSetLayer2(bool set, ContactLayer layer, u32 mask) {
     SEAD_ASSERT(getContactLayerType(layer) == ContactLayerType::Sensor);
 
-    ReceiverMask info{mask};
+    SensorCollisionMask info{mask};
     if (info.is_custom_receiver)
         return info.raw;
 

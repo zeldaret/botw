@@ -216,7 +216,7 @@ public:
     // region Collision filter info, receiver, group handler
 
     ContactLayer getContactLayer() const;
-    ContactLayer getContactLayer(EntityCollisionFilterInfo info) const;
+    ContactLayer getContactLayer(EntityCollisionMask info) const;
     /// Set a new contact layer. Its type must match the layer type of this rigid body.
     /// (Otherwise, this function does nothing.)
     void setContactLayer(ContactLayer layer);
@@ -225,7 +225,7 @@ public:
     void setCollisionFilterInfo(u32 info);
 
     auto getEntityCollisionFilterInfo() const {
-        return EntityCollisionFilterInfo(getCollisionFilterInfo());
+        return EntityCollisionMask(getCollisionFilterInfo());
     }
 
     /// Only works for sensor rigid bodies that do not use a custom receiver.
@@ -241,8 +241,9 @@ public:
 
     void setSystemGroupHandler(SystemGroupHandler* handler);
 
-    void setSensorCustomReceiver(const ReceiverMask& mask);
-    void setSensorCustomReceiver(const ReceiverMask& mask, const SystemGroupHandler* handler);
+    void setSensorCustomReceiver(const SensorCollisionMask& mask);
+    void setSensorCustomReceiver(const SensorCollisionMask& mask,
+                                 const SystemGroupHandler* handler);
 
     // endregion
 

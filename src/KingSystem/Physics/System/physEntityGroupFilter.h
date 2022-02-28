@@ -81,10 +81,10 @@ private:
     sead::SafeArray<u32, ContactLayer::size()> mMasks;
 };
 
-void receiverMaskEnableLayer(ReceiverMask* mask, ContactLayer layer);
-bool receiverMaskGetSensorLayerMaskForType(ReceiverMask* mask,
+void receiverMaskEnableLayer(SensorCollisionMask* mask, ContactLayer layer);
+bool receiverMaskGetSensorLayerMaskForType(SensorCollisionMask* mask,
                                            const sead::SafeString& receiver_type);
-void receiverMaskSetSensorLayerMask(ReceiverMask* mask, u32 layer_mask);
+void receiverMaskSetSensorLayerMask(SensorCollisionMask* mask, u32 layer_mask);
 
 u32 orEntityGroundHitMask(u32 mask, GroundHit type);
 u32 orEntityGroundHitMask(u32 mask, const sead::SafeString& type);
@@ -102,8 +102,8 @@ u32 setEntityCollisionMaskGroundHit(GroundHit ground_hit, u32 mask);
 
 inline u32 EntitySystemGroupHandler::makeCollisionFilterInfo(u32 info, ContactLayer layer,
                                                              GroundHit ground_hit) {
-    const EntityCollisionFilterInfo current_info{info};
-    EntityCollisionFilterInfo result;
+    const EntityCollisionMask current_info{info};
+    EntityCollisionMask result;
 
     if (layer == ContactLayer::EntityRagdoll) {
         result.data.layer.Init(layer);
@@ -123,7 +123,7 @@ inline u32 EntitySystemGroupHandler::makeCollisionFilterInfo(u32 info, ContactLa
 
 inline u32 EntitySystemGroupHandler::makeQueryCollisionMask(u32 layer_mask, GroundHit ground_hit,
                                                             bool unk) {
-    RayCastCollisionMask mask;
+    EntityQueryCollisionMask mask;
     mask.layer_mask = layer_mask;
     mask.group_handler_index.Init(getIndex());
     mask.ground_hit_type.Init(static_cast<GroundHit::ValueType>(int(ground_hit)));
@@ -132,7 +132,7 @@ inline u32 EntitySystemGroupHandler::makeQueryCollisionMask(u32 layer_mask, Grou
 }
 
 inline u32 EntitySystemGroupHandler::makeRagdollCollisionFilterInfo(GroundHit ground_hit) {
-    EntityCollisionFilterInfo info;
+    EntityCollisionMask info;
     info.data.layer.Init(ContactLayer::EntityRagdoll);
     info.group_handler_index.Init(getIndex());
     info.data.ground_hit.Init(ground_hit);
@@ -148,16 +148,16 @@ inline bool EntityGroupFilter::m2(ContactLayer layerA, ContactLayer layerB) {
 }
 
 inline u32 EntityGroupFilter::makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit) {
-    return EntityCollisionFilterInfo::make(layer, ground_hit).raw;
+    return EntityCollisionMask::make(layer, ground_hit).raw;
 }
 
 inline ContactLayer EntityGroupFilter::getCollisionFilterInfoLayer(u32 info) {
-    return EntityCollisionFilterInfo(info).getLayer();
+    return EntityCollisionMask(info).getLayer();
 }
 
 inline u32 EntityGroupFilter::makeQueryCollisionMask(u32 layer_mask, GroundHit ground_hit,
                                                      bool unk) {
-    RayCastCollisionMask mask;
+    EntityQueryCollisionMask mask;
     mask.layer_mask = layer_mask;
     mask.ground_hit_type = ground_hit.value();
     mask.unk.SetBit(unk);
@@ -165,19 +165,19 @@ inline u32 EntityGroupFilter::makeQueryCollisionMask(u32 layer_mask, GroundHit g
 }
 
 inline GroundHit EntityGroupFilter::getQueryCollisionMaskGroundHit(u32 info) {
-    return RayCastCollisionMask(info).ground_hit_type.Value();
+    return EntityQueryCollisionMask(info).ground_hit_type.Value();
 }
 
 inline void EntityGroupFilter::getCollisionFilterInfoLayerAndGroundHit(u32 info,
                                                                        ContactLayer* layer,
                                                                        GroundHit* ground_hit) {
-    EntityCollisionFilterInfo info_{info};
+    EntityCollisionMask info_{info};
     *layer = info_.getLayer();
     *ground_hit = info_.getGroundHit();
 }
 
 inline const char* EntityGroupFilter::getCollisionFilterInfoLayerText(u32 info) {
-    EntityCollisionFilterInfo info_{info};
+    EntityCollisionMask info_{info};
     if (info_.is_ground_hit_mask) {
         return "GroundHitMaskMode";
     }
@@ -189,12 +189,12 @@ inline void EntityGroupFilter::setLayerCustomMask(ContactLayer layer, u32 mask) 
 }
 
 inline u32 EntityGroupFilter::getCollisionFilterInfoGroupHandlerIdx(u32 info) {
-    return EntityCollisionFilterInfo(info).group_handler_index;
+    return EntityCollisionMask(info).group_handler_index;
 }
 
 inline u32 EntityGroupFilter::makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit,
                                                       u32 unk5, u32 unk10) {
-    EntityCollisionFilterInfo info;
+    EntityCollisionMask info;
     info.data.layer.Init(layer);
     info.data.unk5.Init(unk5);
     info.data.unk10.Init(unk10);

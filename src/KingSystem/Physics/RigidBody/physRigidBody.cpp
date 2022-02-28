@@ -651,7 +651,7 @@ ContactLayer RigidBody::getContactLayer() const {
     return getContactLayer(getEntityCollisionFilterInfo());
 }
 
-ContactLayer RigidBody::getContactLayer(EntityCollisionFilterInfo info) const {
+ContactLayer RigidBody::getContactLayer(EntityCollisionMask info) const {
     return isSensor() ? info.getLayerSensor() : info.getLayer();
 }
 
@@ -662,7 +662,7 @@ void RigidBody::setContactLayer(ContactLayer layer) {
     const auto current_info = getCollisionFilterInfo();
     auto info = current_info;
     if (isSensor())
-        info = sensorReceiverMaskSetLayer(layer, info);
+        info = sensorCollisionMaskSetLayer(layer, info);
     else
         info = makeEntityCollisionMask(layer, info);
 
@@ -704,7 +704,7 @@ void RigidBody::setCollisionFilterInfo(u32 info) {
 
     if (getCollisionFilterInfo() != info) {
         if (isFlag8Set()) {
-            if (int(current_layer) != getContactLayer(EntityCollisionFilterInfo(info)))
+            if (int(current_layer) != getContactLayer(EntityCollisionMask(info)))
                 System::instance()->registerRigidBodyForContactSystem(this);
         }
 
@@ -720,7 +720,7 @@ void RigidBody::setCollisionFilterInfo(u32 info) {
 void RigidBody::setSensorReceiverLayer2(ContactLayer layer) {
     static_cast<void>(isSensor());
     static_cast<void>(isSensor());
-    const auto info = sensorReceiverMaskSetLayer2(true, layer, getCollisionFilterInfo());
+    const auto info = sensorCollisionMaskSetLayer2(true, layer, getCollisionFilterInfo());
     setCollisionFilterInfo(info);
 }
 
@@ -733,7 +733,7 @@ void RigidBody::clearSensorReceiverLayer2() {
 
     // The layer we pass here is actually irrelevant because we're clearing the layer value anyway.
     const auto info =
-        sensorReceiverMaskSetLayer2(false, ContactLayer::SensorNoHit, getCollisionFilterInfo());
+        sensorCollisionMaskSetLayer2(false, ContactLayer::SensorNoHit, getCollisionFilterInfo());
 
     setCollisionFilterInfo(info);
 }
@@ -769,30 +769,30 @@ void RigidBody::setSystemGroupHandler(SystemGroupHandler* handler) {
             SEAD_WARN("handler layer type doesn't match rigid body type; ignoring handler");
         }
     } else if (isEntity()) {
-        setCollisionFilterInfo(EntityCollisionFilterInfo::make(layer, ground_hit).raw);
+        setCollisionFilterInfo(EntityCollisionMask::make(layer, ground_hit).raw);
     } else {
-        setCollisionFilterInfo(ReceiverMask::make(layer).raw);
+        setCollisionFilterInfo(SensorCollisionMask::make(layer).raw);
     }
 }
 
-void RigidBody::setSensorCustomReceiver(const ReceiverMask& mask) {
-    ReceiverMask info = mask;
+void RigidBody::setSensorCustomReceiver(const SensorCollisionMask& mask) {
+    SensorCollisionMask info = mask;
 
     if (!isSensor())
         return;
 
-    info.raw = sensorReceiverMaskSetLayer(ContactLayer::SensorCustomReceiver, info.raw);
+    info.raw = sensorCollisionMaskSetLayer(ContactLayer::SensorCustomReceiver, info.raw);
     setCollisionFilterInfo(info.raw);
 }
 
-void RigidBody::setSensorCustomReceiver(const ReceiverMask& mask,
+void RigidBody::setSensorCustomReceiver(const SensorCollisionMask& mask,
                                         const SystemGroupHandler* handler) {
-    ReceiverMask info = mask;
+    SensorCollisionMask info = mask;
 
     if (!isSensor())
         return;
 
-    info.raw = sensorReceiverMaskSetLayer(ContactLayer::SensorCustomReceiver, info.raw);
+    info.raw = sensorCollisionMaskSetLayer(ContactLayer::SensorCustomReceiver, info.raw);
     if (handler) {
         info.group_handler_index.SetUnsafe(handler->getIndex());
     }

@@ -343,14 +343,14 @@ RigidBodyT* RigidBodyFromShape::make(const Shape& shape, RigidBodyInstanceParam*
     if (body->isEntity()) {
         const u32 idx = group_handler ? group_handler->getIndex() : 0;
         collision_filter_info = [&] {
-            EntityCollisionFilterInfo info{collision_filter_info};
+            EntityCollisionMask info{collision_filter_info};
             info.group_handler_index.SetUnsafe(idx);
             return info.raw;
         }();
     } else {
         const u32 idx = group_handler ? group_handler->getIndex() : 0;
         collision_filter_info = [&] {
-            ReceiverMask info{collision_filter_info};
+            SensorCollisionMask info{collision_filter_info};
             info.group_handler_index.SetUnsafe(idx);
             return info.raw;
         }();

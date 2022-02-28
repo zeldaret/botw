@@ -112,7 +112,7 @@ void ContactMgr::freeContactPoints(IRigidContactPoints* points) {
     delete points;
 }
 
-bool ContactMgr::getSensorLayerMask(ReceiverMask* mask,
+bool ContactMgr::getSensorLayerMask(SensorCollisionMask* mask,
                                     const sead::SafeString& receiver_type) const {
     const auto& receivers = mContactInfoTables[int(ContactLayerType::Sensor)].receivers;
     for (int i = 0; i < receivers.size(); ++i) {
