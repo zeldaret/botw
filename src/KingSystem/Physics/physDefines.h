@@ -201,8 +201,14 @@ enum class WaterCollisionMode {
     IgnoreWater = 1,
 };
 
+// TODO: rename to SensorCollisionFilterInfo.
 union ReceiverMask {
+    struct CustomReceiverTag {};
+
     union Data {
+        ContactLayer getLayer() const { return int(layer) + FirstSensor; }
+
+        /// ContactLayer minus FirstSensor.
         util::BitField<0, 5, u32> layer;
         // TODO: rename once we figure out what this layer is used for
         util::BitField<5, 1, bool, u32> has_layer2;
@@ -211,10 +217,10 @@ union ReceiverMask {
 
     union CustomReceiverData {
         util::BitField<0, 21, u32> layer;
-        util::BitField<21, 10, u32> group_handler_index;
     };
 
-    constexpr ReceiverMask() : raw(0) { is_custom_receiver = true; }
+    constexpr ReceiverMask() : raw(0) {}
+    constexpr explicit ReceiverMask(CustomReceiverTag) : raw(0) { is_custom_receiver = true; }
     constexpr explicit ReceiverMask(u32 raw_) : raw(raw_) {}
     constexpr ReceiverMask(const ReceiverMask&) = default;
     constexpr ReceiverMask& operator=(const ReceiverMask& m) {
@@ -234,11 +240,17 @@ union ReceiverMask {
         return mask;
     }
 
+    ContactLayer getLayer() const {
+        return is_custom_receiver ? ContactLayer::SensorCustomReceiver : data.getLayer();
+    }
+
     u32 raw;
     Data data;
     CustomReceiverData custom_receiver_data;
-    // FIXME: is this a sensor layer mask?
+    /// Sensor layer mask.
+    // TODO: add a constant for 21.
     util::BitField<0, 21, u32> layer_mask;
+    util::BitField<21, 10, u32> group_handler_index;
     util::BitField<31, 1, bool, u32> is_custom_receiver;
 };
 
@@ -319,7 +331,8 @@ union EntityCollisionFilterInfo {
 };
 static_assert(sizeof(EntityCollisionFilterInfo) == sizeof(u32));
 
-/// Collision mask that is used for raycast-based queries.
+/// Collision mask that is used for raycast-based queries against entities.
+// TODO: rename to make it clear this is used for entities, not sensors
 union RayCastCollisionMask {
     constexpr explicit RayCastCollisionMask(u32 raw_ = 0) : raw(raw_) {}
     constexpr RayCastCollisionMask(const RayCastCollisionMask&) = default;
@@ -334,6 +347,23 @@ union RayCastCollisionMask {
     util::BitField<17, 1, u32> unk;
     util::BitField<18, 10, u32> group_handler_index;
     util::BitField<28, 4, GroundHit::ValueType, u32> ground_hit_type;
+    u32 raw;
+};
+
+/// Collision mask that is used for raycast-based queries against sensors.
+union SensorQueryCollisionMask {
+    constexpr explicit SensorQueryCollisionMask(u32 raw_ = 0) : raw(raw_) {}
+    constexpr SensorQueryCollisionMask(const SensorQueryCollisionMask&) = default;
+    constexpr SensorQueryCollisionMask& operator=(const SensorQueryCollisionMask& m) {
+        raw = m.raw;
+        return *this;
+    }
+    constexpr bool operator==(SensorQueryCollisionMask rhs) const { return raw == rhs.raw; }
+    constexpr bool operator!=(SensorQueryCollisionMask rhs) const { return raw != rhs.raw; }
+
+    // TODO: add a constant for 21.
+    util::BitField<0, 21, u32> layer_mask;
+    util::BitField<22, 10, u32> group_handler_index;
     u32 raw;
 };
 

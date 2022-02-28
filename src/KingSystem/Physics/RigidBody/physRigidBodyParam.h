@@ -82,7 +82,7 @@ public:
     GroundHit groundhit = GroundHit::HitAll;
     u32 groundhit_mask = 0;
     u32 contact_mask = 0;
-    ReceiverMask receiver_mask;
+    ReceiverMask receiver_mask{ReceiverMask::CustomReceiverTag{}};
     bool ignore_normal_for_impulse = false;
     bool no_hit_ground = false;
     bool no_hit_water = false;

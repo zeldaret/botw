@@ -351,7 +351,7 @@ RigidBodyT* RigidBodyFromShape::make(const Shape& shape, RigidBodyInstanceParam*
         const u32 idx = group_handler ? group_handler->getIndex() : 0;
         collision_filter_info = [&] {
             ReceiverMask info{collision_filter_info};
-            info.custom_receiver_data.group_handler_index.SetUnsafe(idx);
+            info.group_handler_index.SetUnsafe(idx);
             return info.raw;
         }();
     }

@@ -794,7 +794,7 @@ void RigidBody::setSensorCustomReceiver(const ReceiverMask& mask,
 
     info.raw = sensorReceiverMaskSetLayer(ContactLayer::SensorCustomReceiver, info.raw);
     if (handler) {
-        info.custom_receiver_data.group_handler_index.SetUnsafe(handler->getIndex());
+        info.group_handler_index.SetUnsafe(handler->getIndex());
     }
     setCollisionFilterInfo(info.raw);
 }
