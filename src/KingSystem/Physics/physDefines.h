@@ -80,6 +80,13 @@ constexpr auto LastEntity = ContactLayer::EntityMeshVisualizer;
 constexpr auto FirstSensor = ContactLayer::SensorObject;
 constexpr auto LastSensor = ContactLayer::SensorCustomReceiver;
 
+// If the values of the two following constants are changed, most of the BitFields defined
+// in this file will need to be updated.
+constexpr int NumRegularEntityLayers = ContactLayer::EntityHitOnlyGround - FirstEntity + 1;
+constexpr int NumRegularSensorLayers = ContactLayer::SensorMeshVisualizer - FirstSensor + 1;
+static_assert(NumRegularEntityLayers == 17);
+static_assert(NumRegularSensorLayers == 21);
+
 constexpr bool isEntityGroundLayer(ContactLayer::ValueType layer) {
     return layer == ContactLayer::EntityGround || layer == ContactLayer::EntityGroundSmooth ||
            layer == ContactLayer::EntityGroundRough;
@@ -216,7 +223,7 @@ union ReceiverMask {
     };
 
     union CustomReceiverData {
-        util::BitField<0, 21, u32> layer;
+        util::BitField<0, NumRegularSensorLayers, u32> layer;
     };
 
     constexpr ReceiverMask() : raw(0) {}
@@ -248,8 +255,7 @@ union ReceiverMask {
     Data data;
     CustomReceiverData custom_receiver_data;
     /// Sensor layer mask.
-    // TODO: add a constant for 21.
-    util::BitField<0, 21, u32> layer_mask;
+    util::BitField<0, NumRegularSensorLayers, u32> layer_mask;
     util::BitField<21, 10, u32> group_handler_index;
     util::BitField<31, 1, bool, u32> is_custom_receiver;
 };
@@ -266,8 +272,7 @@ union EntityCollisionFilterInfo {
         util::BitField<5, 5, u32> unk5;
         util::BitField<10, 5, u32> unk10;
         /// Layers to collide with for EntityQueryCustomReceiver entities.
-        // XXX: was 17 chosen because ContactLayer::EntityQueryCustomReceiver = 17?
-        util::BitField<5, 17, u32> query_custom_receiver_layer_mask;
+        util::BitField<5, NumRegularEntityLayers, u32> query_custom_receiver_layer_mask;
         util::BitField<24, 1, u32> unk24;
         util::BitField<25, 1, u32> unk25;
         util::BitField<26, 4, u32> ground_hit;
@@ -343,7 +348,7 @@ union RayCastCollisionMask {
     constexpr bool operator==(RayCastCollisionMask rhs) const { return raw == rhs.raw; }
     constexpr bool operator!=(RayCastCollisionMask rhs) const { return raw != rhs.raw; }
 
-    util::BitField<0, 17, u32> layer_mask;
+    util::BitField<0, NumRegularEntityLayers, u32> layer_mask;
     util::BitField<17, 1, u32> unk;
     util::BitField<18, 10, u32> group_handler_index;
     util::BitField<28, 4, GroundHit::ValueType, u32> ground_hit_type;
@@ -361,8 +366,7 @@ union SensorQueryCollisionMask {
     constexpr bool operator==(SensorQueryCollisionMask rhs) const { return raw == rhs.raw; }
     constexpr bool operator!=(SensorQueryCollisionMask rhs) const { return raw != rhs.raw; }
 
-    // TODO: add a constant for 21.
-    util::BitField<0, 21, u32> layer_mask;
+    util::BitField<0, NumRegularSensorLayers, u32> layer_mask;
     util::BitField<22, 10, u32> group_handler_index;
     u32 raw;
 };
