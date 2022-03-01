@@ -53,6 +53,9 @@ public:
     void freeContactPointInfoEx(ContactPointInfoEx* info) const;
 
     void registerContactPointInfo(ContactPointInfo* info) const;
+    // 0x000000710121696c
+    void registerCollisionInfo(CollisionInfo* info) const;
+    // 0x0000007101216974
     void registerContactPointLayerPair(ContactPointInfoEx* info, ContactLayer layer1,
                                        ContactLayer layer2, bool enabled);
 

@@ -24,11 +24,12 @@ class hkpMotion;
 
 namespace ksys::phys {
 
+class CollisionInfo;
+class ContactPointInfo;
 class MotionAccessor;
 struct RigidBodyInstanceParam;
 class RigidBodyMotionEntity;
 class RigidBodyMotionSensor;
-class ContactPointInfo;
 class SystemGroupHandler;
 class UserTag;
 
@@ -187,10 +188,9 @@ public:
     // 0x0000007100f8e3fc
     void x_11();
 
-    // TODO: rename
-    void* get90() const { return _90; }
-    // 0x0000007100f8e72c
-    void x_12_setField90(void* field_90);
+    CollisionInfo* getCollisionInfo() const { return mCollisionInfo; }
+    void setCollisionInfo(CollisionInfo* info);
+
     ContactPointInfo* getContactPointInfo() const { return mContactPointInfo; }
     void setContactPointInfo(ContactPointInfo* info);
 
@@ -584,7 +584,7 @@ protected:
     hkpRigidBody* mHkBody;
     UserTag* mUserTag = nullptr;
     ContactPointInfo* mContactPointInfo = nullptr;
-    void* _90 = nullptr;
+    CollisionInfo* mCollisionInfo = nullptr;
     u16 _98 = 0;
     RigidBodyAccessor mRigidBodyAccessor;
     f32 mScale = 1.0f;

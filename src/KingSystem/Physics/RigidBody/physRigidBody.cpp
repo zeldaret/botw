@@ -16,6 +16,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyMotionSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physSensorGroupFilter.h"
@@ -471,6 +472,17 @@ void RigidBody::x_10() {
     mFlags.set(Flag::_4);
 
     x_8(nullptr);
+}
+
+void RigidBody::setCollisionInfo(CollisionInfo* info) {
+    if (mCollisionInfo != info) {
+        if (mCollisionInfo && isFlag8Set())
+            System::instance()->registerRigidBodyForContactSystem(this);
+        mCollisionInfo = info;
+    }
+
+    if (isFlag8Set() && mCollisionInfo && !mCollisionInfo->isLinked())
+        System::instance()->registerCollisionInfo(mCollisionInfo);
 }
 
 void RigidBody::setContactPointInfo(ContactPointInfo* info) {

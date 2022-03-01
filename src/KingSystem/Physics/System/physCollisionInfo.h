@@ -36,6 +36,7 @@ public:
     explicit CollisionInfo(const sead::SafeString& name);
     ~CollisionInfo() override;
 
+    bool isLinked() const { return mListNode.isLinked(); }
     static constexpr size_t getListNodeOffset() { return offsetof(CollisionInfo, mListNode); }
 
 private:

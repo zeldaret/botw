@@ -98,10 +98,10 @@ void ContactListener::handleCollisionRemoved(const hkpCollisionEvent& event, Rig
     const auto layer_a = body_a->getContactLayer();
     const auto layer_b = body_b->getContactLayer();
 
-    if (auto* unk = body_a->get90())
+    if (auto* unk = body_a->getCollisionInfo())
         mMgr->x_19(unk, body_a, body_b);
 
-    if (auto* unk = body_b->get90())
+    if (auto* unk = body_b->getCollisionInfo())
         mMgr->x_19(unk, body_b, body_a);
 
     const auto i = int(layer_a - mLayerBase);
