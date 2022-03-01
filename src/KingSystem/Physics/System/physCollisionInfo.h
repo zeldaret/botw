@@ -1,7 +1,10 @@
 #pragma once
 
+#include <container/seadOffsetList.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadNamable.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadMutex.h>
 #include "KingSystem/Physics/physDefines.h"
 
@@ -21,7 +24,24 @@ public:
 private:
     // One layer mask for layer type (entity/sensor).
     sead::SafeArray<sead::BitFlag32, 2> mLayerMasks;
-    sead::Mutex mMutex;
+    sead::Mutex mMutex{nullptr,
+                       sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified};
+};
+
+class CollisionInfo : public CollisionInfoBase, public sead::INamable {
+public:
+    static CollisionInfo* make(sead::Heap* heap, const sead::SafeString& name);
+    static void free(CollisionInfo* info);
+
+    explicit CollisionInfo(const sead::SafeString& name);
+    ~CollisionInfo() override;
+
+    static constexpr size_t getListNodeOffset() { return offsetof(CollisionInfo, mListNode); }
+
+private:
+    // FIXME: type
+    sead::OffsetList<void*> mList;
+    sead::ListNode mListNode;
 };
 
 inline sead::BitFlag32& CollisionInfoBase::getLayerMask(ContactLayerType layer_type) {

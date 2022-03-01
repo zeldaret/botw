@@ -9,6 +9,7 @@
 
 namespace ksys::phys {
 
+class CollisionInfo;
 class ContactMgr;
 class GroupFilter;
 class MaterialTable;
@@ -54,6 +55,11 @@ public:
     void registerContactPointInfo(ContactPointInfo* info) const;
     void registerContactPointLayerPair(ContactPointInfoEx* info, ContactLayer layer1,
                                        ContactLayer layer2, bool enabled);
+
+    // 0x00000071012169a4
+    CollisionInfo* allocCollisionInfo(sead::Heap* heap, const sead::SafeString& name) const;
+    // 0x00000071012169ac
+    void freeCollisionInfo(CollisionInfo* info) const;
 
     // 0x0000007101216a20
     void registerRigidBodyForContactSystem(RigidBody* body);
