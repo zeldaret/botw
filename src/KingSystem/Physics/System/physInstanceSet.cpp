@@ -1,5 +1,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Resource/Actor/resResourceRagdollBlendWeight.h"
 
 namespace ksys::phys {
@@ -154,8 +156,8 @@ void* InstanceSet::sub_7100FBBC28(const sead::SafeString& name) const {
 
 s32 InstanceSet::sub_7100FBBC78(const sead::SafeString& name) const {
     s32 idx = 0;
-    for (auto& info : mContactInfos) {
-        if (name == info.mName)
+    for (auto& info : mContactPointInfo) {
+        if (name == info.getName())
             return idx;
         idx++;
     }
@@ -164,8 +166,8 @@ s32 InstanceSet::sub_7100FBBC78(const sead::SafeString& name) const {
 
 s32 InstanceSet::sub_7100FBBD9C(const sead::SafeString& name) const {
     s32 idx = 0;
-    for (auto& info : mCollisionInfos) {
-        if (name == info.mName)
+    for (auto& info : mCollisionInfo) {
+        if (name == info.getName())
             return idx;
         idx++;
     }

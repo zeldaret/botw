@@ -18,6 +18,8 @@ class RagdollConfigList;
 
 namespace ksys::phys {
 
+class CollisionInfo;
+class ContactPointInfo;
 class ParamSet;
 class RigidBodySet;
 class SystemGroupHandler;
@@ -36,16 +38,6 @@ public:
     void sub_7100F5EC30();
     void sub_7100F60604();
     void enableCollisionMaybe_0(ContactLayer);
-};
-
-struct CollisionInfoBase {
-    u8 filler[0x50];
-    sead::SafeString mName;
-};
-
-struct ContactInfo {
-    u8 filler[0x8];
-    sead::SafeString mName;
 };
 
 class InstanceSet : public sead::hostio::Node {
@@ -96,8 +88,8 @@ private:
     f32 mScale;
     u8 _34[0x40 - 0x34];
     sead::PtrArray<RigidBodySet> mRigidBodySets;
-    sead::PtrArray<CollisionInfoBase> mCollisionInfos;
-    sead::PtrArray<ContactInfo> mContactInfos;
+    sead::PtrArray<CollisionInfo> mCollisionInfo;
+    sead::PtrArray<ContactPointInfo> mContactPointInfo;
 
     u8 _70[0x10];
     CollisionController* mCollisionController;
