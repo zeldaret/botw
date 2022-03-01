@@ -22,8 +22,10 @@ class Heap;
 
 namespace ksys::phys {
 
+struct ContactUnk1;
 enum class IsIndoorStage;
 class IRigidContactPoints;
+class RigidBody;
 class RigidContactPoints;
 class RigidContactPointsEx;
 
@@ -85,6 +87,15 @@ public:
                                                const sead::SafeString& name, int a, int b, int c);
     void registerContactPoints(IRigidContactPoints* points);
     void freeContactPoints(IRigidContactPoints* points);
+
+    // 0x0000007100fb3744
+    void x_17(void* unk, RigidBody* body_a, RigidBody* body_b);
+    // 0x0000007100fb37d4
+    void x_18(ContactUnk1* unk, RigidBody* body_a, RigidBody* body_b);
+    // 0x0000007100fb3854
+    void x_19(void* unk, RigidBody* body_a, RigidBody* body_b);
+    // 0x0000007100fb3938
+    void x_20(ContactUnk1* unk, RigidBody* body_a, RigidBody* body_b);
 
 private:
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,

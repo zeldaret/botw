@@ -187,8 +187,11 @@ public:
     // 0x0000007100f8e3fc
     void x_11();
 
+    // TODO: rename
+    void* get90() const { return _90; }
     // 0x0000007100f8e72c
-    void x_12();
+    void x_12_setField90(void* field_90);
+    RigidContactPoints* getContactPoints() const { return mContactPoints; }
     void setContactPoints(RigidContactPoints* points);
 
     void freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse);
@@ -206,6 +209,8 @@ public:
     void setContactMask(u32);
     void setContactAll();
     void setContactNone();
+    sead::BitFlag32 getContactMask() const { return mContactMask; }
+    sead::BitFlag32 getIgnoredLayers() const { return ~getContactMask(); }
 
     void enableGroundCollision(bool enabled);
     bool isGroundCollisionEnabled() const;

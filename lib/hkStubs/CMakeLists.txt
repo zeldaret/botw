@@ -172,6 +172,7 @@ add_library(hkStubs OBJECT
 
   Havok/Physics2012/Internal/Collide/Mopp/Code/hkpMoppCode.h
 
+  Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h
   Havok/Physics2012/Utilities/Collide/ShapeUtils/ShapeScaling/hkpShapeScalingUtility.h
   Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h
   Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h

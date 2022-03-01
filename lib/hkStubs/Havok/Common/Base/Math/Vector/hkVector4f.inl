@@ -510,6 +510,14 @@ inline hkSimdFloat32 hkVector4f::dot4xyz1(hkVector4fParameter a) const {
 #endif
 }
 
+inline void hkVector4f::setInt24W(int value) {
+    reinterpret_cast<hkInt32*>(&v)[3] = hkInt32(value) | 0x3f000000;
+}
+
+inline int hkVector4f::getInt24W() const {
+    return reinterpret_cast<const hkInt32*>(&v)[3] & ~0x3f000000;
+}
+
 template <int Constant>
 inline const hkVector4f& hkVector4f::getConstant() {
     return reinterpret_cast<const hkVector4f&>(g_vectorfConstants[Constant]);

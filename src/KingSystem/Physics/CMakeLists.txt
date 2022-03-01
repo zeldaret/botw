@@ -99,6 +99,7 @@ target_sources(uking PRIVATE
 
   System/physCharacterControllerParam.cpp
   System/physCharacterControllerParam.h
+  System/physCollisionInfo.h
   System/physConstraint.cpp
   System/physConstraint.h
   System/physContactInfoParam.cpp

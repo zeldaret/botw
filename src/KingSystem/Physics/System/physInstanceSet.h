@@ -38,7 +38,7 @@ public:
     void enableCollisionMaybe_0(ContactLayer);
 };
 
-struct CollisionInfo {
+struct CollisionInfoBase {
     u8 filler[0x50];
     sead::SafeString mName;
 };
@@ -96,7 +96,7 @@ private:
     f32 mScale;
     u8 _34[0x40 - 0x34];
     sead::PtrArray<RigidBodySet> mRigidBodySets;
-    sead::PtrArray<CollisionInfo> mCollisionInfos;
+    sead::PtrArray<CollisionInfoBase> mCollisionInfos;
     sead::PtrArray<ContactInfo> mContactInfos;
 
     u8 _70[0x10];

@@ -187,6 +187,9 @@ public:
     void setZ(hkSimdFloat32Parameter val) { setComponent(2, val); }
     void setW(hkSimdFloat32Parameter val) { setComponent(3, val); }
 
+    HK_FORCE_INLINE void setInt24W(int value);
+    HK_FORCE_INLINE int getInt24W() const;
+
     // ========== Load/store
 
     template <int Constant>

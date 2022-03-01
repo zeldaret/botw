@@ -17,7 +17,11 @@ struct ContactUnk1 {
     ContactUnk1(u32 layer);
     virtual ~ContactUnk1();
 
-    u8 _8[0x68];
+    u8 _8[0x50 - 0x8];
+    ContactLayer _50;
+    u8 _54[0x68 - 0x54];
+    u32 _68;
+    u32 _6c;
 };
 
 class ContactListener : public hkpContactListener, public sead::hostio::Node {
@@ -32,20 +36,31 @@ public:
     void contactPointCallback(const hkpContactPointEvent& event) override;
     void collisionAddedCallback(const hkpCollisionEvent& event) override;
     void collisionRemovedCallback(const hkpCollisionEvent& event) override;
-    void contactPointAddedCallback(hkpContactPointAddedEvent& event) override;
-    void contactPointRemovedCallback(hkpContactPointRemovedEvent& event) override;
-    void contactProcessCallback(hkpContactProcessEvent& event) override;
-
-    virtual void m10();
-    virtual void m11() {}
-    virtual void handleCollisionAdded(const hkpCollisionEvent& event, RigidBody* bodyA,
-                                      RigidBody* bodyB);
-    virtual void m13();
-    virtual void m14();
-    virtual u32 m15() { return 0; }
+    void contactPointAddedCallback(hkpContactPointAddedEvent& event) override {}
+    void contactPointRemovedCallback(hkpContactPointRemovedEvent& event) override {}
+    void contactProcessCallback(hkpContactProcessEvent& event) override {}
 
 protected:
-    void handleCollisionRemoved(const hkpCollisionEvent& event, RigidBody* bodyA, RigidBody* bodyB);
+    virtual void characterControlContactPointCallback(u32 ignored_layers_a, u32 ignored_layers_b,
+                                                      RigidBody* body_a, RigidBody* body_b,
+                                                      ContactLayer layer_a, ContactLayer layer_b,
+                                                      const hkpContactPointEvent& event);
+
+    virtual void m11() {}
+
+    virtual void handleCollisionAdded(const hkpCollisionEvent& event, RigidBody* body_a,
+                                      RigidBody* body_b);
+
+    void handleCollisionRemoved(const hkpCollisionEvent& event, RigidBody* body_a,
+                                RigidBody* body_b);
+
+    virtual void manifoldContactPointCallback(const hkpContactPointEvent& event, RigidBody* body_a,
+                                              RigidBody* body_b);
+
+    virtual void regularContactPointCallback(const hkpContactPointEvent& event, RigidBody* body_a,
+                                             RigidBody* body_b, void* unk = nullptr);
+
+    virtual u32 m15() { return 0; }
 
 private:
     struct Unk1 {
