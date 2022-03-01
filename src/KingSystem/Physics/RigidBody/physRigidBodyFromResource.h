@@ -17,7 +17,8 @@ public:
     bool isMaterial(Material material) const;
 
     float getVolume() override;
-    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) override;
+    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
+                          const sead::Vector3f& contact_point) override;
 
 protected:
     float updateScale_(float scale, float old_scale) override;

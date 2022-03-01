@@ -22,8 +22,10 @@ class Heap;
 
 namespace ksys::phys {
 
-class ContactLayerCollisionInfo;
 enum class IsIndoorStage;
+
+class CollisionInfo;
+class ContactLayerCollisionInfo;
 class ContactPointInfoBase;
 class RigidBody;
 class ContactPointInfo;
@@ -89,13 +91,15 @@ public:
     void freeContactPointInfo(ContactPointInfoBase* info);
 
     // 0x0000007100fb3744
-    void x_17(void* unk, RigidBody* body_a, RigidBody* body_b);
+    void x_17(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
     // 0x0000007100fb37d4
     void x_18(ContactLayerCollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
     // 0x0000007100fb3854
-    void x_19(void* unk, RigidBody* body_a, RigidBody* body_b);
+    void x_19(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
     // 0x0000007100fb3938
     void x_20(ContactLayerCollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
+    // 0x0000007100fb3a2c
+    void x_21(ContactLayerCollisionInfo* info, RigidBody* body);
 
 private:
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,

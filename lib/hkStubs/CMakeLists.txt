@@ -92,6 +92,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Agent/Collidable/hkpCdBody.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidableQualityType.h
+  Havok/Physics2012/Collide/Agent/ContactMgr/hkpContactMgr.h
   Havok/Physics2012/Collide/Agent3/BvTree3/hkpBvTreeAgent3.h
   Havok/Physics2012/Collide/Agent3/Machine/Nn/hkpAgentNnTrack.h
   Havok/Physics2012/Collide/Agent3/Machine/Nn/hkpLinkedCollidable.h
@@ -133,6 +134,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Util/Welding/hkpWeldingUtility.h
 
   Havok/Physics2012/Dynamics/Action/hkpAction.h
+  Havok/Physics2012/Dynamics/Collide/hkpDynamicsContactMgr.h
   Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h
   Havok/Physics2012/Dynamics/Collide/ContactListener/hkpCollisionEvent.h
   Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactListener.h

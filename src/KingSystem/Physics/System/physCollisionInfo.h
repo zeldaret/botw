@@ -18,6 +18,8 @@ public:
     sead::BitFlag32& getLayerMask(ContactLayerType layer_type);
     const sead::BitFlag32& getLayerMask(ContactLayerType layer_type) const;
 
+    bool isLayerEnabled(ContactLayer layer) const;
+
     void lock();
     void unlock();
 
@@ -51,6 +53,11 @@ inline sead::BitFlag32& CollisionInfoBase::getLayerMask(ContactLayerType layer_t
 
 inline const sead::BitFlag32& CollisionInfoBase::getLayerMask(ContactLayerType layer_type) const {
     return mLayerMasks[int(layer_type)];
+}
+
+inline bool CollisionInfoBase::isLayerEnabled(ContactLayer layer) const {
+    const auto& mask = getLayerMask(getContactLayerType(layer));
+    return mask.isOnBit(int(getContactLayerBaseRelativeValue(layer)));
 }
 
 inline void CollisionInfoBase::lock() {

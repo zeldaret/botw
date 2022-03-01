@@ -16,6 +16,12 @@ class LayerContactPointInfo : public ContactPointInfoBase {
 public:
     using Points = sead::Buffer<ContactPoint*>;
 
+    struct LayerEntry {
+        ContactLayer layer1;
+        ContactLayer layer2;
+        bool enabled;
+    };
+
     class IteratorEnd;
 
     class Iterator {
@@ -100,13 +106,10 @@ public:
     auto begin() const { return Iterator(mPoints, _18); }
     auto end() const { return IteratorEnd(mPoints, _18); }
 
-private:
-    struct LayerEntry {
-        ContactLayer layer1;
-        ContactLayer layer2;
-        bool enabled;
-    };
+    sead::ObjArray<LayerEntry>& getLayerEntries() { return mLayerEntries; }
+    const sead::ObjArray<LayerEntry>& getLayerEntries() const { return mLayerEntries; }
 
+private:
     Points mPoints{};
     sead::ObjArray<LayerEntry> mLayerEntries;
     ContactLayerType mLayerType = ContactLayerType::Invalid;

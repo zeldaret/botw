@@ -70,7 +70,8 @@ const Shape* ListShapeRigidBody::getShape_() const {
     return mShape;
 }
 
-u32 ListShapeRigidBody::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) {
+u32 ListShapeRigidBody::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
+                                          const sead::Vector3f& contact_point) {
     masks->ignored_layers = ~mContactMask;
     masks->collision_filter_info = getCollisionFilterInfo();
     masks->material_mask = getMaterialMask(unk != nullptr ? int(*unk) : 0).getRawData();

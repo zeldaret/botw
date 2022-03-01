@@ -86,7 +86,8 @@ bool RigidBodyFromResource::isMaterial(Material material) const {
 u32 getCollisionFilterInfoFromCollidable(u32* material_mask, u32* collision_filter_info,
                                          const hkpCollidable* collidable, const u32* unk);
 
-u32 RigidBodyFromResource::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) {
+u32 RigidBodyFromResource::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
+                                             const sead::Vector3f& contact_point) {
     masks->ignored_layers = ~mContactMask;
     auto* collidable = getHkBody()->getCollidable();
     if (unk != nullptr) {

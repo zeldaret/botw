@@ -5,10 +5,13 @@
 #include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
 #include <cstddef>
+#include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadNamable.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -40,6 +43,20 @@ protected:
 
 class ContactPointInfo : public ContactPointInfoBase {
 public:
+    enum class ShouldDisableContact : bool {
+        Yes = true,
+        No = false,
+    };
+
+    struct Event {
+        RigidBody* body;
+        const sead::Vector3f* position;
+        const sead::Vector3f* separating_normal;
+        const RigidBody::CollisionMasks* collision_masks;
+    };
+
+    using ContactCallback = sead::IDelegate2R<ShouldDisableContact*, const Event&, bool>;
+
     static ContactPointInfo* make(sead::Heap* heap, int num, const sead::SafeString& name, int a,
                                   int b, int c);
     static void free(ContactPointInfo* instance);
@@ -49,9 +66,12 @@ public:
     void freePoints() override;
     virtual void allocPoints(sead::Heap* heap, int num);
 
+    ContactCallback* getContactCallback() const { return mContactCallback; }
+    void setContactCallback(ContactCallback* cb) { mContactCallback = cb; }
+
 private:
     sead::Buffer<void*> mPoints{};
-    void* _58{};
+    ContactCallback* mContactCallback{};
 };
 KSYS_CHECK_SIZE_NX150(ContactPointInfo, 0x60);
 

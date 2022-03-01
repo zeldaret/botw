@@ -58,7 +58,8 @@ const Shape* CylinderWaterRigidBody::getShape_() const {
     return mShape;
 }
 
-u32 CylinderWaterRigidBody::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) {
+u32 CylinderWaterRigidBody::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
+                                              const sead::Vector3f& contact_point) {
     masks->ignored_layers = ~mContactMask.getDirect();
     masks->collision_filter_info = getCollisionFilterInfo();
     masks->material_mask = getMaterialMask().getRawData();

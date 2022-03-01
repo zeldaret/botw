@@ -22,7 +22,8 @@ public:
 protected:
     Shape* getShape_() override;
     const Shape* getShape_() const override;
-    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) override;
+    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
+                          const sead::Vector3f& contact_point) override;
 
 private:
     SphereShape* mShape{};

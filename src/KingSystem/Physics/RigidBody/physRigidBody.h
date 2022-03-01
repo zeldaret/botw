@@ -523,10 +523,11 @@ public:
     void setEntityMotionFlag200(bool set);
     bool isEntityMotionFlag200On() const;
 
-protected:
     // FIXME: return type
-    virtual u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk) = 0;
+    virtual u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
+                                  const sead::Vector3f& contact_point) = 0;
 
+protected:
     /// Called whenever a shape update is requested.
     /// @return the new shape to use for the Havok rigid body or null to keep the current hkpShape
     virtual const hkpShape* getNewHavokShape_();
