@@ -140,7 +140,7 @@ void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* pa
     }
     body->enableGroundCollision(instance_params.no_hit_ground == 0);
     body->enableWaterCollision(instance_params.no_hit_water == 0);
-    body->clearSensorReceiverLayer2();
+    body->clearSensorReceiverIgnoredLayer();
 }
 
 void* InstanceSet::sub_7100FBBC28(const sead::SafeString& name) const {

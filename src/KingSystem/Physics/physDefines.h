@@ -308,11 +308,14 @@ union SensorCollisionMask {
     union Data {
         ContactLayer getLayer() const { return int(layer) + FirstSensor; }
 
-        /// ContactLayer minus FirstSensor.
+        /// The sensor's contact layer.
+        /// @note Add FirstSensor to get the actual ContactLayer value.
         util::BitField<0, 5, u32> layer;
-        // TODO: rename once we figure out what this layer is used for
-        util::BitField<5, 1, bool, u32> has_layer2;
-        util::BitField<6, 5, u32> layer2;
+        /// Whether `ignored_layer` contains a valid layer.
+        util::BitField<5, 1, bool, u32> has_ignored_layer;
+        /// Contact layer to ignore during collision detection. Only valid if `has_ignored_layer`.
+        /// @note Add FirstSensor to get the actual ContactLayer value.
+        util::BitField<6, 5, u32> ignored_layer;
     };
 
     union CustomReceiverData {

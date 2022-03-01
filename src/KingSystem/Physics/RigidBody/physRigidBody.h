@@ -229,10 +229,9 @@ public:
     }
 
     /// Only works for sensor rigid bodies that do not use a custom receiver.
-    // TODO: rename once we figure out what this layer is used for
-    void setSensorReceiverLayer2(ContactLayer layer);
+    void setSensorReceiverIgnoredLayer(ContactLayer layer);
     /// Only works for sensor rigid bodies that do not use a custom receiver.
-    void clearSensorReceiverLayer2();
+    void clearSensorReceiverIgnoredLayer();
 
     void setContactLayerAndHandler(ContactLayer layer, SystemGroupHandler* handler);
     void setContactLayerAndGroundHit(ContactLayer layer, GroundHit ground_hit);

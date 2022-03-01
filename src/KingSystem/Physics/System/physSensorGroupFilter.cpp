@@ -82,9 +82,9 @@ hkBool SensorGroupFilter::testCollisionForSensors(u32 infoA, u32 infoB) const {
             return false;
         }
 
-        if (a.data.has_layer2 && b.data.layer == a.data.layer2)
+        if (a.data.has_ignored_layer && b.data.layer == a.data.ignored_layer)
             return false;
-        if (b.data.has_layer2 && a.data.layer == b.data.layer2)
+        if (b.data.has_ignored_layer && a.data.layer == b.data.ignored_layer)
             return false;
 
         return m_collisionLookupTable[a.data.layer] & (1 << b.data.layer);
@@ -241,7 +241,7 @@ u32 sensorCollisionMaskSetLayer(ContactLayer layer, u32 mask) {
             clearBitFields(&info.raw, info.is_custom_receiver, info.custom_receiver_data.layer);
         } else {
             clearBitFields(&info.raw, info.is_custom_receiver, info.data.layer,
-                           info.data.has_layer2, info.data.layer2);
+                           info.data.has_ignored_layer, info.data.ignored_layer);
         }
 
         if (info.is_custom_receiver) {
@@ -254,7 +254,7 @@ u32 sensorCollisionMaskSetLayer(ContactLayer layer, u32 mask) {
     return info.raw;
 }
 
-u32 sensorCollisionMaskSetLayer2(bool set, ContactLayer layer, u32 mask) {
+u32 sensorCollisionMaskSetIgnoredLayer(bool set, ContactLayer layer, u32 mask) {
     SEAD_ASSERT(getContactLayerType(layer) == ContactLayerType::Sensor);
 
     SensorCollisionMask info{mask};
@@ -262,12 +262,12 @@ u32 sensorCollisionMaskSetLayer2(bool set, ContactLayer layer, u32 mask) {
         return info.raw;
 
     info.is_custom_receiver = false;
-    info.data.has_layer2 = false;
-    info.data.layer2 = {};
+    info.data.has_ignored_layer = false;
+    info.data.ignored_layer = {};
 
     if (set) {
-        info.data.has_layer2 = true;
-        info.data.layer2.SetUnsafe(layer - FirstSensor);
+        info.data.has_ignored_layer = true;
+        info.data.ignored_layer.SetUnsafe(layer - FirstSensor);
     }
 
     return info.raw;

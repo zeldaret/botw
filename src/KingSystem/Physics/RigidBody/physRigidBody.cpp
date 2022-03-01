@@ -717,14 +717,14 @@ void RigidBody::setCollisionFilterInfo(u32 info) {
     }
 }
 
-void RigidBody::setSensorReceiverLayer2(ContactLayer layer) {
+void RigidBody::setSensorReceiverIgnoredLayer(ContactLayer layer) {
     static_cast<void>(isSensor());
     static_cast<void>(isSensor());
-    const auto info = sensorCollisionMaskSetLayer2(true, layer, getCollisionFilterInfo());
+    const auto info = sensorCollisionMaskSetIgnoredLayer(true, layer, getCollisionFilterInfo());
     setCollisionFilterInfo(info);
 }
 
-void RigidBody::clearSensorReceiverLayer2() {
+void RigidBody::clearSensorReceiverIgnoredLayer() {
     if (!isSensor())
         return;
 
@@ -732,8 +732,8 @@ void RigidBody::clearSensorReceiverLayer2() {
         return;
 
     // The layer we pass here is actually irrelevant because we're clearing the layer value anyway.
-    const auto info =
-        sensorCollisionMaskSetLayer2(false, ContactLayer::SensorNoHit, getCollisionFilterInfo());
+    const auto info = sensorCollisionMaskSetIgnoredLayer(false, ContactLayer::SensorNoHit,
+                                                         getCollisionFilterInfo());
 
     setCollisionFilterInfo(info);
 }

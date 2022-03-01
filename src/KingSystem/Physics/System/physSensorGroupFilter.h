@@ -64,13 +64,12 @@ protected:
 /// @param mask An existing sensor collision mask
 u32 sensorCollisionMaskSetLayer(ContactLayer layer, u32 mask);
 
-/// Set or clear a second contact layer in a sensor collision mask.
+/// Set or clear a contact layer to ignore during collision detection in a sensor collision mask.
 /// This function does nothing when using a custom receiver.
 /// @param set If true, set the specified layer. Clear it otherwise
-/// @param layer A sensor contact layer
+/// @param layer A sensor contact layer to be ignored
 /// @param mask An existing sensor collision mask
-// TODO: rename once we figure out what this layer is used for
-u32 sensorCollisionMaskSetLayer2(bool set, ContactLayer layer, u32 mask);
+u32 sensorCollisionMaskSetIgnoredLayer(bool set, ContactLayer layer, u32 mask);
 
 inline u32 SensorSystemGroupHandler::makeCollisionFilterInfo(u32 info, ContactLayer layer,
                                                              GroundHit ground_hit) {
