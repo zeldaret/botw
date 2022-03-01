@@ -10,19 +10,9 @@
 
 namespace ksys::phys {
 
+class ContactLayerCollisionInfo;
 class ContactMgr;
 class RigidBody;
-
-struct ContactUnk1 {
-    ContactUnk1(u32 layer);
-    virtual ~ContactUnk1();
-
-    u8 _8[0x50 - 0x8];
-    ContactLayer _50;
-    u8 _54[0x68 - 0x54];
-    u32 _68;
-    u32 _6c;
-};
 
 class ContactListener : public hkpContactListener, public sead::hostio::Node {
     SEAD_RTTI_BASE(ContactListener)
@@ -72,7 +62,7 @@ private:
     ContactLayerType mLayerType{};
     u32 mLayerBase{};
     sead::Buffer<sead::Buffer<sead::FixedObjArray<Unk1, 8>>> _20;
-    sead::Buffer<sead::Buffer<ContactUnk1*>> _30;
+    sead::Buffer<sead::Buffer<ContactLayerCollisionInfo*>> mCollisionInfoPerLayerPair;
     void* _40{};
     u32 _48{};
     u32 mLayerCount{};

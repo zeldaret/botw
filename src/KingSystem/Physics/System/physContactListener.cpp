@@ -6,6 +6,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadMemUtil.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactLayerCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
@@ -29,16 +30,16 @@ void ContactListener::init(sead::Heap* heap) {
         _20[i].allocBufferAssert(mLayerCount, nullptr);
     }
 
-    _30.allocBufferAssert(mLayerCount, nullptr);
+    mCollisionInfoPerLayerPair.allocBufferAssert(mLayerCount, nullptr);
     for (u32 i = 0; i < mLayerCount; ++i) {
-        auto& row = _30[i];
+        auto& row = mCollisionInfoPerLayerPair[i];
         row.allocBufferAssert(mLayerCount, nullptr);
 
         for (u32 j = 0; j < mLayerCount; ++j) {
             if (j >= i) {
-                row[j] = new (heap) ContactUnk1(mLayerBase + i);
+                row[j] = new (heap) ContactLayerCollisionInfo(mLayerBase + i);
             } else {
-                row[j] = _30[j][i];
+                row[j] = mCollisionInfoPerLayerPair[j][i];
             }
         }
     }
@@ -106,14 +107,14 @@ void ContactListener::handleCollisionRemoved(const hkpCollisionEvent& event, Rig
 
     const auto i = int(layer_a - mLayerBase);
     const auto j = int(layer_b - mLayerBase);
-    ContactUnk1* unk = _30[i][j];
-    if (unk->_68) {
+    ContactLayerCollisionInfo* info = mCollisionInfoPerLayerPair[i][j];
+    if (!info->getList().isEmpty()) {
         const auto layer_a_ = int(layer_a);
-        const auto layer_unk = unk->_50;
-        const bool body_a_first = layer_a_ == layer_unk;
+        const auto tracked_layer = info->getLayer();
+        const bool body_a_first = layer_a_ == tracked_layer;
         auto* body1 = body_a_first ? body_a : body_b;
         auto* body2 = body_a_first ? body_b : body_a;
-        mMgr->x_20(unk, body1, body2);
+        mMgr->x_20(info, body1, body2);
     }
 }
 
