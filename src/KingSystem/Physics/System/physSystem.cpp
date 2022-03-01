@@ -7,9 +7,9 @@
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
-#include "KingSystem/Physics/System/physRigidContactPoints.h"
 #include "KingSystem/Physics/System/physSensorGroupFilter.h"
 #include "KingSystem/Physics/System/physSystemData.h"
 #include "KingSystem/Resource/resEntryFactory.h"
@@ -47,24 +47,24 @@ void System::initSystemData(sead::Heap* heap) {
                       mContactMgr);
 }
 
-RigidContactPoints* System::allocContactPoints(sead::Heap* heap, int num,
-                                               const sead::SafeString& name, int a, int b,
-                                               int c) const {
+ContactPointInfo* System::allocContactPointInfo(sead::Heap* heap, int num,
+                                                const sead::SafeString& name, int a, int b,
+                                                int c) const {
     return mContactMgr->allocContactPoints(heap, num, name, a, b, c);
 }
 
-void System::freeContactPoints(RigidContactPoints* points) const {
-    mContactMgr->freeContactPoints(points);
+void System::freeContactPointInfo(ContactPointInfo* info) const {
+    mContactMgr->freeContactPointInfo(info);
 }
 
-RigidContactPointsEx* System::allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                                   const sead::SafeString& name, int a, int b,
-                                                   int c) const {
+ContactPointInfoEx* System::allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                                 const sead::SafeString& name, int a, int b,
+                                                 int c) const {
     return mContactMgr->allocContactPointsEx(heap, num, num2, name, a, b, c);
 }
 
-void System::registerContactPoints(RigidContactPoints* points) const {
-    mContactMgr->registerContactPoints(points);
+void System::registerContactPointInfo(ContactPointInfo* info) const {
+    mContactMgr->registerContactPointInfo(info);
 }
 
 }  // namespace ksys::phys

@@ -108,6 +108,10 @@ target_sources(uking PRIVATE
   System/physContactListener.h
   System/physContactMgr.cpp
   System/physContactMgr.h
+  System/physContactPointInfo.cpp
+  System/physContactPointInfo.h
+  System/physContactPointInfoEx.cpp
+  System/physContactPointInfoEx.h
   System/physEntityGroupFilter.cpp
   System/physEntityGroupFilter.h
   System/physGroupFilter.cpp
@@ -118,10 +122,6 @@ target_sources(uking PRIVATE
   System/physMaterialTable.h
   System/physParamSet.cpp
   System/physParamSet.h
-  System/physRigidContactPoints.cpp
-  System/physRigidContactPoints.h
-  System/physRigidContactPointsEx.cpp
-  System/physRigidContactPointsEx.h
   System/physSensorGroupFilter.cpp
   System/physSensorGroupFilter.h
   System/physSystem.cpp

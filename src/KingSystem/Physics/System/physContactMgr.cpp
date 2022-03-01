@@ -1,15 +1,15 @@
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physContactPointInfoEx.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
-#include "KingSystem/Physics/System/physRigidContactPoints.h"
-#include "KingSystem/Physics/System/physRigidContactPointsEx.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
 ContactMgr::ContactMgr() {
-    mRigidContactPoints.initOffset(RigidContactPoints::getListNodeOffset());
+    mRigidContactPoints.initOffset(ContactPointInfo::getListNodeOffset());
     // FIXME: figure out what these offsets are
     mList2.initOffset(0x78);
     mList3.initOffset(0x40);
@@ -76,40 +76,40 @@ void ContactMgr::doLoadContactInfoTable(agl::utl::ResParameterArchive archive,
     table.param_io.applyResParameterArchive(archive);
 }
 
-RigidContactPoints* ContactMgr::allocContactPoints(sead::Heap* heap, int num,
-                                                   const sead::SafeString& name, int a, int b,
-                                                   int c) {
-    auto* points = new (heap) RigidContactPoints(name, a, b, c);
+ContactPointInfo* ContactMgr::allocContactPoints(sead::Heap* heap, int num,
+                                                 const sead::SafeString& name, int a, int b,
+                                                 int c) {
+    auto* points = new (heap) ContactPointInfo(name, a, b, c);
     points->allocPoints(heap, num);
     return points;
 }
 
-RigidContactPointsEx* ContactMgr::allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                                       const sead::SafeString& name, int a, int b,
-                                                       int c) {
-    auto* points = new (heap) RigidContactPointsEx(name, a, b, c);
+ContactPointInfoEx* ContactMgr::allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                                     const sead::SafeString& name, int a, int b,
+                                                     int c) {
+    auto* points = new (heap) ContactPointInfoEx(name, a, b, c);
     points->allocPoints(heap, num, num2);
-    registerContactPoints(points);
+    registerContactPointInfo(points);
     return points;
 }
 
-void ContactMgr::registerContactPoints(IRigidContactPoints* points) {
+void ContactMgr::registerContactPointInfo(ContactPointInfoBase* info) {
     auto lock = sead::makeScopedLock(mMutex1);
-    if (!points->isLinked())
-        mRigidContactPoints.pushBack(points);
+    if (!info->isLinked())
+        mRigidContactPoints.pushBack(info);
 }
 
-void ContactMgr::freeContactPoints(IRigidContactPoints* points) {
-    if (!points)
+void ContactMgr::freeContactPointInfo(ContactPointInfoBase* info) {
+    if (!info)
         return;
 
     {
         auto lock = sead::makeScopedLock(mMutex1);
-        if (points->isLinked())
-            mRigidContactPoints.erase(points);
+        if (info->isLinked())
+            mRigidContactPoints.erase(info);
     }
-    points->freePoints();
-    delete points;
+    info->freePoints();
+    delete info;
 }
 
 bool ContactMgr::getSensorLayerMask(SensorCollisionMask* mask,

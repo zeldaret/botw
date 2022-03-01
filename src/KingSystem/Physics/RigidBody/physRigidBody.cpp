@@ -473,10 +473,10 @@ void RigidBody::x_10() {
     x_8(nullptr);
 }
 
-void RigidBody::setContactPoints(RigidContactPoints* points) {
-    mContactPoints = points;
-    if (isFlag8Set() && mContactPoints && !mContactPoints->isLinked())
-        System::instance()->registerContactPoints(points);
+void RigidBody::setContactPointInfo(ContactPointInfo* info) {
+    mContactPointInfo = info;
+    if (isFlag8Set() && mContactPointInfo && !mContactPointInfo->isLinked())
+        System::instance()->registerContactPointInfo(info);
 }
 
 void RigidBody::freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse) {

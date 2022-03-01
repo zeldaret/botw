@@ -24,10 +24,10 @@ namespace ksys::phys {
 
 struct ContactUnk1;
 enum class IsIndoorStage;
-class IRigidContactPoints;
+class ContactPointInfoBase;
 class RigidBody;
-class RigidContactPoints;
-class RigidContactPointsEx;
+class ContactPointInfo;
+class ContactPointInfoEx;
 
 struct ContactInfoTable {
     struct Receiver : agl::utl::ParameterObj {
@@ -81,12 +81,12 @@ public:
 
     bool getSensorLayerMask(SensorCollisionMask* mask, const sead::SafeString& receiver_type) const;
 
-    RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
-                                           int a, int b, int c);
-    RigidContactPointsEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                               const sead::SafeString& name, int a, int b, int c);
-    void registerContactPoints(IRigidContactPoints* points);
-    void freeContactPoints(IRigidContactPoints* points);
+    ContactPointInfo* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
+                                         int a, int b, int c);
+    ContactPointInfoEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                             const sead::SafeString& name, int a, int b, int c);
+    void registerContactPointInfo(ContactPointInfoBase* info);
+    void freeContactPointInfo(ContactPointInfoBase* info);
 
     // 0x0000007100fb3744
     void x_17(void* unk, RigidBody* body_a, RigidBody* body_b);
@@ -106,7 +106,7 @@ private:
     sead::OffsetList<void*> mList0;
     int mList0Size = 0;
     sead::Atomic<int> _34 = 0;
-    sead::OffsetList<IRigidContactPoints> mRigidContactPoints;
+    sead::OffsetList<ContactPointInfoBase> mRigidContactPoints;
     sead::OffsetList<void*> mList2;
     sead::OffsetList<void*> mList3;
     sead::OffsetList<void*> mList4;

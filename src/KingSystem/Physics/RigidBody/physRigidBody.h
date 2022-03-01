@@ -28,7 +28,7 @@ class MotionAccessor;
 struct RigidBodyInstanceParam;
 class RigidBodyMotionEntity;
 class RigidBodyMotionSensor;
-class RigidContactPoints;
+class ContactPointInfo;
 class SystemGroupHandler;
 class UserTag;
 
@@ -191,8 +191,8 @@ public:
     void* get90() const { return _90; }
     // 0x0000007100f8e72c
     void x_12_setField90(void* field_90);
-    RigidContactPoints* getContactPoints() const { return mContactPoints; }
-    void setContactPoints(RigidContactPoints* points);
+    ContactPointInfo* getContactPointInfo() const { return mContactPointInfo; }
+    void setContactPointInfo(ContactPointInfo* info);
 
     void freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse);
     void setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty);
@@ -583,7 +583,7 @@ protected:
     sead::BitFlag32 mContactMask{};
     hkpRigidBody* mHkBody;
     UserTag* mUserTag = nullptr;
-    RigidContactPoints* mContactPoints = nullptr;
+    ContactPointInfo* mContactPointInfo = nullptr;
     void* _90 = nullptr;
     u16 _98 = 0;
     RigidBodyAccessor mRigidBodyAccessor;

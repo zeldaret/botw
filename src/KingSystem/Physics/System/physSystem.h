@@ -14,8 +14,8 @@ class GroupFilter;
 class MaterialTable;
 class RigidBody;
 class RigidBodyRequestMgr;
-class RigidContactPoints;
-class RigidContactPointsEx;
+class ContactPointInfo;
+class ContactPointInfoEx;
 class SystemData;
 class SystemGroupHandler;
 
@@ -42,15 +42,17 @@ public:
 
     void initSystemData(sead::Heap* heap);
 
-    RigidContactPoints* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
-                                           int a, int b, int c) const;
-    void freeContactPoints(RigidContactPoints* points) const;
-    RigidContactPointsEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                               const sead::SafeString& name, int a, int b,
-                                               int c) const;
-    void freeContactPointsEx(RigidContactPointsEx* points) const;
-    void registerContactPoints(RigidContactPoints* points) const;
-    void registerContactPointLayerPair(RigidContactPointsEx* points, ContactLayer layer1,
+    ContactPointInfo* allocContactPointInfo(sead::Heap* heap, int num, const sead::SafeString& name,
+                                            int a, int b, int c) const;
+    void freeContactPointInfo(ContactPointInfo* info) const;
+
+    ContactPointInfoEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                             const sead::SafeString& name, int a, int b,
+                                             int c) const;
+    void freeContactPointInfoEx(ContactPointInfoEx* info) const;
+
+    void registerContactPointInfo(ContactPointInfo* info) const;
+    void registerContactPointLayerPair(ContactPointInfoEx* info, ContactLayer layer1,
                                        ContactLayer layer2, bool enabled);
 
     // 0x0000007101216a20

@@ -9,7 +9,7 @@
 #include <prim/seadDelegate.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
-#include "KingSystem/Physics/System/physRigidContactPointsEx.h"
+#include "KingSystem/Physics/System/physContactPointInfoEx.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
 #include "KingSystem/Utils/Types.h"
@@ -84,7 +84,7 @@ private:
     };
     KSYS_CHECK_SIZE_NX150(Unk6, 0x48);
 
-    struct PointCallback : RigidContactPointsEx::Callback {
+    struct PointCallback : ContactPointInfoEx::Callback {
         explicit PointCallback(RigidBodyRequestMgr* mgr_) : mgr(mgr_) {}
         void invoke(void* arg) override { mgr->someFunction2(arg); }
 
@@ -112,7 +112,7 @@ private:
     sead::Atomic<u32> _130;
     sead::Buffer<Unk4> _138;
     u32 mNumEntitiesInWorld{};
-    RigidContactPointsEx* mContactPoints{};
+    ContactPointInfoEx* mContactPoints{};
     sead::SafeArray<sead::CriticalSection, NumRigidBodyBuffers> mCriticalSections;
     sead::CriticalSection mCS;
     float _218 = 1.0;
