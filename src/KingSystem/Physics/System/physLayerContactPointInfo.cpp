@@ -1,19 +1,21 @@
-#include "KingSystem/Physics/System/physContactPointInfoEx.h"
+#include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
 
-ContactPointInfoEx* ContactPointInfoEx::make(sead::Heap* heap, int num, int num2,
-                                             const sead::SafeString& name, int a, int b, int c) {
-    return System::instance()->allocContactPointsEx(heap, num, num2, name, a, b, c);
+LayerContactPointInfo* LayerContactPointInfo::make(sead::Heap* heap, int num, int num2,
+                                                   const sead::SafeString& name, int a, int b,
+                                                   int c) {
+    return System::instance()->allocLayerContactPointInfo(heap, num, num2, name, a, b, c);
 }
 
-void ContactPointInfoEx::free(ContactPointInfoEx* instance) {
-    System::instance()->freeContactPointInfoEx(instance);
+void LayerContactPointInfo::free(LayerContactPointInfo* instance) {
+    System::instance()->freeLayerContactPointInfo(instance);
 }
 
-bool ContactPointInfoEx::registerLayerPair(ContactLayer layer1, ContactLayer layer2, bool enabled) {
+bool LayerContactPointInfo::registerLayerPair(ContactLayer layer1, ContactLayer layer2,
+                                              bool enabled) {
     if (mLayerType == ContactLayerType::Invalid)
         mLayerType = getContactLayerType(layer1);
 
@@ -32,7 +34,7 @@ bool ContactPointInfoEx::registerLayerPair(ContactLayer layer1, ContactLayer lay
     return true;
 }
 
-bool ContactPointInfoEx::isPairUnknown(ContactLayer layer1, ContactLayer layer2) const {
+bool LayerContactPointInfo::isPairUnknown(ContactLayer layer1, ContactLayer layer2) const {
     for (int i = 0; i < mLayerEntries.size(); ++i) {
         const auto* entry = mLayerEntries[i];
         if (int(layer1) == entry->layer1 && int(layer2) == entry->layer2)
@@ -43,23 +45,23 @@ bool ContactPointInfoEx::isPairUnknown(ContactLayer layer1, ContactLayer layer2)
     return true;
 }
 
-ContactPointInfoEx::ContactPointInfoEx(const sead::SafeString& name, int a, int b, int c)
+LayerContactPointInfo::LayerContactPointInfo(const sead::SafeString& name, int a, int b, int c)
     : ContactPointInfoBase(name, a, b, c) {}
 
-ContactPointInfoEx::~ContactPointInfoEx() = default;
+LayerContactPointInfo::~LayerContactPointInfo() = default;
 
-void ContactPointInfoEx::allocPoints(sead::Heap* heap, int num, int num2) {
+void LayerContactPointInfo::allocPoints(sead::Heap* heap, int num, int num2) {
     mPoints.allocBufferAssert(num, heap);
     mLayerEntries.allocBuffer(num2, heap);
 }
 
-void ContactPointInfoEx::freePoints() {
+void LayerContactPointInfo::freePoints() {
     mPoints.freeBuffer();
     mLayerEntries.freeBuffer();
 }
 
-void ContactPointInfoEx::Iterator::getData(sead::Vector3f* out,
-                                           ContactPointInfoEx::Iterator::Mode mode) const {
+void LayerContactPointInfo::Iterator::getData(sead::Vector3f* out,
+                                              LayerContactPointInfo::Iterator::Mode mode) const {
     const float scale = getPoint()->scale;
     out->e = getPoint()->_10.e;
 
@@ -87,13 +89,13 @@ void ContactPointInfoEx::Iterator::getData(sead::Vector3f* out,
 }
 
 sead::Vector3f
-ContactPointInfoEx::Iterator::getData(ContactPointInfoEx::Iterator::Mode mode) const {
+LayerContactPointInfo::Iterator::getData(LayerContactPointInfo::Iterator::Mode mode) const {
     sead::Vector3f out;
     getData(&out, mode);
     return out;
 }
 
-ContactPointInfoEx::Iterator::Iterator(const ContactPointInfoEx::Points& points, int count)
+LayerContactPointInfo::Iterator::Iterator(const LayerContactPointInfo::Points& points, int count)
     : mPoints(points.getBufferPtr()), mPointsNum(count), mPointsStart(points.getBufferPtr()) {
     for (int i = 0; i != count; ++i) {
         if (!mPoints[i]->flags.isOn(ContactPoint::Flag::_1))
@@ -102,7 +104,8 @@ ContactPointInfoEx::Iterator::Iterator(const ContactPointInfoEx::Points& points,
     }
 }
 
-ContactPointInfoEx::IteratorEnd::IteratorEnd(const ContactPointInfoEx::Points& points, int count)
+LayerContactPointInfo::IteratorEnd::IteratorEnd(const LayerContactPointInfo::Points& points,
+                                                int count)
     : mIdx(count), mPoints(points.getBufferPtr()), mPointsNum(count),
       mPointsStart(points.getBufferPtr()) {}
 

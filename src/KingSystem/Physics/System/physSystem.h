@@ -16,7 +16,7 @@ class MaterialTable;
 class RigidBody;
 class RigidBodyRequestMgr;
 class ContactPointInfo;
-class ContactPointInfoEx;
+class LayerContactPointInfo;
 class SystemData;
 class SystemGroupHandler;
 
@@ -47,16 +47,16 @@ public:
                                             int a, int b, int c) const;
     void freeContactPointInfo(ContactPointInfo* info) const;
 
-    ContactPointInfoEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                             const sead::SafeString& name, int a, int b,
-                                             int c) const;
-    void freeContactPointInfoEx(ContactPointInfoEx* info) const;
+    LayerContactPointInfo* allocLayerContactPointInfo(sead::Heap* heap, int num, int num2,
+                                                      const sead::SafeString& name, int a, int b,
+                                                      int c) const;
+    void freeLayerContactPointInfo(LayerContactPointInfo* info) const;
 
     void registerContactPointInfo(ContactPointInfo* info) const;
     // 0x000000710121696c
     void registerCollisionInfo(CollisionInfo* info) const;
     // 0x0000007101216974
-    void registerContactPointLayerPair(ContactPointInfoEx* info, ContactLayer layer1,
+    void registerContactPointLayerPair(LayerContactPointInfo* info, ContactLayer layer1,
                                        ContactLayer layer2, bool enabled);
 
     // 0x00000071012169a4

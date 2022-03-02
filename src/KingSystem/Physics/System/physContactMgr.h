@@ -27,7 +27,7 @@ enum class IsIndoorStage;
 class ContactPointInfoBase;
 class RigidBody;
 class ContactPointInfo;
-class ContactPointInfoEx;
+class LayerContactPointInfo;
 
 struct ContactInfoTable {
     struct Receiver : agl::utl::ParameterObj {
@@ -83,8 +83,8 @@ public:
 
     ContactPointInfo* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
                                          int a, int b, int c);
-    ContactPointInfoEx* allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                             const sead::SafeString& name, int a, int b, int c);
+    LayerContactPointInfo* allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                                const sead::SafeString& name, int a, int b, int c);
     void registerContactPointInfo(ContactPointInfoBase* info);
     void freeContactPointInfo(ContactPointInfoBase* info);
 

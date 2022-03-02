@@ -113,8 +113,8 @@ target_sources(uking PRIVATE
   System/physContactMgr.h
   System/physContactPointInfo.cpp
   System/physContactPointInfo.h
-  System/physContactPointInfoEx.cpp
-  System/physContactPointInfoEx.h
+  System/physLayerContactPointInfo.cpp
+  System/physLayerContactPointInfo.h
   System/physEntityGroupFilter.cpp
   System/physEntityGroupFilter.h
   System/physGroupFilter.cpp

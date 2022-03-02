@@ -1,9 +1,9 @@
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physContactPointInfo.h"
-#include "KingSystem/Physics/System/physContactPointInfoEx.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
+#include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
@@ -84,10 +84,10 @@ ContactPointInfo* ContactMgr::allocContactPoints(sead::Heap* heap, int num,
     return points;
 }
 
-ContactPointInfoEx* ContactMgr::allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                                     const sead::SafeString& name, int a, int b,
-                                                     int c) {
-    auto* points = new (heap) ContactPointInfoEx(name, a, b, c);
+LayerContactPointInfo* ContactMgr::allocContactPointsEx(sead::Heap* heap, int num, int num2,
+                                                        const sead::SafeString& name, int a, int b,
+                                                        int c) {
+    auto* points = new (heap) LayerContactPointInfo(name, a, b, c);
     points->allocPoints(heap, num, num2);
     registerContactPointInfo(points);
     return points;

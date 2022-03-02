@@ -57,9 +57,9 @@ void System::freeContactPointInfo(ContactPointInfo* info) const {
     mContactMgr->freeContactPointInfo(info);
 }
 
-ContactPointInfoEx* System::allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                                 const sead::SafeString& name, int a, int b,
-                                                 int c) const {
+LayerContactPointInfo* System::allocLayerContactPointInfo(sead::Heap* heap, int num, int num2,
+                                                    const sead::SafeString& name, int a, int b,
+                                                    int c) const {
     return mContactMgr->allocContactPointsEx(heap, num, num2, name, a, b, c);
 }
 

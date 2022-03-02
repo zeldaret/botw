@@ -27,7 +27,7 @@ RigidBodyRequestMgr::~RigidBodyRequestMgr() {
     mMotionAccessors.freeBuffer();
 
     if (mContactPoints) {
-        ksys::phys::ContactPointInfoEx::free(mContactPoints);
+        ksys::phys::LayerContactPointInfo::free(mContactPoints);
         mContactPoints = nullptr;
     }
 }
@@ -62,7 +62,7 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
     mNumEntitiesInWorld = 0;
 
     mContactPoints =
-        ContactPointInfoEx::make(heap, 0x1000, 11, "RigidBodyRequestMgr::Water", 0, 0, 0);
+        LayerContactPointInfo::make(heap, 0x1000, 11, "RigidBodyRequestMgr::Water", 0, 0, 0);
 
     mContactPoints->setCallback(&mCallback);
     mContactPoints->set30(1);

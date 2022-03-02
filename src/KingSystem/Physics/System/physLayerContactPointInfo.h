@@ -12,7 +12,7 @@ namespace ksys::phys {
 
 struct ContactPoint;
 
-class ContactPointInfoEx : public ContactPointInfoBase {
+class LayerContactPointInfo : public ContactPointInfoBase {
 public:
     using Points = sead::Buffer<ContactPoint*>;
 
@@ -83,12 +83,12 @@ public:
     // FIXME: figure out the types
     using Callback = sead::IDelegate1<void*>;
 
-    static ContactPointInfoEx* make(sead::Heap* heap, int num, int num2,
-                                    const sead::SafeString& name, int a, int b, int c);
-    static void free(ContactPointInfoEx* instance);
+    static LayerContactPointInfo* make(sead::Heap* heap, int num, int num2,
+                                       const sead::SafeString& name, int a, int b, int c);
+    static void free(LayerContactPointInfo* instance);
 
-    ContactPointInfoEx(const sead::SafeString& name, int a, int b, int c);
-    ~ContactPointInfoEx() override;
+    LayerContactPointInfo(const sead::SafeString& name, int a, int b, int c);
+    ~LayerContactPointInfo() override;
     void freePoints() override;
     virtual void allocPoints(sead::Heap* heap, int num, int num2);
 
@@ -112,6 +112,6 @@ private:
     ContactLayerType mLayerType = ContactLayerType::Invalid;
     Callback* mCallback = nullptr;
 };
-KSYS_CHECK_SIZE_NX150(ContactPointInfoEx, 0x88);
+KSYS_CHECK_SIZE_NX150(LayerContactPointInfo, 0x88);
 
 }  // namespace ksys::phys
