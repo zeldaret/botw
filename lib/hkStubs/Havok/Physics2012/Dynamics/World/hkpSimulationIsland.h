@@ -25,7 +25,7 @@ public:
 
     inline int getMemUsageForIntegration();
 
-    const void* getClassType() const override { return &hkpSimulationIslandClass; }
+    const hkClass* getClassType() const override { return &hkpSimulationIslandClass; }
 
 protected:
     friend class hkpAddModifierUtil;

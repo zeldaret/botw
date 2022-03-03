@@ -217,6 +217,11 @@ HK_FORCE_INLINE hkLong hkGetByteOffset(const void* base, const void* pntr) {
 }
 
 template <typename T>
+HK_ALWAYS_INLINE const T* hkAddByteOffsetConst(const T* base, hkLong offset) {
+    return reinterpret_cast<const T*>(reinterpret_cast<hkUlong>(base) + offset);
+}
+
+template <typename T>
 using hkAddConstPointer =
     std::conditional_t<std::is_pointer_v<T>,
                        std::add_pointer_t<std::add_const_t<std::remove_pointer_t<T>>>,

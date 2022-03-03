@@ -5,6 +5,8 @@
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 #include "Havok/Common/Base/Thread/Atomic/hkAtomicPrimitives.h"
 
+class hkClass;
+
 class hkReferencedObject : public hkBaseObject {
 public:
     inline hkReferencedObject();
@@ -17,7 +19,7 @@ public:
 
     ~hkReferencedObject() override = default;
 
-    virtual const void* getClassType() const;
+    virtual const hkClass* getClassType() const;
 
     inline int getReferenceCount() const;
     inline void setReferenceCount(int newRefCount);

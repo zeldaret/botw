@@ -1,6 +1,6 @@
 #include <Havok/Common/Base/Object/hkReferencedObject.h>
 
-const void* hkReferencedObject::getClassType() const {
+const hkClass* hkReferencedObject::getClassType() const {
     return nullptr;
 }
 

@@ -6,7 +6,6 @@ class hkContactPoint;
 class hkpContactPointProperties;
 class hkpWorld;
 
-/// An interface to access contact point information.
 class hkpDynamicsContactMgr : public hkpContactMgr {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkpDynamicsContactMgr)

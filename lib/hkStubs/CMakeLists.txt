@@ -99,6 +99,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/BroadPhase/hkpBroadPhaseHandle.h
   Havok/Physics2012/Collide/BroadPhase/hkpTypedBroadPhaseHandle.h
   Havok/Physics2012/Collide/Dispatch/hkpCollisionDispatcher.h
+  Havok/Physics2012/Collide/Dispatch/ContactMgr/hkpContactMgrFactory.h
   Havok/Physics2012/Collide/Filter/hkpCollidableCollidableFilter.h
   Havok/Physics2012/Collide/Filter/hkpCollisionFilter.cpp
   Havok/Physics2012/Collide/Filter/hkpCollisionFilter.h
@@ -136,6 +137,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Action/hkpAction.h
   Havok/Physics2012/Dynamics/Collide/hkpDynamicsContactMgr.h
   Havok/Physics2012/Dynamics/Collide/hkpResponseModifier.h
+  Havok/Physics2012/Dynamics/Collide/hkpSimpleConstraintContactMgr.h
   Havok/Physics2012/Dynamics/Collide/ContactListener/hkpCollisionEvent.h
   Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactListener.h
   Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h
@@ -143,7 +145,12 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Common/hkpProperty.h
   Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h
   Havok/Physics2012/Dynamics/Constraint/hkpConstraintOwner.h
+  Havok/Physics2012/Dynamics/Constraint/Atom/hkpModifierConstraintAtom.h
+  Havok/Physics2012/Dynamics/Constraint/Atom/hkpSimpleContactConstraintAtom.h
+  Havok/Physics2012/Dynamics/Constraint/Atom/hkpSimpleContactConstraintAtomUtil.h
   Havok/Physics2012/Dynamics/Constraint/Contact/hkpContactPointProperties.h
+  Havok/Physics2012/Dynamics/Constraint/Contact/hkpDynamicsCpidMgr.h
+  Havok/Physics2012/Dynamics/Constraint/Contact/hkpSimpleContactConstraintData.h
   Havok/Physics2012/Dynamics/Entity/hkpEntity.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h
   Havok/Physics2012/Dynamics/Entity/hkpRigidBodyCinfo.h
@@ -173,6 +180,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/Simulation/hkpSimulation.h
 
   Havok/Physics2012/Internal/Collide/Mopp/Code/hkpMoppCode.h
+  Havok/Physics2012/Internal/Solver/Contact/hkpSimpleContactConstraintDataInfo.h
 
   Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h
   Havok/Physics2012/Utilities/Collide/ShapeUtils/ShapeScaling/hkpShapeScalingUtility.h
