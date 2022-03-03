@@ -25,7 +25,8 @@ inline void toHkVec4(hkVector4f* out, const sead::Vector3f& vec) {
     return {vec.x, vec.y, vec.z};
 }
 
-inline void storeToVec3(sead::Vector3f* out, const hkVector4f& vec) {
+// NOLINTNEXTLINE(performance-unnecessary-value-param)
+inline void storeToVec3(sead::Vector3f* out, hkVector4f vec) {
     vec.store<3>(out->e.data());
 }
 

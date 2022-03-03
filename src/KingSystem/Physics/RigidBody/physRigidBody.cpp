@@ -1312,8 +1312,7 @@ void RigidBody::getCenterOfMassInWorld(sead::Vector3f* center) const {
 
         center->setMul(transform, local_center);
     } else {
-        auto hk_center = getMotion()->getCenterOfMassInWorld();
-        storeToVec3(center, hk_center);
+        storeToVec3(center, getMotion()->getCenterOfMassInWorld());
     }
 }
 

@@ -156,8 +156,7 @@ void RigidBodyMotionSensor::getPosition(sead::Vector3f* position) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyTransform)) {
         mTransform.getTranslation(*position);
     } else {
-        const auto hk_position = getRigidBodyMotion()->getPosition();
-        storeToVec3(position, hk_position);
+        storeToVec3(position, getRigidBodyMotion()->getPosition());
     }
 }
 
@@ -196,8 +195,7 @@ void RigidBodyMotionSensor::getCenterOfMassInLocal(sead::Vector3f* center) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyCenterOfMassLocal)) {
         center->e = mCenterOfMassInLocal.e;
     } else {
-        const auto hk_center = getRigidBodyMotion()->getCenterOfMassLocal();
-        storeToVec3(center, hk_center);
+        storeToVec3(center, getRigidBodyMotion()->getCenterOfMassLocal());
     }
 }
 
@@ -220,8 +218,7 @@ void RigidBodyMotionSensor::getLinearVelocity(sead::Vector3f* velocity) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyLinearVelocity)) {
         velocity->e = mLinearVelocity.e;
     } else {
-        const auto hk_velocity = getRigidBodyMotion()->getLinearVelocity();
-        storeToVec3(velocity, hk_velocity);
+        storeToVec3(velocity, getRigidBodyMotion()->getLinearVelocity());
     }
 }
 
@@ -244,8 +241,7 @@ void RigidBodyMotionSensor::getAngularVelocity(sead::Vector3f* velocity) {
     if (hasMotionFlagSet(RigidBody::MotionFlag::DirtyAngularVelocity)) {
         velocity->e = mAngularVelocity.e;
     } else {
-        const auto hk_velocity = getRigidBodyMotion()->getAngularVelocity();
-        storeToVec3(velocity, hk_velocity);
+        storeToVec3(velocity, getRigidBodyMotion()->getAngularVelocity());
     }
 }
 

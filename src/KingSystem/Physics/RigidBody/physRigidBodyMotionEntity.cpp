@@ -120,8 +120,7 @@ void RigidBodyMotionEntity::setCenterOfMassInLocal(const sead::Vector3f& center)
 }
 
 void RigidBodyMotionEntity::getCenterOfMassInLocal(sead::Vector3f* center) {
-    const auto hk_center = mMotion->getCenterOfMassLocal();
-    storeToVec3(center, hk_center);
+    storeToVec3(center, mMotion->getCenterOfMassLocal());
 }
 
 bool RigidBodyMotionEntity::setLinearVelocity(const sead::Vector3f& velocity, float epsilon) {
@@ -147,8 +146,7 @@ bool RigidBodyMotionEntity::setLinearVelocity(const hkVector4f& velocity, float 
 
 void RigidBodyMotionEntity::getLinearVelocity(sead::Vector3f* velocity) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyLinearVelocity);
-    const auto hk_vel = motion->getLinearVelocity();
-    storeToVec3(velocity, hk_vel);
+    storeToVec3(velocity, motion->getLinearVelocity());
 }
 
 bool RigidBodyMotionEntity::setAngularVelocity(const sead::Vector3f& velocity, float epsilon) {
@@ -174,8 +172,7 @@ bool RigidBodyMotionEntity::setAngularVelocity(const hkVector4f& velocity, float
 
 void RigidBodyMotionEntity::getAngularVelocity(sead::Vector3f* velocity) {
     auto* motion = getHkBodyMotionOrLocalMotionIf(RigidBody::MotionFlag::DirtyAngularVelocity);
-    const auto hk_vel = motion->getAngularVelocity();
-    storeToVec3(velocity, hk_vel);
+    storeToVec3(velocity, motion->getAngularVelocity());
 }
 
 void RigidBodyMotionEntity::setMaxLinearVelocity(float max) {
