@@ -10,6 +10,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyAccessor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyContactEvent.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -551,6 +552,9 @@ public:
     /// Get the name of this rigid body or its user.
     virtual const char* getName();
 
+    RigidBodyContactCallback* getContactCallback() const { return mContactCallback; }
+    void setContactCallback(RigidBodyContactCallback* cb) { mContactCallback = cb; }
+
     // Internal.
     void setUseSystemTimeFactor(bool use) { mFlags.change(Flag::UseSystemTimeFactor, use); }
     // Internal.
@@ -594,7 +598,7 @@ protected:
     Type mType{};
     MotionAccessor* mMotionAccessor = nullptr;
     sead::Atomic<int> mCollisionCount;
-    void* _c8 = nullptr;
+    RigidBodyContactCallback* mContactCallback = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(RigidBody, 0xD0);
 

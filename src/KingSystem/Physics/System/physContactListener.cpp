@@ -1,8 +1,8 @@
 #include "KingSystem/Physics/System/physContactListener.h"
 #include <Havok/Common/Base/Types/Physics/ContactPoint/hkContactPoint.h>
-#include <Havok/Physics2012/Collide/Agent/ContactMgr/hkpContactMgr.h>
 #include <Havok/Physics2012/Dynamics/Collide/ContactListener/hkpCollisionEvent.h>
 #include <Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h>
+#include <Havok/Physics2012/Dynamics/Collide/hkpSimpleConstraintContactMgr.h>
 #include <Havok/Physics2012/Dynamics/Constraint/Contact/hkpContactPointProperties.h>
 #include <Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <math/seadMathCalcCommon.h>
@@ -21,6 +21,18 @@ namespace ksys::phys {
 static RigidBody* getRigidBody(hkpRigidBody* hk_body) {
     // This needs to be kept in sync with the RigidBody constructor!
     return reinterpret_cast<RigidBody*>(hk_body->getUserData());
+}
+
+static void clearCallbackDelay(const hkpContactPointEvent& event) {
+    event.m_contactMgr->m_contactPointCallbackDelay = 0;
+}
+
+static void disableContact(const hkpContactPointEvent& event) {
+    event.m_contactPointProperties->m_flags |= hkpContactPointProperties::CONTACT_IS_DISABLED;
+}
+
+static bool isContactDisabled(const hkpContactPointEvent& event) {
+    return event.m_contactPointProperties->m_flags & hkpContactPointProperties::CONTACT_IS_DISABLED;
 }
 
 ContactListener::ContactListener(ContactMgr* mgr, ContactLayerType layer_type, int layer_count)
@@ -88,8 +100,8 @@ void ContactListener::contactPointCallback(const hkpContactPointEvent& event) {
 
         static_cast<void>(System::instance()->getGroupFilter(mLayerType));
 
-        characterControlContactPointCallback(ignored_layers_a, ignored_layers_b, body_a, body_b,
-                                             layer_a, layer_b, event);
+        contactPointCallbackImpl(ignored_layers_a, ignored_layers_b, body_a, body_b, layer_a,
+                                 layer_b, event);
 
     } else if (event.m_type == hkpContactPointEvent::TYPE_MANIFOLD) {
         manifoldContactPointCallback(event, body_a, body_b);
@@ -114,10 +126,12 @@ bool ContactListener::manifoldContactPointCallback(const hkpContactPointEvent& e
     const auto layer_a = filter->getCollisionFilterInfoLayer(masks_a.collision_filter_info);
     const auto layer_b = filter->getCollisionFilterInfoLayer(masks_b.collision_filter_info);
 
-    if (!characterControlContactPointCallback(masks_a.ignored_layers, masks_b.ignored_layers,
-                                              body_a, body_b, layer_a, layer_b, event)) {
+    if (!contactPointCallbackImpl(masks_a.ignored_layers, masks_b.ignored_layers, body_a, body_b,
+                                  layer_a, layer_b, event)) {
         return false;
     }
+
+    // Fire ContactPointInfo callbacks.
 
     if (auto* info = body_a->getContactPointInfo(); info && info->getContactCallback()) {
         storeToVec3(&position, event.m_contactPoint->getPosition());
@@ -133,8 +147,7 @@ bool ContactListener::manifoldContactPointCallback(const hkpContactPointEvent& e
         info->getContactCallback()->invoke(&disable, my_event);
 
         if (disable == ContactPointInfo::ShouldDisableContact::Yes) {
-            event.m_contactPointProperties->m_flags |=
-                hkpContactPointProperties::CONTACT_IS_DISABLED;
+            disableContact(event);
             return false;
         }
     }
@@ -152,13 +165,205 @@ bool ContactListener::manifoldContactPointCallback(const hkpContactPointEvent& e
         info->getContactCallback()->invoke(&disable, my_event);
 
         if (disable == ContactPointInfo::ShouldDisableContact::Yes) {
-            event.m_contactPointProperties->m_flags |=
-                hkpContactPointProperties::CONTACT_IS_DISABLED;
+            disableContact(event);
             return false;
         }
     }
 
     return true;
+}
+
+bool ContactListener::regularContactPointCallback(
+    const hkpContactPointEvent& event, RigidBody* body_a, RigidBody* body_b,
+    sead::SafeArray<MaterialMaskData, 2>* out_material_masks) {
+    auto* filter = System::instance()->getGroupFilter(mLayerType);
+
+    RigidBody::CollisionMasks masks_a, masks_b;
+    sead::Vector3f contact_point_pos;
+
+    storeToVec3(&contact_point_pos, event.m_contactPoint->getPosition());
+    body_a->getCollisionMasks(&masks_a, event.getShapeKeys(0), contact_point_pos);
+    body_b->getCollisionMasks(&masks_b, event.getShapeKeys(1), contact_point_pos);
+
+    if (out_material_masks) {
+        (*out_material_masks)[0] = MaterialMaskData(masks_a.material_mask);
+        (*out_material_masks)[1] = MaterialMaskData(masks_b.material_mask);
+    }
+
+    const auto layer_a = filter->getCollisionFilterInfoLayer(masks_a.collision_filter_info);
+    const auto layer_b = filter->getCollisionFilterInfoLayer(masks_b.collision_filter_info);
+    const auto i = layer_a - int(mLayerBase);
+    const auto j = layer_b - int(mLayerBase);
+
+    const bool result = contactPointCallbackImpl(masks_a.ignored_layers, masks_b.ignored_layers,
+                                                 body_a, body_b, layer_a, layer_b, event);
+    if (result)
+        m11(event, masks_a, masks_b, body_a, body_b);
+
+    const auto& entries = mTrackedContactPointLayers[i][j];
+
+    if (layer_a == ContactLayer::EntityRagdoll || layer_b == ContactLayer::EntityRagdoll)
+        clearCallbackDelay(event);
+
+    // Fire rigid body callbacks.
+    bool callbacks_ok = true;
+    if (auto* callback = body_a->getContactCallback()) {
+        RigidBodyContactEvent my_event{body_b, &masks_b, event.getShapeKeys(1), &event};
+        callbacks_ok &= callback->invoke(my_event);
+    }
+    if (auto* callback = body_b->getContactCallback()) {
+        RigidBodyContactEvent my_event{body_a, &masks_a, event.getShapeKeys(0), &event};
+        callbacks_ok &= callback->invoke(my_event);
+    }
+
+    auto notify_result = notifyContactPointInfo(body_a, body_b, layer_a, layer_b, masks_a, masks_b,
+                                                event, callbacks_ok);
+
+    for (int idx = 0; idx < entries.size(); ++idx) {
+        notifyLayerContactPointInfo(*entries[idx], notify_result, body_a, body_b, layer_a, layer_b,
+                                    masks_a.material_mask, masks_b.material_mask, event);
+    }
+
+    return result;
+}
+
+int ContactListener::notifyContactPointInfo(RigidBody* body_a, RigidBody* body_b,
+                                            ContactLayer layer_a, ContactLayer layer_b,
+                                            const RigidBodyCollisionMasks& masks_a,
+                                            const RigidBodyCollisionMasks& masks_b,
+                                            const hkpContactPointEvent& event, bool callbacks_ok) {
+    const hkReal distance = event.m_contactPoint->getDistance();
+    const bool should_notify = callbacks_ok && !mDisableContactPointInfoNotifications;
+    auto* info_a = body_a->getContactPointInfo();
+    auto* info_b = body_b->getContactPointInfo();
+    const bool contact_disabled = isContactDisabled(event);
+
+    ContactPoint point;
+    point.separating_distance = distance;
+
+    int result = 1;
+
+    if (info_b && info_b->isLayerSubscribed(layer_a) && (info_b->get30() == 0 || distance <= 0.0) &&
+        (info_b->get34() == 0 || !contact_disabled)) {
+        if (should_notify) {
+            point.body_a = body_b;
+            point.body_b = body_a;
+            point.material_mask_a = MaterialMaskData(masks_b.material_mask);
+            point.material_mask_b = MaterialMaskData(masks_a.material_mask);
+            point.shape_key_a = getShapeKeyOrMinus1(event.getShapeKeys(1));
+            point.shape_key_b = getShapeKeyOrMinus1(event.getShapeKeys(0));
+            storeToVec3(&point.position, event.m_contactPoint->getPosition());
+            storeToVec3(&point.separating_normal, event.m_contactPoint->getSeparatingNormal());
+
+            if (mMgr->x_13(body_b->getContactPointInfo(), point, masks_a, distance < 0)) {
+                disableContact(event);
+            }
+
+            result = 2;
+        }
+
+        if (info_b->isLayerInMask2(layer_a))
+            clearCallbackDelay(event);
+    }
+
+    if (info_a && info_a->isLayerSubscribed(layer_b) && (info_a->get30() == 0 || distance <= 0.0) &&
+        (info_a->get34() == 0 || !contact_disabled)) {
+        if (should_notify) {
+            point.body_a = body_a;
+            point.body_b = body_b;
+            if (result == 1) {
+                storeToVec3(&point.position, event.m_contactPoint->getPosition());
+                storeToVec3(&point.separating_normal, event.m_contactPoint->getSeparatingNormal());
+            }
+            point.material_mask_a = MaterialMaskData(masks_a.material_mask);
+            point.material_mask_b = MaterialMaskData(masks_b.material_mask);
+            point.shape_key_a = getShapeKeyOrMinus1(event.getShapeKeys(0));
+            point.shape_key_b = getShapeKeyOrMinus1(event.getShapeKeys(1));
+            point.separating_normal *= -1;
+
+            if (mMgr->x_13(body_a->getContactPointInfo(), point, masks_b, !(distance < 0))) {
+                disableContact(event);
+            }
+
+            result = 2;
+        }
+
+        if (info_a->isLayerInMask2(layer_b))
+            clearCallbackDelay(event);
+    }
+
+    return result;
+}
+
+// NON_MATCHING: branching (shape_key_b store), layer_a not being saved on the stack
+void ContactListener::notifyLayerContactPointInfo(const TrackedContactPointLayer& tracked_layer,
+                                                  int, RigidBody* body_a, RigidBody* body_b,
+                                                  ContactLayer layer_a, ContactLayer layer_b,
+                                                  u32 material_a, u32 material_b,
+                                                  const hkpContactPointEvent& event) {
+    if (tracked_layer.do_not_delay_callback)
+        clearCallbackDelay(event);
+
+    if (mDisableContactPointInfoNotifications)
+        return;
+
+    const hkReal distance = event.m_contactPoint->getDistance();
+    if (!(tracked_layer.info->get30() == 0 || distance <= 0.0))
+        return;
+
+    if (tracked_layer.info->get34() != 0 && isContactDisabled(event))
+        return;
+
+    ContactPoint point;
+    storeToVec3(&point.position, event.m_contactPoint->getPosition());
+    storeToVec3(&point.separating_normal, event.m_contactPoint->getSeparatingNormal());
+
+    if (auto* callback = tracked_layer.info->getCallback()) {
+        if (tracked_layer.layer == layer_a) {
+            LayerContactPointInfo::ContactEvent my_event;
+            my_event.body_a = body_a;
+            my_event.body_b = body_b;
+            my_event.point_position = &point.position;
+            my_event.layer_a = layer_a;
+            my_event.layer_b = layer_b;
+            my_event.material_a = MaterialMaskData(material_a);
+            my_event.material_b = MaterialMaskData(material_b);
+            if (!callback->invoke(my_event))
+                return;
+        } else {
+            LayerContactPointInfo::ContactEvent my_event;
+            my_event.body_a = body_b;
+            my_event.body_b = body_a;
+            my_event.point_position = &point.position;
+            my_event.layer_a = layer_b;
+            my_event.layer_b = layer_a;
+            my_event.material_a = MaterialMaskData(material_b);
+            my_event.material_b = MaterialMaskData(material_a);
+            if (!callback->invoke(my_event))
+                return;
+        }
+    }
+
+    if (tracked_layer.layer == layer_a) {
+        point.body_a = body_a;
+        point.body_b = body_b;
+        point.material_mask_a = MaterialMaskData(material_a);
+        point.material_mask_b = MaterialMaskData(material_b);
+        point.shape_key_a = getShapeKeyOrMinus1(event.getShapeKeys(0));
+        point.shape_key_b = getShapeKeyOrMinus1(event.getShapeKeys(1));
+        point.separating_normal *= -1;
+        point.separating_distance = distance < 0 ? distance : 0;
+        mMgr->x_15(tracked_layer.info, point, !(distance < 0));
+    } else {
+        point.body_a = body_b;
+        point.body_b = body_a;
+        point.material_mask_a = MaterialMaskData(material_b);
+        point.material_mask_b = MaterialMaskData(material_a);
+        point.shape_key_a = getShapeKeyOrMinus1(event.getShapeKeys(1));
+        point.shape_key_b = getShapeKeyOrMinus1(event.getShapeKeys(0));
+        point.separating_distance = distance < 0 ? distance : 0;
+        mMgr->x_15(tracked_layer.info, point, distance < 0);
+    }
 }
 
 void ContactListener::handleCollisionAdded(const hkpCollisionEvent& event, RigidBody* body_a,
@@ -243,7 +448,7 @@ void ContactListener::addLayerPairForContactPointInfo(LayerContactPointInfo* inf
             return;
         entry->info = info;
         entry->layer = layer1;
-        entry->enabled = enabled;
+        entry->do_not_delay_callback = enabled;
     };
 
     auto& row_i = mTrackedContactPointLayers[i];
@@ -293,12 +498,11 @@ void ContactListener::registerRigidBody(RigidBody* body) {
     }
 }
 
-bool ContactListener::characterControlContactPointCallback(u32 ignored_layers_a,
-                                                           u32 ignored_layers_b, RigidBody* body_a,
-                                                           RigidBody* body_b, ContactLayer layer_a,
-                                                           ContactLayer layer_b,
-                                                           const hkpContactPointEvent& event) {
-    event.m_contactPointProperties->m_flags |= hkpContactPointProperties::CONTACT_IS_DISABLED;
+bool ContactListener::contactPointCallbackImpl(u32 ignored_layers_a, u32 ignored_layers_b,
+                                               RigidBody* body_a, RigidBody* body_b,
+                                               ContactLayer layer_a, ContactLayer layer_b,
+                                               const hkpContactPointEvent& event) {
+    disableContact(event);
     return false;
 }
 

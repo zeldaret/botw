@@ -50,7 +50,7 @@ static_assert(sizeof(MaterialMaskData) == sizeof(u32));
 class MaterialMask {
 public:
     MaterialMask();
-    explicit MaterialMask(MaterialMaskData data);
+    MaterialMask(MaterialMaskData data);  // NOLINT(google-explicit-constructor)
     MaterialMask(Material mat, FloorCode floor, WallCode wall, bool flag = false);
     MaterialMask(Material mat, const char* submat_name, FloorCode floor, WallCode wall,
                  bool flag = false);
@@ -62,6 +62,12 @@ public:
 
     MaterialMask& operator=(const MaterialMask& other) {
         mData = other.mData;
+        mSubMaterialNameCache = nullptr;
+        return *this;
+    }
+
+    MaterialMask& operator=(MaterialMaskData data) {
+        mData = data;
         mSubMaterialNameCache = nullptr;
         return *this;
     }

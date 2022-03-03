@@ -6,11 +6,13 @@
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
 
 struct ContactPoint;
+class RigidBody;
 
 class LayerContactPointInfo : public ContactPointInfoBase {
 public:
@@ -86,8 +88,17 @@ public:
         const ContactPoint* const* mPointsStart = nullptr;
     };
 
-    // FIXME: figure out the types
-    using Callback = sead::IDelegate1<void*>;
+    struct ContactEvent {
+        RigidBody* body_a;
+        RigidBody* body_b;
+        const sead::Vector3f* point_position;
+        ContactLayer layer_a;
+        ContactLayer layer_b;
+        MaterialMaskData material_a;
+        MaterialMaskData material_b;
+    };
+
+    using ContactCallback = sead::IDelegate1R<const ContactEvent&, bool>;
 
     static LayerContactPointInfo* make(sead::Heap* heap, int num, int num2,
                                        const sead::SafeString& name, int a, int b, int c);
@@ -101,7 +112,8 @@ public:
     bool registerLayerPair(ContactLayer layer1, ContactLayer layer2, bool enabled = true);
     bool isPairUnknown(ContactLayer layer1, ContactLayer layer2) const;
 
-    void setCallback(Callback* callback) { mCallback = callback; }
+    ContactCallback* getCallback() const { return mCallback; }
+    void setCallback(ContactCallback* callback) { mCallback = callback; }
 
     auto begin() const { return Iterator(mPoints, _18); }
     auto end() const { return IteratorEnd(mPoints, _18); }
@@ -113,7 +125,7 @@ private:
     Points mPoints{};
     sead::ObjArray<LayerEntry> mLayerEntries;
     ContactLayerType mLayerType = ContactLayerType::Invalid;
-    Callback* mCallback = nullptr;
+    ContactCallback* mCallback = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(LayerContactPointInfo, 0x88);
 

@@ -62,27 +62,27 @@ void LayerContactPointInfo::freePoints() {
 
 void LayerContactPointInfo::Iterator::getData(sead::Vector3f* out,
                                               LayerContactPointInfo::Iterator::Mode mode) const {
-    const float scale = getPoint()->scale;
-    out->e = getPoint()->_10.e;
+    const float separating_distance = getPoint()->separating_distance;
+    out->e = getPoint()->position.e;
 
     switch (mode) {
     case Mode::_0: {
         if (getPoint()->flags.isOn(ContactPoint::Flag::_2))
             return;
-        *out += getPoint()->_1c * -scale;
+        *out += getPoint()->separating_normal * -separating_distance;
         break;
     }
 
     case Mode::_1: {
         if (!getPoint()->flags.isOn(ContactPoint::Flag::_2))
             return;
-        *out += getPoint()->_1c * scale;
+        *out += getPoint()->separating_normal * separating_distance;
         break;
     }
 
     case Mode::_2:
     default: {
-        *out += getPoint()->_1c * scale * 0.5f;
+        *out += getPoint()->separating_normal * separating_distance * 0.5f;
         break;
     }
     }

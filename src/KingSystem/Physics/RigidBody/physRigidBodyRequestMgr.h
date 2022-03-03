@@ -84,15 +84,18 @@ private:
     };
     KSYS_CHECK_SIZE_NX150(Unk6, 0x48);
 
-    struct PointCallback : LayerContactPointInfo::Callback {
+    struct PointCallback : LayerContactPointInfo::ContactCallback {
         explicit PointCallback(RigidBodyRequestMgr* mgr_) : mgr(mgr_) {}
-        void invoke(void* arg) override { mgr->someFunction2(arg); }
+
+        bool invoke(const LayerContactPointInfo::ContactEvent& event) override {
+            return mgr->someFunction2(event);
+        }
 
         RigidBodyRequestMgr* mgr;
     };
 
     // FIXME: rename, implement
-    void someFunction2(void* arg);
+    bool someFunction2(const LayerContactPointInfo::ContactEvent& event);
     static void someFunction(void* arg);
 
     static constexpr int NumRigidBodyBuffers = 2;

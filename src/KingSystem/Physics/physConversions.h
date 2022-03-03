@@ -92,4 +92,8 @@ inline void setMtxTranslation(sead::Matrix34f* mtx, const hkVector4f& translatio
     mtx->setTranslation(toVec3(translation));
 }
 
+inline u32 getShapeKeyOrMinus1(const u32* shape_key) {
+    return shape_key ? *shape_key : u32(-1);
+}
+
 }  // namespace ksys::phys

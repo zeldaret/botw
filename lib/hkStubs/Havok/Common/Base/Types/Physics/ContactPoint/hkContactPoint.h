@@ -21,6 +21,7 @@ public:
     inline void setSeparatingNormal(const hkVector4& separatingNormal);
     inline void setNormalOnly(const hkVector4& normal);
 
+    /// If negative, the two bodies are penetrating.
     inline hkReal getDistance() const;
     inline hkSimdReal getDistanceSimdReal() const;
     inline void setDistance(hkReal d);

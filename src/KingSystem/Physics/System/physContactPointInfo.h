@@ -24,7 +24,22 @@ public:
     virtual ~ContactPointInfoBase() = default;
     virtual void freePoints() = 0;
 
+    u32 get30() const { return _30; }
     void set30(u32 value) { _30 = value; }
+
+    u32 get34() const { return _34; }
+    void set34(u32 value) { _34 = value; }
+
+    bool isLayerSubscribed(ContactLayer layer) const {
+        const auto type = getContactLayerType(layer);
+        return mSubscribedLayers[int(type)].isOnBit(int(getContactLayerBaseRelativeValue(layer)));
+    }
+
+    // TODO: rename
+    bool isLayerInMask2(ContactLayer layer) const {
+        const auto type = getContactLayerType(layer);
+        return mLayerMask2[int(type)].isOnBit(int(getContactLayerBaseRelativeValue(layer)));
+    }
 
     bool isLinked() const { return mListNode.isLinked(); }
     static constexpr size_t getListNodeOffset() {
@@ -33,7 +48,8 @@ public:
 
 protected:
     sead::Atomic<int> _18;
-    sead::SafeArray<sead::BitFlag32, 2> mLayerMask;
+    sead::SafeArray<sead::BitFlag32, 2> mSubscribedLayers;
+    // TODO: rename
     sead::SafeArray<sead::BitFlag32, 2> mLayerMask2;
     u32 _2c{};
     u32 _30{};

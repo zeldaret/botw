@@ -28,6 +28,7 @@ class CollisionInfo;
 class ContactLayerCollisionInfo;
 class ContactPointInfoBase;
 class RigidBody;
+struct RigidBodyCollisionMasks;
 class ContactPointInfo;
 class LayerContactPointInfo;
 
@@ -49,21 +50,21 @@ struct ContactInfoTable {
     sead::Buffer<Receiver> receivers;
 };
 
-// XXX: what exactly is this? Is this really a contact point?
 struct ContactPoint {
     enum class Flag {
         _1 = 1 << 0,
         _2 = 1 << 1,
     };
 
-    void* _0;
-    void* _8;
-    sead::Vector3f _10;
-    sead::Vector3f _1c;
-    float scale;
-    MaterialMask material_mask1;
-    MaterialMask material_mask2;
-    void* _60;
+    RigidBody* body_a;
+    RigidBody* body_b;
+    sead::Vector3f position;
+    sead::Vector3f separating_normal;
+    float separating_distance;
+    MaterialMask material_mask_a;
+    MaterialMask material_mask_b;
+    u32 shape_key_a;
+    u32 shape_key_b;
     sead::TypedBitFlag<Flag, u8> flags;
 };
 KSYS_CHECK_SIZE_NX150(ContactPoint, 0x70);
@@ -89,6 +90,15 @@ public:
                                                 const sead::SafeString& name, int a, int b, int c);
     void registerContactPointInfo(ContactPointInfoBase* info);
     void freeContactPointInfo(ContactPointInfoBase* info);
+
+    // 0x0000007100fb3284
+    /// @param colliding_body_masks The collision masks of the colliding rigid bodies.
+    /// @returns whether contact should be disabled.
+    bool x_13(ContactPointInfo* info, const ContactPoint& point,
+              const RigidBodyCollisionMasks& colliding_body_masks, bool penetrating);
+
+    // 0x0000007100fb3478
+    void x_15(LayerContactPointInfo* info, const ContactPoint& point, bool penetrating);
 
     // 0x0000007100fb3744
     void x_17(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
