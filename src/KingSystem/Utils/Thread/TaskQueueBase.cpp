@@ -9,7 +9,7 @@
 
 namespace ksys::util {
 
-static const auto cSleepSpan = sead::TickSpan::fromMicroSeconds(10);
+static const auto cSleepSpan = sead::TickSpan::makeFromMicroSeconds(10);
 
 TaskQueueBase::TaskQueueBase(sead::Heap* heap) : mQueueEmptyEvent(heap) {
     mActiveTasks.initOffset(Task::getListNodeOffset());
@@ -244,7 +244,7 @@ void TaskQueueBase::blockTasksAndReloadThreads(u8 id) {
             thread.pause();
     }
 
-    const auto sleep_duration = sead::TickSpan::fromMilliSeconds(1);
+    const auto sleep_duration = sead::TickSpan::makeFromMilliSeconds(1);
 
     while (!areAllThreadsPaused())
         sead::Thread::sleep(sleep_duration);

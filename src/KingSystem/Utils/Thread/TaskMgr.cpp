@@ -205,7 +205,7 @@ ManagedTask* TaskMgr::fetchIdleTask_(bool retry_until_success) {
 
         if (!retry_until_success)
             return nullptr;
-        mEvent2.wait(sead::TickSpan::fromMilliSeconds(1));
+        mEvent2.wait(sead::TickSpan::makeFromMilliSeconds(1));
     }
 }
 

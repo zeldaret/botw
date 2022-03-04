@@ -44,7 +44,7 @@ OverlayArena* ArchiveWork::getArena() const {
 
 bool ArchiveWork::waitForEvent(u32 milliseconds) {
     if (milliseconds != 0) {
-        const auto duration = sead::TickSpan::fromMilliSeconds(milliseconds);
+        const auto duration = sead::TickSpan::makeFromMilliSeconds(milliseconds);
         if (!mEvent->wait(duration))
             return false;
     } else {

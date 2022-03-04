@@ -73,7 +73,7 @@ void WorkerSupportThreadMgr::initSleeperThreads() {
 }
 
 void WorkerSupportThreadMgr::sleeperThreadFun(sead::Thread* thread, sead::MessageQueue::Element) {
-    sead::Thread::sleep(sead::TickSpan::fromMicroSeconds(250));
+    sead::Thread::sleep(sead::TickSpan::makeFromMicroSeconds(250));
 }
 
 static int getWorkerIdx(u32 id) {
