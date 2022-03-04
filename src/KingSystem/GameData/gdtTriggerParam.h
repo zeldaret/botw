@@ -11,6 +11,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/GameData/gdtFlag.h"
+#include "KingSystem/System/CoreInfo.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {
@@ -503,7 +504,7 @@ private:
     sead::PtrArray<sead::PtrArray<FlagBase>> mVector3fArrayFlags;
     sead::PtrArray<sead::PtrArray<FlagBase>> mVector4fArrayFlags;
 
-    sead::SafeArray<sead::Buffer<FlagChangeRecord>, 3> mFlagChangeRecords;
+    sead::SafeArray<sead::Buffer<FlagChangeRecord>, NumCores> mFlagChangeRecords;
 
     sead::ObjArray<FlagCopyRecord> mCopiedBoolFlags;
     sead::ObjArray<FlagCopyRecord> mCopiedS32Flags;
@@ -520,10 +521,10 @@ private:
 
     sead::Heap* mHeap = nullptr;
 
-    std::array<s32, 3> mFlagChangeRecordIndices;
+    std::array<s32, NumCores> mFlagChangeRecordIndices;
     sead::SafeArray<s32, 15> mNumBoolFlagsPerCategory0;
     sead::SafeArray<s32, 15> mNumBoolFlagsPerCategory;
-    sead::SafeArray<sead::CriticalSection, 3> mCriticalSections;
+    sead::SafeArray<sead::CriticalSection, NumCores> mCriticalSections;
     sead::TypedBitFlag<BitFlag> mBitFlags;
 };
 KSYS_CHECK_SIZE_NX150(TriggerParam, 0x3f0);

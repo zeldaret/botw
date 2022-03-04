@@ -9,6 +9,7 @@ target_sources(uking PRIVATE
   CameraEditor.h
   CameraMgr.cpp
   CameraMgr.h
+  CoreInfo.h
   DebugFinder.cpp
   DebugFinder.h
   DebugMessage.h

@@ -12,6 +12,7 @@
 #include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/System/CoreInfo.h"
 #include "KingSystem/System/KingEditor.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
@@ -565,7 +566,7 @@ private:
         void addRecord(s32 value, const sead::SafeString& name, s32 sub_idx, bool debug);
 
         u64 _0 = 0;
-        sead::SafeArray<sead::FixedRingBuffer<Record, 64>, 3> ring_buffers[2];
+        sead::SafeArray<sead::FixedRingBuffer<Record, 64>, NumCores> ring_buffers[2];
         sead::SafeArray<Record, 0xc0> arrays[2]{};
     };
 

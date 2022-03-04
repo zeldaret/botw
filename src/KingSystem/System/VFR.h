@@ -8,6 +8,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadCoreInfo.h>
 #include <prim/seadBitFlag.h>
+#include "KingSystem/System/CoreInfo.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -148,8 +149,6 @@ private:
     u32 mIntervalB = 1;
     f32 mIntervalRatioA = 1.0;
     f32 mIntervalRatioB = 1.0;
-
-    static constexpr int NumCores = 3;
 
     sead::SafeArray<u32*, NumCores> mIntervals;
     sead::SafeArray<f32*, NumCores> mIntervalRatios;
