@@ -22,26 +22,26 @@ public:
         bool enabled;
     };
 
-    class IteratorEnd;
-
     class Iterator {
     public:
-        enum class Mode {
-            _0,
-            _1,
-            _2,
+        enum class IsEnd : bool { Yes = true };
+
+        enum class Point {
+            BodyA,
+            BodyB,
+            Midpoint,
         };
 
         Iterator(const Points& points, int count);
+        Iterator(const Points& points, int count, IsEnd is_end);
 
         Iterator& operator++() {
             ++mIdx;
             return *this;
         }
 
-        // FIXME: rename
-        void getData(sead::Vector3f* out, Mode mode) const;
-        sead::Vector3f getData(Mode mode) const;
+        void getPointPosition(sead::Vector3f* out, Point point) const;
+        sead::Vector3f getPointPosition(Point point) const;
 
         const ContactPoint* getPoint() const { return mPoints[mIdx]; }
         const ContactPoint* operator*() const { return getPoint(); }
@@ -50,32 +50,6 @@ public:
             return lhs.mIdx == rhs.mIdx;
         }
         friend bool operator!=(const Iterator& lhs, const Iterator& rhs) {
-            return !operator==(lhs, rhs);
-        }
-
-    private:
-        friend class IteratorEnd;
-
-        int mIdx = 0;
-        const ContactPoint* const* mPoints = nullptr;
-        int mPointsNum = 0;
-        const ContactPoint* const* mPointsStart = nullptr;
-    };
-
-    class IteratorEnd {
-    public:
-        IteratorEnd(const Points& points, int count);
-
-        friend bool operator==(const Iterator& lhs, const IteratorEnd& rhs) {
-            return lhs.mIdx == rhs.mIdx;
-        }
-        friend bool operator==(const IteratorEnd& lhs, const Iterator& rhs) {
-            return lhs.mIdx == rhs.mIdx;
-        }
-        friend bool operator!=(const Iterator& lhs, const IteratorEnd& rhs) {
-            return !operator==(lhs, rhs);
-        }
-        friend bool operator!=(const IteratorEnd& lhs, const Iterator& rhs) {
             return !operator==(lhs, rhs);
         }
 
@@ -113,8 +87,8 @@ public:
     ContactCallback* getCallback() const { return mCallback; }
     void setCallback(ContactCallback* callback) { mCallback = callback; }
 
-    auto begin() const { return Iterator(mPoints, mContactPointIndex); }
-    auto end() const { return IteratorEnd(mPoints, mContactPointIndex); }
+    auto begin() const { return Iterator(mPoints, mNumContactPoints); }
+    auto end() const { return Iterator(mPoints, mNumContactPoints, Iterator::IsEnd::Yes); }
 
     sead::ObjArray<LayerEntry>& getLayerEntries() { return mLayerEntries; }
     const sead::ObjArray<LayerEntry>& getLayerEntries() const { return mLayerEntries; }

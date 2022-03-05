@@ -57,7 +57,7 @@ public:
 protected:
     friend class ContactMgr;
 
-    sead::Atomic<int> mContactPointIndex;
+    sead::Atomic<int> mNumContactPoints;
     sead::SafeArray<sead::BitFlag32, 2> mSubscribedLayers;
     // TODO: rename
     sead::SafeArray<sead::BitFlag32, 2> mLayerMask2;

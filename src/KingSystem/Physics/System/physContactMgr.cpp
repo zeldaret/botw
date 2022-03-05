@@ -149,8 +149,8 @@ bool ContactMgr::registerContactPoint(ContactPointInfo* info, const ContactPoint
         auto& point_in_pool = mContactPointPool[pool_index];
         point_in_pool = point;
 
-        if (info->mContactPointIndex < info->mPoints.size() || info->_2c >= 2) {
-            int index = info->mContactPointIndex.increment();
+        if (info->mNumContactPoints < info->mPoints.size() || info->_2c >= 2) {
+            int index = info->mNumContactPoints.increment();
             info->mPoints[index] = &point_in_pool;
             info->mPoints[index]->flags.makeAllZero();
             info->mPoints[index]->flags.change(ContactPoint::Flag::Penetrating, penetrating);
@@ -169,8 +169,8 @@ void ContactMgr::registerContactPoint(LayerContactPointInfo* info, const Contact
     auto& point_in_pool = mContactPointPool[pool_index];
     point_in_pool = point;
 
-    if (info->mContactPointIndex < info->mPoints.size()) {
-        int index = info->mContactPointIndex.increment();
+    if (info->mNumContactPoints < info->mPoints.size()) {
+        int index = info->mNumContactPoints.increment();
         info->mPoints[index] = &point_in_pool;
         info->mPoints[index]->flags.makeAllZero();
         info->mPoints[index]->flags.change(ContactPoint::Flag::Penetrating, penetrating);

@@ -60,27 +60,26 @@ void LayerContactPointInfo::freePoints() {
     mLayerEntries.freeBuffer();
 }
 
-void LayerContactPointInfo::Iterator::getData(sead::Vector3f* out,
-                                              LayerContactPointInfo::Iterator::Mode mode) const {
+void LayerContactPointInfo::Iterator::getPointPosition(sead::Vector3f* out, Point point) const {
     const float separating_distance = getPoint()->separating_distance;
     out->e = getPoint()->position.e;
 
-    switch (mode) {
-    case Mode::_0: {
+    switch (point) {
+    case Point::BodyA: {
         if (getPoint()->flags.isOn(ContactPoint::Flag::Penetrating))
             return;
         *out += getPoint()->separating_normal * -separating_distance;
         break;
     }
 
-    case Mode::_1: {
+    case Point::BodyB: {
         if (!getPoint()->flags.isOn(ContactPoint::Flag::Penetrating))
             return;
         *out += getPoint()->separating_normal * separating_distance;
         break;
     }
 
-    case Mode::_2:
+    case Point::Midpoint:
     default: {
         *out += getPoint()->separating_normal * separating_distance * 0.5f;
         break;
@@ -88,10 +87,9 @@ void LayerContactPointInfo::Iterator::getData(sead::Vector3f* out,
     }
 }
 
-sead::Vector3f
-LayerContactPointInfo::Iterator::getData(LayerContactPointInfo::Iterator::Mode mode) const {
+sead::Vector3f LayerContactPointInfo::Iterator::getPointPosition(Point point) const {
     sead::Vector3f out;
-    getData(&out, mode);
+    getPointPosition(&out, point);
     return out;
 }
 
@@ -104,8 +102,8 @@ LayerContactPointInfo::Iterator::Iterator(const LayerContactPointInfo::Points& p
     }
 }
 
-LayerContactPointInfo::IteratorEnd::IteratorEnd(const LayerContactPointInfo::Points& points,
-                                                int count)
+LayerContactPointInfo::Iterator::Iterator(const LayerContactPointInfo::Points& points, int count,
+                                          IsEnd is_end)
     : mIdx(count), mPoints(points.getBufferPtr()), mPointsNum(count),
       mPointsStart(points.getBufferPtr()) {}
 
