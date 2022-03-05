@@ -255,7 +255,8 @@ int ContactListener::notifyContactPointInfo(RigidBody* body_a, RigidBody* body_b
             storeToVec3(&point.position, event.m_contactPoint->getPosition());
             storeToVec3(&point.separating_normal, event.m_contactPoint->getSeparatingNormal());
 
-            if (mMgr->x_13(body_b->getContactPointInfo(), point, masks_a, distance < 0)) {
+            if (mMgr->registerContactPoint(body_b->getContactPointInfo(), point, masks_a,
+                                           distance < 0)) {
                 disableContact(event);
             }
 
@@ -281,7 +282,8 @@ int ContactListener::notifyContactPointInfo(RigidBody* body_a, RigidBody* body_b
             point.shape_key_b = getShapeKeyOrMinus1(event.getShapeKeys(1));
             point.separating_normal *= -1;
 
-            if (mMgr->x_13(body_a->getContactPointInfo(), point, masks_b, !(distance < 0))) {
+            if (mMgr->registerContactPoint(body_a->getContactPointInfo(), point, masks_b,
+                                           !(distance < 0))) {
                 disableContact(event);
             }
 
@@ -353,7 +355,7 @@ void ContactListener::notifyLayerContactPointInfo(const TrackedContactPointLayer
         point.shape_key_b = getShapeKeyOrMinus1(event.getShapeKeys(1));
         point.separating_normal *= -1;
         point.separating_distance = distance < 0 ? distance : 0;
-        mMgr->x_15(tracked_layer.info, point, !(distance < 0));
+        mMgr->registerContactPoint(tracked_layer.info, point, !(distance < 0));
     } else {
         point.body_a = body_b;
         point.body_b = body_a;
@@ -362,7 +364,7 @@ void ContactListener::notifyLayerContactPointInfo(const TrackedContactPointLayer
         point.shape_key_a = getShapeKeyOrMinus1(event.getShapeKeys(1));
         point.shape_key_b = getShapeKeyOrMinus1(event.getShapeKeys(0));
         point.separating_distance = distance < 0 ? distance : 0;
-        mMgr->x_15(tracked_layer.info, point, distance < 0);
+        mMgr->registerContactPoint(tracked_layer.info, point, distance < 0);
     }
 }
 
@@ -374,22 +376,22 @@ void ContactListener::handleCollisionAdded(const hkpCollisionEvent& event, Rigid
     const auto layer_b = body_b->getContactLayer();
 
     if (body_a->getCollisionInfo() && body_a->getCollisionInfo()->isLayerEnabled(layer_b))
-        mMgr->x_17(body_a->getCollisionInfo(), body_a, body_b);
+        mMgr->registerCollision(body_a->getCollisionInfo(), body_a, body_b);
 
     if (body_b->getCollisionInfo() && body_b->getCollisionInfo()->isLayerEnabled(layer_a))
-        mMgr->x_17(body_b->getCollisionInfo(), body_b, body_a);
+        mMgr->registerCollision(body_b->getCollisionInfo(), body_b, body_a);
 
     const auto i = int(layer_a - mLayerBase);
     const auto j = int(layer_b - mLayerBase);
     if (areContactsTrackedForLayerPair(i, j)) {
-        auto* info = getContactLayerCollisionInfo(i, j);
+        auto* layer_col_info = getContactLayerCollisionInfo(i, j);
         if (body_a->isFlag8Set() && body_b->isFlag8Set()) {
             const auto layer_a_ = int(layer_a);
-            const auto tracked_layer = info->getLayer();
+            const auto tracked_layer = layer_col_info->getLayer();
             const bool body_a_first = layer_a_ == tracked_layer;
             auto* body1 = body_a_first ? body_a : body_b;
             auto* body2 = body_a_first ? body_b : body_a;
-            mMgr->x_18(info, body1, body2);
+            mMgr->registerCollision(layer_col_info, body1, body2);
         }
     }
 }
@@ -402,21 +404,21 @@ void ContactListener::handleCollisionRemoved(const hkpCollisionEvent& event, Rig
     const auto layer_b = body_b->getContactLayer();
 
     if (auto* info = body_a->getCollisionInfo())
-        mMgr->x_19(info, body_a, body_b);
+        mMgr->unregisterCollision(info, body_a, body_b);
 
     if (auto* info = body_b->getCollisionInfo())
-        mMgr->x_19(info, body_b, body_a);
+        mMgr->unregisterCollision(info, body_b, body_a);
 
     const auto i = int(layer_a - mLayerBase);
     const auto j = int(layer_b - mLayerBase);
     auto* info = getContactLayerCollisionInfo(i, j);
-    if (!info->getList().isEmpty()) {
+    if (!info->getCollidingBodies().isEmpty()) {
         const auto layer_a_ = int(layer_a);
         const auto tracked_layer = info->getLayer();
         const bool body_a_first = layer_a_ == tracked_layer;
         auto* body1 = body_a_first ? body_a : body_b;
         auto* body2 = body_a_first ? body_b : body_a;
-        mMgr->x_20(info, body1, body2);
+        mMgr->unregisterCollision(info, body1, body2);
     }
 }
 
@@ -494,7 +496,7 @@ void ContactListener::registerRigidBody(RigidBody* body) {
     auto& column = mCollisionInfoPerLayerPair[int(rlayer)];
     for (u32 i = 0; i < mLayerCount; ++i) {
         ContactLayerCollisionInfo* info = column[int(i)];
-        mMgr->x_21(info, body);
+        mMgr->unregisterCollisionWithBody(info, body);
     }
 }
 

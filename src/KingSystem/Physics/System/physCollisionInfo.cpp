@@ -12,12 +12,11 @@ void CollisionInfo::free(CollisionInfo* info) {
 }
 
 CollisionInfo::CollisionInfo(const sead::SafeString& name) : sead::INamable(name) {
-    // FIXME: figure out what this is
-    mList.initOffset(0x10);
+    mCollidingBodies.initOffset(CollidingBodies::getListNodeOffset());
 }
 
 CollisionInfo::~CollisionInfo() {
-    mList.clear();
+    mCollidingBodies.clear();
 }
 
 }  // namespace ksys::phys

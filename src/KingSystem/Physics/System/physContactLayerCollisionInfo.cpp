@@ -3,8 +3,7 @@
 namespace ksys::phys {
 
 ContactLayerCollisionInfo::ContactLayerCollisionInfo(ContactLayer layer) : mLayer(layer) {
-    // FIXME: figure out what this is
-    mList.initOffset(0x10);
+    mCollidingBodies.initOffset(CollidingBodies::getListNodeOffset());
 }
 
 ContactLayerCollisionInfo::~ContactLayerCollisionInfo() = default;

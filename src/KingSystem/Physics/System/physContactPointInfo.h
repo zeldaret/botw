@@ -16,8 +16,12 @@
 
 namespace ksys::phys {
 
+struct ContactPoint;
+
 class ContactPointInfoBase : public sead::INamable {
 public:
+    using Points = sead::Buffer<ContactPoint*>;
+
     // FIXME: parameter names
     ContactPointInfoBase(const sead::SafeString& name, int a, int b, int c)
         : sead::INamable(name), _2c(a), _30(b), _34(c) {}
@@ -41,13 +45,19 @@ public:
         return mLayerMask2[int(type)].isOnBit(int(getContactLayerBaseRelativeValue(layer)));
     }
 
+public:
+    // For internal use by the physics system.
+
     bool isLinked() const { return mListNode.isLinked(); }
+
     static constexpr size_t getListNodeOffset() {
         return offsetof(ContactPointInfoBase, mListNode);
     }
 
 protected:
-    sead::Atomic<int> _18;
+    friend class ContactMgr;
+
+    sead::Atomic<int> mContactPointIndex;
     sead::SafeArray<sead::BitFlag32, 2> mSubscribedLayers;
     // TODO: rename
     sead::SafeArray<sead::BitFlag32, 2> mLayerMask2;
@@ -86,7 +96,9 @@ public:
     void setContactCallback(ContactCallback* cb) { mContactCallback = cb; }
 
 private:
-    sead::Buffer<void*> mPoints{};
+    friend class ContactMgr;
+
+    Points mPoints;
     ContactCallback* mContactCallback{};
 };
 KSYS_CHECK_SIZE_NX150(ContactPointInfo, 0x60);

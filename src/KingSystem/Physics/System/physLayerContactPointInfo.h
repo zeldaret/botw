@@ -16,8 +16,6 @@ class RigidBody;
 
 class LayerContactPointInfo : public ContactPointInfoBase {
 public:
-    using Points = sead::Buffer<ContactPoint*>;
-
     struct LayerEntry {
         ContactLayer layer1;
         ContactLayer layer2;
@@ -115,14 +113,16 @@ public:
     ContactCallback* getCallback() const { return mCallback; }
     void setCallback(ContactCallback* callback) { mCallback = callback; }
 
-    auto begin() const { return Iterator(mPoints, _18); }
-    auto end() const { return IteratorEnd(mPoints, _18); }
+    auto begin() const { return Iterator(mPoints, mContactPointIndex); }
+    auto end() const { return IteratorEnd(mPoints, mContactPointIndex); }
 
     sead::ObjArray<LayerEntry>& getLayerEntries() { return mLayerEntries; }
     const sead::ObjArray<LayerEntry>& getLayerEntries() const { return mLayerEntries; }
 
 private:
-    Points mPoints{};
+    friend class ContactMgr;
+
+    Points mPoints;
     sead::ObjArray<LayerEntry> mLayerEntries;
     ContactLayerType mLayerType = ContactLayerType::Invalid;
     ContactCallback* mCallback = nullptr;

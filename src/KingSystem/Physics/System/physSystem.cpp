@@ -50,7 +50,7 @@ void System::initSystemData(sead::Heap* heap) {
 ContactPointInfo* System::allocContactPointInfo(sead::Heap* heap, int num,
                                                 const sead::SafeString& name, int a, int b,
                                                 int c) const {
-    return mContactMgr->allocContactPoints(heap, num, name, a, b, c);
+    return mContactMgr->makeContactPointInfo(heap, num, name, a, b, c);
 }
 
 void System::freeContactPointInfo(ContactPointInfo* info) const {
@@ -60,7 +60,7 @@ void System::freeContactPointInfo(ContactPointInfo* info) const {
 LayerContactPointInfo* System::allocLayerContactPointInfo(sead::Heap* heap, int num, int num2,
                                                           const sead::SafeString& name, int a,
                                                           int b, int c) const {
-    return mContactMgr->allocContactPointsEx(heap, num, num2, name, a, b, c);
+    return mContactMgr->makeLayerContactPointInfo(heap, num, num2, name, a, b, c);
 }
 
 void System::registerContactPointInfo(ContactPointInfo* info) const {

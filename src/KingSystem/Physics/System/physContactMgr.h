@@ -10,6 +10,7 @@
 #include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadScopedLock.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadMutex.h>
 #include "KingSystem/Physics/physDefines.h"
@@ -24,6 +25,7 @@ namespace ksys::phys {
 
 enum class IsIndoorStage;
 
+struct CollidingBodies;
 class CollisionInfo;
 class ContactLayerCollisionInfo;
 class ContactPointInfoBase;
@@ -53,7 +55,7 @@ struct ContactInfoTable {
 struct ContactPoint {
     enum class Flag {
         _1 = 1 << 0,
-        _2 = 1 << 1,
+        Penetrating = 1 << 1,
     };
 
     RigidBody* body_a;
@@ -84,51 +86,61 @@ public:
 
     bool getSensorLayerMask(SensorCollisionMask* mask, const sead::SafeString& receiver_type) const;
 
-    ContactPointInfo* allocContactPoints(sead::Heap* heap, int num, const sead::SafeString& name,
-                                         int a, int b, int c);
-    LayerContactPointInfo* allocContactPointsEx(sead::Heap* heap, int num, int num2,
-                                                const sead::SafeString& name, int a, int b, int c);
+    ContactPointInfo* makeContactPointInfo(sead::Heap* heap, int num, const sead::SafeString& name,
+                                           int a, int b, int c);
+
+    LayerContactPointInfo* makeLayerContactPointInfo(sead::Heap* heap, int num, int num2,
+                                                     const sead::SafeString& name, int a, int b,
+                                                     int c);
+
     void registerContactPointInfo(ContactPointInfoBase* info);
+    void unregisterContactPointInfo(ContactPointInfoBase* info);
     void freeContactPointInfo(ContactPointInfoBase* info);
 
-    // 0x0000007100fb3284
     /// @param colliding_body_masks The collision masks of the colliding rigid bodies.
     /// @returns whether contact should be disabled.
-    bool x_13(ContactPointInfo* info, const ContactPoint& point,
-              const RigidBodyCollisionMasks& colliding_body_masks, bool penetrating);
+    bool registerContactPoint(ContactPointInfo* info, const ContactPoint& point,
+                              const RigidBodyCollisionMasks& colliding_body_masks,
+                              bool penetrating);
 
-    // 0x0000007100fb3478
-    void x_15(LayerContactPointInfo* info, const ContactPoint& point, bool penetrating);
+    void registerContactPoint(LayerContactPointInfo* info, const ContactPoint& point,
+                              bool penetrating);
 
-    // 0x0000007100fb3744
-    void x_17(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
-    // 0x0000007100fb37d4
-    void x_18(ContactLayerCollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
-    // 0x0000007100fb3854
-    void x_19(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
-    // 0x0000007100fb3938
-    void x_20(ContactLayerCollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
-    // 0x0000007100fb3a2c
-    void x_21(ContactLayerCollisionInfo* info, RigidBody* body);
+    void registerCollision(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
+    void registerCollision(ContactLayerCollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
+    void unregisterCollision(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
+    void unregisterCollision(ContactLayerCollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
+    /// Unregister all collision pairs involving the specified rigid body.
+    void unregisterCollisionWithBody(ContactLayerCollisionInfo* info, RigidBody* body);
 
 private:
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,
                                 bool skip_params);
 
-    // Used to optimise ContactPoint allocations.
+    /// @return an index into mContactPointPool or -1 if the pool is exhausted.
+    int allocateContactPoint();
+
+    void freeCollidingBodiesEntry(CollidingBodies* entry) {
+        auto lock = sead::makeScopedLock(mCollidingBodiesMutex);
+        mCollidingBodiesFreeList.pushBack(entry);
+    }
+
+    /// Used to optimise ContactPoint allocations.
     sead::Buffer<ContactPoint> mContactPointPool;
-    sead::OffsetList<void*> mList0;
+    sead::OffsetList<CollidingBodies> mCollidingBodiesFreeList;
     int mList0Size = 0;
-    sead::Atomic<int> _34 = 0;
-    sead::OffsetList<ContactPointInfoBase> mRigidContactPoints;
+    /// The index of the next free ContactPoint in the pool.
+    sead::Atomic<int> mContactPointIndex = 0;
+    sead::OffsetList<ContactPointInfoBase> mContactPointInfoInstances;
     sead::OffsetList<void*> mList2;
     sead::OffsetList<void*> mList3;
     sead::OffsetList<void*> mList4;
     sead::OffsetList<void*> mList5;
-    sead::Mutex mMutex1;
+    // TODO: rename these members
+    sead::Mutex mContactPointInfoMutex;
     sead::Mutex mMutex2;
     sead::Mutex mMutex3;
-    sead::Mutex mMutex4;
+    sead::Mutex mCollidingBodiesMutex;
     sead::Mutex mMutex5;
     sead::SafeArray<ContactInfoTable, 2> mContactInfoTables{};
 };

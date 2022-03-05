@@ -67,14 +67,14 @@ void LayerContactPointInfo::Iterator::getData(sead::Vector3f* out,
 
     switch (mode) {
     case Mode::_0: {
-        if (getPoint()->flags.isOn(ContactPoint::Flag::_2))
+        if (getPoint()->flags.isOn(ContactPoint::Flag::Penetrating))
             return;
         *out += getPoint()->separating_normal * -separating_distance;
         break;
     }
 
     case Mode::_1: {
-        if (!getPoint()->flags.isOn(ContactPoint::Flag::_2))
+        if (!getPoint()->flags.isOn(ContactPoint::Flag::Penetrating))
             return;
         *out += getPoint()->separating_normal * separating_distance;
         break;

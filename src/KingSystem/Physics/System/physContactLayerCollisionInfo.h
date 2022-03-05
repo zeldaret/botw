@@ -14,13 +14,12 @@ public:
 
     ContactLayer getLayer() const { return mLayer; }
 
-    auto& getList() { return mList; }
-    const auto& getList() const { return mList; }
+    sead::OffsetList<CollidingBodies>& getCollidingBodies() { return mCollidingBodies; }
+    const sead::OffsetList<CollidingBodies>& getCollidingBodies() const { return mCollidingBodies; }
 
 private:
     ContactLayer mLayer;
-    // FIXME: type
-    sead::OffsetList<void*> mList;
+    sead::OffsetList<CollidingBodies> mCollidingBodies;
 };
 
 }  // namespace ksys::phys

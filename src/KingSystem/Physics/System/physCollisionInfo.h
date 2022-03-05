@@ -10,6 +10,16 @@
 
 namespace ksys::phys {
 
+class RigidBody;
+
+struct CollidingBodies {
+    RigidBody* body_a;
+    RigidBody* body_b;
+    sead::ListNode list_node;
+
+    static constexpr size_t getListNodeOffset() { return offsetof(CollidingBodies, list_node); }
+};
+
 class CollisionInfoBase {
 public:
     CollisionInfoBase() = default;
@@ -38,12 +48,14 @@ public:
     explicit CollisionInfo(const sead::SafeString& name);
     ~CollisionInfo() override;
 
+    sead::OffsetList<CollidingBodies>& getCollidingBodies() { return mCollidingBodies; }
+    const sead::OffsetList<CollidingBodies>& getCollidingBodies() const { return mCollidingBodies; }
+
     bool isLinked() const { return mListNode.isLinked(); }
     static constexpr size_t getListNodeOffset() { return offsetof(CollisionInfo, mListNode); }
 
 private:
-    // FIXME: type
-    sead::OffsetList<void*> mList;
+    sead::OffsetList<CollidingBodies> mCollidingBodies;
     sead::ListNode mListNode;
 };
 
