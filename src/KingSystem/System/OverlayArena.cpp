@@ -73,8 +73,8 @@ void OverlayArena::clearUnits() {
 
     res::stubbedLogFunction();
     auto lock = sead::makeScopedLock(mCS);
-    for (auto it = mUnits.robustBegin(), end = mUnits.robustEnd(); it != end; ++it) {
-        res::ResourceUnit* unit = std::addressof(*it);
+    for (auto& unit_ref : mUnits.robustRange()) {
+        res::ResourceUnit* unit = &unit_ref;
         res::stubbedLogFunction();
         res::ResourceMgrTask::instance()->deregisterUnit(unit);
         res::ResourceMgrTask::instance()->requestClearCacheForSync(&unit, true, false);

@@ -644,9 +644,9 @@ void ResourceMgrTask::clearUnits_() {
     if (num_units != 0 && returnFalse())
         stubbedLogFunction();
 
-    for (auto it = mUnits.robustBegin(), end = mUnits.robustEnd(); it != end; ++it) {
-        ResourceUnit* unit = &*it;
-        if (it->mTask3.canSubmitRequest()) {
+    for (auto& unit_ref : mUnits.robustRange()) {
+        ResourceUnit* unit = &unit_ref;
+        if (unit->mTask3.canSubmitRequest()) {
             mUnits.erase(unit);
             requestClearCache(&unit);
         }

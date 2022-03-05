@@ -31,9 +31,9 @@ void TaskQueueBase::clear() {
     lock();
 
     // Clear all tasks.
-    for (auto it = mActiveTasks.robustBegin(), end = mActiveTasks.robustEnd(); it != end; ++it) {
-        mActiveTasks.erase(std::addressof(*it));
-        it->onRemove();
+    for (auto& task : mActiveTasks.robustRange()) {
+        mActiveTasks.erase(&task);
+        task.onRemove();
     }
     mActiveTasks.clear();
 

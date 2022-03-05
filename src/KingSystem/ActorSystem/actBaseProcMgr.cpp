@@ -310,11 +310,10 @@ void BaseProcMgr::calc() {
         for (auto& proc : mProcUpdateStateList)
             proc.processStateUpdate(mCounter);
 
-        for (auto it = mProcUpdateStateList.robustBegin(), end = mProcUpdateStateList.robustEnd();
-             it != end; ++it) {
-            it->afterUpdateState_();
-            if (it->mStateFlags.isZero()) {
-                mProcUpdateStateList.erase(std::addressof(*it));
+        for (auto& proc : mProcUpdateStateList.robustRange()) {
+            proc.afterUpdateState_();
+            if (proc.mStateFlags.isZero()) {
+                mProcUpdateStateList.erase(&proc);
             }
         }
 
