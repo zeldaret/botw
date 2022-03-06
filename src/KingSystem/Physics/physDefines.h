@@ -13,6 +13,8 @@ enum class ContactLayerType {
     Invalid,
 };
 
+constexpr int NumContactLayerTypes = 2;
+
 SEAD_ENUM(ContactLayer,
 EntityObject,\
 EntitySmallObject,\

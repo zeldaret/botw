@@ -136,7 +136,7 @@ public:
     auto begin() const { return Iterator(mPoints, mNumContactPoints); }
     auto end() const { return Iterator(mPoints, mNumContactPoints, Iterator::IsEnd::Yes); }
 
-private:
+protected:
     friend class ContactMgr;
 
     Points mPoints;

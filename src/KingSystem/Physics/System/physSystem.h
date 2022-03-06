@@ -25,6 +25,11 @@ enum class IsIndoorStage {
     Yes,
 };
 
+enum class LowPriority : bool {
+    Yes = true,
+    No = false,
+};
+
 class System {
     SEAD_SINGLETON_DISPOSER(System)
     System();
@@ -71,6 +76,9 @@ public:
 
     void lockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
     void unlockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
+
+    // 0x0000007101216cec
+    sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;
 
 private:
     u8 _28[0x64 - 0x28];

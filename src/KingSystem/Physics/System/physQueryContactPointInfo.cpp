@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
 
 namespace ksys::phys {
 
@@ -15,5 +16,15 @@ void QueryContactPointInfo::free(QueryContactPointInfo* info) {
 }
 
 QueryContactPointInfo::~QueryContactPointInfo() = default;
+
+void QueryContactPointInfo::Iterator::getPointPosition(sead::Vector3f* out, Point point) const {
+    out->e = getPoint()->position.e;
+}
+
+sead::Vector3f QueryContactPointInfo::Iterator::getPointPosition(Point point) const {
+    sead::Vector3f pos;
+    getPointPosition(&pos, point);
+    return pos;
+}
 
 }  // namespace ksys::phys

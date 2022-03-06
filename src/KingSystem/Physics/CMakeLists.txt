@@ -103,6 +103,10 @@ target_sources(uking PRIVATE
 
   System/physCharacterControllerParam.cpp
   System/physCharacterControllerParam.h
+  System/physClosestPointQuery.cpp
+  System/physClosestPointQuery.h
+  System/physClosestPointQueryWithInfo.cpp
+  System/physClosestPointQueryWithInfo.h
   System/physCollisionInfo.cpp
   System/physCollisionInfo.h
   System/physContactInfoParam.cpp
@@ -142,6 +146,7 @@ target_sources(uking PRIVATE
   physDefines.h
   physConversions.h
   physHeapUtil.h
+  physLayerMaskBuilder.h
   physMaterialMask.cpp
   physMaterialMask.h
 )
