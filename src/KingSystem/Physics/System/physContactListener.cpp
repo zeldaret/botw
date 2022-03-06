@@ -491,7 +491,7 @@ void ContactListener::removeLayerPairForContactPointInfo(LayerContactPointInfo* 
     }
 }
 
-void ContactListener::registerRigidBody(RigidBody* body) {
+void ContactListener::unregisterCollisionWithBody(RigidBody* body) {
     const u32 rlayer = body->getContactLayer() - mLayerBase;
     auto& column = mCollisionInfoPerLayerPair[int(rlayer)];
     for (u32 i = 0; i < mLayerCount; ++i) {

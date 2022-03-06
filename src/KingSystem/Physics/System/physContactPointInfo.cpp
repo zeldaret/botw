@@ -29,7 +29,7 @@ void ContactPointInfo::freePoints() {
 ContactPointInfo::Iterator::Iterator(const Points& points, int count)
     : mPoints(points.getBufferPtr()), mPointsNum(count), mPointsStart(points.getBufferPtr()) {
     for (int i = 0; i != count; ++i) {
-        if (!mPoints[i]->flags.isOn(ContactPoint::Flag::_1))
+        if (!mPoints[i]->flags.isOn(ContactPoint::Flag::Invalid))
             break;
         ++mIdx;
     }

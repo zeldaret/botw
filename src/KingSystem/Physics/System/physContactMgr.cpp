@@ -14,7 +14,7 @@ namespace ksys::phys {
 ContactMgr::ContactMgr() {
     mContactPointInfoInstances.initOffset(ContactPointInfo::getListNodeOffset());
     // FIXME: figure out what these offsets are
-    mList2.initOffset(0x78);
+    mCollisionInfoInstances.initOffset(CollisionInfo::getListNodeOffset());
     mList3.initOffset(0x40);
     mCollidingBodiesFreeList.initOffset(CollidingBodies::getListNodeOffset());
     mList4.initOffset(0x48);
@@ -96,6 +96,10 @@ LayerContactPointInfo* ContactMgr::makeLayerContactPointInfo(sead::Heap* heap, i
     return info;
 }
 
+CollisionInfo* ContactMgr::makeCollisionInfo(sead::Heap* heap, const sead::SafeString& name) {
+    return new (heap) CollisionInfo(name);
+}
+
 void ContactMgr::registerContactPointInfo(ContactPointInfoBase* info) {
     auto lock = sead::makeScopedLock(mContactPointInfoMutex);
     if (!info->isLinked())
@@ -117,13 +121,80 @@ void ContactMgr::freeContactPointInfo(ContactPointInfoBase* info) {
     delete info;
 }
 
+void ContactMgr::registerCollisionInfo(CollisionInfo* info) {
+    auto lock = sead::makeScopedLock(mCollisionInfoMutex);
+    if (!info->isLinked())
+        mCollisionInfoInstances.pushBack(info);
+}
+
+void ContactMgr::unregisterCollisionInfo(CollisionInfo* info) {
+    auto lock = sead::makeScopedLock(mCollisionInfoMutex);
+    if (info->isLinked())
+        mCollisionInfoInstances.erase(info);
+}
+
+void ContactMgr::freeCollisionInfo(CollisionInfo* info) {
+    if (!info)
+        return;
+
+    clearCollisionEntries(info);
+    unregisterCollisionInfo(info);
+    delete info;
+}
+
+// NON_MATCHING: two sub instructions reordered
+void ContactMgr::clearContactPoints() {
+    auto lock = sead::makeScopedLock(mContactPointInfoMutex);
+
+    if (mNumContactPoints != 0)
+        mNumContactPoints = 0;
+
+    for (auto& info : mContactPointInfoInstances) {
+        if (info.mNumContactPoints != 0)
+            info.mNumContactPoints = 0;
+    }
+}
+
+void ContactMgr::removeContactPointsWithBody(RigidBody* body) {
+    auto lock = sead::makeScopedLock(mContactPointInfoMutex);
+    for (int i = 0; i < mNumContactPoints; ++i) {
+        ContactPoint& point = mContactPointPool[i];
+        if (point.body_a == body || point.body_b == body)
+            point.flags.set(ContactPoint::Flag::Invalid);
+    }
+}
+
+void ContactMgr::removeCollisionEntriesWithBody(RigidBody* body) {
+    auto lock_all_ci = sead::makeScopedLock(mCollisionInfoMutex);
+    auto lock_all_cb = sead::makeScopedLock(mCollidingBodiesMutex);
+
+    const auto body_layer = body->getContactLayer();
+
+    for (auto& collision_info : mCollisionInfoInstances) {
+        auto lock_ci = sead::makeScopedLock(collision_info);
+
+        // Small optimisation: there's no need to check all colliding bodies in this CI
+        // if we know we will never be able to find the body in this CI because the layers mismatch.
+        if (!collision_info.isLayerEnabled(body_layer))
+            continue;
+
+        for (auto& colliding_pair : collision_info.getCollidingBodies().robustRange()) {
+            if (colliding_pair.body_b != body)
+                continue;
+
+            collision_info.getCollidingBodies().erase(&colliding_pair);
+            mCollidingBodiesFreeList.pushBack(&colliding_pair);
+        }
+    }
+}
+
 int ContactMgr::allocateContactPoint() {
-    if (mContactPointIndex >= mContactPointPool.size() - 1) {
-        util::PrintDebugFmt("contact point pool exhausted (current index: %d)",
-                            mContactPointIndex.load());
+    if (mNumContactPoints >= mContactPointPool.size() - 1) {
+        util::PrintDebugFmt("contact point pool exhausted (current number of points: %d)",
+                            mNumContactPoints.load());
         return -1;
     }
-    return mContactPointIndex.increment();
+    return mNumContactPoints.increment();
 }
 
 bool ContactMgr::registerContactPoint(ContactPointInfo* info, const ContactPoint& point,
@@ -175,6 +246,49 @@ void ContactMgr::registerContactPoint(LayerContactPointInfo* info, const Contact
         info->mPoints[index]->flags.makeAllZero();
         info->mPoints[index]->flags.change(ContactPoint::Flag::Penetrating, penetrating);
     }
+}
+
+bool ContactMgr::initLayerMasks(ContactPointInfo* info,
+                                const sead::SafeString& receiver_name) const {
+    for (int type = 0; type < mContactInfoTables.size(); ++type) {
+        const auto& receivers = mContactInfoTables[type].receivers;
+        for (int i = 0; i < receivers.size(); ++i) {
+            const auto& receiver = receivers[i];
+            if (receiver_name == receiver.name) {
+                info->mSubscribedLayers[type] = receiver.layer_mask;
+                info->mLayerMask2[type] = receiver.layer_mask2;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool ContactMgr::initLayerMasks(CollisionInfo* info, const sead::SafeString& receiver_name) const {
+    for (int type = 0; type < mContactInfoTables.size(); ++type) {
+        const auto& receivers = mContactInfoTables[type].receivers;
+        for (int i = 0; i < receivers.size(); ++i) {
+            const auto& receiver = receivers[i];
+            if (receiver_name == receiver.name) {
+                info->getLayerMask(ContactLayerType(type)) = receiver.layer_mask;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool ContactMgr::getSensorLayerMask(SensorCollisionMask* mask,
+                                    const sead::SafeString& receiver_name) const {
+    const auto& receivers = mContactInfoTables[int(ContactLayerType::Sensor)].receivers;
+    for (int i = 0; i < receivers.size(); ++i) {
+        const auto& receiver = receivers[i];
+        if (receiver_name == receiver.name) {
+            receiverMaskSetSensorLayerMask(mask, receiver.layer_mask);
+            return true;
+        }
+    }
+    return false;
 }
 
 void ContactMgr::registerCollision(CollisionInfo* info, RigidBody* body_a, RigidBody* body_b) {
@@ -245,17 +359,14 @@ void ContactMgr::unregisterCollisionWithBody(ContactLayerCollisionInfo* info, Ri
     }
 }
 
-bool ContactMgr::getSensorLayerMask(SensorCollisionMask* mask,
-                                    const sead::SafeString& receiver_type) const {
-    const auto& receivers = mContactInfoTables[int(ContactLayerType::Sensor)].receivers;
-    for (int i = 0; i < receivers.size(); ++i) {
-        const auto& receiver = receivers[i];
-        if (receiver_type == receiver.name) {
-            receiverMaskSetSensorLayerMask(mask, receiver.layer_mask);
-            return true;
-        }
+void ContactMgr::clearCollisionEntries(CollisionInfo* info) {
+    auto lock = sead::makeScopedLock(mCollidingBodiesMutex);
+    auto info_lock = sead::makeScopedLock(*info);
+
+    for (auto& entry : info->getCollidingBodies().robustRange()) {
+        info->getCollidingBodies().erase(&entry);
+        mCollidingBodiesFreeList.pushBack(&entry);
     }
-    return false;
 }
 
 void ContactInfoTable::Receiver::postRead_() {

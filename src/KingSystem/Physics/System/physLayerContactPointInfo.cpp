@@ -96,7 +96,7 @@ sead::Vector3f LayerContactPointInfo::Iterator::getPointPosition(Point point) co
 LayerContactPointInfo::Iterator::Iterator(const LayerContactPointInfo::Points& points, int count)
     : mPoints(points.getBufferPtr()), mPointsNum(count), mPointsStart(points.getBufferPtr()) {
     for (int i = 0; i != count; ++i) {
-        if (!mPoints[i]->flags.isOn(ContactPoint::Flag::_1))
+        if (!mPoints[i]->flags.isOn(ContactPoint::Flag::Invalid))
             break;
         ++mIdx;
     }

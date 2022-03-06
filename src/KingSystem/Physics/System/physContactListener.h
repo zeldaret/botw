@@ -37,7 +37,7 @@ public:
     void removeLayerPairForContactPointInfo(LayerContactPointInfo* info, ContactLayer layer1,
                                             ContactLayer layer2);
 
-    void registerRigidBody(RigidBody* body);
+    void unregisterCollisionWithBody(RigidBody* body);
 
     void contactPointCallback(const hkpContactPointEvent& event) override;
     void collisionAddedCallback(const hkpCollisionEvent& event) override;

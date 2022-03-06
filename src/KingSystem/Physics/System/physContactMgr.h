@@ -54,7 +54,9 @@ struct ContactInfoTable {
 
 struct ContactPoint {
     enum class Flag {
-        _1 = 1 << 0,
+        /// Whether this contact point should be skipped when iterating over contact points.
+        Invalid = 1 << 0,
+        /// Whether the two bodies are penetrating.
         Penetrating = 1 << 1,
     };
 
@@ -84,7 +86,7 @@ public:
     void loadContactInfoTable(sead::Heap* heap, agl::utl::ResParameterArchive archive,
                               ContactLayerType type);
 
-    bool getSensorLayerMask(SensorCollisionMask* mask, const sead::SafeString& receiver_type) const;
+    // region Factories for collision tracking structures
 
     ContactPointInfo* makeContactPointInfo(sead::Heap* heap, int num, const sead::SafeString& name,
                                            int a, int b, int c);
@@ -93,15 +95,36 @@ public:
                                                      const sead::SafeString& name, int a, int b,
                                                      int c);
 
+    CollisionInfo* makeCollisionInfo(sead::Heap* heap, const sead::SafeString& name);
+
+    // endregion
+
     void registerContactPointInfo(ContactPointInfoBase* info);
     void unregisterContactPointInfo(ContactPointInfoBase* info);
     void freeContactPointInfo(ContactPointInfoBase* info);
+
+    void registerCollisionInfo(CollisionInfo* info);
+    void unregisterCollisionInfo(CollisionInfo* info);
+    void freeCollisionInfo(CollisionInfo* info);
+
+    void clearContactPoints();
+    /// Remove all contact points with the specified rigid body.
+    /// @note For efficiency reasons, this actually only invalidates the contact points.
+    /// They will be removed at a later stage.
+    void removeContactPointsWithBody(RigidBody* body);
+    void removeCollisionEntriesWithBody(RigidBody* body);
+    // TODO: figure out what this removes
+    // 0x0000007100fb31b8
+    void removeUnkWithBody(RigidBody* body);
 
     /// @param colliding_body_masks The collision masks of the colliding rigid bodies.
     /// @returns whether contact should be disabled.
     bool registerContactPoint(ContactPointInfo* info, const ContactPoint& point,
                               const RigidBodyCollisionMasks& colliding_body_masks,
                               bool penetrating);
+
+    // 0x0000007100fb35cc
+    void registerContactPoint(void* unk_info, const ContactPoint& point, bool penetrating);
 
     void registerContactPoint(LayerContactPointInfo* info, const ContactPoint& point,
                               bool penetrating);
@@ -112,6 +135,24 @@ public:
     void unregisterCollision(ContactLayerCollisionInfo* info, RigidBody* body_a, RigidBody* body_b);
     /// Unregister all collision pairs involving the specified rigid body.
     void unregisterCollisionWithBody(ContactLayerCollisionInfo* info, RigidBody* body);
+
+    void clearCollisionEntries(CollisionInfo* info);
+
+    bool initLayerMasks(ContactPointInfo* info, const sead::SafeString& receiver_name) const;
+    bool initLayerMasks(CollisionInfo* info, const sead::SafeString& receiver_name) const;
+    bool getSensorLayerMask(SensorCollisionMask* mask, const sead::SafeString& receiver_name) const;
+
+    // 0x0000007100fb4228
+    void x_26(RigidBody* body_a, RigidBody* body_b);
+    // 0x0000007100fb42f4
+    void x_27(RigidBody* body_a, RigidBody* body_b, const sead::Vector3f&, const sead::Vector3f&,
+              u32 material_a, u32 material_b);
+    // 0x0000007100fb4738
+    void x_28(void* unk);
+    // 0x0000007100fb49d4
+    void x_14();
+    // 0x0000007100fb4a90
+    void x_29();
 
 private:
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,
@@ -129,16 +170,16 @@ private:
     sead::Buffer<ContactPoint> mContactPointPool;
     sead::OffsetList<CollidingBodies> mCollidingBodiesFreeList;
     int mList0Size = 0;
-    /// The index of the next free ContactPoint in the pool.
-    sead::Atomic<int> mContactPointIndex = 0;
+    /// The number of contact points. Also the iindex of the next free ContactPoint in the pool.
+    sead::Atomic<int> mNumContactPoints = 0;
     sead::OffsetList<ContactPointInfoBase> mContactPointInfoInstances;
-    sead::OffsetList<void*> mList2;
+    sead::OffsetList<CollisionInfo> mCollisionInfoInstances;
     sead::OffsetList<void*> mList3;
     sead::OffsetList<void*> mList4;
     sead::OffsetList<void*> mList5;
     // TODO: rename these members
     sead::Mutex mContactPointInfoMutex;
-    sead::Mutex mMutex2;
+    sead::Mutex mCollisionInfoMutex;
     sead::Mutex mMutex3;
     sead::Mutex mCollidingBodiesMutex;
     sead::Mutex mMutex5;
