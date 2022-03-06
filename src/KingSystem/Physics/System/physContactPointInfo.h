@@ -81,6 +81,44 @@ public:
         const RigidBody::CollisionMasks* collision_masks;
     };
 
+    class Iterator {
+    public:
+        enum class IsEnd : bool { Yes = true };
+
+        enum class Point {
+            BodyA,
+            BodyB,
+            Midpoint,
+        };
+
+        Iterator(const Points& points, int count);
+        Iterator(const Points& points, int count, IsEnd is_end);
+
+        Iterator& operator++() {
+            ++mIdx;
+            return *this;
+        }
+
+        virtual void getPointPosition(sead::Vector3f* out, Point point) const;
+        virtual sead::Vector3f getPointPosition(Point point) const;
+
+        const ContactPoint* getPoint() const { return mPoints[mIdx]; }
+        const ContactPoint* operator*() const { return getPoint(); }
+
+        friend bool operator==(const Iterator& lhs, const Iterator& rhs) {
+            return lhs.mIdx == rhs.mIdx;
+        }
+        friend bool operator!=(const Iterator& lhs, const Iterator& rhs) {
+            return !operator==(lhs, rhs);
+        }
+
+    private:
+        int mIdx = 0;
+        const ContactPoint* const* mPoints = nullptr;
+        int mPointsNum = 0;
+        const ContactPoint* const* mPointsStart = nullptr;
+    };
+
     using ContactCallback = sead::IDelegate2R<ShouldDisableContact*, const Event&, bool>;
 
     static ContactPointInfo* make(sead::Heap* heap, int num, const sead::SafeString& name, int a,
@@ -94,6 +132,9 @@ public:
 
     ContactCallback* getContactCallback() const { return mContactCallback; }
     void setContactCallback(ContactCallback* cb) { mContactCallback = cb; }
+
+    auto begin() const { return Iterator(mPoints, mNumContactPoints); }
+    auto end() const { return Iterator(mPoints, mNumContactPoints, Iterator::IsEnd::Yes); }
 
 private:
     friend class ContactMgr;
