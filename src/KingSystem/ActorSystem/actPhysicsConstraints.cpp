@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
-#include "KingSystem/Physics/System/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 
 namespace ksys::act {
 

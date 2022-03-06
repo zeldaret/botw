@@ -4,6 +4,9 @@ target_sources(uking PRIVATE
   Cloth/physClothResource.cpp
   Cloth/physClothResource.h
 
+  Constraint/physConstraint.cpp
+  Constraint/physConstraint.h
+
   Ragdoll/physRagdollConfig.cpp
   Ragdoll/physRagdollConfig.h
   Ragdoll/physRagdollControllerKeyList.h
@@ -102,8 +105,6 @@ target_sources(uking PRIVATE
   System/physCharacterControllerParam.h
   System/physCollisionInfo.cpp
   System/physCollisionInfo.h
-  System/physConstraint.cpp
-  System/physConstraint.h
   System/physContactInfoParam.cpp
   System/physContactInfoParam.h
   System/physContactLayerCollisionInfo.cpp

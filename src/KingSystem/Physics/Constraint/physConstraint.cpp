@@ -1,10 +1,9 @@
-#include "KingSystem/Physics/System/physConstraint.h"
+#include "KingSystem/Physics/Constraint//physConstraint.h"
 
 namespace ksys::phys {
 
 void Constraint::destroy(Constraint* instance) {
-    if (instance)
-        delete instance;
+    delete instance;
 }
 
 }  // namespace ksys::phys
