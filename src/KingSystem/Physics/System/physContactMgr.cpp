@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physLayerContactPointInfo.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/Debug.h"
 
@@ -229,6 +230,25 @@ bool ContactMgr::registerContactPoint(ContactPointInfo* info, const ContactPoint
     }
 
     return disable_contact == ContactPointInfo::ShouldDisableContact::Yes;
+}
+
+bool ContactMgr::registerContactPoint(QueryContactPointInfo* info, const ContactPoint& point,
+                                      bool penetrating) {
+    int pool_index = allocateContactPoint();
+    if (pool_index == -1)
+        return false;
+
+    auto& point_in_pool = mContactPointPool[pool_index];
+    point_in_pool = point;
+
+    if (info->mNumContactPoints >= info->mPoints.size() && info->_2c < 2)
+        return false;
+
+    int index = info->mNumContactPoints.increment();
+    info->mPoints[index] = &point_in_pool;
+    info->mPoints[index]->flags.makeAllZero();
+    info->mPoints[index]->flags.change(ContactPoint::Flag::Penetrating, penetrating);
+    return true;
 }
 
 void ContactMgr::registerContactPoint(LayerContactPointInfo* info, const ContactPoint& point,

@@ -29,6 +29,7 @@ struct CollidingBodies;
 class CollisionInfo;
 class ContactLayerCollisionInfo;
 class ContactPointInfoBase;
+class QueryContactPointInfo;
 class RigidBody;
 struct RigidBodyCollisionMasks;
 class ContactPointInfo;
@@ -123,8 +124,8 @@ public:
                               const RigidBodyCollisionMasks& colliding_body_masks,
                               bool penetrating);
 
-    // 0x0000007100fb35cc
-    void registerContactPoint(void* unk_info, const ContactPoint& point, bool penetrating);
+    bool registerContactPoint(QueryContactPointInfo* info, const ContactPoint& point,
+                              bool penetrating);
 
     void registerContactPoint(LayerContactPointInfo* info, const ContactPoint& point,
                               bool penetrating);
