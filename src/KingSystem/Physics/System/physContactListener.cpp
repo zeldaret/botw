@@ -18,11 +18,6 @@
 
 namespace ksys::phys {
 
-static RigidBody* getRigidBody(hkpRigidBody* hk_body) {
-    // This needs to be kept in sync with the RigidBody constructor!
-    return reinterpret_cast<RigidBody*>(hk_body->getUserData());
-}
-
 static void clearCallbackDelay(const hkpContactPointEvent& event) {
     event.m_contactMgr->m_contactPointCallbackDelay = 0;
 }

@@ -13,6 +13,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/BitField.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
@@ -365,12 +366,9 @@ KSYS_ALWAYS_INLINE hkBool EntityGroupFilter::isCollisionEnabled(const hkpShapeRa
 
 hkBool EntityGroupFilter::isCollisionEnabled(const hkpWorldRayCastInput& inputA,
                                              const hkpCollidable& collidableB) const {
-    if (collidableB.getType() == hkpWorldObject::BROAD_PHASE_ENTITY) {
-        auto* entity = static_cast<const hkpEntity*>(collidableB.getOwner());
-        auto* body = entity ? reinterpret_cast<RigidBody*>(entity->getUserData()) : nullptr;
-        if (body && body->hasFlag(RigidBody::Flag::_200))
-            return false;
-    }
+    auto* body = getRigidBody(collidableB);
+    if (body && body->hasFlag(RigidBody::Flag::_200))
+        return false;
 
     return testCollisionForRayCasting(inputA.m_filterInfo, collidableB.getCollisionFilterInfo());
 }

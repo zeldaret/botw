@@ -11,6 +11,7 @@
 #include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
 #include <basis/seadRawPrint.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::phys {
@@ -181,12 +182,9 @@ hkBool SensorGroupFilter::isCollisionEnabled(const hkpShapeRayCastInput& aInput,
 
 hkBool SensorGroupFilter::isCollisionEnabled(const hkpWorldRayCastInput& inputA,
                                              const hkpCollidable& collidableB) const {
-    if (collidableB.getType() == hkpWorldObject::BROAD_PHASE_ENTITY) {
-        auto* entity = static_cast<const hkpEntity*>(collidableB.getOwner());
-        auto* body = entity ? reinterpret_cast<RigidBody*>(entity->getUserData()) : nullptr;
-        if (body && body->hasFlag(RigidBody::Flag::_200))
-            return false;
-    }
+    auto* body = getRigidBody(collidableB);
+    if (body && body->hasFlag(RigidBody::Flag::_200))
+        return false;
 
     return testCollisionForRayCasting(inputA.m_filterInfo, collidableB.getCollisionFilterInfo());
 }
