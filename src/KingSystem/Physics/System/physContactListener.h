@@ -1,6 +1,9 @@
 #pragma once
 
 #include <Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactListener.h>
+#include <Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h>
+#include <Havok/Physics2012/Dynamics/Collide/hkpSimpleConstraintContactMgr.h>
+#include <Havok/Physics2012/Dynamics/Constraint/Contact/hkpContactPointProperties.h>
 #include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
 #include <hostio/seadHostIONode.h>
@@ -46,6 +49,23 @@ public:
     void contactPointRemovedCallback(hkpContactPointRemovedEvent& event) override {}
     void contactProcessCallback(hkpContactProcessEvent& event) override {}
 
+    static void clearCallbackDelay(const hkpContactPointEvent& event) {
+        event.m_contactMgr->m_contactPointCallbackDelay = 0;
+    }
+
+    static void enableContact(const hkpContactPointEvent& event) {
+        event.m_contactPointProperties->m_flags &= ~hkpContactPointProperties::CONTACT_IS_DISABLED;
+    }
+
+    static void disableContact(const hkpContactPointEvent& event) {
+        event.m_contactPointProperties->m_flags |= hkpContactPointProperties::CONTACT_IS_DISABLED;
+    }
+
+    static bool isContactDisabled(const hkpContactPointEvent& event) {
+        return event.m_contactPointProperties->m_flags &
+               hkpContactPointProperties::CONTACT_IS_DISABLED;
+    }
+
 protected:
     struct TrackedContactPointLayer {
         LayerContactPointInfo* info;
@@ -72,12 +92,11 @@ protected:
                                               RigidBody* body_b);
 
     /// @param out_material_masks [Optional] Pass this to get the materials of the rigid bodies.
-    virtual bool
-    regularContactPointCallback(const hkpContactPointEvent& event, RigidBody* body_a,
-                                RigidBody* body_b,
-                                sead::SafeArray<MaterialMaskData, 2>* out_material_masks);
+    virtual bool regularContactPointCallback(const hkpContactPointEvent& event, RigidBody* body_a,
+                                             RigidBody* body_b,
+                                             sead::SafeArray<u32, 2>* out_material_masks);
 
-    virtual u32 m15() { return 0; }
+    virtual bool m15(RigidBody* body_a, RigidBody* body_b) { return false; }
 
     /// Record a contact point in the ContactPointInfo instances of the bodies (if applicable).
     int notifyContactPointInfo(RigidBody* body_a, RigidBody* body_b, ContactLayer layer_a,
@@ -95,7 +114,7 @@ protected:
         return {layer1 - int(mLayerBase), layer2 - int(mLayerBase)};
     }
 
-private:
+protected:
     ContactMgr* mMgr{};
     ContactLayerType mLayerType{};
     u32 mLayerBase{};
@@ -106,7 +125,8 @@ private:
     u32 mTrackedLayersBufferSize{};
     u32 mLayerCount{};
     sead::CriticalSection mCS;
-    u16 _90{};
+    bool _90 = false;
+    bool _91 = false;
     bool mDisableContactPointInfoNotifications = false;
 };
 

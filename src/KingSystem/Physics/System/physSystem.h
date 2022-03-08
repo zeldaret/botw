@@ -77,6 +77,12 @@ public:
     void lockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
     void unlockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
 
+    // TODO: rename
+    // 0x0000007101216c60
+    void setEntityContactListenerField90(bool value);
+    // 0x0000007101216c74
+    bool getEntityContactListenerField90() const;
+
     // 0x0000007101216cec
     sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;
 

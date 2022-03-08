@@ -101,16 +101,20 @@ inline u32 getShapeKeyOrMinus1(const u32* shape_key) {
     return shape_key ? *shape_key : u32(-1);
 }
 
+inline const hkpEntity* getHkpEntity(const hkpCollidable& collidable) {
+    if (collidable.getType() != hkpWorldObject::BroadPhaseType::BROAD_PHASE_ENTITY)
+        return nullptr;
+
+    return static_cast<const hkpEntity*>(collidable.getOwner());
+}
+
 inline RigidBody* getRigidBody(const hkpEntity* entity) {
     // This needs to be kept in sync with the RigidBody constructor!
     return reinterpret_cast<RigidBody*>(entity->getUserData());
 }
 
 inline RigidBody* getRigidBody(const hkpCollidable& collidable) {
-    if (collidable.getType() != hkpWorldObject::BroadPhaseType::BROAD_PHASE_ENTITY)
-        return nullptr;
-
-    auto* entity = static_cast<const hkpEntity*>(collidable.getOwner());
+    auto* entity = getHkpEntity(collidable);
     if (!entity)
         return nullptr;
 

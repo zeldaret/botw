@@ -50,8 +50,8 @@ EntityGroupFilter::EntityGroupFilter(ContactLayer::ValueType first, ContactLayer
 EntityGroupFilter::~EntityGroupFilter() = default;
 
 void EntityGroupFilter::doInit_(sead::Heap* heap) {
-    // Enable all collisions by default.
-    mMasks.fill(0xffffffff);
+    // Allow any layer pairs to be ignored by a rigid body by default.
+    mLayersThatCanBeIgnored.fill(0xffffffff);
 }
 
 hkBool EntityGroupFilter::shouldHandleGroundCollision(u32 infoA, u32 infoB,

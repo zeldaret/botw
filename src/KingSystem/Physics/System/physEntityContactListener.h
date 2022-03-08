@@ -28,12 +28,27 @@ protected:
     void m11(const hkpContactPointEvent& event, const RigidBodyCollisionMasks& masks_a,
              const RigidBodyCollisionMasks& masks_b, RigidBody* body_a, RigidBody* body_b) override;
 
-    bool
-    regularContactPointCallback(const hkpContactPointEvent& event, RigidBody* body_a,
-                                RigidBody* body_b,
-                                sead::SafeArray<MaterialMaskData, 2>* out_material_masks) override;
+    bool regularContactPointCallback(const hkpContactPointEvent& event, RigidBody* body_a,
+                                     RigidBody* body_b,
+                                     sead::SafeArray<u32, 2>* out_material_masks) override;
 
-    u32 m15() override;
+    bool m15(RigidBody* body_a, RigidBody* body_b) override;
+
+private:
+    void setMagneMassScalingForContactIfNeeded(const hkpCollisionEvent& event, RigidBody* body_a,
+                                               RigidBody* body_b);
+
+    void setImpulseScalingForTerrainContact(const hkpCollisionEvent& event, RigidBody* body_a,
+                                            RigidBody* body_b);
+
+    void removeViscousSurfaceModifierAndCollision(const hkpCollisionEvent& event, RigidBody* body_a,
+                                                  RigidBody* body_b);
+
+    void removeMassChangerModifier(const hkpCollisionEvent& event, RigidBody* body_a,
+                                   RigidBody* body_b);
+
+    void setMagneMassScalingForContact(const hkpCollisionEvent& event, RigidBody* body_a,
+                                       RigidBody* body_b);
 };
 
 }  // namespace ksys::phys

@@ -35,7 +35,7 @@ public:
     void getConstraintInfo(hkpConstraintData::ConstraintInfo& infoOut) const override;
     void getRuntimeInfo(hkBool wantRuntime, hkpConstraintData::RuntimeInfo& infoOut) const override;
     hkpSolverResults* getSolverResults(hkpConstraintRuntime* runtime) const override;
-    int getType() const override;
+    ConstraintType getType() const override;
 
     virtual void collisionResponseBeginCallback(const hkContactPoint& cp,
                                                 struct hkpSimpleConstraintInfoInitInput& inA,

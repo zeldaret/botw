@@ -75,7 +75,11 @@ public:
         m_collisionLookupTable[layer - getLayerFirst()] = mask;
     }
 
-    virtual bool m2(ContactLayer layerA, ContactLayer layerB) { return true; }
+    /// Indicates whether contact between layerA and layerB should never be ignored,
+    /// even if the corresponding rigid bodies are configured to ignore each other's layer.
+    virtual bool shouldContactNeverBeIgnored(ContactLayer layerA, ContactLayer layerB) {
+        return true;
+    }
 
     /// Make a collision filter mask with the specified layer and ground hit type.
     virtual u32 makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit) = 0;

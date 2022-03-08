@@ -14,7 +14,7 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(hkpConstraintData)
     HK_DECLARE_REFLECTION()
 
-    enum ConstraintType {
+    enum ConstraintType : int {
         CONSTRAINT_TYPE_BALLANDSOCKET = 0,
         CONSTRAINT_TYPE_HINGE = 1,
         CONSTRAINT_TYPE_LIMITEDHINGE = 2,
@@ -65,7 +65,7 @@ public:
     explicit hkpConstraintData(hkFinishLoadedObjectFlag f);
     HK_FORCE_INLINE ~hkpConstraintData() override;
 
-    virtual int getType() const = 0;
+    virtual ConstraintType getType() const = 0;
     virtual void getConstraintInfo(ConstraintInfo& infoOut) const = 0;
     virtual hkBool isValid() const = 0;
 

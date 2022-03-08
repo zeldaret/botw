@@ -18,18 +18,6 @@
 
 namespace ksys::phys {
 
-static void clearCallbackDelay(const hkpContactPointEvent& event) {
-    event.m_contactMgr->m_contactPointCallbackDelay = 0;
-}
-
-static void disableContact(const hkpContactPointEvent& event) {
-    event.m_contactPointProperties->m_flags |= hkpContactPointProperties::CONTACT_IS_DISABLED;
-}
-
-static bool isContactDisabled(const hkpContactPointEvent& event) {
-    return event.m_contactPointProperties->m_flags & hkpContactPointProperties::CONTACT_IS_DISABLED;
-}
-
 ContactListener::ContactListener(ContactMgr* mgr, ContactLayerType layer_type, int layer_count)
     : mMgr(mgr), mLayerType(layer_type), mLayerBase(getContactLayerBase(layer_type)),
       mLayerCount(layer_count) {}
@@ -168,9 +156,9 @@ bool ContactListener::manifoldContactPointCallback(const hkpContactPointEvent& e
     return true;
 }
 
-bool ContactListener::regularContactPointCallback(
-    const hkpContactPointEvent& event, RigidBody* body_a, RigidBody* body_b,
-    sead::SafeArray<MaterialMaskData, 2>* out_material_masks) {
+bool ContactListener::regularContactPointCallback(const hkpContactPointEvent& event,
+                                                  RigidBody* body_a, RigidBody* body_b,
+                                                  sead::SafeArray<u32, 2>* out_material_masks) {
     auto* filter = System::instance()->getGroupFilter(mLayerType);
 
     RigidBody::CollisionMasks masks_a, masks_b;
@@ -181,8 +169,8 @@ bool ContactListener::regularContactPointCallback(
     body_b->getCollisionMasks(&masks_b, event.getShapeKeys(1), contact_point_pos);
 
     if (out_material_masks) {
-        (*out_material_masks)[0] = MaterialMaskData(masks_a.material_mask);
-        (*out_material_masks)[1] = MaterialMaskData(masks_b.material_mask);
+        (*out_material_masks)[0] = masks_a.material_mask;
+        (*out_material_masks)[1] = masks_b.material_mask;
     }
 
     const auto layer_a = filter->getCollisionFilterInfoLayer(masks_a.collision_filter_info);

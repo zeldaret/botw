@@ -146,8 +146,8 @@ public:
     // 0x0000007100fb4228
     void x_26(RigidBody* body_a, RigidBody* body_b);
     // 0x0000007100fb42f4
-    void x_27(RigidBody* body_a, RigidBody* body_b, const sead::Vector3f&, const sead::Vector3f&,
-              u32 material_a, u32 material_b);
+    void x_27(RigidBody* body_a, RigidBody* body_b, const sead::Vector3f& point_position,
+              const sead::Vector3f& point_separating_normal, u32 material_a, u32 material_b);
     // 0x0000007100fb4738
     void x_28(void* unk);
     // 0x0000007100fb49d4

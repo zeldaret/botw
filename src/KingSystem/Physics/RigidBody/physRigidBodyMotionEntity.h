@@ -30,6 +30,12 @@ public:
         _200 = 1 << 9,
     };
 
+    enum class ContactFlag {
+        _1 = 1 << 0,
+        _2 = 1 << 1,
+        _4 = 1 << 2,
+    };
+
     explicit RigidBodyMotionEntity(RigidBody* body);
 
     void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) override;
@@ -122,6 +128,9 @@ public:
     void resetFlag(Flag flag) { mFlags.reset(flag); }
     void changeFlag(Flag flag, bool on) { mFlags.change(flag, on); }
 
+    auto& getContactFlags() { return mContactFlags; }
+    auto& getContactFlags() const { return mContactFlags; }
+
     static void setImpulseEpsilon(float epsilon);
     static void setDefaultMaxImpulse(float max_impulse);
 
@@ -152,7 +161,7 @@ private:
     float mRestitutionScale = 1.0f;
     float mMaxImpulse = -1.0f;
     float mColImpulseScale = 1.0f;
-    sead::Atomic<u32> _c4;
+    sead::TypedBitFlag<ContactFlag, sead::Atomic<u32>> mContactFlags;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags;
     u32 _cc{};
     sead::CriticalSection mCS;

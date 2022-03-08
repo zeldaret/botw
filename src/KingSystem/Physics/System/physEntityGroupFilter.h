@@ -41,7 +41,7 @@ public:
     hkBool isCollisionEnabled(const hkpWorldRayCastInput& inputA,
                               const hkpCollidable& collidableB) const override;
 
-    bool m2(ContactLayer layerA, ContactLayer layerB) override;
+    bool shouldContactNeverBeIgnored(ContactLayer layerA, ContactLayer layerB) override;
     u32 makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit) override;
     ContactLayer getCollisionFilterInfoLayer(u32 info) override;
     u32 makeQueryCollisionMask(u32 layer_mask, GroundHit ground_hit, bool unk) override;
@@ -78,7 +78,10 @@ private:
     int getFreeListIndex(const SystemGroupHandler* handler) override;
     void doInit_(sead::Heap* heap) override;
 
-    sead::SafeArray<u32, ContactLayer::size()> mMasks;
+    /// A ContactLayer::size() x ContactLayer::size() matrix such that M[i][j] indicates
+    /// whether contact between layers i and layers j can be ignored.
+    /// \see EntityContactListener and shouldContactNeverBeIgnored
+    sead::SafeArray<u32, ContactLayer::size()> mLayersThatCanBeIgnored;
 };
 
 void receiverMaskEnableLayer(SensorCollisionMask* mask, ContactLayer layer);
@@ -143,8 +146,9 @@ inline bool EntitySystemGroupHandler::m8() {
     return getIndex() > 0 && getIndex() < 0x400;
 }
 
-inline bool EntityGroupFilter::m2(ContactLayer layerA, ContactLayer layerB) {
-    return (mMasks[layerA.value()] & (1 << layerB.value())) == 0;
+inline bool EntityGroupFilter::shouldContactNeverBeIgnored(ContactLayer layerA,
+                                                           ContactLayer layerB) {
+    return (mLayersThatCanBeIgnored[layerA.value()] & (1 << layerB.value())) == 0;
 }
 
 inline u32 EntityGroupFilter::makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit) {
@@ -185,7 +189,7 @@ inline const char* EntityGroupFilter::getCollisionFilterInfoLayerText(u32 info) 
 }
 
 inline void EntityGroupFilter::setLayerCustomMask(ContactLayer layer, u32 mask) {
-    mMasks[layer] = mask;
+    mLayersThatCanBeIgnored[layer] = mask;
 }
 
 inline u32 EntityGroupFilter::getCollisionFilterInfoGroupHandlerIdx(u32 info) {
