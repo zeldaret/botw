@@ -13,6 +13,13 @@ namespace ksys::phys {
 
 class MaterialTable {
 public:
+    /// Properties for interactions between two materials.
+    struct MaterialPairProperties {
+        float friction;
+        float restitution;
+    };
+
+    /// Parameter object that stores an entire row of InteractionProperties.
     struct Values : agl::utl::IParameterObj {
         sead::SafeArray<agl::utl::Parameter<sead::Vector2f>, Material::size()> values;
     };
@@ -29,6 +36,11 @@ public:
 
     void loadMaterialTable(sead::Heap* heap, agl::utl::ResParameterArchive archive);
     void loadSubMaterialTable(sead::Heap* heap, agl::utl::ResParameterArchive archive);
+
+    MaterialPairProperties getPairProperties(Material mat_a, Material mat_b) const {
+        auto& vec = mMaterialTable[mat_a].values[mat_b];
+        return {vec->x, vec->y};
+    }
 
     const sead::SafeString& getSubMaterial(Material material, int submat_idx) const;
     const sead::SafeString& getSoundMatchingSubMaterial(Material material, int submat_idx) const;

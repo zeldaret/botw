@@ -23,6 +23,11 @@ union MaterialMaskData {
         return u32(idx) < (1 << decltype(sub_material)::NumBits());
     }
 
+    Material getMaterial() const { return int(material.Value()); }
+    int getSubMaterialIndex() const { return int(sub_material.Value()); }
+    FloorCode getFloorCode() const { return int(floor.Value()); }
+    WallCode getWallCode() const { return int(wall.Value()); }
+
     void setFlag(bool b) {
         if (!b)
             clearFlag();
@@ -75,8 +80,11 @@ public:
     MaterialMaskData& getData() { return mData; }
     const MaterialMaskData& getData() const { return mData; }
     u32 getRawData() const { return mData.raw; }
-    Material getMaterial() const { return Material::ValueType(mData.material.Value()); }
-    int getSubMaterialIdx() const { return mData.sub_material; }
+
+    Material getMaterial() const { return mData.getMaterial(); }
+    int getSubMaterialIdx() const { return mData.getSubMaterialIndex(); }
+    FloorCode getFloorCode() const { return mData.getFloorCode(); }
+    WallCode getWallCode() const { return mData.getWallCode(); }
 
     const char* getMaterialName() const;
     const char* getSubMaterialName() const;

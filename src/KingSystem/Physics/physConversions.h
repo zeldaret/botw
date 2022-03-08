@@ -1,11 +1,17 @@
 #pragma once
 
 #include <Havok/Common/Base/hkBase.h>
+#include <Havok/Physics2012/Collide/Agent/Collidable/hkpCdBody.h>
+#include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpEntity.h>
+#include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
 #include <math/seadMatrix.h>
 #include <math/seadQuat.h>
 #include <math/seadVector.h>
 
 namespace ksys::phys {
+
+class RigidBody;
 
 inline void toVec3(sead::Vector3f* out, const hkVector4f& vec) {
     out->x = vec.getX();
@@ -94,6 +100,22 @@ inline void setMtxTranslation(sead::Matrix34f* mtx, const hkVector4f& translatio
 
 inline u32 getShapeKeyOrMinus1(const u32* shape_key) {
     return shape_key ? *shape_key : u32(-1);
+}
+
+inline RigidBody* getRigidBody(const hkpEntity* entity) {
+    // This needs to be kept in sync with the RigidBody constructor!
+    return reinterpret_cast<RigidBody*>(entity->getUserData());
+}
+
+inline RigidBody* getRigidBody(const hkpCollidable& collidable) {
+    if (collidable.getType() != hkpWorldObject::BroadPhaseType::BROAD_PHASE_ENTITY)
+        return nullptr;
+
+    auto* entity = static_cast<const hkpEntity*>(collidable.getOwner());
+    if (!entity)
+        return nullptr;
+
+    return getRigidBody(entity);
 }
 
 }  // namespace ksys::phys
