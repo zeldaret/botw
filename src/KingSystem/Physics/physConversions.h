@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Havok/Common/Base/hkBase.h>
-#include <Havok/Physics2012/Collide/Agent/Collidable/hkpCdBody.h>
 #include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpEntity.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorldObject.h>
