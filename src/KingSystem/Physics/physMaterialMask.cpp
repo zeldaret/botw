@@ -6,13 +6,13 @@ namespace ksys::phys {
 
 MaterialMask::MaterialMask() = default;
 
-MaterialMask::MaterialMask(MaterialMaskData data) : mData(data) {}
+MaterialMask::MaterialMask(u32 data) : mData(data) {}
 
 MaterialMask::MaterialMask(Material mat, FloorCode floor, WallCode wall, bool flag) {
     mData.material.Init(mat);
     mData.floor.Init(floor);
     mData.wall.Init(wall);
-    mData.setFlag(flag);
+    mData.setFlag31(flag);
 }
 
 MaterialMask::MaterialMask(Material mat, const char* submat_name, FloorCode floor, WallCode wall,
@@ -26,7 +26,7 @@ MaterialMask::MaterialMask(Material mat, const char* submat_name, FloorCode floo
     mData.sub_material.Init(submat_idx);
     mData.floor.Init(floor);
     mData.wall.Init(wall);
-    mData.setFlag(flag);
+    mData.setFlag31(flag);
 }
 
 MaterialMask::MaterialMask(Material mat, int submat_idx, FloorCode floor, WallCode wall, bool flag)
@@ -36,7 +36,7 @@ MaterialMask::MaterialMask(Material mat, int submat_idx, FloorCode floor, WallCo
     mData.sub_material.Init(submat_idx);
     mData.floor.Init(floor);
     mData.wall.Init(wall);
-    mData.setFlag(flag);
+    mData.setFlag31(flag);
 }
 
 MaterialMask::~MaterialMask() = default;

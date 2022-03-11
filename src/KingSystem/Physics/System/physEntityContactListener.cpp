@@ -101,7 +101,7 @@ void EntityContactListener::collisionAddedCallback(const hkpCollisionEvent& even
     }
 
     if (!should_process && m15(body_a, body_b)) {
-        mMgr->x_26(body_a, body_b);
+        mMgr->addImpulseEntry(body_a, body_b);
     }
 }
 
@@ -221,8 +221,8 @@ void EntityContactListener::m11(const hkpContactPointEvent& event,
                                 RigidBody* body_b) {
     auto* hk_point_properties = event.m_contactPointProperties;
 
-    const MaterialMask mat_mask_a = MaterialMaskData(masks_a.material_mask);
-    const MaterialMask mat_mask_b = MaterialMaskData(masks_b.material_mask);
+    const MaterialMask mat_mask_a{masks_a.material_mask};
+    const MaterialMask mat_mask_b{masks_b.material_mask};
     const auto* material_table = System::instance()->getMaterialTable();
 
     const auto mat_a = mat_mask_a.getMaterial();
@@ -519,10 +519,11 @@ bool EntityContactListener::regularContactPointCallback(const hkpContactPointEve
         storeToVec3(&position, event.m_contactPoint->getPosition());
         storeToVec3(&normal, event.m_contactPoint->getSeparatingNormal());
         if (body_a->isEntityMotionFlag40On() || body_b->isEntityMotionFlag40On()) {
-            mMgr->x_26(body_a, body_b);
+            mMgr->addImpulseEntry(body_a, body_b);
         }
 
-        mMgr->x_27(body_a, body_b, position, normal, material_masks[0], material_masks[1]);
+        mMgr->setImpulseEntryContactInfo(body_a, body_b, position, normal, material_masks[0],
+                                         material_masks[1]);
     }
 
     return result;

@@ -28,14 +28,14 @@ union MaterialMaskData {
     FloorCode getFloorCode() const { return int(floor.Value()); }
     WallCode getWallCode() const { return int(wall.Value()); }
 
-    void setFlag(bool b) {
+    void setFlag31(bool b) {
         if (!b)
-            clearFlag();
+            clearFlag31();
         else
-            setFlag();
+            setFlag31();
     }
-    void setFlag() { flag = 1; }
-    void clearFlag() { flag = 0; }
+    void setFlag31() { flag31 = 1; }
+    void clearFlag31() { flag31 = 0; }
 
     void setCustomFlag(CustomFlag custom_flag) {
         raw |= 1 << (decltype(custom_flags)::StartBit() + custom_flag);
@@ -46,16 +46,18 @@ union MaterialMaskData {
     util::BitField<6, 4, int, u32> sub_material;
     util::BitField<10, 5, u32> floor;
     util::BitField<15, 5, u32> wall;
-    util::BitField<23, 8, u32> custom_flags;
-    // TODO: rename once we figure out what this flag is
-    util::BitField<31, 1, u32> flag;
+    // TODO: rename once we figure out what these flags are
+    util::BitField<23, 7, u32> custom_flags;
+    util::BitField<30, 1, u32> flag30;
+    util::BitField<31, 1, u32> flag31;
 };
 static_assert(sizeof(MaterialMaskData) == sizeof(u32));
 
 class MaterialMask {
 public:
     MaterialMask();
-    MaterialMask(MaterialMaskData data);  // NOLINT(google-explicit-constructor)
+    explicit MaterialMask(u32 data);
+    explicit MaterialMask(u64 havok_user_data) : MaterialMask(static_cast<u32>(havok_user_data)) {}
     MaterialMask(Material mat, FloorCode floor, WallCode wall, bool flag = false);
     MaterialMask(Material mat, const char* submat_name, FloorCode floor, WallCode wall,
                  bool flag = false);

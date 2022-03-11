@@ -66,14 +66,14 @@ bool RigidBodyFromResource::isMaterial(Material material) const {
             if (!shape)
                 return false;
 
-            MaterialMask shape_material{MaterialMaskData(shape->getUserData())};
+            MaterialMask shape_material{shape->getUserData()};
             if (int(shape_material.getMaterial()) == material) {
                 found_child_shape_with_material = true;
                 break;
             }
         }
     } else {
-        MaterialMask shape_material{MaterialMaskData(mShape->getUserData())};
+        MaterialMask shape_material{mShape->getUserData()};
         if (int(shape_material.getMaterial()) == material)
             return true;
     }

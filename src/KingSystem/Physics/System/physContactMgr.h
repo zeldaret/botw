@@ -76,6 +76,8 @@ KSYS_CHECK_SIZE_NX150(ContactPoint, 0x70);
 
 class ContactMgr : public sead::hostio::Node {
 public:
+    struct ImpulseEntry;
+
     ContactMgr();
     virtual ~ContactMgr();
 
@@ -114,9 +116,7 @@ public:
     /// They will be removed at a later stage.
     void removeContactPointsWithBody(RigidBody* body);
     void removeCollisionEntriesWithBody(RigidBody* body);
-    // TODO: figure out what this removes
-    // 0x0000007100fb31b8
-    void removeUnkWithBody(RigidBody* body);
+    void removeImpulseEntriesWithBody(RigidBody* body);
 
     /// @param colliding_body_masks The collision masks of the colliding rigid bodies.
     /// @returns whether contact should be disabled.
@@ -143,19 +143,24 @@ public:
     bool initLayerMasks(CollisionInfo* info, const sead::SafeString& receiver_name) const;
     bool getSensorLayerMask(SensorCollisionMask* mask, const sead::SafeString& receiver_name) const;
 
-    // 0x0000007100fb4228
-    void x_26(RigidBody* body_a, RigidBody* body_b);
-    // 0x0000007100fb42f4
-    void x_27(RigidBody* body_a, RigidBody* body_b, const sead::Vector3f& point_position,
-              const sead::Vector3f& point_separating_normal, u32 material_a, u32 material_b);
-    // 0x0000007100fb4738
-    void x_28(void* unk);
-    // 0x0000007100fb49d4
-    void x_14();
-    // 0x0000007100fb4a90
-    void x_29();
+    /// Add a new impulse entry based on contact between the two specified rigid bodies.
+    /// After this is called, contact point information must then be specified using
+    /// setImpulseEntryContactInfo.
+    void addImpulseEntry(RigidBody* body_a, RigidBody* body_b);
+
+    /// Fill in an existing impulse entry with contact information.
+    /// This does nothing if there is no impulse entry for the specified rigid bodies.
+    void setImpulseEntryContactInfo(RigidBody* body_a, RigidBody* body_b,
+                                    const sead::Vector3f& contact_point_pos,
+                                    const sead::Vector3f& contact_point_normal, u32 material_a,
+                                    u32 material_b);
+
+    void processImpulseEntries();
+    void clearImpulseEntries();
 
 private:
+    void processImpulseEntry(const ImpulseEntry& index);
+
     void doLoadContactInfoTable(agl::utl::ResParameterArchive archive, ContactLayerType type,
                                 bool skip_params);
 
@@ -170,20 +175,20 @@ private:
     /// Used to optimise ContactPoint allocations.
     sead::Buffer<ContactPoint> mContactPointPool;
     sead::OffsetList<CollidingBodies> mCollidingBodiesFreeList;
-    int mList0Size = 0;
+    int mCollidingBodiesCapacity = 0;
     /// The number of contact points. Also the iindex of the next free ContactPoint in the pool.
     sead::Atomic<int> mNumContactPoints = 0;
     sead::OffsetList<ContactPointInfoBase> mContactPointInfoInstances;
     sead::OffsetList<CollisionInfo> mCollisionInfoInstances;
     sead::OffsetList<void*> mList3;
-    sead::OffsetList<void*> mList4;
-    sead::OffsetList<void*> mList5;
-    // TODO: rename these members
+    sead::OffsetList<ImpulseEntry> mImpulseEntriesFreeList;
+    sead::OffsetList<ImpulseEntry> mImpulseEntries;
     sead::Mutex mContactPointInfoMutex;
     sead::Mutex mCollisionInfoMutex;
+    // TODO: rename mList3 and mMutex3
     sead::Mutex mMutex3;
     sead::Mutex mCollidingBodiesMutex;
-    sead::Mutex mMutex5;
+    sead::Mutex mImpulseEntriesMutex;
     sead::SafeArray<ContactInfoTable, 2> mContactInfoTables{};
 };
 

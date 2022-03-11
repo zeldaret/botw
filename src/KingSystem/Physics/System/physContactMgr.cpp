@@ -1,5 +1,8 @@
 #include "KingSystem/Physics/System/physContactMgr.h"
+#include <memory>
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactLayerCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
@@ -9,17 +12,48 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/Debug.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace ksys::phys {
 
+struct ContactMgr::ImpulseEntry {
+    static constexpr size_t getListNodeOffset() { return offsetof(ImpulseEntry, list_node); }
+
+    RigidBody* bodies[2];
+    sead::Vector3f linear_vels[2];
+    bool is_dynamic_motion[2];
+    float magnitude;
+    float impulses[2];
+    sead::Vector3f contact_point_pos;
+    bool is_entity_motion_flag_20_off;
+    bool valid;
+    sead::ListNode list_node;
+};
+
 ContactMgr::ContactMgr() {
     mContactPointInfoInstances.initOffset(ContactPointInfo::getListNodeOffset());
-    // FIXME: figure out what these offsets are
     mCollisionInfoInstances.initOffset(CollisionInfo::getListNodeOffset());
+    // FIXME: figure out what this offset is
     mList3.initOffset(0x40);
     mCollidingBodiesFreeList.initOffset(CollidingBodies::getListNodeOffset());
-    mList4.initOffset(0x48);
-    mList5.initOffset(0x48);
+    mImpulseEntriesFreeList.initOffset(ImpulseEntry::getListNodeOffset());
+    mImpulseEntries.initOffset(ImpulseEntry::getListNodeOffset());
+}
+
+ContactMgr::~ContactMgr() {
+    for (int i = 0; i < mCollidingBodiesCapacity; ++i)
+        delete mCollidingBodiesFreeList.popFront();
+}
+
+void ContactMgr::init(sead::Heap* heap) {
+    mCollidingBodiesCapacity = 0x2000;
+    for (int i = 0; i < mCollidingBodiesCapacity; ++i) {
+        mCollidingBodiesFreeList.pushBack(new (heap) CollidingBodies());
+    }
+
+    for (int i = 0; i < 0x100; ++i) {
+        mImpulseEntriesFreeList.pushBack(new (heap) ImpulseEntry());
+    }
 }
 
 void ContactMgr::initContactPointPool(sead::Heap* heap, IsIndoorStage indoor) {
@@ -185,6 +219,17 @@ void ContactMgr::removeCollisionEntriesWithBody(RigidBody* body) {
 
             collision_info.getCollidingBodies().erase(&colliding_pair);
             mCollidingBodiesFreeList.pushBack(&colliding_pair);
+        }
+    }
+}
+
+void ContactMgr::removeImpulseEntriesWithBody(RigidBody* body) {
+    auto lock = sead::makeScopedLock(mImpulseEntriesMutex);
+
+    for (auto& entry : mImpulseEntries.robustRange()) {
+        if (entry.bodies[0] == body || entry.bodies[1] == body) {
+            mImpulseEntries.erase(&entry);
+            mImpulseEntriesFreeList.pushBack(&entry);
         }
     }
 }
@@ -386,6 +431,171 @@ void ContactMgr::clearCollisionEntries(CollisionInfo* info) {
     for (auto& entry : info->getCollidingBodies().robustRange()) {
         info->getCollidingBodies().erase(&entry);
         mCollidingBodiesFreeList.pushBack(&entry);
+    }
+}
+
+void ContactMgr::addImpulseEntry(RigidBody* body_a, RigidBody* body_b) {
+    auto lock = sead::makeScopedLock(mImpulseEntriesMutex);
+
+    auto* entry = mImpulseEntriesFreeList.popFront();
+    if (!entry)
+        return;
+
+    entry->bodies[0] = body_a;
+    entry->bodies[1] = body_b;
+    body_a->getLinearVelocity(&entry->linear_vels[0]);
+    body_b->getLinearVelocity(&entry->linear_vels[1]);
+    entry->is_dynamic_motion[0] = body_a->getMotionType() == MotionType::Dynamic;
+    entry->is_dynamic_motion[1] = body_b->getMotionType() == MotionType::Dynamic;
+    entry->magnitude = 0;
+    entry->impulses[0] = 0;
+    entry->impulses[1] = 0;
+    entry->is_entity_motion_flag_20_off = true;
+    entry->valid = false;
+    mImpulseEntries.pushBack(entry);
+}
+
+static sead::Vector3f computeLinearVelocity(const RigidBody& body, const sead::Vector3f& linear_vel,
+                                            const sead::Vector3f& pos) {
+    const auto center = body.getCenterOfMassInWorld();
+    const auto rel_pos = pos - center;
+    sead::Vector3f correction;
+    correction.setCross(body.getAngularVelocity(), rel_pos);
+    return linear_vel + correction;
+}
+
+void ContactMgr::setImpulseEntryContactInfo(RigidBody* body_a, RigidBody* body_b,
+                                            const sead::Vector3f& contact_point_pos,
+                                            const sead::Vector3f& contact_point_normal,
+                                            u32 material_a, u32 material_b) {
+    auto lock = sead::makeScopedLock(mImpulseEntriesMutex);
+
+    ImpulseEntry* entry = nullptr;
+    for (auto& impulse_entry : mImpulseEntries) {
+        if ((impulse_entry.bodies[0] == body_a && impulse_entry.bodies[1] == body_b) ||
+            (impulse_entry.bodies[1] == body_a && impulse_entry.bodies[0] == body_b)) {
+            entry = std::addressof(impulse_entry);
+            break;
+        }
+    }
+
+    if (!entry)
+        return;
+
+    const MaterialMask mat_mask_a{material_a};
+    const MaterialMask mat_mask_b{material_b};
+
+    if (mat_mask_a.getData().flag30 || mat_mask_b.getData().flag30)
+        return;
+
+    if (mat_mask_a.getFloorCode() == FloorCode::NoImpulseUpperMove && entry->linear_vels[0].y > 0)
+        return;
+
+    if (mat_mask_b.getFloorCode() == FloorCode::NoImpulseUpperMove && entry->linear_vels[1].y > 0)
+        return;
+
+    /// The velocities of the rigid bodies at the contact point.
+    const auto linvel_a =
+        computeLinearVelocity(*entry->bodies[0], entry->linear_vels[0], contact_point_pos);
+    const auto linvel_b =
+        computeLinearVelocity(*entry->bodies[1], entry->linear_vels[1], contact_point_pos);
+
+    const bool is_flag_off =
+        entry->bodies[0]->isEntityMotionFlag20Off() && entry->bodies[1]->isEntityMotionFlag20Off();
+
+    /// The pre-collision relative velocity.
+    const auto relative_vel = linvel_a - linvel_b;
+    const auto dot_neg = [&](const auto& vec) { return vec.dot(-contact_point_normal); };
+
+    float magnitude = is_flag_off ? sead::Mathf::max(0.0, relative_vel.dot(-contact_point_normal)) :
+                                    sead::Mathf::max(0.0, relative_vel.length());
+
+    if (magnitude >= entry->magnitude) {
+        float i1, i2;
+        if (is_flag_off) {
+            i1 = sead::Mathf::min(sead::Mathf::max(0.0, dot_neg(linvel_a)), magnitude);
+            i2 = sead::Mathf::min(sead::Mathf::max(0.0, linvel_b.dot(contact_point_normal)),
+                                  sead::Mathf::max(0.0, dot_neg(relative_vel)));
+        } else {
+            i1 = sead::Mathf::min(sead::Mathf::max(0.0, linvel_a.length()), magnitude);
+            i2 = sead::Mathf::min(sead::Mathf::max(0.0, linvel_b.length()),
+                                  sead::Mathf::max(0.0, relative_vel.length()));
+        }
+
+        entry->magnitude = magnitude;
+        entry->impulses[0] = i1;
+        entry->impulses[1] = i2;
+        entry->contact_point_pos = contact_point_pos;
+        entry->is_entity_motion_flag_20_off = is_flag_off;
+        entry->valid = true;
+    }
+}
+
+void ContactMgr::processImpulseEntry(const ImpulseEntry& entry) {
+    if (!entry.valid)
+        return;
+
+    RigidBody* body_a = entry.bodies[0];
+    RigidBody* body_b = entry.bodies[1];
+
+    if (body_a->isEntityMotionFlag40On())
+        body_a->setEntityMotionFlag40(false);
+
+    if (body_b->isEntityMotionFlag40On())
+        body_b->setEntityMotionFlag40(false);
+
+    float impulse_a = 0.0f;
+    float impulse_b = 0.0f;
+
+    const auto compute_impulse = [&entry](int index, RigidBody* body) {
+        if (!entry.is_dynamic_motion[index])
+            return 0.0f;
+
+        const auto impulse = entry.impulses[index];
+        if (!(impulse > 5.0f || !entry.is_entity_motion_flag_20_off))
+            return 0.0f;
+
+        const float scaled_impulse = impulse * body->getMass() * body->getColImpulseScale();
+
+        float volume_factor = 1.0f;
+        if (body->getMotionType() == MotionType::Dynamic)
+            volume_factor += util::clampAndRemapRange(body->getVolume(), 0.2, 1.0, 1.0, 0.0);
+        return scaled_impulse * volume_factor;
+    };
+
+    impulse_b = compute_impulse(0, body_a);
+    impulse_a = compute_impulse(1, body_b);
+
+    const auto add_impulse = [impulse_a, impulse_b](RigidBody* body1, RigidBody* body2,
+                                                    float impulse) {
+        if (body1->isEntityMotionFlag10Off())
+            impulse = impulse_a + impulse_b;
+
+        if (body2->isEntityMotionFlag8On() ||
+            (body1->getMaxImpulse() >= 0 && impulse > body1->getMaxImpulse())) {
+            System::instance()->getRigidBodyRequestMgr()->addImpulse(body1, body2, impulse);
+        }
+    };
+    add_impulse(body_a, body_b, impulse_a);
+    add_impulse(body_b, body_a, impulse_b);
+}
+
+void ContactMgr::processImpulseEntries() {
+    auto lock = sead::makeScopedLock(mImpulseEntriesMutex);
+
+    for (auto& entry : mImpulseEntries.robustRange()) {
+        processImpulseEntry(entry);
+        mImpulseEntries.erase(&entry);
+        mImpulseEntriesFreeList.pushBack(&entry);
+    }
+}
+
+void ContactMgr::clearImpulseEntries() {
+    auto lock = sead::makeScopedLock(mImpulseEntriesMutex);
+
+    for (auto& entry : mImpulseEntries.robustRange()) {
+        mImpulseEntries.erase(&entry);
+        mImpulseEntriesFreeList.pushBack(&entry);
     }
 }
 
