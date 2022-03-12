@@ -136,6 +136,14 @@ public:
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
 
+    const sead::Matrix34f& getMtx() const { return mMtx; }
+    const sead::Vector3f& getVelocity() const { return mVelocity; }
+    const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }
+    const sead::Vector3f& getScale() const { return mScale; }
+    f32 getDeleteDistance() const { return sead::Mathf::sqrt(sead::Mathf::clampMin(mDeleteDistanceSq, 0.0f)); }
+
+    void setDeleteDistance(f32 distance) { mDeleteDistanceSq = sead::Mathf::square(distance); }
+
     void clearFlag(ActorFlag flag);
     bool checkFlag(ActorFlag flag) const;
     void setFlag(ActorFlag flag);
