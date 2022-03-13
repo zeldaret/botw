@@ -531,7 +531,7 @@ void ContactMgr::setImpulseEntryContactInfo(RigidBody* body_a, RigidBody* body_b
     }
 }
 
-void ContactMgr::processImpulseEntry(const ImpulseEntry& entry) {
+inline void ContactMgr::processImpulseEntry(const ImpulseEntry& entry) {
     if (!entry.valid)
         return;
 
