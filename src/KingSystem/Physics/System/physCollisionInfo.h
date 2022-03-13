@@ -13,8 +13,7 @@ namespace ksys::phys {
 class RigidBody;
 
 struct CollidingBodies {
-    RigidBody* body_a;
-    RigidBody* body_b;
+    RigidBody* bodies[2];
     sead::ListNode list_node;
 
     static constexpr size_t getListNodeOffset() { return offsetof(CollidingBodies, list_node); }

@@ -115,6 +115,8 @@ target_sources(uking PRIVATE
   System/physContactInfoParam.h
   System/physContactLayerCollisionInfo.cpp
   System/physContactLayerCollisionInfo.h
+  System/physContactLayerCollisionInfoGroup.cpp
+  System/physContactLayerCollisionInfoGroup.h
   System/physContactListener.cpp
   System/physContactListener.h
   System/physContactMgr.cpp

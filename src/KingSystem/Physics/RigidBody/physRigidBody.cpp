@@ -477,7 +477,7 @@ void RigidBody::x_10() {
 void RigidBody::setCollisionInfo(CollisionInfo* info) {
     if (mCollisionInfo != info) {
         if (mCollisionInfo && isFlag8Set())
-            System::instance()->registerRigidBodyForContactSystem(this);
+            System::instance()->removeRigidBodyFromContactSystem(this);
         mCollisionInfo = info;
     }
 
@@ -717,7 +717,7 @@ void RigidBody::setCollisionFilterInfo(u32 info) {
     if (getCollisionFilterInfo() != info) {
         if (isFlag8Set()) {
             if (int(current_layer) != getContactLayer(EntityCollisionMask(info)))
-                System::instance()->registerRigidBodyForContactSystem(this);
+                System::instance()->removeRigidBodyFromContactSystem(this);
         }
 
         mHkBody->setCollisionFilterInfo(info);

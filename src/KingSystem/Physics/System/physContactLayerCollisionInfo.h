@@ -6,7 +6,7 @@
 
 namespace ksys::phys {
 
-/// Tracks contact points for a contact layer.
+/// Tracks colliding bodies that belong to a specific contact layer.
 class ContactLayerCollisionInfo : public CollisionInfoBase {
 public:
     explicit ContactLayerCollisionInfo(ContactLayer layer);

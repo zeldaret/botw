@@ -214,7 +214,7 @@ void ContactMgr::removeCollisionEntriesWithBody(RigidBody* body) {
             continue;
 
         for (auto& colliding_pair : collision_info.getCollidingBodies().robustRange()) {
-            if (colliding_pair.body_b != body)
+            if (colliding_pair.bodies[1] != body)
                 continue;
 
             collision_info.getCollidingBodies().erase(&colliding_pair);
@@ -363,8 +363,8 @@ void ContactMgr::registerCollision(CollisionInfo* info, RigidBody* body_a, Rigid
 
     auto* entry = mCollidingBodiesFreeList.popFront();
     if (entry) {
-        entry->body_a = body_a;
-        entry->body_b = body_b;
+        entry->bodies[0] = body_a;
+        entry->bodies[1] = body_b;
         info->getCollidingBodies().pushBack(entry);
     }
 }
@@ -375,8 +375,8 @@ void ContactMgr::registerCollision(ContactLayerCollisionInfo* info, RigidBody* b
 
     auto* entry = mCollidingBodiesFreeList.popFront();
     if (entry) {
-        entry->body_a = body_a;
-        entry->body_b = body_b;
+        entry->bodies[0] = body_a;
+        entry->bodies[1] = body_b;
         info->getCollidingBodies().pushBack(entry);
     }
 }
@@ -386,7 +386,7 @@ void ContactMgr::unregisterCollision(CollisionInfo* info, RigidBody* body_a, Rig
     auto info_lock = sead::makeScopedLock(*info);
 
     for (auto& entry : info->getCollidingBodies()) {
-        if (entry.body_a == body_a && entry.body_b == body_b) {
+        if (entry.bodies[0] == body_a && entry.bodies[1] == body_b) {
             info->getCollidingBodies().erase(&entry);
             mCollidingBodiesFreeList.pushBack(&entry);
             break;
@@ -400,7 +400,7 @@ void ContactMgr::unregisterCollision(ContactLayerCollisionInfo* info, RigidBody*
     auto info_lock = sead::makeScopedLock(*info);
 
     for (auto& entry : info->getCollidingBodies()) {
-        if (entry.body_a == body_a && entry.body_b == body_b) {
+        if (entry.bodies[0] == body_a && entry.bodies[1] == body_b) {
             info->getCollidingBodies().erase(&entry);
             freeCollidingBodiesEntry(&entry);
             break;
@@ -415,8 +415,8 @@ void ContactMgr::unregisterCollisionWithBody(ContactLayerCollisionInfo* info, Ri
     auto body_layer = body->getContactLayer();
 
     for (auto& entry : info->getCollidingBodies().robustRange()) {
-        auto* body_a = entry.body_a;
-        auto* body_b = int(body_a->getContactLayer()) == body_layer ? body_a : entry.body_b;
+        auto* body_a = entry.bodies[0];
+        auto* body_b = int(body_a->getContactLayer()) == body_layer ? body_a : entry.bodies[1];
         if (body_b == body) {
             info->getCollidingBodies().erase(&entry);
             freeCollidingBodiesEntry(&entry);

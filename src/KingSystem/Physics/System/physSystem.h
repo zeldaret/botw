@@ -10,6 +10,8 @@
 namespace ksys::phys {
 
 class CollisionInfo;
+class ContactLayerCollisionInfo;
+class ContactLayerCollisionInfoGroup;
 class ContactMgr;
 class GroupFilter;
 class MaterialTable;
@@ -69,8 +71,17 @@ public:
     // 0x00000071012169ac
     void freeCollisionInfo(CollisionInfo* info) const;
 
+    // 0x00000071012169b4
+    ContactLayerCollisionInfoGroup*
+    makeContactLayerCollisionInfoGroup(sead::Heap* heap, ContactLayer layer, int capacity,
+                                       const sead::SafeString& name);
+    // 0x00000071012169c0
+    void freeContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group);
+    // 0x00000071012169c8
+    ContactLayerCollisionInfo* trackLayerPair(ContactLayer layer_a, ContactLayer layer_b);
+
     // 0x0000007101216a20
-    void registerRigidBodyForContactSystem(RigidBody* body);
+    void removeRigidBodyFromContactSystem(RigidBody* body);
 
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 
