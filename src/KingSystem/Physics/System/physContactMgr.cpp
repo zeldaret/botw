@@ -5,6 +5,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactLayerCollisionInfo.h"
+#include "KingSystem/Physics/System/physContactLayerCollisionInfoGroup.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
@@ -33,8 +34,7 @@ struct ContactMgr::ImpulseEntry {
 ContactMgr::ContactMgr() {
     mContactPointInfoInstances.initOffset(ContactPointInfo::getListNodeOffset());
     mCollisionInfoInstances.initOffset(CollisionInfo::getListNodeOffset());
-    // FIXME: figure out what this offset is
-    mList3.initOffset(0x40);
+    mLayerColInfoGroups.initOffset(ContactLayerCollisionInfoGroup::getListNodeOffset());
     mCollidingBodiesFreeList.initOffset(CollidingBodies::getListNodeOffset());
     mImpulseEntriesFreeList.initOffset(ImpulseEntry::getListNodeOffset());
     mImpulseEntries.initOffset(ImpulseEntry::getListNodeOffset());
@@ -135,6 +135,15 @@ CollisionInfo* ContactMgr::makeCollisionInfo(sead::Heap* heap, const sead::SafeS
     return new (heap) CollisionInfo(name);
 }
 
+ContactLayerCollisionInfoGroup*
+ContactMgr::makeContactLayerCollisionInfoGroup(sead::Heap* heap, ContactLayer layer, int capacity,
+                                               const sead::SafeString& name) {
+    auto* group = new (heap) ContactLayerCollisionInfoGroup(layer, name);
+    group->init(heap, capacity);
+    registerContactLayerCollisionInfoGroup(group);
+    return group;
+}
+
 void ContactMgr::registerContactPointInfo(ContactPointInfoBase* info) {
     auto lock = sead::makeScopedLock(mContactPointInfoMutex);
     if (!info->isLinked())
@@ -175,6 +184,27 @@ void ContactMgr::freeCollisionInfo(CollisionInfo* info) {
     clearCollisionEntries(info);
     unregisterCollisionInfo(info);
     delete info;
+}
+
+void ContactMgr::registerContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group) {
+    auto lock = sead::makeScopedLock(mLayerColInfoGroupMutex);
+    mLayerColInfoGroups.pushBack(group);
+}
+
+void ContactMgr::unregisterContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group) {
+    auto lock = sead::makeScopedLock(mLayerColInfoGroupMutex);
+    mLayerColInfoGroups.erase(group);
+}
+
+void ContactMgr::freeContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group) {
+    if (!group)
+        return;
+
+    clearCollisionEntries(group);
+    unregisterContactLayerCollisionInfoGroup(group);
+    group->finalize();
+
+    delete group;
 }
 
 // NON_MATCHING: two sub instructions reordered
@@ -431,6 +461,20 @@ void ContactMgr::clearCollisionEntries(CollisionInfo* info) {
     for (auto& entry : info->getCollidingBodies().robustRange()) {
         info->getCollidingBodies().erase(&entry);
         mCollidingBodiesFreeList.pushBack(&entry);
+    }
+}
+
+void ContactMgr::clearCollisionEntries(ContactLayerCollisionInfoGroup* group) {
+    auto lock = sead::makeScopedLock(mCollidingBodiesMutex);
+
+    for (int i = 0; i < group->getCollisionInfo().size(); ++i) {
+        ContactLayerCollisionInfo* info = group->getCollisionInfo()[i];
+        auto info_lock = sead::makeScopedLock(*info);
+
+        for (auto& entry : info->getCollidingBodies().robustRange()) {
+            info->getCollidingBodies().erase(&entry);
+            freeCollidingBodiesEntry(&entry);
+        }
     }
 }
 

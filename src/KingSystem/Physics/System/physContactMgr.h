@@ -28,6 +28,7 @@ enum class IsIndoorStage;
 struct CollidingBodies;
 class CollisionInfo;
 class ContactLayerCollisionInfo;
+class ContactLayerCollisionInfoGroup;
 class ContactPointInfoBase;
 class QueryContactPointInfo;
 class RigidBody;
@@ -100,6 +101,10 @@ public:
 
     CollisionInfo* makeCollisionInfo(sead::Heap* heap, const sead::SafeString& name);
 
+    ContactLayerCollisionInfoGroup*
+    makeContactLayerCollisionInfoGroup(sead::Heap* heap, ContactLayer layer, int capacity,
+                                       const sead::SafeString& name);
+
     // endregion
 
     void registerContactPointInfo(ContactPointInfoBase* info);
@@ -109,6 +114,10 @@ public:
     void registerCollisionInfo(CollisionInfo* info);
     void unregisterCollisionInfo(CollisionInfo* info);
     void freeCollisionInfo(CollisionInfo* info);
+
+    void registerContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group);
+    void unregisterContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group);
+    void freeContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group);
 
     void clearContactPoints();
     /// Remove all contact points with the specified rigid body.
@@ -138,6 +147,7 @@ public:
     void unregisterCollisionWithBody(ContactLayerCollisionInfo* info, RigidBody* body);
 
     void clearCollisionEntries(CollisionInfo* info);
+    void clearCollisionEntries(ContactLayerCollisionInfoGroup* group);
 
     bool initLayerMasks(ContactPointInfo* info, const sead::SafeString& receiver_name) const;
     bool initLayerMasks(CollisionInfo* info, const sead::SafeString& receiver_name) const;
@@ -180,13 +190,12 @@ private:
     sead::Atomic<int> mNumContactPoints = 0;
     sead::OffsetList<ContactPointInfoBase> mContactPointInfoInstances;
     sead::OffsetList<CollisionInfo> mCollisionInfoInstances;
-    sead::OffsetList<void*> mList3;
+    sead::OffsetList<ContactLayerCollisionInfoGroup> mLayerColInfoGroups;
     sead::OffsetList<ImpulseEntry> mImpulseEntriesFreeList;
     sead::OffsetList<ImpulseEntry> mImpulseEntries;
     sead::Mutex mContactPointInfoMutex;
     sead::Mutex mCollisionInfoMutex;
-    // TODO: rename mList3 and mMutex3
-    sead::Mutex mMutex3;
+    sead::Mutex mLayerColInfoGroupMutex;
     sead::Mutex mCollidingBodiesMutex;
     sead::Mutex mImpulseEntriesMutex;
     sead::SafeArray<ContactInfoTable, 2> mContactInfoTables{};

@@ -48,6 +48,10 @@ public:
     CollidingBodiesIterator collidingBodiesEnd() const;
     CollidingBodiesRange getCollidingBodies() const;
 
+    const sead::PtrArray<ContactLayerCollisionInfo>& getCollisionInfo() const {
+        return mCollisionInfoInstances;
+    }
+
     static constexpr size_t getListNodeOffset() {
         return offsetof(ContactLayerCollisionInfoGroup, mListNode);
     }
