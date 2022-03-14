@@ -19,11 +19,7 @@ void ClosestPointQuery::reset() {
 }
 
 void ClosestPointQuery::setLayerMasks(const LayerMaskBuilder& builder) {
-    auto* info = mContactPointInfo;
-    for (int i = 0; i < NumContactLayerTypes; ++i) {
-        info->mSubscribedLayers[i] = builder.getMasks()[i].layers;
-        info->mLayerMask2[i] = builder.getMasks()[i].layers2;
-    }
+    mContactPointInfo->setLayerMasks(builder);
 }
 
 bool ClosestPointQuery::isSuccess() const {

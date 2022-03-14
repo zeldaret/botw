@@ -143,6 +143,10 @@ target_sources(uking PRIVATE
   System/physSensorContactListener.h
   System/physSensorGroupFilter.cpp
   System/physSensorGroupFilter.h
+  System/physShapeCast.cpp
+  System/physShapeCast.h
+  System/physShapeCastWithInfo.cpp
+  System/physShapeCastWithInfo.h
   System/physSystem.cpp
   System/physSystem.h
   System/physSystemData.cpp

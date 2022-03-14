@@ -311,6 +311,11 @@ public:
                    hkThreadPool* threadPool, hkSemaphoreBusyWait* semaphore,
                    int numCommandsPerJob = 32) const;
 
+    /// Cast a shape.
+    ///
+    /// @param collA The collidable for the shape to cast.
+    /// @param castCollector Collects all potential hits.
+    /// @param startCollector [Optional] Collects points that are closest to the start point.
     void linearCast(const hkpCollidable* collA, const hkpLinearCastInput& input,
                     hkpCdPointCollector& castCollector,
                     hkpCdPointCollector* startCollector = nullptr) const;

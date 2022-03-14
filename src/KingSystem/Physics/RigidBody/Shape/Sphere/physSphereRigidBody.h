@@ -19,6 +19,8 @@ public:
 
     float getVolume() override;
 
+    void setRadius(float radius);
+
 protected:
     Shape* getShape_() override;
     const Shape* getShape_() const override;

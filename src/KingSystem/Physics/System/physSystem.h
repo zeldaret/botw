@@ -7,6 +7,8 @@
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
+class hkpWorld;
+
 namespace ksys::phys {
 
 class CollisionInfo;
@@ -27,10 +29,8 @@ enum class IsIndoorStage {
     Yes,
 };
 
-enum class LowPriority : bool {
-    Yes = true,
-    No = false,
-};
+enum class LowPriority : bool { Yes = true, No = false };
+enum class OnlyLockIfNeeded : bool { Yes = true, No = false };
 
 class System {
     SEAD_SINGLETON_DISPOSER(System)
@@ -85,14 +85,22 @@ public:
 
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 
-    void lockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
-    void unlockWorld(ContactLayerType type, void* a = nullptr, int b = 0, bool c = false);
+    hkpWorld* getHavokWorld(ContactLayerType type) const;
+    void lockWorld(ContactLayerType type, const char* description = nullptr, int b = 0,
+                   OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No);
+    void unlockWorld(ContactLayerType type, const char* description = nullptr, int b = 0,
+                     OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No);
 
     // TODO: rename
     // 0x0000007101216c60
     void setEntityContactListenerField90(bool value);
     // 0x0000007101216c74
     bool getEntityContactListenerField90() const;
+
+    // 0x0000007101216800
+    void setEntityContactListenerField91(bool value);
+    // 0x0000007101216814
+    bool getEntityContactListenerField91() const;
 
     // 0x0000007101216cec
     sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;

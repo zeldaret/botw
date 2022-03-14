@@ -527,7 +527,7 @@ public:
     bool isEntityMotionFlag200On() const;
 
     // FIXME: return type
-    virtual u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
+    virtual u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* shape_key,
                                   const sead::Vector3f& contact_point) = 0;
 
 protected:

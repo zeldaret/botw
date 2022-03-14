@@ -226,8 +226,8 @@ int ContactListener::notifyContactPointInfo(RigidBody* body_a, RigidBody* body_b
 
     int result = 1;
 
-    if (info_b && info_b->isLayerSubscribed(layer_a) && (info_b->get30() == 0 || distance <= 0.0) &&
-        (info_b->get34() == 0 || !contact_disabled)) {
+    if (info_b && info_b->isLayerSubscribed(layer_a) &&
+        info_b->testContactPointDistance(distance) && (info_b->get34() == 0 || !contact_disabled)) {
         if (should_notify) {
             point.body_a = body_b;
             point.body_b = body_a;
@@ -250,8 +250,8 @@ int ContactListener::notifyContactPointInfo(RigidBody* body_a, RigidBody* body_b
             clearCallbackDelay(event);
     }
 
-    if (info_a && info_a->isLayerSubscribed(layer_b) && (info_a->get30() == 0 || distance <= 0.0) &&
-        (info_a->get34() == 0 || !contact_disabled)) {
+    if (info_a && info_a->isLayerSubscribed(layer_b) &&
+        info_a->testContactPointDistance(distance) && (info_a->get34() == 0 || !contact_disabled)) {
         if (should_notify) {
             point.body_a = body_a;
             point.body_b = body_b;
@@ -293,7 +293,7 @@ void ContactListener::notifyLayerContactPointInfo(const TrackedContactPointLayer
         return;
 
     const hkReal distance = event.m_contactPoint->getDistance();
-    if (!(tracked_layer.info->get30() == 0 || distance <= 0.0))
+    if (!tracked_layer.info->testContactPointDistance(distance))
         return;
 
     if (tracked_layer.info->get34() != 0 && isContactDisabled(event))

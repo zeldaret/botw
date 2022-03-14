@@ -89,7 +89,9 @@ add_library(hkStubs OBJECT
 
   Havok/Physics2012/Collide/Agent/hkpCollisionInput.h
   Havok/Physics2012/Collide/Agent/hkpCollisionQualityInfo.h
+  Havok/Physics2012/Collide/Agent/hkpProcessCollisionInput.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCdBody.h
+  Havok/Physics2012/Collide/Agent/Collidable/hkpCdPoint.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidableQualityType.h
   Havok/Physics2012/Collide/Agent/ContactMgr/hkpContactMgr.h
@@ -110,7 +112,11 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Filter/Group/hkpGroupFilter.cpp
   Havok/Physics2012/Collide/Filter/Group/hkpGroupFilter.h
   Havok/Physics2012/Collide/Query/hkpRayHitCollector.h
+  Havok/Physics2012/Collide/Query/CastUtil/hkpLinearCastInput.h
   Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastInput.h
+  Havok/Physics2012/Collide/Query/Collector/PointCollector/hkpAllCdPointCollector.h
+  Havok/Physics2012/Collide/Query/Collector/PointCollector/hkpClosestCdPointCollector.h
+  Havok/Physics2012/Collide/Query/Collector/PointCollector/hkpRootCdPoint.h
   Havok/Physics2012/Collide/Shape/hkpShape.h
   Havok/Physics2012/Collide/Shape/hkpShapeBase.h
   Havok/Physics2012/Collide/Shape/hkpShapeBuffer.h
