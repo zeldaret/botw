@@ -1,9 +1,7 @@
 #include "KingSystem/Ecosystem/ecoLevelSensor.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
-#include "KingSystem/GameData/gdtManager.h"
-#include "KingSystem/Ecosystem/ecoSystem.h"
-#include "KingSystem/World/worldManager.h"
 
 namespace ksys::eco {
 
@@ -26,8 +24,7 @@ void LevelSensor::init(sead::Heap* heap) {
 void LevelSensor::calculatePoints() {
     if (mDefaultPoints >= 0) {
         mPoints = mDefaultPoints;
-    }
-    else {
+    } else {
         al::ByamlIter iter;
         if (!mRootIter->tryGetIterByKey(&iter, "flag")) {
             return;
@@ -38,7 +35,7 @@ void LevelSensor::calculatePoints() {
             if (!iter.tryGetIterByIndex(&iter_enemy, index)) {
                 return;
             }
-            const char *name;
+            const char* name;
             if (!iter_enemy.tryGetStringByKey(&name, "name")) {
                 return;
             }
