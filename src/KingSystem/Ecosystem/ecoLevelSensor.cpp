@@ -2,6 +2,8 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::eco {
 
@@ -21,8 +23,7 @@ void LevelSensor::init(sead::Heap* heap) {
     mRootIter = new (heap) al::ByamlIter(res->getRawData());
 }
 
-void LevelSensor::calculatePoints()
-{
+void LevelSensor::calculatePoints() {
     if (mDefaultPoints >= 0) {
         mPoints = mDefaultPoints;
     }
@@ -31,14 +32,14 @@ void LevelSensor::calculatePoints()
         if (!mRootIter->tryGetIterByKey(&iter, "flag")) {
             return;
         }
-        float mPointsSum = 0;
+        float point_sum = 0;
         for (int index = 0; index < iter.getSize(); index++) {
-            al::ByamlIter iterKill;
-            if (!iter.tryGetIterByIndex(&iterKill, index)) {
+            al::ByamlIter iter_enemy;
+            if (!iter.tryGetIterByIndex(&iter_enemy, index)) {
                 return;
             }
             const char *name;
-            if (!iterKill.tryGetStringByKey(&name, "name")) {
+            if (!iter_enemy.tryGetStringByKey(&name, "name")) {
                 return;
             }
             f32 kill_count;
@@ -46,26 +47,25 @@ void LevelSensor::calculatePoints()
             if (!gdt::Manager::instance()->getParam().get().getS32(&kill_mul, name)) {
                 bool non_skip = false;
                 bool work = gdt::Manager::instance()->getParam().get().getBool(&non_skip, name);
-                if (non_skip && work)
-                {
+                if (non_skip && work) {
                     kill_mul = 1;
                 }
             }
             if (kill_mul > 0) {
-                if (!iterKill.tryGetFloatByKey(&kill_count, "point")) {
+                if (!iter_enemy.tryGetFloatByKey(&kill_count, "point")) {
                     return;
                 }
-                mPointsSum += kill_count * kill_mul;
+                point_sum += kill_count * kill_mul;
             }
         }
-        mPoints = mPointsSum;
+        mPoints = point_sum;
     }
-    al::ByamlIter iter;
-    if (mRootIter->tryGetIterByKey(&iter, "setting")) {
+    al::ByamlIter setting_iter;
+    if (mRootIter->tryGetIterByKey(&setting_iter, "setting")) {
         f32 Level2WeaponPower;
         f32 Level2EnemyPower;
-        if (iter.tryGetFloatByKey(&Level2WeaponPower, "Level2WeaponPower") &&
-            iter.tryGetFloatByKey(&Level2EnemyPower, "Level2EnemyPower")) {
+        if (setting_iter.tryGetFloatByKey(&Level2WeaponPower, "Level2WeaponPower") &&
+            setting_iter.tryGetFloatByKey(&Level2EnemyPower, "Level2EnemyPower")) {
             mWeaponPoints = mPoints * Level2WeaponPower;
             mEnemyPoints = mPoints * Level2EnemyPower;
         }
