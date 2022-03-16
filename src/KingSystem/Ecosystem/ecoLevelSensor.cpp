@@ -39,7 +39,6 @@ void LevelSensor::calculatePoints() {
             if (!iter_enemy.tryGetStringByKey(&name, "name")) {
                 return;
             }
-            f32 point;
             s32 kill_count = 0;
             if (!gdt::Manager::instance()->getParam().get().getS32(&kill_count, name)) {
                 bool unique_kill = false;
@@ -50,6 +49,7 @@ void LevelSensor::calculatePoints() {
                 }
             }
             if (kill_count > 0) {
+                f32 point;
                 if (!iter_enemy.tryGetFloatByKey(&point, "point")) {
                     return;
                 }
