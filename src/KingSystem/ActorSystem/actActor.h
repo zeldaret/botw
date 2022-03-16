@@ -140,7 +140,9 @@ public:
     const sead::Vector3f& getVelocity() const { return mVelocity; }
     const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }
     const sead::Vector3f& getScale() const { return mScale; }
-    f32 getDeleteDistance() const { return sead::Mathf::sqrt(sead::Mathf::clampMin(mDeleteDistanceSq, 0.0f)); }
+    f32 getDeleteDistance() const {
+        return sead::Mathf::sqrt(sead::Mathf::clampMin(mDeleteDistanceSq, 0.0f));
+    }
 
     void setDeleteDistance(f32 distance) { mDeleteDistanceSq = sead::Mathf::square(distance); }
 
