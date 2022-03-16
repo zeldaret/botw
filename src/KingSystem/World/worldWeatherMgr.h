@@ -16,6 +16,8 @@ public:
     void onUnload();
     void rerollClimateWindPowers();
 
+    static bool isExposureZero();
+
     u8 _20[0x398 - 0x20];
 };
 KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);

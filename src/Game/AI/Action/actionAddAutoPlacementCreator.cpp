@@ -14,7 +14,6 @@ bool AddAutoPlacementCreator::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: dot float regalloc
 void AddAutoPlacementCreator::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 
