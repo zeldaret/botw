@@ -25,34 +25,35 @@ void LevelSensor::calculatePoints() {
     if (mDefaultPoints >= 0) {
         mPoints = mDefaultPoints;
     } else {
-        al::ByamlIter iter;
-        if (!mRootIter->tryGetIterByKey(&iter, "flag")) {
+        al::ByamlIter flag;
+        if (!mRootIter->tryGetIterByKey(&flag, "flag")) {
             return;
         }
         float point_sum = 0;
-        for (int index = 0; index < iter.getSize(); index++) {
+        for (int index = 0; index < flag.getSize(); index++) {
             al::ByamlIter iter_enemy;
-            if (!iter.tryGetIterByIndex(&iter_enemy, index)) {
+            if (!flag.tryGetIterByIndex(&iter_enemy, index)) {
                 return;
             }
             const char* name;
             if (!iter_enemy.tryGetStringByKey(&name, "name")) {
                 return;
             }
-            f32 kill_count;
-            s32 kill_mul = 0;
-            if (!gdt::Manager::instance()->getParam().get().getS32(&kill_mul, name)) {
-                bool non_skip = false;
-                bool work = gdt::Manager::instance()->getParam().get().getBool(&non_skip, name);
-                if (non_skip && work) {
-                    kill_mul = 1;
+            f32 point;
+            s32 kill_count = 0;
+            if (!gdt::Manager::instance()->getParam().get().getS32(&kill_count, name)) {
+                bool unique_kill = false;
+                if (gdt::Manager::instance()->getParam().get().getBool(&unique_kill, name)) {
+                    if (unique_kill) {
+                        kill_count = 1;
+                    }
                 }
             }
-            if (kill_mul > 0) {
-                if (!iter_enemy.tryGetFloatByKey(&kill_count, "point")) {
+            if (kill_count > 0) {
+                if (!iter_enemy.tryGetFloatByKey(&point, "point")) {
                     return;
                 }
-                point_sum += kill_count * kill_mul;
+                point_sum += point * kill_count;
             }
         }
         mPoints = point_sum;
