@@ -20,18 +20,7 @@ class AutoPlacement;
 struct AutoPlacementFlowRes;
 class PlacementThing;
 
-// TODO: move this
-struct Raycast {
-    Raycast();
-    virtual ~Raycast();
-
-    static Raycast* create(void*, u32);
-
-    void addContactLayer(phys::ContactLayer layer);
-    void sub_7100FC55AC(u32);
-    void release();
-    void sub_7100FC38A0(const sead::Vector3f&, const sead::Vector3f&);
-};
+struct Raycast;
 
 struct PlacementGroup {
     sead::SafeString a;

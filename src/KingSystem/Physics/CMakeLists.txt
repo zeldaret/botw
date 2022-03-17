@@ -139,6 +139,8 @@ target_sources(uking PRIVATE
   System/physParamSet.h
   System/physQueryContactPointInfo.cpp
   System/physQueryContactPointInfo.h
+  System/physRayCast.cpp
+  System/physRayCast.h
   System/physSensorContactListener.cpp
   System/physSensorContactListener.h
   System/physSensorGroupFilter.cpp

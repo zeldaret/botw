@@ -7,10 +7,22 @@
 #include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 
 namespace ksys::map {
+
+// TODO: this phys::RayCast derived class should be moved to phys::
+struct Raycast : phys::RayCast {
+    Raycast();
+    ~Raycast() override;
+
+    static Raycast* create(void*, u32);
+
+    void sub_7100FC55AC(u32);
+    void release();
+};
 
 AutoPlacement::AutoPlacement() = default;
 AutoPlacement::~AutoPlacement() = default;
@@ -128,23 +140,22 @@ bool PlacementThing::invoke() {
     if (mRaycast == nullptr || mState != State::Initialized)
         return false;
 
-    mRaycast->addContactLayer(phys::ContactLayer::EntityGround);
-    mRaycast->addContactLayer(phys::ContactLayer::EntityGroundRough);
-    mRaycast->addContactLayer(phys::ContactLayer::EntityGroundSmooth);
-    mRaycast->addContactLayer(phys::ContactLayer::EntityAirWall);
-    mRaycast->addContactLayer(phys::ContactLayer::EntityGroundObject);
-    mRaycast->addContactLayer(phys::ContactLayer::EntityTree);
+    mRaycast->enableLayer(phys::ContactLayer::EntityGround);
+    mRaycast->enableLayer(phys::ContactLayer::EntityGroundRough);
+    mRaycast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    mRaycast->enableLayer(phys::ContactLayer::EntityAirWall);
+    mRaycast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    mRaycast->enableLayer(phys::ContactLayer::EntityTree);
 
     if (_8944) {
         sead::Vector3f v1 = mVec1 + sead::Vector3f{0, 4, 30};
         sead::Vector3f v2 = mVec1 - sead::Vector3f{0, 4, 30};
-        mRaycast->sub_7100FC38A0(v1, v2);
+        mRaycast->setStartAndEnd(v1, v2);
     } else {
         sead::Vector3f v1{mVec1.x, 2000.0f, mVec1.z};
         sead::Vector3f v2{mVec1.x, -100.0f, mVec1.z};
-        mRaycast->sub_7100FC38A0(v1, v2);
-        // void** p = &mRaycast->mGroups[0]._68;
-        // *p = &mDelegate;
+        mRaycast->setStartAndEnd(v1, v2);
+        mRaycast->setCallback(&mDelegate);
     }
 
     mState = State::LayersDone;
