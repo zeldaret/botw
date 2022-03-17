@@ -1,5 +1,11 @@
 target_sources(uking PRIVATE
   mapTypes.h
+  mapAutoPlacement.cpp
+  mapAutoPlacement.h
+  mapAutoPlacementFlowMgr.cpp
+  mapAutoPlacementFlowMgr.h
+  mapAutoPlacementMgr.cpp
+  mapAutoPlacementMgr.h
   mapDebug.cpp
   mapDebug.h
   mapLazyTraverseList.cpp

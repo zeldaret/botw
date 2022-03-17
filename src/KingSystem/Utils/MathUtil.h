@@ -21,4 +21,8 @@ inline float sqXZDistance(const sead::Vector3f& a, const sead::Vector3f& b) {
     return sead::Mathf::square(a.x - b.x) + sead::Mathf::square(a.z - b.z);
 }
 
+inline float dot(sead::Vector3f u, const sead::Matrix34f& mtx, int row) {
+    return u.x * mtx(row, 0) + u.y * mtx(row, 1) + u.z * mtx(row, 2);
+}
+
 }  // namespace ksys::util

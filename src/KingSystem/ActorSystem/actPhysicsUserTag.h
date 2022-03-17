@@ -18,6 +18,8 @@ public:
     Actor* getActor(ActorLinkConstDataAccess* accessor, Actor* other_actor) const;
     bool acquireActor(ActorLinkConstDataAccess* accessor) const;
 
+    Actor* getActor() const { return mActor; }
+
     void onMaxPositionExceeded(phys::RigidBody* body) override;
     void m3(void* a, void* b, float c) override;
     void onBodyShapeChanged(phys::RigidBody* body) override;

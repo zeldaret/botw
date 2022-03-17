@@ -24,6 +24,8 @@ protected:
     sead::SafeString mActorName_m{};
     // map_unit_param at offset 0x38
     sead::SafeString mShape_m{};
+
+    bool mInitialised{};
 };
 
 }  // namespace uking::action
