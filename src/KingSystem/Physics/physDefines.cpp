@@ -20,7 +20,7 @@ u32 getContactLayerBase(ContactLayerType type) {
     return FirstSensor;
 }
 
-u32 getContactLayerBaseRelativeValue(ContactLayer layer) {
+int getContactLayerBaseRelativeValue(ContactLayer layer) {
     return layer - (layer < FirstSensor ? FirstEntity : FirstSensor);
 }
 

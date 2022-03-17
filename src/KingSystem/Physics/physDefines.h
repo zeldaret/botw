@@ -378,7 +378,7 @@ union SensorQueryCollisionMask {
 ContactLayerType getContactLayerType(ContactLayer layer);
 u32 makeContactLayerMask(ContactLayer layer);
 u32 getContactLayerBase(ContactLayerType type);
-u32 getContactLayerBaseRelativeValue(ContactLayer layer);
+int getContactLayerBaseRelativeValue(ContactLayer layer);
 const char* contactLayerToText(ContactLayer layer);
 ContactLayer contactLayerFromText(const sead::SafeString& text);
 

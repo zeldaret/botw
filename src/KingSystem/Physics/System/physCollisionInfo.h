@@ -74,12 +74,12 @@ inline void CollisionInfoBase::enableLayer(ContactLayer layer) {
 }
 
 inline void CollisionInfoBase::disableLayer(ContactLayer layer) {
-    getLayerMask(getContactLayerType(layer)).resetBit(int(getContactLayerBaseRelativeValue(layer)));
+    getLayerMask(getContactLayerType(layer)).resetBit(getContactLayerBaseRelativeValue(layer));
 }
 
 inline bool CollisionInfoBase::isLayerEnabled(ContactLayer layer) const {
     const auto& mask = getLayerMask(getContactLayerType(layer));
-    return mask.isOnBit(int(getContactLayerBaseRelativeValue(layer)));
+    return mask.isOnBit(getContactLayerBaseRelativeValue(layer));
 }
 
 inline void CollisionInfoBase::lock() {

@@ -41,13 +41,13 @@ public:
 
     bool isLayerSubscribed(ContactLayer layer) const {
         const auto type = getContactLayerType(layer);
-        return mSubscribedLayers[int(type)].isOnBit(int(getContactLayerBaseRelativeValue(layer)));
+        return mSubscribedLayers[int(type)].isOnBit(getContactLayerBaseRelativeValue(layer));
     }
 
     // TODO: rename
     bool isLayerInMask2(ContactLayer layer) const {
         const auto type = getContactLayerType(layer);
-        return mLayerMask2[int(type)].isOnBit(int(getContactLayerBaseRelativeValue(layer)));
+        return mLayerMask2[int(type)].isOnBit(getContactLayerBaseRelativeValue(layer));
     }
 
     void setLayerMasks(const LayerMaskBuilder& builder) {
