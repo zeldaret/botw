@@ -4,11 +4,16 @@
 
 namespace ksys::phys {
 
+class ShapeCast;
+
 class QueryContactPointInfo : public ContactPointInfo {
 public:
     class Iterator : public ContactPointInfo::Iterator {
     public:
         using ContactPointInfo::Iterator::Iterator;
+
+        void getHitPosition(sead::Vector3f* out, const ShapeCast& shape_cast) const;
+        sead::Vector3f getHitPosition(const ShapeCast& shape_cast) const;
 
         void getPointPosition(sead::Vector3f* out, Point point) const override;
         sead::Vector3f getPointPosition(Point point) const override;

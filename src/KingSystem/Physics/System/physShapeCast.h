@@ -47,6 +47,8 @@ public:
     void setRotation(const sead::Matrix33f& rotation_matrix);
     void setRotation(const sead::Matrix34f& transform_matrix);
 
+    const sead::Vector3f& getStart() const { return mFrom; }
+    const sead::Vector3f& getEnd() const { return mTo; }
     void setStartAndEnd(const sead::Vector3f& start, const sead::Vector3f& end);
     void setStartAndDisplacement(const sead::Vector3f& start, const sead::Vector3f& displacement);
     void setStartAndDisplacementScaled(const sead::Vector3f& start,
