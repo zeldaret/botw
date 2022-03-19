@@ -99,7 +99,8 @@ HK_FORCE_INLINE void hkDeallocateChunk(TYPE* ptr, int numberOfObjects) {
                 p, (b->getMemorySizeAndFlags() == 0xffff) ? static_cast<int>(nbytes) :             \
                                                             b->getMemorySizeAndFlags());           \
         } else {                                                                                   \
-            hkMemoryRouter::getInstance().ALLOCATOR().blockFree(p, sizeof(CLASS_TYPE));            \
+            if (p)                                                                                 \
+                hkMemoryRouter::getInstance().ALLOCATOR().blockFree(p, sizeof(CLASS_TYPE));        \
         }                                                                                          \
     }                                                                                              \
     HK_FORCE_INLINE void* operator new(hk_size_t, void* p) { return p; }                           \

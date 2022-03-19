@@ -122,6 +122,8 @@ public:
 
     HK_FORCE_INLINE void clearAndDeallocate();
     HK_FORCE_INLINE void pushBack(const T& e);
+    HK_FORCE_INLINE void setSize(int size);
+    HK_FORCE_INLINE void setSize(int size, const T& fill);
 
 protected:
     HK_FORCE_INLINE hkArray(const hkArray& other);
@@ -288,6 +290,22 @@ inline hkResult hkArrayBase<T>::_reserveExactly(hkMemoryAllocator& alloc, int n)
 }
 
 template <typename T>
+inline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n) {
+    _reserve(alloc, n);
+    hkArrayUtil::destruct(m_data + n, m_size - n);
+    hkArrayUtil::construct(m_data + m_size, n - m_size);
+    m_size = n;
+}
+
+template <typename T>
+inline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n, const T& fill) {
+    _reserve(alloc, n);
+    hkArrayUtil::destruct(m_data + n, m_size - n);
+    hkArrayUtil::constructWithCopy(m_data + m_size, n - m_size, fill);
+    m_size = n;
+}
+
+template <typename T>
 inline typename hkArrayBase<T>::iterator hkArrayBase<T>::begin() {
     return m_data;
 }
@@ -383,6 +401,16 @@ inline void hkArray<T, Allocator>::clearAndDeallocate() {
 template <typename T, typename Allocator>
 inline void hkArray<T, Allocator>::pushBack(const T& e) {
     this->_pushBack(AllocatorType().get(), e);
+}
+
+template <typename T, typename Allocator>
+inline void hkArray<T, Allocator>::setSize(int size) {
+    this->_setSize(AllocatorType().get(), size);
+}
+
+template <typename T, typename Allocator>
+inline void hkArray<T, Allocator>::setSize(int size, const T& fill) {
+    this->_setSize(AllocatorType().get(), size, fill);
 }
 
 template <typename T, unsigned N, typename Allocator>

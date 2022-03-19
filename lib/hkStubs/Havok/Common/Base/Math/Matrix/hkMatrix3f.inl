@@ -1,3 +1,16 @@
+inline hkMatrix3f::hkMatrix3f(const hkMatrix3f& other) {
+    m_col0 = other.getColumn<0>();
+    m_col1 = other.getColumn<1>();
+    m_col2 = other.getColumn<2>();
+}
+
+inline hkMatrix3f& hkMatrix3f::operator=(const hkMatrix3f& other) {
+    m_col0 = other.getColumn<0>();
+    m_col1 = other.getColumn<1>();
+    m_col2 = other.getColumn<2>();
+    return *this;
+}
+
 inline hkFloat32& hkMatrix3f::operator()(int row, int col) {
     return getColumn(col)(row);
 }
@@ -53,4 +66,10 @@ inline void hkMatrix3f::setIdentity() {
     d->m_col0 = hkVector4f::getConstant<HK_QUADREAL_1000>();
     d->m_col1 = hkVector4f::getConstant<HK_QUADREAL_0100>();
     d->m_col2 = hkVector4f::getConstant<HK_QUADREAL_0010>();
+}
+
+inline void hkMatrix3f::_setMul(const hkMatrix3f& a, const hkMatrix3f& b) {
+    m_col0._setRotatedDir(a, b.getColumn<0>());
+    m_col1._setRotatedDir(a, b.getColumn<1>());
+    m_col2._setRotatedDir(a, b.getColumn<2>());
 }

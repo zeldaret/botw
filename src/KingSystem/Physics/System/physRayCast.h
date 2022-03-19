@@ -19,6 +19,12 @@ class SystemGroupHandler;
 class RayCast {
     SEAD_RTTI_BASE(RayCast)
 public:
+    enum class NormalCheckingMode {
+        _0 = 0,
+        _1 = 1,
+        DoNotCheck = 2,
+    };
+
     // TODO: what kind of callback is this?
     using Callback = sead::IDelegate1<phys::RigidBody*>;
 
@@ -105,7 +111,7 @@ private:
     void* _60;
     sead::SafeArray<sead::BitFlag32, NumContactLayerTypes> mLayerMasks{};
     sead::Atomic<u32> _70;
-    sead::Atomic<u32> _74;
+    NormalCheckingMode mNormalCheckingMode;
     MaterialMask mMaterialMask;
     RigidBody* mRigidBody{};
     sead::Atomic<bool> _98;

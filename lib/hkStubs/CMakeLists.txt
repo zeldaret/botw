@@ -114,6 +114,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Query/hkpRayHitCollector.h
   Havok/Physics2012/Collide/Query/CastUtil/hkpLinearCastInput.h
   Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastInput.h
+  Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastOutput.h
   Havok/Physics2012/Collide/Query/Collector/PointCollector/hkpAllCdPointCollector.h
   Havok/Physics2012/Collide/Query/Collector/PointCollector/hkpClosestCdPointCollector.h
   Havok/Physics2012/Collide/Query/Collector/PointCollector/hkpRootCdPoint.h
@@ -133,6 +134,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h
   Havok/Physics2012/Collide/Shape/Convex/Cylinder/hkpCylinderShape.h
   Havok/Physics2012/Collide/Shape/Convex/Sphere/hkpSphereShape.h
+  Havok/Physics2012/Collide/Shape/Convex/Triangle/hkpTriangleShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpHeightFieldShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
   Havok/Physics2012/Collide/Shape/HeightField/Plane/hkpPlaneShape.h
@@ -188,6 +190,8 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/Util/hkpWorldConstraintUtil.h
 
   Havok/Physics2012/Internal/Collide/Mopp/Code/hkpMoppCode.h
+  Havok/Physics2012/Internal/Collide/StaticCompound/hkpShapeKeyTable.h
+  Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h
   Havok/Physics2012/Internal/Solver/Contact/hkpSimpleContactConstraintDataInfo.h
 
   Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h
