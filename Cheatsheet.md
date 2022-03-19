@@ -480,6 +480,149 @@ if (obj.ptr())
     bar();
 ```
 
+### Havok
+
+### operator delete overload
+
+```c++
+void foo(void* this) {
+  if ( this )
+  {
+    TlsValue = nn::os::GetTlsValue(hkMemoryRouter::s_memoryRouter);
+    (*(void (__fastcall **)(_QWORD, __int64, __int64))(**(_QWORD **)(TlsValue + 0x58) + 0x18LL))(
+      *(_QWORD *)(TlsValue + 0x58),
+      this,
+      0x40LL);
+  }
+}
+```
+
+or after setting pointer types correctly:
+
+```c++
+void foo(void* this)
+{
+  if ( this )
+  {
+    router = (hkMemoryRouter *)nn::os::GetTlsValue(hkMemoryRouter::s_memoryRouter);
+    router->m_heap->blockFree(router->m_heap, (void *)this, 0x40);
+  }
+}
+```
+
+This is just a standard Havok class deleting/D0 destructor. You can get it with the HK_DECLARE_CLASS_ALLOCATOR macro.
+
+### hkVector4f
+
+#### hkVector4f::setCross (cross product)
+
+Reminder: the cross product is antisymmetric.
+
+```c++
+v9 = vextq_s8((int8x16_t)lhs, (int8x16_t)lhs, 4uLL);
+v10 = vextq_s8((int8x16_t)rhs, (int8x16_t)rhs, 4uLL);
+v9.n128_u64[1] = vrev64_s32((int32x2_t)vextq_s8(v9, v9, 8uLL).n128_u64[0]).n64_u64[0];
+v10.n128_u64[1] = vrev64_s32((int32x2_t)vextq_s8(v10, v10, 8uLL).n128_u64[0]).n64_u64[0];
+cross = vsubq_f32(vmulq_f32(lhs, (float32x4_t)v10), vmulq_f32(rhs, (float32x4_t)v9));
+result = (float32x4_t)vextq_s8(vextq_s8((int8x16_t)cross, (int8x16_t)cross, 0xCuLL), (int8x16_t)cross, 8uLL);
+```
+⬇️
+```c++
+hkVector4f result;
+result.setCross(lhs, rhs);
+```
+
+#### hkVector4f::dot<3> (dot product)
+
+```c++
+dot = (int8x16_t)vmulq_f32(lhs, rhs);
+dot.n128_u64[0] = vpadd_f32((float32x2_t)dot.n128_u64[0], (float32x2_t)vextq_s8(dot, dot, 8uLL).n128_u32[0]).n64_u64[0];
+dot.n128_f32[0] = vpadd_f32((float32x2_t)dot.n128_u64[0], (float32x2_t)dot.n128_u64[0]).n64_f32[0];
+```
+⬇️
+```c++
+hkSimdReal dot = lhs.dot<3>(rhs);
+```
+
+#### hkVector4f::lengthSquared<3>
+
+This is a special case of hkVector4f::dot<3>.
+
+```c++
+len = vmulq_f32(vec, vec);
+len.n128_u64[0] = vpadd_f32((float32x2_t)len.n128_u64[0], (float32x2_t)vextq_s8(len, len, 8uLL).n128_u32[0]).n64_u64[0];
+len.n128_u64[0] = vpadd_f32((float32x2_t)len.n128_u64[0], (float32x2_t)len.n128_u64[0]).n64_u64[0];
+```
+⬇️
+```c++
+hkSimdReal len = vec.lengthSquared<3>();
+```
+
+#### hkVector4f::lengthInverse<3>
+
+This is hkVector4f::lengthSquared<3> followed by a square root inverse calculation.
+
+```c++
+// start of lengthSquared
+len = vmulq_f32(vec, vec);
+len.n128_u64[0] = vpadd_f32((float32x2_t)len.n128_u64[0], (float32x2_t)vextq_s8(len, len, 8uLL).n128_u32[0]).n64_u64[0];
+len.n128_u64[0] = vpadd_f32((float32x2_t)len.n128_u64[0], (float32x2_t)len.n128_u64[0]).n64_u64[0];
+// end of lengthSquared
+// start of hkSimdFloat32::sqrtInverse
+v10.n128_u64[0] = vrsqrte_f32((float32x2_t)len.n128_u64[0]).n64_u64[0];
+v10.n128_u64[0] = vmul_f32(
+                    (float32x2_t)v10.n128_u64[0],
+                    vrsqrts_f32(
+                      (float32x2_t)norm.n128_u64[0],
+                      vmul_f32((float32x2_t)v10.n128_u64[0], (float32x2_t)v10.n128_u64[0]))).n64_u64[0];
+inverse.n128_u64[0] = vbic_s8(
+                        vmul_f32(
+                          vrsqrts_f32(
+                            (float32x2_t)norm.n128_u64[0],
+                            vmul_f32((float32x2_t)v10.n128_u64[0], (float32x2_t)v10.n128_u64[0])),
+                          (float32x2_t)v10.n128_u64[0]),
+                        vclez_f32((float32x2_t)norm.n128_u64[0])).n64_u64[0];
+inverse.n128_u64[1] = inverse.n128_u64[0];
+// end of hkSimdFloat32::sqrtInverse
+```
+⬇️
+```c++
+hkSimdReal inverse = vec.lengthInverse<3>();
+```
+
+#### hkVector4f::normalize<3>
+
+This is lengthInverse<3> followed by a multiplication.
+
+```c++
+// start of lengthSquared
+len = vmulq_f32(vec, vec);
+len.n128_u64[0] = vpadd_f32((float32x2_t)len.n128_u64[0], (float32x2_t)vextq_s8(len, len, 8uLL).n128_u32[0]).n64_u64[0];
+len.n128_u64[0] = vpadd_f32((float32x2_t)len.n128_u64[0], (float32x2_t)len.n128_u64[0]).n64_u64[0];
+// end of lengthSquared
+// start of hkSimdFloat32::sqrtInverse
+v10.n128_u64[0] = vrsqrte_f32((float32x2_t)len.n128_u64[0]).n64_u64[0];
+v10.n128_u64[0] = vmul_f32(
+                    (float32x2_t)v10.n128_u64[0],
+                    vrsqrts_f32(
+                      (float32x2_t)norm.n128_u64[0],
+                      vmul_f32((float32x2_t)v10.n128_u64[0], (float32x2_t)v10.n128_u64[0]))).n64_u64[0];
+inverse.n128_u64[0] = vbic_s8(
+                        vmul_f32(
+                          vrsqrts_f32(
+                            (float32x2_t)norm.n128_u64[0],
+                            vmul_f32((float32x2_t)v10.n128_u64[0], (float32x2_t)v10.n128_u64[0])),
+                          (float32x2_t)v10.n128_u64[0]),
+                        vclez_f32((float32x2_t)norm.n128_u64[0])).n64_u64[0];
+inverse.n128_u64[1] = inverse.n128_u64[0];
+// end of hkSimdFloat32::sqrtInverse
+vec = vmulq_f32(inverse, vec);
+```
+⬇️
+```c++
+vec.normalize<3>();
+```
+
 ## C++ features
 
 ### Classes
