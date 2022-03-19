@@ -102,6 +102,11 @@ public:
     // 0x0000007101216814
     bool getEntityContactListenerField91() const;
 
+    // 0x000000710121682c
+    void incrementWorldUnkCounter(ContactLayerType layer_type);
+    // 0x000000710121684c
+    void decrementWorldUnkCounter(ContactLayerType layer_type);
+
     // 0x0000007101216cec
     sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;
 

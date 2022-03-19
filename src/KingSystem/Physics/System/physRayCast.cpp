@@ -6,8 +6,12 @@
 #include <Havok/Physics2012/Collide/Query/CastUtil/hkpWorldRayCastOutput.h>
 #include <Havok/Physics2012/Collide/Query/hkpRayHitCollector.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/Triangle/hkpTriangleShape.h>
+#include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h>
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h>
+#include <prim/seadScopeGuard.h>
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physEntityContactListener.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physSystem.h"
@@ -47,12 +51,12 @@ class NormalCheckingRayHitCollector : public RayHitCollector {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(NormalCheckingRayHitCollector)
 
-    NormalCheckingRayHitCollector(hkpWorldRayCastOutput* output, ContactLayerType layer_type,
+    NormalCheckingRayHitCollector(hkpWorldRayCastOutput* output, const sead::Vector3f& ray_line,
+                                  RayCast::NormalCheckingMode mode, ContactLayerType layer_type,
                                   const sead::PtrArray<SystemGroupHandler>* ignored_groups,
-                                  GroundHit ignored_ground_hit, const sead::Vector3f* ray_line,
-                                  RayCast::NormalCheckingMode mode)
+                                  GroundHit ignored_ground_hit)
         : RayHitCollector(output, layer_type, ignored_groups, ignored_ground_hit),
-          mRayLine(ray_line), mMode(mode) {}
+          mRayLine(&ray_line), mMode(mode) {}
 
     ~NormalCheckingRayHitCollector() override;
 
@@ -77,7 +81,7 @@ void RayCast::reset() {
     mTo = sead::Vector3f::zero;
     mFrom = sead::Vector3f::zero;
     mLayerMasks = {};
-    mExtraGroupHandlers.clear();
+    mIgnoredGroups.clear();
 
     resetCastResult();
 }
@@ -85,12 +89,12 @@ void RayCast::reset() {
 void RayCast::resetCastResult() {
     static_cast<void>(_98.load());
 
-    _30 = {};
-    _34 = sead::Vector3f::zero;
+    mHasHit = false;
+    mHitNormal = sead::Vector3f::zero;
     mHitFraction = -1.0;
-    _48 = {};
-    _50 = {};
-    _54 = {};
+    mHitCollidable = {};
+    mHitShapeKey = {};
+    mHasHitSpecifiedRigidBody = false;
     _58 = {};
     _60 = {};
     _70 = {};
@@ -146,8 +150,8 @@ GroundHit RayCast::getGroundHit() const {
     return mGroundHit;
 }
 
-void RayCast::setD8(int value) {
-    _d8 = value;
+void RayCast::setIgnoredGroundHit(GroundHit ground_hit) {
+    mIgnoredGroundHit = ground_hit;
 }
 
 void RayCast::set9A(bool value) {
@@ -180,11 +184,11 @@ void RayCast::setStartAndDisplacementScaled(const sead::Vector3f& start,
     setEnd(start + displacement * displacement_scale);
 }
 
-bool RayCast::addGroupHandler(SystemGroupHandler* group_handler) {
-    if (mExtraGroupHandlers.size() == mExtraGroupHandlers.capacity() || group_handler == nullptr)
+bool RayCast::addIgnoredGroup(SystemGroupHandler* group_handler) {
+    if (mIgnoredGroups.size() == mIgnoredGroups.capacity() || group_handler == nullptr)
         return false;
 
-    mExtraGroupHandlers.pushBack(group_handler);
+    mIgnoredGroups.pushBack(group_handler);
     return true;
 }
 
@@ -193,12 +197,154 @@ void RayCast::setRigidBody(RigidBody* body) {
         mRigidBody = body;
 }
 
-void RayCast::getHitPosition(sead::Vector3f* out) const {
-    *out = ((1 - mHitFraction) * mFrom) + (mHitFraction * mTo);
+void RayCast::fillCastInput(hkpWorldRayCastInput& input, ContactLayerType layer_type) {
+    const u32 layer_mask = getLayerMask(layer_type);
+    input.m_enableShapeCollectionFilter = true;
+    input.m_filterInfo = getFilterInfo(layer_type, layer_mask);
+    input.m_from = toHkVec4(mFrom);
+    input.m_to = toHkVec4(mTo);
 }
 
-void RayCast::get34(sead::Vector3f* out) const {
-    *out = _34;
+void RayCast::fillCastInput(hkpShapeRayCastInput& input, ContactLayerType layer_type) {
+    input.m_filterInfo = getFilterInfo(layer_type, getLayerMask(layer_type));
+}
+
+u32 RayCast::getFilterInfo(ContactLayerType layer_type, u32 layer_mask) const {
+    if (mGroupHandler != nullptr) {
+        return mGroupHandler->makeQueryCollisionMask(layer_mask, mGroundHit, _9a);
+    } else {
+        auto* filter = System::instance()->getGroupFilter(layer_type);
+        auto info = filter->makeQueryCollisionMask(layer_mask, mGroundHit, _9a);
+#ifdef MATCHING_HACK_NX_CLANG
+        asm("");
+#endif
+        return info;
+    }
+}
+
+void RayCast::preCast() {
+    if (_70 == 1)
+        resetCastResult();
+    _98 = true;
+}
+
+bool RayCast::postCast(const hkpWorldRayCastOutput& output) {
+    mHasHit = output.hasHit();
+    if (mHasHit) {
+        updateHitInformation(output);
+        getActorInfoMaybe(output);
+    }
+    _98 = false;
+    _70 = 1;
+    return mHasHit;
+}
+
+void RayCast::updateHitInformation(const hkpWorldRayCastOutput& output) {
+    storeToVec3(&mHitNormal, output.m_normal);
+    mHitFraction = output.m_hitFraction;
+    mHitCollidable = output.m_rootCollidable;
+    mHitShapeKey = output.m_shapeKeys[0];
+
+    auto* hit_body = getRigidBody(*mHitCollidable);
+    if (hit_body) {
+        if (mRigidBody != nullptr && hit_body == mRigidBody)
+            mHasHitSpecifiedRigidBody = true;
+
+        onRigidBodyHit(hit_body);
+        if (mRigidBodyHitCallback)
+            mRigidBodyHitCallback->invoke(hit_body);
+    }
+}
+
+bool RayCast::worldRayCast(ContactLayerType layer_type) {
+    hkpWorldRayCastOutput output;
+    preCast();
+    worldRayCastImpl(&output, layer_type);
+    return postCast(output);
+}
+
+void RayCast::worldRayCastImpl(hkpWorldRayCastOutput* output, ContactLayerType layer_type) {
+    hkpWorldRayCastInput input;
+    fillCastInput(input, layer_type);
+
+    System::instance()->lockWorld(layer_type, "raycast", 0, OnlyLockIfNeeded::Yes);
+    auto world_guard = sead::makeScopeGuard(
+        [&] { System::instance()->unlockWorld(layer_type, "raycast", 0, OnlyLockIfNeeded::Yes); });
+
+    if (mNormalCheckingMode == NormalCheckingMode::DoNotCheck) {
+        if (mIgnoredGroups.size() > 0 || int(mIgnoredGroundHit) != GroundHit::Ignore) {
+            RayHitCollector collector{output, layer_type,
+                                      mIgnoredGroups.size() > 0 ? &mIgnoredGroups : nullptr,
+                                      mIgnoredGroundHit};
+            System::instance()->getHavokWorld(layer_type)->castRay(input, collector);
+        } else {
+            System::instance()->getHavokWorld(layer_type)->castRay(input, *output);
+        }
+
+    } else {
+        sead::Vector3f ray_line = mTo - mFrom;
+        ray_line.normalize();
+
+        auto* groups = mIgnoredGroups.size() > 0 ? &mIgnoredGroups : nullptr;
+        NormalCheckingRayHitCollector collector(output, ray_line, mNormalCheckingMode, layer_type,
+                                                groups, mIgnoredGroundHit);
+        System::instance()->getHavokWorld(layer_type)->castRay(input, collector);
+    }
+}
+
+bool RayCast::shapeRayCast(RigidBody* rigid_body) {
+    hkpWorldRayCastOutput output;
+    preCast();
+    shapeRayCastImpl(&output, rigid_body);
+    return postCast(output);
+}
+
+void RayCast::shapeRayCastImpl(hkpWorldRayCastOutput* output, RigidBody* body) {
+    hkpShapeRayCastInput input;
+    auto layer_type = body->getLayerType();
+    fillCastInput(input, layer_type);
+
+    sead::Matrix34f transform;
+    body->getTransform(&transform);
+    transform.invert();
+    const auto from = transform * mFrom;
+    const auto to = transform * mTo;
+    input.m_from = toHkVec4(from);
+    input.m_to = toHkVec4(to);
+
+    System::instance()->incrementWorldUnkCounter(ContactLayerType::Entity);
+    auto world_guard = sead::makeScopeGuard(
+        [&] { System::instance()->decrementWorldUnkCounter(ContactLayerType::Entity); });
+
+    auto* collidable = body->getHkBody()->getCollidable();
+
+    if (mNormalCheckingMode == NormalCheckingMode::DoNotCheck) {
+        if (mIgnoredGroups.size() > 0 || int(mIgnoredGroundHit) != GroundHit::Ignore) {
+            RayHitCollector collector{output, layer_type,
+                                      mIgnoredGroups.size() > 0 ? &mIgnoredGroups : nullptr,
+                                      mIgnoredGroundHit};
+            collidable->getShape()->castRayWithCollector(input, *collidable, collector);
+        } else {
+            collidable->getShape()->castRay(input, *output);
+        }
+
+    } else {
+        sead::Vector3f ray_line = mTo - mFrom;
+        ray_line.normalize();
+
+        auto* groups = mIgnoredGroups.size() > 0 ? &mIgnoredGroups : nullptr;
+        NormalCheckingRayHitCollector collector(output, ray_line, mNormalCheckingMode, layer_type,
+                                                groups, mIgnoredGroundHit);
+        collidable->getShape()->castRayWithCollector(input, *collidable, collector);
+    }
+}
+
+void RayCast::getHitPosition(sead::Vector3f* position) const {
+    *position = ((1 - mHitFraction) * mFrom) + (mHitFraction * mTo);
+}
+
+void RayCast::getHitNormal(sead::Vector3f* normal) const {
+    *normal = mHitNormal;
 }
 
 RayHitCollector::~RayHitCollector() = default;

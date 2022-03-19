@@ -9,6 +9,12 @@
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
+class hkpCollidable;
+struct hkpShapeRayCastInput;
+struct hkpShapeRayCastOutput;
+struct hkpWorldRayCastInput;
+struct hkpWorldRayCastOutput;
+
 namespace ksys::phys {
 
 struct ActorInfo;
@@ -25,13 +31,12 @@ public:
         DoNotCheck = 2,
     };
 
-    // TODO: what kind of callback is this?
-    using Callback = sead::IDelegate1<phys::RigidBody*>;
+    using RigidBodyHitCallback = sead::IDelegate1<phys::RigidBody*>;
 
     RayCast(SystemGroupHandler* group_handler, GroundHit ground_hit);
     virtual ~RayCast();
 
-    virtual void m4(void*) {}
+    virtual void onRigidBodyHit(RigidBody* body) {}
 
     void reset();
     void resetCastResult();
@@ -44,8 +49,8 @@ public:
     void setGroundHit(GroundHit ground_hit);
     GroundHit getGroundHit() const;
 
+    void setIgnoredGroundHit(GroundHit ground_hit);
     // TODO: rename
-    void setD8(int value);
     void set9A(bool value);
 
     void setStart(const sead::Vector3f& start);
@@ -56,22 +61,20 @@ public:
                                        const sead::Vector3f& displacement,
                                        float displacement_scale);
 
-    bool addGroupHandler(SystemGroupHandler* group_handler);
+    /// @warning Only up to 4 groups can be ignored.
+    bool addIgnoredGroup(SystemGroupHandler* group_handler);
     void setRigidBody(RigidBody* body);
 
-    void setCallback(Callback* callback) { mCallback = callback; }
-    Callback* getCallback() const { return mCallback; }
+    void setCallback(RigidBodyHitCallback* callback) { mRigidBodyHitCallback = callback; }
+    RigidBodyHitCallback* getCallback() const { return mRigidBodyHitCallback; }
 
-    // 0x0000007100fc39b4
     bool worldRayCast(ContactLayerType layer_type);
-    // 0x0000007100fc3da4
     bool shapeRayCast(RigidBody* rigid_body);
     // 0x0000007100fc4248
     bool phantomRayCast(void* unk);
 
-    void getHitPosition(sead::Vector3f* out) const;
-    // TODO: rename
-    void get34(sead::Vector3f* out) const;
+    void getHitPosition(sead::Vector3f* position) const;
+    void getHitNormal(sead::Vector3f* normal) const;
     // TODO: rename
     // 0x0000007100fc4844
     void getUnkVectors(sead::Vector3f* unk1, sead::Vector3f* unk2, void* unk3) const;
@@ -79,34 +82,40 @@ public:
     // 0x0000007100fc4bd4
     bool x_1(sead::Vector3f* out) const;
 
-private:
+protected:
     auto& getLayerMask(ContactLayerType type) { return mLayerMasks[int(type)]; }
     auto& getLayerMask(ContactLayerType type) const { return mLayerMasks[int(type)]; }
 
-    // 0x0000007100fc3b1c
-    void worldRayCastImpl(void* arg, ContactLayerType layer_type);
-    // 0x0000007100fc3f0c
-    void shapeRayCastImpl(void* arg, RigidBody* rigid_body);
+    void worldRayCastImpl(hkpWorldRayCastOutput* output, ContactLayerType layer_type);
+    void shapeRayCastImpl(hkpWorldRayCastOutput* output, RigidBody* body);
     // 0x0000007100fc43b0
-    void phantomRayCastImpl(void* unk);
+    void phantomRayCastImpl(hkpWorldRayCastOutput* output);
 
     // 0x0000007100fc4630
-    const ActorInfo* getActorInfoMaybe(void* unk);
+    const ActorInfo* getActorInfoMaybe(const hkpShapeRayCastOutput& output);
 
     // 0x0000007100fc4764
     bool x_2(sead::Vector3f* out, void* unk1, int unk2) const;
+
+    void fillCastInput(hkpWorldRayCastInput& input, ContactLayerType layer_type);
+    void fillCastInput(hkpShapeRayCastInput& input, ContactLayerType layer_type);
+    u32 getFilterInfo(ContactLayerType layer_type, u32 layer_mask) const;
+
+    void preCast();
+    bool postCast(const hkpWorldRayCastOutput& output);
+    void updateHitInformation(const hkpWorldRayCastOutput& output);
 
     sead::Vector3f mFrom = sead::Vector3f::zero;
     sead::Vector3f mTo = sead::Vector3f::zero;
     SystemGroupHandler* mGroupHandler{};
     GroundHit mGroundHit{};
     u32 _2c;
-    bool _30;
-    sead::Vector3f _34;
+    bool mHasHit;
+    sead::Vector3f mHitNormal;
     float mHitFraction;
-    void* _48;
-    u32 _50;
-    bool _54;
+    const hkpCollidable* mHitCollidable;
+    u32 mHitShapeKey;
+    bool mHasHitSpecifiedRigidBody;
     void* _58{};
     void* _60;
     sead::SafeArray<sead::BitFlag32, NumContactLayerTypes> mLayerMasks{};
@@ -117,10 +126,9 @@ private:
     sead::Atomic<bool> _98;
     bool _99{};
     bool _9a{};
-    sead::FixedPtrArray<SystemGroupHandler, 4> mExtraGroupHandlers;
-    // TODO: rename once we figure out what kind of callback this is
-    Callback* mCallback{};
-    u32 _d8 = 0x10;
+    sead::FixedPtrArray<SystemGroupHandler, 4> mIgnoredGroups;
+    RigidBodyHitCallback* mRigidBodyHitCallback{};
+    GroundHit mIgnoredGroundHit = GroundHit::Ignore;
 };
 
 }  // namespace ksys::phys
