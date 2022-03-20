@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Common/Base/hkBase.h>
+#include <new>
 
 class hkArrayUtil {
 public:
