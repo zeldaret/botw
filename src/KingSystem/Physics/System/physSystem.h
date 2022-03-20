@@ -17,6 +17,7 @@ class ContactLayerCollisionInfoGroup;
 class ContactMgr;
 class GroupFilter;
 class MaterialTable;
+class RayCastForRequest;
 class RigidBody;
 class RigidBodyRequestMgr;
 class ContactPointInfo;
@@ -40,7 +41,6 @@ class System {
 public:
     float get64() const { return _64; }
     float getTimeFactor() const { return mTimeFactor; }
-    GroupFilter* getGroupFilter(ContactLayerType type) const;
     ContactMgr* getContactMgr() const { return mContactMgr; }
     RigidBodyRequestMgr* getRigidBodyRequestMgr() const { return mRigidBodyRequestMgr; }
     SystemData* getSystemData() const { return mSystemData; }
@@ -93,6 +93,13 @@ public:
     // 0x0000007101215784
     void unlockWorld(ContactLayerType type, const char* description = nullptr, int b = 0,
                      OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No);
+
+    // 0x0000007101216ac8
+    GroupFilter* getGroupFilter(ContactLayerType type) const;
+
+    // 0x0000007101216ae8
+    RayCastForRequest* allocRayCastRequest(SystemGroupHandler* group_handler = nullptr,
+                                           GroundHit ground_hit = GroundHit::HitAll);
 
     // TODO: rename
     // 0x0000007101216c60

@@ -11,6 +11,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
+class RayCastForRequest;
 class RigidBody;
 }  // namespace ksys::phys
 
@@ -19,8 +20,6 @@ namespace ksys::map {
 class AutoPlacement;
 struct AutoPlacementFlowRes;
 class PlacementThing;
-
-struct Raycast;
 
 struct PlacementGroup {
     sead::SafeString a;
@@ -75,7 +74,7 @@ public:
 private:
     friend class AutoPlacement;
 
-    Raycast* mRaycast{};
+    phys::RayCastForRequest* mRaycast{};
     u8 _8880{};
     u8 mUnderwater{};
     sead::Vector3f mVec1{};

@@ -7,22 +7,11 @@
 #include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include "KingSystem/Physics/System/physRayCast.h"
+#include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 
 namespace ksys::map {
-
-// TODO: this phys::RayCast derived class should be moved to phys::
-struct Raycast : phys::RayCast {
-    Raycast();
-    ~Raycast() override;
-
-    static Raycast* create(void*, u32);
-
-    void sub_7100FC55AC(u32);
-    void release();
-};
 
 AutoPlacement::AutoPlacement() = default;
 AutoPlacement::~AutoPlacement() = default;
@@ -284,11 +273,11 @@ void PlacementThing::stepRaycast() {
 
     switch (mState) {
     case State::Uninitialized:
-        mRaycast = Raycast::create(nullptr, 1);
+        mRaycast = phys::RayCastForRequest::allocRequest(nullptr, phys::GroundHit::Animal);
         next = mRaycast != nullptr ? State::Initialized : State::Invalid;
         break;
     case State::LayersDone:
-        mRaycast->sub_7100FC55AC(0);
+        mRaycast->submitRequest(phys::ContactLayerType::Entity);
         next = State::RaycastDone;
         break;
     case State::PlacementDone:
