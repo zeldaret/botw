@@ -145,6 +145,8 @@ target_sources(uking PRIVATE
   System/physQueryContactPointInfo.h
   System/physRayCast.cpp
   System/physRayCast.h
+  System/physRayCastPlusBody.cpp
+  System/physRayCastPlusBody.h
   System/physSensorContactListener.cpp
   System/physSensorContactListener.h
   System/physSensorGroupFilter.cpp
