@@ -267,9 +267,7 @@ void RayCast::worldRayCastImpl(hkpWorldRayCastOutput* output, ContactLayerType l
     hkpWorldRayCastInput input;
     fillCastInput(input, layer_type);
 
-    System::instance()->lockWorld(layer_type, "raycast", 0, OnlyLockIfNeeded::Yes);
-    auto world_guard = sead::makeScopeGuard(
-        [&] { System::instance()->unlockWorld(layer_type, "raycast", 0, OnlyLockIfNeeded::Yes); });
+    ScopedWorldLock lock{layer_type, "raycast", 0, OnlyLockIfNeeded::Yes};
 
     if (mNormalCheckingMode == NormalCheckingMode::DoNotCheck) {
         if (mIgnoredGroups.size() > 0 || int(mIgnoredGroundHit) != GroundHit::Ignore) {

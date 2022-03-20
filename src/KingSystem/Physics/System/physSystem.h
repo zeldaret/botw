@@ -86,8 +86,11 @@ public:
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 
     hkpWorld* getHavokWorld(ContactLayerType type) const;
+
+    // 0x0000007101215754
     void lockWorld(ContactLayerType type, const char* description = nullptr, int b = 0,
                    OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No);
+    // 0x0000007101215784
     void unlockWorld(ContactLayerType type, const char* description = nullptr, int b = 0,
                      OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No);
 
@@ -145,5 +148,28 @@ private:
     u8 _1c8[0x480 - 0x1c8];
 };
 KSYS_CHECK_SIZE_NX150(System, 0x480);
+
+class ScopedWorldLock {
+public:
+    explicit ScopedWorldLock(ContactLayerType type, const char* description = nullptr, int unk = 0,
+                             OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No)
+        : mType(type), mDescription(description), mUnk(unk),
+          mOnlyLockIfNeeded(only_lock_if_needed) {
+        System::instance()->lockWorld(mType, mDescription, mUnk, mOnlyLockIfNeeded);
+    }
+
+    ~ScopedWorldLock() {
+        System::instance()->unlockWorld(mType, mDescription, mUnk, mOnlyLockIfNeeded);
+    }
+
+    ScopedWorldLock(const ScopedWorldLock&) = delete;
+    auto operator=(const ScopedWorldLock&) = delete;
+
+private:
+    ContactLayerType mType;
+    const char* mDescription;
+    int mUnk;
+    OnlyLockIfNeeded mOnlyLockIfNeeded;
+};
 
 }  // namespace ksys::phys

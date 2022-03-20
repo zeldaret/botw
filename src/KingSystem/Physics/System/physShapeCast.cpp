@@ -86,22 +86,22 @@ bool ShapeCast::doExecuteQuery(hkpCdPointCollector& cast_collector,
                                OnlyLockIfNeeded only_lock_if_needed) {
     const auto layer_type = mBody->getLayerType();
 
-    System::instance()->lockWorld(layer_type, "shape_cast", 0, only_lock_if_needed);
+    {
+        ScopedWorldLock lock{layer_type, "shape_cast", 0, only_lock_if_needed};
 
-    hkpLinearCastInput input;
-    loadFromVec3(&input.m_to, mTo);
+        hkpLinearCastInput input;
+        loadFromVec3(&input.m_to, mTo);
 
-    // Reset internal state.
-    cast_collector.reset();
-    if (_44 == 1)
-        reset();
+        // Reset internal state.
+        cast_collector.reset();
+        if (_44 == 1)
+            reset();
 
-    System::instance()->getHavokWorld(layer_type)->m_collisionInput->m_weldClosestPoints =
-        bool(weld_closest_points);
+        System::instance()->getHavokWorld(layer_type)->m_collisionInput->m_weldClosestPoints =
+            bool(weld_closest_points);
 
-    doCast(input, cast_collector, start_collector);
-
-    System::instance()->unlockWorld(layer_type, "shape_cast", 0, only_lock_if_needed);
+        doCast(input, cast_collector, start_collector);
+    }
 
     // Register every point that is in start_collector.
     auto* body = mBody;
