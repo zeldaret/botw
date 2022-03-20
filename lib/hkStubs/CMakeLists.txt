@@ -95,6 +95,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h
   Havok/Physics2012/Collide/Agent/Collidable/hkpCollidableQualityType.h
   Havok/Physics2012/Collide/Agent/ContactMgr/hkpContactMgr.h
+  Havok/Physics2012/Collide/Agent/Query/hkpCdBodyPairCollector.h
   Havok/Physics2012/Collide/Agent/Query/hkpCdPointCollector.h
   Havok/Physics2012/Collide/Agent3/BvTree3/hkpBvTreeAgent3.h
   Havok/Physics2012/Collide/Agent3/Machine/Nn/hkpAgentNnTrack.h
@@ -102,6 +103,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/BroadPhase/hkpBroadPhaseHandle.h
   Havok/Physics2012/Collide/BroadPhase/hkpTypedBroadPhaseHandle.h
   Havok/Physics2012/Collide/Dispatch/hkpCollisionDispatcher.h
+  Havok/Physics2012/Collide/Dispatch/BroadPhase/hkpBroadPhaseListener.h
   Havok/Physics2012/Collide/Dispatch/ContactMgr/hkpContactMgrFactory.h
   Havok/Physics2012/Collide/Filter/hkpCollidableCollidableFilter.h
   Havok/Physics2012/Collide/Filter/hkpCollisionFilter.cpp
@@ -169,7 +171,15 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpFixedRigidMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpKeyframedRigidMotion.h
   Havok/Physics2012/Dynamics/Motion/Rigid/hkpSphereMotion.h
+  Havok/Physics2012/Dynamics/Phantom/hkpAabbPhantom.h
+  Havok/Physics2012/Dynamics/Phantom/hkpCachingShapePhantom.h
+  Havok/Physics2012/Dynamics/Phantom/hkpPhantom.h
+  Havok/Physics2012/Dynamics/Phantom/hkpPhantomBroadPhaseListener.h
+  Havok/Physics2012/Dynamics/Phantom/hkpPhantomListener.h
   Havok/Physics2012/Dynamics/Phantom/hkpPhantomOverlapListener.h
+  Havok/Physics2012/Dynamics/Phantom/hkpPhantomType.h
+  Havok/Physics2012/Dynamics/Phantom/hkpShapePhantom.h
+  Havok/Physics2012/Dynamics/Phantom/hkpSimpleShapePhantom.h
   Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h
   Havok/Physics2012/Dynamics/World/hkpSimulationIsland.h
   Havok/Physics2012/Dynamics/World/hkpWorld.h
