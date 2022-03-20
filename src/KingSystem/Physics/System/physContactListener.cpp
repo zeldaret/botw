@@ -56,24 +56,24 @@ void ContactListener::clearTable() {
 }
 
 void ContactListener::collisionAddedCallback(const hkpCollisionEvent& event) {
-    auto* bodyA = getRigidBody(event.getBody(0));
-    auto* bodyB = getRigidBody(event.getBody(1));
+    auto* bodyA = getRigidBody(*event.getBody(0));
+    auto* bodyB = getRigidBody(*event.getBody(1));
     handleCollisionAdded(event, bodyA, bodyB);
     bodyA->onCollisionAdded();
     bodyB->onCollisionAdded();
 }
 
 void ContactListener::collisionRemovedCallback(const hkpCollisionEvent& event) {
-    auto* bodyA = getRigidBody(event.getBody(0));
-    auto* bodyB = getRigidBody(event.getBody(1));
+    auto* bodyA = getRigidBody(*event.getBody(0));
+    auto* bodyB = getRigidBody(*event.getBody(1));
     handleCollisionRemoved(event, bodyA, bodyB);
     bodyA->onCollisionRemoved();
     bodyB->onCollisionRemoved();
 }
 
 void ContactListener::contactPointCallback(const hkpContactPointEvent& event) {
-    RigidBody* body_a = getRigidBody(event.getBody(0));
-    RigidBody* body_b = getRigidBody(event.getBody(1));
+    RigidBody* body_a = getRigidBody(*event.getBody(0));
+    RigidBody* body_b = getRigidBody(*event.getBody(1));
 
     if (event.m_contactPoint->getPosition().getInt24W() == hkpCharacterRigidBody::m_magicNumber) {
         const auto layer_a = body_a->getContactLayer();

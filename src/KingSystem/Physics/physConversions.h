@@ -108,9 +108,9 @@ inline const hkpEntity* getHkpEntity(const hkpCollidable& collidable) {
     return static_cast<const hkpEntity*>(collidable.getOwner());
 }
 
-inline RigidBody* getRigidBody(const hkpEntity* entity) {
+inline RigidBody* getRigidBody(const hkpEntity& entity) {
     // This needs to be kept in sync with the RigidBody constructor!
-    return reinterpret_cast<RigidBody*>(entity->getUserData());
+    return reinterpret_cast<RigidBody*>(entity.getUserData());
 }
 
 inline RigidBody* getRigidBody(const hkpCollidable& collidable) {
@@ -118,7 +118,7 @@ inline RigidBody* getRigidBody(const hkpCollidable& collidable) {
     if (!entity)
         return nullptr;
 
-    return getRigidBody(entity);
+    return getRigidBody(*entity);
 }
 
 }  // namespace ksys::phys

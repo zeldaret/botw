@@ -54,7 +54,7 @@ static bool hasEntityWithMotionFlag80(const hkpCollisionEvent& event) {
         if (!entity)
             continue;
 
-        bool on = getRigidBody(entity)->isEntityMotionFlag80On();
+        bool on = getRigidBody(*entity)->isEntityMotionFlag80On();
         has_flag_80 |= on;
         if (on)
             break;
@@ -74,8 +74,8 @@ EntityContactListener::EntityContactListener(ContactMgr* mgr, sead::Heap* heap)
 EntityContactListener::~EntityContactListener() = default;
 
 void EntityContactListener::collisionAddedCallback(const hkpCollisionEvent& event) {
-    auto* body_a = getRigidBody(event.getBody(0));
-    auto* body_b = getRigidBody(event.getBody(1));
+    auto* body_a = getRigidBody(*event.getBody(0));
+    auto* body_b = getRigidBody(*event.getBody(1));
 
     handleCollisionAdded(event, body_a, body_b);
 
@@ -106,8 +106,8 @@ void EntityContactListener::collisionAddedCallback(const hkpCollisionEvent& even
 }
 
 void EntityContactListener::collisionRemovedCallback(const hkpCollisionEvent& event) {
-    auto* body_a = getRigidBody(event.getBody(0));
-    auto* body_b = getRigidBody(event.getBody(1));
+    auto* body_a = getRigidBody(*event.getBody(0));
+    auto* body_b = getRigidBody(*event.getBody(1));
 
     handleCollisionRemoved(event, body_a, body_b);
     removeViscousSurfaceModifierAndCollision(event, body_a, body_b);

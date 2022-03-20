@@ -156,7 +156,7 @@ bool ShapeCast::registerContactPoint(const hkpRootCdPoint& point, RigidBody* bod
     if (!mContactPointInfo->testContactPointDistance(point.getContact().getDistance()))
         return false;
 
-    auto* hit_body = getRigidBody(hit_entity);
+    auto* hit_body = getRigidBody(*hit_entity);
 
     if (System::instance()->getEntityContactListenerField91() && hit_body->isEntity() &&
         EntityContactListener::isObjectOrGroundOrNPCOrTree(*hit_body)) {
@@ -216,7 +216,7 @@ void FilteredClosestCdPointCollector::addCdPoint(const hkpCdPoint& point) {
     if (!hit_entity)
         return;
 
-    auto* hit_body = getRigidBody(hit_entity);
+    auto* hit_body = getRigidBody(*hit_entity);
 
     if (System::instance()->getEntityContactListenerField91() && hit_body->isEntity() &&
         EntityContactListener::isObjectOrGroundOrNPCOrTree(*hit_body)) {
