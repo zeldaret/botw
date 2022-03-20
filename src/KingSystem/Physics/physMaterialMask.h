@@ -68,14 +68,12 @@ public:
     virtual ~MaterialMask();
 
     MaterialMask& operator=(const MaterialMask& other) {
-        mData = other.mData;
-        mSubMaterialNameCache = nullptr;
+        set(other.mData);
         return *this;
     }
 
     MaterialMask& operator=(MaterialMaskData data) {
-        mData = data;
-        mSubMaterialNameCache = nullptr;
+        set(data);
         return *this;
     }
 
@@ -90,6 +88,14 @@ public:
 
     const char* getMaterialName() const;
     const char* getSubMaterialName() const;
+
+    void set(MaterialMaskData data) {
+        mData = data;
+        mSubMaterialNameCache = nullptr;
+    }
+
+    void set(u32 data) { set(MaterialMaskData{data}); }
+    void reset() { set(0); }
 
     void setMaterial(Material mat);
 

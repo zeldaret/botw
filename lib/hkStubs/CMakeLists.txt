@@ -140,6 +140,8 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/HeightField/hkpHeightFieldShape.h
   Havok/Physics2012/Collide/Shape/HeightField/hkpSphereRepShape.h
   Havok/Physics2012/Collide/Shape/HeightField/Plane/hkpPlaneShape.h
+  Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldBaseCinfo.h
+  Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldShape.h
   Havok/Physics2012/Collide/Shape/Query/hkpRayShapeCollectionFilter.h
   Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastCollectorOutput.h
   Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h
@@ -199,12 +201,14 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Dynamics/World/Simulation/hkpSimulation.h
   Havok/Physics2012/Dynamics/World/Util/hkpWorldConstraintUtil.h
 
+  Havok/Physics2012/Internal/Collide/BvCompressedMesh/hkpBvCompressedMeshShape.h
   Havok/Physics2012/Internal/Collide/Mopp/Code/hkpMoppCode.h
   Havok/Physics2012/Internal/Collide/StaticCompound/hkpShapeKeyTable.h
   Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h
   Havok/Physics2012/Internal/Solver/Contact/hkpSimpleContactConstraintDataInfo.h
 
   Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h
+  Havok/Physics2012/Utilities/Collide/ShapeUtils/ShapeKeyPath/hkpShapeKeyPath.h
   Havok/Physics2012/Utilities/Collide/ShapeUtils/ShapeScaling/hkpShapeScalingUtility.h
   Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h
   Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h

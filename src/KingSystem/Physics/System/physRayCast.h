@@ -10,15 +10,22 @@
 #include "KingSystem/Physics/physMaterialMask.h"
 
 class hkpCollidable;
+class hkpShape;
 struct hkpShapeRayCastInput;
 struct hkpShapeRayCastOutput;
 struct hkpWorldRayCastInput;
 struct hkpWorldRayCastOutput;
 
+namespace ksys::map {
+class Object;
+}
+
 namespace ksys::phys {
 
 struct ActorInfo;
+class BodyGroup;
 class LayerMaskBuilder;
+class Phantom;
 class RigidBody;
 class SystemGroupHandler;
 
@@ -70,17 +77,16 @@ public:
 
     bool worldRayCast(ContactLayerType layer_type);
     bool shapeRayCast(RigidBody* rigid_body);
-    // 0x0000007100fc4248
-    bool phantomRayCast(void* unk);
+    bool phantomRayCast(Phantom* phantom);
 
     void getHitPosition(sead::Vector3f* position) const;
+    bool getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,
+                              u32 shape_key) const;
     void getHitNormal(sead::Vector3f* normal) const;
     // TODO: rename
     // 0x0000007100fc4844
-    void getUnkVectors(sead::Vector3f* unk1, sead::Vector3f* unk2, void* unk3) const;
-
-    // 0x0000007100fc4bd4
-    bool x_1(sead::Vector3f* out) const;
+    void getUnkVectors(sead::Vector3f* unk1, sead::Vector3f* unk2, sead::Vector3f* unk3) const;
+    bool getHitTriangleNormal(sead::Vector3f* normal) const;
 
 protected:
     auto& getLayerMask(ContactLayerType type) { return mLayerMasks[int(type)]; }
@@ -88,14 +94,9 @@ protected:
 
     void worldRayCastImpl(hkpWorldRayCastOutput* output, ContactLayerType layer_type);
     void shapeRayCastImpl(hkpWorldRayCastOutput* output, RigidBody* body);
-    // 0x0000007100fc43b0
-    void phantomRayCastImpl(hkpWorldRayCastOutput* output);
+    void phantomRayCastImpl(hkpWorldRayCastOutput* output, Phantom* phantom);
 
-    // 0x0000007100fc4630
-    const ActorInfo* getActorInfoMaybe(const hkpShapeRayCastOutput& output);
-
-    // 0x0000007100fc4764
-    bool x_2(sead::Vector3f* out, void* unk1, int unk2) const;
+    void updateStaticCompoundObjectInfo(const hkpWorldRayCastOutput& output);
 
     void fillCastInput(hkpWorldRayCastInput& input, ContactLayerType layer_type);
     void fillCastInput(hkpShapeRayCastInput& input, ContactLayerType layer_type);
@@ -116,8 +117,8 @@ protected:
     const hkpCollidable* mHitCollidable;
     u32 mHitShapeKey;
     bool mHasHitSpecifiedRigidBody;
-    void* _58{};
-    void* _60;
+    BodyGroup* mHitBodyGroup{};
+    map::Object* mHitMapObject;
     sead::SafeArray<sead::BitFlag32, NumContactLayerTypes> mLayerMasks{};
     sead::Atomic<u32> _70;
     NormalCheckingMode mNormalCheckingMode;

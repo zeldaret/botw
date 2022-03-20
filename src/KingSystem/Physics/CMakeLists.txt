@@ -96,6 +96,8 @@ target_sources(uking PRIVATE
   StaticCompound/physStaticCompoundBodyGroup.h
   StaticCompound/physStaticCompoundInfo.cpp
   StaticCompound/physStaticCompoundInfo.h
+  StaticCompound/physStaticCompoundUtil.cpp
+  StaticCompound/physStaticCompoundUtil.h
 
   SupportBone/physSupportBoneParam.cpp
   SupportBone/physSupportBoneParam.h

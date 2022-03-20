@@ -9,11 +9,15 @@
 #include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastInput.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
+#include <Havok/Physics2012/Internal/Collide/BvCompressedMesh/hkpBvCompressedMeshShape.h>
 #include <Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h>
+#include <Havok/Physics2012/Utilities/Collide/ShapeUtils/ShapeKeyPath/hkpShapeKeyPath.h>
 #include <prim/seadScopeGuard.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundUtil.h"
 #include "KingSystem/Physics/System/physEntityContactListener.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
+#include "KingSystem/Physics/System/physPhantom.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physLayerMaskBuilder.h"
@@ -95,8 +99,8 @@ void RayCast::resetCastResult() {
     mHitCollidable = {};
     mHitShapeKey = {};
     mHasHitSpecifiedRigidBody = false;
-    _58 = {};
-    _60 = {};
+    mHitBodyGroup = {};
+    mHitMapObject = {};
     _70 = {};
 }
 
@@ -232,7 +236,7 @@ bool RayCast::postCast(const hkpWorldRayCastOutput& output) {
     mHasHit = output.hasHit();
     if (mHasHit) {
         updateHitInformation(output);
-        getActorInfoMaybe(output);
+        updateStaticCompoundObjectInfo(output);
     }
     _98 = false;
     _70 = 1;
@@ -337,12 +341,111 @@ void RayCast::shapeRayCastImpl(hkpWorldRayCastOutput* output, RigidBody* body) {
     }
 }
 
+bool RayCast::phantomRayCast(Phantom* phantom) {
+    hkpWorldRayCastOutput output;
+    preCast();
+    phantomRayCastImpl(&output, phantom);
+    return postCast(output);
+}
+
+void RayCast::phantomRayCastImpl(hkpWorldRayCastOutput* output, Phantom* phantom) {
+    hkpWorldRayCastInput input;
+    auto layer_type = phantom->getLayerType();
+    fillCastInput(input, layer_type);
+
+    ScopedWorldLock lock{layer_type, "raycast", 0, OnlyLockIfNeeded::Yes};
+
+    if (mNormalCheckingMode == NormalCheckingMode::DoNotCheck) {
+        if (mIgnoredGroups.size() > 0 || int(mIgnoredGroundHit) != GroundHit::Ignore) {
+            RayHitCollector collector{output, layer_type,
+                                      mIgnoredGroups.size() > 0 ? &mIgnoredGroups : nullptr,
+                                      mIgnoredGroundHit};
+            phantom->getHavokPhantom()->castRay(input, collector);
+        } else {
+            phantom->getHavokPhantom()->castRay(input, *output);
+        }
+
+    } else {
+        sead::Vector3f ray_line = mTo - mFrom;
+        ray_line.normalize();
+
+        auto* groups = mIgnoredGroups.size() > 0 ? &mIgnoredGroups : nullptr;
+        NormalCheckingRayHitCollector collector(output, ray_line, mNormalCheckingMode, layer_type,
+                                                groups, mIgnoredGroundHit);
+        phantom->getHavokPhantom()->castRay(input, collector);
+    }
+}
+
+void RayCast::updateStaticCompoundObjectInfo(const hkpWorldRayCastOutput& output) {
+    hkpShapeKeyPath path{output};
+    auto iterator = path.getIterator();
+
+    sead::Vector3f hit_position;
+    getHitPosition(&hit_position);
+
+    if (iterator.isValid()) {
+        const auto& shape = *iterator.getShape();
+        const u32 raw_material = getMaterialMaskFromShape(shape, output.m_shapeKeys, hit_position);
+
+        mMaterialMask.set(raw_material);
+        if (raw_material == u32(-1))
+            mMaterialMask.reset();
+
+        if (_99) {
+            getBodyGroupAndObjectFromSCShape(&mHitBodyGroup, &mHitMapObject, shape,
+                                             output.m_shapeKeys);
+        }
+    } else {
+        mMaterialMask.reset();
+    }
+}
+
 void RayCast::getHitPosition(sead::Vector3f* position) const {
     *position = ((1 - mHitFraction) * mFrom) + (mHitFraction * mTo);
 }
 
+static void calculateTriangleNormal(sead::Vector3f* normal, const hkpTriangleShape* triangle) {
+    const auto va = toVec3(triangle->getVertex<0>());
+    const auto vb = toVec3(triangle->getVertex<1>());
+    const auto vc = toVec3(triangle->getVertex<2>());
+    normal->setCross(vb - va, vc - va);
+}
+
+bool RayCast::getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,
+                                   u32 shape_key) const {
+    if (hit_shape->getType() != hkcdShapeType::STATIC_COMPOUND) {
+        if (hit_shape->getType() != hkcdShapeType::BV_COMPRESSED_MESH)
+            return false;
+
+        auto* bv_mesh = static_cast<const hkpBvCompressedMeshShape*>(hit_shape);
+
+        hkpShapeBuffer buffer;
+        hit_shape = bv_mesh->getChildShape(shape_key, buffer);
+        if (hit_shape->getType() != hkcdShapeType::TRIANGLE)
+            return false;
+
+        calculateTriangleNormal(normal, static_cast<const hkpTriangleShape*>(hit_shape));
+        return true;
+    }
+
+    auto* sc = static_cast<const hkpStaticCompoundShape*>(hit_shape);
+    int instance_id;
+    sc->decomposeShapeKey(shape_key, instance_id, shape_key);
+    return instance_id >= 0 &&
+           getHitTriangleNormal(normal, sc->getInstances()[instance_id].getShape(), shape_key);
+}
+
 void RayCast::getHitNormal(sead::Vector3f* normal) const {
     *normal = mHitNormal;
+}
+
+bool RayCast::getHitTriangleNormal(sead::Vector3f* normal) const {
+    if (!mHasHit)
+        return false;
+
+    const u32 shape_key = mHitShapeKey;
+    const hkpShape* shape = mHitCollidable->getShape();
+    return getHitTriangleNormal(normal, shape, shape_key);
 }
 
 RayHitCollector::~RayHitCollector() = default;
@@ -471,9 +574,9 @@ bool NormalCheckingRayHitCollector::checkNormal(
     hkVector4f CminusA;
     CminusA.setSub(vertexC, vertexA);
 
-    hkVector4f triangle_line;
-    triangle_line.setCross(BminusA, CminusA);
-    triangle_line.normalize<3>();
+    hkVector4f triangle_normal;
+    triangle_normal.setCross(BminusA, CminusA);
+    triangle_normal.normalize<3>();
 
     const auto body_rotation = cdBody.getRootCollidable()->getTransform().getRotation();
 
@@ -495,7 +598,7 @@ bool NormalCheckingRayHitCollector::checkNormal(
     hkVector4f rotated_normal;
     rotated_normal.setRotatedDir(rotation, hitInfo.m_normal);
 
-    return checkDot<true>(mMode, triangle_line.dot<3>(rotated_normal));
+    return checkDot<true>(mMode, triangle_normal.dot<3>(rotated_normal));
 }
 
 }  // namespace ksys::phys

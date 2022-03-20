@@ -7,3 +7,5 @@
 #define HK_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
 
 #define HK_RESTRICT __restrict
+
+#define HK_MAX_NUM_THREADS 12

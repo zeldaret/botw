@@ -5,6 +5,7 @@
 #include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundUtil.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
@@ -81,18 +82,13 @@ bool RigidBodyFromResource::isMaterial(Material material) const {
     return found_child_shape_with_material;
 }
 
-// FIXME: move this to the appropriate header
-// 0x0000007100fd0a1c
-u32 getCollisionFilterInfoFromCollidable(u32* material_mask, u32* collision_filter_info,
-                                         const hkpCollidable* collidable, const u32* unk);
-
 u32 RigidBodyFromResource::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
                                              const sead::Vector3f& contact_point) {
     masks->ignored_layers = ~mContactMask;
     auto* collidable = getHkBody()->getCollidable();
     if (unk != nullptr) {
-        return getCollisionFilterInfoFromCollidable(&masks->material_mask,
-                                                    &masks->collision_filter_info, collidable, unk);
+        return getCollisionFilterInfoFromCollidable(masks, &masks->collision_filter_info,
+                                                    *collidable, unk);
     }
     masks->material_mask = collidable->getShape()->getUserData();
     masks->collision_filter_info = collidable->getCollisionFilterInfo();
