@@ -22,7 +22,9 @@ public:
     virtual void m5();
     virtual const sead::SafeString& getName() const { return sead::SafeString::cEmptyString; }
     virtual void m7(RigidBody* rigid_body, int a);
-    virtual const sead::SafeString& getName2() const { return sead::SafeString::cEmptyString; }
+    virtual const sead::SafeString& getName(RigidBody* rigid_body) const {
+        return sead::SafeString::cEmptyString;
+    }
     virtual ~UserTag() = default;
 };
 KSYS_CHECK_SIZE_NX150(UserTag, 0x8);

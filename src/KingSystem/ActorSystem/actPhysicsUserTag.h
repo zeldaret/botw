@@ -26,7 +26,7 @@ public:
     void m5() override;
     const sead::SafeString& getName() const override;
     void m7(phys::RigidBody* rigid_body, int a) override;
-    const sead::SafeString& getName2() const override;
+    const sead::SafeString& getName(phys::RigidBody* rigid_body) const override;
 
 private:
     Actor* mActor = nullptr;

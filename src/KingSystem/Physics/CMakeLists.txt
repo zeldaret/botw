@@ -137,6 +137,8 @@ target_sources(uking PRIVATE
   System/physMaterialTable.h
   System/physParamSet.cpp
   System/physParamSet.h
+  System/physPhantom.cpp
+  System/physPhantom.h
   System/physQueryContactPointInfo.cpp
   System/physQueryContactPointInfo.h
   System/physRayCast.cpp

@@ -27,7 +27,7 @@ const sead::SafeString& PhysicsUserTag::getName() const {
     return mActor->getName();
 }
 
-const sead::SafeString& PhysicsUserTag::getName2() const {
+const sead::SafeString& PhysicsUserTag::getName(phys::RigidBody* rigid_body) const {
     return getName();
 }
 

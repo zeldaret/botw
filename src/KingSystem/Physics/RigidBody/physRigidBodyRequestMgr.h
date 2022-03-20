@@ -54,6 +54,9 @@ public:
     // 0x0000007100fa6ebc
     void removeRigidBody(ContactLayerType type, RigidBody* body);
 
+    // 0x0000007100fa728c
+    void onMaxPositionExceeded(ContactLayerType layer_type, RigidBody* body);
+
     // 0x0000007100fa7340
     void addImpulse(RigidBody* body_a, RigidBody* body_b, float impulse);
 
