@@ -220,6 +220,41 @@ This project sometimes uses small hacks to force particular code to be generated
 
 * `MATCHING_HACK_NX_CLANG`: Hacks for Switch, when compiling with Clang.
 
+## Modifying library code
+
+Changes to the following libraries must be PR'd/submitted to their own repository:
+
+* sead: https://github.com/open-ead/sead
+* NintendoSDK: https://github.com/open-ead/nnheaders
+* agl: https://github.com/open-ead/agl
+* EventFlow: https://github.com/open-ead/EventFlow
+
+The recommended workflow is to commit your changes as usual in the BotW repo, and then do a "subrepo push" to
+your fork of the library repo once you are ready to open a pull request.
+
+Example:
+
+```
+echo test > lib/sead/test_file
+git add -A
+git commit -m "test"
+git subrepo push lib/sead -r <your fork> -b <new branch name in your fork>
+```
+
+You can then open one PR in the BotW repo and another one in the library repo.
+
+Once the library repo PR has been merged, a maintainer will let you know what you should do
+to update the library subrepo in the BotW repo.
+
+Follow the [instructions here](https://github.com/ingydotnet/git-subrepo#installation) to install the git-subrepo command
+if you do not already have it.
+
+### Updating the library repos
+
+Library subrepos can be updated with e.g. `git subrepo pull lib/sead`. This will pull the latest changes from the
+library repository and git-subrepo will automatically create a commit in the BotW repo to reflect the changes.
+Do not attempt to amend  the commit message -- doing so could break the subrepo.
+
 ## Project tools
 
 * Check all decompiled functions for issues: `tools/check`

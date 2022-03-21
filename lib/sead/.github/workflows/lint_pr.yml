@@ -1,0 +1,11 @@
+name: lint_pr
+on: [push, pull_request]
+jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: DoozyX/clang-format-lint-action@v0.12
+      with:
+        source: 'include modules'
+        clangFormatVersion: 12

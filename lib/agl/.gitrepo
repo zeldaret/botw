@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/open-ead/agl
+	branch = master
+	commit = 7c063271ba9dd4fb802f0ac2ae2834b5af2e725d
+	parent = ffcc7f659ebc9bc9d149e52bec553b906bb47369
+	method = merge
+	cmdver = 0.4.3

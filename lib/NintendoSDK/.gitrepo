@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/open-ead/nnheaders
+	branch = master
+	commit = 9ee21399ff05176c98b0651be3851fba3f70ceda
+	parent = ffcc7f659ebc9bc9d149e52bec553b906bb47369
+	method = merge
+	cmdver = 0.4.3

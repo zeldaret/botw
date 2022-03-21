@@ -1,15 +1,3 @@
-[submodule "lib/sead"]
-	path = lib/sead
-	url = https://github.com/open-ead/sead
-[submodule "lib/NintendoSDK"]
-	path = lib/NintendoSDK
-	url = https://github.com/open-ead/nnheaders
-[submodule "lib/agl"]
-	path = lib/agl
-	url = https://github.com/open-ead/agl
-[submodule "lib/EventFlow"]
-	path = lib/EventFlow
-	url = https://github.com/open-ead/EventFlow
 [submodule "tools/common"]
 	path = tools/common
 	url = https://github.com/open-ead/nx-decomp-tools
