@@ -15,13 +15,14 @@ class CollisionInfo;
 class ContactLayerCollisionInfo;
 class ContactLayerCollisionInfoGroup;
 class ContactMgr;
+class ContactPointInfo;
 class GroupFilter;
+class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
 class RigidBody;
 class RigidBodyRequestMgr;
-class ContactPointInfo;
-class LayerContactPointInfo;
+class StaticCompoundMgr;
 class SystemData;
 class SystemGroupHandler;
 
@@ -42,6 +43,7 @@ public:
     float get64() const { return _64; }
     float getTimeFactor() const { return mTimeFactor; }
     ContactMgr* getContactMgr() const { return mContactMgr; }
+    StaticCompoundMgr* getStaticCompoundMgr() const { return mStaticCompoundMgr; }
     RigidBodyRequestMgr* getRigidBodyRequestMgr() const { return mRigidBodyRequestMgr; }
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
@@ -83,6 +85,9 @@ public:
     // 0x0000007101216a20
     void removeRigidBodyFromContactSystem(RigidBody* body);
 
+    // 0x000000710121686c
+    SystemGroupHandler* addSystemGroupHandler(ContactLayerType layer_type, int free_list_idx = 0);
+    // 0x0000007101215b68
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 
     hkpWorld* getHavokWorld(ContactLayerType type) const;
@@ -138,7 +143,7 @@ private:
     sead::FixedPtrArray<void*, 2> _128;
     ContactMgr* mContactMgr;
     void* _150;
-    void* _158;
+    StaticCompoundMgr* mStaticCompoundMgr;
     RigidBodyRequestMgr* mRigidBodyRequestMgr;
     void* _168;
     void* mRigidBodyDividedMeshShapeMgr;

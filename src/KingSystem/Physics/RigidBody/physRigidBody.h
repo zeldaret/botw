@@ -59,7 +59,7 @@ public:
         _1 = 1,
         _2 = 2,
         TerrainHeightField = 3,
-        _4 = 4,
+        StaticCompoundBody = 4,
         CharacterController = 5,
         TeraMesh = 6,
     };
