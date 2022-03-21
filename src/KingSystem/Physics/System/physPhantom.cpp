@@ -1,7 +1,6 @@
 #include "KingSystem/Physics/System/physPhantom.h"
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <math/seadVector.h>
-#include <optional>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
