@@ -29,8 +29,8 @@ StaticCompoundRigidBodyGroup::~StaticCompoundRigidBodyGroup() {
     mRigidBodies.freeBuffer();
 }
 
-void StaticCompoundRigidBodyGroup::init(const hkpPhysicsSystem& system, sead::Matrix34f* mtx, StaticCompound* sc,
-                     sead::Heap* heap) {
+void StaticCompoundRigidBodyGroup::init(const hkpPhysicsSystem& system, sead::Matrix34f* mtx,
+                                        StaticCompound* sc, sead::Heap* heap) {
     mStaticCompound = sc;
     mMtxPtr = mtx;
 

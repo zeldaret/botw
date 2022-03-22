@@ -2,8 +2,8 @@
 #include <Havok/Common/Serialize/Util/hkNativePackfileUtils.h>
 #include <Havok/Common/Serialize/Util/hkRootLevelContainer.h>
 #include <Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h>
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundInfo.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
 #include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
