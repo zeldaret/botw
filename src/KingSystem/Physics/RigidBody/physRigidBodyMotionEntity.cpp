@@ -47,7 +47,7 @@ void RigidBodyMotionEntity::setTransform(const sead::Matrix34f& mtx,
     toHkTransform(&transform, mtx);
     mMotion->setTransform(transform);
 
-    if (mBody->isFlag8Set()) {
+    if (mBody->isAddedToWorld()) {
         setMotionFlag(RigidBody::MotionFlag::DirtyTransform);
     } else {
         getHkBody()->getMotion()->setTransform(transform);
@@ -71,7 +71,7 @@ void RigidBodyMotionEntity::setPosition(const sead::Vector3f& position,
 
     mMotion->setPositionAndRotation(hk_position, hk_rotate);
 
-    if (mBody->isFlag8Set()) {
+    if (mBody->isAddedToWorld()) {
         setMotionFlag(RigidBody::MotionFlag::DirtyTransform);
     } else {
         getHkBody()->getMotion()->setPositionAndRotation(hk_position, hk_rotate);
@@ -113,7 +113,7 @@ void RigidBodyMotionEntity::setCenterOfMassInLocal(const sead::Vector3f& center)
     const auto hk_center = toHkVec4(center);
     mMotion->setCenterOfMassInLocal(hk_center);
 
-    if (mBody->isFlag8Set())
+    if (mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::DirtyCenterOfMassLocal);
     else
         getHkBody()->setCenterOfMassLocal(hk_center);
@@ -280,7 +280,7 @@ void RigidBodyMotionEntity::setMass(float mass) {
     }
 
     mMotion->setMass(mass);
-    if (mBody->isFlag8Set())
+    if (mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::DirtyMass);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->getMotion()->setMass(mass);
@@ -359,7 +359,7 @@ void RigidBodyMotionEntity::setInertiaLocal(const sead::Vector3f& inertia) {
         // Some properties are not automatically transferred over. Copy them manually.
         mMotion->setGravityFactor(gravity_factor);
         mMotion->setMass(mass);
-        if (mBody->isFlag8Set())
+        if (mBody->isAddedToWorld())
             setMotionFlag(RigidBody::MotionFlag::DirtyMiscState);
         else if (mBody->getMotionType() == MotionType::Dynamic)
             updateRigidBodyMotionExceptState();
@@ -371,7 +371,7 @@ void RigidBodyMotionEntity::setInertiaLocal(const sead::Vector3f& inertia) {
     hk_inertia.m_col2.set(0, 0, inertia.z);
     mMotion->setInertiaLocal(hk_inertia);
 
-    if (mBody->isFlag8Set()) {
+    if (mBody->isAddedToWorld()) {
         setMotionFlag(RigidBody::MotionFlag::DirtyInertiaLocal);
     } else if (mBody->getMotionType() == MotionType::Dynamic &&
                !mBody->isCharacterControllerType()) {
@@ -401,7 +401,7 @@ void RigidBodyMotionEntity::setLinearDamping(float value) {
     }
 
     mMotion->setLinearDamping(value);
-    if (mBody->isFlag8Set())
+    if (mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::DirtyDampingOrGravityFactor);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->setLinearDamping(getTimeFactor() * value);
@@ -421,7 +421,7 @@ void RigidBodyMotionEntity::setAngularDamping(float value) {
     }
 
     mMotion->setAngularDamping(value);
-    if (mBody->isFlag8Set())
+    if (mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::DirtyDampingOrGravityFactor);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->setAngularDamping(getTimeFactor() * value);
@@ -441,7 +441,7 @@ void RigidBodyMotionEntity::setGravityFactor(float value) {
     }
 
     mMotion->setGravityFactor(value);
-    if (mBody->isFlag8Set())
+    if (mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::DirtyDampingOrGravityFactor);
     else if (mBody->getMotionType() == MotionType::Dynamic)
         getHkBody()->setGravityFactor(value);
@@ -581,7 +581,7 @@ bool RigidBodyMotionEntity::registerAccessor(RigidBodyMotionSensor* accessor) {
 
     mLinkedAccessors.pushBack(accessor);
 
-    if (mFlags.isOff(Flag::_2) && mBody->isFlag8Set())
+    if (mFlags.isOff(Flag::_2) && mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::_80000);
 
     return true;
@@ -595,7 +595,7 @@ bool RigidBodyMotionEntity::deregisterAccessor(RigidBodyMotionSensor* accessor) 
         return false;
 
     // Found the accessor -- now we just need to erase it.
-    if (mFlags.isOn(Flag::_2) && mBody->isFlag8Set())
+    if (mFlags.isOn(Flag::_2) && mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::_80000);
     mLinkedAccessors.erase(idx);
     return true;
@@ -611,7 +611,7 @@ bool RigidBodyMotionEntity::deregisterAllAccessors() {
         mLinkedAccessors.back()->resetLinkedRigidBody();
     }
 
-    if (mFlags.isOn(Flag::_2) && mBody->isFlag8Set())
+    if (mFlags.isOn(Flag::_2) && mBody->isAddedToWorld())
         setMotionFlag(RigidBody::MotionFlag::_80000);
     return true;
 }
@@ -621,7 +621,7 @@ void RigidBodyMotionEntity::copyTransformToAllLinkedBodies() {
 
     for (int i = 0, n = mLinkedAccessors.size(); i < n; ++i) {
         auto* body = mLinkedAccessors[i]->getBody();
-        if (!body->isFlag8Set() && body->isMotionFlag1Set()) {
+        if (!body->isAddedToWorld() && body->isAddingBodyToWorld()) {
             sead::Matrix34f transform;
             mBody->getTransform(&transform);
             body->setTransform(transform, true);

@@ -21,7 +21,7 @@ bool RigidBodyMotionSensor::init(const RigidBodyInstanceParam& params, sead::Hea
 }
 
 KSYS_ALWAYS_INLINE void RigidBodyMotionSensor::setTransformImpl(const sead::Matrix34f& mtx) {
-    if (mBody->isFlag8Set()) {  // flag 8 = block updates?
+    if (mBody->isAddedToWorld()) {
         setMotionFlag(RigidBody::MotionFlag::DirtyTransform);
         return;
     }
@@ -183,7 +183,7 @@ void RigidBodyMotionSensor::getTransform(sead::Matrix34f* mtx) {
 void RigidBodyMotionSensor::setCenterOfMassInLocal(const sead::Vector3f& center) {
     mCenterOfMassInLocal.e = center.e;
 
-    if (mBody->isFlag8Set()) {
+    if (mBody->isAddedToWorld()) {
         setMotionFlag(RigidBody::MotionFlag::DirtyCenterOfMassLocal);
         return;
     }
@@ -270,7 +270,7 @@ float RigidBodyMotionSensor::getMaxAngularVelocity() {
 }
 
 void RigidBodyMotionSensor::setLinkedRigidBody(RigidBody* body) {
-    auto lock = mBody->makeScopedLock(mBody->isFlag8Set());
+    auto lock = mBody->makeScopedLock(mBody->isAddedToWorld());
 
     if (mLinkedRigidBody == body)
         return;
@@ -302,7 +302,7 @@ void RigidBodyMotionSensor::resetLinkedRigidBody() {
     if (!mLinkedRigidBody)
         return;
 
-    auto lock = mBody->makeScopedLock(mBody->isFlag8Set());
+    auto lock = mBody->makeScopedLock(mBody->isAddedToWorld());
     if (mLinkedRigidBody) {
         mLinkedRigidBody->getEntityMotionAccessorForSensor()->deregisterAccessor(this);
         mLinkedRigidBody = nullptr;
@@ -319,7 +319,7 @@ bool RigidBodyMotionSensor::isFlag40000Set() const {
 }
 
 void RigidBodyMotionSensor::copyMotionFromLinkedRigidBody() {
-    auto lock = mBody->makeScopedLock(mBody->isFlag8Set());
+    auto lock = mBody->makeScopedLock(mBody->isAddedToWorld());
 
     auto* accessor = mLinkedRigidBody->getEntityMotionAccessorForSensor();
     auto* linked_hk_body = mLinkedRigidBody->getHkBody();

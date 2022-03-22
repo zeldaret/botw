@@ -81,11 +81,11 @@ u32 InstanceSet::sub_7100FB9C2C() const {
 
 void InstanceSet::sub_7100FBA9BC() {
     for (auto& rb : mRigidBodySets) {
-        rb.callRigidBody_x_0();
+        rb.addToWorld();
     }
 
     for (auto& body : mList) {
-        body->x_0();
+        body->addToWorld();
     }
 
     if (mCollisionController != nullptr)

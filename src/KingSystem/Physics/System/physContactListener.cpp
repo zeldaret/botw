@@ -368,7 +368,7 @@ void ContactListener::handleCollisionAdded(const hkpCollisionEvent& event, Rigid
     const auto j = int(layer_b - mLayerBase);
     if (areContactsTrackedForLayerPair(i, j)) {
         auto* layer_col_info = getContactLayerCollisionInfo(i, j);
-        if (body_a->isFlag8Set() && body_b->isFlag8Set()) {
+        if (body_a->isAddedToWorld() && body_b->isAddedToWorld()) {
             const auto layer_a_ = int(layer_a);
             const auto tracked_layer = layer_col_info->getLayer();
             const bool body_a_first = layer_a_ == tracked_layer;

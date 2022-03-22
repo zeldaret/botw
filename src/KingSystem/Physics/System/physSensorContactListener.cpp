@@ -40,7 +40,7 @@ void SensorContactListener::handleCollisionAdded(const hkpCollisionEvent& event,
 
     if (areContactsTrackedForLayerPair(rlayer_a, rlayer_b)) {
         auto* layer_col_info = getContactLayerCollisionInfo(rlayer_a, rlayer_b);
-        if (body_a->isFlag8Set() && body_b->isFlag8Set()) {
+        if (body_a->isAddedToWorld() && body_b->isAddedToWorld()) {
             const auto layer_a_ = int(layer_a);
             const auto tracked_layer = layer_col_info->getLayer();
             const bool body_a_first = layer_a_ == tracked_layer;

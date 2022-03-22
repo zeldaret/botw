@@ -58,9 +58,9 @@ public:
 
     void setScaleAndUpdateImmediately(float scale);
     void setScale(float scale);
-    void callRigidBody_x_0();
-    void addOrRemoveRigidBodiesToWorld();
-    bool areAllTrueRigidBody_x_6();
+    void addToWorld();
+    void removeFromWorld();
+    bool removeFromWorldAndResetLinks();
     bool hasNoRigidBodyWithFlag8(bool require_motion_flag_1_to_be_unset);
     void callRigidBody_x_7(u8 type);
 

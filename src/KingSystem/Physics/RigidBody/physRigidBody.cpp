@@ -196,9 +196,9 @@ hkpCollidable* RigidBody::getCollidable() const {
 }
 
 // NON_MATCHING: ldr w8, [x20, #0x68] should be ldr w8, [x22] (equivalent)
-void RigidBody::x_0() {
+void RigidBody::addToWorld() {
     // debug code that survived because mFlags is atomic
-    static_cast<void>(isFlag8Set());
+    static_cast<void>(isAddedToWorld());
 
     auto lock = makeScopedLock(false);
 
@@ -213,11 +213,11 @@ void RigidBody::x_0() {
         }
     }
 
-    if (isMotionFlag2Set()) {
-        mMotionFlags.reset(MotionFlag::_2);
-        mMotionFlags.set(MotionFlag::_1);
-    } else if (!isMotionFlag1Set()) {
-        setMotionFlag(MotionFlag::_1);
+    if (isRemovingBodyFromWorld()) {
+        mMotionFlags.reset(MotionFlag::BodyRemovalRequested);
+        mMotionFlags.set(MotionFlag::BodyAddRequested);
+    } else if (!isAddingBodyToWorld()) {
+        setMotionFlag(MotionFlag::BodyAddRequested);
     }
 }
 
@@ -236,33 +236,33 @@ bool RigidBody::isActive() const {
     return mHkBody->isActive();
 }
 
-bool RigidBody::isFlag8Set() const {
+bool RigidBody::isAddedToWorld() const {
     return mFlags.isOn(Flag::_8);
 }
 
-bool RigidBody::isMotionFlag1Set() const {
-    return mMotionFlags.isOn(MotionFlag::_1);
+bool RigidBody::isAddingBodyToWorld() const {
+    return mMotionFlags.isOn(MotionFlag::BodyAddRequested);
 }
 
-bool RigidBody::isMotionFlag2Set() const {
-    return mMotionFlags.isOn(MotionFlag::_2);
+bool RigidBody::isRemovingBodyFromWorld() const {
+    return mMotionFlags.isOn(MotionFlag::BodyRemovalRequested);
 }
 
-void RigidBody::addOrRemoveRigidBodyToWorld() {
+void RigidBody::removeFromWorld() {
     // debug code that survived because mFlags is atomic?
     static_cast<void>(mFlags.getDirect());
 
     auto lock = sead::makeScopedLock(mCS);
 
-    if (mMotionFlags.isOn(MotionFlag::_1)) {
-        mMotionFlags.reset(MotionFlag::_1);
-        mMotionFlags.set(MotionFlag::_2);
-    } else if (isFlag8Set()) {
-        setMotionFlag(MotionFlag::_2);
+    if (mMotionFlags.isOn(MotionFlag::BodyAddRequested)) {
+        mMotionFlags.reset(MotionFlag::BodyAddRequested);
+        mMotionFlags.set(MotionFlag::BodyRemovalRequested);
+    } else if (isAddedToWorld()) {
+        setMotionFlag(MotionFlag::BodyRemovalRequested);
     }
 }
 
-bool RigidBody::x_6() {
+bool RigidBody::removeFromWorldAndResetLinks() {
     // debug code that survived because mFlags is atomic?
     static_cast<void>(mFlags.getDirect());
 
@@ -270,15 +270,15 @@ bool RigidBody::x_6() {
 
     bool result = true;
 
-    if (isFlag8Set()) {
+    if (isAddedToWorld()) {
         mFlags.reset(Flag::_20);
 
-        if (mMotionFlags.isOn(MotionFlag::_1)) {
-            mMotionFlags.reset(MotionFlag::_1);
-            mMotionFlags.set(MotionFlag::_2);
+        if (mMotionFlags.isOn(MotionFlag::BodyAddRequested)) {
+            mMotionFlags.reset(MotionFlag::BodyAddRequested);
+            mMotionFlags.set(MotionFlag::BodyRemovalRequested);
         }
 
-        setMotionFlag(MotionFlag::_2);
+        setMotionFlag(MotionFlag::BodyRemovalRequested);
         result = false;
     } else if (mFlags.isOn(Flag::UpdateRequested)) {
         System::instance()->getRigidBodyRequestMgr()->pushRigidBody(getLayerType(), this);
@@ -452,7 +452,7 @@ void RigidBody::replaceMotionObject() {
 }
 
 void RigidBody::x_10() {
-    auto lock = makeScopedLock(isFlag8Set());
+    auto lock = makeScopedLock(isAddedToWorld());
 
     if (isEntity()) {
         if (mMotionAccessor &&
@@ -476,18 +476,18 @@ void RigidBody::x_10() {
 
 void RigidBody::setCollisionInfo(CollisionInfo* info) {
     if (mCollisionInfo != info) {
-        if (mCollisionInfo && isFlag8Set())
+        if (mCollisionInfo && isAddedToWorld())
             System::instance()->removeRigidBodyFromContactSystem(this);
         mCollisionInfo = info;
     }
 
-    if (isFlag8Set() && mCollisionInfo && !mCollisionInfo->isLinked())
+    if (isAddedToWorld() && mCollisionInfo && !mCollisionInfo->isLinked())
         System::instance()->registerCollisionInfo(mCollisionInfo);
 }
 
 void RigidBody::setContactPointInfo(ContactPointInfo* info) {
     mContactPointInfo = info;
-    if (isFlag8Set() && mContactPointInfo && !mContactPointInfo->isLinked())
+    if (isAddedToWorld() && mContactPointInfo && !mContactPointInfo->isLinked())
         System::instance()->registerContactPointInfo(info);
 }
 
@@ -544,7 +544,7 @@ void RigidBody::resetFrozenState() {
 }
 
 void RigidBody::updateCollidableQualityType(bool high_quality) {
-    auto lock = makeScopedLock(isFlag8Set());
+    auto lock = makeScopedLock(isAddedToWorld());
 
     if (isCharacterControllerType()) {
         setCollidableQualityType(HK_COLLIDABLE_QUALITY_CHARACTER);
@@ -712,10 +712,10 @@ static void resetCollisionFilterInfoForListShapes(const hkpShape* shape) {
 void RigidBody::setCollisionFilterInfo(u32 info) {
     const auto current_layer = getContactLayer();
 
-    const auto lock = makeScopedLock(isFlag8Set());
+    const auto lock = makeScopedLock(isAddedToWorld());
 
     if (getCollisionFilterInfo() != info) {
-        if (isFlag8Set()) {
+        if (isAddedToWorld()) {
             if (int(current_layer) != getContactLayer(EntityCollisionMask(info)))
                 System::instance()->removeRigidBodyFromContactSystem(this);
         }
@@ -724,7 +724,7 @@ void RigidBody::setCollisionFilterInfo(u32 info) {
         if (auto* shape = mHkBody->getCollidableRw()->getShape())
             resetCollisionFilterInfoForListShapes(shape);
 
-        if (isFlag8Set())
+        if (isAddedToWorld())
             setMotionFlag(MotionFlag::_8000);
     }
 }
@@ -917,7 +917,7 @@ bool RigidBody::isTransformDirty() const {
 }
 
 void RigidBody::updateShape() {
-    if (isFlag8Set()) {
+    if (isAddedToWorld()) {
         setMotionFlag(MotionFlag::DirtyShape);
         return;
     }
@@ -955,7 +955,7 @@ void RigidBody::changeMotionType(MotionType motion_type) {
     if (getMotionType() == motion_type)
         return;
 
-    if (isFlag8Set()) {
+    if (isAddedToWorld()) {
         switch (motion_type) {
         case MotionType::Dynamic:
             if (isEntity()) {
@@ -1718,7 +1718,7 @@ void RigidBody::clearFlag2000000(bool clear) {
 
     mFlags.change(Flag::_2000000, !clear);
 
-    if (isFlag8Set())
+    if (isAddedToWorld())
         setMotionFlag(MotionFlag::_10000);
     else
         updateDeactivation();
@@ -1730,7 +1730,7 @@ void RigidBody::clearFlag4000000(bool clear) {
 
     mFlags.change(Flag::_4000000, !clear);
 
-    if (isFlag8Set())
+    if (isAddedToWorld())
         setMotionFlag(MotionFlag::_10000);
     else
         updateDeactivation();
@@ -1742,7 +1742,7 @@ void RigidBody::clearFlag8000000(bool clear) {
 
     mFlags.change(Flag::_8000000, !clear);
 
-    if (isFlag8Set())
+    if (isAddedToWorld())
         setMotionFlag(MotionFlag::_10000);
     else
         updateDeactivation();

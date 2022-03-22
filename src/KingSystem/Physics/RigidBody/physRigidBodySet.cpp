@@ -144,28 +144,28 @@ void RigidBodySet::setScale(float scale) {
         body.setScale(scale);
 }
 
-void RigidBodySet::callRigidBody_x_0() {
+void RigidBodySet::addToWorld() {
     for (auto& body : mRigidBodies)
-        body.x_0();
+        body.addToWorld();
 }
 
-void RigidBodySet::addOrRemoveRigidBodiesToWorld() {
+void RigidBodySet::removeFromWorld() {
     for (auto& body : mRigidBodies)
-        body.addOrRemoveRigidBodyToWorld();
+        body.removeFromWorld();
 }
 
-bool RigidBodySet::areAllTrueRigidBody_x_6() {
+bool RigidBodySet::removeFromWorldAndResetLinks() {
     bool ok = true;
     for (auto& body : mRigidBodies)
-        ok &= body.x_6();
+        ok &= body.removeFromWorldAndResetLinks();
     return ok;
 }
 
 bool RigidBodySet::hasNoRigidBodyWithFlag8(bool require_motion_flag_1_to_be_unset) {
     for (auto it = mRigidBodies.begin(), end = mRigidBodies.end(); it != end; ++it) {
-        if (it->isFlag8Set())
+        if (it->isAddedToWorld())
             return false;
-        if (require_motion_flag_1_to_be_unset && it->isMotionFlag1Set())
+        if (require_motion_flag_1_to_be_unset && it->isAddingBodyToWorld())
             return false;
     }
     return true;
