@@ -92,12 +92,12 @@ target_sources(uking PRIVATE
   StaticCompound/physStaticCompound.cpp
   StaticCompound/physStaticCompound.h
   StaticCompound/physStaticCompoundAutogen.cpp
-  StaticCompound/physStaticCompoundBodyGroup.cpp
-  StaticCompound/physStaticCompoundBodyGroup.h
   StaticCompound/physStaticCompoundInfo.cpp
   StaticCompound/physStaticCompoundInfo.h
   StaticCompound/physStaticCompoundMgr.cpp
   StaticCompound/physStaticCompoundMgr.h
+  StaticCompound/physStaticCompoundRigidBodyGroup.cpp
+  StaticCompound/physStaticCompoundRigidBodyGroup.h
   StaticCompound/physStaticCompoundUtil.cpp
   StaticCompound/physStaticCompoundUtil.h
 

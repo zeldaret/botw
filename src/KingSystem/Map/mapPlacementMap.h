@@ -88,7 +88,7 @@ private:
     void x_5();
     int traverseStuff(sead::Vector3f* vec, PlacementActors* pa, int id);
 
-    phys::BodyGroup* getFieldBodyGroup(int field_group_idx);
+    phys::StaticCompoundRigidBodyGroup* getFieldBodyGroup(int field_group_idx);
     void cleanupPhysics();
     bool loadStaticCompound(int hksc_idx, bool is_auto_gen_mu, bool req_arg_8);
     MapObjStatus x_2(int hksc_idx);

@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundBodyGroup.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromResource.h"
@@ -12,9 +12,9 @@ namespace ksys::phys {
 // TODO: rename
 constexpr int BodyGroupNumMatrices = 8;
 
-BodyGroup::BodyGroup() = default;
+StaticCompoundRigidBodyGroup::StaticCompoundRigidBodyGroup() = default;
 
-BodyGroup::~BodyGroup() {
+StaticCompoundRigidBodyGroup::~StaticCompoundRigidBodyGroup() {
     mFlags.reset(Flag::Initialised);
 
     for (int i = 0, n = mRigidBodiesPerBodyLayerType.size(); i < n; ++i) {
@@ -29,7 +29,7 @@ BodyGroup::~BodyGroup() {
     mRigidBodies.freeBuffer();
 }
 
-void BodyGroup::init(const hkpPhysicsSystem& system, sead::Matrix34f* mtx, StaticCompound* sc,
+void StaticCompoundRigidBodyGroup::init(const hkpPhysicsSystem& system, sead::Matrix34f* mtx, StaticCompound* sc,
                      sead::Heap* heap) {
     mStaticCompound = sc;
     mMtxPtr = mtx;
@@ -92,7 +92,7 @@ void BodyGroup::init(const hkpPhysicsSystem& system, sead::Matrix34f* mtx, Stati
     mFlags.set(Flag::Initialised);
 }
 
-void BodyGroup::modifyMatrix(const sead::Matrix34f& matrix, int index) {
+void StaticCompoundRigidBodyGroup::modifyMatrix(const sead::Matrix34f& matrix, int index) {
     if (mMatrices[index] == matrix)
         return;
 

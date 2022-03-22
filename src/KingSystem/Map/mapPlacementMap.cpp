@@ -354,7 +354,7 @@ void PlacementMap::unload() {
     mDynamicMubinRes.requestUnload();
 }
 
-phys::BodyGroup* PlacementMap::getFieldBodyGroup(int field_group_idx) {
+phys::StaticCompoundRigidBodyGroup* PlacementMap::getFieldBodyGroup(int field_group_idx) {
     const auto lock = sead::makeScopedLock(mCs);
 
     auto* r = mRes[0].mRes.getResource();

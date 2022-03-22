@@ -18,13 +18,13 @@ enum class BodyLayerType;
 class RigidBody;
 class StaticCompound;
 
-class BodyGroup {
+class StaticCompoundRigidBodyGroup {
 public:
-    BodyGroup();
-    ~BodyGroup();
+    StaticCompoundRigidBodyGroup();
+    ~StaticCompoundRigidBodyGroup();
 
-    BodyGroup(const BodyGroup&) = delete;
-    auto operator=(const BodyGroup&) = delete;
+    StaticCompoundRigidBodyGroup(const StaticCompoundRigidBodyGroup&) = delete;
+    auto operator=(const StaticCompoundRigidBodyGroup&) = delete;
 
     void init(const hkpPhysicsSystem& system, sead::Matrix34f* mtx, StaticCompound* sc,
               sead::Heap* heap);
@@ -62,6 +62,6 @@ private:
     u32 _e0{};
     sead::Buffer<Unk1> _e8;
 };
-KSYS_CHECK_SIZE_NX150(BodyGroup, 0xf8);
+KSYS_CHECK_SIZE_NX150(StaticCompoundRigidBodyGroup, 0xf8);
 
 }  // namespace ksys::phys

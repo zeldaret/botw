@@ -17,7 +17,7 @@ class Object;
 namespace ksys::phys {
 
 struct ActorInfo;
-class BodyGroup;
+class StaticCompoundRigidBodyGroup;
 struct StaticCompoundInfo;
 
 class StaticCompound : public res::Resource, public sead::hostio::Node {
@@ -32,8 +32,8 @@ public:
 
     bool disableCollision(int actor_idx, bool x);
 
-    BodyGroup* getFieldBodyGroup(int idx);
-    bool hasFieldBodyGroup(BodyGroup* group) const;
+    StaticCompoundRigidBodyGroup* getFieldBodyGroup(int idx);
+    bool hasFieldBodyGroup(StaticCompoundRigidBodyGroup* group) const;
 
     // res::Resource interface
     void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* parent_heap) override;
@@ -60,7 +60,7 @@ private:
     int mBufferSize{};
     void* mContainerBuffer{};
     int mContainerBufferSize{};
-    sead::Buffer<BodyGroup> mFieldBodyGroups;
+    sead::Buffer<StaticCompoundRigidBodyGroup> mFieldBodyGroups;
     sead::FixedSafeString<32> mName;
     sead::Matrix34f mMtx = sead::Matrix34f::ident;
     sead::Buffer<map::Object*> mMapObjects{};

@@ -12,7 +12,7 @@ class Object;
 
 namespace ksys::phys {
 
-class BodyGroup;
+class StaticCompoundRigidBodyGroup;
 struct RigidBodyCollisionMasks;
 
 // 0x0000007100fd0810
@@ -24,7 +24,7 @@ bool getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_coll
                                    const hkpShape& shape, const u32* shape_key);
 
 // 0x0000007100fd09d0
-void getBodyGroupAndObjectFromSCShape(BodyGroup** p_body_group, map::Object** p_object,
+void getBodyGroupAndObjectFromSCShape(StaticCompoundRigidBodyGroup** p_body_group, map::Object** p_object,
                                       const hkpShape& shape, const u32* shape_key);
 
 // 0x0000007100fd0a1c

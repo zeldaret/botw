@@ -39,7 +39,7 @@ class UMii;
 }  // namespace mii
 
 namespace phys {
-class BodyGroup;
+class StaticCompoundRigidBodyGroup;
 class Physics;
 class Reaction;
 class RigidBody;
@@ -390,7 +390,7 @@ protected:
     /* 0x580 */ PhysicsConstraints mConstraints;
     /* 0x598 */ void* _598 = nullptr;
     /* 0x5a0 */ BoneControl* mBoneControl = nullptr;
-    /* 0x5a8 */ phys::BodyGroup* mFieldBodyGroup = nullptr;
+    /* 0x5a8 */ phys::StaticCompoundRigidBodyGroup* mFieldBodyGroup = nullptr;
     /* 0x5b0 */ void* _5b0 = nullptr;
     /* 0x5b8 */ sead::Heap* mDualHeap = nullptr;   // TODO: rename
     /* 0x5c0 */ sead::Heap* mDualHeap2 = nullptr;  // TODO: rename

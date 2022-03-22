@@ -2,7 +2,7 @@
 #include <Havok/Common/Serialize/Util/hkNativePackfileUtils.h>
 #include <Havok/Common/Serialize/Util/hkRootLevelContainer.h>
 #include <Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h>
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundBodyGroup.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundInfo.h"
 #include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/HeapUtil.h"
@@ -98,11 +98,11 @@ bool StaticCompound::disableCollision(int actor_idx, bool x) {
     return true;
 }
 
-BodyGroup* StaticCompound::getFieldBodyGroup(int idx) {
+StaticCompoundRigidBodyGroup* StaticCompound::getFieldBodyGroup(int idx) {
     return &mFieldBodyGroups[idx];
 }
 
-bool StaticCompound::hasFieldBodyGroup(BodyGroup* group) const {
+bool StaticCompound::hasFieldBodyGroup(StaticCompoundRigidBodyGroup* group) const {
     for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i) {
         if (&mFieldBodyGroups[i] == group)
             return true;

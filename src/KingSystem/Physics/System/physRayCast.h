@@ -23,7 +23,7 @@ class Object;
 namespace ksys::phys {
 
 struct ActorInfo;
-class BodyGroup;
+class StaticCompoundRigidBodyGroup;
 class LayerMaskBuilder;
 class Phantom;
 class RigidBody;
@@ -117,7 +117,7 @@ protected:
     const hkpCollidable* mHitCollidable;
     u32 mHitShapeKey;
     bool mHasHitSpecifiedRigidBody;
-    BodyGroup* mHitBodyGroup{};
+    StaticCompoundRigidBodyGroup* mHitBodyGroup{};
     map::Object* mHitMapObject;
     sead::SafeArray<sead::BitFlag32, NumContactLayerTypes> mLayerMasks{};
     sead::Atomic<u32> _70;
