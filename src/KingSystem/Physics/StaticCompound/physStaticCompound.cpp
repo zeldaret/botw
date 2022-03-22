@@ -93,7 +93,7 @@ bool StaticCompound::disableCollision(int actor_idx, bool x) {
         const auto type = static_cast<BodyLayerType>(info->m_BodyLayerType);
         const auto instance_id = info->m_InstanceId;
 
-        mFieldBodyGroups[group].disableCollision(type, instance_id, x);
+        mFieldBodyGroups[group].setInstanceEnabled(type, instance_id, x);
     }
     return true;
 }

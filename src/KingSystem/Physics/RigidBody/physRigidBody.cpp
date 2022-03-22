@@ -471,7 +471,7 @@ void RigidBody::x_10() {
     mFlags.set(Flag::_20);
     mFlags.set(Flag::_4);
 
-    x_8(nullptr);
+    removeFromWorldImmediately();
 }
 
 void RigidBody::setCollisionInfo(CollisionInfo* info) {

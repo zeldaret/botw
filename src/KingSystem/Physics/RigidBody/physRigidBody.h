@@ -183,7 +183,7 @@ public:
     bool isSensorMotionFlag40000Set() const;
 
     // 0x0000007100f8d840
-    void x_8(void* arg);
+    void removeFromWorldImmediately(void* arg = nullptr);
 
     MotionType getMotionType() const;
 

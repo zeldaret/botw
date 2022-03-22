@@ -10,7 +10,7 @@
 #include "KingSystem/Utils/Types.h"
 
 class hkpPhysicsSystem;
-class hkpShape;
+class hkpStaticCompoundShape;
 
 namespace ksys::phys {
 
@@ -29,14 +29,31 @@ public:
     void init(const hkpPhysicsSystem& system, sead::Matrix34f* mtx, StaticCompound* sc,
               sead::Heap* heap);
 
-    void disableCollision(BodyLayerType body_layer_type, int instance_id, bool x);
+    /// @returns whether any rigid body in this group has been added to the world.
+    bool isAnyRigidBodyAddedToWorld() const;
+
+    /// @returns whether any rigid body in this group is being added to the world.
+    bool isAnyRigidBodyBeingAddedToWorld() const;
+
+    void addToWorld();
+    void removeFromWorld();
+    /// Force the removal of all rigid bodies in the group. This is unlike removeFromWorld,
+    /// which merely requests the removal asynchronously.
+    void removeFromWorldImmediately();
+
+    bool setInstanceEnabled(BodyLayerType body_layer_type, int instance_id, bool enabled);
+    void enableAllInstancesAndShapeKeys();
 
     void modifyMatrix(const sead::Matrix34f& matrix, int index);
 
 private:
     enum class Flag {
         Initialised = 1 << 0,
+        _2 = 1 << 1,
+        _4 = 1 << 2,
         HasModifiedMatrix = 1 << 3,
+        _10 = 1 << 4,
+        HasEnabledOrDisabledInstance = 1 << 5,
     };
 
     struct Unk1 {
@@ -45,10 +62,12 @@ private:
         u8 _8[0xc0];
     };
 
+    const sead::Matrix34f& getMatrix();
+
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags;
     sead::Atomic<u32> mModifiedMatrices;
     sead::Buffer<RigidBody*> mRigidBodiesPerBodyLayerType;
-    sead::Buffer<const hkpShape*> mShapesPerBodyLayerType;
+    sead::Buffer<hkpStaticCompoundShape*> mShapesPerBodyLayerType;
     // TODO: rename
     sead::Buffer<sead::Matrix34f> mMatrices;
     sead::Buffer<sead::Matrix34f> mMatrices2;
