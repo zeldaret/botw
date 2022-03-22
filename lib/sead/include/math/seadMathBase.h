@@ -74,7 +74,7 @@ struct BaseMtx33
     union
     {
         T m[3][3];
-        T a[9];
+        std::array<T, 9> a;
     };
 };
 
@@ -84,7 +84,7 @@ struct BaseMtx34
     union
     {
         T m[3][4];
-        T a[12];
+        std::array<T, 12> a;
     };
 };
 
@@ -94,7 +94,7 @@ struct BaseMtx44
     union
     {
         T m[4][4];
-        T a[16];
+        std::array<T, 16> a;
     };
 };
 

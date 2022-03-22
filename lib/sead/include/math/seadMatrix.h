@@ -283,6 +283,11 @@ const Matrix44<f64> Matrix44<f64>::zero;
 template <>
 const Matrix44<f64> Matrix44<f64>::ident;
 
+template <typename T>
+bool operator==(const Matrix34<T>& lhs, const Matrix34<T>& rhs);
+template <typename T>
+bool operator!=(const Matrix34<T>& lhs, const Matrix34<T>& rhs);
+
 }  // namespace sead
 
 #define SEAD_MATH_MATRIX_H_

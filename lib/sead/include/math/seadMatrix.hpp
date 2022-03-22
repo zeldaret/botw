@@ -710,4 +710,16 @@ inline void Matrix44<T>::setRow(s32 row, const Vec4& v)
     Matrix44CalcCommon<T>::setRow(*this, row, v);
 }
 
+template <typename T>
+inline bool operator==(const Matrix34<T>& lhs, const Matrix34<T>& rhs)
+{
+    return lhs.a == rhs.a;
+}
+
+template <typename T>
+inline bool operator!=(const Matrix34<T>& lhs, const Matrix34<T>& rhs)
+{
+    return lhs.a != rhs.a;
+}
+
 }  // namespace sead

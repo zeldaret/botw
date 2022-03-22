@@ -692,20 +692,7 @@ void Matrix33CalcCommon<T>::toQuat(Quat& q, const Base& n)
 template <typename T>
 void Matrix34CalcCommon<T>::makeIdentity(Base& o)
 {
-    o.m[0][0] = 1;
-    o.m[0][1] = 0;
-    o.m[0][2] = 0;
-    o.m[0][3] = 0;
-
-    o.m[1][0] = 0;
-    o.m[1][1] = 1;
-    o.m[1][2] = 0;
-    o.m[1][3] = 0;
-
-    o.m[2][0] = 0;
-    o.m[2][1] = 0;
-    o.m[2][2] = 1;
-    o.m[2][3] = 0;
+    Matrix34CalcCommon<T>::copy(o, Base{{{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}}}});
 }
 
 #ifdef cafe
