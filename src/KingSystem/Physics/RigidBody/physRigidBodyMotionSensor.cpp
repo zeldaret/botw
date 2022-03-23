@@ -270,7 +270,7 @@ float RigidBodyMotionSensor::getMaxAngularVelocity() {
 }
 
 void RigidBodyMotionSensor::setLinkedRigidBody(RigidBody* body) {
-    auto lock = mBody->makeScopedLock(mBody->isAddedToWorld());
+    auto lock = mBody->makeScopedLock();
 
     if (mLinkedRigidBody == body)
         return;
@@ -302,7 +302,7 @@ void RigidBodyMotionSensor::resetLinkedRigidBody() {
     if (!mLinkedRigidBody)
         return;
 
-    auto lock = mBody->makeScopedLock(mBody->isAddedToWorld());
+    auto lock = mBody->makeScopedLock();
     if (mLinkedRigidBody) {
         mLinkedRigidBody->getEntityMotionAccessorForSensor()->deregisterAccessor(this);
         mLinkedRigidBody = nullptr;
@@ -319,7 +319,7 @@ bool RigidBodyMotionSensor::isFlag40000Set() const {
 }
 
 void RigidBodyMotionSensor::copyMotionFromLinkedRigidBody() {
-    auto lock = mBody->makeScopedLock(mBody->isAddedToWorld());
+    auto lock = mBody->makeScopedLock();
 
     auto* accessor = mLinkedRigidBody->getEntityMotionAccessorForSensor();
     auto* linked_hk_body = mLinkedRigidBody->getHkBody();

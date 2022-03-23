@@ -513,6 +513,7 @@ public:
     [[nodiscard]] auto makeScopedLock(bool also_lock_world) {
         return ScopedLock(this, also_lock_world);
     }
+    [[nodiscard]] auto makeScopedLock() { return makeScopedLock(isAddedToWorld()); }
 
     hkpMotion* getMotion() const;
 

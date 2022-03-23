@@ -452,7 +452,7 @@ void RigidBody::replaceMotionObject() {
 }
 
 void RigidBody::x_10() {
-    auto lock = makeScopedLock(isAddedToWorld());
+    auto lock = makeScopedLock();
 
     if (isEntity()) {
         if (mMotionAccessor &&
@@ -544,7 +544,7 @@ void RigidBody::resetFrozenState() {
 }
 
 void RigidBody::updateCollidableQualityType(bool high_quality) {
-    auto lock = makeScopedLock(isAddedToWorld());
+    auto lock = makeScopedLock();
 
     if (isCharacterControllerType()) {
         setCollidableQualityType(HK_COLLIDABLE_QUALITY_CHARACTER);
@@ -712,7 +712,7 @@ static void resetCollisionFilterInfoForListShapes(const hkpShape* shape) {
 void RigidBody::setCollisionFilterInfo(u32 info) {
     const auto current_layer = getContactLayer();
 
-    const auto lock = makeScopedLock(isAddedToWorld());
+    const auto lock = makeScopedLock();
 
     if (getCollisionFilterInfo() != info) {
         if (isAddedToWorld()) {
