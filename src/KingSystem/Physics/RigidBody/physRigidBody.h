@@ -68,7 +68,7 @@ public:
         IsSensor = 1 << 0,
         UpdateRequested = 1 << 1,
         _4 = 1 << 2,
-        _8 = 1 << 3,
+        IsAddedToWorld = 1 << 3,
         _10 = 1 << 4,
         _20 = 1 << 5,
         _40 = 1 << 6,

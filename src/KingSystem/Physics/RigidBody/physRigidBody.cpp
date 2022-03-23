@@ -237,7 +237,7 @@ bool RigidBody::isActive() const {
 }
 
 bool RigidBody::isAddedToWorld() const {
-    return mFlags.isOn(Flag::_8);
+    return mFlags.isOn(Flag::IsAddedToWorld);
 }
 
 bool RigidBody::isAddingBodyToWorld() const {
