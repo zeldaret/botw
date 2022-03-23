@@ -5,7 +5,6 @@
 #endif  // cafe
 
 #ifdef __aarch64__
-// For Matrix34CalcCommon<f32>::copy (access FP/SIMD registers: Q0, ...)
 #include <arm_neon.h>
 #endif
 
@@ -994,6 +993,43 @@ void Matrix34CalcCommon<T>::multiply(Base& o, const Base& a, const Base& b)
     o.m[2][2] = a31 * b13 + a32 * b23 + a33 * b33;
     o.m[2][3] = a31 * b14 + a32 * b24 + a33 * b34 + a34;
 }
+
+#ifdef __aarch64__
+template <>
+inline void Matrix34CalcCommon<f32>::multiply(Base& o, const Base& a, const Base& b)
+{
+    auto a0 = vld1q_f32(a.m[0]);
+    auto a1 = vld1q_f32(a.m[1]);
+    auto a2 = vld1q_f32(a.m[2]);
+
+    auto b0 = vld1q_f32(b.m[0]);
+    auto b1 = vld1q_f32(b.m[1]);
+    auto b2 = vld1q_f32(b.m[2]);
+
+    float32x4_t c0, c1, c2;
+
+    c0 = vmulq_laneq_f32(b0, a0, 0);
+    c0 = vfmaq_laneq_f32(c0, b1, a0, 1);
+    c0 = vfmaq_laneq_f32(c0, b2, a0, 2);
+    // XXX: why do something so convoluted when copying lane 3 from A to C would suffice?
+    // `vcopyq_laneq_f32(vmovq_n_f32(0), 3, a0, 3)` is equivalent and generates better code.
+    c0 += vcopyq_laneq_f32(vmovq_n_f32(0), 3, vmovq_n_f32(a0[3]), 1);
+
+    c1 = vmulq_laneq_f32(b0, a1, 0);
+    c1 = vfmaq_laneq_f32(c1, b1, a1, 1);
+    c1 = vfmaq_laneq_f32(c1, b2, a1, 2);
+    c1 += vcopyq_laneq_f32(vmovq_n_f32(0), 3, vmovq_n_f32(a1[3]), 1);
+
+    c2 = vmulq_laneq_f32(b0, a2, 0);
+    c2 = vfmaq_laneq_f32(c2, b1, a2, 1);
+    c2 = vfmaq_laneq_f32(c2, b2, a2, 2);
+    c2 += vcopyq_laneq_f32(vmovq_n_f32(0), 3, vmovq_n_f32(a2[3]), 1);
+
+    vst1q_f32(o.m[0], c0);
+    vst1q_f32(o.m[1], c1);
+    vst1q_f32(o.m[2], c2);
+}
+#endif
 
 #ifdef cafe
 
