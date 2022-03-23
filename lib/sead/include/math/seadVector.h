@@ -131,10 +131,14 @@ struct Vector3 : public Policies<T>::Vec3Base
     bool equals(const Vector3& rhs, T epsilon = 0) const;
 
     void add(const Vector3& a);
-    /// Multiply m by this vector (self = m * self).
+    /// Apply a rotation `m` to this vector.
     void mul(const Mtx33& m);
-    /// Apply a transformation `m` (rotation + translation) to this vector.
+    /// Apply a transformation `m` (rotation then translation) to this vector.
     void mul(const Mtx34& m);
+    /// Apply a rotation `m` to this vector.
+    void rotate(const Mtx33& m);
+    /// Apply a rotation `m` to this vector.
+    void rotate(const Mtx34& m);
     void multScalar(T t);
 
     T normalize();
@@ -144,6 +148,8 @@ struct Vector3 : public Policies<T>::Vec3Base
     void setScaleAdd(T t, const Vector3<T>& a, const Vector3<T>& b);
     void setMul(const Mtx33& m, const Vector3& a);
     void setMul(const Mtx34& m, const Vector3& a);
+    void setRotated(const Mtx33& m, const Vector3& a);
+    void setRotated(const Mtx34& m, const Vector3& a);
 
     static const Vector3 zero;
     static const Vector3 ex;

@@ -96,6 +96,21 @@ inline void Vector3CalcCommon<T>::mul(Base& o, const Mtx34& m, const Base& a)
 }
 
 template <typename T>
+inline void Vector3CalcCommon<T>::rotate(Base& o, const Mtx33& m, const Base& a)
+{
+    mul(o, m, a);
+}
+
+template <typename T>
+inline void Vector3CalcCommon<T>::rotate(Base& o, const Mtx34& m, const Base& a)
+{
+    const Base tmp = a;
+    o.x = m.m[0][0] * tmp.x + m.m[0][1] * tmp.y + m.m[0][2] * tmp.z;
+    o.y = m.m[1][0] * tmp.x + m.m[1][1] * tmp.y + m.m[1][2] * tmp.z;
+    o.z = m.m[2][0] * tmp.x + m.m[2][1] * tmp.y + m.m[2][2] * tmp.z;
+}
+
+template <typename T>
 inline void Vector3CalcCommon<T>::cross(Base& o, const Base& a, const Base& b)
 {
     Vector3CalcCommon<T>::set(o, (a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z),

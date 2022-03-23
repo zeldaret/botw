@@ -28,9 +28,15 @@ public:
 
     static void add(Base& o, const Base& a, const Base& b);
     static void sub(Base& o, const Base& a, const Base& b);
+    /// Apply a rotation `m` to the vector `a`.
     static void mul(Base& o, const Mtx33& m, const Base& a);
-    /// Apply a transformation `m` (rotation + translation) to the vector `a`.
+    /// Apply a transformation `m` (rotation then translation) to the vector `a`.
     static void mul(Base& o, const Mtx34& m, const Base& a);
+
+    /// Apply a rotation `m` to the vector `a`.
+    static void rotate(Base& o, const Mtx33& m, const Base& a);
+    /// Apply a rotation `m` to the vector `a`.
+    static void rotate(Base& o, const Mtx34& m, const Base& a);
 
     static void cross(Base& o, const Base& a, const Base& b);
     static T dot(const Base& a, const Base& b);
