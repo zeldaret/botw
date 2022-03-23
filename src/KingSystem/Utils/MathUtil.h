@@ -25,4 +25,17 @@ inline float dot(sead::Vector3f u, const sead::Matrix34f& mtx, int row) {
     return u.x * mtx(row, 0) + u.y * mtx(row, 1) + u.z * mtx(row, 2);
 }
 
+inline void lerp(sead::Vector3f* result, const sead::Vector3f& a, const sead::Vector3f& b,
+                 float t) {
+    result->x = a.x + (b.x - a.x) * t;
+    result->y = a.y + (b.y - a.y) * t;
+    result->z = a.z + (b.z - a.z) * t;
+}
+
+inline sead::Vector3f lerp(const sead::Vector3f& a, const sead::Vector3f& b, float t) {
+    sead::Vector3f result;
+    lerp(&result, a, b, t);
+    return result;
+}
+
 }  // namespace ksys::util

@@ -8,11 +8,23 @@
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundInfo.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace ksys::phys {
 
 // TODO: rename
 constexpr int BodyGroupNumMatrices = 8;
+
+static StaticCompoundRigidBodyGroup::Config sScRigidBodyGroupConfig;
+static StaticCompoundRigidBodyGroup::Epsilons sScRigidBodyGroupEpsilons;
+
+StaticCompoundRigidBodyGroup::Config& StaticCompoundRigidBodyGroup::getConfig() {
+    return sScRigidBodyGroupConfig;
+}
+
+StaticCompoundRigidBodyGroup::Epsilons& StaticCompoundRigidBodyGroup::getEpsilons() {
+    return sScRigidBodyGroupEpsilons;
+}
 
 StaticCompoundRigidBodyGroup::StaticCompoundRigidBodyGroup() = default;
 
@@ -86,10 +98,7 @@ void StaticCompoundRigidBodyGroup::init(const hkpPhysicsSystem& system, sead::Ma
 
     mMatrices2.allocBufferAssert(BodyGroupNumMatrices, heap);
     mMatrices.allocBufferAssert(BodyGroupNumMatrices, heap);
-    for (int i = 0, n = mMatrices2.size(); i < n; ++i) {
-        mMatrices2[i].makeIdentity();
-        mMatrices[i].makeIdentity();
-    }
+    resetMatrices();
 
     mFlags.set(Flag::Initialised);
 }
@@ -116,7 +125,7 @@ void StaticCompoundRigidBodyGroup::addToWorld() {
 
         auto lock = body->makeScopedLock();
 
-        body->setTransform(getMatrix(), true);
+        body->setTransform(getTransform(), true);
 
         if (body->getMotionFlags().isOn(RigidBody::MotionFlag::BodyRemovalRequested)) {
             body->resetMotionFlagDirect(RigidBody::MotionFlag::BodyRemovalRequested);
@@ -163,13 +172,172 @@ void StaticCompoundRigidBodyGroup::enableAllInstancesAndShapeKeys() {
     }
 }
 
-void StaticCompoundRigidBodyGroup::modifyMatrix(const sead::Matrix34f& matrix, int index) {
+void StaticCompoundRigidBodyGroup::resetMatrices() {
+    for (int i = 0, n = mMatrices2.size(); i < n; ++i) {
+        mMatrices2[i].makeIdentity();
+        mMatrices[i].makeIdentity();
+    }
+}
+
+void StaticCompoundRigidBodyGroup::resetMatricesAndUpdateTransform() {
+    resetMatrices();
+    mModifiedMatrices = 0;
+
+    ScopedWorldLock lock_entity{ContactLayerType::Entity};
+    ScopedWorldLock lock_sensor{ContactLayerType::Sensor};
+    restoreMatricesAndUpdateTransform();
+}
+
+void StaticCompoundRigidBodyGroup::restoreMatricesAndUpdateTransform() {
+    mFlags.set(Flag::_2);
+    mFlags.set(Flag::_4);
+
+    if (mModifiedMatrices != 0) {
+        for (int i = 0, n = mMatrices.size(); i < n; ++i) {
+            if ((1 << i) & mModifiedMatrices) {
+                auto& dest = mMatrices2[i];
+                dest = mMatrices[i];
+            }
+        }
+        mModifiedMatrices = 0;
+    }
+
+    for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
+        mRigidBodies[i]->setTransform(getTransform(), true);
+    }
+}
+
+void StaticCompoundRigidBodyGroup::restoreMatrices() {
+    if (mModifiedMatrices != 0) {
+        for (int i = 0, n = mMatrices.size(); i < n; ++i) {
+            if ((1 << i) & mModifiedMatrices) {
+                auto& dest = mMatrices2[i];
+                dest = mMatrices[i];
+            }
+        }
+        mModifiedMatrices = 0;
+        mFlags.set(Flag::_2);
+        mFlags.set(Flag::_4);
+    }
+    mTransform = getTransform();
+}
+
+void StaticCompoundRigidBodyGroup::setMatrix(const sead::Matrix34f& matrix, int index) {
     if (mMatrices[index] == matrix)
         return;
 
     mMatrices[index] = matrix;
     mModifiedMatrices |= 1 << index;
-    mFlags.set(Flag::HasModifiedMatrix);
+    mFlags.set(Flag::ShouldMoveBody);
+}
+
+const sead::Matrix34f& StaticCompoundRigidBodyGroup::getMatrix(int index) const {
+    return mMatrices[index];
+}
+
+sead::Matrix34f
+StaticCompoundRigidBodyGroup::getTransformedMatrix(const sead::Matrix34f& mtx) const {
+    return getTransform() * mtx;
+}
+
+sead::Matrix34f
+StaticCompoundRigidBodyGroup::getInvTransformedMatrix(const sead::Matrix34f& mtx) const {
+    sead::Matrix34f inv_transform;
+    inv_transform.setInverse(getTransform());
+    return inv_transform * mtx;
+}
+
+sead::Vector3f StaticCompoundRigidBodyGroup::getTransformedPos(const sead::Vector3f& pos) const {
+    return getTransform() * pos;
+}
+
+sead::Vector3f StaticCompoundRigidBodyGroup::getRotatedDir(const sead::Vector3f& dir) const {
+    sead::Vector3f rotated;
+    rotated.setRotated(getTransform(), dir);
+    return rotated;
+}
+
+void StaticCompoundRigidBodyGroup::processUpdates() {
+    if (mFlags.isOn(Flag::HasEnabledOrDisabledInstance)) {
+        for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
+            mRigidBodies[i]->updateShape();
+            mFlags.reset(Flag::HasEnabledOrDisabledInstance);
+        }
+    }
+
+    if (mFlags.isOn(Flag::ShouldMoveBody) || mFlags.isOn(Flag::IsMovingBody)) {
+        bool initialised_velocities = false;
+        sead::Vector3f linvel, angvel;
+
+        for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
+            auto* body = mRigidBodies[i];
+
+            body->changeMotionType(MotionType::Keyframed);
+
+            if (!initialised_velocities) {
+                body->computeVelocities(&linvel, &angvel, mTransform);
+
+                if (mFlags.isOff(Flag::ShouldMoveBody)) {
+                    linvel *= getVelocityMultiplier();
+                    angvel *= getVelocityMultiplier();
+                }
+
+                util::lerp(&linvel, mLinearVelocity, linvel, getConfig().unk2);
+                util::lerp(&angvel, mAngularVelocity, angvel, getConfig().unk3);
+            }
+
+            body->setLinearVelocity(linvel, getEpsilons().linvel);
+            body->setAngularVelocity(angvel, getEpsilons().angvel);
+            initialised_velocities = true;
+        }
+
+        mLinearVelocity = linvel;
+        mAngularVelocity = angvel;
+
+        if (mFlags.isOn(Flag::ShouldMoveBody)) {
+            mUpdateTimer = getConfig().move_duration_ticks;
+            mFlags.set(Flag::IsMovingBody);
+        } else if (mUpdateTimer-- > 0) {
+            mFlags.set(Flag::IsMovingBody);
+        } else {
+            mFlags.reset(Flag::IsMovingBody);
+        }
+
+        mFlags.reset(Flag::ShouldMoveBody);
+
+    } else {
+        for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
+            auto* body = mRigidBodies[i];
+            body->setLinearVelocity(sead::Vector3f::zero, getEpsilons().linvel);
+            body->setAngularVelocity(sead::Vector3f::zero, getEpsilons().angvel);
+            mLinearVelocity = {0, 0, 0};
+            mAngularVelocity = {0, 0, 0};
+        }
+    }
+}
+
+float StaticCompoundRigidBodyGroup::getVelocityMultiplier() const {
+    return getConfig().unk1 * float(mUpdateTimer) / float(getConfig().move_duration_ticks);
+}
+
+const sead::Matrix34f& StaticCompoundRigidBodyGroup::getTransform() const {
+    if (!mFlags.isOn(Flag::Initialised))
+        return sead::Matrix34f::ident;
+
+    if (mFlags.isOn(Flag::_2)) {
+        mMtx0 = mMatrices2[0];
+        for (int i = 1, n = mMatrices2.size(); i < n; ++i)
+            mMtx0 = mMatrices2[i] * mMtx0;
+
+        mFlags.reset(Flag::_2);
+    }
+
+    if (mFlags.isOn(Flag::_4) && mMtxPtr) {
+        mTransform = *mMtxPtr * mMtx0;
+        mFlags.reset(Flag::_4);
+    }
+
+    return mTransform;
 }
 
 }  // namespace ksys::phys
