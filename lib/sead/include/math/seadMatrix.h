@@ -131,8 +131,22 @@ public:
     bool setInverse(const Self& n);
     bool setInverse33(const Self& n);
     bool setInverseTranspose(const Self& n);
+
+    friend Self operator*(const Self& lhs, const Self& rhs)
+    {
+        Self result;
+        result.setMul(lhs, rhs);
+        return result;
+    }
+    friend Self operator*(const Mtx33& lhs, const Self& rhs)
+    {
+        Self result;
+        result.setMul(lhs, rhs);
+        return result;
+    }
     void setMul(const Self& a, const Self& b);
     void setMul(const Mtx33& a, const Self& b);
+
     void setTranspose(const Self& n);
     void transpose();
 
