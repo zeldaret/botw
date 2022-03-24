@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/open-ead/sead
 	branch = master
-	commit = 14326b3504f5b3909e4482820ca16a6071f3eb5e
-	parent = 0197ca3aba7ac2d26b978258ac5615fd35bfcd25
+	commit = 89e6f6d63acc241186114237a91a38bdd59d203b
+	parent = 68cf6ed385a6762e7bca1b49d4ab2c6754a7fd6b
 	method = merge
 	cmdver = 0.4.3
