@@ -9,6 +9,7 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
+class hkReferencedObject;
 class hkpPhysicsSystem;
 class hkpStaticCompoundShape;
 
@@ -69,6 +70,8 @@ public:
     sead::Vector3f getTransformedPos(const sead::Vector3f& pos) const;
     sead::Vector3f getRotatedDir(const sead::Vector3f& dir) const;
 
+    RigidBody* getRigidBody(BodyLayerType body_layer_type) const;
+
     void processUpdates();
 
     static Config& getConfig();
@@ -84,10 +87,21 @@ private:
         HasEnabledOrDisabledInstance = 1 << 5,
     };
 
+    // A type with a virtual destructor. Nothing else is known about it.
+    struct Unk2 {
+        virtual ~Unk2() = default;
+    };
+
+    // The remnants of a type that had a virtual destructor and a bunch of pointers.
+    // Nothing else is known about it.
     struct Unk1 {
         virtual ~Unk1();
 
-        u8 _8[0xc0];
+        Unk2* _8;
+        hkReferencedObject* _10;
+        hkReferencedObject* _18;
+        hkReferencedObject* _20;
+        u8 _28[0xc8 - 0x28];
     };
 
     const sead::Matrix34f& getTransform() const;

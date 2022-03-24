@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
+#include <Havok/Common/Base/hkBase.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
 #include <Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h>
@@ -338,6 +339,32 @@ const sead::Matrix34f& StaticCompoundRigidBodyGroup::getTransform() const {
     }
 
     return mTransform;
+}
+
+StaticCompoundRigidBodyGroup::Unk1::~Unk1() {
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+
+    const auto decref = [](hkReferencedObject*& ptr) {
+        if (ptr) {
+            ptr->removeReference();
+            ptr = nullptr;
+        }
+    };
+
+    decref(_10);
+    decref(_18);
+    decref(_20);
+}
+
+RigidBody* StaticCompoundRigidBodyGroup::getRigidBody(BodyLayerType body_layer_type) const {
+    auto idx = static_cast<int>(body_layer_type);
+    if (idx < 0 || idx >= mRigidBodiesPerBodyLayerType.size())
+        return nullptr;
+
+    return mRigidBodiesPerBodyLayerType[idx];
 }
 
 }  // namespace ksys::phys
