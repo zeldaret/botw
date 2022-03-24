@@ -13,7 +13,7 @@
 namespace ksys::phys {
 
 // TODO: rename
-constexpr int BodyGroupNumMatrices = 8;
+constexpr int BodyGroupNumExtraTransforms = 8;
 
 static StaticCompoundRigidBodyGroup::Config sScRigidBodyGroupConfig;
 static StaticCompoundRigidBodyGroup::Epsilons sScRigidBodyGroupEpsilons;
@@ -37,8 +37,8 @@ StaticCompoundRigidBodyGroup::~StaticCompoundRigidBodyGroup() {
 
     mRigidBodiesPerBodyLayerType.freeBuffer();
     mShapesPerBodyLayerType.freeBuffer();
-    mMatrices2.freeBuffer();
-    mMatrices.freeBuffer();
+    mExtraTransforms.freeBuffer();
+    mPendingExtraTransforms.freeBuffer();
     _e8.freeBuffer();
     mRigidBodies.freeBuffer();
 }
@@ -96,9 +96,9 @@ void StaticCompoundRigidBodyGroup::init(const hkpPhysicsSystem& system, sead::Ma
         }
     }
 
-    mMatrices2.allocBufferAssert(BodyGroupNumMatrices, heap);
-    mMatrices.allocBufferAssert(BodyGroupNumMatrices, heap);
-    resetMatrices();
+    mExtraTransforms.allocBufferAssert(BodyGroupNumExtraTransforms, heap);
+    mPendingExtraTransforms.allocBufferAssert(BodyGroupNumExtraTransforms, heap);
+    resetExtraTransforms();
 
     mFlags.set(Flag::Initialised);
 }
@@ -172,34 +172,34 @@ void StaticCompoundRigidBodyGroup::enableAllInstancesAndShapeKeys() {
     }
 }
 
-void StaticCompoundRigidBodyGroup::resetMatrices() {
-    for (int i = 0, n = mMatrices2.size(); i < n; ++i) {
-        mMatrices2[i].makeIdentity();
-        mMatrices[i].makeIdentity();
+void StaticCompoundRigidBodyGroup::resetExtraTransforms() {
+    for (int i = 0, n = mExtraTransforms.size(); i < n; ++i) {
+        mExtraTransforms[i].makeIdentity();
+        mPendingExtraTransforms[i].makeIdentity();
     }
 }
 
 void StaticCompoundRigidBodyGroup::resetMatricesAndUpdateTransform() {
-    resetMatrices();
-    mModifiedMatrices = 0;
+    resetExtraTransforms();
+    mPendingTransformChanges = 0;
 
     ScopedWorldLock lock_entity{ContactLayerType::Entity};
     ScopedWorldLock lock_sensor{ContactLayerType::Sensor};
-    restoreMatricesAndUpdateTransform();
+    applyExtraTransforms();
 }
 
-void StaticCompoundRigidBodyGroup::restoreMatricesAndUpdateTransform() {
-    mFlags.set(Flag::_2);
-    mFlags.set(Flag::_4);
+void StaticCompoundRigidBodyGroup::applyExtraTransforms() {
+    mFlags.set(Flag::ShouldRecomputeExtraTransform);
+    mFlags.set(Flag::ShouldRecomputeTransform);
 
-    if (mModifiedMatrices != 0) {
-        for (int i = 0, n = mMatrices.size(); i < n; ++i) {
-            if ((1 << i) & mModifiedMatrices) {
-                auto& dest = mMatrices2[i];
-                dest = mMatrices[i];
+    if (mPendingTransformChanges != 0) {
+        for (int i = 0, n = mPendingExtraTransforms.size(); i < n; ++i) {
+            if ((1 << i) & mPendingTransformChanges) {
+                auto& dest = mExtraTransforms[i];
+                dest = mPendingExtraTransforms[i];
             }
         }
-        mModifiedMatrices = 0;
+        mPendingTransformChanges = 0;
     }
 
     for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
@@ -207,32 +207,32 @@ void StaticCompoundRigidBodyGroup::restoreMatricesAndUpdateTransform() {
     }
 }
 
-void StaticCompoundRigidBodyGroup::restoreMatrices() {
-    if (mModifiedMatrices != 0) {
-        for (int i = 0, n = mMatrices.size(); i < n; ++i) {
-            if ((1 << i) & mModifiedMatrices) {
-                auto& dest = mMatrices2[i];
-                dest = mMatrices[i];
+void StaticCompoundRigidBodyGroup::recomputeTransformMatrix() {
+    if (mPendingTransformChanges != 0) {
+        for (int i = 0, n = mPendingExtraTransforms.size(); i < n; ++i) {
+            if ((1 << i) & mPendingTransformChanges) {
+                auto& dest = mExtraTransforms[i];
+                dest = mPendingExtraTransforms[i];
             }
         }
-        mModifiedMatrices = 0;
-        mFlags.set(Flag::_2);
-        mFlags.set(Flag::_4);
+        mPendingTransformChanges = 0;
+        mFlags.set(Flag::ShouldRecomputeExtraTransform);
+        mFlags.set(Flag::ShouldRecomputeTransform);
     }
     mTransform = getTransform();
 }
 
-void StaticCompoundRigidBodyGroup::setMatrix(const sead::Matrix34f& matrix, int index) {
-    if (mMatrices[index] == matrix)
+void StaticCompoundRigidBodyGroup::setExtraTransform(const sead::Matrix34f& matrix, int index) {
+    if (mPendingExtraTransforms[index] == matrix)
         return;
 
-    mMatrices[index] = matrix;
-    mModifiedMatrices |= 1 << index;
+    mPendingExtraTransforms[index] = matrix;
+    mPendingTransformChanges |= 1 << index;
     mFlags.set(Flag::ShouldMoveBody);
 }
 
-const sead::Matrix34f& StaticCompoundRigidBodyGroup::getMatrix(int index) const {
-    return mMatrices[index];
+const sead::Matrix34f& StaticCompoundRigidBodyGroup::getExtraTransform(int index) const {
+    return mPendingExtraTransforms[index];
 }
 
 sead::Matrix34f
@@ -324,17 +324,17 @@ const sead::Matrix34f& StaticCompoundRigidBodyGroup::getTransform() const {
     if (!mFlags.isOn(Flag::Initialised))
         return sead::Matrix34f::ident;
 
-    if (mFlags.isOn(Flag::_2)) {
-        mMtx0 = mMatrices2[0];
-        for (int i = 1, n = mMatrices2.size(); i < n; ++i)
-            mMtx0 = mMatrices2[i] * mMtx0;
+    if (mFlags.isOn(Flag::ShouldRecomputeExtraTransform)) {
+        mCombinedExtraTransform = mExtraTransforms[0];
+        for (int i = 1, n = mExtraTransforms.size(); i < n; ++i)
+            mCombinedExtraTransform = mExtraTransforms[i] * mCombinedExtraTransform;
 
-        mFlags.reset(Flag::_2);
+        mFlags.reset(Flag::ShouldRecomputeExtraTransform);
     }
 
-    if (mFlags.isOn(Flag::_4) && mMtxPtr) {
-        mTransform = *mMtxPtr * mMtx0;
-        mFlags.reset(Flag::_4);
+    if (mFlags.isOn(Flag::ShouldRecomputeTransform) && mMtxPtr) {
+        mTransform = *mMtxPtr * mCombinedExtraTransform;
+        mFlags.reset(Flag::ShouldRecomputeTransform);
     }
 
     return mTransform;

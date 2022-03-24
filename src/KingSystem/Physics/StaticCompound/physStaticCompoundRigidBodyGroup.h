@@ -56,13 +56,13 @@ public:
     bool setInstanceEnabled(BodyLayerType body_layer_type, int instance_id, bool enabled);
     void enableAllInstancesAndShapeKeys();
 
-    void resetMatrices();
+    void resetExtraTransforms();
     void resetMatricesAndUpdateTransform();
-    void restoreMatricesAndUpdateTransform();
-    void restoreMatrices();
+    void applyExtraTransforms();
+    void recomputeTransformMatrix();
 
-    void setMatrix(const sead::Matrix34f& matrix, int index);
-    const sead::Matrix34f& getMatrix(int index) const;
+    void setExtraTransform(const sead::Matrix34f& matrix, int index);
+    const sead::Matrix34f& getExtraTransform(int index) const;
 
     sead::Matrix34f getTransformedMatrix(const sead::Matrix34f& mtx) const;
     sead::Matrix34f getInvTransformedMatrix(const sead::Matrix34f& mtx) const;
@@ -77,8 +77,8 @@ public:
 private:
     enum class Flag {
         Initialised = 1 << 0,
-        _2 = 1 << 1,
-        _4 = 1 << 2,
+        ShouldRecomputeExtraTransform = 1 << 1,
+        ShouldRecomputeTransform = 1 << 2,
         ShouldMoveBody = 1 << 3,
         IsMovingBody = 1 << 4,
         HasEnabledOrDisabledInstance = 1 << 5,
@@ -95,13 +95,12 @@ private:
     float getVelocityMultiplier() const;
 
     mutable sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags;
-    sead::Atomic<u32> mModifiedMatrices;
+    sead::Atomic<u32> mPendingTransformChanges;
     sead::Buffer<RigidBody*> mRigidBodiesPerBodyLayerType;
     sead::Buffer<hkpStaticCompoundShape*> mShapesPerBodyLayerType;
-    // TODO: rename
-    sead::Buffer<sead::Matrix34f> mMatrices;
-    sead::Buffer<sead::Matrix34f> mMatrices2;
-    mutable sead::Matrix34f mMtx0 = sead::Matrix34f::ident;
+    sead::Buffer<sead::Matrix34f> mPendingExtraTransforms;
+    sead::Buffer<sead::Matrix34f> mExtraTransforms;
+    mutable sead::Matrix34f mCombinedExtraTransform = sead::Matrix34f::ident;
     mutable sead::Matrix34f mTransform = sead::Matrix34f::ident;
     sead::Matrix34f* mMtxPtr{};
     sead::PtrArray<RigidBody> mRigidBodies;
