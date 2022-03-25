@@ -27,6 +27,8 @@ public:
     StaticCompound();
     ~StaticCompound() override;
 
+    bool isInitialised() const { return mFlags.isOn(Flag::Initialised); }
+
     bool isAnyRigidBodyAddedToWorld() const;
     bool isAnyRigidBodyAddedOrBeingAddedToWorld() const;
     void removeFromWorld();
@@ -45,7 +47,7 @@ public:
 
     int getNumFieldBodyGroups() const { return mFieldBodyGroups.size(); }
     StaticCompoundRigidBodyGroup* getFieldBodyGroup(int idx);
-    bool hasFieldBodyGroup(StaticCompoundRigidBodyGroup* group) const;
+    bool hasFieldBodyGroup(const StaticCompoundRigidBodyGroup* group) const;
 
     // res::Resource interface
     void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* parent_heap) override;

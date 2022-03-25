@@ -222,7 +222,7 @@ StaticCompoundRigidBodyGroup* StaticCompound::getFieldBodyGroup(int idx) {
     return &mFieldBodyGroups[idx];
 }
 
-bool StaticCompound::hasFieldBodyGroup(StaticCompoundRigidBodyGroup* group) const {
+bool StaticCompound::hasFieldBodyGroup(const StaticCompoundRigidBodyGroup* group) const {
     for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i) {
         if (&mFieldBodyGroups[i] == group)
             return true;

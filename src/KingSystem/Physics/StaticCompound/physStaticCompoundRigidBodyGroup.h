@@ -71,6 +71,7 @@ public:
     sead::Vector3f getRotatedDir(const sead::Vector3f& dir) const;
 
     RigidBody* getRigidBody(BodyLayerType body_layer_type) const;
+    StaticCompound* getStaticCompound() const { return mStaticCompound; }
 
     void processUpdates();
 
