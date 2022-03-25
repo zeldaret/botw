@@ -36,7 +36,7 @@ public:
     int setMapObject(u32 hash_id, u32 srt_hash, map::Object* object);
     map::Object* getMapObject(int shape_idx) const;
 
-    bool disableCollision(int actor_idx, bool x);
+    bool setInstanceEnabled(int actor_idx, bool enabled);
 
     void processUpdates();
     void recomputeTransformMatrix();

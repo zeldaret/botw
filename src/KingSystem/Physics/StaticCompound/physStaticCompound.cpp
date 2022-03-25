@@ -177,7 +177,7 @@ map::Object* StaticCompound::getMapObject(int shape_idx) const {
     return mMapObjects[idx];
 }
 
-bool StaticCompound::disableCollision(int actor_idx, bool x) {
+bool StaticCompound::setInstanceEnabled(int actor_idx, bool enabled) {
     const int start = mStaticCompoundInfo->getShapeInfoStart(actor_idx);
     const int end = mStaticCompoundInfo->getShapeInfoEnd(actor_idx);
     for (int i = start; i <= end; ++i) {
@@ -189,7 +189,7 @@ bool StaticCompound::disableCollision(int actor_idx, bool x) {
         const auto type = static_cast<BodyLayerType>(info->m_BodyLayerType);
         const auto instance_id = info->m_InstanceId;
 
-        mFieldBodyGroups[group].setInstanceEnabled(type, instance_id, x);
+        mFieldBodyGroups[group].setInstanceEnabled(type, instance_id, enabled);
     }
     return true;
 }

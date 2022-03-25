@@ -105,7 +105,7 @@ void PlacementMap::updateObjectCollisionAndId(int index, Object* obj) {
         obj->setFlags0(Object::Flag0::_200000);
         disable = true;
     }
-    sc->disableCollision(idx, disable);
+    sc->setInstanceEnabled(idx, disable);
 }
 
 bool PlacementMap::parseStaticMap_(sead::Heap* heap, u8* data) {
@@ -255,7 +255,7 @@ void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
     auto* resource = mRes[idx].mRes.getResource();
     if (auto* sc = sead::DynamicCast<ksys::phys::StaticCompound>(resource)) {
         s16 sc_id = obj->getStaticCompoundActorId();
-        sc->disableCollision(sc_id, disable);
+        sc->setInstanceEnabled(sc_id, disable);
     }
 }
 
