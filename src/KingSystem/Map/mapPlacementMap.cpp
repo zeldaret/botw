@@ -95,17 +95,17 @@ void PlacementMap::updateObjectCollisionAndId(int index, Object* obj) {
     if (obj->getStaticCompoundActorId() < 0) {
         return;
     }
-    bool disable = false;
+    bool enabled = false;
     if (obj->shouldSkipSpawn() ||
         (obj->checkActorDataFlag(mPa, map::ActorData::Flag::MapConstPassive) &&
          obj->getFlags0().isOn(Object::Flag0::_800))) {
-        obj->resetFlags0(Object::Flag0::_200000);
-        disable = false;
+        obj->resetFlags0(Object::Flag0::StaticCompoundInstanceEnabled);
+        enabled = false;
     } else {
-        obj->setFlags0(Object::Flag0::_200000);
-        disable = true;
+        obj->setFlags0(Object::Flag0::StaticCompoundInstanceEnabled);
+        enabled = true;
     }
-    sc->setInstanceEnabled(idx, disable);
+    sc->setInstanceEnabled(idx, enabled);
 }
 
 bool PlacementMap::parseStaticMap_(sead::Heap* heap, u8* data) {
@@ -235,27 +235,26 @@ PlacementMap::MapObjStatus PlacementMap::x_2(int hksc_idx) {
     return MapObjStatus::Loading;
 }
 
-void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
-    if ((s16)obj->getStaticCompoundActorId() < 0) {
+void PlacementMap::setStaticCompoundInstanceEnabled(Object* obj, bool enabled) {
+    if (obj->getStaticCompoundActorId() < 0) {
         return;
     }
     const auto lock = sead::makeScopedLock(mCs);
 
-    // Is Flag0::_200000 a flag to disable an object?
-    if (disable == obj->getFlags0().isOn(Object::Flag0::_200000)) {
+    if (enabled == obj->getFlags0().isOn(Object::Flag0::StaticCompoundInstanceEnabled)) {
         return;
     }
-    if (disable) {
-        obj->setFlags0(Object::Flag0::_200000);
+    if (enabled) {
+        obj->setFlags0(Object::Flag0::StaticCompoundInstanceEnabled);
     } else {
-        obj->resetFlags0(Object::Flag0::_200000);
+        obj->resetFlags0(Object::Flag0::StaticCompoundInstanceEnabled);
     }
 
     int idx = getStaticCompoundIdFromPosition(obj->getTranslate());
     auto* resource = mRes[idx].mRes.getResource();
     if (auto* sc = sead::DynamicCast<ksys::phys::StaticCompound>(resource)) {
         s16 sc_id = obj->getStaticCompoundActorId();
-        sc->setInstanceEnabled(sc_id, disable);
+        sc->setInstanceEnabled(sc_id, enabled);
     }
 }
 

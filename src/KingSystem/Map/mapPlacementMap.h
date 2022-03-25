@@ -97,7 +97,7 @@ private:
     bool staticCompoundStuff(int sc_id, bool cleanup);
     int doSomethingStaticCompound(int hksc_idx);
     bool isDynamicLoaded(const sead::Vector3f& pos);
-    void doDisableObjStaticCompound(Object* obj, bool disable);
+    void setStaticCompoundInstanceEnabled(Object* obj, bool enabled);
     void x_9();
 
     void x_7(int idx, int unknown, s8 column, s8 row, const sead::SafeString& mubin_path,
