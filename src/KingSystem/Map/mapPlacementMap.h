@@ -9,14 +9,19 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMapMgr.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/System/Patrol.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::phys {
+class StaticCompound;
+class StaticCompoundRigidBodyGroup;
+}  // namespace ksys::phys
+
 namespace ksys::map {
 
+class Object;
 class PlacementMapMgr;
 class PlacementActors;
 
@@ -35,14 +40,7 @@ class PlacementMap {
         HkscRes() = default;
         ~HkscRes() = default;
 
-        void cleanup() {
-            auto* r = mRes.getResource();
-            if (auto sc = sead::DynamicCast<phys::StaticCompound>(r)) {
-                if (sc->calledFromMapDtor()) {
-                    sc->cleanUp();
-                }
-            }
-        }
+        void cleanup();
 
         res::Handle mRes;
         Status mStatus;

@@ -58,7 +58,7 @@ public:
     void enableAllInstancesAndShapeKeys();
 
     void resetExtraTransforms();
-    void resetMatricesAndUpdateTransform();
+    void resetExtraTransformsAndApply();
     void applyExtraTransforms();
     void recomputeTransformMatrix();
 

@@ -2,10 +2,15 @@
 #include <Havok/Common/Serialize/Util/hkNativePackfileUtils.h>
 #include <Havok/Common/Serialize/Util/hkRootLevelContainer.h>
 #include <Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h>
+#include <heap/seadHeapMgr.h>
+#include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundInfo.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/HeapUtil.h"
+#include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
@@ -15,7 +20,29 @@ constexpr int NumBodyGroups = 16 + 1;
 StaticCompound::StaticCompound() = default;
 
 StaticCompound::~StaticCompound() {
-    // FIXME
+    System::instance()->getStaticCompoundMgr()->removeStaticCompound(this);
+    mFlags.reset(Flag::Initialised);
+
+    {
+        sead::ScopedCurrentHeapSetter heap_setter{mHeap};
+        mFieldBodyGroups.freeBuffer();
+        mMapObjects.freeBuffer();
+    }
+
+    if (mContainerBuffer) {
+        hkNativePackfileUtils::unloadInPlace(mContainerBuffer, mContainerBufferSize);
+        mContainerBuffer = nullptr;
+        mContainerBufferSize = 0;
+    }
+
+    if (mBuffer) {
+        hkNativePackfileUtils::unloadInPlace(mBuffer, mBufferSize);
+        mBuffer = nullptr;
+        mBufferSize = 0;
+        mStaticCompoundInfo = nullptr;
+    }
+
+    util::safeDeleteHeap(mHeap);
 }
 
 void StaticCompound::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* parent_heap) {
@@ -62,6 +89,75 @@ void StaticCompound::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* parent_h
     mHeap->adjust();
 }
 
+bool StaticCompound::finishParsing_() {
+    mFlags.set(Flag::Initialised);
+    mMapObjects.fill(nullptr);
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].enableAllInstancesAndShapeKeys();
+
+    System::instance()->getStaticCompoundMgr()->addStaticCompound(this);
+    return true;
+}
+
+bool StaticCompound::m7_() {
+    if (isAnyRigidBodyAddedToWorld() || isAnyRigidBodyAddedOrBeingAddedToWorld()) {
+        removeFromWorld();
+        // We cannot unload this resource immediately.
+        return false;
+    }
+
+    System::instance()->getStaticCompoundMgr()->removeStaticCompound(this);
+    mFlags.reset(Flag::Initialised);
+    return true;
+}
+
+bool StaticCompound::isAnyRigidBodyAddedToWorld() const {
+    auto lock = sead::makeScopedLock(mCS);
+
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i) {
+        if (mFieldBodyGroups[i].isAnyRigidBodyAddedToWorld())
+            return true;
+    }
+
+    return false;
+}
+
+bool StaticCompound::isAnyRigidBodyAddedOrBeingAddedToWorld() const {
+    auto lock = sead::makeScopedLock(mCS);
+
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i) {
+        if (mFieldBodyGroups[i].isAnyRigidBodyBeingAddedToWorld() ||
+            mFieldBodyGroups[i].isAnyRigidBodyAddedToWorld()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void StaticCompound::removeFromWorld() {
+    auto lock = sead::makeScopedLock(mCS);
+
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].removeFromWorld();
+}
+
+void StaticCompound::addToWorld() {
+    auto lock = sead::makeScopedLock(mCS);
+
+    resetExtraTransformsAndApply();
+
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].addToWorld();
+}
+
+void StaticCompound::removeFromWorldImmediately() {
+    auto lock = sead::makeScopedLock(mCS);
+
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].removeFromWorldImmediately();
+}
+
 int StaticCompound::setMapObject(u32 hash_id, u32 srt_hash, map::Object* object) {
     int idx = mStaticCompoundInfo->getActorIdx(hash_id, srt_hash);
     if (idx >= 0 && idx < mMapObjects.size())
@@ -96,6 +192,30 @@ bool StaticCompound::disableCollision(int actor_idx, bool x) {
         mFieldBodyGroups[group].setInstanceEnabled(type, instance_id, x);
     }
     return true;
+}
+
+void StaticCompound::processUpdates() {
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].processUpdates();
+}
+
+void StaticCompound::recomputeTransformMatrix() {
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].recomputeTransformMatrix();
+}
+
+void StaticCompound::applyExtraTransforms(const sead::Matrix34f& mtx) {
+    if (mtx == mMtx)
+        return;
+
+    mMtx = mtx;
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].applyExtraTransforms();
+}
+
+void StaticCompound::resetExtraTransformsAndApply() {
+    for (int i = 0, n = mFieldBodyGroups.size(); i < n; ++i)
+        mFieldBodyGroups[i].resetExtraTransformsAndApply();
 }
 
 StaticCompoundRigidBodyGroup* StaticCompound::getFieldBodyGroup(int idx) {

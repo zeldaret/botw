@@ -27,11 +27,23 @@ public:
     StaticCompound();
     ~StaticCompound() override;
 
+    bool isAnyRigidBodyAddedToWorld() const;
+    bool isAnyRigidBodyAddedOrBeingAddedToWorld() const;
+    void removeFromWorld();
+    void addToWorld();
+    void removeFromWorldImmediately();
+
     int setMapObject(u32 hash_id, u32 srt_hash, map::Object* object);
     map::Object* getMapObject(int shape_idx) const;
 
     bool disableCollision(int actor_idx, bool x);
 
+    void processUpdates();
+    void recomputeTransformMatrix();
+    void applyExtraTransforms(const sead::Matrix34f& mtx);
+    void resetExtraTransformsAndApply();
+
+    int getNumFieldBodyGroups() const { return mFieldBodyGroups.size(); }
     StaticCompoundRigidBodyGroup* getFieldBodyGroup(int idx);
     bool hasFieldBodyGroup(StaticCompoundRigidBodyGroup* group) const;
 
@@ -40,13 +52,6 @@ public:
     bool needsParse() const override { return true; }
     bool finishParsing_() override;
     bool m7_() override;
-
-    void cleanUp();
-    bool calledFromMapDtor();
-    int getNumFieldBodyGroups() const { return mFieldBodyGroups.size(); }
-    bool x_3();
-    void x_4();
-    StaticCompound* sub_7100FCAD0C(sead::Matrix34f& mtx);
 
 private:
     enum class Flag {
@@ -64,7 +69,7 @@ private:
     sead::FixedSafeString<32> mName;
     sead::Matrix34f mMtx = sead::Matrix34f::ident;
     sead::Buffer<map::Object*> mMapObjects{};
-    sead::CriticalSection mCS;
+    mutable sead::CriticalSection mCS;
 };
 KSYS_CHECK_SIZE_NX150(StaticCompound, 0x140);
 

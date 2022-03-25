@@ -17,6 +17,11 @@ public:
 
     bool init();
 
+    // 0x0000007100fcb554
+    void addStaticCompound(StaticCompound* sc);
+    // 0x0000007100fcb5e0
+    void removeStaticCompound(StaticCompound* sc);
+
     SystemGroupHandler* getGroupHandler() const { return mGroupHandler; }
 
     // TODO: more functions

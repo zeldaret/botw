@@ -1,9 +1,10 @@
-
 #include "KingSystem/Map/mapPlacementMap.h"
 #include <prim/seadScopedLock.h>
 #include <thread/seadReadWriteLock.h>
 #include "Game/DLC/aocManager.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 
 namespace ksys::map {
@@ -36,15 +37,15 @@ PlacementMap::PlacementMap() {
 
 PlacementMap::~PlacementMap() {
     mRoutes.freeBuffer();
-    for (auto& r : mRes) {
-        r.cleanup();
+    for (auto& resource : mRes) {
+        resource.cleanup();
     }
 }
 bool PlacementMap::clearStaticCompoundActorId(int idx) {
     const auto lock = sead::makeScopedLock(mCs);
     const auto& resource = mRes[idx].mRes.getResource();
     if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
-        if (sc->calledFromMapDtor()) {
+        if (sc->isAnyRigidBodyAddedToWorld()) {
             return false;
         }
         mRes[idx].mRes.requestUnload();
@@ -220,7 +221,7 @@ PlacementMap::MapObjStatus PlacementMap::x_2(int hksc_idx) {
     auto* resource = handle->getResource();
     auto* sc = sead::DynamicCast<phys::StaticCompound>(resource);
 
-    sc->sub_7100FCAD0C(mMat);
+    sc->applyExtraTransforms(mMat);
     for (int i = mParsedNumStaticObjs; i <= mNumStaticObjs; i++) {
         updateObjectCollisionAndId(hksc_idx, mPa->getStaticObj_0(i));
     }
@@ -262,8 +263,8 @@ void PlacementMap::doDisableObjStaticCompound(Object* obj, bool disable) {
 int PlacementMap::doSomethingStaticCompound(int hksc_idx) {
     auto* resource = mRes[hksc_idx].mRes.getResource();
     if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
-        if (!sc->calledFromMapDtor() && !sc->x_3()) {
-            sc->x_4();
+        if (!sc->isAnyRigidBodyAddedToWorld() && !sc->isAnyRigidBodyAddedOrBeingAddedToWorld()) {
+            sc->addToWorld();
         }
     }
     return 1;
@@ -302,7 +303,7 @@ void PlacementMap::cleanupPhysics() {
     for (int i = 0; i < 4; i++) {
         auto resource = mRes[i].mRes.getResource();
         if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
-            sc->cleanUp();
+            sc->removeFromWorldImmediately();
         }
         mRes[i].mRes.requestUnload2();
         mRes[i].mStatus = HkscRes::Status::_0;
@@ -381,6 +382,15 @@ void PlacementMap::x_7(int idx, int unknown, s8 column, s8 row, const sead::Safe
 
 void PlacementMap::unloadHksc(int hksc_idx) {
     mRes[hksc_idx].mRes.requestUnload();
+}
+
+void PlacementMap::HkscRes::cleanup() {
+    auto* r = mRes.getResource();
+    if (auto sc = sead::DynamicCast<phys::StaticCompound>(r)) {
+        if (sc->isAnyRigidBodyAddedToWorld()) {
+            sc->removeFromWorldImmediately();
+        }
+    }
 }
 
 }  // namespace ksys::map

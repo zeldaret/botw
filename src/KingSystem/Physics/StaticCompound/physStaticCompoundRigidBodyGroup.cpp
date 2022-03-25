@@ -180,7 +180,7 @@ void StaticCompoundRigidBodyGroup::resetExtraTransforms() {
     }
 }
 
-void StaticCompoundRigidBodyGroup::resetMatricesAndUpdateTransform() {
+void StaticCompoundRigidBodyGroup::resetExtraTransformsAndApply() {
     resetExtraTransforms();
     mPendingTransformChanges = 0;
 
