@@ -22,9 +22,7 @@ public:
     void alloc(int capacity, sead::Heap* heap) {
         SEAD_ASSERT(sead::Mathi::isPow2(capacity));
         mBuffer.allocBufferAssert(capacity, heap);
-
-        for (int i = 0, n = getCapacity(); i < n; ++i)
-            mBuffer(i) = nullptr;
+        mBuffer.fill(nullptr);
     }
 
     void freeBuffer() { mBuffer.freeBuffer(); }

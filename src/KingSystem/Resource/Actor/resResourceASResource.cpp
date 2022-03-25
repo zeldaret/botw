@@ -228,8 +228,7 @@ bool ASResourceWithChildren::doParse(const ASResource::ParseArgs& args) {
 
     if (!mChildren.tryAllocBuffer(size, args.heap))
         return false;
-    for (int i = 0, n = mChildren.size(); i < n; ++i)
-        mChildren(i) = nullptr;
+    mChildren.fill(nullptr);
 
     for (auto it = mChildren.begin(), end = mChildren.end(); it != end; ++it) {
         const auto idx = *Children.getParameterData<int>(it.getIndex());

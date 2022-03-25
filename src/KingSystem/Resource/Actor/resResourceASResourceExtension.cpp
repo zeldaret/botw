@@ -259,8 +259,7 @@ bool ASExtensions::parse(const ASExtensions::ParseArgs& args) {
 
     if (!mParsers.tryAllocBuffer(num_extensions, args.heap))
         return false;
-    for (int i = 0, n = mParsers.size(); i < n; ++i)
-        mParsers(i) = nullptr;
+    mParsers.fill(nullptr);
 
     auto it = mParsers.begin();
     const auto end = mParsers.end();
