@@ -317,7 +317,7 @@ public:
 
     void fill(const T& v)
     {
-        for (s32 i = 0; i < mSize; ++i)
+        for (s32 i = 0, n = mSize; i < n; ++i)
             mBuffer[i] = v;
     }
 
