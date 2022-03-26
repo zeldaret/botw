@@ -16,8 +16,7 @@ public:
     /// Called when a rigid body goes beyond the broadphase border.
     /// The default implementation just notifies the rigid body of this callback.
     virtual void onMaxPositionExceeded(RigidBody* body);
-    // a and b are probably physics bodies?
-    virtual void m3(void* a, void* b, float c);
+    virtual void onImpulse(RigidBody* body_a, RigidBody* body_b, float impulse_a);
     virtual void onBodyShapeChanged(RigidBody* body);
     virtual void m5();
     virtual const sead::SafeString& getName() const { return sead::SafeString::cEmptyString; }

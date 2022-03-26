@@ -1766,7 +1766,7 @@ const char* RigidBody::getName() {
     return mUserTag ? mUserTag->getName().cstr() : getHkBodyName().cstr();
 }
 
-void RigidBody::logPosition() const {
+void RigidBody::onImpulse(RigidBody* body_b, float impulse) const {
     sead::Vector3f position;
     getPosition(&position);
     // debug logging?

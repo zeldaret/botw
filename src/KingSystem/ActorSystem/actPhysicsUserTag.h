@@ -21,7 +21,7 @@ public:
     Actor* getActor() const { return mActor; }
 
     void onMaxPositionExceeded(phys::RigidBody* body) override;
-    void m3(void* a, void* b, float c) override;
+    void onImpulse(phys::RigidBody* body_a, phys::RigidBody* body_b, float impulse_a) override;
     void onBodyShapeChanged(phys::RigidBody* body) override;
     void m5() override;
     const sead::SafeString& getName() const override;

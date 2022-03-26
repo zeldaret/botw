@@ -46,6 +46,10 @@ public:
 
     void init(sead::Heap* heap);
 
+    // 0x0000007100fa6ac4
+    void calc(ContactLayerType layer_type);
+    void calc1(ContactLayerType layer_type, bool paused);
+
     bool pushRigidBody(ContactLayerType type, RigidBody* body);
     // 0x0000007100fa6d48
     void addEntityToWorld(ContactLayerType type, hkpEntity* entity);
@@ -65,7 +69,6 @@ public:
 
 private:
     struct Unk1;
-    struct Unk2;
     struct Unk3;
 
     struct Unk4 {
@@ -73,10 +76,12 @@ private:
     };
     KSYS_CHECK_SIZE_NX150(Unk4, 0x10);
 
-    struct Unk5 {
-        u8 _0[0x18];
+    struct ImpulseEntry {
+        RigidBody* body_a;
+        RigidBody* body_b;
+        float impulse_a;
     };
-    KSYS_CHECK_SIZE_NX150(Unk5, 0x18);
+    KSYS_CHECK_SIZE_NX150(ImpulseEntry, 0x18);
 
     struct Unk6 {
         sead::Vector3f _0 = sead::Vector3f::zero;
@@ -104,18 +109,22 @@ private:
     bool someFunction2(const LayerContactPointInfo::ContactEvent& event);
     static void someFunction(void* arg);
 
+    void processImpulseEntries();
+    void processOobRigidBodyEntries(ContactLayerType layer_type);
+
     static constexpr int NumRigidBodyBuffers = 2;
 
     sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mRigidBodies1;
     util::LockFreeQueue<Unk1> _38;
     util::LockFreeQueue<Unk1> _50;
-    sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mRigidBodies2;
-    util::LockFreeQueue<Unk2> _98;
+    /// Rigid bodies that are out of bounds.
+    sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mOobRigidBodies;
+    util::LockFreeQueue<ImpulseEntry> mImpulseEntries;
     util::LockFreeQueue<Unk3> _b0;
     util::LockFreeQueue<Unk4> _c8;
     util::LockFreeQueue<Unk4> _e0;
     sead::PtrArray<MotionAccessor> mMotionAccessors;
-    sead::Buffer<Unk5> _108;
+    sead::Buffer<ImpulseEntry> mImpulseEntriesPool;
     sead::Atomic<u32> _118;
     sead::Buffer<Unk6> _120;
     sead::Atomic<u32> _130;

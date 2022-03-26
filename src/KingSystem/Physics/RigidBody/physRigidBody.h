@@ -283,7 +283,7 @@ public:
     void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions);
     void getPosition(sead::Vector3f* position) const;
     sead::Vector3f getPosition() const;
-    virtual void logPosition() const;
+    virtual void onImpulse(RigidBody* body_b, float impulse) const;
     void getAabbInLocal(sead::BoundBox3f* aabb) const;
     void getAabbInWorld(sead::BoundBox3f* aabb) const;
 

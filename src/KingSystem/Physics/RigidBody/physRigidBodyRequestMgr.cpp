@@ -1,5 +1,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::phys {
@@ -12,18 +15,18 @@ RigidBodyRequestMgr::RigidBodyRequestMgr() = default;
 RigidBodyRequestMgr::~RigidBodyRequestMgr() {
     for (int i = 0; i < NumRigidBodyBuffers; ++i) {
         mRigidBodies1[i].freeBuffer();
-        mRigidBodies2[i].freeBuffer();
+        mOobRigidBodies[i].freeBuffer();
     }
 
     _38.freeBuffer();
     _50.freeBuffer();
-    _98.freeBuffer();
+    mImpulseEntries.freeBuffer();
     _b0.freeBuffer();
     _c8.freeBuffer();
     _e0.freeBuffer();
     _120.freeBuffer();
     _138.freeBuffer();
-    _108.freeBuffer();
+    mImpulseEntriesPool.freeBuffer();
     mMotionAccessors.freeBuffer();
 
     if (mContactPoints) {
@@ -35,7 +38,7 @@ RigidBodyRequestMgr::~RigidBodyRequestMgr() {
 void RigidBodyRequestMgr::init(sead::Heap* heap) {
     constexpr int Buffer138Size = 0x800;
 
-    _108.allocBufferAssert(0x100, heap);
+    mImpulseEntriesPool.allocBufferAssert(0x100, heap);
     _118 = 0;
 
     _120.allocBufferAssert(0x100, heap);
@@ -43,12 +46,12 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
 
     for (int i = 0; i < NumRigidBodyBuffers; ++i) {
         mRigidBodies1[i].alloc(0x2000, heap);
-        mRigidBodies2[i].alloc(0x100, heap);
+        mOobRigidBodies[i].alloc(0x100, heap);
     }
 
     _38.alloc(0x800, heap);
     _50.alloc(0x800, heap);
-    _98.alloc(0x100, heap);
+    mImpulseEntries.alloc(0x100, heap);
     _b0.alloc(0x100, heap);
     mMotionAccessors.allocBuffer(0x400, heap);
     _138.allocBufferAssert(Buffer138Size, heap);
@@ -81,6 +84,35 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
     mWaterIceSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Ice");
     mWaterHotSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Hot");
     mWaterPoisonSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Poison");
+}
+
+void RigidBodyRequestMgr::calc1(ContactLayerType layer_type, bool paused) {
+    auto lock = sead::makeScopedLock(mCriticalSections[int(layer_type)]);
+    ScopedWorldLock world_lock{layer_type};
+
+    if (!paused && layer_type == ContactLayerType::Entity)
+        processImpulseEntries();
+
+    processOobRigidBodyEntries(layer_type);
+}
+
+void RigidBodyRequestMgr::processImpulseEntries() {
+    while (auto* impulse = mImpulseEntries.pop()) {
+        if (auto* tag = impulse->body_a->getUserTag())
+            tag->onImpulse(impulse->body_a, impulse->body_b, impulse->impulse_a);
+        else
+            impulse->body_a->onImpulse(impulse->body_b, impulse->impulse_a);
+    }
+    _118 = 0;
+}
+
+void RigidBodyRequestMgr::processOobRigidBodyEntries(ContactLayerType layer_type) {
+    while (auto* body = mOobRigidBodies[int(layer_type)].pop()) {
+        if (auto* tag = body->getUserTag())
+            tag->onMaxPositionExceeded(body);
+        else
+            body->onMaxPositionExceeded();
+    }
 }
 
 bool RigidBodyRequestMgr::pushRigidBody(ContactLayerType type, RigidBody* body) {

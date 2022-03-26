@@ -7,8 +7,8 @@ void UserTag::onMaxPositionExceeded(RigidBody* body) {
     body->onMaxPositionExceeded();
 }
 
-void UserTag::m3(void* a, void* b, float c) {
-    // FIXME
+void UserTag::onImpulse(RigidBody* body_a, RigidBody* body_b, float impulse_a) {
+    body_a->onImpulse(body_b, impulse_a);
 }
 
 void UserTag::onBodyShapeChanged(RigidBody* body) {}
