@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
+#include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physSystem.h"
@@ -38,8 +39,8 @@ RigidBodyRequestMgr::~RigidBodyRequestMgr() {
 void RigidBodyRequestMgr::init(sead::Heap* heap) {
     constexpr int Buffer138Size = 0x800;
 
-    mImpulseEntriesPool.allocBufferAssert(0x100, heap);
-    _118 = 0;
+    mImpulseEntriesPool.allocBufferAssert(MaxNumImpulseEntries, heap);
+    mNumActiveImpulseEntries = 0;
 
     _120.allocBufferAssert(0x100, heap);
     _130 = 0;
@@ -103,7 +104,7 @@ void RigidBodyRequestMgr::processImpulseEntries() {
         else
             impulse->body_a->onImpulse(impulse->body_b, impulse->impulse_a);
     }
-    _118 = 0;
+    mNumActiveImpulseEntries = 0;
 }
 
 void RigidBodyRequestMgr::processOobRigidBodyEntries(ContactLayerType layer_type) {
@@ -118,6 +119,42 @@ void RigidBodyRequestMgr::processOobRigidBodyEntries(ContactLayerType layer_type
 bool RigidBodyRequestMgr::pushRigidBody(ContactLayerType type, RigidBody* body) {
     static_cast<void>(mRigidBodies1[int(type)].getSize());
     return mRigidBodies1[int(type)].push(body);
+}
+
+void RigidBodyRequestMgr::addEntityToWorld(ContactLayerType type, hkpEntity* entity) {
+    static_cast<void>(System::instance()->isActorSystemIdle());
+
+    auto* world = System::instance()->getHavokWorld(type);
+    if (world->addEntity(entity))
+        ++mNumEntitiesInWorld;
+}
+
+void RigidBodyRequestMgr::removeEntityFromWorld(ContactLayerType type, hkpEntity* entity) {
+    static_cast<void>(System::instance()->isActorSystemIdle());
+
+    auto* world = System::instance()->getHavokWorld(type);
+    if (world->removeEntity(entity))
+        --mNumEntitiesInWorld;
+}
+
+bool RigidBodyRequestMgr::onMaxPositionExceeded(ContactLayerType layer_type, RigidBody* body) {
+    return mOobRigidBodies[int(layer_type)].push(body);
+}
+
+bool RigidBodyRequestMgr::addImpulse(RigidBody* body_a, RigidBody* body_b, float impulse) {
+    int index = mNumActiveImpulseEntries;
+    ++mNumActiveImpulseEntries;
+    if (mNumActiveImpulseEntries >= MaxNumImpulseEntries)
+        return false;
+
+    auto* entry = mImpulseEntriesPool.get(index);
+    entry->body_a = body_a;
+    entry->body_b = body_b;
+    entry->impulse_a = impulse;
+    if (!mImpulseEntries.push(entry))
+        return false;
+
+    return true;
 }
 
 bool RigidBodyRequestMgr::registerMotionAccessor(MotionAccessor* accessor) {

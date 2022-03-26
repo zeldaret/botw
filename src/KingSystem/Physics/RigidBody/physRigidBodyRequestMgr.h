@@ -51,18 +51,14 @@ public:
     void calc1(ContactLayerType layer_type, bool paused);
 
     bool pushRigidBody(ContactLayerType type, RigidBody* body);
-    // 0x0000007100fa6d48
     void addEntityToWorld(ContactLayerType type, hkpEntity* entity);
-    // 0x0000007100fa6dac
-    void removeEntityToWorld(ContactLayerType type, hkpEntity* entity);
+    void removeEntityFromWorld(ContactLayerType type, hkpEntity* entity);
     // 0x0000007100fa6ebc
     void removeRigidBody(ContactLayerType type, RigidBody* body);
 
-    // 0x0000007100fa728c
-    void onMaxPositionExceeded(ContactLayerType layer_type, RigidBody* body);
+    bool onMaxPositionExceeded(ContactLayerType layer_type, RigidBody* body);
 
-    // 0x0000007100fa7340
-    void addImpulse(RigidBody* body_a, RigidBody* body_b, float impulse);
+    bool addImpulse(RigidBody* body_a, RigidBody* body_b, float impulse);
 
     bool registerMotionAccessor(MotionAccessor* accessor);
     bool deregisterMotionAccessor(MotionAccessor* accessor);
@@ -113,6 +109,7 @@ private:
     void processOobRigidBodyEntries(ContactLayerType layer_type);
 
     static constexpr int NumRigidBodyBuffers = 2;
+    static constexpr int MaxNumImpulseEntries = 0x100;
 
     sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mRigidBodies1;
     util::LockFreeQueue<Unk1> _38;
@@ -125,7 +122,7 @@ private:
     util::LockFreeQueue<Unk4> _e0;
     sead::PtrArray<MotionAccessor> mMotionAccessors;
     sead::Buffer<ImpulseEntry> mImpulseEntriesPool;
-    sead::Atomic<u32> _118;
+    sead::Atomic<int> mNumActiveImpulseEntries;
     sead::Buffer<Unk6> _120;
     sead::Atomic<u32> _130;
     sead::Buffer<Unk4> _138;

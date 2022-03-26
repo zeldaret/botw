@@ -112,6 +112,9 @@ public:
     // 0x0000007101216c74
     bool getEntityContactListenerField90() const;
 
+    // 0x0000007101216ca4
+    bool isActorSystemIdle() const;
+
     // 0x0000007101216800
     void setEntityContactListenerField91(bool value);
     // 0x0000007101216814
