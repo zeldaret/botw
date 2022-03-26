@@ -2,6 +2,9 @@
 
 #include <cfloat>
 
+#define HK_INT32_MIN (-2147483647 - 1)
+#define HK_INT32_MAX 2147483647
+
 #define HK_FLOAT_PI 3.14159265358979f
 #define HK_FLOAT_DEG_TO_RAD (HK_FLOAT_PI / 180.0f)
 #define HK_FLOAT_RAD_TO_DEG (180.0f / HK_FLOAT_PI)

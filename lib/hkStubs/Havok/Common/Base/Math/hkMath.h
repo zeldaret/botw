@@ -55,4 +55,8 @@ HK_FORCE_INLINE int hkToIntFast(hkFloat32 r) {
     return int(r);
 }
 
+HK_FORCE_INLINE hkBool32 intInRange(int value, int lowInclusive, int highExclusive) {
+    return (lowInclusive <= value) & (value < highExclusive);
+}
+
 }  // namespace hkMath

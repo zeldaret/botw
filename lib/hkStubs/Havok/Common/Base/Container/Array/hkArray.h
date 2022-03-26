@@ -242,6 +242,18 @@ inline void hkArrayBase<T>::removeAtAndCopy(int index, int numToRemove) {
 }
 
 template <typename T>
+inline int hkArrayBase<T>::indexOf(const T& t, int start, int end) const {
+    if (end < 0)
+        end = m_size;
+
+    for (int i = start; i < end; ++i) {
+        if (m_data[i] == t)
+            return i;
+    }
+    return -1;
+}
+
+template <typename T>
 inline void hkArrayBase<T>::popBack(int numElemsToRemove) {
     hkArrayUtil::destruct(m_data + m_size - numElemsToRemove, numElemsToRemove);
     m_size -= numElemsToRemove;
@@ -359,7 +371,7 @@ inline hkArrayBase<T>& hkArrayBase<T>::copyFromArray(hkMemoryAllocator& allocato
             if ((m_capacityAndFlags & DONT_DEALLOCATE_FLAG) == 0) {
                 allocator._bufFree<T>(m_data, getCapacity());
             }
-            const int n = src.getSize();
+            int n = src.getSize();
             m_data = allocator._bufAlloc<T>(n);
             m_capacityAndFlags = n;
         }

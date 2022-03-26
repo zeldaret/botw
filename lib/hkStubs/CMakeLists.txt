@@ -1,6 +1,16 @@
 project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
+  Havok/Animation/Animation/Animation/hkaAnimation.h
+  Havok/Animation/Animation/Animation/hkaAnimationBinding.h
+  Havok/Animation/Animation/Animation/hkaAnnotationTrack.h
+  Havok/Animation/Animation/Mapper/hkaSkeletonMapper.h
+  Havok/Animation/Animation/Mapper/hkaSkeletonMapperData.h
+  Havok/Animation/Animation/Motion/hkaAnimatedReferenceFrame.h
+  Havok/Animation/Animation/Rig/hkaBone.h
+  Havok/Animation/Animation/Rig/hkaSkeleton.h
+  Havok/Animation/Physics2012Bridge/Instance/hkaRagdollInstance.h
+
   Havok/Common/Base/hkBase.h
 
   Havok/Common/Base/Container/hkContainerAllocators.h
@@ -66,6 +76,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Types/hkRefVariant.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabb.h
   Havok/Common/Base/Types/Geometry/Aabb/hkAabbUtil.h
+  Havok/Common/Base/Types/Geometry/LocalFrame/hkLocalFrame.h
   Havok/Common/Base/Types/Geometry/Sphere/hkSphere.h
   Havok/Common/Base/Types/Physics/hkStepInfo.h
   Havok/Common/Base/Types/Physics/ContactPoint/hkContactPointMaterial.h

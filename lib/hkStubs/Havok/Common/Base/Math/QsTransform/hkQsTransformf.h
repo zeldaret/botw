@@ -21,6 +21,7 @@ public:
                                    hkQuaternionfParameter rotation);
 
     HK_FORCE_INLINE hkQsTransformf(const hkQsTransformf& other);
+    hkQsTransformf& operator=(const hkQsTransformf&) = default;
 
     HK_FORCE_INLINE const hkVector4f& getTranslation() const;
     HK_FORCE_INLINE const hkQuaternionf& getRotation() const;
