@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"

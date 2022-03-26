@@ -21,17 +21,9 @@ namespace ksys::phys {
 class CollisionInfo;
 class ContactPointInfo;
 class ParamSet;
+class RagdollController;
 class RigidBodySet;
 class SystemGroupHandler;
-
-class Ragdoll {};
-
-class RagdollController {
-public:
-    u32 sub_7101221CC4();
-    void sub_7101221728(ContactLayer);
-    void sub_71012217A8();
-};
 
 class CollisionController {
 public:
