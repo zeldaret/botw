@@ -8,31 +8,15 @@
 
 namespace ksys::phys {
 
+class CharacterFormSet;
+class CharacterController;
+class NavMeshCharacter;
 class Shape;
 struct ShapeParamObj;
 
-SEAD_ENUM(NavMeshCharacterType,
-Player,
-Horse,
-Enemy,
-Guardian,
-NPC,
-NPCGoron,
-NPCSwimmer,
-NPCGerudoPassable,
-Fish,
-Animal,
-SmallAnimal,
-DomesticAnimal,
-PoorSwimmer,
-GoodSwimmer,
-IceSwimmer,
-FireEnemy,
-WolfLink,
-GiantEnemy,
-GiantSwimmer,
-TallEnemy,
-Lynel)
+SEAD_ENUM(NavMeshCharacterType, Player, Horse, Enemy, Guardian, NPC, NPCGoron, NPCSwimmer,
+          NPCGerudoPassable, Fish, Animal, SmallAnimal, DomesticAnimal, PoorSwimmer, GoodSwimmer,
+          IceSwimmer, FireEnemy, WolfLink, GiantEnemy, GiantSwimmer, TallEnemy, Lynel)
 
 bool navMeshCharacterTypeFromText(NavMeshCharacterType& value, const sead::SafeString& text);
 
@@ -66,14 +50,12 @@ struct CharacterControllerParam : agl::utl::ParameterList, ICharacterControllerP
     int getNumForms() override { return forms.size(); }
     Shape* createShape(int form_idx, sead::Heap* heap) override;
 
-    // TODO: return type
-    void* createController(sead::Heap* heap);
+    CharacterFormSet* createFormSet(sead::Heap* heap);
     // TODO: types
-    void* createControllerState(const sead::SafeString& name, void* ctrl, void* x, bool y,
-                                sead::Heap* heap);
-    // TODO: return type
-    void* createNavMeshCharacter(const sead::SafeString& name, sead::Heap* heap,
-                                 const sead::Vector3f& scale);
+    CharacterController* createController(const sead::SafeString& name, void* ctrl, void* x, bool y,
+                                          sead::Heap* heap);
+    NavMeshCharacter* createNavMeshCharacter(const sead::SafeString& name, sead::Heap* heap,
+                                             const sead::Vector3f& scale);
 
     int findFormIdx(const sead::SafeString& form_type) const;
     bool parse(agl::utl::ResParameterList res_list, sead::Heap* heap);

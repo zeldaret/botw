@@ -1,6 +1,8 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
+#include <container/seadObjArray.h>
 #include <container/seadPtrArray.h>
 #include <hostio/seadHostIONode.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -11,21 +13,32 @@ namespace gsys {
 class Model;
 }
 
+namespace sead {
+class DirectResource;
+}
+
 namespace ksys::res {
+class Handle;
 class RagdollBlendWeight;
 class RagdollConfigList;
 }  // namespace ksys::res
 
 namespace ksys::phys {
 
+class CharacterController;
+class CharacterFormSet;
+class ClothSet;
 class CollisionInfo;
 class ContactPointInfo;
+class NavMeshCharacter;
 class ParamSet;
 class RagdollController;
 class RigidBodySet;
 class SystemGroupHandler;
+class UserTag;
 
-class CollisionController {
+// TODO: move to a separate header
+class CharacterController {
 public:
     void sub_7100F5EC30();
     void sub_7100F60604();
@@ -47,8 +60,12 @@ public:
         _80000000 = 1u << 31,
     };
 
+    InstanceSet(const sead::SafeString& actor_name, const sead::SafeString& actor_profile,
+                const ParamSet& param_set);
+    virtual ~InstanceSet();
+
     const sead::SafeString& getName() const { return mName; }
-    ParamSet* getParamSet() const { return mParamSet; }
+    const ParamSet* getParamSet() const { return mParamSet; }
 
     void setFlag2();
     void clothVisibleStuff();
@@ -73,28 +90,49 @@ public:
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;
 
 private:
+    struct Unk1 {
+        u8 _0[0x48];
+    };
+
     sead::SafeString mName;
-    ParamSet* mParamSet;
+    const ParamSet* mParamSet;
     sead::TypedBitFlag<Flag> mFlags;
+    u16 _24{};
+    u16 _26{};
     gsys::Model* mModel;
     f32 mScale;
-    u8 _34[0x40 - 0x34];
+    UserTag* mUserTag;
     sead::PtrArray<RigidBodySet> mRigidBodySets;
     sead::PtrArray<CollisionInfo> mCollisionInfo;
     sead::PtrArray<ContactPointInfo> mContactPointInfo;
+    sead::Buffer<res::Handle*> mRigidBodySetResHandles;
 
-    u8 _70[0x10];
-    CollisionController* mCollisionController;
-    u8 _88[8];
-    RagdollController* mRagdollController;
-    u8 _98[0xb8 - 0x98];
+    CharacterController* mCharacterController{};
+    CharacterFormSet* mCharacterFormSet{};
+
+    RagdollController* mRagdollController{};
+    sead::Buffer<void*> _98;
+    ContactPointInfo* mRagdollContactPointInfo{};
+    res::Handle* mRagdollResHandle{};
     res::RagdollBlendWeight* mRagdollBlendWt;
     res::RagdollConfigList* mRagdollConfigList;
-    u8 _c8[0xd8 - 0xc8];
-    void* _d8;
-    u8 _e0[0x148 - 0xe0];
+
+    res::Handle* mClothResHandle{};
+    sead::DirectResource* mClothRes{};
+    ClothSet* mClothSet;
+
+    res::Handle* mSupportBoneResHandle{};
+    void* _e8{};
+    void* _f0{};
+
+    NavMeshCharacter* mNavMeshCharacter;
+    sead::Buffer<void*> _100;
+    u16 _110{};
+    sead::ObjArray<Unk1> mLinkMatricesMaybe;
+    sead::Buffer<void*> _138;
     sead::TList<RigidBody*> mList;
-    u8 _160[0x178 - 0x160];
+    sead::ListNode _160;
+    u32 _170{};
     SystemGroupHandler* _178[2];
     SystemGroupHandler* _188[2];
 };

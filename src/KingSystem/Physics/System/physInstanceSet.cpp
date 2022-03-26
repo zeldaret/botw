@@ -9,14 +9,14 @@ namespace ksys::phys {
 
 void InstanceSet::setFlag2() {
     mFlags.set(Flag::_2);
-    if (_d8 != nullptr) {
+    if (mClothSet != nullptr) {
         mFlags.set(Flag::_2);
         mFlags.set(Flag::DisableDraw);
     }
 }
 
 void InstanceSet::clothVisibleStuff() {
-    if (_d8 != nullptr) {
+    if (mClothSet != nullptr) {
         mFlags.set(Flag::DisableDraw);
     }
 }
@@ -89,8 +89,8 @@ void InstanceSet::sub_7100FBA9BC() {
         body->addToWorld();
     }
 
-    if (mCollisionController != nullptr)
-        mCollisionController->sub_7100F5EC30();
+    if (mCharacterController != nullptr)
+        mCharacterController->sub_7100F5EC30();
 }
 
 void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
@@ -105,8 +105,8 @@ void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
     if (mRagdollController != nullptr)
         mRagdollController->sub_7101221728(layer);
 
-    if (mCollisionController != nullptr)
-        mCollisionController->enableCollisionMaybe_0(layer);
+    if (mCharacterController != nullptr)
+        mCharacterController->enableCollisionMaybe_0(layer);
 }
 
 void InstanceSet::sub_7100FBAD74() {
@@ -116,8 +116,8 @@ void InstanceSet::sub_7100FBAD74() {
     if (mRagdollController != nullptr) {
         mRagdollController->sub_71012217A8();
     }
-    if (mCollisionController != nullptr) {
-        mCollisionController->sub_7100F60604();
+    if (mCharacterController != nullptr) {
+        mCharacterController->sub_7100F60604();
     }
 }
 
