@@ -56,7 +56,7 @@ public:
 
     enum class Type {
         FromShape = 0,
-        _1 = 1,
+        Ragdoll = 1,
         _2 = 2,
         TerrainHeightField = 3,
         StaticCompoundBody = 4,

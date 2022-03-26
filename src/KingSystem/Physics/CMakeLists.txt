@@ -19,6 +19,8 @@ target_sources(uking PRIVATE
   Ragdoll/physRagdollParam.h
   Ragdoll/physRagdollResource.cpp
   Ragdoll/physRagdollResource.h
+  Ragdoll/physRagdollRigidBody.cpp
+  Ragdoll/physRagdollRigidBody.h
 
   RigidBody/physEdgeRigidBodyParam.cpp
   RigidBody/physEdgeRigidBodyParam.h
