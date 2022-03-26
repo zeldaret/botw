@@ -32,30 +32,25 @@ public:
 
     /// Pop an element from the front of the queue. Non-blocking.
     /// @returns a non-null pointer to an element or nullptr if the queue is empty.
+    // NON_MATCHING: control flow is a total mess
     T* pop() {
-        while (true) {
-            int read_idx = mReadIdx;
-            if (mWriteIdx - read_idx <= 0) {
-                // The queue is empty.
-                return nullptr;
-            }
-
+        while (getSize() > 0) {
             // No need to check if mWriteIdx has changed: the only thing that *could*
             // happen is mWriteIdx being incremented by a producer. In that situation
             // mWriteIdx - read_idx > 0 still holds.
 
-            T* value = get(read_idx);
+            T* value = get(mReadIdx);
             if (!value) {
                 SEAD_ASSERT_MSG(false, "corrupted buffer");
                 return nullptr;
             }
 
             // Advance the read position and return the value if it's not a dummy pointer.
-            mReadIdx = read_idx + 1;
-            get(read_idx) = nullptr;
+            get(mReadIdx++) = nullptr;
             if (uintptr_t(value) != uintptr_t(-1))
                 return value;
         }
+        return nullptr;
     }
 
     /// Push a new element at the back of the queue. Non-blocking: may fail if the queue is full.
@@ -65,8 +60,8 @@ public:
             return false;
 
         while (true) {
-            const int write_idx = mWriteIdx;
-            if (write_idx - mReadIdx >= getCapacity()) {
+            const u32 write_idx = mWriteIdx;
+            if (int(write_idx) - int(mReadIdx) >= getCapacity()) {
                 // The buffer is full.
                 return false;
             }
@@ -85,19 +80,28 @@ public:
         }
     }
 
-private:
-    T*& get(int idx) { return mBuffer(moduloCapacity(idx)); }
-    const T*& get(int idx) const { return mBuffer(moduloCapacity(idx)); }
+    /// Erase an element from the queue.
+    /// @warning Not thread safe!
+    void erase(T* value) {
+        for (u32 i = mReadIdx; i < mWriteIdx; ++i) {
+            if (get(i) == value)
+                get(i) = reinterpret_cast<T*>(uintptr_t(-1));
+        }
+    }
 
-    int moduloCapacity(int idx) const {
+private:
+    T*& get(u32 idx) { return mBuffer(moduloCapacity(idx)); }
+    const T*& get(u32 idx) const { return mBuffer(moduloCapacity(idx)); }
+
+    int moduloCapacity(u32 idx) const {
         // Because the capacity is a power of 2, we can avoid costly divisions
         // and instead rely on x % 2^n being equal to x & (2^n - 1).
         return idx & (getCapacity() - 1);
     }
 
     sead::Buffer<T*> mBuffer;
-    sead::Atomic<int> mWriteIdx;
-    int mReadIdx{};
+    sead::Atomic<u32> mWriteIdx;
+    u32 mReadIdx{};
 };
 
 }  // namespace ksys::util
