@@ -66,6 +66,9 @@ public:
     AllocMode getAllocMode() const { return mAllocMode; }
     void setAllocMode(AllocMode mode) { mAllocMode = mode; }
 
+    // XXX: this isn't const-correct...
+    size_t getAllocatedSize(void* object);
+
     void dumpFreeList() const;
     void dumpUseList() const;
 
