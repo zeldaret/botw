@@ -57,6 +57,7 @@ add_library(hkStubs OBJECT
 
   Havok/Common/Base/Memory/Allocator/hkMemoryAllocator.h
   Havok/Common/Base/Memory/Allocator/Lifo/hkLifoAllocator.h
+  Havok/Common/Base/Memory/Allocator/Malloc/hkMallocAllocator.h
   Havok/Common/Base/Memory/Router/hkMemoryRouter.h
   Havok/Common/Base/Memory/Util/hkMemUtil.h
 

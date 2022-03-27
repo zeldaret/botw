@@ -9,6 +9,9 @@ using hkFloat32 = float;
 using hkDouble64 = double;
 using hkReal = hkFloat32;
 #define HK_REAL_IS_FLOAT
+#define HK_FLOAT_ALIGNMENT 16
+#define HK_DOUBLE_ALIGNMENT 32
+#define HK_REAL_ALIGNMENT HK_FLOAT_ALIGNMENT
 
 using hkChar = char;
 using hkInt8 = std::int8_t;

@@ -2,6 +2,11 @@
 
 #include <Havok/Common/Base/Types/hkBaseTypes.h>
 
+#define HK_DECLARE_PLACEMENT_ALLOCATOR()                                                           \
+    HK_FORCE_INLINE void* operator new(hk_size_t, void* p) { return p; }                           \
+    HK_FORCE_INLINE void operator delete(void*, void*) {}                                          \
+    HK_FORCE_INLINE void operator delete(void*, hk_size_t) {}
+
 class hkMemorySnapshot;
 
 template <typename T>
@@ -16,6 +21,8 @@ struct hkSizeOfTypeOrVoid<void> {
 
 class hkMemoryAllocator {
 public:
+    HK_DECLARE_PLACEMENT_ALLOCATOR()
+
     using MemoryWalkCallback = void (*)(void* start, hk_size_t size, bool allocated, int pool,
                                         void* param);
 

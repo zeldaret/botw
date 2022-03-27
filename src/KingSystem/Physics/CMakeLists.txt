@@ -174,9 +174,11 @@ target_sources(uking PRIVATE
   System/physUserTag.cpp
   System/physUserTag.h
 
+  physConversions.h
   physDefines.cpp
   physDefines.h
-  physConversions.h
+  physHavokMemoryAllocator.cpp
+  physHavokMemoryAllocator.h
   physHeapUtil.h
   physLayerMaskBuilder.h
   physMaterialMask.cpp
