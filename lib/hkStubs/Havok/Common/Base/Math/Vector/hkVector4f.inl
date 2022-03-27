@@ -63,6 +63,15 @@ inline void hkVector4f::setZero() {
     setAll(0);
 }
 
+template <int I>
+inline void hkVector4f::zeroComponent() {
+    v[I] = 0;
+}
+
+inline void hkVector4f::zeroComponent(int i) {
+    v[i] = 0;
+}
+
 inline void hkVector4f::add(hkVector4fParameter a) {
     setAdd(*this, a);
 }

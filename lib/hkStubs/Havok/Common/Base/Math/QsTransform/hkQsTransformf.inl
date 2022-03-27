@@ -47,3 +47,38 @@ inline void hkQsTransformf::setZero() {
     m_rotation.m_vec.setZero();
     m_scale.setZero();
 }
+
+inline void hkQsTransformf::setInverse(const hkQsTransformf& t) {
+    m_translation.setRotatedInverseDir(t.m_rotation, t.m_translation);
+    m_translation.setNeg<4>(m_translation);
+    m_rotation.setInverse(t.m_rotation);
+
+    m_scale.setReciprocal(t.m_scale);
+
+    m_scale.zeroComponent<3>();
+}
+
+inline void hkQsTransformf::setMul(const hkQsTransformf& t1, const hkQsTransformf& t2) {
+    hkVector4f extraTrans;
+    extraTrans._setRotatedDir(t1.m_rotation, t2.m_translation);
+    m_translation.setAdd(t1.m_translation, extraTrans);
+    m_rotation.setMul(t1.m_rotation, t2.m_rotation);
+
+    m_scale.setMul(t1.m_scale, t2.m_scale);
+}
+
+inline void hkQsTransformf::setMulInverseMul(const hkQsTransformf& t1, const hkQsTransformf& t2) {
+    hkQsTransformf inv;
+    inv.setInverse(t1);
+    setMul(inv, t2);
+}
+
+inline void hkQsTransformf::setMulMulInverse(const hkQsTransformf& t1, const hkQsTransformf& t2) {
+    hkQsTransformf inv;
+    inv.setInverse(t2);
+    setMul(t1, inv);
+}
+
+inline void hkQsTransformf::setMulEq(const hkQsTransformf& b) {
+    setMul(*this, b);
+}

@@ -212,6 +212,8 @@ public:
     int m_finishing = 0;
 };
 
+#define hkSizeOf(A) int(sizeof(A))
+
 HK_FORCE_INLINE hkLong hkGetByteOffset(const void* base, const void* pntr) {
     return hkLong(pntr) - hkLong(base);
 }

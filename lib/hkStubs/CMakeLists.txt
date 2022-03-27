@@ -8,7 +8,9 @@ add_library(hkStubs OBJECT
   Havok/Animation/Animation/Mapper/hkaSkeletonMapperData.h
   Havok/Animation/Animation/Motion/hkaAnimatedReferenceFrame.h
   Havok/Animation/Animation/Rig/hkaBone.h
+  Havok/Animation/Animation/Rig/hkaBoneAttachment.h
   Havok/Animation/Animation/Rig/hkaSkeleton.h
+  Havok/Animation/Animation/Rig/hkaPose.h
   Havok/Animation/Physics2012Bridge/Instance/hkaRagdollInstance.h
 
   Havok/Common/Base/hkBase.h
@@ -27,6 +29,8 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Matrix/hkMatrix3.h
   Havok/Common/Base/Math/Matrix/hkMatrix3f.h
   Havok/Common/Base/Math/Matrix/hkMatrix3f.inl
+  Havok/Common/Base/Math/Matrix/hkMatrix4.h
+  Havok/Common/Base/Math/Matrix/hkMatrix4f.h
   Havok/Common/Base/Math/Matrix/hkRotation.h
   Havok/Common/Base/Math/Matrix/hkRotationf.h
   Havok/Common/Base/Math/Matrix/hkTransform.h

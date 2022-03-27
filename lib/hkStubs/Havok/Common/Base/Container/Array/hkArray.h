@@ -122,6 +122,8 @@ public:
 
     HK_FORCE_INLINE void clearAndDeallocate();
     HK_FORCE_INLINE void pushBack(const T& e);
+    HK_FORCE_INLINE hkResult reserve(int size);
+    HK_FORCE_INLINE hkResult reserveExactly(int size);
     HK_FORCE_INLINE void setSize(int size);
     HK_FORCE_INLINE void setSize(int size, const T& fill);
 
@@ -423,6 +425,16 @@ inline void hkArray<T, Allocator>::setSize(int size) {
 template <typename T, typename Allocator>
 inline void hkArray<T, Allocator>::setSize(int size, const T& fill) {
     this->_setSize(AllocatorType().get(), size, fill);
+}
+
+template <typename T, typename Allocator>
+inline hkResult hkArray<T, Allocator>::reserve(int size) {
+    return this->_reserve(AllocatorType().get(), size);
+}
+
+template <typename T, typename Allocator>
+inline hkResult hkArray<T, Allocator>::reserveExactly(int size) {
+    return this->_reserveExactly(AllocatorType().get(), size);
 }
 
 template <typename T, unsigned N, typename Allocator>

@@ -27,6 +27,9 @@ public:
     HK_FORCE_INLINE void setAll(hkFloat32 x);
     HK_FORCE_INLINE void setAll(hkSimdFloat32Parameter x);
     HK_FORCE_INLINE void setZero();
+    template <int I>
+    HK_FORCE_INLINE void zeroComponent();
+    HK_FORCE_INLINE void zeroComponent(int i);
 
     // ========== Vector operations
 
@@ -116,7 +119,17 @@ public:
     // ========== Matrix operations (out-of-line)
 
     void setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b);
+    void setRotatedInverseDir(const hkMatrix3f& a, hkVector4fParameter b);
     void setTransformedPos(const hkTransformf& a, const hkVector4f& pos);
+    void setTransformedInversePos(const hkTransformf& a, hkVector4fParameter b);
+
+    void setRotatedDir(hkQuaternionfParameter quat, hkVector4fParameter direction);
+    void setRotatedInverseDir(hkQuaternionfParameter quat, hkVector4fParameter direction);
+    void setTransformedPos(const hkQsTransformf& a, hkVector4fParameter b);
+    void setTransformedInversePos(const hkQsTransformf& a, hkVector4fParameter b);
+
+    void setTransformedPos(const hkQTransformf& a, hkVector4fParameter b);
+    void setTransformedInversePos(const hkQTransformf& a, hkVector4fParameter b);
 
     // ========== Matrix operations (inline)
 

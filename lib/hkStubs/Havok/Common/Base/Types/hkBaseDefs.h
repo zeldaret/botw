@@ -9,3 +9,6 @@
 #define HK_RESTRICT __restrict
 
 #define HK_MAX_NUM_THREADS 12
+
+#define HK_NEXT_MULTIPLE_OF(ALIGNMENT, VALUE)                                                      \
+    (((VALUE) + ((ALIGNMENT)-1)) & (~((ALIGNMENT) + (VALUE)*0 - 1)))

@@ -18,6 +18,7 @@ class hkRotationf;
 class hkTransformf;
 class hkQTransformf;
 class hkQsTransformf;
+class hkMatrix4f;
 
 // Type aliases
 using hkVector4fParameter = const hkVector4f&;
@@ -34,6 +35,7 @@ using hkQuaternionfParameter = const hkQuaternionf&;
 #include <Havok/Common/Base/Math/Matrix/hkRotation.h>
 #include <Havok/Common/Base/Math/Matrix/hkTransform.h>
 #include <Havok/Common/Base/Math/QsTransform/hkQsTransform.h>
+#include <Havok/Common/Base/Math/Matrix/hkMatrix4.h>
 
 // Implementations
 #include <Havok/Common/Base/Math/Vector/hkVector4f.inl>
