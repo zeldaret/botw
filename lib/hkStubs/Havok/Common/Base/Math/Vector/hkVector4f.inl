@@ -349,7 +349,7 @@ inline void hkVector4f::setNeg(hkVector4fParameter a) {
     }
     case 3: {
         auto zw = vget_high_f32(a.v);
-        v = vnegq_f32(v);
+        v = vnegq_f32(a.v);
         v = vsetq_lane_f32(vget_lane_f32(zw, 1), v, 3);
         break;
     }
