@@ -22,6 +22,9 @@ target_sources(uking PRIVATE
   Ragdoll/physRagdollRigidBody.cpp
   Ragdoll/physRagdollRigidBody.h
 
+  Rig/physBoneAccessor.cpp
+  Rig/physBoneAccessor.h
+
   RigidBody/physEdgeRigidBodyParam.cpp
   RigidBody/physEdgeRigidBodyParam.h
   RigidBody/physMotionAccessor.cpp

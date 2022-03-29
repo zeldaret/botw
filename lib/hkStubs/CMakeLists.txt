@@ -7,6 +7,7 @@ add_library(hkStubs OBJECT
   Havok/Animation/Animation/Mapper/hkaSkeletonMapper.h
   Havok/Animation/Animation/Mapper/hkaSkeletonMapperData.h
   Havok/Animation/Animation/Motion/hkaAnimatedReferenceFrame.h
+  Havok/Animation/Animation/Playback/Utilities/hkaSampleAndCombineUtils.h
   Havok/Animation/Animation/Rig/hkaBone.h
   Havok/Animation/Animation/Rig/hkaBoneAttachment.h
   Havok/Animation/Animation/Rig/hkaSkeleton.h
