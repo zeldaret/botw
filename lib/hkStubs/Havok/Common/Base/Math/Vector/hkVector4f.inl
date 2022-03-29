@@ -134,7 +134,10 @@ inline void hkVector4f::setSub(hkVector4fParameter a, hkSimdFloat32Parameter b) 
 
 inline void hkVector4f::setReciprocal(hkVector4fParameter a) {
 #ifdef HK_VECTOR4F_AARCH64_NEON
-    v = vrecpeq_f32(a.v);
+    auto result = vrecpeq_f32(a.v);
+    result *= vrecpsq_f32(a.v, result);
+    result *= vrecpsq_f32(a.v, result);
+    v = result;
 #else
     for (int i = 0; i < 4; ++i)
         v[i] = 1.0f / a[i];
