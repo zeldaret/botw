@@ -1,8 +1,14 @@
 project(gsys CXX ASM)
 
 add_library(gsys OBJECT
+  include/gsys/gsysModel.h
+  include/gsys/gsysModelAccessKey.h
+  include/gsys/gsysModelNW.h
+  include/gsys/gsysModelUnit.h
   include/gsys/gsysORUtil.h
   include/gsys/gsysParticleConfig.h
+
+  src/gsys/gsysModelAccessKey.cpp
   src/gsys/gsysParticleConfig.cpp
 )
 
