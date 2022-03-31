@@ -24,6 +24,8 @@ target_sources(uking PRIVATE
 
   Rig/physBoneAccessor.cpp
   Rig/physBoneAccessor.h
+  Rig/physModelBoneAccessor.cpp
+  Rig/physModelBoneAccessor.h
 
   RigidBody/physEdgeRigidBodyParam.cpp
   RigidBody/physEdgeRigidBodyParam.h

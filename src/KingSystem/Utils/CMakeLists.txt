@@ -71,6 +71,8 @@ target_sources(uking PRIVATE
   Container/UniqueArrayPtr.h
 
   AtomicLongBitFlag.h
+  BitField.h
+  BitSet.h
   Debug.h
   FixedString.h
   HashUtil.h
