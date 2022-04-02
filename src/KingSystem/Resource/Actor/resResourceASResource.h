@@ -1,7 +1,7 @@
 #pragma once
 
-#include <agl/Utils/aglParameterList.h>
-#include <agl/Utils/aglResParameter.h>
+#include <agl/utl/aglParameterList.h>
+#include <agl/utl/aglResParameter.h>
 #include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"

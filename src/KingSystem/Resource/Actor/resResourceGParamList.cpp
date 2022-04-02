@@ -1,5 +1,5 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
-#include <agl/Utils/aglParameter.h>
+#include <agl/utl/aglParameter.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObject.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <agl/Utils/aglResParameter.h>
+#include <agl/utl/aglResParameter.h>
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
 #include "KingSystem/Utils/Types.h"

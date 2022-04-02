@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
-#include <agl/Utils/aglParameter.h>
-#include <agl/Utils/aglResParameter.h>
+#include <agl/utl/aglParameter.h>
+#include <agl/utl/aglResParameter.h>
 #include <container/seadSafeArray.h>
 #include <cstring>
 #include <prim/seadScopedLock.h>
