@@ -1,14 +1,22 @@
 project(gsys CXX ASM)
 
 add_library(gsys OBJECT
+  include/gsys/gsysMaskedProjLight.h
+  include/gsys/gsysMaskedProjLight.h
+  include/gsys/gsysMaskedSpotLight.h
   include/gsys/gsysModel.h
   include/gsys/gsysModelAccessKey.h
   include/gsys/gsysModelNW.h
+  include/gsys/gsysModelSceneConfig.h
   include/gsys/gsysModelUnit.h
+  include/gsys/gsysOfxLensFlareRig.h
   include/gsys/gsysORUtil.h
   include/gsys/gsysParticleConfig.h
+  include/gsys/gsysPointLight.h
+  include/gsys/gsysSpotLight.h
 
   src/gsys/gsysModelAccessKey.cpp
+  src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysParticleConfig.cpp
 )
 
