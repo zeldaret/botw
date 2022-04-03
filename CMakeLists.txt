@@ -18,6 +18,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+add_compile_definitions(UKING_NX_V150)
+
 add_executable(uking)
 target_include_directories(uking PRIVATE src)
 target_compile_definitions(uking PRIVATE NON_MATCHING)
