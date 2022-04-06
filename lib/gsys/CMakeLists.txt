@@ -9,6 +9,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelNW.h
   include/gsys/gsysModelSceneConfig.h
   include/gsys/gsysModelUnit.h
+  include/gsys/gsysModelUnitDrawArray.h
   include/gsys/gsysOfxLensFlareRig.h
   include/gsys/gsysORUtil.h
   include/gsys/gsysParticleConfig.h
