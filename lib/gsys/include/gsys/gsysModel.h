@@ -2,9 +2,12 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadMatrix.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 
 namespace gsys {
@@ -45,9 +48,20 @@ private:
     sead::Buffer<ModelInfo> mUnitPool;
     /// Indices into this array are called "model unit access indices".
     sead::PtrArray<ModelInfo> mUnitAccess;
-    u8 _48[0x140 - 0x48];
+    sead::PtrArray<ModelInfo> _48;
+    sead::Matrix34f mMatrix = sead::Matrix34f::ident;
+    sead::Vector3f _88 = sead::Vector3f::ones;
+    sead::Vector3f _94 = sead::Vector3f::ones;
+    bool _a0 = true;
+    bool _a1 = false;
+    bool _a2 = true;
+    bool _a3 = false;
+    u16 mNumModels = 0;
+    u8 _a6[0x140 - 0xa6];
     mutable sead::CriticalSection mCS;
-    u8 _180[0x2b8 - 0x180];
+    sead::OffsetList<IModelAccesssHandle> mHandleList;
+    sead::FixedSafeString<256> mName{"名称未設定"};
+    u8 _2b0[0x2b8 - 0x2b0];
 };
 
 }  // namespace gsys
