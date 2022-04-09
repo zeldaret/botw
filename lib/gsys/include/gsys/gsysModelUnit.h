@@ -7,8 +7,11 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <nn/g3d/World.h>
+#include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadTypedBitFlag.h>
 #include "gsys/gsysModelUnitDrawArray.h"
 
 namespace agl {
@@ -25,7 +28,11 @@ enum class RenderViewOption;
 
 class ModelRenderUnit;
 class ModelScene;
+class ModelUnitCallbackArg;
 class ModelViewData;
+
+using ModelUnitCallback = sead::IDelegate1<const ModelUnitCallbackArg&>;
+using ModelUnitCallbackStorage = sead::AnyDelegate1<const ModelUnitCallbackArg&>;
 
 // TODO
 class ModelUnit {
@@ -33,6 +40,23 @@ class ModelUnit {
 public:
     // TODO: is this an enum/enum class or a class?
     enum class BoolType;
+
+    enum class Flag {
+        DebugWorldCallback = 4,
+        DebugDrawCallback = 8,
+    };
+
+    enum class Attribute {
+        OcclusionQuery = 1,
+        ViewFrustrumCulling = 2,
+        LodCalculation = 4,
+        ShapeCulling = 8,
+        BufferSwap = 0x10,
+    };
+
+    enum class ORFlag {
+        Force = 1,
+    };
 
     ModelUnit();
     virtual ~ModelUnit();
@@ -161,6 +185,39 @@ public:
     virtual void calcBeforeDraw(ModelScene* scene, const gsys::ModelViewData* model_view_data, int);
     virtual void forceCalcDrawSetup();
     virtual void setUpMaterialImpl(int, sead::Heap* heap);
+
+protected:
+    sead::TypedBitFlag<Flag, u8> mFlags;
+    s8 mUnkIndex;
+    s8 mNumLods;
+    sead::BitFlag16 mVisibilityMask;
+    u8 mDepthShadowCascade;
+    u16 mCalcWeight;
+    sead::TypedBitFlag<Attribute, u16> mAttributeFlags;
+    u16 _14;
+    u16 _16;
+    void* _18;
+    void* _20;
+    ModelUnitDrawArray* mDrawArray;
+    void* _30;
+    void* _38;
+    sead::Vector3f _40;
+    u32 _4c;
+    sead::Vector3f* _50;
+    void* _58;
+    void* _60;
+    void* mMaterialInfo;
+    void* _70;
+    void* _78;
+    void* _80;
+    void* _88;
+    void* _90;
+    ModelUnitCallbackStorage mCallback;
+    sead::SafeString mName;
+
+#ifdef SEAD_DEBUG
+    sead::TypedBitFlag<ORFlag, u8> mORFlags;
+#endif
 };
 
 }  // namespace gsys
