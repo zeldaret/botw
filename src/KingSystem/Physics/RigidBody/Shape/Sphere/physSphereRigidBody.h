@@ -15,11 +15,19 @@ public:
                     const sead::SafeString& name, bool set_flag_10, sead::Heap* heap);
     ~SphereRigidBody() override;
 
+    /// Set the sphere radius and trigger a shape update.
+    void setRadius(float radius);
+    /// Set the sphere translation and trigger a shape update.
+    void setTranslate(const sead::Vector3f& translate);
+
+    float getRadius() const;
+    const sead::Vector3f& getTranslate() const;
+    void getTransformedTranslate(sead::Vector3f* translate);
+
+    void setMaterialMask(const MaterialMask& mask);
     const MaterialMask& getMaterialMask() const;
 
     float getVolume() override;
-
-    void setRadius(float radius);
 
 protected:
     Shape* getShape_() override;

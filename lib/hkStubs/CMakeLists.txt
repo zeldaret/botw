@@ -150,6 +150,7 @@ add_library(hkStubs OBJECT
   Havok/Physics2012/Collide/Shape/Convex/Box/hkpBoxShape.h
   Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h
   Havok/Physics2012/Collide/Shape/Convex/ConvexTransform/hkpConvexTransformShape.h
+  Havok/Physics2012/Collide/Shape/Convex/ConvexTranslate/hkpConvexTranslateShape.h
   Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h
   Havok/Physics2012/Collide/Shape/Convex/Cylinder/hkpCylinderShape.h
   Havok/Physics2012/Collide/Shape/Convex/Sphere/hkpSphereShape.h
