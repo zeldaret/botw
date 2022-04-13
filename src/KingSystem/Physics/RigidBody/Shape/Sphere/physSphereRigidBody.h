@@ -16,7 +16,7 @@ public:
     ~SphereRigidBody() override;
 
     /// Set the sphere radius and trigger a shape update.
-    void setRadius(const float radius);
+    void setRadius(float radius);
     /// Set the sphere translation and trigger a shape update.
     void setTranslate(const sead::Vector3f& translate);
 

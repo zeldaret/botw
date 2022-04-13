@@ -20,7 +20,7 @@ SphereRigidBody::~SphereRigidBody() {
     }
 }
 
-void SphereRigidBody::setRadius(const float radius) {
+void SphereRigidBody::setRadius(float radius) {
     if (mShape->setRadius(radius))
         updateShape();
 }

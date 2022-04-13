@@ -1,11 +1,15 @@
 #pragma once
 
-#include <Havok/Physics2012/Collide/Shape/Convex/ConvexTranslate/hkpConvexTranslateShape.h>
-#include <Havok/Physics2012/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
 #include <math/seadVector.h>
+#include <prim/seadTypedBitFlag.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+
+class hkpSphereShape;
+class hkpConvexTranslateShape;
+class hkTransformf;
 
 namespace ksys::phys {
 

@@ -13,28 +13,28 @@ public:
         const hkpConvexShape* childShape, const hkVector4& translation,
         hkpShapeContainer::ReferencePolicy ref = hkpShapeContainer::REFERENCE_POLICY_INCREMENT);
 
-    inline const hkpConvexShape* getChildShape() const;
-    virtual void getSupportingVertex(hkVector4Parameter direction,
-                                     hkcdVertex& supportingVertexOut) const;
-    virtual void convertVertexIdsToVertices(const hkpVertexId* ids, int numIds,
-                                            hkcdVertex* verticesOut) const;
-    virtual void getCentre(hkVector4& centreOut) const;
-    virtual HK_FORCE_INLINE int getNumCollisionSpheres() const;
-    virtual const hkSphere* getCollisionSpheres(hkSphere* sphereBuffer) const;
-    virtual void getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const;
-    virtual hkBool castRay(const hkpShapeRayCastInput& input, hkpShapeRayCastOutput& results) const;
-    virtual void castRayWithCollector(const hkpShapeRayCastInput& input, const hkpCdBody& cdBody,
-                                      hkpRayHitCollector& collector) const;
+    void getSupportingVertex(hkVector4Parameter direction,
+                             hkcdVertex& supportingVertexOut) const override;
+    void convertVertexIdsToVertices(const hkpVertexId* ids, int numIds,
+                                    hkcdVertex* verticesOut) const override;
+    void getCentre(hkVector4& centreOut) const override;
+    HK_FORCE_INLINE int getNumCollisionSpheres() const override;
+    const hkSphere* getCollisionSpheres(hkSphere* sphereBuffer) const override;
+    void getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const override;
+    hkBool castRay(const hkpShapeRayCastInput& input,
+                   hkpShapeRayCastOutput& results) const override;
+    void castRayWithCollector(const hkpShapeRayCastInput& input, const hkpCdBody& cdBody,
+                              hkpRayHitCollector& collector) const override;
+    void getFirstVertex(hkVector4& v) const override;
+    hkReal getMaximumProjection(const hkVector4& direction) const override;
+    const hkpShapeContainer* getContainer() const override;
+    int calcSizeForSpu(const CalcSizeForSpuInput& input, int spuBufferSizeLeft) const override;
 
+    inline const hkpConvexShape* getChildShape() const;
     inline hkVector4& getTranslation();
     inline const hkVector4& getTranslation() const;
 
     hkpConvexTranslateShape(class hkFinishLoadedObjectFlag flag);
-
-    virtual void getFirstVertex(hkVector4& v) const;
-    virtual hkReal getMaximumProjection(const hkVector4& direction) const;
-    virtual const hkpShapeContainer* getContainer() const;
-    virtual int calcSizeForSpu(const CalcSizeForSpuInput& input, int spuBufferSizeLeft) const;
 
 protected:
     hkVector4 m_translation;

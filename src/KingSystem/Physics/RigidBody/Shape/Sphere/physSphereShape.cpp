@@ -2,6 +2,10 @@
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
+#include "math/seadMathCalcCommon.h"
+
+#include <Havok/Physics2012/Collide/Shape/Convex/ConvexTranslate/hkpConvexTranslateShape.h>
+#include <Havok/Physics2012/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
 
 namespace ksys::phys {
 
@@ -26,7 +30,7 @@ SphereShape* SphereShape::make(const SphereShapeParam& param, sead::Heap* heap) 
         delete reinterpret_cast<u8*>(translate_shape);
     }
 
-    return (SphereShape*)nullptr;
+    return nullptr;
 }
 
 SphereShape* SphereShape::clone(sead::Heap* heap) const {
