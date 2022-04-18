@@ -3,8 +3,8 @@
 #include <container/seadBuffer.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadVector.h>
+#include <prim/seadLongBitFlag.h>
 #include "KingSystem/Physics/Rig/physBoneAccessor.h"
-#include "KingSystem/Utils/BitSet.h"
 
 namespace gsys {
 class Model;
@@ -21,8 +21,10 @@ class ModelBoneAccessor : public BoneAccessor {
 public:
     class ModelBoneFilter {
     public:
-        virtual void filter(util::BitSet<1024>* bones_to_keep,
-                            const gsys::ModelUnit& model_unit) = 0;
+        using BoneBitSet = sead::LongBitFlag<1024>;
+
+        /// Returns the number of bones after filtering.
+        virtual int filter(BoneBitSet* bones_to_keep, const gsys::ModelUnit& model_unit) = 0;
     };
 
     ModelBoneAccessor();

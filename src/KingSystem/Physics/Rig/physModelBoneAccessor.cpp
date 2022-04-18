@@ -4,7 +4,12 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelNW.h>
 #include <heap/seadExpHeap.h>
+#include <heap/seadHeapMgr.h>
+#include <nn/g3d/ResSkeleton.h>
+#include <nn/g3d/SkeletonObj.h>
+#include <type_traits>
 #include "KingSystem/Utils/SafeDelete.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
 
@@ -28,8 +33,11 @@ public:
     bool constructFromModel(ModelBoneAccessor::ModelBoneFilter* bone_filter,
                             const gsys::ModelNW& model_unit, sead::Heap* heap);
 
+    /// Construct a Havok skeleton from a gsys model. Fast path, no support for filtering.
+    bool constructFromModel(const gsys::ModelNW& model_unit, sead::Heap* heap);
+
     hkaSkeleton* mHavokSkeleton = nullptr;
-    u8* _10 = nullptr;
+    u8* mSkeletonStorage = nullptr;
     void* _18;
     Allocator mHavokAllocator;
 };
@@ -55,8 +63,99 @@ ModelSkeleton::~ModelSkeleton() {
         mHavokSkeleton = nullptr;
     }
 
-    if (_10)
-        util::safeDeleteArray(_10);
+    if (mSkeletonStorage)
+        util::safeDeleteArray(mSkeletonStorage);
+}
+
+bool ModelSkeleton::constructFromModel(const gsys::ModelNW& model_unit, sead::Heap* heap) {
+    mHavokAllocator.mHeap = heap ? heap : sead::HeapMgr::instance()->getCurrentHeap();
+
+    const nn::g3d::ResSkeleton* skel = model_unit.getSkeletonObj()->GetRes();
+    const int num_bones = model_unit.getBoneNum();
+
+    if (num_bones <= 1)
+        return false;
+
+    mSkeletonStorage = new (heap, 0x10) u8[sizeof(hkaSkeleton)];
+    mHavokSkeleton = new (mSkeletonStorage) hkaSkeleton;
+
+    if (!mHavokSkeleton->m_bones._reserveExactly(mHavokAllocator, num_bones).isSuccess())
+        return false;
+
+    if (!mHavokSkeleton->m_parentIndices._reserveExactly(mHavokAllocator, num_bones).isSuccess())
+        return false;
+
+    if (!mHavokSkeleton->m_referencePose._reserveExactly(mHavokAllocator, num_bones).isSuccess())
+        return false;
+
+    mHavokSkeleton->m_bones._setSize(mHavokAllocator, num_bones);
+    mHavokSkeleton->m_parentIndices._setSize(mHavokAllocator, num_bones);
+    mHavokSkeleton->m_referencePose._setSize(mHavokAllocator, num_bones);
+
+    for (int i = 0; i < num_bones; ++i) {
+        const auto& bone = *skel->GetBone(i);
+        mHavokSkeleton->m_bones[i].m_name.setPointerAligned(bone.GetName());
+        mHavokSkeleton->m_parentIndices[i] = s16(bone.GetParentIndex());
+        if (i == mHavokSkeleton->m_parentIndices[i])
+            mHavokSkeleton->m_parentIndices[i] = -1;
+    }
+
+    return true;
+}
+
+bool ModelSkeleton::constructFromModel(ModelBoneAccessor::ModelBoneFilter* bone_filter,
+                                       const gsys::ModelNW& model_unit, sead::Heap* heap) {
+    if (bone_filter == nullptr)
+        return constructFromModel(model_unit, heap);
+
+    mHavokAllocator.mHeap = heap ? heap : sead::HeapMgr::instance()->getCurrentHeap();
+
+    const nn::g3d::ResSkeleton* skel = model_unit.getSkeletonObj()->GetRes();
+
+    ModelBoneAccessor::ModelBoneFilter::BoneBitSet bones_to_keep;
+    const int num_bones = bone_filter->filter(&bones_to_keep, model_unit);
+
+    if (num_bones <= 1)
+        return false;
+
+    mSkeletonStorage = new (heap, 0x10) u8[sizeof(hkaSkeleton)];
+    mHavokSkeleton = new (mSkeletonStorage) hkaSkeleton;
+
+    if (!mHavokSkeleton->m_bones._reserveExactly(mHavokAllocator, num_bones).isSuccess())
+        return false;
+
+    if (!mHavokSkeleton->m_parentIndices._reserveExactly(mHavokAllocator, num_bones).isSuccess())
+        return false;
+
+    if (!mHavokSkeleton->m_referencePose._reserveExactly(mHavokAllocator, num_bones).isSuccess())
+        return false;
+
+    mHavokSkeleton->m_bones._setSize(mHavokAllocator, num_bones);
+    mHavokSkeleton->m_parentIndices._setSize(mHavokAllocator, num_bones);
+    mHavokSkeleton->m_referencePose._setSize(mHavokAllocator, num_bones);
+
+    const int num_model_bones = model_unit.getBoneNum();
+    int havok_bone_index = 0;
+
+    for (int i = 0; i < num_model_bones; ++i) {
+        if (bones_to_keep.isOffBit(i))
+            continue;
+
+        const auto& bone = *skel->GetBone(i);
+        mHavokSkeleton->m_bones[havok_bone_index].m_name.setPointerAligned(bone.GetName());
+
+        int orig_parent_index = bone.GetParentIndex();
+        if (orig_parent_index < num_model_bones) {
+            mHavokSkeleton->m_parentIndices[havok_bone_index] =
+                s16(bones_to_keep.countRightOnBit(orig_parent_index) - 1);
+        } else {
+            mHavokSkeleton->m_parentIndices[havok_bone_index] = -1;
+        }
+
+        ++havok_bone_index;
+    }
+
+    return true;
 }
 
 }  // namespace detail

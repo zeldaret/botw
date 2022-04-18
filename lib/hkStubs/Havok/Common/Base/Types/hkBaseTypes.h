@@ -198,7 +198,7 @@ struct hkResult {
     HK_FORCE_INLINE bool operator==(hkResultEnum e) const { return m_enum == e; }
     HK_FORCE_INLINE bool operator!=(hkResultEnum e) const { return m_enum != e; }
 
-    HK_FORCE_INLINE bool isSuccess() const { return m_enum ^ HK_FAILURE; }
+    HK_FORCE_INLINE bool isSuccess() const { return m_enum == HK_SUCCESS; }
 
     hkResultEnum m_enum;
 };
