@@ -36,6 +36,11 @@ public:
     void setFromTransform(const hkQTransformf& qt);
     void copyToTransform(hkTransformf& transformOut) const;
 
+    HK_FORCE_INLINE void set(hkVector4fParameter translation, hkQuaternionfParameter rotation,
+                             hkVector4fParameter scale);
+
+    HK_FORCE_INLINE void set(hkVector4fParameter translation, hkQuaternionfParameter rotation);
+
     HK_FORCE_INLINE void setInverse(const hkQsTransformf& t);
 
     HK_FORCE_INLINE void setMul(const hkQsTransformf& t1, const hkQsTransformf& t2);
@@ -50,6 +55,8 @@ public:
 
     /// this *= b
     HK_FORCE_INLINE void setMulEq(const hkQsTransformf& b);
+
+    void fastRenormalize();
 
     hkVector4f m_translation;
     hkQuaternionf m_rotation;

@@ -19,6 +19,8 @@ class ModelSkeleton;
 
 class ModelBoneAccessor : public BoneAccessor {
 public:
+    enum class EnableScale : bool { Yes = true, No = false };
+
     class ModelBoneFilter {
     public:
         using BoneBitSet = sead::LongBitFlag<1024>;
@@ -30,12 +32,21 @@ public:
     ModelBoneAccessor();
     ~ModelBoneAccessor() override;
 
-    bool init(const hkaSkeleton* skeleton, const gsys::Model* model, sead::Heap* heap);
+    bool init(const hkaSkeleton* skeleton, gsys::Model* model, sead::Heap* heap);
 
-    bool init(const gsys::Model* model, int model_unit_index, sead::Heap* heap,
+    bool init(gsys::Model* model, int model_unit_index, sead::Heap* heap,
               ModelBoneFilter* bone_filter);
 
     void finalize() override;
+
+    int findBoneIndex(const gsys::BoneAccessKey& key) const;
+    const char* getBoneName(int index) const;
+
+    void copyModelPoseToHavok(EnableScale enable_scale) const;
+    void copyHavokPoseToModel(EnableScale enable_scale) const;
+
+    static int& getUnkMode();
+    static bool& getUnkFlag();
 
 protected:
     struct BoneAccessKey {
@@ -44,9 +55,11 @@ protected:
         bool _39;
     };
 
-    const gsys::Model* mModel{};
+    gsys::ModelUnit* getModelUnit(int bone_idx) const;
+
+    gsys::Model* mModel{};
     sead::Buffer<BoneAccessKey> mBoneAccessKeys;
-    sead::Vector3f _38 = sead::Vector3f::zero;
+    sead::Vector3f mTranslate = sead::Vector3f::zero;
     detail::ModelSkeleton* mModelSkeleton{};
 };
 

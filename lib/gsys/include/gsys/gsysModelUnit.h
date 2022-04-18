@@ -73,7 +73,7 @@ public:
                                     int bone_idx);
     virtual void setBoneLocalRTMatrix(const sead::Matrix34f& matrix, int bone_idx);
     virtual void setBoneLocalScale(const sead::Vector3f& scale, int bone_idx);
-    virtual void getBoneLocalMatrix(sead::Matrix34f* matrix, sead::Vector3f* pos,
+    virtual void getBoneLocalMatrix(sead::Matrix34f* matrix, sead::Vector3f* scale,
                                     int bone_idx) const;
     virtual void setBoneWorldMatrix(const sead::Matrix34f& matrix, int bone_idx);
     virtual void getBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const;

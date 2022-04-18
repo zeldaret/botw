@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/Rig/physModelBoneAccessor.h"
+#include <Havok/Animation/Animation/Rig/hkaPose.h>
 #include <Havok/Animation/Animation/Rig/hkaSkeleton.h>
 #include <Havok/Common/Base/Memory/Allocator/Malloc/hkMallocAllocator.h>
 #include <gsys/gsysModel.h>
@@ -8,6 +9,8 @@
 #include <nn/g3d/ResSkeleton.h>
 #include <nn/g3d/SkeletonObj.h>
 #include <type_traits>
+#include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -160,14 +163,16 @@ bool ModelSkeleton::constructFromModel(ModelBoneAccessor::ModelBoneFilter* bone_
 
 }  // namespace detail
 
+static int sModelBoneAccessorUnkMode;
+static bool sModelBoneAccessorUnkFlag;
+
 ModelBoneAccessor::ModelBoneAccessor() = default;
 
 ModelBoneAccessor::~ModelBoneAccessor() {
     ModelBoneAccessor::finalize();
 }
 
-bool ModelBoneAccessor::init(const hkaSkeleton* skeleton, const gsys::Model* model,
-                             sead::Heap* heap) {
+bool ModelBoneAccessor::init(const hkaSkeleton* skeleton, gsys::Model* model, sead::Heap* heap) {
     if (!skeleton || !model)
         return false;
 
@@ -194,7 +199,7 @@ bool ModelBoneAccessor::init(const hkaSkeleton* skeleton, const gsys::Model* mod
     return true;
 }
 
-bool ModelBoneAccessor::init(const gsys::Model* model, int model_unit_index, sead::Heap* heap,
+bool ModelBoneAccessor::init(gsys::Model* model, int model_unit_index, sead::Heap* heap,
                              ModelBoneAccessor::ModelBoneFilter* bone_filter) {
     if (!model)
         return false;
@@ -226,6 +231,137 @@ void ModelBoneAccessor::finalize() {
     BoneAccessor::finalize();
     if (mModelSkeleton)
         util::safeDelete(mModelSkeleton);
+}
+
+int ModelBoneAccessor::findBoneIndex(const gsys::BoneAccessKey& key) const {
+    for (int i = 0, n = mBoneAccessKeys.size(); i < n; ++i) {
+        if (key == mBoneAccessKeys[i].key.getKey())
+            return i;
+    }
+    return -1;
+}
+
+const char* ModelBoneAccessor::getBoneName(int index) const {
+    if (index < 0 || index >= getSkeleton()->m_bones.getSize())
+        return nullptr;
+    return getSkeleton()->m_bones[index].m_name.cString();
+}
+
+// NON_MATCHING: two loop induction variables (bone_idx) swapped
+void ModelBoneAccessor::copyModelPoseToHavok(EnableScale enable_scale) const {
+    auto& hk_bones = getPose()->accessUnsyncedPoseLocalSpace();
+
+    switch (getUnkMode()) {
+    case 2:
+        enable_scale = EnableScale::Yes;
+        break;
+    case 1:
+        enable_scale = EnableScale::No;
+        break;
+    }
+
+    for (int bone_idx = 0, n = mBoneAccessKeys.getSize(); bone_idx < n; ++bone_idx) {
+        if (!mBoneAccessKeys[bone_idx].key.isValid())
+            continue;
+
+        if (!mBoneAccessKeys[bone_idx]._38)
+            continue;
+
+        const auto key = mBoneAccessKeys[bone_idx].key.getKey();
+        auto* unit = getModelUnit(bone_idx);
+
+        sead::Vector3f scale;
+        sead::Matrix34f transform;
+        unit->getBoneLocalMatrix(&transform, &scale, key.bone_index);
+
+        if (util::isMatrixInvalid(transform))
+            continue;
+
+        if ((!bool(enable_scale) || getUnkFlag()) &&
+            !scale.equals(sead::Vector3f::ones, sead::Mathf::epsilon())) {
+            if (getUnkFlag()) {
+                // leftover debug code
+                static_cast<void>(getModelUnit(bone_idx)->getName().include("Link"));
+            }
+
+            if (!bool(enable_scale))
+                scale = {1, 1, 1};
+        }
+
+        toHkQsTransform(&hk_bones[bone_idx], transform,
+                        bone_idx == 0 ? sead::Vector3f::ones : scale);
+
+        if (mModel->getScale().x != 1)
+            hk_bones[bone_idx].m_translation.mul(mModel->getScale().x);
+    }
+}
+
+void ModelBoneAccessor::copyHavokPoseToModel(EnableScale enable_scale) const {
+    const auto& hk_bones = getPoseInternal()->getSyncedPoseLocalSpace();
+
+    bool not_first_bone = false;
+
+    for (int bone_idx = 0, n = mBoneAccessKeys.getSize(); bone_idx < n; ++bone_idx) {
+        if (!mBoneAccessKeys[bone_idx]._39)
+            continue;
+
+        if (!mBoneAccessKeys[bone_idx].key.isValid())
+            continue;
+
+        sead::Vector3f translate;
+        translate = sead::Vector3f::zero;
+        if (!not_first_bone)
+            translate += mTranslate;
+
+        hkTransform hk_transform;
+        const_cast<hkQsTransformf&>(hk_bones[bone_idx]).fastRenormalize();
+        hk_bones[bone_idx].copyToTransform(hk_transform);
+
+        sead::Vector3f scale = toVec3(hk_bones[bone_idx].getScale());
+        sead::Matrix34f transform;
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                transform(i, j) = hk_transform.getRotation().getColumn(j)(i);
+            }
+            transform(i, 3) = translate.e[i] + hk_transform.getTranslation()(i);
+        }
+
+        const float model_scale = mModel->getScale().x;
+        if (model_scale != 1 && model_scale > 0) {
+            for (int i = 0; i < 3; ++i)
+                transform(i, 3) *= 1 / model_scale;
+        }
+
+        if (!util::isMatrixInvalid(transform)) {
+            if ((!bool(enable_scale) || getUnkFlag()) &&
+                !scale.equals(sead::Vector3f::ones, sead::Mathf::epsilon())) {
+                if (getUnkFlag()) {
+                    // leftover debug code
+                    static_cast<void>(getModelUnit(bone_idx)->getName().include("Link"));
+                }
+
+                if (!bool(enable_scale))
+                    scale = {1, 1, 1};
+            }
+
+            mModel->setBoneLocalMatrix(mBoneAccessKeys[bone_idx].key.getKey(), transform, scale);
+        }
+
+        not_first_bone = true;
+    }
+}
+
+int& ModelBoneAccessor::getUnkMode() {
+    return sModelBoneAccessorUnkMode;
+}
+
+bool& ModelBoneAccessor::getUnkFlag() {
+    return sModelBoneAccessorUnkFlag;
+}
+
+gsys::ModelUnit* ModelBoneAccessor::getModelUnit(int bone_idx) const {
+    const auto key = mBoneAccessKeys[bone_idx].key.getKey();
+    return mModel->getUnits()[key.model_unit_index]->mModelUnit;
 }
 
 }  // namespace ksys::phys

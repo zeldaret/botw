@@ -23,26 +23,11 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace ksys::phys {
 
 constexpr float MinInertia = 0.001;
-
-static bool isVectorInvalid(const sead::Vector3f& vec) {
-    for (int i = 0; i < 3; ++i) {
-        if (std::isnan(vec.e[i]))
-            return true;
-    }
-    return false;
-}
-
-static bool isMatrixInvalid(const sead::Matrix34f& matrix) {
-    for (float x : matrix.a) {
-        if (std::isnan(x))
-            return true;
-    }
-    return false;
-}
 
 RigidBody::RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
                      const sead::SafeString& name, sead::Heap* heap, bool set_flag_10)
@@ -851,7 +836,7 @@ void RigidBody::setColor(const sead::Color4f& color, const void* a, bool b) {
 }
 
 void RigidBody::setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) {
-    if (isVectorInvalid(position)) {
+    if (util::isVectorInvalid(position)) {
         onInvalidParameter();
         return;
     }
@@ -904,7 +889,7 @@ sead::Matrix34f RigidBody::getTransform() const {
 }
 
 void RigidBody::setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) {
-    if (isMatrixInvalid(mtx)) {
+    if (util::isMatrixInvalid(mtx)) {
         onInvalidParameter();
         return;
     }
@@ -1051,7 +1036,7 @@ void RigidBody::triggerScheduledMotionTypeChange() {
 }
 
 bool RigidBody::setLinearVelocity(const sead::Vector3f& velocity, float epsilon) {
-    if (isVectorInvalid(velocity)) {
+    if (util::isVectorInvalid(velocity)) {
         onInvalidParameter();
         return false;
     }
@@ -1078,7 +1063,7 @@ sead::Vector3f RigidBody::getLinearVelocity() const {
 }
 
 bool RigidBody::setAngularVelocity(const sead::Vector3f& velocity, float epsilon) {
-    if (isVectorInvalid(velocity)) {
+    if (util::isVectorInvalid(velocity)) {
         onInvalidParameter();
         return false;
     }
@@ -1347,7 +1332,7 @@ void RigidBody::applyLinearImpulse(const sead::Vector3f& impulse) {
     if (hasFlag(Flag::_400) || hasFlag(Flag::_40))
         return;
 
-    if (isVectorInvalid(impulse)) {
+    if (util::isVectorInvalid(impulse)) {
         onInvalidParameter();
         return;
     }
@@ -1363,7 +1348,7 @@ void RigidBody::applyAngularImpulse(const sead::Vector3f& impulse) {
     if (hasFlag(Flag::_400) || hasFlag(Flag::_40))
         return;
 
-    if (isVectorInvalid(impulse)) {
+    if (util::isVectorInvalid(impulse)) {
         onInvalidParameter();
         return;
     }
@@ -1379,12 +1364,12 @@ void RigidBody::applyPointImpulse(const sead::Vector3f& impulse, const sead::Vec
     if (hasFlag(Flag::_400) || hasFlag(Flag::_40))
         return;
 
-    if (isVectorInvalid(impulse)) {
+    if (util::isVectorInvalid(impulse)) {
         onInvalidParameter();
         return;
     }
 
-    if (isVectorInvalid(point)) {
+    if (util::isVectorInvalid(point)) {
         onInvalidParameter();
         return;
     }

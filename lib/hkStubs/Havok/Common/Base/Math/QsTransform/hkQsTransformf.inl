@@ -48,6 +48,19 @@ inline void hkQsTransformf::setZero() {
     m_scale.setZero();
 }
 
+inline void hkQsTransformf::set(hkVector4fParameter translation, hkQuaternionfParameter rotation,
+                                hkVector4fParameter scale) {
+    m_translation = translation;
+    m_rotation = rotation;
+    m_scale = scale;
+}
+
+inline void hkQsTransformf::set(hkVector4fParameter translation, hkQuaternionfParameter rotation) {
+    m_translation = translation;
+    m_rotation = rotation;
+    m_scale = hkVector4f::getConstant<HK_QUADREAL_1>();
+}
+
 inline void hkQsTransformf::setInverse(const hkQsTransformf& t) {
     m_translation.setRotatedInverseDir(t.m_rotation, t.m_translation);
     m_translation.setNeg<4>(m_translation);
@@ -81,4 +94,8 @@ inline void hkQsTransformf::setMulMulInverse(const hkQsTransformf& t1, const hkQ
 
 inline void hkQsTransformf::setMulEq(const hkQsTransformf& b) {
     setMul(*this, b);
+}
+
+inline void hkQsTransformf::fastRenormalize() {
+    m_rotation.normalize();
 }

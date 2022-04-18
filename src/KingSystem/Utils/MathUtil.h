@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 
 namespace ksys::util {
@@ -36,6 +38,22 @@ inline sead::Vector3f lerp(const sead::Vector3f& a, const sead::Vector3f& b, flo
     sead::Vector3f result;
     lerp(&result, a, b, t);
     return result;
+}
+
+inline bool isVectorInvalid(const sead::Vector3f& vec) {
+    for (int i = 0; i < 3; ++i) {
+        if (std::isnan(vec.e[i]))
+            return true;
+    }
+    return false;
+}
+
+inline bool isMatrixInvalid(const sead::Matrix34f& matrix) {
+    for (float x : matrix.a) {
+        if (std::isnan(x))
+            return true;
+    }
+    return false;
 }
 
 }  // namespace ksys::util

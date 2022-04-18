@@ -74,7 +74,7 @@ inline void toMtx34(sead::Matrix34f* out, const hkTransformf& transform) {
     mtx[2].store<4>(out->m[2]);
 }
 
-inline void toHkTransform(hkTransformf* out, const sead::Matrix34f& mtx) {
+inline void toHkTransform(hkTransform* out, const sead::Matrix34f& mtx) {
     sead::Quatf rotate;
     mtx.toQuat(rotate);
     rotate.normalize();
@@ -83,6 +83,18 @@ inline void toHkTransform(hkTransformf* out, const sead::Matrix34f& mtx) {
     mtx.getTranslation(translate);
 
     out->set(toHkQuat(rotate), toHkVec4(translate));
+}
+
+inline void toHkQsTransform(hkQsTransform* out, const sead::Matrix34f& mtx,
+                            const sead::Vector3f& scale) {
+    sead::Quatf rotate;
+    mtx.toQuat(rotate);
+    rotate.normalize();
+
+    sead::Vector3f translate;
+    mtx.getTranslation(translate);
+
+    out->set(toHkVec4(translate), toHkQuat(rotate), toHkVec4(scale));
 }
 
 // Consider using toMtx34 if you have an hkTransform and wish to set both rotation and translation.
