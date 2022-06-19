@@ -19,7 +19,7 @@ struct SoundMgr {
     virtual ~SoundMgr();
 
 public:
-    u8 _0[0x248];
+    u8 _28[0x248];
     AudioChannelType mAudioChannelType;
 };
 

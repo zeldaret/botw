@@ -15,6 +15,8 @@
 
 namespace ksys {
 
+static WorkTimes sWorkTimes;
+
 auto& getWorkTimes() {
     return sWorkTimes;
 };
@@ -31,30 +33,31 @@ ProductReporter::~ProductReporter() {
 }
 
 void ProductReporter::init(sead::Heap* heap) {
-    if (!mIsInitalized) {
-        mHeap = sead::ExpHeap::create(0x18000, "ProductReporter Heap", heap, sizeof(void*),
-                                      sead::Heap::cHeapDirection_Forward, true);
+    if (mIsInitalized)
+        return;
 
-        nn::account::Initialize();
+    mHeap = sead::ExpHeap::create(0x18000, "ProductReporter Heap", heap, sizeof(void*),
+                                  sead::Heap::cHeapDirection_Forward, true);
 
-        s32 listAllUsersRet = -1;
-        nn::account::Uid uid[8];
-        nn::account::ListAllUsers(&listAllUsersRet, uid, 8);
+    nn::account::Initialize();
 
-        if (0 < listAllUsersRet) {
-            for (int i = 0; i < PlayReportKey::size(); i++)
-                mGameDataHandles[i] = gdt::InvalidHandle;
+    s32 listAllUsersRet = -1;
+    nn::account::Uid uid[8];
+    nn::account::ListAllUsers(&listAllUsersRet, uid, 8);
 
-            mPlayerTrackReporter = new (heap) PlayerTrackReporter;
-            mPlayerTrackReporter->init(heap);
+    if (0 < listAllUsersRet) {
+        for (int i = 0; i < PlayReportKey::size(); i++)
+            mGameDataHandles[i] = gdt::InvalidHandle;
 
-            mContainer1.init(heap, 0x20, 0x30);
-            mContainer2.init(heap, 0x20, 0x30);
-            mContainer3.init(heap, 0x20, 0x30);
-            mContainer4.init(heap, 0x20, 0x30);
+        mPlayerTrackReporter = new (heap) PlayerTrackReporter;
+        mPlayerTrackReporter->init(heap);
 
-            mIsInitalized = true;
-        }
+        mContainer1.init(heap, 0x20, 0x30);
+        mContainer2.init(heap, 0x20, 0x30);
+        mContainer3.init(heap, 0x20, 0x30);
+        mContainer4.init(heap, 0x20, 0x30);
+
+        mIsInitalized = true;
     }
 }
 
@@ -110,7 +113,7 @@ bool ProductReporter::saveReport(PlayReport* playReport) const {
 // NON_MATCHING: minor reordering & deduplication
 bool ProductReporter::incrementSceneAndRomWorkTime() {
     if (map::PlacementMgr::instance() == nullptr)
-        return 0;
+        return false;
 
     s32 value = 0;
     sWorkTimes.rom++;
@@ -124,7 +127,7 @@ bool ProductReporter::incrementSceneAndRomWorkTime() {
     }
 
     if (!(mCameraIdleTimer < 300.0f))
-        return 0;
+        return false;
 
     mCameraIdleTimer += 1.0f;
 
