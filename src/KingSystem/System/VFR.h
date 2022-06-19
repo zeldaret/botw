@@ -72,6 +72,9 @@ public:
     f32 getDeltaTime(u32 core) const { return *mDeltaFrames[core]; }
     f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
 
+    f32 getIntervalRatio(u32 core) const { return *mIntervalRatios[core]; }
+    f32 getIntervalRatio() const { return getIntervalRatio(sead::CoreInfo::getCurrentCoreId()); }
+
     template <typename T>
     static inline void add(T* value, const T& v) {
         *value += v * instance()->getDeltaTime();
