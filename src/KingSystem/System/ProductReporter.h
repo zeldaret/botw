@@ -65,19 +65,6 @@ public:
     s32 getCtrlModePlayTimeHandheld() const;
     s32 getPlayTimeConsole() const;
 
-    void getFlag(u32 key, s32* value) {
-        gdt::Manager::instance()->getS32(mGameDataHandles[key], value);
-    }
-
-    void setFlag(u32 key, s32 value) {
-        gdt::Manager::instance()->setS32(value, mGameDataHandles[key]);
-    }
-
-    void increment(u32 key, s32* value) {
-        getFlag(key, value);
-        setFlag(key, *value + 1);
-    }
-
     class Container {
     public:
         void init(sead::Heap* heap, u64 capacity, u64 itemSize) {
