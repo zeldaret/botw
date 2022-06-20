@@ -110,8 +110,20 @@ bool ProductReporter::saveReport(PlayReport* playReport) const {
     return false;
 }
 
-// NON_MATCHING: minor reordering & deduplication
 bool ProductReporter::incrementSceneAndRomWorkTime() {
+    const auto get_flag = [this](auto key, s32* value) {
+        gdt::Manager::instance()->getS32(mGameDataHandles[key], value);
+    };
+
+    const auto set_flag = [this](auto key, s32 value) {
+        gdt::Manager::instance()->setS32(value, mGameDataHandles[key]);
+    };
+
+    const auto increment = [this, &get_flag, &set_flag](auto key, s32* value) {
+        get_flag(key, value);
+        set_flag(key, *value + 1);
+    };
+
     if (map::PlacementMgr::instance() == nullptr)
         return false;
 
