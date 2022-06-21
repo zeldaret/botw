@@ -19,6 +19,8 @@ public:
     void mapPoseA();
     void mapPoseB();
 
+    BoneAccessor& getBoneAccessor() { return mBoneAccessor; }
+
 private:
     BoneAccessor mBoneAccessor;
     ModelBoneAccessor mModelBoneAccessor;

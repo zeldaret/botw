@@ -30,6 +30,7 @@ public:
     auto operator=(const hkArrayBase&) = delete;
 
     HK_FORCE_INLINE int getSize() const;
+    HK_FORCE_INLINE int size() const;
     HK_FORCE_INLINE int getCapacity() const;
     HK_FORCE_INLINE int getCapacityAndFlags() const;
     HK_FORCE_INLINE hkBool isEmpty() const;
@@ -166,6 +167,11 @@ inline hkArrayBase<T>::~hkArrayBase() = default;
 template <typename T>
 inline int hkArrayBase<T>::getSize() const {
     return m_size;
+}
+
+template <typename T>
+inline int hkArrayBase<T>::size() const {
+    return getSize();
 }
 
 template <typename T>
