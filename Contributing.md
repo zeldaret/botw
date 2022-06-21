@@ -4,8 +4,6 @@ To contribute to the project, you will need a disassembler or a decompiler such 
 
 Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
-Using a decompiler is strongly recommended for efficiency reasons. If you have IDA 7.0+, ping @leoetlino to get a copy of the IDC which will make decompilation easier and help with understanding the code more generally.
-
 Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discord server if you have any questions.
 
 ## Language
@@ -43,10 +41,59 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
     * Build directory: `build`
 3. Press OK; CLion will automatically reload the CMake project.
 
-## How to decompile
+## Decompiler setup
 
-0. Open the NSO executable in the disassembler of your choice.
-   * If you are using IDA, make sure you have the [NSO loader](https://github.com/reswitched/loaders) set up first!
+Using a decompiler (a tool that translates assembly into pseudocode) such as Hex-Rays or Ghidra is strongly recommended.
+
+As of 2022, IDA/Hex-Rays is (somewhat subjectively) still ahead of other tools for heavy analysis of large C++ AArch64 binaries,
+so we recommend acquiring a copy of IDA Pro 7.6+ if you want to contribute to BotW.
+
+### IDA (recommended)
+
+#### Useful plugins
+
+- [LazyIDA](https://gist.github.com/leoetlino/bdac084a1fb0342b734faecf3ae49df9) to copy function addresses with a single key press (W)
+- [HexRaysPyTools](https://github.com/leoetlino/HexRaysPyTools) for automatic reconstruction of structs and other useful features in the decompiler view
+
+#### Loading the database
+
+If you have IDA 7.6+, ping @leoetlino on the Zelda Decompilation Discord to get a copy of the IDA database (IDB) which will make decompilation easier and help with understanding the code.
+
+#### Usage
+
+When you open the IDB, you'll see several tabs:
+
+* IDA View: This is an interactive disassembly of the executable.
+* Pseudocode: This is where you can find the pseudocode that Hex-Rays produces. Unlike other decompilers such as m2c, this output is fully interactive. You can define function signatures, variable names, types, etc. in this tab and improve the pseudocode output interactively. This is the tab you'll be working in most of the time. (If you can't find this tab or if you accidentally closed it, go to the IDA View tab, select a function and then press F5 to re-open the pseudocode tab.)
+* Strings: A list of all valid strings in the executable. Occasionally useful for finding functions that have not been reverse engineered and named yet.
+* Structures: A listing of all defined structures in the IDB. Useful for defining structures/fields and making the pseudocode easier to read.
+
+Common keyboard shortcuts:
+
+* Ctrl+P brings up a function chooser. Very useful for the IDA View and Pseudocode tabs.
+* Use Ctrl+Shift+Up/Down to show the previous/next function.
+* Ctrl+W saves the database.
+* To rename an item, click on its text and press N.
+* To change the type of a variable (in the pseudocode) or a function, click on its text and press Y.
+* [Other shortcuts are mentioned here](https://www.hex-rays.com/products/ida/support/freefiles/IDA_Pro_Shortcuts.pdf).
+* [If you have HexRaysPyTools] Shift+L to propagate types from a call site (invocation) to the callee function.
+* [If you have LazyIDA] W to copy the address of the current selection (put the cursor on the first line of the pseudocode to copy the address of the current function)
+
+### Ghidra
+
+[Ghidra](https://ghidra-sre.org/) is an open-source software reverse engineering tool developed by the NSA.
+If you cannot or do not want to use IDA, Ghidra is a decent alternative (though less ideal than IDA for RE'ing something like BotW).
+
+Note that you will need to import names and types manually and you will not be able to make use of the existing IDA reverse engineering database if you use Ghidra, so this is really not the recommended option.
+
+#### Loading the executable
+
+1. Install the [Switch loader](https://github.com/Adubbz/Ghidra-Switch-Loader).
+2. Open the 1.5.0 NSO. If you've run the setup script (as mentioned in the README), a copy of the NSO is stored at `data/main.nso`.
+3. Wait for Ghidra to analyse the entire executable. This can take a long time.
+4. Use the script in `tools/common/ghidra_scripts` to import function names from this project.
+
+## How to decompile
 
 1. **Pick a function that you want to decompile.**
     * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
@@ -64,7 +111,7 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
     * Understanding the function is very important.
     * Rename variables, add structures, do everything you can to make the output as clean as possible.
     * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
-    * The [cheatsheet](Cheatsheet.md) might help you recognize inline functions.
+    * The [cheatsheet](Cheatsheet.md) can help you recognize inline functions.
 
 3. **Implement the function in C++.**
     * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
