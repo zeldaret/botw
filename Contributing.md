@@ -75,6 +75,7 @@ Common keyboard shortcuts:
 * Ctrl+W saves the database.
 * To rename an item, click on its text and press N.
 * To change the type of a variable (in the pseudocode) or a function, click on its text and press Y.
+* Press H on a number to switch between its decimal and hexadecimal representations.
 * [Other shortcuts are mentioned here](https://www.hex-rays.com/products/ida/support/freefiles/IDA_Pro_Shortcuts.pdf).
 * [If you have HexRaysPyTools] Shift+L to propagate types from a call site (invocation) to the callee function.
 * [If you have LazyIDA] W to copy the address of the current selection (put the cursor on the first line of the pseudocode to copy the address of the current function)
