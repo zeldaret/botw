@@ -117,7 +117,17 @@ Note that you will need to import names and types manually and you will not be a
     * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
     * Do **NOT** copy and paste any pseudocode. **Reimplement it**. While we cannot go for a fully "clean room" approach, you should be reimplementing code, not copy/pasting anything from the original executable.
         * PRs that violate this rule will be rejected.
-    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
+        * You usually have a lot of leeway when reimplementing a function, but some things must be kept the same in your reimplemented version in order to have any chance of getting a matching function:
+            * _Function calls_. You should not add or remove non-inlined function calls.
+            * Struct/class member variable offsets.
+            * Be careful with float comparisons. Because of float semantics, `if (x < y) f(); else g();` and `if (x >= y) g(); else f();` are **not** functionally equivalent (because they behave differently if one of the floats is NaN).
+        * Things that you can change in your reimplemented version:
+            * _Names_. Some of the function/variable names are just placeholder, so feel free to use your own names if you think they are better.
+            * _Functions_. You are free to split a function into several smaller functions or introduce utility functions, even if there isn't an explicit function call in the original code, as long as your reimplemented functions are getting inlined.
+                * Note that LLVM will usually not inline functions if they are too large.
+            * `if (x) f(); else g();` and `if (!x) g(); else f();` generally produce the same code. Use [early exits](https://llvm.org/docs/CodingStandards.html#use-early-exits-and-continue-to-simplify-code) when possible.
+
+    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be C++ member function calls.
     * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
     * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
     * Non-inline function calls can just be stubbed if you don't feel like decompiling them at the moment. To "stub" a function, just declare the function (and the enclosing class/namespace/etc. if needed) without implementing/defining it.
