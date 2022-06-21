@@ -166,9 +166,11 @@ Note that you will need to import names and types manually and you will not be a
       * If your Linux distro or system (e.g. macOS) does not package clang-format 12, you can download it from [the LLVM project website here](https://releases.llvm.org/download.html)
 
 
-## Importing names from the decomp source code
+## Importing names or types from source code
 
 In IDA, run the `tools/common/rename_functions_in_ida.py` script (File > Script file...) to import names from the decomp source code back into the IDA database. This can be done as often as you want.
+
+To import types into the IDB, you can use [classgen](https://github.com/leoetlino/classgen) ([binary builds available here](https://github.com/leoetlino/classgen/releases/latest)) or IDA Pro 7.7's Clang-based header parser (less convenient).
 
 ## Code style
 
