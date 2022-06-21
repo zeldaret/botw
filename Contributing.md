@@ -155,6 +155,11 @@ Note that you will need to import names and types manually and you will not be a
     * If your editor does not have built-in support for clang-format, or if you need to invoke clang-format in a terminal, you'll need to install it manually.
       * If your Linux distro or system (e.g. macOS) does not package clang-format 12, you can download it from [the LLVM project website here](https://releases.llvm.org/download.html)
 
+
+## Importing names from the decomp source code
+
+In IDA, run the `tools/common/rename_functions_in_ida.py` script (File > Script file...) to import names from the decomp source code back into the IDA database. This can be done as often as you want.
+
 ## Code style
 
 BotW has 40MB of code and contributors *need* to read and modify existing parts of the codebase very often: inconsistencies lead to a loss of efficiency, and we literally cannot afford that considering our small number of contributors. To avoid wasting time on formatting issues, we use clang-format to automatically enforce a consistent coding style.
