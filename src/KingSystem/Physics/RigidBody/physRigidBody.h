@@ -125,9 +125,11 @@ public:
         _80000 = 1 << 19,
     };
 
+    enum class AlsoLockWorld : bool { Yes = true, No = false };
+
     class ScopedLock {
     public:
-        explicit ScopedLock(RigidBody* body, bool also_lock_world)
+        explicit ScopedLock(RigidBody* body, AlsoLockWorld also_lock_world)
             : mBody(body), mAlsoLockWorld(also_lock_world) {
             mBody->lock(also_lock_world);
         }
@@ -137,7 +139,7 @@ public:
 
     private:
         RigidBody* mBody;
-        bool mAlsoLockWorld;
+        AlsoLockWorld mAlsoLockWorld;
     };
 
     RigidBody(Type type, ContactLayerType layer_type, hkpRigidBody* hk_body,
@@ -507,13 +509,13 @@ public:
     void x_114(bool unk);
 
     void lock();
-    void lock(bool also_lock_world);
+    void lock(AlsoLockWorld also_lock_world);
     void unlock();
-    void unlock(bool also_unlock_world);
-    [[nodiscard]] auto makeScopedLock(bool also_lock_world) {
+    void unlock(AlsoLockWorld also_unlock_world);
+    [[nodiscard]] auto makeScopedLock(AlsoLockWorld also_lock_world) {
         return ScopedLock(this, also_lock_world);
     }
-    [[nodiscard]] auto makeScopedLock() { return makeScopedLock(isAddedToWorld()); }
+    [[nodiscard]] auto makeScopedLock() { return makeScopedLock(AlsoLockWorld(isAddedToWorld())); }
 
     hkpMotion* getMotion() const;
 
