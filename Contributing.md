@@ -30,6 +30,8 @@ BotW is mostly set up like a normal C++ project using standard build tools and c
 
 Make sure you have the C++ and the CMake Tools extensions installed and enabled. And then just answer "yes" when you're asked whether you would like CMake Tools to configure IntelliSense for you.
 
+In certain circumstances, VSCode may silently attempt to set the build type to Debug. Make sure the build type is set to RelWithDebInfo (and not Debug); otherwise the entire build will mismatch.
+
 ### CLion
 
 CLion interacts with CMake directly, so you need to make sure CLion's build profile is configured correctly.
@@ -95,6 +97,8 @@ Note that you will need to import names and types manually and you will not be a
 4. Use the script in `tools/common/ghidra_scripts` to import function names from this project.
 
 ## How to decompile
+
+0. Build the project and run `tools/check` to make sure the project is set up correctly. You should see "OK" at the end.
 
 1. **Pick a function that you want to decompile.**
     * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
