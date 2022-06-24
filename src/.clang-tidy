@@ -1,0 +1,50 @@
+---
+InheritParentConfig: true
+Checks: 'readability-identifier-naming'
+CheckOptions:
+  # Type names
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.UnionCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.ClassIgnoredRegexp
+    value: ^hk(.*)
+  - key: readability-identifier-naming.StructIgnoredRegexp
+    value: ^hk(.*)
+  - key: readability-identifier-naming.UnionIgnoredRegexp
+    value: ^hk(.*)
+  - key: readability-identifier-naming.EnumIgnoredRegexp
+    value: ^hk(.*)
+
+  # Variable naming conventions are not enforced as there are many situations
+  # which require deviating from snake_case names.
+
+  # Class/struct members (clang-tidy does not distinguish classes from structs)
+  - key: readability-identifier-naming.MemberCase
+    value: CamelCase
+  - key: readability-identifier-naming.MemberPrefix
+    value: m
+  - key: readability-identifier-naming.MemberIgnoredRegexp
+    value: ^_(.*)
+
+  # Public class/struct members
+  - key: readability-identifier-naming.PublicMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PublicMemberPrefix
+    value: ''
+  - key: readability-identifier-naming.PublicMemberIgnoredRegexp
+    # clang-tidy does not distinguish classes from structs, so we allow names like mMemberNames
+    # for public members as well (even for structs).
+    value: (^_(.*)|^m[A-Z](.*))
+
+  # Identifier names
+  - key: readability-identifier-naming.MacroDefinitionCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.ScopedEnumConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.ScopedEnumConstantIgnoredRegexp
+    value: ^_(.*)
