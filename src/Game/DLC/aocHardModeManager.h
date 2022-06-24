@@ -22,8 +22,8 @@ public:
     SEAD_ENUM(HardModeChange, IsLastPlayHardMode = 0, NerfHpRestore = 1, _2 = 2,
               DisableNoDeathDamage = 3, PatchGanonStunLock = 4, EnableLifeRegen = 5,
               RandomizeGuardianChargeBeam = 6, ApplyDamageMultiplier = 7,
-              EnableShorterEnemyNotice = 8);
-    SEAD_ENUM(Flag, EnableHardMode = 0);
+              EnableShorterEnemyNotice = 8)
+    SEAD_ENUM(Flag, EnableHardMode = 0)
     SEAD_ENUM(MultiplierType, HpRestore = 0, _1 = 1, EnemyNoticeDuration = 2)
 
     void init(sead::Heap* heap);

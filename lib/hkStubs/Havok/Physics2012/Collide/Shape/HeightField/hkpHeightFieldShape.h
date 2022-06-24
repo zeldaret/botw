@@ -8,7 +8,7 @@ class hkpHeightFieldShape : public hkpShape {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkpHeightFieldShape)
     HK_DECLARE_REFLECTION()
-    HKCD_DECLARE_SHAPE_TYPE(hkcdShapeType::HEIGHT_FIELD);
+    HKCD_DECLARE_SHAPE_TYPE(hkcdShapeType::HEIGHT_FIELD)
 
     struct CollideSpheresInput {
         HK_DECLARE_CLASS_ALLOCATOR(CollideSpheresInput)

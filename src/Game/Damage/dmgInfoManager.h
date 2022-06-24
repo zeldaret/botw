@@ -12,7 +12,7 @@ namespace uking::dmg {
 
 // FIXME: incomplete
 class DamageInfoMgr {
-    SEAD_SINGLETON_DISPOSER(DamageInfoMgr);
+    SEAD_SINGLETON_DISPOSER(DamageInfoMgr)
     DamageInfoMgr();
     virtual ~DamageInfoMgr();
 

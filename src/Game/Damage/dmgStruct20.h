@@ -18,7 +18,7 @@ class Struct20Base {
     SEAD_RTTI_BASE(Struct20Base)
 
 public:
-    virtual ~Struct20Base(){};
+    virtual ~Struct20Base() = default;
 
     virtual void reset();
     virtual void combineMaybe(Struct20Base* other);
