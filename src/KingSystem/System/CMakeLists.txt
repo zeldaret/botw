@@ -15,6 +15,8 @@ target_sources(uking PRIVATE
   DebugMessage.h
   HavokWorkerMgr.cpp
   HavokWorkerMgr.h
+  Hio.cpp
+  Hio.h
   KingEditor.cpp
   KingEditor.h
   MemoryProfiler.cpp
