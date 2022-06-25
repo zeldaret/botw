@@ -4,6 +4,4 @@ namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Hio)
 
-//Hio::~Hio() {}
-
 }  // namespace ksys
