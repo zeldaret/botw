@@ -191,7 +191,7 @@ Additionally, you'll also need:
 
 3. Run `tools/setup.py [path to the NSO]`
     * This will:
-        * install tools/check to check for differences in decompiled code
+        * install `tools/check` to check for differences in decompiled code
         * convert the executable if necessary
         * set up [Clang 4.0.1](https://releases.llvm.org/download.html#4.0.1) by downloading it from the official LLVM website
         * create a build directory in `build/`
