@@ -1,8 +1,8 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
-#include "KingSystem/Utils/Types.h"
 #include <hostio/seadHostIONode.h>
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys {
 
