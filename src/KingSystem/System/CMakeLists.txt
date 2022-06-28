@@ -48,6 +48,8 @@ target_sources(uking PRIVATE
   SystemPauseMgr.h
   SystemTimers.cpp
   SystemTimers.h
+  Terminal.cpp
+  Terminal.h
   Timer.cpp
   Timer.h
   UIGlue.cpp
