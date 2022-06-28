@@ -35,7 +35,7 @@ void StarterPackMgr::registerPackFactoryAndMakeOverlayArena(bool reduced_heap_si
 }
 
 void StarterPackMgr::deleteArenaAndHeapAndUnregisterFactory() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         if (mOverlayArena) {
             delete mOverlayArena;
             mOverlayArena = nullptr;
@@ -49,7 +49,7 @@ void StarterPackMgr::deleteArenaAndHeapAndUnregisterFactory() {
 }
 
 void StarterPackMgr::loadBootupGraphicsPack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
 
@@ -64,7 +64,7 @@ void StarterPackMgr::loadBootupGraphicsPack() {
 }
 
 void StarterPackMgr::loadBootupPacks() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
 
@@ -83,7 +83,7 @@ void StarterPackMgr::loadBootupPacks() {
 }
 
 void StarterPackMgr::loadTitlePack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
 
@@ -98,7 +98,7 @@ void StarterPackMgr::loadTitlePack() {
 }
 
 void StarterPackMgr::loadTitleBGPacks() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         sead::SafeString extension = ".pack";
         res::registerPackExtension(true, extension);
 
@@ -122,18 +122,18 @@ void StarterPackMgr::loadAocMainFieldPack() {
 }
 
 void StarterPackMgr::unloadBootupGraphicsPack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         res::setResourceMgrPack(nullptr);
         mBootupGfxPack.requestUnload();
     }
 }
 
 bool StarterPackMgr::bootupGraphicsPackReady() {
-    return GameConfig::getInstance()->mField419 || mBootupGfxPack.isReadyOrNeedsParse();
+    return GameConfig::getInstance()->_419 || mBootupGfxPack.isReadyOrNeedsParse();
 }
 
 void StarterPackMgr::setPackToBootupGraphics() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         mBootupGfxPack.parseResource(nullptr);
         res::registerPackExtension(false, "");
         res::setResourceMgrPack(&mBootupGfxPack);
@@ -141,7 +141,7 @@ void StarterPackMgr::setPackToBootupGraphics() {
 }
 
 void StarterPackMgr::unloadBootupAndBootupLangPack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         res::setResourceMgrPack(nullptr);
         mBootupPack.requestUnload();
         mBootupLangPack.requestUnload();
@@ -149,12 +149,12 @@ void StarterPackMgr::unloadBootupAndBootupLangPack() {
 }
 
 bool StarterPackMgr::bootupPacksReady() {
-    return GameConfig::getInstance()->mField419 ||
+    return GameConfig::getInstance()->_419 ||
            (mBootupPack.isReadyOrNeedsParse() && mBootupLangPack.isReadyOrNeedsParse());
 }
 
 void StarterPackMgr::setPackToBootupPack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         mBootupPack.parseResource(nullptr);
         mBootupLangPack.parseResource(nullptr);
         res::registerPackExtension(false, "");
@@ -163,22 +163,22 @@ void StarterPackMgr::setPackToBootupPack() {
 }
 
 void StarterPackMgr::unloadTitlePack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         res::setResourceMgrPack(nullptr);
         mTitlePack.requestUnload();
     }
 }
 
 bool StarterPackMgr::isTitlePackReady() {
-    return GameConfig::getInstance()->mField419 || mTitlePack.isReadyOrNeedsParse();
+    return GameConfig::getInstance()->_419 || mTitlePack.isReadyOrNeedsParse();
 }
 
 bool StarterPackMgr::isTitlePackK() {
-    return GameConfig::getInstance()->mField419 || mTitlePack.hasParsedResource();
+    return GameConfig::getInstance()->_419 || mTitlePack.hasParsedResource();
 }
 
 void StarterPackMgr::setPackToTitlePack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         mTitlePack.parseResource(nullptr);
         res::registerPackExtension(false, "");
         res::setResourceMgrPack(&mTitlePack);
@@ -186,7 +186,7 @@ void StarterPackMgr::setPackToTitlePack() {
 }
 
 void StarterPackMgr::setPackToTitleBGPack() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         mTitleBGPack.waitForReady();
         mTitleBGPack.parseResource(nullptr);
         mTitleBGLangPack.waitForReady();
@@ -202,7 +202,7 @@ void StarterPackMgr::setPackToTitleBGPack() {
 }
 
 void StarterPackMgr::unloadTitleBGAndAocMainFieldPacksAndStuff() {
-    if (!GameConfig::getInstance()->mField419) {
+    if (!GameConfig::getInstance()->_419) {
         res::setResourceMgrPack(nullptr);
         mTitleBGPack.requestUnload();
         mTitleBGLangPack.requestUnload();
