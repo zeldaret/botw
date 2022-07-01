@@ -66,8 +66,8 @@ public:
             : mIndex(index), mContainer(container) {}
 
         int getIndex() const { return mIndex; }
-        constexpr auto& get() const { return mContainer[mIndex]; }
-        constexpr auto& operator*() const { return get(); }
+        constexpr decltype(auto) get() const { return mContainer[mIndex]; }
+        constexpr decltype(auto) operator*() const { return get(); }
         constexpr auto* operator->() const { return &get(); }
 
     private:
