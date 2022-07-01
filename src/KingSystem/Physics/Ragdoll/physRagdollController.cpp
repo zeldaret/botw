@@ -8,7 +8,6 @@
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
 #include <math/seadMathCalcCommon.h>
-#include <optional>
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerMgr.h"
 #include "KingSystem/Physics/Rig/physModelBoneAccessor.h"
 #include "KingSystem/Physics/Rig/physSkeletonMapper.h"
