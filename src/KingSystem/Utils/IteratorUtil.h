@@ -65,7 +65,7 @@ public:
         constexpr ElementProxy(Container& container, int index)
             : mIndex(index), mContainer(container) {}
 
-        int getIndex() const { return mIndex; }
+        constexpr int getIndex() const { return mIndex; }
         constexpr decltype(auto) get() const { return mContainer[mIndex]; }
         constexpr decltype(auto) operator*() const { return get(); }
         constexpr auto* operator->() const { return &get(); }
@@ -83,7 +83,7 @@ public:
         constexpr bool operator==(Iterator rhs) const { return mIndex == rhs.mIndex; }
         constexpr bool operator!=(Iterator rhs) const { return !operator==(rhs); }
 
-        int getIndex() const { return mIndex; }
+        constexpr int getIndex() const { return mIndex; }
         constexpr ElementProxy operator*() const { return ElementProxy(mContainer, mIndex); }
 
         constexpr Iterator& operator++() {
