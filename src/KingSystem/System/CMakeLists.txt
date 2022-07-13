@@ -54,6 +54,8 @@ target_sources(uking PRIVATE
   Timer.h
   UIGlue.cpp
   UIGlue.h
+  VideoRecorder.cpp
+  VideoRecorder.h
   VFR.cpp
   VFR.h
   VFRValue.cpp
