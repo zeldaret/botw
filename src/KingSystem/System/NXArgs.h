@@ -4,6 +4,7 @@
 #include <codec/seadHashCRC32.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -15,13 +16,13 @@ class nxargs {
     virtual ~nxargs();
 
 public:
-    enum LaunchParamFlag {
+    enum class LaunchParamFlag {
         hasDropActor = 1 << 0,  // 1
         _2 = 1 << 1,            // 2
     };
     struct LaunchParamEntry {
-        sead::HashCRC32 mActorNameHash;
-        sead::HashCRC32 mDropActorNameHash;
+        u32 mActorNameHash;
+        u32 mDropActorNameHash;
         sead::Vector3f mPositionOffset{};
         sead::Vector3f mRotate{};
         sead::Vector3f mVelocity{};
@@ -58,22 +59,26 @@ public:
         sead::HashCRC32 flagNameHash;
         float rhsValue;
         LaunchParamEntryConditionDataType flagDataType;
-        char operation;
+        u8 operation;
     };
     
     struct LaunchParamEntrySpawnCondition {
         int resField0;
         int resField8;
         u8 resField4;
-        char resField5;
+        u8 resField5;
     };
 
+    void init(sead::Heap* heap);
+    void allocEntries(sead::Heap *heap, nxargs::ResLaunchParamData *data);
+    void handleArgs();
+
     u16 mResField4 = 0;
-    char mResField6;
-    char mType;
+    u8 mResField6;
+    u8 mType;
     u8 mNumEntries = 0;
-    sead::Vector2<LaunchParamEntry> mEntries(); //(int size, LaunchParamEntry* data);
-    sead::Vector2<LaunchParamEntrySpawnCondition> mSpawnCondition(); //(int size, LaunchParamEntryCondition* data);
+    sead::Buffer<LaunchParamEntry> mEntries; //(int size, LaunchParamEntry* data);
+    sead::Buffer<LaunchParamEntrySpawnCondition> mSpawnCondition; //(int size, LaunchParamEntryCondition* data);
 
     bool mHasHandledArgs = false;
 
