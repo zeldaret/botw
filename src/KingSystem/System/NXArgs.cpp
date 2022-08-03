@@ -47,12 +47,27 @@ nxargs::SingletonDisposer_* nxargs::SingletonDisposer_::sStaticDisposer = 0;
 
 // WIP
 void nxargs::init(sead::Heap* heap) {
-    sead::SafeString name = "nxargsHeap";
+    sead::SafeString heapname = "nxargsHeap";
     sead::Heap *nxargsheap = nullptr;
+    char* string;
+    
+    nxargsheap = sead::ExpHeap::create(0x13E8, heapname, heap, (u32)8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
     nxargs::ResLaunchParamData *reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
-    
-    nxargsheap = sead::ExpHeap::create(0x13E8, name, heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
-    
+
+    if (nn::oe::TryPopLaunchParameter(reslaunchdata, 0x1000)) {
+        int len = 5;
+        while (1) {
+            sead::BufferedSafeString* inputmagic;
+            sead::SafeString expectedmagic = "BotW";
+            inputmagic->format("%s", reslaunchdata->header.magic);
+            bool isMagicMatch = (inputmagic->cstr() == expectedmagic.cstr());
+            if (isMagicMatch)
+                break;
+
+
+        }
+    }
+
 
 }
 

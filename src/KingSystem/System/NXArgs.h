@@ -38,7 +38,7 @@ public:
     };
 
     struct ResLaunchParamDataHeader {
-        char magic[4] = {'B', 'o', 't', 'W'};
+        char magic[5];
         u16 _4;
         u8 _6;
         argstype type;
@@ -85,6 +85,10 @@ public:
 
 private:
 };
-// KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
+KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 
 }  // namespace ksys
+
+namespace nn::oe {
+    bool TryPopLaunchParameter(void*, u64); // TODO : figure out types for this
+}
