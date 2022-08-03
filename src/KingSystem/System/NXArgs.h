@@ -2,10 +2,12 @@
 
 #include <basis/seadNew.h>
 #include <codec/seadHashCRC32.h>
-#include <heap/seadDisposer.h>
-#include <math/seadVector.h>
 #include <container/seadBuffer.h>
+#include <heap/seadDisposer.h>
+#include <heap/seadExpHeap.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <nn/oe.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -27,10 +29,10 @@ public:
         sead::Vector3f mRotate{};
         sead::Vector3f mVelocity{};
         LaunchParamFlag mFlags;
-        char mNumConditions;
+        u8 mNumConditions;
     };
 
-    enum argstype {
+    enum class argstype {
         TypeNone = 0,
         TypeCreateActors = 1,
     };
@@ -41,7 +43,7 @@ public:
         u8 _6;
         argstype type;
         u32 padding;
-        u8 numActorEntries;
+        u8 numactorentries;
         u8 padding2[3];
     };
 
@@ -56,33 +58,33 @@ public:
     };
 
     struct LaunchParamEntryCondition {
-        sead::HashCRC32 flagNameHash;
-        float rhsValue;
-        LaunchParamEntryConditionDataType flagDataType;
+        sead::HashCRC32 flagnamehash;
+        float rhsvalue;
+        LaunchParamEntryConditionDataType flagdatatype;
         u8 operation;
     };
-    
+
     struct LaunchParamEntrySpawnCondition {
-        int resField0;
-        int resField8;
-        u8 resField4;
-        u8 resField5;
+        int resfield0;
+        int resfield8;
+        u8 resfield4;
+        u8 resfield5;
     };
 
     void init(sead::Heap* heap);
-    void allocEntries(sead::Heap *heap, nxargs::ResLaunchParamData *data);
+    void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);
     void handleArgs();
 
-    u16 mResField4 = 0;
     u8 mResField6;
     u8 mType;
     u8 mNumEntries = 0;
-    sead::Buffer<LaunchParamEntry> mEntries; //(int size, LaunchParamEntry* data);
-    sead::Buffer<LaunchParamEntrySpawnCondition> mSpawnCondition; //(int size, LaunchParamEntryCondition* data);
+    sead::Buffer<LaunchParamEntry> mEntries;
+    s16 mResField4 = 0;
 
     bool mHasHandledArgs = false;
 
 private:
 };
+// KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 
 }  // namespace ksys
