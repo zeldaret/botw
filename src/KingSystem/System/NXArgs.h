@@ -32,7 +32,7 @@ public:
         u8 mNumConditions;
     };
 
-    enum class argstype {
+    enum class argstype : u8 {
         TypeNone = 0,
         TypeCreateActors = 1,
     };
@@ -43,7 +43,7 @@ public:
         u8 _6;
         argstype type;
         u32 padding;
-        u8 numactorentries;
+        u8 numentries;
         u8 padding2[3];
     };
 
@@ -76,7 +76,7 @@ public:
     void handleArgs();
 
     u8 mResField6;
-    u8 mType;
+    argstype mType;
     u8 mNumEntries = 0;
     sead::Buffer<LaunchParamEntry> mEntries;
     s16 mResField4 = 0;
@@ -90,5 +90,5 @@ KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 }  // namespace ksys
 
 namespace nn::oe {
-    bool TryPopLaunchParameter(void*, u64); // TODO : figure out types for this
+    bool TryPopLaunchParameter(void*, u64); // temp until pr gets merged
 }
