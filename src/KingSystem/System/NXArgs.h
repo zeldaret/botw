@@ -90,5 +90,5 @@ KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 }  // namespace ksys
 
 namespace nn::oe {
-    bool TryPopLaunchParameter(void*, u64); // temp until pr gets merged
+    bool TryPopLaunchParameter(void*, u64); // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
 }
