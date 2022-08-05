@@ -63,7 +63,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         }
         if (this->mNumEntries) {
             offset = 0x10;
-            for (i - 0; i < this->mNumEntries; i++) {
+            for (i = 0; i < this->mNumEntries; i++) {
                 if (this->mEntries.getSize() <= i)
                     currEntry = this->mEntries.getBufferPtr();
                 else

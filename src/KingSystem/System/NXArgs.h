@@ -6,11 +6,10 @@
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadVector.h>
-#include <prim/seadSafeString.h>
 #include <nn/oe.h>
-#include "KingSystem/System/StageInfo.h"
-#include "KingSystem/GameData/gdtManager.h"
+#include <prim/seadSafeString.h>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -22,7 +21,7 @@ class nxargs {
     virtual ~nxargs();
 
 public:
-    enum class LaunchParamFlag {
+    enum class LaunchParamFlag : u8 {
         hasDropActor = 1 << 0,  // 1
         _2 = 1 << 1,            // 2
     };
@@ -61,11 +60,12 @@ public:
         ResLaunchParamDataHeader header;
     };
 
-    enum LaunchParamEntryConditionDataType {
+    enum LaunchParamEntryConditionDataType : u8 {
         DataType_Bool = 1,
         DataType_S32 = 2,
         DataType_F32 = 3,
     };
+    KSYS_CHECK_SIZE_NX150(LaunchParamEntryConditionDataType, 0x1);
 
     struct LaunchParamEntryCondition {
         sead::HashCRC32 flagnamehash;
@@ -93,5 +93,5 @@ KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 }  // namespace ksys
 
 namespace nn::oe {
-    bool TryPopLaunchParameter(size_t*,void*,size_t); // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
+bool TryPopLaunchParameter(size_t*, void*, size_t);  // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
 }
