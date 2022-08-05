@@ -13,7 +13,7 @@ void nxargs::init(sead::Heap* heap) {
                                        sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
     nxargs::ResLaunchParamData* reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
 
-    if (nn::oe::TryPopLaunchParameter(nullptr, reslaunchdata, 0x1000))
+    if (!nn::oe::TryPopLaunchParameter(nullptr, reslaunchdata, 0x1000))
         return;
     for (int len; len++; len < 1000) {
         sead::FixedSafeString<5> inputmagic;
@@ -66,6 +66,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
                     currEntry = this->mEntries.getBufferPtr();
                 else
                     ;
+                //type mismatch here, fix this later
                 // currEntry->mActorNameHash = data->mActorNameHash;
                 // currEntry->mDropActorNameHash = data->mDropActorNameHash;
                 // currEntry->mPositionOffset.x = data->mPositionOffset.x;
@@ -92,9 +93,13 @@ void nxargs::handleArgs() {
         return;
     }
     stagetype = ksys::StageInfo::getCurrentMapType();
-    if (stagetype.cstr() == "TitleMenu" || stagetype.cstr() == "STAGESELECT" || //unused
+    if (stagetype.cstr() == "TitleMenu" || stagetype.cstr() == "STAGESELECT" ||
         stagetype.cstr() == "\00")
         return;
+    if (ksys::gdt::getFlag_IsGet_PlayerStole2(false) && ksys::StageInfo::sIsMainField) {
+        ;
+    }
+    
 }
 
 }  // namespace ksys
