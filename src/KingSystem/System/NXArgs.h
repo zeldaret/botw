@@ -26,6 +26,12 @@ public:
         hasDropActor = 1 << 0,  // 1
         _2 = 1 << 1,            // 2
     };
+    struct LaunchParamEntrySpawnCondition {
+        int resfield0;
+        int resfield8;
+        u8 resfield4;
+        u8 resfield5;
+    };
     struct LaunchParamEntry {
         u32 mActorNameHash;
         u32 mDropActorNameHash;
@@ -33,7 +39,7 @@ public:
         sead::Vector3f mRotate{};
         sead::Vector3f mVelocity{};
         LaunchParamFlag mFlags;
-        u8 mNumConditions;
+        sead::Buffer<LaunchParamEntrySpawnCondition> mConditions;
     };
 
     enum class argstype : u8 {
@@ -66,13 +72,6 @@ public:
         float rhsvalue;
         LaunchParamEntryConditionDataType flagdatatype;
         u8 operation;
-    };
-
-    struct LaunchParamEntrySpawnCondition {
-        int resfield0;
-        int resfield8;
-        u8 resfield4;
-        u8 resfield5;
     };
 
     void init(sead::Heap* heap);
