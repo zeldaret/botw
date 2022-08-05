@@ -8,6 +8,10 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <nn/oe.h>
+#include "KingSystem/System/StageInfo.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -90,5 +94,5 @@ KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 }  // namespace ksys
 
 namespace nn::oe {
-    bool TryPopLaunchParameter(void*, u64); // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
+    bool TryPopLaunchParameter(size_t*,void*,size_t); // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
 }
