@@ -42,7 +42,7 @@ public:
     };
 
     struct ResLaunchParamDataHeader {
-        char magic[5];
+        char magic[4];
         u16 _4;
         u8 _6;
         argstype type;
