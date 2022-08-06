@@ -31,7 +31,7 @@ public:
     float _24;
     u8 weather;
     u8 _29;
-    WeatherType _2a[20 * 18];
+    u8 _2a[20 * 18];
     u8 _193;
     struct ClimateWeathers climateWeathers[3];  // 0x194
     u8 _284[0x318 - 0x284];

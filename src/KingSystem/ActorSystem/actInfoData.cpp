@@ -742,7 +742,7 @@ bool InfoData::InvalidLifeConditions::containsCurrentWeather(const sead::Vector3
         return false;
     }
     auto current_weather = world::WeatherType(world::Manager::instance()->sub_71010F337C(pos));
-    const char* current_weather_name = world::Manager::getWeatherTypeString(current_weather);
+    const char* current_weather_name = world::Manager::getWeatherTypeString(u32(current_weather));
     for (int i = 0; i < num_weathers; i++) {
         if (weathers[i] == current_weather_name)
             return true;

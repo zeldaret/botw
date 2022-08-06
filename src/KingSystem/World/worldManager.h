@@ -96,9 +96,9 @@ class Manager : public sead::hostio::Node {
 
 public:
     WeatherType getWeatherType() const;
-    void setWeatherType(WeatherType weather_type, bool x, bool y, bool for_demo);
+    void setWeatherType(u32 weather_type, bool x, bool y, bool for_demo);
     void setWeatherType(const sead::SafeString& weather_type, bool x, bool y, bool for_demo);
-    static const char* getWeatherTypeString(WeatherType type);
+    static const char* getWeatherTypeString(u32 type);
 
     Climate getClimate(const sead::Vector3f& pos) const;
     Climate getCurrentClimate() const;
