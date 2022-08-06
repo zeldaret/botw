@@ -77,16 +77,15 @@ public:
     void init(sead::Heap* heap);
     void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);
     void handleArgs();
-
+private:
+    u16 mResField4 = 0;
     u8 mResField6;
     argstype mType;
-    u8 mNumEntries = 0;
     sead::Buffer<LaunchParamEntry> mEntries;
-    s16 mResField4 = 0;
-
+    u8 mNumEntries = 0;
+    u8 padding[3];
     bool mHasHandledArgs = false;
-
-private:
+    //u8 padding2[7];
 };
 KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 

@@ -6,10 +6,9 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
 // WIP
 void nxargs::init(sead::Heap* heap) {
-    sead::SafeString heapname = "nxargsHeap";
+    const sead::SafeString heapname = "nxargsHeap";
     sead::Heap* nxargsheap = nullptr;
     const u64 sizeofargs = 0x1000;
-    //auto* unk = nullptr;
 
     nxargsheap = sead::ExpHeap::create(0x13E8, heapname, heap, (u32)8,
                                        sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
@@ -20,7 +19,6 @@ void nxargs::init(sead::Heap* heap) {
     for (int len; len++; len < 1000) {
         sead::FixedSafeString<5> inputmagic;
         sead::SafeString expectedmagic = "\00";
-        u64 *unk;
 
         inputmagic = expectedmagic;
 
@@ -29,7 +27,7 @@ void nxargs::init(sead::Heap* heap) {
         bool isMagicMatch = (inputmagic.cstr() == expectedmagic.cstr());
         if (isMagicMatch)
             break;
-        bool poplaunchparamresult = nn::oe::TryPopLaunchParameter(unk, reslaunchdata, sizeofargs);
+        bool poplaunchparamresult = nn::oe::TryPopLaunchParameter(nullptr, reslaunchdata, sizeofargs);
         if (poplaunchparamresult)
             break;
     }
