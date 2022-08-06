@@ -77,20 +77,21 @@ public:
     void init(sead::Heap* heap);
     void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);
     void handleArgs();
+
 private:
+    u16 padding;                              // 0x28
+    u8 mResField6;                            // 0x2A
+    argstype mType;                           // 0x2B
+    sead::Buffer<LaunchParamEntry> mEntries;  // 0x30
+    u8 mNumEntries = 0;                       // 0x2C
     u16 mResField4 = 0;
-    u8 mResField6;
-    argstype mType;
-    sead::Buffer<LaunchParamEntry> mEntries;
-    u8 mNumEntries = 0;
-    u8 padding[3];
-    bool mHasHandledArgs = false;
-    //u8 padding2[7];
+    bool mHasHandledArgs = false;  // 0x40
 };
 KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 
 }  // namespace ksys
 
 namespace nn::oe {
-bool TryPopLaunchParameter(size_t*, void*, size_t);  // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
+bool TryPopLaunchParameter(
+    size_t*, void*, size_t);  // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
 }
