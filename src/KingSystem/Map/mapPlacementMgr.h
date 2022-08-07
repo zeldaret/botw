@@ -78,7 +78,7 @@ public:
 
     bool isGrudgeMerge() const { return sFlags.isOn(MgrStaticFlags::GrudgeMerge); }
 
-    static sead::TypedBitFlag<MgrStaticFlags, u32> sFlags;
+    static sead::TypedBitFlag<MgrStaticFlags, u16> sFlags;
 
     u32 _28;
     u32 _2c = 0;
