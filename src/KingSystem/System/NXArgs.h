@@ -12,6 +12,8 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 
 namespace ksys {
 
@@ -38,10 +40,11 @@ public:
         sead::Vector3f mRotate{};
         sead::Vector3f mVelocity{};
         LaunchParamFlag mFlags;
+        u8 mNumConditions;
         sead::Buffer<LaunchParamEntrySpawnCondition> mConditions;
     };
 
-    enum class argstype : u8 {
+    enum class ArgsType : u8 {
         TypeNone = 0,
         TypeCreateActors = 1,
     };
@@ -50,7 +53,7 @@ public:
         char magic[4];
         u16 _4;
         u8 _6;
-        argstype type;
+        ArgsType type;
         u32 padding;
         u8 numentries;
         u8 padding2[3];
@@ -65,7 +68,6 @@ public:
         DataType_S32 = 2,
         DataType_F32 = 3,
     };
-    KSYS_CHECK_SIZE_NX150(LaunchParamEntryConditionDataType, 0x1);
 
     struct LaunchParamEntryCondition {
         sead::HashCRC32 flagnamehash;
@@ -81,7 +83,7 @@ public:
 private:
     u16 padding;                              // 0x28
     u8 mResField6;                            // 0x2A
-    argstype mType;                           // 0x2B
+    ArgsType mType;                           // 0x2B
     sead::Buffer<LaunchParamEntry> mEntries;  // 0x30
     u8 mNumEntries = 0;                       // 0x2C
     u16 mResField4 = 0;

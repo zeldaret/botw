@@ -6,8 +6,8 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
 // WIP
 void nxargs::init(sead::Heap* heap) {
-    const sead::SafeString heapname = "nxargsHeap";
     sead::Heap* nxargsheap = nullptr;
+    const sead::SafeString heapname = "nxargsHeap";
     const u64 sizeofargs = 0x1000;
 
     nxargsheap = sead::ExpHeap::create(0x13E8, heapname, heap, (u32)8,
@@ -27,19 +27,18 @@ void nxargs::init(sead::Heap* heap) {
         bool isMagicMatch = (inputmagic.cstr() == expectedmagic.cstr());
         if (isMagicMatch)
             break;
-        bool poplaunchparamresult = nn::oe::TryPopLaunchParameter(nullptr, reslaunchdata, sizeofargs);
-        if (poplaunchparamresult)
+        if (!nn::oe::TryPopLaunchParameter(nullptr, reslaunchdata, sizeofargs))
             break;
     }
     this->mResField4 = reslaunchdata->header._4;
     this->mResField6 = reslaunchdata->header._6;
-    argstype type = reslaunchdata->header.type;
+    ArgsType type = reslaunchdata->header.type;
     this->mType = type;
-    if (type == argstype::TypeCreateActors) {
+    if (type == ArgsType::TypeCreateActors) {
         this->mNumEntries = reslaunchdata->header.numentries;
         nxargs::allocEntries(heap, reslaunchdata);
     } else {
-        this->mType = argstype::TypeNone;
+        this->mType = ArgsType::TypeNone;
     }
     heap->destroy();
 }
@@ -48,7 +47,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     nxargs::LaunchParamEntry* currEntry;
     int i;
     int offset = 0;
-    u8 numEntries = this->mNumEntries;
+    u32 numEntries = this->mNumEntries;
     if (this->mNumEntries) {
         u64 entriesshifted = numEntries << 6;
         nxargs::LaunchParamEntry* launchparams = new (heap, std::nothrow) nxargs::LaunchParamEntry;
@@ -58,6 +57,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
             } else {
                 ;
             }
+            //this->mEntries.mSize = numEntries;
         }
         if (this->mNumEntries) {
             offset = 0x10;
@@ -65,20 +65,20 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
                 if (this->mEntries.getSize() <= i)
                     currEntry = this->mEntries.getBufferPtr();
                 else
-                    ;
-                //type mismatch here, fix this later
-                // currEntry->mActorNameHash = data->mActorNameHash;
-                // currEntry->mDropActorNameHash = data->mDropActorNameHash;
-                // currEntry->mPositionOffset.x = data->mPositionOffset.x;
-                // currEntry->mPositionOffset.y = data->mPositionOffset.y;
-                // currEntry->mPositionOffset.z = data->mPositionOffset.z;
-                // currEntry->mRotate.x = data->mPositionOffset.x;
-                // currEntry->mRotate.y = data->mPositionOffset.y;
-                // currEntry->mRotate.z = data->mPositionOffset.z;
-                // currEntry->mVelocity.x = data->mVelocity.x;
-                // currEntry->mVelocity.y = data->mVelocity.y;
-                // currEntry->mVelocity.z = data->mVelocity.z;
-                // currEntry->mFlags = data->mFlags;
+                    currEntry = this->mEntries.getBufferPtr();
+                // type mismatch here, fix this later
+                //currEntry->mActorNameHash = data->mActorNameHash;
+                //currEntry->mDropActorNameHash = data->mDropActorNameHash;
+                //currEntry->mPositionOffset.x = data->mPositionOffset.x;
+                //currEntry->mPositionOffset.y = data->mPositionOffset.y;
+                //currEntry->mPositionOffset.z = data->mPositionOffset.z;
+                //currEntry->mRotate.x = data->mPositionOffset.x;
+                //currEntry->mRotate.y = data->mPositionOffset.y;
+                //currEntry->mRotate.z = data->mPositionOffset.z;
+                //currEntry->mVelocity.x = data->mVelocity.x;
+                //currEntry->mVelocity.y = data->mVelocity.y;
+                //currEntry->mVelocity.z = data->mVelocity.z;
+                //currEntry->mFlags = data->mFlags;
             }
         }
     }
@@ -86,19 +86,38 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
 
 // NONMATCHING: this function checks bools that don't exist in this decomp yet
 void nxargs::handleArgs() {
+    ksys::act::InfoData *infodata;
+    ksys::act::InstParamPack params;
+    ksys::act::InstParamPack::Buffer* parambuf;
+    nxargs::LaunchParamEntry* entry;
     sead::SafeString stagetype;
+    al::ByamlIter actorIter;
+    char* value[19];
     if (this->mHasHandledArgs)  // todo
         return;
-    if (this->mType == argstype::TypeNone) {
+    if (this->mType == ArgsType::TypeNone) {
         return;
     }
     stagetype = ksys::StageInfo::getCurrentMapType();
     if (stagetype.cstr() == "TitleMenu" || stagetype.cstr() == "STAGESELECT" ||
         stagetype.cstr() == "\00")
         return;
-    if (ksys::gdt::getFlag_IsGet_PlayerStole2(false) && ksys::StageInfo::sIsMainField) {
-        ;
+    if (!ksys::gdt::getFlag_IsGet_PlayerStole2(false) && !ksys::StageInfo::sIsMainField)
+        return;
+    if (mHasHandledArgs || mNumEntries == 0)
+        return;
+    infodata = ksys::act::InfoData::instance();
+    parambuf = &params.getBuffer();
+    for (u8 idx; idx >= this->mNumEntries; idx++) {
+        //fix this later
+        entry = this->mEntries.getSize() <= (idx != 0) ? this->mEntries.getBufferPtr() : &this->mEntries.getBufferPtr()[idx];
+        if (entry->mNumConditions)
+            break;
+        if (!ksys::act::InfoData::getActorIter(actorIter, entry->mActorNameHash, true))
+            break;
+        actorIter.tryGetStringByKey(value, "name")
     }
+    
     
 }
 
