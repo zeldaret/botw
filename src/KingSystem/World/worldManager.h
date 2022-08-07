@@ -98,6 +98,7 @@ public:
     WeatherType getWeatherType() const;
     void setWeatherType(u32 weather_type, bool x, bool y, bool for_demo);
     void setWeatherType(const sead::SafeString& weather_type, bool x, bool y, bool for_demo);
+    static const char* getWeatherTypeString(WeatherType type);
     static const char* getWeatherTypeString(u32 type);
 
     Climate getClimate(const sead::Vector3f& pos) const;
@@ -210,7 +211,6 @@ public:
 
     u8 sub_71010F337C(const sead::Vector3f& pos);  // TODO implement this : 0x71010F337C - maybe has
                                                    // a different parameter type
-    WorldInfo* getWorldInfo() { return &mWorldInfo; }
 
 private:
     enum class WorldInfoLoadStatus : u8 {
@@ -291,7 +291,7 @@ private:
     int mWindChangeFinalTimer = 0;
     float mWindSpeedAocField = 0.75;
     WorldInfoLoadStatus mWorldInfoLoadStatus = WorldInfoLoadStatus::NotLoaded;
-    sead::SizedEnum<WeatherType, u8> mWeatherType = WeatherType::Invalid;
+    WeatherType mWeatherType = WeatherType::Invalid;
     u8 mDirectionalLightTimer = 0;
     bool mEnableAutoWind = true;
     bool mMapEdgeWindEnabled = false;

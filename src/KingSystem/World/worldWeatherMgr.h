@@ -6,9 +6,10 @@
 
 namespace ksys::world {
 
-struct ClimateWeathers {
-    s32 weather[20];
-    // int _4[20];
+constexpr u32 NumWeatherCycles = 3;
+
+class ClimateWeathers {
+    s32 weather[NumWeatherCycles];
 };
 
 // TODO
@@ -31,13 +32,13 @@ public:
     float _24;
     u8 weather;
     u8 _29;
-    u8 _2a[20 * 18];
+    WeatherType _2a[NumClimates * NumWeatherCycles * 6];
     u8 _193;
-    struct ClimateWeathers climateWeathers[3];  // 0x194
+    ClimateWeathers mClimateWeathers[NumClimates];  // 0x194
     u8 _284[0x318 - 0x284];
     float mTimeBlock;  // 0x318
     u32 mWeekDay;      // 0x31c
-    u8 _31C[0x398 - 0x320];
+    u8 _31c[0x398 - 0x320];
 };
 KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);
 

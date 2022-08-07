@@ -2,10 +2,11 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/World/worldManager.h"
+
 namespace ksys::world {
 
 WeatherType WeatherMgr::rollNewWeather(Climate climate) {
-    auto wm = Manager::instance();
+    auto* wm = Manager::instance();
     int random = sead::GlobalRandom::instance()->getU32(99);
     WeatherType weather = [&] {
         const std::pair<WeatherType, int> rates[] = {
@@ -22,25 +23,21 @@ WeatherType WeatherMgr::rollNewWeather(Climate climate) {
         return WeatherType::ThunderRain;
     }();
 
-    auto envMgr = wm->getEnvMgr();
-
-    bool isWaterRelicRainOn = envMgr->isWaterRelicRainOn(climate);
-    bool value = false;
-    auto gliderHandle = Manager::instance()->getTimeMgr()->isGetPlayerStole2Flag();
+    auto* env_mgr = wm->getEnvMgr();
+    bool isWaterRelicRainOn = env_mgr->isWaterRelicRainOn(climate);
     if (isWaterRelicRainOn)
         weather = WeatherType::Bluesky;
-    bool hasParaglider = false;
+
+    bool plateau_done = false;
+    bool has_paraglider = false;
+    auto gliderHandle = Manager::instance()->getTimeMgr()->isGetPlayerStole2Flag();
     if (gliderHandle != gdt::InvalidHandle) {
-        gdt::Manager::instance()->getBool(gliderHandle, &value, true);
-        hasParaglider = value;
-    } else {
-        hasParaglider = false;
+        gdt::Manager::instance()->getBool(gliderHandle, &plateau_done, true);
+        has_paraglider = plateau_done;
     }
-    auto result = weather;
-    if (weather == WeatherType::Bluesky || weather == WeatherType::Cloudy || hasParaglider)
-        result = weather;
-    else
-        result = WeatherType::Bluesky;
-    return result;
+
+    if (has_paraglider || weather == WeatherType::Bluesky || weather == WeatherType::Cloudy)
+        return weather;
+    return WeatherType::Bluesky;
 }
 }  // namespace ksys::world

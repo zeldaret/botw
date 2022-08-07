@@ -68,16 +68,16 @@ WeatherType Manager::getWeatherType() const {
 
 void Manager::setWeatherType(u32 weather_type, bool x, bool y, bool for_demo) {
     // Ignore invalid weather requests.
-    if (weather_type >= u32(NumWeatherTypes))
+    if (weather_type >= NumWeatherTypes)
         return;
 
     if (mWeatherSetForDemo && !for_demo)
         return;
 
-    if (mWeatherTypeTimer != 0 && y && mWeatherType.mValue > u8(weather_type))
+    if (mWeatherTypeTimer != 0 && y && mWeatherType > WeatherType(weather_type))
         return;
 
-    mWeatherType.mValue = u8(weather_type);
+    mWeatherType = WeatherType(weather_type);
     mWeatherTypeTimer = 4;
     _7d5 = x;
     mWeatherSetForDemo = for_demo;
@@ -86,15 +86,19 @@ void Manager::setWeatherType(u32 weather_type, bool x, bool y, bool for_demo) {
 void Manager::setWeatherType(const sead::SafeString& weather_type, bool x, bool y, bool for_demo) {
     for (u8 i = 0; i < NumWeatherTypes; ++i) {
         if (weather_type == cWeatherTypes[i]) {
-            setWeatherType(u32(WeatherType(i)), x, y, for_demo);
+            setWeatherType(i, x, y, for_demo);
             return;
         }
     }
 }
 
+const char* Manager::getWeatherTypeString(WeatherType type) {
+    return getWeatherTypeString(u32(type));
+}
+
 const char* Manager::getWeatherTypeString(u32 type) {
     auto index = s32(type);
-    if (u32(index) >= NumWeatherTypes)
+    if (type >= NumWeatherTypes)
         index = 0;
     return cWeatherTypes[index].cstr();
 }
