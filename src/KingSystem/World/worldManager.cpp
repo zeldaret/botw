@@ -92,10 +92,6 @@ void Manager::setWeatherType(const sead::SafeString& weather_type, bool x, bool 
     }
 }
 
-const char* Manager::getWeatherTypeString(WeatherType type) {
-    return getWeatherTypeString(u32(type));
-}
-
 const char* Manager::getWeatherTypeString(u32 type) {
     auto index = s32(type);
     if (type >= NumWeatherTypes)

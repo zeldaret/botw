@@ -8,7 +8,8 @@ namespace ksys::world {
 
 constexpr u32 NumWeatherCycles = 3;
 
-class ClimateWeathers {
+// This make be incorrect
+struct ClimateWeathers {
     s32 weather[NumWeatherCycles];
 };
 
@@ -30,6 +31,7 @@ public:
 
     u8 _20[0x24 - 0x20];
     float _24;
+    // Unsure of the type / variable
     u8 weather;
     u8 _29;
     WeatherType _2a[NumClimates * NumWeatherCycles * 6];

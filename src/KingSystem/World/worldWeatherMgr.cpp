@@ -23,20 +23,16 @@ WeatherType WeatherMgr::rollNewWeather(Climate climate) {
         return WeatherType::ThunderRain;
     }();
 
-    auto* env_mgr = wm->getEnvMgr();
-    bool isWaterRelicRainOn = env_mgr->isWaterRelicRainOn(climate);
-    if (isWaterRelicRainOn)
+    if (wm->getEnvMgr()->isWaterRelicRainOn(climate))
         weather = WeatherType::Bluesky;
 
     bool plateau_done = false;
-    bool has_paraglider = false;
-    auto gliderHandle = Manager::instance()->getTimeMgr()->isGetPlayerStole2Flag();
-    if (gliderHandle != gdt::InvalidHandle) {
-        gdt::Manager::instance()->getBool(gliderHandle, &plateau_done, true);
-        has_paraglider = plateau_done;
+    auto glider_handle = Manager::instance()->getTimeMgr()->isGetPlayerStole2Flag();
+    if (glider_handle != gdt::InvalidHandle) {
+        gdt::Manager::instance()->getBool(glider_handle, &plateau_done, true);
     }
 
-    if (has_paraglider || weather == WeatherType::Bluesky || weather == WeatherType::Cloudy)
+    if (plateau_done || weather == WeatherType::Bluesky || weather == WeatherType::Cloudy)
         return weather;
     return WeatherType::Bluesky;
 }
