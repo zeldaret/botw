@@ -14,6 +14,9 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace ksys {
 

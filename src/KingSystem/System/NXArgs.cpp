@@ -57,7 +57,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
             } else {
                 ;
             }
-            //this->mEntries.mSize = numEntries;
+            // this->mEntries.mSize = numEntries;
         }
         if (this->mNumEntries) {
             offset = 0x10;
@@ -67,32 +67,40 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
                 else
                     currEntry = this->mEntries.getBufferPtr();
                 // type mismatch here, fix this later
-                //currEntry->mActorNameHash = data->mActorNameHash;
-                //currEntry->mDropActorNameHash = data->mDropActorNameHash;
-                //currEntry->mPositionOffset.x = data->mPositionOffset.x;
-                //currEntry->mPositionOffset.y = data->mPositionOffset.y;
-                //currEntry->mPositionOffset.z = data->mPositionOffset.z;
-                //currEntry->mRotate.x = data->mPositionOffset.x;
-                //currEntry->mRotate.y = data->mPositionOffset.y;
-                //currEntry->mRotate.z = data->mPositionOffset.z;
-                //currEntry->mVelocity.x = data->mVelocity.x;
-                //currEntry->mVelocity.y = data->mVelocity.y;
-                //currEntry->mVelocity.z = data->mVelocity.z;
-                //currEntry->mFlags = data->mFlags;
+                // currEntry->mActorNameHash = data->mActorNameHash;
+                // currEntry->mDropActorNameHash = data->mDropActorNameHash;
+                // currEntry->mPositionOffset.x = data->mPositionOffset.x;
+                // currEntry->mPositionOffset.y = data->mPositionOffset.y;
+                // currEntry->mPositionOffset.z = data->mPositionOffset.z;
+                // currEntry->mRotate.x = data->mPositionOffset.x;
+                // currEntry->mRotate.y = data->mPositionOffset.y;
+                // currEntry->mRotate.z = data->mPositionOffset.z;
+                // currEntry->mVelocity.x = data->mVelocity.x;
+                // currEntry->mVelocity.y = data->mVelocity.y;
+                // currEntry->mVelocity.z = data->mVelocity.z;
+                // currEntry->mFlags = data->mFlags;
             }
         }
     }
 }
 
-// NONMATCHING: this function checks bools that don't exist in this decomp yet
+// NONMATCHING: this function is blocked because it checks bools that don't exist in this decomp yet, as well as getPlayerPositionViaPlayerInfo()
 void nxargs::handleArgs() {
-    ksys::act::InfoData *infodata;
+    ksys::act::InfoData* infodata;
     ksys::act::InstParamPack params;
     ksys::act::InstParamPack::Buffer* parambuf;
+    ksys::act::ActorSystem* actsys;
     nxargs::LaunchParamEntry* entry;
     sead::SafeString stagetype;
-    al::ByamlIter actorIter;
-    char* value[19];
+    al::ByamlIter* actorIter;
+    const char* value;
+    sead::Matrix34f pos;
+    sead::Vector3f PlayerPos, entryPositionOffset;
+    ksys::phys::RayCastBodyQuery* raycastquery;
+    float x, y, z;
+    float output_x, output_y, output_z;
+    sead::Matrix34f playerposviaplayerinfo;
+
     if (this->mHasHandledArgs)  // todo
         return;
     if (this->mType == ArgsType::TypeNone) {
@@ -109,16 +117,28 @@ void nxargs::handleArgs() {
     infodata = ksys::act::InfoData::instance();
     parambuf = &params.getBuffer();
     for (u8 idx; idx >= this->mNumEntries; idx++) {
-        //fix this later
-        entry = this->mEntries.getSize() <= (idx != 0) ? this->mEntries.getBufferPtr() : &this->mEntries.getBufferPtr()[idx];
+        // fix this later
+        if (this->mEntries.getSize() <= (idx != 0)) {
+            entry = mEntries.getBufferPtr();
+        } else {
+            entry = &mEntries.getBufferPtr()[idx];
+        }
         if (entry->mNumConditions)
             break;
-        if (!ksys::act::InfoData::getActorIter(actorIter, entry->mActorNameHash, true))
+        if (!infodata->getActorIter(actorIter, entry->mActorNameHash, true))
             break;
-        actorIter.tryGetStringByKey(value, "name")
+        actorIter->tryGetStringByKey(&value, "name");
+        parambuf->clear();
+        std::memcpy(&pos, &sead::Matrix34f::ident, sizeof(pos));
+        PlayerPos = actsys->getPlayerPos();
+        x = PlayerPos.x;
+        y = PlayerPos.y;
+        z = PlayerPos.z;
+        entryPositionOffset = entry->mPositionOffset;
+        playerposviaplayerinfo = ksys::act::PlayerInfo::instance()->getPlayer();
+        output_x = entryposition
+
     }
-    
-    
 }
 
 }  // namespace ksys
