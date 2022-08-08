@@ -8,7 +8,7 @@ namespace ksys::world {
 
 constexpr u32 NumWeatherCycles = 3;
 
-// This make be incorrect
+// This may be incorrect
 struct ClimateWeathers {
     s32 weather[NumWeatherCycles];
 };
