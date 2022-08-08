@@ -22,7 +22,12 @@ namespace ksys {
 
 class nxargs {
     SEAD_SINGLETON_DISPOSER(nxargs)
-    nxargs() = default;
+    nxargs() {
+        mNumEntries = 0;
+        mResField4 = 0;
+        mResField6 = 0;
+        mType = ArgsType::None;
+    }
     virtual ~nxargs();
 
 public:
@@ -48,8 +53,8 @@ public:
     };
 
     enum class ArgsType : u8 {
-        TypeNone = 0,
-        TypeCreateActors = 1,
+        None = 0,
+        CreateActors = 1,
     };
 
     struct ResLaunchParamDataHeader {
@@ -84,19 +89,13 @@ public:
     void handleArgs();
 
 private:
-    u16 padding;                              // 0x28
-    u8 mResField6;                            // 0x2A
-    ArgsType mType;                           // 0x2B
-    sead::Buffer<LaunchParamEntry> mEntries;  // 0x30
-    u8 mNumEntries = 0;                       // 0x2C
     u16 mResField4 = 0;
-    bool mHasHandledArgs = false;  // 0x40
+    u8 mResField6;
+    ArgsType mType;
+    u8 mNumEntries = 0;
+    sead::Buffer<LaunchParamEntry> mEntries;
+    bool mHasHandledArgs = false; 
 };
 KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 
 }  // namespace ksys
-
-namespace nn::oe {
-bool TryPopLaunchParameter(
-    size_t*, void*, size_t);  // temp until https://github.com/open-ead/nnheaders/pull/8 gets merged
-}

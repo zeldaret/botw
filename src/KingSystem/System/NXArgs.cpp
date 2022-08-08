@@ -9,16 +9,17 @@ void nxargs::init(sead::Heap* heap) {
     sead::Heap* nxargsheap = nullptr;
     const sead::SafeString heapname = "nxargsHeap";
     const u64 sizeofargs = 0x1000;
+    size_t* unknown;
 
     nxargsheap = sead::ExpHeap::create(0x13E8, heapname, heap, (u32)8,
                                        sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
     nxargs::ResLaunchParamData* reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
 
-    if (!nn::oe::TryPopLaunchParameter(nullptr, reslaunchdata, sizeofargs))
+    if (!nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, sizeofargs))
         return;
     for (int len; len++; len < 1000) {
+        sead::SafeString expectedmagic;
         sead::FixedSafeString<5> inputmagic;
-        sead::SafeString expectedmagic = "\00";
 
         inputmagic = expectedmagic;
 
@@ -27,18 +28,18 @@ void nxargs::init(sead::Heap* heap) {
         bool isMagicMatch = (inputmagic.cstr() == expectedmagic.cstr());
         if (isMagicMatch)
             break;
-        if (!nn::oe::TryPopLaunchParameter(nullptr, reslaunchdata, sizeofargs))
+        if (!nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, sizeofargs))
             break;
     }
     this->mResField4 = reslaunchdata->header._4;
     this->mResField6 = reslaunchdata->header._6;
     ArgsType type = reslaunchdata->header.type;
     this->mType = type;
-    if (type == ArgsType::TypeCreateActors) {
+    if (type == ArgsType::CreateActors) {
         this->mNumEntries = reslaunchdata->header.numentries;
         nxargs::allocEntries(heap, reslaunchdata);
     } else {
-        this->mType = ArgsType::TypeNone;
+        this->mType = ArgsType::None;
     }
     heap->destroy();
 }
@@ -103,7 +104,7 @@ void nxargs::handleArgs() {
 
     if (this->mHasHandledArgs)  // todo
         return;
-    if (this->mType == ArgsType::TypeNone) {
+    if (this->mType == ArgsType::None) {
         return;
     }
     stagetype = ksys::StageInfo::getCurrentMapType();
@@ -135,8 +136,8 @@ void nxargs::handleArgs() {
         y = PlayerPos.y;
         z = PlayerPos.z;
         entryPositionOffset = entry->mPositionOffset;
-        playerposviaplayerinfo = ksys::act::PlayerInfo::instance()->getPlayer();
-        output_x = entryposition
+        //playerposviaplayerinfo = ksys::act::PlayerInfo::instance()->getPlayer();
+        //output_x = entryposition
 
     }
 }
