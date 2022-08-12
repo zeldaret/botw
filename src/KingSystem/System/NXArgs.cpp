@@ -8,27 +8,25 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 void nxargs::init(sead::Heap* heap) {
     sead::Heap* nxargsheap = nullptr;
     const sead::SafeString heapname = "nxargsHeap";
-    const u64 sizeofargs = 0x1000;
     size_t* unknown;
 
-    nxargsheap = sead::ExpHeap::create(0x13E8, heapname, heap, (u32)8,
-                                       sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
+    nxargsheap = sead::ExpHeap::create(0x13E8, heapname, heap, (u32)8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
     nxargs::ResLaunchParamData* reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
 
-    if (!nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, sizeofargs))
+    if (!nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, 0x1000))
         return;
-    for (int len; len++; len < 1000) {
+    for (size_t i = 5; i++; i < 1000) {
         sead::SafeString expectedmagic;
-        sead::FixedSafeString<5> inputmagic;
-
+        sead::FixedSafeString<4> inputmagic;
+        
         inputmagic = expectedmagic;
-
         inputmagic.format("%s", reslaunchdata->header.magic);
         expectedmagic = "BotW";
-        bool isMagicMatch = (inputmagic.cstr() == expectedmagic.cstr());
-        if (isMagicMatch)
+
+        if (inputmagic == expectedmagic.cstr())
             break;
-        if (!nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, sizeofargs))
+        bool result = nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, 0x1000);
+        if (!result)
             break;
     }
     this->mResField4 = reslaunchdata->header._4;
@@ -44,7 +42,7 @@ void nxargs::init(sead::Heap* heap) {
     heap->destroy();
 }
 
-void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
+/* void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     nxargs::LaunchParamEntry* currEntry;
     int i;
     int offset = 0;
@@ -85,7 +83,8 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     }
 }
 
-// NONMATCHING: this function is blocked because it checks bools that don't exist in this decomp yet, as well as getPlayerPositionViaPlayerInfo()
+// NONMATCHING: this function is blocked because it checks bools that don't exist in this decomp
+// yet, as well as getPlayerPositionViaPlayerInfo()
 void nxargs::handleArgs() {
     ksys::act::InfoData* infodata;
     ksys::act::InstParamPack params;
@@ -136,10 +135,9 @@ void nxargs::handleArgs() {
         y = PlayerPos.y;
         z = PlayerPos.z;
         entryPositionOffset = entry->mPositionOffset;
-        //playerposviaplayerinfo = ksys::act::PlayerInfo::instance()->getPlayer();
-        //output_x = entryposition
-
+        // playerposviaplayerinfo = ksys::act::PlayerInfo::instance()->getPlayer();
+        // output_x = entryposition
     }
-}
+} */
 
 }  // namespace ksys
