@@ -51,6 +51,7 @@ public:
         u8 mNumConditions;
         sead::Buffer<LaunchParamEntrySpawnCondition> mConditions;
     };
+    KSYS_CHECK_SIZE_NX150(LaunchParamEntry, 0x40);
 
     enum class ArgsType : u8 {
         None = 0,
@@ -71,6 +72,7 @@ public:
         ResLaunchParamDataHeader header;
         u8 padding[0xFF0];
     };
+    KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
 
     enum LaunchParamEntryConditionDataType : u8 {
         DataType_Bool = 1,
