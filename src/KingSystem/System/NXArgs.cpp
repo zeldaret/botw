@@ -6,10 +6,12 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
 // WIP
 void nxargs::init(sead::Heap* heap) {
+    nxargs::ResLaunchParamData* reslaunchdata;
+    sead::Heap* nxargsheap = nullptr;
     size_t* unknown;
 
-    heap = sead::ExpHeap::create(0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
-    nxargs::ResLaunchParamData* reslaunchdata = new (heap) nxargs::ResLaunchParamData;
+    nxargsheap = sead::ExpHeap::create(0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
+    reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
 
     if (!nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, 0x1000))
         return;
@@ -33,7 +35,7 @@ void nxargs::init(sead::Heap* heap) {
     mType = type;
     if (type == ArgsType::CreateActors) {
         mNumEntries = reslaunchdata->header.numentries;
-        nxargs::allocEntries(heap, reslaunchdata);
+        nxargs::allocEntries(nxargsheap, reslaunchdata);
     } else {
         mType = ArgsType::None;
     }
