@@ -69,6 +69,7 @@ public:
 
     struct ResLaunchParamData {
         ResLaunchParamDataHeader header;
+        u8 padding[0xFF0];
     };
 
     enum LaunchParamEntryConditionDataType : u8 {
