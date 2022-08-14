@@ -36,10 +36,30 @@ public:
         _2 = 1 << 1,            // 2
     };
     struct LaunchParamEntrySpawnCondition {
-        int resfield0;
-        int resfield8;
+        u32 resfield0;
+        u32 resfield8;
         u8 resfield4;
         u8 resfield5;
+    };
+    enum LaunchParamEntryConditionDataType : u8 {
+        DataType_Bool = 1,
+        DataType_S32 = 2,
+        DataType_F32 = 3,
+    };
+    enum ActorEntryConditionOperation : u8 {
+        None = 0,
+        Eq = 1,
+        NotEq = 2,
+        Gt = 3,
+        Gte = 4,
+        Lt = 5,
+        Lte = 6,
+    };
+    struct LaunchParamEntryCondition {
+        sead::HashCRC32 flagnamehash;
+        float rhsvalue;
+        LaunchParamEntryConditionDataType flagdatatype;
+        ActorEntryConditionOperation operation;
     };
     struct LaunchParamEntry {
         u32 mActorNameHash;
@@ -49,7 +69,7 @@ public:
         sead::Vector3f mVelocity{};
         LaunchParamFlag mFlags;
         u8 mNumConditions;
-        sead::Buffer<LaunchParamEntrySpawnCondition> mConditions;
+        sead::Buffer<LaunchParamEntryCondition> mConditions;
     };
     KSYS_CHECK_SIZE_NX150(LaunchParamEntry, 0x40);
 
@@ -70,22 +90,9 @@ public:
 
     struct ResLaunchParamData {
         ResLaunchParamDataHeader header;
-        u8 padding[0xFF0];
+        LaunchParamEntry* entrydata;
     };
-    KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
-
-    enum LaunchParamEntryConditionDataType : u8 {
-        DataType_Bool = 1,
-        DataType_S32 = 2,
-        DataType_F32 = 3,
-    };
-
-    struct LaunchParamEntryCondition {
-        sead::HashCRC32 flagnamehash;
-        float rhsvalue;
-        LaunchParamEntryConditionDataType flagdatatype;
-        u8 operation;
-    };
+    //KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
 
     void init(sead::Heap* heap);
     void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);
