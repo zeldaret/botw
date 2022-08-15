@@ -45,6 +45,8 @@ void nxargs::init(sead::Heap* heap) {
 void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     LaunchParamEntry* allEntries;
     LaunchParamEntry* currEntry;
+    LaunchParamEntryCondition* currSubEntry;
+    LaunchParamEntryCondition* actual_data;
     u64 numEntries = mNumEntries;
     if (mNumEntries == 0)
         return;
@@ -88,18 +90,23 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
             return;
         LaunchParamEntryCondition* subEntries = new (heap, std::nothrow) LaunchParamEntryCondition;
         if (subEntries) {
-            LaunchParamEntryCondition* actual_data = currEntry->mConditions.getBufferPtr();
+            actual_data = currEntry->mConditions.getBufferPtr();
             actual_data = subEntries;
         }
         if (currEntry->mNumConditions) {
             for (u8 j = 0; j < currEntry->mNumConditions;) {
                 s32 _19 = j++;
-                LaunchParamEntryCondition* currSubEntry;
                 if (currEntry->mConditions.getSize() <= _19) {
                     currSubEntry = currEntry->mConditions.getBufferPtr();
                 }
-                else
+                else {
                     currSubEntry = &currEntry->mConditions.getBufferPtr()[_19];
+                }
+                    
+                currSubEntry->flagnamehash = data->entrydata->mConditions.getBufferPtr()->flagnamehash;
+                currSubEntry->flagdatatype = data->entrydata->mConditions.getBufferPtr()->flagdatatype;
+                currSubEntry->operation = data->entrydata->mConditions.getBufferPtr()->operation;
+                currSubEntry->rhsvalue = data->entrydata->mConditions.getBufferPtr()->rhsvalue;
             }
         }
     }
