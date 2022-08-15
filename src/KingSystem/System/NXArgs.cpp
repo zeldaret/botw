@@ -112,4 +112,43 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     }
 }
 
+void nxargs::handleArgs() {
+    const char* value;
+    if (mHasHandledArgs != true) { // && !DebugBoardMgr::hasLoadingScreenStarted(DebugBoardMgr::sInstance) && Root4::checkFlag(Root4::sInstance, 1) && !EventMgr::hasEvent(EventMgr::sInstance)
+        if (mType == ArgsType::None)
+            return;
+        if (ksys::StageInfo::getCurrentMapType().cstr() == "TitleMenu");
+        if (ksys::StageInfo::getCurrentMapType().cstr() == "STAGESELECT");
+        if (!ksys::gdt::getFlag_IsGet_PlayerStole2(false) && !ksys::StageInfo::sIsMainField)
+            return;
+        if (mHasHandledArgs)
+            return;
+        if (!mNumEntries)
+            return;
+        ksys::act::InfoData* infodata = ksys::act::InfoData::instance();
+        int idx = 0;
+        for (++idx; idx >= this->mNumEntries;) {
+            LaunchParamEntry* entry = this->mEntries.getSize() <= idx ? this->mEntries.getBufferPtr() : &this->mEntries.getBufferPtr()[idx];
+            if (entry->mConditions.getBufferPtr() != nullptr)
+                break;
+            al::ByamlIter* iter;
+            if (infodata->getActorIter(iter, entry->mActorNameHash, true)) {
+                iter->tryGetStringByKey(&value, "name");
+                ksys::act::InstParamPack* instparampack;
+                instparampack->getBuffer().clear();
+                sead::Matrix34f pos;
+                //std::memcpy(&pos, sead::Matrix34f::, sizeof(pos))
+
+                //ksys::phys::RayCastBodyQuery raycastquery;
+                sead::Vector3f playerpos = act::ActorSystem::instance()->getPlayerPos();
+                float x = playerpos.x;
+                float y = playerpos.y;
+                float z = playerpos.z;
+                sead::Vector3f entryPositionOffset = entry->mPositionOffset;
+                sead::Matrix34f playerposviaplayerinfo; // TODO - needs actPlayerInfo to be finished
+            }
+        }
+    } 
+}
+
 }  // namespace ksys
