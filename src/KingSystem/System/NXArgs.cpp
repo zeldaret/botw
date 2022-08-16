@@ -16,7 +16,7 @@ void nxargs::init(sead::Heap* heap) {
 
     if (nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, 0x1000)) {
         for (s64 i = 5; ++i;) {  // this isn't correct but it generates the best result
-            sead::SafeString expectedmagic;
+            sead::SafeString expectedmagic = "\00";
             sead::FixedSafeString<4> inputmagic;
 
             inputmagic = expectedmagic;
@@ -47,22 +47,28 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     LaunchParamEntry* currEntry;
     LaunchParamEntryCondition* currSubEntry;
     LaunchParamEntryCondition* actual_data;
-    u64 numEntries = mNumEntries;
+    u8 numEntries = mNumEntries;
     if (mNumEntries == 0)
         return;
-    u64 size = numEntries << 6;
+    u32 size = numEntries << 6;
     allEntries = new (heap, std::nothrow) LaunchParamEntry;
     if (!allEntries)
         return;
-    //if ((((((size - 0x40) >> 6) + 1) & 3) != 0)) {
-    //    LaunchParamEntry* launchparams2 = launchparams;
-    //}
-    //else {
-    //    ;
-    //}
-    //if ( (size - 0x40) >= 0xC0 ) {
-    //    
-    //}
+    
+    if ((((((size - 0x40) >> 6) + 1) & 3) != 0)) {
+        u64 _9 = -((((size - 0x40) >> 6) + 1) & 3); 
+        LaunchParamEntry* launchparams2 = allEntries;
+        launchparams2->mFlags = LaunchParamFlag::_0;
+        _9++;
+
+    }
+    else {
+        ;
+    }
+    if ( (size - 0x40) >= 0xC0 ) {
+        ;
+    }
+
     if (!mNumEntries)
         return;
     for (u8 i = 0; i < mNumEntries; i++) {

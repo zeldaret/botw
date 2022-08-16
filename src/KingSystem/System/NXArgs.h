@@ -32,6 +32,7 @@ class nxargs {
 
 public:
     enum class LaunchParamFlag : u8 {
+        _0 = 0,
         hasDropActor = 1 << 0,  // 1
         _2 = 1 << 1,            // 2
     };
@@ -41,12 +42,12 @@ public:
         u8 resfield4;
         u8 resfield5;
     };
-    enum LaunchParamEntryConditionDataType : u8 {
+    enum class LaunchParamEntryConditionDataType : u8 {
         DataType_Bool = 1,
         DataType_S32 = 2,
         DataType_F32 = 3,
     };
-    enum ActorEntryConditionOperation : u8 {
+    enum class ActorEntryConditionOperation : u8 {
         None = 0,
         Eq = 1,
         NotEq = 2,
@@ -91,6 +92,7 @@ public:
     struct ResLaunchParamData {
         ResLaunchParamDataHeader header;
         LaunchParamEntry* entrydata;
+        u8 padding[0xFE8]; //temp
     };
     //KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
 
