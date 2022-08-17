@@ -15,9 +15,10 @@ void nxargs::init(sead::Heap* heap) {
     reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
 
     if (nn::oe::TryPopLaunchParameter(unknown, reslaunchdata, 0x1000)) {
-        for (s64 i = 5; ++i;) {  // this isn't correct but it generates the best result
+        const int len = 5;
+        for (s64 i = 0; ++i;) {  // this isn't correct but it generates the best result
             sead::SafeString expectedmagic = "\00";
-            sead::FixedSafeString<4> inputmagic;
+            sead::FixedSafeString<len> inputmagic;
 
             inputmagic = expectedmagic;
             inputmagic.format("%s", reslaunchdata->header.magic);
@@ -34,13 +35,16 @@ void nxargs::init(sead::Heap* heap) {
         mType = type;
         if (type == ArgsType::CreateActors) {
             mNumEntries = reslaunchdata->header.numentries;
-            nxargs::allocEntries(nxargsheap, reslaunchdata);
+            nxargs::allocEntries(heap, reslaunchdata);
         } else {
             mType = ArgsType::None;
         }
     }
-    heap->destroy();
+    nxargsheap->destroy();
 }
+
+
+
 
 void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     LaunchParamEntry* allEntries;
