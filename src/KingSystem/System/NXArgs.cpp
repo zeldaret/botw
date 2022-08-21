@@ -4,15 +4,15 @@ namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
-// WIP
+// NONMATCHING - some instructions rearranged
 void nxargs::init(sead::Heap* heap) {
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
     auto* reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
     size_t unknown;
-    
+
     while (nn::oe::TryPopLaunchParameter(&unknown, reslaunchdata, sizeof(*reslaunchdata))) {
-        sead::FixedSafeString<5> inputmagic("\00");
+        sead::FixedSafeString<5> inputmagic("");
         inputmagic.format("%s", reslaunchdata->header.magic);
         if (inputmagic != "BotW")
             continue;
@@ -41,7 +41,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     if (allEntries) {
         while (allEntries->mConditions.getSize() != 0) {
             allEntries->mFlags = LaunchParamFlag::_0;
-            allEntries->mConditions.setBuffer(0, nullptr);
+            allEntries->mConditions.freeBuffer();
         }
     }
 
@@ -68,26 +68,28 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         u64 numSubEntries;
         currEntry->mNumConditions = numSubEntries;
 
-        if (!mNumEntries)
-            return;
-        auto* subEntries = new (heap, std::nothrow) LaunchParamEntryCondition;
-        if (subEntries) {
-            currEntry->mConditions.setBuffer(numSubEntries, subEntries);
-        }
-        if (currEntry->mNumConditions) {
-            for (u8 j = 0; j < currEntry->mNumConditions; j++) {
-                if (currEntry->mConditions.getSize() <= j++) {
-                    currSubEntry = currEntry->mConditions.getBufferPtr();
-                } else {
-                    currSubEntry = &currEntry->mConditions.getBufferPtr()[j++];
-                }
+        if (mNumEntries) {
+            auto* subEntries = new (heap, std::nothrow) LaunchParamEntryCondition;
+            if (subEntries) {
+                currEntry->mConditions.setBuffer(numSubEntries, subEntries);
+            }
+            if (currEntry->mNumConditions) {
+                for (u8 j = 0; j < currEntry->mNumConditions; j++) {
+                    u8 jplusplus = j++;
+                    if (currEntry->mConditions.getSize() <= jplusplus) {
+                        currSubEntry = currEntry->mConditions.getBufferPtr();
+                    } else {
+                        currSubEntry = &currEntry->mConditions.getBufferPtr()[jplusplus];
+                    }
 
-                currSubEntry->flagnamehash =
-                    data->entrydata->mConditions.getBufferPtr()->flagnamehash;
-                currSubEntry->flagdatatype =
-                    data->entrydata->mConditions.getBufferPtr()->flagdatatype;
-                currSubEntry->operation = data->entrydata->mConditions.getBufferPtr()->operation;
-                currSubEntry->rhsvalue = data->entrydata->mConditions.getBufferPtr()->rhsvalue;
+                    currSubEntry->flagnamehash =
+                        data->entrydata->mConditions.getBufferPtr()->flagnamehash;
+                    currSubEntry->flagdatatype =
+                        data->entrydata->mConditions.getBufferPtr()->flagdatatype;
+                    currSubEntry->operation =
+                        data->entrydata->mConditions.getBufferPtr()->operation;
+                    currSubEntry->rhsvalue = data->entrydata->mConditions.getBufferPtr()->rhsvalue;
+                }
             }
         }
     }
