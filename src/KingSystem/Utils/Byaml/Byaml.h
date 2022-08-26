@@ -169,10 +169,10 @@ private:
 struct ByamlHeader {
     u16 getTag() const;
     bool isInvertHeader() const;
-    u16 getVersion() const { return version; };
-    u32 getHashKeyTableOffset() const { return hash_key_table_offset; };
-    u32 getStringTableOffset() const { return string_table_offset; };
-    u32 getDataOffset() const { return data_offset; };
+    u16 getVersion() const { return version; }
+    u32 getHashKeyTableOffset() const { return hash_key_table_offset; }
+    u32 getStringTableOffset() const { return string_table_offset; }
+    u32 getDataOffset() const { return data_offset; }
 
     u16 magic;
     u16 version;
@@ -188,7 +188,7 @@ struct ByamlContainerHeader {
         return ByamlType(*reinterpret_cast<const u8*>(&type_and_size));
     }
 
-    u32 getCount() const { return type_and_size >> 8; };
+    u32 getCount() const { return type_and_size >> 8; }
     u32 type_and_size;
 };
 

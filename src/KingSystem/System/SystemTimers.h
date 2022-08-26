@@ -7,7 +7,7 @@
 namespace ksys {
 
 class SystemTimers {
-    SEAD_SINGLETON_DISPOSER(SystemTimers);
+    SEAD_SINGLETON_DISPOSER(SystemTimers)
 
     SystemTimers() = default;
     virtual ~SystemTimers();

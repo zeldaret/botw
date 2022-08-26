@@ -105,7 +105,7 @@ public:
     }
     bool wasBloodyDay() const { return mWasBloodyDay; }
     bool isBloodMoonForced() const { return mBloodMoonForceMode != BloodMoonForceMode::Disabled; }
-
+    gdt::FlagHandle isGetPlayerStole2Flag() const { return mIsGetPlayerStole2Flag; }
     gdt::FlagHandle getWaterRelicRainStopFlag() const { return mWaterRelicRainStopFlag; }
 
 protected:

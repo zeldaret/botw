@@ -33,7 +33,7 @@ enum class ScalingMode {
     Disabled = 1,
 };
 
-enum class WeatherType {
+enum class WeatherType : u8 {
     Bluesky,
     Cloudy,
     Rain,

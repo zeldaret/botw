@@ -15,6 +15,8 @@ target_sources(uking PRIVATE
   DebugMessage.h
   HavokWorkerMgr.cpp
   HavokWorkerMgr.h
+  Hio.cpp
+  Hio.h
   KingEditor.cpp
   KingEditor.h
   MemoryProfiler.cpp
@@ -46,10 +48,14 @@ target_sources(uking PRIVATE
   SystemPauseMgr.h
   SystemTimers.cpp
   SystemTimers.h
+  Terminal.cpp
+  Terminal.h
   Timer.cpp
   Timer.h
   UIGlue.cpp
   UIGlue.h
+  VideoRecorder.cpp
+  VideoRecorder.h
   VFR.cpp
   VFR.h
   VFRValue.cpp

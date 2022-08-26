@@ -185,7 +185,7 @@ void RigidBody::addToWorld() {
     // debug code that survived because mFlags is atomic
     static_cast<void>(isAddedToWorld());
 
-    auto lock = makeScopedLock(false);
+    auto lock = makeScopedLock(AlsoLockWorld::No);
 
     if (mMotionAccessor) {
         const bool use_system_time_factor = hasFlag(Flag::UseSystemTimeFactor);
@@ -251,7 +251,7 @@ bool RigidBody::removeFromWorldAndResetLinks() {
     // debug code that survived because mFlags is atomic?
     static_cast<void>(mFlags.getDirect());
 
-    auto lock = makeScopedLock(false);
+    auto lock = makeScopedLock(AlsoLockWorld::No);
 
     bool result = true;
 
@@ -1641,7 +1641,7 @@ float RigidBody::getColImpulseScale() const {
 }
 
 bool RigidBody::hasConstraintWithUserData() {
-    auto lock = makeScopedLock(true);
+    auto lock = makeScopedLock(AlsoLockWorld::Yes);
 
     for (int i = 0, n = getHkBody()->getNumConstraints(); i < n; ++i) {
         auto* constraint = getHkBody()->getConstraint(i);
@@ -1788,8 +1788,8 @@ void RigidBody::lock() {
     mCS.lock();
 }
 
-void RigidBody::lock(bool also_lock_world) {
-    if (also_lock_world)
+void RigidBody::lock(AlsoLockWorld also_lock_world) {
+    if (bool(also_lock_world))
         System::instance()->lockWorld(getLayerType());
     lock();
 }
@@ -1798,9 +1798,9 @@ void RigidBody::unlock() {
     mCS.unlock();
 }
 
-void RigidBody::unlock(bool also_unlock_world) {
+void RigidBody::unlock(AlsoLockWorld also_unlock_world) {
     unlock();
-    if (also_unlock_world)
+    if (bool(also_unlock_world))
         System::instance()->unlockWorld(getLayerType());
 }
 

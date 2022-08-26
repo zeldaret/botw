@@ -14,7 +14,7 @@ enum class AudioChannelType {
 
 // FIXME: incomplete
 struct SoundMgr {
-    SEAD_SINGLETON_DISPOSER(SoundMgr);
+    SEAD_SINGLETON_DISPOSER(SoundMgr)
 
     virtual ~SoundMgr();
 

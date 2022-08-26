@@ -20,6 +20,7 @@ class GroupFilter;
 class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
+class RagdollControllerMgr;
 class RigidBody;
 class RigidBodyRequestMgr;
 class StaticCompoundMgr;
@@ -45,6 +46,7 @@ public:
     ContactMgr* getContactMgr() const { return mContactMgr; }
     StaticCompoundMgr* getStaticCompoundMgr() const { return mStaticCompoundMgr; }
     RigidBodyRequestMgr* getRigidBodyRequestMgr() const { return mRigidBodyRequestMgr; }
+    RagdollControllerMgr* getRagdollControllerMgr() const { return mRagdollControllerMgr; }
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
 
@@ -148,7 +150,7 @@ private:
     void* _150;
     StaticCompoundMgr* mStaticCompoundMgr;
     RigidBodyRequestMgr* mRigidBodyRequestMgr;
-    void* _168;
+    RagdollControllerMgr* mRagdollControllerMgr;
     void* mRigidBodyDividedMeshShapeMgr;
     SystemData* mSystemData;
     MaterialTable* mMaterialTable;
@@ -168,19 +170,26 @@ class ScopedWorldLock {
 public:
     explicit ScopedWorldLock(ContactLayerType type, const char* description = nullptr, int unk = 0,
                              OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No)
-        : mType(type), mDescription(description), mUnk(unk),
+        : ScopedWorldLock(true, type, description, unk, only_lock_if_needed) {}
+
+    ScopedWorldLock(bool condition, ContactLayerType type, const char* description = nullptr,
+                    int unk = 0, OnlyLockIfNeeded only_lock_if_needed = OnlyLockIfNeeded::No)
+        : mCondition(condition), mType(type), mDescription(description), mUnk(unk),
           mOnlyLockIfNeeded(only_lock_if_needed) {
-        System::instance()->lockWorld(mType, mDescription, mUnk, mOnlyLockIfNeeded);
+        if (mCondition)
+            System::instance()->lockWorld(mType, mDescription, mUnk, mOnlyLockIfNeeded);
     }
 
     ~ScopedWorldLock() {
-        System::instance()->unlockWorld(mType, mDescription, mUnk, mOnlyLockIfNeeded);
+        if (mCondition)
+            System::instance()->unlockWorld(mType, mDescription, mUnk, mOnlyLockIfNeeded);
     }
 
     ScopedWorldLock(const ScopedWorldLock&) = delete;
     auto operator=(const ScopedWorldLock&) = delete;
 
 private:
+    bool mCondition;
     ContactLayerType mType;
     const char* mDescription;
     int mUnk;

@@ -4,8 +4,6 @@ To contribute to the project, you will need a disassembler or a decompiler such 
 
 Experience with reverse engineering optimized C++ code is very useful but not necessary if you already know how to decompile C code.
 
-Using a decompiler is strongly recommended for efficiency reasons. If you have IDA 7.0+, ping @leoetlino to get a copy of the IDC which will make decompilation easier and help with understanding the code more generally.
-
 Feel free to join the [Zelda Decompilation](https://discord.zelda64.dev/) Discord server if you have any questions.
 
 ## Language
@@ -32,6 +30,8 @@ BotW is mostly set up like a normal C++ project using standard build tools and c
 
 Make sure you have the C++ and the CMake Tools extensions installed and enabled. And then just answer "yes" when you're asked whether you would like CMake Tools to configure IntelliSense for you.
 
+In certain circumstances, VSCode may silently attempt to set the build type to Debug. Make sure the build type is set to RelWithDebInfo (and not Debug); otherwise the entire build will mismatch.
+
 ### CLion
 
 CLion interacts with CMake directly, so you need to make sure CLion's build profile is configured correctly.
@@ -43,10 +43,62 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
     * Build directory: `build`
 3. Press OK; CLion will automatically reload the CMake project.
 
+## Decompiler setup
+
+Using a decompiler (a tool that translates assembly into pseudocode) such as Hex-Rays or Ghidra is strongly recommended.
+
+As of 2022, IDA/Hex-Rays is (somewhat subjectively) still ahead of other tools for heavy analysis of large C++ AArch64 binaries,
+so we recommend acquiring a copy of IDA Pro 7.6+ if you want to contribute to BotW.
+
+### IDA (recommended)
+
+#### Useful plugins
+
+- [LazyIDA](https://gist.github.com/leoetlino/bdac084a1fb0342b734faecf3ae49df9) to copy function addresses with a single key press (W)
+- [HexRaysPyTools](https://github.com/leoetlino/HexRaysPyTools) for automatic reconstruction of structs and other useful features in the decompiler view
+
+#### Loading the database
+
+If you have IDA 7.6+, ping @leoetlino on the Zelda Decompilation Discord to get a copy of the IDA database (IDB) which will make decompilation easier and help with understanding the code.
+
+#### Usage
+
+When you open the IDB, you'll see several tabs:
+
+* IDA View: This is an interactive disassembly of the executable.
+* Pseudocode: This is where you can find the pseudocode that Hex-Rays produces. Unlike other decompilers such as m2c, this output is fully interactive. You can define function signatures, variable names, types, etc. in this tab and improve the pseudocode output interactively. This is the tab you'll be working in most of the time. (If you can't find this tab or if you accidentally closed it, go to the IDA View tab, select a function and then press F5 to re-open the pseudocode tab.)
+* Strings: A list of all valid strings in the executable. Occasionally useful for finding functions that have not been reverse engineered and named yet.
+* Structures: A listing of all defined structures in the IDB. Useful for defining structures/fields and making the pseudocode easier to read.
+
+Common keyboard shortcuts:
+
+* Ctrl+P brings up a function chooser. Very useful for the IDA View and Pseudocode tabs.
+* Use Ctrl+Shift+Up/Down to show the previous/next function.
+* Ctrl+W saves the database.
+* To rename an item, click on its text and press N.
+* To change the type of a variable (in the pseudocode) or a function, click on its text and press Y.
+* Press H on a number to switch between its decimal and hexadecimal representations.
+* [Other shortcuts are mentioned here](https://www.hex-rays.com/products/ida/support/freefiles/IDA_Pro_Shortcuts.pdf).
+* [If you have HexRaysPyTools] Shift+L to propagate types from a call site (invocation) to the callee function.
+* [If you have LazyIDA] W to copy the address of the current selection (put the cursor on the first line of the pseudocode to copy the address of the current function)
+
+### Ghidra
+
+[Ghidra](https://ghidra-sre.org/) is an open-source software reverse engineering tool developed by the NSA.
+If you cannot or do not want to use IDA, Ghidra is a decent alternative (though less ideal than IDA for RE'ing something like BotW).
+
+Note that you will need to import names and types manually and you will not be able to make use of the existing IDA reverse engineering database if you use Ghidra, so this is really not the recommended option.
+
+#### Loading the executable
+
+1. Install the [Switch loader](https://github.com/Adubbz/Ghidra-Switch-Loader).
+2. Open the 1.5.0 NSO. If you've run the setup script (as mentioned in the README), a copy of the NSO is stored at `data/main.nso`.
+3. Wait for Ghidra to analyse the entire executable. This can take a long time.
+4. Use the script in `tools/common/ghidra_scripts` to import function names from this project.
+
 ## How to decompile
 
-0. Open the NSO executable in the disassembler of your choice.
-   * If you are using IDA, make sure you have the [NSO loader](https://github.com/reswitched/loaders) set up first!
+0. Build the project and run `tools/check` to make sure the project is set up correctly. You should see "OK" at the end.
 
 1. **Pick a function that you want to decompile.**
     * Prefer choosing a function that you understand or that is already named in your IDA/Ghidra database.
@@ -64,13 +116,23 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
     * Understanding the function is very important.
     * Rename variables, add structures, do everything you can to make the output as clean as possible.
     * C++ code tends to make heavy use of inline functions. For example, inlined string comparisons or copies are very common and tend to obscure what the function does. Focus on the outline of the function.
-    * The [cheatsheet](Cheatsheet.md) might help you recognize inline functions.
+    * The [cheatsheet](Cheatsheet.md) can help you recognize inline functions.
 
 3. **Implement the function in C++.**
     * Stay close to the original code, but not too close: your code should mostly look like normal, clean C++ code. If it does not, chances are that you won't get a good match at all.
     * Do **NOT** copy and paste any pseudocode. **Reimplement it**. While we cannot go for a fully "clean room" approach, you should be reimplementing code, not copy/pasting anything from the original executable.
         * PRs that violate this rule will be rejected.
-    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be member function calls.
+        * You usually have a lot of leeway when reimplementing a function, but some things must be kept the same in your reimplemented version in order to have any chance of getting a matching function:
+            * _Function calls_. You should not add or remove non-inlined function calls.
+            * Struct/class member variable offsets.
+            * Be careful with float comparisons. Because of float semantics, `if (x < y) f(); else g();` and `if (x >= y) g(); else f();` are **not** functionally equivalent (because they behave differently if one of the floats is NaN).
+        * Things that you can change in your reimplemented version:
+            * _Names_. Some of the function/variable names are just placeholder, so feel free to use your own names if you think they are better.
+            * _Functions_. You are free to split a function into several smaller functions or introduce utility functions, even if there isn't an explicit function call in the original code, as long as your reimplemented functions are getting inlined.
+                * Note that LLVM will usually not inline functions if they are too large.
+            * `if (x) f(); else g();` and `if (!x) g(); else f();` generally produce the same code. Use [early exits](https://llvm.org/docs/CodingStandards.html#use-early-exits-and-continue-to-simplify-code) when possible.
+
+    * Keep in mind that decompilers can only produce C pseudocode. Some function calls may be C++ member function calls.
     * Identify inlined functions and *uninline* them. For example, if you see a string copy, do **not** write the copy loop manually! Instead, call the inline function and let the compiler inline the function for you.
     * Identify duplicate pieces of code: those are usually a sign that functions have been inlined.
     * Non-inline function calls can just be stubbed if you don't feel like decompiling them at the moment. To "stub" a function, just declare the function (and the enclosing class/namespace/etc. if needed) without implementing/defining it.
@@ -107,6 +169,13 @@ CLion interacts with CMake directly, so you need to make sure CLion's build prof
     * You can use clang-format via your editor – VSCode and CLion have built-in clang-format support — or by calling `git clang-format` (for files you have `git add`ed and not yet committed).
     * If your editor does not have built-in support for clang-format, or if you need to invoke clang-format in a terminal, you'll need to install it manually.
       * If your Linux distro or system (e.g. macOS) does not package clang-format 12, you can download it from [the LLVM project website here](https://releases.llvm.org/download.html)
+
+
+## Importing names or types from source code
+
+In IDA, run the `tools/common/rename_functions_in_ida.py` script (File > Script file...) to import names from the decomp source code back into the IDA database. This can be done as often as you want.
+
+To import types into the IDB, you can use [classgen](https://github.com/leoetlino/classgen) ([binary builds available here](https://github.com/leoetlino/classgen/releases/latest)) or IDA Pro 7.7's Clang-based header parser (less convenient).
 
 ## Code style
 
