@@ -162,7 +162,7 @@ void E3Mgr::__auto8(bool a2) {
 }
 
 void E3Mgr::__auto2() {
-     E3Mgr::__auto3();
+    E3Mgr::__auto3();
     _6d = 0;
 }
 
@@ -170,14 +170,13 @@ void E3Mgr::__auto2() {
 typedef struct dummy {
     char unk_0[0xA00];
     u32 unk_A00;
-}dummy;
+} dummy;
 
 extern dummy* test;
 
-
 void E3Mgr::__auto3() {
     bool isDemo;
-    
+
     _6a = 0;
     _68 = 0;
     _69 = 0;
@@ -185,7 +184,7 @@ void E3Mgr::__auto3() {
     _6f = 0;
     isRIDDemo = false;
     isRIDDemo2 = false;
-    
+
     if (!isRID_Demo() || !_6c) {
         mTick1.setNow();
     }
