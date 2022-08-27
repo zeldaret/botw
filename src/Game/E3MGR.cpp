@@ -6,7 +6,15 @@
 #include "devenv/seadEnvUtil.h"
 #include "prim/seadSafeString.h"
 
+/* Not yet attempted:
+ * E3Mgr::calc - Requires SeadController and globals
+ * sub_71008A6EE8 - Requires SeadController
+ * sub_71008A7094 - Requires RTTI from not decompiled classes
+ */
+
 extern bool isStageSelectState();
+
+using PlacementMgr = ksys::map::PlacementMgr;
 
 namespace uking {
 
@@ -25,10 +33,9 @@ bool E3Mgr::isDemoMode() {
 
 void E3Mgr::setIsDemoMode(bool demoMode) {
     mForceDemoMode = demoMode;
-    // TODO look into the flag being u16
-    ksys::map::PlacementMgr::sFlags.set(ksys::map::PlacementMgr::MgrStaticFlags::DemoMode);
+    PlacementMgr::sFlags.set(PlacementMgr::MgrStaticFlags::DemoMode);
     if (!demoMode) {
-        ksys::map::PlacementMgr::sFlags.reset(ksys::map::PlacementMgr::MgrStaticFlags::DemoMode);
+        PlacementMgr::sFlags.reset(PlacementMgr::MgrStaticFlags::DemoMode);
     }
 }
 
@@ -55,7 +62,7 @@ void E3Mgr::set28() {
 }
 
 bool E3Mgr::__auto1() {
-    if (E3Mgr::isDemoMode() && _24 == 0) {
+    if (E3Mgr::isDemoMode() && mDemoMode == 0) {
         return !isStageSelectState();
     } else {
         return false;
@@ -63,7 +70,7 @@ bool E3Mgr::__auto1() {
 }
 
 bool E3Mgr::__auto0() {
-    if (E3Mgr::isDemoMode() && _24 == 1) {
+    if (E3Mgr::isDemoMode() && mDemoMode == 1) {
         return !isStageSelectState();
     } else {
         return false;
@@ -71,7 +78,7 @@ bool E3Mgr::__auto0() {
 }
 
 bool E3Mgr::__auto9() {
-    if (E3Mgr::isDemoMode() && _24 == 2) {
+    if (E3Mgr::isDemoMode() && mDemoMode == 2) {
         return !isStageSelectState();
     } else {
         return false;
@@ -79,6 +86,14 @@ bool E3Mgr::__auto9() {
 }
 
 bool E3Mgr::isRID_Demo_and_a1x28_is_one() {
+    if ((isRID_Demo() && (_28 == 1))) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool E3Mgr::isRID_Demo_and_a1x28_is_one_() {
     if ((isRID_Demo() && (_28 == 1))) {
         return true;
     } else {
@@ -95,19 +110,19 @@ bool E3Mgr::isRID_Demo_and_a1x6f_is_nonzero() {
 }
 
 s32 E3Mgr::__auto4() {
-    if ((isDemoMode()) && (_24 == 2) && (isStageSelectState() == 0)) {
-        return _100;
+    if ((isDemoMode()) && (mDemoMode == 2) && (isStageSelectState() == 0)) {
+        return mDemoStage;
     } else {
         return 0xFFFFFFFF;
     }
 }
 
-void E3Mgr::setDemoStage(s32 a2) {
-    _100 = a2;
+void E3Mgr::setDemoStage(s32 demoStage) {
+    mDemoStage = demoStage;
 }
 
-void E3Mgr::setDemoMode(s32 a2) {
-    _24 = a2;
+void E3Mgr::setDemoMode(s32 demoMode) {
+    mDemoMode = demoMode;
 }
 
 void E3Mgr::setTimerMaybe(s32 a2) {
@@ -185,75 +200,4 @@ void E3Mgr::__auto3() {
     }
 }
 
-
-
-/*
-E3Mgr * E3Mgr::sub_71008A6EE8()
-{
-  int v2; // w21
-  sead::SafeStringBase<char> *RomType; // x20
-  char *mStringTop; // x8
-  int v5; // w23
-  __int64 i; // x9
-  int v7; // w10
-  int v8; // w25
-  bool v9; // w20
-  char v10; // w0
-  _QWORD *p_tick2; // x20
-  sead::SafeStringBase<char> *v12; // x20
-  char *v13; // x8
-  __int64 j; // x9
-  int v15; // w10
-  char *p_isRIDDemo; // x8
-
-  if ( _30 <= (signed int)0xFFFFFFFE )
-    v2 = _2C;
-  else
-    v2 = _30;
-  if (v2 >= 0 ) //(v2 & 0x80000000) == 0 ?
-  {
-    RomType = sead::EnvUtil::getRomType();
-    RomType->assureTerminationImpl_(RomType);
-    RomType->assureTerminationImpl_(RomType);
-    mStringTop = RomType->mStringTop;
-    if ( mStringTop != "RID_Demo" )
-    {
-      v5 = (unsigned __int8)sead::SafeStringBase<char>::cNullChar;
-      for ( i = 0LL; i < 0x80001; ++i )
-      {
-        v7 = (unsigned __int8)mStringTop[i];
-        if ( v7 != (unsigned __int8)aRidDemo[i] )
-          break;
-        if ( v7 == (unsigned __int8)sead::SafeStringBase<char>::cNullChar )
-          goto LABEL_24;
-      }
-      v8 = sead::SeadController::getInstance()->_._.field_110;
-      v9 = sub_71008A7094();
-      v10 = sub_71008BB830();
-      if ( v9 || !v8 || (v10 & 1) != 0 )
-      {
-        mTick2.setNow();
-        p_tick2 = &v1->tick2;
-      }
-      else
-      {
-        p_tick2 = &v1->tick2;
-      }
-      if ( (nn::os::GetSystemTick() - *p_tick2) / sead::TickSpan::cFrequency >= 120 )
-      {
-        if(isRID_Demo()) {
-            isRIDDemo2 = true;
-        } else {
-            _69 = true;
-        }
-      }
-    }
-LABEL_24:
-    result = (E3Mgr *)nn::os::GetSystemTick();
-    if ( v2 <= ((__int64)result - v1->tick1) / sead::TickSpan::cFrequency )
-      _6a = 1;
-  }
-  return result;
-}
-*/
 }  // namespace uking
