@@ -35,6 +35,7 @@ class E3Mgr {
     void __auto8(bool a2);
 
     bool isRID_Demo_and_a1x28_is_one();
+    bool isRID_Demo_and_a1x28_is_one_();
     bool isRID_Demo_and_a1x6f_is_nonzero();
 
     void setDemoStage(s32 a2);
@@ -55,7 +56,7 @@ class E3Mgr {
     E3Mgr * sub_71008A6EE8();
 
     bool mForceDemoMode = false;
-    u32 _24 = 0;
+    u32 mDemoMode = 0;
     u32 _28 = 0;
     u32 _2C = 1200;
     u32 _30 = 0xFFFFFFFE;
@@ -79,7 +80,7 @@ class E3Mgr {
 
     ksys::res::Handle handle;
 
-    u32 _100 = 0xFFFFFFFF;
+    u32 mDemoStage = 0xFFFFFFFF;
 };
 
 } //namespace uking
