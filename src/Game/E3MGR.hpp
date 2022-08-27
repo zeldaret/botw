@@ -38,8 +38,8 @@ class E3Mgr {
     bool isRID_Demo_and_a1x28_is_one_();
     bool isRID_Demo_and_a1x6f_is_nonzero();
 
-    void setDemoStage(s32 a2);
-    void setDemoMode(s32 a2);
+    void setDemoStage(s32 demoStage);
+    void setDemoMode(s32 demoMode);
 
     void setTimerMaybe(s32 a2);
     s32 resIsReady();
