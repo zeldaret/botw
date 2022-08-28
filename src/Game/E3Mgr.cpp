@@ -1,4 +1,4 @@
-#include "E3MGR.hpp"
+#include "E3Mgr.hpp"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -20,11 +20,11 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(E3Mgr)
 
-bool E3Mgr::isDemoMode() {
+bool E3Mgr::isDemoMode() const {
     if (E3Mgr::is2017Demo()) {
         return true;
     }
-    if (E3Mgr::isRID_Demo()) {
+    if (E3Mgr::isRidDemo()) {
         return true;
     }
 
@@ -39,18 +39,12 @@ void E3Mgr::setIsDemoMode(bool demoMode) {
     }
 }
 
-bool E3Mgr::is2017Demo() {
-    if (sead::EnvUtil::getRomType() == "Show_2017_1st") {
-        return true;
-    }
-    return false;
+bool E3Mgr::is2017Demo() const {
+    return sead::EnvUtil::getRomType() == "Show_2017_1st";
 }
 
-bool E3Mgr::isRID_Demo() {
-    if (sead::EnvUtil::getRomType() == "RID_Demo") {
-        return true;
-    }
-    return false;
+bool E3Mgr::isRidDemo() const {
+    return sead::EnvUtil::getRomType() == "RID_Demo";
 }
 
 void E3Mgr::clear28() {
@@ -61,60 +55,53 @@ void E3Mgr::set28() {
     _28 = 1;
 }
 
-bool E3Mgr::__auto1() {
+bool E3Mgr::isDemoMode0AndNotStageSelect() const {
     if (E3Mgr::isDemoMode() && mDemoMode == 0) {
         return !isStageSelectState();
-    } else {
-        return false;
     }
+    return false;
 }
 
-bool E3Mgr::__auto0() {
+bool E3Mgr::isDemoMode1AndNotStageSelect() const {
     if (E3Mgr::isDemoMode() && mDemoMode == 1) {
         return !isStageSelectState();
-    } else {
-        return false;
     }
+    return false;
 }
 
-bool E3Mgr::__auto9() {
+bool E3Mgr::isDemoMode2AndNotStageSelect() const {
     if (E3Mgr::isDemoMode() && mDemoMode == 2) {
         return !isStageSelectState();
-    } else {
-        return false;
     }
+    return false;
 }
 
-bool E3Mgr::isRID_Demo_and_a1x28_is_one() {
-    if ((isRID_Demo() && (_28 == 1))) {
+bool E3Mgr::isRidDemoAnd28IsOne() const {
+    if ((isRidDemo() && (_28 == 1))) {
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
-bool E3Mgr::isRID_Demo_and_a1x28_is_one_() {
-    if ((isRID_Demo() && (_28 == 1))) {
+bool E3Mgr::isRidDemoAnd28IsOne_() const {
+    if ((isRidDemo() && (_28 == 1))) {
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
-bool E3Mgr::isRID_Demo_and_a1x6f_is_nonzero() {
-    if (isRID_Demo()) {
+bool E3Mgr::isRidDemoAnd6fIsNonzero() const {
+    if (isRidDemo()) {
         return _6f != 0;
-    } else {
-        return false;
     }
+    return false;
 }
 
-s32 E3Mgr::__auto4() {
+s32 E3Mgr::getDemoStage() const {
     if ((isDemoMode()) && (mDemoMode == 2) && (isStageSelectState() == 0)) {
         return mDemoStage;
-    } else {
-        return 0xFFFFFFFF;
     }
+    return -1;
 }
 
 void E3Mgr::setDemoStage(s32 demoStage) {
@@ -129,15 +116,15 @@ void E3Mgr::setTimerMaybe(s32 a2) {
     _2C = a2;
 }
 
-s32 E3Mgr::__auto5() {
+s32 E3Mgr::get2C() const {
     return _2C;
 }
 
 void E3Mgr::loadBuildTimeStubbed() {
     ksys::res::LoadRequest req;
 
-    req._21 = 1;
-    req._22 = 1;
+    req._21 = true;
+    req._22 = true;
     req.mLoadCompressed = true;
     req.mRequester = "E3Mgr";
     req.mPath = "System/BuildTime.txt";
@@ -148,33 +135,33 @@ s32 E3Mgr::resIsReady() {
 }
 
 void E3Mgr::setEmptyStr() {
-    str = sead::SafeStringBase<char>::cEmptyString;
+    mStr = sead::SafeStringBase<char>::cEmptyString;
 }
 
-void E3Mgr::setIsRIDDemo(bool a2) {
-    if (isRID_Demo()) {
-        isRIDDemo2 = a2;
+void E3Mgr::setIsRidDemo(bool a2) {
+    if (isRidDemo()) {
+        mIsRidDemo2 = a2;
     }
 }
 
-void E3Mgr::__auto8(bool a2) {
+void E3Mgr::set6C(bool a2) {
     _6c = a2;
 }
 
-void E3Mgr::__auto2() {
-    E3Mgr::__auto3();
+void E3Mgr::_auto2() {
+    E3Mgr::_auto3();
     _6d = 0;
 }
 
 //! TODO : this should be a real struct
-typedef struct dummy {
-    char unk_0[0xA00];
-    u32 unk_A00;
-} dummy;
+using Dummy = struct Dummy {
+    char _0[0xA00];
+    u32 a00;
+};
 
-extern dummy* test;
+extern Dummy* test;
 
-void E3Mgr::__auto3() {
+void E3Mgr::_auto3() {
     bool isDemo;
 
     _6a = 0;
@@ -182,20 +169,20 @@ void E3Mgr::__auto3() {
     _69 = 0;
     _6e = 0;
     _6f = 0;
-    isRIDDemo = false;
-    isRIDDemo2 = false;
+    mIsRidDemo = false;
+    mIsRidDemo2 = false;
 
-    if (!isRID_Demo() || !_6c) {
+    if (!isRidDemo() || !_6c) {
         mTick1.setNow();
     }
     mTick2.setNow();
     mTick3.setNow();
     mTick4.setNow();
-    _30 = 0xFFFFFFFE;
+    _30 = -2;
     isDemo = E3Mgr::isDemoMode();
     if (isDemo) {
         if (test)
-            (test->unk_A00) |= 0x40;
+            (test->a00) |= 0x40;
     }
 }
 

@@ -2,15 +2,13 @@
 
 #include <nn/os.h>
 
-#include <heap/seadDisposer.h>
 #include <basis/seadTypes.h>
-#include <time/seadTickSpan.h>
+#include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include <time/seadTickSpan.h>
 #include <time/seadTickTime.h>
 
 #include "KingSystem/Resource/resHandle.h"
-
-
 
 namespace uking {
 
@@ -18,25 +16,25 @@ class E3Mgr {
     E3Mgr() = default;
     SEAD_SINGLETON_DISPOSER(E3Mgr)
 
-    public:
-    bool isDemoMode();
+public:
+    bool isDemoMode() const;
     void setIsDemoMode(bool demoMode);
-    bool isRID_Demo();
-    bool is2017Demo();
+    bool isRidDemo() const;
+    bool is2017Demo() const;
 
     void clear28();
     void set28();
-    bool __auto1();
-    bool __auto0();
-    bool __auto9();
-    void __auto2();
-    void __auto3();
+    bool isDemoMode0AndNotStageSelect() const;
+    bool isDemoMode1AndNotStageSelect() const;
+    bool isDemoMode2AndNotStageSelect() const;
+    void _auto2();
+    void _auto3();
 
-    void __auto8(bool a2);
+    void set6C(bool a2);
 
-    bool isRID_Demo_and_a1x28_is_one();
-    bool isRID_Demo_and_a1x28_is_one_();
-    bool isRID_Demo_and_a1x6f_is_nonzero();
+    bool isRidDemoAnd28IsOne() const;
+    bool isRidDemoAnd28IsOne_() const;
+    bool isRidDemoAnd6fIsNonzero() const;
 
     void setDemoStage(s32 demoStage);
     void setDemoMode(s32 demoMode);
@@ -44,22 +42,23 @@ class E3Mgr {
     void setTimerMaybe(s32 a2);
     s32 resIsReady();
 
-    s32 __auto5();
-    s32 __auto4();
+    s32 get2C() const;
+    s32 getDemoStage() const;
 
     void loadBuildTimeStubbed();
 
     void setEmptyStr();
 
-    void setIsRIDDemo(bool a2);
+    void setIsRidDemo(bool a2);
 
-    E3Mgr * sub_71008A6EE8();
+    E3Mgr* sub_71008A6EE8();
 
+private:
     bool mForceDemoMode = false;
     u32 mDemoMode = 0;
     u32 _28 = 0;
-    u32 _2C = 1200;
-    u32 _30 = 0xFFFFFFFE;
+    s32 _2C = 1200;
+    s32 _30 = -2;
     sead::TickTime mTick1;
     sead::TickTime mTick2;
     sead::TickTime mTick3;
@@ -69,18 +68,18 @@ class E3Mgr {
     u8 _68 = 0;
     u8 _69 = 0;
     u8 _6a = 0;
-    bool isRIDDemo = false;
+    bool mIsRidDemo = false;
     u8 _6c = 0;
     u8 _6d = 1;
     u8 _6e = 0;
     u8 _6f = 0;
-    bool isRIDDemo2 = false;
+    bool mIsRidDemo2 = false;
 
-    sead::FixedSafeString<32> str;
+    sead::FixedSafeString<32> mStr;
 
-    ksys::res::Handle handle;
+    ksys::res::Handle mHandle;
 
-    u32 mDemoStage = 0xFFFFFFFF;
+    s32 mDemoStage = -1;
 };
 
-} //namespace uking
+}  // namespace uking
