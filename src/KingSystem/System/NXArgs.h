@@ -43,6 +43,7 @@ public:
         u8 resfield5;
     };
     enum class LaunchParamEntryConditionDataType : u8 {
+        None = 0,
         DataType_Bool = 1,
         DataType_S32 = 2,
         DataType_F32 = 3,
@@ -57,8 +58,8 @@ public:
         Lte = 6,
     };
     struct LaunchParamEntryCondition {
-        sead::HashCRC32 flagnamehash;
-        float rhsvalue;
+        s32 flagnamehash;
+        f32 rhsvalue;
         LaunchParamEntryConditionDataType flagdatatype;
         ActorEntryConditionOperation operation;
     };

@@ -31,17 +31,34 @@ void nxargs::init(sead::Heap* heap) {
 }
 
 void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
-    LaunchParamEntry* allEntries;
+    const s32 size = mNumEntries;
+    //LaunchParamEntry* allEntries;
     LaunchParamEntry* currEntry;
+    LaunchParamEntry* _10;
     LaunchParamEntryCondition* currSubEntry;
+    u64 numSubEntries = 0;
 
     if (mNumEntries == 0)
         return;
-    allEntries = new (heap, std::nothrow) LaunchParamEntry;
+    LaunchParamEntry* allEntries = new (heap, 8, std::nothrow) LaunchParamEntry[size];
     if (allEntries) {
-        while (allEntries->mConditions.getSize() != 0) {
-            allEntries->mFlags = LaunchParamFlag::_0;
-            allEntries->mConditions.freeBuffer();
+        if (mNumEntries != 0) {
+            while (allEntries->mNumConditions != 0) {
+                allEntries->mFlags = LaunchParamFlag::_0;
+                allEntries->mConditions.freeBuffer();
+            }
+        }
+    } else {
+        _10 = allEntries;
+    }
+
+    if ((s64)size >= 0xC0) {
+        LaunchParamEntryCondition* pdata = _10[3].mConditions.getBufferPtr();
+        while (size != 0xF8) {
+            pdata->flagdatatype = LaunchParamEntryConditionDataType::None;
+            pdata->flagnamehash = 0;
+            pdata->operation = ActorEntryConditionOperation::None;
+            pdata->rhsvalue = 0;
         }
     }
 
@@ -52,7 +69,6 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
             currEntry = mEntries.getBufferPtr();
         else
             currEntry = &mEntries.getBufferPtr()[i];
-
         currEntry->mActorNameHash = data->entrydata->mActorNameHash;
         currEntry->mDropActorNameHash = data->entrydata->mDropActorNameHash;
         currEntry->mPositionOffset.x = data->entrydata->mPositionOffset.x;
@@ -65,35 +81,31 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         currEntry->mVelocity.y = data->entrydata->mVelocity.y;
         currEntry->mVelocity.z = data->entrydata->mVelocity.z;
         currEntry->mFlags = data->entrydata->mFlags;
-        u64 numSubEntries;
+        numSubEntries = data->entrydata->mNumConditions;
         currEntry->mNumConditions = numSubEntries;
 
-        if (mNumEntries) {
-            auto* subEntries = new (heap, std::nothrow) LaunchParamEntryCondition;
-            if (subEntries) {
+        if (numSubEntries != 0) {
+            LaunchParamEntryCondition* subEntries = new (heap, 8, std::nothrow) LaunchParamEntryCondition[numSubEntries];
+            if (subEntries != nullptr)
                 currEntry->mConditions.setBuffer(numSubEntries, subEntries);
-            }
             if (currEntry->mNumConditions) {
                 for (u8 j = 0; j < currEntry->mNumConditions; j++) {
-                    u8 jplusplus = j++;
-                    if (currEntry->mConditions.getSize() <= jplusplus) {
+                    if (currEntry->mConditions.getSize() <= j) {
                         currSubEntry = currEntry->mConditions.getBufferPtr();
-                    } else {
-                        currSubEntry = &currEntry->mConditions.getBufferPtr()[jplusplus];
-                    }
+                    } /*else {
+                        currSubEntry = &currEntry->mConditions.getBufferPtr()[j];
+                    } */
 
-                    currSubEntry->flagnamehash =
-                        data->entrydata->mConditions.getBufferPtr()->flagnamehash;
-                    currSubEntry->flagdatatype =
-                        data->entrydata->mConditions.getBufferPtr()->flagdatatype;
-                    currSubEntry->operation =
-                        data->entrydata->mConditions.getBufferPtr()->operation;
+                    currSubEntry->flagnamehash = data->entrydata->mConditions.getBufferPtr()->flagnamehash;
+                    currSubEntry->flagdatatype = data->entrydata->mConditions.getBufferPtr()->flagdatatype;
+                    currSubEntry->operation = data->entrydata->mConditions.getBufferPtr()->operation;
                     currSubEntry->rhsvalue = data->entrydata->mConditions.getBufferPtr()->rhsvalue;
                 }
             }
         }
     }
 }
+/*
 
 void nxargs::handleArgs() {
     const char* value;
@@ -125,9 +137,6 @@ void nxargs::handleArgs() {
             if (infodata->getActorIter(iter, entry->mActorNameHash, true)) {
                 iter->tryGetStringByKey(&value, "name");
                 ksys::act::InstParamPack* instparampack;
-                instparampack->getBuffer().clear();
-                sead::Matrix34f pos;
-                // std::memcpy(&pos, sead::Matrix34f::, sizeof(pos))
 
                 // ksys::phys::RayCastBodyQuery raycastquery;
                 sead::Vector3f playerpos = act::ActorSystem::instance()->getPlayerPos();
@@ -140,6 +149,6 @@ void nxargs::handleArgs() {
             }
         }
     }
-}
+} */
 
 }  // namespace ksys
