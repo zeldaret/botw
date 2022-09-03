@@ -33,8 +33,8 @@ class nxargs {
 public:
     enum class LaunchParamFlag : u8 {
         _0 = 0,
-        hasDropActor = 1 << 0,  // 1
-        _2 = 1 << 1,            // 2
+        hasDropActor = 1,
+        _2 = 2,
     };
     struct LaunchParamEntrySpawnCondition {
         u32 resfield0;
