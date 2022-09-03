@@ -52,7 +52,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         _10 = allEntries;
     }
 
-    if ((s64)size >= 0xC0) {
+    if (size >= 0xC0) {
         LaunchParamEntryCondition* pdata = _10[3].mConditions.getBufferPtr();
         while (size != 0xF8) {
             pdata->flagdatatype = LaunchParamEntryConditionDataType::None;
@@ -92,9 +92,9 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
                 for (u8 j = 0; j < currEntry->mNumConditions; j++) {
                     if (currEntry->mConditions.getSize() <= j) {
                         currSubEntry = currEntry->mConditions.getBufferPtr();
-                    } /*else {
+                    } else {
                         currSubEntry = &currEntry->mConditions.getBufferPtr()[j];
-                    } */
+                    }
 
                     currSubEntry->flagnamehash = data->entrydata->mConditions.getBufferPtr()->flagnamehash;
                     currSubEntry->flagdatatype = data->entrydata->mConditions.getBufferPtr()->flagdatatype;
