@@ -46,12 +46,6 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     }
 
     LaunchParamEntryCondition pdata = allEntries->mConditions[3];
-    if (size != 0xF8) {
-        pdata.flagdatatype = LaunchParamEntryConditionDataType::None;
-        pdata.flagnamehash = 0;
-        pdata.operation = ActorEntryConditionOperation::None;
-        pdata.rhsvalue = 0;
-    }
     mEntries.setBuffer(mNumEntries, allEntries);
 
     if (!mNumEntries)
@@ -70,22 +64,22 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         currEntry->mVelocity.y = data->entrydata->mVelocity.y;
         currEntry->mVelocity.z = data->entrydata->mVelocity.z;
         currEntry->mFlags = data->entrydata->mFlags;
-        u64 numSubEntries = data->entrydata->mNumConditions;
-        currEntry->mNumConditions = numSubEntries;
+        u64 numConditions = data->entrydata->mNumConditions;
+        currEntry->mNumConditions = numConditions;
 
-        if (numSubEntries != 0) {
+        if (numConditions != 0) {
             LaunchParamEntryCondition* subEntries =
-                new (heap, 8, std::nothrow) LaunchParamEntryCondition[numSubEntries];
+                new (heap, 8, std::nothrow) LaunchParamEntryCondition[numConditions];
             if (subEntries != nullptr)
-                currEntry->mConditions.setBuffer(numSubEntries, subEntries);
+                currEntry->mConditions.setBuffer(numConditions, subEntries);
             if (currEntry->mNumConditions) {
                 for (u8 j = 0; j < currEntry->mNumConditions; j++) {
-                    LaunchParamEntryCondition* currSubEntry = &currEntry->mConditions[j];
+                    LaunchParamEntryCondition* currCondition = &currEntry->mConditions[j];
 
-                    currSubEntry->flagnamehash = data->entrydata->mConditions.get(j)->flagnamehash;
-                    currSubEntry->flagdatatype = data->entrydata->mConditions.get(j)->flagdatatype;
-                    currSubEntry->operation = data->entrydata->mConditions.get(j)->operation;
-                    currSubEntry->rhsvalue = data->entrydata->mConditions.get(j)->rhsvalue;
+                    currCondition->flagnamehash = data->entrydata->mConditions.get(j)->flagnamehash;
+                    currCondition->flagdatatype = data->entrydata->mConditions.get(j)->flagdatatype;
+                    currCondition->operation = data->entrydata->mConditions.get(j)->operation;
+                    currCondition->rhsvalue = data->entrydata->mConditions.get(j)->rhsvalue;
                 }
             }
         }
