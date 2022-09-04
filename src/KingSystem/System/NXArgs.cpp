@@ -82,10 +82,10 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
                 for (u8 j = 0; j < currEntry->mNumConditions; j++) {
                     LaunchParamEntryCondition* currSubEntry = &currEntry->mConditions[j];
 
-                    currSubEntry->flagnamehash = data->entrydata->mConditions.unsafeGet(j)->flagnamehash;
-                    currSubEntry->flagdatatype = data->entrydata->mConditions.unsafeGet(j)->flagdatatype;
-                    currSubEntry->operation = data->entrydata->mConditions.unsafeGet(j)->operation;
-                    currSubEntry->rhsvalue = data->entrydata->mConditions.unsafeGet(j)->rhsvalue;
+                    currSubEntry->flagnamehash = data->entrydata->mConditions.get(j)->flagnamehash;
+                    currSubEntry->flagdatatype = data->entrydata->mConditions.get(j)->flagdatatype;
+                    currSubEntry->operation = data->entrydata->mConditions.get(j)->operation;
+                    currSubEntry->rhsvalue = data->entrydata->mConditions.get(j)->rhsvalue;
                 }
             }
         }
