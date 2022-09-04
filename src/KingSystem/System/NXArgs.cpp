@@ -32,11 +32,6 @@ void nxargs::init(sead::Heap* heap) {
 
 void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     const s32 size = mNumEntries;
-    //LaunchParamEntry* allEntries;
-    LaunchParamEntry* currEntry;
-    LaunchParamEntry* _10;
-    LaunchParamEntryCondition* currSubEntry;
-    u64 numSubEntries = 0;
 
     if (mNumEntries == 0)
         return;
@@ -51,23 +46,19 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     }
 
     if ((s64)size >= (s64)0xC0) {
-        LaunchParamEntryCondition* pdata = allEntries->mConditions.getBufferPtr();
-        while (size != 0xF8) {
-            pdata->flagdatatype = LaunchParamEntryConditionDataType::None;
-            pdata->flagnamehash = 0;
-            pdata->operation = ActorEntryConditionOperation::None;
-            pdata->rhsvalue = 0;
+        LaunchParamEntryCondition pdata = allEntries->mConditions[3];
+        if (size != 0xF8) {
+            pdata.flagdatatype = LaunchParamEntryConditionDataType::None;
+            pdata.flagnamehash = 0;
+            pdata.operation = ActorEntryConditionOperation::None;
+            pdata.rhsvalue = 0;
         }
     }
 
     if (!mNumEntries)
         return;
     for (u8 i = 0; i < mNumEntries; i++) {
-        int offset = 0x10;
-        if (mEntries.getSize() <= i)
-            currEntry = mEntries.getBufferPtr();
-        else
-            currEntry = &mEntries.getBufferPtr()[i];
+        LaunchParamEntry* currEntry = &mEntries[i];
         currEntry->mActorNameHash = data->entrydata->mActorNameHash;
         currEntry->mDropActorNameHash = data->entrydata->mDropActorNameHash;
         currEntry->mPositionOffset.x = data->entrydata->mPositionOffset.x;
@@ -80,7 +71,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         currEntry->mVelocity.y = data->entrydata->mVelocity.y;
         currEntry->mVelocity.z = data->entrydata->mVelocity.z;
         currEntry->mFlags = data->entrydata->mFlags;
-        numSubEntries = data->entrydata->mNumConditions;
+        u64 numSubEntries = data->entrydata->mNumConditions;
         currEntry->mNumConditions = numSubEntries;
 
         if (numSubEntries != 0) {
@@ -89,16 +80,12 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
                 currEntry->mConditions.setBuffer(numSubEntries, subEntries);
             if (currEntry->mNumConditions) {
                 for (u8 j = 0; j < currEntry->mNumConditions; j++) {
-                    if (numSubEntries <= j) {
-                        currSubEntry = currEntry->mConditions.getBufferPtr();
-                    } else {
-                        currSubEntry = &currEntry->mConditions.getBufferPtr()[j];
-                    }
+                    LaunchParamEntryCondition* currSubEntry = &currEntry->mConditions[j];
 
-                    currSubEntry->flagnamehash = data->entrydata->mConditions.getBufferPtr()->flagnamehash;
-                    currSubEntry->flagdatatype = data->entrydata->mConditions.getBufferPtr()->flagdatatype;
-                    currSubEntry->operation = data->entrydata->mConditions.getBufferPtr()->operation;
-                    currSubEntry->rhsvalue = data->entrydata->mConditions.getBufferPtr()->rhsvalue;
+                    currSubEntry->flagnamehash = data->entrydata->mConditions.unsafeGet(j)->flagnamehash;
+                    currSubEntry->flagdatatype = data->entrydata->mConditions.unsafeGet(j)->flagdatatype;
+                    currSubEntry->operation = data->entrydata->mConditions.unsafeGet(j)->operation;
+                    currSubEntry->rhsvalue = data->entrydata->mConditions.unsafeGet(j)->rhsvalue;
                 }
             }
         }
