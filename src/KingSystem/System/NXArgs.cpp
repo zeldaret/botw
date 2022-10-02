@@ -6,10 +6,10 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
 // NONMATCHING - some instructions rearranged
 void nxargs::init(sead::Heap* heap) {
+    size_t unknown;
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
     auto* reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
-    size_t unknown;
 
     while (nn::oe::TryPopLaunchParameter(&unknown, reslaunchdata, sizeof(*reslaunchdata))) {
         sead::FixedSafeString<5> inputmagic("");
@@ -36,50 +36,36 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
     if (mNumEntries == 0)
         return;
     LaunchParamEntry* allEntries = new (heap, 8, std::nothrow) LaunchParamEntry[size];
-    if (allEntries) {
-        if (mNumEntries != 0) {
-            if (allEntries->mNumConditions != 0) {
-                allEntries->mFlags = LaunchParamFlag::_0;
-                allEntries->mConditions.freeBuffer();
-            }
-        }
-    }
-
-    LaunchParamEntryCondition pdata = allEntries->mConditions[3];
+    allEntries->flags = LaunchParamFlag::none;
     mEntries.setBuffer(mNumEntries, allEntries);
 
-    if (!mNumEntries)
-        return;
     for (u8 i = 0; i < mNumEntries; i++) {
         LaunchParamEntry* currEntry = &mEntries[i];
-        currEntry->mActorNameHash = data->entrydata->mActorNameHash;
-        currEntry->mDropActorNameHash = data->entrydata->mDropActorNameHash;
-        currEntry->mPositionOffset.x = data->entrydata->mPositionOffset.x;
-        currEntry->mPositionOffset.y = data->entrydata->mPositionOffset.y;
-        currEntry->mPositionOffset.z = data->entrydata->mPositionOffset.z;
-        currEntry->mRotate.x = data->entrydata->mRotate.x;
-        currEntry->mRotate.y = data->entrydata->mRotate.y;
-        currEntry->mRotate.z = data->entrydata->mRotate.z;
-        currEntry->mVelocity.x = data->entrydata->mVelocity.x;
-        currEntry->mVelocity.y = data->entrydata->mVelocity.y;
-        currEntry->mVelocity.z = data->entrydata->mVelocity.z;
-        currEntry->mFlags = data->entrydata->mFlags;
-        u64 numConditions = data->entrydata->mNumConditions;
-        currEntry->mNumConditions = numConditions;
+        currEntry->actorNameHash = data->entrydata(i).actorNameHash;
+        currEntry->dropActorNameHash = data->entrydata(i).dropActorNameHash;
+        currEntry->positionOffset.x = data->entrydata(i).positionOffset.x;
+        currEntry->positionOffset.y = data->entrydata(i).positionOffset.y;
+        currEntry->positionOffset.z = data->entrydata(i).positionOffset.z;
+        currEntry->rotation.x = data->entrydata(i).rotation.x;
+        currEntry->rotation.y = data->entrydata(i).rotation.y;
+        currEntry->rotation.z = data->entrydata(i).rotation.z;
+        currEntry->velocity.x = data->entrydata(i).velocity.x;
+        currEntry->velocity.y = data->entrydata(i).velocity.y;
+        currEntry->velocity.z = data->entrydata(i).velocity.z;
+        currEntry->flags = data->entrydata(i).flags;
+        s64 numConditions = data->entrydata(i).numConditions;
+        currEntry->numConditions = numConditions;
 
         if (numConditions != 0) {
-            LaunchParamEntryCondition* subEntries =
-                new (heap, 8, std::nothrow) LaunchParamEntryCondition[numConditions];
-            if (subEntries != nullptr)
-                currEntry->mConditions.setBuffer(numConditions, subEntries);
-            if (currEntry->mNumConditions) {
-                for (u8 j = 0; j < currEntry->mNumConditions; j++) {
-                    LaunchParamEntryCondition* currCondition = &currEntry->mConditions[j];
-
-                    currCondition->flagnamehash = data->entrydata->mConditions.get(j)->flagnamehash;
-                    currCondition->flagdatatype = data->entrydata->mConditions.get(j)->flagdatatype;
-                    currCondition->operation = data->entrydata->mConditions.get(j)->operation;
-                    currCondition->rhsvalue = data->entrydata->mConditions.get(j)->rhsvalue;
+            LaunchParamEntryCondition* subEntries = new (heap, 8, std::nothrow) LaunchParamEntryCondition[numConditions];
+            currEntry->conditions.setBuffer(numConditions, subEntries);
+            if (currEntry->numConditions) {
+                for (u8 j = 0; j < currEntry->numConditions; j++) {
+                    LaunchParamEntryCondition* currCondition = &currEntry->conditions[j];
+                    currCondition->flagnamehash = data->entrydata(i).conditions(j).flagnamehash;
+                    currCondition->flagdatatype = data->entrydata(i).conditions(j).flagdatatype;
+                    currCondition->operation = data->entrydata(i).conditions(j).operation;
+                    currCondition->rhsvalue = data->entrydata(i).conditions(j).rhsvalue;
                 }
             }
         }

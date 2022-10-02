@@ -32,7 +32,7 @@ class nxargs {
 
 public:
     enum class LaunchParamFlag : u8 {
-        _0 = 0,
+        none = 0,
         hasDropActor = 1,
         _2 = 2,
     };
@@ -64,14 +64,14 @@ public:
         ActorEntryConditionOperation operation;
     };
     struct LaunchParamEntry {
-        u32 mActorNameHash;
-        u32 mDropActorNameHash;
-        sead::Vector3f mPositionOffset{};
-        sead::Vector3f mRotate{};
-        sead::Vector3f mVelocity{};
-        LaunchParamFlag mFlags;
-        u8 mNumConditions;
-        sead::Buffer<LaunchParamEntryCondition> mConditions;
+        u32 actorNameHash;
+        u32 dropActorNameHash;
+        sead::Vector3f positionOffset{};
+        sead::Vector3f rotation{};
+        sead::Vector3f velocity{};
+        LaunchParamFlag flags;
+        u8 numConditions;
+        sead::Buffer<LaunchParamEntryCondition> conditions;
     };
     KSYS_CHECK_SIZE_NX150(LaunchParamEntry, 0x40);
 
@@ -92,8 +92,7 @@ public:
 
     struct ResLaunchParamData {
         ResLaunchParamDataHeader header;
-        LaunchParamEntry* entrydata;
-        u8 padding[0xFE8]; //temp
+        sead::Buffer<LaunchParamEntry> entrydata;
     };
     //KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
 
