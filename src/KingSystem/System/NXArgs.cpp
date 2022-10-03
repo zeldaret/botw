@@ -35,9 +35,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
 
     if (mNumEntries == 0)
         return;
-    LaunchParamEntry* allEntries = new (heap, 8, std::nothrow) LaunchParamEntry[size];
-    allEntries->flags = LaunchParamFlag::none;
-    mEntries.setBuffer(mNumEntries, allEntries);
+    mEntries.allocBufferAssert(size, heap);
 
     for (u8 i = 0; i < mNumEntries; i++) {
         LaunchParamEntry* currEntry = &mEntries[i];
