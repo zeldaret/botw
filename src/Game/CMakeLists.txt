@@ -12,5 +12,5 @@ target_sources(uking PRIVATE
   gameStageInfo.cpp
   gameStageInfo.h
   E3Mgr.cpp
-  E3Mgr.hpp
+  E3Mgr.h
 )

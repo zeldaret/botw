@@ -45,6 +45,8 @@ public:
     s32 get2C() const;
     s32 getDemoStage() const;
 
+    bool is28One() const;
+
     void loadBuildTimeStubbed();
 
     void setEmptyStr();

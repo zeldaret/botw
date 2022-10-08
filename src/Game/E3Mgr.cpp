@@ -1,4 +1,4 @@
-#include "E3Mgr.hpp"
+#include "E3Mgr.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -56,45 +56,37 @@ void E3Mgr::set28() {
 }
 
 bool E3Mgr::isDemoMode0AndNotStageSelect() const {
-    if (E3Mgr::isDemoMode() && mDemoMode == 0) {
-        return !isStageSelectState();
-    }
-    return false;
+    return E3Mgr::isDemoMode() && mDemoMode == 0 && !isStageSelectState();
 }
 
 bool E3Mgr::isDemoMode1AndNotStageSelect() const {
-    if (E3Mgr::isDemoMode() && mDemoMode == 1) {
-        return !isStageSelectState();
-    }
-    return false;
+    return E3Mgr::isDemoMode() && mDemoMode == 1 && !isStageSelectState();
 }
 
 bool E3Mgr::isDemoMode2AndNotStageSelect() const {
-    if (E3Mgr::isDemoMode() && mDemoMode == 2) {
-        return !isStageSelectState();
-    }
-    return false;
+    return E3Mgr::isDemoMode() && mDemoMode == 2 && !isStageSelectState();
+}
+
+bool E3Mgr::is28One() const {
+    return _28 == 1;
 }
 
 bool E3Mgr::isRidDemoAnd28IsOne() const {
-    if ((isRidDemo() && (_28 == 1))) {
+    if (isRidDemo() && is28One()) {
         return true;
     }
     return false;
 }
 
 bool E3Mgr::isRidDemoAnd28IsOne_() const {
-    if ((isRidDemo() && (_28 == 1))) {
+    if ((isRidDemo() && is28One())) {
         return true;
     }
     return false;
 }
 
 bool E3Mgr::isRidDemoAnd6fIsNonzero() const {
-    if (isRidDemo()) {
-        return _6f != 0;
-    }
-    return false;
+    return isRidDemo() && _6f != 0;
 }
 
 s32 E3Mgr::getDemoStage() const {
@@ -154,7 +146,7 @@ void E3Mgr::_auto2() {
 }
 
 //! TODO : this should be a real struct
-using Dummy = struct Dummy {
+struct Dummy {
     char _0[0xA00];
     u32 a00;
 };
@@ -182,7 +174,7 @@ void E3Mgr::_auto3() {
     isDemo = E3Mgr::isDemoMode();
     if (isDemo) {
         if (test)
-            (test->a00) |= 0x40;
+            test->a00 |= 0x40;
     }
 }
 
