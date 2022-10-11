@@ -20,7 +20,7 @@ void nxargs::init(sead::Heap* heap) {
         mResField6 = reslaunchdata->header._6;
         mType = reslaunchdata->header.type;
         if (mType == ArgsType::CreateActors) {
-            mNumEntries = reslaunchdata->header.numentries;
+            mNumEntries = reslaunchdata->header.numEntries;
             nxargs::allocEntries(heap, reslaunchdata);
         } else {
             mType = ArgsType::None;
@@ -62,10 +62,12 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
             if (currEntry->numConditions) {
                 for (u8 j = 0; j < currEntry->numConditions; j++) {
                     LaunchParamEntryCondition* currCondition = &currEntry->conditions[j];
-                    currCondition->flagnamehash = bitCastPtr<s32>(data, offset - 0);
-                    currCondition->flagdatatype = bitCastPtr<LaunchParamEntryConditionDataType>(data, offset - 4);
-                    currCondition->operation = bitCastPtr<ActorEntryConditionOperation>(data, offset - 5);
-                    currCondition->rhsvalue = bitCastPtr<f32>(data, offset - 8);
+                    currCondition->flagNameHash = bitCastPtr<s32>(data, offset - 0);
+                    currCondition->flagDataType =
+                        bitCastPtr<LaunchParamEntryConditionDataType>(data, offset - 4);
+                    currCondition->operation =
+                        bitCastPtr<ActorEntryConditionOperation>(data, offset - 5);
+                    currCondition->rhsValue = bitCastPtr<f32>(data, offset - 8);
                     offset += 0xc;
                 }
             }

@@ -8,15 +8,15 @@
 #include <math/seadVector.h>
 #include <nn/oe.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/Types.h"
-#include "KingSystem/ActorSystem/actInstParamPack.h"
-#include "KingSystem/ActorSystem/actInfoData.h"
-#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
-#include "KingSystem/ActorSystem/actActorSystem.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace ksys {
 
@@ -58,9 +58,9 @@ public:
         Lte = 6,
     };
     struct LaunchParamEntryCondition {
-        s32 flagnamehash;
-        f32 rhsvalue;
-        LaunchParamEntryConditionDataType flagdatatype;
+        s32 flagNameHash;
+        f32 rhsValue;
+        LaunchParamEntryConditionDataType flagDataType;
         ActorEntryConditionOperation operation;
     };
     struct LaunchParamEntry {
@@ -86,7 +86,7 @@ public:
         u8 _6;
         ArgsType type;
         u32 padding;
-        u8 numentries;
+        u8 numEntries;
         u8 padding2[3];
     };
 
@@ -95,7 +95,7 @@ public:
         LaunchParamEntry entrydata[1];
         u8 padding[0xFB0];
     };
-    //KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
+    KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
 
     void init(sead::Heap* heap);
     void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);
@@ -107,7 +107,7 @@ private:
     ArgsType mType;
     u8 mNumEntries = 0;
     sead::Buffer<LaunchParamEntry> mEntries;
-    bool mHasHandledArgs = false; 
+    bool mHasHandledArgs = false;
 };
 KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 
