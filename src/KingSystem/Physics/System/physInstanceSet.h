@@ -37,14 +37,6 @@ class RigidBodySet;
 class SystemGroupHandler;
 class UserTag;
 
-// TODO: move to a separate header
-class CharacterController {
-public:
-    void sub_7100F5EC30();
-    void sub_7100F60604();
-    void enableCollisionMaybe_0(ContactLayer);
-};
-
 class InstanceSet : public sead::hostio::Node {
 public:
     enum class Flag : u32 {

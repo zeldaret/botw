@@ -17,7 +17,7 @@ public:
     void leave_() override;
     bool isFailed() const override;
     bool isFinished() const override;
-    bool isFlag4Set() const override;
+    bool isFork() const override;
     bool handleMessage_(const ksys::Message& message) override;
     bool handleAck_(const ksys::MessageAck& message) override;
     void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const override;

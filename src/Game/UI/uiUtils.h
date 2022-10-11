@@ -34,6 +34,11 @@ int getItemGeneralLife(const char* name);
 // TODO: move this to yet another translation unit (TBD but not the same one as the above)
 void addItemForDebug(const sead::SafeString& name, int value);
 
+void setShowCheckPoint(s32 icon_type, const sead::SafeString& counter_name);
+void setShowFlyDistance(const sead::SafeString& distance);
+void setShowGolfCount(const sead::SafeString& counter_name);
+void setShowRaceResult(s32 result_type);
+
 int countCookResultsCheck(const sead::SafeString& name, s32 effect_type);
 int countCookResultsAllOk(const sead::SafeString& name);
 int getItemValue(const sead::SafeString& name);

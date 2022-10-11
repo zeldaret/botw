@@ -70,7 +70,7 @@ bool ForkAI::isFailed() const {
     for (; i < num_children; ++i) {
         auto* child = getChild(i);
         failed |= child->isFailed();
-        if (!child->isFinished() && !child->isFailed() && !child->isFlag4Set())
+        if (!child->isFinished() && !child->isFailed() && !child->isFork())
             break;
     }
     return i == num_children && failed;
@@ -86,16 +86,16 @@ bool ForkAI::isFinished() const {
             break;
         if (child->isFinished())
             finished = true;
-        else if (!child->isFlag4Set())
+        else if (!child->isFork())
             break;
     }
     return i == num_children && finished;
 }
 
-bool ForkAI::isFlag4Set() const {
+bool ForkAI::isFork() const {
     const int num_children = getNumChildren();
     for (int i = 0; i < num_children; ++i) {
-        if (!getChild(i)->isFlag4Set())
+        if (!getChild(i)->isFork())
             return false;
     }
     return true;

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionKorokFlowerVanish.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -11,7 +13,17 @@ bool KorokFlowerVanish::init_(sead::Heap* heap) {
 }
 
 void KorokFlowerVanish::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->emitBasicSigOn();
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+
+    auto* main_body = mActor->getMainBody();
+    auto* tgt_body = mActor->getTgtBody();
+    if (main_body != nullptr && tgt_body != nullptr) {
+        main_body->setContactAll();
+        main_body->setFlag200();
+        tgt_body->setContactAll();
+        tgt_body->setFlag200();
+    }
 }
 
 void KorokFlowerVanish::leave_() {

@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionEventHoverNullASPlayBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -18,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+
+    ksys::act::CCAccessor mCCAccessor;
 };
 
 }  // namespace uking::action

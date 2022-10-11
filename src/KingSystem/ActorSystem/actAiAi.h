@@ -11,7 +11,7 @@ public:
     explicit Ai(const InitArg& arg);
     ~Ai() override;
 
-    bool isFlag4Set() const override;
+    bool isFork() const override;
     void calc() override;
     ActionBase* changeChildLater(const sead::SafeString& name) override;
     void getParams(ParamNameTypePairs* pairs, bool update_use_count) const override;

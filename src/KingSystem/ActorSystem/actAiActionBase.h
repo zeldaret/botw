@@ -13,6 +13,7 @@ struct AIDefSet;
 class Message;
 class MessageAck;
 struct MesTransceiverId;
+struct MessageType;
 }  // namespace ksys
 
 namespace ksys::res {
@@ -69,6 +70,8 @@ public:
     void leave();
     bool oneShot(InlineParamPack* params);
 
+    bool sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data);
+
     Action* getCurrentAction();
     bool handleMessage(const Message& message);
     bool handleAck(const MessageAck& message);
@@ -78,9 +81,12 @@ public:
     const char* getClassName() const;
     const char* getName() const;
 
+    void playAS(const char* name, bool repeat, u32 slot, u32 seq_bank, f32 t);
+    bool isFinishedAS(u32 slot, u32 seq_bank);
+
     virtual bool isFailed() const { return mFlags.isOn(Flag::Failed); }
     virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
-    virtual bool isFlag4Set() const { return mFlags.isOn(Flag::_4); }
+    virtual bool isFork() const { return mFlags.isOn(Flag::Fork); }
 
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
@@ -123,7 +129,7 @@ protected:
     enum class Flag : u8 {
         Finished = 1,
         Failed = 2,
-        _4 = 4,
+        Fork = 4,
         TriggerAction = 8,
         DynamicParamChild = 0x10,
         _20 = 0x20,
@@ -154,7 +160,7 @@ protected:
     void resetFlags() {
         mFlags.reset(Flag::Failed);
         mFlags.reset(Flag::Finished);
-        mFlags.reset(Flag::_4);
+        mFlags.reset(Flag::Fork);
     }
 
     res::AIProgram* getAIProg() const;

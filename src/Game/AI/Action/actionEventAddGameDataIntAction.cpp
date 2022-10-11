@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventAddGameDataIntAction.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {
 
@@ -13,6 +14,14 @@ bool EventAddGameDataIntAction::init_(sead::Heap* heap) {
 
 void EventAddGameDataIntAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+
+    if (mGameDataIntSrcName_d.isEmpty() || mGameDataIntDstName_d.isEmpty()) {
+        setFailed();
+        mFlags.set(Flag::Fork);
+        return;
+    }
+
+    mIsReady = true;
 }
 
 void EventAddGameDataIntAction::leave_() {
@@ -27,6 +36,32 @@ void EventAddGameDataIntAction::loadParams_() {
 
 void EventAddGameDataIntAction::calc_() {
     ksys::act::ai::Action::calc_();
+
+    if (isFinished() || isFailed()) {
+        return;
+    }
+
+    if (!mIsReady) {
+        setFinished();
+        mFlags.set(Flag::Fork);
+        return;
+    }
+
+    mIsReady = false;
+    auto* gdm = ksys::gdt::Manager::instance();
+    if (gdm == nullptr) {
+        setFailed();
+        mFlags.set(Flag::Fork);
+        return;
+    }
+
+    s32 value = 0;
+    if (gdm->getParam().get().getS32(&value, mGameDataIntSrcName_d)) {
+        if (*mIsSignInversion_d) {
+            value = -value;
+        }
+        gdm->incrementS32(value, mGameDataIntDstName_d);
+    }
 }
 
 }  // namespace uking::action

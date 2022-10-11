@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventHoverNullASPlay.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -12,9 +13,16 @@ bool EventHoverNullASPlay::init_(sead::Heap* heap) {
 
 void EventHoverNullASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     EventHoverNullASPlayBase::enter_(params);
+
+    mCCAccessor.changeMotionType(mActor->getCharacterController(), ksys::act::MotionType::Hover);
 }
 
 void EventHoverNullASPlay::leave_() {
+    [&](ksys::act::Actor* actor) {
+        mCCAccessor.resetRigidBodyMotion(actor);
+        mCCAccessor.resetMotionType(actor->getCharacterController());
+    }(mActor);
+
     EventHoverNullASPlayBase::leave_();
 }
 
