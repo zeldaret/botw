@@ -9,7 +9,7 @@ void nxargs::init(sead::Heap* heap) {
     size_t unknown;
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
-    auto* reslaunchdata = new (nxargsheap) nxargs::ResLaunchParamData;
+    auto* reslaunchdata = new (nxargsheap) ResLaunchParamData;
 
     while (nn::oe::TryPopLaunchParameter(&unknown, reslaunchdata, sizeof(*reslaunchdata))) {
         sead::FixedSafeString<5> inputmagic("");
@@ -62,12 +62,12 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
             if (currEntry->numConditions) {
                 for (u8 j = 0; j < currEntry->numConditions; j++) {
                     LaunchParamEntryCondition* currCondition = &currEntry->conditions[j];
-                    currCondition->flagNameHash = bitCastPtr<s32>(data, offset - 0);
+                    currCondition->flagNameHash = bitCastPtr<u32>(data, offset);
                     currCondition->flagDataType =
-                        bitCastPtr<LaunchParamEntryConditionDataType>(data, offset - 4);
+                        bitCastPtr<LaunchParamEntryConditionDataType>(data, offset + 4);
                     currCondition->operation =
-                        bitCastPtr<ActorEntryConditionOperation>(data, offset - 5);
-                    currCondition->rhsValue = bitCastPtr<f32>(data, offset - 8);
+                        bitCastPtr<ActorEntryConditionOperation>(data, offset + 5);
+                    currCondition->rhsValue = bitCastPtr<f32>(data, offset + 8);
                     offset += 0xc;
                 }
             }
