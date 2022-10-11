@@ -37,33 +37,36 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         return;
     mEntries.allocBufferAssert(size, heap);
 
+    using sead::BitUtil::bitCastPtr;
+    u32 offset = 0x10;
     for (u8 i = 0; i < mNumEntries; i++) {
         LaunchParamEntry* currEntry = &mEntries[i];
-        currEntry->actorNameHash = data->entrydata(i).actorNameHash;
-        currEntry->dropActorNameHash = data->entrydata(i).dropActorNameHash;
-        currEntry->positionOffset.x = data->entrydata(i).positionOffset.x;
-        currEntry->positionOffset.y = data->entrydata(i).positionOffset.y;
-        currEntry->positionOffset.z = data->entrydata(i).positionOffset.z;
-        currEntry->rotation.x = data->entrydata(i).rotation.x;
-        currEntry->rotation.y = data->entrydata(i).rotation.y;
-        currEntry->rotation.z = data->entrydata(i).rotation.z;
-        currEntry->velocity.x = data->entrydata(i).velocity.x;
-        currEntry->velocity.y = data->entrydata(i).velocity.y;
-        currEntry->velocity.z = data->entrydata(i).velocity.z;
-        currEntry->flags = data->entrydata(i).flags;
-        s64 numConditions = data->entrydata(i).numConditions;
+        currEntry->actorNameHash = bitCastPtr<u32>(data, offset + 0);
+        currEntry->dropActorNameHash = bitCastPtr<u32>(data, offset + 4);
+        currEntry->positionOffset.x = bitCastPtr<f32>(data, offset + 8);
+        currEntry->positionOffset.y = bitCastPtr<f32>(data, offset + 0xc);
+        currEntry->positionOffset.z = bitCastPtr<f32>(data, offset + 0x10);
+        currEntry->rotation.x = bitCastPtr<f32>(data, offset + 0x14);
+        currEntry->rotation.y = bitCastPtr<f32>(data, offset + 0x18);
+        currEntry->rotation.z = bitCastPtr<f32>(data, offset + 0x1c);
+        currEntry->velocity.x = bitCastPtr<f32>(data, offset + 0x20);
+        currEntry->velocity.y = bitCastPtr<f32>(data, offset + 0x24);
+        currEntry->velocity.z = bitCastPtr<f32>(data, offset + 0x28);
+        currEntry->flags = bitCastPtr<LaunchParamFlag>(data, offset + 0x2c);
+        s64 numConditions = bitCastPtr<u8>(data, offset + 0x2d);
         currEntry->numConditions = numConditions;
+        offset += 0x30;
 
-        if (numConditions != 0) {
-            LaunchParamEntryCondition* subEntries = new (heap, 8, std::nothrow) LaunchParamEntryCondition[numConditions];
-            currEntry->conditions.setBuffer(numConditions, subEntries);
+        if (numConditions > 0) {
+            currEntry->conditions.allocBufferAssert(numConditions, heap);
             if (currEntry->numConditions) {
                 for (u8 j = 0; j < currEntry->numConditions; j++) {
                     LaunchParamEntryCondition* currCondition = &currEntry->conditions[j];
-                    currCondition->flagnamehash = data->entrydata(i).conditions(j).flagnamehash;
-                    currCondition->flagdatatype = data->entrydata(i).conditions(j).flagdatatype;
-                    currCondition->operation = data->entrydata(i).conditions(j).operation;
-                    currCondition->rhsvalue = data->entrydata(i).conditions(j).rhsvalue;
+                    currCondition->flagnamehash = bitCastPtr<s32>(data, offset - 0);
+                    currCondition->flagdatatype = bitCastPtr<LaunchParamEntryConditionDataType>(data, offset - 4);
+                    currCondition->operation = bitCastPtr<ActorEntryConditionOperation>(data, offset - 5);
+                    currCondition->rhsvalue = bitCastPtr<f32>(data, offset - 8);
+                    offset += 0xc;
                 }
             }
         }
