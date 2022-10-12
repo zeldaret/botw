@@ -71,17 +71,7 @@ void VFRVec3f::lerp(const sead::Vector3f& b, f32 t) {
 }
 
 bool VFRVec3f::chase(const sead::Vector3f& target, f32 t) {
-    const auto delta = VFR::instance()->getDeltaTime() * t;
-    const auto diff = target - value;
-    const auto norm = diff.length();
-
-    if (norm <= delta) {
-        sead::MemUtil::copy(&value, &target, sizeof(value));
-        return true;
-    }
-
-    value += diff * (1.0f / norm) * delta;
-    return false;
+    return VFR::chaseVec(&value, target, t);
 }
 
 void VFRValue::setToMax(const f32& max) {
