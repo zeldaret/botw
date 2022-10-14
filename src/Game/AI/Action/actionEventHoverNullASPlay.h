@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionEventHoverNullASPlayBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 
@@ -19,6 +20,11 @@ public:
 
 protected:
     void calc_() override;
+
+    void resetAllMotion(ksys::act::Actor* actor) {
+        mCCAccessor.resetRigidBodyMotion(actor);
+        mCCAccessor.resetMotionType(actor->getCharacterController());
+    }
 
     ksys::act::CCAccessor mCCAccessor;
 };

@@ -13,7 +13,7 @@ bool NPCStartTurnToPlayer::init_(sead::Heap* heap) {
 }
 
 bool NPCStartTurnToPlayer::oneShot_() {
-    mValue = *mTurnRange_d * 0.5;
+    mValue = *mTurnRange_d * 0.5f;
 
     sendMessage(*mActor->getMesTransceiverId(), ksys::MessageType(0x8000078), &mValue);
 

@@ -74,9 +74,9 @@ public:
     void setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale);
     void sub_7100FBB4B4();
     void* findX(const sead::SafeString& a1, const sead::SafeString& a2) const;
-    void* sub_7100FBBC28(const sead::SafeString& name) const;
-    s32 sub_7100FBBC78(const sead::SafeString& name) const;
-    s32 sub_7100FBBD9C(const sead::SafeString& name) const;
+    RigidBody* findRigidBody(const sead::SafeString& name) const;
+    s32 findContactPointInfo(const sead::SafeString& name) const;
+    s32 findCollisionInfo(const sead::SafeString& name) const;
     void sub_7100FBD284(const sead::Matrix34f& mtx);
     void sub_7100FBC890(const sead::Matrix34f& mtx, bool a2, bool a3);
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;

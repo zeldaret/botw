@@ -142,8 +142,8 @@ public:
     const sead::Vector3f& getVelocity() const { return mVelocity; }
     const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }
     const sead::Vector3f& getScale() const { return mScale; }
-    phys::RigidBody* getMainBody() { return mMainBody; }
-    phys::RigidBody* getTgtBody() { return mTgtBody; }
+    phys::RigidBody* getMainBody() const { return mMainBody; }
+    phys::RigidBody* getTgtBody() const { return mTgtBody; }
 
     const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
 

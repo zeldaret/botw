@@ -18,10 +18,7 @@ void EventHoverNullASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventHoverNullASPlay::leave_() {
-    [&](ksys::act::Actor* actor) {
-        mCCAccessor.resetRigidBodyMotion(actor);
-        mCCAccessor.resetMotionType(actor->getCharacterController());
-    }(mActor);
+    resetAllMotion(mActor);
 
     EventHoverNullASPlayBase::leave_();
 }
