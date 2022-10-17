@@ -23,7 +23,7 @@ void KorokFlowerWait::loadParams_() {}
 
 void KorokFlowerWait::calc_() {
     if (mActor->checkBasicSig()) {
-        mFlags.set(Flag::Fork);
+        mFlags.set(Flag::Changeable);
         setFinished();
     }
 }

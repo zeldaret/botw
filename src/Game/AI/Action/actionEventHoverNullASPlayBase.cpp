@@ -13,7 +13,7 @@ bool EventHoverNullASPlayBase::init_(sead::Heap* heap) {
 
 void EventHoverNullASPlayBase::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS(mASName_d.cstr(), *mIsIgnoreSame_d, *mASSlot_d, *mSequenceBank_d, -1.0);
-    mFlags.set(ksys::act::ai::Action::Flag::Fork);
+    mFlags.set(ksys::act::ai::Action::Flag::Changeable);
 }
 
 void EventHoverNullASPlayBase::leave_() {

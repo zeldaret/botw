@@ -9,7 +9,7 @@ class DummyAi : public Ai {
 public:
     explicit DummyAi(const InitArg& arg);
 
-    bool isFork() const override { return true; }
+    bool isChangeable() const override { return true; }
     void enter_(InlineParamPack* params) override;
 
 protected:

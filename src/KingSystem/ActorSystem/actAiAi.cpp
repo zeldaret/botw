@@ -186,12 +186,12 @@ bool Ai::reenter(ActionBase* other, const sead::SafeString& context) {
     return child->takeOver(other_child, getName());
 }
 
-bool Ai::isFork() const {
+bool Ai::isChangeable() const {
     auto* child = getCurrentChild();
     if (child)
-        return child->isFork();
+        return child->isChangeable();
 
-    return mFlags.isOn(Flag::Fork);
+    return mFlags.isOn(Flag::Changeable);
 }
 
 ActionBase* Ai::getCurrentChild() const {

@@ -86,7 +86,7 @@ public:
 
     virtual bool isFailed() const { return mFlags.isOn(Flag::Failed); }
     virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
-    virtual bool isFork() const { return mFlags.isOn(Flag::Fork); }
+    virtual bool isChangeable() const { return mFlags.isOn(Flag::Changeable); }
 
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
@@ -129,7 +129,7 @@ protected:
     enum class Flag : u8 {
         Finished = 1,
         Failed = 2,
-        Fork = 4,
+        Changeable = 4,
         TriggerAction = 8,
         DynamicParamChild = 0x10,
         _20 = 0x20,
@@ -160,7 +160,7 @@ protected:
     void resetFlags() {
         mFlags.reset(Flag::Failed);
         mFlags.reset(Flag::Finished);
-        mFlags.reset(Flag::Fork);
+        mFlags.reset(Flag::Changeable);
     }
 
     res::AIProgram* getAIProg() const;

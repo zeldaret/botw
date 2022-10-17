@@ -15,7 +15,7 @@ bool GameDataAddInt::oneShot_() {
     auto* gdm = ksys::gdt::Manager::instance();
     if (!gdm) {
         setFailed();
-        mFlags.set(Flag::Fork);
+        mFlags.set(Flag::Changeable);
         return false;
     }
 
