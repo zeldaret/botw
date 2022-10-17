@@ -30,7 +30,7 @@ public:
     explicit RootAi(const InitArg& arg);
     ~RootAi() override;
 
-    bool isFork() const override { return true; }
+    bool isChangeable() const override { return true; }
     bool init_(sead::Heap* heap) override;
     void enter_(InlineParamPack* params) override;
     void leave_() override;

@@ -5,7 +5,7 @@ namespace ksys::act::ai {
 DummyAction::DummyAction(const InitArg& arg) : Action(arg) {}
 
 void DummyAction::enter_(InlineParamPack* params) {
-    mFlags.set(ActionBase::Flag::Fork);
+    mFlags.set(ActionBase::Flag::Changeable);
 }
 
 void DummyAction::calc_() {}

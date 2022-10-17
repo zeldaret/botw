@@ -17,7 +17,7 @@ void EventAddGameDataIntAction::enter_(ksys::act::ai::InlineParamPack* params) {
 
     if (mGameDataIntSrcName_d.isEmpty() || mGameDataIntDstName_d.isEmpty()) {
         setFailed();
-        mFlags.set(Flag::Fork);
+        mFlags.set(Flag::Changeable);
         return;
     }
 
@@ -43,7 +43,7 @@ void EventAddGameDataIntAction::calc_() {
 
     if (!mIsReady) {
         setFinished();
-        mFlags.set(Flag::Fork);
+        mFlags.set(Flag::Changeable);
         return;
     }
 
@@ -51,7 +51,7 @@ void EventAddGameDataIntAction::calc_() {
     auto* gdm = ksys::gdt::Manager::instance();
     if (gdm == nullptr) {
         setFailed();
-        mFlags.set(Flag::Fork);
+        mFlags.set(Flag::Changeable);
         return;
     }
 

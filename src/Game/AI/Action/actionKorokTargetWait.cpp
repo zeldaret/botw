@@ -28,7 +28,7 @@ void KorokTargetWait::loadParams_() {
 void KorokTargetWait::calc_() {
     mActor->getMainBody()->setLinearVelocity(sead::Vector3f::zero);
     if (mTime >= *mDynStopTime_d) {
-        mFlags.set(ksys::act::ai::Action::Flag::Fork);
+        mFlags.set(ksys::act::ai::Action::Flag::Changeable);
         setFinished();
     } else {
         mTime += 1.0;

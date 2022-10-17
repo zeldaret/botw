@@ -23,7 +23,7 @@ void KorokFlowerAppear::enter_(ksys::act::ai::InlineParamPack* params) {
         tgt_body->setContactNone();
         tgt_body->resetFlag200();
     }
-    mFlags.set(Flag::Fork);
+    mFlags.set(Flag::Changeable);
     setFinished();
 }
 

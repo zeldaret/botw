@@ -14,7 +14,7 @@ _vtable_fn_names = [
     "_ZN5uking2ai{}D0Ev",
     "_ZNK5uking2ai{}8isFailedEv",
     "_ZNK5uking2ai{}10isFinishedEv",
-    "_ZNK5uking2ai{}6isForkEv",
+    "_ZNK5uking2ai{}12isChangeableEv",
     "_ZN5uking2ai{}14hasPreDeleteCbEv",
     "_ZN5uking2ai{}23hasUpdateForPreDeleteCbEv",
     "_ZN5uking2ai{}2m9Ev",
