@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventAppearRaceResult.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -8,6 +9,11 @@ EventAppearRaceResult::~EventAppearRaceResult() = default;
 
 bool EventAppearRaceResult::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+bool EventAppearRaceResult::oneShot_() {
+    ui::setShowRaceResult(*mResultType_d);
+    return ksys::act::ai::Action::oneShot_();
 }
 
 void EventAppearRaceResult::loadParams_() {

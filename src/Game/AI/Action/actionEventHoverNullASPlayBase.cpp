@@ -12,7 +12,8 @@ bool EventHoverNullASPlayBase::init_(sead::Heap* heap) {
 }
 
 void EventHoverNullASPlayBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_d.cstr(), *mIsIgnoreSame_d, *mASSlot_d, *mSequenceBank_d, -1.0);
+    mFlags.set(ksys::act::ai::Action::Flag::Changeable);
 }
 
 void EventHoverNullASPlayBase::leave_() {
@@ -28,7 +29,9 @@ void EventHoverNullASPlayBase::loadParams_() {
 }
 
 void EventHoverNullASPlayBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!isFailed() && isFinishedAS(*mASSlot_d, *mSequenceBank_d)) {
+        setFinished();
+    }
 }
 
 }  // namespace uking::action

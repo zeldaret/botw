@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
@@ -146,16 +147,16 @@ void InstanceSet::sub_7100FBB00C(phys::RigidBody* body, phys::RigidBodyParam* pa
     body->clearSensorReceiverIgnoredLayer();
 }
 
-void* InstanceSet::sub_7100FBBC28(const sead::SafeString& name) const {
+RigidBody* InstanceSet::findRigidBody(const sead::SafeString& name) const {
     for (auto& rb : mRigidBodySets) {
-        void* p = rb.findBodyByHavokName(name);
+        RigidBody* p = rb.findBodyByHavokName(name);
         if (p != nullptr)
             return p;
     }
     return nullptr;
 }
 
-s32 InstanceSet::sub_7100FBBC78(const sead::SafeString& name) const {
+s32 InstanceSet::findContactPointInfo(const sead::SafeString& name) const {
     s32 idx = 0;
     for (auto& info : mContactPointInfo) {
         if (name == info.getName())
@@ -165,7 +166,7 @@ s32 InstanceSet::sub_7100FBBC78(const sead::SafeString& name) const {
     return -1;
 }
 
-s32 InstanceSet::sub_7100FBBD9C(const sead::SafeString& name) const {
+s32 InstanceSet::findCollisionInfo(const sead::SafeString& name) const {
     s32 idx = 0;
     for (auto& info : mCollisionInfo) {
         if (name == info.getName())

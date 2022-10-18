@@ -15,7 +15,7 @@ void SendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mSendTiming_s == 0)
         doSendMessage();
 
-    mFlags.set(Flag::_4);
+    mFlags.set(Flag::Changeable);
     setFinished();
 }
 

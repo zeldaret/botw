@@ -12,7 +12,7 @@ bool Fork::init_(sead::Heap* heap) {
 
 void Fork::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsChangeable_s)
-        mFlags.set(Flag::_4);
+        mFlags.set(Flag::Changeable);
 }
 
 void Fork::leave_() {
@@ -37,7 +37,7 @@ void Fork::setEndState() {
         setFailed();
         break;
     case 2:
-        mFlags.set(ksys::act::ai::ActionBase::Flag::_4);
+        mFlags.set(ksys::act::ai::ActionBase::Flag::Changeable);
         break;
     }
 }

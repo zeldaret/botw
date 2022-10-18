@@ -893,17 +893,17 @@ action::Escape:
 action::EscapeBackTurn:
   status: pending
 action::EventAddGameDataIntAction:
-  status: pending
+  status: done
 action::EventAddGameDataToRupeeAction:
-  status: pending
+  status: done
 action::EventAppearCheckPointNum:
-  status: pending
+  status: done
 action::EventAppearFlyDistance:
-  status: pending
+  status: done
 action::EventAppearGolfCount:
-  status: pending
+  status: done
 action::EventAppearRaceResult:
-  status: pending
+  status: done
 action::EventAppearRupeeAction:
   status: pending
 action::EventAutoSaveAction:
@@ -973,9 +973,9 @@ action::EventFlagOFFAction:
 action::EventFlagONAction:
   status: pending
 action::EventHoverNullASPlay:
-  status: pending
+  status: done
 action::EventHoverNullASPlayBase:
-  status: pending
+  status: done
 action::EventIncreaseFameAction:
   status: pending
 action::EventIncreaseGameDataIntAction:
@@ -2093,13 +2093,13 @@ action::KokkoThrown:
 action::KorokFlowerAppear:
   status: pending
 action::KorokFlowerVanish:
-  status: pending
+  status: done
 action::KorokFlowerWait:
-  status: pending
+  status: done
 action::KorokTargetMove:
-  status: pending
+  status: done
 action::KorokTargetWait:
-  status: pending
+  status: done
 action::LandOnCeil:
   status: pending
 action::LandRagdoll:
@@ -2421,7 +2421,7 @@ action::NPCSellHorse:
 action::NPCSellItem:
   status: pending
 action::NPCStartTurnToPlayer:
-  status: pending
+  status: done
 action::NpcSwimMove:
   status: pending
 action::NpcSwimNavMove:

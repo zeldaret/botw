@@ -22,6 +22,8 @@ protected:
     const float* mSpeedDecreRate_s{};
     // dynamic_param at offset 0x28
     float* mDynStopTime_d{};
+
+    f32 mTime;
 };
 
 }  // namespace uking::action

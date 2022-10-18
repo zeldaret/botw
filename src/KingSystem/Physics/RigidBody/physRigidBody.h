@@ -479,6 +479,8 @@ public:
     const auto& getMotionFlags() const { return mMotionFlags; }
     void resetMotionFlagDirect(const MotionFlag flag) { mMotionFlags.reset(flag); }
     void setMotionFlag(MotionFlag flag);
+    void setFlag200() { mFlags.set(Flag::_200); }
+    void resetFlag200() { mFlags.reset(Flag::_200); }
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
 
