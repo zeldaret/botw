@@ -6,16 +6,18 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
 // NONMATCHING - some instructions rearranged
 void nxargs::init(sead::Heap* heap) {
-    size_t unknown;
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
-    auto* reslaunchdata = new (nxargsheap) ResLaunchParamData;
+    ResLaunchParamData* reslaunchdata = reinterpret_cast<ResLaunchParamData*>(new (nxargsheap) char[0x1000]);
+    size_t unknown;
 
-    while (nn::oe::TryPopLaunchParameter(&unknown, reslaunchdata, sizeof(*reslaunchdata))) {
-        sead::FixedSafeString<5> inputmagic("");
-        inputmagic.format("%s", reslaunchdata->header.magic);
-        if (inputmagic != "BotW")
-            continue;
+    while (nn::oe::TryPopLaunchParameter(&unknown, reslaunchdata, 0x1000)) {
+        {
+            sead::FixedSafeString<5> inputmagic("");
+            inputmagic.format("%s", reslaunchdata->header.magic);
+            if (inputmagic != "BotW")
+                continue;
+        }
         mResField4 = reslaunchdata->header._4;
         mResField6 = reslaunchdata->header._6;
         mType = reslaunchdata->header.type;
@@ -73,6 +75,30 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
             }
         }
     }
+}
+// TODO
+void nxargs::handleArgs() {
+    ksys::act::InfoData* aid;
+    sead::BufferedSafeString* mapType;
+    char value[19];
+    if (mHasHandledArgs  // |
+                         //! DebugBoardMgr::hasLoadingScreenStarted() | // 710089bb14
+                         //! Root4::checkFlag() | // 71008bce34
+                         //! ksys::evt::Manager::hasEvent() //7100db1364
+    )
+        return;
+    if (mType == ArgsType::None)
+        return;
+    *mapType = ksys::StageInfo::getCurrentMapType();
+    if (*mapType != "TitleMenu" | *mapType != "STAGESELECT" | *mapType != "")
+        return;
+    if (!(ksys::gdt::getFlag_IsGet_PlayerStole2(0) && ksys::StageInfo::sIsMainField))
+        return;
+    if (this->mHasHandledArgs)
+        return;
+    if (!mNumEntries)
+        return;
+    aid = ksys::act::InfoData::instance();
 }
 
 }  // namespace ksys

@@ -66,12 +66,12 @@ public:
     struct LaunchParamEntry {
         u32 actorNameHash;
         u32 dropActorNameHash;
-        sead::Vector3f positionOffset;
-        sead::Vector3f rotation;
-        sead::Vector3f velocity;
-        LaunchParamFlag flags{0};
+        sead::Vector3f positionOffset{};
+        sead::Vector3f rotation{};
+        sead::Vector3f velocity{};
+        LaunchParamFlag flags;
         u8 numConditions;
-        sead::Buffer<LaunchParamEntryCondition> conditions;
+        sead::Buffer<LaunchParamEntryCondition> conditions{};
     };
     KSYS_CHECK_SIZE_NX150(LaunchParamEntry, 0x40);
 
@@ -92,9 +92,9 @@ public:
 
     struct ResLaunchParamData {
         ResLaunchParamDataHeader header;
-        LaunchParamEntry entrydata[1];
-        u8 padding[0xFB0];
+        u8 padding[0xFF0];
     };
+    
     KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
 
     void init(sead::Heap* heap);
