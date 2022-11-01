@@ -4,7 +4,6 @@ namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
-// NONMATCHING - some instructions rearranged
 void nxargs::init(sead::Heap* heap) {
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
