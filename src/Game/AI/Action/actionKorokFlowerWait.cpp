@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionKorokFlowerWait.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -21,7 +22,10 @@ void KorokFlowerWait::leave_() {
 void KorokFlowerWait::loadParams_() {}
 
 void KorokFlowerWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->checkBasicSig()) {
+        mFlags.set(Flag::Changeable);
+        setFinished();
+    }
 }
 
 }  // namespace uking::action

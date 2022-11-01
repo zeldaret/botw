@@ -186,12 +186,12 @@ bool Ai::reenter(ActionBase* other, const sead::SafeString& context) {
     return child->takeOver(other_child, getName());
 }
 
-bool Ai::isFlag4Set() const {
+bool Ai::isChangeable() const {
     auto* child = getCurrentChild();
     if (child)
-        return child->isFlag4Set();
+        return child->isChangeable();
 
-    return mFlags.isOn(Flag::_4);
+    return mFlags.isOn(Flag::Changeable);
 }
 
 ActionBase* Ai::getCurrentChild() const {

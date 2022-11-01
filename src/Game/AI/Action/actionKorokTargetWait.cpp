@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionKorokTargetWait.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -11,7 +13,7 @@ bool KorokTargetWait::init_(sead::Heap* heap) {
 }
 
 void KorokTargetWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mTime = 0;
 }
 
 void KorokTargetWait::leave_() {
@@ -24,7 +26,13 @@ void KorokTargetWait::loadParams_() {
 }
 
 void KorokTargetWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    mActor->getMainBody()->setLinearVelocity(sead::Vector3f::zero);
+    if (mTime >= *mDynStopTime_d) {
+        mFlags.set(ksys::act::ai::Action::Flag::Changeable);
+        setFinished();
+    } else {
+        mTime += 1.0;
+    }
 }
 
 }  // namespace uking::action

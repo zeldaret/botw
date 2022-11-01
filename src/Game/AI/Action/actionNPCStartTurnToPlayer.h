@@ -14,8 +14,12 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override;
+
     // dynamic_param at offset 0x20
     float* mTurnRange_d{};
+
+    float mValue;
 };
 
 }  // namespace uking::action

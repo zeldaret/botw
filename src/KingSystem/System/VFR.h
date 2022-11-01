@@ -130,6 +130,21 @@ public:
         return false;
     }
 
+    template <typename VectorT>
+    static inline bool chaseVec(VectorT* value, const VectorT& target, f32 t) {
+        const auto delta = instance()->getDeltaTime() * t;
+        const auto diff = target - *value;
+        const auto norm = diff.length();
+
+        if (norm <= delta) {
+            value->e = target.e;
+            return true;
+        }
+
+        value->setScaleAdd(delta, (1.0f / norm) * diff, *value);
+        return false;
+    }
+
 private:
     struct TimeSpeedMultipliers : sead::Buffer<TimeSpeedMultiplier> {
         TimeSpeedMultipliers() {

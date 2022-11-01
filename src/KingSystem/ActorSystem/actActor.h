@@ -40,9 +40,10 @@ class UMii;
 
 namespace phys {
 class StaticCompoundRigidBodyGroup;
-class Physics;
+class InstanceSet;
 class Reaction;
 class RigidBody;
+class CharacterController;
 }  // namespace phys
 
 namespace res {
@@ -112,6 +113,7 @@ public:
 
     enum class ActorFlag2 {
         InstEvent = 0x8,
+        _20 = 0x20,
         NoDistanceCheck = 0x80,
         Alive = 0x4000000,
     };
@@ -140,11 +142,18 @@ public:
     const sead::Vector3f& getVelocity() const { return mVelocity; }
     const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }
     const sead::Vector3f& getScale() const { return mScale; }
+    phys::RigidBody* getMainBody() const { return mMainBody; }
+    phys::RigidBody* getTgtBody() const { return mTgtBody; }
+
+    const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
+
     f32 getDeleteDistance() const {
         return sead::Mathf::sqrt(sead::Mathf::clampMin(mDeleteDistanceSq, 0.0f));
     }
 
     void setDeleteDistance(f32 distance) { mDeleteDistanceSq = sead::Mathf::square(distance); }
+
+    phys::CharacterController* getCharacterController();
 
     void clearFlag(ActorFlag flag);
     bool checkFlag(ActorFlag flag) const;
@@ -278,6 +287,7 @@ public:
 
     void emitBasicSigOn();
     void emitBasicSigOff();
+    bool checkBasicSig() const;
 
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
@@ -386,7 +396,7 @@ protected:
     /* 0x560 */ as::ASList* mASList = nullptr;
     /* 0x568 */ xlink::XLink* mXLink = nullptr;
     /* 0x570 */ ActorParam* mActorParam = nullptr;
-    /* 0x578 */ phys::Physics* mPhysics = nullptr;
+    /* 0x578 */ phys::InstanceSet* mPhysics = nullptr;
     /* 0x580 */ PhysicsConstraints mConstraints;
     /* 0x598 */ void* _598 = nullptr;
     /* 0x5a0 */ BoneControl* mBoneControl = nullptr;
