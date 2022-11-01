@@ -76,6 +76,7 @@ void nxargs::allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data) {
         }
     }
 }
+
 // TODO
 void nxargs::handleArgs() {
     ksys::act::InfoData* aid;
