@@ -32,8 +32,8 @@ class nxargs {
 
 public:
     enum class LaunchParamFlag : u8 {
-        none = 0,
-        hasDropActor = 1,
+        None = 0,
+        HasDropActor = 1,
         _2 = 2,
     };
     struct LaunchParamEntrySpawnCondition {
@@ -44,9 +44,9 @@ public:
     };
     enum class LaunchParamEntryConditionDataType : u8 {
         None = 0,
-        DataType_Bool = 1,
-        DataType_S32 = 2,
-        DataType_F32 = 3,
+        Bool = 1,
+        S32 = 2,
+        F32 = 3,
     };
     enum class ActorEntryConditionOperation : u8 {
         None = 0,
