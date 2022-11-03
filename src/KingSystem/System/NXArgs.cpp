@@ -7,7 +7,8 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 void nxargs::init(sead::Heap* heap) {
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
-    ResLaunchParamData* reslaunchdata = reinterpret_cast<ResLaunchParamData*>(new (nxargsheap) char[0x1000]);
+    ResLaunchParamData* reslaunchdata =
+        reinterpret_cast<ResLaunchParamData*>(new (nxargsheap) char[0x1000]);
     size_t unknown;
 
     while (nn::oe::TryPopLaunchParameter(&unknown, reslaunchdata, 0x1000)) {
