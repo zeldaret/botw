@@ -98,7 +98,7 @@ public:
     KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
 
     void init(sead::Heap* heap);
-    void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);
+    void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);  // TODO
     void handleArgs();
 
 private:
