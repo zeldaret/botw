@@ -36,18 +36,21 @@ public:
         HasDropActor = 1,
         _2 = 2,
     };
+
     struct LaunchParamEntrySpawnCondition {
         u32 resfield0;
         u32 resfield8;
         u8 resfield4;
         u8 resfield5;
     };
+
     enum class LaunchParamEntryConditionDataType : u8 {
         None = 0,
         Bool = 1,
         S32 = 2,
         F32 = 3,
     };
+
     enum class ActorEntryConditionOperation : u8 {
         None = 0,
         Eq = 1,
@@ -57,12 +60,14 @@ public:
         Lt = 5,
         Lte = 6,
     };
+
     struct LaunchParamEntryCondition {
         s32 flagNameHash;
         f32 rhsValue;
         LaunchParamEntryConditionDataType flagDataType;
         ActorEntryConditionOperation operation;
     };
+
     struct LaunchParamEntry {
         u32 actorNameHash;
         u32 dropActorNameHash;
@@ -73,6 +78,7 @@ public:
         u8 numConditions;
         sead::Buffer<LaunchParamEntryCondition> conditions;
     };
+
     KSYS_CHECK_SIZE_NX150(LaunchParamEntry, 0x40);
 
     enum class ArgsType : u8 {
@@ -90,15 +96,8 @@ public:
         u8 padding2[3];
     };
 
-    struct ResLaunchParamData {
-        ResLaunchParamDataHeader header;
-        LaunchParamEntry entrydata;
-        u8 padding[0xFB0];
-    };
-    KSYS_CHECK_SIZE_NX150(ResLaunchParamData, 0x1000);
-
     void init(sead::Heap* heap);
-    void allocEntries(sead::Heap* heap, nxargs::ResLaunchParamData* data);
+    void allocEntries(sead::Heap* heap, u8* data);
     void handleArgs();
 
 private:
