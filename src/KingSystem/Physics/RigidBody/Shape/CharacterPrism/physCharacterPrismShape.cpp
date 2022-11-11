@@ -18,6 +18,9 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     auto* polytopeShape = PolytopeShape::make(polytopeShapeParam, heap);
     auto *shape = new (heap) CharacterPrismShape();
     shape->mShape = polytopeShape;
+    shape->mRadius = param.radius;
+    shape->mTranslate0 = param.translate_0;
+    shape->mTranslate1 = param.translate_1;
     return shape;
 }
 

@@ -35,6 +35,10 @@ public:
 private:
     /// The underlying shape for this character prism shape.
     PolytopeShape* mShape{};
+
+    float mRadius;
+    sead::Vector3f mTranslate0;
+    sead::Vector3f mTranslate1;
 };
 
 }  // namespace ksys::phys
