@@ -39,6 +39,7 @@ private:
     float mRadius;
     sead::Vector3f mTranslate0;
     sead::Vector3f mTranslate1;
+    float mScale;
 };
 
 }  // namespace ksys::phys

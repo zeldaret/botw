@@ -21,6 +21,7 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     shape->mRadius = param.radius;
     shape->mTranslate0 = param.translate_0;
     shape->mTranslate1 = param.translate_1;
+    shape->mScale = 1.0f;
     return shape;
 }
 
