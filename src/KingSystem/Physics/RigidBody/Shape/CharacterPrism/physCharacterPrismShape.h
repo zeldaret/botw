@@ -23,6 +23,13 @@ public:
     void setMaterialMask(const MaterialMask& mask);
     const MaterialMask& getMaterialMask() const;
 
+    ShapeType getType() const override { return ShapeType::CharacterPrism; }
+    float getVolume() const override;
+    hkpShape* getHavokShape() override;
+    const hkpShape* getHavokShape() const override;
+    const hkpShape* updateHavokShape() override;
+    void setScale(float scale) override;
+
     PolytopeShape* getUnderlyingShape() const { return mShape; }
 
 private:
