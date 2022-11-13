@@ -7,22 +7,23 @@ SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 void nxargs::init(sead::Heap* heap) {
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
-    auto* reslaunchdata = new (nxargsheap) u8[0x1000];
+    auto* data = new (nxargsheap) u8[0x1000];
     size_t unknown;
 
-    while (nn::oe::TryPopLaunchParameter(&unknown, reslaunchdata, 0x1000)) {
+    while (nn::oe::TryPopLaunchParameter(&unknown, data, 0x1000)) {
         {
             sead::FixedSafeString<5> inputmagic("");
-            inputmagic.format("%s", reinterpret_cast<char*>(reslaunchdata));
+            inputmagic.format("%s", reinterpret_cast<char*>(data));
             if (inputmagic != "BotW")
                 continue;
         }
-        mResField4 = *reinterpret_cast<u16*>(reslaunchdata + 4);
-        mResField6 = *reinterpret_cast<u8*>(reslaunchdata + 6);
-        mType = *reinterpret_cast<ArgsType*>(reslaunchdata + 7);
+        using sead::BitUtil::bitCastPtr;
+        mResField4 = bitCastPtr<u16>(data, 4);
+        mResField6 = bitCastPtr<u8>(data, 6);
+        mType = bitCastPtr<ArgsType>(data, 7);
         if (mType == ArgsType::CreateActors) {
-            mNumEntries = *reinterpret_cast<u8*>(reslaunchdata + 0xC);
-            nxargs::allocEntries(heap, reslaunchdata);
+            mNumEntries = bitCastPtr<u8>(data, 0xC);
+            nxargs::allocEntries(heap, data);
         } else {
             mType = ArgsType::None;
         }
@@ -31,7 +32,7 @@ void nxargs::init(sead::Heap* heap) {
     nxargsheap->destroy();
 }
 
-void nxargs::allocEntries(sead::Heap* heap, u8* data) {
+void nxargs::allocEntries(sead::Heap* heap, const u8* data) {
     const s32 size = mNumEntries;
 
     if (mNumEntries == 0)

@@ -97,7 +97,7 @@ public:
     };
 
     void init(sead::Heap* heap);
-    void allocEntries(sead::Heap* heap, u8* data);
+    void allocEntries(sead::Heap* heap, const u8* data);
     void handleArgs();
 
 private:
