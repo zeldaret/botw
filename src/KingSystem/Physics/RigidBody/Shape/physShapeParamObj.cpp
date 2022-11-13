@@ -13,7 +13,7 @@ ShapeParamObj::ShapeParamObj()
     : shape_type(sead::SafeString::cEmptyString, "shape_type", this), radius(1.0, "radius", this),
       convex_radius(0.05, "convex_radius", this),
       translate_0(sead::Vector3f::zero, "translate_0", this),
-      translate_1(sead::Vector3f::zero, "translate_1", this),
+      translate_1(sead::Vector3f::zero, "offset", this),
       rotate(sead::Vector3f::zero, "rotate", this), vertex_num(0, "vertex_num", this),
       material(sead::SafeString::cEmptyString, "material", this),
       sub_material(sead::SafeString::cEmptyString, "sub_material", this),
@@ -104,8 +104,10 @@ void ShapeParamObj::getPolytope(PolytopeShapeParam* param) const {
 
 void ShapeParamObj::getCharacterPrism(CharacterPrismShapeParam* param) const {
     param->radius = *radius;
-    param->translate_0 = *translate_0;
-    param->translate_1 = *translate_1;
+    param->ring0_distance = translate_0->x;
+    param->ring1_distance = translate_0->y;
+    param->end_vertex_distance = translate_0->z;
+    param->offset = *translate_1;
     getCommon(&param->common);
 }
 
