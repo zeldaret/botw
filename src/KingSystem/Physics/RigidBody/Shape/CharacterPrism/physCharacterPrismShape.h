@@ -9,8 +9,10 @@ class PolytopeShape;
 
 struct CharacterPrismShapeParam {
     float radius = 0.35;
-    sead::Vector3f translate_0 = {0.5, 1.5, 1.8};
-    sead::Vector3f translate_1 = sead::Vector3f::zero;
+    float ring0_distance = 0.5;
+    float ring1_distance = 1.5;
+    float end_vertex_distance = 1.8;
+    sead::Vector3f offset = sead::Vector3f::zero;
     CommonShapeParam common;
 };
 
@@ -37,8 +39,10 @@ private:
     PolytopeShape* mShape{};
 
     float mRadius;
-    sead::Vector3f mTranslate0;
-    sead::Vector3f mTranslate1;
+    float mRing0Distance;
+    float mRing1Distance;
+    float mEndVertexDistance;
+    sead::Vector3f mOffset;
     float mScale;
 };
 

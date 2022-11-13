@@ -20,7 +20,7 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     polytopeShapeParam.vertex_num = 18;
     polytopeShapeParam.common = param.common;
     auto* polytopeShape = PolytopeShape::make(polytopeShapeParam, heap);
-    auto vertex = sead::Vector3f::zero + param.translate_0;
+    auto vertex = sead::Vector3f::zero + param.offset;
     auto position = -1.0f * sead::Vector3f::ey;
     polytopeShape->setVertex(0, vertex);
     float pi_4 = M_PI_4;
@@ -29,14 +29,14 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
         float ringX = param.radius * sin(static_cast<float>(i) * pi_4);
         float ringZ = param.radius * cos(static_cast<float>(i) * pi_4);
         // First ring
-        vertex = sead::Vector3f(ringX, param.translate_0.x, ringZ) + param.translate_1;
+        vertex = sead::Vector3f(ringX, param.ring0_distance, ringZ) + param.offset;
         polytopeShape->setVertex(vertexIdx, vertex);
         // Second ring
-        vertex = sead::Vector3f(ringX, param.translate_0.y, ringZ) + param.translate_1;
+        vertex = sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset;
         polytopeShape->setVertex(vertexIdx + 1, vertex);
     }
 
-    vertex = sead::Vector3f::ey + param.translate_1;
+    vertex = sead::Vector3f::ey + param.offset;
     polytopeShape->setVertex(17, vertex);
     polytopeShape->updateHavokShape();
 
@@ -51,21 +51,23 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     for (int i = 0, vertexIdx = 1; i < 8; i++, vertexIdx += 2) {
         float ringX = param.radius * sin(static_cast<float>(i) * pi_4);
         float ringZ = param.radius * cos(static_cast<float>(i) * pi_4);
-        vertex = sead::Vector3f(ringX, param.translate_0.x, ringZ) + param.translate_1;
+        vertex = sead::Vector3f(ringX, param.ring0_distance, ringZ) + param.offset;
         polytopeShape->setVertex(vertexIdx, vertex);
-        vertex = sead::Vector3f(ringX, param.translate_0.y, ringZ) + param.translate_1;
+        vertex = sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset;
         polytopeShape->setVertex(vertexIdx + 1, vertex);
     }
 
-    vertex = param.translate_0.z * sead::Vector3f::ey + param.translate_1;
+    vertex = param.end_vertex_distance * sead::Vector3f::ey + param.offset;
     polytopeShape->setVertex(17, vertex);
     polytopeShape->updateHavokShape();
 
     auto* shape = new (heap) CharacterPrismShape();
     shape->mShape = polytopeShape;
     shape->mRadius = param.radius;
-    shape->mTranslate0 = param.translate_0;
-    shape->mTranslate1 = param.translate_1;
+    shape->mRing0Distance = param.ring0_distance;
+    shape->mRing1Distance = param.ring1_distance;
+    shape->mEndVertexDistance = param.end_vertex_distance;
+    shape->mOffset = param.offset;
     shape->mScale = 1.0f;
     return shape;
 }
@@ -99,12 +101,12 @@ void CharacterPrismShape::setScale(float scale) {
 
     float volume = getVolume();
 
-    float firstRingDistance = mTranslate0.x;
-    float secondRingDistance = mTranslate0.y;
-    float endVertexDistance = mTranslate0.z;
-    float scaledOffsetX = scale * mTranslate1.x;
-    float scaledOffsetY = scale * mTranslate1.y;
-    float scaledOffsetZ = scale * mTranslate1.z;
+    float firstRingDistance = mRing0Distance;
+    float secondRingDistance = mRing1Distance;
+    float endVertexDistance = mEndVertexDistance;
+    float scaledOffsetX = scale * mOffset.x;
+    float scaledOffsetY = scale * mOffset.y;
+    float scaledOffsetZ = scale * mOffset.z;
     float scaledRadius = scale * mRadius;
 
     // Set first vertex
