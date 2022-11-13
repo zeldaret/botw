@@ -104,9 +104,10 @@ void CharacterPrismShape::setScale(float scale) {
     float firstRingDistance = mRing0Distance;
     float secondRingDistance = mRing1Distance;
     float endVertexDistance = mEndVertexDistance;
-    float scaledOffsetX = scale * mOffset.x;
-    float scaledOffsetY = scale * mOffset.y;
-    float scaledOffsetZ = scale * mOffset.z;
+    auto scaledOffset = scale * mOffset + sead::Vector3f::zero;
+    float scaledOffsetX = scaledOffset.x;
+    float scaledOffsetY = scaledOffset.y;
+    float scaledOffsetZ = scaledOffset.z;
     float scaledRadius = scale * mRadius;
 
     // Set first vertex
