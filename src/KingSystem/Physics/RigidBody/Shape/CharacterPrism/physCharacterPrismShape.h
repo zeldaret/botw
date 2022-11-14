@@ -34,6 +34,8 @@ public:
 
     PolytopeShape* getUnderlyingShape() const { return mShape; }
 
+    ~CharacterPrismShape() override;
+
 private:
     static constexpr int RING_VERTEX_NUM = 8;
     static constexpr int SHAPE_VERTEX_NUM = RING_VERTEX_NUM * 2 + 2;

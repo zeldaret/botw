@@ -151,4 +151,11 @@ void CharacterPrismShape::setScale(float scale) {
     mShape->setVolume(scale * scale * scale * volume);
 }
 
+CharacterPrismShape::~CharacterPrismShape() {
+    if (mShape) {
+        delete mShape;
+        mShape = nullptr;
+    }
+}
+
 }  // namespace ksys::phys
