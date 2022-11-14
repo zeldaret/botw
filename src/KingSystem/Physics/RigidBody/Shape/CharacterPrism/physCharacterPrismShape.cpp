@@ -72,6 +72,7 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     return shape;
 }
 
+// NON_MATCHING
 CharacterPrismShape* CharacterPrismShape::clone(sead::Heap* heap) const {
     CharacterPrismShapeParam param;
     param.radius = mRadius;
