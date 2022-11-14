@@ -18,7 +18,10 @@ struct CharacterPrismShapeParam {
 
 class CharacterPrismShape : public Shape {
     SEAD_RTTI_OVERRIDE(CharacterPrismShape, Shape)
+
 public:
+    ~CharacterPrismShape() override;
+
     static CharacterPrismShape* make(const CharacterPrismShapeParam& param, sead::Heap* heap);
     CharacterPrismShape* clone(sead::Heap* heap) const;
 
@@ -33,8 +36,6 @@ public:
     void setScale(float scale) override;
 
     PolytopeShape* getUnderlyingShape() const { return mShape; }
-
-    ~CharacterPrismShape() override;
 
 private:
     static constexpr int RING_VERTEX_NUM = 8;
