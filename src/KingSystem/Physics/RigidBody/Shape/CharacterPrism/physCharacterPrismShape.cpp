@@ -94,7 +94,8 @@ float CharacterPrismShape::getVolume() const {
 }
 
 hkpShape* CharacterPrismShape::getHavokShape() {
-    return mShape->getHavokShape();
+    // For some reason, this non-const function is calling the const function `getHavokShapeConst`.
+    return const_cast<hkpShape*>(mShape->getHavokShapeConst());
 }
 
 const hkpShape* CharacterPrismShape::getHavokShape() const {
@@ -140,11 +141,12 @@ void CharacterPrismShape::setScale(float scale) {
     }
 
     // Set last vertex
-    mShape->setVertex(SHAPE_VERTEX_NUM - 1, {
-                              scaledOffsetX + endVertexDistance * scale * sead::Vector3f::ey.x,
-                              scaledOffsetY + endVertexDistance * scale * sead::Vector3f::ey.y,
-                              scaledOffsetZ + endVertexDistance * scale * sead::Vector3f::ey.z,
-                          });
+    mShape->setVertex(SHAPE_VERTEX_NUM - 1,
+                      {
+                          scaledOffsetX + endVertexDistance * scale * sead::Vector3f::ey.x,
+                          scaledOffsetY + endVertexDistance * scale * sead::Vector3f::ey.y,
+                          scaledOffsetZ + endVertexDistance * scale * sead::Vector3f::ey.z,
+                      });
 
     mShape->setVolume(scale * scale * scale * volume);
 }
