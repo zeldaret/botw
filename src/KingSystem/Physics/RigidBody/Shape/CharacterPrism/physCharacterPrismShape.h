@@ -35,6 +35,9 @@ public:
     PolytopeShape* getUnderlyingShape() const { return mShape; }
 
 private:
+    static constexpr int RING_VERTEX_NUM = 8;
+    static constexpr int SHAPE_VERTEX_NUM = RING_VERTEX_NUM * 2 + 2;
+
     /// The underlying shape for this character prism shape.
     PolytopeShape* mShape{};
 
