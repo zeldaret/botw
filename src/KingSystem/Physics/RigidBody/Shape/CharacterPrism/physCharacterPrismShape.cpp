@@ -20,45 +20,42 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     polytopeShapeParam.vertex_num = SHAPE_VERTEX_NUM;
     polytopeShapeParam.common = param.common;
     auto* polytopeShape = PolytopeShape::make(polytopeShapeParam, heap);
-    auto vertex = sead::Vector3f::zero + param.offset;
-    auto position = -1.0f * sead::Vector3f::ey;
-    polytopeShape->setVertex(0, vertex);
-    float pi_4 = M_PI_4;
+    polytopeShape->setVertex(0, sead::Vector3f::zero + param.offset);
 
     for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
-        float ringX = param.radius * sin(static_cast<float>(i) * pi_4);
-        float ringZ = param.radius * cos(static_cast<float>(i) * pi_4);
+        float ringX = param.radius * sin((float)i * (float)M_PI_4);
+        float ringZ = param.radius * cos((float)i * (float)M_PI_4);
         // First ring
-        vertex = sead::Vector3f(ringX, param.ring0_distance, ringZ) + param.offset;
-        polytopeShape->setVertex(vertexIdx, vertex);
+        polytopeShape->setVertex(vertexIdx,
+                                 sead::Vector3f(ringX, param.ring0_distance, ringZ) + param.offset);
         // Second ring
-        vertex = sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset;
-        polytopeShape->setVertex(vertexIdx + 1, vertex);
+        polytopeShape->setVertex(vertexIdx + 1,
+                                 sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset);
     }
 
-    vertex = sead::Vector3f::ey + param.offset;
-    polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1, vertex);
+    polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1, sead::Vector3f::ey + param.offset);
     polytopeShape->updateHavokShape();
 
     auto* havokShape = (hkpConvexShape*)polytopeShape->getHavokShape();
 
-    havokShape->getSupportingVertex(toHkVec4(position), (hkcdVertex&)vertex);
+    sead::Vector3f supportingVertex;
+    havokShape->getSupportingVertex(hkVector4f(0.0f, -1.0f, 0.0f), (hkcdVertex&)supportingVertex);
 
-    float upperRingY = vertex.y - havokShape->getRadius();
-    position = vertex - upperRingY * sead::Vector3f::ey;
+    float minVertexY = supportingVertex.y - havokShape->getRadius();
+    sead::Vector3f position = supportingVertex - minVertexY * sead::Vector3f::ey;
     polytopeShape->setVertex(0, position);
 
     for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
-        float ringX = param.radius * sin(static_cast<float>(i) * pi_4);
-        float ringZ = param.radius * cos(static_cast<float>(i) * pi_4);
-        vertex = sead::Vector3f(ringX, param.ring0_distance, ringZ) + param.offset;
-        polytopeShape->setVertex(vertexIdx, vertex);
-        vertex = sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset;
-        polytopeShape->setVertex(vertexIdx + 1, vertex);
+        float ringX = param.radius * sin((float)i * (float)M_PI_4);
+        float ringZ = param.radius * cos((float)i * (float)M_PI_4);
+        polytopeShape->setVertex(vertexIdx,
+                                 sead::Vector3f(ringX, param.ring0_distance, ringZ) + param.offset);
+        polytopeShape->setVertex(vertexIdx + 1,
+                                 sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset);
     }
 
-    vertex = param.end_vertex_distance * sead::Vector3f::ey + param.offset;
-    polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1, vertex);
+    polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1,
+                             param.end_vertex_distance * sead::Vector3f::ey + param.offset);
     polytopeShape->updateHavokShape();
 
     auto* shape = new (heap) CharacterPrismShape();
@@ -136,8 +133,7 @@ void CharacterPrismShape::setScale(float scale) {
     }
 
     // Set last vertex
-    mShape->setVertex(SHAPE_VERTEX_NUM - 1,
-                          scaledOffset + endVertexDistance * sead::Vector3f::ey);
+    mShape->setVertex(SHAPE_VERTEX_NUM - 1, scaledOffset + endVertexDistance * sead::Vector3f::ey);
 
     mShape->setVolume(scale * scale * scale * volume);
 }
