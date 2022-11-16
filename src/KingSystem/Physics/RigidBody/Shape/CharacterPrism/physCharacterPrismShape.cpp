@@ -108,6 +108,9 @@ const hkpShape* CharacterPrismShape::updateHavokShape() {
 
 // NON_MATCHING
 void CharacterPrismShape::setScale(float scale) {
+    // `mScale` is scaled relatively by `scale`, but vertices are scaled absolutely.
+    // Using `CharacterPrismShape::setScale` more than once will put `mScale` out of sync with
+    // the actual scale.
     mScale *= scale;
 
     float volume = getVolume();
@@ -142,11 +145,7 @@ void CharacterPrismShape::setScale(float scale) {
 
     // Set last vertex
     mShape->setVertex(SHAPE_VERTEX_NUM - 1,
-                      {
-                          scaledOffsetX + endVertexDistance * scale * sead::Vector3f::ey.x,
-                          scaledOffsetY + endVertexDistance * scale * sead::Vector3f::ey.y,
-                          scaledOffsetZ + endVertexDistance * scale * sead::Vector3f::ey.z,
-                      });
+                      scaledOffset + endVertexDistance * scale * sead::Vector3f::ey);
 
     mShape->setVolume(scale * scale * scale * volume);
 }
