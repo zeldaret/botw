@@ -106,7 +106,6 @@ const hkpShape* CharacterPrismShape::updateHavokShape() {
     return mShape->updateHavokShape();
 }
 
-// NON_MATCHING
 void CharacterPrismShape::setScale(float scale) {
     // `mScale` is scaled relatively by `scale`, but vertices are scaled absolutely.
     // Using `CharacterPrismShape::setScale` more than once will put `mScale` out of sync with
@@ -115,37 +114,30 @@ void CharacterPrismShape::setScale(float scale) {
 
     float volume = getVolume();
 
-    float firstRingDistance = mRing0Distance;
-    float secondRingDistance = mRing1Distance;
-    float endVertexDistance = mEndVertexDistance;
-    auto scaledOffset = scale * mOffset + sead::Vector3f::zero;
-    float scaledOffsetX = scaledOffset.x;
-    float scaledOffsetY = scaledOffset.y;
-    float scaledOffsetZ = scaledOffset.z;
-    float scaledRadius = scale * mRadius;
+    auto scaledOffset = mOffset * scale;
+    float endVertexDistance = mEndVertexDistance * scale;
+    float scaledRadius = mRadius * scale;
+    float ringY0 = mRing0Distance * scale;
+    float ringY1 = mRing1Distance * scale;
 
     // Set first vertex
-    mShape->setVertex(0, {scaledOffsetX, scaledOffsetY, scaledOffsetZ});
+    mShape->setVertex(0, scaledOffset + sead::Vector3f::zero);
 
-    float ringY0 = scaledOffsetY + firstRingDistance * scale;
-    float ringY1 = scaledOffsetY + secondRingDistance * scale;
-
-    int vertexIdx = 1;
-    for (int i = 0; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
+    for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
         // For some reason `sin` is used for x and `cos` is used for z.
-        float ringX = scaledOffsetX + scaledRadius * sin((float)i * (float)M_PI_4);
-        float ringZ = scaledOffsetZ + scaledRadius * cos((float)i * (float)M_PI_4);
+        float ringX = scaledRadius * sin((float)i * (float)M_PI_4);
+        float ringZ = scaledRadius * cos((float)i * (float)M_PI_4);
 
         // First ring
-        mShape->setVertex(vertexIdx, {ringX, ringY0, ringZ});
+        mShape->setVertex(vertexIdx, scaledOffset + sead::Vector3f{ringX, ringY0, ringZ});
 
         // Second ring
-        mShape->setVertex(vertexIdx + 1, {ringX, ringY1, ringZ});
+        mShape->setVertex(vertexIdx + 1, scaledOffset + sead::Vector3f{ringX, ringY1, ringZ});
     }
 
     // Set last vertex
     mShape->setVertex(SHAPE_VERTEX_NUM - 1,
-                      scaledOffset + endVertexDistance * scale * sead::Vector3f::ey);
+                          scaledOffset + endVertexDistance * sead::Vector3f::ey);
 
     mShape->setVolume(scale * scale * scale * volume);
 }
