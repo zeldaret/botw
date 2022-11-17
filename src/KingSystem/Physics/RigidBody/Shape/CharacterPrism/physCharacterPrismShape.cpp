@@ -69,20 +69,19 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     return shape;
 }
 
-// NON_MATCHING
 CharacterPrismShape* CharacterPrismShape::clone(sead::Heap* heap) const {
     CharacterPrismShapeParam param;
     param.radius = mRadius;
-    param.ring0_distance = mRing0Distance;
-    param.ring1_distance = mRing1Distance;
     param.end_vertex_distance = mEndVertexDistance;
+    param.ring1_distance = mRing1Distance;
+    param.ring0_distance = mRing0Distance;
     param.offset = mOffset;
     param.common.material = mShape->getMaterialMask().getMaterial();
     param.common.sub_material = mShape->getMaterialMask().getSubMaterialName();
     param.common.floor_code = mShape->getMaterialMask().getFloorCode();
     param.common.wall_code = mShape->getMaterialMask().getWallCode();
-    MaterialMaskData data = mShape->getMaterialMask().getData();
-    param.common.item_code_disable_stick = (data.raw & (1 << 24)) != 0;
+    auto data = mShape->getMaterialMask().getData();
+    param.common.item_code_disable_stick = data.getCustomFlag(MaterialMaskData::CustomFlag::_0);
     return make(param, heap);
 }
 
