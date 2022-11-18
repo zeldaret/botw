@@ -1,7 +1,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h"
+#include <Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h>
 #include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
 #include "KingSystem/Physics/physConversions.h"
+
+// TODO: Move this to Havok lib ASAP.
+class hkcdVertex : public hkVector4f {};
 
 namespace ksys::phys {
 
@@ -12,6 +16,8 @@ void CharacterPrismShape::setMaterialMask(const MaterialMask& mask) {
 const MaterialMask& CharacterPrismShape::getMaterialMask() const {
     return mShape->getMaterialMask();
 }
+
+static const sead::Vector3f& sOffset = sead::Vector3f::zero;
 
 // NON_MATCHING
 CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& param,
@@ -26,7 +32,7 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
 
     auto* polytopeShape = PolytopeShape::make(polytopeShapeParam, heap);
 
-    polytopeShape->setVertex(0, param.offset + sead::Vector3f::zero);
+    polytopeShape->setVertex(0, sOffset + param.offset);
 
     for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
         float ringX = param.radius * sin((float)i * (float)M_PI_4);
@@ -44,14 +50,14 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1,
                              param.end_vertex_distance * sead::Vector3f::ey + param.offset);
 
-    auto* havokShape = (hkpConvexShape*)polytopeShape->updateHavokShape();
+    polytopeShape->updateHavokShape();
 
-    sead::Vector3f supportingVertex;
-    havokShape->getSupportingVertex(hkVector4f(0.0f, -1.0f, 0.0f), (hkcdVertex&)supportingVertex);
+    hkcdVertex supportingVertex;
+    polytopeShape->getVerticesShape()->getSupportingVertex(hkVector4f(0.0f, -1.0f, 0.0f),
+                                                           supportingVertex);
 
-    float minVertexY = supportingVertex.y - havokShape->getRadius();
-    polytopeShape->setVertex(0,
-                             param.offset + sead::Vector3f::zero - minVertexY * sead::Vector3f::ey);
+    float minVertexY = supportingVertex[1] + 0.0f - polytopeShape->getVerticesShape()->getRadius();
+    polytopeShape->setVertex(0, sOffset + param.offset - minVertexY * sead::Vector3f::ey);
 
     for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
         float ringX = param.radius * sin((float)i * (float)M_PI_4);
