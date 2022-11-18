@@ -17,7 +17,6 @@ const MaterialMask& CharacterPrismShape::getMaterialMask() const {
 
 static const sead::Vector3f& sOffset = sead::Vector3f::zero;
 
-// NON_MATCHING
 CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& param,
                                                sead::Heap* heap) {
     PolytopeShapeParam polytopeShapeParam;
