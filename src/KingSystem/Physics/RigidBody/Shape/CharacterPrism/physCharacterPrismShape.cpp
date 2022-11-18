@@ -76,7 +76,7 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
     shape->mRing0Distance = param.ring0_distance;
     shape->mRing1Distance = param.ring1_distance;
     shape->mEndVertexDistance = param.end_vertex_distance;
-    shape->mOffset = param.offset;
+    shape->mOffset.e = param.offset.e;
     shape->mScale = 1.0f;
     return shape;
 }
