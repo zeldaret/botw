@@ -96,6 +96,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Serialize/Util/hkRootLevelContainer.h
 
   Havok/Geometry/Collide/Shapes/hkcdShape.h
+  Havok/Geometry/Internal/Types/hkcdVertex.h
 
   Havok/Physics/Constraint/Atom/hkpConstraintAtom.h
   Havok/Physics/Constraint/Data/hkpConstraintData.h
