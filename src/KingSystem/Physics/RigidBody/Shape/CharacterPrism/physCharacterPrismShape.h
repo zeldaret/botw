@@ -16,6 +16,8 @@ struct CharacterPrismShapeParam {
     CommonShapeParam common;
 };
 
+/// A "stretched bipyramid" shape with a top and bottom vertex and two rings of eight vertices
+/// between them.
 class CharacterPrismShape : public Shape {
     SEAD_RTTI_OVERRIDE(CharacterPrismShape, Shape)
 

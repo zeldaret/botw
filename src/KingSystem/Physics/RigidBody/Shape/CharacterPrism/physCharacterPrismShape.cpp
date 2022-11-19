@@ -29,6 +29,11 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
 
     auto* polytopeShape = PolytopeShape::make(polytopeShapeParam, heap);
 
+    /*
+     * Set all vertices.
+     */
+
+    // Set first vertex
     polytopeShape->setVertex(0, sOrigin + param.offset);
 
     for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
@@ -44,16 +49,26 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
                                  sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset);
     }
 
+    // Set last vertex
     polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1,
                              param.end_vertex_distance * sead::Vector3f::ey + param.offset);
 
     polytopeShape->updateHavokShape();
 
+    /*
+     * Set all vertices again, but move the bottom so that it lies at y=0.
+     * This is undone if `CharacterPrismShape::setScale` is called.
+     */
+
+    // Get lowest vertex
     hkcdVertex supportingVertex;
     polytopeShape->getVerticesShape()->getSupportingVertex(hkVector4f(0.0f, -1.0f, 0.0f),
                                                            supportingVertex);
-
+    // Get y-value of the lowest point of collision
     float minVertexY = supportingVertex[1] + 0.0f - polytopeShape->getVerticesShape()->getRadius();
+
+    // Set first vertex
+    // Move to lie at y=0
     polytopeShape->setVertex(0, sOrigin + param.offset - minVertexY * sead::Vector3f::ey);
 
     for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
@@ -69,8 +84,10 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
                                  sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset);
     }
 
+    // Set last vertex
     polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1,
                              param.end_vertex_distance * sead::Vector3f::ey + param.offset);
+
     polytopeShape->updateHavokShape();
 
     auto* shape = new (heap) CharacterPrismShape;
@@ -126,7 +143,7 @@ void CharacterPrismShape::setScale(float scale) {
     float volume = getVolume();
 
     auto scaledOffset = mOffset * scale;
-    float endVertexDistance = mEndVertexDistance * scale;
+    float scaledEndVertexDistance = mEndVertexDistance * scale;
     float scaledRadius = mRadius * scale;
     float ringY0 = mRing0Distance * scale;
     float ringY1 = mRing1Distance * scale;
@@ -147,7 +164,8 @@ void CharacterPrismShape::setScale(float scale) {
     }
 
     // Set last vertex
-    mShape->setVertex(SHAPE_VERTEX_NUM - 1, endVertexDistance * sead::Vector3f::ey + scaledOffset);
+    mShape->setVertex(SHAPE_VERTEX_NUM - 1,
+                      scaledEndVertexDistance * sead::Vector3f::ey + scaledOffset);
 
     mShape->setVolume(scale * scale * scale * volume);
 }
