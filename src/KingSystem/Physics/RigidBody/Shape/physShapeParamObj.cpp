@@ -13,7 +13,7 @@ ShapeParamObj::ShapeParamObj()
     : shape_type(sead::SafeString::cEmptyString, "shape_type", this), radius(1.0, "radius", this),
       convex_radius(0.05, "convex_radius", this),
       translate_0(sead::Vector3f::zero, "translate_0", this),
-      translate_1(sead::Vector3f::zero, "offset", this),
+      translate_1(sead::Vector3f::zero, "translate_1", this),
       rotate(sead::Vector3f::zero, "rotate", this), vertex_num(0, "vertex_num", this),
       material(sead::SafeString::cEmptyString, "material", this),
       sub_material(sead::SafeString::cEmptyString, "sub_material", this),
