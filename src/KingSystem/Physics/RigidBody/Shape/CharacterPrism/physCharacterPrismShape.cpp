@@ -19,41 +19,42 @@ static const sead::Vector3f& sOrigin = sead::Vector3f::zero;
 
 CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& param,
                                                sead::Heap* heap) {
-    PolytopeShapeParam polytopeShapeParam;
-    polytopeShapeParam.vertex_num = SHAPE_VERTEX_NUM;
-    polytopeShapeParam.common.material = param.common.material;
-    polytopeShapeParam.common.sub_material = param.common.sub_material;
-    polytopeShapeParam.common.floor_code = param.common.floor_code;
-    polytopeShapeParam.common.wall_code = param.common.wall_code;
-    polytopeShapeParam.common.item_code_disable_stick = param.common.item_code_disable_stick;
+    PolytopeShapeParam polytope_shape_param;
+    polytope_shape_param.vertex_num = SHAPE_VERTEX_NUM;
+    polytope_shape_param.common.material = param.common.material;
+    polytope_shape_param.common.sub_material = param.common.sub_material;
+    polytope_shape_param.common.floor_code = param.common.floor_code;
+    polytope_shape_param.common.wall_code = param.common.wall_code;
+    polytope_shape_param.common.item_code_disable_stick = param.common.item_code_disable_stick;
 
-    auto* polytopeShape = PolytopeShape::make(polytopeShapeParam, heap);
+    auto* polytope_shape = PolytopeShape::make(polytope_shape_param, heap);
 
     /*
      * Set all vertices.
      */
 
     // Set first vertex
-    polytopeShape->setVertex(0, sOrigin + param.offset);
+    polytope_shape->setVertex(0, sOrigin + param.offset);
 
-    for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
-        float ringX = param.radius * sin((float)i * (float)M_PI_4);
-        float ringZ = param.radius * cos((float)i * (float)M_PI_4);
+    for (int i = 0, vertex_idx = 1; i < RING_VERTEX_NUM; i++, vertex_idx += 2) {
+        float ring_x = param.radius * sin((float)i * (float)M_PI_4);
+        float ring_z = param.radius * cos((float)i * (float)M_PI_4);
 
         // First ring
-        polytopeShape->setVertex(vertexIdx,
-                                 sead::Vector3f(ringX, param.ring0_distance, ringZ) + param.offset);
+        polytope_shape->setVertex(vertex_idx,
+                                 sead::Vector3f(ring_x, param.ring0_distance, ring_z) + param.offset);
 
         // Second ring
-        polytopeShape->setVertex(vertexIdx + 1,
-                                 sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset);
+        polytope_shape->setVertex(
+            vertex_idx + 1,
+                                 sead::Vector3f(ring_x, param.ring1_distance, ring_z) + param.offset);
     }
 
     // Set last vertex
-    polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1,
+    polytope_shape->setVertex(SHAPE_VERTEX_NUM - 1,
                              param.end_vertex_distance * sead::Vector3f::ey + param.offset);
 
-    polytopeShape->updateHavokShape();
+    polytope_shape->updateHavokShape();
 
     /*
      * Set all vertices again, but move the bottom so that it lies at y=0.
@@ -61,37 +62,39 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
      */
 
     // Get lowest vertex
-    hkcdVertex supportingVertex;
-    polytopeShape->getVerticesShape()->getSupportingVertex(hkVector4f(0.0f, -1.0f, 0.0f),
-                                                           supportingVertex);
+    hkcdVertex supporting_vertex;
+    polytope_shape->getVerticesShape()->getSupportingVertex(hkVector4f(0.0f, -1.0f, 0.0f),
+                                                            supporting_vertex);
     // Get y-value of the lowest point of collision
-    float minVertexY = supportingVertex[1] + 0.0f - polytopeShape->getVerticesShape()->getRadius();
+    float min_vertex_y =
+        supporting_vertex[1] + 0.0f - polytope_shape->getVerticesShape()->getRadius();
 
     // Set first vertex
     // Move to lie at y=0
-    polytopeShape->setVertex(0, sOrigin + param.offset - minVertexY * sead::Vector3f::ey);
+    polytope_shape->setVertex(0, sOrigin + param.offset - min_vertex_y * sead::Vector3f::ey);
 
-    for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
-        float ringX = param.radius * sin((float)i * (float)M_PI_4);
-        float ringZ = param.radius * cos((float)i * (float)M_PI_4);
+    for (int i = 0, vertex_idx = 1; i < RING_VERTEX_NUM; i++, vertex_idx += 2) {
+        float ring_x = param.radius * sin((float)i * (float)M_PI_4);
+        float ring_z = param.radius * cos((float)i * (float)M_PI_4);
 
         // First ring
-        polytopeShape->setVertex(vertexIdx, sead::Vector3f(ringX, param.ring0_distance, ringZ) +
-                                                param.offset - minVertexY * sead::Vector3f::ey);
+        polytope_shape->setVertex(vertex_idx, sead::Vector3f(ring_x, param.ring0_distance, ring_z) +
+                                                param.offset - min_vertex_y * sead::Vector3f::ey);
 
         // Second ring
-        polytopeShape->setVertex(vertexIdx + 1,
-                                 sead::Vector3f(ringX, param.ring1_distance, ringZ) + param.offset);
+        polytope_shape->setVertex(
+            vertex_idx + 1,
+                                 sead::Vector3f(ring_x, param.ring1_distance, ring_z) + param.offset);
     }
 
     // Set last vertex
-    polytopeShape->setVertex(SHAPE_VERTEX_NUM - 1,
+    polytope_shape->setVertex(SHAPE_VERTEX_NUM - 1,
                              param.end_vertex_distance * sead::Vector3f::ey + param.offset);
 
-    polytopeShape->updateHavokShape();
+    polytope_shape->updateHavokShape();
 
     auto* shape = new (heap) CharacterPrismShape;
-    shape->mShape = polytopeShape;
+    shape->mShape = polytope_shape;
     shape->mRadius = param.radius;
     shape->mRing0Distance = param.ring0_distance;
     shape->mRing1Distance = param.ring1_distance;
@@ -142,30 +145,30 @@ void CharacterPrismShape::setScale(float scale) {
 
     float volume = getVolume();
 
-    auto scaledOffset = mOffset * scale;
-    float scaledEndVertexDistance = mEndVertexDistance * scale;
-    float scaledRadius = mRadius * scale;
-    float ringY0 = mRing0Distance * scale;
-    float ringY1 = mRing1Distance * scale;
+    auto scaled_offset = mOffset * scale;
+    float scaled_end_vertex_distance = mEndVertexDistance * scale;
+    float scaled_radius = mRadius * scale;
+    float ring_y0 = mRing0Distance * scale;
+    float ring_y1 = mRing1Distance * scale;
 
     // Set first vertex
-    mShape->setVertex(0, sOrigin + scaledOffset);
+    mShape->setVertex(0, sOrigin + scaled_offset);
 
-    for (int i = 0, vertexIdx = 1; i < RING_VERTEX_NUM; i++, vertexIdx += 2) {
+    for (int i = 0, vertex_idx = 1; i < RING_VERTEX_NUM; i++, vertex_idx += 2) {
         // For some reason `sin` is used for x and `cos` is used for z.
-        float ringX = scaledRadius * sin((float)i * (float)M_PI_4);
-        float ringZ = scaledRadius * cos((float)i * (float)M_PI_4);
+        float ring_x = scaled_radius * sin((float)i * (float)M_PI_4);
+        float ring_z = scaled_radius * cos((float)i * (float)M_PI_4);
 
         // First ring
-        mShape->setVertex(vertexIdx, sead::Vector3f{ringX, ringY0, ringZ} + scaledOffset);
+        mShape->setVertex(vertex_idx, sead::Vector3f{ring_x, ring_y0, ring_z} + scaled_offset);
 
         // Second ring
-        mShape->setVertex(vertexIdx + 1, sead::Vector3f{ringX, ringY1, ringZ} + scaledOffset);
+        mShape->setVertex(vertex_idx + 1, sead::Vector3f{ring_x, ring_y1, ring_z} + scaled_offset);
     }
 
     // Set last vertex
     mShape->setVertex(SHAPE_VERTEX_NUM - 1,
-                      scaledEndVertexDistance * sead::Vector3f::ey + scaledOffset);
+                      scaled_end_vertex_distance * sead::Vector3f::ey + scaled_offset);
 
     mShape->setVolume(scale * scale * scale * volume);
 }
