@@ -104,8 +104,10 @@ void ShapeParamObj::getPolytope(PolytopeShapeParam* param) const {
 
 void ShapeParamObj::getCharacterPrism(CharacterPrismShapeParam* param) const {
     param->radius = *radius;
-    param->translate_0 = *translate_0;
-    param->translate_1 = *translate_1;
+    param->ring0_distance = translate_0->x;
+    param->ring1_distance = translate_0->y;
+    param->end_vertex_distance = translate_0->z;
+    param->offset = *translate_1;
     getCommon(&param->common);
 }
 

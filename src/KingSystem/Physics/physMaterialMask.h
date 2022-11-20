@@ -41,6 +41,10 @@ union MaterialMaskData {
         raw |= 1 << (decltype(custom_flags)::StartBit() + custom_flag);
     }
 
+    bool getCustomFlag(CustomFlag custom_flag) const {
+        return (raw & 1 << (decltype(custom_flags)::StartBit() + custom_flag)) != 0;
+    }
+
     u32 raw;
     util::BitField<0, 6, u32> material;
     util::BitField<6, 4, int, u32> sub_material;

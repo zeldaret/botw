@@ -57,6 +57,8 @@ public:
     void setMaterialMask(const MaterialMask& mask);
     const MaterialMask& getMaterialMask() const { return mMaterialMask; }
 
+    const hkpConvexVerticesShape* getVerticesShape() const { return mHavokShape; }
+
 private:
     bool init(const PolytopeShapeParam& param, sead::Heap* heap);
 
