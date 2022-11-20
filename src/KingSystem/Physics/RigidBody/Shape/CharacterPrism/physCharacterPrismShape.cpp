@@ -41,18 +41,17 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
         float ring_z = param.radius * cos((float)i * (float)M_PI_4);
 
         // First ring
-        polytope_shape->setVertex(vertex_idx,
-                                 sead::Vector3f(ring_x, param.ring0_distance, ring_z) + param.offset);
+        polytope_shape->setVertex(vertex_idx, sead::Vector3f(ring_x, param.ring0_distance, ring_z) +
+                                                  param.offset);
 
         // Second ring
         polytope_shape->setVertex(
-            vertex_idx + 1,
-                                 sead::Vector3f(ring_x, param.ring1_distance, ring_z) + param.offset);
+            vertex_idx + 1, sead::Vector3f(ring_x, param.ring1_distance, ring_z) + param.offset);
     }
 
     // Set last vertex
     polytope_shape->setVertex(SHAPE_VERTEX_NUM - 1,
-                             param.end_vertex_distance * sead::Vector3f::ey + param.offset);
+                              param.end_vertex_distance * sead::Vector3f::ey + param.offset);
 
     polytope_shape->updateHavokShape();
 
@@ -79,17 +78,16 @@ CharacterPrismShape* CharacterPrismShape::make(const CharacterPrismShapeParam& p
 
         // First ring
         polytope_shape->setVertex(vertex_idx, sead::Vector3f(ring_x, param.ring0_distance, ring_z) +
-                                                param.offset - min_vertex_y * sead::Vector3f::ey);
+                                                  param.offset - min_vertex_y * sead::Vector3f::ey);
 
         // Second ring
         polytope_shape->setVertex(
-            vertex_idx + 1,
-                                 sead::Vector3f(ring_x, param.ring1_distance, ring_z) + param.offset);
+            vertex_idx + 1, sead::Vector3f(ring_x, param.ring1_distance, ring_z) + param.offset);
     }
 
     // Set last vertex
     polytope_shape->setVertex(SHAPE_VERTEX_NUM - 1,
-                             param.end_vertex_distance * sead::Vector3f::ey + param.offset);
+                              param.end_vertex_distance * sead::Vector3f::ey + param.offset);
 
     polytope_shape->updateHavokShape();
 
