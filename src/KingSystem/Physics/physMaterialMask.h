@@ -41,7 +41,7 @@ union MaterialMaskData {
         raw |= 1 << (decltype(custom_flags)::StartBit() + custom_flag);
     }
 
-    bool getCustomFlag(CustomFlag custom_flag) {
+    bool getCustomFlag(CustomFlag custom_flag) const {
         return (raw & 1 << (decltype(custom_flags)::StartBit() + custom_flag)) != 0;
     }
 
