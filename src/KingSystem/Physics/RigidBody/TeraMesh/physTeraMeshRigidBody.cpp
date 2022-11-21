@@ -13,6 +13,12 @@ TeraMeshRigidBody::TeraMeshRigidBody(hkpRigidBody* hk_body, sead::Heap* heap)
     initMotionAccessor(param, heap, false);
 }
 
+TeraMeshRigidBody::~TeraMeshRigidBody() {
+    if (isAddedToWorld()) {
+        removeFromWorldImmediately();
+    }
+}
+
 u32 TeraMeshRigidBody::getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* unk,
                                          const sead::Vector3f& contact_point) {
     const auto *collidable = getHkBody()->getCollidable();
