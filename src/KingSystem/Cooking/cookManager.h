@@ -16,7 +16,6 @@ class CookingMgr {
     SEAD_SINGLETON_DISPOSER(CookingMgr)
 public:
     CookingMgr();
-    // TODO: inline
     ~CookingMgr();
 
 private:
