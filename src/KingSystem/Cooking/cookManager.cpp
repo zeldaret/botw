@@ -14,4 +14,8 @@ CookingMgr::~CookingMgr() {
     }
 }
 
+void CookingMgr::getCookItem(CookItem& to) {
+    return to.copy(mCookItem);
+}
+
 }  // namespace ksys

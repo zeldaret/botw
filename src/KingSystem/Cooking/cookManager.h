@@ -18,6 +18,8 @@ public:
     CookingMgr();
     ~CookingMgr();
 
+    void getCookItem(CookItem& to);
+
 private:
     al::ByamlIter* mConfig = nullptr;
     ksys::res::Handle mRes2;
