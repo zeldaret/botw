@@ -11,12 +11,19 @@ class ByamlIter;
 
 namespace ksys {
 
+struct CookArg;
+struct CookIngredient;
+
 // TODO
 class CookingMgr {
     SEAD_SINGLETON_DISPOSER(CookingMgr)
 public:
     CookingMgr();
     ~CookingMgr();
+
+    struct BoostArg;
+
+    bool cook(const CookArg& arg, const CookItem& cookItem, const BoostArg& boostArg);
 
     void getCookItem(CookItem& to);
 
