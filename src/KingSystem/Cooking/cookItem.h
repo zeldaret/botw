@@ -10,6 +10,8 @@ namespace ksys {
 struct CookItem {
     CookItem();
 
+    void copy(CookItem& to) const;
+
     sead::FixedSafeString<64> name{""};
     sead::SafeArray<sead::FixedSafeString<64>, 5> ingredients;
     f32 stamina_recover_x{};
