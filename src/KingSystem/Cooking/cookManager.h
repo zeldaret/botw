@@ -3,14 +3,9 @@
 #include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
 #include "cookItem.h"
-
-namespace al {
-
-class ByamlIter;
-
-}
 
 namespace ksys {
 
@@ -24,11 +19,21 @@ struct UnkItem;
 class CookingMgr {
     SEAD_SINGLETON_DISPOSER(CookingMgr)
 public:
+    struct Ingredient {
+        u32 name_hash;
+        int _4;
+        const CookIngredient* arg;
+        bool _10;
+        al::ByamlIter actor_data;
+    };
+
+    struct BoostArg {
+        bool always_boost;
+        bool enable_random_boost;
+    };
+
     CookingMgr();
     ~CookingMgr();
-
-    struct BoostArg;
-    struct Ingredient;
 
     void cookFail(CookItem& item);
     void cookFailForMissingConfig(CookItem& item, const sead::FixedSafeString<64>& name);
