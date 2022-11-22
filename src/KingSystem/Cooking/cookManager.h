@@ -163,4 +163,15 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 
+struct CookIngredient {
+    sead::FixedSafeString<64> name;
+    int _58;
+};
+KSYS_CHECK_SIZE_NX150(CookIngredient, 0x60);
+
+struct CookArg {
+    CookIngredient ingredients[5];
+};
+KSYS_CHECK_SIZE_NX150(CookArg, 0x1E0);
+
 }  // namespace ksys
