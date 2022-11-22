@@ -66,16 +66,16 @@ private:
     sead::FixedSafeString<64> mFairyTonicName;
     sead::FixedSafeString<64> mMonsterExtractName;
 
-    int _180 = 0;
-
+    int mFailActorNameHash = 0;
     int mFairyTonicNameHash = 0;
     u32 mMonsterExtractNameHash = 0;
 
-    float _18C = 1.0f;
-    float _190 = 1.0f;
-    u32 _194 = 4;
-    u32 _198 = 1;
-    u32 _19C = 300;
+    float mLRMR = 1.0f;
+    float mFALRMR = 1.0f;
+    u32 mFALR = 4;
+    u32 mSFALR = 1;
+    u32 mSSAET = 300;
+
     u64 _1A0 = 0;
     u32 _1A8 = 0;
     float _1AC = 1.0f;
@@ -147,9 +147,9 @@ private:
 
     float _2F0 = 1.0f;
 
-    float _2F4[5];
+    float mNMMR[5];
 
-    int _308[1];
+    int mNMSSR[1];
 
     int _30C;
     int _310;
