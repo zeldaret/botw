@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
@@ -130,41 +131,7 @@ private:
     int _318;
     int _31C;
     CookItem mCookItem;
-    void* _548 = nullptr;
-    void* _550 = &_568;
-    void* _558 = &_568;
-    int _560 = 0;
-    int _564 = 0xD;
-    void* _568 = &_598;
-    u8 _570[40];
-    void* _598 = &_5C8;
-    u8 _5A0[40];
-    void* _5C8 = &_5F8;
-    u8 _5D0[40];
-    void* _5F8 = &_628;
-    u8 _600[40];
-    void* _628 = &_658;
-    u8 _630[40];
-    void* _658 = &_688;
-    u8 _660[40];
-    void* _688 = &_6B8;
-    u8 _690[40];
-    void* _6B8 = &_6E8;
-    u8 _6C0[40];
-    void* _6E8 = &_718;
-    u8 _6F0[40];
-    void* _718 = &_748;
-    u8 _720[40];
-    void* _748 = &_778;
-    u8 _750[40];
-    void* _778 = &_7A8;
-    u8 _780[40];
-    void* _7A8 = nullptr;
-    s64 _7B0;
-    s64 _7B8;
-    s64 _7C0;
-    s64 _7C8;
-    s64 _7D0;
+    sead::FixedObjArray<s64[5], 13> _548{};
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 
