@@ -13,6 +13,8 @@ namespace ksys {
 
 struct CookArg;
 struct CookIngredient;
+// TODO: Find actual type
+struct UnkItem;
 
 // TODO
 class CookingMgr {
@@ -22,10 +24,29 @@ public:
     ~CookingMgr();
 
     struct BoostArg;
+    struct Ingredient;
+
+    void cookFail(CookItem& item);
+    void cookFailForMissingConfig(CookItem& item, const sead::FixedSafeString<64>& name);
+    void cookCalcBoost(const Ingredient ingredients[], CookItem& item, const BoostArg& boost_arg);
+    void cookHandleBoostSuccessInner(const Ingredient ingredients[], CookItem& item);
+    void cookCalc3(const Ingredient ingredients[], CookItem& item);
+    void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item);
+    void cookCalc1(const Ingredient ingredients[], CookItem& item);
+
+    void init(sead::Heap* heap);
 
     bool cook(const CookArg& arg, const CookItem& cookItem, const BoostArg& boostArg);
 
+    bool resetArgCookData(const CookArg& arg, const CookItem& item);
+
+    bool cookWithItems(const CookArg& arg, const UnkItem& item1, const UnkItem& item2,
+                       const UnkItem& item3, const UnkItem& item4, const UnkItem& item5,
+                       const CookItem& cook_item, const BoostArg& boost_arg);
+
     void getCookItem(CookItem& to);
+
+    void x(CookItem& to);
 
 private:
     al::ByamlIter* mConfig = nullptr;
