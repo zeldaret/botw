@@ -7,13 +7,16 @@
 #include "cookItem.h"
 
 namespace al {
+
 class ByamlIter;
+
 }
 
 namespace ksys {
 
 struct CookArg;
 struct CookIngredient;
+
 // TODO: Find actual type
 struct UnkItem;
 
@@ -51,13 +54,18 @@ public:
 
 private:
     al::ByamlIter* mConfig = nullptr;
+
     ksys::res::Handle mRes2;
+
     sead::FixedSafeString<64> mFailActor;
     sead::FixedSafeString<64> mFairyTonicName;
     sead::FixedSafeString<64> mMonsterExtractName;
+
     int _180 = 0;
+
     int mFairyTonicNameHash = 0;
     u32 mMonsterExtractNameHash = 0;
+
     float _18C = 1.0f;
     float _190 = 1.0f;
     u32 _194 = 4;
@@ -70,6 +78,7 @@ private:
     float _1B8 = 0.0f;
     int _1BC = 0;
     float _1C0 = 1.0f;
+
     u32 _1C4 = 1;
     u64 _1C8 = 0;
     u32 _1D0 = 0;
@@ -77,6 +86,7 @@ private:
     u64 _1D8 = 1;
     u64 _1E0 = 0;
     float _1E8 = 1.0f;
+
     u32 _1EC = 1;
     u64 _1F0 = 0;
     u32 _1F8 = 0;
@@ -84,6 +94,7 @@ private:
     u64 _200 = 1;
     u64 _208 = 0;
     float _210 = 1.0f;
+
     u32 _214 = 1;
     u64 _218 = 0;
     u32 _220 = 0;
@@ -91,6 +102,7 @@ private:
     u64 _228 = 1;
     u64 _230 = 0;
     float _238 = 1.0f;
+
     u32 _23C = 1;
     u64 _240 = 0;
     u32 _248 = 0;
@@ -98,6 +110,7 @@ private:
     u64 _250 = 1;
     u64 _258 = 0;
     float _260 = 1.0f;
+
     u32 _264 = 1;
     u64 _268 = 0;
     u32 _270 = 0;
@@ -105,6 +118,7 @@ private:
     u64 _278 = 1;
     u64 _280 = 0;
     float _288 = 1.0f;
+
     u32 _28C = 1;
     u64 _290 = 0;
     u32 _298 = 0;
@@ -112,6 +126,7 @@ private:
     u64 _2A0 = 1;
     u64 _2A8 = 0;
     float _2B0 = 1.0f;
+
     u32 _2B4 = 1;
     u64 _2B8 = 0;
     u32 _2C0 = 0;
@@ -119,18 +134,26 @@ private:
     u64 _2C8 = 1;
     u64 _2D0 = 0;
     float _2D8 = 1.0f;
+
     __attribute__((packed)) __attribute__((aligned(1))) u64 _2DC = 1;
     __attribute__((packed)) __attribute__((aligned(1))) u64 _2E4 = 0;
+
     int _2EC = 1;
+
     float _2F0 = 1.0f;
+
     float _2F4[5];
+
     int _308[1];
+
     int _30C;
     int _310;
     int _314;
     int _318;
     int _31C;
+
     CookItem mCookItem;
+
     sead::FixedObjArray<s64[5], 13> _548{};
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
