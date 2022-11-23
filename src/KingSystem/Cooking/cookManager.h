@@ -70,12 +70,12 @@ private:
 
     ksys::res::Handle mRes2;
 
-    sead::FixedSafeString<64> mFailActor;
+    sead::FixedSafeString<64> mFailActorName;
     sead::FixedSafeString<64> mFairyTonicName;
     sead::FixedSafeString<64> mMonsterExtractName;
 
-    int mFailActorNameHash = 0;
-    int mFairyTonicNameHash = 0;
+    u32 mFailActorNameHash = 0;
+    u32 mFairyTonicNameHash = 0;
     u32 mMonsterExtractNameHash = 0;
 
     float mLRMR = 1.0f;

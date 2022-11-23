@@ -56,10 +56,37 @@ void CookingMgr::init(sead::Heap* heap) {
     mConfig = new (heap) al::ByamlIter(res->getRawData());
 
     for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
-        auto &effect = sCookingEffects[effect_idx];
+        auto& effect = sCookingEffects[effect_idx];
         _548.pushBack(
             Ingredient{sead::HashCRC32::calcStringHash(effect.name), 0, nullptr, false, *mConfig});
     }
+
+    mNMMR[0] = 1.0f;
+    mNMMR[1] = 1.0f;
+    mNMMR[2] = 1.0f;
+    mNMMR[3] = 1.0f;
+    mNMMR[4] = 1.0f;
+
+    mNMSSR[0] = 5;
+    mNMSSR[1] = 0;
+    mNMSSR[2] = 15;
+    mNMSSR[3] = 10;
+    mNMSSR[4] = 20;
+
+    mFairyTonicName = "Item_Cook_C_16";
+    mFairyTonicNameHash = sead::HashCRC32::calcStringHash(mFairyTonicName);
+
+    mFailActorName = "Item_Cook_O_01";
+    mFailActorNameHash = sead::HashCRC32::calcStringHash(mFailActorName);
+
+    mMonsterExtractName = "Item_Material_08";
+    mMonsterExtractNameHash = sead::HashCRC32::calcStringHash(mMonsterExtractName);
+
+    mLRMR = 1.0;
+    mSSAET = 300;
+    mSFALR = 1;
+    mFALRMR = 1.0;
+    mFALR = 4;
 
     int int_val;
     float float_val;
