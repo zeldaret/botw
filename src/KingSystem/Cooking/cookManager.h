@@ -96,12 +96,8 @@ private:
 
     float mNMMR[5];
 
-    int mNMSSR[1];
+    int mNMSSR[5];
 
-    int _30C;
-    int _310;
-    int _314;
-    int _318;
     int _31C;
 
     CookItem mCookItem;
