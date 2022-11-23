@@ -84,15 +84,7 @@ private:
     u32 mSFALR = 1;
     u32 mSSAET = 300;
 
-    CookingEffectEntry mCookingEffectEntries[16];
-
-    u32 _2E0 = 0;
-
-    __attribute__((packed)) __attribute__((aligned(1))) u64 _2E4 = 0;
-
-    int _2EC = 1;
-
-    float _2F0 = 1.0f;
+    CookingEffectEntry mCookingEffectEntries[17];
 
     float mNMMR[5];
 

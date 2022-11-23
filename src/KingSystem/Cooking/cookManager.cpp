@@ -61,6 +61,11 @@ void CookingMgr::init(sead::Heap* heap) {
             Ingredient{sead::HashCRC32::calcStringHash(effect.name), 0, nullptr, false, *mConfig});
     }
 
+    for (int i = 0; i < 17; i++) {
+        mCookingEffectEntries[i] = CookingEffectEntry{};
+        mCookingEffectEntries[i].ssa = 0;
+    }
+
     mNMMR[0] = 1.0f;
     mNMMR[1] = 1.0f;
     mNMMR[2] = 1.0f;
