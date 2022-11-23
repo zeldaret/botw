@@ -102,7 +102,7 @@ private:
 
     CookItem mCookItem;
 
-    sead::FixedObjArray<s64[5], 13> _548{};
+    sead::FixedObjArray<Ingredient, 13> _548{};
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 

@@ -55,6 +55,12 @@ void CookingMgr::init(sead::Heap* heap) {
     auto* res = sead::DynamicCast<sead::DirectResource>(mRes2.getResource());
     mConfig = new (heap) al::ByamlIter(res->getRawData());
 
+    for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
+        auto &effect = sCookingEffects[effect_idx];
+        _548.pushBack(
+            Ingredient{sead::HashCRC32::calcStringHash(effect.name), 0, nullptr, false, *mConfig});
+    }
+
     int int_val;
     float float_val;
 
