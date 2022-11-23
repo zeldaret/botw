@@ -88,14 +88,28 @@ void CookingMgr::init(sead::Heap* heap) {
     mFALRMR = 1.0;
     mFALR = 4;
 
-    int int_val;
-    float float_val;
-
     al::ByamlIter iter;
     al::ByamlIter cei_iter;
     al::ByamlIter entry_iter;
 
+    int int_val;
+    float float_val;
+    const char* string_val = nullptr;
+
     if (mConfig->tryGetIterByKey(&iter, "System")) {
+        if (iter.tryGetStringByKey(&string_val, "FA")) {
+            mFailActorName = string_val;
+            mFailActorNameHash = sead::HashCRC32::calcStringHash(mFailActorName);
+        }
+        if (iter.tryGetStringByKey(&string_val, "FCA")) {
+            mFairyTonicName = string_val;
+            mFairyTonicNameHash = sead::HashCRC32::calcStringHash(mFairyTonicName);
+        }
+        if (iter.tryGetStringByKey(&string_val, "MEA")) {
+            mMonsterExtractName = string_val;
+            mMonsterExtractNameHash = sead::HashCRC32::calcStringHash(mMonsterExtractName);
+        }
+
         if (iter.tryGetFloatByKey(&float_val, "LRMR") && float_val >= 0)
             mLRMR = float_val;
         if (iter.tryGetFloatByKey(&float_val, "FALRMR") && float_val >= 0)
