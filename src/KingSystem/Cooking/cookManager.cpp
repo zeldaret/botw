@@ -53,7 +53,11 @@ void CookingMgr::init(sead::Heap* heap) {
 
     mRes2.load("Cooking/CookData.byml", &req);
     auto* res = sead::DynamicCast<sead::DirectResource>(mRes2.getResource());
-    mConfig = new (heap) al::ByamlIter(res->getRawData());
+    if (!res)
+        return;
+
+    mConfig = mConfig ? new (mConfig) al::ByamlIter(res->getRawData()) :
+                        new (heap) al::ByamlIter(res->getRawData());
 
     for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
         auto& effect = sCookingEffects[effect_idx];
