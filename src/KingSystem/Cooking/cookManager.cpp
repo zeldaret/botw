@@ -105,9 +105,10 @@ void CookingMgr::init(sead::Heap* heap) {
     al::ByamlIter cei_iter;
     al::ByamlIter entry_iter;
 
-    int int_val;
-    float float_val;
     const char* string_val = nullptr;
+    int int_val;
+    u32 uint_val;
+    float float_val;
 
     if (mConfig->tryGetIterByKey(&iter, "System")) {
         if (iter.tryGetStringByKey(&string_val, "FA")) {
@@ -138,9 +139,10 @@ void CookingMgr::init(sead::Heap* heap) {
             int size = cei_iter.getSize();
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
-                    u32 entry_hash;
                     if (cei_iter.tryGetIterByIndex(&entry_iter, i) &&
-                        entry_iter.tryGetUIntByKey(&entry_hash, "T")) {
+                        entry_iter.tryGetUIntByKey(&uint_val, "T")) {
+                        const u32 entry_hash = uint_val;
+
                         int entry_idx;
 
                         if (entry_hash == crc32_None)
