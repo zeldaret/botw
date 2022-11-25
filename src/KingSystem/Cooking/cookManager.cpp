@@ -64,7 +64,8 @@ void CookingMgr::init(sead::Heap* heap) {
 
     for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
         auto& effect = sCookingEffects[effect_idx];
-        _548.insert(effect_idx, effect.effect_id);
+        int name_hash = (int)sead::HashCRC32::calcStringHash(effect.name);
+        _548.insert(name_hash, effect.effect_id);
     }
 
     for (int i = 0; i < 17; i++) {
