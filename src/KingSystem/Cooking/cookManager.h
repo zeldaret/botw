@@ -90,8 +90,6 @@ private:
 
     int mNMSSR[5];
 
-    int _31C;
-
     CookItem mCookItem;
 
     sead::FixedTreeMap<int, int, 13> _548{};
