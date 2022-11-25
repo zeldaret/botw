@@ -47,13 +47,14 @@ static u32 crc32_Fireproof = sead::HashCRC32::calcStringHash("Fireproof");
 
 void CookingMgr::init(sead::Heap* heap) {
     res::LoadRequest req;
-    char buffer[0x80];
-    sead::BufferedSafeString path(buffer, sizeof(buffer));
 
     req.mRequester = "CookingMgr";
+    req._22 = false;
 
-    mRes2.load("Cooking/CookData.byml", &req);
-    auto* res = sead::DynamicCast<sead::DirectResource>(mRes2.getResource());
+    sead::FixedSafeString<0x80> path;
+    path.format("Cooking/CookData.byml");
+
+    auto* res = sead::DynamicCast<sead::DirectResource>(mRes2.load(path, &req));
     if (!res)
         return;
 
