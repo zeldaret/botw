@@ -1,5 +1,6 @@
 #include "KingSystem/Cooking/cookManager.h"
 #include <codec/seadHashCRC32.h>
+#include <typeindex>
 #include "KingSystem/Resource/resLoadRequest.h"
 
 namespace ksys {
@@ -58,6 +59,8 @@ void CookingMgr::init(sead::Heap* heap) {
 
     mConfig = mConfig ? new (mConfig) al::ByamlIter(res->getRawData()) :
                         new (heap) al::ByamlIter(res->getRawData());
+
+    _548.clear();
 
     for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
         auto& effect = sCookingEffects[effect_idx];
