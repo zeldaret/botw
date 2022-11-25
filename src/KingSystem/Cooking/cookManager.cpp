@@ -145,31 +145,31 @@ void CookingMgr::init(sead::Heap* heap) {
 
                         int entry_idx;
 
-                        if (entry_hash == crc32_None)
+                        if (crc32_None == entry_hash)
                             entry_idx = 0;
-                        else if (entry_hash == crc32_LifeRecover)
+                        else if (crc32_LifeRecover == entry_hash)
                             entry_idx = 1;
-                        else if (entry_hash == crc32_LifeMaxUp)
+                        else if (crc32_LifeMaxUp == entry_hash)
                             entry_idx = 2;
-                        else if (entry_hash == crc32_ResistHot)
+                        else if (crc32_ResistHot == entry_hash)
                             entry_idx = 3;
-                        else if (entry_hash == crc32_ResistCold)
+                        else if (crc32_ResistCold == entry_hash)
                             entry_idx = 4;
-                        else if (entry_hash == crc32_ResistElectric)
+                        else if (crc32_ResistElectric == entry_hash)
                             entry_idx = 5;
-                        else if (entry_hash == crc32_AttackUp)
+                        else if (crc32_AttackUp == entry_hash)
                             entry_idx = 6;
-                        else if (entry_hash == crc32_DefenseUp)
+                        else if (crc32_DefenseUp == entry_hash)
                             entry_idx = 7;
-                        else if (entry_hash == crc32_Quietness)
+                        else if (crc32_Quietness == entry_hash)
                             entry_idx = 8;
-                        else if (entry_hash == crc32_MovingSpeed)
+                        else if (crc32_MovingSpeed == entry_hash)
                             entry_idx = 9;
-                        else if (entry_hash == crc32_GutsRecover)
+                        else if (crc32_GutsRecover == entry_hash)
                             entry_idx = 10;
-                        else if (entry_hash == crc32_ExGutsMaxUp)
+                        else if (crc32_ExGutsMaxUp == entry_hash)
                             entry_idx = 11;
-                        else if (entry_hash == crc32_Fireproof)
+                        else if (crc32_Fireproof == entry_hash)
                             entry_idx = 12;
                         else
                             continue;
