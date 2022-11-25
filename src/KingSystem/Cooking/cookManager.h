@@ -1,6 +1,6 @@
 #pragma once
 
-#include <container/seadObjArray.h>
+#include <container/seadTreeMap.h>
 #include <heap/seadDisposer.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
@@ -94,7 +94,7 @@ private:
 
     CookItem mCookItem;
 
-    sead::FixedObjArray<Ingredient, 13> _548{};
+    sead::FixedTreeMap<int, int, 13> _548{};
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 
