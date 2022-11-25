@@ -4,7 +4,7 @@
 
 namespace ksys {
 
-CookingMgr::CookingMgr() {}
+CookingMgr::CookingMgr() = default;
 
 SEAD_SINGLETON_DISPOSER_IMPL(CookingMgr)
 
