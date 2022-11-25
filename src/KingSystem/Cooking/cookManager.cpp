@@ -96,8 +96,8 @@ void CookingMgr::init(sead::Heap* heap) {
     mMonsterExtractNameHash = sead::HashCRC32::calcStringHash(mMonsterExtractName);
 
     mLRMR = 1.0;
-    mSSAET = 300;
     mSFALR = 1;
+    mSSAET = 300;
     mFALRMR = 1.0;
     mFALR = 4;
 
