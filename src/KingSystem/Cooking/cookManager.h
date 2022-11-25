@@ -92,7 +92,7 @@ private:
 
     CookItem mCookItem;
 
-    sead::FixedTreeMap<int, int, 13> _548{};
+    sead::FixedTreeMap<u32, u32, 13> _548{};
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 

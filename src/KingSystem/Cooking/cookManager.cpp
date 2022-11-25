@@ -18,11 +18,11 @@ CookingMgr::~CookingMgr() {
 
 struct CookingEffect {
     sead::SafeString name;
-    int effect_id;
+    u32 effect_id;
 };
 
 static CookingEffect sCookingEffects[13]{
-    CookingEffect{"None", -1},         CookingEffect{"LifeRecover", 1},
+    CookingEffect{"None", -1u},        CookingEffect{"LifeRecover", 1},
     CookingEffect{"LifeMaxUp", 2},     CookingEffect{"ResistHot", 4},
     CookingEffect{"ResistCold", 5},    CookingEffect{"ResistElectric", 6},
     CookingEffect{"AttackUp", 0xA},    CookingEffect{"DefenseUp", 0xB},
@@ -65,7 +65,7 @@ void CookingMgr::init(sead::Heap* heap) {
 
     for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
         auto& effect = sCookingEffects[effect_idx];
-        int name_hash = (int)sead::HashCRC32::calcStringHash(effect.name);
+        u32 name_hash = sead::HashCRC32::calcStringHash(effect.name);
         _548.insert(name_hash, effect.effect_id);
     }
 
