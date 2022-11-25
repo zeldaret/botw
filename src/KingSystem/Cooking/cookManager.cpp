@@ -80,10 +80,10 @@ void CookingMgr::init(sead::Heap* heap) {
     mNMMR[3] = 1.0f;
     mNMMR[4] = 1.0f;
 
-    mNMSSR[0] = 5;
-    mNMSSR[1] = 0;
-    mNMSSR[2] = 15;
-    mNMSSR[3] = 10;
+    mNMSSR[0] = 0;
+    mNMSSR[1] = 5;
+    mNMSSR[2] = 10;
+    mNMSSR[3] = 15;
     mNMSSR[4] = 20;
 
     mFairyTonicName = "Item_Cook_C_16";
