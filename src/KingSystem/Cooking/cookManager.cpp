@@ -31,18 +31,17 @@ static CookingEffect sCookingEffects[13]{
     CookingEffect{"Fireproof", 0x10},
 };
 
-static u32 crc32_None = sead::HashCRC32::calcStringHash("None");
 static u32 crc32_LifeRecover = sead::HashCRC32::calcStringHash("LifeRecover");
+static u32 crc32_GutsPerformance = sead::HashCRC32::calcStringHash("GutsPerformance");
+static u32 crc32_StaminaRecover = sead::HashCRC32::calcStringHash("StaminaRecover");
 static u32 crc32_LifeMaxUp = sead::HashCRC32::calcStringHash("LifeMaxUp");
 static u32 crc32_ResistHot = sead::HashCRC32::calcStringHash("ResistHot");
 static u32 crc32_ResistCold = sead::HashCRC32::calcStringHash("ResistCold");
 static u32 crc32_ResistElectric = sead::HashCRC32::calcStringHash("ResistElectric");
+static u32 crc32_AllSpeed = sead::HashCRC32::calcStringHash("AllSpeed");
 static u32 crc32_AttackUp = sead::HashCRC32::calcStringHash("AttackUp");
 static u32 crc32_DefenseUp = sead::HashCRC32::calcStringHash("DefenseUp");
 static u32 crc32_Quietness = sead::HashCRC32::calcStringHash("Quietness");
-static u32 crc32_MovingSpeed = sead::HashCRC32::calcStringHash("MovingSpeed");
-static u32 crc32_GutsRecover = sead::HashCRC32::calcStringHash("GutsRecover");
-static u32 crc32_ExGutsMaxUp = sead::HashCRC32::calcStringHash("ExGutsMaxUp");
 static u32 crc32_Fireproof = sead::HashCRC32::calcStringHash("Fireproof");
 
 void CookingMgr::init(sead::Heap* heap) {
@@ -145,32 +144,30 @@ void CookingMgr::init(sead::Heap* heap) {
 
                         int entry_idx;
 
-                        if (crc32_None == entry_hash)
-                            entry_idx = 0;
-                        else if (crc32_LifeRecover == entry_hash)
+                        if (crc32_LifeRecover == entry_hash)
                             entry_idx = 1;
+                        else if (crc32_GutsPerformance == entry_hash)
+                            entry_idx = 15;
+                        else if (crc32_StaminaRecover == entry_hash)
+                            entry_idx = 14;
                         else if (crc32_LifeMaxUp == entry_hash)
                             entry_idx = 2;
                         else if (crc32_ResistHot == entry_hash)
-                            entry_idx = 3;
-                        else if (crc32_ResistCold == entry_hash)
                             entry_idx = 4;
-                        else if (crc32_ResistElectric == entry_hash)
+                        else if (crc32_ResistCold == entry_hash)
                             entry_idx = 5;
-                        else if (crc32_AttackUp == entry_hash)
+                        else if (crc32_ResistElectric == entry_hash)
                             entry_idx = 6;
-                        else if (crc32_DefenseUp == entry_hash)
-                            entry_idx = 7;
-                        else if (crc32_Quietness == entry_hash)
-                            entry_idx = 8;
-                        else if (crc32_MovingSpeed == entry_hash)
-                            entry_idx = 9;
-                        else if (crc32_GutsRecover == entry_hash)
+                        else if (crc32_AllSpeed == entry_hash)
+                            entry_idx = 13;
+                        else if (crc32_AttackUp == entry_hash)
                             entry_idx = 10;
-                        else if (crc32_ExGutsMaxUp == entry_hash)
+                        else if (crc32_DefenseUp == entry_hash)
                             entry_idx = 11;
-                        else if (crc32_Fireproof == entry_hash)
+                        else if (crc32_Quietness == entry_hash)
                             entry_idx = 12;
+                        else if (crc32_Fireproof == entry_hash)
+                            entry_idx = 16;
                         else
                             continue;
 
