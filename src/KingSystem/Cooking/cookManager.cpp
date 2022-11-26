@@ -191,8 +191,7 @@ void CookingMgr::init(sead::Heap* heap) {
             int size = cei_iter.getSize();
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
-                    bool success = cei_iter.tryGetFloatByIndex(&float_val, i);
-                    if (i < 5 && success) {
+                    if (cei_iter.tryGetFloatByIndex(&float_val, i) && i < 5) {
                         mNMMR[i] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
                     }
                 }
@@ -203,8 +202,7 @@ void CookingMgr::init(sead::Heap* heap) {
             int size = cei_iter.getSize();
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
-                    bool success = cei_iter.tryGetIntByIndex(&int_val, i);
-                    if (i < 5 && success) {
+                    if (cei_iter.tryGetIntByIndex(&int_val, i) && i < 5) {
                         mNMSSR[i] = sead::Mathi::clamp(int_val, -100, 100);
                     }
                 }
