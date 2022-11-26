@@ -45,7 +45,7 @@ public:
 
     void init(sead::Heap* heap);
 
-    bool cook(const CookArg& arg, const CookItem& cookItem, const BoostArg& boostArg);
+    bool cook(const CookArg& arg, const CookItem& cook_item, const BoostArg& boost_arg);
 
     bool resetArgCookData(const CookArg& arg, const CookItem& item);
 
