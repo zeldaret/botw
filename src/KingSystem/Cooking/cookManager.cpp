@@ -133,56 +133,55 @@ void CookingMgr::init(sead::Heap* heap) {
 
         if (iter.tryGetIterByKey(&cei_iter, "CEI")) {
             int size = cei_iter.getSize();
-            if (size > 0) {
-                for (int i = 0; i < size; i++) {
-                    if (cei_iter.tryGetIterByIndex(&entry_iter, i) &&
-                        entry_iter.tryGetUIntByKey(&uint_val, "T")) {
-                        const u32 entry_hash = uint_val;
 
-                        int entry_idx;
+            for (int i = 0; i < size; i++) {
+                if (cei_iter.tryGetIterByIndex(&entry_iter, i) &&
+                    entry_iter.tryGetUIntByKey(&uint_val, "T")) {
+                    const u32 entry_hash = uint_val;
 
-                        if (sCrc32_LifeRecover == entry_hash)
-                            entry_idx = 1;
-                        else if (sCrc32_GutsPerformance == entry_hash)
-                            entry_idx = 15;
-                        else if (sCrc32_StaminaRecover == entry_hash)
-                            entry_idx = 14;
-                        else if (sCrc32_LifeMaxUp == entry_hash)
-                            entry_idx = 2;
-                        else if (sCrc32_ResistHot == entry_hash)
-                            entry_idx = 4;
-                        else if (sCrc32_ResistCold == entry_hash)
-                            entry_idx = 5;
-                        else if (sCrc32_ResistElectric == entry_hash)
-                            entry_idx = 6;
-                        else if (sCrc32_AllSpeed == entry_hash)
-                            entry_idx = 13;
-                        else if (sCrc32_AttackUp == entry_hash)
-                            entry_idx = 10;
-                        else if (sCrc32_DefenseUp == entry_hash)
-                            entry_idx = 11;
-                        else if (sCrc32_Quietness == entry_hash)
-                            entry_idx = 12;
-                        else if (sCrc32_Fireproof == entry_hash)
-                            entry_idx = 16;
-                        else
-                            continue;
+                    int entry_idx;
 
-                        if (entry_iter.tryGetIntByKey(&int_val, "BT"))
-                            mCookingEffectEntries[entry_idx].bt = int_val;
+                    if (sCrc32_LifeRecover == entry_hash)
+                        entry_idx = 1;
+                    else if (sCrc32_GutsPerformance == entry_hash)
+                        entry_idx = 15;
+                    else if (sCrc32_StaminaRecover == entry_hash)
+                        entry_idx = 14;
+                    else if (sCrc32_LifeMaxUp == entry_hash)
+                        entry_idx = 2;
+                    else if (sCrc32_ResistHot == entry_hash)
+                        entry_idx = 4;
+                    else if (sCrc32_ResistCold == entry_hash)
+                        entry_idx = 5;
+                    else if (sCrc32_ResistElectric == entry_hash)
+                        entry_idx = 6;
+                    else if (sCrc32_AllSpeed == entry_hash)
+                        entry_idx = 13;
+                    else if (sCrc32_AttackUp == entry_hash)
+                        entry_idx = 10;
+                    else if (sCrc32_DefenseUp == entry_hash)
+                        entry_idx = 11;
+                    else if (sCrc32_Quietness == entry_hash)
+                        entry_idx = 12;
+                    else if (sCrc32_Fireproof == entry_hash)
+                        entry_idx = 16;
+                    else
+                        continue;
 
-                        if (entry_iter.tryGetIntByKey(&int_val, "Ma"))
-                            mCookingEffectEntries[entry_idx].ma = int_val;
+                    if (entry_iter.tryGetIntByKey(&int_val, "BT"))
+                        mCookingEffectEntries[entry_idx].bt = int_val;
 
-                        if (entry_iter.tryGetIntByKey(&int_val, "Mi"))
-                            mCookingEffectEntries[entry_idx].mi = int_val;
+                    if (entry_iter.tryGetIntByKey(&int_val, "Ma"))
+                        mCookingEffectEntries[entry_idx].ma = int_val;
 
-                        if (entry_iter.tryGetFloatByKey(&float_val, "MR"))
-                            mCookingEffectEntries[entry_idx].mr = float_val;
+                    if (entry_iter.tryGetIntByKey(&int_val, "Mi"))
+                        mCookingEffectEntries[entry_idx].mi = int_val;
 
-                        if (entry_iter.tryGetIntByKey(&int_val, "SSA"))
-                            mCookingEffectEntries[entry_idx].ssa = int_val;
-                    }
+                    if (entry_iter.tryGetFloatByKey(&float_val, "MR"))
+                        mCookingEffectEntries[entry_idx].mr = float_val;
+
+                    if (entry_iter.tryGetIntByKey(&int_val, "SSA"))
+                        mCookingEffectEntries[entry_idx].ssa = int_val;
                 }
             }
         }
