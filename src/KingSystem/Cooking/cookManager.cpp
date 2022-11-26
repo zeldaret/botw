@@ -21,28 +21,25 @@ struct CookingEffect {
     u32 effect_id;
 };
 
-static CookingEffect sCookingEffects[13]{
-    CookingEffect{"None", -1u},        CookingEffect{"LifeRecover", 1},
-    CookingEffect{"LifeMaxUp", 2},     CookingEffect{"ResistHot", 4},
-    CookingEffect{"ResistCold", 5},    CookingEffect{"ResistElectric", 6},
-    CookingEffect{"AttackUp", 0xA},    CookingEffect{"DefenseUp", 0xB},
-    CookingEffect{"Quietness", 0xC},   CookingEffect{"MovingSpeed", 0xD},
-    CookingEffect{"GutsRecover", 0xE}, CookingEffect{"ExGutsMaxUp", 0xF},
-    CookingEffect{"Fireproof", 0x10},
+static const CookingEffect sCookingEffects[13]{
+    {"None", -1u},     {"LifeRecover", 1},    {"LifeMaxUp", 2},    {"ResistHot", 4},
+    {"ResistCold", 5}, {"ResistElectric", 6}, {"AttackUp", 10},    {"DefenseUp", 11},
+    {"Quietness", 12}, {"MovingSpeed", 13},   {"GutsRecover", 14}, {"ExGutsMaxUp", 15},
+    {"Fireproof", 16},
 };
 
-static u32 sCrc32_LifeRecover = sead::HashCRC32::calcStringHash("LifeRecover");
-static u32 sCrc32_GutsPerformance = sead::HashCRC32::calcStringHash("GutsPerformance");
-static u32 sCrc32_StaminaRecover = sead::HashCRC32::calcStringHash("StaminaRecover");
-static u32 sCrc32_LifeMaxUp = sead::HashCRC32::calcStringHash("LifeMaxUp");
-static u32 sCrc32_ResistHot = sead::HashCRC32::calcStringHash("ResistHot");
-static u32 sCrc32_ResistCold = sead::HashCRC32::calcStringHash("ResistCold");
-static u32 sCrc32_ResistElectric = sead::HashCRC32::calcStringHash("ResistElectric");
-static u32 sCrc32_AllSpeed = sead::HashCRC32::calcStringHash("AllSpeed");
-static u32 sCrc32_AttackUp = sead::HashCRC32::calcStringHash("AttackUp");
-static u32 sCrc32_DefenseUp = sead::HashCRC32::calcStringHash("DefenseUp");
-static u32 sCrc32_Quietness = sead::HashCRC32::calcStringHash("Quietness");
-static u32 sCrc32_Fireproof = sead::HashCRC32::calcStringHash("Fireproof");
+static const u32 sCrc32_LifeRecover = sead::HashCRC32::calcStringHash("LifeRecover");
+static const u32 sCrc32_GutsPerformance = sead::HashCRC32::calcStringHash("GutsPerformance");
+static const u32 sCrc32_StaminaRecover = sead::HashCRC32::calcStringHash("StaminaRecover");
+static const u32 sCrc32_LifeMaxUp = sead::HashCRC32::calcStringHash("LifeMaxUp");
+static const u32 sCrc32_ResistHot = sead::HashCRC32::calcStringHash("ResistHot");
+static const u32 sCrc32_ResistCold = sead::HashCRC32::calcStringHash("ResistCold");
+static const u32 sCrc32_ResistElectric = sead::HashCRC32::calcStringHash("ResistElectric");
+static const u32 sCrc32_AllSpeed = sead::HashCRC32::calcStringHash("AllSpeed");
+static const u32 sCrc32_AttackUp = sead::HashCRC32::calcStringHash("AttackUp");
+static const u32 sCrc32_DefenseUp = sead::HashCRC32::calcStringHash("DefenseUp");
+static const u32 sCrc32_Quietness = sead::HashCRC32::calcStringHash("Quietness");
+static const u32 sCrc32_Fireproof = sead::HashCRC32::calcStringHash("Fireproof");
 
 void CookingMgr::init(sead::Heap* heap) {
     res::LoadRequest req;
