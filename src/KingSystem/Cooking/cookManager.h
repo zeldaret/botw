@@ -86,9 +86,9 @@ private:
 
     CookingEffectEntry mCookingEffectEntries[17];
 
-    float mNMMR[5];
+    sead::SafeArray<float, 5> mNMMR;
 
-    int mNMSSR[5];
+    sead::SafeArray<int, 5> mNMSSR;
 
     CookItem mCookItem;
 

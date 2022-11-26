@@ -193,8 +193,7 @@ void CookingMgr::init(sead::Heap* heap) {
                 for (int i = 0; i < size; i++) {
                     bool success = cei_iter.tryGetFloatByIndex(&float_val, i);
                     if (i < 5 && success) {
-                        int idx = (u64)i < 5ULL ? i : 0;
-                        mNMMR[idx] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
+                        mNMMR[i] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
                     }
                 }
             }
@@ -206,8 +205,7 @@ void CookingMgr::init(sead::Heap* heap) {
                 for (int i = 0; i < size; i++) {
                     bool success = cei_iter.tryGetIntByIndex(&int_val, i);
                     if (i < 5 && success) {
-                        int idx = (u64)i < 5ULL ? i : 0;
-                        mNMSSR[idx] = sead::Mathi::clamp(int_val, -100, 100);
+                        mNMSSR[i] = sead::Mathi::clamp(int_val, -100, 100);
                     }
                 }
             }
