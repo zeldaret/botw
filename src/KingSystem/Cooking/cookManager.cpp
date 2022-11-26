@@ -31,18 +31,18 @@ static CookingEffect sCookingEffects[13]{
     CookingEffect{"Fireproof", 0x10},
 };
 
-static u32 crc32_LifeRecover = sead::HashCRC32::calcStringHash("LifeRecover");
-static u32 crc32_GutsPerformance = sead::HashCRC32::calcStringHash("GutsPerformance");
-static u32 crc32_StaminaRecover = sead::HashCRC32::calcStringHash("StaminaRecover");
-static u32 crc32_LifeMaxUp = sead::HashCRC32::calcStringHash("LifeMaxUp");
-static u32 crc32_ResistHot = sead::HashCRC32::calcStringHash("ResistHot");
-static u32 crc32_ResistCold = sead::HashCRC32::calcStringHash("ResistCold");
-static u32 crc32_ResistElectric = sead::HashCRC32::calcStringHash("ResistElectric");
-static u32 crc32_AllSpeed = sead::HashCRC32::calcStringHash("AllSpeed");
-static u32 crc32_AttackUp = sead::HashCRC32::calcStringHash("AttackUp");
-static u32 crc32_DefenseUp = sead::HashCRC32::calcStringHash("DefenseUp");
-static u32 crc32_Quietness = sead::HashCRC32::calcStringHash("Quietness");
-static u32 crc32_Fireproof = sead::HashCRC32::calcStringHash("Fireproof");
+static u32 sCrc32_LifeRecover = sead::HashCRC32::calcStringHash("LifeRecover");
+static u32 sCrc32_GutsPerformance = sead::HashCRC32::calcStringHash("GutsPerformance");
+static u32 sCrc32_StaminaRecover = sead::HashCRC32::calcStringHash("StaminaRecover");
+static u32 sCrc32_LifeMaxUp = sead::HashCRC32::calcStringHash("LifeMaxUp");
+static u32 sCrc32_ResistHot = sead::HashCRC32::calcStringHash("ResistHot");
+static u32 sCrc32_ResistCold = sead::HashCRC32::calcStringHash("ResistCold");
+static u32 sCrc32_ResistElectric = sead::HashCRC32::calcStringHash("ResistElectric");
+static u32 sCrc32_AllSpeed = sead::HashCRC32::calcStringHash("AllSpeed");
+static u32 sCrc32_AttackUp = sead::HashCRC32::calcStringHash("AttackUp");
+static u32 sCrc32_DefenseUp = sead::HashCRC32::calcStringHash("DefenseUp");
+static u32 sCrc32_Quietness = sead::HashCRC32::calcStringHash("Quietness");
+static u32 sCrc32_Fireproof = sead::HashCRC32::calcStringHash("Fireproof");
 
 void CookingMgr::init(sead::Heap* heap) {
     res::LoadRequest req;
@@ -144,29 +144,29 @@ void CookingMgr::init(sead::Heap* heap) {
 
                         int entry_idx;
 
-                        if (crc32_LifeRecover == entry_hash)
+                        if (sCrc32_LifeRecover == entry_hash)
                             entry_idx = 1;
-                        else if (crc32_GutsPerformance == entry_hash)
+                        else if (sCrc32_GutsPerformance == entry_hash)
                             entry_idx = 15;
-                        else if (crc32_StaminaRecover == entry_hash)
+                        else if (sCrc32_StaminaRecover == entry_hash)
                             entry_idx = 14;
-                        else if (crc32_LifeMaxUp == entry_hash)
+                        else if (sCrc32_LifeMaxUp == entry_hash)
                             entry_idx = 2;
-                        else if (crc32_ResistHot == entry_hash)
+                        else if (sCrc32_ResistHot == entry_hash)
                             entry_idx = 4;
-                        else if (crc32_ResistCold == entry_hash)
+                        else if (sCrc32_ResistCold == entry_hash)
                             entry_idx = 5;
-                        else if (crc32_ResistElectric == entry_hash)
+                        else if (sCrc32_ResistElectric == entry_hash)
                             entry_idx = 6;
-                        else if (crc32_AllSpeed == entry_hash)
+                        else if (sCrc32_AllSpeed == entry_hash)
                             entry_idx = 13;
-                        else if (crc32_AttackUp == entry_hash)
+                        else if (sCrc32_AttackUp == entry_hash)
                             entry_idx = 10;
-                        else if (crc32_DefenseUp == entry_hash)
+                        else if (sCrc32_DefenseUp == entry_hash)
                             entry_idx = 11;
-                        else if (crc32_Quietness == entry_hash)
+                        else if (sCrc32_Quietness == entry_hash)
                             entry_idx = 12;
-                        else if (crc32_Fireproof == entry_hash)
+                        else if (sCrc32_Fireproof == entry_hash)
                             entry_idx = 16;
                         else
                             continue;
