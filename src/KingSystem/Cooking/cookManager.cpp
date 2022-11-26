@@ -189,22 +189,20 @@ void CookingMgr::init(sead::Heap* heap) {
 
         if (iter.tryGetIterByKey(&cei_iter, "NMMR")) {
             int size = cei_iter.getSize();
-            if (size > 0) {
-                for (int i = 0; i < size; i++) {
-                    if (cei_iter.tryGetFloatByIndex(&float_val, i) && i < 5) {
-                        mNMMR[i] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
-                    }
+
+            for (int i = 0; i < size; i++) {
+                if (cei_iter.tryGetFloatByIndex(&float_val, i) && i < 5) {
+                    mNMMR[i] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
                 }
             }
         }
 
         if (iter.tryGetIterByKey(&cei_iter, "NMSSR")) {
             int size = cei_iter.getSize();
-            if (size > 0) {
-                for (int i = 0; i < size; i++) {
-                    if (cei_iter.tryGetIntByIndex(&int_val, i) && i < 5) {
-                        mNMSSR[i] = sead::Mathi::clamp(int_val, -100, 100);
-                    }
+
+            for (int i = 0; i < size; i++) {
+                if (cei_iter.tryGetIntByIndex(&int_val, i) && i < 5) {
+                    mNMSSR[i] = sead::Mathi::clamp(int_val, -100, 100);
                 }
             }
         }
