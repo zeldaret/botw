@@ -68,7 +68,7 @@ private:
 
     al::ByamlIter* mConfig = nullptr;
 
-    ksys::res::Handle mRes2;
+    ksys::res::Handle mResHandle;
 
     sead::FixedSafeString<64> mFailActorName;
     sead::FixedSafeString<64> mFairyTonicName;

@@ -50,7 +50,7 @@ void CookingMgr::init(sead::Heap* heap) {
     sead::FixedSafeString<0x80> path;
     path.format("Cooking/CookData.byml");
 
-    auto* res = sead::DynamicCast<sead::DirectResource>(mRes2.load(path, &req));
+    auto* res = sead::DynamicCast<sead::DirectResource>(mResHandle.load(path, &req));
     if (!res)
         return;
 
