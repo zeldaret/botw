@@ -60,12 +60,12 @@ void CookingMgr::init(sead::Heap* heap) {
     mConfig = mConfig ? new (mConfig) al::ByamlIter(res->getRawData()) :
                         new (heap) al::ByamlIter(res->getRawData());
 
-    _548.clear();
+    mCookingEffectNameIdMap.clear();
 
     for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
         auto& effect = sCookingEffects[effect_idx];
         u32 name_hash = sead::HashCRC32::calcStringHash(effect.name);
-        _548.insert(name_hash, effect.effect_id);
+        mCookingEffectNameIdMap.insert(name_hash, effect.effect_id);
     }
 
     for (int i = 0; i < 17; i++) {
