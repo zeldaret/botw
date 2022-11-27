@@ -29,7 +29,7 @@ static const CookingEffect sCookingEffects[13]{
     {"Fireproof", 16},
 };
 
-struct Constants {
+struct Crc32Constants {
     util::InitConstants init_constants;
     const u32 crc32_life_recover = sead::HashCRC32::calcStringHash("LifeRecover");
     const u32 crc32_guts_performance = sead::HashCRC32::calcStringHash("GutsPerformance");
@@ -45,7 +45,7 @@ struct Constants {
     const u32 crc32_fireproof = sead::HashCRC32::calcStringHash("Fireproof");
 };
 
-static Constants sConstants;
+static Crc32Constants sCrc32Constants;
 
 void CookingMgr::init(sead::Heap* heap) {
     res::LoadRequest req;
@@ -147,29 +147,29 @@ void CookingMgr::init(sead::Heap* heap) {
 
                     int entry_idx;
 
-                    if (sConstants.crc32_life_recover == entry_hash)
+                    if (sCrc32Constants.crc32_life_recover == entry_hash)
                         entry_idx = 1;
-                    else if (sConstants.crc32_guts_performance == entry_hash)
+                    else if (sCrc32Constants.crc32_guts_performance == entry_hash)
                         entry_idx = 15;
-                    else if (sConstants.crc32_stamina_recover == entry_hash)
+                    else if (sCrc32Constants.crc32_stamina_recover == entry_hash)
                         entry_idx = 14;
-                    else if (sConstants.crc32_life_max_up == entry_hash)
+                    else if (sCrc32Constants.crc32_life_max_up == entry_hash)
                         entry_idx = 2;
-                    else if (sConstants.crc32_resist_hot == entry_hash)
+                    else if (sCrc32Constants.crc32_resist_hot == entry_hash)
                         entry_idx = 4;
-                    else if (sConstants.crc32_resist_cold == entry_hash)
+                    else if (sCrc32Constants.crc32_resist_cold == entry_hash)
                         entry_idx = 5;
-                    else if (sConstants.crc32_resist_electric == entry_hash)
+                    else if (sCrc32Constants.crc32_resist_electric == entry_hash)
                         entry_idx = 6;
-                    else if (sConstants.crc32_all_speed == entry_hash)
+                    else if (sCrc32Constants.crc32_all_speed == entry_hash)
                         entry_idx = 13;
-                    else if (sConstants.crc32_attack_up == entry_hash)
+                    else if (sCrc32Constants.crc32_attack_up == entry_hash)
                         entry_idx = 10;
-                    else if (sConstants.crc32_defense_up == entry_hash)
+                    else if (sCrc32Constants.crc32_defense_up == entry_hash)
                         entry_idx = 11;
-                    else if (sConstants.crc32_quietness == entry_hash)
+                    else if (sCrc32Constants.crc32_quietness == entry_hash)
                         entry_idx = 12;
-                    else if (sConstants.crc32_fireproof == entry_hash)
+                    else if (sCrc32Constants.crc32_fireproof == entry_hash)
                         entry_idx = 16;
                     else
                         continue;
