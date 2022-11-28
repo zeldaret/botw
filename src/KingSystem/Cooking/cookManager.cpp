@@ -48,15 +48,12 @@ struct Crc32Constants {
 
 static Crc32Constants sCrc32Constants;
 
-// NON_MATCHING
 void CookingMgr::cookFail(CookItem& item) {
-    auto& fail_actor_name = mFailActorName;
-
     if (item.name.isEmpty())
-        item.name = fail_actor_name;
+        item.name.copy(mFailActorName);
 
     f32 stamina_recover_x;
-    if (item.name == fail_actor_name) {
+    if (item.name == mFailActorName) {
         // Dubious food
         item.stamina_recover_y = 0;
         f32 min_recovery = (f32)(s32)mFALR;
@@ -74,13 +71,10 @@ void CookingMgr::cookFail(CookItem& item) {
     item.cook_effect_1 = 2;
 }
 
-// NON_MATCHING
 void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::FixedSafeString<64>& name) {
-    const auto& fail_actor_name = mFailActorName;
-
     f32 stamina_recover_x;
-    if (name.isEmpty() || name == fail_actor_name) {
-        item.name = fail_actor_name;
+    if (name.isEmpty() || name == mFailActorName) {
+        item.name.copy(mFailActorName);
         item.stamina_recover_y = 0;
         stamina_recover_x = (f32)(s32)mFALR;
     } else {
