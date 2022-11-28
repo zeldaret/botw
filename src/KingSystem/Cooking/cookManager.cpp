@@ -7,17 +7,6 @@
 
 namespace ksys {
 
-CookingMgr::CookingMgr() = default;
-
-SEAD_SINGLETON_DISPOSER_IMPL(CookingMgr)
-
-CookingMgr::~CookingMgr() {
-    if (mConfig) {
-        delete mConfig;
-        mConfig = nullptr;
-    }
-}
-
 struct CookingEffect {
     sead::SafeString name;
     u32 effect_id;
@@ -47,6 +36,17 @@ struct Crc32Constants {
 };
 
 static Crc32Constants sCrc32Constants;
+
+CookingMgr::CookingMgr() = default;
+
+SEAD_SINGLETON_DISPOSER_IMPL(CookingMgr)
+
+CookingMgr::~CookingMgr() {
+    if (mConfig) {
+        delete mConfig;
+        mConfig = nullptr;
+    }
+}
 
 void CookingMgr::cookFail(CookItem& item) {
     if (item.name.isEmpty())
