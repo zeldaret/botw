@@ -71,7 +71,7 @@ void CookingMgr::cookFail(CookItem& item) {
     item.cook_effect_1 = 2;
 }
 
-void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::FixedSafeString<64>& name) {
+void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString& name) {
     f32 stamina_recover_x;
     if (name.isEmpty() || name == mFailActorName) {
         item.name.copy(mFailActorName);

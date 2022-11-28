@@ -40,7 +40,7 @@ public:
     ~CookingMgr();
 
     void cookFail(CookItem& item);
-    void cookFailForMissingConfig(CookItem& item, const sead::FixedSafeString<64>& name);
+    void cookFailForMissingConfig(CookItem& item, const sead::SafeString& name);
     void cookCalcBoost(const Ingredient ingredients[], CookItem& item, const BoostArg& boost_arg);
     void cookHandleBoostSuccessInner(const Ingredient ingredients[], CookItem& item);
     void cookCalc3(const Ingredient ingredients[], CookItem& item);
