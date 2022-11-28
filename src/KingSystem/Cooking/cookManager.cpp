@@ -261,8 +261,8 @@ void CookingMgr::init(sead::Heap* heap) {
     }
 }
 
-void CookingMgr::setCookItem(CookItem& from) {
-    return from.copy(mCookItem);
+void CookingMgr::setCookItem(const CookItem& from) {
+    from.copy(mCookItem);
 }
 
 void CookingMgr::getCookItem(CookItem& to) const {

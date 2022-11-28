@@ -57,7 +57,7 @@ public:
                        const UnkItem& item3, const UnkItem& item4, const UnkItem& item5,
                        const CookItem& cook_item, const BoostArg& boost_arg);
 
-    void setCookItem(CookItem& from);
+    void setCookItem(const CookItem& from);
 
     void getCookItem(CookItem& to) const;
 
