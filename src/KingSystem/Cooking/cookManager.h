@@ -58,7 +58,7 @@ public:
                        const CookItem& cook_item, const BoostArg& boost_arg);
 
     void setCookItem(const CookItem& from);
-
+    void resetCookItem();
     void getCookItem(CookItem& to) const;
 
 private:
