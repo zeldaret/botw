@@ -1,6 +1,7 @@
 #include "KingSystem/Cooking/cookManager.h"
 #include <codec/seadHashCRC32.h>
 #include <typeindex>
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
@@ -92,6 +93,66 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::FixedSafeS
     item.cook_effect_0_y = 0.0f;
     item.cook_effect_0_x = -1;
     item.cook_effect_1 = 1;
+}
+
+void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients, CookItem& item) {
+    item.cook_effect_1 = 0;
+    s32 price;
+
+    if (mFairyTonicName == item.name) {
+        item.cook_effect_1 = 2;
+        return;
+    }
+
+    s32 int_val = 0;
+    s32 max_price = 0;
+    s32 mult_idx = 0;
+
+    for (int i = 0; i < NumIngredientsMax; ++i) {
+        const auto& ingredient = ingredients[i];
+        const auto& actor_data = ingredient.actor_data;
+
+        if (!ingredient.arg)
+            break;
+
+        if (act::InfoData::instance()->hasTag(actor_data, act::tags::CookLowPrice)) {
+            s32 p = ingredient.arg->_58;
+            mult_idx += p;
+            item.cook_effect_1 += p;
+            max_price += ingredient.arg->_58;
+        } else {
+            if (actor_data.tryGetIntByKey(&int_val, "itemSellingPrice")) {
+                s32 p = ingredient.arg->_58;
+                mult_idx += p;
+                item.cook_effect_1 += int_val * p;
+            }
+            if (actor_data.tryGetIntByKey(&int_val, "itemBuyingPrice")) {
+                max_price += int_val * ingredient.arg->_58;
+            }
+        }
+    }
+
+    if (mult_idx >= 1) {
+        price = (s32)(mNMMR[mult_idx - 1] * (float)item.cook_effect_1);
+        item.cook_effect_1 = price;
+    } else {
+        price = item.cook_effect_1;
+    }
+
+    if (price >= 1) {
+        // Round up to the nearest power of 10
+        if (price % 10 != 0) {
+            price = price + 10 - price % 10;
+            item.cook_effect_1 = price;
+        }
+    }
+
+    if (max_price < price)
+        price = max_price;
+    if (price <= 2)
+        price = 2;
+
+    item.cook_effect_1 = price;
 }
 
 void CookingMgr::init(sead::Heap* heap) {
