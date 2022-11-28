@@ -95,7 +95,8 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::FixedSafeS
     item.cook_effect_1 = 1;
 }
 
-void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients, CookItem& item) {
+void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
+                                   CookItem& item) const {
     item.cook_effect_1 = 0;
     s32 price;
 
