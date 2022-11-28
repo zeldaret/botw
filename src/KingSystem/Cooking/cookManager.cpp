@@ -22,7 +22,7 @@ struct CookingEffect {
     u32 effect_id;
 };
 
-static const CookingEffect sCookingEffects[13]{
+static const CookingEffect sCookingEffects[CookingMgr::NumEffects]{
     {"None", -1u},     {"LifeRecover", 1},    {"LifeMaxUp", 2},    {"ResistHot", 4},
     {"ResistCold", 5}, {"ResistElectric", 6}, {"AttackUp", 10},    {"DefenseUp", 11},
     {"Quietness", 12}, {"MovingSpeed", 13},   {"GutsRecover", 14}, {"ExGutsMaxUp", 15},
@@ -112,13 +112,13 @@ void CookingMgr::init(sead::Heap* heap) {
 
     mCookingEffectNameIdMap.clear();
 
-    for (int effect_idx = 0; effect_idx < 13; effect_idx++) {
+    for (int effect_idx = 0; effect_idx < NumEffects; effect_idx++) {
         auto& effect = sCookingEffects[effect_idx];
         u32 name_hash = sead::HashCRC32::calcStringHash(effect.name);
         mCookingEffectNameIdMap.insert(name_hash, effect.effect_id);
     }
 
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < NumEffectSlots; i++) {
         mCookingEffectEntries[i] = CookingEffectEntry{};
         mCookingEffectEntries[i].ssa = 0;
     }
@@ -243,7 +243,7 @@ void CookingMgr::init(sead::Heap* heap) {
             int size = cei_iter.getSize();
 
             for (int i = 0; i < size; i++) {
-                if (cei_iter.tryGetFloatByIndex(&float_val, i) && i < 5) {
+                if (cei_iter.tryGetFloatByIndex(&float_val, i) && i < NumIngredientsMax) {
                     mNMMR[i] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
                 }
             }
@@ -253,7 +253,7 @@ void CookingMgr::init(sead::Heap* heap) {
             int size = cei_iter.getSize();
 
             for (int i = 0; i < size; i++) {
-                if (cei_iter.tryGetIntByIndex(&int_val, i) && i < 5) {
+                if (cei_iter.tryGetIntByIndex(&int_val, i) && i < NumIngredientsMax) {
                     mNMSSR[i] = sead::Mathi::clamp(int_val, -100, 100);
                 }
             }

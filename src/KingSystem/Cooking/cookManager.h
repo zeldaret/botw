@@ -19,6 +19,10 @@ struct UnkItem;
 class CookingMgr {
     SEAD_SINGLETON_DISPOSER(CookingMgr)
 public:
+    static constexpr s32 NumIngredientsMax = 5;
+    static constexpr s32 NumEffects = 13;
+    static constexpr s32 NumEffectSlots = 17;
+
     struct Ingredient {
         u32 name_hash;
         int _4;
@@ -84,15 +88,15 @@ private:
     u32 mSFALR = 1;
     u32 mSSAET = 300;
 
-    CookingEffectEntry mCookingEffectEntries[17];
+    CookingEffectEntry mCookingEffectEntries[NumEffectSlots];
 
-    sead::SafeArray<float, 5> mNMMR;
+    sead::SafeArray<float, NumIngredientsMax> mNMMR;
 
-    sead::SafeArray<int, 5> mNMSSR;
+    sead::SafeArray<int, NumIngredientsMax> mNMSSR;
 
     CookItem mCookItem;
 
-    sead::FixedTreeMap<u32, u32, 13> mCookingEffectNameIdMap{};
+    sead::FixedTreeMap<u32, u32, NumEffects> mCookingEffectNameIdMap{};
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 
@@ -103,7 +107,7 @@ struct CookIngredient {
 KSYS_CHECK_SIZE_NX150(CookIngredient, 0x60);
 
 struct CookArg {
-    CookIngredient ingredients[5];
+    CookIngredient ingredients[CookingMgr::NumIngredientsMax];
 };
 KSYS_CHECK_SIZE_NX150(CookArg, 0x1E0);
 
