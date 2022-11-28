@@ -261,8 +261,8 @@ void CookingMgr::init(sead::Heap* heap) {
     }
 }
 
-void CookingMgr::getCookItem(CookItem& to) {
-    return to.copy(mCookItem);
+void CookingMgr::setCookItem(CookItem& from) {
+    return from.copy(mCookItem);
 }
 
 }  // namespace ksys
