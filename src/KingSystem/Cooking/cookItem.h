@@ -10,6 +10,7 @@ namespace ksys {
 struct CookItem {
     CookItem();
 
+    void reset();
     void copy(CookItem& to) const;
 
     sead::FixedSafeString<64> name{""};
