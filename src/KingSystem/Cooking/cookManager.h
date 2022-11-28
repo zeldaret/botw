@@ -59,7 +59,7 @@ public:
 
     void setCookItem(CookItem& from);
 
-    void x(CookItem& to);
+    void getCookItem(CookItem& to);
 
 private:
     struct CookingEffectEntry {
