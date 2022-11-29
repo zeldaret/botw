@@ -5,6 +5,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actWeapon.h"
+#include "Game/Cooking/cookManager.h"
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameItemUtils.h"
@@ -17,7 +18,6 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/Cooking/cookManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/PlayReportMgr.h"
