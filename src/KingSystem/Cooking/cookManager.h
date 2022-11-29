@@ -1,11 +1,11 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <container/seadTreeMap.h>
 #include <heap/seadDisposer.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
-#include "cookItem.h"
 
 namespace ksys {
 
@@ -14,6 +14,23 @@ struct CookIngredient;
 
 // TODO: Find actual type
 struct UnkItem;
+
+struct CookItem {
+    CookItem();
+
+    void reset();
+    void copy(CookItem& to) const;
+
+    sead::FixedSafeString<64> name{""};
+    sead::SafeArray<sead::FixedSafeString<64>, 5> ingredients;
+    f32 stamina_recover_x{};
+    s32 stamina_recover_y{};
+    s32 cook_effect_1{};
+    s32 cook_effect_0_x = -1;
+    f32 cook_effect_0_y{};
+    bool _224{};
+};
+KSYS_CHECK_SIZE_NX150(CookItem, 0x228);
 
 // TODO
 class CookingMgr {

@@ -17,7 +17,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/Cooking/cookItem.h"
+#include "KingSystem/Cooking/cookManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/PlayReportMgr.h"
