@@ -15,6 +15,22 @@ struct CookIngredient;
 // TODO: Find actual type
 struct UnkItem;
 
+enum class CookEffectId : s32 {
+    None = -1,
+    LifeRecover = 1,
+    LifeMaxUp = 2,
+    ResistHot = 4,
+    ResistCold = 5,
+    ResistElectric = 6,
+    AttackUp = 10,
+    DefenseUp = 11,
+    Quietness = 12,
+    MovingSpeed = 13,
+    GutsRecover = 14,
+    ExGutsMaxUp = 15,
+    Fireproof = 16,
+};
+
 struct CookItem {
     CookItem();
 
@@ -26,7 +42,7 @@ struct CookItem {
     f32 life_recover{};
     s32 effect_time{};
     s32 item_price{};
-    s32 effect_id = -1;
+    CookEffectId effect_id = CookEffectId::None;
     f32 stamina_recover{};
     bool _224{};
 };
@@ -114,7 +130,7 @@ private:
 
     CookItem mCookItem;
 
-    sead::FixedTreeMap<u32, u32, NumEffects> mCookingEffectNameIdMap{};
+    sead::FixedTreeMap<u32, CookEffectId, NumEffects> mCookingEffectNameIdMap{};
 };
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 

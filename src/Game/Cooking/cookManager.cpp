@@ -10,14 +10,23 @@ namespace uking {
 
 struct CookingEffect {
     sead::SafeString name;
-    u32 effect_id;
+    CookEffectId effect_id;
 };
 
 static const CookingEffect sCookingEffects[CookingMgr::NumEffects]{
-    {"None", -1u},     {"LifeRecover", 1},    {"LifeMaxUp", 2},    {"ResistHot", 4},
-    {"ResistCold", 5}, {"ResistElectric", 6}, {"AttackUp", 10},    {"DefenseUp", 11},
-    {"Quietness", 12}, {"MovingSpeed", 13},   {"GutsRecover", 14}, {"ExGutsMaxUp", 15},
-    {"Fireproof", 16},
+    {"None", CookEffectId::None},
+    {"LifeRecover", CookEffectId::LifeRecover},
+    {"LifeMaxUp", CookEffectId::LifeMaxUp},
+    {"ResistHot", CookEffectId::ResistHot},
+    {"ResistCold", CookEffectId::ResistCold},
+    {"ResistElectric", CookEffectId::ResistElectric},
+    {"AttackUp", CookEffectId::AttackUp},
+    {"DefenseUp", CookEffectId::DefenseUp},
+    {"Quietness", CookEffectId::Quietness},
+    {"MovingSpeed", CookEffectId::MovingSpeed},
+    {"GutsRecover", CookEffectId::GutsRecover},
+    {"ExGutsMaxUp", CookEffectId::ExGutsMaxUp},
+    {"Fireproof", CookEffectId::Fireproof},
 };
 
 struct Crc32Constants {
@@ -46,7 +55,7 @@ void CookItem::reset() {
     effect_time = 0;
     _224 = false;
     item_price = 0;
-    effect_id = -1;
+    effect_id = CookEffectId::None;
     stamina_recover = 0.0f;
     for (auto& ingredient : ingredients) {
         ingredient.clear();
@@ -75,6 +84,8 @@ CookingMgr::~CookingMgr() {
     }
 }
 
+// CookingMgr::~CookingMgr() = default;
+
 void CookingMgr::cookFail(CookItem& item) {
     if (item.actor_name.isEmpty())
         item.actor_name.copy(mFailActorName);
@@ -93,7 +104,7 @@ void CookingMgr::cookFail(CookItem& item) {
 
     item.life_recover = life_recover;
     item.stamina_recover = 0.0f;
-    item.effect_id = -1;
+    item.effect_id = CookEffectId::None;
     item.item_price = 2;
 }
 
@@ -111,7 +122,7 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
 
     item.life_recover = life_recover;
     item.stamina_recover = 0.0f;
-    item.effect_id = -1;
+    item.effect_id = CookEffectId::None;
     item.item_price = 1;
 }
 
@@ -130,8 +141,9 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
 
     if (found_monster_extract) {
         // Monster Extract found; calculate boosts.
-        s32 effect_min = item.life_recover <= 0.0f || item.effect_id == 2 ? 2 : 0;
-        s32 effect_max = item.effect_id == -1 ? 2 : 4;
+        s32 effect_min =
+            item.life_recover <= 0.0f || item.effect_id == CookEffectId::LifeMaxUp ? 2 : 0;
+        s32 effect_max = item.effect_id == CookEffectId::None ? 2 : 4;
         switch (sead::GlobalRandom::instance()->getS32Range(effect_min, effect_max)) {
         case 0:
             item.life_recover += (float)mCookingEffectEntries[1].ssa;
@@ -140,16 +152,16 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
             item.life_recover += (float)mCookingEffectEntries[1].mi;
             break;
         case 2:
-            if (item.effect_id != -1) {
+            if (item.effect_id != CookEffectId::None) {
                 if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f) {
                     item.stamina_recover = 1.0;
                 }
-                item.stamina_recover += (float)mCookingEffectEntries[item.effect_id].ssa;
+                item.stamina_recover += (float)mCookingEffectEntries[(int)item.effect_id].ssa;
             }
             break;
         case 3:
-            if (item.effect_id != -1) {
-                item.stamina_recover = (float)mCookingEffectEntries[item.effect_id].mi;
+            if (item.effect_id != CookEffectId::None) {
+                item.stamina_recover = (float)mCookingEffectEntries[(int)item.effect_id].mi;
             }
             break;
         default:
@@ -368,49 +380,49 @@ void CookingMgr::init(sead::Heap* heap) {
                     entry_iter.tryGetUIntByKey(&uint_val, "T")) {
                     const u32 entry_hash = uint_val;
 
-                    int entry_idx;
+                    CookEffectId entry_idx;
 
                     if (sCrc32Constants.crc32_life_recover == entry_hash)
-                        entry_idx = 1;
+                        entry_idx = CookEffectId::LifeRecover;
                     else if (sCrc32Constants.crc32_guts_performance == entry_hash)
-                        entry_idx = 15;
+                        entry_idx = CookEffectId::ExGutsMaxUp;
                     else if (sCrc32Constants.crc32_stamina_recover == entry_hash)
-                        entry_idx = 14;
+                        entry_idx = CookEffectId::GutsRecover;
                     else if (sCrc32Constants.crc32_life_max_up == entry_hash)
-                        entry_idx = 2;
+                        entry_idx = CookEffectId::LifeMaxUp;
                     else if (sCrc32Constants.crc32_resist_hot == entry_hash)
-                        entry_idx = 4;
+                        entry_idx = CookEffectId::ResistHot;
                     else if (sCrc32Constants.crc32_resist_cold == entry_hash)
-                        entry_idx = 5;
+                        entry_idx = CookEffectId::ResistCold;
                     else if (sCrc32Constants.crc32_resist_electric == entry_hash)
-                        entry_idx = 6;
+                        entry_idx = CookEffectId::ResistElectric;
                     else if (sCrc32Constants.crc32_all_speed == entry_hash)
-                        entry_idx = 13;
+                        entry_idx = CookEffectId::MovingSpeed;
                     else if (sCrc32Constants.crc32_attack_up == entry_hash)
-                        entry_idx = 10;
+                        entry_idx = CookEffectId::AttackUp;
                     else if (sCrc32Constants.crc32_defense_up == entry_hash)
-                        entry_idx = 11;
+                        entry_idx = CookEffectId::DefenseUp;
                     else if (sCrc32Constants.crc32_quietness == entry_hash)
-                        entry_idx = 12;
+                        entry_idx = CookEffectId::Quietness;
                     else if (sCrc32Constants.crc32_fireproof == entry_hash)
-                        entry_idx = 16;
+                        entry_idx = CookEffectId::Fireproof;
                     else
                         continue;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "BT"))
-                        mCookingEffectEntries[entry_idx].bt = int_val;
+                        mCookingEffectEntries[(s32)entry_idx].bt = int_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "Ma"))
-                        mCookingEffectEntries[entry_idx].ma = int_val;
+                        mCookingEffectEntries[(s32)entry_idx].ma = int_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "Mi"))
-                        mCookingEffectEntries[entry_idx].mi = int_val;
+                        mCookingEffectEntries[(s32)entry_idx].mi = int_val;
 
                     if (entry_iter.tryGetFloatByKey(&float_val, "MR"))
-                        mCookingEffectEntries[entry_idx].mr = float_val;
+                        mCookingEffectEntries[(s32)entry_idx].mr = float_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "SSA"))
-                        mCookingEffectEntries[entry_idx].ssa = int_val;
+                        mCookingEffectEntries[(s32)entry_idx].ssa = int_val;
                 }
             }
         }
