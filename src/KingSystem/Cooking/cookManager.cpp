@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "random/seadGlobalRandom.h"
 
 namespace ksys {
 
@@ -87,6 +88,100 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
     item.cook_effect_0_y = 0.0f;
     item.cook_effect_0_x = -1;
     item.cook_effect_1 = 1;
+}
+
+// NON_MATCHING
+void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookItem& item,
+                               const BoostArg* boost_arg) const {
+    // Find if any of the ingredients are Monster Extract.
+    bool found_monster_extract = false;
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        const auto& ingredient = ingredients[i];
+        if (ingredient.arg && ingredient.arg->name == mMonsterExtractName) {
+            found_monster_extract = true;
+            break;
+        }
+    }
+
+    if (found_monster_extract) {
+        // Monster Extract found; calculate boosts.
+        s32 effect_min = item.stamina_recover_x <= 0.0f || item.cook_effect_0_x == 2 ? 2 : 0;
+        s32 effect_max = item.cook_effect_0_x == -1 ? 2 : 4;
+        switch (sead::GlobalRandom::instance()->getS32Range(effect_min, effect_max)) {
+        case 0:
+            item.stamina_recover_x += (float)mCookingEffectEntries[1].ssa;
+            break;
+        case 1:
+            item.stamina_recover_x += (float)mCookingEffectEntries[1].mi;
+            break;
+        case 2:
+            if (item.cook_effect_0_x != -1) {
+                if (item.cook_effect_0_y > 0.0f && item.cook_effect_0_y < 1.0f) {
+                    item.cook_effect_0_y = 1.0;
+                }
+                item.cook_effect_0_y += (float)mCookingEffectEntries[item.cook_effect_0_x].ssa;
+            }
+            break;
+        case 3:
+            if (item.cook_effect_0_x != -1) {
+                item.cook_effect_0_y = (float)mCookingEffectEntries[item.cook_effect_0_x].mi;
+            }
+            break;
+        default:
+            break;
+        }
+
+        // Effect time
+        if (item.stamina_recover_y >= 1) {
+            u64 roll = sead::GlobalRandom::instance()->getU32(3);
+            s32 new_time;
+            if (roll == 2)
+                // 30 minutes
+                new_time = 1800;
+            else if (roll == 1)
+                // 10 minutes
+                new_time = 600;
+            else if (roll == 0)
+                // 1 minute
+                new_time = 60;
+            else
+                return;
+            item.stamina_recover_y = new_time;
+        }
+
+        return;
+    }
+
+    if (boost_arg && boost_arg->always_boost) {
+        cookHandleBoostSuccessInner(ingredients, item);
+        return;
+    }
+
+    if (boost_arg && !boost_arg->enable_random_boost) {
+        return;
+    }
+
+    s32 success_rate = 0;
+    s32 num_ingredients = 0;
+    s32 threshold = 0;
+
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        const auto& ingredient = ingredients[i];
+        if (ingredient.arg) {
+            num_ingredients++;
+            if (ingredient.actor_data.tryGetIntByKey(&success_rate, "cookSpiceBoostSuccessRate") &&
+                success_rate > threshold) {
+                threshold = success_rate;
+            }
+        }
+    }
+
+    if (num_ingredients >= 1)
+        threshold += mNMSSR[num_ingredients - 1];
+
+    if ((s32)sead::GlobalRandom::instance()->getU32(100) < threshold) {
+        cookHandleBoostSuccessInner(ingredients, item);
+    }
 }
 
 void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,

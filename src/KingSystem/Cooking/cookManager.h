@@ -41,8 +41,9 @@ public:
 
     void cookFail(CookItem& item);
     void cookFailForMissingConfig(CookItem& item, const sead::SafeString& name);
-    void cookCalcBoost(const Ingredient ingredients[], CookItem& item, const BoostArg& boost_arg);
-    void cookHandleBoostSuccessInner(const Ingredient ingredients[], CookItem& item);
+    void cookCalcBoost(const Ingredient* ingredients, CookItem& item,
+                       const BoostArg* boost_arg) const;
+    void cookHandleBoostSuccessInner(const Ingredient ingredients[], CookItem& item) const;
     void cookCalc3(const Ingredient ingredients[], CookItem& item);
     void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
     void cookCalc1(const Ingredient ingredients[], CookItem& item);
