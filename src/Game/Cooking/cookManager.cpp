@@ -6,7 +6,7 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
-namespace ksys {
+namespace uking {
 
 struct CookingEffect {
     sead::SafeString name;
@@ -21,7 +21,7 @@ static const CookingEffect sCookingEffects[CookingMgr::NumEffects]{
 };
 
 struct Crc32Constants {
-    util::InitConstants init_constants;
+    ksys::util::InitConstants init_constants;
     const u32 crc32_life_recover = sead::HashCRC32::calcStringHash("LifeRecover");
     const u32 crc32_guts_performance = sead::HashCRC32::calcStringHash("GutsPerformance");
     const u32 crc32_stamina_recover = sead::HashCRC32::calcStringHash("StaminaRecover");
@@ -231,7 +231,7 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
         if (!ingredient.arg)
             break;
 
-        if (act::InfoData::instance()->hasTag(actor_data, act::tags::CookLowPrice)) {
+        if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookLowPrice)) {
             s32 p = ingredient.arg->_58;
             mult_idx += p;
             item.cook_effect_1 += p;
@@ -272,7 +272,7 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
 }
 
 void CookingMgr::init(sead::Heap* heap) {
-    res::LoadRequest req;
+    ksys::res::LoadRequest req;
 
     req.mRequester = "CookingMgr";
     req._22 = false;

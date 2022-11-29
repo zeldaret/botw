@@ -7,7 +7,7 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys {
+namespace uking {
 
 struct CookArg;
 struct CookIngredient;

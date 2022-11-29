@@ -1017,7 +1017,7 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
     }
 }
 
-void PauseMenuDataMgr::cookItemGet(const ksys::CookItem& cook_item) {
+void PauseMenuDataMgr::cookItemGet(const uking::CookItem& cook_item) {
     const auto* info = ksys::act::InfoData::instance();
     if (!info->hasTag(cook_item.name.cstr(), ksys::act::tags::CookResult))
         return;
@@ -1032,7 +1032,7 @@ void PauseMenuDataMgr::cookItemGet(const ksys::CookItem& cook_item) {
     saveToGameData(lists.list1);
 }
 
-void PauseMenuDataMgr::setCookDataOnLastAddedItem(const ksys::CookItem& cook_item) {
+void PauseMenuDataMgr::setCookDataOnLastAddedItem(const uking::CookItem& cook_item) {
     if (!mLastAddedItem)
         return;
 

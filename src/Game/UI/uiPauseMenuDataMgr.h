@@ -27,9 +27,9 @@ enum class WeaponModifier : u32;
 struct WeaponModifierInfo;
 }  // namespace uking::act
 
-namespace ksys {
+namespace uking {
 struct CookItem;
-}
+}  // namespace uking
 
 namespace uking::ui {
 
@@ -262,9 +262,9 @@ public:
     bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
 
     void itemGet(const sead::SafeString& name, int value, const act::WeaponModifierInfo* modifier);
-    void cookItemGet(const ksys::CookItem& cook_item);
+    void cookItemGet(const uking::CookItem& cook_item);
 
-    void setCookDataOnLastAddedItem(const ksys::CookItem& cook_item);
+    void setCookDataOnLastAddedItem(const uking::CookItem& cook_item);
 
     void autoEquipLastAddedItem();
     const sead::SafeString& autoEquip(PouchItem* item, const sead::OffsetList<PouchItem>& list);
