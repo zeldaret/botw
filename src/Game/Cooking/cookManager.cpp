@@ -443,21 +443,11 @@ void CookingMgr::setCookItem(const CookItem& from) {
 }
 
 void CookingMgr::resetCookItem() {
-    // TODO: Inline CookItem::reset.
-    mCookItem.name.clear();
-    mCookItem.stamina_recover_x = 0.0f;
-    mCookItem.stamina_recover_y = 0;
-    mCookItem._224 = false;
-    mCookItem.cook_effect_1 = 0;
-    mCookItem.cook_effect_0_x = -1;
-    mCookItem.cook_effect_0_y = 0.0f;
-    for (auto& ingredient : mCookItem.ingredients) {
-        ingredient.clear();
-    }
+    mCookItem.reset();
 }
 
 void CookingMgr::getCookItem(CookItem& to) const {
     mCookItem.copy(to);
 }
 
-}  // namespace ksys
+}  // namespace uking
