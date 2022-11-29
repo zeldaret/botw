@@ -21,13 +21,13 @@ struct CookItem {
     void reset();
     void copy(CookItem& to) const;
 
-    sead::FixedSafeString<64> name{""};
+    sead::FixedSafeString<64> actor_name{""};
     sead::SafeArray<sead::FixedSafeString<64>, 5> ingredients;
-    f32 stamina_recover_x{};
-    s32 stamina_recover_y{};
-    s32 cook_effect_1{};
-    s32 cook_effect_0_x = -1;
-    f32 cook_effect_0_y{};
+    f32 life_recover{};
+    s32 effect_time{};
+    s32 item_price{};
+    s32 effect_id = -1;
+    f32 stamina_recover{};
     bool _224{};
 };
 KSYS_CHECK_SIZE_NX150(CookItem, 0x228);
@@ -129,4 +129,4 @@ struct CookArg {
 };
 KSYS_CHECK_SIZE_NX150(CookArg, 0x1E0);
 
-}  // namespace ksys
+}  // namespace uking

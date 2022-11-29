@@ -41,26 +41,26 @@ static Crc32Constants sCrc32Constants;
 CookItem::CookItem() = default;
 
 void CookItem::reset() {
-    name.clear();
-    stamina_recover_x = 0.0f;
-    stamina_recover_y = 0;
+    actor_name.clear();
+    life_recover = 0.0f;
+    effect_time = 0;
     _224 = false;
-    cook_effect_1 = 0;
-    cook_effect_0_x = -1;
-    cook_effect_0_y = 0.0f;
+    item_price = 0;
+    effect_id = -1;
+    stamina_recover = 0.0f;
     for (auto& ingredient : ingredients) {
         ingredient.clear();
     }
 }
 
 void CookItem::copy(CookItem& to) const {
-    to.name = name;
-    to.stamina_recover_x = stamina_recover_x;
-    to.stamina_recover_y = stamina_recover_y;
+    to.actor_name = actor_name;
+    to.life_recover = life_recover;
+    to.effect_time = effect_time;
     to._224 = _224;
-    to.cook_effect_1 = cook_effect_1;
-    to.cook_effect_0_y = cook_effect_0_y;
-    to.cook_effect_0_x = cook_effect_0_x;
+    to.item_price = item_price;
+    to.stamina_recover = stamina_recover;
+    to.effect_id = effect_id;
     to.ingredients = ingredients;
 }
 
@@ -76,44 +76,43 @@ CookingMgr::~CookingMgr() {
 }
 
 void CookingMgr::cookFail(CookItem& item) {
-    if (item.name.isEmpty())
-        item.name.copy(mFailActorName);
+    if (item.actor_name.isEmpty())
+        item.actor_name.copy(mFailActorName);
 
-    f32 stamina_recover_x;
-    if (item.name == mFailActorName) {
+    f32 life_recover;
+    if (item.actor_name == mFailActorName) {
         // Dubious food
-        item.stamina_recover_y = 0;
+        item.effect_time = 0;
         f32 min_recovery = (f32)(s32)mFALR;
-        stamina_recover_x =
-            min_recovery > item.stamina_recover_x ? min_recovery : item.stamina_recover_x;
+        life_recover = min_recovery > item.life_recover ? min_recovery : item.life_recover;
     } else {
         // Rock-hard food
-        item.stamina_recover_y = 0;
-        stamina_recover_x = (f32)(s32)mSFALR;
+        item.effect_time = 0;
+        life_recover = (f32)(s32)mSFALR;
     }
 
-    item.stamina_recover_x = stamina_recover_x;
-    item.cook_effect_0_y = 0.0f;
-    item.cook_effect_0_x = -1;
-    item.cook_effect_1 = 2;
+    item.life_recover = life_recover;
+    item.stamina_recover = 0.0f;
+    item.effect_id = -1;
+    item.item_price = 2;
 }
 
 void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString& name) {
-    f32 stamina_recover_x;
+    f32 life_recover;
     if (name.isEmpty() || name == mFailActorName) {
-        item.name.copy(mFailActorName);
-        item.stamina_recover_y = 0;
-        stamina_recover_x = (f32)(s32)mFALR;
+        item.actor_name.copy(mFailActorName);
+        item.effect_time = 0;
+        life_recover = (f32)(s32)mFALR;
     } else {
-        item.name = name;
-        item.stamina_recover_y = 0;
-        stamina_recover_x = (f32)(s32)mSFALR;
+        item.actor_name = name;
+        item.effect_time = 0;
+        life_recover = (f32)(s32)mSFALR;
     }
 
-    item.stamina_recover_x = stamina_recover_x;
-    item.cook_effect_0_y = 0.0f;
-    item.cook_effect_0_x = -1;
-    item.cook_effect_1 = 1;
+    item.life_recover = life_recover;
+    item.stamina_recover = 0.0f;
+    item.effect_id = -1;
+    item.item_price = 1;
 }
 
 // NON_MATCHING
@@ -131,26 +130,26 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
 
     if (found_monster_extract) {
         // Monster Extract found; calculate boosts.
-        s32 effect_min = item.stamina_recover_x <= 0.0f || item.cook_effect_0_x == 2 ? 2 : 0;
-        s32 effect_max = item.cook_effect_0_x == -1 ? 2 : 4;
+        s32 effect_min = item.life_recover <= 0.0f || item.effect_id == 2 ? 2 : 0;
+        s32 effect_max = item.effect_id == -1 ? 2 : 4;
         switch (sead::GlobalRandom::instance()->getS32Range(effect_min, effect_max)) {
         case 0:
-            item.stamina_recover_x += (float)mCookingEffectEntries[1].ssa;
+            item.life_recover += (float)mCookingEffectEntries[1].ssa;
             break;
         case 1:
-            item.stamina_recover_x += (float)mCookingEffectEntries[1].mi;
+            item.life_recover += (float)mCookingEffectEntries[1].mi;
             break;
         case 2:
-            if (item.cook_effect_0_x != -1) {
-                if (item.cook_effect_0_y > 0.0f && item.cook_effect_0_y < 1.0f) {
-                    item.cook_effect_0_y = 1.0;
+            if (item.effect_id != -1) {
+                if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f) {
+                    item.stamina_recover = 1.0;
                 }
-                item.cook_effect_0_y += (float)mCookingEffectEntries[item.cook_effect_0_x].ssa;
+                item.stamina_recover += (float)mCookingEffectEntries[item.effect_id].ssa;
             }
             break;
         case 3:
-            if (item.cook_effect_0_x != -1) {
-                item.cook_effect_0_y = (float)mCookingEffectEntries[item.cook_effect_0_x].mi;
+            if (item.effect_id != -1) {
+                item.stamina_recover = (float)mCookingEffectEntries[item.effect_id].mi;
             }
             break;
         default:
@@ -158,7 +157,7 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
         }
 
         // Effect time
-        if (item.stamina_recover_y >= 1) {
+        if (item.effect_time >= 1) {
             u64 roll = sead::GlobalRandom::instance()->getU32(3);
             s32 new_time;
             if (roll == 2)
@@ -172,7 +171,7 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
                 new_time = 60;
             else
                 return;
-            item.stamina_recover_y = new_time;
+            item.effect_time = new_time;
         }
 
         return;
@@ -212,11 +211,11 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
 
 void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
                                    CookItem& item) const {
-    item.cook_effect_1 = 0;
+    item.item_price = 0;
     s32 price;
 
-    if (mFairyTonicName == item.name) {
-        item.cook_effect_1 = 2;
+    if (mFairyTonicName == item.actor_name) {
+        item.item_price = 2;
         return;
     }
 
@@ -234,13 +233,13 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
         if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookLowPrice)) {
             s32 p = ingredient.arg->_58;
             mult_idx += p;
-            item.cook_effect_1 += p;
+            item.item_price += p;
             max_price += ingredient.arg->_58;
         } else {
             if (actor_data.tryGetIntByKey(&int_val, "itemSellingPrice")) {
                 s32 p = ingredient.arg->_58;
                 mult_idx += p;
-                item.cook_effect_1 += int_val * p;
+                item.item_price += int_val * p;
             }
             if (actor_data.tryGetIntByKey(&int_val, "itemBuyingPrice")) {
                 max_price += int_val * ingredient.arg->_58;
@@ -249,17 +248,17 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
     }
 
     if (mult_idx >= 1) {
-        price = (s32)(mNMMR[mult_idx - 1] * (float)item.cook_effect_1);
-        item.cook_effect_1 = price;
+        price = (s32)(mNMMR[mult_idx - 1] * (float)item.item_price);
+        item.item_price = price;
     } else {
-        price = item.cook_effect_1;
+        price = item.item_price;
     }
 
     if (price >= 1) {
         // Round up to the nearest power of 10
         if (price % 10 != 0) {
             price = price + 10 - price % 10;
-            item.cook_effect_1 = price;
+            item.item_price = price;
         }
     }
 
@@ -268,7 +267,7 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
     if (price <= 2)
         price = 2;
 
-    item.cook_effect_1 = price;
+    item.item_price = price;
 }
 
 void CookingMgr::init(sead::Heap* heap) {

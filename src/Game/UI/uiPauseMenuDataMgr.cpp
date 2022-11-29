@@ -1019,15 +1019,15 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
 
 void PauseMenuDataMgr::cookItemGet(const uking::CookItem& cook_item) {
     const auto* info = ksys::act::InfoData::instance();
-    if (!info->hasTag(cook_item.name.cstr(), ksys::act::tags::CookResult))
+    if (!info->hasTag(cook_item.actor_name.cstr(), ksys::act::tags::CookResult))
         return;
 
     const auto lock = sead::makeScopedLock(mCritSection);
     auto& lists = mItemLists;
 
-    ksys::PlayReportMgr::instance()->reportDebug("PouchGet", cook_item.name);
-    const auto type = getType(cook_item.name);
-    addToPouch(cook_item.name, type, lists, 1, false);
+    ksys::PlayReportMgr::instance()->reportDebug("PouchGet", cook_item.actor_name);
+    const auto type = getType(cook_item.actor_name);
+    addToPouch(cook_item.actor_name, type, lists, 1, false);
     setCookDataOnLastAddedItem(cook_item);
     saveToGameData(lists.list1);
 }
@@ -1036,11 +1036,11 @@ void PauseMenuDataMgr::setCookDataOnLastAddedItem(const uking::CookItem& cook_it
     if (!mLastAddedItem)
         return;
 
-    mLastAddedItem->getCookData().setStaminaRecoverY(cook_item.stamina_recover_y);
-    mLastAddedItem->getCookData().setStaminaRecoverX(cook_item.stamina_recover_x);
-    mLastAddedItem->getCookData().setCookEffect1(cook_item.cook_effect_1);
-    const int y = cook_item.cook_effect_0_y;
-    const int x = cook_item.cook_effect_0_x;
+    mLastAddedItem->getCookData().setStaminaRecoverY(cook_item.effect_time);
+    mLastAddedItem->getCookData().setStaminaRecoverX(cook_item.life_recover);
+    mLastAddedItem->getCookData().setCookEffect1(cook_item.item_price);
+    const int y = cook_item.stamina_recover;
+    const int x = cook_item.effect_id;
     mLastAddedItem->getCookData().setCookEffect0({float(x), float(y)});
     for (s32 i = 0; i < cook_item.ingredients.size(); ++i)
         mLastAddedItem->setIngredient(i, cook_item.ingredients[i]);
