@@ -73,9 +73,9 @@ void CookItem::copy(CookItem& to) const {
     to.ingredients = ingredients;
 }
 
-CookingMgr::CookingMgr() = default;
-
 SEAD_SINGLETON_DISPOSER_IMPL(CookingMgr)
+
+CookingMgr::CookingMgr() = default;
 
 CookingMgr::~CookingMgr() {
     if (mConfig) {
