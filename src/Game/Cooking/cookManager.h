@@ -76,7 +76,8 @@ public:
     void cookFailForMissingConfig(CookItem& item, const sead::SafeString& name);
     void cookCalcBoost(const Ingredient* ingredients, CookItem& item,
                        const BoostArg* boost_arg) const;
-    void cookHandleBoostSuccessInner(const Ingredient ingredients[], CookItem& item) const;
+    void cookHandleBoostSuccessInner([[maybe_unused]] const Ingredient ingredients[],
+                                     CookItem& item) const;
     void cookCalc3(const Ingredient ingredients[], CookItem& item);
     void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
     void cookCalc1(const Ingredient ingredients[], CookItem& item);
@@ -122,7 +123,7 @@ private:
     u32 mSFALR = 1;
     u32 mSSAET = 300;
 
-    CookingEffectEntry mCookingEffectEntries[NumEffectSlots];
+    sead::SafeArray<CookingEffectEntry, NumEffectSlots> mCookingEffectEntries;
 
     sead::SafeArray<float, NumIngredientsMax> mNMMR;
 
