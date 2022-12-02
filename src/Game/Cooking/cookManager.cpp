@@ -126,7 +126,6 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
     item.item_price = 1;
 }
 
-// NON_MATCHING
 void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookItem& item,
                                const BoostArg* boost_arg) const {
     // Find if any of the ingredients are Monster Extract.
