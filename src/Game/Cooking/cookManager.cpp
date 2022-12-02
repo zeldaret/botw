@@ -130,18 +130,12 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
 void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookItem& item,
                                const BoostArg* boost_arg) const {
     // Find if any of the ingredients are Monster Extract.
-    bool found_monster_extract = false;
     for (int i = 0; i < NumIngredientsMax; i++) {
         const auto& ingredient = ingredients[i];
         if (ingredient.arg && ingredient.arg->name == mMonsterExtractName) {
-            found_monster_extract = true;
-            break;
+            cookHandleBoostMonsterExtractInner(ingredients, item);
+            return;
         }
-    }
-
-    if (found_monster_extract) {
-        cookHandleBoostMonsterExtractInner(ingredients, item);
-        return;
     }
 
     if (!boost_arg || !boost_arg->always_boost) {
