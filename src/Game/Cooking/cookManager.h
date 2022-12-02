@@ -76,6 +76,8 @@ public:
     void cookFailForMissingConfig(CookItem& item, const sead::SafeString& name);
     void cookCalcBoost(const Ingredient* ingredients, CookItem& item,
                        const BoostArg* boost_arg) const;
+    void cookHandleBoostMonsterExtractInner([[maybe_unused]] const Ingredient* ingredients,
+                                            CookItem& item) const;
     void cookHandleBoostSuccessInner([[maybe_unused]] const Ingredient ingredients[],
                                      CookItem& item) const;
     void cookCalc3(const Ingredient ingredients[], CookItem& item);
