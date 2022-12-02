@@ -189,36 +189,34 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
         return;
     }
 
-    if (boost_arg && boost_arg->always_boost) {
-        cookHandleBoostSuccessInner(ingredients, item);
-        return;
-    }
+    if (!boost_arg || !boost_arg->always_boost) {
+        if (boost_arg && !boost_arg->enable_random_boost) {
+            return;
+        }
 
-    if (boost_arg && !boost_arg->enable_random_boost) {
-        return;
-    }
+        s32 success_rate = 0;
+        s32 num_ingredients = 0;
+        s32 threshold = 0;
 
-    s32 success_rate = 0;
-    s32 num_ingredients = 0;
-    s32 threshold = 0;
-
-    for (int i = 0; i < NumIngredientsMax; i++) {
-        const auto& ingredient = ingredients[i];
-        if (ingredient.arg) {
-            num_ingredients++;
-            if (ingredient.actor_data.tryGetIntByKey(&success_rate, "cookSpiceBoostSuccessRate") &&
-                success_rate > threshold) {
-                threshold = success_rate;
+        for (int i = 0; i < NumIngredientsMax; i++) {
+            const auto& ingredient = ingredients[i];
+            if (ingredient.arg) {
+                num_ingredients++;
+                if (ingredient.actor_data.tryGetIntByKey(&success_rate,
+                                                         "cookSpiceBoostSuccessRate") &&
+                    success_rate > threshold) {
+                    threshold = success_rate;
+                }
             }
         }
-    }
 
-    if (num_ingredients >= 1)
-        threshold += mNMSSR[num_ingredients - 1];
+        if (num_ingredients >= 1)
+            threshold += mNMSSR[num_ingredients - 1];
 
-    if ((s32)sead::GlobalRandom::instance()->getU32(100) < threshold) {
-        cookHandleBoostSuccessInner(ingredients, item);
+        if ((s32)sead::GlobalRandom::instance()->getU32(100) >= threshold)
+            return;
     }
+    cookHandleBoostSuccessInner(ingredients, item);
 }
 
 void CookingMgr::cookHandleBoostSuccessInner(
@@ -232,40 +230,40 @@ void CookingMgr::cookHandleBoostSuccessInner(
     item._224 = true;
 
     if (item.effect_id == CookEffectId::None) {
-        item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
-        return;
-    }
-
-    const s32 stamina_recover = sead::Mathi::clampMin((s32)item.stamina_recover, 1);
-    const s32 life_recover = (s32)item.life_recover;
-
-    const s32 stamina_recover_ma = mCookingEffectEntries[(int)item.effect_id].ma;
-    const s32 life_recover_ma = mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
-
-    if (item.effect_id == CookEffectId::LifeMaxUp) {
-        discriminator = StaminaBonus;
-    } else if (item.effect_id == CookEffectId::GutsRecover ||
-        item.effect_id == CookEffectId::ExGutsMaxUp) {
-        if (stamina_recover < stamina_recover_ma) {
-            discriminator = StaminaBonus;
-        } else {
-            discriminator = LifeBonus;
-        }
-        if (life_recover < life_recover_ma && stamina_recover < stamina_recover_ma) {
-            discriminator = sead::GlobalRandom::instance()->getBool() ? StaminaBonus : LifeBonus;
-        }
+        discriminator = LifeBonus;
     } else {
-        if (stamina_recover < stamina_recover_ma) {
-            if (life_recover < life_recover_ma) {
-                discriminator = (Bonus)sead::GlobalRandom::instance()->getU32(3);
+        const s32 stamina_recover = sead::Mathi::clampMin((s32)item.stamina_recover, 1);
+        const f32 life_recover = item.life_recover;
+
+        const s32 stamina_recover_ma = mCookingEffectEntries[(int)item.effect_id].ma;
+        const f32 life_recover_ma = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
+
+        if (item.effect_id == CookEffectId::LifeMaxUp) {
+            discriminator = StaminaBonus;
+        } else if (item.effect_id == CookEffectId::GutsRecover ||
+                   item.effect_id == CookEffectId::ExGutsMaxUp) {
+            if (stamina_recover < stamina_recover_ma) {
+                discriminator = StaminaBonus;
             } else {
-                discriminator =
-                    sead::GlobalRandom::instance()->getBool() ? TimeBonus : StaminaBonus;
+                discriminator = LifeBonus;
             }
-        } else if (life_recover < life_recover_ma) {
-            discriminator = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
+            if (life_recover < life_recover_ma && stamina_recover < stamina_recover_ma) {
+                discriminator =
+                    sead::GlobalRandom::instance()->getBool() ? StaminaBonus : LifeBonus;
+            }
         } else {
-            discriminator = TimeBonus;
+            if (stamina_recover < stamina_recover_ma) {
+                if (life_recover >= life_recover_ma) {
+                    discriminator =
+                        sead::GlobalRandom::instance()->getBool() ? TimeBonus : StaminaBonus;
+                } else {
+                    discriminator = (Bonus)sead::GlobalRandom::instance()->getU32(3);
+                }
+            } else if (life_recover < life_recover_ma) {
+                discriminator = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
+            } else {
+                discriminator = TimeBonus;
+            }
         }
     }
 
@@ -275,9 +273,12 @@ void CookingMgr::cookHandleBoostSuccessInner(
         item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
         return;
     case StaminaBonus:
-        if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f)
-            item.stamina_recover = 1.0f;
-        item.stamina_recover += (f32)mCookingEffectEntries[(int)item.effect_id].ssa;
+        if (item.effect_id != CookEffectId::None) {
+            if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f)
+                item.stamina_recover = 1.0f;
+            item.stamina_recover +=
+                (f32)((s32)item.stamina_recover + mCookingEffectEntries[(int)item.effect_id].ssa);
+        }
         return;
     case TimeBonus:
         item.effect_time += (s32)mSSAET;
