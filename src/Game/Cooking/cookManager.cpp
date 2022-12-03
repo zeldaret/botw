@@ -168,28 +168,37 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
 }
 
 void CookingMgr::cookHandleBoostMonsterExtractInner(
-    [[maybe_unused]] const CookingMgr::Ingredient* ingredients,
-    CookItem& item) const {  // Monster Extract found; calculate boosts.
-    s32 effect_min = item.life_recover <= 0.0f || item.effect_id == CookEffectId::LifeMaxUp ? 2 : 0;
-    s32 effect_max = item.effect_id == CookEffectId::None ? 2 : 4;
+    [[maybe_unused]] const CookingMgr::Ingredient* ingredients, CookItem& item) const {
+    // Monster Extract found; calculate boosts.
+
+    s32 effect_min = 0;
+    s32 effect_max = 4;
+
+    if (item.life_recover <= 0.0f || item.effect_id == CookEffectId::LifeMaxUp)
+        effect_min = 2;
+
+    if (item.effect_id == CookEffectId::None)
+        effect_max = 2;
+
     switch (sead::GlobalRandom::instance()->getS32Range(effect_min, effect_max)) {
     case 0:
-        item.life_recover += (float)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
+        item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
         break;
     case 1:
-        item.life_recover = (float)mCookingEffectEntries[(int)CookEffectId::LifeRecover].mi;
+        item.life_recover = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].mi;
         break;
     case 2:
         if (item.effect_id != CookEffectId::None) {
             if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f) {
                 item.stamina_recover = 1.0;
             }
-            item.stamina_recover += (float)mCookingEffectEntries[(int)item.effect_id].ssa;
+            item.stamina_recover =
+                (f32)((s32)item.stamina_recover + mCookingEffectEntries[(int)item.effect_id].ssa);
         }
         break;
     case 3:
         if (item.effect_id != CookEffectId::None) {
-            item.stamina_recover = (float)mCookingEffectEntries[(int)item.effect_id].mi;
+            item.stamina_recover = (f32)mCookingEffectEntries[(int)item.effect_id].mi;
         }
         break;
     default:
@@ -199,22 +208,17 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
     // Effect time
     if (item.effect_time >= 1) {
         const u32 roll = sead::GlobalRandom::instance()->getU32(3);
-        s32 new_time;
+
+        if (roll == 0)
+            // 1 minute
+            item.effect_time = 60;
+        if (roll == 1)
+            // 10 minutes
+            item.effect_time = 600;
         if (roll == 2)
             // 30 minutes
-            new_time = 1800;
-        else if (roll == 1)
-            // 10 minutes
-            new_time = 600;
-        else if (roll == 0)
-            // 1 minute
-            new_time = 60;
-        else
-            return;
-        item.effect_time = new_time;
+            item.effect_time = 1800;
     }
-
-    return;
 }
 
 void CookingMgr::cookHandleBoostSuccessInner(
@@ -274,8 +278,8 @@ void CookingMgr::cookHandleBoostSuccessInner(
         if (item.effect_id != CookEffectId::None) {
             if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f)
                 item.stamina_recover = 1.0f;
-            item.stamina_recover +=
-                (f32)((s32)item.stamina_recover + mCookingEffectEntries[(int)item.effect_id].ssa);
+            item.stamina_recover =
+                (f32)(mCookingEffectEntries[(int)item.effect_id].ssa + (s32)item.stamina_recover);
         }
         return;
     case TimeBonus:
