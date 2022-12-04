@@ -227,7 +227,9 @@ void CookingMgr::cookHandleBoostSuccessInner(
         LifeBonus = 0,
         StaminaBonus = 1,
         TimeBonus = 2,
-    } discriminator = LifeBonus;
+    };
+
+    Bonus bonus = LifeBonus;
 
     item._224 = true;
 
@@ -245,36 +247,34 @@ void CookingMgr::cookHandleBoostSuccessInner(
         case CookEffectId::GutsRecover:
         case CookEffectId::ExGutsMaxUp:
             if (stamina_recover_maxed)
-                discriminator = LifeBonus;
+                bonus = LifeBonus;
             else if (life_recover_maxed)
-                discriminator = StaminaBonus;
+                bonus = StaminaBonus;
             else
-                discriminator =
-                    sead::GlobalRandom::instance()->getBool() ? StaminaBonus : LifeBonus;
+                bonus = sead::GlobalRandom::instance()->getBool() ? StaminaBonus : LifeBonus;
             break;
 
         case CookEffectId::LifeMaxUp:
-            discriminator = StaminaBonus;
+            bonus = StaminaBonus;
             break;
 
         default:
             if (!stamina_recover_maxed) {
                 if (life_recover_maxed) {
-                    discriminator =
-                        sead::GlobalRandom::instance()->getBool() ? TimeBonus : StaminaBonus;
+                    bonus = sead::GlobalRandom::instance()->getBool() ? TimeBonus : StaminaBonus;
                 } else {
-                    discriminator = (Bonus)sead::GlobalRandom::instance()->getU32(3);
+                    bonus = (Bonus)sead::GlobalRandom::instance()->getU32(3);
                 }
             } else if (life_recover_maxed) {
-                discriminator = TimeBonus;
+                bonus = TimeBonus;
             } else {
-                discriminator = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
+                bonus = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
             }
             break;
         }
     }
 
-    switch (discriminator) {
+    switch (bonus) {
     case StaminaBonus:
         if (item.effect_id != CookEffectId::None) {
             if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f)
