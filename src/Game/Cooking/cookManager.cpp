@@ -227,64 +227,68 @@ void CookingMgr::cookHandleBoostSuccessInner(
         LifeBonus = 0,
         StaminaBonus = 1,
         TimeBonus = 2,
-    } discriminator;
+    } discriminator = LifeBonus;
 
     item._224 = true;
 
-    if (item.effect_id == CookEffectId::None) {
-        discriminator = LifeBonus;
-    } else {
-        const s32 stamina_recover = sead::Mathi::clampMin((s32)item.stamina_recover, 1);
+    if (item.effect_id != CookEffectId::None) {
         const f32 life_recover = item.life_recover;
+        const s32 stamina_recover = sead::Mathi::clampMin((s32)item.stamina_recover, 1);
 
-        const s32 stamina_recover_ma = mCookingEffectEntries[(int)item.effect_id].ma;
         const f32 life_recover_ma = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
+        const s32 stamina_recover_ma = mCookingEffectEntries[(int)item.effect_id].ma;
 
-        if (item.effect_id == CookEffectId::LifeMaxUp) {
-            discriminator = StaminaBonus;
-        } else if (item.effect_id == CookEffectId::GutsRecover ||
-                   item.effect_id == CookEffectId::ExGutsMaxUp) {
-            if (stamina_recover < stamina_recover_ma) {
-                discriminator = StaminaBonus;
-            } else {
+        const bool life_recover_maxed = life_recover >= life_recover_ma;
+        const bool stamina_recover_maxed = stamina_recover >= stamina_recover_ma;
+
+        switch (item.effect_id) {
+        case CookEffectId::GutsRecover:
+        case CookEffectId::ExGutsMaxUp:
+            if (stamina_recover_maxed)
                 discriminator = LifeBonus;
-            }
-            if (life_recover < life_recover_ma && stamina_recover < stamina_recover_ma) {
+            else if (life_recover_maxed)
+                discriminator = StaminaBonus;
+            else
                 discriminator =
                     sead::GlobalRandom::instance()->getBool() ? StaminaBonus : LifeBonus;
-            }
-        } else {
-            if (stamina_recover < stamina_recover_ma) {
-                if (life_recover >= life_recover_ma) {
+            break;
+
+        case CookEffectId::LifeMaxUp:
+            discriminator = StaminaBonus;
+            break;
+
+        default:
+            if (!stamina_recover_maxed) {
+                if (life_recover_maxed) {
                     discriminator =
                         sead::GlobalRandom::instance()->getBool() ? TimeBonus : StaminaBonus;
                 } else {
                     discriminator = (Bonus)sead::GlobalRandom::instance()->getU32(3);
                 }
-            } else if (life_recover < life_recover_ma) {
-                discriminator = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
-            } else {
+            } else if (life_recover_maxed) {
                 discriminator = TimeBonus;
+            } else {
+                discriminator = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
             }
+            break;
         }
     }
 
-    SEAD_ASSERT(discriminator < 3);
     switch (discriminator) {
-    case LifeBonus:
-        item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
-        return;
     case StaminaBonus:
         if (item.effect_id != CookEffectId::None) {
             if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f)
                 item.stamina_recover = 1.0f;
             item.stamina_recover =
-                (f32)(mCookingEffectEntries[(int)item.effect_id].ssa + (s32)item.stamina_recover);
+                (f32)((int)item.stamina_recover + mCookingEffectEntries[(int)item.effect_id].ssa);
         }
-        return;
+        break;
     case TimeBonus:
         item.effect_time += (s32)mSSAET;
-        return;
+        break;
+    case LifeBonus:
+        item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
+        break;
     }
 }
 
