@@ -80,7 +80,8 @@ public:
                                             CookItem& item) const;
     void cookHandleBoostSuccessInner([[maybe_unused]] const Ingredient ingredients[],
                                      CookItem& item) const;
-    void cookCalc3(const Ingredient ingredients[], CookItem& item);
+    void cookCalcSpiceBoost(const sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
+                            CookItem& item) const;
     void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
     void cookCalc1(const Ingredient ingredients[], CookItem& item);
 
