@@ -402,6 +402,118 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
     item.item_price = price;
 }
 
+void CookingMgr::cookCalcPotencyBoost(const CookingMgr::Ingredient* ingredients, CookItem& item) {
+    const bool is_not_medicine =
+        item.actor_name.isEmpty() || ksys::act::InfoData::instance()->hasTag(
+                                         item.actor_name.cstr(), ksys::act::tags::CookEMedicine);
+    const bool is_fairy_tonic = item.actor_name == mFairyTonicName;
+
+    sead::SafeArray<s32, NumEffectSlots> arr1{};
+    sead::SafeArray<s32, NumEffectSlots> arr2{};
+    s32 total_potency = 0;
+    s32 effect_time = 0;
+    s32 life_recover = 0;
+    s32 life_boost = 0;
+    s32 stamina_boost = 0;
+
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        if (!ingredients[i].arg)
+            break;
+        const s32 potency = ingredients[i].arg->_58;
+        total_potency += potency;
+        int int_val = 0;
+        if (ksys::act::InfoData::instance()->hasTag(ingredients[i].actor_data,
+                                                    ksys::act::tags::CookEnemy)) {
+            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostEffectiveTime") &&
+                int_val > 0) {
+                effect_time += int_val * potency;
+            }
+
+            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") &&
+                int_val > 0) {
+                life_boost += int_val * potency;
+            }
+
+            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostStaminaLevel") &&
+                int_val > 0) {
+                stamina_boost += int_val * potency;
+            }
+        } else {
+            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cureItemHitPointRecover") &&
+                int_val > 0) {
+                life_recover += int_val * potency;
+            }
+
+            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cureItemEffectLevel") &&
+                int_val > 0) {
+                const char* string_val = nullptr;
+                if (ingredients[i].actor_data.tryGetStringByKey(&string_val,
+                                                                "cureItemEffectType")) {
+                    const u32 effect_hash = sead::HashCRC32::calcStringHash(string_val);
+                    const auto effect_id = mCookingEffectNameIdMap.find(effect_hash)->value();
+                    arr1[(int)effect_id] += potency;
+                    arr2[(int)effect_id] += int_val * potency;
+                }
+            }
+        }
+    }
+
+    bool effect_found = false;
+    bool effect_cancelled = false;
+    for (int i = 0; i < NumEffectSlots; i++) {
+        const s32 potency = arr1[i];
+        if (potency > 0) {
+            if (effect_found) {
+                effect_cancelled = true;
+                break;
+            }
+
+            const auto& entry = mCookingEffectEntries[i];
+            const f32 cure_level = (f32)arr2[i];
+            item.effect_id = (CookEffectId)i;
+            item.stamina_recover = cure_level * entry.mr;
+            const s32 boost_time = entry.bt;
+
+            if (boost_time > 0)
+                item.effect_time = effect_time + 30 * total_potency + boost_time * potency;
+
+            if (item.effect_id == CookEffectId::LifeMaxUp) {
+                item.stamina_recover += (f32)life_boost;
+            } else if (item.effect_id == CookEffectId::GutsRecover ||
+                       item.effect_id == CookEffectId::ExGutsMaxUp) {
+                item.stamina_recover += (f32)stamina_boost;
+            }
+            effect_found = true;
+        }
+    }
+
+    if (effect_cancelled || (!is_fairy_tonic && effect_found)) {
+        item.effect_time = 0;
+        item.effect_id = CookEffectId::None;
+        effect_found = false;
+    }
+
+    if (!is_not_medicine && !effect_found) {
+        item.actor_name = mFailActorName;
+    }
+
+    f32 life_recover_multiplier;
+    if (item.actor_name.isEmpty() || !ksys::act::InfoData::instance()->hasTag(
+                                         item.actor_name.cstr(), ksys::act::tags::CookFailure)) {
+        life_recover_multiplier = mLRMR;
+    } else if (effect_found) {
+        life_recover_multiplier = mCookingEffectEntries[(int)CookEffectId::LifeRecover].mr;
+    } else {
+        life_recover_multiplier = mFALRMR;
+    }
+    item.life_recover = (f32)life_recover * life_recover_multiplier;
+
+    if (item.effect_id != CookEffectId::None) {
+        const s32 max = mCookingEffectEntries[(int)item.effect_id].ma;
+        item.stamina_recover = sead::Mathf::max(item.stamina_recover, (f32)max);
+    }
+}
+
 void CookingMgr::init(sead::Heap* heap) {
     ksys::res::LoadRequest req;
 

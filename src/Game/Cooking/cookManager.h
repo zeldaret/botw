@@ -83,7 +83,7 @@ public:
     void cookCalcSpiceBoost(const sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
                             CookItem& item) const;
     void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
-    void cookCalc1(const Ingredient ingredients[], CookItem& item);
+    void cookCalcPotencyBoost(const Ingredient* ingredients, CookItem& item);
 
     void init(sead::Heap* heap);
 
