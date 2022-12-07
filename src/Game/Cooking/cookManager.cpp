@@ -404,113 +404,124 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
 
 void CookingMgr::cookCalcPotencyBoost(const CookingMgr::Ingredient* ingredients, CookItem& item) {
     const bool is_not_medicine =
-        item.actor_name.isEmpty() || ksys::act::InfoData::instance()->hasTag(
+        item.actor_name.isEmpty() || !ksys::act::InfoData::instance()->hasTag(
                                          item.actor_name.cstr(), ksys::act::tags::CookEMedicine);
-    const bool is_fairy_tonic = item.actor_name == mFairyTonicName;
+    const bool is_not_fairy_tonic = mFairyTonicName != item.actor_name;
 
     sead::SafeArray<s32, NumEffectSlots> arr1{};
     sead::SafeArray<s32, NumEffectSlots> arr2{};
-    s32 total_potency = 0;
-    s32 effect_time = 0;
-    s32 life_recover = 0;
-    s32 life_boost = 0;
+
     s32 stamina_boost = 0;
+    s32 life_boost = 0;
+    s32 time_boost = 0;
+    s32 total_potency = 0;
+    s32 life_recover = 0;
 
     for (int i = 0; i < NumIngredientsMax; i++) {
         if (!ingredients[i].arg)
             break;
+        const al::ByamlIter& actor_data = ingredients[i].actor_data;
         const s32 potency = ingredients[i].arg->_58;
         total_potency += potency;
-        int int_val = 0;
-        if (ksys::act::InfoData::instance()->hasTag(ingredients[i].actor_data,
-                                                    ksys::act::tags::CookEnemy)) {
-            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostEffectiveTime") &&
-                int_val > 0) {
-                effect_time += int_val * potency;
+        int int_val;
+        if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookEnemy)) {
+            if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostEffectiveTime") && int_val > 0) {
+                time_boost += int_val * potency;
             }
 
-            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") &&
-                int_val > 0) {
+            if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") && int_val > 0) {
                 life_boost += int_val * potency;
             }
 
-            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostStaminaLevel") &&
-                int_val > 0) {
+            if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostStaminaLevel") && int_val > 0) {
                 stamina_boost += int_val * potency;
             }
         } else {
-            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cureItemHitPointRecover") &&
-                int_val > 0) {
+            if (actor_data.tryGetIntByKey(&int_val, "cureItemHitPointRecover") && int_val > 0) {
                 life_recover += int_val * potency;
             }
 
-            if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cureItemEffectLevel") &&
-                int_val > 0) {
+            if (actor_data.tryGetIntByKey(&int_val, "cureItemEffectLevel") && int_val > 0) {
                 const char* string_val = nullptr;
-                if (ingredients[i].actor_data.tryGetStringByKey(&string_val,
-                                                                "cureItemEffectType")) {
+                if (actor_data.tryGetStringByKey(&string_val, "cureItemEffectType")) {
                     const u32 effect_hash = sead::HashCRC32::calcStringHash(string_val);
-                    const auto effect_id = mCookingEffectNameIdMap.find(effect_hash)->value();
-                    arr1[(int)effect_id] += potency;
-                    arr2[(int)effect_id] += int_val * potency;
+                    if (const auto* node = mCookingEffectNameIdMap.find(effect_hash)) {
+                        const auto effect_id = node->value();
+                        if (effect_id != CookEffectId::None) {
+                            arr1[(int)effect_id] += potency;
+                            arr2[(int)effect_id] += int_val * potency;
+                        }
+                    }
                 }
             }
         }
     }
 
     bool effect_found = false;
-    bool effect_cancelled = false;
     for (int i = 0; i < NumEffectSlots; i++) {
         const s32 potency = arr1[i];
         if (potency > 0) {
             if (effect_found) {
-                effect_cancelled = true;
+                // Finding a second effect makes them cancel out.
+                effect_found = false;
+                item.stamina_recover = 0.0f;
+                item.effect_id = CookEffectId::None;
+                item.effect_time = 0;
                 break;
             }
 
             const auto& entry = mCookingEffectEntries[i];
+
             const f32 cure_level = (f32)arr2[i];
-            item.effect_id = (CookEffectId)i;
             item.stamina_recover = cure_level * entry.mr;
+
+            const auto effect_id = (CookEffectId)i;
+            item.effect_id = effect_id;
+
             const s32 boost_time = entry.bt;
-
             if (boost_time > 0)
-                item.effect_time = effect_time + 30 * total_potency + boost_time * potency;
+                item.effect_time = time_boost + 30 * total_potency + boost_time * potency;
 
-            if (item.effect_id == CookEffectId::LifeMaxUp) {
-                item.stamina_recover += (f32)life_boost;
-            } else if (item.effect_id == CookEffectId::GutsRecover ||
-                       item.effect_id == CookEffectId::ExGutsMaxUp) {
-                item.stamina_recover += (f32)stamina_boost;
+            // Ugly, but matches.
+            s32 boost = life_boost;
+            if (effect_id == CookEffectId::LifeMaxUp ||
+                (boost = stamina_boost, effect_id == CookEffectId::GutsRecover ||
+                                            effect_id == CookEffectId::ExGutsMaxUp)) {
+                item.stamina_recover += (f32)boost;
             }
             effect_found = true;
         }
     }
 
-    if (effect_cancelled || (!is_fairy_tonic && effect_found)) {
-        item.effect_time = 0;
-        item.effect_id = CookEffectId::None;
+    if (!is_not_fairy_tonic && effect_found) {
         effect_found = false;
+        item.stamina_recover = 0.0f;
+        item.effect_id = CookEffectId::None;
+        item.effect_time = 0;
     }
 
     if (!is_not_medicine && !effect_found) {
         item.actor_name = mFailActorName;
     }
 
-    f32 life_recover_multiplier;
-    if (item.actor_name.isEmpty() || !ksys::act::InfoData::instance()->hasTag(
-                                         item.actor_name.cstr(), ksys::act::tags::CookFailure)) {
-        life_recover_multiplier = mLRMR;
-    } else if (effect_found) {
-        life_recover_multiplier = mCookingEffectEntries[(int)CookEffectId::LifeRecover].mr;
+    f32 f_life_recover;
+    if (item.actor_name.isEmpty()) {
+        f_life_recover = (f32)life_recover;
+    } else if (ksys::act::InfoData::instance()->hasTag(item.actor_name.cstr(),
+                                                       ksys::act::tags::CookFailure)) {
+        f_life_recover =
+            (f32)life_recover *
+            (effect_found ? mFALRMR : mCookingEffectEntries[(int)CookEffectId::LifeRecover].mr);
     } else {
-        life_recover_multiplier = mFALRMR;
+        f_life_recover = (f32)life_recover * mLRMR;
     }
-    item.life_recover = (f32)life_recover * life_recover_multiplier;
+
+    item.life_recover = f_life_recover;
 
     if (item.effect_id != CookEffectId::None) {
         const s32 max = mCookingEffectEntries[(int)item.effect_id].ma;
-        item.stamina_recover = sead::Mathf::max(item.stamina_recover, (f32)max);
+        if (item.stamina_recover > (f32)max)
+            item.stamina_recover = (f32)max;
     }
 }
 
