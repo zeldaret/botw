@@ -99,7 +99,7 @@ public:
     void
     prepareCookArg(CookArg& arg,
                    const sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax>& item_names,
-                   int num_items, const CookItem& item) const;
+                   int num_items, CookItem& cook_item) const;
 
     bool cookWithItems(const sead::SafeString& item1, const sead::SafeString& item2,
                        const sead::SafeString& item3, const sead::SafeString& item4,

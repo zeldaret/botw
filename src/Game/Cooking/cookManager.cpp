@@ -695,6 +695,32 @@ void CookingMgr::init(sead::Heap* heap) {
     }
 }
 
+void CookingMgr::prepareCookArg(
+    CookArg& arg, const sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax>& item_names,
+    int num_items, CookItem& cook_item) const {
+    int num_unique_items = 0;
+    for (int i = 0; i < num_items; i++) {
+        const auto& item_name = item_names[i];
+        bool found_name = false;
+        for (int j = 0; j < i; j++) {
+            if (item_name == arg.ingredients[j].name) {
+                arg.ingredients[j]._58++;
+                found_name = true;
+            }
+        }
+
+        if (!found_name) {
+            arg.ingredients[num_unique_items].name = item_name;
+            arg.ingredients[num_unique_items]._58 = 1;
+            num_unique_items++;
+        }
+    }
+    cook_item.reset();
+    for (int i = 0; i < NumIngredientsMax && i < num_items; i++) {
+        cook_item.ingredients[i] = arg.ingredients[i].name;
+    }
+}
+
 bool CookingMgr::cookWithItems(const sead::SafeString& item1, const sead::SafeString& item2,
                                const sead::SafeString& item3, const sead::SafeString& item4,
                                const sead::SafeString& item5, CookItem& cook_item,
