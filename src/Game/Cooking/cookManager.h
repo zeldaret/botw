@@ -95,6 +95,11 @@ public:
 
     bool resetArgCookData(const CookArg& arg, const CookItem& item);
 
+    bool
+    prepareCookArg(const CookArg& arg,
+                   const sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax>& item_names,
+                   int num_items, const CookItem& item) const;
+
     bool cookWithItems(const CookArg& arg, const UnkItem& item1, const UnkItem& item2,
                        const UnkItem& item3, const UnkItem& item4, const UnkItem& item5,
                        const CookItem& cook_item, const BoostArg& boost_arg);
