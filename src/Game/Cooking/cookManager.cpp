@@ -522,10 +522,12 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
 
 CookEffectId CookingMgr::getCookEffectId(const sead::SafeString& name) const {
     const auto name_hash = sead::HashCRC32::calcStringHash(name);
-    if (const auto* node = mCookingEffectNameIdMap.find(name_hash)) {
-        return node->value();
-    }
-    return CookEffectId::None;
+    return [&] {
+        if (const auto* node = mCookingEffectNameIdMap.find(name_hash)) {
+            return node->value();
+        }
+        return CookEffectId::None;
+    }();
 }
 
 void CookingMgr::init(sead::Heap* heap) {
