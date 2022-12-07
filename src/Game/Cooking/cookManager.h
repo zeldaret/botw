@@ -72,6 +72,7 @@ public:
     CookingMgr();
     ~CookingMgr();
 
+private:
     void cookFail(CookItem& item);
     void cookFailForMissingConfig(CookItem& item, const sead::SafeString& name);
     void cookCalcBoost(const Ingredient* ingredients, CookItem& item,
@@ -85,6 +86,7 @@ public:
     void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
     void cookCalcPotencyBoost(const Ingredient* ingredients, CookItem& item);
 
+public:
     CookEffectId getCookEffectId(const sead::SafeString& name) const;
 
     void init(sead::Heap* heap);
