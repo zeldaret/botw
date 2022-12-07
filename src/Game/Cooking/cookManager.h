@@ -84,7 +84,7 @@ private:
     void cookCalcSpiceBoost(const sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
                             CookItem& item) const;
     void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
-    void cookCalcPotencyBoost(const Ingredient* ingredients, CookItem& item);
+    void cookCalcPotencyBoost(const Ingredient* ingredients, CookItem& item) const;
 
 public:
     CookEffectId getCookEffectId(const sead::SafeString& name) const;

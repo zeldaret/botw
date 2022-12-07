@@ -402,7 +402,8 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
     item.item_price = price;
 }
 
-void CookingMgr::cookCalcPotencyBoost(const CookingMgr::Ingredient* ingredients, CookItem& item) {
+void CookingMgr::cookCalcPotencyBoost(const CookingMgr::Ingredient* ingredients,
+                                      CookItem& item) const {
     const bool is_not_medicine =
         item.actor_name.isEmpty() || !ksys::act::InfoData::instance()->hasTag(
                                          item.actor_name.cstr(), ksys::act::tags::CookEMedicine);
