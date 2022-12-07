@@ -85,6 +85,8 @@ public:
     void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
     void cookCalcPotencyBoost(const Ingredient* ingredients, CookItem& item);
 
+    CookEffectId getCookEffectId(const sead::SafeString& name) const;
+
     void init(sead::Heap* heap);
 
     bool cook(const CookArg& arg, const CookItem& cook_item, const BoostArg& boost_arg);
