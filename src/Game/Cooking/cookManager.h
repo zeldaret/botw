@@ -64,6 +64,8 @@ public:
         al::ByamlIter actor_data;
     };
 
+    using IngredientArray = sead::SafeArray<Ingredient, NumIngredientsMax>;
+
     struct BoostArg {
         bool always_boost;
         bool enable_random_boost;
@@ -75,16 +77,15 @@ public:
 private:
     void cookFail(CookItem& item);
     void cookFailForMissingConfig(CookItem& item, const sead::SafeString& name);
-    void cookCalcBoost(const Ingredient* ingredients, CookItem& item,
+    void cookCalcBoost(const IngredientArray& ingredients, CookItem& item,
                        const BoostArg* boost_arg) const;
-    void cookHandleBoostMonsterExtractInner([[maybe_unused]] const Ingredient* ingredients,
+    void cookHandleBoostMonsterExtractInner([[maybe_unused]] const IngredientArray& ingredients,
                                             CookItem& item) const;
-    void cookHandleBoostSuccessInner([[maybe_unused]] const Ingredient ingredients[],
+    void cookHandleBoostSuccessInner([[maybe_unused]] const IngredientArray& ingredients,
                                      CookItem& item) const;
-    void cookCalcSpiceBoost(const sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
-                            CookItem& item) const;
-    void cookCalcItemPrice(const Ingredient ingredients[], CookItem& item) const;
-    void cookCalcPotencyBoost(const Ingredient* ingredients, CookItem& item) const;
+    void cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const;
+    void cookCalcItemPrice(const IngredientArray& ingredients, CookItem& item) const;
+    void cookCalcPotencyBoost(const IngredientArray& ingredients, CookItem& item) const;
 
 public:
     CookEffectId getCookEffectId(const sead::SafeString& name) const;

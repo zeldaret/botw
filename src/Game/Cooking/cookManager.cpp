@@ -126,7 +126,7 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
     item.item_price = 1;
 }
 
-void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookItem& item,
+void CookingMgr::cookCalcBoost(const IngredientArray& ingredients, CookItem& item,
                                const BoostArg* boost_arg) const {
     // Find if any of the ingredients are Monster Extract.
     for (int i = 0; i < NumIngredientsMax; i++) {
@@ -168,7 +168,7 @@ void CookingMgr::cookCalcBoost(const CookingMgr::Ingredient* ingredients, CookIt
 }
 
 void CookingMgr::cookHandleBoostMonsterExtractInner(
-    [[maybe_unused]] const CookingMgr::Ingredient* ingredients, CookItem& item) const {
+    [[maybe_unused]] const IngredientArray& ingredients, CookItem& item) const {
     // Monster Extract found; calculate boosts.
 
     s32 effect_min = 0;
@@ -221,8 +221,8 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
     }
 }
 
-void CookingMgr::cookHandleBoostSuccessInner(
-    [[maybe_unused]] const CookingMgr::Ingredient* ingredients, CookItem& item) const {
+void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientArray& ingredients,
+                                             CookItem& item) const {
     enum Bonus {
         LifeBonus = 0,
         StaminaBonus = 1,
@@ -292,8 +292,7 @@ void CookingMgr::cookHandleBoostSuccessInner(
     }
 }
 
-void CookingMgr::cookCalcSpiceBoost(
-    const sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients, CookItem& item) const {
+void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const {
     for (int i = 0; i < NumIngredientsMax; i++) {
         if (ingredients[i].arg) {
             const auto& actor_data = ingredients[i].actor_data;
@@ -341,8 +340,7 @@ void CookingMgr::cookCalcSpiceBoost(
     }
 }
 
-void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
-                                   CookItem& item) const {
+void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem& item) const {
     item.item_price = 0;
     s32 price;
 
@@ -402,8 +400,7 @@ void CookingMgr::cookCalcItemPrice(const CookingMgr::Ingredient* ingredients,
     item.item_price = price;
 }
 
-void CookingMgr::cookCalcPotencyBoost(const CookingMgr::Ingredient* ingredients,
-                                      CookItem& item) const {
+void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookItem& item) const {
     const bool is_not_medicine =
         item.actor_name.isEmpty() || !ksys::act::InfoData::instance()->hasTag(
                                          item.actor_name.cstr(), ksys::act::tags::CookEMedicine);
