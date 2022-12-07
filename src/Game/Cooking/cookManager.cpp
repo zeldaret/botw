@@ -444,13 +444,10 @@ void CookingMgr::cookCalcPotencyBoost(const CookingMgr::Ingredient* ingredients,
             if (actor_data.tryGetIntByKey(&int_val, "cureItemEffectLevel") && int_val > 0) {
                 const char* string_val = nullptr;
                 if (actor_data.tryGetStringByKey(&string_val, "cureItemEffectType")) {
-                    const u32 effect_hash = sead::HashCRC32::calcStringHash(string_val);
-                    if (const auto* node = mCookingEffectNameIdMap.find(effect_hash)) {
-                        const auto effect_id = node->value();
-                        if (effect_id != CookEffectId::None) {
-                            arr1[(int)effect_id] += potency;
-                            arr2[(int)effect_id] += int_val * potency;
-                        }
+                    const auto effect_id = getCookEffectId(string_val);
+                    if (effect_id != CookEffectId::None) {
+                        arr1[(int)effect_id] += potency;
+                        arr2[(int)effect_id] += int_val * potency;
                     }
                 }
             }
