@@ -695,6 +695,83 @@ void CookingMgr::init(sead::Heap* heap) {
     }
 }
 
+bool CookingMgr::cookWithItems(const sead::SafeString& item1, const sead::SafeString& item2,
+                               const sead::SafeString& item3, const sead::SafeString& item4,
+                               const sead::SafeString& item5, CookItem& cook_item,
+                               const CookingMgr::BoostArg& boost_arg) {
+    CookArg arg{};
+    sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax> item_names{};
+    int num_items = 0;
+    /*
+        for (int i = 0; i < NumIngredientsMax; i++) {
+            const sead::SafeString* item;
+            switch (i) {
+            case 0:
+                item = &item1;
+                break;
+            case 1:
+                item = &item2;
+                break;
+            case 2:
+                item = &item3;
+                break;
+            case 3:
+                item = &item4;
+                break;
+            case 4:
+                item = &item5;
+                break;
+            }
+
+            if (!item->isEmpty()) {
+                item_names[num_items] = *item;
+                num_items++;
+            }
+        }
+    */
+
+    /*
+        for (const auto& item : {item1, item2, item3, item4, item5}) {
+            if (!item.isEmpty()) {
+                item_names[num_items] = item;
+                num_items++;
+            }
+        }
+    */
+
+    if (!item1.isEmpty()) {
+        item_names[num_items] = item1;
+        num_items++;
+    }
+
+    if (!item2.isEmpty()) {
+        item_names[num_items] = item2;
+        num_items++;
+    }
+
+    if (!item3.isEmpty()) {
+        item_names[num_items] = item3;
+        num_items++;
+    }
+
+    if (!item4.isEmpty()) {
+        item_names[num_items] = item4;
+        num_items++;
+    }
+
+    if (!item5.isEmpty()) {
+        item_names[num_items] = item5;
+        num_items++;
+    }
+
+    if (num_items > 0) {
+        prepareCookArg(arg, item_names, num_items, cook_item);
+        if (cook(arg, cook_item, boost_arg))
+            return true;
+    }
+    return false;
+}
+
 void CookingMgr::setCookItem(const CookItem& from) {
     from.copy(mCookItem);
 }

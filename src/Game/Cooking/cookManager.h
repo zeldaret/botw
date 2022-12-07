@@ -92,18 +92,19 @@ public:
 
     void init(sead::Heap* heap);
 
-    bool cook(const CookArg& arg, const CookItem& cook_item, const BoostArg& boost_arg);
+    bool cook(const CookArg& arg, CookItem& cook_item, const BoostArg& boost_arg);
 
-    bool resetArgCookData(const CookArg& arg, const CookItem& item);
+    void resetArgCookData(CookArg& arg, const CookItem& item);
 
-    bool
-    prepareCookArg(const CookArg& arg,
+    void
+    prepareCookArg(CookArg& arg,
                    const sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax>& item_names,
                    int num_items, const CookItem& item) const;
 
-    bool cookWithItems(const CookArg& arg, const UnkItem& item1, const UnkItem& item2,
-                       const UnkItem& item3, const UnkItem& item4, const UnkItem& item5,
-                       const CookItem& cook_item, const BoostArg& boost_arg);
+    bool cookWithItems(const sead::SafeString& item1, const sead::SafeString& item2,
+                       const sead::SafeString& item3, const sead::SafeString& item4,
+                       const sead::SafeString& item5, CookItem& cook_item,
+                       const CookingMgr::BoostArg& boost_arg);
 
     void setCookItem(const CookItem& from);
     void resetCookItem();
