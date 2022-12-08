@@ -359,18 +359,19 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
             break;
 
         if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookLowPrice)) {
-            const s32 p = ingredient.arg->_58;
-            mult_idx += p;
-            item.item_price += p;
-            max_price += ingredient.arg->_58;
+            // This ingredient is only worth 1 rupee.
+            const s32 count = ingredient.arg->count;
+            mult_idx += count;
+            item.item_price += count;
+            max_price += ingredient.arg->count;
         } else {
             if (actor_data.tryGetIntByKey(&int_val, "itemSellingPrice")) {
-                const s32 p = ingredient.arg->_58;
-                mult_idx += p;
-                item.item_price += int_val * p;
+                const s32 count = ingredient.arg->count;
+                mult_idx += count;
+                item.item_price += int_val * count;
             }
             if (actor_data.tryGetIntByKey(&int_val, "itemBuyingPrice")) {
-                max_price += int_val * ingredient.arg->_58;
+                max_price += int_val * ingredient.arg->count;
             }
         }
     }
@@ -404,37 +405,37 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
                                          item.actor_name.cstr(), ksys::act::tags::CookEMedicine);
     const bool is_not_fairy_tonic = mFairyTonicName != item.actor_name;
 
-    sead::SafeArray<s32, NumEffectSlots> arr1{};
-    sead::SafeArray<s32, NumEffectSlots> arr2{};
+    sead::SafeArray<s32, NumEffectSlots> effect_counts{};
+    sead::SafeArray<s32, NumEffectSlots> cure_levels{};
 
     s32 stamina_boost = 0;
     s32 life_boost = 0;
     s32 time_boost = 0;
-    s32 total_potency = 0;
+    s32 total_count = 0;
     s32 life_recover = 0;
 
     for (int i = 0; i < NumIngredientsMax; i++) {
         if (!ingredients[i].arg)
             break;
         const al::ByamlIter& actor_data = ingredients[i].actor_data;
-        const s32 potency = ingredients[i].arg->_58;
-        total_potency += potency;
+        const s32 count = ingredients[i].arg->count;
+        total_count += count;
         int int_val;
         if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookEnemy)) {
             if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostEffectiveTime") && int_val > 0) {
-                time_boost += int_val * potency;
+                time_boost += int_val * count;
             }
 
             if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") && int_val > 0) {
-                life_boost += int_val * potency;
+                life_boost += int_val * count;
             }
 
             if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostStaminaLevel") && int_val > 0) {
-                stamina_boost += int_val * potency;
+                stamina_boost += int_val * count;
             }
         } else {
             if (actor_data.tryGetIntByKey(&int_val, "cureItemHitPointRecover") && int_val > 0) {
-                life_recover += int_val * potency;
+                life_recover += int_val * count;
             }
 
             if (actor_data.tryGetIntByKey(&int_val, "cureItemEffectLevel") && int_val > 0) {
@@ -442,8 +443,8 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
                 if (actor_data.tryGetStringByKey(&string_val, "cureItemEffectType")) {
                     const auto effect_id = getCookEffectId(string_val);
                     if (effect_id != CookEffectId::None) {
-                        arr1[(int)effect_id] += potency;
-                        arr2[(int)effect_id] += int_val * potency;
+                        effect_counts[(int)effect_id] += count;
+                        cure_levels[(int)effect_id] += int_val * count;
                     }
                 }
             }
@@ -452,8 +453,8 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
 
     bool effect_found = false;
     for (int i = 0; i < NumEffectSlots; i++) {
-        const s32 potency = arr1[i];
-        if (potency > 0) {
+        const s32 count = effect_counts[i];
+        if (count > 0) {
             if (effect_found) {
                 // Finding a second effect makes them cancel out.
                 effect_found = false;
@@ -465,7 +466,7 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
 
             const auto& entry = mCookingEffectEntries[i];
 
-            const f32 cure_level = (f32)arr2[i];
+            const f32 cure_level = (f32)cure_levels[i];
             item.stamina_recover = cure_level * entry.mr;
 
             const auto effect_id = (CookEffectId)i;
@@ -473,7 +474,7 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
 
             const s32 boost_time = entry.bt;
             if (boost_time > 0)
-                item.effect_time = time_boost + 30 * total_potency + boost_time * potency;
+                item.effect_time = time_boost + 30 * total_count + boost_time * count;
 
             if (effect_id == CookEffectId::LifeMaxUp) {
                 item.stamina_recover += (f32)life_boost;
@@ -697,10 +698,10 @@ void CookingMgr::prepareCookArg(
     int num_items, CookItem& cook_item) const {
     for (int i = 0; i < NumIngredientsMax; i++) {
         arg.ingredients[i].name = "";
-        arg.ingredients[i]._58 = 0;
+        arg.ingredients[i].count = 0;
     }
 
-    arg.ingredients[0]._58 = 1;
+    arg.ingredients[0].count = 1;
     arg.ingredients[0].name = item_names[0];
 
     for (int i = 1; i < num_items; i++) {
@@ -709,7 +710,7 @@ void CookingMgr::prepareCookArg(
         int j;
         for (j = 0; j < NumIngredientsMax; j++) {
             if (arg.ingredients[j].name == item_name) {
-                arg.ingredients[j]._58++;
+                arg.ingredients[j].count++;
                 found_name = true;
                 break;
             }
@@ -719,7 +720,7 @@ void CookingMgr::prepareCookArg(
 
         if (!found_name) {
             arg.ingredients[j].name = item_name;
-            arg.ingredients[j]._58 = 1;
+            arg.ingredients[j].count = 1;
         }
     }
 

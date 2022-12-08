@@ -148,7 +148,7 @@ KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 
 struct CookIngredient {
     sead::FixedSafeString<64> name{""};
-    int _58{};
+    int count{};
 };
 KSYS_CHECK_SIZE_NX150(CookIngredient, 0x60);
 
