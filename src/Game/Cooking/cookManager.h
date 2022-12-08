@@ -150,13 +150,15 @@ private:
 KSYS_CHECK_SIZE_NX150(CookingMgr, 0x7D8);
 
 struct CookIngredient {
-    sead::FixedSafeString<64> name;
-    int _58;
+    sead::FixedSafeString<64> name{""};
+    int _58{};
 };
 KSYS_CHECK_SIZE_NX150(CookIngredient, 0x60);
 
 struct CookArg {
-    sead::SafeArray<CookIngredient, CookingMgr::NumIngredientsMax> ingredients;
+    CookArg();
+
+    sead::SafeArray<CookIngredient, CookingMgr::NumIngredientsMax> ingredients{};
 };
 KSYS_CHECK_SIZE_NX150(CookArg, 0x1E0);
 
