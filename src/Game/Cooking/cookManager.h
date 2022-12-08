@@ -12,9 +12,6 @@ namespace uking {
 struct CookArg;
 struct CookIngredient;
 
-// TODO: Find actual type
-struct UnkItem;
-
 enum class CookEffectId : s32 {
     None = -1,
     LifeRecover = 1,

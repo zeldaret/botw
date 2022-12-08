@@ -84,8 +84,6 @@ CookingMgr::~CookingMgr() {
     }
 }
 
-// CookingMgr::~CookingMgr() = default;
-
 void CookingMgr::cookFail(CookItem& item) {
     if (item.actor_name.isEmpty())
         item.actor_name.copy(mFailActorName);
