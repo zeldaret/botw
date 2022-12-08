@@ -156,7 +156,7 @@ struct CookIngredient {
 KSYS_CHECK_SIZE_NX150(CookIngredient, 0x60);
 
 struct CookArg {
-    CookIngredient ingredients[CookingMgr::NumIngredientsMax];
+    sead::SafeArray<CookIngredient, CookingMgr::NumIngredientsMax> ingredients;
 };
 KSYS_CHECK_SIZE_NX150(CookArg, 0x1E0);
 
