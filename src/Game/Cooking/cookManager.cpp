@@ -477,12 +477,11 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
             if (boost_time > 0)
                 item.effect_time = time_boost + 30 * total_potency + boost_time * potency;
 
-            // Ugly, but matches.
-            s32 boost = life_boost;
-            if (effect_id == CookEffectId::LifeMaxUp ||
-                (boost = stamina_boost, effect_id == CookEffectId::GutsRecover ||
-                                            effect_id == CookEffectId::ExGutsMaxUp)) {
-                item.stamina_recover += (f32)boost;
+            if (effect_id == CookEffectId::LifeMaxUp) {
+                item.stamina_recover += (f32)life_boost;
+            } else if (effect_id == CookEffectId::GutsRecover ||
+                       effect_id == CookEffectId::ExGutsMaxUp) {
+                item.stamina_recover += (f32)stamina_boost;
             }
             effect_found = true;
         }
@@ -499,19 +498,17 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
         item.actor_name = mFailActorName;
     }
 
-    f32 f_life_recover;
-    if (item.actor_name.isEmpty()) {
-        f_life_recover = (f32)life_recover;
-    } else if (ksys::act::InfoData::instance()->hasTag(item.actor_name.cstr(),
-                                                       ksys::act::tags::CookFailure)) {
-        f_life_recover =
-            (f32)life_recover *
-            (effect_found ? mFALRMR : mCookingEffectEntries[(int)CookEffectId::LifeRecover].mr);
+    const bool is_failure = !item.actor_name.isEmpty() &&
+                            ksys::act::InfoData::instance()->hasTag(item.actor_name.cstr(),
+                                                                    ksys::act::tags::CookFailure);
+    if (is_failure) {
+        item.life_recover = (f32)life_recover * mFALRMR;
+    } else if (effect_found) {
+        item.life_recover = (f32)life_recover * mLRMR;
     } else {
-        f_life_recover = (f32)life_recover * mLRMR;
+        item.life_recover =
+            (f32)life_recover * mCookingEffectEntries[(int)CookEffectId::LifeRecover].mr;
     }
-
-    item.life_recover = f_life_recover;
 
     if (item.effect_id != CookEffectId::None) {
         const s32 max = mCookingEffectEntries[(int)item.effect_id].ma;
