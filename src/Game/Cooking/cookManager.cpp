@@ -94,7 +94,7 @@ void CookingMgr::cookFail(CookItem& item) {
     if (item.actor_name == mFailActorName) {
         // Dubious food
         item.effect_time = 0;
-        f32 min_recovery = (f32)(s32)mFALR;
+        const f32 min_recovery = (f32)(s32)mFALR;
         life_recover = min_recovery > item.life_recover ? min_recovery : item.life_recover;
     } else {
         // Rock-hard food
@@ -361,13 +361,13 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
             break;
 
         if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookLowPrice)) {
-            s32 p = ingredient.arg->_58;
+            const s32 p = ingredient.arg->_58;
             mult_idx += p;
             item.item_price += p;
             max_price += ingredient.arg->_58;
         } else {
             if (actor_data.tryGetIntByKey(&int_val, "itemSellingPrice")) {
-                s32 p = ingredient.arg->_58;
+                const s32 p = ingredient.arg->_58;
                 mult_idx += p;
                 item.item_price += int_val * p;
             }
@@ -547,7 +547,7 @@ void CookingMgr::init(sead::Heap* heap) {
 
     for (int effect_idx = 0; effect_idx < NumEffects; effect_idx++) {
         auto& effect = sCookingEffects[effect_idx];
-        u32 name_hash = sead::HashCRC32::calcStringHash(effect.name);
+        const u32 name_hash = sead::HashCRC32::calcStringHash(effect.name);
         mCookingEffectNameIdMap.insert(name_hash, effect.effect_id);
     }
 
@@ -618,7 +618,7 @@ void CookingMgr::init(sead::Heap* heap) {
             mSSAET = int_val;
 
         if (iter.tryGetIterByKey(&cei_iter, "CEI")) {
-            int size = cei_iter.getSize();
+            const int size = cei_iter.getSize();
 
             for (int i = 0; i < size; i++) {
                 if (cei_iter.tryGetIterByIndex(&entry_iter, i) &&
@@ -673,7 +673,7 @@ void CookingMgr::init(sead::Heap* heap) {
         }
 
         if (iter.tryGetIterByKey(&cei_iter, "NMMR")) {
-            int size = cei_iter.getSize();
+            const int size = cei_iter.getSize();
 
             for (int i = 0; i < size; i++) {
                 if (cei_iter.tryGetFloatByIndex(&float_val, i) && i < NumIngredientsMax) {
@@ -683,7 +683,7 @@ void CookingMgr::init(sead::Heap* heap) {
         }
 
         if (iter.tryGetIterByKey(&cei_iter, "NMSSR")) {
-            int size = cei_iter.getSize();
+            const int size = cei_iter.getSize();
 
             for (int i = 0; i < size; i++) {
                 if (cei_iter.tryGetIntByIndex(&int_val, i) && i < NumIngredientsMax) {
