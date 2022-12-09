@@ -38,4 +38,5 @@ readability-*,
 -readability-uppercase-literal-suffix,
 -readability-function-cognitive-complexity,
 -readability-implicit-bool-conversion,
+-readability-make-member-function-const,
 -readability-convert-member-functions-to-static'
