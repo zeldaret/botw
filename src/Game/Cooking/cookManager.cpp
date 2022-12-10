@@ -695,10 +695,12 @@ void CookingMgr::init(sead::Heap* heap) {
 
 bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                       const CookingMgr::BoostArg& boost_arg) {
+    ksys::act::InfoData* actor_info_data = ksys::act::InfoData::instance();
+
     al::ByamlIter recipes_iter;
     sead::SafeArray<Ingredient, NumIngredientsMax> ingredients;
 
-    if (!mConfig || !ksys::act::InfoData::instance()) {
+    if (!mConfig || !actor_info_data) {
     COOK_FAILURE_FOR_MISSING_CONFIG:
         cookFailForMissingConfig(cook_item, mFailActorName);
         return false;
@@ -720,8 +722,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
         if (!cook_ingredient.name.isEmpty()) {
             const u32 name_hash = sead::HashCRC32::calcStringHash(cook_ingredient.name);
             auto& ingredient = ingredients[num_ingredients];
-            if (ksys::act::InfoData::instance()->getActorIter(
-                    &ingredient.actor_data, name_hash)) {
+            if (actor_info_data->getActorIter(&ingredient.actor_data, name_hash)) {
                 ingredient.name_hash = name_hash;
                 ingredient.arg = &cook_ingredient;
                 num_ingredients++;
@@ -817,13 +818,13 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     }
 
                     al::ByamlIter actor_iter;
-                    if (!ksys::act::InfoData::instance()->getActorIter(&actor_iter, uint_val))
+                    if (!actor_info_data->getActorIter(&actor_iter, uint_val))
                         continue;
                     actor_iter.tryGetStringByKey(&string_val, "name");
                     cook_item.actor_name = string_val;
                     cookCalcPotencyBoost(ingredients, cook_item);
-                    if (ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
-                                                                ksys::act::tags::CookFailure)) {
+                    if (actor_info_data->hasTag(cook_item.actor_name.cstr(),
+                                                ksys::act::tags::CookFailure)) {
                         goto COOK_FAILURE;
                     }
 
@@ -926,14 +927,14 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     }
 
                     al::ByamlIter actor_iter;
-                    if (!ksys::act::InfoData::instance()->getActorIter(&actor_iter, uint_val))
+                    if (!actor_info_data->getActorIter(&actor_iter, uint_val))
                         continue;
 
                     actor_iter.tryGetStringByKey(&string_val, "name");
                     cook_item.actor_name = string_val;
                     cookCalcPotencyBoost(ingredients, cook_item);
-                    if (ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
-                                                                ksys::act::tags::CookFailure)) {
+                    if (actor_info_data->hasTag(cook_item.actor_name.cstr(),
+                                                ksys::act::tags::CookFailure)) {
                         goto COOK_FAILURE;
                     }
 
