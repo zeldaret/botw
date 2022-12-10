@@ -693,6 +693,334 @@ void CookingMgr::init(sead::Heap* heap) {
     }
 }
 
+bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
+                      const CookingMgr::BoostArg& boost_arg) {
+    al::ByamlIter recipes_iter;
+    sead::SafeArray<Ingredient, NumIngredientsMax> ingredients;
+
+    if (!mConfig || !ksys::act::InfoData::instance()) {
+    COOK_FAILURE_FOR_MISSING_CONFIG:
+        cookFailForMissingConfig(cook_item, mFailActorName);
+        return false;
+    }
+
+    if (false) {
+    COOK_FAILURE:
+        cookFail(cook_item);
+        return true;
+    }
+
+    int num_ingredients = 0;
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        if (!arg.ingredients[i].name.isEmpty()) {
+            const u32 name_hash = sead::HashCRC32::calcStringHash(arg.ingredients[i].name);
+            if (ksys::act::InfoData::instance()->getActorIter(&ingredients[i].actor_data,
+                                                              name_hash)) {
+                num_ingredients++;
+                ingredients[i].name_hash = name_hash;
+                ingredients[i].arg = &arg.ingredients[i];
+            }
+        }
+    }
+
+    if (num_ingredients == 0) {
+        goto COOK_FAILURE_FOR_MISSING_CONFIG;
+    }
+
+    if (num_ingredients > 1) {
+        if (mConfig->tryGetIterByKey(&recipes_iter, "Recipes")) {
+            const s32 num_recipes = recipes_iter.getSize();
+            const char* string_val = nullptr;
+            u32 uint_val = 0;
+            al::ByamlIter recipe_iter;
+            al::ByamlIter actor_tag_iter;
+            al::ByamlIter actors_iter;
+            al::ByamlIter tags_iter;
+
+            if (num_recipes > 0) {
+                for (int recipe_idx = 0; recipe_idx < num_recipes; recipe_idx++) {
+                    if (!recipes_iter.tryGetIterByIndex(&recipe_iter, recipe_idx))
+                        continue;
+
+                    recipe_iter.tryGetStringByKey(&string_val, "Result");
+                    recipe_iter.tryGetUIntByKey(&uint_val, "Recipe");
+                    const s32 num_actors = recipe_iter.tryGetIterByKey(&actors_iter, "Actors") ?
+                                               actors_iter.getSize() :
+                                               0;
+                    const s32 num_tags =
+                        recipe_iter.tryGetIterByKey(&tags_iter, "Tags") ? tags_iter.getSize() : 0;
+
+                    if (num_actors + num_tags > num_ingredients ||
+                        (num_actors == 0 && num_tags == 0))
+                        continue;
+
+                    ingredients[0]._10 = false;
+                    ingredients[1]._10 = false;
+                    ingredients[2]._10 = false;
+                    ingredients[3]._10 = false;
+                    ingredients[4]._10 = false;
+
+                    for (int actor_idx = 0; actor_idx < num_actors; actor_idx++) {
+                        bool found = false;
+                        if (actors_iter.tryGetIterByIndex(&actor_tag_iter, actor_idx)) {
+                            const s32 num_hashes = actor_tag_iter.getSize();
+                            for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
+                                u32 hash_val;
+                                if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                    for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
+                                         ingredient_idx++) {
+                                        if (!ingredients[ingredient_idx]._10 &&
+                                            ingredients[ingredient_idx].name_hash == hash_val) {
+                                            ingredients[ingredient_idx]._10 = true;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (found)
+                                    break;
+                            }
+                        }
+                        if (found)
+                            break;
+                    }
+
+                    for (int tag_idx = 0; tag_idx < num_tags; tag_idx++) {
+                        bool found = false;
+                        if (tags_iter.tryGetIterByIndex(&actor_tag_iter, tag_idx)) {
+                            const s32 num_hashes = actor_tag_iter.getSize();
+                            for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
+                                u32 hash_val;
+                                if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                    for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
+                                         ingredient_idx++) {
+                                        if (!ingredients[ingredient_idx]._10 &&
+                                            ingredients[ingredient_idx].name_hash == hash_val) {
+                                            ingredients[ingredient_idx]._10 = true;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (found)
+                                    break;
+                            }
+                        }
+                        if (found)
+                            break;
+                    }
+
+                    al::ByamlIter actor_iter;
+                    if (!ksys::act::InfoData::instance()->getActorIter(&actor_iter, uint_val))
+                        continue;
+                    actor_iter.tryGetStringByKey(&string_val, "name");
+                    cook_item.actor_name = string_val;
+                    cookCalcPotencyBoost(ingredients, cook_item);
+                    if (ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
+                                                                ksys::act::tags::CookFailure)) {
+                        goto COOK_FAILURE;
+                    }
+
+                    cookCalcBoost(ingredients, cook_item, &boost_arg);
+                    cookCalcSpiceBoost(ingredients, cook_item);
+
+                    int int_val;
+
+                    if (recipe_iter.tryGetIntByKey(&int_val, "HB"))
+                        cook_item.life_recover += (f32)int_val;
+
+                    if (recipe_iter.tryGetIntByKey(&int_val, "TB")) {
+                        if (cook_item.effect_time > 0) {
+                            cook_item.effect_time += int_val;
+                        }
+                    }
+
+                    cook_item.life_recover = (f32)(s32)cook_item.life_recover;
+
+                    const f32 life_recover_max =
+                        (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
+                    cook_item.life_recover =
+                        sead::Mathf::clamp(cook_item.life_recover, 0.0f, life_recover_max);
+
+                    if (cook_item.effect_id != CookEffectId::None) {
+                        if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
+                            cook_item.stamina_recover = 1.0f;
+
+                        const s32 stamina_recover_max =
+                            mCookingEffectEntries[(int)cook_item.effect_id].ma;
+                        cook_item.stamina_recover =
+                            (f32)sead::Mathi::clampMax((s32)cook_item.stamina_recover, stamina_recover_max);
+
+                        if (cook_item.effect_id == CookEffectId::GutsRecover)
+                            cook_item.stamina_recover *= 200;
+
+                        if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
+                            if ((s32)cook_item.stamina_recover % 4 != 0) {
+                                // Round up to whole heart.
+                                cook_item.stamina_recover =
+                                    (f32)(((s32)cook_item.stamina_recover + 4) & ~3u);
+                            }
+
+                            if (cook_item.stamina_recover < 4.0f)
+                                cook_item.stamina_recover = 4.0f;
+
+                            cook_item.life_recover = cook_item.stamina_recover;
+                        }
+                    }
+
+                    cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
+
+                    cookCalcItemPrice(ingredients, cook_item);
+                    return true;
+                }
+            }
+        }
+    } else if (num_ingredients == 1) {
+        if (mConfig->tryGetIterByKey(&recipes_iter, "SingleRecipes")) {
+            const s32 num_recipes = recipes_iter.getSize();
+            const char* string_val = nullptr;
+            s32 int_val;
+            u32 uint_val = 0;
+            al::ByamlIter recipe_iter;
+            al::ByamlIter actors_iter;
+            al::ByamlIter tags_iter;
+
+            if (num_recipes > 0) {
+                for (int recipe_idx = 0; recipe_idx < num_recipes; recipe_idx++) {
+                    if (!recipes_iter.tryGetIterByIndex(&recipe_iter, recipe_idx))
+                        continue;
+
+                    recipe_iter.tryGetStringByKey(&string_val, "Result");
+                    recipe_iter.tryGetUIntByKey(&uint_val, "Recipe");
+
+                    if (!recipe_iter.tryGetIntByKey(&int_val, "Num") || num_ingredients < int_val)
+                        continue;
+
+                    const s32 num_actors = recipe_iter.tryGetIterByKey(&actors_iter, "Actors") ?
+                                               actors_iter.getSize() :
+                                               0;
+                    const s32 num_tags =
+                        recipe_iter.tryGetIterByKey(&tags_iter, "Tags") ? tags_iter.getSize() : 0;
+
+                    if (num_actors + num_tags > num_ingredients ||
+                        (num_actors == 0 && num_tags == 0))
+                        continue;
+
+                    for (int actor_idx = 0; actor_idx < num_actors; actor_idx++) {
+                        bool found = false;
+                        const s32 num_hashes = actors_iter.getSize();
+                        for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
+                            u32 hash_val;
+                            if (actors_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
+                                     ingredient_idx++) {
+                                    if (!ingredients[ingredient_idx]._10 &&
+                                        ingredients[ingredient_idx].name_hash == hash_val) {
+                                        ingredients[ingredient_idx]._10 = true;
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (found)
+                                break;
+                        }
+                        if (found)
+                            break;
+                    }
+
+                    for (int tag_idx = 0; tag_idx < num_tags; tag_idx++) {
+                        bool found = false;
+                        const s32 num_hashes = tags_iter.getSize();
+                        for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
+                            u32 hash_val;
+                            if (tags_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
+                                     ingredient_idx++) {
+                                    if (!ingredients[ingredient_idx]._10 &&
+                                        ingredients[ingredient_idx].name_hash == hash_val) {
+                                        ingredients[ingredient_idx]._10 = true;
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (found)
+                                break;
+                        }
+                        if (found)
+                            break;
+                    }
+
+                    al::ByamlIter actor_iter;
+                    if (!ksys::act::InfoData::instance()->getActorIter(&actor_iter, uint_val))
+                        continue;
+
+                    actor_iter.tryGetStringByKey(&string_val, "name");
+                    cook_item.actor_name = string_val;
+                    cookCalcPotencyBoost(ingredients, cook_item);
+                    if (ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
+                                                                ksys::act::tags::CookFailure)) {
+                        goto COOK_FAILURE;
+                    }
+
+                    cookCalcBoost(ingredients, cook_item, &boost_arg);
+                    cookCalcSpiceBoost(ingredients, cook_item);
+
+                    if (recipe_iter.tryGetIntByKey(&int_val, "HB"))
+                        cook_item.life_recover += (f32)int_val;
+
+                    if (recipe_iter.tryGetIntByKey(&int_val, "TB")) {
+                        if (cook_item.effect_time > 0) {
+                            cook_item.effect_time += int_val;
+                        }
+                    }
+
+                    cook_item.life_recover = (f32)(s32)cook_item.life_recover;
+
+                    const f32 life_recover_max =
+                        (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
+                    cook_item.life_recover =
+                        sead::Mathf::clamp(cook_item.life_recover, 0.0f, life_recover_max);
+
+                    if (cook_item.effect_id != CookEffectId::None) {
+                        if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
+                            cook_item.stamina_recover = 1.0f;
+
+                        const s32 stamina_recover_max =
+                            mCookingEffectEntries[(int)cook_item.effect_id].ma;
+                        cook_item.stamina_recover =
+                            (f32)sead::Mathi::clampMax((s32)cook_item.stamina_recover, stamina_recover_max);
+
+                        if (cook_item.effect_id == CookEffectId::GutsRecover)
+                            cook_item.stamina_recover *= 200;
+
+                        if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
+                            if ((s32)cook_item.stamina_recover % 4 != 0) {
+                                // Round up to whole heart.
+                                cook_item.stamina_recover =
+                                    (f32)(((s32)cook_item.stamina_recover + 4) & ~3u);
+                            }
+
+                            if (cook_item.stamina_recover < 4.0f)
+                                cook_item.stamina_recover = 4.0f;
+
+                            cook_item.life_recover = cook_item.stamina_recover;
+                        }
+                    }
+
+                    cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
+
+                    cookCalcItemPrice(ingredients, cook_item);
+                    return true;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
 void CookingMgr::prepareCookArg(
     CookArg& arg, const sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax>& item_names,
     int num_items, CookItem& cook_item) const {

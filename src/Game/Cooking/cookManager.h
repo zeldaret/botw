@@ -54,11 +54,11 @@ public:
     static constexpr s32 NumEffectSlots = 17;
 
     struct Ingredient {
-        u32 name_hash;
+        u32 name_hash{};
         int _4;
-        const CookIngredient* arg;
-        bool _10;
-        al::ByamlIter actor_data;
+        const CookIngredient* arg{};
+        bool _10{};
+        al::ByamlIter actor_data{};
     };
 
     using IngredientArray = sead::SafeArray<Ingredient, NumIngredientsMax>;
