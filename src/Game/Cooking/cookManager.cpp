@@ -705,6 +705,10 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
     }
 
     if (false) {
+    BAD_RECIPE:
+        cook_item.actor_name = mFailActorName;
+        cookCalcPotencyBoost(ingredients, cook_item);
+
     COOK_FAILURE:
         cookFail(cook_item);
         return true;
@@ -835,40 +839,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                         }
                     }
 
-                    cook_item.life_recover = (f32)(s32)cook_item.life_recover;
-
-                    const f32 life_recover_max =
-                        (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
-                    cook_item.life_recover =
-                        sead::Mathf::clamp(cook_item.life_recover, 0.0f, life_recover_max);
-
-                    if (cook_item.effect_id != CookEffectId::None) {
-                        if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
-                            cook_item.stamina_recover = 1.0f;
-
-                        const s32 stamina_recover_max =
-                            mCookingEffectEntries[(int)cook_item.effect_id].ma;
-                        cook_item.stamina_recover =
-                            (f32)sead::Mathi::clampMax((s32)cook_item.stamina_recover, stamina_recover_max);
-
-                        if (cook_item.effect_id == CookEffectId::GutsRecover)
-                            cook_item.stamina_recover *= 200;
-
-                        if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
-                            if ((s32)cook_item.stamina_recover % 4 != 0) {
-                                // Round up to whole heart.
-                                cook_item.stamina_recover =
-                                    (f32)(((s32)cook_item.stamina_recover + 4) & ~3u);
-                            }
-
-                            if (cook_item.stamina_recover < 4.0f)
-                                cook_item.stamina_recover = 4.0f;
-
-                            cook_item.life_recover = cook_item.stamina_recover;
-                        }
-                    }
-
-                    cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
+                    cookAdjustItem(cook_item);
 
                     cookCalcItemPrice(ingredients, cook_item);
                     return true;
@@ -976,49 +947,51 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                         }
                     }
 
-                    cook_item.life_recover = (f32)(s32)cook_item.life_recover;
-
-                    const f32 life_recover_max =
-                        (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
-                    cook_item.life_recover =
-                        sead::Mathf::clamp(cook_item.life_recover, 0.0f, life_recover_max);
-
-                    if (cook_item.effect_id != CookEffectId::None) {
-                        if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
-                            cook_item.stamina_recover = 1.0f;
-
-                        const s32 stamina_recover_max =
-                            mCookingEffectEntries[(int)cook_item.effect_id].ma;
-                        cook_item.stamina_recover =
-                            (f32)sead::Mathi::clampMax((s32)cook_item.stamina_recover, stamina_recover_max);
-
-                        if (cook_item.effect_id == CookEffectId::GutsRecover)
-                            cook_item.stamina_recover *= 200;
-
-                        if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
-                            if ((s32)cook_item.stamina_recover % 4 != 0) {
-                                // Round up to whole heart.
-                                cook_item.stamina_recover =
-                                    (f32)(((s32)cook_item.stamina_recover + 4) & ~3u);
-                            }
-
-                            if (cook_item.stamina_recover < 4.0f)
-                                cook_item.stamina_recover = 4.0f;
-
-                            cook_item.life_recover = cook_item.stamina_recover;
-                        }
-                    }
-
-                    cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
+                    cookAdjustItem(cook_item);
 
                     cookCalcItemPrice(ingredients, cook_item);
                     return true;
                 }
             }
         }
+    } else {
+        goto BAD_RECIPE;
     }
 
     return true;
+}
+
+void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
+    cook_item.life_recover = (f32)(s32)cook_item.life_recover;
+
+    const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
+    cook_item.life_recover = sead::Mathf::clamp(cook_item.life_recover, 0.0f, life_recover_max);
+
+    if (cook_item.effect_id != CookEffectId::None) {
+        if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
+            cook_item.stamina_recover = 1.0f;
+
+        const s32 stamina_recover_max = mCookingEffectEntries[(int)cook_item.effect_id].ma;
+        cook_item.stamina_recover =
+            (f32)sead::Mathi::clampMax((s32)cook_item.stamina_recover, stamina_recover_max);
+
+        if (cook_item.effect_id == CookEffectId::GutsRecover)
+            cook_item.stamina_recover *= 200;
+
+        if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
+            if ((s32)cook_item.stamina_recover % 4 != 0) {
+                // Round up to whole heart.
+                cook_item.stamina_recover = (f32)(((s32)cook_item.stamina_recover + 4) & ~3u);
+            }
+
+            if (cook_item.stamina_recover < 4.0f)
+                cook_item.stamina_recover = 4.0f;
+
+            cook_item.life_recover = cook_item.stamina_recover;
+        }
+    }
+
+    cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
 }
 
 void CookingMgr::prepareCookArg(
