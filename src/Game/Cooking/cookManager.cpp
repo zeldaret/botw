@@ -716,13 +716,15 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
 
     int num_ingredients = 0;
     for (int i = 0; i < NumIngredientsMax; i++) {
-        if (!arg.ingredients[i].name.isEmpty()) {
-            const u32 name_hash = sead::HashCRC32::calcStringHash(arg.ingredients[i].name);
-            if (ksys::act::InfoData::instance()->getActorIter(&ingredients[i].actor_data,
-                                                              name_hash)) {
+        const auto& cook_ingredient = arg.ingredients[i];
+        if (!cook_ingredient.name.isEmpty()) {
+            const u32 name_hash = sead::HashCRC32::calcStringHash(cook_ingredient.name);
+            auto& ingredient = ingredients[num_ingredients];
+            if (ksys::act::InfoData::instance()->getActorIter(
+                    &ingredient.actor_data, name_hash)) {
+                ingredient.name_hash = name_hash;
+                ingredient.arg = &cook_ingredient;
                 num_ingredients++;
-                ingredients[i].name_hash = name_hash;
-                ingredients[i].arg = &arg.ingredients[i];
             }
         }
     }
