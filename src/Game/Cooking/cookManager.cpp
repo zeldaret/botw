@@ -762,13 +762,19 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     ingredients[3].used_in_recipe = false;
                     ingredients[4].used_in_recipe = false;
 
+                    // Each recipe entry can have a list of sets of Actors, and a list of sets of
+                    // Tags. An ingredient must be found for each set of Actors and Tags.
+
+                    bool any_actors_missed = false;
+
                     for (int actor_idx = 0; actor_idx < num_actors; actor_idx++) {
-                        bool found = false;
                         if (actors_iter.tryGetIterByIndex(&actor_tag_iter, actor_idx)) {
                             const s32 num_hashes = actor_tag_iter.getSize();
+                            bool found = false;
                             for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
                                 u32 hash_val;
                                 if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                    // Any actor in this list will work.
                                     for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
                                          ingredient_idx++) {
                                         if (!ingredients[ingredient_idx].used_in_recipe &&
@@ -778,39 +784,57 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                                             break;
                                         }
                                     }
+                                    if (found)
+                                        break;
                                 }
-                                if (found)
-                                    break;
+                            }
+                            if (!found) {
+                                any_actors_missed = true;
+                                break;
                             }
                         }
-                        if (found)
+                        if (any_actors_missed)
                             break;
                     }
 
+                    if (any_actors_missed)
+                        continue;
+
+                    bool any_tags_missed = false;
+
                     for (int tag_idx = 0; tag_idx < num_tags; tag_idx++) {
-                        bool found = false;
                         if (tags_iter.tryGetIterByIndex(&actor_tag_iter, tag_idx)) {
                             const s32 num_hashes = actor_tag_iter.getSize();
+                            bool found = false;
                             for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
                                 u32 hash_val;
                                 if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                    // Any tag in this list will work.
                                     for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
                                          ingredient_idx++) {
                                         if (!ingredients[ingredient_idx].used_in_recipe &&
-                                            ingredients[ingredient_idx].name_hash == hash_val) {
+                                            actor_info_data->hasTag(
+                                                ingredients[ingredient_idx].actor_data, hash_val)) {
                                             ingredients[ingredient_idx].used_in_recipe = true;
                                             found = true;
                                             break;
                                         }
                                     }
+                                    if (found)
+                                        break;
                                 }
-                                if (found)
-                                    break;
+                            }
+                            if (!found) {
+                                any_tags_missed = true;
+                                break;
                             }
                         }
-                        if (found)
+                        if (any_tags_missed)
                             break;
                     }
+
+                    if (any_tags_missed)
+                        continue;
 
                     al::ByamlIter actor_iter;
                     if (!actor_info_data->getActorIter(&actor_iter, uint_val))
@@ -895,33 +919,33 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                         (num_actors == 0 && num_tags == 0))
                         continue;
 
-                    bool found = false;
-
-                    for (int hash_idx = 0; hash_idx < num_actors; hash_idx++) {
-                        u32 hash_val;
-                        if (actors_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
-                            if (actor_info_data->hasTag(single_ingredient->actor_data, hash_val)) {
+                    if (num_actors > 0) {
+                        bool found = false;
+                        for (int hash_idx = 0; hash_idx < num_actors; hash_idx++) {
+                            u32 hash_val;
+                            if (actors_iter.tryGetUIntByIndex(&hash_val, hash_idx) &&
+                                single_ingredient->name_hash == hash_val) {
                                 found = true;
                                 break;
                             }
                         }
+                        if (!found)
+                            continue;
                     }
 
-                    if (!found) {
+                    if (num_tags > 0) {
+                        bool found = false;
                         for (int hash_idx = 0; hash_idx < num_tags; hash_idx++) {
                             u32 hash_val;
-                            if (tags_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
-                                if (actor_info_data->hasTag(single_ingredient->actor_data,
-                                                            hash_val)) {
-                                    found = true;
-                                    break;
-                                }
+                            if (tags_iter.tryGetUIntByIndex(&hash_val, hash_idx) &&
+                                actor_info_data->hasTag(single_ingredient->actor_data, hash_val)) {
+                                found = true;
+                                break;
                             }
                         }
+                        if (!found)
+                            continue;
                     }
-
-                    if (!found)
-                        continue;
 
                     al::ByamlIter actorIter;
                     if (!actor_info_data->getActorIter(&actorIter, uint_val))
