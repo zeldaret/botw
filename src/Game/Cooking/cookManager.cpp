@@ -706,16 +706,6 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
         return false;
     }
 
-    if (false) {
-    BAD_RECIPE:
-        cook_item.actor_name = mFailActorName;
-        cookCalcPotencyBoost(ingredients, cook_item);
-
-    COOK_FAILURE:
-        cookFail(cook_item);
-        return true;
-    }
-
     int num_ingredients = 0;
     for (int i = 0; i < NumIngredientsMax; i++) {
         const auto& cook_ingredient = arg.ingredients[i];
@@ -733,6 +723,9 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
     if (num_ingredients == 0) {
         goto COOK_FAILURE_FOR_MISSING_CONFIG;
     }
+
+    const Ingredient* single_ingredient;
+    bool multiple_non_spice_ingredients = false;
 
     if (num_ingredients > 1) {
         if (mConfig->tryGetIterByKey(&recipes_iter, "Recipes")) {
@@ -849,7 +842,26 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                 }
             }
         }
-    } else if (num_ingredients == 1) {
+
+        single_ingredient = nullptr;
+        for (int ingredient_idx = 0; ingredient_idx < num_ingredients; ingredient_idx++) {
+            const auto& ingredient = ingredients[ingredient_idx];
+            if (actor_info_data->hasTag(ingredient.actor_data, ksys::act::tags::CookSpice))
+                continue;
+
+            if (single_ingredient) {
+                multiple_non_spice_ingredients = true;
+                break;
+            }
+
+            single_ingredient = &ingredient;
+        }
+    }
+
+    if (num_ingredients == 1)
+        single_ingredient = &ingredients[0];
+
+    if (single_ingredient && !multiple_non_spice_ingredients) {
         if (mConfig->tryGetIterByKey(&recipes_iter, "SingleRecipes")) {
             const s32 num_recipes = recipes_iter.getSize();
             const char* string_val = nullptr;
@@ -880,57 +892,39 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                         (num_actors == 0 && num_tags == 0))
                         continue;
 
-                    for (int actor_idx = 0; actor_idx < num_actors; actor_idx++) {
-                        bool found = false;
-                        const s32 num_hashes = actors_iter.getSize();
-                        for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
-                            u32 hash_val;
-                            if (actors_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
-                                for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
-                                     ingredient_idx++) {
-                                    if (!ingredients[ingredient_idx]._10 &&
-                                        ingredients[ingredient_idx].name_hash == hash_val) {
-                                        ingredients[ingredient_idx]._10 = true;
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (found)
+                    bool found = false;
+
+                    for (int hash_idx = 0; hash_idx < num_actors; hash_idx++) {
+                        u32 hash_val;
+                        if (actors_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                            if (actor_info_data->hasTag(single_ingredient->actor_data, hash_val)) {
+                                found = true;
                                 break;
+                            }
                         }
-                        if (found)
-                            break;
                     }
 
-                    for (int tag_idx = 0; tag_idx < num_tags; tag_idx++) {
-                        bool found = false;
-                        const s32 num_hashes = tags_iter.getSize();
-                        for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
+                    if (!found) {
+                        for (int hash_idx = 0; hash_idx < num_tags; hash_idx++) {
                             u32 hash_val;
                             if (tags_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
-                                for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
-                                     ingredient_idx++) {
-                                    if (!ingredients[ingredient_idx]._10 &&
-                                        ingredients[ingredient_idx].name_hash == hash_val) {
-                                        ingredients[ingredient_idx]._10 = true;
-                                        found = true;
-                                        break;
-                                    }
+                                if (actor_info_data->hasTag(single_ingredient->actor_data,
+                                                            hash_val)) {
+                                    found = true;
+                                    break;
                                 }
                             }
-                            if (found)
-                                break;
                         }
-                        if (found)
-                            break;
                     }
 
-                    al::ByamlIter actor_iter;
-                    if (!actor_info_data->getActorIter(&actor_iter, uint_val))
+                    if (!found)
                         continue;
 
-                    actor_iter.tryGetStringByKey(&string_val, "name");
+                    al::ByamlIter actorIter;
+                    if (!actor_info_data->getActorIter(&actorIter, uint_val))
+                        continue;
+
+                    actorIter.tryGetStringByKey(&string_val, "name");
                     cook_item.actor_name = string_val;
                     cookCalcPotencyBoost(ingredients, cook_item);
                     if (actor_info_data->hasTag(cook_item.actor_name.cstr(),
@@ -957,10 +951,14 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                 }
             }
         }
-    } else {
-        goto BAD_RECIPE;
     }
 
+BAD_RECIPE:
+    cook_item.actor_name = mFailActorName;
+    cookCalcPotencyBoost(ingredients, cook_item);
+
+COOK_FAILURE:
+    cookFail(cook_item);
     return true;
 }
 
