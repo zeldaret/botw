@@ -756,11 +756,11 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                         (num_actors == 0 && num_tags == 0))
                         continue;
 
-                    ingredients[0]._10 = false;
-                    ingredients[1]._10 = false;
-                    ingredients[2]._10 = false;
-                    ingredients[3]._10 = false;
-                    ingredients[4]._10 = false;
+                    ingredients[0].used_in_recipe = false;
+                    ingredients[1].used_in_recipe = false;
+                    ingredients[2].used_in_recipe = false;
+                    ingredients[3].used_in_recipe = false;
+                    ingredients[4].used_in_recipe = false;
 
                     for (int actor_idx = 0; actor_idx < num_actors; actor_idx++) {
                         bool found = false;
@@ -771,9 +771,9 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                                 if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
                                     for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
                                          ingredient_idx++) {
-                                        if (!ingredients[ingredient_idx]._10 &&
+                                        if (!ingredients[ingredient_idx].used_in_recipe &&
                                             ingredients[ingredient_idx].name_hash == hash_val) {
-                                            ingredients[ingredient_idx]._10 = true;
+                                            ingredients[ingredient_idx].used_in_recipe = true;
                                             found = true;
                                             break;
                                         }
@@ -796,9 +796,9 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                                 if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
                                     for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
                                          ingredient_idx++) {
-                                        if (!ingredients[ingredient_idx]._10 &&
+                                        if (!ingredients[ingredient_idx].used_in_recipe &&
                                             ingredients[ingredient_idx].name_hash == hash_val) {
-                                            ingredients[ingredient_idx]._10 = true;
+                                            ingredients[ingredient_idx].used_in_recipe = true;
                                             found = true;
                                             break;
                                         }

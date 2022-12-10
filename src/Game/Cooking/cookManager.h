@@ -57,7 +57,7 @@ public:
         u32 name_hash{};
         int _4;
         const CookIngredient* arg{};
-        bool _10{};
+        bool used_in_recipe{};
         al::ByamlIter actor_data{};
     };
 
