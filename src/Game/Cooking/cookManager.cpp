@@ -815,10 +815,14 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     al::ByamlIter actor_iter;
                     if (!actor_info_data->getActorIter(&actor_iter, uint_val))
                         continue;
+
                     actor_iter.tryGetStringByKey(&string_val, "name");
                     cook_item.actor_name = string_val;
+
                     cookCalcPotencyBoost(ingredients, cook_item);
-                    if (actor_info_data->hasTag(cook_item.actor_name.cstr(),
+
+                    if (!cook_item.actor_name.isEmpty() &&
+                        actor_info_data->hasTag(cook_item.actor_name.cstr(),
                                                 ksys::act::tags::CookFailure)) {
                         goto COOK_FAILURE;
                     }
@@ -925,8 +929,11 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
 
                     actorIter.tryGetStringByKey(&string_val, "name");
                     cook_item.actor_name = string_val;
+
                     cookCalcPotencyBoost(ingredients, cook_item);
-                    if (actor_info_data->hasTag(cook_item.actor_name.cstr(),
+
+                    if (!cook_item.actor_name.isEmpty() &&
+                        actor_info_data->hasTag(cook_item.actor_name.cstr(),
                                                 ksys::act::tags::CookFailure)) {
                         goto COOK_FAILURE;
                     }
@@ -967,7 +974,10 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
     const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
     cook_item.life_recover = sead::Mathf::clamp(cook_item.life_recover, 0.0f, life_recover_max);
 
-    if (cook_item.effect_id != CookEffectId::None) {
+    if (cook_item.effect_id == CookEffectId::None) {
+        if (cook_item.life_recover == 0.0f)
+            cook_item.life_recover = 1.0f;
+    } else {
         if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
             cook_item.stamina_recover = 1.0f;
 
