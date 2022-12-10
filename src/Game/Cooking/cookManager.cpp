@@ -724,10 +724,12 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
         goto COOK_FAILURE_FOR_MISSING_CONFIG;
     }
 
-    const Ingredient* single_ingredient;
+    const Ingredient* single_ingredient = nullptr;
     bool multiple_non_spice_ingredients = false;
 
-    if (num_ingredients > 1) {
+    if (num_ingredients == 1) {
+        single_ingredient = &ingredients[0];
+    } else if (num_ingredients > 1) {
         if (mConfig->tryGetIterByKey(&recipes_iter, "Recipes")) {
             const s32 num_recipes = recipes_iter.getSize();
             const char* string_val = nullptr;
@@ -857,9 +859,6 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
             single_ingredient = &ingredient;
         }
     }
-
-    if (num_ingredients == 1)
-        single_ingredient = &ingredients[0];
 
     if (single_ingredient && !multiple_non_spice_ingredients) {
         if (mConfig->tryGetIterByKey(&recipes_iter, "SingleRecipes")) {
