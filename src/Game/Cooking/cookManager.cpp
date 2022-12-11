@@ -996,7 +996,10 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
     cook_item.life_recover = (f32)(s32)cook_item.life_recover;
 
     const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
-    cook_item.life_recover = sead::Mathf::clamp(cook_item.life_recover, 0.0f, life_recover_max);
+    if (cook_item.life_recover > life_recover_max)
+        cook_item.life_recover = life_recover_max;
+    if (cook_item.life_recover < 0.0f)
+        cook_item.life_recover = 0.0f;
 
     if (cook_item.effect_id == CookEffectId::None) {
         if (cook_item.life_recover == 0.0f)
@@ -1005,23 +1008,30 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
         if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
             cook_item.stamina_recover = 1.0f;
 
+        s32 stamina_recover = (s32)cook_item.stamina_recover;
+
         const s32 stamina_recover_max = mCookingEffectEntries[(int)cook_item.effect_id].ma;
-        cook_item.stamina_recover =
-            (f32)sead::Mathi::clampMax((s32)cook_item.stamina_recover, stamina_recover_max);
+        if (stamina_recover > stamina_recover_max)
+            stamina_recover = stamina_recover_max;
 
         if (cook_item.effect_id == CookEffectId::GutsRecover)
-            cook_item.stamina_recover *= 200;
+            stamina_recover = stamina_recover * 200;
+
+        f32 stamina_recover_f = cook_item.stamina_recover = (f32)stamina_recover;
 
         if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
-            if ((s32)cook_item.stamina_recover % 4 != 0) {
+            if ((s32)stamina_recover_f % 4 != 0) {
                 // Round up to whole heart.
-                cook_item.stamina_recover = (f32)(((s32)cook_item.stamina_recover + 4) & ~3u);
+                stamina_recover_f = (f32)(((s32)stamina_recover_f + 4) & ~3u);
+                cook_item.stamina_recover = stamina_recover_f;
             }
 
-            if (cook_item.stamina_recover < 4.0f)
+            if (stamina_recover_f < 4.0f) {
+                stamina_recover_f = 4.0f;
                 cook_item.stamina_recover = 4.0f;
+            }
 
-            cook_item.life_recover = cook_item.stamina_recover;
+            cook_item.life_recover = stamina_recover_f;
         }
     }
 
