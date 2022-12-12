@@ -983,7 +983,6 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
         }
     }
 
-BAD_RECIPE:
     cook_item.actor_name = mFailActorName;
     cookCalcPotencyBoost(ingredients, cook_item);
 
