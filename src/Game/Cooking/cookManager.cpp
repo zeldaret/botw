@@ -813,7 +813,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                                     for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
                                          ingredient_idx++) {
                                         if (!ingredients[ingredient_idx].used_in_recipe &&
-                                            actor_info_data->hasTag(
+                                            ksys::act::InfoData::instance()->hasTag(
                                                 ingredients[ingredient_idx].actor_data, hash_val)) {
                                             ingredients[ingredient_idx].used_in_recipe = true;
                                             found = true;
@@ -846,8 +846,8 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     cookCalcPotencyBoost(ingredients, cook_item);
 
                     if (!cook_item.actor_name.isEmpty() &&
-                        actor_info_data->hasTag(cook_item.actor_name.cstr(),
-                                                ksys::act::tags::CookFailure)) {
+                        ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
+                                                                ksys::act::tags::CookFailure)) {
                         goto COOK_FAILURE;
                     }
 
@@ -957,8 +957,8 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     cookCalcPotencyBoost(ingredients, cook_item);
 
                     if (!cook_item.actor_name.isEmpty() &&
-                        actor_info_data->hasTag(cook_item.actor_name.cstr(),
-                                                ksys::act::tags::CookFailure)) {
+                        ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
+                                                                ksys::act::tags::CookFailure)) {
                         goto COOK_FAILURE;
                     }
 
