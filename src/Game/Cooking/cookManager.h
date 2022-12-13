@@ -91,6 +91,7 @@ private:
     bool isMedicine(const CookItem& item) const;
 
     CookEffectId getCookEffectId(u32 name_hash) const;
+    CookEffectId getCookEffectIdFromTreeMap(const u32 name_hash) const;
 
 public:
     CookEffectId getCookEffectId(const sead::SafeString& name) const;

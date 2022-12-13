@@ -557,12 +557,14 @@ CookEffectId CookingMgr::getCookEffectId(u32 name_hash) const {
 
 CookEffectId CookingMgr::getCookEffectId(const sead::SafeString& name) const {
     const auto name_hash = sead::HashCRC32::calcStringHash(name);
-    return [&] {
-        if (const auto* node = mCookingEffectNameIdMap.find(name_hash)) {
-            return node->value();
-        }
-        return CookEffectId::None;
-    }();
+    return getCookEffectIdFromTreeMap(name_hash);
+}
+
+CookEffectId CookingMgr::getCookEffectIdFromTreeMap(const u32 name_hash) const {
+    if (const auto* node = mCookingEffectNameIdMap.find(name_hash)) {
+        return node->value();
+    }
+    return CookEffectId::None;
 }
 
 void CookingMgr::init(sead::Heap* heap) {
