@@ -702,18 +702,18 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
 
     int num_ingredients = 0;
     if (mConfig && actor_info_data) {
-    for (int i = 0; i < NumIngredientsMax; i++) {
-        const auto& cook_ingredient = arg.ingredients[i];
-        if (!cook_ingredient.name.isEmpty()) {
-            const u32 name_hash = sead::HashCRC32::calcStringHash(cook_ingredient.name);
-            auto& ingredient = ingredients[num_ingredients];
-            if (actor_info_data->getActorIter(&ingredient.actor_data, name_hash)) {
-                ingredient.name_hash = name_hash;
-                ingredient.arg = &cook_ingredient;
-                num_ingredients++;
+        for (int i = 0; i < NumIngredientsMax; i++) {
+            const auto& cook_ingredient = arg.ingredients[i];
+            if (!cook_ingredient.name.isEmpty()) {
+                const u32 name_hash = sead::HashCRC32::calcStringHash(cook_ingredient.name);
+                auto& ingredient = ingredients[num_ingredients];
+                if (actor_info_data->getActorIter(&ingredient.actor_data, name_hash)) {
+                    ingredient.name_hash = name_hash;
+                    ingredient.arg = &cook_ingredient;
+                    num_ingredients++;
+                }
             }
         }
-    }
     }
 
     if (!mConfig || !actor_info_data || num_ingredients == 0) {
@@ -853,16 +853,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     cookCalcBoost(ingredients, cook_item, &boost_arg);
                     cookCalcSpiceBoost(ingredients, cook_item);
 
-                    int int_val;
-
-                    if (recipe_iter.tryGetIntByKey(&int_val, "HB"))
-                        cook_item.life_recover += (f32)int_val;
-
-                    if (recipe_iter.tryGetIntByKey(&int_val, "TB")) {
-                        if (cook_item.effect_time > 0) {
-                            cook_item.effect_time += int_val;
-                        }
-                    }
+                    cookCalcRecipeBoost(recipe_iter, cook_item);
 
                     cookAdjustItem(cook_item);
 
@@ -964,14 +955,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     cookCalcBoost(ingredients, cook_item, &boost_arg);
                     cookCalcSpiceBoost(ingredients, cook_item);
 
-                    if (recipe_iter.tryGetIntByKey(&int_val, "HB"))
-                        cook_item.life_recover += (f32)int_val;
-
-                    if (recipe_iter.tryGetIntByKey(&int_val, "TB")) {
-                        if (cook_item.effect_time > 0) {
-                            cook_item.effect_time += int_val;
-                        }
-                    }
+                    cookCalcRecipeBoost(recipe_iter, cook_item);
 
                     cookAdjustItem(cook_item);
 
@@ -988,6 +972,19 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
 COOK_FAILURE:
     cookFail(cook_item);
     return true;
+}
+
+void CookingMgr::cookCalcRecipeBoost(const al::ByamlIter& recipe_iter, CookItem& cook_item) const {
+    int int_val;
+
+    if (recipe_iter.tryGetIntByKey(&int_val, "HB"))
+        cook_item.life_recover += (f32)int_val;
+
+    if (recipe_iter.tryGetIntByKey(&int_val, "TB")) {
+        if (cook_item.effect_time > 0) {
+            cook_item.effect_time += int_val;
+        }
+    }
 }
 
 void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
