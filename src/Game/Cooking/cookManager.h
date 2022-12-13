@@ -87,6 +87,8 @@ private:
 
     void cookAdjustItem(CookItem& cook_item) const;
 
+    CookEffectId getCookEffectId(u32 name_hash) const;
+
 public:
     CookEffectId getCookEffectId(const sead::SafeString& name) const;
 

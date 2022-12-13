@@ -516,6 +516,38 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
     }
 }
 
+CookEffectId CookingMgr::getCookEffectId(u32 name_hash) const {
+    CookEffectId entry_idx;
+
+    if (sCrc32Constants.crc32_life_recover == name_hash)
+        entry_idx = CookEffectId::LifeRecover;
+    else if (sCrc32Constants.crc32_guts_performance == name_hash)
+        entry_idx = CookEffectId::ExGutsMaxUp;
+    else if (sCrc32Constants.crc32_stamina_recover == name_hash)
+        entry_idx = CookEffectId::GutsRecover;
+    else if (sCrc32Constants.crc32_life_max_up == name_hash)
+        entry_idx = CookEffectId::LifeMaxUp;
+    else if (sCrc32Constants.crc32_resist_hot == name_hash)
+        entry_idx = CookEffectId::ResistHot;
+    else if (sCrc32Constants.crc32_resist_cold == name_hash)
+        entry_idx = CookEffectId::ResistCold;
+    else if (sCrc32Constants.crc32_resist_electric == name_hash)
+        entry_idx = CookEffectId::ResistElectric;
+    else if (sCrc32Constants.crc32_all_speed == name_hash)
+        entry_idx = CookEffectId::MovingSpeed;
+    else if (sCrc32Constants.crc32_attack_up == name_hash)
+        entry_idx = CookEffectId::AttackUp;
+    else if (sCrc32Constants.crc32_defense_up == name_hash)
+        entry_idx = CookEffectId::DefenseUp;
+    else if (sCrc32Constants.crc32_quietness == name_hash)
+        entry_idx = CookEffectId::Quietness;
+    else if (sCrc32Constants.crc32_fireproof == name_hash)
+        entry_idx = CookEffectId::Fireproof;
+    else
+        entry_idx = CookEffectId::None;
+    return entry_idx;
+}
+
 CookEffectId CookingMgr::getCookEffectId(const sead::SafeString& name) const {
     const auto name_hash = sead::HashCRC32::calcStringHash(name);
     return [&] {
@@ -622,35 +654,11 @@ void CookingMgr::init(sead::Heap* heap) {
             for (int i = 0; i < size; i++) {
                 if (cei_iter.tryGetIterByIndex(&entry_iter, i) &&
                     entry_iter.tryGetUIntByKey(&uint_val, "T")) {
-                    const u32 entry_hash = uint_val;
+                    const u32 name_hash = uint_val;
 
-                    CookEffectId entry_idx;
+                    const CookEffectId entry_idx = getCookEffectId(name_hash);
 
-                    if (sCrc32Constants.crc32_life_recover == entry_hash)
-                        entry_idx = CookEffectId::LifeRecover;
-                    else if (sCrc32Constants.crc32_guts_performance == entry_hash)
-                        entry_idx = CookEffectId::ExGutsMaxUp;
-                    else if (sCrc32Constants.crc32_stamina_recover == entry_hash)
-                        entry_idx = CookEffectId::GutsRecover;
-                    else if (sCrc32Constants.crc32_life_max_up == entry_hash)
-                        entry_idx = CookEffectId::LifeMaxUp;
-                    else if (sCrc32Constants.crc32_resist_hot == entry_hash)
-                        entry_idx = CookEffectId::ResistHot;
-                    else if (sCrc32Constants.crc32_resist_cold == entry_hash)
-                        entry_idx = CookEffectId::ResistCold;
-                    else if (sCrc32Constants.crc32_resist_electric == entry_hash)
-                        entry_idx = CookEffectId::ResistElectric;
-                    else if (sCrc32Constants.crc32_all_speed == entry_hash)
-                        entry_idx = CookEffectId::MovingSpeed;
-                    else if (sCrc32Constants.crc32_attack_up == entry_hash)
-                        entry_idx = CookEffectId::AttackUp;
-                    else if (sCrc32Constants.crc32_defense_up == entry_hash)
-                        entry_idx = CookEffectId::DefenseUp;
-                    else if (sCrc32Constants.crc32_quietness == entry_hash)
-                        entry_idx = CookEffectId::Quietness;
-                    else if (sCrc32Constants.crc32_fireproof == entry_hash)
-                        entry_idx = CookEffectId::Fireproof;
-                    else
+                    if (entry_idx == CookEffectId::None)
                         continue;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "BT"))
