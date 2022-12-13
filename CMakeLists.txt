@@ -32,6 +32,7 @@ target_compile_options(uking PRIVATE -Wextra-semi)
 
 add_subdirectory(lib/NintendoSDK)
 target_link_libraries(uking PUBLIC NintendoSDK)
+target_compile_definitions(NintendoSDK PRIVATE NN_VER=440)
 
 add_subdirectory(lib/sead)
 target_link_libraries(uking PUBLIC sead)
