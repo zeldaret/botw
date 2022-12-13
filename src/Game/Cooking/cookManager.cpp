@@ -511,6 +511,31 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
     }
 }
 
+bool CookingMgr::findIngredientByName(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
+                                      u32 name_hash, int num_ingredients) const {
+    for (int ingredient_idx = 0; ingredient_idx < num_ingredients; ingredient_idx++) {
+        Ingredient& ingredient = ingredients[ingredient_idx];
+        if (!ingredient.used_in_recipe && ingredient.name_hash == name_hash) {
+            ingredient.used_in_recipe = true;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CookingMgr::findIngredientByTag(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
+                                     u32 tag_hash, int num_ingredients) const {
+    for (int ingredient_idx = 0; ingredient_idx < num_ingredients; ingredient_idx++) {
+        Ingredient& ingredient = ingredients[ingredient_idx];
+        if (!ingredient.used_in_recipe &&
+            ksys::act::InfoData::instance()->hasTag(ingredient.actor_data, tag_hash)) {
+            ingredient.used_in_recipe = true;
+            return true;
+        }
+    }
+    return false;
+}
+
 bool CookingMgr::isMedicine(const CookItem& item) const {
     return !item.actor_name.isEmpty() &&
            ksys::act::InfoData::instance()->hasTag(item.actor_name.cstr(),
@@ -791,15 +816,8 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                                 u32 hash_val;
                                 if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
                                     // Any actor in this list will work.
-                                    for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
-                                         ingredient_idx++) {
-                                        if (!ingredients[ingredient_idx].used_in_recipe &&
-                                            ingredients[ingredient_idx].name_hash == hash_val) {
-                                            ingredients[ingredient_idx].used_in_recipe = true;
-                                            found = true;
-                                            break;
-                                        }
-                                    }
+                                    found = findIngredientByName(ingredients, hash_val,
+                                                                 num_ingredients);
                                     if (found)
                                         break;
                                 }
@@ -826,16 +844,8 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                                 u32 hash_val;
                                 if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
                                     // Any tag in this list will work.
-                                    for (int ingredient_idx = 0; ingredient_idx < num_ingredients;
-                                         ingredient_idx++) {
-                                        if (!ingredients[ingredient_idx].used_in_recipe &&
-                                            ksys::act::InfoData::instance()->hasTag(
-                                                ingredients[ingredient_idx].actor_data, hash_val)) {
-                                            ingredients[ingredient_idx].used_in_recipe = true;
-                                            found = true;
-                                            break;
-                                        }
-                                    }
+                                    found =
+                                        findIngredientByTag(ingredients, hash_val, num_ingredients);
                                     if (found)
                                         break;
                                 }

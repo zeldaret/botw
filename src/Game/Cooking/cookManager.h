@@ -87,11 +87,16 @@ private:
 
     void cookAdjustItem(CookItem& cook_item) const;
 
+    bool findIngredientByName(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
+                              u32 name_hash, int num_ingredients) const;
+    bool findIngredientByTag(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
+                             u32 tag_hash, int num_ingredients) const;
+
     bool isCookFailure(const CookItem& cook_item) const;
     bool isMedicine(const CookItem& item) const;
 
     CookEffectId getCookEffectId(u32 name_hash) const;
-    CookEffectId getCookEffectIdFromTreeMap(const u32 name_hash) const;
+    CookEffectId getCookEffectIdFromTreeMap(u32 name_hash) const;
 
 public:
     CookEffectId getCookEffectId(const sead::SafeString& name) const;
