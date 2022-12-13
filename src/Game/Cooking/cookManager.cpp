@@ -700,13 +700,8 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
     al::ByamlIter recipes_iter;
     sead::SafeArray<Ingredient, NumIngredientsMax> ingredients;
 
-    if (!mConfig || !actor_info_data) {
-    COOK_FAILURE_FOR_MISSING_CONFIG:
-        cookFailForMissingConfig(cook_item, mFailActorName);
-        return false;
-    }
-
     int num_ingredients = 0;
+    if (mConfig && actor_info_data) {
     for (int i = 0; i < NumIngredientsMax; i++) {
         const auto& cook_ingredient = arg.ingredients[i];
         if (!cook_ingredient.name.isEmpty()) {
@@ -719,9 +714,13 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
             }
         }
     }
+    }
 
-    if (num_ingredients == 0) {
-        goto COOK_FAILURE_FOR_MISSING_CONFIG;
+    if (!mConfig || !actor_info_data || num_ingredients == 0) {
+        // Unused label:
+    COOK_FAILURE_FOR_MISSING_CONFIG:
+        cookFailForMissingConfig(cook_item, mFailActorName);
+        return false;
     }
 
     const Ingredient* single_ingredient = nullptr;
