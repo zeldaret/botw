@@ -87,6 +87,9 @@ private:
 
     void cookAdjustItem(CookItem& cook_item) const;
 
+    bool isCookFailure(const CookItem& cook_item) const;
+    bool isMedicine(const CookItem& item) const;
+
     CookEffectId getCookEffectId(u32 name_hash) const;
 
 public:

@@ -400,9 +400,7 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
 }
 
 void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookItem& item) const {
-    const bool is_not_medicine =
-        item.actor_name.isEmpty() || !ksys::act::InfoData::instance()->hasTag(
-                                         item.actor_name.cstr(), ksys::act::tags::CookEMedicine);
+    const bool is_medicine = isMedicine(item);
     const bool is_not_fairy_tonic = mFairyTonicName != item.actor_name;
 
     sead::SafeArray<s32, NumEffectSlots> effect_counts{};
@@ -493,14 +491,11 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
         item.effect_time = 0;
     }
 
-    if (!is_not_medicine && !effect_found) {
+    if (is_medicine && !effect_found) {
         item.actor_name = mFailActorName;
     }
 
-    const bool is_failure = !item.actor_name.isEmpty() &&
-                            ksys::act::InfoData::instance()->hasTag(item.actor_name.cstr(),
-                                                                    ksys::act::tags::CookFailure);
-    if (is_failure) {
+    if (isCookFailure(item)) {
         item.life_recover = (f32)life_recover * mFALRMR;
     } else if (effect_found) {
         item.life_recover = (f32)life_recover * mLRMR;
@@ -514,6 +509,18 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
         if (item.stamina_recover > (f32)max)
             item.stamina_recover = (f32)max;
     }
+}
+
+bool CookingMgr::isMedicine(const CookItem& item) const {
+    return !item.actor_name.isEmpty() &&
+           ksys::act::InfoData::instance()->hasTag(item.actor_name.cstr(),
+                                                   ksys::act::tags::CookEMedicine);
+}
+
+bool CookingMgr::isCookFailure(const CookItem& cook_item) const {
+    return !cook_item.actor_name.isEmpty() &&
+           ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
+                                                   ksys::act::tags::CookFailure);
 }
 
 CookEffectId CookingMgr::getCookEffectId(u32 name_hash) const {
@@ -852,9 +859,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
 
                     cookCalcPotencyBoost(ingredients, cook_item);
 
-                    if (!cook_item.actor_name.isEmpty() &&
-                        ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
-                                                                ksys::act::tags::CookFailure)) {
+                    if (isCookFailure(cook_item)) {
                         goto COOK_FAILURE;
                     }
 
@@ -954,9 +959,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
 
                     cookCalcPotencyBoost(ingredients, cook_item);
 
-                    if (!cook_item.actor_name.isEmpty() &&
-                        ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
-                                                                ksys::act::tags::CookFailure)) {
+                    if (isCookFailure(cook_item)) {
                         goto COOK_FAILURE;
                     }
 
