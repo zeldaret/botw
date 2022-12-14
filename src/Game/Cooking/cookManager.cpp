@@ -219,6 +219,7 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
     }
 }
 
+// NON_MATCHING
 void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientArray& ingredients,
                                              CookItem& item) const {
     enum Bonus {
@@ -290,6 +291,7 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
     }
 }
 
+// NON_MATCHING
 void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const {
     for (int i = 0; i < NumIngredientsMax; i++) {
         if (ingredients[i].arg) {
@@ -735,6 +737,7 @@ void CookingMgr::init(sead::Heap* heap) {
     }
 }
 
+// NON_MATCHING
 bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                       const CookingMgr::BoostArg& boost_arg) {
     ksys::act::InfoData* actor_info_data = ksys::act::InfoData::instance();
@@ -1056,6 +1059,7 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
     cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
 }
 
+// NON_MATCHING
 void CookingMgr::prepareCookArg(
     CookArg& arg, const sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax>& item_names,
     int num_items, CookItem& cook_item) const {
