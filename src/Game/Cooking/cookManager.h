@@ -6,6 +6,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/Types.h"
+#include "container/seadBuffer.h"
 
 namespace uking {
 
@@ -105,7 +106,9 @@ public:
 
     bool cook(const CookArg& arg, CookItem& cook_item, const BoostArg& boost_arg);
 
-    void resetArgCookData(CookArg& arg, const CookItem& item);
+    void resetArgCookData(CookArg& arg,
+                          const sead::Buffer<sead::FixedSafeString<64>>& ingredient_names,
+                          int num_ingredients, CookItem& cook_item) const;
 
     void
     prepareCookArg(CookArg& arg,

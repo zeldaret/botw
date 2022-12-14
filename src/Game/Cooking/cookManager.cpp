@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "container/seadBuffer.h"
 
 namespace uking {
 
@@ -1057,6 +1058,45 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
     }
 
     cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
+}
+
+// NON_MATCHING
+void CookingMgr::resetArgCookData(CookArg& arg,
+                                  const sead::Buffer<sead::FixedSafeString<64>>& ingredient_names,
+                                  int num_ingredients, CookItem& cook_item) const {
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        arg.ingredients[i].name = "";
+        arg.ingredients[i].count = 0;
+    }
+
+    arg.ingredients[0].count = 1;
+    arg.ingredients[0].name = ingredient_names[0];
+
+    for (int i = 1; i < num_ingredients; i++) {
+        const auto& ingredient_name = ingredient_names[i];
+        bool found_name = false;
+        int j;
+        for (j = 0; j < NumIngredientsMax; j++) {
+            if (arg.ingredients[j].name == ingredient_name) {
+                arg.ingredients[j].count++;
+                found_name = true;
+                break;
+            }
+            if (arg.ingredients[j].name.isEmpty())
+                break;
+        }
+
+        if (!found_name) {
+            arg.ingredients[j].name = ingredient_name;
+            arg.ingredients[j].count = 1;
+        }
+    }
+
+    cook_item.reset();
+
+    for (int i = 0; i < NumIngredientsMax && i < num_ingredients; i++) {
+        cook_item.ingredients[i] = ingredient_names[i];
+    }
 }
 
 // NON_MATCHING
