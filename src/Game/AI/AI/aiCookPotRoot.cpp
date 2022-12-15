@@ -13,8 +13,20 @@ CookPotRoot::CookPotRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 CookPotRoot::~CookPotRoot() = default;
 
+// NON_MATCHING
 bool CookPotRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* ingredients =
+        new (heap, std::nothrow) sead::FixedSafeString<64>[CookingMgr::NumIngredientsMax];
+    mCookIngredients.setBuffer(CookingMgr::NumIngredientsMax, ingredients);
+    if (!mCookIngredients.isBufferReady()) {
+        return false;
+    }
+    if (*mInitBurnState_m) {
+        // TODO
+    }
+    mActor->getChemicalStuff();
+    mProcLink.reset();
+    return true;
 }
 
 void CookPotRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -40,8 +52,7 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
             const int num_ingredients = 5;  // TODO
             _48 = true;
             CookingMgr* cooking_mgr = CookingMgr::instance();
-            cooking_mgr->resetArgCookData(mCookArg, mCookIngredients, num_ingredients,
-                                                     mCookItem);
+            cooking_mgr->resetArgCookData(mCookArg, mCookIngredients, num_ingredients, mCookItem);
 
             CookingMgr::BoostArg boost_arg{false, true};
             if (ksys::world::Manager::instance()->getEnvMgr()->isInBloodMoonTimeRange()) {
