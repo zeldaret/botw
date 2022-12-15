@@ -1060,7 +1060,6 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
     cook_item.effect_time = sead::Mathi::clamp(cook_item.effect_time, 0, 1800);
 }
 
-// NON_MATCHING
 void CookingMgr::resetArgCookData(CookArg& arg,
                                   const sead::Buffer<sead::FixedSafeString<64>>& ingredient_names,
                                   int num_ingredients, CookItem& cook_item) const {
@@ -1073,22 +1072,17 @@ void CookingMgr::resetArgCookData(CookArg& arg,
     arg.ingredients[0].name = ingredient_names[0];
 
     for (int i = 1; i < num_ingredients; i++) {
-        const auto& ingredient_name = ingredient_names[i];
-        bool found_name = false;
-        int j;
-        for (j = 0; j < NumIngredientsMax; j++) {
-            if (arg.ingredients[j].name == ingredient_name) {
-                arg.ingredients[j].count++;
-                found_name = true;
+        for (int j = 0; j < NumIngredientsMax; j++) {
+            auto& ingredient = arg.ingredients[j];
+            if (ingredient.name == ingredient_names[i]) {
+                ingredient.count++;
                 break;
             }
-            if (arg.ingredients[j].name.isEmpty())
+            if (ingredient.name.isEmpty()) {
+                ingredient.count = 1;
+                ingredient.name = ingredient_names[i];
                 break;
-        }
-
-        if (!found_name) {
-            arg.ingredients[j].name = ingredient_name;
-            arg.ingredients[j].count = 1;
+            }
         }
     }
 
@@ -1099,7 +1093,6 @@ void CookingMgr::resetArgCookData(CookArg& arg,
     }
 }
 
-// NON_MATCHING
 void CookingMgr::prepareCookArg(
     CookArg& arg, const sead::SafeArray<sead::FixedSafeString<64>, NumIngredientsMax>& item_names,
     int num_items, CookItem& cook_item) const {
@@ -1113,21 +1106,17 @@ void CookingMgr::prepareCookArg(
 
     for (int i = 1; i < num_items; i++) {
         const auto& item_name = item_names[i];
-        bool found_name = false;
-        int j;
-        for (j = 0; j < NumIngredientsMax; j++) {
-            if (arg.ingredients[j].name == item_name) {
-                arg.ingredients[j].count++;
-                found_name = true;
+        for (int j = 0; j < NumIngredientsMax; j++) {
+            auto& ingredient = arg.ingredients[j];
+            if (ingredient.name == item_name) {
+                ingredient.count++;
                 break;
             }
-            if (arg.ingredients[j].name.isEmpty())
+            if (ingredient.name.isEmpty()) {
+                ingredient.count = 1;
+                ingredient.name = item_name;
                 break;
-        }
-
-        if (!found_name) {
-            arg.ingredients[j].name = item_name;
-            arg.ingredients[j].count = 1;
+            }
         }
     }
 
