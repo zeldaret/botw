@@ -44,42 +44,51 @@ void CookPotRoot::loadParams_() {
 
 // NON_MATCHING
 bool CookPotRoot::handleMessage_(const ksys::Message& message) {
-    // 着火: "ignition" or "on fire"
     if (message.getType().value == (u32)ksys::act::AttActionCode::Cook) {
+        // 着火: "ignition" or "on fire"
+        // This is checking if the pot is lit.
         if (isCurrentChild("着火")) {
             // TODO: sub_7100EDC4B8
             // TODO: GameSceneSubsys12 class
-            const int num_ingredients = 5;  // TODO
-            _48 = true;
-            CookingMgr* cooking_mgr = CookingMgr::instance();
-            cooking_mgr->resetArgCookData(mCookArg, mCookIngredients, num_ingredients, mCookItem);
+            // GameSceneSubsys12 handles carried items.
+            // This needs to check if the player is targeting the pot.
+            if (true /* TODO */) {
+                if (!_48 /* TODO */) {
+                    const int num_ingredients = 5;  // TODO
+                    _48 = true;
+                    CookingMgr* cooking_mgr = CookingMgr::instance();
+                    cooking_mgr->resetArgCookData(mCookArg, mCookIngredients, num_ingredients,
+                                                  mCookItem);
 
-            CookingMgr::BoostArg boost_arg{false, true};
-            if (ksys::world::Manager::instance()->getEnvMgr()->isInBloodMoonTimeRange()) {
-                boost_arg.always_boost = true;
-            }
-            if (cooking_mgr->cook(mCookArg, mCookItem, boost_arg)) {
-                if (const auto* hard_mode_manager = aoc::HardModeManager::instance()) {
-                    if (hard_mode_manager->checkFlag(aoc::HardModeManager::Flag::EnableHardMode)) {
-                        if (hard_mode_manager->isHardModeChangeOn(
-                                aoc::HardModeManager::HardModeChange::NerfHpRestore)) {
-                            hard_mode_manager->nerfHpRestore(&mCookItem.life_recover);
+                    CookingMgr::BoostArg boost_arg{false, true};
+                    if (ksys::world::Manager::instance()->getEnvMgr()->isInBloodMoonTimeRange()) {
+                        boost_arg.always_boost = true;
+                    }
+                    if (cooking_mgr->cook(mCookArg, mCookItem, boost_arg)) {
+                        if (const auto* hard_mode_manager = aoc::HardModeManager::instance()) {
+                            if (hard_mode_manager->checkFlag(
+                                    aoc::HardModeManager::Flag::EnableHardMode)) {
+                                if (hard_mode_manager->isHardModeChangeOn(
+                                        aoc::HardModeManager::HardModeChange::NerfHpRestore)) {
+                                    hard_mode_manager->nerfHpRestore(&mCookItem.life_recover);
+                                }
+                            }
                         }
+                        if (true /* TODO: callCookingDemo */) {
+                            ui::PauseMenuDataMgr::instance()->removeGrabbedItems();
+                            cooking_mgr->setCookItem(mCookItem);
+                            mHasFinishedCookItem = true;
+                            return true;
+                        }
+                        _48 = false;
+                        mHasFinishedCookItem = false;
+                        // TODO
+                    } else {
+                        _48 = false;
+                        mHasFinishedCookItem = false;
+                        // TODO
                     }
                 }
-                if (true /* TODO: callCookingDemo */) {
-                    ui::PauseMenuDataMgr::instance()->removeGrabbedItems();
-                    cooking_mgr->setCookItem(mCookItem);
-                    mHasFinishedCookItem = true;
-                    return true;
-                }
-                _48 = false;
-                mHasFinishedCookItem = false;
-                // TODO
-            } else {
-                _48 = false;
-                mHasFinishedCookItem = false;
-                // TODO
             }
         }
     }
