@@ -128,12 +128,9 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
 void CookingMgr::cookCalcBoost(const IngredientArray& ingredients, CookItem& item,
                                const BoostArg* boost_arg) const {
     // Find if any of the ingredients are Monster Extract.
-    for (int i = 0; i < NumIngredientsMax; i++) {
-        const auto& ingredient = ingredients[i];
-        if (ingredient.arg && ingredient.arg->name == mMonsterExtractName) {
-            cookHandleBoostMonsterExtractInner(ingredients, item);
-            return;
-        }
+    if (hasMonsterExtract(ingredients)) {
+        cookHandleBoostMonsterExtractInner(ingredients, item);
+        return;
     }
 
     if (!boost_arg || !boost_arg->always_boost) {
@@ -141,9 +138,9 @@ void CookingMgr::cookCalcBoost(const IngredientArray& ingredients, CookItem& ite
             return;
         }
 
-        s32 success_rate = 0;
-        s32 num_ingredients = 0;
         s32 threshold = 0;
+        s32 num_ingredients = 0;
+        s32 success_rate = 0;
 
         for (int i = 0; i < NumIngredientsMax; i++) {
             const auto& ingredient = ingredients[i];
@@ -549,6 +546,16 @@ bool CookingMgr::isCookFailure(const CookItem& cook_item) const {
     return !cook_item.actor_name.isEmpty() &&
            ksys::act::InfoData::instance()->hasTag(cook_item.actor_name.cstr(),
                                                    ksys::act::tags::CookFailure);
+}
+
+bool CookingMgr::hasMonsterExtract(const CookingMgr::IngredientArray& ingredients) const {
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        const auto& ingredient = ingredients[i];
+        if (ingredient.arg && ingredient.arg->name == mMonsterExtractName) {
+            return true;
+        }
+    }
+    return false;
 }
 
 CookEffectId CookingMgr::getCookEffectId(u32 name_hash) const {

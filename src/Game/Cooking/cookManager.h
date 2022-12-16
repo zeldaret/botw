@@ -95,6 +95,7 @@ private:
 
     bool isCookFailure(const CookItem& cook_item) const;
     bool isMedicine(const CookItem& item) const;
+    bool hasMonsterExtract(const IngredientArray& ingredients) const;
 
     CookEffectId getCookEffectId(u32 name_hash) const;
     CookEffectId getCookEffectIdFromTreeMap(u32 name_hash) const;
