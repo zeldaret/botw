@@ -482,6 +482,11 @@ inline void hkVector4f::setDot(hkVector4fParameter a, hkVector4fParameter b) {
 }
 
 template <int N>
+inline hkSimdFloat32 hkVector4f::length() const {
+    return lengthSquared<N>().sqrt();
+}
+
+template <int N>
 inline hkSimdFloat32 hkVector4f::lengthSquared() const {
     return dot<N>(*this);
 }

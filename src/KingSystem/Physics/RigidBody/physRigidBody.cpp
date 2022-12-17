@@ -565,20 +565,14 @@ void RigidBody::setCollidableQualityType(hkpCollidableQualityType quality) {
     getHkBody()->getCollidableRw()->setQualityType(quality);
 }
 
-static int getLayerBit(int layer, ContactLayerType type) {
-    // This is layer for Entity layers and layer - 0x20 for Sensor layers.
-    // XXX: this should be using makeContactLayerMask.
-    return layer - FirstSensor * int(type);
-}
-
 void RigidBody::enableContactLayer(ContactLayer layer) {
     assertLayerType(layer);
-    mContactMask.setBit(getLayerBit(layer, getLayerType()));
+    mContactMask.setBit(getLayerBit(layer));
 }
 
 void RigidBody::disableContactLayer(ContactLayer layer) {
     assertLayerType(layer);
-    mContactMask.resetBit(getLayerBit(layer, getLayerType()));
+    mContactMask.resetBit(getLayerBit(layer));
 }
 
 void RigidBody::setContactMask(u32 value) {

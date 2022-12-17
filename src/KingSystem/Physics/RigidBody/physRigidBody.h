@@ -583,7 +583,7 @@ public:
     // Internal.
     void setUseSystemTimeFactor(bool use) { mFlags.change(Flag::UseSystemTimeFactor, use); }
     // Internal.
-    void setFlag400000(bool set) { mFlags.change(Flag::_400000, set); }
+    void clearFlag400000(bool clear) { mFlags.change(Flag::_400000, !clear); }
     // Internal.
     void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
     // Internal.
@@ -608,6 +608,14 @@ protected:
     void notifyUserTag(int code);
     void updateDeactivation();
     void setCollidableQualityType(hkpCollidableQualityType quality);
+
+    static int getLayerBit(int layer, ContactLayerType type) {
+        // This is layer for Entity layers and layer - 0x20 for Sensor layers.
+        // XXX: this should be using makeContactLayerMask.
+        return layer - FirstSensor * int(type);
+    }
+
+    int getLayerBit(int layer) const { return getLayerBit(layer, getLayerType()); }
 
     sead::CriticalSection mCS;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};

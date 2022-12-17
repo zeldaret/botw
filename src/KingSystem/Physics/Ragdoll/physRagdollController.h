@@ -27,9 +27,15 @@ namespace ksys::phys {
 class BoneAccessor;
 class ModelBoneAccessor;
 class RagdollParam;
+class RagdollRigidBody;
 class RigidBody;
 class SkeletonMapper;
 class SystemGroupHandler;
+class UserTag;
+
+enum class Fixed : bool;
+enum class MarkLinearVelAsDirty : bool;
+enum class PreserveVelocities : bool;
 
 // TODO
 class RagdollController : public sead::hostio::Node {
@@ -52,6 +58,14 @@ public:
 
     void setTransform(const sead::Matrix34f& transform);
     void setScale(float scale);
+    void setFixedAndPreserveImpulse(Fixed fixed, MarkLinearVelAsDirty mark_linear_vel_as_dirty);
+    void resetFrozenState();
+    void setUseSystemTimeFactor(bool use);
+    void clearFlag400000(bool clear);
+    void setEntityMotionFlag200(bool set);
+    void setFixed(Fixed fixed, PreserveVelocities preserve_velocities);
+
+    BoneAccessor* getModelBoneAccessor() const;
 
     u32 sub_7101221CC4();
     void sub_7101221728(ContactLayer layer);
@@ -60,7 +74,27 @@ public:
     // TODO: rename
     virtual void m3();
 
+    void setUserTag(UserTag* tag);
+    void setSystemGroupHandler(SystemGroupHandler* handler);
+    // 0x0000007101221424
+    void x_22(int index, float value);
+    void setContactPointInfo(ContactPointInfo* info);
+    // 0x00000071012216e0
+    void x_24();
+    // 0x0000007101221728
+    void x_25();
+    // 0x0000007101221770
+    void x_26();
+    // 0x00000071012217a8
+    void x_27();
+    // 0x00000071012217e0
+    void x_28();
+
+    int getParentOfBone(int index) const;
+
     static void setUnk1(u8 value);
+
+    auto& getRigidBodies_() { return mRigidBodies; }
 
 private:
     class ScopedPhysicsLock {
@@ -94,7 +128,7 @@ private:
     ModelBoneAccessor* mModelBoneAccessor = nullptr;
     hkaRagdollInstance* mRagdollInstance = nullptr;
     SystemGroupHandler* mGroupHandler = nullptr;
-    sead::Buffer<RigidBody*> mRigidBodies;
+    sead::Buffer<RagdollRigidBody*> mRigidBodies;
     // TODO: rename
     sead::Buffer<BoneVectors> mBoneVectors;
     // TODO: rename

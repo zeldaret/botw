@@ -9,6 +9,7 @@
 #include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerMgr.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/Rig/physModelBoneAccessor.h"
 #include "KingSystem/Physics/Rig/physSkeletonMapper.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -195,7 +196,64 @@ void RagdollController::setScale(float scale) {
         mSkeletonMapper->getBoneAccessor().setScale(scale);
 }
 
+void RagdollController::setFixedAndPreserveImpulse(Fixed fixed,
+                                                   MarkLinearVelAsDirty mark_linear_vel_as_dirty) {
+    for (auto* body : mRigidBodies)
+        body->setFixedAndPreserveImpulse(fixed, mark_linear_vel_as_dirty);
+}
+
+void RagdollController::resetFrozenState() {
+    for (auto* body : mRigidBodies)
+        body->resetFrozenState();
+}
+
+void RagdollController::setUseSystemTimeFactor(bool use) {
+    for (auto* body : mRigidBodies)
+        body->setUseSystemTimeFactor(use);
+}
+
+void RagdollController::clearFlag400000(bool clear) {
+    for (auto* body : mRigidBodies)
+        body->clearFlag400000(clear);
+}
+
+void RagdollController::setEntityMotionFlag200(bool set) {
+    for (auto* body : mRigidBodies)
+        body->setEntityMotionFlag200(set);
+}
+
+void RagdollController::setFixed(Fixed fixed, PreserveVelocities preserve_velocities) {
+    for (auto* body : mRigidBodies)
+        body->setFixed(fixed, preserve_velocities);
+}
+
+BoneAccessor* RagdollController::getModelBoneAccessor() const {
+    if (mSkeletonMapper)
+        return &mSkeletonMapper->getModelBoneAccessor();
+
+    return mModelBoneAccessor;
+}
+
 void RagdollController::m3() {}
+
+void RagdollController::setUserTag(UserTag* tag) {
+    for (auto* body : mRigidBodies)
+        body->setUserTag(tag);
+}
+
+void RagdollController::setSystemGroupHandler(SystemGroupHandler* handler) {
+    for (auto* body : mRigidBodies)
+        body->setSystemGroupHandler(handler);
+}
+
+void RagdollController::setContactPointInfo(ContactPointInfo* info) {
+    for (auto* body : mRigidBodies)
+        body->setContactPointInfo(info);
+}
+
+int RagdollController::getParentOfBone(int index) const {
+    return mRagdollInstance->getParentOfBone(index);
+}
 
 RagdollController::ScopedPhysicsLock::ScopedPhysicsLock(const RagdollController* ctrl)
     : mCtrl{ctrl}, mWorldLock{ctrl->isAddedToWorld(), ContactLayerType::Entity} {
