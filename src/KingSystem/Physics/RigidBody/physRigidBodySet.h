@@ -13,6 +13,10 @@ class RigidBody;
 class SystemGroupHandler;
 class UserTag;
 
+enum class Fixed : bool;
+enum class MarkLinearVelAsDirty : bool;
+enum class PreserveVelocities : bool;
+
 class RigidBodySet : public sead::hostio::Node {
 public:
     explicit RigidBodySet(const sead::SafeString& name);
@@ -24,12 +28,12 @@ public:
     const sead::PtrArray<RigidBody>& getRigidBodies() const { return mRigidBodies; }
     RigidBody* getRigidBody(int idx) const { return mRigidBodies[idx]; }
 
-    void setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty);
+    void setFixedAndPreserveImpulse(Fixed fixed, MarkLinearVelAsDirty mark_linear_vel_as_dirty);
     void resetFrozenState();
     void setUseSystemTimeFactor(bool use);
     void clearFlag400000(bool clear);
     void setEntityMotionFlag200(bool set);
-    void setFixed(bool fixed, bool preserve_velocities);
+    void setFixed(Fixed fixed, PreserveVelocities preserve_velocities);
 
     void updateMotionTypeRelatedFlags();
     void triggerScheduledMotionTypeChange();

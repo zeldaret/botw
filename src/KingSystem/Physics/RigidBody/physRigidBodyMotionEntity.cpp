@@ -624,7 +624,7 @@ void RigidBodyMotionEntity::copyTransformToAllLinkedBodies() {
         if (!body->isAddedToWorld() && body->isAddingBodyToWorld()) {
             sead::Matrix34f transform;
             mBody->getTransform(&transform);
-            body->setTransform(transform, true);
+            body->setTransform(transform);
         }
     }
 }

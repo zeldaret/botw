@@ -139,7 +139,7 @@ void RagdollController::setTransform(const hkQsTransformf& transform) {
     if (mExtraRigidBody) {
         sead::Matrix34f old_transform;
         mRigidBodies[mRigidBodyIndex]->getTransform(&old_transform);
-        mExtraRigidBody->setTransform(old_transform, true);
+        mExtraRigidBody->setTransform(old_transform);
 
         if (mGroupHandler) {
             mExtraRigidBody->setCollisionFilterInfo(

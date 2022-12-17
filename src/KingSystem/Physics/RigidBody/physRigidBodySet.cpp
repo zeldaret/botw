@@ -11,7 +11,8 @@ RigidBodySet::~RigidBodySet() {
     util::PrintDebug("~RigidBodySet");
 }
 
-void RigidBodySet::setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty) {
+void RigidBodySet::setFixedAndPreserveImpulse(Fixed fixed,
+                                              MarkLinearVelAsDirty mark_linear_vel_as_dirty) {
     for (auto& body : mRigidBodies)
         body.setFixedAndPreserveImpulse(fixed, mark_linear_vel_as_dirty);
 }
@@ -36,7 +37,7 @@ void RigidBodySet::setEntityMotionFlag200(bool set) {
         body.setEntityMotionFlag200(set);
 }
 
-void RigidBodySet::setFixed(bool fixed, bool preserve_velocities) {
+void RigidBodySet::setFixed(Fixed fixed, PreserveVelocities preserve_velocities) {
     for (auto& body : mRigidBodies)
         body.setFixed(fixed, preserve_velocities);
 }
@@ -107,7 +108,7 @@ void RigidBodySet::setSystemGroupHandler(SystemGroupHandler* handler, ContactLay
 
 void RigidBodySet::setTransform(const sead::Matrix34f& mtx) {
     for (auto& body : mRigidBodies)
-        body.setTransform(mtx, true);
+        body.setTransform(mtx);
 }
 
 void RigidBodySet::enableContactLayer(ContactLayer layer) {

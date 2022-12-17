@@ -476,9 +476,10 @@ void RigidBody::setContactPointInfo(ContactPointInfo* info) {
         System::instance()->registerContactPointInfo(info);
 }
 
-void RigidBody::freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse) {
-    if (hasFlag(Flag::Frozen) == should_freeze) {
-        if (should_freeze) {
+void RigidBody::freeze(ShouldFreeze should_freeze, PreserveVelocities preserve_velocities,
+                       PreserveMaxImpulse preserve_max_impulse) {
+    if (hasFlag(Flag::Frozen) == bool(should_freeze)) {
+        if (bool(should_freeze)) {
             setLinearVelocity(sead::Vector3f::zero);
             setAngularVelocity(sead::Vector3f::zero);
         }
@@ -486,41 +487,43 @@ void RigidBody::freeze(bool should_freeze, bool preserve_velocities, bool preser
     }
 
     if (!mMotionAccessor) {
-        mFlags.change(Flag::Frozen, should_freeze);
+        mFlags.change(Flag::Frozen, bool(should_freeze));
         return;
     }
 
-    if (should_freeze) {
-        mMotionAccessor->freeze(true, preserve_velocities, preserve_max_impulse);
+    if (bool(should_freeze)) {
+        mMotionAccessor->freeze(true, bool(preserve_velocities), bool(preserve_max_impulse));
         mFlags.set(Flag::Frozen);
     } else {
         mFlags.reset(Flag::Frozen);
-        mMotionAccessor->freeze(false, preserve_velocities, preserve_max_impulse);
+        mMotionAccessor->freeze(false, bool(preserve_velocities), bool(preserve_max_impulse));
     }
 }
 
-void RigidBody::setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty) {
-    if (hasFlag(Flag::FixedWithImpulsePreserved) != fixed) {
-        mFlags.change(Flag::FixedWithImpulsePreserved, fixed);
-        if (!fixed && mark_linear_vel_as_dirty) {
+void RigidBody::setFixedAndPreserveImpulse(Fixed fixed,
+                                           MarkLinearVelAsDirty mark_linear_vel_as_dirty) {
+    if (hasFlag(Flag::FixedWithImpulsePreserved) != bool(fixed)) {
+        mFlags.change(Flag::FixedWithImpulsePreserved, bool(fixed));
+        if (!bool(fixed) && bool(mark_linear_vel_as_dirty)) {
             setMotionFlag(MotionFlag::DirtyLinearVelocity);
         }
     }
 
-    freeze(hasFlag(Flag::FixedWithImpulsePreserved) || hasFlag(Flag::Fixed), true, true);
+    freeze(ShouldFreeze{hasFlag(Flag::FixedWithImpulsePreserved) || hasFlag(Flag::Fixed)},
+           PreserveVelocities{true}, PreserveMaxImpulse{true});
 }
 
-void RigidBody::setFixed(bool fixed, bool preserve_velocities) {
-    if (hasFlag(Flag::Fixed) != fixed) {
-        mFlags.change(Flag::Fixed, fixed);
-        if (!fixed) {
+void RigidBody::setFixed(Fixed fixed, PreserveVelocities preserve_velocities) {
+    if (hasFlag(Flag::Fixed) != bool(fixed)) {
+        mFlags.change(Flag::Fixed, bool(fixed));
+        if (!bool(fixed)) {
             setMotionFlag(MotionFlag::DirtyLinearVelocity);
             setMotionFlag(MotionFlag::_40000);
         }
     }
 
-    freeze(hasFlag(Flag::FixedWithImpulsePreserved) || hasFlag(Flag::Fixed), preserve_velocities,
-           false);
+    freeze(ShouldFreeze{hasFlag(Flag::FixedWithImpulsePreserved) || hasFlag(Flag::Fixed)},
+           preserve_velocities, PreserveMaxImpulse{false});
 }
 
 void RigidBody::resetFrozenState() {
@@ -835,13 +838,14 @@ void RigidBody::setColor(const sead::Color4f& color, const void* a, bool b) {
     // (which are normally invisible).
 }
 
-void RigidBody::setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions) {
+void RigidBody::setPosition(const sead::Vector3f& position,
+                            PropagateToLinkedMotions propagate_to_linked_motions) {
     if (util::isVectorInvalid(position)) {
         onInvalidParameter();
         return;
     }
 
-    mMotionAccessor->setPosition(position, propagate_to_linked_motions);
+    mMotionAccessor->setPosition(position, bool(propagate_to_linked_motions));
 }
 
 void RigidBody::getPosition(sead::Vector3f* position) const {
@@ -888,13 +892,14 @@ sead::Matrix34f RigidBody::getTransform() const {
     return transform;
 }
 
-void RigidBody::setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions) {
+void RigidBody::setTransform(const sead::Matrix34f& mtx,
+                             PropagateToLinkedMotions propagate_to_linked_motions) {
     if (util::isMatrixInvalid(mtx)) {
         onInvalidParameter();
         return;
     }
 
-    mMotionAccessor->setTransform(mtx, propagate_to_linked_motions);
+    mMotionAccessor->setTransform(mtx, bool(propagate_to_linked_motions));
 }
 
 bool RigidBody::isTransformDirty() const {
@@ -1111,14 +1116,15 @@ void RigidBody::changePositionAndRotation(const sead::Matrix34f& transform, floa
     mMotionAccessor->setAngularVelocity(angular_velocity, epsilon);
 }
 
-void RigidBody::changePosition(const sead::Vector3f& target_position, bool keep_angular_velocity,
-                               float epsilon) {
+void RigidBody::changePosition(const sead::Vector3f& target_position,
+                               KeepAngularVelocity keep_angular_velocity, float epsilon) {
     hkVector4f velocity;
-    computeLinearVelocity(&velocity, target_position, keep_angular_velocity);
+    computeLinearVelocity(&velocity, target_position,
+                          TakeAngularVelocityIntoAccount{bool(keep_angular_velocity)});
 
     mMotionAccessor->setLinearVelocity(velocity, epsilon);
 
-    if (!keep_angular_velocity)
+    if (!bool(keep_angular_velocity))
         mMotionAccessor->setAngularVelocity(sead::Vector3f::zero, epsilon);
 }
 
@@ -1189,13 +1195,13 @@ void RigidBody::computeLinearVelocity(hkVector4f* velocity, const hkVector4f& ta
     velocity->mul(inv_delta_time);
 }
 
-KSYS_ALWAYS_INLINE void RigidBody::computeLinearVelocity(hkVector4f* velocity,
-                                                         const hkVector4f& target_position,
-                                                         bool take_angular_velocity_into_account,
-                                                         float inv_delta_time) const {
+KSYS_ALWAYS_INLINE void
+RigidBody::computeLinearVelocity(hkVector4f* velocity, const hkVector4f& target_position,
+                                 TakeAngularVelocityIntoAccount take_angular_velocity_into_account,
+                                 float inv_delta_time) const {
     auto hk_current_pos = toHkVec4(getPosition());
 
-    if (take_angular_velocity_into_account) {
+    if (bool(take_angular_velocity_into_account)) {
         const auto center = getCenterOfMassInLocal();
         if (center.x == 0 && center.y == 0 && center.z == 0) {
             hkVector4f rel_pos;
@@ -1212,18 +1218,18 @@ KSYS_ALWAYS_INLINE void RigidBody::computeLinearVelocity(hkVector4f* velocity,
     velocity->mul(inv_delta_time);
 }
 
-KSYS_ALWAYS_INLINE void
-RigidBody::computeLinearVelocity(hkVector4f* velocity, const sead::Vector3f& target_position,
-                                 bool take_angular_velocity_into_account) const {
+KSYS_ALWAYS_INLINE void RigidBody::computeLinearVelocity(
+    hkVector4f* velocity, const sead::Vector3f& target_position,
+    TakeAngularVelocityIntoAccount take_angular_velocity_into_account) const {
     const float inv_delta_time = getInvDeltaTime();
     const auto hk_target_pos = toHkVec4(target_position);
     computeLinearVelocity(velocity, hk_target_pos, take_angular_velocity_into_account,
                           inv_delta_time);
 }
 
-void RigidBody::computeLinearVelocity(sead::Vector3f* velocity,
-                                      const sead::Vector3f& target_position,
-                                      bool take_angular_velocity_into_account) const {
+void RigidBody::computeLinearVelocity(
+    sead::Vector3f* velocity, const sead::Vector3f& target_position,
+    TakeAngularVelocityIntoAccount take_angular_velocity_into_account) const {
     hkVector4f result;
     computeLinearVelocity(&result, target_position, take_angular_velocity_into_account);
     storeToVec3(velocity, result);
@@ -1744,7 +1750,7 @@ void* RigidBody::m11() {
 void RigidBody::onMaxPositionExceeded() {
     // debug logging?
     [[maybe_unused]] sead::Vector3f position = getPosition();
-    setPosition(sead::Vector3f::zero, true);
+    setPosition(sead::Vector3f::zero, PropagateToLinkedMotions{true});
 }
 
 const char* RigidBody::getName() {
