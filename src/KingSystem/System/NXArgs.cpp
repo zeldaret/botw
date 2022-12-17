@@ -75,4 +75,7 @@ void nxargs::allocEntries(sead::Heap* heap, const u8* data) {
     }
 }
 
+// todo: placeholder to hide the warning in tools/check
+void nxargs::handleArgs() {}
+
 }  // namespace ksys
