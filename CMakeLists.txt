@@ -32,7 +32,17 @@ target_compile_options(uking PRIVATE -Wextra-semi)
 
 add_subdirectory(lib/NintendoSDK)
 target_link_libraries(uking PUBLIC NintendoSDK)
-target_compile_definitions(NintendoSDK PRIVATE NN_VER=440)
+target_compile_definitions(NintendoSDK 
+PRIVATE 
+	NN_SDK_MAJOR=4 
+	NN_SDK_MINOR=4 
+	NN_SDK_PATCH=0
+	NN_SDK_TYPE="Release"
+	# todo: figure out actual number, in between odyssey and splatoon
+	NN_WARE_MAJOR=1 
+	NN_WARE_MINOR=6 
+	NN_WARE_PATCH=1
+)
 
 add_subdirectory(lib/sead)
 target_link_libraries(uking PUBLIC sead)
