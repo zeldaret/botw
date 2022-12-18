@@ -7,6 +7,7 @@ namespace ksys::phys {
 
 class RagdollController;
 
+/// The rigid body for a ragdoll bone.
 class RagdollRigidBody : public RigidBody {
     SEAD_RTTI_OVERRIDE(RagdollRigidBody, RigidBody)
 public:
@@ -24,6 +25,9 @@ public:
     void disableContactLayer(ContactLayer layer, bool alt_mask);
     void setContactAll(bool alt_mask);
     void setContactNone(bool alt_mask);
+
+    auto* getParentBody_() const { return mParentBody; }
+    auto& getChildBodies_() const { return mChildBodies; }
 
 private:
     void updateContactMask();

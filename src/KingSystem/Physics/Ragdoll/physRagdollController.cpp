@@ -1,21 +1,26 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollController.h"
+#include <Havok/Animation/Animation/Mapper/hkaSkeletonMapper.h>
 #include <Havok/Animation/Animation/Rig/hkaPose.h>
 #include <Havok/Animation/Physics2012Bridge/Instance/hkaRagdollInstance.h>
 #include <Havok/Common/Serialize/Util/hkNativePackfileUtils.h>
+#include <Havok/Common/Serialize/Util/hkRootLevelContainer.h>
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
 #include <math/seadMathCalcCommon.h>
+#include <resource/seadResource.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/Rig/physModelBoneAccessor.h"
 #include "KingSystem/Physics/Rig/physSkeletonMapper.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/IteratorUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
@@ -34,8 +39,142 @@ RagdollController::~RagdollController() {
     finalize();
 }
 
+bool RagdollController::init(const RagdollParam* param, sead::DirectResource* res,
+                             gsys::Model* model, sead::Heap* heap) {
+    return doInit(param, res, model, heap);
+}
+
+bool RagdollController::doInit(const RagdollParam* param, sead::DirectResource* res,
+                               gsys::Model* model, sead::Heap* heap) {
+    if (!res)
+        return false;
+
+    // Copy the ragdoll data from the resource and load it in place.
+    mRagdollDataSize = res->getRawSize();
+    mRagdollData = new (heap, 0x10) u8[mRagdollDataSize];
+    std::memcpy(mRagdollData, res->getRawData(), mRagdollDataSize);
+    {
+        const char* error = nullptr;
+        mRootLevelContainer = static_cast<hkRootLevelContainer*>(hkNativePackfileUtils::loadInPlace(
+            mRagdollData, static_cast<int>(mRagdollDataSize), nullptr, &error));
+
+        if (!mRootLevelContainer) {
+            util::safeDeleteArray(mRagdollData);
+            return false;
+        }
+    }
+
+    mRagdollInstance = mRootLevelContainer->findObject<hkaRagdollInstance>();
+    if (!mRagdollInstance)
+        return false;
+
+    const hkaSkeleton* skeleton = mRagdollInstance->getSkeleton();
+    const int num_bones = skeleton->m_bones.size();
+
+    // Initialise the skeleton mapper or model bone accessor.
+    if (mRootLevelContainer->findObject<hkaSkeletonMapper>()) {
+        mSkeletonMapper = new (heap) SkeletonMapper;
+        auto* skeleton_mapper = mRootLevelContainer->findObject<hkaSkeletonMapper>(nullptr);
+        auto* model_skeleton_mapper =
+            mRootLevelContainer->findObject<hkaSkeletonMapper>(skeleton_mapper);
+
+        if (!mSkeletonMapper ||
+            !mSkeletonMapper->init(skeleton_mapper, model_skeleton_mapper, model, heap)) {
+            return false;
+        }
+    } else {
+        mModelBoneAccessor = new (heap) ModelBoneAccessor;
+        if (!mModelBoneAccessor->init(skeleton, model, heap)) {
+            return false;
+        }
+    }
+
+    mBoneRigidBodies.allocBufferAssert(num_bones, heap);
+
+    {
+        static constexpr size_t Alignment = 0x20;
+        _b0 = sead::Mathu::roundUpPow2(sizeof(hkQsTransformf) * num_bones, Alignment);
+        auto* buffer = new (heap, Alignment) u8[_b0];
+        if (num_bones > 0 && buffer != nullptr) {
+            _a0 = num_bones;
+            _a8 = buffer;
+        }
+    }
+
+    mBoneVectors.allocBufferAssert(num_bones, heap);
+    mBoneStuff.allocBufferAssert(num_bones, heap);
+
+    // Create a RagdollRigidBody for each bone.
+    for (int i = 0; i < num_bones; ++i) {
+        const int parent_bone_idx = getParentOfBone(i) >= 0 ? getParentOfBone(i) : 0;
+
+        EntityCollisionMask mask;
+        if (mGroupHandler)
+            mask.regular.group_handler_index.SetUnsafe(mGroupHandler->getIndex());
+        mask.raw = makeEntityCollisionMask(mContactLayer, mask.raw);
+        mask.raw = setEntityCollisionMaskGroundHit(GroundHit::HitAll, mask.raw);
+        setBitFields(&mask.raw,  //
+                     std::make_pair(mask.regular.ragdoll_bone_index, i),
+                     std::make_pair(mask.regular.ragdoll_parent_bone_index, parent_bone_idx),
+                     std::make_pair(mask.is_ragdoll, true));
+
+        hkpRigidBody* const hkp_rigid_body = mRagdollInstance->getRigidBodyOfBone(i);
+        hkp_rigid_body->setCollisionFilterInfo(mask.raw);
+
+        sead::SafeString bone_name = skeleton->m_bones[i].m_name.cString();
+        int separator_index = bone_name.rfindIndex(":");
+        if (separator_index >= 0 && separator_index < bone_name.calcLength() - 1)
+            bone_name = bone_name.cstr() + separator_index + 1;
+
+        mBoneRigidBodies[i] = new (heap) RagdollRigidBody(bone_name, this, i, hkp_rigid_body, heap);
+        if (!mBoneRigidBodies[i]->initMotionAccessorForDynamicMotion(heap))
+            return false;
+    }
+
+    // Initialise each RagdollRigidBody. This must be done in a separate pass after all
+    // bodies have been created because each bone will store references to its neighbours.
+    for (int i = 0; i < num_bones; ++i) {
+        mBoneRigidBodies[i]->init(heap);
+    }
+
+    mTransform = new (heap, alignof(hkQsTransformf))
+        hkQsTransformf[1]{hkQsTransformf::IdentityInitializer{}};
+    mRagdollParam = param;
+
+    util::PrintDebugFmt("%s %s", sead::SafeString::cEmptyString.cstr(),
+                        sead::SafeString::cEmptyString.cstr());
+
+    for (int i = 0, n = mRagdollInstance->m_constraints.size(); i < n; ++i) {
+        mRagdollInstance->m_constraints[i]->setPriority(hkpConstraintInstance::PRIORITY_TOI);
+    }
+
+    mBoneStuff2.allocBufferAssert(num_bones, heap);
+    for (int i = 0; i < num_bones; ++i) {
+        // XXX: this is probably an inlined function?
+        mBoneStuff2[i] = 0;
+        mFlags.set(Flag::_80);
+    }
+
+    mModel = model;
+
+    registerSelf();
+    return true;
+}
+
+void RagdollController::registerSelf() {
+    const bool registered = System::instance()->getRagdollControllerMgr()->addController(this);
+    mFlags.change(Flag::IsRegistered, registered);
+}
+
+void RagdollController::unregisterSelf() {
+    if (mFlags.isOn(Flag::IsRegistered)) {
+        System::instance()->getRagdollControllerMgr()->removeController(this);
+        mFlags.reset(Flag::IsRegistered);
+    }
+}
+
 void RagdollController::finalize() {
-    for (auto body : util::indexIter(mRigidBodies)) {
+    for (auto body : util::indexIter(mBoneRigidBodies)) {
         body.get()->setCollisionInfo(nullptr);
         body.get()->setContactPointInfo(nullptr);
     }
@@ -46,10 +185,10 @@ void RagdollController::finalize() {
     if (mRagdollInstance != nullptr)
         removeConstraints();
 
-    for (auto body : util::indexIter(mRigidBodies))
+    for (auto body : util::indexIter(mBoneRigidBodies))
         delete body.get();
 
-    mRigidBodies.freeBuffer();
+    mBoneRigidBodies.freeBuffer();
 
     if (mSkeletonMapper)
         util::safeDelete(mSkeletonMapper);
@@ -57,20 +196,20 @@ void RagdollController::finalize() {
     if (mModelBoneAccessor)
         util::safeDelete(mModelBoneAccessor);
 
-    if (mRawRagdollData) {
-        hkNativePackfileUtils::unloadInPlace(mRawRagdollData, mRawRagdollDataSize);
-        delete[] mRawRagdollData;
-        mRawRagdollData = nullptr;
+    if (mRagdollData) {
+        hkNativePackfileUtils::unloadInPlace(mRagdollData, static_cast<int>(mRagdollDataSize));
+        delete[] mRagdollData;
+        mRagdollData = nullptr;
         mRootLevelContainer = nullptr;
         mRagdollInstance = nullptr;
     }
 
-    if (mRotations)
-        util::safeDeleteArray(mRotations);
+    if (mTransform)
+        util::safeDeleteArray(mTransform);
 
     mBoneVectors.freeBuffer();
     mBoneStuff.freeBuffer();
-    mBones.freeBuffer();
+    mBoneStuff2.freeBuffer();
 
     if (_b0) {
         delete[] _a8;
@@ -89,37 +228,34 @@ void RagdollController::removeConstraints() {
 }
 
 bool RagdollController::isAddedToWorld() const {
-    return mRigidBodies.size() > 0 && mRigidBodies.back()->isAddedToWorld();
+    return mBoneRigidBodies.size() > 0 && mBoneRigidBodies.back()->isAddedToWorld();
 }
 
 void RagdollController::removeFromWorldImmediately() {
     ScopedPhysicsLock lock{this};
 
     removeConstraints();
-    for (auto body : util::indexIter(mRigidBodies))
+    for (auto body : util::indexIter(mBoneRigidBodies))
         body.get()->removeFromWorldImmediately();
 }
 
 void RagdollController::removeFromWorld() {
-    for (auto body : util::indexIter(mRigidBodies))
+    for (auto body : util::indexIter(mBoneRigidBodies))
         body.get()->removeFromWorld();
 }
 
 bool RagdollController::removeFromWorldAndResetLinks() {
     bool removed = true;
-    for (auto body : util::indexIter(mRigidBodies))
+    for (auto body : util::indexIter(mBoneRigidBodies))
         removed &= body.get()->removeFromWorldAndResetLinks();
 
-    if (mFlags.isOn(Flag::IsRegistered)) {
-        System::instance()->getRagdollControllerMgr()->removeController(this);
-        mFlags.reset(Flag::IsRegistered);
-    }
+    unregisterSelf();
 
     return removed;
 }
 
 bool RagdollController::isAddingToWorld() const {
-    return mRigidBodies.size() > 0 && mRigidBodies.back()->isAddingBodyToWorld();
+    return mBoneRigidBodies.size() > 0 && mBoneRigidBodies.back()->isAddingBodyToWorld();
 }
 
 void RagdollController::setTransform(const sead::Matrix34f& transform) {
@@ -139,7 +275,7 @@ void RagdollController::setTransform(const hkQsTransformf& transform) {
 
     if (mExtraRigidBody) {
         sead::Matrix34f old_transform;
-        mRigidBodies[mRigidBodyIndex]->getTransform(&old_transform);
+        mBoneRigidBodies[mBoneIndexForExtraRigidBody]->getTransform(&old_transform);
         mExtraRigidBody->setTransform(old_transform);
 
         if (mGroupHandler) {
@@ -188,7 +324,7 @@ void RagdollController::setScale(float scale) {
             pos.setAdd(body->getTransform().getTranslation(), translation);
             body->setPosition(pos);
 
-            mRigidBodies[i]->updateShape();
+            mBoneRigidBodies[i]->updateShape();
         }
     }
 
@@ -198,36 +334,36 @@ void RagdollController::setScale(float scale) {
 
 void RagdollController::setFixedAndPreserveImpulse(Fixed fixed,
                                                    MarkLinearVelAsDirty mark_linear_vel_as_dirty) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->setFixedAndPreserveImpulse(fixed, mark_linear_vel_as_dirty);
 }
 
 void RagdollController::resetFrozenState() {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->resetFrozenState();
 }
 
 void RagdollController::setUseSystemTimeFactor(bool use) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->setUseSystemTimeFactor(use);
 }
 
 void RagdollController::clearFlag400000(bool clear) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->clearFlag400000(clear);
 }
 
 void RagdollController::setEntityMotionFlag200(bool set) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->setEntityMotionFlag200(set);
 }
 
 void RagdollController::setFixed(Fixed fixed, PreserveVelocities preserve_velocities) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->setFixed(fixed, preserve_velocities);
 }
 
-BoneAccessor* RagdollController::getModelBoneAccessor() const {
+ModelBoneAccessor* RagdollController::getModelBoneAccessor() const {
     if (mSkeletonMapper)
         return &mSkeletonMapper->getModelBoneAccessor();
 
@@ -237,32 +373,112 @@ BoneAccessor* RagdollController::getModelBoneAccessor() const {
 void RagdollController::m3() {}
 
 void RagdollController::setUserTag(UserTag* tag) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->setUserTag(tag);
 }
 
 void RagdollController::setSystemGroupHandler(SystemGroupHandler* handler) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->setSystemGroupHandler(handler);
+
+    mGroupHandler = handler;
 }
 
 void RagdollController::setContactPointInfo(ContactPointInfo* info) {
-    for (auto* body : mRigidBodies)
+    for (auto* body : mBoneRigidBodies)
         body->setContactPointInfo(info);
+}
+
+void RagdollController::enableContactLayer(ContactLayer layer) {
+    for (auto* body : mBoneRigidBodies)
+        body->enableContactLayer(layer, false);
+}
+
+void RagdollController::disableContactLayer(ContactLayer layer) {
+    for (auto* body : mBoneRigidBodies)
+        body->disableContactLayer(layer, false);
+}
+
+void RagdollController::setContactAll() {
+    for (auto* body : mBoneRigidBodies)
+        body->setContactAll(false);
+}
+
+void RagdollController::setContactNone() {
+    for (auto* body : mBoneRigidBodies)
+        body->setContactNone(false);
+}
+
+void RagdollController::setContactAll(int bone_index) {
+    mBoneRigidBodies[bone_index]->setContactAll(false);
+}
+
+void RagdollController::setContactNone(int bone_index) {
+    mBoneRigidBodies[bone_index]->setContactNone(false);
+}
+
+void RagdollController::setExtraRigidBody(RigidBody* body, int bone_index) {
+    mExtraRigidBody = body;
+    mBoneIndexForExtraRigidBody = bone_index;
+}
+
+void RagdollController::setGravityFactor(float factor) {
+    for (auto* body : mBoneRigidBodies)
+        body->setGravityFactor(factor);
+}
+
+RagdollRigidBody* RagdollController::getBoneRigidBodyByName(const sead::SafeString& name) const {
+    const int index = getBoneIndexByName(name);
+    if (index < 0)
+        return nullptr;
+
+    return mBoneRigidBodies[index];
+}
+
+int RagdollController::getBoneIndexByModelKey(const gsys::BoneAccessKey& key) const {
+    const int model_bone_index = getModelBoneAccessor()->findBoneIndex(key);
+
+    const char* bone_name = getModelBoneAccessor()->getBoneName(model_bone_index);
+    if (bone_name == nullptr)
+        return -1;
+
+    return getBoneIndexByName(sead::FormatFixedSafeString<256>("Ragdoll_%s", bone_name));
+}
+
+int RagdollController::getBoneIndexByName(const sead::SafeString& name) const {
+    int index = 0;
+    for (auto* body : mBoneRigidBodies) {
+        if (name == body->getHkBodyName())
+            return index;
+        ++index;
+    }
+    return -1;
 }
 
 int RagdollController::getParentOfBone(int index) const {
     return mRagdollInstance->getParentOfBone(index);
 }
 
+RagdollRigidBody* RagdollController::getParentBoneRigidBody(const RigidBody* body) const {
+    return sead::DynamicCast<const RagdollRigidBody>(body)->getParentBody_();
+}
+
+int RagdollController::getNumChildBones(const RigidBody* body) const {
+    return sead::DynamicCast<const RagdollRigidBody>(body)->getChildBodies_().size();
+}
+
+RagdollRigidBody* RagdollController::getChildBoneRigidBody(const RigidBody* body, int index) const {
+    return sead::DynamicCast<const RagdollRigidBody>(body)->getChildBodies_()[index];
+}
+
 RagdollController::ScopedPhysicsLock::ScopedPhysicsLock(const RagdollController* ctrl)
     : mCtrl{ctrl}, mWorldLock{ctrl->isAddedToWorld(), ContactLayerType::Entity} {
-    for (auto body : util::indexIter(ctrl->mRigidBodies))
+    for (auto body : util::indexIter(ctrl->mBoneRigidBodies))
         body.get()->lock(RigidBody::AlsoLockWorld::No);
 }
 
 RagdollController::ScopedPhysicsLock::~ScopedPhysicsLock() {
-    for (auto body : util::indexIter(mCtrl->mRigidBodies))
+    for (auto body : util::indexIter(mCtrl->mBoneRigidBodies))
         body.get()->unlock(RigidBody::AlsoLockWorld::No);
 }
 

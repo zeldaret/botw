@@ -224,7 +224,7 @@ union EntityCollisionMask {
         /// Only valid for ragdoll masks.
         util::BitField<5, 5, u32> ragdoll_bone_index;
         /// Only valid for ragdoll masks.
-        util::BitField<10, 5, u32> ragdoll_bone_index2;
+        util::BitField<10, 5, u32> ragdoll_parent_bone_index;
 
         /// Only valid for CustomReceiver masks.
         /// Layers to collide with for EntityQueryCustomReceiver entities.

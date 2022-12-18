@@ -52,8 +52,8 @@ public:
     void setLayerCustomMask(ContactLayer layer, u32 mask) override;
     u32 getCollisionFilterInfoGroupHandlerIdx(u32 info) override;
 
-    virtual u32 makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit, u32 unk5,
-                                        u32 unk10);
+    virtual u32 makeRagdollCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit,
+                                               u32 bone_index, u32 parent_bone_index);
     /// @param layer An entity layer
     virtual void setEntityLayerCollisionEnabledMask(ContactLayer layer, u32 mask);
 
@@ -111,7 +111,8 @@ inline u32 EntitySystemGroupHandler::makeCollisionFilterInfo(u32 info, ContactLa
     if (layer == ContactLayer::EntityRagdoll) {
         result.regular.layer.Init(layer);
         result.regular.ragdoll_bone_index.Init(current_info.regular.ragdoll_bone_index);
-        result.regular.ragdoll_bone_index2.Init(current_info.regular.ragdoll_bone_index2);
+        result.regular.ragdoll_parent_bone_index.Init(
+            current_info.regular.ragdoll_parent_bone_index);
         result.regular.group_handler_index.Init(getIndex());
         result.regular.ground_hit.Init(ground_hit);
         result.is_ragdoll = true;
@@ -196,12 +197,13 @@ inline u32 EntityGroupFilter::getCollisionFilterInfoGroupHandlerIdx(u32 info) {
     return EntityCollisionMask(info).regular.group_handler_index;
 }
 
-inline u32 EntityGroupFilter::makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit,
-                                                      u32 unk5, u32 unk10) {
+inline u32 EntityGroupFilter::makeRagdollCollisionFilterInfo(ContactLayer layer,
+                                                             GroundHit ground_hit, u32 bone_index,
+                                                             u32 parent_bone_index) {
     EntityCollisionMask info;
     info.regular.layer.Init(layer);
-    info.regular.ragdoll_bone_index.Init(unk5);
-    info.regular.ragdoll_bone_index2.Init(unk10);
+    info.regular.ragdoll_bone_index.Init(bone_index);
+    info.regular.ragdoll_parent_bone_index.Init(parent_bone_index);
     info.regular.ground_hit.Init(ground_hit);
     info.is_ragdoll = true;
     return info.raw;

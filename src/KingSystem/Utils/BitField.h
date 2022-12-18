@@ -223,4 +223,17 @@ constexpr void clearBitFields(Storage* storage, const BitFields&... fields) {
     *storage &= ~mask;
 }
 
+/// Set several BitFields at once.
+///
+/// This can sometimes produce better codegen compared to setting each BitField individually.
+/// (This function builds a mask for all the BitFields and clears those bits in one pass,
+/// then ORs in the new values all at once.)
+template <typename Storage, typename... BitFieldAndValuePairs>
+constexpr void setBitFields(Storage* storage, const BitFieldAndValuePairs&... pairs) {
+    constexpr Storage mask =
+        getMaskForBitFields<Storage, typename BitFieldAndValuePairs::first_type...>();
+    *storage =
+        ((static_cast<Storage>(pairs.second) << pairs.first.StartBit()) | ...) | (*storage & ~mask);
+}
+
 }  // namespace ksys::util

@@ -12,11 +12,11 @@
 class hkaRagdollInstance;
 class hkQsTransformf;
 class hkRootLevelContainer;
-class hkRotationf;
 
 namespace gsys {
+struct BoneAccessKey;
 class Model;
-}
+}  // namespace gsys
 
 namespace sead {
 class DirectResource;
@@ -43,8 +43,7 @@ public:
     explicit RagdollController(SystemGroupHandler* handler);
     virtual ~RagdollController();
 
-    // 0x000000710121e5dc
-    void init(const RagdollParam* param, sead::DirectResource* res, gsys::Model* model,
+    bool init(const RagdollParam* param, sead::DirectResource* res, gsys::Model* model,
               sead::Heap* heap);
 
     // 0x0000007101223320
@@ -65,11 +64,7 @@ public:
     void setEntityMotionFlag200(bool set);
     void setFixed(Fixed fixed, PreserveVelocities preserve_velocities);
 
-    BoneAccessor* getModelBoneAccessor() const;
-
-    u32 sub_7101221CC4();
-    void sub_7101221728(ContactLayer layer);
-    void sub_71012217A8();
+    ModelBoneAccessor* getModelBoneAccessor() const;
 
     // TODO: rename
     virtual void m3();
@@ -79,22 +74,28 @@ public:
     // 0x0000007101221424
     void x_22(int index, float value);
     void setContactPointInfo(ContactPointInfo* info);
-    // 0x00000071012216e0
-    void x_24();
-    // 0x0000007101221728
-    void x_25();
-    // 0x0000007101221770
-    void x_26();
-    // 0x00000071012217a8
-    void x_27();
-    // 0x00000071012217e0
-    void x_28();
+    void enableContactLayer(ContactLayer layer);
+    void disableContactLayer(ContactLayer layer);
+    void setContactAll();
+    void setContactNone();
+    void setContactAll(int bone_index);
+    void setContactNone(int bone_index);
+    u32 sub_7101221CC4();
+    void setExtraRigidBody(RigidBody* body, int bone_index);
+    void setGravityFactor(float factor);
 
+    RagdollRigidBody* getBoneRigidBodyByName(const sead::SafeString& name) const;
+    int getBoneIndexByModelKey(const gsys::BoneAccessKey& key) const;
+    int getBoneIndexByName(const sead::SafeString& name) const;
     int getParentOfBone(int index) const;
+
+    RagdollRigidBody* getParentBoneRigidBody(const RigidBody* body) const;
+    int getNumChildBones(const RigidBody* body) const;
+    RagdollRigidBody* getChildBoneRigidBody(const RigidBody* body, int index) const;
 
     static void setUnk1(u8 value);
 
-    auto& getRigidBodies_() { return mRigidBodies; }
+    auto& getRigidBodies_() { return mBoneRigidBodies; }
 
 private:
     class ScopedPhysicsLock {
@@ -108,19 +109,26 @@ private:
     };
 
     enum class Flag {
+        _80 = 0x80,
         /// Whether this controller has been registered with the RagdollControllerMgr.
         IsRegistered = 0x100,
     };
 
     struct BoneVectors {
-        sead::Vector3f _0;
-        sead::Vector3f _c;
-        float _18;
+        sead::Vector3f _0 = sead::Vector3f::zero;
+        sead::Vector3f _c = sead::Vector3f::zero;
+        u16 _18 = -1;
+        u16 _1a = -1;
     };
 
+    bool doInit(const RagdollParam* param, sead::DirectResource* res, gsys::Model* model,
+                sead::Heap* heap);
     void finalize();
     void removeConstraints();
     void setTransform(const hkQsTransformf& transform);
+
+    void registerSelf();
+    void unregisterSelf();
 
     BoneAccessor* getBoneAccessor() const;
 
@@ -128,18 +136,19 @@ private:
     ModelBoneAccessor* mModelBoneAccessor = nullptr;
     hkaRagdollInstance* mRagdollInstance = nullptr;
     SystemGroupHandler* mGroupHandler = nullptr;
-    sead::Buffer<RagdollRigidBody*> mRigidBodies;
+    /// The rigid bodies of bones.
+    sead::Buffer<RagdollRigidBody*> mBoneRigidBodies;
     // TODO: rename
     sead::Buffer<BoneVectors> mBoneVectors;
     // TODO: rename
     sead::Buffer<u32> mBoneStuff;
     hkRootLevelContainer* mRootLevelContainer = nullptr;
     sead::SafeString mName;
-    u8* mRawRagdollData = nullptr;
-    int mRawRagdollDataSize = 0;
-    hkRotationf* mRotations = nullptr;
-    // TODO: type
-    sead::Buffer<void*> mBones;
+    u8* mRagdollData = nullptr;
+    u32 mRagdollDataSize = 0;
+    hkQsTransformf* mTransform = nullptr;
+    // TODO: rename
+    sead::Buffer<float> mBoneStuff2;
     float _98 = 0.1;
     float _9c = 1.0;
     u32 _a0 = 0;
@@ -157,8 +166,8 @@ private:
     u8 _e8;
     u8 _e9;
     u8 _ea = 0;
-    u8 mRigidBodyIndex = 0;
-    u32 _ec = 5;
+    u8 mBoneIndexForExtraRigidBody = 0;
+    ContactLayer mContactLayer = ContactLayer::EntityRagdoll;
 };
 KSYS_CHECK_SIZE_NX150(RagdollController, 0xf0);
 

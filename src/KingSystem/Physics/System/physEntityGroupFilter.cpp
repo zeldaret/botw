@@ -123,8 +123,8 @@ hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
                     return false;
                 }
             } else if ((infoA & GroupHandlerIdxMask) >> GroupHandlerIdxShift != 0) {
-                if (a.regular.ragdoll_bone_index == b.regular.ragdoll_bone_index2 ||
-                    b.regular.ragdoll_bone_index == a.regular.ragdoll_bone_index2)
+                if (a.regular.ragdoll_bone_index == b.regular.ragdoll_parent_bone_index ||
+                    b.regular.ragdoll_bone_index == a.regular.ragdoll_parent_bone_index)
                     return false;
             }
             return true;

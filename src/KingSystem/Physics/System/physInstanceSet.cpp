@@ -104,10 +104,10 @@ void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
         return;
 
     if (mRagdollController != nullptr)
-        mRagdollController->sub_7101221728(layer);
+        mRagdollController->disableContactLayer(layer);
 
     if (mCharacterController != nullptr)
-        mCharacterController->enableCollisionMaybe_0(layer);
+        mCharacterController->disableContactLayer(layer);
 }
 
 void InstanceSet::sub_7100FBAD74() {
@@ -115,7 +115,7 @@ void InstanceSet::sub_7100FBAD74() {
         rb.disableAllContactLayers();
     }
     if (mRagdollController != nullptr) {
-        mRagdollController->sub_71012217A8();
+        mRagdollController->setContactNone();
     }
     if (mCharacterController != nullptr) {
         mCharacterController->sub_7100F60604();
