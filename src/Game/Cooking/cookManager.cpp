@@ -181,7 +181,7 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
         item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
         break;
     case 1:
-        item.life_recover = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].mi;
+        item.life_recover = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].min;
         break;
     case 2:
         if (item.effect_id != CookEffectId::None) {
@@ -194,7 +194,7 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
         break;
     case 3:
         if (item.effect_id != CookEffectId::None) {
-            item.stamina_recover = (f32)mCookingEffectEntries[(int)item.effect_id].mi;
+            item.stamina_recover = (f32)mCookingEffectEntries[(int)item.effect_id].min;
         }
         break;
     default:
@@ -234,11 +234,11 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
         const f32 life_recover = item.life_recover;
         const s32 stamina_recover = sead::Mathi::clampMin((s32)item.stamina_recover, 1);
 
-        const f32 life_recover_ma = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
-        const s32 stamina_recover_ma = mCookingEffectEntries[(int)item.effect_id].ma;
+        const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].max;
+        const s32 stamina_recover_max = mCookingEffectEntries[(int)item.effect_id].max;
 
-        const bool life_recover_maxed = life_recover >= life_recover_ma;
-        const bool stamina_recover_maxed = stamina_recover >= stamina_recover_ma;
+        const bool life_recover_maxed = life_recover >= life_recover_max;
+        const bool stamina_recover_maxed = stamina_recover >= stamina_recover_max;
 
         switch (item.effect_id) {
         case CookEffectId::GutsRecover:
@@ -465,12 +465,12 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
             const auto& entry = mCookingEffectEntries[i];
 
             const f32 cure_level = (f32)cure_levels[i];
-            item.stamina_recover = cure_level * entry.mr;
+            item.stamina_recover = cure_level * entry.multiplier;
 
             const auto effect_id = (CookEffectId)i;
             item.effect_id = effect_id;
 
-            const s32 boost_time = entry.bt;
+            const s32 boost_time = entry.boost_time;
             if (boost_time > 0)
                 item.effect_time = time_boost + 30 * total_count + boost_time * count;
 
@@ -501,11 +501,11 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
         item.life_recover = (f32)life_recover * mLRMR;
     } else {
         item.life_recover =
-            (f32)life_recover * mCookingEffectEntries[(int)CookEffectId::LifeRecover].mr;
+            (f32)life_recover * mCookingEffectEntries[(int)CookEffectId::LifeRecover].multiplier;
     }
 
     if (item.effect_id != CookEffectId::None) {
-        const s32 max = mCookingEffectEntries[(int)item.effect_id].ma;
+        const s32 max = mCookingEffectEntries[(int)item.effect_id].max;
         if (item.stamina_recover > (f32)max)
             item.stamina_recover = (f32)max;
     }
@@ -706,16 +706,16 @@ void CookingMgr::init(sead::Heap* heap) {
                         continue;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "BT"))
-                        mCookingEffectEntries[(s32)entry_idx].bt = int_val;
+                        mCookingEffectEntries[(s32)entry_idx].boost_time = int_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "Ma"))
-                        mCookingEffectEntries[(s32)entry_idx].ma = int_val;
+                        mCookingEffectEntries[(s32)entry_idx].max = int_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "Mi"))
-                        mCookingEffectEntries[(s32)entry_idx].mi = int_val;
+                        mCookingEffectEntries[(s32)entry_idx].min = int_val;
 
                     if (entry_iter.tryGetFloatByKey(&float_val, "MR"))
-                        mCookingEffectEntries[(s32)entry_idx].mr = float_val;
+                        mCookingEffectEntries[(s32)entry_idx].multiplier = float_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "SSA"))
                         mCookingEffectEntries[(s32)entry_idx].ssa = int_val;
@@ -1024,7 +1024,7 @@ void CookingMgr::cookCalcRecipeBoost(const al::ByamlIter& recipe_iter, CookItem&
 void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
     cook_item.life_recover = (f32)(s32)cook_item.life_recover;
 
-    const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ma;
+    const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].max;
     if (cook_item.life_recover > life_recover_max)
         cook_item.life_recover = life_recover_max;
     if (cook_item.life_recover < 0.0f)
@@ -1039,7 +1039,7 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
 
         s32 stamina_recover = (s32)cook_item.stamina_recover;
 
-        const s32 stamina_recover_max = mCookingEffectEntries[(int)cook_item.effect_id].ma;
+        const s32 stamina_recover_max = mCookingEffectEntries[(int)cook_item.effect_id].max;
         if (stamina_recover > stamina_recover_max)
             stamina_recover = stamina_recover_max;
 

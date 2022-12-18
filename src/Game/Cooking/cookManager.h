@@ -126,10 +126,10 @@ public:
 
 private:
     struct CookingEffectEntry {
-        int bt = 0;
-        int ma = 0;
-        int mi = 0;
-        float mr = 1.0f;
+        int boost_time = 0;
+        int max = 0;
+        int min = 0;
+        float multiplier = 1.0f;
         int ssa = 1;
     };
 
