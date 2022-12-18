@@ -91,10 +91,10 @@ public:
 
     void setVirtualMassInverse(const hkVector4& invMassA, const hkVector4& invMassB);
 
-    void disable(void);
-    void enable(void);
+    void disable();
+    void enable();
     void setEnabled(hkBool state);
-    hkBool isEnabled(void);
+    hkBool isEnabled();
 
     inline hkpConstraintOwner* getOwner() const;
     inline hkpEntity* getMasterEntity() const;
@@ -117,7 +117,7 @@ private:
     friend class hkpSimpleConstraintContactMgr;
     friend class hkpSaveContactPointsUtil;
 
-    hkpConstraintInstance() {}
+    hkpConstraintInstance() = default;
 
 protected:
     explicit hkpConstraintInstance(ConstraintPriority priority);
