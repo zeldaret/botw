@@ -145,17 +145,17 @@ private:
     u32 mFairyTonicNameHash = 0;
     u32 mMonsterExtractNameHash = 0;
 
-    float mLRMR = 1.0f;
-    float mFALRMR = 1.0f;
-    u32 mFALR = 4;
-    u32 mSFALR = 1;
-    u32 mSSAET = 300;
+    f32 mLifeRecoverMultiplier = 1.0f;
+    f32 mFailActorLifeRecoverMultiplier = 1.0f;
+    u32 mFailActorLifeRecover = 4;
+    u32 mStoneFoodActorLifeRecover = 1;
+    u32 mCritEffectTime = 300;
 
     sead::SafeArray<CookingEffectEntry, NumEffectSlots> mCookingEffectEntries;
 
-    sead::SafeArray<float, NumIngredientsMax> mNMMR;
+    sead::SafeArray<f32, NumIngredientsMax> mIngredientNumMultipliers;
 
-    sead::SafeArray<int, NumIngredientsMax> mNMSSR;
+    sead::SafeArray<s32, NumIngredientsMax> mIngredientNumSuccessRates;
 
     CookItem mCookItem;
 

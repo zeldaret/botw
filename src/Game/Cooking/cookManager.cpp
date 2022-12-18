@@ -93,12 +93,12 @@ void CookingMgr::cookFail(CookItem& item) {
     if (item.actor_name == mFailActorName) {
         // Dubious food
         item.effect_time = 0;
-        const f32 min_recovery = (f32)(s32)mFALR;
+        const f32 min_recovery = (f32)(s32)mFailActorLifeRecover;
         life_recover = min_recovery > item.life_recover ? min_recovery : item.life_recover;
     } else {
         // Rock-hard food
         item.effect_time = 0;
-        life_recover = (f32)(s32)mSFALR;
+        life_recover = (f32)(s32)mStoneFoodActorLifeRecover;
     }
 
     item.life_recover = life_recover;
@@ -112,11 +112,11 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
     if (name.isEmpty() || name == mFailActorName) {
         item.actor_name.copy(mFailActorName);
         item.effect_time = 0;
-        life_recover = (f32)(s32)mFALR;
+        life_recover = (f32)(s32)mFailActorLifeRecover;
     } else {
         item.actor_name = name;
         item.effect_time = 0;
-        life_recover = (f32)(s32)mSFALR;
+        life_recover = (f32)(s32)mStoneFoodActorLifeRecover;
     }
 
     item.life_recover = life_recover;
@@ -155,7 +155,7 @@ void CookingMgr::cookCalcBoost(const IngredientArray& ingredients, CookItem& ite
         }
 
         if (num_ingredients >= 1)
-            threshold += mNMSSR[num_ingredients - 1];
+            threshold += mIngredientNumSuccessRates[num_ingredients - 1];
 
         if ((s32)sead::GlobalRandom::instance()->getU32(100) >= threshold)
             return;
@@ -281,7 +281,7 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
         }
         break;
     case TimeBonus:
-        item.effect_time += (s32)mSSAET;
+        item.effect_time += (s32)mCritEffectTime;
         break;
     case LifeBonus:
         item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
@@ -377,7 +377,7 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
     }
 
     if (mult_idx >= 1) {
-        price = (s32)(mNMMR[mult_idx - 1] * (float)item.item_price);
+        price = (s32)(mIngredientNumMultipliers[mult_idx - 1] * (float)item.item_price);
         item.item_price = price;
     } else {
         price = item.item_price;
@@ -496,9 +496,9 @@ void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookIt
     }
 
     if (isCookFailure(item)) {
-        item.life_recover = (f32)life_recover * mFALRMR;
+        item.life_recover = (f32)life_recover * mFailActorLifeRecoverMultiplier;
     } else if (effect_found) {
-        item.life_recover = (f32)life_recover * mLRMR;
+        item.life_recover = (f32)life_recover * mLifeRecoverMultiplier;
     } else {
         item.life_recover =
             (f32)life_recover * mCookingEffectEntries[(int)CookEffectId::LifeRecover].multiplier;
@@ -631,17 +631,17 @@ void CookingMgr::init(sead::Heap* heap) {
         mCookingEffectEntries[i].ssa = 0;
     }
 
-    mNMMR[0] = 1.0f;
-    mNMMR[1] = 1.0f;
-    mNMMR[2] = 1.0f;
-    mNMMR[3] = 1.0f;
-    mNMMR[4] = 1.0f;
+    mIngredientNumMultipliers[0] = 1.0f;
+    mIngredientNumMultipliers[1] = 1.0f;
+    mIngredientNumMultipliers[2] = 1.0f;
+    mIngredientNumMultipliers[3] = 1.0f;
+    mIngredientNumMultipliers[4] = 1.0f;
 
-    mNMSSR[0] = 0;
-    mNMSSR[1] = 5;
-    mNMSSR[2] = 10;
-    mNMSSR[3] = 15;
-    mNMSSR[4] = 20;
+    mIngredientNumSuccessRates[0] = 0;
+    mIngredientNumSuccessRates[1] = 5;
+    mIngredientNumSuccessRates[2] = 10;
+    mIngredientNumSuccessRates[3] = 15;
+    mIngredientNumSuccessRates[4] = 20;
 
     mFairyTonicName = "Item_Cook_C_16";
     mFairyTonicNameHash = sead::HashCRC32::calcStringHash(mFairyTonicName);
@@ -652,11 +652,11 @@ void CookingMgr::init(sead::Heap* heap) {
     mMonsterExtractName = "Item_Material_08";
     mMonsterExtractNameHash = sead::HashCRC32::calcStringHash(mMonsterExtractName);
 
-    mLRMR = 1.0;
-    mSFALR = 1;
-    mSSAET = 300;
-    mFALRMR = 1.0;
-    mFALR = 4;
+    mLifeRecoverMultiplier = 1.0;
+    mStoneFoodActorLifeRecover = 1;
+    mCritEffectTime = 300;
+    mFailActorLifeRecoverMultiplier = 1.0;
+    mFailActorLifeRecover = 4;
 
     al::ByamlIter iter;
     al::ByamlIter cei_iter;
@@ -682,15 +682,15 @@ void CookingMgr::init(sead::Heap* heap) {
         }
 
         if (iter.tryGetFloatByKey(&float_val, "LRMR") && float_val >= 0)
-            mLRMR = float_val;
+            mLifeRecoverMultiplier = float_val;
         if (iter.tryGetFloatByKey(&float_val, "FALRMR") && float_val >= 0)
-            mFALRMR = float_val;
+            mFailActorLifeRecoverMultiplier = float_val;
         if (iter.tryGetIntByKey(&int_val, "FALR") && int_val >= 0)
-            mFALR = int_val;
+            mFailActorLifeRecover = int_val;
         if (iter.tryGetIntByKey(&int_val, "SFALR") && int_val >= 0)
-            mSFALR = int_val;
+            mStoneFoodActorLifeRecover = int_val;
         if (iter.tryGetIntByKey(&int_val, "SSAET") && int_val >= 0)
-            mSSAET = int_val;
+            mCritEffectTime = int_val;
 
         if (iter.tryGetIterByKey(&cei_iter, "CEI")) {
             const int size = cei_iter.getSize();
@@ -728,7 +728,7 @@ void CookingMgr::init(sead::Heap* heap) {
 
             for (int i = 0; i < size; i++) {
                 if (cei_iter.tryGetFloatByIndex(&float_val, i) && i < NumIngredientsMax) {
-                    mNMMR[i] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
+                    mIngredientNumMultipliers[i] = sead::Mathf::clamp(float_val, 0.0f, 5.0f);
                 }
             }
         }
@@ -738,7 +738,7 @@ void CookingMgr::init(sead::Heap* heap) {
 
             for (int i = 0; i < size; i++) {
                 if (cei_iter.tryGetIntByIndex(&int_val, i) && i < NumIngredientsMax) {
-                    mNMSSR[i] = sead::Mathi::clamp(int_val, -100, 100);
+                    mIngredientNumSuccessRates[i] = sead::Mathi::clamp(int_val, -100, 100);
                 }
             }
         }
