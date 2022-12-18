@@ -210,21 +210,28 @@ enum class WaterCollisionMode {
     IgnoreWater = 1,
 };
 
+/// Collision filter info / collision mask that is used for entity rigid bodies.
+/// https://docs.google.com/spreadsheets/d/e/2PACX-1vQyEL5_Wee3MI23c-nHa4dMPJDVen9TMMcrOUX7Wka9NAH1AW9bkkq7ZJHawJkSzGOqgHUYc-83t4Or/pubhtml
 union EntityCollisionMask {
-    union Data {
+    union RegularMask {
         ContactLayer getLayer() const { return int(layer); }
         ContactLayer getLayerSensor() const { return int(layer + FirstSensor); }
         GroundHit getGroundHit() const { return int(ground_hit); }
 
         u32 raw;
         util::BitField<0, 5, u32> layer;
-        // TODO: figure out what this is
-        util::BitField<5, 5, u32> unk5;
-        util::BitField<10, 5, u32> unk10;
+
+        /// Only valid for ragdoll masks.
+        util::BitField<5, 5, u32> ragdoll_bone_index;
+        /// Only valid for ragdoll masks.
+        util::BitField<10, 5, u32> ragdoll_bone_index2;
+
+        /// Only valid for CustomReceiver masks.
         /// Layers to collide with for EntityQueryCustomReceiver entities.
         util::BitField<5, NumRegularEntityLayers, u32> query_custom_receiver_layer_mask;
-        util::BitField<24, 1, u32> unk24;
-        util::BitField<25, 1, u32> unk25;
+
+        /// Only valid for non-CustomReceiver masks.
+        util::BitField<16, 10, u32> group_handler_index;
         util::BitField<26, 4, u32> ground_hit;
     };
 
@@ -254,34 +261,34 @@ union EntityCollisionMask {
 
     static EntityCollisionMask make(ContactLayer layer, GroundHit ground_hit) {
         EntityCollisionMask mask;
-        mask.data.layer.Init(layer);
-        mask.data.ground_hit.Init(ground_hit);
+        mask.regular.layer.Init(layer);
+        mask.regular.ground_hit.Init(ground_hit);
         return mask;
     }
 
     ContactLayer getLayer() const {
-        return is_ground_hit_mask ? ground_hit.getLayer() : data.getLayer();
+        return is_ground_hit_mask ? ground_hit.getLayer() : regular.getLayer();
     }
 
     ContactLayer getLayerSensor() const {
         return is_ground_hit_mask ? ContactLayer(ContactLayer::SensorCustomReceiver) :
-                                    data.getLayerSensor();
+                                    regular.getLayerSensor();
     }
 
     GroundHit getGroundHit() const {
-        return is_ground_hit_mask ? GroundHit::HitAll : data.getGroundHit();
+        return is_ground_hit_mask ? GroundHit::HitAll : regular.getGroundHit();
     }
 
     u32 raw;
-    Data data;
+    RegularMask regular;
     GroundHitMask ground_hit;
+    /// Only valid in non-ragdoll, non-CustomReceiver mode.
     util::BitField<5, 2, GroundCollisionMode, u32> ground_col_mode;
+    /// Only valid in non-ragdoll, non-CustomReceiver mode.
     util::BitField<7, 1, WaterCollisionMode, u32> water_col_mode;
-    util::BitField<16, 10, u32> group_handler_index;
     /// If this flag is set, then this entity will always collide with ground or water,
     /// regardless of the configured GroundCollisionMode or WaterCollisionMode modes.
-    // TODO: is this "is_ragdoll"? See EntitySystemGroupHandler::makeCollisionFilterInfo.
-    util::BitField<30, 1, bool, u32> unk30;
+    util::BitField<30, 1, bool, u32> is_ragdoll;
     util::BitField<31, 1, bool, u32> is_ground_hit_mask;
 };
 static_assert(sizeof(EntityCollisionMask) == sizeof(u32));

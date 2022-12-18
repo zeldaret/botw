@@ -610,7 +610,7 @@ bool RigidBody::isGroundCollisionEnabled() const {
 
     bool enabled = false;
     enabled |= info.ground_col_mode != GroundCollisionMode::IgnoreGround;
-    enabled |= info.unk30;
+    enabled |= info.is_ragdoll;
     return enabled;
 }
 
@@ -636,7 +636,7 @@ bool RigidBody::isWaterCollisionEnabled() const {
 
     bool enabled = false;
     // unk30 enables all collisions?
-    enabled |= info.unk30;
+    enabled |= info.is_ragdoll;
     enabled |= info.water_col_mode != WaterCollisionMode::IgnoreWater;
     return enabled;
 }

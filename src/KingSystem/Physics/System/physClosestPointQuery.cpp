@@ -28,9 +28,9 @@ bool ClosestPointQuery::isSuccess() const {
 
 void ClosestPointQuery::setLayerMasksAndBodyCollisionFilterInfo(const LayerMaskBuilder& builder) {
     EntityCollisionMask mask;
-    mask.data.query_custom_receiver_layer_mask =
+    mask.regular.query_custom_receiver_layer_mask =
         builder.getMasks()[int(ContactLayerType::Entity)].layers;
-    mask.data.layer = ContactLayer::EntityQueryCustomReceiver;
+    mask.regular.layer = ContactLayer::EntityQueryCustomReceiver;
     mBody->setCollisionFilterInfo(mask.raw);
 
     setLayerMasks(builder);

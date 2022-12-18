@@ -112,27 +112,30 @@ hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
     const EntityCollisionMask a{infoA};
     const EntityCollisionMask b{infoB};
 
-    constexpr auto GroupHandlerIdxMask = decltype(a.group_handler_index)::GetMask();
-    constexpr auto GroupHandlerIdxShift = decltype(a.group_handler_index)::StartBit();
-
     if (!EntityCollisionMask(infoA | infoB).is_ground_hit_mask) {
-        if (a.unk30 && b.unk30) {
+        constexpr auto GroupHandlerIdxMask = decltype(a.regular.group_handler_index)::GetMask();
+        constexpr auto GroupHandlerIdxShift = decltype(a.regular.group_handler_index)::StartBit();
+
+        if (a.is_ragdoll && b.is_ragdoll) {
             if (((infoA ^ infoB) & GroupHandlerIdxMask) != 0) {
-                if (testHandler(a.group_handler_index) || testHandler(b.group_handler_index))
+                if (testHandler(a.regular.group_handler_index) ||
+                    testHandler(b.regular.group_handler_index)) {
                     return false;
+                }
             } else if ((infoA & GroupHandlerIdxMask) >> GroupHandlerIdxShift != 0) {
-                if (a.data.unk5 == b.data.unk10 || b.data.unk5 == a.data.unk10)
+                if (a.regular.ragdoll_bone_index == b.regular.ragdoll_bone_index2 ||
+                    b.regular.ragdoll_bone_index == a.regular.ragdoll_bone_index2)
                     return false;
             }
             return true;
         }
 
-        const auto layerA = static_cast<ContactLayer::ValueType>(a.data.layer.Value());
-        const auto layerB = static_cast<ContactLayer::ValueType>(b.data.layer.Value());
+        const auto layerA = static_cast<ContactLayer::ValueType>(a.regular.layer.Value());
+        const auto layerB = static_cast<ContactLayer::ValueType>(b.regular.layer.Value());
 
         if (layerA != ContactLayer::EntityQueryCustomReceiver &&
             layerB != ContactLayer::EntityQueryCustomReceiver) {
-            if (!a.unk30 && !b.unk30) {
+            if (!a.is_ragdoll && !b.is_ragdoll) {
                 if (!shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
                     return false;
                 if (!shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
@@ -140,8 +143,10 @@ hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
             }
 
             if (((infoA ^ infoB) & GroupHandlerIdxMask) != 0) {
-                if (testHandler(a.group_handler_index) || testHandler(b.group_handler_index))
+                if (testHandler(a.regular.group_handler_index) ||
+                    testHandler(b.regular.group_handler_index)) {
                     return false;
+                }
             } else if (((infoA & GroupHandlerIdxMask) >> GroupHandlerIdxShift) > 15) {
                 return false;
             }
@@ -154,9 +159,9 @@ hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
         }
 
         if (layerA == ContactLayer::EntityQueryCustomReceiver)
-            return a.data.query_custom_receiver_layer_mask & (1 << layerB);
+            return a.regular.query_custom_receiver_layer_mask & (1 << layerB);
         else
-            return b.data.query_custom_receiver_layer_mask & (1 << layerA);
+            return b.regular.query_custom_receiver_layer_mask & (1 << layerA);
     }
 
     if (a.is_ground_hit_mask && b.is_ground_hit_mask) {
@@ -176,37 +181,37 @@ hkBool EntityGroupFilter::testCollisionForEntities(u32 infoA, u32 infoB) const {
 
     if (a.is_ground_hit_mask && !b.is_ground_hit_mask) {
         const auto layerA = static_cast<ContactLayer::ValueType>(a.ground_hit.layer.Value());
-        const auto layerB = static_cast<ContactLayer::ValueType>(b.data.layer.Value());
+        const auto layerB = static_cast<ContactLayer::ValueType>(b.regular.layer.Value());
         entity_mask = b;
         ground_hit_mask = a;
 
         if (layerB == ContactLayer::EntityQueryCustomReceiver)
-            return b.data.query_custom_receiver_layer_mask & (1 << layerA);
+            return b.regular.query_custom_receiver_layer_mask & (1 << layerA);
 
-        if (!b.unk30 && !shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
+        if (!b.is_ragdoll && !shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
             return false;
-        if (!b.unk30 && !shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
+        if (!b.is_ragdoll && !shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
             return false;
         if (!testLayerCollision(layerA, layerB))
             return false;
 
     } else /* A entity, B ground hit */ {
-        const auto layerA = static_cast<ContactLayer::ValueType>(a.data.layer.Value());
+        const auto layerA = static_cast<ContactLayer::ValueType>(a.regular.layer.Value());
         const auto layerB = static_cast<ContactLayer::ValueType>(b.ground_hit.layer.Value());
         entity_mask = a;
         ground_hit_mask = b;
 
         if (layerA == ContactLayer::EntityQueryCustomReceiver)
-            return a.data.query_custom_receiver_layer_mask & (1 << layerB);
+            return a.regular.query_custom_receiver_layer_mask & (1 << layerB);
 
-        if (!a.unk30 && !shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
+        if (!a.is_ragdoll && !shouldHandleGroundCollision(infoA, infoB, layerA, layerB))
             return false;
-        if (!a.unk30 && !shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
+        if (!a.is_ragdoll && !shouldHandleWaterCollision(infoA, infoB, layerA, layerB))
             return false;
         if (!testLayerCollision(layerB, layerA))
             return false;
     }
-    return !(ground_hit_mask.ground_hit.ground_hit_types & (1 << entity_mask.data.ground_hit));
+    return !(ground_hit_mask.ground_hit.ground_hit_types & (1 << entity_mask.regular.ground_hit));
 }
 
 hkBool EntityGroupFilter::testCollisionForPhantom(u32 infoPhantom, u32 infoB) const {
@@ -217,7 +222,7 @@ hkBool EntityGroupFilter::testCollisionForPhantom(u32 infoPhantom, u32 infoB) co
     const EntityCollisionMask info{infoB};
     if (info.is_ground_hit_mask)
         return infoPhantomData.raw & (1 << info.ground_hit.getLayer());
-    return infoPhantomData.layer_mask & (1 << info.data.layer);
+    return infoPhantomData.layer_mask & (1 << info.regular.layer);
 }
 
 hkBool EntityGroupFilter::isCollisionEnabled(const hkpCollidable& a, const hkpCollidable& b) const {
@@ -336,19 +341,19 @@ hkBool EntityGroupFilter::testCollisionForRayCasting(u32 infoRayCast, u32 info) 
     if (b.is_ground_hit_mask)
         return checkCollisionWithGroundHitMask(b.ground_hit, a);
 
-    const u32 bHandlerIdx = b.group_handler_index;
+    const u32 bHandlerIdx = b.regular.group_handler_index;
     const u32 aHandlerIdx = a.group_handler_index;
 
     if (aHandlerIdx == bHandlerIdx) {
         if (bHandlerIdx > 15)
             return false;
-        return a.layer_mask & (1 << b.data.layer);
+        return a.layer_mask & (1 << b.regular.layer);
     }
 
     if (testHandler(aHandlerIdx) || testHandler(bHandlerIdx))
         return false;
 
-    return a.layer_mask & (1 << b.data.layer);
+    return a.layer_mask & (1 << b.regular.layer);
 }
 
 KSYS_ALWAYS_INLINE hkBool EntityGroupFilter::isCollisionEnabled(const hkpShapeRayCastInput& aInput,
@@ -420,7 +425,7 @@ u32 makeEntityCollisionMask(ContactLayer layer, u32 mask) {
     if (current.is_ground_hit_mask) {
         return makeEntityGroundHitMaskImpl<true>(layer, mask).raw;
     } else {
-        current.data.layer.SetUnsafe(layer);
+        current.regular.layer.SetUnsafe(layer);
         return current.raw;
     }
 }
@@ -430,7 +435,7 @@ u32 setEntityCollisionMaskGroundHit(GroundHit ground_hit, u32 mask) {
     if (current.is_ground_hit_mask) {
         // This shouldn't happen: this function is not supposed to be called on ground hit masks.
     } else {
-        current.data.ground_hit.SetUnsafe(ground_hit);
+        current.regular.ground_hit.SetUnsafe(ground_hit);
     }
     return current.raw;
 }
