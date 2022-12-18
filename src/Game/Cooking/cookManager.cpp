@@ -54,7 +54,7 @@ void CookItem::reset() {
     actor_name.clear();
     life_recover = 0.0f;
     effect_time = 0;
-    _224 = false;
+    is_crit = false;
     item_price = 0;
     effect_id = CookEffectId::None;
     stamina_recover = 0.0f;
@@ -67,7 +67,7 @@ void CookItem::copy(CookItem& to) const {
     to.actor_name = actor_name;
     to.life_recover = life_recover;
     to.effect_time = effect_time;
-    to._224 = _224;
+    to.is_crit = is_crit;
     to.item_price = item_price;
     to.stamina_recover = stamina_recover;
     to.effect_id = effect_id;
@@ -228,7 +228,7 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
 
     Bonus bonus = LifeBonus;
 
-    item._224 = true;
+    item.is_crit = true;
 
     if (item.effect_id != CookEffectId::None) {
         const f32 life_recover = item.life_recover;

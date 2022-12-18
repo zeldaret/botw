@@ -42,7 +42,7 @@ struct CookItem {
     s32 item_price{};
     CookEffectId effect_id = CookEffectId::None;
     f32 stamina_recover{};
-    bool _224{};
+    bool is_crit{};
 };
 KSYS_CHECK_SIZE_NX150(CookItem, 0x228);
 
