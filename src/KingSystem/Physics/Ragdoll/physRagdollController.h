@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
@@ -40,14 +41,23 @@ enum class PreserveVelocities : bool;
 // TODO
 class RagdollController : public sead::hostio::Node {
 public:
+    enum class SyncToThisBone : bool;
+
+    struct Config {
+        float _0;
+        float _4;
+        float _8;
+        float _c;
+        float _10;
+        float _14;
+        hkpConstraintInstance::ConstraintPriority priority = hkpConstraintInstance::PRIORITY_TOI;
+    };
+
     explicit RagdollController(SystemGroupHandler* handler);
     virtual ~RagdollController();
 
     bool init(const RagdollParam* param, sead::DirectResource* res, gsys::Model* model,
               sead::Heap* heap);
-
-    // 0x0000007101223320
-    void update();
 
     bool isAddedToWorld() const;
     void removeFromWorldImmediately();
@@ -93,8 +103,22 @@ public:
     int getNumChildBones(const RigidBody* body) const;
     RagdollRigidBody* getChildBoneRigidBody(const RigidBody* body, int index) const;
 
-    static void setUnk1(u8 value);
+    int getConstraintIndexByName(const sead::SafeString& name) const;
+    int getNumConstraints() const;
+    void enableConstraint(int index, bool enable);
+    bool isConstraintEnabled(int index) const;
 
+    void setContactLayer(ContactLayer layer);
+    /// Sets whether a bone is keyframed.
+    /// @param sync_to_this_bone Only used if keyframed = true.
+    void setKeyframed(int bone_index, bool keyframed, SyncToThisBone sync_to_this_bone);
+    void setUnk1(u8 value);
+    static void setMaximumUnk1(u8 value);
+    void stopForcingKeyframing();
+
+    void update();
+
+    static Config& getConfig();
     auto& getRigidBodies_() { return mBoneRigidBodies; }
 
 private:
@@ -109,9 +133,11 @@ private:
     };
 
     enum class Flag {
+        _10 = 0x10,
         _80 = 0x80,
         /// Whether this controller has been registered with the RagdollControllerMgr.
         IsRegistered = 0x100,
+        _200 = 0x200,
     };
 
     struct BoneVectors {
@@ -129,6 +155,8 @@ private:
 
     void registerSelf();
     void unregisterSelf();
+
+    void updateGravityFactorOverride();
 
     BoneAccessor* getBoneAccessor() const;
 
@@ -150,16 +178,16 @@ private:
     // TODO: rename
     sead::Buffer<float> mBoneStuff2;
     float _98 = 0.1;
-    float _9c = 1.0;
+    float mGravityFactorOverride = 1.0;
     u32 _a0 = 0;
     // TODO: type
     u8* _a8 = nullptr;
     u32 _b0 = 0;
     const RagdollParam* mRagdollParam = nullptr;
     sead::TypedBitFlag<Flag> mFlags;
-    u32 _c4 = 0;
-    u32 _c8 = 0;
-    u32 _cc = 0;
+    sead::BitFlag32 mDisabledConstraints;
+    sead::BitFlag32 mKeyframedBones;
+    sead::BitFlag32 mKeyframedBonesToSyncTo;
     gsys::Model* mModel = nullptr;
     RigidBody* mExtraRigidBody = nullptr;
     void* _e0 = nullptr;

@@ -26,14 +26,11 @@
 
 namespace ksys::phys {
 
-static u8 sUnk1 = 15;
-
-void RagdollController::setUnk1(u8 value) {
-    sUnk1 = value;
-}
+static u8 sRagdollCtrlUnk1 = 15;
+static RagdollController::Config sRagdollCtrlConfig;
 
 RagdollController::RagdollController(SystemGroupHandler* handler)
-    : mGroupHandler(handler), _e8(sUnk1), _e9(sUnk1) {}
+    : mGroupHandler(handler), _e8(sRagdollCtrlUnk1), _e9(sRagdollCtrlUnk1) {}
 
 RagdollController::~RagdollController() {
     finalize();
@@ -469,6 +466,128 @@ int RagdollController::getNumChildBones(const RigidBody* body) const {
 
 RagdollRigidBody* RagdollController::getChildBoneRigidBody(const RigidBody* body, int index) const {
     return sead::DynamicCast<const RagdollRigidBody>(body)->getChildBodies_()[index];
+}
+
+int RagdollController::getConstraintIndexByName(const sead::SafeString& name) const {
+    for (int i = 0, n = getNumConstraints(); i < n; ++i) {
+        if (name == mRagdollInstance->m_constraints[i]->getName())
+            return i;
+    }
+    return -1;
+}
+
+int RagdollController::getNumConstraints() const {
+    return mRagdollInstance->m_constraints.size();
+}
+
+void RagdollController::enableConstraint(int index, bool enable) {
+    mDisabledConstraints.changeBit(index, !enable);
+}
+
+bool RagdollController::isConstraintEnabled(int index) const {
+    return mDisabledConstraints.isOffBit(index);
+}
+
+void RagdollController::setContactLayer(ContactLayer layer) {
+    if (mContactLayer.value() == layer)
+        return;
+
+    if (mFlags.isOn(Flag::_10)) {
+        for (int bone = 0, num_bones = mBoneRigidBodies.size(); bone < num_bones; ++bone) {
+            if (mKeyframedBones.isOffBit(bone))
+                mBoneRigidBodies[bone]->setContactLayer(layer);
+        }
+    }
+
+    mContactLayer = layer;
+}
+
+void RagdollController::setKeyframed(int bone_index, bool keyframed,
+                                     SyncToThisBone sync_to_this_bone) {
+    mKeyframedBones.changeBit(bone_index, keyframed);
+
+    if (keyframed) {
+        mBoneRigidBodies[bone_index]->setContactLayer(ContactLayer::EntityNoHit);
+        mBoneRigidBodies[bone_index]->changeMotionType(MotionType::Keyframed);
+    } else {
+        mBoneRigidBodies[bone_index]->setContactLayer(mContactLayer);
+        mBoneRigidBodies[bone_index]->changeMotionType(MotionType::Dynamic);
+    }
+
+    mKeyframedBonesToSyncTo.changeBit(bone_index, keyframed && bool(sync_to_this_bone));
+}
+
+// NON_MATCHING: swapped csel operands
+void RagdollController::setUnk1(u8 value) {
+    value = sead::Mathi::min(value, sRagdollCtrlUnk1);
+    _e9 = value;
+    _e8 = value;
+}
+
+void RagdollController::setMaximumUnk1(u8 value) {
+    sRagdollCtrlUnk1 = value;
+}
+
+void RagdollController::stopForcingKeyframing() {
+    if (mFlags.isOn(Flag::_10)) {
+        for (int i = 0, n = mBoneRigidBodies.size(); i < n; ++i) {
+            setKeyframed(i, false, {});
+        }
+    } else {
+        mKeyframedBones.makeAllZero();
+        mKeyframedBonesToSyncTo.makeAllZero();
+    }
+}
+
+void RagdollController::update() {
+    if (!isAddedToWorld()) {
+        for (int i = 0, n = getNumConstraints(); i < n; ++i) {
+            auto* constraint = mRagdollInstance->m_constraints[i];
+            if (constraint->getOwner() != nullptr) {
+                System::instance()
+                    ->getHavokWorld(ContactLayerType::Entity)
+                    ->removeConstraint(constraint);
+            }
+        }
+        return;
+    }
+
+    for (int i = 0, n = getNumConstraints(); i < n; ++i) {
+        auto* constraint = mRagdollInstance->m_constraints[i];
+        if (constraint->getOwner() == nullptr) {
+            System::instance()->getHavokWorld(ContactLayerType::Entity)->addConstraint(constraint);
+        }
+
+        const bool should_enable = mDisabledConstraints.isOffBit(i);
+        if (should_enable != constraint->isEnabled()) {
+            if (should_enable) {
+                constraint->setPriority(getConfig().priority);
+                constraint->enable();
+            } else {
+                constraint->setPriority(hkpConstraintInstance::PRIORITY_PSI);
+                constraint->disable();
+            }
+        }
+    }
+
+    updateGravityFactorOverride();
+}
+
+RagdollController::Config& RagdollController::getConfig() {
+    return sRagdollCtrlConfig;
+}
+
+void RagdollController::updateGravityFactorOverride() {
+    if (mFlags.isOff(Flag::_200))
+        return;
+
+    if (System::instance() == nullptr)
+        return;
+
+    const float factor_divisor = System::instance()->get6c();
+    for (int i = 0, n = mBoneRigidBodies.size(); i < n; ++i) {
+        mBoneRigidBodies[i]->setGravityFactor(mGravityFactorOverride / factor_divisor);
+    }
 }
 
 RagdollController::ScopedPhysicsLock::ScopedPhysicsLock(const RagdollController* ctrl)
