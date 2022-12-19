@@ -90,7 +90,14 @@ public:
     void setContactNone();
     void setContactAll(int bone_index);
     void setContactNone(int bone_index);
-    u32 sub_7101221CC4();
+
+    enum class WorldState {
+        AddedToWorld = 0,
+        NotAddedToWorld = 2,
+    };
+    void changeWorldState(WorldState state);
+    WorldState getWorldState() const;
+
     void setExtraRigidBody(RigidBody* body, int bone_index);
     void setGravityFactor(float factor);
 
@@ -102,6 +109,9 @@ public:
     RagdollRigidBody* getParentBoneRigidBody(const RigidBody* body) const;
     int getNumChildBones(const RigidBody* body) const;
     RagdollRigidBody* getChildBoneRigidBody(const RigidBody* body, int index) const;
+
+    sead::Matrix34f getTransform(int bone_index) const;
+    sead::Matrix34f getTransformWithCustomYAxis(int bone_index, const sead::Vector3f& y_axis) const;
 
     int getConstraintIndexByName(const sead::SafeString& name) const;
     int getNumConstraints() const;
@@ -133,7 +143,12 @@ private:
     };
 
     enum class Flag {
-        _10 = 0x10,
+        _2 = 0x2,
+        _4 = 0x4,
+        _8 = 0x8,
+        AddedToWorld = 0x10,
+        _20 = 0x20,
+        _40 = 0x40,
         _80 = 0x80,
         /// Whether this controller has been registered with the RagdollControllerMgr.
         IsRegistered = 0x100,
@@ -149,6 +164,7 @@ private:
 
     bool doInit(const RagdollParam* param, sead::DirectResource* res, gsys::Model* model,
                 sead::Heap* heap);
+    void allocateBoneTransforms(int num_bones, sead::Heap* heap);
     void finalize();
     void removeConstraints();
     void setTransform(const hkQsTransformf& transform);
@@ -179,10 +195,8 @@ private:
     sead::Buffer<float> mBoneStuff2;
     float _98 = 0.1;
     float mGravityFactorOverride = 1.0;
-    u32 _a0 = 0;
-    // TODO: type
-    u8* _a8 = nullptr;
-    u32 _b0 = 0;
+    sead::Buffer<hkQsTransformf> mBoneTransforms;
+    u32 mBoneTransformsByteSize = 0;
     const RagdollParam* mRagdollParam = nullptr;
     sead::TypedBitFlag<Flag> mFlags;
     sead::BitFlag32 mDisabledConstraints;

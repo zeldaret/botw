@@ -192,7 +192,7 @@ void InstanceSet::sub_7100FBD284(const sead::Matrix34f& mtx) {
     if (mRagdollController == nullptr)
         return;
 
-    if (mRagdollController->sub_7101221CC4() == 0)
+    if (mRagdollController->getWorldState() == RagdollController::WorldState::AddedToWorld)
         sub_7100FBC890(mtx, false, false);
 }
 

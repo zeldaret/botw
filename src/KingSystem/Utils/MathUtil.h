@@ -56,4 +56,10 @@ inline bool isMatrixInvalid(const sead::Matrix34f& matrix) {
     return false;
 }
 
+inline sead::Vector3f getCol(const sead::Matrix34f& mtx, int col) {
+    sead::Vector3f result;
+    mtx.getBase(result, col);
+    return result;
+}
+
 }  // namespace ksys::util

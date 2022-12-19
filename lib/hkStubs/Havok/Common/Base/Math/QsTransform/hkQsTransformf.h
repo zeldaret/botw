@@ -56,6 +56,8 @@ public:
     /// this *= b
     HK_FORCE_INLINE void setMulEq(const hkQsTransformf& b);
 
+    bool isOk(hkFloat32 epsilon = hkFloat32(1e-3f)) const;
+
     void fastRenormalize();
 
     hkVector4f m_translation;

@@ -9,7 +9,10 @@
 #include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
+#include <basis/seadRawPrint.h>
+#include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
+#include <memory>
 #include <resource/seadResource.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
@@ -22,6 +25,7 @@
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/IteratorUtil.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
@@ -87,17 +91,7 @@ bool RagdollController::doInit(const RagdollParam* param, sead::DirectResource* 
     }
 
     mBoneRigidBodies.allocBufferAssert(num_bones, heap);
-
-    {
-        static constexpr size_t Alignment = 0x20;
-        _b0 = sead::Mathu::roundUpPow2(sizeof(hkQsTransformf) * num_bones, Alignment);
-        auto* buffer = new (heap, Alignment) u8[_b0];
-        if (num_bones > 0 && buffer != nullptr) {
-            _a0 = num_bones;
-            _a8 = buffer;
-        }
-    }
-
+    allocateBoneTransforms(num_bones, heap);
     mBoneVectors.allocBufferAssert(num_bones, heap);
     mBoneStuff.allocBufferAssert(num_bones, heap);
 
@@ -158,6 +152,14 @@ bool RagdollController::doInit(const RagdollParam* param, sead::DirectResource* 
     return true;
 }
 
+void RagdollController::allocateBoneTransforms(int num_bones, sead::Heap* heap) {
+    static constexpr size_t Alignment = 0x20;
+    mBoneTransformsByteSize =
+        sead::Mathu::roundUpPow2(sizeof(hkQsTransformf) * num_bones, Alignment);
+    auto* buffer = new (heap, Alignment) u8[mBoneTransformsByteSize];
+    mBoneTransforms.setBuffer(num_bones, new (buffer) hkQsTransformf[num_bones]);
+}
+
 void RagdollController::registerSelf() {
     const bool registered = System::instance()->getRagdollControllerMgr()->addController(this);
     mFlags.change(Flag::IsRegistered, registered);
@@ -208,9 +210,10 @@ void RagdollController::finalize() {
     mBoneStuff.freeBuffer();
     mBoneStuff2.freeBuffer();
 
-    if (_b0) {
-        delete[] _a8;
-        _b0 = 0;
+    if (mBoneTransformsByteSize != 0) {
+        std::destroy_n(mBoneTransforms.getBufferPtr(), mBoneTransforms.size());
+        delete[] reinterpret_cast<u8*>(mBoneTransforms.getBufferPtr());
+        mBoneTransformsByteSize = 0;
     }
 }
 
@@ -414,6 +417,64 @@ void RagdollController::setContactNone(int bone_index) {
     mBoneRigidBodies[bone_index]->setContactNone(false);
 }
 
+void RagdollController::changeWorldState(RagdollController::WorldState state) {
+    if (getWorldState() == state)
+        return;
+
+    const int num_rigid_bodies = mRagdollInstance->m_rigidBodies.size();
+
+    ScopedPhysicsLock lock{this};
+
+    if (state == WorldState::AddedToWorld) {
+        if (mModel) {
+            if (auto* accessor = getModelBoneAccessor())
+                accessor->copyModelPoseToHavok(ModelBoneAccessor::EnableScale::No);
+
+            setTransform(mModel->getMatrix());
+        }
+
+        for (int i = 0, n = num_rigid_bodies; i < n; ++i) {
+            mBoneRigidBodies[i]->addToWorld();
+
+            mBoneRigidBodies[i]->setLinearVelocity(sead::Vector3f::zero);
+            mBoneRigidBodies[i]->setAngularVelocity(sead::Vector3f::zero);
+
+            if (mKeyframedBones.isOnBit(i)) {
+                mBoneRigidBodies[i]->changeMotionType(MotionType::Keyframed);
+                mBoneRigidBodies[i]->setContactLayer(ContactLayer::EntityNoHit);
+            } else {
+                mBoneRigidBodies[i]->changeMotionType(MotionType::Dynamic);
+                mBoneRigidBodies[i]->setContactLayer(mContactLayer);
+            }
+        }
+
+        for (auto& x : mBoneStuff)
+            x = 1;
+
+        mFlags.reset(Flag::_8);
+        _e8 = _e9;
+
+        for (auto* body : mBoneRigidBodies)
+            body->setContactNone(true);
+
+        mFlags.set(Flag::_20);
+        mFlags.set(Flag::AddedToWorld);
+        mFlags.reset(Flag::_40);
+        mFlags.reset(Flag::_2);
+        mFlags.reset(Flag::_4);
+    } else {
+        for (int i = 0, n = num_rigid_bodies; i < n; ++i)
+            mBoneRigidBodies[i]->removeFromWorld();
+
+        mFlags.reset(Flag::AddedToWorld);
+        mFlags.reset(Flag::_40);
+    }
+}
+
+RagdollController::WorldState RagdollController::getWorldState() const {
+    return mFlags.isOn(Flag::AddedToWorld) ? WorldState::AddedToWorld : WorldState::NotAddedToWorld;
+}
+
 void RagdollController::setExtraRigidBody(RigidBody* body, int bone_index) {
     mExtraRigidBody = body;
     mBoneIndexForExtraRigidBody = bone_index;
@@ -468,6 +529,88 @@ RagdollRigidBody* RagdollController::getChildBoneRigidBody(const RigidBody* body
     return sead::DynamicCast<const RagdollRigidBody>(body)->getChildBodies_()[index];
 }
 
+sead::Matrix34f RagdollController::getTransform(int bone_index) const {
+    if (mFlags.isOff(Flag::_40)) {
+        if (util::isMatrixInvalid(mModel->getMatrix()))
+            return sead::Matrix34f::ident;
+
+        return mModel->getMatrix();
+    }
+
+    const sead::Matrix34f parent_transform = mBoneRigidBodies[bone_index]->getTransform();
+    hkQsTransformf hk_parent_transform;
+    toHkQsTransform(&hk_parent_transform, parent_transform, sead::Vector3f::ones);
+
+    hkQsTransformf result;
+    result.setMulMulInverse(hk_parent_transform, mBoneTransforms[bone_index]);
+
+    const bool parent_ok = hk_parent_transform.isOk();
+    SEAD_ASSERT(parent_ok);
+    const bool bone_ok = mBoneTransforms[bone_index].isOk();
+    SEAD_ASSERT(bone_ok);
+    const bool result_ok = result.isOk();
+    SEAD_ASSERT(result_ok);
+
+    sead::Matrix34f out;
+    toMtx34(&out, result);
+    return out;
+}
+
+sead::Matrix34f RagdollController::getTransformWithCustomYAxis(int bone_index,
+                                                               const sead::Vector3f& y_axis) const {
+    if (mFlags.isOff(Flag::_40)) {
+        if (util::isMatrixInvalid(mModel->getMatrix()))
+            return sead::Matrix34f::ident;
+
+        return mModel->getMatrix();
+    }
+
+    sead::Matrix34f transform = mBoneRigidBodies[bone_index]->getTransform();
+
+    {
+        sead::Vector3f v1 = (transform(1, 1) > 0.0f) ? y_axis : -y_axis;
+        v1.normalize();
+
+        sead::Vector3f c2 = util::getCol(transform, 2);
+        c2.normalize();
+
+        sead::Vector3f v0;
+        // Compute the cross product of v1 and c2.
+        // If v1 and c2 are collinear, then their cross product will be the zero vector;
+        // compute the cross product of v1 and the first column instead in that case.
+        // (That product should never be zero because the first column and u2 are not collinear.)
+        const auto dot = sead::Mathf::abs(v1.dot(c2));
+        // XXX: this should probably check if the dot product is approximately equal to 1.0 instead
+        v0.setCross(v1, dot >= 1.0f ? util::getCol(transform, 0) : c2);
+        v0.normalize();
+
+        sead::Vector3f v2;
+        v2.setCross(v0, v1);
+        v2.normalize();
+
+        transform.setBase(0, v0);
+        transform.setBase(1, v1);
+        transform.setBase(2, v2);
+    }
+
+    hkQsTransformf hk_parent_transform;
+    toHkQsTransform(&hk_parent_transform, transform, sead::Vector3f::ones);
+
+    hkQsTransformf result;
+    result.setMulMulInverse(hk_parent_transform, mBoneTransforms[bone_index]);
+
+    const bool parent_ok = hk_parent_transform.isOk();
+    SEAD_ASSERT(parent_ok);
+    const bool bone_ok = mBoneTransforms[bone_index].isOk();
+    SEAD_ASSERT(bone_ok);
+    const bool result_ok = result.isOk();
+    SEAD_ASSERT(result_ok);
+
+    sead::Matrix34f out;
+    toMtx34(&out, result);
+    return out;
+}
+
 int RagdollController::getConstraintIndexByName(const sead::SafeString& name) const {
     for (int i = 0, n = getNumConstraints(); i < n; ++i) {
         if (name == mRagdollInstance->m_constraints[i]->getName())
@@ -492,7 +635,7 @@ void RagdollController::setContactLayer(ContactLayer layer) {
     if (mContactLayer.value() == layer)
         return;
 
-    if (mFlags.isOn(Flag::_10)) {
+    if (mFlags.isOn(Flag::AddedToWorld)) {
         for (int bone = 0, num_bones = mBoneRigidBodies.size(); bone < num_bones; ++bone) {
             if (mKeyframedBones.isOffBit(bone))
                 mBoneRigidBodies[bone]->setContactLayer(layer);
@@ -528,7 +671,7 @@ void RagdollController::setMaximumUnk1(u8 value) {
 }
 
 void RagdollController::stopForcingKeyframing() {
-    if (mFlags.isOn(Flag::_10)) {
+    if (mFlags.isOn(Flag::AddedToWorld)) {
         for (int i = 0, n = mBoneRigidBodies.size(); i < n; ++i) {
             setKeyframed(i, false, {});
         }
