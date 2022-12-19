@@ -518,7 +518,7 @@ void RagdollController::setKeyframed(int bone_index, bool keyframed,
 }
 
 void RagdollController::setUnk1(u8 value) {
-    value = sead::Mathi::clampMax(value, sRagdollCtrlUnk1);
+    value = sead::Mathi::clamp(value, 0, sRagdollCtrlUnk1);
     _e9 = value;
     _e8 = value;
 }
