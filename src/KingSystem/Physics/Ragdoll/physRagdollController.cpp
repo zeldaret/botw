@@ -517,9 +517,8 @@ void RagdollController::setKeyframed(int bone_index, bool keyframed,
     mKeyframedBonesToSyncTo.changeBit(bone_index, keyframed && bool(sync_to_this_bone));
 }
 
-// NON_MATCHING: swapped csel operands
 void RagdollController::setUnk1(u8 value) {
-    value = sead::Mathi::min(value, sRagdollCtrlUnk1);
+    value = sead::Mathi::clampMax(value, sRagdollCtrlUnk1);
     _e9 = value;
     _e8 = value;
 }
