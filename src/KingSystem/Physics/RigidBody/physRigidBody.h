@@ -34,6 +34,15 @@ class RigidBodyMotionSensor;
 class SystemGroupHandler;
 class UserTag;
 
+enum class ShouldFreeze : bool;
+enum class PreserveVelocities : bool;
+enum class PreserveMaxImpulse : bool;
+enum class Fixed : bool;
+enum class MarkLinearVelAsDirty : bool;
+enum class PropagateToLinkedMotions : bool;
+enum class KeepAngularVelocity : bool;
+enum class TakeAngularVelocityIntoAccount : bool;
+
 class RigidBase {
 public:
     virtual ~RigidBase() = default;
@@ -201,9 +210,10 @@ public:
     ContactPointInfo* getContactPointInfo() const { return mContactPointInfo; }
     void setContactPointInfo(ContactPointInfo* info);
 
-    void freeze(bool should_freeze, bool preserve_velocities, bool preserve_max_impulse);
-    void setFixedAndPreserveImpulse(bool fixed, bool mark_linear_vel_as_dirty);
-    void setFixed(bool fixed, bool preserve_velocities);
+    void freeze(ShouldFreeze should_freeze, PreserveVelocities preserve_velocities,
+                PreserveMaxImpulse preserve_max_impulse);
+    void setFixedAndPreserveImpulse(Fixed fixed, MarkLinearVelAsDirty mark_linear_vel_as_dirty);
+    void setFixed(Fixed fixed, PreserveVelocities preserve_velocities);
     void resetFrozenState();
 
     // 0x0000007100f8ee50 - FIXME: figure out what type is
@@ -282,7 +292,9 @@ public:
 
     void setColor(const sead::Color4f& color, const void* a, bool b);
 
-    void setPosition(const sead::Vector3f& position, bool propagate_to_linked_motions);
+    void setPosition(
+        const sead::Vector3f& position,
+        PropagateToLinkedMotions propagate_to_linked_motions = PropagateToLinkedMotions{true});
     void getPosition(sead::Vector3f* position) const;
     sead::Vector3f getPosition() const;
     virtual void onImpulse(RigidBody* body_b, float impulse) const;
@@ -296,7 +308,9 @@ public:
 
     void getTransform(sead::Matrix34f* mtx) const;
     sead::Matrix34f getTransform() const;
-    void setTransform(const sead::Matrix34f& mtx, bool propagate_to_linked_motions);
+    void setTransform(
+        const sead::Matrix34f& mtx,
+        PropagateToLinkedMotions propagate_to_linked_motions = PropagateToLinkedMotions{true});
     bool isTransformDirty() const;
 
     void updateShape();
@@ -332,7 +346,8 @@ public:
     /// Modify the body's position by changing the linear velocity.
     /// This is preferable to setting the position directly (see changePositionAndRotation for an
     /// explanation).
-    void changePosition(const sead::Vector3f& target_position, bool keep_angular_velocity,
+    void changePosition(const sead::Vector3f& target_position,
+                        KeepAngularVelocity keep_angular_velocity,
                         float epsilon = sead::Mathf::epsilon());
 
     /// Modify the body's rotation by changing the angular velocity.
@@ -361,13 +376,16 @@ public:
                                const hkQuaternionf& rotation, float inv_delta_time) const;
     /// Compute the linear velocity that would be necessary to instantly reach the target position.
     void computeLinearVelocity(hkVector4f* velocity, const hkVector4f& target_position,
-                               bool take_angular_velocity_into_account, float inv_delta_time) const;
+                               TakeAngularVelocityIntoAccount take_angular_velocity_into_account,
+                               float inv_delta_time) const;
     /// Compute the linear velocity that would be necessary to instantly reach the target position.
-    void computeLinearVelocity(hkVector4f* velocity, const sead::Vector3f& target_position,
-                               bool take_angular_velocity_into_account) const;
+    void
+    computeLinearVelocity(hkVector4f* velocity, const sead::Vector3f& target_position,
+                          TakeAngularVelocityIntoAccount take_angular_velocity_into_account) const;
     /// Compute the linear velocity that would be necessary to instantly reach the target position.
-    void computeLinearVelocity(sead::Vector3f* velocity, const sead::Vector3f& target_position,
-                               bool take_angular_velocity_into_account) const;
+    void
+    computeLinearVelocity(sead::Vector3f* velocity, const sead::Vector3f& target_position,
+                          TakeAngularVelocityIntoAccount take_angular_velocity_into_account) const;
 
     /// Compute the linear and angular velocities that would be necessary to instantly reach the
     /// target position and rotation.
@@ -565,7 +583,7 @@ public:
     // Internal.
     void setUseSystemTimeFactor(bool use) { mFlags.change(Flag::UseSystemTimeFactor, use); }
     // Internal.
-    void setFlag400000(bool set) { mFlags.change(Flag::_400000, set); }
+    void clearFlag400000(bool clear) { mFlags.change(Flag::_400000, !clear); }
     // Internal.
     void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
     // Internal.
@@ -590,6 +608,14 @@ protected:
     void notifyUserTag(int code);
     void updateDeactivation();
     void setCollidableQualityType(hkpCollidableQualityType quality);
+
+    static int getLayerBit(int layer, ContactLayerType type) {
+        // This is layer for Entity layers and layer - 0x20 for Sensor layers.
+        // XXX: this should be using makeContactLayerMask.
+        return layer - FirstSensor * int(type);
+    }
+
+    int getLayerBit(int layer) const { return getLayerBit(layer, getLayerType()); }
 
     sead::CriticalSection mCS;
     sead::TypedBitFlag<Flag, sead::Atomic<u32>> mFlags{};

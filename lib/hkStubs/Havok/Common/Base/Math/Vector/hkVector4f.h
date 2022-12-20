@@ -147,6 +147,10 @@ public:
     template <int N>
     HK_FORCE_INLINE void setDot(hkVector4fParameter a, hkVector4fParameter b);
 
+    /// Get the length of this vector as if it had N components.
+    template <int N>
+    HK_FORCE_INLINE hkSimdFloat32 length() const;
+
     /// Get the squared length (|v|^2) of this vector as if it had N components.
     template <int N>
     HK_FORCE_INLINE hkSimdFloat32 lengthSquared() const;

@@ -17,7 +17,7 @@ public:
     hkpCapsuleShape() = default;
     hkpCapsuleShape(const hkVector4& vertexA, const hkVector4& vertexB, hkReal radius);
     explicit hkpCapsuleShape(hkFinishLoadedObjectFlag flag);
-    virtual ~hkpCapsuleShape();
+    ~hkpCapsuleShape() override;
 
     HK_FORCE_INLINE void getSupportingVertex(hkVector4Parameter direction,
                                              hkcdVertex& supportingVertexOut) const override;
@@ -57,3 +57,16 @@ protected:
     // The line's second point.
     hkVector4 m_vertexB;
 };
+
+inline const hkVector4* hkpCapsuleShape::getVertices() const {
+    return &m_vertexA;
+}
+
+inline const hkVector4& hkpCapsuleShape::getVertex(int i) const {
+    return getVertices()[i];
+}
+
+template <int I>
+inline const hkVector4& hkpCapsuleShape::getVertex() const {
+    return getVertices()[I];
+}

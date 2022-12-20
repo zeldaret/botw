@@ -33,7 +33,7 @@ void KorokTargetMove::calc_() {
     auto* actor = mActor;
     auto* body = actor->getMainBody();
     if (*mIsBezier_d || *mIsTargetWarp_m) {
-        body->setPosition(*mTargetPos_d, true);
+        body->setPosition(*mTargetPos_d);
         setFinished();
         return;
     }
@@ -42,7 +42,7 @@ void KorokTargetMove::calc_() {
     sead::Vector3f pos(mtx(0, 3), mtx(1, 3), mtx(2, 3));
 
     ksys::VFR::chaseVec(&pos, *mTargetPos_d, *mSpeed_d);
-    body->changePosition(pos, true);
+    body->changePosition(pos, ksys::phys::KeepAngularVelocity{true});
 
     sead::Vector3f t = pos - *mTargetPos_d;
     if (t.length() < *mSpeed_d) {

@@ -126,7 +126,7 @@ void StaticCompoundRigidBodyGroup::addToWorld() {
 
         auto lock = body->makeScopedLock();
 
-        body->setTransform(getTransform(), true);
+        body->setTransform(getTransform());
 
         if (body->getMotionFlags().isOn(RigidBody::MotionFlag::BodyRemovalRequested)) {
             body->resetMotionFlagDirect(RigidBody::MotionFlag::BodyRemovalRequested);
@@ -204,7 +204,7 @@ void StaticCompoundRigidBodyGroup::applyExtraTransforms() {
     }
 
     for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
-        mRigidBodies[i]->setTransform(getTransform(), true);
+        mRigidBodies[i]->setTransform(getTransform());
     }
 }
 

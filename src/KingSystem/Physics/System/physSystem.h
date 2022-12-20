@@ -42,6 +42,7 @@ class System {
 
 public:
     float get64() const { return _64; }
+    float get6c() const { return _6c; }
     float getTimeFactor() const { return mTimeFactor; }
     ContactMgr* getContactMgr() const { return mContactMgr; }
     StaticCompoundMgr* getStaticCompoundMgr() const { return mStaticCompoundMgr; }
