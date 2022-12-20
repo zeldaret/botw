@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
 
     Ragdoll/physRagdollConfig.cpp
     Ragdoll/physRagdollConfig.h
+    Ragdoll/physRagdollController.cpp
+    Ragdoll/physRagdollController.h
     Ragdoll/physRagdollControllerKeyList.h
     Ragdoll/physRagdollControllerKeyList.cpp
     Ragdoll/physRagdollInstance.cpp

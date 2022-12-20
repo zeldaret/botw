@@ -67,4 +67,10 @@ void System::registerContactPointInfo(ContactPointInfo* info) const {
     mContactMgr->registerContactPointInfo(info);
 }
 
+RagdollControllerKeyList* System::getRagdollCtrlKeyList() const {
+    if (!mSystemData)
+        return nullptr;
+    return mSystemData->getRagdollCtrlKeyList();
+}
+
 }  // namespace ksys::phys

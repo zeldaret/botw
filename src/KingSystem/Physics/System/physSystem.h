@@ -20,6 +20,7 @@ class GroupFilter;
 class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
+class RagdollControllerKeyList;
 class RagdollInstanceMgr;
 class RigidBody;
 class RigidBodyRequestMgr;
@@ -108,6 +109,8 @@ public:
     // 0x0000007101216ae8
     RayCastForRequest* allocRayCastRequest(SystemGroupHandler* group_handler = nullptr,
                                            GroundHit ground_hit = GroundHit::HitAll);
+
+    RagdollControllerKeyList* getRagdollCtrlKeyList() const;
 
     // TODO: rename
     // 0x0000007101216c60

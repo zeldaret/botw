@@ -129,6 +129,7 @@ public:
     void update();
 
     static Config& getConfig();
+    auto* getHavokRagdollInstance() const { return mRagdollInstance; }
     auto& getRigidBodies_() { return mBoneRigidBodies; }
 
 private:
