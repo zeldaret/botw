@@ -771,7 +771,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
 
     if (!mConfig || !actor_info_data || num_ingredients == 0) {
         // Unused label:
-    COOK_FAILURE_FOR_MISSING_CONFIG:
+        //    COOK_FAILURE_FOR_MISSING_CONFIG:
         cookFailForMissingConfig(cook_item, mFailActorName);
         return false;
     }
@@ -785,7 +785,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
             const char* string_val = nullptr;
             u32 uint_val = 0;
             al::ByamlIter recipe_iter;
-            al::ByamlIter actor_tag_iter;
+            al::ByamlIter hash_iter;
             al::ByamlIter actors_iter;
             al::ByamlIter tags_iter;
 
@@ -815,61 +815,67 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     // Each recipe entry can have a list of sets of Actors, and a list of sets of
                     // Tags. An ingredient must be found for each set of Actors and Tags.
 
-                    bool any_actors_missed = false;
+                    if (num_actors > 0) {
+                        bool any_actors_missed = false;
 
-                    for (int actor_idx = 0; actor_idx < num_actors; actor_idx++) {
-                        if (actors_iter.tryGetIterByIndex(&actor_tag_iter, actor_idx)) {
-                            const s32 num_hashes = actor_tag_iter.getSize();
-                            bool found = false;
-                            for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
-                                u32 hash_val;
-                                if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
-                                    // Any actor in this list will work.
-                                    found = findIngredientByName(ingredients, hash_val,
-                                                                 num_ingredients);
-                                    if (found)
-                                        break;
+                        for (int actor_idx = 0; actor_idx < num_actors; actor_idx++) {
+                            if (actors_iter.tryGetIterByIndex(&hash_iter, actor_idx)) {
+                                const s32 num_hashes = hash_iter.getSize();
+                                if (num_hashes < 1)
+                                    continue;
+                                bool found = false;
+                                for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
+                                    u32 hash_val;
+                                    if (hash_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                        // Any actor in this list will work.
+                                        found = findIngredientByName(ingredients, hash_val,
+                                                                     num_ingredients);
+                                        if (found)
+                                            break;
+                                    }
+                                }
+                                if (!found) {
+                                    any_actors_missed = true;
+                                    break;
                                 }
                             }
-                            if (!found) {
-                                any_actors_missed = true;
+                            if (any_actors_missed)
                                 break;
-                            }
                         }
+
                         if (any_actors_missed)
-                            break;
+                            continue;
                     }
 
-                    if (any_actors_missed)
-                        continue;
+                    if (num_tags > 0) {
+                        bool any_tags_missed = false;
 
-                    bool any_tags_missed = false;
-
-                    for (int tag_idx = 0; tag_idx < num_tags; tag_idx++) {
-                        if (tags_iter.tryGetIterByIndex(&actor_tag_iter, tag_idx)) {
-                            const s32 num_hashes = actor_tag_iter.getSize();
-                            bool found = false;
-                            for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
-                                u32 hash_val;
-                                if (actor_tag_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
-                                    // Any tag in this list will work.
-                                    found =
-                                        findIngredientByTag(ingredients, hash_val, num_ingredients);
-                                    if (found)
-                                        break;
+                        for (int tag_idx = 0; tag_idx < num_tags; tag_idx++) {
+                            if (tags_iter.tryGetIterByIndex(&hash_iter, tag_idx)) {
+                                const s32 num_hashes = hash_iter.getSize();
+                                bool found = false;
+                                for (int hash_idx = 0; hash_idx < num_hashes; hash_idx++) {
+                                    u32 hash_val;
+                                    if (hash_iter.tryGetUIntByIndex(&hash_val, hash_idx)) {
+                                        // Any tag in this list will work.
+                                        found = findIngredientByTag(ingredients, hash_val,
+                                                                    num_ingredients);
+                                        if (found)
+                                            break;
+                                    }
+                                }
+                                if (!found) {
+                                    any_tags_missed = true;
+                                    break;
                                 }
                             }
-                            if (!found) {
-                                any_tags_missed = true;
+                            if (any_tags_missed)
                                 break;
-                            }
                         }
-                        if (any_tags_missed)
-                            break;
-                    }
 
-                    if (any_tags_missed)
-                        continue;
+                        if (any_tags_missed)
+                            continue;
+                    }
 
                     al::ByamlIter actor_iter;
                     if (!actor_info_data->getActorIter(&actor_iter, uint_val))
