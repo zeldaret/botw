@@ -20,7 +20,7 @@ class GroupFilter;
 class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
-class RagdollControllerMgr;
+class RagdollInstanceMgr;
 class RigidBody;
 class RigidBodyRequestMgr;
 class StaticCompoundMgr;
@@ -47,7 +47,7 @@ public:
     ContactMgr* getContactMgr() const { return mContactMgr; }
     StaticCompoundMgr* getStaticCompoundMgr() const { return mStaticCompoundMgr; }
     RigidBodyRequestMgr* getRigidBodyRequestMgr() const { return mRigidBodyRequestMgr; }
-    RagdollControllerMgr* getRagdollControllerMgr() const { return mRagdollControllerMgr; }
+    RagdollInstanceMgr* getRagdollInstanceMgr() const { return mRagdollInstanceMgr; }
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
 
@@ -151,7 +151,7 @@ private:
     void* _150;
     StaticCompoundMgr* mStaticCompoundMgr;
     RigidBodyRequestMgr* mRigidBodyRequestMgr;
-    RagdollControllerMgr* mRagdollControllerMgr;
+    RagdollInstanceMgr* mRagdollInstanceMgr;
     void* mRigidBodyDividedMeshShapeMgr;
     SystemData* mSystemData;
     MaterialTable* mMaterialTable;

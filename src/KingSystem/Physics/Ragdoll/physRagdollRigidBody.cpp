@@ -1,16 +1,16 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h"
 #include "Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h"
-#include "KingSystem/Physics/Ragdoll/physRagdollController.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::phys {
 
-RagdollRigidBody::RagdollRigidBody(const sead::SafeString& name, RagdollController* ctrl,
+RagdollRigidBody::RagdollRigidBody(const sead::SafeString& name, RagdollInstance* instance,
                                    int bone_index, hkpRigidBody* hkp_rigid_body, sead::Heap* heap)
     : RigidBody(RigidBody::Type::Ragdoll, ContactLayerType::Entity, hkp_rigid_body, name, heap,
                 true),
-      mCtrl(ctrl), mBoneIndex(bone_index) {
+      mInstance(instance), mBoneIndex(bone_index) {
     updateCollidableQualityType(true);
     mFlags.set(Flag::NoCharStandingOn);
 }
@@ -20,22 +20,22 @@ RagdollRigidBody::~RagdollRigidBody() {
 }
 
 void RagdollRigidBody::init(sead::Heap* heap) {
-    const int parent_index = mCtrl->getParentOfBone(mBoneIndex);
+    const int parent_index = mInstance->getParentOfBone(mBoneIndex);
     if (parent_index >= 0)
-        mParentBody = mCtrl->getRigidBodies_()[parent_index];
+        mParentBody = mInstance->getRigidBodies_()[parent_index];
 
     int num_children = 0;
-    for (int i = 0, n = mCtrl->getRigidBodies_().size(); i < n; ++i) {
-        if (mCtrl->getParentOfBone(i) == mBoneIndex)
+    for (int i = 0, n = mInstance->getRigidBodies_().size(); i < n; ++i) {
+        if (mInstance->getParentOfBone(i) == mBoneIndex)
             ++num_children;
     }
 
     if (num_children > 0) {
         mChildBodies.allocBufferAssert(num_children, heap);
         int child_index = 0;
-        for (int i = 0, n = mCtrl->getRigidBodies_().size(); i < n; ++i) {
-            if (mCtrl->getParentOfBone(i) == mBoneIndex) {
-                mChildBodies[child_index] = mCtrl->getRigidBodies_()[i];
+        for (int i = 0, n = mInstance->getRigidBodies_().size(); i < n; ++i) {
+            if (mInstance->getParentOfBone(i) == mBoneIndex) {
+                mChildBodies[child_index] = mInstance->getRigidBodies_()[i];
                 ++child_index;
             }
         }
