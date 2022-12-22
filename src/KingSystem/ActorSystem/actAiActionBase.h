@@ -1,8 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
-#include <math/seadMathCalcCommon.h>
-#include <math/seadVector.h>
+#include <math/seadVectorFwd.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actAiParam.h"
