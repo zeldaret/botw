@@ -35,8 +35,8 @@ enum class ActionType {
     Action = 1,
 };
 
-enum class RootAiFlag : u16;
-enum class RootAiFlag2 : u16;
+enum class RootAiFlag;
+enum class RootAiFlag2;
 
 sead::SafeString* getDefaultString();
 s32* getDefaultInt();
@@ -146,16 +146,9 @@ protected:
     void setFinished();
     void setFailed();
 
-    void setRootAiFlagBit(int bit) const;
-    void setRootAiFlag(RootAiFlag flag) const { setRootAiFlagBit(sead::log2(u32(flag))); }
-
-    void resetRootAiFlagBit(int bit) const;
-    void resetRootAiFlag(RootAiFlag flag) const { resetRootAiFlagBit(sead::log2(u32(flag))); }
-
-    bool testRootAiFlag2Bit(int bit) const;
-    bool testRootAiFlag2(RootAiFlag2 flag) const {
-        return testRootAiFlag2Bit(sead::log2(u32(flag)));
-    }
+    void setRootAiFlag(RootAiFlag flag) const;
+    void resetRootAiFlag(RootAiFlag flag) const;
+    bool testRootAiFlag2(RootAiFlag2 flag) const;
 
     void resetFlags() {
         mFlags.reset(Flag::Failed);
