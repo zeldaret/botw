@@ -20,7 +20,8 @@ class GroupFilter;
 class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
-class RagdollControllerMgr;
+class RagdollControllerKeyList;
+class RagdollInstanceMgr;
 class RigidBody;
 class RigidBodyRequestMgr;
 class StaticCompoundMgr;
@@ -47,7 +48,7 @@ public:
     ContactMgr* getContactMgr() const { return mContactMgr; }
     StaticCompoundMgr* getStaticCompoundMgr() const { return mStaticCompoundMgr; }
     RigidBodyRequestMgr* getRigidBodyRequestMgr() const { return mRigidBodyRequestMgr; }
-    RagdollControllerMgr* getRagdollControllerMgr() const { return mRagdollControllerMgr; }
+    RagdollInstanceMgr* getRagdollInstanceMgr() const { return mRagdollInstanceMgr; }
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
 
@@ -109,6 +110,8 @@ public:
     RayCastForRequest* allocRayCastRequest(SystemGroupHandler* group_handler = nullptr,
                                            GroundHit ground_hit = GroundHit::HitAll);
 
+    RagdollControllerKeyList* getRagdollCtrlKeyList() const;
+
     // TODO: rename
     // 0x0000007101216c60
     void setEntityContactListenerField90(bool value);
@@ -151,7 +154,7 @@ private:
     void* _150;
     StaticCompoundMgr* mStaticCompoundMgr;
     RigidBodyRequestMgr* mRigidBodyRequestMgr;
-    RagdollControllerMgr* mRagdollControllerMgr;
+    RagdollInstanceMgr* mRagdollInstanceMgr;
     void* mRigidBodyDividedMeshShapeMgr;
     SystemData* mSystemData;
     MaterialTable* mMaterialTable;

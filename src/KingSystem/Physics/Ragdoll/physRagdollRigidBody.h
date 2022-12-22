@@ -5,13 +5,13 @@
 
 namespace ksys::phys {
 
-class RagdollController;
+class RagdollInstance;
 
 /// The rigid body for a ragdoll bone.
 class RagdollRigidBody : public RigidBody {
     SEAD_RTTI_OVERRIDE(RagdollRigidBody, RigidBody)
 public:
-    RagdollRigidBody(const sead::SafeString& name, RagdollController* ctrl, int bone_index,
+    RagdollRigidBody(const sead::SafeString& name, RagdollInstance* instance, int bone_index,
                      hkpRigidBody* hkp_rigid_body, sead::Heap* heap);
     ~RagdollRigidBody() override;
 
@@ -32,7 +32,7 @@ public:
 private:
     void updateContactMask();
 
-    RagdollController* mCtrl{};
+    RagdollInstance* mInstance{};
     int mBoneIndex{};
     RagdollRigidBody* mParentBody{};
     sead::Buffer<RagdollRigidBody*> mChildBodies{};

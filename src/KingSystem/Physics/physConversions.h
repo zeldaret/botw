@@ -56,6 +56,11 @@ inline void toHkQuat(hkQuaternionf* out, const sead::Quatf& quat) {
     return {quat.x, quat.y, quat.z, quat.w};
 }
 
+inline void toMtx34(sead::Matrix34f* out, const hkQsTransformf& transform) {
+    out->makeSQT(toVec3(transform.getScale()), toQuat(transform.getRotation()),
+                 toVec3(transform.getTranslation()));
+}
+
 inline void toMtx34(sead::Matrix34f* out, const hkTransformf& transform) {
     const hkRotationf& rotate = transform.getRotation();
     const hkVector4f& translate = transform.getTranslation();

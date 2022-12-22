@@ -39,6 +39,7 @@ public:
     sead::PtrArray<ModelInfo>& getUnits() { return mUnitAccess; }
     const sead::PtrArray<ModelInfo>& getUnits() const { return mUnitAccess; }
 
+    const sead::Matrix34f& getMatrix() const { return mMatrix; }
     const sead::Vector3f& getScale() const { return _88; }
 
     void setBoneLocalMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix,

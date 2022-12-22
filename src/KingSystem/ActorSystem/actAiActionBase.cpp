@@ -146,7 +146,7 @@ bool ActionBase::takeOver(ActionBase* src, const sead::SafeString& context) {
         ret = reenter(src, context);
     }
 
-    mActor->getRootAi()->_16c.set(RootAiFlag::_100);
+    setRootAiFlag(RootAiFlag::_8);
     return ret;
 }
 
@@ -175,8 +175,8 @@ void ActionBase::leave() {
     postLeave();
 }
 
-void ActionBase::setRootAiFlagBit(int bit) const {
-    mActor->getRootAi()->_16c.set(RootAiFlag(1u << bit));
+void ActionBase::setRootAiFlag(RootAiFlag flag) const {
+    mActor->getRootAi()->_16c.setBit(int(flag));
 }
 
 bool ActionBase::reenter_(ActionBase* other, bool x) {
@@ -267,12 +267,12 @@ void ActionBase::getParams(ParamNameTypePairs* pairs, bool update_use_count) con
     mParams.getPairs(pairs, update_use_count);
 }
 
-void ActionBase::resetRootAiFlagBit(int bit) const {
-    mActor->getRootAi()->_16c.reset(RootAiFlag(1u << bit));
+void ActionBase::resetRootAiFlag(RootAiFlag flag) const {
+    mActor->getRootAi()->_16c.resetBit(int(flag));
 }
 
-bool ActionBase::testRootAiFlag2Bit(int bit) const {
-    return mActor->getRootAi()->_16e.isOn(RootAiFlag2(1u << bit));
+bool ActionBase::testRootAiFlag2(RootAiFlag2 flag) const {
+    return mActor->getRootAi()->_16e.isOnBit(int(flag));
 }
 
 template <typename T>

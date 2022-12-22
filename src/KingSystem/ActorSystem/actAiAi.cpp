@@ -138,7 +138,7 @@ void Ai::changeChild(u32 idx, InlineParamPack* params) {
         if (mChildren[idx])
             mChildren[idx]->enter(pack, getName());
 
-        setRootAiFlag(RootAiFlag::_100);
+        setRootAiFlag(RootAiFlag::_8);
     };
 
     if (mFlags.isOff(Flag::DynamicParamChild) || params) {

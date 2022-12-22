@@ -1,6 +1,6 @@
 #pragma once
 
-#include <prim/seadTypedBitFlag.h>
+#include <prim/seadBitFlag.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -17,12 +17,12 @@ public:
     virtual ~IRootAi() = default;
 };
 
-enum class RootAiFlag : u16 {
-    _100 = 0x100,  // 8
+enum class RootAiFlag {
+    _8 = 8,
 };
 
 // TODO: rename
-enum class RootAiFlag2 : u16 {};
+enum class RootAiFlag2 {};
 
 class RootAi : public Ai, public IRootAi {
     SEAD_RTTI_OVERRIDE(RootAi, Ai)
@@ -102,8 +102,10 @@ private:
     void* _160{};
     // TODO: is this really an atomic?
     sead::Atomic<f32> _168 = 1.0;
-    sead::TypedBitFlag<RootAiFlag> _16c;
-    sead::TypedBitFlag<RootAiFlag2> _16e;
+    // RootAiFlag
+    sead::BitFlag16 _16c;
+    // RootAiFlag2
+    sead::BitFlag16 _16e;
     ParamPack mMapUnitParams;
     ParamPack mAiTreeParams;
 };
