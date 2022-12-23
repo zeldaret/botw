@@ -295,23 +295,26 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
         if (!ingredients[i].arg)
             continue;
 
-        const auto& actor_data = ingredients[i].actor_data;
-
-        if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookEnemy) ||
-            !ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookSpice))
+        if (ksys::act::InfoData::instance()->hasTag(ingredients[i].actor_data,
+                                                    ksys::act::tags::CookEnemy) ||
+            !ksys::act::InfoData::instance()->hasTag(ingredients[i].actor_data,
+                                                     ksys::act::tags::CookSpice))
             continue;
 
         int int_val;
 
-        if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostHitPointRecover") && int_val > 0) {
+        if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostHitPointRecover") &&
+            int_val > 0) {
             item.life_recover += (f32)int_val;
         }
 
-        if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostEffectiveTime") && int_val > 0) {
+        if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostEffectiveTime") &&
+            int_val > 0) {
             item.effect_time += int_val;
         }
 
-        if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") && int_val > 0) {
+        if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") &&
+            int_val > 0) {
             while (i < 1) {
                 if (item.effect_id == CookEffectId::LifeMaxUp) {
                     item.stamina_recover += (f32)int_val;
