@@ -291,14 +291,14 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
 
 // NON_MATCHING
 void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const {
+    using namespace ksys::act;
+
     for (int i = 0; i < NumIngredientsMax; i++) {
         if (!ingredients[i].arg)
             continue;
 
-        if (ksys::act::InfoData::instance()->hasTag(ingredients[i].actor_data,
-                                                    ksys::act::tags::CookEnemy) ||
-            !ksys::act::InfoData::instance()->hasTag(ingredients[i].actor_data,
-                                                     ksys::act::tags::CookSpice))
+        if (InfoData::instance()->hasTag(ingredients[i].actor_data, tags::CookEnemy) ||
+            !InfoData::instance()->hasTag(ingredients[i].actor_data, tags::CookSpice))
             continue;
 
         int int_val;
