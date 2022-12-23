@@ -301,7 +301,7 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
             !ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookSpice))
             continue;
 
-        int int_val = 0;
+        int int_val;
 
         if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostHitPointRecover") && int_val > 0) {
             item.life_recover += (f32)int_val;
