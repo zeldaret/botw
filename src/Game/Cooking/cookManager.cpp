@@ -289,7 +289,6 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
     }
 }
 
-// NON_MATCHING
 void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const {
     using namespace ksys::act;
 
@@ -315,6 +314,10 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
 
         if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") &&
             int_val > 0) {
+            // i < 1 check needs to come after others.
+#if MATCHING_HACK_NX_CLANG
+            [&] {}();
+#endif
             while (i < 1) {
                 if (item.effect_id == CookEffectId::LifeMaxUp) {
                     item.stamina_recover += (f32)int_val;
@@ -325,6 +328,10 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
 
         if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostStaminaLevel") &&
             int_val > 0) {
+            // i < 1 check needs to come after others.
+#if MATCHING_HACK_NX_CLANG
+            [&] {}();
+#endif
             while (i < 1) {
                 if (item.effect_id == CookEffectId::GutsRecover ||
                     item.effect_id == CookEffectId::ExGutsMaxUp) {
