@@ -293,6 +293,8 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
 void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const {
     using namespace ksys::act;
 
+    int int_val;
+
     for (int i = 0; i < NumIngredientsMax; i++) {
         if (!ingredients[i].arg)
             continue;
@@ -300,8 +302,6 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
         if (InfoData::instance()->hasTag(ingredients[i].actor_data, tags::CookEnemy) ||
             !InfoData::instance()->hasTag(ingredients[i].actor_data, tags::CookSpice))
             continue;
-
-        int int_val;
 
         if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostHitPointRecover") &&
             int_val > 0) {
