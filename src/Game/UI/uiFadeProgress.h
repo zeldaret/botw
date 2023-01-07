@@ -14,15 +14,15 @@ public:
     void reset();
     void updateFadeScreen();
     void setProgress(float value);
-    float getGaugeValue();
+    float getGaugeValue() const;
     void setIsActive();
 
 private:
     bool mActive = false;
-    f32 mProgress = 0.0;
-    f32 mGaugeValue = 0.0;
-    f32 mProgressPerStep = 0.002;
-    f32 mSteps = 1.0;
+    float mProgress = 0.0;
+    float mGaugeValue = 0.0;
+    float mProgressPerStep = 0.002;
+    float mSteps = 1.0;
 };
 
 }  // namespace uking::ui

@@ -17,34 +17,35 @@ void FadeProgress::reset() {
 }
 
 void FadeProgress::updateFadeScreen() {
-    if (mActive) {
-        f32 progress = mProgress;
-        f32 difference = progress - mGaugeValue;
+    if (!mActive)
+        return;
 
-        if (difference > 0.1f)
-            mSteps = 1.1;
-        if (difference > 0.2f)
-            mSteps = 1.2;
-        if (progress > 0.94f)
-            mSteps = 10.0;
+    float progress = mProgress;
+    float difference = progress - mGaugeValue;
 
-        if (difference <= 0.0001f && difference >= -0.0001f)
-            mSteps = 1.0;
+    if (difference > 0.1f)
+        mSteps = 1.1;
+    if (difference > 0.2f)
+        mSteps = 1.2;
+    if (progress > 0.94f)
+        mSteps = 10.0;
 
-        f32 newProgress = mGaugeValue + (mProgressPerStep * mSteps);
-        if (newProgress < progress)
-            progress = newProgress;
-        mGaugeValue = progress;
-        applyScreenFade(progress);
-    }
+    if (difference <= 0.0001f && difference >= -0.0001f)
+        mSteps = 1.0;
+
+    float new_progress = mGaugeValue + (mProgressPerStep * mSteps);
+    if (new_progress < progress)
+        progress = new_progress;
+    mGaugeValue = progress;
+    applyScreenFade(progress);
 }
 
-void FadeProgress::setProgress(f32 value) {
+void FadeProgress::setProgress(float value) {
     if (mProgress < value)
         mProgress = value;
 }
 
-f32 FadeProgress::getGaugeValue() {
+float FadeProgress::getGaugeValue() const {
     return mGaugeValue;
 }
 
