@@ -21,14 +21,19 @@ void FadeProgress::updateFadeScreen() {
         f32 progress = mProgress;
         f32 difference = progress - mGaugeValue;
 
-        if (difference > 0.1f) mSteps = 1.1;
-        if (difference > 0.2f) mSteps = 1.2;
-        if (progress > 0.94f) mSteps = 10.0;
+        if (difference > 0.1f)
+            mSteps = 1.1;
+        if (difference > 0.2f)
+            mSteps = 1.2;
+        if (progress > 0.94f)
+            mSteps = 10.0;
 
-        if (difference <= 0.0001f && difference >= -0.0001f) mSteps = 1.0;
+        if (difference <= 0.0001f && difference >= -0.0001f)
+            mSteps = 1.0;
 
         f32 newProgress = mGaugeValue + (mProgressPerStep * mSteps);
-        if (newProgress < progress) progress = newProgress;
+        if (newProgress < progress)
+            progress = newProgress;
         mGaugeValue = progress;
         applyScreenFade(progress);
     }
@@ -47,4 +52,4 @@ void FadeProgress::setIsActive() {
     mActive = true;
 }
 
-} // namespace uking::ui
+}  // namespace uking::ui

@@ -25,4 +25,4 @@ private:
     f32 mSteps = 1.0;
 };
 
-} // namespace uking::ui
+}  // namespace uking::ui
