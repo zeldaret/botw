@@ -230,17 +230,23 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
 
     item.is_crit = true;
 
+    const auto& life_entry = mCookingEffectEntries[(int)CookEffectId::LifeRecover];
+
     if (item.effect_id != CookEffectId::None) {
         const f32 life_recover = item.life_recover;
         const s32 stamina_recover = sead::Mathi::clampMin((s32)item.stamina_recover, 1);
 
-        const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].max;
+        const f32 life_recover_max = (f32)life_entry.max;
         const s32 stamina_recover_max = mCookingEffectEntries[(int)item.effect_id].max;
 
         const bool life_recover_maxed = life_recover >= life_recover_max;
         const bool stamina_recover_maxed = stamina_recover >= stamina_recover_max;
 
         switch (item.effect_id) {
+        case CookEffectId::LifeMaxUp:
+            bonus = StaminaBonus;
+            break;
+
         case CookEffectId::GutsRecover:
         case CookEffectId::ExGutsMaxUp:
             if (stamina_recover_maxed)
@@ -251,21 +257,19 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
                 bonus = sead::GlobalRandom::instance()->getBool() ? StaminaBonus : LifeBonus;
             break;
 
-        case CookEffectId::LifeMaxUp:
-            bonus = StaminaBonus;
-            break;
-
         default:
-            if (!stamina_recover_maxed) {
+            if (stamina_recover_maxed) {
+                if (life_recover_maxed) {
+                    bonus = TimeBonus;
+                } else {
+                    bonus = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
+                }
+            } else {
                 if (life_recover_maxed) {
                     bonus = sead::GlobalRandom::instance()->getBool() ? TimeBonus : StaminaBonus;
                 } else {
                     bonus = (Bonus)sead::GlobalRandom::instance()->getU32(3);
                 }
-            } else if (life_recover_maxed) {
-                bonus = TimeBonus;
-            } else {
-                bonus = sead::GlobalRandom::instance()->getBool() ? TimeBonus : LifeBonus;
             }
             break;
         }
@@ -284,7 +288,7 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
         item.effect_time += (s32)mCritEffectTime;
         break;
     case LifeBonus:
-        item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
+        item.life_recover += (f32)life_entry.ssa;
         break;
     }
 }
