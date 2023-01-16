@@ -13,6 +13,40 @@ PlayReportMgr::~PlayReportMgr() {
         delete mReporter;
 }
 
+void PlayReportMgr::calc() {
+    if (!_30 && mReporter)
+        mReporter->updateTimers();
+}
+
+void PlayReportMgr::reportDebug(const sead::SafeString& message, const sead::SafeString& data) {
+    // Stubbed in release builds
+}
+
+int PlayReportMgr::auto0() const {
+    return 1;
+}
+
+PlayerTrackReporter* PlayReportMgr::auto2() const {
+    if (mReporter)
+        return mReporter->getPlayerTrackReporter();
+    return nullptr;
+}
+
+void PlayReportMgr::auto1() {
+    if (mReporter && mReporter->getPlayerTrackReporter())
+        mReporter->getPlayerTrackReporter()->_28 = true;
+}
+
+void PlayReportMgr::auto3() {
+    if (mReporter && mReporter->getPlayerTrackReporter())
+        mReporter->getPlayerTrackReporter()->_29 = true;
+}
+
+void PlayReportMgr::x() {
+    if (mReporter && mReporter->getPlayerTrackReporter())
+        mReporter->getPlayerTrackReporter()->_30 = true;
+}
+
 bool PlayReport::setEventId(sead::BufferedSafeString& event_id) {
     if (!mHasNinPrepoReport)
         return false;
@@ -21,19 +55,19 @@ bool PlayReport::setEventId(sead::BufferedSafeString& event_id) {
     return mNinPlayReport->SetEventId(event_id.cstr()).IsSuccess();
 }
 
-bool PlayReport::add(const sead::SafeString& key, u32 value) {
+bool PlayReport::add(const sead::FixedSafeString<48>& key, u32 value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), s64(value)).IsSuccess();
 }
 
-bool PlayReport::add(const sead::SafeString& key, s32 value) {
+bool PlayReport::add(const sead::FixedSafeString<48>& key, s32 value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), s64(value)).IsSuccess();
 }
 
-bool PlayReport::add(const sead::SafeString& key, f32 value) {
+bool PlayReport::add(const sead::FixedSafeString<48>& key, f32 value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), value).IsSuccess();
 }
 
-bool PlayReport::add(const sead::SafeString& key, const sead::SafeString& value) {
+bool PlayReport::add(const sead::FixedSafeString<48>& key, const sead::SafeString& value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), value.cstr()).IsSuccess();
 }
 

@@ -29,8 +29,11 @@ public:
     void init(sead::Heap* heap);
     void setPosTrackEnd();
 
-private:
-    u8 _0[48];
+    u8 _0[40];
+    bool _28;
+    bool _29;
+    bool _30;
+    u8 _3a[5];
 };
 
 class ProductReporter {
@@ -81,6 +84,20 @@ public:
         u64 mBufferCapacity;
         u32 mBufferLength;
     };
+
+    sead::Heap* getHeap() const { 
+        return mHeap; 
+    }
+
+    PlayerTrackReporter* getPlayerTrackReporter() const { 
+        return mPlayerTrackReporter; 
+    }
+
+    inline s32 getS32(s32 key) {
+        s32 out = 0;
+        gdt::Manager::instance()->getS32(mGameDataHandles[key], &out);
+        return out;
+    }
 
 private:
     u8 _0[8];

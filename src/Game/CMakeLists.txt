@@ -7,6 +7,8 @@ add_subdirectory(UI)
 target_sources(uking PRIVATE
   gameItemUtils.cpp
   gameItemUtils.h
+  gamePlayReport.cpp
+  gamePlayReport.h
   gameScene.cpp
   gameScene.h
   gameStageInfo.cpp
