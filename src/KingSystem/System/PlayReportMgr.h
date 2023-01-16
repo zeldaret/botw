@@ -32,7 +32,7 @@ public:
 
     int auto0() const;
     PlayerTrackReporter* auto2() const;
-    
+
     void auto1();
     void auto3();
     void x();
@@ -51,7 +51,8 @@ KSYS_CHECK_SIZE_NX150(PlayReportMgr, 0x40);
 
 class PlayReport {
 public:
-    inline PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap) {
+    inline PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries,
+                      sead::Heap* heap) {
         init(num_entries, heap);
         sead::FixedSafeString<32> event_id_ = event_id;
         setEventId(event_id_);

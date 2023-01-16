@@ -85,13 +85,9 @@ public:
         u32 mBufferLength;
     };
 
-    sead::Heap* getHeap() const { 
-        return mHeap; 
-    }
+    sead::Heap* getHeap() const { return mHeap; }
 
-    PlayerTrackReporter* getPlayerTrackReporter() const { 
-        return mPlayerTrackReporter; 
-    }
+    PlayerTrackReporter* getPlayerTrackReporter() const { return mPlayerTrackReporter; }
 
     inline s32 getS32(s32 key) {
         s32 out = 0;
