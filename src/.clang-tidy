@@ -29,7 +29,8 @@ CheckOptions:
   - key: readability-identifier-naming.MemberPrefix
     value: m
   - key: readability-identifier-naming.MemberIgnoredRegexp
-    value: ^_(.*)
+    # Allow names that end with _[dsma] (for AI parameter variables)
+    value: (^_(.*)|m(.*)(_[dsma]))
 
   # Public class/struct members
   - key: readability-identifier-naming.PublicMemberCase

@@ -20,6 +20,7 @@ public:
     void mapPoseB();
 
     BoneAccessor& getBoneAccessor() { return mBoneAccessor; }
+    ModelBoneAccessor& getModelBoneAccessor() { return mModelBoneAccessor; }
 
 private:
     BoneAccessor mBoneAccessor;

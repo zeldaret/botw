@@ -52,8 +52,8 @@ public:
     void setLayerCustomMask(ContactLayer layer, u32 mask) override;
     u32 getCollisionFilterInfoGroupHandlerIdx(u32 info) override;
 
-    virtual u32 makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit, u32 unk5,
-                                        u32 unk10);
+    virtual u32 makeRagdollCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit,
+                                               u32 bone_index, u32 parent_bone_index);
     /// @param layer An entity layer
     virtual void setEntityLayerCollisionEnabledMask(ContactLayer layer, u32 mask);
 
@@ -109,17 +109,18 @@ inline u32 EntitySystemGroupHandler::makeCollisionFilterInfo(u32 info, ContactLa
     EntityCollisionMask result;
 
     if (layer == ContactLayer::EntityRagdoll) {
-        result.data.layer.Init(layer);
-        result.data.unk5.Init(current_info.data.unk5);
-        result.data.unk10.Init(current_info.data.unk10);
-        result.group_handler_index.Init(getIndex());
-        result.data.ground_hit.Init(ground_hit);
-        result.unk30 = true;
+        result.regular.layer.Init(layer);
+        result.regular.ragdoll_bone_index.Init(current_info.regular.ragdoll_bone_index);
+        result.regular.ragdoll_parent_bone_index.Init(
+            current_info.regular.ragdoll_parent_bone_index);
+        result.regular.group_handler_index.Init(getIndex());
+        result.regular.ground_hit.Init(ground_hit);
+        result.is_ragdoll = true;
     } else {
-        result.data.layer.Init(layer);
+        result.regular.layer.Init(layer);
         result.ground_col_mode.Init(current_info.ground_col_mode);
-        result.group_handler_index.Init(getIndex());
-        result.data.ground_hit.Init(ground_hit);
+        result.regular.group_handler_index.Init(getIndex());
+        result.regular.ground_hit.Init(ground_hit);
     }
     return result.raw;
 }
@@ -136,9 +137,9 @@ inline u32 EntitySystemGroupHandler::makeQueryCollisionMask(u32 layer_mask, Grou
 
 inline u32 EntitySystemGroupHandler::makeRagdollCollisionFilterInfo(GroundHit ground_hit) {
     EntityCollisionMask info;
-    info.data.layer.Init(ContactLayer::EntityRagdoll);
-    info.group_handler_index.Init(getIndex());
-    info.data.ground_hit.Init(ground_hit);
+    info.regular.layer.Init(ContactLayer::EntityRagdoll);
+    info.regular.group_handler_index.Init(getIndex());
+    info.regular.ground_hit.Init(ground_hit);
     return info.raw;
 }
 
@@ -193,17 +194,18 @@ inline void EntityGroupFilter::setLayerCustomMask(ContactLayer layer, u32 mask) 
 }
 
 inline u32 EntityGroupFilter::getCollisionFilterInfoGroupHandlerIdx(u32 info) {
-    return EntityCollisionMask(info).group_handler_index;
+    return EntityCollisionMask(info).regular.group_handler_index;
 }
 
-inline u32 EntityGroupFilter::makeCollisionFilterInfo(ContactLayer layer, GroundHit ground_hit,
-                                                      u32 unk5, u32 unk10) {
+inline u32 EntityGroupFilter::makeRagdollCollisionFilterInfo(ContactLayer layer,
+                                                             GroundHit ground_hit, u32 bone_index,
+                                                             u32 parent_bone_index) {
     EntityCollisionMask info;
-    info.data.layer.Init(layer);
-    info.data.unk5.Init(unk5);
-    info.data.unk10.Init(unk10);
-    info.data.ground_hit.Init(ground_hit);
-    info.unk30 = true;
+    info.regular.layer.Init(layer);
+    info.regular.ragdoll_bone_index.Init(bone_index);
+    info.regular.ragdoll_parent_bone_index.Init(parent_bone_index);
+    info.regular.ground_hit.Init(ground_hit);
+    info.is_ragdoll = true;
     return info.raw;
 }
 

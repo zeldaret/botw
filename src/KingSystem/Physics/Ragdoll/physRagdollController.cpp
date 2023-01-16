@@ -1,218 +1,162 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollController.h"
-#include <Havok/Animation/Animation/Rig/hkaPose.h>
-#include <Havok/Animation/Physics2012Bridge/Instance/hkaRagdollInstance.h>
-#include <Havok/Common/Serialize/Util/hkNativePackfileUtils.h>
-#include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
-#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
-#include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
-#include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
-#include <Havok/Physics2012/Utilities/Dynamics/ScaleSystem/hkpSystemScalingUtility.h>
+#include <Havok/Animation/Physics2012Bridge/Controller/RigidBody/hkaRagdollRigidBodyController.h>
+#include <cmath>
 #include <math/seadMathCalcCommon.h>
-#include "KingSystem/Physics/Ragdoll/physRagdollControllerMgr.h"
-#include "KingSystem/Physics/Rig/physModelBoneAccessor.h"
-#include "KingSystem/Physics/Rig/physSkeletonMapper.h"
-#include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include "KingSystem/Physics/System/physGroupFilter.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollControllerKeyList.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physSystem.h"
-#include "KingSystem/Physics/physConversions.h"
-#include "KingSystem/Utils/IteratorUtil.h"
+#include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
 
-static u8 sUnk1 = 15;
+static bool sForceDefaultWeights = false;
 
-void RagdollController::setUnk1(u8 value) {
-    sUnk1 = value;
+void RagdollController::forceDefaultWeights(bool force) {
+    sForceDefaultWeights = force;
 }
 
-RagdollController::RagdollController(SystemGroupHandler* handler)
-    : mGroupHandler(handler), _e8(sUnk1), _e9(sUnk1) {}
+RagdollController::RagdollController() = default;
 
 RagdollController::~RagdollController() {
-    finalize();
+    if (mRagdollRigidBodyCtrl)
+        util::safeDelete(mRagdollRigidBodyCtrl);
+    mConfiguredBoneWeights.freeBuffer();
+    mEffectiveBoneWeights.freeBuffer();
+    mMultipliers.freeBuffer();
 }
 
-void RagdollController::finalize() {
-    for (auto body : util::indexIter(mRigidBodies)) {
-        body.get()->setCollisionInfo(nullptr);
-        body.get()->setContactPointInfo(nullptr);
+bool RagdollController::init(const sead::SafeString& name, const sead::SafeString& system_key,
+                             RagdollInstance* instance, sead::Heap* heap) {
+    mName = name;
+    mInstance = instance;
+    util::PrintDebugFmt("creating RagdollController for %s", mName.cstr());
+    mRagdollRigidBodyCtrl = new hkaRagdollRigidBodyController(instance->getHavokRagdollInstance());
+
+    const int num_bones = instance->getRigidBodies_().size();
+
+    mConfiguredBoneWeights.allocBufferAssert(num_bones, heap);
+    mEffectiveBoneWeights.allocBufferAssert(num_bones, heap);
+    mMultipliers.allocBufferAssert(num_bones, heap);
+
+    for (int i = 0; i < num_bones; ++i) {
+        mConfiguredBoneWeights[i] = 1.0f;
+        mEffectiveBoneWeights[i] = 1.0f;
+        mMultipliers[i] = 1.0f;
     }
 
-    if (isAddedToWorld())
-        removeFromWorldImmediately();
+    // Configure the controller.
+    mRagdollRigidBodyCtrl->setBoneWeights(mEffectiveBoneWeights.getBufferPtr());
+    if (System::instance()->getRagdollCtrlKeyList() != nullptr) {
+        auto* config =
+            System::instance()->getRagdollCtrlKeyList()->getControllerKeyByKey(system_key);
+        if (config != nullptr) {
+            const auto get_control_data = [this]() -> decltype(auto) {
+                return mRagdollRigidBodyCtrl->m_controlDataPalette[0];
+            };
 
-    if (mRagdollInstance != nullptr)
-        removeConstraints();
-
-    for (auto body : util::indexIter(mRigidBodies))
-        delete body.get();
-
-    mRigidBodies.freeBuffer();
-
-    if (mSkeletonMapper)
-        util::safeDelete(mSkeletonMapper);
-
-    if (mModelBoneAccessor)
-        util::safeDelete(mModelBoneAccessor);
-
-    if (mRawRagdollData) {
-        hkNativePackfileUtils::unloadInPlace(mRawRagdollData, mRawRagdollDataSize);
-        delete[] mRawRagdollData;
-        mRawRagdollData = nullptr;
-        mRootLevelContainer = nullptr;
-        mRagdollInstance = nullptr;
-    }
-
-    if (mRotations)
-        util::safeDeleteArray(mRotations);
-
-    mBoneVectors.freeBuffer();
-    mBoneStuff.freeBuffer();
-    mBones.freeBuffer();
-
-    if (_b0) {
-        delete[] _a8;
-        _b0 = 0;
-    }
-}
-
-void RagdollController::removeConstraints() {
-    for (int i = 0, n = mRagdollInstance->m_constraints.getSize(); i < n; ++i) {
-        auto* constraint = mRagdollInstance->m_constraints[i];
-        if (constraint->getOwner() != nullptr) {
-            auto* world = System::instance()->getHavokWorld(ContactLayerType::Entity);
-            world->removeConstraint(constraint);
+            get_control_data().m_hierarchyGain = *config->hierarchy_gain;
+            get_control_data().m_velocityDamping = *config->velocity_damping;
+            get_control_data().m_accelerationGain = *config->acceleration_gain;
+            get_control_data().m_velocityGain = *config->velocity_gain;
+            get_control_data().m_positionGain = *config->position_gain;
+            get_control_data().m_positionMaxLinearVelocity = *config->position_max_linear_velocity;
+            get_control_data().m_positionMaxAngularVelocity =
+                *config->position_max_angular_velocity;
+            get_control_data().m_snapGain = *config->snap_gain;
+            get_control_data().m_snapMaxLinearVelocity = *config->snap_max_linear_velocity;
+            get_control_data().m_snapMaxAngularVelocity = *config->snap_max_angular_velocity;
+            get_control_data().m_snapMaxLinearDistance = *config->snap_max_linear_distance;
+            get_control_data().m_snapMaxAngularDistance = *config->snap_max_angular_distance;
         }
     }
+
+    return true;
 }
 
-bool RagdollController::isAddedToWorld() const {
-    return mRigidBodies.size() > 0 && mRigidBodies.back()->isAddedToWorld();
+bool RagdollController::setBoneWeight(int index, float weight) {
+    if (sForceDefaultWeights)
+        return false;
+
+    if (index < 0 || index >= mConfiguredBoneWeights.size())
+        return false;
+
+    if (std::isnan(weight))
+        return false;
+
+    weight = sead::Mathf::abs(weight);
+
+    if (weight > sead::Mathf::maxNumber())
+        return false;
+
+    weight = sead::Mathf::clamp(weight, 0.0, 1.0);
+
+    mConfiguredBoneWeights[index] = weight;
+    recalculateEffectiveBoneWeight(index);
+    return true;
 }
 
-void RagdollController::removeFromWorldImmediately() {
-    ScopedPhysicsLock lock{this};
-
-    removeConstraints();
-    for (auto body : util::indexIter(mRigidBodies))
-        body.get()->removeFromWorldImmediately();
+bool RagdollController::setBoneWeight(const sead::SafeString& rigid_name, float weight) {
+    int index = mInstance->getBoneIndexByName(rigid_name);
+    return setBoneWeight(index, weight);
 }
 
-void RagdollController::removeFromWorld() {
-    for (auto body : util::indexIter(mRigidBodies))
-        body.get()->removeFromWorld();
-}
-
-bool RagdollController::removeFromWorldAndResetLinks() {
-    bool removed = true;
-    for (auto body : util::indexIter(mRigidBodies))
-        removed &= body.get()->removeFromWorldAndResetLinks();
-
-    if (mFlags.isOn(Flag::IsRegistered)) {
-        System::instance()->getRagdollControllerMgr()->removeController(this);
-        mFlags.reset(Flag::IsRegistered);
-    }
-
-    return removed;
-}
-
-bool RagdollController::isAddingToWorld() const {
-    return mRigidBodies.size() > 0 && mRigidBodies.back()->isAddingBodyToWorld();
-}
-
-void RagdollController::setTransform(const sead::Matrix34f& transform) {
-    hkQsTransformf hk_transform;
-    toHkQsTransform(&hk_transform, transform, sead::Vector3f::ones);
-    setTransform(hk_transform);
-}
-
-void RagdollController::setTransform(const hkQsTransformf& transform) {
-    ScopedPhysicsLock lock{this};
-
-    if (mSkeletonMapper)
-        mSkeletonMapper->mapPoseA();
-
-    mRagdollInstance->setPoseModelSpace(
-        getBoneAccessor()->getPose()->getSyncedPoseModelSpace().data(), transform);
-
-    if (mExtraRigidBody) {
-        sead::Matrix34f old_transform;
-        mRigidBodies[mRigidBodyIndex]->getTransform(&old_transform);
-        mExtraRigidBody->setTransform(old_transform);
-
-        if (mGroupHandler) {
-            mExtraRigidBody->setCollisionFilterInfo(
-                mGroupHandler->makeRagdollCollisionFilterInfo(GroundHit::HitAll));
-        }
-    }
-}
-
-void RagdollController::setScale(float scale) {
-    if (sead::Mathf::equalsEpsilon(scale, 1.0))
+void RagdollController::setFactor(float factor) {
+    if (sForceDefaultWeights)
         return;
 
-    {
-        ScopedPhysicsLock lock{this};
+    if (std::isnan(factor))
+        return;
 
-        const hkVector4 translation =
-            mRagdollInstance->getRigidBodyOfBone(0)->getTransform().getTranslation();
+    if (sead::Mathf::abs(factor) > sead::Mathf::maxNumber())
+        return;
 
-        // Construct a system with all the rigid bodies and constraints, then scale it.
-        hkpPhysicsSystem system;
+    factor = sead::Mathf::clamp(factor, -1.0, 1.0);
 
-        const int num_bodies = mRagdollInstance->getRigidBodyArray().size();
-        for (int i = 0; i < num_bodies; ++i) {
-            hkpRigidBody* body = mRagdollInstance->getRigidBodyArray()[i];
-
-            // Fix the positions to be in model space.
-            hkVector4f pos;
-            pos.setSub(body->getTransform().getTranslation(), translation);
-            body->setPosition(pos);
-
-            system.addRigidBody(body);
-        }
-
-        for (int i = 0, n = mRagdollInstance->getConstraintArray().size(); i < n; ++i) {
-            system.addConstraint(mRagdollInstance->getConstraintArray()[i]);
-        }
-
-        hkpSystemScalingUtility::scaleSystem(&system, scale);
-
-        for (int i = 0; i < num_bodies; ++i) {
-            hkpRigidBody* body = mRagdollInstance->getRigidBodyArray()[i];
-
-            // Fix the positions to be in world space.
-            hkVector4f pos;
-            pos.setAdd(body->getTransform().getTranslation(), translation);
-            body->setPosition(pos);
-
-            mRigidBodies[i]->updateShape();
+    if (mFactor != factor) {
+        // Change the factor and recalculate all effective bone weights.
+        mFactor = factor;
+        for (int i = 0, n = mConfiguredBoneWeights.size(); i < n; ++i) {
+            recalculateEffectiveBoneWeight(i);
         }
     }
-
-    if (mSkeletonMapper)
-        mSkeletonMapper->getBoneAccessor().setScale(scale);
 }
 
-void RagdollController::m3() {}
+// NON_MATCHING
+void RagdollController::recalculateEffectiveBoneWeight(int index) {
+    const auto factor = [this] { return mFactor < 0 ? -mFactor : mFactor; };
 
-RagdollController::ScopedPhysicsLock::ScopedPhysicsLock(const RagdollController* ctrl)
-    : mCtrl{ctrl}, mWorldLock{ctrl->isAddedToWorld(), ContactLayerType::Entity} {
-    for (auto body : util::indexIter(ctrl->mRigidBodies))
-        body.get()->lock(RigidBody::AlsoLockWorld::No);
+    if (mFactor == 0.0) {
+        mEffectiveBoneWeights[index] = mMultipliers[index] * mConfiguredBoneWeights[index];
+    } else if (mFactor < 0.0) {
+        mEffectiveBoneWeights[index] =
+            mMultipliers[index] *
+            (mConfiguredBoneWeights[index] + (0.0f - mConfiguredBoneWeights[index]) * factor());
+    } else {
+        mEffectiveBoneWeights[index] =
+            mMultipliers[index] *
+            (mConfiguredBoneWeights[index] + (1.0f - mConfiguredBoneWeights[index]) * factor());
+    }
 }
 
-RagdollController::ScopedPhysicsLock::~ScopedPhysicsLock() {
-    for (auto body : util::indexIter(mCtrl->mRigidBodies))
-        body.get()->unlock(RigidBody::AlsoLockWorld::No);
+void RagdollController::reset() {
+    reinitController();
+    mFactor = -1.0f;
+    setFactor(0.0f);
 }
 
-BoneAccessor* RagdollController::getBoneAccessor() const {
-    if (mSkeletonMapper)
-        return &mSkeletonMapper->getBoneAccessor();
+void RagdollController::reinitController() {
+    mRagdollRigidBodyCtrl->reinitialize();
+}
 
-    return mModelBoneAccessor;
+void RagdollController::resetMultipliers() {
+    for (int i = 0, n = mMultipliers.size(); i < n; ++i) {
+        if (mMultipliers[i] == 1.0)
+            continue;
+
+        mMultipliers[i] = 1.0;
+        recalculateEffectiveBoneWeight(i);
+    }
 }
 
 }  // namespace ksys::phys

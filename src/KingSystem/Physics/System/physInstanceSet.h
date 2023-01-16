@@ -32,7 +32,7 @@ class CollisionInfo;
 class ContactPointInfo;
 class NavMeshCharacter;
 class ParamSet;
-class RagdollController;
+class RagdollInstance;
 class RigidBodySet;
 class SystemGroupHandler;
 class UserTag;
@@ -102,7 +102,7 @@ private:
     CharacterController* mCharacterController{};
     CharacterFormSet* mCharacterFormSet{};
 
-    RagdollController* mRagdollController{};
+    RagdollInstance* mRagdollInstance{};
     sead::Buffer<void*> _98;
     ContactPointInfo* mRagdollContactPointInfo{};
     res::Handle* mRagdollResHandle{};

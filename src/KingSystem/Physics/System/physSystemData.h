@@ -64,6 +64,8 @@ public:
     void load(sead::Heap* heap, GroupFilter* entity_group_filter, GroupFilter* sensor_group_filter,
               MaterialTable* material_table, ContactMgr* contact_mgr);
 
+    auto* getRagdollCtrlKeyList() const { return mRagdollCtrlKeyList; }
+
 private:
     using LayerMatrix = Tables<LayerTable, MaxNumLayersPerType>;
 

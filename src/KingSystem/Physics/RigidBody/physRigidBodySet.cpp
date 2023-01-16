@@ -29,7 +29,7 @@ void RigidBodySet::setUseSystemTimeFactor(bool use) {
 
 void RigidBodySet::clearFlag400000(bool clear) {
     for (auto& body : mRigidBodies)
-        body.setFlag400000(!clear);
+        body.clearFlag400000(clear);
 }
 
 void RigidBodySet::setEntityMotionFlag200(bool set) {

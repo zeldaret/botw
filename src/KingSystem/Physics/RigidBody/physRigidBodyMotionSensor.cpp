@@ -75,35 +75,6 @@ void RigidBodyMotionSensor::setTransformFromLinkedBody(const sead::Matrix34f& mt
     setTransform(new_mtx, false);
 }
 
-static void makeSRT(sead::Matrix34f& o, const sead::Vector3f& s, const sead::Quatf& r,
-                    const sead::Vector3f& t) {
-    const float yy = 2 * r.y * r.y;
-    const float zz = 2 * r.z * r.z;
-    const float xx = 2 * r.x * r.x;
-    const float xy = 2 * r.x * r.y;
-    const float xz = 2 * r.x * r.z;
-    const float yz = 2 * r.y * r.z;
-    const float wz = 2 * r.w * r.z;
-    const float wx = 2 * r.w * r.x;
-    const float wy = 2 * r.w * r.y;
-
-    o.m[0][0] = s.x * (1 - yy - zz);
-    o.m[0][1] = s.y * (xy - wz);
-    o.m[0][2] = s.z * (xz + wy);
-
-    o.m[1][0] = s.x * (xy + wz);
-    o.m[1][1] = s.y * (1 - xx - zz);
-    o.m[1][2] = s.z * (yz - wx);
-
-    o.m[2][0] = s.x * (xz - wy);
-    o.m[2][1] = s.y * (yz + wx);
-    o.m[2][2] = s.z * (1 - xx - yy);
-
-    o.m[0][3] = t.x;
-    o.m[1][3] = t.y;
-    o.m[2][3] = t.z;
-}
-
 static sead::Matrix34f makeSRT(const hkVector4f& s, const hkQuaternionf& r, const hkVector4f& t) {
     sead::Vector3f ss;
     toVec3(&ss, s);
@@ -115,7 +86,7 @@ static sead::Matrix34f makeSRT(const hkVector4f& s, const hkQuaternionf& r, cons
     toVec3(&tt, t);
 
     sead::Matrix34f o;
-    makeSRT(o, ss, rr, tt);
+    o.makeSQT(ss, rr, tt);
     return o;
 }
 

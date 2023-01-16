@@ -1,6 +1,6 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
-#include "KingSystem/Physics/Ragdoll/physRagdollController.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
@@ -103,19 +103,19 @@ void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
     if (sensor)
         return;
 
-    if (mRagdollController != nullptr)
-        mRagdollController->sub_7101221728(layer);
+    if (mRagdollInstance != nullptr)
+        mRagdollInstance->disableContactLayer(layer);
 
     if (mCharacterController != nullptr)
-        mCharacterController->enableCollisionMaybe_0(layer);
+        mCharacterController->disableContactLayer(layer);
 }
 
 void InstanceSet::sub_7100FBAD74() {
     for (auto& rb : mRigidBodySets) {
         rb.disableAllContactLayers();
     }
-    if (mRagdollController != nullptr) {
-        mRagdollController->sub_71012217A8();
+    if (mRagdollInstance != nullptr) {
+        mRagdollInstance->setContactNone();
     }
     if (mCharacterController != nullptr) {
         mCharacterController->sub_7100F60604();
@@ -189,10 +189,10 @@ void InstanceSet::sub_7100FBD284(const sead::Matrix34f& mtx) {
     }
     mFlags.reset(Flag::_80000000);
 
-    if (mRagdollController == nullptr)
+    if (mRagdollInstance == nullptr)
         return;
 
-    if (mRagdollController->sub_7101221CC4() == 0)
+    if (mRagdollInstance->getWorldState() == RagdollInstance::WorldState::AddedToWorld)
         sub_7100FBC890(mtx, false, false);
 }
 

@@ -22,7 +22,7 @@ void ForkAI::enter_(ksys::act::ai::InlineParamPack* params) {
         SEAD_WARN("ForkAI::enter_: no children");
         changeChildIdx(num_children - 1);
     }
-    setRootAiFlag(ksys::act::ai::RootAiFlag::_100);
+    setRootAiFlag(ksys::act::ai::RootAiFlag::_8);
 }
 
 bool ForkAI::reenter(ksys::act::ai::ActionBase* other, const sead::SafeString& context) {
