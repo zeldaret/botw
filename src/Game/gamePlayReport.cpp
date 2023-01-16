@@ -1,4 +1,5 @@
 #include "Game/gamePlayReport.h"
+#include <math/seadVector.h>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
@@ -7,12 +8,12 @@
 
 namespace uking {
 
-void PlayReport::reportKorok(const sead::Vector3f& position) {
+void reportKorok(const sead::Vector3f& position) {
     ksys::ProductReporter::getSomeBool();
     s32 id = ksys::gdt::getFlag_HiddenKorok_Number();
 
-    PlayReport::Report report(sead::SafeString("korok"), 7,
-                              ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+    PlayReport report(sead::SafeString("korok"), 7,
+                      ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
     report.addMapType();
     report.add(sead::SafeString("Id"), u32(id));
@@ -27,21 +28,23 @@ void PlayReport::reportKorok(const sead::Vector3f& position) {
     }
 }
 
-void PlayReport::reportDungeon(const sead::SafeString& name, const sead::SafeString& event) {
+void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) {
     ksys::ProductReporter::getSomeBool();
 
     if (name.findIndex("Remains") == -1 && name.findIndex("Dungeon") == -1 &&
         name.findIndex("FinalTrial") == -1)
         return;
 
-    PlayReport::Report report(sead::SafeString("dungeon"), 6,
-                              ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+    PlayReport report(sead::SafeString("dungeon"), 6,
+                      ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
     report.addMapType();
+
     report.add(sead::SafeString("Name"), name);
     report.add(sead::SafeString("Event"), event);
 
     report.addPlayTimes();
+
     if (ksys::PlayReportMgr::instance()) {
         auto* reporter = ksys::PlayReportMgr::instance()->getReporter();
         if (reporter && reporter->isEnabled())
@@ -49,11 +52,10 @@ void PlayReport::reportDungeon(const sead::SafeString& name, const sead::SafeStr
     }
 }
 
-PlayReport::Report::Report(const sead::FixedSafeString<32>& event_id, s32 num_entries,
-                           sead::Heap* heap)
-    : PlayReport(event_id, num_entries, heap) {}
+PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
+    : ksys::PlayReport(event_id, num_entries, heap) {}
 
-void PlayReport::Report::addPlayTimes() {
+void PlayReport::addPlayTimes() {
     if (!ksys::gdt::Manager::instance())
         return;
 
@@ -73,19 +75,20 @@ void PlayReport::Report::addPlayTimes() {
     add(sead::SafeString("AllPlayTime"), u32(allPlayTime));
 }
 
-void PlayReport::Report::addPosition(const sead::Vector2f& position) {
+void PlayReport::addPosition(const sead::Vector2f& position) {
     add(sead::SafeString("PosX"), position.x);
     add(sead::SafeString("PosZ"), position.y);
 }
 
-void PlayReport::Report::addMapType() {
+void PlayReport::addMapType() {
     if (!ksys::gdt::Manager::instance())
         return;
 
     add(sead::SafeString("IsHardMode"), ksys::gdt::getFlag_AoC_HardMode_Enabled());
-    const sead::SafeString& current_map = ksys::StageInfo::getCurrentMapType();
 
+    const sead::SafeString& current_map = ksys::StageInfo::getCurrentMapType();
     u32 type = 0;
+
     if (current_map == "MainField")
         type = 1;
 

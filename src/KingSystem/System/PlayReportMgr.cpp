@@ -22,29 +22,29 @@ void PlayReportMgr::reportDebug(const sead::SafeString& message, const sead::Saf
     // Stubbed in release builds
 }
 
-int PlayReportMgr::auto0() const {
-    return 1;
+bool PlayReportMgr::auto0() const {
+    return true;
 }
 
-PlayerTrackReporter* PlayReportMgr::auto2() const {
-    if (mReporter)
-        return mReporter->getPlayerTrackReporter();
-    return nullptr;
+PlayerTrackReporter* PlayReportMgr::getPlayerTrackReporter() const {
+    if (!mReporter)
+        return nullptr;
+    return mReporter->getPlayerTrackReporter();
 }
 
-void PlayReportMgr::auto1() {
-    if (mReporter && mReporter->getPlayerTrackReporter())
-        mReporter->getPlayerTrackReporter()->_28 = true;
+void PlayReportMgr::setPlayerTrackReporter28() {
+    if (auto* reporter = getPlayerTrackReporter())
+        reporter->_28 = true;
 }
 
-void PlayReportMgr::auto3() {
-    if (mReporter && mReporter->getPlayerTrackReporter())
-        mReporter->getPlayerTrackReporter()->_29 = true;
+void PlayReportMgr::setPlayerTrackReporter29() {
+    if (auto* reporter = getPlayerTrackReporter())
+        reporter->_29 = true;
 }
 
-void PlayReportMgr::x() {
-    if (mReporter && mReporter->getPlayerTrackReporter())
-        mReporter->getPlayerTrackReporter()->_30 = true;
+void PlayReportMgr::setPlayerTrackReporter30() {
+    if (auto* reporter = getPlayerTrackReporter())
+        reporter->_30 = true;
 }
 
 bool PlayReport::setEventId(sead::BufferedSafeString& event_id) {
