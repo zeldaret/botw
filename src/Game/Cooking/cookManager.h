@@ -41,7 +41,8 @@ struct CookItem {
     s32 effect_time{};
     s32 item_price{};
     CookEffectId effect_id = CookEffectId::None;
-    f32 stamina_recover{};
+    /// Can refer to life bonus, stamina recover, or stamina bonus, depending on `effect_id`.
+    f32 vitality_boost{};
     bool is_crit{};
 };
 KSYS_CHECK_SIZE_NX150(CookItem, 0x228);

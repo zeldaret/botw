@@ -1039,7 +1039,7 @@ void PauseMenuDataMgr::setCookDataOnLastAddedItem(const uking::CookItem& cook_it
     mLastAddedItem->getCookData().setStaminaRecoverY(cook_item.effect_time);
     mLastAddedItem->getCookData().setStaminaRecoverX(cook_item.life_recover);
     mLastAddedItem->getCookData().setCookEffect1(cook_item.item_price);
-    const int y = cook_item.stamina_recover;
+    const int y = cook_item.vitality_boost;
     const CookEffectId x = cook_item.effect_id;
     mLastAddedItem->getCookData().setCookEffect0({float(x), float(y)});
     for (s32 i = 0; i < cook_item.ingredients.size(); ++i)

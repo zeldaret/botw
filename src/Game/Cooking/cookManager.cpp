@@ -57,7 +57,7 @@ void CookItem::reset() {
     is_crit = false;
     item_price = 0;
     effect_id = CookEffectId::None;
-    stamina_recover = 0.0f;
+    vitality_boost = 0.0f;
     for (auto& ingredient : ingredients) {
         ingredient.clear();
     }
@@ -69,7 +69,7 @@ void CookItem::copy(CookItem& to) const {
     to.effect_time = effect_time;
     to.is_crit = is_crit;
     to.item_price = item_price;
-    to.stamina_recover = stamina_recover;
+    to.vitality_boost = vitality_boost;
     to.effect_id = effect_id;
     to.ingredients = ingredients;
 }
@@ -102,7 +102,7 @@ void CookingMgr::cookFail(CookItem& item) {
     }
 
     item.life_recover = life_recover;
-    item.stamina_recover = 0.0f;
+    item.vitality_boost = 0.0f;
     item.effect_id = CookEffectId::None;
     item.item_price = 2;
 }
@@ -120,7 +120,7 @@ void CookingMgr::cookFailForMissingConfig(CookItem& item, const sead::SafeString
     }
 
     item.life_recover = life_recover;
-    item.stamina_recover = 0.0f;
+    item.vitality_boost = 0.0f;
     item.effect_id = CookEffectId::None;
     item.item_price = 1;
 }
@@ -185,16 +185,16 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
         break;
     case 2:
         if (item.effect_id != CookEffectId::None) {
-            if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f) {
-                item.stamina_recover = 1.0;
+            if (item.vitality_boost > 0.0f && item.vitality_boost < 1.0f) {
+                item.vitality_boost = 1.0;
             }
-            item.stamina_recover =
-                (f32)((s32)item.stamina_recover + mCookingEffectEntries[(int)item.effect_id].ssa);
+            item.vitality_boost =
+                (f32)((s32)item.vitality_boost + mCookingEffectEntries[(int)item.effect_id].ssa);
         }
         break;
     case 3:
         if (item.effect_id != CookEffectId::None) {
-            item.stamina_recover = (f32)mCookingEffectEntries[(int)item.effect_id].min;
+            item.vitality_boost = (f32)mCookingEffectEntries[(int)item.effect_id].min;
         }
         break;
     default:
@@ -222,7 +222,7 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
                                              CookItem& item) const {
     enum Bonus {
         LifeBonus = 0,
-        StaminaBonus = 1,
+        VitalityBonus = 1,
         TimeBonus = 2,
     };
 
@@ -234,31 +234,31 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
 
     if (item.effect_id != CookEffectId::None) {
         const f32 life_recover = item.life_recover;
-        const s32 stamina_recover = sead::Mathi::clampMin((s32)item.stamina_recover, 1);
+        const s32 vitality_bonus = sead::Mathi::clampMin((s32)item.vitality_boost, 1);
 
         const f32 life_recover_max = (f32)life_entry.max;
-        const s32 stamina_recover_max = mCookingEffectEntries[(int)item.effect_id].max;
+        const s32 vitality_bonus_max = mCookingEffectEntries[(int)item.effect_id].max;
 
         const bool life_recover_maxed = life_recover >= life_recover_max;
-        const bool stamina_recover_maxed = stamina_recover >= stamina_recover_max;
+        const bool vitality_bonus_maxed = vitality_bonus >= vitality_bonus_max;
 
         switch (item.effect_id) {
         case CookEffectId::LifeMaxUp:
-            bonus = StaminaBonus;
+            bonus = VitalityBonus;
             break;
 
         case CookEffectId::GutsRecover:
         case CookEffectId::ExGutsMaxUp:
-            if (stamina_recover_maxed)
+            if (vitality_bonus_maxed)
                 bonus = LifeBonus;
             else if (life_recover_maxed)
-                bonus = StaminaBonus;
+                bonus = VitalityBonus;
             else
-                bonus = sead::GlobalRandom::instance()->getBool() ? StaminaBonus : LifeBonus;
+                bonus = sead::GlobalRandom::instance()->getBool() ? VitalityBonus : LifeBonus;
             break;
 
         default:
-            if (stamina_recover_maxed) {
+            if (vitality_bonus_maxed) {
                 if (life_recover_maxed) {
                     bonus = TimeBonus;
                 } else {
@@ -266,7 +266,7 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
                 }
             } else {
                 if (life_recover_maxed) {
-                    bonus = sead::GlobalRandom::instance()->getBool() ? TimeBonus : StaminaBonus;
+                    bonus = sead::GlobalRandom::instance()->getBool() ? TimeBonus : VitalityBonus;
                 } else {
                     bonus = (Bonus)sead::GlobalRandom::instance()->getU32(3);
                 }
@@ -276,12 +276,12 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
     }
 
     switch (bonus) {
-    case StaminaBonus:
+    case VitalityBonus:
         if (item.effect_id != CookEffectId::None) {
-            if (item.stamina_recover > 0.0f && item.stamina_recover < 1.0f)
-                item.stamina_recover = 1.0f;
-            item.stamina_recover =
-                (f32)((int)item.stamina_recover + mCookingEffectEntries[(int)item.effect_id].ssa);
+            if (item.vitality_boost > 0.0f && item.vitality_boost < 1.0f)
+                item.vitality_boost = 1.0f;
+            item.vitality_boost =
+                (f32)((int)item.vitality_boost + mCookingEffectEntries[(int)item.effect_id].ssa);
         }
         break;
     case TimeBonus:
@@ -324,7 +324,7 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
 #endif
             while (i < 1) {
                 if (item.effect_id == CookEffectId::LifeMaxUp) {
-                    item.stamina_recover += (f32)int_val;
+                    item.vitality_boost += (f32)int_val;
                 }
                 i++;
             }
@@ -339,7 +339,7 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
             while (i < 1) {
                 if (item.effect_id == CookEffectId::GutsRecover ||
                     item.effect_id == CookEffectId::ExGutsMaxUp) {
-                    item.stamina_recover += (f32)int_val;
+                    item.vitality_boost += (f32)int_val;
                 }
                 i++;
             }
@@ -465,7 +465,7 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients, Co
             if (effect_found) {
                 // Finding a second effect makes them cancel out.
                 effect_found = false;
-                item.stamina_recover = 0.0f;
+                item.vitality_boost = 0.0f;
                 item.effect_id = CookEffectId::None;
                 item.effect_time = 0;
                 break;
@@ -474,7 +474,7 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients, Co
             const auto& entry = mCookingEffectEntries[i];
 
             const f32 cure_level = (f32)cure_levels[i];
-            item.stamina_recover = cure_level * entry.multiplier;
+            item.vitality_boost = cure_level * entry.multiplier;
 
             const auto effect_id = (CookEffectId)i;
             item.effect_id = effect_id;
@@ -484,10 +484,10 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients, Co
                 item.effect_time = time_boost + 30 * total_count + boost_time * count;
 
             if (effect_id == CookEffectId::LifeMaxUp) {
-                item.stamina_recover += (f32)life_boost;
+                item.vitality_boost += (f32)life_boost;
             } else if (effect_id == CookEffectId::GutsRecover ||
                        effect_id == CookEffectId::ExGutsMaxUp) {
-                item.stamina_recover += (f32)stamina_boost;
+                item.vitality_boost += (f32)stamina_boost;
             }
             effect_found = true;
         }
@@ -495,7 +495,7 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients, Co
 
     if (!is_not_fairy_tonic && effect_found) {
         effect_found = false;
-        item.stamina_recover = 0.0f;
+        item.vitality_boost = 0.0f;
         item.effect_id = CookEffectId::None;
         item.effect_time = 0;
     }
@@ -515,8 +515,8 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients, Co
 
     if (item.effect_id != CookEffectId::None) {
         const s32 max = mCookingEffectEntries[(int)item.effect_id].max;
-        if (item.stamina_recover > (f32)max)
-            item.stamina_recover = (f32)max;
+        if (item.vitality_boost > (f32)max)
+            item.vitality_boost = (f32)max;
     }
 }
 
@@ -1049,33 +1049,33 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
         if (cook_item.life_recover == 0.0f)
             cook_item.life_recover = 1.0f;
     } else {
-        if (cook_item.stamina_recover > 0.0f && cook_item.stamina_recover < 1.0f)
-            cook_item.stamina_recover = 1.0f;
+        if (cook_item.vitality_boost > 0.0f && cook_item.vitality_boost < 1.0f)
+            cook_item.vitality_boost = 1.0f;
 
-        s32 stamina_recover = (s32)cook_item.stamina_recover;
+        s32 vitality_boost = (s32)cook_item.vitality_boost;
 
-        const s32 stamina_recover_max = mCookingEffectEntries[(int)cook_item.effect_id].max;
-        if (stamina_recover > stamina_recover_max)
-            stamina_recover = stamina_recover_max;
+        const s32 vitality_boost_max = mCookingEffectEntries[(int)cook_item.effect_id].max;
+        if (vitality_boost > vitality_boost_max)
+            vitality_boost = vitality_boost_max;
 
         if (cook_item.effect_id == CookEffectId::GutsRecover)
-            stamina_recover = stamina_recover * 200;
+            vitality_boost = vitality_boost * 200;
 
-        f32 stamina_recover_f = cook_item.stamina_recover = (f32)stamina_recover;
+        f32 vitality_boost_f = cook_item.vitality_boost = (f32)vitality_boost;
 
         if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
-            if ((s32)stamina_recover_f % 4 != 0) {
+            if ((s32)vitality_boost_f % 4 != 0) {
                 // Round up to whole heart.
-                stamina_recover_f = (f32)(((s32)stamina_recover_f + 4) & ~3u);
-                cook_item.stamina_recover = stamina_recover_f;
+                vitality_boost_f = (f32)(((s32)vitality_boost_f + 4) & ~3u);
+                cook_item.vitality_boost = vitality_boost_f;
             }
 
-            if (stamina_recover_f < 4.0f) {
-                stamina_recover_f = 4.0f;
-                cook_item.stamina_recover = 4.0f;
+            if (vitality_boost_f < 4.0f) {
+                vitality_boost_f = 4.0f;
+                cook_item.vitality_boost = 4.0f;
             }
 
-            cook_item.life_recover = stamina_recover_f;
+            cook_item.life_recover = vitality_boost_f;
         }
     }
 
