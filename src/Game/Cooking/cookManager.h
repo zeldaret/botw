@@ -73,17 +73,17 @@ public:
     ~CookingMgr();
 
 private:
-    void cookFail(CookItem& item);
-    void cookFailForMissingConfig(CookItem& item, const sead::SafeString& name);
-    void cookCalcBoost(const IngredientArray& ingredients, CookItem& item,
+    void cookFail(CookItem& cook_item);
+    void cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& name);
+    void cookCalcBoost(const IngredientArray& ingredients, CookItem& cook_item,
                        const BoostArg* boost_arg) const;
     void cookHandleBoostMonsterExtractInner([[maybe_unused]] const IngredientArray& ingredients,
-                                            CookItem& item) const;
+                                            CookItem& cook_item) const;
     void cookHandleBoostSuccessInner([[maybe_unused]] const IngredientArray& ingredients,
-                                     CookItem& item) const;
-    void cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const;
-    void cookCalcItemPrice(const IngredientArray& ingredients, CookItem& item) const;
-    void cookCalcIngredientsBoost(const IngredientArray& ingredients, CookItem& item) const;
+                                     CookItem& cook_item) const;
+    void cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& cook_item) const;
+    void cookCalcItemPrice(const IngredientArray& ingredients, CookItem& cook_item) const;
+    void cookCalcIngredientsBoost(const IngredientArray& ingredients, CookItem& cook_item) const;
     void cookCalcRecipeBoost(const al::ByamlIter& recipe_iter, CookItem& cook_item) const;
 
     void cookAdjustItem(CookItem& cook_item) const;
@@ -94,7 +94,7 @@ private:
                              u32 tag_hash, int num_ingredients) const;
 
     bool isCookFailure(const CookItem& cook_item) const;
-    bool isMedicine(const CookItem& item) const;
+    bool isMedicine(const CookItem& cook_item) const;
     bool hasMonsterExtract(const IngredientArray& ingredients) const;
 
     CookEffectId getCookEffectId(u32 name_hash) const;
