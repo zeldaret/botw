@@ -94,7 +94,8 @@ void CookingMgr::cookFail(CookItem& cook_item) {
         // Dubious food
         cook_item.effect_time = 0;
         const f32 min_recovery = (f32)(s32)mFailActorLifeRecover;
-        life_recover = min_recovery > cook_item.life_recover ? min_recovery : cook_item.life_recover;
+        life_recover =
+            min_recovery > cook_item.life_recover ? min_recovery : cook_item.life_recover;
     } else {
         // Rock-hard food
         cook_item.effect_time = 0;
@@ -107,14 +108,14 @@ void CookingMgr::cookFail(CookItem& cook_item) {
     cook_item.item_price = 2;
 }
 
-void CookingMgr::cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& name) {
+void CookingMgr::cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& actor_name) {
     f32 life_recover;
-    if (name.isEmpty() || name == mFailActorName) {
+    if (actor_name.isEmpty() || actor_name == mFailActorName) {
         cook_item.actor_name.copy(mFailActorName);
         cook_item.effect_time = 0;
         life_recover = (f32)(s32)mFailActorLifeRecover;
     } else {
-        cook_item.actor_name = name;
+        cook_item.actor_name = actor_name;
         cook_item.effect_time = 0;
         life_recover = (f32)(s32)mStoneFoodActorLifeRecover;
     }
@@ -188,8 +189,8 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
             if (cook_item.vitality_boost > 0.0f && cook_item.vitality_boost < 1.0f) {
                 cook_item.vitality_boost = 1.0;
             }
-            cook_item.vitality_boost =
-                (f32)((s32)cook_item.vitality_boost + mCookingEffectEntries[(int)cook_item.effect_id].ssa);
+            cook_item.vitality_boost = (f32)((s32)cook_item.vitality_boost +
+                                             mCookingEffectEntries[(int)cook_item.effect_id].ssa);
         }
         break;
     case 3:
@@ -280,8 +281,8 @@ void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientAr
         if (cook_item.effect_id != CookEffectId::None) {
             if (cook_item.vitality_boost > 0.0f && cook_item.vitality_boost < 1.0f)
                 cook_item.vitality_boost = 1.0f;
-            cook_item.vitality_boost =
-                (f32)((int)cook_item.vitality_boost + mCookingEffectEntries[(int)cook_item.effect_id].ssa);
+            cook_item.vitality_boost = (f32)((int)cook_item.vitality_boost +
+                                             mCookingEffectEntries[(int)cook_item.effect_id].ssa);
         }
         break;
     case TimeBonus:
@@ -408,7 +409,8 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
     cook_item.item_price = price;
 }
 
-void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients, CookItem& cook_item) const {
+void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
+                                          CookItem& cook_item) const {
     const bool is_medicine = isMedicine(cook_item);
     const bool is_not_fairy_tonic = mFairyTonicName != cook_item.actor_name;
 

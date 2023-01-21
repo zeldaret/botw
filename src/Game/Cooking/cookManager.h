@@ -74,7 +74,7 @@ public:
 
 private:
     void cookFail(CookItem& cook_item);
-    void cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& name);
+    void cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& actor_name);
     void cookCalcBoost(const IngredientArray& ingredients, CookItem& cook_item,
                        const BoostArg* boost_arg) const;
     void cookHandleBoostMonsterExtractInner([[maybe_unused]] const IngredientArray& ingredients,
