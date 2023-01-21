@@ -82,7 +82,7 @@ private:
                                      CookItem& item) const;
     void cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& item) const;
     void cookCalcItemPrice(const IngredientArray& ingredients, CookItem& item) const;
-    void cookCalcPotencyBoost(const IngredientArray& ingredients, CookItem& item) const;
+    void cookCalcIngredientsBoost(const IngredientArray& ingredients, CookItem& item) const;
     void cookCalcRecipeBoost(const al::ByamlIter& recipe_iter, CookItem& cook_item) const;
 
     void cookAdjustItem(CookItem& cook_item) const;

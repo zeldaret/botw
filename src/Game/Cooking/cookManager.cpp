@@ -408,7 +408,7 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
     item.item_price = price;
 }
 
-void CookingMgr::cookCalcPotencyBoost(const IngredientArray& ingredients, CookItem& item) const {
+void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients, CookItem& item) const {
     const bool is_medicine = isMedicine(item);
     const bool is_not_fairy_tonic = mFairyTonicName != item.actor_name;
 
@@ -893,7 +893,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     actor_iter.tryGetStringByKey(&string_val, "name");
                     cook_item.actor_name = string_val;
 
-                    cookCalcPotencyBoost(ingredients, cook_item);
+                    cookCalcIngredientsBoost(ingredients, cook_item);
 
                     if (isCookFailure(cook_item)) {
                         goto COOK_FAILURE;
@@ -995,7 +995,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                     actorIter.tryGetStringByKey(&string_val, "name");
                     cook_item.actor_name = string_val;
 
-                    cookCalcPotencyBoost(ingredients, cook_item);
+                    cookCalcIngredientsBoost(ingredients, cook_item);
 
                     if (isCookFailure(cook_item)) {
                         goto COOK_FAILURE;
@@ -1016,7 +1016,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
     }
 
     cook_item.actor_name = mFailActorName;
-    cookCalcPotencyBoost(ingredients, cook_item);
+    cookCalcIngredientsBoost(ingredients, cook_item);
 
 COOK_FAILURE:
     cookFail(cook_item);
