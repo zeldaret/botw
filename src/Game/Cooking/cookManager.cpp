@@ -522,8 +522,8 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
     }
 }
 
-bool CookingMgr::findIngredientByName(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
-                                      u32 name_hash, int num_ingredients) const {
+bool CookingMgr::findIngredientByName(CookingMgr::IngredientArray& ingredients, u32 name_hash,
+                                      int num_ingredients) const {
     for (int ingredient_idx = 0; ingredient_idx < num_ingredients; ingredient_idx++) {
         Ingredient& ingredient = ingredients[ingredient_idx];
         if (!ingredient.used_in_recipe && ingredient.name_hash == name_hash) {
@@ -534,8 +534,8 @@ bool CookingMgr::findIngredientByName(sead::SafeArray<Ingredient, NumIngredients
     return false;
 }
 
-bool CookingMgr::findIngredientByTag(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
-                                     u32 tag_hash, int num_ingredients) const {
+bool CookingMgr::findIngredientByTag(CookingMgr::IngredientArray& ingredients, u32 tag_hash,
+                                     int num_ingredients) const {
     for (int ingredient_idx = 0; ingredient_idx < num_ingredients; ingredient_idx++) {
         Ingredient& ingredient = ingredients[ingredient_idx];
         if (!ingredient.used_in_recipe &&

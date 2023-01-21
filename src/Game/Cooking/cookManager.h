@@ -88,10 +88,9 @@ private:
 
     void cookAdjustItem(CookItem& cook_item) const;
 
-    bool findIngredientByName(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
-                              u32 name_hash, int num_ingredients) const;
-    bool findIngredientByTag(sead::SafeArray<Ingredient, NumIngredientsMax>& ingredients,
-                             u32 tag_hash, int num_ingredients) const;
+    bool findIngredientByName(IngredientArray& ingredients, u32 name_hash,
+                              int num_ingredients) const;
+    bool findIngredientByTag(IngredientArray& ingredients, u32 tag_hash, int num_ingredients) const;
 
     bool isCookFailure(const CookItem& cook_item) const;
     bool isMedicine(const CookItem& cook_item) const;
