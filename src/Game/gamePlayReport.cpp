@@ -55,31 +55,6 @@ void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) 
 PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
     : ksys::PlayReport(event_id, num_entries, heap) {}
 
-void PlayReport::addPlayTimes() {
-    if (!ksys::gdt::Manager::instance())
-        return;
-
-    if (!ksys::PlayReportMgr::instance())
-        return;
-
-    if (!ksys::PlayReportMgr::instance()->getReporter())
-        return;
-
-    s32 playTime = ksys::PlayReportMgr::instance()->getReporter()->getS32(
-        ksys::PlayReportKey::PlayReport_PlayTime);
-
-    s32 allPlayTime = ksys::PlayReportMgr::instance()->getReporter()->getS32(
-        ksys::PlayReportKey::PlayReport_AllPlayTime);
-
-    add(sead::SafeString("PlayTime"), u32(playTime));
-    add(sead::SafeString("AllPlayTime"), u32(allPlayTime));
-}
-
-void PlayReport::addPosition(const sead::Vector2f& position) {
-    add(sead::SafeString("PosX"), position.x);
-    add(sead::SafeString("PosZ"), position.y);
-}
-
 void PlayReport::addMapType() {
     if (!ksys::gdt::Manager::instance())
         return;

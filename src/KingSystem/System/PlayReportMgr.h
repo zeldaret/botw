@@ -66,6 +66,13 @@ public:
     bool add(const sead::FixedSafeString<48>& key, s32 value);
     bool add(const sead::FixedSafeString<48>& key, f32 value);
     bool add(const sead::FixedSafeString<48>& key, const sead::SafeString& value);
+
+    // TODO: requires LayoutResourceMgr
+    void addRomVersions();
+
+    void addPlayTimes();
+    void addPosition(const sead::Vector2f& position);
+
     bool save();
 
 private:
