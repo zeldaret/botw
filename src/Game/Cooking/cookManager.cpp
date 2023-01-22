@@ -450,7 +450,7 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
             if (actor_data.tryGetIntByKey(&int_val, "cureItemEffectLevel") && int_val > 0) {
                 const char* string_val = nullptr;
                 if (actor_data.tryGetStringByKey(&string_val, "cureItemEffectType")) {
-                    const auto effect_id = getCookEffectId(string_val);
+                    const auto effect_id = getCookEffectIdByName(string_val);
                     if (effect_id != CookEffectId::None) {
                         effect_counts[(int)effect_id] += count;
                         cure_levels[(int)effect_id] += int_val * count;
@@ -601,7 +601,7 @@ CookEffectId CookingMgr::getCookEffectId(u32 name_hash) const {
     return entry_idx;
 }
 
-CookEffectId CookingMgr::getCookEffectId(const sead::SafeString& effect_name) const {
+CookEffectId CookingMgr::getCookEffectIdByName(const sead::SafeString& effect_name) const {
     const auto name_hash = sead::HashCRC32::calcStringHash(effect_name);
     return getCookEffectIdFromTreeMap(name_hash);
 }

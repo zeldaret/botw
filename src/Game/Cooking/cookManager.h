@@ -100,7 +100,7 @@ private:
     CookEffectId getCookEffectIdFromTreeMap(u32 name_hash) const;
 
 public:
-    CookEffectId getCookEffectId(const sead::SafeString& effect_name) const;
+    CookEffectId getCookEffectIdByName(const sead::SafeString& effect_name) const;
 
     void init(sead::Heap* heap);
 
