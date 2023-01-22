@@ -126,11 +126,11 @@ void CookingMgr::cookFailForMissingConfig(CookItem& cook_item, const sead::SafeS
     cook_item.item_price = 1;
 }
 
-void CookingMgr::cookCalcBoost(const IngredientArray& ingredients, CookItem& cook_item,
+void CookingMgr::cookCalcCritBoost(const IngredientArray& ingredients, CookItem& cook_item,
                                const BoostArg* boost_arg) const {
     // Find if any of the ingredients are Monster Extract.
     if (hasMonsterExtract(ingredients)) {
-        cookHandleBoostMonsterExtractInner(ingredients, cook_item);
+        cookHandleMonsterExtract(ingredients, cook_item);
         return;
     }
 
@@ -161,10 +161,10 @@ void CookingMgr::cookCalcBoost(const IngredientArray& ingredients, CookItem& coo
         if ((s32)sead::GlobalRandom::instance()->getU32(100) >= threshold)
             return;
     }
-    cookHandleBoostSuccessInner(ingredients, cook_item);
+    cookHandleCrit(ingredients, cook_item);
 }
 
-void CookingMgr::cookHandleBoostMonsterExtractInner(
+void CookingMgr::cookHandleMonsterExtract(
     [[maybe_unused]] const IngredientArray& ingredients, CookItem& cook_item) const {
     // Monster Extract found; calculate boosts.
 
@@ -219,7 +219,7 @@ void CookingMgr::cookHandleBoostMonsterExtractInner(
 }
 
 // NON_MATCHING
-void CookingMgr::cookHandleBoostSuccessInner([[maybe_unused]] const IngredientArray& ingredients,
+void CookingMgr::cookHandleCrit([[maybe_unused]] const IngredientArray& ingredients,
                                              CookItem& cook_item) const {
     enum Bonus {
         LifeBonus = 0,
@@ -901,7 +901,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                         goto COOK_FAILURE;
                     }
 
-                    cookCalcBoost(ingredients, cook_item, &boost_arg);
+                    cookCalcCritBoost(ingredients, cook_item, &boost_arg);
                     cookCalcSpiceBoost(ingredients, cook_item);
 
                     cookCalcRecipeBoost(recipe_iter, cook_item);
@@ -1003,7 +1003,7 @@ bool CookingMgr::cook(const CookArg& arg, CookItem& cook_item,
                         goto COOK_FAILURE;
                     }
 
-                    cookCalcBoost(ingredients, cook_item, &boost_arg);
+                    cookCalcCritBoost(ingredients, cook_item, &boost_arg);
                     cookCalcSpiceBoost(ingredients, cook_item);
 
                     cookCalcRecipeBoost(recipe_iter, cook_item);
