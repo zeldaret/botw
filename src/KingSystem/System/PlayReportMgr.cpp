@@ -55,20 +55,46 @@ bool PlayReport::setEventId(sead::BufferedSafeString& event_id) {
     return mNinPlayReport->SetEventId(event_id.cstr()).IsSuccess();
 }
 
-bool PlayReport::add(const sead::FixedSafeString<48>& key, u32 value) {
+[[gnu::noinline]] bool PlayReport::add(const sead::FixedSafeString<48>& key, u32 value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), s64(value)).IsSuccess();
 }
 
-bool PlayReport::add(const sead::FixedSafeString<48>& key, s32 value) {
+[[gnu::noinline]] bool PlayReport::add(const sead::FixedSafeString<48>& key, s32 value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), s64(value)).IsSuccess();
 }
 
-bool PlayReport::add(const sead::FixedSafeString<48>& key, f32 value) {
+[[gnu::noinline]] bool PlayReport::add(const sead::FixedSafeString<48>& key, f32 value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), value).IsSuccess();
 }
 
-bool PlayReport::add(const sead::FixedSafeString<48>& key, const sead::SafeString& value) {
+[[gnu::noinline]] bool PlayReport::add(const sead::FixedSafeString<48>& key,
+                                       const sead::SafeString& value) {
     return mHasNinPrepoReport && mNinPlayReport->Add(key.cstr(), value.cstr()).IsSuccess();
+}
+
+void PlayReport::addPlayTimes() {
+    if (!gdt::Manager::instance())
+        return;
+
+    if (!PlayReportMgr::instance())
+        return;
+
+    if (!PlayReportMgr::instance()->getReporter())
+        return;
+
+    s32 playTime =
+        PlayReportMgr::instance()->getReporter()->getS32(PlayReportKey::PlayReport_PlayTime);
+
+    s32 allPlayTime =
+        PlayReportMgr::instance()->getReporter()->getS32(PlayReportKey::PlayReport_AllPlayTime);
+
+    add(sead::SafeString("PlayTime"), u32(playTime));
+    add(sead::SafeString("AllPlayTime"), u32(allPlayTime));
+}
+
+void PlayReport::addPosition(const sead::Vector2f& position) {
+    add(sead::SafeString("PosX"), position.x);
+    add(sead::SafeString("PosZ"), position.y);
 }
 
 bool PlayReport::save() {
