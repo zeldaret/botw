@@ -601,8 +601,8 @@ CookEffectId CookingMgr::getCookEffectId(u32 name_hash) const {
     return entry_idx;
 }
 
-CookEffectId CookingMgr::getCookEffectId(const sead::SafeString& name) const {
-    const auto name_hash = sead::HashCRC32::calcStringHash(name);
+CookEffectId CookingMgr::getCookEffectId(const sead::SafeString& effect_name) const {
+    const auto name_hash = sead::HashCRC32::calcStringHash(effect_name);
     return getCookEffectIdFromTreeMap(name_hash);
 }
 
