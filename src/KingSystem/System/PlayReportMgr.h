@@ -72,7 +72,7 @@ public:
 
     void addPlayTimes();
     void addPosition(const sead::Vector2f& position);
-    
+
     bool save();
 
 private:
