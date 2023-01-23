@@ -47,7 +47,6 @@ struct CookItem {
 };
 KSYS_CHECK_SIZE_NX150(CookItem, 0x228);
 
-// TODO
 class CookingMgr {
     SEAD_SINGLETON_DISPOSER(CookingMgr)
 public:
