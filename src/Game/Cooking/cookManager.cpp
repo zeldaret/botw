@@ -127,7 +127,7 @@ void CookingMgr::cookFailForMissingConfig(CookItem& cook_item, const sead::SafeS
 }
 
 void CookingMgr::cookCalcCritBoost(const IngredientArray& ingredients, CookItem& cook_item,
-                               const BoostArg* boost_arg) const {
+                                   const BoostArg* boost_arg) const {
     // Find if any of the ingredients are Monster Extract.
     if (hasMonsterExtract(ingredients)) {
         cookHandleMonsterExtract(ingredients, cook_item);
@@ -164,8 +164,8 @@ void CookingMgr::cookCalcCritBoost(const IngredientArray& ingredients, CookItem&
     cookHandleCrit(ingredients, cook_item);
 }
 
-void CookingMgr::cookHandleMonsterExtract(
-    [[maybe_unused]] const IngredientArray& ingredients, CookItem& cook_item) const {
+void CookingMgr::cookHandleMonsterExtract([[maybe_unused]] const IngredientArray& ingredients,
+                                          CookItem& cook_item) const {
     // Monster Extract found; calculate boosts.
 
     s32 effect_min = 0;
@@ -220,7 +220,7 @@ void CookingMgr::cookHandleMonsterExtract(
 
 // NON_MATCHING
 void CookingMgr::cookHandleCrit([[maybe_unused]] const IngredientArray& ingredients,
-                                             CookItem& cook_item) const {
+                                CookItem& cook_item) const {
     enum Bonus {
         LifeBonus = 0,
         VitalityBonus = 1,
