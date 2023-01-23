@@ -30,27 +30,32 @@ void ShootingStarMgr::init_(sead::Heap* heap) {
         initSchedule();
 }
 
-// NON_MATCHING
 void ShootingStarMgr::initSchedule() {
-    if (sHours.start >= sHours.end) {
-        sead::FixedObjArray<u32, 24> validHours;
+    const s32& start_hour = sHours.start;
+    const s32 end_hour = sHours.end - 1;
 
-        if (sHours.start <= 23) {
-            for (int i = 0; i < 24; ++i) {
-                validHours.emplaceBack(sHours.start);
-            }
-        }
-        if (sHours.end > 1) {
-            for (int i = 0; i < 23; ++i) {
-                validHours.emplaceBack(i);
-            }
-        }
-        auto rand = sead::Random();
-        validHours.shuffle(&rand);
-        mFallHour = *validHours[0];
+    s32 fall_hour;
+
+    if (start_hour <= end_hour) {
+        // Time range is continuous.
+        fall_hour = sead::GlobalRandom::instance()->getS32Range(start_hour, end_hour);
     } else {
-        mFallHour = sead::GlobalRandom::instance()->getS32Range(sHours.start, sHours.end - 1);
+        // Time range is discontinuous.
+        // Fill an array with valid hours, shuffle it, and take the first.
+        sead::FixedObjArray<s32, 24> valid_hours;
+
+        for (int i = start_hour; i < 24; ++i) {
+            valid_hours.emplaceBack(i);
+        }
+        for (int i = 0; i < end_hour; ++i) {
+            valid_hours.emplaceBack(i);
+        }
+
+        valid_hours.shuffle();
+        fall_hour = *valid_hours[0];
     }
+
+    mFallHour = fall_hour;
     mFallMinute = sead::GlobalRandom::instance()->getU32(59);
     mInitialised = true;
 }
