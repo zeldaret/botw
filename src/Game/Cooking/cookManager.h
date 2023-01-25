@@ -169,9 +169,7 @@ struct CookIngredient {
 KSYS_CHECK_SIZE_NX150(CookIngredient, 0x60);
 
 struct CookArg {
-    CookArg();  // Defined in the aiCookPotRoot compilation unit.
-
-    sead::SafeArray<CookIngredient, CookingMgr::NumIngredientsMax> ingredients{};
+    sead::SafeArray<CookIngredient, CookingMgr::NumIngredientsMax> ingredients;
 };
 KSYS_CHECK_SIZE_NX150(CookArg, 0x1E0);
 
