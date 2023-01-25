@@ -5,6 +5,7 @@ __pycache__/
 *.dist-info/
 .mypy_cache/
 .benchmarks/
+.python-version
 
 # Binaries
 *.so
