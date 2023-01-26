@@ -637,17 +637,14 @@ void CookingMgr::init(sead::Heap* heap) {
         mCookingEffectEntries[i].ssa = 0;
     }
 
-    mIngredientNumMultipliers[0] = 1.0f;
-    mIngredientNumMultipliers[1] = 1.0f;
-    mIngredientNumMultipliers[2] = 1.0f;
-    mIngredientNumMultipliers[3] = 1.0f;
-    mIngredientNumMultipliers[4] = 1.0f;
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        mIngredientNumMultipliers[i] = 1.0f;
+    }
 
-    mIngredientNumSuccessRates[0] = 0;
-    mIngredientNumSuccessRates[1] = 5;
-    mIngredientNumSuccessRates[2] = 10;
-    mIngredientNumSuccessRates[3] = 15;
-    mIngredientNumSuccessRates[4] = 20;
+    // Must be separate from previous loop.
+    for (int i = 0; i < NumIngredientsMax; i++) {
+        mIngredientNumSuccessRates[i] = 5 * i;
+    }
 
     mFairyTonicName = "Item_Cook_C_16";
     mFairyTonicNameHash = sead::HashCRC32::calcStringHash(mFairyTonicName);
