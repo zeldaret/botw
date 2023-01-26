@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/Utils/SafeDelete.h"
 
 namespace uking {
 
@@ -79,8 +80,7 @@ CookingMgr::CookingMgr() = default;
 
 CookingMgr::~CookingMgr() {
     if (mConfig) {
-        delete mConfig;
-        mConfig = nullptr;
+        ksys::util::safeDelete(mConfig);
     }
 }
 
