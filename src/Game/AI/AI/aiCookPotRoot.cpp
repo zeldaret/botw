@@ -56,7 +56,7 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
                 if (!_48 /* TODO */) {
                     const int num_ingredients = 5;  // TODO
                     _48 = true;
-                    CookingMgr* cooking_mgr = CookingMgr::instance();
+                    auto* cooking_mgr = CookingMgr::instance();
                     cooking_mgr->resetArgCookData(mCookArg, mCookIngredients, num_ingredients,
                                                   mCookItem);
 
