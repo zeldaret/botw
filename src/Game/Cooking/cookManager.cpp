@@ -134,9 +134,8 @@ void CookingMgr::cookCalcCritBoost(const IngredientArray& ingredients, CookItem&
     }
 
     if (!boost_arg || !boost_arg->always_boost) {
-        if (boost_arg && !boost_arg->enable_random_boost) {
+        if (boost_arg && !boost_arg->enable_random_boost)
             return;
-        }
 
         s32 threshold = 0;
         s32 num_ingredients = 0;
@@ -144,13 +143,15 @@ void CookingMgr::cookCalcCritBoost(const IngredientArray& ingredients, CookItem&
 
         for (int i = 0; i < NumIngredientsMax; i++) {
             const auto& ingredient = ingredients[i];
-            if (ingredient.arg) {
-                num_ingredients++;
-                if (ingredient.actor_data.tryGetIntByKey(&success_rate,
-                                                         "cookSpiceBoostSuccessRate") &&
-                    success_rate > threshold) {
-                    threshold = success_rate;
-                }
+
+            if (!ingredient.arg)
+                continue;
+
+            num_ingredients++;
+
+            if (ingredient.actor_data.tryGetIntByKey(&success_rate, "cookSpiceBoostSuccessRate") &&
+                success_rate > threshold) {
+                threshold = success_rate;
             }
         }
 
