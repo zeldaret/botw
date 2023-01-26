@@ -72,6 +72,14 @@ public:
     ~CookingMgr();
 
 private:
+    struct CookingEffectEntry {
+        int boost_time = 0;
+        int max = 0;
+        int min = 0;
+        float multiplier = 1.0f;
+        int ssa = 1;
+    };
+
     void cookFail(CookItem& cook_item);
     void cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& actor_name);
     void cookCalcCritBoost(const IngredientArray& ingredients, CookItem& cook_item,
@@ -92,6 +100,13 @@ private:
     bool isCookFailure(const CookItem& cook_item) const;
     bool isMedicine(const CookItem& cook_item) const;
     bool hasMonsterExtract(const IngredientArray& ingredients) const;
+
+    CookingEffectEntry& getCookingEffectEntry(CookEffectId id) {
+        return mCookingEffectEntries[(int)id];
+    }
+    const CookingEffectEntry& getCookingEffectEntry(CookEffectId id) const {
+        return mCookingEffectEntries[(int)id];
+    }
 
     CookEffectId getCookEffectId(u32 name_hash) const;
     CookEffectId getCookEffectIdFromTreeMap(u32 name_hash) const;
@@ -122,14 +137,6 @@ public:
     void getCookItem(CookItem& to) const;
 
 private:
-    struct CookingEffectEntry {
-        int boost_time = 0;
-        int max = 0;
-        int min = 0;
-        float multiplier = 1.0f;
-        int ssa = 1;
-    };
-
     al::ByamlIter* mConfig = nullptr;
 
     ksys::res::Handle mResHandle;

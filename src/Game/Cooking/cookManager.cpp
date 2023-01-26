@@ -179,10 +179,10 @@ void CookingMgr::cookHandleMonsterExtract([[maybe_unused]] const IngredientArray
 
     switch (sead::GlobalRandom::instance()->getS32Range(effect_min, effect_max)) {
     case 0:
-        cook_item.life_recover += (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].ssa;
+        cook_item.life_recover += (f32)getCookingEffectEntry(CookEffectId::LifeRecover).ssa;
         break;
     case 1:
-        cook_item.life_recover = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].min;
+        cook_item.life_recover = (f32)getCookingEffectEntry(CookEffectId::LifeRecover).min;
         break;
     case 2:
         if (cook_item.effect_id != CookEffectId::None) {
@@ -190,12 +190,12 @@ void CookingMgr::cookHandleMonsterExtract([[maybe_unused]] const IngredientArray
                 cook_item.vitality_boost = 1.0;
             }
             cook_item.vitality_boost = (f32)((s32)cook_item.vitality_boost +
-                                             mCookingEffectEntries[(int)cook_item.effect_id].ssa);
+                                             getCookingEffectEntry(cook_item.effect_id).ssa);
         }
         break;
     case 3:
         if (cook_item.effect_id != CookEffectId::None) {
-            cook_item.vitality_boost = (f32)mCookingEffectEntries[(int)cook_item.effect_id].min;
+            cook_item.vitality_boost = (f32)getCookingEffectEntry(cook_item.effect_id).min;
         }
         break;
     default:
@@ -231,14 +231,14 @@ void CookingMgr::cookHandleCrit([[maybe_unused]] const IngredientArray& ingredie
 
     cook_item.is_crit = true;
 
-    const auto& life_entry = mCookingEffectEntries[(int)CookEffectId::LifeRecover];
+    const auto& life_entry = getCookingEffectEntry(CookEffectId::LifeRecover);
 
     if (cook_item.effect_id != CookEffectId::None) {
         const f32 life_recover = cook_item.life_recover;
         const s32 vitality_bonus = sead::Mathi::clampMin((s32)cook_item.vitality_boost, 1);
 
         const f32 life_recover_max = (f32)life_entry.max;
-        const s32 vitality_bonus_max = mCookingEffectEntries[(int)cook_item.effect_id].max;
+        const s32 vitality_bonus_max = getCookingEffectEntry(cook_item.effect_id).max;
 
         const bool life_recover_maxed = life_recover >= life_recover_max;
         const bool vitality_bonus_maxed = vitality_bonus >= vitality_bonus_max;
@@ -282,7 +282,7 @@ void CookingMgr::cookHandleCrit([[maybe_unused]] const IngredientArray& ingredie
             if (cook_item.vitality_boost > 0.0f && cook_item.vitality_boost < 1.0f)
                 cook_item.vitality_boost = 1.0f;
             cook_item.vitality_boost = (f32)((int)cook_item.vitality_boost +
-                                             mCookingEffectEntries[(int)cook_item.effect_id].ssa);
+                                             getCookingEffectEntry(cook_item.effect_id).ssa);
         }
         break;
     case TimeBonus:
@@ -512,11 +512,11 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
         cook_item.life_recover = (f32)life_recover * mLifeRecoverMultiplier;
     } else {
         cook_item.life_recover =
-            (f32)life_recover * mCookingEffectEntries[(int)CookEffectId::LifeRecover].multiplier;
+            (f32)life_recover * getCookingEffectEntry(CookEffectId::LifeRecover).multiplier;
     }
 
     if (cook_item.effect_id != CookEffectId::None) {
-        const s32 max = mCookingEffectEntries[(int)cook_item.effect_id].max;
+        const s32 max = getCookingEffectEntry(cook_item.effect_id).max;
         if (cook_item.vitality_boost > (f32)max)
             cook_item.vitality_boost = (f32)max;
     }
@@ -717,19 +717,19 @@ void CookingMgr::init(sead::Heap* heap) {
                         continue;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "BT"))
-                        mCookingEffectEntries[(s32)entry_idx].boost_time = int_val;
+                        getCookingEffectEntry(entry_idx).boost_time = int_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "Ma"))
-                        mCookingEffectEntries[(s32)entry_idx].max = int_val;
+                        getCookingEffectEntry(entry_idx).max = int_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "Mi"))
-                        mCookingEffectEntries[(s32)entry_idx].min = int_val;
+                        getCookingEffectEntry(entry_idx).min = int_val;
 
                     if (entry_iter.tryGetFloatByKey(&float_val, "MR"))
-                        mCookingEffectEntries[(s32)entry_idx].multiplier = float_val;
+                        getCookingEffectEntry(entry_idx).multiplier = float_val;
 
                     if (entry_iter.tryGetIntByKey(&int_val, "SSA"))
-                        mCookingEffectEntries[(s32)entry_idx].ssa = int_val;
+                        getCookingEffectEntry(entry_idx).ssa = int_val;
                 }
             }
         }
@@ -1041,7 +1041,7 @@ void CookingMgr::cookCalcRecipeBoost(const al::ByamlIter& recipe_iter, CookItem&
 void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
     cook_item.life_recover = (f32)(s32)cook_item.life_recover;
 
-    const f32 life_recover_max = (f32)mCookingEffectEntries[(int)CookEffectId::LifeRecover].max;
+    const f32 life_recover_max = (f32)getCookingEffectEntry(CookEffectId::LifeRecover).max;
     if (cook_item.life_recover > life_recover_max)
         cook_item.life_recover = life_recover_max;
     if (cook_item.life_recover < 0.0f)
@@ -1056,7 +1056,7 @@ void CookingMgr::cookAdjustItem(CookItem& cook_item) const {
 
         s32 vitality_boost = (s32)cook_item.vitality_boost;
 
-        const s32 vitality_boost_max = mCookingEffectEntries[(int)cook_item.effect_id].max;
+        const s32 vitality_boost_max = getCookingEffectEntry(cook_item.effect_id).max;
         if (vitality_boost > vitality_boost_max)
             vitality_boost = vitality_boost_max;
 
