@@ -15,9 +15,7 @@ bool SetCookItemInDemo::init_(sead::Heap* heap) {
 bool SetCookItemInDemo::oneShot_() {
     CookItem cook_item{};
 
-    CookingMgr::BoostArg boost_arg;  // NOLINT(cppcoreguidelines-pro-type-member-init)
-    boost_arg.always_boost = false;
-    boost_arg.enable_random_boost = false;
+    CookingMgr::BoostArg boost_arg{};
 
     s32 adjusted_set_num = sead::Mathi::clampMin(*mSetNum_d, 1);
 

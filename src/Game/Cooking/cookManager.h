@@ -64,8 +64,8 @@ public:
     using IngredientArray = sead::SafeArray<Ingredient, NumIngredientsMax>;
 
     struct BoostArg {
-        bool always_boost;
-        bool enable_random_boost;
+        bool always_boost = false;
+        bool enable_random_boost = false;
     };
 
     CookingMgr();
