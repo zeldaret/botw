@@ -92,13 +92,13 @@ void CookingMgr::cookFail(CookItem& cook_item) {
     if (cook_item.actor_name == mFailActorName) {
         // Dubious food
         cook_item.effect_time = 0;
-        const f32 min_recovery = (f32)(s32)mFailActorLifeRecover;
+        const f32 min_recovery = (f32)mFailActorLifeRecover;
         life_recover =
             min_recovery > cook_item.life_recover ? min_recovery : cook_item.life_recover;
     } else {
         // Rock-hard food
         cook_item.effect_time = 0;
-        life_recover = (f32)(s32)mStoneFoodActorLifeRecover;
+        life_recover = (f32)mStoneFoodActorLifeRecover;
     }
 
     cook_item.life_recover = life_recover;
@@ -112,11 +112,11 @@ void CookingMgr::cookFailForMissingConfig(CookItem& cook_item, const sead::SafeS
     if (actor_name.isEmpty() || actor_name == mFailActorName) {
         cook_item.actor_name.copy(mFailActorName);
         cook_item.effect_time = 0;
-        life_recover = (f32)(s32)mFailActorLifeRecover;
+        life_recover = (f32)mFailActorLifeRecover;
     } else {
         cook_item.actor_name = actor_name;
         cook_item.effect_time = 0;
-        life_recover = (f32)(s32)mStoneFoodActorLifeRecover;
+        life_recover = (f32)mStoneFoodActorLifeRecover;
     }
 
     cook_item.life_recover = life_recover;
@@ -286,7 +286,7 @@ void CookingMgr::cookHandleCrit([[maybe_unused]] const IngredientArray& ingredie
         }
         break;
     case TimeBonus:
-        cook_item.effect_time += (s32)mCritEffectTime;
+        cook_item.effect_time += mCritEffectTime;
         break;
     case LifeBonus:
         cook_item.life_recover += (f32)life_entry.ssa;

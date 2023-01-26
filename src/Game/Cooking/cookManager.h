@@ -151,9 +151,9 @@ private:
 
     f32 mLifeRecoverMultiplier = 1.0f;
     f32 mFailActorLifeRecoverMultiplier = 1.0f;
-    u32 mFailActorLifeRecover = 4;
-    u32 mStoneFoodActorLifeRecover = 1;
-    u32 mCritEffectTime = 300;
+    s32 mFailActorLifeRecover = 4;
+    s32 mStoneFoodActorLifeRecover = 1;
+    s32 mCritEffectTime = 300;
 
     sead::SafeArray<CookingEffectEntry, NumEffectSlots> mCookingEffectEntries;
 
