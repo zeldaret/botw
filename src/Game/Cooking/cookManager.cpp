@@ -304,8 +304,9 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
             continue;
 
         if (InfoData::instance()->hasTag(ingredients[i].actor_data, tags::CookEnemy) ||
-            !InfoData::instance()->hasTag(ingredients[i].actor_data, tags::CookSpice))
+            !InfoData::instance()->hasTag(ingredients[i].actor_data, tags::CookSpice)) {
             continue;
+        }
 
         if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostHitPointRecover") &&
             int_val > 0) {
@@ -317,32 +318,26 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
             cook_item.effect_time += int_val;
         }
 
+        // The following loops are buggy, but will never be run, as their config values are left 0.
+
         if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostMaxHeartLevel") &&
             int_val > 0) {
             // i < 1 check needs to come after others.
-#if MATCHING_HACK_NX_CLANG
-            [&] {}();
-#endif
-            while (i < 1) {
+            for ([[maybe_unused]] int _ = 0; i < 1; i++) {
                 if (cook_item.effect_id == CookEffectId::LifeMaxUp) {
                     cook_item.vitality_boost += (f32)int_val;
                 }
-                i++;
             }
         }
 
         if (ingredients[i].actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostStaminaLevel") &&
             int_val > 0) {
             // i < 1 check needs to come after others.
-#if MATCHING_HACK_NX_CLANG
-            [&] {}();
-#endif
-            while (i < 1) {
+            for ([[maybe_unused]] int _ = 0; i < 1; i++) {
                 if (cook_item.effect_id == CookEffectId::GutsRecover ||
                     cook_item.effect_id == CookEffectId::ExGutsMaxUp) {
                     cook_item.vitality_boost += (f32)int_val;
                 }
-                i++;
             }
         }
     }
