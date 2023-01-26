@@ -5,7 +5,6 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
-#include "container/seadBuffer.h"
 
 namespace uking {
 
