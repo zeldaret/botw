@@ -345,9 +345,9 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
 
 void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem& cook_item) const {
     cook_item.item_price = 0;
-    s32 price;
 
     if (mFairyTonicName == cook_item.actor_name) {
+        // Fairy Tonic is sold for 2 rupees.
         cook_item.item_price = 2;
         return;
     }
@@ -382,26 +382,20 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
     }
 
     if (mult_idx >= 1) {
-        price = (s32)(mIngredientNumMultipliers[mult_idx - 1] * (float)cook_item.item_price);
-        cook_item.item_price = price;
-    } else {
-        price = cook_item.item_price;
+        cook_item.item_price =
+            (s32)(mIngredientNumMultipliers[mult_idx - 1] * (f32)cook_item.item_price);
     }
 
-    if (price >= 1) {
+    if (cook_item.item_price >= 1) {
         // Round up to the nearest power of 10
-        if (price % 10 != 0) {
-            price = price + 10 - price % 10;
-            cook_item.item_price = price;
+        if (cook_item.item_price % 10 != 0) {
+            cook_item.item_price = cook_item.item_price + 10 - cook_item.item_price % 10;
         }
     }
 
-    if (max_price < price)
-        price = max_price;
-    if (price <= 2)
-        price = 2;
-
-    cook_item.item_price = price;
+    // clamp, clampMin, and max don't work here.
+    cook_item.item_price = max_price < cook_item.item_price ? max_price : cook_item.item_price;
+    cook_item.item_price = sead::Mathi::clampMin(cook_item.item_price, 2);
 }
 
 void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
