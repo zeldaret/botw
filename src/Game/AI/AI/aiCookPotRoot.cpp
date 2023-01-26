@@ -54,16 +54,21 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
             // This needs to check if the player is targeting the pot.
             if (true /* TODO */) {
                 if (!_48 /* TODO */) {
-                    const int num_ingredients = 5;  // TODO
                     _48 = true;
+
+                    const int num_ingredients = 5;  // TODO
                     auto* cooking_mgr = CookingMgr::instance();
+
                     cooking_mgr->resetArgCookData(mCookArg, mCookIngredients, num_ingredients,
                                                   mCookItem);
 
-                    CookingMgr::BoostArg boost_arg{false, true};
+                    CookingMgr::BoostArg boost_arg{.always_boost = false,
+                                                   .enable_random_boost = true};
+
                     if (ksys::world::Manager::instance()->getEnvMgr()->isInBloodMoonTimeRange()) {
                         boost_arg.always_boost = true;
                     }
+
                     if (cooking_mgr->cook(mCookArg, mCookItem, boost_arg)) {
                         if (const auto* hard_mode_manager = aoc::HardModeManager::instance()) {
                             if (hard_mode_manager->checkFlag(
@@ -92,9 +97,11 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
             }
         }
     }
+
     if (message.getType().value != (u32)ksys::act::AttActionCode::KillTime) {
         return false;
     }
+
     // TODO: callDemo007_1
     return isCurrentChild("着火");
 }
