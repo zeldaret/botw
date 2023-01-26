@@ -76,10 +76,8 @@ private:
     void cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& actor_name);
     void cookCalcCritBoost(const IngredientArray& ingredients, CookItem& cook_item,
                            const BoostArg* boost_arg) const;
-    void cookHandleMonsterExtract([[maybe_unused]] const IngredientArray& ingredients,
-                                  CookItem& cook_item) const;
-    void cookHandleCrit([[maybe_unused]] const IngredientArray& ingredients,
-                        CookItem& cook_item) const;
+    void cookHandleMonsterExtract(const IngredientArray& ingredients, CookItem& cook_item) const;
+    void cookHandleCrit(const IngredientArray& ingredients, CookItem& cook_item) const;
     void cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem& cook_item) const;
     void cookCalcItemPrice(const IngredientArray& ingredients, CookItem& cook_item) const;
     void cookCalcIngredientsBoost(const IngredientArray& ingredients, CookItem& cook_item) const;
