@@ -55,7 +55,7 @@ void CookItem::reset() {
     life_recover = 0.0f;
     effect_time = 0;
     is_crit = false;
-    item_price = 0;
+    sell_price = 0;
     effect_id = CookEffectId::None;
     vitality_boost = 0.0f;
     for (auto& ingredient : ingredients) {
@@ -68,7 +68,7 @@ void CookItem::copy(CookItem& to) const {
     to.life_recover = life_recover;
     to.effect_time = effect_time;
     to.is_crit = is_crit;
-    to.item_price = item_price;
+    to.sell_price = sell_price;
     to.vitality_boost = vitality_boost;
     to.effect_id = effect_id;
     to.ingredients = ingredients;
@@ -104,7 +104,7 @@ void CookingMgr::cookFail(CookItem& cook_item) {
     cook_item.life_recover = life_recover;
     cook_item.vitality_boost = 0.0f;
     cook_item.effect_id = CookEffectId::None;
-    cook_item.item_price = 2;
+    cook_item.sell_price = 2;
 }
 
 void CookingMgr::cookFailForMissingConfig(CookItem& cook_item, const sead::SafeString& actor_name) {
@@ -122,7 +122,7 @@ void CookingMgr::cookFailForMissingConfig(CookItem& cook_item, const sead::SafeS
     cook_item.life_recover = life_recover;
     cook_item.vitality_boost = 0.0f;
     cook_item.effect_id = CookEffectId::None;
-    cook_item.item_price = 1;
+    cook_item.sell_price = 1;
 }
 
 void CookingMgr::cookCalcCritBoost(const IngredientArray& ingredients, CookItem& cook_item,
@@ -344,11 +344,11 @@ void CookingMgr::cookCalcSpiceBoost(const IngredientArray& ingredients, CookItem
 }
 
 void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem& cook_item) const {
-    cook_item.item_price = 0;
+    cook_item.sell_price = 0;
 
     if (mFairyTonicName == cook_item.actor_name) {
         // Fairy Tonic is sold for 2 rupees.
-        cook_item.item_price = 2;
+        cook_item.sell_price = 2;
         return;
     }
 
@@ -367,13 +367,13 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
             // This ingredient is only worth 1 rupee.
             const s32 count = ingredient.arg->count;
             mult_idx += count;
-            cook_item.item_price += count;
+            cook_item.sell_price += count;
             max_price += ingredient.arg->count;
         } else {
             if (actor_data.tryGetIntByKey(&int_val, "itemSellingPrice")) {
                 const s32 count = ingredient.arg->count;
                 mult_idx += count;
-                cook_item.item_price += int_val * count;
+                cook_item.sell_price += int_val * count;
             }
             if (actor_data.tryGetIntByKey(&int_val, "itemBuyingPrice")) {
                 max_price += int_val * ingredient.arg->count;
@@ -382,20 +382,20 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
     }
 
     if (mult_idx >= 1) {
-        cook_item.item_price =
-            (s32)(mIngredientNumMultipliers[mult_idx - 1] * (f32)cook_item.item_price);
+        cook_item.sell_price =
+            (s32)(mIngredientNumMultipliers[mult_idx - 1] * (f32)cook_item.sell_price);
     }
 
-    if (cook_item.item_price >= 1) {
+    if (cook_item.sell_price >= 1) {
         // Round up to the nearest power of 10
-        if (cook_item.item_price % 10 != 0) {
-            cook_item.item_price = cook_item.item_price + 10 - cook_item.item_price % 10;
+        if (cook_item.sell_price % 10 != 0) {
+            cook_item.sell_price = cook_item.sell_price + 10 - cook_item.sell_price % 10;
         }
     }
 
     // clamp, clampMin, and max don't work here.
-    cook_item.item_price = max_price < cook_item.item_price ? max_price : cook_item.item_price;
-    cook_item.item_price = sead::Mathi::clampMin(cook_item.item_price, 2);
+    cook_item.sell_price = max_price < cook_item.sell_price ? max_price : cook_item.sell_price;
+    cook_item.sell_price = sead::Mathi::clampMin(cook_item.sell_price, 2);
 }
 
 void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,

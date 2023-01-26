@@ -39,7 +39,7 @@ struct CookItem {
     sead::SafeArray<sead::FixedSafeString<64>, 5> ingredients;
     f32 life_recover{};
     s32 effect_time{};
-    s32 item_price{};
+    s32 sell_price{};
     CookEffectId effect_id = CookEffectId::None;
     /// Can refer to life bonus, stamina recover, or stamina bonus, depending on `effect_id`.
     f32 vitality_boost{};
