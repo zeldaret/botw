@@ -4,7 +4,6 @@ add_subdirectory(Resource)
 
 add_subdirectory(ActorSystem)
 add_subdirectory(Chemical)
-add_subdirectory(Cooking)
 add_subdirectory(Ecosystem)
 add_subdirectory(Effect)
 add_subdirectory(Event)
