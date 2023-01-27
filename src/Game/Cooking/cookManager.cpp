@@ -393,9 +393,9 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
         }
     }
 
-    // clamp, clampMin, and max don't work here.
-    cook_item.sell_price = max_price < cook_item.sell_price ? max_price : cook_item.sell_price;
-    cook_item.sell_price = sead::Mathi::clampMin(cook_item.sell_price, 2);
+    // clamp and clampMin don't work here.
+    cook_item.sell_price = sead::Mathi::min(max_price, cook_item.sell_price);
+    cook_item.sell_price = sead::Mathi::max(cook_item.sell_price, 2);
 }
 
 void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
