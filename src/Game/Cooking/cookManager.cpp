@@ -408,14 +408,17 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
     s32 time_boost = 0;
     s32 total_count = 0;
     s32 life_recover = 0;
+    s32 int_val;
 
     for (int i = 0; i < NumIngredientsMax; i++) {
         if (!ingredients[i].arg)
             break;
+
         const al::ByamlIter& actor_data = ingredients[i].actor_data;
         const s32 count = ingredients[i].arg->count;
+
         total_count += count;
-        int int_val;
+
         if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookEnemy)) {
             if (actor_data.tryGetIntByKey(&int_val, "cookSpiceBoostEffectiveTime") && int_val > 0) {
                 time_boost += int_val * count;
@@ -448,8 +451,8 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
 
     bool effect_found = false;
     for (int i = 0; i < NumEffectSlots; i++) {
-        const s32 count = effect_counts[i];
-        if (count > 0) {
+        const s32 effect_count = effect_counts[i];
+        if (effect_count > 0) {
             if (effect_found) {
                 // Finding a second effect makes them cancel out.
                 effect_found = false;
@@ -461,15 +464,14 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
 
             const auto& entry = mCookingEffectEntries[i];
 
-            const f32 cure_level = (f32)cure_levels[i];
-            cook_item.vitality_boost = cure_level * entry.multiplier;
+            cook_item.vitality_boost = (f32)cure_levels[i] * entry.multiplier;
 
             const auto effect_id = (CookEffectId)i;
             cook_item.effect_id = effect_id;
 
             const s32 boost_time = entry.boost_time;
             if (boost_time > 0)
-                cook_item.effect_time = time_boost + 30 * total_count + boost_time * count;
+                cook_item.effect_time = time_boost + 30 * total_count + boost_time * effect_count;
 
             if (effect_id == CookEffectId::LifeMaxUp) {
                 cook_item.vitality_boost += (f32)life_boost;
@@ -477,6 +479,7 @@ void CookingMgr::cookCalcIngredientsBoost(const IngredientArray& ingredients,
                        effect_id == CookEffectId::ExGutsMaxUp) {
                 cook_item.vitality_boost += (f32)stamina_boost;
             }
+
             effect_found = true;
         }
     }
