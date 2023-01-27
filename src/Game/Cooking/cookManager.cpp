@@ -365,15 +365,13 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
 
         if (ksys::act::InfoData::instance()->hasTag(actor_data, ksys::act::tags::CookLowPrice)) {
             // This ingredient is only worth 1 rupee.
-            const s32 count = ingredient.arg->count;
-            mult_idx += count;
-            cook_item.sell_price += count;
+            mult_idx += ingredient.arg->count;
+            cook_item.sell_price += ingredient.arg->count;
             max_price += ingredient.arg->count;
         } else {
             if (actor_data.tryGetIntByKey(&int_val, "itemSellingPrice")) {
-                const s32 count = ingredient.arg->count;
-                mult_idx += count;
-                cook_item.sell_price += int_val * count;
+                mult_idx += ingredient.arg->count;
+                cook_item.sell_price += int_val * ingredient.arg->count;
             }
             if (actor_data.tryGetIntByKey(&int_val, "itemBuyingPrice")) {
                 max_price += int_val * ingredient.arg->count;
