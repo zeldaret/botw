@@ -380,7 +380,8 @@ void CookingMgr::cookCalcItemPrice(const IngredientArray& ingredients, CookItem&
     }
 
     if (mult_idx >= 1) {
-        cook_item.sell_price = mIngredientNumMultipliers[mult_idx - 1] * cook_item.sell_price;
+        cook_item.sell_price =
+            (s32)(mIngredientNumMultipliers[mult_idx - 1] * (f32)cook_item.sell_price);
     }
 
     if (cook_item.sell_price >= 1) {
