@@ -1,4 +1,4 @@
-# The Legend of Zelda: Breath of the Wild
+<h1 align="center">The Legend of Zelda: Breath of the Wild</h1>
 
 [![Decompilation Progress][progress-badge]][progress] [![Decompilation Progress (functions)][fn-progress-badge]][fn-progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
 
