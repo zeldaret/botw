@@ -38,7 +38,7 @@ void ActorWaterDepthSelect::calc_() {
     if (*mOnEnterOnly_s)
         return;
 
-    auto is_deep {isDeep() && isUnderwater()};
+    auto is_deep{isDeep() && isUnderwater()};
     if (*mForceDeepChange_s && is_deep) {
         if (!isCurrentChild("深瀬")) {
             changeChild("深瀬");
@@ -69,7 +69,7 @@ inline bool ActorWaterDepthSelect::isDeep() const {
 }
 
 inline bool ActorWaterDepthSelect::isUnderwater() const {
-    float y_w {mActor->getMtx().m[1][3]};
+    float y_w{mActor->getMtx().m[1][3]};
     return *mActor->get6f0() - y_w > *mDeepDepth_s;
 }
 
