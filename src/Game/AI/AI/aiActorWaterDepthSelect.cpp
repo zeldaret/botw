@@ -32,9 +32,6 @@ void ActorWaterDepthSelect::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ActorWaterDepthSelect::calc_() {
-    /*
-        Only if mOneEnterOnly is disabled, change the actor's depth
-    */
     if (*mOnEnterOnly_s)
         return;
 

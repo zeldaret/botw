@@ -1,8 +1,3 @@
-/**
-    @file aiActorWaterDepthSelect.h
-    @brief Checking of the current water depth of an actor
-*/
-
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
