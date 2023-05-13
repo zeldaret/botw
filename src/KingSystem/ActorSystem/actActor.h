@@ -285,6 +285,9 @@ public:
     virtual void m146();
     virtual void m147();
 
+    auto* get68f() { return &_68f; }
+    auto* get6f0() { return &_6f0; }
+
     void emitBasicSigOn();
     void emitBasicSigOff();
     bool checkBasicSig() const;
