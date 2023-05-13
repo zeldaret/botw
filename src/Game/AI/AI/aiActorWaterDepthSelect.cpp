@@ -26,16 +26,16 @@ bool ActorWaterDepthSelect::init_(sead::Heap* heap) {
 void ActorWaterDepthSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     if (isDeep() && isUnderwater()) {
         changeChild("深瀬", params);
-        return;
+    } else {
+        changeChild("浅瀬", params);
     }
-    changeChild("浅瀬", params);
 }
 
 void ActorWaterDepthSelect::calc_() {
     if (*mOnEnterOnly_s)
         return;
 
-    auto is_deep{isDeep() && isUnderwater()};
+    auto is_deep = isDeep() && isUnderwater();
     if (*mForceDeepChange_s && is_deep) {
         if (!isCurrentChild("深瀬")) {
             changeChild("深瀬");
@@ -61,13 +61,13 @@ void ActorWaterDepthSelect::loadParams_() {
     getStaticParam(&mForceDeepChange_s, "ForceDeepChange");
 }
 
-inline bool ActorWaterDepthSelect::isDeep() const {
-    return 0.0 < *mDeepDepth_s && mActor->get68f()->load();
+bool ActorWaterDepthSelect::isDeep() const {
+    return 0.0 < *mDeepDepth_s && mActor->get68f().load();
 }
 
-inline bool ActorWaterDepthSelect::isUnderwater() const {
-    float y_w{mActor->getMtx().m[1][3]};
-    return *mActor->get6f0() - y_w > *mDeepDepth_s;
+bool ActorWaterDepthSelect::isUnderwater() const {
+    float y_w = mActor->getMtx().m[1][3];
+    return mActor->get6f0() - y_w > *mDeepDepth_s;
 }
 
 }  // namespace uking::ai
