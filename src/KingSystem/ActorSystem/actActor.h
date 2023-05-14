@@ -286,7 +286,7 @@ public:
     virtual void m147();
 
     sead::Atomic<bool>& get68f() { return _68f; }
-    float get6f0() { return _6f0; }
+    float get6f0() const { return _6f0; }
 
     void emitBasicSigOn();
     void emitBasicSigOff();
