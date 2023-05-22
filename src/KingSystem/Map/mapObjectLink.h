@@ -14,7 +14,7 @@ namespace ksys::map {
 
 class GenGroup;
 class Object;
-class Rail;
+class RailBase;
 
 enum class MapLinkDefType {
     BasicSig = 0,
@@ -127,7 +127,7 @@ public:
     bool field_57 = false;
 
     GenGroup* mGenGroup = nullptr;
-    Rail* mRails = nullptr;
+    RailBase* mRails = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ObjectLinkData, 0x68);
 
