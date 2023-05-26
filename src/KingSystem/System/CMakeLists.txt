@@ -62,4 +62,4 @@ target_sources(uking PRIVATE
     VFR.h
     VFRValue.cpp
     VFRValue.h
-    )
+)
