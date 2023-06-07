@@ -14,8 +14,8 @@ public:
 
     void registerFactory(sead::Heap* heap);
 
-    long mVar1;
-    long mVar2;
+    s64 mVar1;
+    s64 mVar2;
 };
 
 }  // namespace ksys::res
