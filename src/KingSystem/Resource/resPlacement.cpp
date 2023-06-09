@@ -16,6 +16,9 @@ void Placement::registerFactory(sead::Heap* heap) {
                               "bplacement");
 }
 
-void Placement::doCreate_(u8* buffer, u32 bufferSize, Heap* heap) {}
+void Placement::doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) {
+    mUnknown1 = buffer;
+    mUnknown2 = buffer + 0x10;  // Unknown Constant / offset
+}
 
 }  // namespace ksys::res
