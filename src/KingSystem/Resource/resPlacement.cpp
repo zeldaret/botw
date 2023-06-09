@@ -13,14 +13,9 @@ void Placement::registerFactory(sead::Heap* heap) {
         return;
 
     res::registerEntryFactory(new (heap) EntryFactory<Placement>(1.0, sizeof(Placement)),
-                              "bPlacement");
+                              "bplacement");
 }
 
-Placement::Placement() {
-    mVar1 = 0;
-    mVar2 = 0;
-}
-
-Placement::~Placement() = default;
+void Placement::doCreate_(u8* buffer, u32 bufferSize, Heap* heap) {}
 
 }  // namespace ksys::res

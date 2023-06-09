@@ -9,13 +9,15 @@ namespace ksys::res {
 class Placement : public Resource {
     SEAD_RTTI_OVERRIDE(Placement, Resource)
 public:
-    Placement();
-    ~Placement() override;
+    Placement() = default;
+    ~Placement() override = default;
 
-    void registerFactory(sead::Heap* heap);
+    static void registerFactory(sead::Heap* heap);
 
-    s64 mVar1;
-    s64 mVar2;
+    void doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) override;
+
+    void* mUnknown1 = nullptr;
+    void* mUnknown2 = nullptr;
 };
 
 }  // namespace ksys::res
