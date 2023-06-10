@@ -45,5 +45,5 @@ void AirOctaFlyUp::loadParams_() {
     getAITreeVariable(&mAirOctaDataMgr_a, "AirOctaDataMgr");
 }
 
-}   // namespace uking::ai
+}    // namespace uking::ai
 
