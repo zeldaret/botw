@@ -2,7 +2,7 @@
 #include "Game/DLC/aocHardModeManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
-namespace uking::ai{
+namespace uking::ai {
 
 AirOctaFlyUp::AirOctaFlyUp(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -32,7 +32,7 @@ bool AirOctaFlyUp::handleMessage_( const ksys::Message& message) {
 }
 
 void AirOctaFlyUp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_();
+    ksys::act::ai::Ai::enter_(params);
 }
 
 void AirOctaFlyUp::leave_() {
@@ -45,5 +45,5 @@ void AirOctaFlyUp::loadParams_() {
     getAITreeVariable(&mAirOctaDataMgr_a, "AirOctaDataMgr");
 }
 
- // namespace uking::ai
-}
+}   // namespace uking::ai
+
