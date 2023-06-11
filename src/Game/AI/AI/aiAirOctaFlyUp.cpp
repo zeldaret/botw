@@ -1,9 +1,8 @@
 #include "Game/AI/AI/aiAirOctaFlyUp.h"
 #include "Game/DLC/aocHardModeManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
-#include "KingSystem/ActorSystem/actAiParam.h"
-#include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/ActorSystem/actActor.h"
+
+
 
 namespace uking::ai {
 
