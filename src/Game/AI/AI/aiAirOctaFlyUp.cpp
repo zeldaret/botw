@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiAirOctaFlyUp.h"
 #include "Game/DLC/aocHardModeManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -32,12 +35,20 @@ bool AirOctaFlyUp::handleMessage_( const ksys::Message& message) {
 }
 
 void AirOctaFlyUp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* data_mgr = sead::DynamicCast<AirOctaDataMgr>((AirOctaDataMgr*)*mAirOctaDataMgr_a)){
+    data_mgr->unk_114 = 0;
+    data_mgr->sub_71002FB17C();
+    }
+    auto &mtx = getActor()->getMtx();
+    AirOctaY = mtx(1, 3);
+    ksys::act::ai::Ai::changeChild("開始");
+    
 }
 
 void AirOctaFlyUp::leave_() {
     ksys::act::ai::Ai::leave_();
 }
+float sub_71002FB17C();
 
 void AirOctaFlyUp::loadParams_() {
     getStaticParam(&mFlyUpDuration_s, "FlyUpDuration");
