@@ -111,6 +111,8 @@ target_sources(uking PRIVATE
   resModelResourceDivide.h
   resOffsetReadFileDevice.cpp
   resOffsetReadFileDevice.h
+  resPlacement.cpp
+  resPlacement.h
   resResourceMgrTask.cpp
   resResourceMgrTask.h
   resSystem.cpp
