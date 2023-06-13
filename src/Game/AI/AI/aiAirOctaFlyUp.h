@@ -14,6 +14,7 @@ public:
     /* 0x18 */ ksys::act::BaseProcLink mBaseProcLink;
     char placeFiller[0xEC]; 
     /*0x114 */ u32 unk_114;
+    /*0x118 */ float unk_118;
 };
 
 class AirOctaFlyUp : public ksys::act::ai::Ai {

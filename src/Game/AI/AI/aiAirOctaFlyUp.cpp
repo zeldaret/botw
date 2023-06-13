@@ -45,8 +45,13 @@ void AirOctaFlyUp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AirOctaFlyUp::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* data_mgr = sead::DynamicCast<AirOctaDataMgr>((AirOctaDataMgr*)*mAirOctaDataMgr_a)){
+    data_mgr->unk_118 = *mTargetDistance_d + data_mgr->unk_118;
+    data_mgr->unk_114 = 0;
+    return data_mgr->sub_71002FB17C();
+    }
 }
+
 float sub_71002FB17C();
 
 void AirOctaFlyUp::loadParams_() {
