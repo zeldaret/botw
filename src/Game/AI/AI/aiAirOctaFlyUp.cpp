@@ -48,7 +48,7 @@ void AirOctaFlyUp::leave_() {
     if (auto* data_mgr = sead::DynamicCast<AirOctaDataMgr>((AirOctaDataMgr*)*mAirOctaDataMgr_a)){
     data_mgr->unk_118 = *mTargetDistance_d + data_mgr->unk_118;
     data_mgr->unk_114 = 0;
-    return data_mgr->sub_71002FB17C();
+    data_mgr->sub_71002FB17C();
     }
 }
 
