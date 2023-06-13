@@ -3,23 +3,13 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AirOctaDataMgrTemp.h"
 namespace uking::ai {
-class AirOctaDataMgr {
-    SEAD_RTTI_BASE(AirOctaDataMgr)
 
-public:
-    ksys::act::BaseProcLink& getProc() { return mBaseProcLink; }
-    void sub_71002FB17C();
-    /* 0x08 */ char unk_00[0x10];
-    /* 0x18 */ ksys::act::BaseProcLink mBaseProcLink;
-    char placeFiller[0xEC]; 
-    /*0x114 */ u32 unk_114;
-    /*0x118 */ float unk_118;
-};
-
-class AirOctaFlyUp : public ksys::act::ai::Ai {
+class AirOctaFlyUp :
+ public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AirOctaFlyUp, ksys::act::ai::Ai)
-    friend uking::ai::AirOctaDataMgr;
+    friend uking::AirOctaDataMgr;
 public:
     explicit AirOctaFlyUp(const InitArg& arg);
     ~AirOctaFlyUp() override;
@@ -29,7 +19,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    float sub_71002FB17C();
+    
 protected:
     // static_param at offset 0x38
     const float* mFlyUpDuration_s{};
