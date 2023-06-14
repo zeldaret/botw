@@ -6,7 +6,7 @@ class AirOctaDataMgr  {
     //friend uking::ai::AI::AirOctaFlyUp;
 public:
     ksys::act::BaseProcLink& getProc() { return mBaseProcLink; }
-    float sub_71002fb17c();
+    void sub_71002fb17c();
     /* 0x08 */ char unk_00[0x10];
     /* 0x18 */ ksys::act::BaseProcLink mBaseProcLink;
     char placeFiller[0xC8]; 
