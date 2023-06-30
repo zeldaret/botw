@@ -189,7 +189,7 @@ void VFR::ScopedDeltaSetter::set(u32 include_mask, u32 exclude_mask) {
 
     f32 raw_delta;
     const auto delta = vfr->getDeltaAndSetMin(&raw_delta, include_mask, exclude_mask);
-    const auto time = vfr->getDeltaTime();
+    const auto time = vfr->getDeltaFrame();
     if (delta != time) {
         mPreviousDelta = raw_delta;
         if (delta > 0.0)

@@ -26,7 +26,7 @@ void SystemTimers::prepareStageUnload() {}
 void SystemTimers::incrementCountersAndUpdate() {
     mFrameCounter++;
     mFrameCounter2++;
-    f32 deltaTime = VFR::instance()->getDeltaTime();
+    f32 deltaTime = VFR::instance()->getDeltaFrame();
     mVfrTimer += deltaTime;
 
     while (mVfrTimer >= 1) {

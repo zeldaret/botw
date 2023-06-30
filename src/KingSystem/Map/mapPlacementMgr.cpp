@@ -111,7 +111,7 @@ void PlacementMgr::x() {
 
     f32 last_time = mTime;
     auto* vfr = VFR::instance();
-    mTime += vfr->getDeltaTime();
+    mTime += vfr->getDeltaFrame();
     mTimeUpdated = s32(last_time) != s32(mTime);
 }
 
