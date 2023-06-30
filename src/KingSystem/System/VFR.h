@@ -69,8 +69,11 @@ public:
     // TODO: requires ksys::Sound
     void resetTimeMultiplier(u32 idx);
 
-    f32 getDeltaTime(u32 core) const { return *mDeltaFrames[core]; }
+    f32 getDeltaTime(u32 core) const { return *mDeltaTimes[core]; }
     f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
+
+    f32 getDeltaFrame(u32 core) const { return *mDeltaFrames[core]; }
+    f32 getDeltaFrame() const { return getDeltaFrame(sead::CoreInfo::getCurrentCoreId()); }
 
     f32 getIntervalRatio(u32 core) const { return *mIntervalRatios[core]; }
     f32 getIntervalRatio() const { return getIntervalRatio(sead::CoreInfo::getCurrentCoreId()); }
