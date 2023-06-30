@@ -9,9 +9,11 @@ target_sources(uking PRIVATE
     Awareness/actAwarenessInstance.cpp
     Awareness/actAwarenessInstance.h
 
+
     LOD/actLodState.cpp
     LOD/actLodState.h
-
+    AS/ASList.h
+    AS/ASList.cpp
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
     Profiles/actRopeBase.cpp
