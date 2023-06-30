@@ -18,6 +18,7 @@
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Utils/AtomicLongBitFlag.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace gsys {
 class Model;
@@ -25,9 +26,7 @@ class Model;
 
 namespace ksys {
 
-namespace as {
-class ASList;
-}  // namespace as
+
 
 namespace map {
 class Object;
@@ -137,6 +136,7 @@ public:
     const ActorParam* getParam() const { return mActorParam; }
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
+    as::ASList* getASList() const { return mASList; }
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }
@@ -145,7 +145,9 @@ public:
     phys::RigidBody* getMainBody() const { return mMainBody; }
     phys::RigidBody* getTgtBody() const { return mTgtBody; }
 
-    const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
+const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
+    void sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
+                     bool ack);
 
     f32 getDeleteDistance() const {
         return sead::Mathf::sqrt(sead::Mathf::clampMin(mDeleteDistanceSq, 0.0f));
