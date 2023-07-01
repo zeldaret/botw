@@ -4,7 +4,7 @@
 namespace ksys {
 
 void Timer::update(f32* t, f32 rate) {
-    *t += VFR::instance()->getDeltaTime() * rate;
+    *t += VFR::instance()->getDeltaFrame() * rate;
 }
 
 void Timer::update() {

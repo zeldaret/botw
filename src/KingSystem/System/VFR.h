@@ -69,7 +69,10 @@ public:
     // TODO: requires ksys::Sound
     void resetTimeMultiplier(u32 idx);
 
-    f32 getDeltaTime(u32 core) const { return *mDeltaFrames[core]; }
+    f32 getDeltaFrame(u32 core) const { return *mDeltaFrames[core]; }
+    f32 getDeltaFrame() const { return getDeltaFrame(sead::CoreInfo::getCurrentCoreId()); }
+
+    f32 getDeltaTime(u32 core) const { return *mDeltaTimes[core]; }
     f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
 
     f32 getIntervalRatio(u32 core) const { return *mIntervalRatios[core]; }
@@ -77,16 +80,16 @@ public:
 
     template <typename T>
     static inline void add(T* value, const T& v) {
-        *value += v * instance()->getDeltaTime();
+        *value += v * instance()->getDeltaFrame();
     }
 
     template <typename T>
     static inline void multiply(T* value, f32 scalar) {
-        *value *= std::pow(scalar, instance()->getDeltaTime());
+        *value *= std::pow(scalar, instance()->getDeltaFrame());
     }
 
     static inline f32 getLerpFactor(f32 t) {
-        return 1.0f - std::pow(1.0f - t, instance()->getDeltaTime());
+        return 1.0f - std::pow(1.0f - t, instance()->getDeltaFrame());
     }
 
     template <typename T>
@@ -97,7 +100,7 @@ public:
     template <typename T>
     static inline void lerp(T* value, const T& b, f32 t, f32 max_delta) {
         const auto f = getLerpFactor(t);
-        const auto max_d = instance()->getDeltaTime() * max_delta;
+        const auto max_d = instance()->getDeltaFrame() * max_delta;
         const auto diff = b - *value;
         const auto d = f * sead::Mathf::abs(diff);
         if (d > max_d)
@@ -109,8 +112,8 @@ public:
     template <typename T>
     static inline bool lerp(T* value, const T& b, f32 t, f32 max_delta, f32 min_delta) {
         const auto f = getLerpFactor(t);
-        const auto max_d = instance()->getDeltaTime() * max_delta;
-        const auto min_d = instance()->getDeltaTime() * min_delta;
+        const auto max_d = instance()->getDeltaFrame() * max_delta;
+        const auto min_d = instance()->getDeltaFrame() * min_delta;
 
         const auto diff = b - *value;
         const auto d = f * sead::Mathf::abs(diff);
@@ -132,7 +135,7 @@ public:
 
     template <typename VectorT>
     static inline bool chaseVec(VectorT* value, const VectorT& target, f32 t) {
-        const auto delta = instance()->getDeltaTime() * t;
+        const auto delta = instance()->getDeltaFrame() * t;
         const auto diff = target - *value;
         const auto norm = diff.length();
 
