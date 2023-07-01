@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys {
 
@@ -35,6 +36,8 @@ public:
     void release() { acquire(nullptr); }
 
     bool hasProc() const { return mProc != nullptr; }
+
+    const MesTransceiverId * getMessageTransceiverId();
 
 protected:
     friend class ActorConstDataAccess;
