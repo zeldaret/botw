@@ -317,7 +317,7 @@ void TimeMgr::calc_() {
         if (!mPlayedDemo103Or997 || evt::Manager::instance()->hasActiveEvent())
             break;
 
-        const auto delta = mTimeStep * VFR::instance()->getDeltaTime();
+        const auto delta = mTimeStep * VFR::instance()->getDeltaFrame();
         mIsTimeFlowingNormally = true;
         mTime += delta;
         if (mTime >= 24_h) {
@@ -431,7 +431,7 @@ void TimeMgr::calc_() {
         break;
 
     case TimeUpdateMode::OnlyUpdateTimeOfDay:
-        mTime += mTimeStep * VFR::instance()->getDeltaTime();
+        mTime += mTimeStep * VFR::instance()->getDeltaFrame();
         if (mTime >= 24_h)
             mTime -= 24_h;
         break;

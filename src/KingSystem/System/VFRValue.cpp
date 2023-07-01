@@ -13,7 +13,7 @@ util::InitTimeInfoEx sInitInfo;
 
 template <typename T>
 void updateStatsImpl(const T& value, T* prev_value, T* mean) {
-    const T new_mean = ((*prev_value + value) / 2) * VFR::instance()->getDeltaTime();
+    const T new_mean = ((*prev_value + value) / 2) * VFR::instance()->getDeltaFrame();
     *prev_value = value;
     *mean = new_mean;
 }
@@ -49,7 +49,7 @@ bool VFRValue::lerp(const f32& b, f32 t, f32 max_delta, f32 min_delta) {
 }
 
 bool VFRValue::chase(const f32& target, f32 step) {
-    const auto delta = step * VFR::instance()->getDeltaTime();
+    const auto delta = step * VFR::instance()->getDeltaFrame();
     return sead::Mathf::chase(&value, target, delta);
 }
 

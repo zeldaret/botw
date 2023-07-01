@@ -345,14 +345,14 @@ void EnvMgr::updateForcedBloodMoon() {
     case 1:
         // Update the forced blood moon timer
         if (evt::Manager::instance()->hasActiveEvent() || mBloodMoonProhibited) {
-            mForcedBloodMoonTimer -= VFR::instance()->getDeltaTime();
+            mForcedBloodMoonTimer -= VFR::instance()->getDeltaFrame();
             if (mForcedBloodMoonTimer <= 0.0f) {
                 mForcedBloodMoonTimer = 0.0f;
                 mForcedBloodMoonStatus = 0;
                 mForcedBloodMoonReady = false;
             }
         } else {
-            mForcedBloodMoonTimer += VFR::instance()->getDeltaTime();
+            mForcedBloodMoonTimer += VFR::instance()->getDeltaFrame();
             if (mForcedBloodMoonTimer >= BloodMoonTimerDuration) {
                 mForcedBloodMoonTimer = BloodMoonTimerDuration;
                 mForcedBloodMoonReady = true;
@@ -376,7 +376,7 @@ void EnvMgr::updateForcedBloodMoon() {
 
     case 3:
         // Slowly fade out the blood moon state
-        mForcedBloodMoonTimer -= VFR::instance()->getDeltaTime();
+        mForcedBloodMoonTimer -= VFR::instance()->getDeltaFrame();
         if (mForcedBloodMoonTimer <= 0.0f) {
             mForcedBloodMoonTimer = 0.0f;
             mForcedBloodMoonStatus = 0;
@@ -389,14 +389,14 @@ void EnvMgr::updateForcedBloodMoon() {
     case 4:
         // [Alternative state 2] Wait for blood moons to be allowed again
         if (mBloodMoonProhibited && !mDeactivateForcedBloodMoon) {
-            mForcedBloodMoonTimer -= VFR::instance()->getDeltaTime();
+            mForcedBloodMoonTimer -= VFR::instance()->getDeltaFrame();
             if (mForcedBloodMoonTimer <= 0.0f) {
                 mForcedBloodMoonTimer = 0.0f;
                 mForcedBloodMoonStatus = 0;
                 return;
             }
         } else {
-            mForcedBloodMoonTimer += VFR::instance()->getDeltaTime();
+            mForcedBloodMoonTimer += VFR::instance()->getDeltaFrame();
             if (mForcedBloodMoonTimer >= BloodMoonTimerDuration) {
                 mForcedBloodMoonTimer = BloodMoonTimerDuration;
                 mForcedBloodMoonReady = true;
