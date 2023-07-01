@@ -4,7 +4,7 @@
 #include "Game/AirOctaDataMgrTemp.h"
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/System/VFR.h"
-
+#include "KingSystem/ActorSystem/AS/ASList.h"
 namespace uking::ai {
 
 AirOctaFlyUp::AirOctaFlyUp(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -14,7 +14,7 @@ AirOctaFlyUp::~AirOctaFlyUp() = default;
 bool AirOctaFlyUp::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
-void sub_710115b070(ksys::as::ASList *this_, f32 a2, f32 a3, const sead::SafeString& a4, int a5, int a6, bool a7);
+
 void AirOctaFlyUp::calc_(){
     if (auto* data_mgr = getDataMgr()) {
         // I added VFR::getDeltaFrame and changed VFR::getDeltaTime to refer to mDeltaTimes array.
@@ -34,7 +34,7 @@ void AirOctaFlyUp::calc_(){
                 if (currentChild->isFinished() || currentChild->isFailed() ){
                     auto ASList = getActor()->getASList();
                     if (ASList){
-                        sub_710115b070(ASList, -1.f, -1.f, "Wait", 0, 0, true);
+                        ASList->sub_710115b070( -1.f, -1.f, "Wait", 0, 0, true);
                     }
                     mIsEnded = true;
                 } else if (!mIsEnded) {

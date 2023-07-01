@@ -25,7 +25,6 @@ public:
 protected:
     // Added
     uking::AirOctaDataMgr *getDataMgr() { return sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a); }
-
     // static_param at offset 0x38
     const float* mFlyUpDuration_s{};
     // dynamic_param at offset 0x40
