@@ -1,8 +1,12 @@
 #pragma once
+#include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/AI/aiAirOctaRoot.h"
 namespace uking {
 class AirOctaDataMgr {
-    public: static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() { static const sead::RuntimeTypeInfo::Root typeInfo; return &typeInfo; } static bool checkDerivedRuntimeTypeInfoStatic( const sead::RuntimeTypeInfo::Interface* typeInfo) { const sead::RuntimeTypeInfo::Interface* clsTypeInfo = AirOctaDataMgr::getRuntimeTypeInfoStatic(); return typeInfo == clsTypeInfo; } virtual bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const { return checkDerivedRuntimeTypeInfoStatic(typeInfo); } virtual const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const { return getRuntimeTypeInfoStatic(); }
+    SEAD_RTTI_BASE(AirOctaDataMgr)
     //friend uking::ai::AI::AirOctaFlyUp;
 public:
     ksys::act::BaseProcLink& getProc() { return mBaseProcLink; }
