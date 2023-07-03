@@ -406,7 +406,7 @@ bool ActorConstDataAccess::horseTargetedIsCircularMoveAlways() const {
     return gparam->getHorseTargetedInfo()->mIsCircularMoveAlways.ref();
 }
 
-bool acquireActor(BaseProcLink* link, ActorConstDataAccess* accessor) {
+bool acquireActor(BaseProcLink* link, ActorLinkConstDataAccess* accessor) {
     return link->getProcInContext([accessor](BaseProc* proc, bool valid) {
         if (!proc) {
             if (!valid)
