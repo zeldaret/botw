@@ -1,4 +1,7 @@
 target_sources(uking PRIVATE
+    AS/ASList.h
+    AS/ASList.cpp
+    
     Attention/actAttention.cpp
     Attention/actAttention.h
 
@@ -12,8 +15,7 @@ target_sources(uking PRIVATE
 
     LOD/actLodState.cpp
     LOD/actLodState.h
-    AS/ASList.h
-    AS/ASList.cpp
+
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
     Profiles/actRopeBase.cpp
