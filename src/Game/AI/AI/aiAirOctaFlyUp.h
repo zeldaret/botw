@@ -1,13 +1,11 @@
 #pragma once
 
-#include "Game/AI/AI/aiAirOctaRoot.h"
-#include "Game/AirOctaDataMgrTemp.h"
-#include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiAi.h"
-#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
+
 namespace uking::ai {
 
 class AirOctaFlyUp : public ksys::act::ai::Ai {
+    SEAD_RTTI_OVERRIDE(AirOctaFlyUp, ksys::act::ai::Ai)
     friend uking::AirOctaDataMgr;
 
 public:
@@ -22,7 +20,7 @@ public:
     void calc_() override;
 
 protected:
-    uking::AirOctaDataMgr* getDataMgr() {
+    AirOctaDataMgr* getDataMgr() const {
         return sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a);
     }
     // static_param at offset 0x38

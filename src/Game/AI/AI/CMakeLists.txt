@@ -1857,6 +1857,8 @@ target_sources(uking PRIVATE
   aiRideHorseAI.h
   aiRitoHeroSoulGiftRoot.cpp
   aiRitoHeroSoulGiftRoot.h
+  AirOcta/AirOctaDataMgr.cpp
+  AirOcta/AirOctaDataMgr.h
   aiRodEnemyFindPlayer.cpp
   aiRodEnemyFindPlayer.h
   aiRodRoot.cpp
