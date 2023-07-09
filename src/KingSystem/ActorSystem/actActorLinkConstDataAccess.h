@@ -2,10 +2,9 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys {
-
+struct MesTransceiverId;
 namespace act {
 
 class BaseProc;
@@ -37,7 +36,7 @@ public:
 
     bool hasProc() const { return mProc != nullptr; }
 
-    const MesTransceiverId * getMessageTransceiverId();
+    MesTransceiverId* getMessageTransceiverId();
 
 protected:
     friend class ActorConstDataAccess;

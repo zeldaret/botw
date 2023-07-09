@@ -18,15 +18,16 @@
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Utils/AtomicLongBitFlag.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
-#include "KingSystem/ActorSystem/AS/ASList.h"
-
+#include "Game/Damage/dmgDamageManagerBase.h"
 namespace gsys {
 class Model;
 }  // namespace gsys
 
 namespace ksys {
 
-
+namespace as {
+class ASList;
+} //namespace as
 
 namespace map {
 class Object;
@@ -265,7 +266,7 @@ const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.get
     virtual void onPlacementObjReset();
     virtual void getAtk();
     virtual void m126();
-    virtual void getDamageMgr();
+    virtual uking::dmg::DamageManagerBase* getDamageMgr();
     virtual void m128();
     virtual void m129();
     virtual void getPlayerRideInfo();
@@ -289,7 +290,7 @@ const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.get
 
     sead::Atomic<bool>& get68f() { return _68f; }
     float get6f0() const { return _6f0; }
-
+    uking::dmg::DamageManagerBase* getDamageMgrDerived();
     void emitBasicSigOn();
     void emitBasicSigOff();
     bool checkBasicSig() const;
