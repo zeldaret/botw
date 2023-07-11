@@ -1,12 +1,13 @@
 #include "Game/AI/AI/aiAirOctaRoot.h"
 #include "Game/AI/AI/aiAirOctaFlyUp.h"
+#include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
-#include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actAiAi.h"
-#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
