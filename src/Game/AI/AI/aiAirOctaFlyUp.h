@@ -1,11 +1,12 @@
 #pragma once
 
-namespace uking {
-class AirOctaDataMgr;
-namespace ai {
+#include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
+
+namespace uking::ai {
+
 class AirOctaFlyUp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AirOctaFlyUp, ksys::act::ai::Ai)
-    friend AirOctaDataMgr;
+    friend uking::AirOctaDataMgr;
 
 public:
     explicit AirOctaFlyUp(const InitArg& arg);
@@ -38,5 +39,5 @@ protected:
     u32 mUserData;
     bool mIsEnded;
 };
-}
+
 }  // namespace uking::ai
