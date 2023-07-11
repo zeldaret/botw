@@ -39,7 +39,7 @@ void AirOctaFlyUp::calc_() {
             if (currentChild->isFinished() || currentChild->isFailed()) {
                 auto ASList = getActor()->getASList();
                 if (ASList) {
-                    ASList->DelayStateChangeMaybe(-1.f, -1.f, "Wait", 0, 0, true);
+                    ASList->StartAnimationMaybe(-1.f, -1.f, "Wait", 0, 0, true);
                 }
                 mIsEnded = true;
             } else if (!mIsEnded) {
