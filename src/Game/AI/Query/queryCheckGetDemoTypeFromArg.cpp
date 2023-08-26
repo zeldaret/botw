@@ -21,7 +21,7 @@ CheckGetDemoTypeFromArg::~CheckGetDemoTypeFromArg() = default;
 int CheckGetDemoTypeFromArg::doQuery() {
     if (*mUseLastTryGetItemName && ui::PauseMenuDataMgr::instance()) {
         auto* item = ui::PauseMenuDataMgr::instance()->getLastAddedItem();
-        if (item->get25()) {
+        if (item->isInInventory()) {
             if (ksys::act::hasTag(item->getName(), ksys::act::tags::ApplyHighGradeGetDemo))
                 return Result_HighGrade;
             if (ksys::act::hasTag(item->getName(), ksys::act::tags::ApplyDeluxeGetDemo))
