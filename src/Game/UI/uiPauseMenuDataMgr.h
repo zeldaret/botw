@@ -484,7 +484,7 @@ private:
     PouchItem* mLastAddedItem{};
     u32 mLastAddedItemTab = 0xFFFFFFFF;
     s32 mLastAddedItemSlot = -1;
-    s32 mNumSlot = 0;
+    s32 mNumTab = 0;
     sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
     PouchItem* mItem_444f0{};
     s32 _444f8 = -1;
