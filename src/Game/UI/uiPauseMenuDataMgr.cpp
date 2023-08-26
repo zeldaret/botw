@@ -226,7 +226,7 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs);
 
 PauseMenuDataMgr::PauseMenuDataMgr() {
     mListHeads.fill(nullptr);
-    for (s32 i = 0; i < NumPouch50; ++i) {
+    for (s32 i = 0; i < NumTabMax; ++i) {
         mArrayTabs[i] = nullptr;
         mArrayTabsType[i] = PouchItemType::Invalid;
     }
@@ -273,7 +273,7 @@ void PauseMenuDataMgr::initForNewSave() {
         destroyAndRecycleItem(item);
 
     mListHeads.fill(nullptr);
-    for (s32 i = 0; i < NumPouch50; ++i) {
+    for (s32 i = 0; i < NumTabMax; ++i) {
         mArrayTabs[i] = nullptr;
         mArrayTabsType[i] = PouchItemType::Invalid;
     }
@@ -337,7 +337,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     mGoronSoulItem = nullptr;
     mZoraSoulItem = nullptr;
     mGerudoSoulItem = nullptr;
-    for (s32 i = 0; i < NumPouch50; ++i) {
+    for (s32 i = 0; i < NumTabMax; ++i) {
         mArrayTabs[i] = nullptr;
         mArrayTabsType[i] = PouchItemType::Invalid;
     }
@@ -828,7 +828,7 @@ void PauseMenuDataMgr::updateListHeads() {
             mListHeads[s32(cat)] = &mArrayTabs[i];
     };
 
-    for (s32 i = 0; i < NumPouch50; ++i) {
+    for (s32 i = 0; i < NumTabMax; ++i) {
         if (mArrayTabsType[i] == PouchItemType::Invalid)
             continue;
 
@@ -2584,7 +2584,7 @@ void PauseMenuDataMgr::addNonDefaultItem(const sead::SafeString& name, int value
 }
 
 void PauseMenuDataMgr::openItemCategoryIfNeeded() const {
-    for (s32 i = 0; i < NumPouch50; ++i) {
+    for (s32 i = 0; i < NumTabMax; ++i) {
         const auto type = mArrayTabsType[i];
         if (isPouchItemArmor(type)) {
             ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
