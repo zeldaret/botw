@@ -174,7 +174,7 @@ public:
 
     PouchItemType getType() const { return mType; }
     bool isEquipped() const { return mEquipped; }
-    bool isInInventory() const { return mInInventory; }
+    u8 isInInventory() const { return mInInventory; }
     const sead::SafeString& getName() const { return mName; }
     ItemUse getItemUse() const { return mItemUse; }
 
