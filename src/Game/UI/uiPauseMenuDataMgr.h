@@ -49,7 +49,7 @@ static_assert(NumPouchItemsMax == 420, "NumPouchItemsMax must be 420 for now");
 
 constexpr int ItemStackSizeMax = 999;
 
-// TODO: figure out what this is
+// maximum number of tab (pages with 20 items) you can have, more will be glitched
 constexpr int NumTabMax = 50;
 
 constexpr int NumGrabbableItems = 5;
@@ -174,7 +174,7 @@ public:
 
     PouchItemType getType() const { return mType; }
     bool isEquipped() const { return mEquipped; }
-    u8 isInInventory() const { return mInInventory; }
+    bool isInInventory() const { return mInInventory; }
     const sead::SafeString& getName() const { return mName; }
     ItemUse getItemUse() const { return mItemUse; }
 
@@ -236,7 +236,7 @@ private:
     ItemUse mItemUse = ItemUse::Invalid;
     s32 mValue = 0;
     bool mEquipped = false;
-    u8 mInInventory = 1;
+    bool mInInventory = true;
     sead::FixedSafeString<64> mName;
     Data mData{};
     sead::FixedObjArray<sead::FixedSafeString<64>, NumIngredientsMax> mIngredients;
@@ -484,7 +484,7 @@ private:
     PouchItem* mLastAddedItem{};
     u32 mLastAddedItemTab = 0xFFFFFFFF;
     s32 mLastAddedItemSlot = -1;
-    s32 mNumTab = 0;
+    s32 mNumTabs = 0;
     sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
     PouchItem* mItem_444f0{};
     s32 _444f8 = -1;
@@ -499,6 +499,8 @@ private:
     PouchItem* mGoronSoulItem{};
     PouchItem* mZoraSoulItem{};
     PouchItem* mGerudoSoulItem{};
+
+    // Indicates if you have the champion tunic or a divine helmet eqquiped and so if you can see enemy hp
     bool mCanSeeHealthBar = false;
     PouchItem mNewlyAddedItem;
 
