@@ -278,7 +278,7 @@ void PauseMenuDataMgr::initForNewSave() {
         mArrayTabsType[i] = PouchItemType::Invalid;
     }
 
-    mNumTab = 0;
+    mNumTabs = 0;
     ksys::gdt::setFlag_KorokNutsNum(0);
     ksys::gdt::setFlag_DungeonClearSealNum(0);
     ksys::gdt::setFlag_FairyCountCheck(false);
@@ -489,7 +489,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
         updateDivineBeastClearFlags(num_cleared_beasts);
 
     mLastAddedItemTab = 0xFFFFFFFF;
-    mLastAddedItemSlot= -1;
+    mLastAddedItemSlot = -1;
 }
 
 bool PauseMenuDataMgr::cannotGetItem(const sead::SafeString& name, int n) const {
@@ -1382,7 +1382,8 @@ bool PauseMenuDataMgr::getEquippedArrowType(sead::BufferedSafeString* name, int*
     for (const auto* item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
         if (item->getType() > PouchItemType::Arrow)
             break;
-        if (item->getType() == PouchItemType::Arrow && item->isInInventory() && item->isEquipped()) {
+        if (item->getType() == PouchItemType::Arrow && item->isInInventory() &&
+            item->isEquipped()) {
             if (name)
                 name->copy(item->getName());
             if (count)
@@ -1398,7 +1399,8 @@ int PauseMenuDataMgr::getArrowCount(const sead::SafeString& name) const {
     for (auto item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
         if (item->getType() > PouchItemType::Arrow)
             break;
-        if (item->getType() == PouchItemType::Arrow && item->mInInventory && item->getName() == name)
+        if (item->getType() == PouchItemType::Arrow && item->mInInventory && 
+            item->getName() == name)
             return item->getCount();
     }
     return 0;
@@ -2232,7 +2234,8 @@ int PauseMenuDataMgr::getItemValue(const sead::SafeString& name) const {
 
     if (ksys::act::InfoData::instance()->hasTag(group_name.cstr(), ksys::act::tags::CanStack)) {
         for (const auto& item : mItemLists.buffer) {
-            if (item.isInInventory() && item.getType() == type && !group_name.comparen(item.getName(), 64))
+            if (item.isInInventory() && item.getType() == type &&
+                !group_name.comparen(item.getName(), 64))
                 return item.getValue();
         }
         return 0;
@@ -2240,7 +2243,8 @@ int PauseMenuDataMgr::getItemValue(const sead::SafeString& name) const {
 
     s32 count = 0;
     for (const auto& item : mItemLists.buffer) {
-        if (item.isInInventory() && item.getType() == type && !group_name.comparen(item.getName(), 64))
+        if (item.isInInventory() && item.getType() == type &&
+            !group_name.comparen(item.getName(), 64))
             count++;
     }
     return count;
@@ -2278,7 +2282,8 @@ int PauseMenuDataMgr::countArmorDye() const {
     int count = 0;
     using namespace ksys::act;
     for (const auto& item : getItems()) {
-        if (item.isInInventory() && InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye))
+        if (item.isInInventory() &&
+            InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye))
             ++count;
     }
     return count;
@@ -2288,7 +2293,8 @@ int PauseMenuDataMgr::countAlreadyDyedArmor() const {
     int count = 0;
     using namespace ksys::act;
     for (const auto& item : getItems()) {
-        if (item.isInInventory() && InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye) &&
+        if (item.isInInventory() &&
+            InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye) &&
             item.getValue() > 0) {
             ++count;
         }
@@ -2483,7 +2489,8 @@ bool PauseMenuDataMgr::hasItemDye(int color) const {
     int count = 0;
     for (const auto& item : getItems()) {
         auto* info = ksys::act::InfoData::instance();
-        if (ksys::act::getItemStainColor(info, item.getName().cstr()) == color && item.isInInventory()) {
+        if (ksys::act::getItemStainColor(info, item.getName().cstr()) == color &&
+            item.isInInventory()) {
             count += item.getValue();
             if (count >= NumRequiredDyeItemsPerColor)
                 return true;
