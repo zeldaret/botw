@@ -501,7 +501,8 @@ private:
     PouchItem* mZoraSoulItem{};
     PouchItem* mGerudoSoulItem{};
 
-    // Indicates if you have the champion tunic or a divine helmet eqquiped and so if you can see enemy hp
+    // Indicates if the Champion's Tunic or a divine helm is equipped
+    // and whether the player can see enemy HP.
     bool mCanSeeHealthBar = false;
     PouchItem mNewlyAddedItem;
 
