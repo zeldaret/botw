@@ -49,7 +49,8 @@ static_assert(NumPouchItemsMax == 420, "NumPouchItemsMax must be 420 for now");
 
 constexpr int ItemStackSizeMax = 999;
 
-// maximum number of tab (pages with 20 items) you can have, more will be glitched
+// Maximum number of tabs (pages with 20 items) you can have.
+// Going beyond this limit will glitch the menu.
 constexpr int NumTabMax = 50;
 
 constexpr int NumGrabbableItems = 5;
