@@ -488,7 +488,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     if (was_missing_hero_soul)
         updateDivineBeastClearFlags(num_cleared_beasts);
 
-    mLastAddedItemTab = 0xFFFFFFFF;
+    mLastAddedItemTab = -1;
     mLastAddedItemSlot = -1;
 }
 
@@ -1399,7 +1399,7 @@ int PauseMenuDataMgr::getArrowCount(const sead::SafeString& name) const {
     for (auto item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
         if (item->getType() > PouchItemType::Arrow)
             break;
-        if (item->getType() == PouchItemType::Arrow && item->mInInventory && 
+        if (item->getType() == PouchItemType::Arrow && item->mInInventory &&
             item->getName() == name)
             return item->getCount();
     }
