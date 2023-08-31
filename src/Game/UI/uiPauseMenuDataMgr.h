@@ -483,7 +483,7 @@ private:
     sead::SafeArray<PouchItem*, NumTabMax> mArrayTabs;
     sead::SafeArray<PouchItemType, NumTabMax> mArrayTabsType;
     PouchItem* mLastAddedItem{};
-    u32 mLastAddedItemTab = 0xFFFFFFFF;
+    s32 mLastAddedItemTab = -1;
     s32 mLastAddedItemSlot = -1;
     s32 mNumTabs = 0;
     sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
