@@ -480,8 +480,8 @@ private:
     mutable sead::CriticalSection mCritSection;
     Lists mItemLists;
     sead::SafeArray<PouchItem**, NumPouchCategories> mListHeads;
-    sead::SafeArray<PouchItem*, NumTabMax> mArrayTabs;
-    sead::SafeArray<PouchItemType, NumTabMax> mArrayTabsType;
+    sead::SafeArray<PouchItem*, NumTabMax> mTabs;
+    sead::SafeArray<PouchItemType, NumTabMax> mTabsType;
     PouchItem* mLastAddedItem{};
     s32 mLastAddedItemTab = -1;
     s32 mLastAddedItemSlot = -1;
