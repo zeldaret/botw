@@ -226,9 +226,9 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs);
 
 PauseMenuDataMgr::PauseMenuDataMgr() {
     mListHeads.fill(nullptr);
-    for (s32 i = 0; i < NumPouch50; ++i) {
-        mArray1[i] = nullptr;
-        mArray2[i] = PouchItemType::Invalid;
+    for (s32 i = 0; i < NumTabMax; ++i) {
+        mTabs[i] = nullptr;
+        mTabsType[i] = PouchItemType::Invalid;
     }
     for (auto& x : mGrabbedItems)
         x = {};
@@ -248,7 +248,7 @@ void PauseMenuDataMgr::resetItem() {
     mNewlyAddedItem.mItemUse = ItemUse::Invalid;
     mNewlyAddedItem.mValue = 0;
     mNewlyAddedItem.mEquipped = false;
-    mNewlyAddedItem._25 = 0;
+    mNewlyAddedItem.mInInventory = false;
     mNewlyAddedItem.mName.clear();
     mNewlyAddedItem.mData.cook = {};
     mNewlyAddedItem.mData.cook.mCookEffect0 = sDummyCookEffect0;
@@ -273,12 +273,12 @@ void PauseMenuDataMgr::initForNewSave() {
         destroyAndRecycleItem(item);
 
     mListHeads.fill(nullptr);
-    for (s32 i = 0; i < NumPouch50; ++i) {
-        mArray1[i] = nullptr;
-        mArray2[i] = PouchItemType::Invalid;
+    for (s32 i = 0; i < NumTabMax; ++i) {
+        mTabs[i] = nullptr;
+        mTabsType[i] = PouchItemType::Invalid;
     }
 
-    _44498 = {};
+    mNumTabs = 0;
     ksys::gdt::setFlag_KorokNutsNum(0);
     ksys::gdt::setFlag_DungeonClearSealNum(0);
     ksys::gdt::setFlag_FairyCountCheck(false);
@@ -296,7 +296,7 @@ void PauseMenuDataMgr::initForNewSave() {
     mGoronSoulItem = {};
     mZoraSoulItem = {};
     mGerudoSoulItem = {};
-    _44538 = false;
+    mCanSeeHealthBar = false;
     mEquippedWeapons.fill({});
 
     auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
@@ -337,9 +337,9 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     mGoronSoulItem = nullptr;
     mZoraSoulItem = nullptr;
     mGerudoSoulItem = nullptr;
-    for (s32 i = 0; i < NumPouch50; ++i) {
-        mArray1[i] = nullptr;
-        mArray2[i] = PouchItemType::Invalid;
+    for (s32 i = 0; i < NumTabMax; ++i) {
+        mTabs[i] = nullptr;
+        mTabsType[i] = PouchItemType::Invalid;
     }
 
     s32 num_food = 0;
@@ -488,8 +488,8 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     if (was_missing_hero_soul)
         updateDivineBeastClearFlags(num_cleared_beasts);
 
-    _44490 = -1;
-    _44494 = -1;
+    mLastAddedItemTab = -1;
+    mLastAddedItemSlot = -1;
 }
 
 bool PauseMenuDataMgr::cannotGetItem(const sead::SafeString& name, int n) const {
@@ -648,7 +648,7 @@ int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) cons
             int count = 0;
             for (auto* item = list.nth(0); item && item->getType() <= PouchItemType::Shield;
                  item = list.next(item)) {
-                count += item->get25();
+                count += item->isInInventory();
             }
             return count;
 
@@ -656,7 +656,7 @@ int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) cons
             int count = 0;
             for (auto* item = getItemHead(PouchCategory::Armor);
                  item && item->getType() <= PouchItemType::ArmorLower; item = list.next(item)) {
-                count += item->get25();
+                count += item->isInInventory();
             }
             return count;
 
@@ -684,7 +684,7 @@ int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) cons
 
         int count = 0;
         for (auto* item = *head; item && item->getType() == type; item = list.next(item)) {
-            count += item->get25();
+            count += item->isInInventory();
         }
         return count;
     }
@@ -713,7 +713,7 @@ int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) cons
         int count = 0;
         for (auto* item = getItemHead(PouchCategory::Armor);
              item && item->getType() <= PouchItemType::ArmorLower; item = list.next(item)) {
-            count += item->get25();
+            count += item->isInInventory();
         }
         return count;
 
@@ -732,7 +732,7 @@ int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) cons
 
     int count = 0;
     for (auto* item = first; item && item->getType() == type; item = list.next(item)) {
-        count += item->get25();
+        count += item->isInInventory();
     }
     return count;
 }
@@ -750,7 +750,7 @@ bool PauseMenuDataMgr::isWeaponSectionFull(const sead::SafeString& weapon_type) 
             for (auto item = getItemHead(category); item; item = nextItem(item)) {
                 if (item->getType() != type)
                     break;
-                num += item->_25;
+                num += item->mInInventory;
             }
         }
 
@@ -784,7 +784,7 @@ void PauseMenuDataMgr::itemGet(const sead::SafeString& name, int value,
 
     mNewlyAddedItem.mType = type;
     mNewlyAddedItem.mValue = value;
-    mNewlyAddedItem._25 = 1;
+    mNewlyAddedItem.mInInventory = true;
     mNewlyAddedItem.mName = name;
     mNewlyAddedItem.mEquipped = false;
 
@@ -825,14 +825,14 @@ void PauseMenuDataMgr::updateListHeads() {
 
     const auto set_if_null = [&](PouchCategory cat, s32 i) {
         if (!mListHeads[s32(cat)])
-            mListHeads[s32(cat)] = &mArray1[i];
+            mListHeads[s32(cat)] = &mTabs[i];
     };
 
-    for (s32 i = 0; i < NumPouch50; ++i) {
-        if (mArray2[i] == PouchItemType::Invalid)
+    for (s32 i = 0; i < NumTabMax; ++i) {
+        if (mTabsType[i] == PouchItemType::Invalid)
             continue;
 
-        switch (mArray2[i]) {
+        switch (mTabsType[i]) {
         case PouchItemType::Sword:
             set_if_null(PouchCategory::Sword, i);
             break;
@@ -875,7 +875,7 @@ void PauseMenuDataMgr::addToPouch(const sead::SafeString& name, PouchItemType ty
         if (!ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::CanStack)) {
             for (auto* item = getItemHead(PouchCategory::KeyItem);
                  item && item->getType() == PouchItemType::KeyItem; item = lists.list1.next(item)) {
-                if (item->get25() && item->getName() == name)
+                if (item->isInInventory() && item->getName() == name)
                     return;
             }
         }
@@ -885,7 +885,7 @@ void PauseMenuDataMgr::addToPouch(const sead::SafeString& name, PouchItemType ty
         // Adding a second Master Sword should just refresh the item value or equipped status.
         for (auto* item = getItemHead(PouchCategory::Sword);
              item && item->getType() == PouchItemType::Sword; item = lists.list1.next(item)) {
-            if (!item->get25() || item->getName() != name)
+            if (!item->isInInventory() || item->getName() != name)
                 continue;
 
             if (ksys::gdt::getFlag_MasterSwordRecoverTime() <= sead::Mathf::epsilon()) {
@@ -940,7 +940,7 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
             continue;
         }
 
-        while (item && !item->get25()) {
+        while (item && !item->isInInventory()) {
 #ifdef MATCHING_HACK_NX_CLANG
             asm("");  // Prevent list.mOffset from being loaded too early
 #endif
@@ -1251,11 +1251,11 @@ int PauseMenuDataMgr::getItemCount(const sead::SafeString& name, bool count_equi
     if (count_equipped) {
         for (auto* item = first; item; item = items.next(item)) {
             if (group_name == item->getName())
-                count += item->get25();
+                count += item->isInInventory();
         }
     } else {
         for (auto* item = first; item; item = items.next(item)) {
-            if (group_name == item->getName() && item->get25())
+            if (group_name == item->getName() && item->isInInventory())
                 count += !item->isEquipped();
         }
     }
@@ -1314,7 +1314,7 @@ PouchItem* PauseMenuDataMgr::getMasterSword() const {
     for (auto* item = getItemHead(PouchCategory::Sword); item; item = nextItem(item)) {
         if (item->getType() != PouchItemType::Sword)
             return nullptr;
-        if (item->_25 && item->getName() == "Weapon_Sword_070")
+        if (item->mInInventory && item->getName() == "Weapon_Sword_070")
             return item;
     }
 
@@ -1382,7 +1382,8 @@ bool PauseMenuDataMgr::getEquippedArrowType(sead::BufferedSafeString* name, int*
     for (const auto* item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
         if (item->getType() > PouchItemType::Arrow)
             break;
-        if (item->getType() == PouchItemType::Arrow && item->get25() && item->isEquipped()) {
+        if (item->getType() == PouchItemType::Arrow && item->isInInventory() &&
+            item->isEquipped()) {
             if (name)
                 name->copy(item->getName());
             if (count)
@@ -1398,7 +1399,8 @@ int PauseMenuDataMgr::getArrowCount(const sead::SafeString& name) const {
     for (auto item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
         if (item->getType() > PouchItemType::Arrow)
             break;
-        if (item->getType() == PouchItemType::Arrow && item->_25 && item->getName() == name)
+        if (item->getType() == PouchItemType::Arrow && item->mInInventory &&
+            item->getName() == name)
             return item->getCount();
     }
     return 0;
@@ -1593,7 +1595,7 @@ int PauseMenuDataMgr::countCookResults(const sead::SafeString& name, s32 effect_
     for (auto* item = getItemHead(PouchCategory::Food); item; item = nextItem(item)) {
         if (item->getType() != PouchItemType::Food)
             break;
-        if (!item->get25())
+        if (!item->isInInventory())
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
@@ -1615,7 +1617,7 @@ int PauseMenuDataMgr::countItemsWithCategory(PouchCategory category) const {
         const auto type = item->getType();
         if (getCategoryForType(type) != category)
             break;
-        count += item->get25();
+        count += item->isInInventory();
     }
     return count;
 }
@@ -1668,7 +1670,7 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
     for (auto* item = getItemHead(PouchCategory::Food); item; item = items.next(item)) {
         if (item->getType() != PouchItemType::Food)
             break;
-        if (!item->get25())
+        if (!item->isInInventory())
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
@@ -1912,7 +1914,7 @@ int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
         return 0;
 
     auto* info_data = ksys::act::InfoData::instance();
-    if (!info_data || !lhs->get25() || !rhs->get25())
+    if (!info_data || !lhs->isInInventory() || !rhs->isInInventory())
         return 0;
 
     const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
@@ -2172,7 +2174,7 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
         return 0;
 
     auto* info_data = ksys::act::InfoData::instance();
-    if (!info_data || !lhs->get25() || !rhs->get25())
+    if (!info_data || !lhs->isInInventory() || !rhs->isInInventory())
         return 0;
 
     const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
@@ -2232,7 +2234,8 @@ int PauseMenuDataMgr::getItemValue(const sead::SafeString& name) const {
 
     if (ksys::act::InfoData::instance()->hasTag(group_name.cstr(), ksys::act::tags::CanStack)) {
         for (const auto& item : mItemLists.buffer) {
-            if (item.get25() && item.getType() == type && !group_name.comparen(item.getName(), 64))
+            if (item.isInInventory() && item.getType() == type &&
+                !group_name.comparen(item.getName(), 64))
                 return item.getValue();
         }
         return 0;
@@ -2240,7 +2243,8 @@ int PauseMenuDataMgr::getItemValue(const sead::SafeString& name) const {
 
     s32 count = 0;
     for (const auto& item : mItemLists.buffer) {
-        if (item.get25() && item.getType() == type && !group_name.comparen(item.getName(), 64))
+        if (item.isInInventory() && item.getType() == type &&
+            !group_name.comparen(item.getName(), 64))
             count++;
     }
     return count;
@@ -2278,7 +2282,8 @@ int PauseMenuDataMgr::countArmorDye() const {
     int count = 0;
     using namespace ksys::act;
     for (const auto& item : getItems()) {
-        if (item.get25() && InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye))
+        if (item.isInInventory() &&
+            InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye))
             ++count;
     }
     return count;
@@ -2288,7 +2293,8 @@ int PauseMenuDataMgr::countAlreadyDyedArmor() const {
     int count = 0;
     using namespace ksys::act;
     for (const auto& item : getItems()) {
-        if (item.get25() && InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye) &&
+        if (item.isInInventory() &&
+            InfoData::instance()->hasTag(item.getName().cstr(), tags::ArmorDye) &&
             item.getValue() > 0) {
             ++count;
         }
@@ -2470,7 +2476,7 @@ bool PauseMenuDataMgr::hasItemDye() const {
     for (const auto& item : getItems()) {
         auto* info = ksys::act::InfoData::instance();
         const int color = ksys::act::getItemStainColor(info, item.getName().cstr());
-        if (color >= FirstDyeColorIndex && color <= LastDyeColorIndex && item.get25()) {
+        if (color >= FirstDyeColorIndex && color <= LastDyeColorIndex && item.isInInventory()) {
             counts[color] += item.getValue();
             if (counts[color] >= NumRequiredDyeItemsPerColor)
                 return true;
@@ -2483,7 +2489,8 @@ bool PauseMenuDataMgr::hasItemDye(int color) const {
     int count = 0;
     for (const auto& item : getItems()) {
         auto* info = ksys::act::InfoData::instance();
-        if (ksys::act::getItemStainColor(info, item.getName().cstr()) == color && item.get25()) {
+        if (ksys::act::getItemStainColor(info, item.getName().cstr()) == color &&
+            item.isInInventory()) {
             count += item.getValue();
             if (count >= NumRequiredDyeItemsPerColor)
                 return true;
@@ -2562,7 +2569,7 @@ int PauseMenuDataMgr::countArmors(const sead::SafeString& lowest_rank_armor_name
         for (auto* item = *mListHeads[u32(PouchCategory::Armor)]; item; item = nextItem(item)) {
             if (item->getType() > PouchItemType::ArmorLower)
                 break;
-            if (item->get25() && armor_name == item->getName())
+            if (item->isInInventory() && armor_name == item->getName())
                 ++count;
         }
         armor_name = ksys::act::getArmorNextRankName(info, armor_name.cstr());
@@ -2584,8 +2591,8 @@ void PauseMenuDataMgr::addNonDefaultItem(const sead::SafeString& name, int value
 }
 
 void PauseMenuDataMgr::openItemCategoryIfNeeded() const {
-    for (s32 i = 0; i < NumPouch50; ++i) {
-        const auto type = mArray2[i];
+    for (s32 i = 0; i < NumTabMax; ++i) {
+        const auto type = mTabsType[i];
         if (isPouchItemArmor(type)) {
             ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
         } else {
