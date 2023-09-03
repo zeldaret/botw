@@ -227,8 +227,8 @@ int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs);
 PauseMenuDataMgr::PauseMenuDataMgr() {
     mListHeads.fill(nullptr);
     for (s32 i = 0; i < NumTabMax; ++i) {
-        mArrayTabs[i] = nullptr;
-        mArrayTabsType[i] = PouchItemType::Invalid;
+        mTabs[i] = nullptr;
+        mTabsType[i] = PouchItemType::Invalid;
     }
     for (auto& x : mGrabbedItems)
         x = {};
@@ -274,8 +274,8 @@ void PauseMenuDataMgr::initForNewSave() {
 
     mListHeads.fill(nullptr);
     for (s32 i = 0; i < NumTabMax; ++i) {
-        mArrayTabs[i] = nullptr;
-        mArrayTabsType[i] = PouchItemType::Invalid;
+        mTabs[i] = nullptr;
+        mTabsType[i] = PouchItemType::Invalid;
     }
 
     mNumTabs = 0;
@@ -338,8 +338,8 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     mZoraSoulItem = nullptr;
     mGerudoSoulItem = nullptr;
     for (s32 i = 0; i < NumTabMax; ++i) {
-        mArrayTabs[i] = nullptr;
-        mArrayTabsType[i] = PouchItemType::Invalid;
+        mTabs[i] = nullptr;
+        mTabsType[i] = PouchItemType::Invalid;
     }
 
     s32 num_food = 0;
@@ -825,14 +825,14 @@ void PauseMenuDataMgr::updateListHeads() {
 
     const auto set_if_null = [&](PouchCategory cat, s32 i) {
         if (!mListHeads[s32(cat)])
-            mListHeads[s32(cat)] = &mArrayTabs[i];
+            mListHeads[s32(cat)] = &mTabs[i];
     };
 
     for (s32 i = 0; i < NumTabMax; ++i) {
-        if (mArrayTabsType[i] == PouchItemType::Invalid)
+        if (mTabsType[i] == PouchItemType::Invalid)
             continue;
 
-        switch (mArrayTabsType[i]) {
+        switch (mTabsType[i]) {
         case PouchItemType::Sword:
             set_if_null(PouchCategory::Sword, i);
             break;
@@ -2592,7 +2592,7 @@ void PauseMenuDataMgr::addNonDefaultItem(const sead::SafeString& name, int value
 
 void PauseMenuDataMgr::openItemCategoryIfNeeded() const {
     for (s32 i = 0; i < NumTabMax; ++i) {
-        const auto type = mArrayTabsType[i];
+        const auto type = mTabsType[i];
         if (isPouchItemArmor(type)) {
             ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
         } else {
