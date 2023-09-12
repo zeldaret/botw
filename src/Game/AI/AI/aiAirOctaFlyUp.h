@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
-
+#include "KingSystem/ActorSystem/actAiAi.h"
 namespace uking::ai {
 
 class AirOctaFlyUp : public ksys::act::ai::Ai {

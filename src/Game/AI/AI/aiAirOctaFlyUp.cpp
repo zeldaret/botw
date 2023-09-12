@@ -1,10 +1,11 @@
-#include "Game/AI/AI/aiAirOctaRoot.h"
 #include "Game/AI/AI/aiAirOctaFlyUp.h"
+#include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/AI/AI/aiAirOctaRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
-#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -21,46 +22,47 @@ bool AirOctaFlyUp::init_(sead::Heap* heap) {
 void AirOctaFlyUp::calc_() {
     auto* data_mgr = getDataMgr();
     if (!data_mgr) {
-    return;
+        return;
     }
-    auto deltaTime = ksys::VFR::instance()->getDeltaTime();
-    mElapsedTime += deltaTime;
-    auto smallest_time = sead::Mathf::min(1.0f, mElapsedTime / *mFlyUpDuration_s);
-    auto smallest_time2 = smallest_time * 2.f;
-    auto smallest_time3 = (smallest_time * 2.f) - 1.f;
-    auto smallest_time4 = smallest_time2 < 1.f ? sead::Mathf::exp(smallest_time3 * 10.f) : 2.f - sead::Mathf::exp(smallest_time3 * -10.f);
-    auto smallest_time5 = smallest_time4 * 0.5f;
-    data_mgr->unk_114 = smallest_time5 * *mTargetDistance_d;
-    data_mgr->ChangeOctasYheightMaybe();
+    auto dt = ksys::VFR::instance()->getDeltaTime();
+    mElapsedTime += dt;
+    auto min = (sead::Mathf::min(1.0f, mElapsedTime / *mFlyUpDuration_s) * 2.f) - 1.f;
+    auto fly_up_cycles = min < 1.f ? sead::Mathf::exp((min * 2.f) - 1.f * 10.f) :
+                                     2.f - sead::Mathf::exp((min * 2.f) - 1.f * -10.f);
+    data_mgr->unk_114 = fly_up_cycles * 0.5f * *mTargetDistance_d;
+    data_mgr->changeOctasYheightMaybe();
     auto y = getActor()->getMtx().m[1][3];
     if (isCurrentChild("終了")) {  // "End"
         if (!mIsEnded) {
             auto currentChild = getCurrentChild();
             if (currentChild->isFinished() || currentChild->isFailed()) {
-                auto ASList = getActor()->getASList();
-                if (ASList) {
-                    ASList->StartAnimationMaybe(-1.f, -1.f, "Wait", 0, 0, true);
+                auto as_list = getActor()->getASList();
+                if (as_list) {
+                    as_list->startAnimationMaybe(-1.f, -1.f, "Wait", 0, 0, true);
                 }
                 mIsEnded = true;
             } else if (!mIsEnded) {
                 return;
             }
         }
-            if ((smallest_time5 >= 1.f && y >= getDataMgr()->vec_F8.y) ||
-                    mElapsedTime >= (*mFlyUpDuration_s * 3.0f)) {
-                    ksys::act::ActorConstDataAccess linkData;
-                    if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
-                        mUserData = 3;
-                        getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData, false);
-                    }
-             }
-        } else if (y - AirOctaY >= *mTargetDistance_d * 0.9f || mElapsedTime >= (*mFlyUpDuration_s * 3.0f)) {
+        if ((fly_up_cycles * 0.5f >= 1.f && y >= getDataMgr()->vec_F8.y) ||
+            mElapsedTime >= (*mFlyUpDuration_s * 3.0f)) {
             ksys::act::ActorConstDataAccess linkData;
             if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
-                mUserData = 2;
-                getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData, false);
+                mUserData = 3;
+                getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData,
+                                        false);
             }
         }
+    } else if (y - AirOctaY >= *mTargetDistance_d * 0.9f ||
+               mElapsedTime >= (*mFlyUpDuration_s * 3.0f)) {
+        ksys::act::ActorConstDataAccess linkData;
+        if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
+            mUserData = 2;
+            getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData,
+                                    false);
+        }
+    }
 }
 
 bool AirOctaFlyUp::handleMessage_(const ksys::Message& message) {
@@ -75,18 +77,18 @@ bool AirOctaFlyUp::handleMessage_(const ksys::Message& message) {
     if (user_data == nullptr) {
         return true;
     }
-        if (*user_data == 3) {
-            Ai::changeChild("終了");  // END IN JAPANESE
-        } else if (*user_data == 4) {
-            ActionBase::setFinished();
-        }
-        return true;
+    if (*user_data == 3) {
+        Ai::changeChild("終了");  // Ended
+    } else if (*user_data == 4) {
+        ActionBase::setFinished();
+    }
+    return true;
 }
 
 void AirOctaFlyUp::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* data_mgr = getDataMgr()) {
         data_mgr->unk_114 = 0;
-        data_mgr->ChangeOctasYheightMaybe();
+        data_mgr->changeOctasYheightMaybe();
     }
     auto& mtx = mActor->getMtx();
     AirOctaY = mtx(1, 3);
@@ -97,7 +99,7 @@ void AirOctaFlyUp::leave_() {
     if (auto* data_mgr = getDataMgr()) {
         data_mgr->unk_118 += *mTargetDistance_d;
         data_mgr->unk_114 = 0;
-        data_mgr->ChangeOctasYheightMaybe();
+        data_mgr->changeOctasYheightMaybe();
     }
 }
 
