@@ -10,11 +10,11 @@ class AirOctaDataMgr {
     SEAD_RTTI_BASE(AirOctaDataMgr)
 public:
     ksys::act::BaseProcLink& getProc() { return mBaseProcLink; }
-    void ChangeOctasYheightMaybe();
+    void changeOctasYheightMaybe();
 
-        struct MessageData {
-        u32 unk_00;
-        u64 unk_08;
+    struct MessageData {
+    u32 unk_00;
+    u64 unk_08;
     };
 
     /* 0x08 */ ksys::act::BaseProcLink mBaseProcLink;
