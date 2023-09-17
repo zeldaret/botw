@@ -2,8 +2,9 @@
 
 #include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
-namespace uking::ai {
-
+namespace uking {
+class AirOctaDataMgr;
+namespace ai {
 class AirOctaFlyUp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AirOctaFlyUp, ksys::act::ai::Ai)
     friend uking::AirOctaDataMgr;
@@ -40,4 +41,5 @@ protected:
     bool mIsEnded;
 };
 
-}  // namespace uking::ai
+}  // namespace ai
+}  // namespace uking
