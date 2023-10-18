@@ -26,10 +26,10 @@ void AirOctaFlyUp::calc_() {
     }
     auto dt = ksys::VFR::instance()->getDeltaTime();
     mElapsedTime += dt;
-    auto min = (sead::Mathf::min(1.0f, mElapsedTime / *mFlyUpDuration_s) * 2.f) - 1.f;
-    auto fly_up_cycles = min < 1.f ? sead::Mathf::exp((min * 2.f) - 1.f * 10.f) :
-                                     2.f - sead::Mathf::exp((min * 2.f) - 1.f * -10.f);
-    data_mgr->unk_114 = fly_up_cycles * 0.5f * *mTargetDistance_d;
+    auto fly_up_cycles = (sead::Mathf::min(1.0f, mElapsedTime / *mFlyUpDuration_s) * 2.f) - 1.f;
+    auto fly_up_multiplier = fly_up_cycles < 1.f ? sead::Mathf::exp((fly_up_cycles * 2.f) - 1.f * 10.f) :
+                                     2.f - sead::Mathf::exp((fly_up_cycles * 2.f) - 1.f * -10.f);
+    data_mgr->unk_114 = fly_up_multiplier * 0.5f * *mTargetDistance_d;
     data_mgr->changeOctasYheightMaybe();
     auto y = getActor()->getMtx().m[1][3];
     if (isCurrentChild("終了")) {  // "End"
@@ -45,7 +45,7 @@ void AirOctaFlyUp::calc_() {
                 return;
             }
         }
-        if ((fly_up_cycles * 0.5f >= 1.f && y >= getDataMgr()->vec_F8.y) ||
+        if ((fly_up_multiplier * 0.5f >= 1.f && y >= getDataMgr()->vec_F8.y) ||
             mElapsedTime >= (*mFlyUpDuration_s * 3.0f)) {
             ksys::act::ActorConstDataAccess linkData;
             if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
