@@ -49,8 +49,9 @@ static_assert(NumPouchItemsMax == 420, "NumPouchItemsMax must be 420 for now");
 
 constexpr int ItemStackSizeMax = 999;
 
-// TODO: figure out what this is
-constexpr int NumPouch50 = 50;
+// Maximum number of tabs (pages with 20 items) you can have.
+// Going beyond this limit will glitch the menu.
+constexpr int NumTabMax = 50;
 
 constexpr int NumGrabbableItems = 5;
 
@@ -174,7 +175,7 @@ public:
 
     PouchItemType getType() const { return mType; }
     bool isEquipped() const { return mEquipped; }
-    u8 get25() const { return _25; }
+    bool isInInventory() const { return mInInventory; }
     const sead::SafeString& getName() const { return mName; }
     ItemUse getItemUse() const { return mItemUse; }
 
@@ -236,7 +237,7 @@ private:
     ItemUse mItemUse = ItemUse::Invalid;
     s32 mValue = 0;
     bool mEquipped = false;
-    u8 _25 = 1;
+    bool mInInventory = true;
     sead::FixedSafeString<64> mName;
     Data mData{};
     sead::FixedObjArray<sead::FixedSafeString<64>, NumIngredientsMax> mIngredients;
@@ -479,12 +480,12 @@ private:
     mutable sead::CriticalSection mCritSection;
     Lists mItemLists;
     sead::SafeArray<PouchItem**, NumPouchCategories> mListHeads;
-    sead::SafeArray<PouchItem*, NumPouch50> mArray1;
-    sead::SafeArray<PouchItemType, NumPouch50> mArray2;
+    sead::SafeArray<PouchItem*, NumTabMax> mTabs;
+    sead::SafeArray<PouchItemType, NumTabMax> mTabsType;
     PouchItem* mLastAddedItem{};
-    s32 _44490 = -1;
-    s32 _44494 = -1;
-    s32 _44498{};
+    s32 mLastAddedItemTab = -1;
+    s32 mLastAddedItemSlot = -1;
+    s32 mNumTabs = 0;
     sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
     PouchItem* mItem_444f0{};
     s32 _444f8 = -1;
@@ -499,7 +500,10 @@ private:
     PouchItem* mGoronSoulItem{};
     PouchItem* mZoraSoulItem{};
     PouchItem* mGerudoSoulItem{};
-    bool _44538 = false;
+
+    // Indicates if the Champion's Tunic or a divine helm is equipped
+    // and whether the player can see enemy HP.
+    bool mCanSeeHealthBar = false;
     PouchItem mNewlyAddedItem;
 
     /// Indicates if a temporary inventory ("pouch for quest") is being used.
