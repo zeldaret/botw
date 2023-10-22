@@ -26,9 +26,9 @@ void AirOctaFlyUp::calc_() {
     }
     auto dt = ksys::VFR::instance()->getDeltaTime();
     mElapsedTime += dt;
-    auto fly_up_peaks = (sead::Mathf::min(1.0f, mElapsedTime / *mFlyUpDuration_s) * 2.f) - 1.f;
-    auto fly_up_multiplier = fly_up_peaks < 1.f ? sead::Mathf::exp((fly_up_peaks * 2.f) - 1.f * 10.f) :
-                                     2.f - sead::Mathf::exp((fly_up_peaks * 2.f) - 1.f * -10.f);
+    auto fly_up_turning_pts = (sead::Mathf::min(1.0f, mElapsedTime / *mFlyUpDuration_s) * 2.f) - 1.f;
+    auto fly_up_multiplier = fly_up_turning_pts < 1.f ? sead::Mathf::exp((fly_up_turning_pts * 2.f) - 1.f * 10.f) :
+                                     2.f - sead::Mathf::exp((fly_up_turning_pts * 2.f) - 1.f * -10.f);
     data_mgr->unk_114 = fly_up_multiplier * 0.5f * *mTargetDistance_d;
     data_mgr->changeOctasYheightMaybe();
     auto y = getActor()->getMtx().m[1][3];
