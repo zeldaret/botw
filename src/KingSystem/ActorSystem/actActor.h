@@ -294,7 +294,6 @@ const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.get
 
     sead::Atomic<bool>& get68f() { return _68f; }
     float get6f0() const { return _6f0; }
-    uking::dmg::DamageManagerBase* getDamageMgrDerived();
     void emitBasicSigOn();
     void emitBasicSigOff();
     bool checkBasicSig() const;
