@@ -273,7 +273,7 @@ public:
     /// If type is PouchItemType::Invalid, all inventory items will be unequipped.
     void unequipAll(PouchItemType type = PouchItemType::Invalid);
 
-    void removeItem(const sead::SafeString& name);
+    void removeFairy(const sead::SafeString& name);
     void removeWeaponIfEquipped(const sead::SafeString& name);
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
 
