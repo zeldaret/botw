@@ -1121,7 +1121,7 @@ PauseMenuDataMgr::deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem
     updateListHeads();
 }
 
-void PauseMenuDataMgr::removeItem(const sead::SafeString& name) {
+void PauseMenuDataMgr::removeFairy(const sead::SafeString& name) {
     const auto lock = sead::makeScopedLock(mCritSection);
     const auto& items = getItems();
 
