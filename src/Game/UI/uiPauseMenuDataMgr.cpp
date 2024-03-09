@@ -29,6 +29,8 @@ namespace uking::ui {
 
 SEAD_SINGLETON_DISPOSER_IMPL(PauseMenuDataMgr)
 
+sead::Vector2f sEmptyCookEffect {f32(CookEffectId::None), 0};
+
 namespace {
 
 sead::SafeArray<CookTagInfo, 11> sCookItemOrder_{{
@@ -165,8 +167,8 @@ int getWeaponModifierSortKey(sead::TypedBitFlag<act::WeaponModifier> flags) {
 }
 
 int getFoodSortKey(int* effect_level, const PouchItem* item) {
-    const CookEffectId type = item->getCookData().getCookEffect();
-    const int level = item->getCookData().mCookEffectLevel;
+    const CookEffectId type = item->getCookData().getEffect();
+    const int level = int(item->getCookData().getEffectLevel());
     *effect_level = level;
 
     switch (type) {
@@ -236,7 +238,7 @@ PauseMenuDataMgr::PauseMenuDataMgr() {
 PauseMenuDataMgr::~PauseMenuDataMgr() = default;
 
 PouchItem::PouchItem() {
-    mData.cook.resetCookEffect();
+    mData.cook.mEffect = sEmptyCookEffect;
     for (s32 i = 0; i < NumIngredientsMax; ++i)
         mIngredients.emplaceBack();
 }
@@ -249,7 +251,7 @@ void PauseMenuDataMgr::resetItem() {
     mNewlyAddedItem.mInInventory = false;
     mNewlyAddedItem.mName.clear();
     mNewlyAddedItem.mData.cook = {};
-    mNewlyAddedItem.mData.cook.resetCookEffect();
+    mNewlyAddedItem.mData.cook.mEffect = sEmptyCookEffect;
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
@@ -399,7 +401,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
             mLastAddedItem->getCookData().setEffectDuration(v.y);
 
             gdt::getFlag_CookEffect0(&v, num_food);
-            mLastAddedItem->getCookData().setCookEffect(v);
+            mLastAddedItem->getCookData().setEffect(v);
 
             gdt::getFlag_CookEffect1(&v, num_food);
             mLastAddedItem->getCookData().setSellPrice(v.x);
@@ -998,8 +1000,7 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
                 {static_cast<f32>(item->getCookData().mHealthRecover),
                  static_cast<f32>(item->getCookData().mEffectDuration) * 30.0f / 30.0f},
                 num_food);
-            ksys::gdt::setFlag_CookEffect0(
-                {item->getCookData().mCookEffect, item->getCookData().mCookEffectLevel}, num_food);
+            ksys::gdt::setFlag_CookEffect0(item->getCookData().mEffect, num_food);
             ksys::gdt::setFlag_CookEffect1({f32(item->getCookData().mSellPrice), 0.0}, num_food);
             ksys::gdt::setFlag_CookMaterialName0(item->getIngredient(0), num_food);
             ksys::gdt::setFlag_CookMaterialName1(item->getIngredient(1), num_food);
@@ -1040,7 +1041,7 @@ void PauseMenuDataMgr::setCookDataOnLastAddedItem(const uking::CookItem& cook_it
     mLastAddedItem->getCookData().setSellPrice(cook_item.sell_price);
     const float level = cook_item.vitality_boost;
     const CookEffectId effect_id = cook_item.effect_id;
-    mLastAddedItem->getCookData().setCookEffect({static_cast<float>(effect_id), level});
+    mLastAddedItem->getCookData().setEffect({static_cast<float>(effect_id), level});
     for (s32 i = 0; i < cook_item.ingredients.size(); ++i)
         mLastAddedItem->setIngredient(i, cook_item.ingredients[i]);
     mLastAddedItem->sortIngredients();
@@ -1598,7 +1599,7 @@ int PauseMenuDataMgr::countCookResults(const sead::SafeString& name, s32 effect_
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
-        if (check_effect_type && item->getCookData().getCookEffectId() != effect_type)
+        if (check_effect_type && item->getCookData().getEffectId() != effect_type)
             continue;
         if (check_name && item->getName() != name)
             continue;
@@ -1673,7 +1674,7 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
-        if (item->getCookData().getCookEffectId() != effect_type && check_effect)
+        if (item->getCookData().getEffectId() != effect_type && check_effect)
             continue;
         if (check_name && item->getName() != name)
             continue;
@@ -1683,16 +1684,16 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
             min_health_recover = item->getCookData().mHealthRecover;
             min_stam_recover = stam_recover;
             to_remove = item;
-            min_effect_level = item->getCookData().mCookEffectLevel;
+            min_effect_level = item->getCookData().getEffectLevel();
         } else if (stam_recover == min_stam_recover) {
             const auto health_recover = item->getCookData().mHealthRecover;
             if (health_recover < min_health_recover) {
                 min_health_recover = health_recover;
                 to_remove = item;
-                min_effect_level = item->getCookData().mCookEffectLevel;
+                min_effect_level = item->getCookData().getEffectLevel();
             } else if (check_effect && health_recover == min_health_recover &&
-                       item->getCookData().mCookEffectLevel < min_effect_level) {
-                min_effect_level = item->getCookData().mCookEffectLevel;
+                       item->getCookData().getEffectLevel() < min_effect_level) {
+                min_effect_level = item->getCookData().getEffectLevel();
                 to_remove = item;
             }
         }

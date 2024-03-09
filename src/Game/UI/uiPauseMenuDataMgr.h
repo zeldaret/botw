@@ -152,28 +152,41 @@ struct CookTagInfo {
 
 class PouchItem {
 public:
+    /* /// Storage for food effect type and level. */
+    /* struct CookEffectData { */
+    /*     void set(const sead::Vector2f& value) { */
+    /*         mValue = value; */
+    /*     } */
+    /*  */
+    /*     CookEffectId getEnum() const { return static_cast<CookEffectId>(mValue.x); } */
+    /*     s32 getId() const { return s32(mValue.x); } */
+    /*     f32 getLevel() const { return mValue.y; } */
+    /*  */
+    /*     /// x - CookEffectId enum, but stored as f32 */
+    /*     /// y - level */
+    /*     sead::Vector2f mValue; */
+    /* }; */
+
     struct CookData {
         f32 getStaminaRecoverValue() const { return f32(mEffectDuration) * 30.0f; }
         void setHealthRecover(int hp) { mHealthRecover = hp; }
         void setEffectDuration(int seconds) { mEffectDuration = seconds; }
         void setSellPrice(int price) { mSellPrice = price; }
-        void setCookEffect(const sead::Vector2f& effect) {
-            mCookEffect = effect.x;
-            mCookEffectLevel = effect.y;
+        void setEffect(const sead::Vector2f& effect) {
+            mEffect = effect;
         }
-        void resetCookEffect() {
-            mCookEffect = -1;
-            mCookEffectLevel = 0;
-        }
-        CookEffectId getCookEffect() const { return static_cast<CookEffectId>(mCookEffect); }
-        s32 getCookEffectId() const { return static_cast<s32>(mCookEffect); }
+        CookEffectId getEffect() const { return static_cast<CookEffectId>(mEffect.x); }
+        s32 getEffectId() const { return static_cast<s32>(mEffect.x); }
+        f32 getEffectLevel() const { return mEffect.y; }
 
         int mHealthRecover;
         int mEffectDuration;  // in seconds
         int mSellPrice;
-        f32 mCookEffect;
-        f32 mCookEffectLevel;
+    /*     /// x - CookEffectId enum, but stored as f32 */
+    /*     /// y - level */
+        sead::Vector2f mEffect;
     };
+
 
     struct WeaponData {
         u32 mModifierValue;
