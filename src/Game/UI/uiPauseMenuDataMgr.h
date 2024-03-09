@@ -11,6 +11,7 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
+#include "Game/Cooking/cookManager.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace al {
@@ -150,24 +151,33 @@ struct CookTagInfo {
 class PouchItem {
 public:
     struct CookData {
-        f32 getStaminaRecoverValue() const { return f32(mStaminaRecoverY) * 30.0f; }
-        void setStaminaRecoverX(int x) { mStaminaRecoverX = x; }
-        void setStaminaRecoverY(int y) { mStaminaRecoverY = y; }
-        void setCookEffect1(int effect) { mCookEffect1 = effect; }
-        void setCookEffect0(const sead::Vector2f& effect) { mCookEffect0 = effect; }
+        f32 getStaminaRecoverValue() const { return f32(mEffectDuration) * 30.0f; }
+        void setHealthRecover(int hp) { mHealthRecover = hp; }
+        void setEffectDuration(int seconds) { mEffectDuration = seconds; }
+        void setSellPrice(int price) { mSellPrice = price; }
+        void setEffect(const sead::Vector2f& effect) { mEffect = effect; }
+        CookEffectId getEffect() const { return static_cast<CookEffectId>(mEffect.x); }
+        f32 getEffectId() const { return mEffect.x; }
+        f32 getEffectLevel() const { return mEffect.y; }
 
-        int mStaminaRecoverX;
-        int mStaminaRecoverY;
-        int mCookEffect1;
-        sead::Vector2f mCookEffect0;
+        int mHealthRecover;
+        int mEffectDuration;  // for potions, in seconds
+        int mSellPrice;
+
+        /// x - CookEffectId enum, but stored as f32
+        /// y - level (1.0f, 2.0f, or 3.0f)
+        sead::Vector2f mEffect;
     };
 
     struct WeaponData {
-        u32 mAddValue;
-        u32 b;
-        u32 mAddType;
-        u32 d;
-        u32 e;
+        u32 mModifierValue;
+        u32 mUnused;
+        u32 mModifier;
+        sead::Vector2f mEffectUnused;
+
+        sead::TypedBitFlag<act::WeaponModifier> getModifier() const {
+            return sead::TypedBitFlag<act::WeaponModifier>{mModifier};
+        }
     };
 
     PouchItem();
@@ -198,26 +208,26 @@ public:
     WeaponData& getWeaponData() { return mData.weapon; }
     const WeaponData& getWeaponData() const { return mData.weapon; }
 
-    sead::TypedBitFlag<act::WeaponModifier> getWeaponAddFlags() const {
+    sead::TypedBitFlag<act::WeaponModifier> getWeaponModifier() const {
         if (!isWeapon())
             return {};
-        return sead::TypedBitFlag<act::WeaponModifier>{mData.weapon.mAddType};
+        return mData.weapon.getModifier();
     }
 
-    u32 getWeaponAddValue() const {
+    u32 getWeaponModifierValue() const {
         if (!isWeapon())
             return 0;
-        return mData.weapon.mAddValue;
+        return mData.weapon.mModifierValue;
     }
 
-    void setWeaponAddType(u32 type) {
+    void setWeaponModifier(u32 type) {
         if (isWeapon())
-            mData.weapon.mAddType = type;
+            mData.weapon.mModifier = type;
     }
 
-    void setWeaponAddValue(u32 value) {
+    void setWeaponModifierValue(u32 value) {
         if (isWeapon())
-            mData.weapon.mAddValue = value;
+            mData.weapon.mModifierValue = value;
     }
 
     static auto getListNodeOffset() { return offsetof(PouchItem, mListNode); }
