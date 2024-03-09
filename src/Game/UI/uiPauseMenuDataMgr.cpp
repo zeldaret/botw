@@ -29,7 +29,7 @@ namespace uking::ui {
 
 SEAD_SINGLETON_DISPOSER_IMPL(PauseMenuDataMgr)
 
-sead::Vector2f sDummyCookEffect0{-1, 0};
+sead::Vector2f sEmptyCookEffect{f32(CookEffectId::None), 0};
 
 namespace {
 
@@ -166,38 +166,38 @@ int getWeaponModifierSortKey(sead::TypedBitFlag<act::WeaponModifier> flags) {
     return 12;
 }
 
-int getFoodSortKey(int* effect_value, const PouchItem* item) {
-    const int type = item->getCookData().mCookEffect0.x;
-    const int value = item->getCookData().mCookEffect0.y;
-    *effect_value = value;
-    // TODO: add an enum
+int getFoodSortKey(int* effect_level, const PouchItem* item) {
+    const CookEffectId type = item->getCookData().getEffect();
+    const int level = int(item->getCookData().getEffectLevel());
+    *effect_level = level;
+
     switch (type) {
-    case 1:
+    case CookEffectId::LifeRecover:
         return 0;
-    case 2:
+    case CookEffectId::LifeMaxUp:
         return 1;
-    case 14:
+    case CookEffectId::GutsRecover:
         return 2;
-    case 15:
+    case CookEffectId::ExGutsMaxUp:
         return 3;
-    case 13:
+    case CookEffectId::MovingSpeed:
         return 4;
-    case 16:
+    case CookEffectId::Fireproof:
         return 5;
-    case 5:
+    case CookEffectId::ResistCold:
         return 6;
-    case 4:
+    case CookEffectId::ResistHot:
         return 7;
-    case 6:
+    case CookEffectId::ResistElectric:
         return 8;
-    case 10:
+    case CookEffectId::AttackUp:
         return 9;
-    case 11:
+    case CookEffectId::DefenseUp:
         return 10;
-    case 12:
+    case CookEffectId::Quietness:
         return 11;
     default:
-        *effect_value = 0;
+        *effect_level = 0;
         if (ksys::act::InfoData::instance()->hasTag(item->getName().cstr(),
                                                     ksys::act::tags::CookResult)) {
             return 0;
@@ -238,7 +238,7 @@ PauseMenuDataMgr::PauseMenuDataMgr() {
 PauseMenuDataMgr::~PauseMenuDataMgr() = default;
 
 PouchItem::PouchItem() {
-    mData.cook.mCookEffect0 = sDummyCookEffect0;
+    mData.cook.mEffect = sEmptyCookEffect;
     for (s32 i = 0; i < NumIngredientsMax; ++i)
         mIngredients.emplaceBack();
 }
@@ -251,16 +251,16 @@ void PauseMenuDataMgr::resetItem() {
     mNewlyAddedItem.mInInventory = false;
     mNewlyAddedItem.mName.clear();
     mNewlyAddedItem.mData.cook = {};
-    mNewlyAddedItem.mData.cook.mCookEffect0 = sDummyCookEffect0;
+    mNewlyAddedItem.mData.cook.mEffect = sEmptyCookEffect;
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 void PauseMenuDataMgr::setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier) {
     if (modifier && !modifier->flags.isZero()) {
-        item.setWeaponAddType(modifier->flags.getDirect());
-        item.setWeaponAddValue(static_cast<u32>(modifier->value));
+        item.setWeaponModifier(modifier->flags.getDirect());
+        item.setWeaponModifierValue(static_cast<u32>(modifier->value));
     } else {
-        item.setWeaponAddType(0);
+        item.setWeaponModifier(0);
     }
 }
 
@@ -397,14 +397,14 @@ void PauseMenuDataMgr::doLoadFromGameData() {
             sead::Vector2f v{0, 0};
 
             gdt::getFlag_StaminaRecover(&v, num_food);
-            mLastAddedItem->getCookData().setStaminaRecoverX(v.x);
-            mLastAddedItem->getCookData().setStaminaRecoverY(v.y);
+            mLastAddedItem->getCookData().setHealthRecover(v.x);
+            mLastAddedItem->getCookData().setEffectDuration(v.y);
 
             gdt::getFlag_CookEffect0(&v, num_food);
-            mLastAddedItem->getCookData().setCookEffect0(v);
+            mLastAddedItem->getCookData().setEffect(v);
 
             gdt::getFlag_CookEffect1(&v, num_food);
-            mLastAddedItem->getCookData().setCookEffect1(v.x);
+            mLastAddedItem->getCookData().setSellPrice(v.x);
 
             gdt::getFlag_CookMaterialName0(&item_name, num_food);
             mLastAddedItem->setIngredient(0, item_name);
@@ -791,7 +791,7 @@ void PauseMenuDataMgr::itemGet(const sead::SafeString& name, int value,
     if (modifier) {
         setItemModifier(mNewlyAddedItem, modifier);
         const auto add_type = modifier->flags.getDirect();
-        const auto add_value = mNewlyAddedItem.getWeaponAddValue();
+        const auto add_value = mNewlyAddedItem.getWeaponModifierValue();
         sValues.last_added_weapon_add_type = add_type;
         sValues.last_added_weapon_add_value = add_value;
     }
@@ -997,11 +997,11 @@ void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) c
                 break;
 
             ksys::gdt::setFlag_StaminaRecover(
-                {static_cast<f32>(item->getCookData().mStaminaRecoverX),
-                 static_cast<f32>(item->getCookData().mStaminaRecoverY) * 30.0f / 30.0f},
+                {static_cast<f32>(item->getCookData().mHealthRecover),
+                 static_cast<f32>(item->getCookData().mEffectDuration) * 30.0f / 30.0f},
                 num_food);
-            ksys::gdt::setFlag_CookEffect0(item->getCookData().mCookEffect0, num_food);
-            ksys::gdt::setFlag_CookEffect1({f32(item->getCookData().mCookEffect1), 0.0}, num_food);
+            ksys::gdt::setFlag_CookEffect0(item->getCookData().mEffect, num_food);
+            ksys::gdt::setFlag_CookEffect1({f32(item->getCookData().mSellPrice), 0.0}, num_food);
             ksys::gdt::setFlag_CookMaterialName0(item->getIngredient(0), num_food);
             ksys::gdt::setFlag_CookMaterialName1(item->getIngredient(1), num_food);
             ksys::gdt::setFlag_CookMaterialName2(item->getIngredient(2), num_food);
@@ -1036,12 +1036,12 @@ void PauseMenuDataMgr::setCookDataOnLastAddedItem(const uking::CookItem& cook_it
     if (!mLastAddedItem)
         return;
 
-    mLastAddedItem->getCookData().setStaminaRecoverY(cook_item.effect_time);
-    mLastAddedItem->getCookData().setStaminaRecoverX(cook_item.life_recover);
-    mLastAddedItem->getCookData().setCookEffect1(cook_item.sell_price);
-    const int y = cook_item.vitality_boost;
-    const CookEffectId x = cook_item.effect_id;
-    mLastAddedItem->getCookData().setCookEffect0({float(x), float(y)});
+    mLastAddedItem->getCookData().setEffectDuration(cook_item.effect_time);
+    mLastAddedItem->getCookData().setHealthRecover(static_cast<int>(cook_item.life_recover));
+    mLastAddedItem->getCookData().setSellPrice(cook_item.sell_price);
+    const int level = int(cook_item.vitality_boost);
+    const CookEffectId effect_id = cook_item.effect_id;
+    mLastAddedItem->getCookData().setEffect({float(effect_id), float(level)});
     for (s32 i = 0; i < cook_item.ingredients.size(); ++i)
         mLastAddedItem->setIngredient(i, cook_item.ingredients[i]);
     mLastAddedItem->sortIngredients();
@@ -1396,7 +1396,7 @@ bool PauseMenuDataMgr::getEquippedArrowType(sead::BufferedSafeString* name, int*
 
 int PauseMenuDataMgr::getArrowCount(const sead::SafeString& name) const {
     const auto lock = sead::makeScopedLock(mCritSection);
-    for (auto item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
+    for (auto* item = getItemHead(PouchCategory::Bow); item; item = nextItem(item)) {
         if (item->getType() > PouchItemType::Arrow)
             break;
         if (item->getType() == PouchItemType::Arrow && item->mInInventory &&
@@ -1599,7 +1599,7 @@ int PauseMenuDataMgr::countCookResults(const sead::SafeString& name, s32 effect_
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
-        if (check_effect_type && item->getCookData().mCookEffect0.x != effect_type)
+        if (check_effect_type && item->getCookData().getEffectId() != effect_type)
             continue;
         if (check_name && item->getName() != name)
             continue;
@@ -1662,9 +1662,9 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
     const auto lock = sead::makeScopedLock(mCritSection);
     const auto& items = getItems();
 
-    auto min_x = std::numeric_limits<s32>::max();
-    auto min_y = std::numeric_limits<f32>::infinity();
-    auto min_fx = std::numeric_limits<f32>::infinity();
+    auto min_hp = std::numeric_limits<s32>::max();
+    auto min_stam = std::numeric_limits<f32>::infinity();
+    auto min_level = std::numeric_limits<f32>::infinity();
     PouchItem* to_remove = nullptr;
 
     for (auto* item = getItemHead(PouchCategory::Food); item; item = items.next(item)) {
@@ -1674,25 +1674,26 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
-        if (item->getCookData().mCookEffect0.x != effect_type && check_effect)
+        if (item->getCookData().getEffectId() != effect_type && check_effect)
             continue;
         if (check_name && item->getName() != name)
             continue;
 
-        const auto y = f32(item->getCookData().mStaminaRecoverY) * 30.0f;
-        if (y < min_y) {
-            min_x = item->getCookData().mStaminaRecoverX;
-            min_y = y;
+        const auto stam = f32(item->getCookData().mEffectDuration) * 30.0f;
+        if (stam < min_stam) {
+            min_hp = item->getCookData().mHealthRecover;
+            min_stam = stam;
             to_remove = item;
-            min_fx = item->getCookData().mCookEffect0.y;
-        } else if (y == min_y) {
-            const auto x = item->getCookData().mStaminaRecoverX;
-            if (x < min_x) {
-                min_x = x;
+            min_level = item->getCookData().getEffectLevel();
+        } else if (stam == min_stam) {
+            const auto hp = item->getCookData().mHealthRecover;
+            if (hp < min_hp) {
+                min_hp = hp;
                 to_remove = item;
-                min_fx = item->getCookData().mCookEffect0.y;
-            } else if (check_effect && x == min_x && item->getCookData().mCookEffect0.y < min_fx) {
-                min_fx = item->getCookData().mCookEffect0.y;
+                min_level = item->getCookData().getEffectLevel();
+            } else if (check_effect && hp == min_hp &&
+                       item->getCookData().getEffectLevel() < min_level) {
+                min_level = item->getCookData().getEffectLevel();
                 to_remove = item;
             }
         }
@@ -1969,8 +1970,8 @@ static int doCompareWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act
     if (power1 < power2)
         return 1;
 
-    const auto mod1 = getWeaponModifierSortKey(lhs->getWeaponAddFlags());
-    const auto mod2 = getWeaponModifierSortKey(rhs->getWeaponAddFlags());
+    const auto mod1 = getWeaponModifierSortKey(lhs->getWeaponModifier());
+    const auto mod2 = getWeaponModifierSortKey(rhs->getWeaponModifier());
     if (mod1 < mod2)
         return -1;
     if (mod1 > mod2)
@@ -1995,8 +1996,8 @@ static int compareWeaponType1(const PouchItem* lhs, const PouchItem* rhs,
 
 static int getShieldGuardPower(const PouchItem* item, ksys::act::InfoData* data) {
     int power = ksys::act::getWeaponCommonGuardPower(data, item->getName().cstr());
-    if (item->getWeaponAddFlags().isOn(act::WeaponModifier::AddGuard))
-        power += item->getWeaponAddValue();
+    if (item->getWeaponModifier().isOn(act::WeaponModifier::AddGuard))
+        power += item->getWeaponModifierValue();
     return power;
 }
 
@@ -2009,8 +2010,8 @@ static int doCompareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act
     if (gp1 < gp2)
         return 1;
 
-    const int mod1 = getWeaponModifierSortKey(lhs->getWeaponAddFlags());
-    const int mod2 = getWeaponModifierSortKey(rhs->getWeaponAddFlags());
+    const int mod1 = getWeaponModifierSortKey(lhs->getWeaponModifier());
+    const int mod2 = getWeaponModifierSortKey(rhs->getWeaponModifier());
     // Lower is better
     if (mod1 < mod2)
         return -1;
@@ -2116,8 +2117,8 @@ int compareFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData*
     if (e1 < e2)
         return 1;
 
-    const int st1 = lhs->getCookData().mStaminaRecoverX;
-    const int st2 = rhs->getCookData().mStaminaRecoverX;
+    const int st1 = lhs->getCookData().mHealthRecover;
+    const int st2 = rhs->getCookData().mHealthRecover;
     // Higher is better
     if (st1 > st2)
         return -1;
