@@ -217,11 +217,14 @@ public:
     void incrementPendingDeletions() { mNumPendingDeletions.increment(); }
     void decrementPendingDeletions() { mNumPendingDeletions.decrement(); }
 
+    s8 getCurrentExtraJobArrayIdx() const { return mCurrentExtraJobArrayIdx; }
     Status getStatus() const { return mStatus; }
     JobType getJobType() const { return mJobType; }
     u32 getNumJobTypes() const { return mJobLists.size(); }
     BaseProcJobLists& getJobLists(JobType type) { return mJobLists[u32(type)]; }
     bool isPushingJobs() const { return mIsPushingJobs; }
+
+    void setPushActorJobType3InsteadOf6(bool value) { mPushActorJobType3InsteadOf6 = value; }
 
     static u32 sConstant0;
     static u32 sConstant1;
