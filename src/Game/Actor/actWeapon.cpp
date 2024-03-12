@@ -20,7 +20,7 @@ WeaponModifierInfo::WeaponModifierInfo(const ui::PouchItem& item) {
 
 void WeaponModifierInfo::fromItem(const ui::PouchItem& item) {
     if (item.getType() <= ui::PouchItemType::Shield) {
-        set(item.getWeaponData().mAddType, item.getWeaponData().mAddValue);
+        set(item.getWeaponData().mModifier, item.getWeaponData().mModifierValue);
     } else {
         flags.setDirect(0);
         value = 0;
