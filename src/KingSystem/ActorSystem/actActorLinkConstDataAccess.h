@@ -36,7 +36,7 @@ public:
 
     bool hasProc() const { return mProc != nullptr; }
 
-    MesTransceiverId* getMessageTransceiverId() const;
+    const MesTransceiverId* getMessageTransceiverId() const;
 
 protected:
     friend class ActorConstDataAccess;
