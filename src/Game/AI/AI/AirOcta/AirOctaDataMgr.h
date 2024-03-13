@@ -5,7 +5,6 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
 
-
 namespace uking {
 class AirOctaDataMgr {
     SEAD_RTTI_BASE(AirOctaDataMgr)
