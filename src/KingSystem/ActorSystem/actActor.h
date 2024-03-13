@@ -23,15 +23,15 @@ namespace gsys {
 class Model;
 }  // namespace gsys
 
-namespace uking::dmg{
+namespace uking::dmg {
 class DamageManagerBase;
-} // namespace uking::dmg
+}  // namespace uking::dmg
 
 namespace ksys {
 
 namespace as {
 class ASList;
-} //namespace as
+}  // namespace as
 
 namespace map {
 class Object;
@@ -150,7 +150,7 @@ public:
     phys::RigidBody* getMainBody() const { return mMainBody; }
     phys::RigidBody* getTgtBody() const { return mTgtBody; }
 
-const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
+    const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
     void sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
                      bool ack);
 
@@ -294,6 +294,7 @@ const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.get
 
     sead::Atomic<bool>& get68f() { return _68f; }
     float get6f0() const { return _6f0; }
+
     void emitBasicSigOn();
     void emitBasicSigOff();
     bool checkBasicSig() const;
