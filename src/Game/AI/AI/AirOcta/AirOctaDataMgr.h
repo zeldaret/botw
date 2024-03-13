@@ -1,9 +1,10 @@
 #pragma once
 
+#include <container/seadObjArray.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
-#include <prim/seadRuntimeTypeInfo.h>
-#include <container/seadObjArray.h>
+
 
 namespace uking {
 class AirOctaDataMgr {
@@ -13,8 +14,8 @@ public:
     void changeOctasYheightMaybe();
 
     struct MessageData {
-    u32 unk_00;
-    u64 unk_08;
+        u32 unk_00;
+        u64 unk_08;
     };
 
     /* 0x08 */ ksys::act::BaseProcLink mBaseProcLink;
@@ -38,6 +39,5 @@ public:
     /*0x118 */ float unk_118;
     /*0x11c */ float unk_11c;
     /*0x120 */ u32 mFlags;
-    
 };
 }  // namespace uking
