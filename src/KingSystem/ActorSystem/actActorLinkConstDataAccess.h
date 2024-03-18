@@ -4,7 +4,7 @@
 #include <prim/seadSafeString.h>
 
 namespace ksys {
-
+struct MesTransceiverId;
 namespace act {
 
 class BaseProc;
@@ -35,6 +35,8 @@ public:
     void release() { acquire(nullptr); }
 
     bool hasProc() const { return mProc != nullptr; }
+
+    const MesTransceiverId* getMessageTransceiverId() const;
 
 protected:
     friend class ActorConstDataAccess;

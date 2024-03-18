@@ -23,6 +23,10 @@ namespace gsys {
 class Model;
 }  // namespace gsys
 
+namespace uking::dmg {
+class DamageManagerBase;
+}  // namespace uking::dmg
+
 namespace ksys {
 
 namespace as {
@@ -137,6 +141,7 @@ public:
     const ActorParam* getParam() const { return mActorParam; }
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
+    as::ASList* getASList() const { return mASList; }
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }
@@ -146,6 +151,8 @@ public:
     phys::RigidBody* getTgtBody() const { return mTgtBody; }
 
     const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
+    void sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
+                     bool ack);
 
     f32 getDeleteDistance() const {
         return sead::Mathf::sqrt(sead::Mathf::clampMin(mDeleteDistanceSq, 0.0f));
@@ -229,11 +236,11 @@ public:
     virtual void m90();
     virtual void m91();
     virtual void m92();
-    virtual void m93();
+    virtual void m93(int a1, float a2);
     virtual void m94();
     virtual void m95();
     virtual void m96();
-    virtual void getChemicalStuff();
+    virtual Chemical* getChemicalStuff();
     virtual void getWeapons();
     virtual void getArmors();
     virtual void m100();
@@ -263,7 +270,7 @@ public:
     virtual void onPlacementObjReset();
     virtual void getAtk();
     virtual void m126();
-    virtual void getDamageMgr();
+    virtual uking::dmg::DamageManagerBase* getDamageMgr();
     virtual void m128();
     virtual void m129();
     virtual void getPlayerRideInfo();

@@ -1,4 +1,7 @@
 target_sources(uking PRIVATE
+    AS/ASList.h
+    AS/ASList.cpp
+    
     Attention/actAttention.cpp
     Attention/actAttention.h
 
@@ -8,6 +11,7 @@ target_sources(uking PRIVATE
     Awareness/actAwarenessDefs.h
     Awareness/actAwarenessInstance.cpp
     Awareness/actAwarenessInstance.h
+
 
     LOD/actLodState.cpp
     LOD/actLodState.h
