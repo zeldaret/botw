@@ -5,7 +5,7 @@
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/System/ProductReporter.h"
 #include "KingSystem/System/StageInfo.h"
-
+#include "KingSystem/Quest/qstQuest.h"
 namespace uking {
 
 void reportKorok(const sead::Vector3f& position) {
@@ -30,7 +30,6 @@ void reportKorok(const sead::Vector3f& position) {
 
 void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) {
     ksys::ProductReporter::getSomeBool();
-
     if (name.findIndex("Remains") == -1 && name.findIndex("Dungeon") == -1 &&
         name.findIndex("FinalTrial") == -1)
         return;
@@ -51,7 +50,27 @@ void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) 
             reporter->saveReport(&report);
     }
 }
+void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
 
+    ksys::ProductReporter::getSomeBool();
+
+    const sead::SafeString quest_name = quest->mName;
+    // TODO
+    int getQuestId(const sead::SafeString& quest_name);
+
+    PlayReport report(sead::SafeString("challenge"), 7, ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+
+    report.addMapType();
+    report.add(sead::SafeString("Step"), step_index);
+    report.add(sead::SafeString("Name"), quest_name);
+    report.addPlayTimes();
+
+    if (ksys::PlayReportMgr::instance()) {
+        auto* reporter = ksys::PlayReportMgr::instance()->getReporter();
+        if (reporter && reporter->isEnabled())
+            reporter->saveReport(&report);
+    }
+}
 PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
     : ksys::PlayReport(event_id, num_entries, heap) {}
 
