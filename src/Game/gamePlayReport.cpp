@@ -9,12 +9,9 @@
 
 namespace uking {
 
-<<<<<<< HEAD
-=======
 unsigned int getQuestId(const sead::SafeString& quest_name);
 int positionFunc(const sead::Vector2i& pos);
 
->>>>>>> cda9dce7 (add reportGetItem)
 void reportKorok(const sead::Vector3f& position) {
     ksys::ProductReporter::getSomeBool();
     s32 id = ksys::gdt::getFlag_HiddenKorok_Number();
@@ -58,7 +55,6 @@ void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) 
     }
 }
 
-<<<<<<< HEAD
 unsigned int getQuestId(const sead::SafeString& quest_name) {
     const sead::SafeString names[] = {
         "UnknownEvent",
@@ -241,7 +237,8 @@ unsigned int getQuestId(const sead::SafeString& quest_name) {
         }
     }
     return 0;
-=======
+}
+
 void reportGetItem(const sead::Vector3f& pos, const sead::SafeString* targetActorName) {
     ksys::ProductReporter::getSomeBool();
     PlayReport report(sead::SafeString("getitem"), 7,
@@ -264,7 +261,6 @@ void reportGetItem(const sead::Vector3f& pos, const sead::SafeString* targetActo
         if (reporter && reporter->isEnabled())
             reporter->saveReport(&report);
     }
->>>>>>> cda9dce7 (add reportGetItem)
 }
 
 void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
@@ -294,7 +290,8 @@ void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
     }
 }
 
-PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
+PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries,
+                       sead::Heap* heap)
     : ksys::PlayReport(event_id, num_entries, heap) {}
 
 void PlayReport::addMapType() {
