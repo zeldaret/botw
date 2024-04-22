@@ -6,6 +6,7 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "KingSystem/System/ProductReporter.h"
 #include "KingSystem/System/StageInfo.h"
+
 namespace uking {
 unsigned int getQuestId(const sead::SafeString& quest_name);
 void reportKorok(const sead::Vector3f& position) {
@@ -50,6 +51,7 @@ void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) 
             reporter->saveReport(&report);
     }
 }
+
 void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
     if (quest && step_index >= 0 && step_index < quest->mSteps.size()) {
         const sead::SafeString& name = quest->mName;

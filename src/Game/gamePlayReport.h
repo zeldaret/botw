@@ -2,6 +2,7 @@
 
 #include <math/seadVectorFwd.h>
 #include "KingSystem/System/PlayReportMgr.h"
+
 namespace ksys::qst {
 struct Quest;
 }
