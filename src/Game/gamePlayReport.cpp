@@ -7,7 +7,7 @@
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Quest/qstQuest.h"
 namespace uking {
-int getQuestId(const sead::SafeString& quest_name);
+unsigned int getQuestId(const sead::SafeString& quest_name);
 void reportKorok(const sead::Vector3f& position) {
     ksys::ProductReporter::getSomeBool();
     s32 id = ksys::gdt::getFlag_HiddenKorok_Number();
@@ -57,7 +57,7 @@ void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
 
         ksys::ProductReporter::getSomeBool();
 
-        const int quest_id = getQuestId(name);
+        const unsigned int quest_id = getQuestId(name);
 
         PlayReport report(sead::SafeString("challenge"), 7,
                           ksys::PlayReportMgr::instance()->getReporter()->getHeap());
