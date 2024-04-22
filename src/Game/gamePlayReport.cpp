@@ -9,8 +9,7 @@
 
 namespace uking {
 
-unsigned int getQuestId(const sead::SafeString& quest_name);
-int positionFunc(const sead::Vector2i& pos);
+int convertPositionToInt(const sead::Vector2i& pos);
 
 void reportKorok(const sead::Vector3f& position) {
     ksys::ProductReporter::getSomeBool();
@@ -239,19 +238,19 @@ unsigned int getQuestId(const sead::SafeString& quest_name) {
     return 0;
 }
 
-void reportGetItem(const sead::Vector3f& pos, const sead::SafeString* targetActorName) {
+void reportGetItem(const sead::Vector3f& pos, const sead::SafeString& item_name) {
     ksys::ProductReporter::getSomeBool();
     PlayReport report(sead::SafeString("getitem"), 7,
                       ksys::PlayReportMgr::instance()->getReporter()->getHeap());
     report.addMapType();
 
-    int name = (int)sead::HashCRC32::calcStringHash(*targetActorName);
+    auto name = static_cast<int>(sead::HashCRC32::calcStringHash(item_name));
 
     ksys::ProductReporter::getSomeBool();
 
     report.add(sead::SafeString("name"), name);
 
-    int position = positionFunc({int(pos.x), int(pos.y)});
+    int position = convertPositionToInt({int(pos.x), int(pos.y)});
 
     report.add(sead::SafeString("Position"), position);
     report.addPlayTimes();
