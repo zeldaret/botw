@@ -51,22 +51,22 @@ void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) 
     }
 }
 void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
-    if (quest && (step_index >= 0) == 0 && quest->mSteps.size() > step_index) {
+    if (quest && step_index >= 0 && step_index < quest->mSteps.size()) {
+        const sead::SafeString& name = quest->mName;
+        const sead::SafeString step_name = quest->mSteps[step_index]->name;
+
         ksys::ProductReporter::getSomeBool();
 
+        const int quest_id = getQuestId(name);
 
-        const sead::SafeString step_name = quest->mSteps[step_index]->name;
-        const sead::SafeString quest_name = quest->mName;
-        const int quest_id = getQuestId(quest_name);
-
-
-        PlayReport report(sead::SafeString("challenge"), 7, ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+        PlayReport report(sead::SafeString("challenge"), 7,
+                          ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
         report.addMapType();
-        report.add(sead::SafeString("Step"), step_index);
         report.add(sead::SafeString("Id"), quest_id);
+        report.add(sead::SafeString("Name"), name);
+        report.add(sead::SafeString("Step"), step_index);
         report.add(sead::SafeString("StepName"), step_name);
-        report.add(sead::SafeString("Name"), quest_name);
         report.addPlayTimes();
 
         if (ksys::PlayReportMgr::instance()) {
@@ -75,7 +75,6 @@ void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
                 reporter->saveReport(&report);
         }
     }
-
 }
 PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
     : ksys::PlayReport(event_id, num_entries, heap) {}
