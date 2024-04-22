@@ -248,7 +248,7 @@ void reportGetItem(const sead::Vector3f& pos, const sead::SafeString* targetActo
                       ksys::PlayReportMgr::instance()->getReporter()->getHeap());
     report.addMapType();
 
-    int name = sead::HashCRC32::calcStringHash(*targetActorName);
+    int name = (int)sead::HashCRC32::calcStringHash(*targetActorName);
 
     ksys::ProductReporter::getSomeBool();
 
