@@ -3,7 +3,7 @@
 #include <math/seadVectorFwd.h>
 #include "KingSystem/System/PlayReportMgr.h"
 namespace ksys::qst {
-class Quest;
+struct Quest;
 }
 namespace uking {
 
