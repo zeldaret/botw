@@ -3,9 +3,9 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
+#include "KingSystem/Quest/qstQuest.h"
 #include "KingSystem/System/ProductReporter.h"
 #include "KingSystem/System/StageInfo.h"
-#include "KingSystem/Quest/qstQuest.h"
 namespace uking {
 unsigned int getQuestId(const sead::SafeString& quest_name);
 void reportKorok(const sead::Vector3f& position) {
