@@ -8,7 +8,10 @@
 #include "KingSystem/System/StageInfo.h"
 
 namespace uking {
+
 unsigned int getQuestId(const sead::SafeString& quest_name);
+int positionFunc(const sead::Vector2i& pos);
+
 void reportKorok(const sead::Vector3f& position) {
     ksys::ProductReporter::getSomeBool();
     s32 id = ksys::gdt::getFlag_HiddenKorok_Number();
@@ -52,6 +55,30 @@ void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) 
     }
 }
 
+void reportGetItem(const sead::Vector3f& pos, const sead::SafeString* targetActorName) {
+    ksys::ProductReporter::getSomeBool();
+    PlayReport report(sead::SafeString("getitem"), 7,
+                      ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+    report.addMapType();
+
+    int name = sead::HashCRC32::calcStringHash(*targetActorName);
+
+    ksys::ProductReporter::getSomeBool();
+
+    report.add(sead::SafeString("name"), name);
+
+    int position = positionFunc({int(pos.x), int(pos.y)});
+
+    report.add(sead::SafeString("Position"), position);
+    report.addPlayTimes();
+
+    if (ksys::PlayReportMgr::instance()) {
+        auto* reporter = ksys::PlayReportMgr::instance()->getReporter();
+        if (reporter && reporter->isEnabled())
+            reporter->saveReport(&report);
+    }
+}
+
 void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
     if (quest && step_index >= 0 && step_index < quest->mSteps.size()) {
         const sead::SafeString& name = quest->mName;
@@ -78,6 +105,7 @@ void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
         }
     }
 }
+
 PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
     : ksys::PlayReport(event_id, num_entries, heap) {}
 

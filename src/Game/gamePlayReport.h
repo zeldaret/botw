@@ -11,6 +11,7 @@ namespace uking {
 void reportKorok(const sead::Vector3f& position);
 void reportDungeon(const sead::SafeString& name, const sead::SafeString& event);
 void reportQuestStep(const ksys::qst::Quest* quest, int step_index);
+void reportGetItem(const sead::Vector3f& pos, const sead::SafeString* targetActorName);
 // TODO: More functions
 
 class PlayReport : public ksys::PlayReport {
