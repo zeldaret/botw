@@ -7,7 +7,7 @@
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Quest/qstQuest.h"
 namespace uking {
-
+int getQuestId(const sead::SafeString& quest_name);
 void reportKorok(const sead::Vector3f& position) {
     ksys::ProductReporter::getSomeBool();
     s32 id = ksys::gdt::getFlag_HiddenKorok_Number();
@@ -51,25 +51,31 @@ void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) 
     }
 }
 void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
+    if (quest && (step_index >= 0) == 0 && quest->mSteps.size() > step_index) {
+        ksys::ProductReporter::getSomeBool();
 
-    ksys::ProductReporter::getSomeBool();
 
-    const sead::SafeString quest_name = quest->mName;
-    // TODO
-    int getQuestId(const sead::SafeString& quest_name);
+        const sead::SafeString step_name = quest->mSteps[step_index]->name;
+        const sead::SafeString quest_name = quest->mName;
+        const int quest_id = getQuestId(quest_name);
 
-    PlayReport report(sead::SafeString("challenge"), 7, ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
-    report.addMapType();
-    report.add(sead::SafeString("Step"), step_index);
-    report.add(sead::SafeString("Name"), quest_name);
-    report.addPlayTimes();
+        PlayReport report(sead::SafeString("challenge"), 7, ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
-    if (ksys::PlayReportMgr::instance()) {
-        auto* reporter = ksys::PlayReportMgr::instance()->getReporter();
-        if (reporter && reporter->isEnabled())
-            reporter->saveReport(&report);
+        report.addMapType();
+        report.add(sead::SafeString("Step"), step_index);
+        report.add(sead::SafeString("Id"), quest_id);
+        report.add(sead::SafeString("StepName"), step_name);
+        report.add(sead::SafeString("Name"), quest_name);
+        report.addPlayTimes();
+
+        if (ksys::PlayReportMgr::instance()) {
+            auto* reporter = ksys::PlayReportMgr::instance()->getReporter();
+            if (reporter && reporter->isEnabled())
+                reporter->saveReport(&report);
+        }
     }
+
 }
 PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
     : ksys::PlayReport(event_id, num_entries, heap) {}
