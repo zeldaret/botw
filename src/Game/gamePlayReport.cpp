@@ -290,8 +290,7 @@ void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
     }
 }
 
-PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries,
-                       sead::Heap* heap)
+PlayReport::PlayReport(const sead::FixedSafeString<32>& event_id, s32 num_entries, sead::Heap* heap)
     : ksys::PlayReport(event_id, num_entries, heap) {}
 
 void PlayReport::addMapType() {
