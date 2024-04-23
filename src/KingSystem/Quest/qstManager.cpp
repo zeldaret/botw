@@ -102,38 +102,34 @@ bool Manager::setQuestStepFromEvent(const sead::SafeString& quest_name,
     return setQuestStep(quest_name, step_name, true, force_run_telop, setAocVersionFlag1);
 }
 
-// NON_MATCHING: quest is dereferenced several times
 bool Manager::setQuestStep(const sead::SafeString& quest_name, const sead::SafeString& step_name,
                            bool copy_name, bool force_run_telop, bool setAocVersionFlag1) {
-    u32 hash = sead::HashCRC32::calcStringHash(quest_name.cstr());
-    Quest* quest;
-    for (auto& q : mQuests) {
-        if (q._c - 1 <= 1 && q.mNameHash == hash) {
-            quest = &q;
-            break;
+    u32 hash = sead::HashCRC32::calcStringHash(quest_name);
+    for (auto it = mQuests.begin(), end = mQuests.end(); it != end; ++it) {
+        if ((it->_c != 1 && it->_c != 2) || it->mNameHash != hash)
+            continue;
+
+        it->setField31();
+
+        it->_e8.copy(step_name);
+
+        it->_e0 = false;
+        it->mForceRunTelop = false;
+
+        if (copy_name) {
+            it->_e0 = true;
+            if (step_name.isEmpty())
+                it->_e8.copy(it->x_11());
         }
+        if (force_run_telop)
+            it->mForceRunTelop = true;
+        if (setAocVersionFlag1)
+            it->mAocVersionFlags |= 1;
+
+        return true;
     }
-    if (quest == nullptr)
-        return false;
 
-    quest->setField31();
-
-    quest->_e8.copy(step_name);
-
-    quest->_e0 = false;
-    quest->mForceRunTelop = false;
-
-    if (copy_name) {
-        quest->_e0 = true;
-        const char* x = quest->x_11();
-        if (step_name.isEmpty())
-            quest->_e8.copy(sead::SafeString(x));
-    }
-    if (force_run_telop)
-        quest->mForceRunTelop = true;
-    if (setAocVersionFlag1)
-        quest->mAocVersionFlags |= 1;
-    return true;
+    return false;
 }
 
 }  // namespace ksys::qst
