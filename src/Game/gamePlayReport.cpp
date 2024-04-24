@@ -9,17 +9,18 @@
 
 namespace uking {
 
+using namespace sead::literals;
+
 int convertPositionToInt(const sead::Vector2i& pos);
 
 void reportKorok(const sead::Vector3f& position) {
     ksys::ProductReporter::getSomeBool();
     s32 id = ksys::gdt::getFlag_HiddenKorok_Number();
 
-    PlayReport report(sead::SafeString("korok"), 7,
-                      ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+    PlayReport report("korok"_str, 7, ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
     report.addMapType();
-    report.add(sead::SafeString("Id"), u32(id));
+    report.add("Id"_str, u32(id));
 
     report.addPlayTimes();
     report.addPosition({position.x, position.z});
@@ -33,17 +34,15 @@ void reportKorok(const sead::Vector3f& position) {
 
 void reportDungeon(const sead::SafeString& name, const sead::SafeString& event) {
     ksys::ProductReporter::getSomeBool();
-    if (name.findIndex("Remains") == -1 && name.findIndex("Dungeon") == -1 &&
-        name.findIndex("FinalTrial") == -1)
+    if (!name.include("Remains") && !name.include("Dungeon") && !name.include("FinalTrial"))
         return;
 
-    PlayReport report(sead::SafeString("dungeon"), 6,
-                      ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+    PlayReport report("dungeon"_str, 6, ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
     report.addMapType();
 
-    report.add(sead::SafeString("Name"), name);
-    report.add(sead::SafeString("Event"), event);
+    report.add("Name"_str, name);
+    report.add("Event"_str, event);
 
     report.addPlayTimes();
 
@@ -240,19 +239,18 @@ unsigned int getQuestId(const sead::SafeString& quest_name) {
 
 void reportGetItem(const sead::Vector3f& pos, const sead::SafeString& item_name) {
     ksys::ProductReporter::getSomeBool();
-    PlayReport report(sead::SafeString("getitem"), 7,
-                      ksys::PlayReportMgr::instance()->getReporter()->getHeap());
+    PlayReport report("getitem"_str, 7, ksys::PlayReportMgr::instance()->getReporter()->getHeap());
     report.addMapType();
 
     auto name = static_cast<int>(sead::HashCRC32::calcStringHash(item_name));
 
     ksys::ProductReporter::getSomeBool();
 
-    report.add(sead::SafeString("name"), name);
+    report.add("name"_str, name);
 
     int position = convertPositionToInt({int(pos.x), int(pos.y)});
 
-    report.add(sead::SafeString("Position"), position);
+    report.add("Position"_str, position);
     report.addPlayTimes();
 
     if (ksys::PlayReportMgr::instance()) {
@@ -271,14 +269,14 @@ void reportQuestStep(const ksys::qst::Quest* quest, int step_index) {
 
         const unsigned int quest_id = getQuestId(name);
 
-        PlayReport report(sead::SafeString("challenge"), 7,
+        PlayReport report("challenge"_str, 7,
                           ksys::PlayReportMgr::instance()->getReporter()->getHeap());
 
         report.addMapType();
-        report.add(sead::SafeString("Id"), quest_id);
-        report.add(sead::SafeString("Name"), name);
-        report.add(sead::SafeString("Step"), step_index);
-        report.add(sead::SafeString("StepName"), step_name);
+        report.add("Id"_str, quest_id);
+        report.add("Name"_str, name);
+        report.add("Step"_str, step_index);
+        report.add("StepName"_str, step_name);
         report.addPlayTimes();
 
         if (ksys::PlayReportMgr::instance()) {
@@ -296,7 +294,7 @@ void PlayReport::addMapType() {
     if (!ksys::gdt::Manager::instance())
         return;
 
-    add(sead::SafeString("IsHardMode"), ksys::gdt::getFlag_AoC_HardMode_Enabled());
+    add("IsHardMode"_str, ksys::gdt::getFlag_AoC_HardMode_Enabled());
 
     const sead::SafeString& current_map = ksys::StageInfo::getCurrentMapType();
     u32 type = 0;
@@ -313,7 +311,7 @@ void PlayReport::addMapType() {
     if (current_map == "MainFieldDungeon")
         type = 4;
 
-    add(sead::SafeString("MapType"), type);
+    add("MapType"_str, type);
 }
 
 }  // namespace uking
