@@ -36,6 +36,16 @@ public:
     u8 _3a[5];
 };
 
+enum class PanicReason {
+    OverlayArenaFull = 0,
+    HavokMainHeapFull = 1,
+    ActorCreateHeapFull = 2,
+    ResourceSHeapFull = 3,
+    ResourceLHeapFull = 4,
+    AudioHeapFull = 5,
+    TextureHandleMgrSlow = 6,
+};
+
 class ProductReporter {
 public:
     ProductReporter() = default;
@@ -47,6 +57,10 @@ public:
 
     static bool getSomeBool();
     bool isEnabled() const;
+
+    sead::BitFlag32 getPanicReasons() const { return mPanicReasons; }
+    void addPanicReason(PanicReason reason) { mPanicReasons.setBit(int(reason)); }
+    void clearPanicReason() { mPanicReasons.makeAllZero(); }
 
     s32 getRomWorkTime() const;
     s32 getSceneWorkTime() const;
@@ -96,7 +110,7 @@ public:
     }
 
 private:
-    u8 _0[8];
+    sead::BitFlag32 mPanicReasons;
 
     Container mContainer1;
     Container mContainer2;
