@@ -21,7 +21,7 @@ VFR::~VFR() {
 }
 
 void VFR::setDelta(u32 core, f32 delta) {
-    delta = sead::Mathf::max(delta, 0.01f);
+    delta = sead::Mathf::clampMin(delta, 0.01f);
     *mRawDeltaFrames[core] = delta;
     *mDeltaFrames[core] = delta * *mIntervalRatios[core];
     *mRawDeltaTimes[core] = delta * mFrameTime;
@@ -111,7 +111,7 @@ void VFR::TimeSpeedMultiplier::update(f32 multiplier) {
     if (target_value < value) {
         value = target_value;
     } else {
-        sead::Mathf::chase(&value, target_value, sead::Mathf::max(value * multiplier, 0.01));
+        sead::Mathf::chase(&value, target_value, sead::Mathf::clampMin(value * multiplier, 0.01));
     }
 }
 

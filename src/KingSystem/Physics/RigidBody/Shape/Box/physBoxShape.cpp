@@ -11,9 +11,9 @@ BoxShape* BoxShape::make(const BoxShapeParam& param, sead::Heap* heap) {
     hkpBoxShape* box = nullptr;
     if (auto* storage = util::allocStorage<hkpBoxShape>(heap)) {
         const auto radius = param.convex_radius;
-        const hkVector4f half_extents{sead::Mathf::max(param.extents.x / 2 - radius, 0.001),
-                                      sead::Mathf::max(param.extents.y / 2 - radius, 0.001),
-                                      sead::Mathf::max(param.extents.z / 2 - radius, 0.001)};
+        const hkVector4f half_extents{sead::Mathf::clampMin(param.extents.x / 2 - radius, 0.001),
+                                      sead::Mathf::clampMin(param.extents.y / 2 - radius, 0.001),
+                                      sead::Mathf::clampMin(param.extents.z / 2 - radius, 0.001)};
         box = new (storage) hkpBoxShape(half_extents, radius);
     }
 
@@ -122,9 +122,10 @@ const hkpShape* BoxShape::updateHavokShape() {
     if (mFlags.isOn(Flag::Dirty)) {
         {
             const auto radius = mHavokShape->getRadius();
-            const sead::Vector3f half_extents{sead::Mathf::max(mExtents.x / 2 - radius, 0.001),
-                                              sead::Mathf::max(mExtents.y / 2 - radius, 0.001),
-                                              sead::Mathf::max(mExtents.z / 2 - radius, 0.001)};
+            const sead::Vector3f half_extents{
+                sead::Mathf::clampMin(mExtents.x / 2 - radius, 0.001),
+                sead::Mathf::clampMin(mExtents.y / 2 - radius, 0.001),
+                sead::Mathf::clampMin(mExtents.z / 2 - radius, 0.001)};
             const auto ref_count = mHavokShape->getReferenceCount();
             mHavokShape = new (mHavokShape) hkpBoxShape(toHkVec4(half_extents), radius);
             mHavokShape->setReferenceCount(ref_count);
