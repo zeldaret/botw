@@ -19,8 +19,9 @@ class LayoutResourceMgr {
 public:
 
     void init(sead::Heap* heap);
+    u8* loadMsgPack(u32* size);
 private:
-    res::Handle* mHandleAtx28 = nullptr;
+    res::Handle* mMsgPackHandle = nullptr;
     res::Handle* mLangFontTodo = nullptr;
     res::Handle* mVersionRes = nullptr;
     sead::FixedPtrArray<res::Handle, 8> mArray;
