@@ -1,4 +1,8 @@
 target_sources(uking PRIVATE
+    UI/ArcResourceMgr.h
+    UI/LayoutResourceMgr.cpp
+    UI/LayoutResourceMgr.h
+
     Account.cpp
     Account.h
     AutoDim.cpp
