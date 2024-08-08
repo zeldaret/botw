@@ -4,7 +4,9 @@
 #include "KingSystem/ActorSystem/actBaseProcCreateTaskSelector.h"
 #include "KingSystem/ActorSystem/actBaseProcInitializer.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/System/BasicProfiler.h"
 #include "KingSystem/System/HavokWorkerMgr.h"
+#include "KingSystem/System/UI/LayoutResourceMgr.h"
 
 namespace ksys {
 
@@ -27,6 +29,23 @@ void initBaseProcMgr(sead::Heap* heap) {
     act::BaseProcMgr::sConstant1 = u32(act::JobType::Calc1);
     act::BaseProcMgr::sConstant2 = u32(act::JobType::Calc2);
     act::BaseProcMgr::sConstant4 = u32(act::JobType::Calc4);
+}
+
+void preInitializeApp(const InitParams& params) {
+    ksys::BasicProfiler::Scope profiler_scope("ksys::PreInitializeApp");
+
+    // TODO - other parts
+
+    {
+        ksys::BasicProfiler::Scope profiler_scope("RequestFontLoad");
+        // TODO: FontMgr::createInstance()
+        ui::LayoutResourceMgr::createInstance(params.king_sys_heap);
+        ui::LayoutResourceMgr::instance()->init(params.king_sys_heap);
+        ui::LayoutResourceMgr::instance()->loadLangFont(params.king_sys_heap);
+        ui::LayoutResourceMgr::instance()->loadExtraLangFonts(params.king_sys_heap);
+    }
+
+    // TODO - other parts
 }
 
 }  // namespace ksys
