@@ -20,11 +20,11 @@ public:
 
     void init(sead::Heap* heap);
 private:
-    void* _28 = nullptr;
-    void* mLangFontTodo = nullptr;
+    res::Handle* mHandleAtx28 = nullptr;
+    res::Handle* mLangFontTodo = nullptr;
     res::Handle* mVersionRes = nullptr;
-    sead::FixedPtrArray<void, 8> mArray;
-    u64 _90 = 0;
+    sead::FixedPtrArray<res::Handle, 8> mArray;
+    res::Handle* mHandleAtx90 = 0;
     ArcResourceMgr* mArcResourceMgr = nullptr;
     res::Handle* mLangFontRes = nullptr;
     void* _a8 = nullptr;
