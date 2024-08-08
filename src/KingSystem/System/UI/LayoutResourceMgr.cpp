@@ -1,4 +1,6 @@
 #include <devenv/seadEnvUtil.h>
+
+#include <cstddef>
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/System/StarterPackMgr.h"
 
@@ -10,8 +12,8 @@ SEAD_SINGLETON_DISPOSER_IMPL(LayoutResourceMgr)
 
 void LayoutResourceMgr::init(sead::Heap* heap) {
     mMsgPackHandle = new (heap) res::Handle;
-    mLangFontTodo = new (heap) res::Handle;
-    mVersionRes = new (heap) res::Handle;
+    mLangFontHandle = new (heap) res::Handle;
+    mVersionHandle = new (heap) res::Handle;
     int count;
     // value() needed because operator int() is volatile
     switch (sead::EnvUtil::getRegionLanguage().value()) {
@@ -25,10 +27,10 @@ void LayoutResourceMgr::init(sead::Heap* heap) {
             break;
     }
     for (int i = 0; i < count; i++) {
-        mArray.pushBack(new (heap) res::Handle);
+        mExtraLangFontHandles.pushBack(new (heap) res::Handle);
     }
     if (count > 0) {
-        mHandleAtx90 = new (heap) res::Handle;
+        mZeldaGlyphHandle = new (heap) res::Handle;
     }
 }
 
@@ -54,6 +56,68 @@ u8* LayoutResourceMgr::loadMsgPack(u32* size) {
 
     *size = resource->getRawSize();
     return resource->getRawData();
+}
+
+void LayoutResourceMgr::loadLangFont(sead::Heap* heap) {
+    mLangFontHandle->resetUnitFlag20000IfSuccess();
+    mLangFontHandle->unload();
+    mLangFontHandle = nullptr;
+
+    res::LoadRequest req;
+    req.mRequester = "LayoutResourceMgr";
+    req._22 = true;
+    req.mLoadDataAlignment = 0x1000;
+    req._26 = false;
+
+    sead::FixedSafeString<0x20> path;
+    // TODO: needs sead::EnvUtil::getRegion() and sead::RegionID
+    /* path.format("Font/Font_%s.bfarc", sead::EnvUtil::getRegion()); */
+
+    mLangFontHandle->load(path, &req, nullptr);
+}
+
+constexpr const char* cExtraFontFiles[12] = {
+    "AsiaKCUBE-R",
+    "AsiaKDREAM2R",
+    "AsiaKDREAM4R",
+    "AsiaKDREAM7R",
+    "DFP_GBZY9",
+    "DFP_GB_H3",
+    "DFP_GB_H5",
+    "DFHEI5A",
+    "DFT_ZY9",
+    "DFT_B3",
+    "DFT_B5",
+    "DFT_B9"
+};
+
+void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
+    sead::RegionLanguageID lang_id = sead::EnvUtil::getRegionLanguage();
+    const char* const* fonts = cExtraFontFiles;
+    for (int i = 0; i <= 2; i++) {
+        if (lang_id.value() == sead::RegionLanguageID::KRko + i) {
+            break;
+        }
+        if (i == 2) {
+            return;
+        }
+        fonts += 4;
+    }
+
+    res::LoadRequest req;
+    req.mRequester = "ui::LayoutResourceMgr";
+    req._26 = false;
+
+    // non-matching: reordering
+    res::Handle::Status status = res::Handle::Status::NoFile;
+    for (int i = 0; i < 4; ++i) {
+        auto* handle = mExtraLangFontHandles[i];
+        sead::FixedSafeString<0x20> path;
+        path.format("Font/Font_%s.bfttf", fonts[i]);
+        handle->requestLoad(path, &req, &status);
+    }
+    mZeldaGlyphHandle->requestLoad("Font/ZeldaGlyphs-v2-Deco.bfotf", &req, &status);
+    nn::pl::RequestSharedFontLoad(0);
 }
 
 }  // namespace ksys::ui
