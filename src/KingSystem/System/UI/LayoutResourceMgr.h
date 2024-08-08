@@ -10,7 +10,11 @@
 #include "ArcResourceMgr.h"
 
 namespace nn::pl {
-u64 RequestSharedFontLoad(int);
+enum SharedFontType : int {
+    Unknown = 0
+};
+u64 RequestSharedFontLoad(nn::pl::SharedFontType type);
+u32 GetSharedFontLoadState(nn::pl::SharedFontType type);
 }
 
 namespace ksys::ui {
@@ -26,6 +30,8 @@ public:
     u8* loadMsgPack(u32* size);
     void loadLangFont(sead::Heap* heap);
     void loadExtraLangFonts(sead::Heap* heap);
+    bool checkLangFontReady();
+    bool checkExtraLangFontsReady() const;
 
 private:
     res::Handle* mMsgPackHandle = nullptr;
@@ -34,7 +40,7 @@ private:
     sead::FixedPtrArray<res::Handle, 8> mExtraLangFontHandles;
     res::Handle* mZeldaGlyphHandle = nullptr;
     ArcResourceMgr* mArcResourceMgr = nullptr;
-    res::Handle* mLangFontRes = nullptr;
+    sead::DirectResource* mLangFontResource = nullptr;
     void* _a8 = nullptr;
     void* _b0 = nullptr;
     void* _b8 = nullptr;

@@ -117,7 +117,38 @@ void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
         handle->requestLoad(path, &req, &status);
     }
     mZeldaGlyphHandle->requestLoad("Font/ZeldaGlyphs-v2-Deco.bfotf", &req, &status);
-    nn::pl::RequestSharedFontLoad(0);
+    nn::pl::RequestSharedFontLoad(nn::pl::SharedFontType::Unknown);
+}
+
+bool LayoutResourceMgr::checkLangFontReady() {
+    if (mLangFontResource) {
+        return true;
+    }
+    if (!mLangFontHandle->isReady()) {
+        return false;
+    }
+    mLangFontResource = sead::DynamicCast<sead::DirectResource>(mLangFontHandle->getResource());
+    return true;
+}
+
+bool LayoutResourceMgr::checkExtraLangFontsReady() const {
+    switch (sead::EnvUtil::getRegionLanguage().value()) {
+        case sead::RegionLanguageID::KRko:
+        case sead::RegionLanguageID::CNzh:
+        case sead::RegionLanguageID::TWzh:
+            break;
+        default:
+            return true;
+    }
+    for (const auto& handle : mExtraLangFontHandles) {
+        if (!handle.isReady()) {
+            return false;
+        }
+    }
+    if (!mZeldaGlyphHandle || mZeldaGlyphHandle->isReady()) {
+        return nn::pl::GetSharedFontLoadState(nn::pl::SharedFontType::Unknown) == 1;
+    }
+    return false;
 }
 
 }  // namespace ksys::ui
