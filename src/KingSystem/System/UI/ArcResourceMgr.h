@@ -9,6 +9,7 @@ class ArcResourceMgr {
 public:
     ArcResourceMgr() = default;
     virtual ~ArcResourceMgr();
+
 private:
     // TODO: fields
     /* sead::TList */
@@ -18,4 +19,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(ArcResourceMgr, 0x20);
 
-}
+}  // namespace ksys::ui

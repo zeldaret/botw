@@ -1,21 +1,19 @@
 #pragma once
 
+#include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
-#include <container/seadObjArray.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
 #include "ArcResourceMgr.h"
 
 namespace nn::pl {
-enum SharedFontType : int {
-    Unknown = 0
-};
+enum SharedFontType : int { Unknown = 0 };
 u64 RequestSharedFontLoad(nn::pl::SharedFontType type);
 u32 GetSharedFontLoadState(nn::pl::SharedFontType type);
-}
+}  // namespace nn::pl
 
 namespace ksys::ui {
 
@@ -25,7 +23,6 @@ class LayoutResourceMgr {
     virtual ~LayoutResourceMgr();
 
 public:
-
     void init(sead::Heap* heap);
     u8* loadMsgPack(u32* size);
     void loadLangFont(sead::Heap* heap);
@@ -58,4 +55,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(LayoutResourceMgr, 0x168);
 
-}
+}  // namespace ksys::ui

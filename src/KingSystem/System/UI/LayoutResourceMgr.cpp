@@ -17,14 +17,14 @@ void LayoutResourceMgr::init(sead::Heap* heap) {
     int count;
     // value() needed because operator int() is volatile
     switch (sead::EnvUtil::getRegionLanguage().value()) {
-        case sead::RegionLanguageID::KRko:
-        case sead::RegionLanguageID::CNzh:
-        case sead::RegionLanguageID::TWzh:
-            count = 4;
-            break;
-        default:
-            count = 0;
-            break;
+    case sead::RegionLanguageID::KRko:
+    case sead::RegionLanguageID::CNzh:
+    case sead::RegionLanguageID::TWzh:
+        count = 4;
+        break;
+    default:
+        count = 0;
+        break;
     }
     for (int i = 0; i < count; i++) {
         mExtraLangFontHandles.pushBack(new (heap) res::Handle);
@@ -50,9 +50,8 @@ u8* LayoutResourceMgr::loadMsgPack(u32* size) {
     path.format("Message/Msg_%s.product.sarc", sead::EnvUtil::getRegionLanguage().text());
 
     res::Handle::Status status;
-    auto* resource = sead::DynamicCast<sead::DirectResource>(
-            mMsgPackHandle->load(path, &req, &status)
-        );
+    auto* resource =
+        sead::DynamicCast<sead::DirectResource>(mMsgPackHandle->load(path, &req, &status));
 
     *size = resource->getRawSize();
     return resource->getRawData();
@@ -77,19 +76,8 @@ void LayoutResourceMgr::loadLangFont(sead::Heap* heap) {
 }
 
 constexpr const char* cExtraFontFiles[12] = {
-    "AsiaKCUBE-R",
-    "AsiaKDREAM2R",
-    "AsiaKDREAM4R",
-    "AsiaKDREAM7R",
-    "DFP_GBZY9",
-    "DFP_GB_H3",
-    "DFP_GB_H5",
-    "DFHEI5A",
-    "DFT_ZY9",
-    "DFT_B3",
-    "DFT_B5",
-    "DFT_B9"
-};
+    "AsiaKCUBE-R", "AsiaKDREAM2R", "AsiaKDREAM4R", "AsiaKDREAM7R", "DFP_GBZY9", "DFP_GB_H3",
+    "DFP_GB_H5",   "DFHEI5A",      "DFT_ZY9",      "DFT_B3",       "DFT_B5",    "DFT_B9"};
 
 void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
     sead::RegionLanguageID lang_id = sead::EnvUtil::getRegionLanguage();
@@ -133,12 +121,12 @@ bool LayoutResourceMgr::checkLangFontReady() {
 
 bool LayoutResourceMgr::checkExtraLangFontsReady() const {
     switch (sead::EnvUtil::getRegionLanguage().value()) {
-        case sead::RegionLanguageID::KRko:
-        case sead::RegionLanguageID::CNzh:
-        case sead::RegionLanguageID::TWzh:
-            break;
-        default:
-            return true;
+    case sead::RegionLanguageID::KRko:
+    case sead::RegionLanguageID::CNzh:
+    case sead::RegionLanguageID::TWzh:
+        break;
+    default:
+        return true;
     }
     for (const auto& handle : mExtraLangFontHandles) {
         if (!handle.isReady()) {

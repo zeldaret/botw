@@ -35,7 +35,7 @@ void preInitializeApp(InitParams* params) {
     ksys::BasicProfiler::push("ksys::PreInitializeApp");
 
     // TODO - other parts
-    
+
     ksys::BasicProfiler::push("RequestFontLoad");
     // TODO: FontMgr::createInstance()
     ui::LayoutResourceMgr::createInstance(params->king_sys_heap);
@@ -43,9 +43,9 @@ void preInitializeApp(InitParams* params) {
     ui::LayoutResourceMgr::instance()->loadLangFont(params->king_sys_heap);
     ui::LayoutResourceMgr::instance()->loadExtraLangFonts(params->king_sys_heap);
     ksys::BasicProfiler::pop("RequestFontLoad");
-    
+
     // TODO - other parts
-    
+
     ksys::BasicProfiler::pop("ksys::PreInitializeApp");
 }
 
