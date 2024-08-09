@@ -2,8 +2,8 @@
 
 #include <container/seadTList.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/Utils/Types.h"
 #include "KingSystem/System/UI/ArcResource.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace sead {
 class ExpHeap;

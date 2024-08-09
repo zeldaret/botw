@@ -1,5 +1,5 @@
-#include <prim/seadScopedLock.h>
 #include <devenv/seadEnvUtil.h>
+#include <prim/seadScopedLock.h>
 
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/System/StarterPackMgr.h"
@@ -76,8 +76,13 @@ void LayoutResourceMgr::loadLangFont(sead::Heap* heap) {
 
 constexpr const char* cExtraFontFiles[3][4] = {
     {"AsiaKCUBE-R", "AsiaKDREAM2R", "AsiaKDREAM4R", "AsiaKDREAM7R"},
-    {"DFP_GBZY9", "DFP_GB_H3", "DFP_GB_H5",   "DFHEI5A",     },
-    { "DFT_ZY9",      "DFT_B3",       "DFT_B5",    "DFT_B9"}};
+    {
+        "DFP_GBZY9",
+        "DFP_GB_H3",
+        "DFP_GB_H5",
+        "DFHEI5A",
+    },
+    {"DFT_ZY9", "DFT_B3", "DFT_B5", "DFT_B9"}};
 
 void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
     sead::RegionLanguageID lang_id = sead::EnvUtil::getRegionLanguage();
@@ -155,8 +160,8 @@ bool LayoutResourceMgr::checkVersionReady() {
     }
     if (mVersionHandle->isReady()) {
         auto* resource = sead::DynamicCast<sead::DirectResource>(mVersionHandle->getResource());
-        instance()->mVersionString
-            .copy(reinterpret_cast<const char*>(resource->getRawData()), static_cast<s32>(resource->getRawSize()));
+        instance()->mVersionString.copy(reinterpret_cast<const char*>(resource->getRawData()),
+                                        static_cast<s32>(resource->getRawSize()));
         delete mVersionHandle;
         mVersionHandle = nullptr;
         return true;
@@ -198,14 +203,14 @@ bool LayoutResourceMgr::loadHorseLayout(sead::Heap* heap) {
     }
 
     mHorseLayout.allocate(heap);
-    
+
     res::LoadRequest req;
     req.mRequester = "ui::LayoutResourceMgr";
     req.mLoadDataAlignment = 0x1000;
     req._22 = false;
     req._26 = true;
     req._c = 2;
-    
+
     res::Handle::Status status = res::Handle::Status::NoFile;
     mHorseLayout.getHandle()->requestLoad("Layout/Horse.blarc", &req, &status);
 
@@ -218,10 +223,10 @@ bool LayoutResourceMgr::loadHorseLayoutResource() {
 }
 
 bool LayoutResourceMgr::hasHorseLayoutLoadFailure() const {
-    if (mHorseLayout.getHandle()) { 
+    if (mHorseLayout.getHandle()) {
         if (mHorseLayout.getHandle()->isReady() && !mHorseLayout.getHandle()->isSuccess()) {
             return true;
-        } 
+        }
     }
     return false;
 }
@@ -229,7 +234,7 @@ bool LayoutResourceMgr::hasHorseLayoutLoadFailure() const {
 bool LayoutResourceMgr::unloadHorseLayout() {
     sead::ScopedLock<sead::CriticalSection> lock(&mCriticalSection);
     int old_count = mHorseLayoutLoadCount--;
-    
+
     if (mHorseLayoutLoadCount == 0) {
         mHorseLayout.deallocate();
         return true;
@@ -244,7 +249,8 @@ bool LayoutResourceMgr::loadArcResource(Archive& archive, const char* name) {
             return false;
         }
         if (archive.getHandle()->isSuccess()) {
-            auto* resource = sead::DynamicCast<sead::DirectResource>(archive.getHandle()->getResource());
+            auto* resource =
+                sead::DynamicCast<sead::DirectResource>(archive.getHandle()->getResource());
             if (resource) {
                 auto* arc_resource = reinterpret_cast<ArcResource*>(archive.mResourceStorage);
                 arc_resource->init(mArcResourceMgr, name, resource->getRawData(), archive.mHandle);
@@ -256,10 +262,8 @@ bool LayoutResourceMgr::loadArcResource(Archive& archive, const char* name) {
     return true;
 }
 
-
 void LayoutResourceMgr::unloadA8() {
     _a8.deallocate();
 }
-
 
 }  // namespace ksys::ui

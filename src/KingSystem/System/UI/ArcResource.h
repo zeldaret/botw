@@ -17,6 +17,7 @@ public:
     ArcResource() = default;
 
     void init(ArcResourceMgr* mgr, const sead::SafeString& name, u8* data, res::Handle* handle);
+
 private:
     void* _20;
     void* _28;
@@ -28,5 +29,5 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(ArcResource, 0xA8);
 
-}
-}
+}  // namespace ui
+}  // namespace ksys

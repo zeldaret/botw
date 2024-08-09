@@ -5,9 +5,9 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resHandle.h"
-#include "KingSystem/Utils/Types.h"
-#include "KingSystem/System/UI/ArcResourceMgr.h"
 #include "KingSystem/System/UI/ArcResource.h"
+#include "KingSystem/System/UI/ArcResourceMgr.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace nn::pl {
 enum SharedFontType : int { Unknown = 0 };
@@ -17,11 +17,11 @@ u32 GetSharedFontLoadState(nn::pl::SharedFontType type);
 #include "prim/seadEnum.h"
 namespace sead {
 SEAD_ENUM(RegionID, JP, US, EU, KR, CN)
-    class EnvUtil2 {
-    public:
-        static RegionID getRegion();
+class EnvUtil2 {
+public:
+    static RegionID getRegion();
 };
-}
+}  // namespace sead
 
 namespace ksys::ui {
 
@@ -29,9 +29,11 @@ class LayoutResourceMgr {
     SEAD_SINGLETON_DISPOSER(LayoutResourceMgr)
     LayoutResourceMgr() = default;
     ~LayoutResourceMgr() = default;
+
 private:
     class Archive {
         friend class LayoutResourceMgr;
+
     public:
         void allocate(sead::Heap* heap) {
             mHandle = new (heap) res::Handle;
@@ -61,7 +63,6 @@ private:
     };
 
 public:
-
     virtual void this_class_has_vtable();
 
     void init(sead::Heap* heap);
