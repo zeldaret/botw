@@ -9,7 +9,6 @@
 namespace ksys::ui {
 
 SEAD_SINGLETON_DISPOSER_IMPL(LayoutResourceMgr)
-LayoutResourceMgr::~LayoutResourceMgr() = default;
 
 void LayoutResourceMgr::init(sead::Heap* heap) {
     mMsgPackHandle = new (heap) res::Handle;
@@ -61,7 +60,7 @@ u8* LayoutResourceMgr::loadMsgPack(u32* size) {
 void LayoutResourceMgr::loadLangFont(sead::Heap* heap) {
     mLangFontHandle->resetUnitFlag20000IfSuccess();
     mLangFontHandle->unload();
-    mLangFontHandle = nullptr;
+    mLangFontResource = nullptr;
 
     res::LoadRequest req;
     req.mRequester = "LayoutResourceMgr";
@@ -70,10 +69,9 @@ void LayoutResourceMgr::loadLangFont(sead::Heap* heap) {
     req._26 = false;
 
     sead::FixedSafeString<0x20> path;
-    // TODO: needs sead::EnvUtil::getRegion() and sead::RegionID
-    /* path.format("Font/Font_%s.bfarc", sead::EnvUtil::getRegion()); */
+    path.format("Font/Font_%s.bfarc", sead::EnvUtil2::getRegion().text());
 
-    mLangFontHandle->load(path, &req, nullptr);
+    mLangFontHandle->requestLoad(path, &req, nullptr);
 }
 
 constexpr const char* cExtraFontFiles[3][4] = {
@@ -153,17 +151,17 @@ void LayoutResourceMgr::loadVersion() {
 // non-matching
 bool LayoutResourceMgr::checkVersionReady() {
     if (!mVersionHandle) {
-        if (!mVersionHandle->isReady()) {
-            return false;
-        }
-        auto* resource = sead::DynamicCast<sead::DirectResource>(mVersionHandle->getResource());
-        instance()->mVersionString = reinterpret_cast<char*>(resource->getRawData());
-        if (mVersionHandle) {
-            delete mVersionHandle;
-            mVersionHandle = nullptr;
-        }
+        return true;
     }
-    return true;
+    if (mVersionHandle->isReady()) {
+        auto* resource = sead::DynamicCast<sead::DirectResource>(mVersionHandle->getResource());
+        instance()->mVersionString
+            .copy(reinterpret_cast<const char*>(resource->getRawData()), static_cast<s32>(resource->getRawSize()));
+        delete mVersionHandle;
+        mVersionHandle = nullptr;
+        return true;
+    }
+    return false;
 }
 
 void LayoutResourceMgr::loadCommonLayoutArchive(sead::ExpHeap* heap) {
