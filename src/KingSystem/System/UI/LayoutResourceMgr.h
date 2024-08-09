@@ -23,14 +23,24 @@ class LayoutResourceMgr {
     virtual ~LayoutResourceMgr();
 
 public:
+
     void init(sead::Heap* heap);
     u8* loadMsgPack(u32* size);
     void loadLangFont(sead::Heap* heap);
     void loadExtraLangFonts(sead::Heap* heap);
     bool checkLangFontReady();
     bool checkExtraLangFontsReady() const;
+    void loadVersion();
 
 private:
+
+    class Archive {
+    public:
+        res::Handle* mHandle = nullptr;
+        void* _8 = nullptr;
+        void* _sizeA8Buf = nullptr;
+    };
+
     res::Handle* mMsgPackHandle = nullptr;
     res::Handle* mLangFontHandle = nullptr;
     res::Handle* mVersionHandle = nullptr;
@@ -38,19 +48,13 @@ private:
     res::Handle* mZeldaGlyphHandle = nullptr;
     ArcResourceMgr* mArcResourceMgr = nullptr;
     sead::DirectResource* mLangFontResource = nullptr;
-    void* _a8 = nullptr;
-    void* _b0 = nullptr;
-    void* _b8 = nullptr;
-    void* mTitleLayoutArchiveTodo = nullptr;
-    void* _c8 = nullptr;
-    u64 mSizexA8BufTodo = 0;
-    res::Handle* mHorseLayoutResu = nullptr;
-    u64 _e0 = 0;
-    u64 _e8 = 0;
+    Archive _a8;
+    Archive mTitleLayout;
+    Archive mHorseLayout;
     u16 mMaxDefArtLen = 0;
     u16 mMaxIndefArtLen = 0;
     sead::FixedSafeString<16> mVersionString;
-    int _120 = 0;
+    int mHorseLayoutLoadCount = 0;
     sead::CriticalSection mCriticalSection;
 };
 KSYS_CHECK_SIZE_NX150(LayoutResourceMgr, 0x168);

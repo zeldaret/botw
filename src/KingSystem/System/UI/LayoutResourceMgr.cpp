@@ -9,6 +9,7 @@
 namespace ksys::ui {
 
 SEAD_SINGLETON_DISPOSER_IMPL(LayoutResourceMgr)
+LayoutResourceMgr::~LayoutResourceMgr() = default;
 
 void LayoutResourceMgr::init(sead::Heap* heap) {
     mMsgPackHandle = new (heap) res::Handle;
@@ -75,13 +76,14 @@ void LayoutResourceMgr::loadLangFont(sead::Heap* heap) {
     mLangFontHandle->load(path, &req, nullptr);
 }
 
-constexpr const char* cExtraFontFiles[12] = {
-    "AsiaKCUBE-R", "AsiaKDREAM2R", "AsiaKDREAM4R", "AsiaKDREAM7R", "DFP_GBZY9", "DFP_GB_H3",
-    "DFP_GB_H5",   "DFHEI5A",      "DFT_ZY9",      "DFT_B3",       "DFT_B5",    "DFT_B9"};
+constexpr const char* cExtraFontFiles[3][4] = {
+    {"AsiaKCUBE-R", "AsiaKDREAM2R", "AsiaKDREAM4R", "AsiaKDREAM7R"},
+    {"DFP_GBZY9", "DFP_GB_H3", "DFP_GB_H5",   "DFHEI5A",     },
+    { "DFT_ZY9",      "DFT_B3",       "DFT_B5",    "DFT_B9"}};
 
 void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
     sead::RegionLanguageID lang_id = sead::EnvUtil::getRegionLanguage();
-    const char* const* fonts = cExtraFontFiles;
+    auto* fonts = cExtraFontFiles;
     for (int i = 0; i <= 2; i++) {
         if (lang_id.value() == sead::RegionLanguageID::KRko + i) {
             break;
@@ -89,7 +91,7 @@ void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
         if (i == 2) {
             return;
         }
-        fonts += 4;
+        fonts++;
     }
 
     res::LoadRequest req;
@@ -104,6 +106,7 @@ void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
         path.format("Font/Font_%s.bfttf", fonts[i]);
         handle->requestLoad(path, &req, &status);
     }
+
     mZeldaGlyphHandle->requestLoad("Font/ZeldaGlyphs-v2-Deco.bfotf", &req, &status);
     nn::pl::RequestSharedFontLoad(nn::pl::SharedFontType::Unknown);
 }
@@ -137,6 +140,14 @@ bool LayoutResourceMgr::checkExtraLangFontsReady() const {
         return nn::pl::GetSharedFontLoadState(nn::pl::SharedFontType::Unknown) == 1;
     }
     return false;
+}
+
+void LayoutResourceMgr::loadVersion() {
+    res::LoadRequest req;
+    req.mRequester = "LayoutResourceMgr";
+    req._26 = false;
+
+    mVersionHandle->requestLoad("System/Version.txt", &req, nullptr);
 }
 
 }  // namespace ksys::ui
