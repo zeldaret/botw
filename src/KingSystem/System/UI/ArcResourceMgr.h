@@ -3,6 +3,7 @@
 #include <container/seadTList.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/System/UI/ArcResource.h"
 
 namespace sead {
 class ExpHeap;
@@ -16,6 +17,10 @@ public:
     virtual ~ArcResourceMgr();
 
     virtual void loadArchive(sead::ExpHeap* heap, const sead::SafeString& path);
+    virtual void sub_18();
+    virtual void sub_20();
+    virtual void sub_28();
+    virtual void addArchive(ArcResource* archive);
 
 private:
     // TODO: fields

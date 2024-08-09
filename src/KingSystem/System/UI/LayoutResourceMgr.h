@@ -23,10 +23,11 @@ class LayoutResourceMgr {
     virtual ~LayoutResourceMgr();
 private:
     class Archive {
+        friend class LayoutResourceMgr;
     public:
         void allocate(sead::Heap* heap) {
             mHandle = new (heap) res::Handle;
-            _sizeA8Buf = new (heap) u8[0xA8];
+            mResourceStorage = new (heap) u8[sizeof(ArcResource)];
         }
         void deallocate() {
             if (mResource) {
@@ -34,17 +35,21 @@ private:
                 mResource = nullptr;
             } else {
                 delete mHandle;
-                delete[] _sizeA8Buf;
+                delete[] mResourceStorage;
             }
             mHandle = nullptr;
-            _sizeA8Buf = nullptr;
+            mResourceStorage = nullptr;
         }
 
-        res::Handle& getHandle() { return *mHandle; }
+        res::Handle* getHandle() { return mHandle; }
+        const res::Handle* getHandle() const { return mHandle; }
+        ArcResource* getResource() { return mResource; }
+        const ArcResource* getResource() const { return mResource; }
+
     private:
         res::Handle* mHandle = nullptr;
         ArcResource* mResource = nullptr;
-        u8* _sizeA8Buf = nullptr;
+        u8* mResourceStorage = nullptr;
     };
 
 public:
@@ -60,7 +65,12 @@ public:
     void loadCommonLayoutArchive(sead::ExpHeap* heap);
     void loadTitleLayout(sead::Heap* heap);
     bool loadTitleLayoutResource();
-    void unloadTitleLayoutResource();
+    void unloadTitleLayout();
+    bool loadHorseLayout(sead::Heap* heap);
+    bool loadHorseLayoutResource();
+    bool hasHorseLayoutLoadFailure() const;
+    bool unloadHorseLayout();
+    void unloadA8();
 
     bool loadArcResource(Archive& archive, const char* name);
 

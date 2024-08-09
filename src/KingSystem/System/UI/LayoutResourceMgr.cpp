@@ -1,10 +1,10 @@
+#include <prim/seadScopedLock.h>
 #include <devenv/seadEnvUtil.h>
 
-#include <cstddef>
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/System/StarterPackMgr.h"
-
-#include "LayoutResourceMgr.h"
+#include "KingSystem/System/UI/ArcResource.h"
+#include "KingSystem/System/UI/LayoutResourceMgr.h"
 
 namespace ksys::ui {
 
@@ -181,14 +181,87 @@ void LayoutResourceMgr::loadTitleLayout(sead::Heap* heap) {
     req._c = 2;
 
     res::Handle::Status status = res::Handle::Status::NoFile;
-    mTitleLayout.getHandle().requestLoad("Layout/Title.blarc", &req, &status);
+    mTitleLayout.getHandle()->requestLoad("Layout/Title.blarc", &req, &status);
 }
 
 bool LayoutResourceMgr::loadTitleLayoutResource() {
     return loadArcResource(mTitleLayout, "Title");
 }
 
-void LayoutResourceMgr::unloadTitleLayoutResource() {
+void LayoutResourceMgr::unloadTitleLayout() {
     mTitleLayout.deallocate();
 }
+
+bool LayoutResourceMgr::loadHorseLayout(sead::Heap* heap) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCriticalSection);
+
+    if (mHorseLayoutLoadCount++) {
+        return false;
+    }
+
+    mHorseLayout.allocate(heap);
+    
+    res::LoadRequest req;
+    req.mRequester = "ui::LayoutResourceMgr";
+    req.mLoadDataAlignment = 0x1000;
+    req._22 = false;
+    req._26 = true;
+    req._c = 2;
+    
+    res::Handle::Status status = res::Handle::Status::NoFile;
+    mHorseLayout.getHandle()->requestLoad("Layout/Horse.blarc", &req, &status);
+
+    return true;
+}
+
+bool LayoutResourceMgr::loadHorseLayoutResource() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCriticalSection);
+    return loadArcResource(mHorseLayout, "Horse");
+}
+
+bool LayoutResourceMgr::hasHorseLayoutLoadFailure() const {
+    if (mHorseLayout.getHandle()) { 
+        if (mHorseLayout.getHandle()->isReady() && !mHorseLayout.getHandle()->isSuccess()) {
+            return true;
+        } 
+    }
+    return false;
+}
+
+bool LayoutResourceMgr::unloadHorseLayout() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCriticalSection);
+    int old_count = mHorseLayoutLoadCount--;
+    
+    if (mHorseLayoutLoadCount == 0) {
+        mHorseLayout.deallocate();
+        return true;
+    }
+
+    return old_count < 2;
+}
+
+bool LayoutResourceMgr::loadArcResource(Archive& archive, const char* name) {
+    if (!archive.getResource()) {
+        if (!archive.getHandle()->isReady()) {
+            return false;
+        }
+        if (archive.getHandle()->isSuccess()) {
+            auto* resource = sead::DynamicCast<sead::DirectResource>(archive.getHandle()->getResource());
+            if (resource) {
+                auto* arc_resource = reinterpret_cast<ArcResource*>(archive.mResourceStorage);
+                arc_resource->init(mArcResourceMgr, name, resource->getRawData(), archive.mHandle);
+                archive.mResource = arc_resource;
+                mArcResourceMgr->addArchive(archive.getResource());
+            }
+        }
+    }
+    return true;
+}
+
+
+void LayoutResourceMgr::unloadA8() {
+    _a8.deallocate();
+}
+
+
 }  // namespace ksys::ui
