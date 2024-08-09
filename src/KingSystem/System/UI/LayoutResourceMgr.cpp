@@ -150,4 +150,45 @@ void LayoutResourceMgr::loadVersion() {
     mVersionHandle->requestLoad("System/Version.txt", &req, nullptr);
 }
 
+// non-matching
+bool LayoutResourceMgr::checkVersionReady() {
+    if (!mVersionHandle) {
+        if (!mVersionHandle->isReady()) {
+            return false;
+        }
+        auto* resource = sead::DynamicCast<sead::DirectResource>(mVersionHandle->getResource());
+        instance()->mVersionString = reinterpret_cast<char*>(resource->getRawData());
+        if (mVersionHandle) {
+            delete mVersionHandle;
+            mVersionHandle = nullptr;
+        }
+    }
+    return true;
+}
+
+void LayoutResourceMgr::loadCommonLayoutArchive(sead::ExpHeap* heap) {
+    mArcResourceMgr->loadArchive(heap, "Layout/Common.sblarc");
+}
+
+void LayoutResourceMgr::loadTitleLayout(sead::Heap* heap) {
+    mTitleLayout.allocate(heap);
+
+    res::LoadRequest req;
+    req.mRequester = "ui::LayoutResourceMgr";
+    req.mLoadDataAlignment = 0x1000;
+    req._22 = false;
+    req._26 = false;
+    req._c = 2;
+
+    res::Handle::Status status = res::Handle::Status::NoFile;
+    mTitleLayout.getHandle().requestLoad("Layout/Title.blarc", &req, &status);
+}
+
+bool LayoutResourceMgr::loadTitleLayoutResource() {
+    return loadArcResource(mTitleLayout, "Title");
+}
+
+void LayoutResourceMgr::unloadTitleLayoutResource() {
+    mTitleLayout.deallocate();
+}
 }  // namespace ksys::ui

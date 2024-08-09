@@ -6,8 +6,8 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
-
-#include "ArcResourceMgr.h"
+#include "KingSystem/System/UI/ArcResourceMgr.h"
+#include "KingSystem/System/UI/ArcResource.h"
 
 namespace nn::pl {
 enum SharedFontType : int { Unknown = 0 };
@@ -21,6 +21,31 @@ class LayoutResourceMgr {
     SEAD_SINGLETON_DISPOSER(LayoutResourceMgr)
     LayoutResourceMgr() = default;
     virtual ~LayoutResourceMgr();
+private:
+    class Archive {
+    public:
+        void allocate(sead::Heap* heap) {
+            mHandle = new (heap) res::Handle;
+            _sizeA8Buf = new (heap) u8[0xA8];
+        }
+        void deallocate() {
+            if (mResource) {
+                delete mResource;
+                mResource = nullptr;
+            } else {
+                delete mHandle;
+                delete[] _sizeA8Buf;
+            }
+            mHandle = nullptr;
+            _sizeA8Buf = nullptr;
+        }
+
+        res::Handle& getHandle() { return *mHandle; }
+    private:
+        res::Handle* mHandle = nullptr;
+        ArcResource* mResource = nullptr;
+        u8* _sizeA8Buf = nullptr;
+    };
 
 public:
 
@@ -31,15 +56,15 @@ public:
     bool checkLangFontReady();
     bool checkExtraLangFontsReady() const;
     void loadVersion();
+    bool checkVersionReady();
+    void loadCommonLayoutArchive(sead::ExpHeap* heap);
+    void loadTitleLayout(sead::Heap* heap);
+    bool loadTitleLayoutResource();
+    void unloadTitleLayoutResource();
+
+    bool loadArcResource(Archive& archive, const char* name);
 
 private:
-
-    class Archive {
-    public:
-        res::Handle* mHandle = nullptr;
-        void* _8 = nullptr;
-        void* _sizeA8Buf = nullptr;
-    };
 
     res::Handle* mMsgPackHandle = nullptr;
     res::Handle* mLangFontHandle = nullptr;

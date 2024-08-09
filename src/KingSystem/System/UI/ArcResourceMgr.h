@@ -1,7 +1,12 @@
 #pragma once
 
 #include <container/seadTList.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
+
+namespace sead {
+class ExpHeap;
+}
 
 namespace ksys::ui {
 
@@ -9,6 +14,8 @@ class ArcResourceMgr {
 public:
     ArcResourceMgr() = default;
     virtual ~ArcResourceMgr();
+
+    virtual void loadArchive(sead::ExpHeap* heap, const sead::SafeString& path);
 
 private:
     // TODO: fields
