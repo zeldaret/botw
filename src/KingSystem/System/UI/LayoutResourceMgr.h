@@ -16,7 +16,7 @@ u32 GetSharedFontLoadState(nn::pl::SharedFontType type);
 }  // namespace nn::pl
 #include "prim/seadEnum.h"
 namespace sead {
-SEAD_ENUM(RegionID, JP, US, EU, KR, CN)
+SEAD_ENUM(RegionID, Unknown);
 class EnvUtil2 {
 public:
     static RegionID getRegion();
