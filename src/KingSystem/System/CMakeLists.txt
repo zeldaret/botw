@@ -1,4 +1,5 @@
 target_sources(uking PRIVATE
+    UI/ArcResource.h
     UI/ArcResourceMgr.h
     UI/LayoutResourceMgr.cpp
     UI/LayoutResourceMgr.h
