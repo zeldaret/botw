@@ -2,6 +2,7 @@
 
 #include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
+#include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Resource/resHandle.h"
@@ -10,25 +11,21 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace nn::pl {
-enum SharedFontType : int { Unknown = 0 };
+enum SharedFontType : int { STANDARD = 0 };
 u64 RequestSharedFontLoad(nn::pl::SharedFontType type);
 u32 GetSharedFontLoadState(nn::pl::SharedFontType type);
 }  // namespace nn::pl
-#include "prim/seadEnum.h"
-namespace sead {
-SEAD_ENUM(RegionID, Unknown);
-class EnvUtil2 {
-public:
-    static RegionID getRegion();
-};
-}  // namespace sead
 
 namespace ksys::ui {
 
-class LayoutResourceMgr {
+class LayoutResourceMgr final : sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(LayoutResourceMgr)
     LayoutResourceMgr() = default;
     ~LayoutResourceMgr() = default;
+
+public:
+    static constexpr int cExtraLangFontCount = 4;
+    static constexpr int cExtraLangCount = 3;
 
 private:
     class Archive {
@@ -63,8 +60,6 @@ private:
     };
 
 public:
-    virtual void this_class_has_vtable();
-
     void init(sead::Heap* heap);
     u8* loadMsgPack(u32* size);
     void loadLangFont(sead::Heap* heap);
@@ -104,5 +99,9 @@ private:
     sead::CriticalSection mCriticalSection;
 };
 KSYS_CHECK_SIZE_NX150(LayoutResourceMgr, 0x168);
+constexpr const char* sExtraLangFontFiles[LayoutResourceMgr::cExtraLangCount *
+                                          LayoutResourceMgr::cExtraLangFontCount] = {
+    "AsiaKCUBE-R", "AsiaKDREAM2R", "AsiaKDREAM4R", "AsiaKDREAM7R", "DFP_GBZY9", "DFP_GB_H3",
+    "DFP_GB_H5",   "DFHEI5A",      "DFT_ZY9",      "DFT_B3",       "DFT_B5",    "DFT_B9"};
 
 }  // namespace ksys::ui

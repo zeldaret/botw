@@ -14,13 +14,13 @@ void LayoutResourceMgr::init(sead::Heap* heap) {
     mMsgPackHandle = new (heap) res::Handle;
     mLangFontHandle = new (heap) res::Handle;
     mVersionHandle = new (heap) res::Handle;
+
     int count;
-    // value() needed because operator int() is volatile
     switch (sead::EnvUtil::getRegionLanguage().value()) {
     case sead::RegionLanguageID::KRko:
     case sead::RegionLanguageID::CNzh:
     case sead::RegionLanguageID::TWzh:
-        count = 4;
+        count = cExtraLangFontCount;
         break;
     default:
         count = 0;
@@ -69,49 +69,41 @@ void LayoutResourceMgr::loadLangFont(sead::Heap* heap) {
     req._26 = false;
 
     sead::FixedSafeString<0x20> path;
-    path.format("Font/Font_%s.bfarc", sead::EnvUtil2::getRegion().text());
+    path.format("Font/Font_%s.bfarc", sead::EnvUtil::getRegion().text());
 
     mLangFontHandle->requestLoad(path, &req, nullptr);
 }
 
-constexpr const char* cExtraFontFiles[3][4] = {
-    {"AsiaKCUBE-R", "AsiaKDREAM2R", "AsiaKDREAM4R", "AsiaKDREAM7R"},
-    {
-        "DFP_GBZY9",
-        "DFP_GB_H3",
-        "DFP_GB_H5",
-        "DFHEI5A",
-    },
-    {"DFT_ZY9", "DFT_B3", "DFT_B5", "DFT_B9"}};
-
 void LayoutResourceMgr::loadExtraLangFonts(sead::Heap* heap) {
     sead::RegionLanguageID lang_id = sead::EnvUtil::getRegionLanguage();
-    auto* fonts = cExtraFontFiles;
-    for (int i = 0; i <= 2; i++) {
+    auto* fonts = sExtraLangFontFiles;
+    for (int i = 0; i <= cExtraLangCount; i++) {
         if (lang_id.value() == sead::RegionLanguageID::KRko + i) {
             break;
         }
-        if (i == 2) {
+        if (i == cExtraLangCount - 1) {
             return;
         }
-        fonts++;
+        fonts += cExtraLangFontCount;
     }
 
     res::LoadRequest req;
     req.mRequester = "ui::LayoutResourceMgr";
     req._26 = false;
 
-    // non-matching: reordering
     res::Handle::Status status = res::Handle::Status::NoFile;
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < cExtraLangFontCount; ++i) {
         auto* handle = mExtraLangFontHandles[i];
         sead::FixedSafeString<0x20> path;
-        path.format("Font/Font_%s.bfttf", fonts[i]);
+#ifdef MATCHING_HACK_NX_CLANG
+        asm("");
+#endif
+        path.format("Font/%s.bfttf", fonts[i]);
         handle->requestLoad(path, &req, &status);
     }
 
     mZeldaGlyphHandle->requestLoad("Font/ZeldaGlyphs-v2-Deco.bfotf", &req, &status);
-    nn::pl::RequestSharedFontLoad(nn::pl::SharedFontType::Unknown);
+    nn::pl::RequestSharedFontLoad(nn::pl::SharedFontType::STANDARD);
 }
 
 bool LayoutResourceMgr::checkLangFontReady() {
@@ -140,7 +132,7 @@ bool LayoutResourceMgr::checkExtraLangFontsReady() const {
         }
     }
     if (!mZeldaGlyphHandle || mZeldaGlyphHandle->isReady()) {
-        return nn::pl::GetSharedFontLoadState(nn::pl::SharedFontType::Unknown) == 1;
+        return nn::pl::GetSharedFontLoadState(nn::pl::SharedFontType::STANDARD) == 1;
     }
     return false;
 }
@@ -153,7 +145,6 @@ void LayoutResourceMgr::loadVersion() {
     mVersionHandle->requestLoad("System/Version.txt", &req, nullptr);
 }
 
-// non-matching
 bool LayoutResourceMgr::checkVersionReady() {
     if (!mVersionHandle) {
         return true;
