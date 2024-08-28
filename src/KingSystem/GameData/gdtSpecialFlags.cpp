@@ -12,7 +12,9 @@ const char* sDungeonClearFlagPrefix = "Clear_";
 const char* sDungeonEnterFlagPrefix = "Enter_";
 
 #define GDT_DEFINE_BOOL_GETTER(FLAG)                                                               \
-    bool getBool_##FLAG(bool debug = false) { return getBool(flag_##FLAG(), debug); }
+    bool getBool_##FLAG(bool debug = false) {                                                      \
+        return getBool(flag_##FLAG(), debug);                                                      \
+    }
 
 GDT_DEFINE_BOOL_GETTER(SaveProhibition)
 GDT_DEFINE_BOOL_GETTER(SaveProhibitionArea)
