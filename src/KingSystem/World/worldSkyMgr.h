@@ -1,9 +1,9 @@
 #pragma once
 
-#include <agl/utl/aglParameter.h>
-#include <agl/utl/aglParameterObj.h>
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterObj.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 

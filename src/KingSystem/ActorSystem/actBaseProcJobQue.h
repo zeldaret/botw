@@ -1,12 +1,12 @@
 #pragma once
 
-#include <agl/utl/aglAtomicPtrArray.h>
 #include <array>
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
 #include <mc/seadJob.h>
 #include <mc/seadJobQueue.h>
 #include <thread/seadAtomic.h>
+#include <utility/aglAtomicPtrArray.h>
 #include "KingSystem/ActorSystem/actBaseProcJob.h"
 #include "KingSystem/Utils/Types.h"
 
