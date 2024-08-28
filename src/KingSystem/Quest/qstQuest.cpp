@@ -1,5 +1,5 @@
 #include "KingSystem/Quest/qstQuest.h"
-#include "agl/utl/aglParameter.h"
+#include "utility/aglParameter.h"
 
 namespace ksys::qst {
 

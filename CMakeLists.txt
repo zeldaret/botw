@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.15)
 project(uking CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -30,16 +30,9 @@ target_compile_options(uking PRIVATE -Wno-unused-parameter -Wno-unused-private-f
 target_compile_options(uking PRIVATE -Wno-invalid-offsetof)
 target_compile_options(uking PRIVATE -Wextra-semi)
 
-set(NN_SDK_MAJOR 4)
-set(NN_SDK_MINOR 4)
-set(NN_SDK_PATCH 0)
+set(NN_SDK 4.4.0)
+set(NN_WARE 1.6.1)
 set(NN_SDK_TYPE "Release")
-
-# todo: figure out actual number, in between odyssey and splatoon
-set(NN_WARE_MAJOR 1)
-set(NN_WARE_MINOR 6)
-set(NN_WARE_PATCH 1)
-
 add_subdirectory(lib/NintendoSDK)
 target_link_libraries(uking PUBLIC NintendoSDK)
 

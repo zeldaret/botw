@@ -1,7 +1,7 @@
-#include <agl/utl/aglParameter.h>
-#include <agl/utl/aglParameterObj.h>
 #include <container/seadBuffer.h>
 #include <prim/seadEnum.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterObj.h>
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
 

@@ -5,7 +5,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Quest/qstQuest.h"
 #include "KingSystem/Resource/resHandle.h"
-#include "agl/utl/aglParameter.h"
+#include "utility/aglParameter.h"
 
 namespace ksys::qst {
 

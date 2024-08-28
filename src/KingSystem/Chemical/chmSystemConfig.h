@@ -1,13 +1,13 @@
 #pragma once
 
-#include <agl/utl/aglParameter.h>
-#include <agl/utl/aglParameterIO.h>
-#include <agl/utl/aglParameterList.h>
-#include <agl/utl/aglParameterObj.h>
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterIO.h>
+#include <utility/aglParameterList.h>
+#include <utility/aglParameterObj.h>
 
 namespace ksys::chm {
 

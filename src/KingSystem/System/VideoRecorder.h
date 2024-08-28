@@ -1,9 +1,9 @@
 #pragma once
 
-#include <agl/utl/aglScreenShotMgr.h>
 #include <basis/seadNew.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include <utility/aglScreenShotMgr.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
