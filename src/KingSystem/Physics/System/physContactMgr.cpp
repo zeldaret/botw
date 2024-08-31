@@ -551,19 +551,20 @@ void ContactMgr::setImpulseEntryContactInfo(RigidBody* body_a, RigidBody* body_b
     const auto relative_vel = linvel_a - linvel_b;
     const auto dot_neg = [&](const auto& vec) { return vec.dot(-contact_point_normal); };
 
-    float magnitude = is_flag_off ? sead::Mathf::max(0.0, relative_vel.dot(-contact_point_normal)) :
-                                    sead::Mathf::max(0.0, relative_vel.length());
+    float magnitude = is_flag_off ?
+                          sead::Mathf::clampMin(0.0, relative_vel.dot(-contact_point_normal)) :
+                          sead::Mathf::clampMin(0.0, relative_vel.length());
 
     if (magnitude >= entry->magnitude) {
         float i1, i2;
         if (is_flag_off) {
-            i1 = sead::Mathf::min(sead::Mathf::max(0.0, dot_neg(linvel_a)), magnitude);
-            i2 = sead::Mathf::min(sead::Mathf::max(0.0, linvel_b.dot(contact_point_normal)),
-                                  sead::Mathf::max(0.0, dot_neg(relative_vel)));
+            i1 = sead::Mathf::min(sead::Mathf::clampMin(0.0, dot_neg(linvel_a)), magnitude);
+            i2 = sead::Mathf::min(sead::Mathf::clampMin(0.0, linvel_b.dot(contact_point_normal)),
+                                  sead::Mathf::clampMin(0.0, dot_neg(relative_vel)));
         } else {
-            i1 = sead::Mathf::min(sead::Mathf::max(0.0, linvel_a.length()), magnitude);
-            i2 = sead::Mathf::min(sead::Mathf::max(0.0, linvel_b.length()),
-                                  sead::Mathf::max(0.0, relative_vel.length()));
+            i1 = sead::Mathf::min(sead::Mathf::clampMin(0.0, linvel_a.length()), magnitude);
+            i2 = sead::Mathf::min(sead::Mathf::clampMin(0.0, linvel_b.length()),
+                                  sead::Mathf::clampMin(0.0, relative_vel.length()));
         }
 
         entry->magnitude = magnitude;

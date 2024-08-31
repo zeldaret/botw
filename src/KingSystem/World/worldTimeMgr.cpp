@@ -327,7 +327,7 @@ void TimeMgr::calc_() {
         if (!mFindDungeonActivated && mTime >= 11_h)
             mTime = 11_h;
 
-        _d0 = sead::Mathf::max(mTimeStep / DefaultTimeStep, 1.0);
+        _d0 = sead::Mathf::clampMin(mTimeStep / DefaultTimeStep, 1.0);
         mBloodMoonTimer += delta;
         break;
     }

@@ -66,15 +66,15 @@ void HardModeManager::init_() {
 }
 
 void HardModeManager::nerfHpRestore(f32* hp) const {
-    *hp = sead::Mathf::max(*hp * getMultiplier(MultiplierType::HpRestore), 1.0f);
+    *hp = sead::Mathf::clampMin(*hp * getMultiplier(MultiplierType::HpRestore), 1.0f);
 }
 
 void HardModeManager::nerfHpRestore(s32* hp) const {
-    *hp = sead::Mathi::max(*hp * getMultiplier(MultiplierType::HpRestore), 1);
+    *hp = sead::Mathi::clampMin(*hp * getMultiplier(MultiplierType::HpRestore), 1);
 }
 
 void HardModeManager::modifyEnemyNoticeDuration(f32* value) const {
-    *value = sead::Mathf::max(*value * getMultiplier(MultiplierType::EnemyNoticeDuration), 0);
+    *value = sead::Mathf::clampMin(*value * getMultiplier(MultiplierType::EnemyNoticeDuration), 0);
 }
 
 bool HardModeManager::shouldCreateLifeRecoverInfo(ksys::act::Actor* actor) {

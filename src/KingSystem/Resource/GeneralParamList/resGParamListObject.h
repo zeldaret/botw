@@ -1,7 +1,7 @@
 #pragma once
 
-#include <agl/utl/aglParameterObj.h>
 #include <hostio/seadHostIONode.h>
+#include <utility/aglParameterObj.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {

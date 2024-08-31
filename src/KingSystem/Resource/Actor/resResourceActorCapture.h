@@ -1,9 +1,9 @@
 #pragma once
 
-#include <agl/utl/aglParameter.h>
-#include <agl/utl/aglParameterObj.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterObj.h>
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
 

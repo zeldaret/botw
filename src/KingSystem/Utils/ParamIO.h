@@ -1,9 +1,9 @@
 #pragma once
 
-#include <agl/utl/aglParameterIO.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <utility/aglParameterIO.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {

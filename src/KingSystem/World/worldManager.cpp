@@ -140,7 +140,7 @@ float Manager::calcTempDay(float height) const {
     float normal_temp = 23.0f;
 
     if (isMainField() && worldInfoLoaded()) {
-        height = sead::Mathf::max(height, 0.0f);
+        height = sead::Mathf::clampMin(height, 0.0f);
 
         int a = -1;
         float h{};
@@ -182,7 +182,7 @@ float Manager::calcTempNight(float height) const {
     float normal_temp = 23.0f;
 
     if (isMainField() && worldInfoLoaded()) {
-        height = sead::Mathf::max(height, 0.0f);
+        height = sead::Mathf::clampMin(height, 0.0f);
 
         int a = -1;
         float h{};

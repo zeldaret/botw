@@ -1,9 +1,9 @@
 #pragma once
 
-#include <agl/utl/aglParameterList.h>
-#include <agl/utl/aglResParameter.h>
 #include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <utility/aglParameterList.h>
+#include <utility/aglResParameter.h>
 #include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"
 
 namespace ksys::res {

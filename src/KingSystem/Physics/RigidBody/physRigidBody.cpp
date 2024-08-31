@@ -84,9 +84,9 @@ bool RigidBody::initMotionAccessorForDynamicMotion(sead::Heap* heap) {
 
     hkMatrix3 inertia;
     body->getInertiaLocal(inertia);
-    param.inertia = {sead::Mathf::max(inertia(0, 0), MinInertia),
-                     sead::Mathf::max(inertia(1, 1), MinInertia),
-                     sead::Mathf::max(inertia(2, 2), MinInertia)};
+    param.inertia = {sead::Mathf::clampMin(inertia(0, 0), MinInertia),
+                     sead::Mathf::clampMin(inertia(1, 1), MinInertia),
+                     sead::Mathf::clampMin(inertia(2, 2), MinInertia)};
     param.center_of_mass = toVec3(body->getCenterOfMassLocal());
     param.linear_damping = body->getLinearDamping();
     param.angular_damping = body->getAngularDamping();
@@ -126,9 +126,9 @@ bool RigidBody::createMotion(hkpMaxSizeMotion* motion, MotionType motion_type,
 
     case MotionType::Dynamic: {
         hkMatrix3f inertia_local;
-        inertia_local.m_col0.set(sead::Mathf::max(param.inertia.x, MinInertia), 0, 0);
-        inertia_local.m_col1.set(0, sead::Mathf::max(param.inertia.y, MinInertia), 0);
-        inertia_local.m_col2.set(0, 0, sead::Mathf::max(param.inertia.z, MinInertia));
+        inertia_local.m_col0.set(sead::Mathf::clampMin(param.inertia.x, MinInertia), 0, 0);
+        inertia_local.m_col1.set(0, sead::Mathf::clampMin(param.inertia.y, MinInertia), 0);
+        inertia_local.m_col2.set(0, 0, sead::Mathf::clampMin(param.inertia.z, MinInertia));
 
         hkpRigidBody::createDynamicRigidMotion(
             hkpMotion::MOTION_DYNAMIC, position, rotation, param.mass, inertia_local,
@@ -1630,7 +1630,7 @@ bool RigidBody::isEntityMotionFlag80On() const {
 void RigidBody::setColImpulseScale(float scale) {
     if (!isEntity())
         return;
-    scale = sead::Mathf::max(scale, 0.0);
+    scale = sead::Mathf::clampMin(scale, 0.0);
     getEntityMotionAccessor()->setColImpulseScale(scale);
 }
 

@@ -300,14 +300,6 @@ float RigidBodyMotionEntity::getMassInv() const {
     return mMotion->getMassInv();
 }
 
-static inline float max3(float a, float b, float c) {
-    return sead::Mathf::max(c, a > b ? a : b);
-}
-
-static inline float min3(float a, float b, float c) {
-    return sead::Mathf::min(a < b ? a : b, c);
-}
-
 void RigidBodyMotionEntity::setInertiaLocal(const sead::Vector3f& inertia) {
     if (mBody->isCharacterControllerType())
         return;
@@ -317,8 +309,8 @@ void RigidBodyMotionEntity::setInertiaLocal(const sead::Vector3f& inertia) {
         return;
     }
 
-    const float max = max3(inertia.x, inertia.y, inertia.z);
-    const float min = min3(inertia.x, inertia.y, inertia.z);
+    const float max = sead::Mathf::max3(inertia.x, inertia.y, inertia.z);
+    const float min = sead::Mathf::min3(inertia.x, inertia.y, inertia.z);
     const float threshold = max * 0.8f;
 
     bool need_to_recreate_motion = false;

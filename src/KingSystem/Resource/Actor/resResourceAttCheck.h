@@ -1,9 +1,9 @@
 #pragma once
 
-#include <agl/utl/aglParameter.h>
-#include <agl/utl/aglParameterList.h>
-#include <agl/utl/aglParameterObj.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterList.h>
+#include <utility/aglParameterObj.h>
 #include "resResourceAttClient.h"
 #include "resResourceAttPos.h"
 

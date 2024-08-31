@@ -1,13 +1,13 @@
 #pragma once
 
-#include <agl/utl/aglParameter.h>
-#include <agl/utl/aglParameterList.h>
-#include <agl/utl/aglParameterObj.h>
-#include <agl/utl/aglResParameter.h>
 #include <array>
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterList.h>
+#include <utility/aglParameterObj.h>
+#include <utility/aglResParameter.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {

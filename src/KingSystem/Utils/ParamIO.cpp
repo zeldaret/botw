@@ -1,6 +1,6 @@
 #include "KingSystem/Utils/ParamIO.h"
-#include <agl/utl/aglParameter.h>
 #include <cstring>
+#include <utility/aglParameter.h>
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 
 namespace ksys {

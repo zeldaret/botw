@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
-#include <agl/utl/aglParameter.h>
+#include <utility/aglParameter.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"

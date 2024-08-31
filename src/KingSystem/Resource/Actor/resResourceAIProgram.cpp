@@ -1,6 +1,6 @@
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
-#include <agl/utl/aglParameter.h>
 #include <heap/seadHeapMgr.h>
+#include <utility/aglParameter.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/Resource/resCurrentResNameMgr.h"

@@ -3,9 +3,9 @@
 #include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include <utility/aglParameter.h>
 #include "KingSystem/Quest/qstQuest.h"
 #include "KingSystem/Resource/resHandle.h"
-#include "agl/utl/aglParameter.h"
 
 namespace ksys::qst {
 
