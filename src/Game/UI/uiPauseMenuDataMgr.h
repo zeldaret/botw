@@ -151,7 +151,7 @@ struct CookTagInfo {
 class PouchItem {
 public:
     struct CookData {
-        f32 getStaminaRecoverValue() const { return f32(mEffectDuration) * 30.0f; }
+        f32 getEffectDurationFrames() const { return f32(mEffectDuration) * 30.0f; }
         void setHealthRecover(int hp) { mHealthRecover = hp; }
         void setEffectDuration(int seconds) { mEffectDuration = seconds; }
         void setSellPrice(int price) { mSellPrice = price; }
@@ -160,12 +160,19 @@ public:
         f32 getEffectId() const { return mEffect.x; }
         f32 getEffectLevel() const { return mEffect.y; }
 
+        /// Number of quarter-hearts to recover,
+        /// for hearty food, this is number of yellow hearts (not quarter-hearts)
         int mHealthRecover;
         int mEffectDuration;  // for potions, in seconds
         int mSellPrice;
 
         /// x - CookEffectId enum, but stored as f32
-        /// y - level (1.0f, 2.0f, or 3.0f)
+        /// y - level:
+        ///     - For Hearty (LifeMaxUp), this is also the number of yellow hearts
+        ///     - For Stamina (GutsRecover), this is 0.0-3000.0 where each wheel is 1000.0
+        ///     - For Endura (ExGutsMaxUp), this is 0-15, where each wheel is 5
+        ///       - With 5 endura carrot + crit you can only get to 12
+        ///     - For other, this is the level of the effect (1.0f, 2.0f, or 3.0f)
         sead::Vector2f mEffect;
     };
 
