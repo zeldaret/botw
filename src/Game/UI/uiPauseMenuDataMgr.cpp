@@ -2125,8 +2125,8 @@ int compareFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData*
     if (st1 < st2)
         return 1;
 
-    const auto sv1 = lhs->getCookData().getStaminaRecoverValue();
-    const auto sv2 = rhs->getCookData().getStaminaRecoverValue();
+    const auto sv1 = lhs->getCookData().getEffectDurationFrames();
+    const auto sv2 = rhs->getCookData().getEffectDurationFrames();
     // Higher is better
     if (sv1 > sv2)
         return -1;
