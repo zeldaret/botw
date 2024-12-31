@@ -13,7 +13,7 @@ int ComparePlayerMaxStamina::doQuery() {
     if (pi == nullptr)
         return 0;
 
-    s32 stamina = pi->getMaxStamina();
+    s32 stamina = pi->getStaminaMax();
     if (stamina % 200 <= 0)
         return stamina / 200 >= *mThreshold;
     else
