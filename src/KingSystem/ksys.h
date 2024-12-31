@@ -5,6 +5,9 @@ class Heap;
 }
 
 namespace ksys {
+namespace act {
+class PlayerLink;
+}
 
 struct InitParams {
     sead::Heap* king_sys_heap;
@@ -19,5 +22,8 @@ void initBaseProcMgr(sead::Heap* heap);
 
 // 0x0000007100f3a8d8
 void preInitializeApp(const InitParams& params);
+
+// 0x0000007100f40370
+void setPlayerLink(act::PlayerLink* link);
 
 }  // namespace ksys

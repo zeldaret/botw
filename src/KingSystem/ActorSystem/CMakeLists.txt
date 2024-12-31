@@ -118,6 +118,8 @@ target_sources(uking PRIVATE
     actPhysicsUserTag.h
     actPlayerInfo.cpp
     actPlayerInfo.h
+    actPlayerInfoBase.cpp
+    actPlayerInfoStub.cpp
     actTag.h
 
     actionDummyAction.cpp
