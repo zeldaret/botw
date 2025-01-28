@@ -13,7 +13,7 @@ int ComparePlayerHeart::doQuery() {
     if (pi == nullptr)
         return 0;
 
-    return pi->getLife() >= *mThreshold;
+    return pi->getLifeFromPlayerActor() >= *mThreshold;
 }
 
 void ComparePlayerHeart::loadParams(const evfl::QueryArg& arg) {

@@ -13,7 +13,7 @@ int ComparePlayerMaxHeart::doQuery() {
     if (pi == nullptr)
         return 0;
 
-    s32 full_hearts = pi->getMaxHearts() / 4;
+    s32 full_hearts = pi->getMaxHeartValue() / 4;
     return full_hearts >= *mThreshold;
 }
 

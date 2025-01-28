@@ -15,8 +15,8 @@ int ComparePlayerOriginalHeart::doQuery() {
     if (PlayerInfo::instance() == nullptr)
         return 0;
 
-    s32 life = PlayerInfo::instance()->getLife();
-    s32 hearts = PlayerInfo::instance()->getMaxHearts();
+    s32 life = PlayerInfo::instance()->getLifeFromPlayerActor();
+    s32 hearts = PlayerInfo::instance()->getMaxHeartValue();
     s32 compare;
     if (life <= hearts)
         compare = life;
