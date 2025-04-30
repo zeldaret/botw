@@ -20,7 +20,10 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/GameData/gdtSpecialFlagNames.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/HeapUtil.h"
@@ -257,12 +260,19 @@ void PauseMenuDataMgr::resetItem() {
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 void PauseMenuDataMgr::setItemModifier(PouchItem& item, const act::WeaponModifierInfo* modifier) {
-    if (modifier && !modifier->flags.isZero()) {
-        item.setWeaponModifier(modifier->flags.getDirect());
-        item.setWeaponModifierValue(static_cast<u32>(modifier->value));
-    } else {
+    if (!modifier) {
         item.setWeaponModifier(0);
+        return;
     }
+
+    u32 flags = modifier->flags.getDirect();
+    if (flags) {
+        item.setWeaponModifier(flags);
+        item.setWeaponModifierValue(modifier->value);
+        return;
+    }
+
+    item.setWeaponModifier(0);
 }
 
 void PauseMenuDataMgr::init(sead::Heap* heap) {}
@@ -920,6 +930,185 @@ void PauseMenuDataMgr::addToPouch(const sead::SafeString& name, PouchItemType ty
     ksys::act::getSameGroupActorName(&same_group_actor_name, name);
     ksys::gdt::setIsGetItem(same_group_actor_name, true);
     ksys::gdt::setIsGetItem2(same_group_actor_name, true);
+}
+
+void PauseMenuDataMgr::doAddToPouch(PouchItemType type, const sead::SafeString& name, Lists& lists,
+                                    int value, bool equipped,
+                                    const act::WeaponModifierInfo* modifier,
+                                    bool is_inventory_load) {
+    bool can_stack =
+        ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::CanStack);
+    sead::FixedSafeString<0x80> item_name_to_add = sead::SafeString::cEmptyString;
+    ksys::act::getSameGroupActorName(&item_name_to_add, name);
+
+    if (!is_inventory_load) {
+        if (ksys::act::InfoData::instance()->hasTag(item_name_to_add.cstr(),
+                                                    ksys::act::tags::Arrow)) {
+            value *= ksys::act::getArrowArrowNum(ksys::act::InfoData::instance(), name.cstr());
+        }
+        if (can_stack) {
+            for (auto& item : lists.list1) {
+                if (item_name_to_add != item.getName() || item.mValue < 0) {
+                    continue;
+                }
+                item.mValue = std::clamp(item.mValue + value, 0, ItemStackSizeMax);
+                if (name == sValues.Obj_DungeonClearSeal) {
+                    int current = item.mValue;
+                    int max = 0;
+                    auto* gdt_manager = ksys::gdt::Manager::instance();
+                    if (gdt_manager) {
+                        sead::SafeString flag_name = ksys::gdt::flagname::DungeonClearSealNum();
+                        gdt_manager->getParam().get1().getBuffer1()->getMaxValueForS32(&max,
+                                                                                       flag_name);
+                    }
+                    if (max < current) {
+                        item.mValue = max;
+                    }
+                }
+
+                mLastAddedItem = &item;
+                resetItem();
+                _444fc = 0;
+                return;
+            }
+        }
+    }
+
+    // Add the item as a new slot
+
+    if (cannotGetItem(name, can_stack ? value : 1)) {
+        return;
+    }
+
+    if (item_name_to_add == sValues.Obj_WarpDLC) {
+        if (!aoc::Manager::instance()->hasAoc2()) {
+            return;
+        }
+    }
+
+    if (!aoc::Manager::instance()->hasAoc3()) {
+        if (item_name_to_add == sValues.Obj_DLC_HeroSoul_Zora) {
+            item_name_to_add = sValues.Obj_HeroSoul_Zora;
+        } else if (item_name_to_add == sValues.Obj_DLC_HeroSoul_Rito) {
+            item_name_to_add = sValues.Obj_HeroSoul_Rito;
+        } else if (item_name_to_add == sValues.Obj_DLC_HeroSoul_Goron) {
+            item_name_to_add = sValues.Obj_HeroSoul_Goron;
+        } else if (item_name_to_add == sValues.Obj_DLC_HeroSoul_Gerudo) {
+            item_name_to_add = sValues.Obj_HeroSoul_Gerudo;
+        }
+    } else {
+        if (item_name_to_add == sValues.Obj_HeroSoul_Zora &&
+            ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Zora()) {
+            item_name_to_add = sValues.Obj_DLC_HeroSoul_Zora;
+
+        } else if (item_name_to_add == sValues.Obj_HeroSoul_Rito &&
+                   ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Rito()) {
+            item_name_to_add = sValues.Obj_DLC_HeroSoul_Rito;
+
+        } else if (item_name_to_add == sValues.Obj_HeroSoul_Goron &&
+                   ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Goron()) {
+            item_name_to_add = sValues.Obj_DLC_HeroSoul_Goron;
+
+        } else if (item_name_to_add == sValues.Obj_HeroSoul_Gerudo &&
+                   ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Gerudo()) {
+            item_name_to_add = sValues.Obj_DLC_HeroSoul_Gerudo;
+        }
+    }
+
+    auto* added_item = lists.pushNewItem();
+    if (!added_item) {
+        return;
+    }
+    added_item->mType = type;
+    added_item->mName = item_name_to_add;
+    added_item->setEquipped(equipped);
+    added_item->mItemUse = getItemUse(item_name_to_add);
+
+    if (added_item->mType == PouchItemType::Arrow) {
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Bow));
+    }
+
+    if (isPouchItemArmor(type)) {
+        if (ksys::act::InfoData::instance()->hasTag(item_name_to_add.cstr(),
+                                                    ksys::act::tags::ArmorDye)) {
+            if (value >= 1 && value <= 15) {
+                added_item->mValue = value;
+            } else {
+                added_item->mValue = 0;
+            }
+        } else {
+            added_item->mValue = -1;
+        }
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Armor));
+
+        mLastAddedItem = added_item;
+        resetItem();
+        _444fc = 0;
+        return;
+    }
+
+    switch (type) {
+    case PouchItemType::Sword:
+        if (value <= 0 && !isMasterSwordActorName(item_name_to_add)) {
+            value = 1;
+        }
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Sword));
+        setItemModifier(*added_item, modifier);
+        break;
+    case PouchItemType::Bow:
+        value = std::max(value, 1);
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Bow));
+        setItemModifier(*added_item, modifier);
+        break;
+    case PouchItemType::Shield:
+        value = std::max(value, 1);
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Shield));
+        setItemModifier(*added_item, modifier);
+        break;
+    case PouchItemType::Material:
+        value = std::clamp(value, 0, ItemStackSizeMax);
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Material));
+        break;
+    case PouchItemType::Food:
+        value = std::clamp(value, 0, ItemStackSizeMax);
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::Food));
+        break;
+    case PouchItemType::KeyItem:
+        if (ksys::act::InfoData::instance()->hasTag(item_name_to_add.cstr(),
+                                                    ksys::act::tags::HeroSoul)) {
+            if (!is_inventory_load) {
+                // when getting champion ability, it's enabled by default
+                added_item->mEquipped = true;
+            }
+            if (sValues.Obj_HeroSoul_Zora == item_name_to_add) {
+                mZoraSoulItem = added_item;
+            } else if (sValues.Obj_HeroSoul_Rito == item_name_to_add) {
+                mRitoSoulItem = added_item;
+            } else if (sValues.Obj_HeroSoul_Goron == item_name_to_add) {
+                mGoronSoulItem = added_item;
+            } else if (sValues.Obj_HeroSoul_Gerudo == item_name_to_add) {
+                mGerudoSoulItem = added_item;
+            } else if (sValues.Obj_DLC_HeroSoul_Zora == item_name_to_add) {
+                mZoraSoulItem = added_item;
+            } else if (sValues.Obj_DLC_HeroSoul_Rito == item_name_to_add) {
+                mRitoSoulItem = added_item;
+            } else if (sValues.Obj_DLC_HeroSoul_Goron == item_name_to_add) {
+                mGoronSoulItem = added_item;
+            } else if (sValues.Obj_DLC_HeroSoul_Gerudo == item_name_to_add) {
+                mGerudoSoulItem = added_item;
+            }
+        }
+        value = std::clamp(value, 0, ItemStackSizeMax);
+        ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::KeyItem));
+        break;
+    default:
+        break;
+    }
+
+    added_item->mValue = value;
+    mLastAddedItem = added_item;
+    resetItem();
+    _444fc = 0;
 }
 
 void PauseMenuDataMgr::saveToGameData(const sead::OffsetList<PouchItem>& list) const {
