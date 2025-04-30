@@ -1,0 +1,67 @@
+#pragma once
+
+namespace ksys::gdt::flagname {
+
+const char* Aoc_HardMode_Enabled();
+const char* BowPorchStockNum();
+const char* CaptionPictSize();
+const char* CurrentHart();
+const char* CurrentMamo();
+const char* CurrentRupee();
+const char* CurrentTotalGetRupeeInMiniGame();
+const char* DungeonClearSealNum();
+const char* IsGet_Armor_014_Head();
+const char* IsGet_Armor_014_Lower();
+const char* IsGet_Armor_014_Upper();
+const char* IsGet_Armor_046_Head();
+const char* IsGet_Armor_046_Lower();
+const char* IsGet_Armor_046_Upper();
+const char* IsGet_Armor_048_Head();
+const char* IsGet_Armor_048_Lower();
+const char* IsGet_Armor_048_Upper();
+const char* IsGet_Armor_083_Head();
+const char* IsGet_Armor_083_Lower();
+const char* IsGet_Armor_083_Upper();
+const char* IsGet_Armor_084_Head();
+const char* IsGet_Armor_084_Lower();
+const char* IsGet_Armor_084_Upper();
+const char* IsGet_Armor_085_Head();
+const char* IsGet_Armor_085_Lower();
+const char* IsGet_Armor_085_Upper();
+const char* IsGet_Armor_086_Head();
+const char* IsGet_Armor_086_Lower();
+const char* IsGet_Armor_086_Upper();
+const char* IsGet_Armor_103_Head();
+const char* IsGet_Armor_103_Lower();
+const char* IsGet_Armor_103_Upper();
+const char* IsGet_Armor_104_Head();
+const char* IsGet_Armor_104_Lower();
+const char* IsGet_Armor_104_Upper();
+const char* IsGet_Armor_105_Head();
+const char* IsGet_Armor_105_Lower();
+const char* IsGet_Armor_105_Upper();
+const char* IsGet_Armor_106_Head();
+const char* IsGet_Armor_106_Lower();
+const char* IsGet_Armor_106_Upper();
+const char* IsGet_Armor_111_Head();
+const char* IsGet_Armor_111_Lower();
+const char* IsGet_Armor_111_Upper();
+const char* IsGet_Armor_112_Head();
+const char* IsGet_Armor_112_Lower();
+const char* IsGet_Armor_112_Upper();
+const char* IsGet_Armor_113_Head();
+const char* IsGet_Armor_113_Lower();
+const char* IsGet_Armor_113_Upper();
+const char* IsGet_Armor_114_Head();
+const char* IsGet_Armor_114_Lower();
+const char* IsGet_Armor_114_Upper();
+const char* IsSaveByAuto();
+const char* KorokNutsNum();
+const char* LastSaveTime_Lower();
+const char* LastSaveTime_Upper();
+const char* SaveDistrictName();
+const char* SaveLocationName();
+const char* TrackBlockFileNumber();
+const char* TrackBlockFileNumber_Hard();
+
+}  // namespace ksys::gdt::flagname
