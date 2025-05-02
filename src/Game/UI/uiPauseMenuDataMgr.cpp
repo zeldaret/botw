@@ -1054,7 +1054,6 @@ void PauseMenuDataMgr::autoEquipLastAddedItem() {
     }
 }
 
-// NON_MATCHING: branching
 const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
                                                     const sead::OffsetList<PouchItem>& list) {
     const auto type = item->getType();
@@ -1064,20 +1063,30 @@ const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
     if (type >= PouchItemType::Material)
         return sead::SafeString::cEmptyString;
 
-    if (isPouchItemArmor(type)) {
-        for (auto& other : list) {
-            if (other.getType() > PouchItemType::ArmorLower)
-                break;
-            if (other.getType() == type)
-                other.mEquipped = false;
-        }
-    } else if (isPouchItemWeapon(type)) {
+    switch (type) {
+    case PouchItemType::Sword:
+    case PouchItemType::Bow:
+    case PouchItemType::Shield:
+    case PouchItemType::Arrow:
         for (auto& other : list) {
             if (other.getType() > PouchItemType::Shield)
                 break;
             if (other.getType() == type)
                 other.mEquipped = false;
         }
+        break;
+    case PouchItemType::ArmorHead:
+    case PouchItemType::ArmorUpper:
+    case PouchItemType::ArmorLower:
+        for (auto& other : list) {
+            if (other.getType() > PouchItemType::ArmorLower)
+                break;
+            if (other.getType() == type)
+                other.mEquipped = false;
+        }
+        break;
+    default:
+        break;
     }
 
     item->mEquipped = true;
