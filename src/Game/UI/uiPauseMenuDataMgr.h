@@ -34,6 +34,8 @@ struct CookItem;
 
 namespace uking::ui {
 
+enum class CreateEquipmentSlot : u8;
+
 constexpr int NumSwordsMax = 20;
 constexpr int NumBowsMax = 14;
 constexpr int NumArrowItemsMax = 6;
@@ -118,6 +120,7 @@ enum class EquipmentSlot {
     ArmorHead = 4,
     ArmorUpper = 5,
     ArmorLower = 6,
+    Invalid = -1,
 };
 
 enum class ItemUse {
