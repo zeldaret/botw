@@ -1054,7 +1054,6 @@ void PauseMenuDataMgr::autoEquipLastAddedItem() {
     }
 }
 
-// NON_MATCHING: branching
 const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
                                                     const sead::OffsetList<PouchItem>& list) {
     const auto type = item->getType();
@@ -1064,20 +1063,30 @@ const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
     if (type >= PouchItemType::Material)
         return sead::SafeString::cEmptyString;
 
-    if (isPouchItemArmor(type)) {
-        for (auto& other : list) {
-            if (other.getType() > PouchItemType::ArmorLower)
-                break;
-            if (other.getType() == type)
-                other.mEquipped = false;
-        }
-    } else if (isPouchItemWeapon(type)) {
+    switch (type) {
+    case PouchItemType::Sword:
+    case PouchItemType::Bow:
+    case PouchItemType::Shield:
+    case PouchItemType::Arrow:
         for (auto& other : list) {
             if (other.getType() > PouchItemType::Shield)
                 break;
             if (other.getType() == type)
                 other.mEquipped = false;
         }
+        break;
+    case PouchItemType::ArmorHead:
+    case PouchItemType::ArmorUpper:
+    case PouchItemType::ArmorLower:
+        for (auto& other : list) {
+            if (other.getType() > PouchItemType::ArmorLower)
+                break;
+            if (other.getType() == type)
+                other.mEquipped = false;
+        }
+        break;
+    default:
+        break;
     }
 
     item->mEquipped = true;
@@ -1086,7 +1095,6 @@ const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
     return sead::SafeString::cEmptyString;
 }
 
-// NON_MATCHING: harmless reordering
 void PauseMenuDataMgr::unequipAll(PouchItemType type) {
     const auto lock = sead::makeScopedLock(mCritSection);
 
@@ -1094,19 +1102,18 @@ void PauseMenuDataMgr::unequipAll(PouchItemType type) {
         return;
 
     for (auto& item : getItems()) {
-        if (type == PouchItemType::Invalid) {
-            if (item.getType() > PouchItemType::ArmorLower)
-                break;
-            if (item.isEquipped() && item.getType() != PouchItemType::Arrow)
-                item.mEquipped = false;
+        if (item.getType() > PouchItemType::ArmorLower)
+            break;
+        if (!item.isEquipped())
+            continue;
 
-        } else {
-            if (item.getType() > PouchItemType::ArmorLower)
-                break;
-            if (item.isEquipped() && item.getType() == type) {
+        if (type == PouchItemType::Invalid) {
+            if (item.getType() != PouchItemType::Arrow) {
                 item.mEquipped = false;
-                break;
             }
+        } else if (item.getType() == type) {
+            item.mEquipped = false;
+            break;
         }
     }
 }
@@ -2207,6 +2214,7 @@ const sead::SafeString* PauseMenuDataMgr::getEquippedItemName(PouchItemType type
         if (item->isEquipped() && item->getType() == type)
             return &item->getName();
     }
+
     return nullptr;
 }
 
