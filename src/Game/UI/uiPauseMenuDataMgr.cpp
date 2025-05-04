@@ -4,7 +4,8 @@
 #include <limits>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
-#include "Game/Actor/actCreatePlayerEquipActorMgr.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
+#include "Game/Actor/actPlayerCreateUtils.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Cooking/cookManager.h"
 #include "Game/DLC/aocManager.h"
@@ -1481,7 +1482,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
                 break;
             }
             if (item->isInInventory() && item->isEquipped()) {
-                u64 slot = (u64)act::getCreateEquipmentSlot(type);
+                u64 slot = (u64)getCreateEquipmentSlot(type);
                 if (slot < equipment_items.size()) {
                     equipment_items[slot] = item;
                 }
@@ -1501,7 +1502,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
     for (u64 i = 0; i != equipment_items.size(); slot = s32(++i)) {
         if (equipment_items[i]) {
             if (!need_head_b || i != (u64)act::CreateEquipmentSlot::ArmorHead) {
-                act::createEquipmentFromItem(equipment_items[i], Caller);
+                createEquipmentFromItem(equipment_items[i], Caller);
             } else {
                 create_mgr->requestCreateArmorHeadB(equipment_items[i]->getName(),
                                                     equipment_items[i]->getValue(), Caller);

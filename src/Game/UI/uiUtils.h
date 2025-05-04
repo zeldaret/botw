@@ -3,8 +3,14 @@
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actWeapon.h"
 
+namespace uking::act {
+enum class CreateEquipmentSlot : u8;
+}
+
 namespace uking::ui {
 
+enum class EquipmentSlot;
+enum class PouchItemType;
 class PouchItem;
 
 struct WeaponStats {
@@ -46,5 +52,9 @@ int getItemValue(const sead::SafeString& name);
 // TODO: move these to another translation unit (TBD)
 // Do not implement until the location is figured out
 void applyScreenFade(float progress);
+
+act::CreateEquipmentSlot getCreateEquipmentSlot(ui::PouchItemType type);
+ui::EquipmentSlot getEquipmentSlot(act::CreateEquipmentSlot slot);
+bool createEquipmentFromItem(const ui::PouchItem* item, const sead::SafeString& caller);
 
 }  // namespace uking::ui

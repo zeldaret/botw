@@ -22,6 +22,7 @@ class PlayerInfo : public PlayerInfoBase {
     ~PlayerInfo() override;
 
 public:
+    BaseProcLink& getPlayerLink() { return mPlayerLink; }
     bool init();
     void setAndAcquirePlayer(PlayerBase* player);  // requires PlayerOrEnemy and PlayerBase
     void resetPlayer(PlayerBase* player);
