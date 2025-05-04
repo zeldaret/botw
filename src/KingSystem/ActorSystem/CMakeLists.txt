@@ -20,6 +20,8 @@ target_sources(uking PRIVATE
     Profiles/actPlayerBase.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
+    Profiles/actWeaponBase.cpp
+    Profiles/actWeaponBase.h
 
     actActor.cpp
     actActor.h

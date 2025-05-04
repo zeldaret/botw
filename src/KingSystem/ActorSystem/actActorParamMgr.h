@@ -86,7 +86,8 @@ private:
                        u32 lane_id);
 
     template <typename T>
-    T* handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::ResourceType type, void* x);
+    T* handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::ResourceType type,
+                           void* _unused);
 
     void loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Handle* pack_handle, void* x,
                         u32 lane_id);
