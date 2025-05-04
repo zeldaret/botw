@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Utils/Debug.h"
@@ -23,6 +25,19 @@ bool ActorLinkConstDataAccess::acquire(BaseProc* proc) {
     }
 
     return proc && proc->acquire(*this);
+}
+
+const Actor* ActorLinkConstDataAccess::getActor() const {
+    if (!mProc)
+        return nullptr;
+    return sead::DynamicCast<Actor>(mProc);
+}
+
+const sead::Matrix34f& ActorLinkConstDataAccess::getActorMtx() {
+    const Actor* actor = getActor();
+    if (actor)
+        return actor->getMtx();
+    return sead::Matrix34f::ident;
 }
 
 bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from,

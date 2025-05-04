@@ -42,6 +42,7 @@ SEAD_SINGLETON_DISPOSER_IMPL(ActorParamMgr)
 using Type = ActorParam::ResourceType;
 using User = res::ActorLink::User;
 
+// NOLINTNEXTLINE cppcoreguidelines-pro-type-member-init
 ActorParamMgr::ActorParamMgr() = default;
 
 void ActorParamMgr::init(sead::Heap* heap, sead::Heap* debug_heap) {
@@ -131,8 +132,7 @@ void ActorParamMgr::init(sead::Heap* heap, sead::Heap* debug_heap) {
         req.mEntryFactory = dummy_gparam_factory;
         getDummyResHandle(ResType::GParamList)
             .load("Actor/GeneralParamList/Dummy.bgparamlist", &req);
-        if (dummy_gparam_factory)
-            delete dummy_gparam_factory;
+        delete dummy_gparam_factory;
 
         auto* modellist = static_cast<res::ModelList*>(
             getDummyResHandle(ResType::ModelList).getResourceUnchecked());
@@ -191,12 +191,12 @@ ActorParam* ActorParamMgr::getParam(const char* actor_name, ActorParam** out_fre
 }
 
 ActorParam* ActorParamMgr::loadParam(const char* actor_name, res::Handle* pack_handle, void* x,
-                                     u32 load_req_c) {
+                                     u32 res_lane_id) {
     bool allocated_new = false;
     ActorParam* param = allocParam(actor_name, &allocated_new);
 
     if (allocated_new) {
-        loadFiles(param, mTempHeap, pack_handle, x, load_req_c);
+        loadFiles(param, mTempHeap, pack_handle, x, res_lane_id);
         param->setEventSignal();
     } else {
         param->waitForEvent();
@@ -206,14 +206,14 @@ ActorParam* ActorParamMgr::loadParam(const char* actor_name, res::Handle* pack_h
 }
 
 void ActorParamMgr::loadFiles(ActorParam* param, sead::Heap* heap, res::Handle* pack_handle,
-                              void* x, u32 load_req_c) {
+                              void* x, u32 res_lane_id) {
     param->deleteResHandles();
     param->allocResHandles(heap, 0, ActorParam::NumResourceTypes + 1);
     param->mActiveBufferIdx = 0;
 
     const auto* link =
         loadFile<res::ActorLink>(param, Type::ActorLink, "Actor/ActorLink", "xml",
-                                 param->getActorName().cstr(), pack_handle, x, load_req_c);
+                                 param->getActorName().cstr(), pack_handle, x, res_lane_id);
 
     if (link)
         param->setProfileAndPriority(link->getUserName(User::Profile), link->getPriority().cstr());
@@ -225,20 +225,20 @@ void ActorParamMgr::loadFiles(ActorParam* param, sead::Heap* heap, res::Handle* 
     param->mActiveBufferIdx = 0;
 
     loadFile<res::ModelList>(param, Type::ModelList, "Actor/ModelList", "modellist",
-                             actor_link->getUserName(User::Model), pack_handle, x, load_req_c);
+                             actor_link->getUserName(User::Model), pack_handle, x, res_lane_id);
 
     loadFile<res::UMii>(param, Type::UMii, "Actor/UMii", "umii",
-                        actor_link->getUserName(User::UMii), pack_handle, x, load_req_c);
+                        actor_link->getUserName(User::UMii), pack_handle, x, res_lane_id);
 
     loadFile<res::ASList>(param, Type::ASList, "Actor/ASList", "aslist",
                           actor_link->getUserName(res::ActorLink::User::AS), pack_handle, x,
-                          load_req_c);
+                          res_lane_id);
 
-    loadFilesStep2(param, heap, pack_handle, x, load_req_c);
+    loadFilesStep2(param, heap, pack_handle, x, res_lane_id);
 }
 
 bool ActorParamMgr::requestLoadActorPack(res::Handle* handle, const sead::SafeString& actor_name,
-                                         u32 load_req_c) {
+                                         u32 res_lane_id) {
     sead::FixedSafeString<128> path;
     res::LoadRequest req;
 
@@ -247,14 +247,14 @@ bool ActorParamMgr::requestLoadActorPack(res::Handle* handle, const sead::SafeSt
 
     path.format("Actor/Pack/%s.bactorpack", actor_name.cstr());
     req.mRequester = actor_name;
-    req._c = load_req_c;
+    req.mLaneId = res_lane_id;
     req._8 = true;
     req._28 = false;
     return handle->requestLoad(path, &req);
 }
 
 ActorParam* ActorParamMgr::loadParamAsync(const char* actor_name, res::Handle* pack_handle,
-                                          bool* allocated_new, void* x, u32 load_req_c) {
+                                          bool* allocated_new, void* x, u32 res_lane_id) {
     auto* param = allocParam(actor_name, allocated_new);
     if (!*allocated_new)
         return param;
@@ -264,7 +264,7 @@ ActorParam* ActorParamMgr::loadParamAsync(const char* actor_name, res::Handle* p
     param->mActiveBufferIdx = 0;
 
     loadFileAsync<res::ActorLink>(param, Type::ActorLink, "Actor/ActorLink", "xml",
-                                  param->getActorName().cstr(), pack_handle, x, load_req_c);
+                                  param->getActorName().cstr(), pack_handle, x, res_lane_id);
     return param;
 }
 
@@ -272,19 +272,19 @@ template <typename T>
 bool ActorParamMgr::loadFileAsync(ActorParam* param, ActorParam::ResourceType type,
                                   const sead::SafeString& dir_name,
                                   const sead::SafeString& extension, const sead::SafeString& name,
-                                  res::Handle* pack_handle, void* x, u32 load_req_c) {
+                                  res::Handle* pack_handle, void* x, u32 res_lane_id) {
     auto* handle = param->allocHandle();
 
     if (name != "Dummy" && !name.isEmpty()) {
         sead::FixedSafeString<128> path;
         res::LoadRequest req;
-        prepareLoadFromActorPack(&path, &req, x, dir_name, extension, name, pack_handle, load_req_c,
-                                 param->getActorName());
+        prepareLoadFromActorPack(&path, &req, x, dir_name, extension, name, pack_handle,
+                                 res_lane_id, param->getActorName());
         return handle->requestLoad(path, &req);
     }
 
     if (ActorParam::isValidType(type)) {
-        auto* res = sead::DynamicCast<T>(mDummyResources[u32(type)].getResource());
+        auto* res = sead::DynamicCast<T>(mDummyResources[s32(type)].getResource());
         param->setResource(type, res);
     }
 
@@ -294,13 +294,13 @@ bool ActorParamMgr::loadFileAsync(ActorParam* param, ActorParam::ResourceType ty
 // NON_MATCHING: different address calculation for static_cast<ParamIO*>(res)->getPath()
 template <typename T>
 T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::ResourceType type,
-                                      void*) {
+                                      void* _unused) {
     const s32 current_idx = *idx;
     auto& handle = param->mHandles[param->mActiveBufferIdx][current_idx];
     *idx = current_idx + 1;
 
     if (ActorParam::isValidType(type)) {
-        if (auto* res = static_cast<T*>(param->getRes().mArray[u32(type)]))
+        if (auto* res = static_cast<T*>(param->getRes().mArray[s32(type)]))
             return res;
     }
 
@@ -313,7 +313,7 @@ T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::R
     handle.parseResource(nullptr);
 
     if (handle.checkLoadStatus() && type != Type::EventFlow)
-        param->_a = 1;
+        param->_a = true;
 
     auto* res = sead::DynamicCast<T>(handle.getResource());
     if (res) {
@@ -344,72 +344,72 @@ bool ActorParamMgr::finishLoadingActorLink(ActorParam* param, void* x) {
 }
 
 void ActorParamMgr::loadParamAsyncStep2(ActorParam* param, res::Handle* pack_handle, void* x,
-                                        u32 load_req_c) {
+                                        u32 res_lane_id) {
     const auto* link = param->getRes().mActorLink;
 
     loadFileAsync<res::ModelList>(param, Type::ModelList, "Actor/ModelList", "modellist",
-                                  link->getUsers().getModel(), pack_handle, x, load_req_c);
+                                  link->getUsers().getModel(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::UMii>(param, Type::UMii, "Actor/UMii", "umii", link->getUsers().getUMii(),
-                             pack_handle, x, load_req_c);
+                             pack_handle, x, res_lane_id);
 
     loadFileAsync<res::ASList>(param, Type::ASList, "Actor/ASList", "aslist",
-                               link->getUsers().getAS(), pack_handle, x, load_req_c);
+                               link->getUsers().getAS(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::AttClientList>(param, Type::AttClientList, "Actor/AttClientList", "atcllist",
                                       link->getUserName(User::Attention), pack_handle, x,
-                                      load_req_c);
+                                      res_lane_id);
 
     loadFileAsync<res::RagdollConfigList>(param, Type::RagdollConfigList, "Actor/RagdollConfigList",
                                           "rgconfiglist", link->getUserName(User::RgConfigList),
-                                          pack_handle, x, load_req_c);
+                                          pack_handle, x, res_lane_id);
 
     loadFileAsync<res::AIProgram>(param, Type::AIProgram, "Actor/AIProgram", "aiprog",
-                                  link->getUsers().getAIProgram(), pack_handle, x, load_req_c);
+                                  link->getUsers().getAIProgram(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::GParamList>(param, Type::GParamList, "Actor/GeneralParamList", "gparamlist",
-                                   link->getUsers().getGParam(), pack_handle, x, load_req_c);
+                                   link->getUsers().getGParam(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::Physics>(param, Type::Physics, "Actor/Physics", "physics",
-                                link->getUsers().getPhysics(), pack_handle, x, load_req_c);
+                                link->getUsers().getPhysics(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::Chemical>(param, Type::Chemical, "Actor/Chemical", "chemical",
-                                 link->getUsers().getChemical(), pack_handle, x, load_req_c);
+                                 link->getUsers().getChemical(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::DamageParam>(param, Type::DamageParam, "Actor/DamageParam", "dmgparam",
-                                    link->getUsers().getDamageParam(), pack_handle, x, load_req_c);
+                                    link->getUsers().getDamageParam(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::RagdollBlendWeight>(
         param, Type::RagdollBlendWeight, "Actor/RagdollBlendWeight", "rgbw",
-        link->getUsers().getRgBlendWeight(), pack_handle, x, load_req_c);
+        link->getUsers().getRgBlendWeight(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::Awareness>(param, Type::Awareness, "Actor/Awareness", "awareness",
-                                  link->getUsers().getAwareness(), pack_handle, x, load_req_c);
+                                  link->getUsers().getAwareness(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::Drop>(param, Type::DropTable, "Actor/DropTable", "drop",
-                             link->getUsers().getDropTable(), pack_handle, x, load_req_c);
+                             link->getUsers().getDropTable(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::Shop>(param, Type::ShopData, "Actor/ShopData", "shop",
-                             link->getUsers().getShopData(), pack_handle, x, load_req_c);
+                             link->getUsers().getShopData(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::Recipe>(param, Type::Recipe, "Actor/Recipe", "recipe",
-                               link->getUsers().getRecipe(), pack_handle, x, load_req_c);
+                               link->getUsers().getRecipe(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::Lod>(param, Type::Lod, "Actor/LOD", "lod", link->getUsers().getLOD(),
-                            pack_handle, x, load_req_c);
+                            pack_handle, x, res_lane_id);
 
     loadFileAsync<res::AISchedule>(param, Type::AISchedule, "Actor/AISchedule", "aischedule",
-                                   link->getUsers().getAISchedule(), pack_handle, x, load_req_c);
+                                   link->getUsers().getAISchedule(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::BoneControl>(param, Type::BoneControl, "Actor/BoneControl", "bonectrl",
-                                    link->getUsers().getBoneControl(), pack_handle, x, load_req_c);
+                                    link->getUsers().getBoneControl(), pack_handle, x, res_lane_id);
 
     loadFileAsync<res::LifeCondition>(param, Type::LifeCondition, "Actor/LifeCondition",
                                       "lifecondition", link->getUsers().getLifeCondition(),
-                                      pack_handle, x, load_req_c);
+                                      pack_handle, x, res_lane_id);
 
     loadFileAsync<res::AnimInfo>(param, Type::AnimationInfo, "Actor/AnimationInfo", "animinfo",
-                                 link->getUsers().getAnimationInfo(), pack_handle, x, load_req_c);
+                                 link->getUsers().getAnimationInfo(), pack_handle, x, res_lane_id);
 }
 
 bool ActorParamMgr::finishLoadingStep2(ActorParam* param, void* x) {
@@ -479,7 +479,7 @@ bool ActorParamMgr::finishLoadingStep2(ActorParam* param, void* x) {
 }
 
 void ActorParamMgr::loadExtraResAsync(ActorParam* param, res::Handle* pack_handle, void* x,
-                                      u32 load_req_c) {
+                                      u32 res_lane_id) {
     const auto* aslist = param->getRes().mASList;
     const auto* atcllist = param->getRes().mAttClientList;
     const auto* rgconfiglist = param->getRes().mRagdollConfigList;
@@ -495,7 +495,7 @@ void ActorParamMgr::loadExtraResAsync(ActorParam* param, res::Handle* pack_handl
         for (s32 i = 0; i < num_as; ++i) {
             loadFileAsync<res::AS>(param, Type::AS, "Actor/AS", "as",
                                    aslist->getASDefines()[i].getFileName(), pack_handle, x,
-                                   load_req_c);
+                                   res_lane_id);
         }
     }
 
@@ -503,7 +503,7 @@ void ActorParamMgr::loadExtraResAsync(ActorParam* param, res::Handle* pack_handl
         for (s32 i = 0; i < num_att; ++i) {
             loadFileAsync<res::AttClient>(param, Type::AttClient, "Actor/AttClient", "atcl",
                                           atcllist->getClients()[i].getFileName(), pack_handle, x,
-                                          load_req_c);
+                                          res_lane_id);
         }
     }
 
@@ -511,7 +511,7 @@ void ActorParamMgr::loadExtraResAsync(ActorParam* param, res::Handle* pack_handl
         for (s32 i = 0; i < num_rg; ++i) {
             loadFileAsync<res::RagdollConfig>(
                 param, Type::RagdollConfig, "Actor/RagdollConfig", "rgconfig",
-                rgconfiglist->getImpulseParams()[i].getFileName(), pack_handle, x, load_req_c);
+                rgconfiglist->getImpulseParams()[i].getFileName(), pack_handle, x, res_lane_id);
         }
     }
 }
@@ -627,16 +627,16 @@ void ActorParamMgr::allocExtraResHandles(ActorParam* param, sead::Heap* heap) co
 }
 
 void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Handle* pack_handle,
-                                   void* x, u32 load_req_c) {
+                                   void* x, u32 res_lane_id) {
     const auto* link = param->getRes().mActorLink;
     param->mActiveBufferIdx = 0;
 
     loadFile<res::AttClientList>(param, Type::AttClientList, "Actor/AttClientList", "atcllist",
-                                 link->getUserName(User::Attention), pack_handle, x, load_req_c);
+                                 link->getUserName(User::Attention), pack_handle, x, res_lane_id);
 
     loadFile<res::RagdollConfigList>(param, Type::RagdollConfigList, "Actor/RagdollConfigList",
                                      "rgconfiglist", link->getUserName(User::RgConfigList),
-                                     pack_handle, x, load_req_c);
+                                     pack_handle, x, res_lane_id);
 
     // Start loading the extra ActorParam files.
     allocExtraResHandles(param, heap);
@@ -646,7 +646,7 @@ void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Han
         for (s32 i = 0; i < aslist->getASDefines().size(); ++i) {
             auto* as = loadFile<res::AS>(param, Type::AS, "Actor/AS", "as",
                                          aslist->getASDefines()[i].getFileName(), pack_handle, x,
-                                         load_req_c);
+                                         res_lane_id);
             if (as) {
                 as->setIndex(u32(Type::AS));
                 aslist->addAS_(i, as);
@@ -658,7 +658,7 @@ void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Han
         for (s32 i = 0; i < list->getClients().size(); ++i) {
             auto* client = loadFile<res::AttClient>(param, Type::AttClient, "Actor/AttClient",
                                                     "atcl", list->getClients()[i].getFileName(),
-                                                    pack_handle, x, load_req_c);
+                                                    pack_handle, x, res_lane_id);
             if (client) {
                 client->setIndex(u32(Type::AttClient));
                 list->addClient_(i, client);
@@ -670,7 +670,7 @@ void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Han
         for (s32 i = 0; i < list->getImpulseParams().size(); ++i) {
             auto* config = loadFile<res::RagdollConfig>(
                 param, Type::RagdollConfig, "Actor/RagdollConfig", "rgconfig",
-                list->getImpulseParams()[i].getFileName(), pack_handle, x, load_req_c);
+                list->getImpulseParams()[i].getFileName(), pack_handle, x, res_lane_id);
             if (config) {
                 config->setIndex(u32(Type::RagdollConfig));
                 list->addImpulseParamConfig_(i, config);
@@ -683,50 +683,50 @@ void ActorParamMgr::loadFilesStep2(ActorParam* param, sead::Heap* heap, res::Han
     param->mActiveBufferIdx = 0;
 
     loadFile<res::AIProgram>(param, Type::AIProgram, "Actor/AIProgram", "aiprog",
-                             link->getUsers().getAIProgram(), pack_handle, x, load_req_c);
+                             link->getUsers().getAIProgram(), pack_handle, x, res_lane_id);
 
     loadFile<res::GParamList>(param, Type::GParamList, "Actor/GeneralParamList", "gparamlist",
-                              link->getUsers().getGParam(), pack_handle, x, load_req_c);
+                              link->getUsers().getGParam(), pack_handle, x, res_lane_id);
 
     loadFile<res::Physics>(param, Type::Physics, "Actor/Physics", "physics",
-                           link->getUsers().getPhysics(), pack_handle, x, load_req_c);
+                           link->getUsers().getPhysics(), pack_handle, x, res_lane_id);
 
     loadFile<res::Chemical>(param, Type::Chemical, "Actor/Chemical", "chemical",
-                            link->getUsers().getChemical(), pack_handle, x, load_req_c);
+                            link->getUsers().getChemical(), pack_handle, x, res_lane_id);
 
     loadFile<res::DamageParam>(param, Type::DamageParam, "Actor/DamageParam", "dmgparam",
-                               link->getUsers().getDamageParam(), pack_handle, x, load_req_c);
+                               link->getUsers().getDamageParam(), pack_handle, x, res_lane_id);
 
     loadFile<res::RagdollBlendWeight>(param, Type::RagdollBlendWeight, "Actor/RagdollBlendWeight",
                                       "rgbw", link->getUsers().getRgBlendWeight(), pack_handle, x,
-                                      load_req_c);
+                                      res_lane_id);
 
     loadFile<res::Awareness>(param, Type::Awareness, "Actor/Awareness", "awareness",
-                             link->getUsers().getAwareness(), pack_handle, x, load_req_c);
+                             link->getUsers().getAwareness(), pack_handle, x, res_lane_id);
 
     loadFile<res::Drop>(param, Type::DropTable, "Actor/DropTable", "drop",
-                        link->getUsers().getDropTable(), pack_handle, x, load_req_c);
+                        link->getUsers().getDropTable(), pack_handle, x, res_lane_id);
 
     loadFile<res::Shop>(param, Type::ShopData, "Actor/ShopData", "shop",
-                        link->getUsers().getShopData(), pack_handle, x, load_req_c);
+                        link->getUsers().getShopData(), pack_handle, x, res_lane_id);
 
     loadFile<res::Recipe>(param, Type::Recipe, "Actor/Recipe", "recipe",
-                          link->getUsers().getRecipe(), pack_handle, x, load_req_c);
+                          link->getUsers().getRecipe(), pack_handle, x, res_lane_id);
 
     loadFile<res::Lod>(param, Type::Lod, "Actor/LOD", "lod", link->getUsers().getLOD(), pack_handle,
-                       x, load_req_c);
+                       x, res_lane_id);
 
     loadFile<res::AISchedule>(param, Type::AISchedule, "Actor/AISchedule", "aischedule",
-                              link->getUsers().getAISchedule(), pack_handle, x, load_req_c);
+                              link->getUsers().getAISchedule(), pack_handle, x, res_lane_id);
 
     loadFile<res::BoneControl>(param, Type::BoneControl, "Actor/BoneControl", "bonectrl",
-                               link->getUsers().getBoneControl(), pack_handle, x, load_req_c);
+                               link->getUsers().getBoneControl(), pack_handle, x, res_lane_id);
 
     loadFile<res::LifeCondition>(param, Type::LifeCondition, "Actor/LifeCondition", "lifecondition",
-                                 link->getUsers().getLifeCondition(), pack_handle, x, load_req_c);
+                                 link->getUsers().getLifeCondition(), pack_handle, x, res_lane_id);
 
     loadFile<res::AnimInfo>(param, Type::AnimationInfo, "Actor/AnimationInfo", "animinfo",
-                            link->getUsers().getAnimationInfo(), pack_handle, x, load_req_c);
+                            link->getUsers().getAnimationInfo(), pack_handle, x, res_lane_id);
 
     param->_9 = 0;
     param->onLoadFinished(this);
@@ -741,7 +741,7 @@ bool ActorParamMgr::prepareLoadFromActorPack(sead::BufferedSafeString* path, res
                                              void*, const sead::SafeString& dir_name,
                                              const sead::SafeString& extension,
                                              const sead::SafeString& file_name,
-                                             res::Handle* pack_handle, u32 load_req_c,
+                                             res::Handle* pack_handle, u32 res_lane_id,
                                              const sead::SafeString& requester) {
     path->format("%s/%s.b%s", dir_name.cstr(), file_name.cstr(), extension.cstr());
 
@@ -764,14 +764,14 @@ bool ActorParamMgr::prepareLoadFromActorPack(sead::BufferedSafeString* path, res
         req->_24 = false;
     }
 
-    req->_c = load_req_c;
+    req->mLaneId = res_lane_id;
     req->mRequester = requester;
     req->_8 = true;
     return ret;
 }
 
 res::Archive* ActorParamMgr::loadActorPack(res::Handle* handle, const sead::SafeString& actor_name,
-                                           u32 load_req_c) {
+                                           u32 res_lane_id) {
     sead::FixedSafeString<128> path;
     res::TempResourceLoader::LoadArg arg;
     arg.retry_on_failure = true;
@@ -782,7 +782,7 @@ res::Archive* ActorParamMgr::loadActorPack(res::Handle* handle, const sead::Safe
 
     path.format("Actor/Pack/%s.bactorpack", actor_name.cstr());
     arg.load_req.mRequester = actor_name;
-    arg.load_req._c = load_req_c;
+    arg.load_req.mLaneId = res_lane_id;
     arg.load_req._8 = true;
     arg.load_req._28 = false;
     arg.load_req.mPath = path;
@@ -797,14 +797,14 @@ res::Archive* ActorParamMgr::loadActorPack(res::Handle* handle, const sead::Safe
     res::SimpleLoadRequest req;
     req.mRequester = "tap::ActorParamMgr";
     req.mPath = path;
-    req._c = 2;
+    req.mLaneId = 2;
     return sead::DynamicCast<res::Archive>(handle->load(path, &req));
 }
 
 template <typename T>
 T* ActorParamMgr::loadFile(ActorParam* param, ActorParam::ResourceType type, const char* dir_name_c,
                            const char* extension_c, const char* name_c, res::Handle* pack_handle,
-                           void* x, u32 load_req_c) {
+                           void* x, u32 res_lane_id) {
     const sead::SafeString name = name_c;
     const sead::SafeString extension = extension_c;
     sead::FixedSafeString<128> path;
@@ -821,18 +821,18 @@ T* ActorParamMgr::loadFile(ActorParam* param, ActorParam::ResourceType type, con
             actor_name = &param->getActorName();
             req.mRequester = *actor_name;
             req.mPath = path;
-            req._c = 2;
+            req.mLaneId = 2;
             res = sead::DynamicCast<T>(temp_handle->load(path, &req));
         }
 
         // If loading the resource from the RomFS has failed, try to load it from the actor pack.
         if (!res) {
             if (!pack_handle->isSuccess())
-                loadActorPack(pack_handle, *actor_name, load_req_c);
+                loadActorPack(pack_handle, *actor_name, res_lane_id);
 
             res::LoadRequest req;
             prepareLoadFromActorPack(&path, &req, x, dir_name_c, extension_c, name_c, pack_handle,
-                                     load_req_c, *actor_name);
+                                     res_lane_id, *actor_name);
             res = sead::DynamicCast<T>(temp_handle->load(path, &req));
 
             if (!res) {
@@ -868,7 +868,7 @@ T* ActorParamMgr::loadFile(ActorParam* param, ActorParam::ResourceType type, con
     }
 
     if (extension != "fevfl")
-        param->_a = 1;
+        param->_a = true;
 
     // Fall back to using the dummy resource.
     res = sead::DynamicCast<T>(mDummyResources[s32(type)].getResource());
