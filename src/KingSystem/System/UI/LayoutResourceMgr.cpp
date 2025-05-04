@@ -179,7 +179,7 @@ void LayoutResourceMgr::loadTitleLayout(sead::Heap* heap) {
     req.mLoadDataAlignment = 0x1000;
     req._22 = false;
     req._26 = false;
-    req._c = 2;
+    req.mLaneId = 2;
 
     res::Handle::Status status = res::Handle::Status::NoFile;
     mTitleLayout.getHandle()->requestLoad("Layout/Title.blarc", &req, &status);
@@ -207,7 +207,7 @@ bool LayoutResourceMgr::loadHorseLayout(sead::Heap* heap) {
     req.mLoadDataAlignment = 0x1000;
     req._22 = false;
     req._26 = true;
-    req._c = 2;
+    req.mLaneId = 2;
 
     res::Handle::Status status = res::Handle::Status::NoFile;
     mHorseLayout.getHandle()->requestLoad("Layout/Horse.blarc", &req, &status);

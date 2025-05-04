@@ -82,6 +82,8 @@ target_sources(uking PRIVATE
   ParamIO.cpp
   ParamIO.h
   SafeDelete.h
+  TrackerStub.cpp
+  TrackerStub.h
   TypeTraits.h
   Types.h
 )

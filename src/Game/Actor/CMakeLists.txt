@@ -1,8 +1,10 @@
 target_sources(uking PRIVATE
-  actCreatePlayerEquipActorMgr.cpp
-  actCreatePlayerEquipActorMgr.h
   actDragon.cpp
   actDragon.h
+  actPlayerCreateMgr.cpp
+  actPlayerCreateMgr.h
+  actPlayerCreateUtils.cpp
+  actPlayerCreateUtils.h
   actWeapon.cpp
   actWeapon.h
 )

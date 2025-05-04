@@ -33,7 +33,7 @@ bool ResourceInfoContainer::loadResourceSizeTable() {
         req._34 = 0;
         req.mRequester = "ResourceInfoContainer";
         req.mPath = "System/Resource/ResourceSizeTable.product.rsizetable";
-        req._c = 1;
+        req.mLaneId = 1;
         return sead::DynamicCast<Resource>(mRstbHandle.load(req.mPath, &req));
     };
 
