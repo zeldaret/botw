@@ -195,6 +195,7 @@ public:
 
     PouchItemType getType() const { return mType; }
     bool isEquipped() const { return mEquipped; }
+    void setEquipped(bool equipped) { mEquipped = equipped; }
     bool isInInventory() const { return mInInventory; }
     const sead::SafeString& getName() const { return mName; }
     ItemUse getItemUse() const { return mItemUse; }
@@ -417,6 +418,15 @@ private:
             item->~PouchItem();
             new (item) PouchItem;
             list2.pushFront(item);
+        }
+
+        PouchItem* pushNewItem() {
+            auto* item = list2.popFront();
+            if (!item) {
+                return nullptr;
+            }
+            list1.pushBack(item);
+            return item;
         }
 
         sead::OffsetList<PouchItem> list1;
