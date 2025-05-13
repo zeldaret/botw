@@ -3,11 +3,8 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcUnit.h"
-#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::act {
-
-static util::InitTimeInfo sInfo;
 
 BaseProcHandle::BaseProcHandle() = default;
 
