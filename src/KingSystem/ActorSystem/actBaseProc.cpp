@@ -2,13 +2,16 @@
 #include <thread/seadThread.h>
 #include <time/seadTickSpan.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
-#include "KingSystem/ActorSystem/actBaseProcUnit.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::act {
+
+static util::InitTimeInfo sInfo;
 
 BaseProc::BaseProc(const CreateArg& arg)
     : mName(arg.actor_name), mPriority(arg.class_info->priority) {
