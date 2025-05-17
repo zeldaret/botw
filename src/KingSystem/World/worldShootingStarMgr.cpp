@@ -121,7 +121,7 @@ void ShootingStarMgr::spawnStar() {
     sead::Vector3f pos;
     tryGetStarPosition(&pos);
 
-    pack.getBuffer().add(pos, "@P");
+    pack->addPosition(pos);
     act::ActorCreator::instance()->requestCreateActor("FldObj_ShootingStar",
                                                       act::BaseProcHeapMgr::instance()->getHeap(),
                                                       nullptr, &pack, nullptr, 1);
