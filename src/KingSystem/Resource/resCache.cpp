@@ -118,7 +118,7 @@ Handle::Status Cache::loadResource(const ControlTaskData& data) {
     }
 
     u8 lane_id = 0xff;
-    if (data.mResLoadReq._c <= 2) {
+    if (data.mResLoadReq.mLaneId <= 2) {
         const bool x = result->mStatusFlags.isOn(ResourceUnit::StatusFlag::LoadFromArchive);
 #ifdef MATCHING_HACK_NX_CLANG
         // This makes absolutely no sense at all, but this prevents InstCombine from
@@ -127,7 +127,7 @@ Handle::Status Cache::loadResource(const ControlTaskData& data) {
         // so the conditional still works fine.
         __builtin_assume(x);
 #endif
-        lane_id = 2 * data.mResLoadReq._c + (x ? 1 : 2);
+        lane_id = 2 * data.mResLoadReq.mLaneId + (x ? 1 : 2);
     }
 
     ResourceUnit::RequestInitLoadArg load_arg;

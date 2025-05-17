@@ -48,7 +48,7 @@ bool ResourceUnit::init(const ResourceUnit::InitArg& arg) {
         SimplePackedLoadRequest request;
         request._8 = true;
         request.mRequester = "ResourceUnit";
-        request._c = 2;
+        request.mLaneId = 2;
         request.mPack = arg.load_req->mPackHandle;
         mArchiveRes = sead::DynamicCast<sead::ArchiveRes>(mArchiveResHandle.load("", &request));
     }
