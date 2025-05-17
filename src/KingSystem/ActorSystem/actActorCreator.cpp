@@ -225,7 +225,7 @@ void ActorCreator::setCreatePriorityState1(InstParamPack& pack, BaseProc* proc) 
 void ActorCreator::setCreatePriorityState2(InstParamPack& pack, BaseProc* proc) {
     pack.setProc(proc);
     proc->setCreatePriorityState2();
-    pack.getBuffer().add(true, "@W");
+    pack->addWait();
 }
 
 }  // namespace ksys::act

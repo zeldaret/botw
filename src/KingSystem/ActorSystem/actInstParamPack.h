@@ -99,6 +99,25 @@ public:
 
         bool pop(s32* position, Entry* out_entry);
 
+        // helpers for @-params
+        void addPosition(const sead::Vector3f& arg) { add(arg, "@P"); }
+        void addRotation(const sead::Vector3f& arg) { add(arg, "@R"); }
+        void addMatrix(const sead::Matrix34f& arg) { add(arg, "@M"); }
+        void addScale(const sead::Vector3f& arg) { add(arg, "@S"); }
+        void addDelegate(ActorCallback* arg) { add(arg, "@D"); }
+        void addDeleteDistanceSq(float arg) { add(arg, "@DD"); }
+        void addTranslationVelocity(const sead::Vector3f& arg) { add(arg, "@TV"); }
+        void addRotationVelocity(const sead::Vector3f& arg) { add(arg, "@RV"); }
+        void addModelUser(const sead::SafeString& arg) { add(arg, "@MU"); }
+        void addResourceLane(int arg) { add(arg, "@RL"); }
+        // TODO below: name TBD
+        void addWait() { add(true, "@W"); }
+        void addPlayerControl() { add(true, "@PC"); }
+        void addNoDisplay() { add(true, "@ND"); }
+        void addDisableCapture() { add(true, "@DC"); }
+        void addSystemBits() { add(true, "@SB"); }  // 0x7100dc9594 might have a clue
+        void addMA(int arg) { add(arg, "@MA"); }    // 0x710090e78c
+
     private:
         void writeBytes(const void* value, s32 size) {
             sead::MemUtil::copy(&mData[mPosition], value, size);
