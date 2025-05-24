@@ -8,8 +8,8 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-    - uses: DoozyX/clang-format-lint-action@v0.18
+    - uses: DoozyX/clang-format-lint-action@v0.18.2
       with:
         source: 'src'
         exclude: 'lib'
-        clangFormatVersion: 12
+        clangFormatVersion: 19
