@@ -3,7 +3,9 @@
 namespace ksys::gdt::flagname {
 
 #define GDT_DEFINE_SPECIAL_FLAG_NAME(name)                                                         \
-    const char* name() { return #name; }
+    const char* name() {                                                                           \
+        return #name;                                                                              \
+    }
 
 GDT_DEFINE_SPECIAL_FLAG_NAME(Aoc_HardMode_Enabled)
 GDT_DEFINE_SPECIAL_FLAG_NAME(BowPorchStockNum)

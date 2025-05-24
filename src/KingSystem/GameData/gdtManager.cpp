@@ -527,7 +527,9 @@ GDT_SET_IMPL_(setVec4f, detail::SetterTraits<sead::Vector4f>)
             return false;                                                                          \
         return getParam().get1().NAME(name);                                                       \
     }                                                                                              \
-    bool Manager::NAME##_(const sead::SafeString& name) { return NAME(name); }                     \
+    bool Manager::NAME##_(const sead::SafeString& name) {                                          \
+        return NAME(name);                                                                         \
+    }                                                                                              \
     bool Manager::NAME(const sead::SafeString& name, int sub_idx) {                                \
         if (mBitFlags.isOn(BitFlag::_40000))                                                       \
             return false;                                                                          \

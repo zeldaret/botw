@@ -99,8 +99,7 @@ const hkQsTransformf& BoneAccessor::getBoneModelSpace(const BoneAccessor::Indice
 #ifdef MATCHING_HACK_NX_CLANG
 [[gnu::noinline]]
 #endif
-sead::SafeString
-BoneAccessor::getBoneName(const sead::SafeString& name) {
+sead::SafeString BoneAccessor::getBoneName(const sead::SafeString& name) {
     int substr_index = 0;
 
     int separator_index = name.rfindIndex(":");
