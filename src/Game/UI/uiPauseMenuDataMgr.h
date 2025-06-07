@@ -9,6 +9,7 @@
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadScopedLock.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/Cooking/cookManager.h"
@@ -55,6 +56,7 @@ constexpr int ItemStackSizeMax = 999;
 // Maximum number of tabs (pages with 20 items) you can have.
 // Going beyond this limit will glitch the menu.
 constexpr int NumTabMax = 50;
+constexpr int SizeTabMax = 20;
 
 constexpr int NumGrabbableItems = 5;
 
@@ -240,6 +242,7 @@ public:
         if (isWeapon())
             mData.weapon.mModifierValue = value;
     }
+    void setWeaponModifierInfo(const act::WeaponModifierInfo* info);
 
     static auto getListNodeOffset() { return offsetof(PouchItem, mListNode); }
 
@@ -393,6 +396,12 @@ public:
     bool useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item);
 
     void grabbedItemStuff(PouchItem* item);
+    PouchCategory getTabCategory(int tab_index);
+    const sead::SafeString* getNameFromTabSlot(int tab_index, int slot_index);
+    PouchItem* getPouchItemFromTabSlot(int tab_index, int slot_index);
+    bool isInInventoryFromTabSlot(int tab_index, int slot_index);
+    bool isEquippedFromTabSlot(int tab_index, int slot_index);
+    const sead::SafeString* equipFromTabSlot(int tab_index, int slot_index);
 
 private:
     // TODO: rename
@@ -422,10 +431,9 @@ private:
 
         PouchItem* pushNewItem() {
             auto* item = list2.popFront();
-            if (!item) {
-                return nullptr;
+            if (item) {
+                list1.pushBack(item);
             }
-            list1.pushBack(item);
             return item;
         }
 
@@ -507,6 +515,11 @@ private:
     /// @param num_cleared_beasts The number of divine beasts that have been done.
     void updateDivineBeastClearFlags(int num_cleared_beasts);
 
+    void useMaybe(int tab_index, int slot_index, int quantity);
+    void sellItem(PouchItem* target_item, int quantity);
+    int getWeaponsForDpad(sead::SafeArray<PouchItem*, 20>* result_array, PouchItemType target_type);
+    int getNumberOfItemsInTab(int tab_index);
+
     mutable sead::CriticalSection mCritSection;
     Lists mItemLists;
     sead::SafeArray<PouchItem**, NumPouchCategories> mListHeads;
@@ -521,11 +534,11 @@ private:
     s32 _444f8 = -1;
     s32 _444fc{};
     s32 _44500 = -1;
-    u32 _44504{};
-    u32 _44508{};
-    u32 _4450c{};
-    u32 _44510{};
-    u32 _44514{};
+    u32 mNumSmallSwords{};
+    u32 mNumLargeSwords{};
+    u32 mNumSpears{};
+    u32 mNumShields{};
+    u32 mNumBows{};
     PouchItem* mRitoSoulItem{};
     PouchItem* mGoronSoulItem{};
     PouchItem* mZoraSoulItem{};
