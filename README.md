@@ -11,7 +11,7 @@
 [contributors]: https://github.com/zeldaret/botw/graphs/contributors
 [contributors-badge]: https://img.shields.io/github/contributors/zeldaret/botw
 
-[discord]: https://discord.zelda64.dev
+[discord]: https://discord.zelda.deco.mp
 [discord-badge]: https://img.shields.io/discord/688807550715560050?color=%237289DA&logo=discord&logoColor=%23FFFFFF
 
 This is an experimental, WIP decompilation of *The Legend of Zelda: Breath of the Wild* v1.5.0 (Switch).
