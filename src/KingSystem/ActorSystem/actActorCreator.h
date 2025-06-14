@@ -12,7 +12,6 @@
 namespace ksys::map {
 class MubinIter;
 class Object;
-;
 }  // namespace ksys::map
 
 namespace ksys::act {
