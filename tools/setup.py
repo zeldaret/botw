@@ -14,16 +14,16 @@ TARGET_PATH = setup.get_target_path()
 TARGET_ELF_PATH = setup.get_target_elf_path()
 
 
-def _download_v160_to_v150_patch(dest: Path):
+def _download_v181_to_v150_patch(dest: Path):
     print(">>>> downloading patch...")
-    urllib.request.urlretrieve("https://s.botw.link/v150_downgrade/v160_to_v150.patch", dest)
+    urllib.request.urlretrieve("https://s.botw.link/v150_downgrade/v181_to_v150.patch", dest)
 
 
 def prepare_executable(original_nso: Optional[Path]):
     COMPRESSED_V150_HASH = "898dc199301f7c419be5144bb5cb27e2fc346e22b27345ba3fb40c0060c2baf8"
     UNCOMPRESSED_V150_HASH = "d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106"
-    COMPRESSED_V160_HASH = "15cfca7b89348956f85d945fade2e215a6af5991ed1071e181f97ca72f7ae20b"
-    UNCOMPRESSED_V160_HASH = "8a2fc8b1111a35a76fd2d53a8670599da4a7a9706a3d91215d30fd62149f00c1"
+    COMPRESSED_V181_HASH = "92a2ff88205a00ba3eaaf7c1cd3e247220c93eafefa48d7b7b1d6b97e444bb5e"
+    UNCOMPRESSED_V181_HASH = "efccff3dd89599f54d7889e339b240565ad4a21c6478a7264808b702a7d264c4"
 
     # The uncompressed v1.5.0 main NSO.
     TARGET_HASH = UNCOMPRESSED_V150_HASH
@@ -49,23 +49,23 @@ def prepare_executable(original_nso: Optional[Path]):
         print(">>> found compressed 1.5.0 NSO")
         setup._decompress_nso(original_nso, TARGET_PATH)
 
-    elif nso_hash == UNCOMPRESSED_V160_HASH:
-        print(">>> found uncompressed 1.6.0 NSO")
+    elif nso_hash == UNCOMPRESSED_V181_HASH:
+        print(">>> found uncompressed 1.8.1 NSO")
 
         with tempfile.TemporaryDirectory() as tmpdir:
             patch_path = Path(tmpdir) / "patch"
-            _download_v160_to_v150_patch(patch_path)
+            _download_v181_to_v150_patch(patch_path)
             setup._apply_xdelta3_patch(original_nso, patch_path, TARGET_PATH)
 
-    elif nso_hash == COMPRESSED_V160_HASH:
-        print(">>> found compressed 1.6.0 NSO")
+    elif nso_hash == COMPRESSED_V181_HASH:
+        print(">>> found compressed 1.8.1 NSO")
 
         with tempfile.TemporaryDirectory() as tmpdir:
             patch_path = Path(tmpdir) / "patch"
-            decompressed_nso_path = Path(tmpdir) / "v160.nso"
+            decompressed_nso_path = Path(tmpdir) / "v181.nso"
 
             setup._decompress_nso(original_nso, decompressed_nso_path)
-            _download_v160_to_v150_patch(patch_path)
+            _download_v181_to_v150_patch(patch_path)
             setup._apply_xdelta3_patch(decompressed_nso_path, patch_path, TARGET_PATH)
 
     else:
@@ -97,7 +97,7 @@ def main():
     parser = argparse.ArgumentParser(
         "setup.py", description="Set up the Breath of the Wild decompilation project")
     parser.add_argument("original_nso", type=Path,
-                        help="Path to the original NSO (1.5.0 or 1.6.0, compressed or not)", nargs="?")
+                        help="Path to the original NSO (1.5.0 or 1.8.1, compressed or not)", nargs="?")
     args = parser.parse_args()
 
     setup.install_viking()
