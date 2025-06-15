@@ -13,7 +13,6 @@
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -22,7 +21,6 @@
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
-#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/HeapUtil.h"
@@ -1252,8 +1250,8 @@ const sead::SafeString& PauseMenuDataMgr::autoEquip(PouchItem* item,
     switch (type) {
     case PouchItemType::Sword:
     case PouchItemType::Bow:
-    case PouchItemType::Arrow:
     case PouchItemType::Shield:
+    case PouchItemType::Arrow:
         for (auto& other : list) {
             if (other.getType() > PouchItemType::Shield)
                 break;
@@ -3107,7 +3105,6 @@ void PauseMenuDataMgr::useMaybe(int tab_index, int slot_index, int quantity) {
     }
     updateInventoryInfo(getItems());
     saveToGameData(getItems());
-    return;
 }
 
 PouchCategory PauseMenuDataMgr::getTabCategory(int tab_index) {
@@ -3139,15 +3136,14 @@ void PauseMenuDataMgr::sellItem(PouchItem* target_item, int quantity) {
         }
         break;
     }
-    return;
 }
 
-int PauseMenuDataMgr::getWeaponsForDpad(sead::SafeArray<PouchItem*, 20>* result_array,
-                                        PouchItemType target_type) {
+int PauseMenuDataMgr::getWeaponsForDpad(sead::SafeArray<PouchItem*, NumItemsPerTabMax>* result_array,
+                                        PouchItemType target_type) const {
     if (!result_array) {
         return 0;
     }
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < NumItemsPerTabMax; i++) {
         (*result_array)[i] = nullptr;
     }
     const auto lock = sead::makeScopedLock(mCritSection);
@@ -3158,7 +3154,7 @@ int PauseMenuDataMgr::getWeaponsForDpad(sead::SafeArray<PouchItem*, 20>* result_
     int i = 0;
     auto* item = list.nth(0);
     if (target_type != PouchItemType::Arrow) {
-        for (; item && item->isWeapon() && i < 20; item = list.next(item)) {
+        for (; item && item->isWeapon() && i < NumItemsPerTabMax; item = list.next(item)) {
             if (item->getType() == target_type &&
                 !(isMasterSwordItem(*item) && item->getValue() <= 0)) {
                 (*result_array)[i] = item;
@@ -3166,7 +3162,7 @@ int PauseMenuDataMgr::getWeaponsForDpad(sead::SafeArray<PouchItem*, 20>* result_
             }
         }
     } else {
-        for (; item && item->isWeapon() && i < 20; item = list.next(item)) {
+        for (; item && item->isWeapon() && i < NumItemsPerTabMax; item = list.next(item)) {
             if (item->getType() == PouchItemType::Arrow) {
                 (*result_array)[i] = item;
                 i++;
@@ -3176,7 +3172,7 @@ int PauseMenuDataMgr::getWeaponsForDpad(sead::SafeArray<PouchItem*, 20>* result_
     return i;
 }
 
-int PauseMenuDataMgr::getNumberOfItemsInTab(int tab_index) {
+int PauseMenuDataMgr::getNumberOfItemsInTab(int tab_index) const {
     PouchItem* first = mTabs[tab_index];
     auto& items = getItems();
     if (!first)
@@ -3201,7 +3197,7 @@ int PauseMenuDataMgr::getNumberOfItemsInTab(int tab_index) {
         for (auto* item = first; item && item->getType() == type;) {
             count++;
             item = items.next(item);
-            if (count >= SizeTabMax)
+            if (count >= NumItemsPerTabMax)
                 break;
         }
         break;
@@ -3211,7 +3207,7 @@ int PauseMenuDataMgr::getNumberOfItemsInTab(int tab_index) {
         for (auto* item = first; item && item->getType() <= type;) {
             count++;
             item = items.next(item);
-            if (count >= SizeTabMax)
+            if (count >= NumItemsPerTabMax)
                 break;
         }
         break;
@@ -3222,7 +3218,7 @@ int PauseMenuDataMgr::getNumberOfItemsInTab(int tab_index) {
     return count;
 }
 
-PouchItem* PauseMenuDataMgr::getPouchItemFromTabSlot(int tab_index, int slot_index) {
+PouchItem* PauseMenuDataMgr::getPouchItemFromTabSlot(int tab_index, int slot_index) const {
     if (tab_index >= NumTabMax) {
         return nullptr;
     }
@@ -3237,13 +3233,13 @@ PouchItem* PauseMenuDataMgr::getPouchItemFromTabSlot(int tab_index, int slot_ind
     return item;
 }
 
-const sead::SafeString* PauseMenuDataMgr::getNameFromTabSlot(int tab_index, int slot_index) {
+const sead::SafeString* PauseMenuDataMgr::getNameFromTabSlot(int tab_index, int slot_index) const {
     if (tab_index >= NumTabMax) {
         return nullptr;
     }
     int count = getNumberOfItemsInTab(tab_index);
     PouchItem* item = mTabs[tab_index];
-    if (slot_index >= count || !item) {
+    if (slot_index >= count || !item) { 
         return nullptr;
     }
     for (int i = 0; i < slot_index; i++) {
@@ -3252,7 +3248,7 @@ const sead::SafeString* PauseMenuDataMgr::getNameFromTabSlot(int tab_index, int 
     return item ? &(item->getName()) : nullptr;
 }
 
-bool PauseMenuDataMgr::isInInventoryFromTabSlot(int tab_index, int slot_index) {
+bool PauseMenuDataMgr::isInInventoryFromTabSlot(int tab_index, int slot_index) const {
     if (tab_index >= NumTabMax) {
         return false;
     }
@@ -3267,7 +3263,7 @@ bool PauseMenuDataMgr::isInInventoryFromTabSlot(int tab_index, int slot_index) {
     return item ? item->isInInventory() : false;
 }
 
-bool PauseMenuDataMgr::isEquippedFromTabSlot(int tab_index, int slot_index) {
+bool PauseMenuDataMgr::isEquippedFromTabSlot(int tab_index, int slot_index) const {
     if (tab_index >= NumTabMax) {
         return false;
     }

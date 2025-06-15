@@ -9,7 +9,6 @@
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
-#include <prim/seadScopedLock.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/Cooking/cookManager.h"
@@ -56,7 +55,7 @@ constexpr int ItemStackSizeMax = 999;
 // Maximum number of tabs (pages with 20 items) you can have.
 // Going beyond this limit will glitch the menu.
 constexpr int NumTabMax = 50;
-constexpr int SizeTabMax = 20;
+constexpr int NumItemsPerTabMax = 20;
 
 constexpr int NumGrabbableItems = 5;
 
@@ -397,11 +396,14 @@ public:
 
     void grabbedItemStuff(PouchItem* item);
     PouchCategory getTabCategory(int tab_index);
-    const sead::SafeString* getNameFromTabSlot(int tab_index, int slot_index);
-    PouchItem* getPouchItemFromTabSlot(int tab_index, int slot_index);
-    bool isInInventoryFromTabSlot(int tab_index, int slot_index);
-    bool isEquippedFromTabSlot(int tab_index, int slot_index);
+    const sead::SafeString* getNameFromTabSlot(int tab_index, int slot_index) const;
+    PouchItem* getPouchItemFromTabSlot(int tab_index, int slot_index) const;
+    bool isInInventoryFromTabSlot(int tab_index, int slot_index) const;
+    bool isEquippedFromTabSlot(int tab_index, int slot_index) const;
     const sead::SafeString* equipFromTabSlot(int tab_index, int slot_index);
+    void useMaybe(int tab_index, int slot_index, int quantity);
+    void sellItem(PouchItem* target_item, int quantity);
+    int getWeaponsForDpad(sead::SafeArray<PouchItem*, NumItemsPerTabMax>* result_array, PouchItemType target_type) const;
 
 private:
     // TODO: rename
@@ -515,10 +517,7 @@ private:
     /// @param num_cleared_beasts The number of divine beasts that have been done.
     void updateDivineBeastClearFlags(int num_cleared_beasts);
 
-    void useMaybe(int tab_index, int slot_index, int quantity);
-    void sellItem(PouchItem* target_item, int quantity);
-    int getWeaponsForDpad(sead::SafeArray<PouchItem*, 20>* result_array, PouchItemType target_type);
-    int getNumberOfItemsInTab(int tab_index);
+    int getNumberOfItemsInTab(int tab_index) const;
 
     mutable sead::CriticalSection mCritSection;
     Lists mItemLists;
