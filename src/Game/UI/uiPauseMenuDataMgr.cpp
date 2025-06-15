@@ -3138,8 +3138,8 @@ void PauseMenuDataMgr::sellItem(PouchItem* target_item, int quantity) {
     }
 }
 
-int PauseMenuDataMgr::getWeaponsForDpad(sead::SafeArray<PouchItem*, NumItemsPerTabMax>* result_array,
-                                        PouchItemType target_type) const {
+int PauseMenuDataMgr::getWeaponsForDpad(
+    sead::SafeArray<PouchItem*, NumItemsPerTabMax>* result_array, PouchItemType target_type) const {
     if (!result_array) {
         return 0;
     }
@@ -3239,7 +3239,7 @@ const sead::SafeString* PauseMenuDataMgr::getNameFromTabSlot(int tab_index, int 
     }
     int count = getNumberOfItemsInTab(tab_index);
     PouchItem* item = mTabs[tab_index];
-    if (slot_index >= count || !item) { 
+    if (slot_index >= count || !item) {
         return nullptr;
     }
     for (int i = 0; i < slot_index; i++) {

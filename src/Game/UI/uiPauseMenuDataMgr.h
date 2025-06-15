@@ -403,7 +403,8 @@ public:
     const sead::SafeString* equipFromTabSlot(int tab_index, int slot_index);
     void useMaybe(int tab_index, int slot_index, int quantity);
     void sellItem(PouchItem* target_item, int quantity);
-    int getWeaponsForDpad(sead::SafeArray<PouchItem*, NumItemsPerTabMax>* result_array, PouchItemType target_type) const;
+    int getWeaponsForDpad(sead::SafeArray<PouchItem*, NumItemsPerTabMax>* result_array,
+                          PouchItemType target_type) const;
 
 private:
     // TODO: rename
