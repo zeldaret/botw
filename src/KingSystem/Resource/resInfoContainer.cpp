@@ -33,7 +33,7 @@ bool ResourceInfoContainer::loadResourceSizeTable() {
         req._34 = 0;
         req.mRequester = "ResourceInfoContainer";
         req.mPath = "System/Resource/ResourceSizeTable.product.rsizetable";
-        req._c = 1;
+        req.mLaneId = 1;
         return sead::DynamicCast<Resource>(mRstbHandle.load(req.mPath, &req));
     };
 
@@ -48,8 +48,7 @@ bool ResourceInfoContainer::loadResourceSizeTable() {
         const auto num_entries = sead::BitUtil::bitCastPtr<s32>(data, 0x4);
         const auto num_string_entries = sead::BitUtil::bitCastPtr<s32>(data, 0x8);
 
-        auto* entries_data =
-            reinterpret_cast<const ResEntry*>(reinterpret_cast<const u8*>(data) + 0xc);
+        auto* entries_data = reinterpret_cast<const ResEntry*>(data + 0xc);
 
         if (num_entries >= 1) {
             mEntries = {num_entries, entries_data};
@@ -68,7 +67,7 @@ bool ResourceInfoContainer::loadResourceSizeTable() {
         stubbedLogFunction();
         if (resource->getRawSize() != 0) {
             const u32 num_entries = resource->getRawSize() / sizeof(ResEntry);
-            mEntries.setBuffer(num_entries,
+            mEntries.setBuffer(s32(num_entries),
                                reinterpret_cast<const ResEntry*>(resource->getRawData()));
         }
     }
