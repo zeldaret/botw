@@ -1,4 +1,5 @@
 #include "Game/UI/uiUtils.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/Damage/dmgInfoManager.h"
@@ -112,6 +113,72 @@ int getWeaponInventoryLife(const sead::SafeString& name) {
 
 bool isMasterSwordActorName(const sead::SafeString& name) {
     return name == "Weapon_Sword_070";
+}
+
+act::CreateEquipmentSlot getCreateEquipmentSlot(ui::PouchItemType type) {
+    switch (type) {
+    case ui::PouchItemType::Sword:
+        return act::CreateEquipmentSlot::WeaponSword;
+    case ui::PouchItemType::Bow:
+        return act::CreateEquipmentSlot::WeaponBow;
+    case ui::PouchItemType::Shield:
+        return act::CreateEquipmentSlot::WeaponShield;
+    case ui::PouchItemType::ArmorHead:
+        return act::CreateEquipmentSlot::ArmorHead;
+    case ui::PouchItemType::ArmorUpper:
+        return act::CreateEquipmentSlot::ArmorUpper;
+    case ui::PouchItemType::ArmorLower:
+        return act::CreateEquipmentSlot::ArmorLower;
+    default:
+        return act::CreateEquipmentSlot::Length;
+    }
+}
+
+ui::EquipmentSlot getEquipmentSlot(act::CreateEquipmentSlot slot) {
+    switch (slot) {
+    case act::CreateEquipmentSlot::WeaponSword:
+        return ui::EquipmentSlot::WeaponRight;
+    case act::CreateEquipmentSlot::WeaponShield:
+        return ui::EquipmentSlot::WeaponLeft;
+    case act::CreateEquipmentSlot::WeaponBow:
+        return ui::EquipmentSlot::WeaponBow;
+    case act::CreateEquipmentSlot::ArmorHead:
+        return ui::EquipmentSlot::ArmorHead;
+    case act::CreateEquipmentSlot::ArmorUpper:
+        return ui::EquipmentSlot::ArmorUpper;
+    case act::CreateEquipmentSlot::ArmorLower:
+        return ui::EquipmentSlot::ArmorLower;
+    default:
+        return ui::EquipmentSlot::Invalid;
+    }
+}
+
+bool createEquipmentFromItem(const ui::PouchItem* item, const sead::SafeString& caller) {
+    if (!item) {
+        return false;
+    }
+
+    auto* mgr = act::CreatePlayerEquipActorMgr::instance();
+    if (!mgr) {
+        return false;
+    }
+
+    auto type = item->getType();
+    auto slot = getCreateEquipmentSlot(type);
+    int slot_idx = (int)slot;
+
+    if (slot <= act::CreateEquipmentSlot::WeaponBow) {
+        act::WeaponModifierInfo modifier(*item);
+        mgr->requestCreateWeapon(slot_idx, item->getName(), item->getValue(), &modifier, caller);
+        return true;
+    }
+
+    if (slot <= act::CreateEquipmentSlot::ArmorLower) {
+        mgr->requestCreateArmor(slot_idx, item->getName(), item->getValue(), caller);
+        return true;
+    }
+
+    return false;
 }
 
 }  // namespace uking::ui
