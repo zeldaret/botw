@@ -1,8 +1,5 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
-#include <algorithm>
 #include <container/seadBuffer.h>
-#include <limits>
-#include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actPlayerCreateUtils.h"
@@ -102,11 +99,8 @@ struct PouchStaticData {
     sead::SafeString Obj_DLC_HeroSoul_Gerudo = "Obj_DLC_HeroSoul_Gerudo";
     sead::SafeString Obj_WarpDLC = "Obj_WarpDLC";
 
-    sead::SafeString Armor_116_Upper = "Armor_116_Upper";
-    sead::SafeString Armor_148_Upper = "Armor_148_Upper";
-    sead::SafeString Armor_149_Upper = "Armor_149_Upper";
-    sead::SafeString Armor_150_Upper = "Armor_150_Upper";
-    sead::SafeString Armor_151_Upper = "Armor_151_Upper";
+    sead::SafeString champion_tunics[5]{"Armor_116_Upper", "Armor_148_Upper", "Armor_149_Upper",
+                                        "Armor_150_Upper", "Armor_151_Upper"};
 
     sead::Buffer<CookTagInfo> cook_item_order{sCookItemOrder_.size(),
                                               sCookItemOrder_.getBufferPtr()};
@@ -299,11 +293,11 @@ void PauseMenuDataMgr::initForNewSave() {
     mIsPouchForQuest = false;
     for (auto& x : mGrabbedItems)
         x = {};
-    _44504 = {};
-    _44508 = {};
-    _4450c = {};
-    _44510 = {};
-    _44514 = {};
+    mNumSmallSwords = 0;
+    mNumLargeSwords = 0;
+    mNumSpears = 0;
+    mNumShields = 0;
+    mNumBows = 0;
     mRitoSoulItem = {};
     mGoronSoulItem = {};
     mZoraSoulItem = {};
@@ -3072,6 +3066,236 @@ void PauseMenuDataMgr::grabbedItemStuff(PouchItem* item) {
         updateInventoryInfo(getItems());
         saveToGameData(getItems());
     }
+}
+
+// NON_MATCHING: string issue + change name
+void PauseMenuDataMgr::useMaybe(int tab_index, int slot_index, int quantity) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    if (tab_index >= NumTabMax) {
+        return;
+    }
+    int count = getNumberOfItemsInTab(tab_index);
+    PouchItem* item = mTabs[tab_index];
+    if (!item || slot_index >= count) {
+        return;
+    }
+    for (int i = 0; i < slot_index; i++) {
+        item = getItems().next(item);
+    }
+    if (item) {
+        ksys::PlayReportMgr::instance()->reportDebug("PouchUse", item->getName());
+        int new_value = item->getValue() - quantity;
+        if (new_value <= 0) {
+            sead::FixedSafeString<64> name = item->getName();
+            bool found = false;
+            for (int i = 0; i < mGrabbedItems.size(); ++i) {
+                auto& item2 = mGrabbedItems[i].item;
+                if (!item2) {
+                    continue;
+                }
+                if (item2->getName() == name) {
+                    found = true;
+                    break;
+                }
+            }
+            new_value = 0;
+            item->mInInventory = found;
+            item->mEquipped = false;
+        }
+        item->mValue = new_value;
+    }
+    updateInventoryInfo(getItems());
+    saveToGameData(getItems());
+}
+
+PouchCategory PauseMenuDataMgr::getTabCategory(int tab_index) {
+    if (tab_index >= NumTabMax || tab_index > mNumTabs || tab_index < 0) {
+        return PouchCategory::Invalid;
+    }
+    return getCategoryForType(mTabsType[tab_index]);
+}
+
+void PauseMenuDataMgr::sellItem(PouchItem* target_item, int quantity) {
+    if (!target_item) {
+        return;
+    }
+    auto lock = sead::makeScopedLock(mCritSection);
+    for (auto& item : getItems()) {
+        if (&item != target_item)
+            continue;
+        if (ksys::act::InfoData::instance()->hasTag(item.getName().cstr(),
+                                                    ksys::act::tags::CanStack)) {
+            int new_value = item.getCount() - quantity;
+            if (new_value <= 0) {
+                item.mValue = 0;
+                item.mInInventory = false;
+            } else {
+                item.mValue = new_value;
+            }
+        } else {
+            item.mInInventory = false;
+        }
+        break;
+    }
+}
+
+int PauseMenuDataMgr::getWeaponsForDpad(
+    sead::SafeArray<PouchItem*, NumItemsPerTabMax>* result_array, PouchItemType target_type) const {
+    if (!result_array) {
+        return 0;
+    }
+    for (int i = 0; i < NumItemsPerTabMax; i++) {
+        (*result_array)[i] = nullptr;
+    }
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const auto& list = getItems();
+    if (list.isEmpty()) {
+        return 0;
+    }
+    int i = 0;
+    auto* item = list.nth(0);
+    if (target_type != PouchItemType::Arrow) {
+        for (; item && item->isWeapon() && i < NumItemsPerTabMax; item = list.next(item)) {
+            if (item->getType() == target_type &&
+                !(isMasterSwordItem(*item) && item->getValue() <= 0)) {
+                (*result_array)[i] = item;
+                i++;
+            }
+        }
+    } else {
+        for (; item && item->isWeapon() && i < NumItemsPerTabMax; item = list.next(item)) {
+            if (item->getType() == PouchItemType::Arrow) {
+                (*result_array)[i] = item;
+                i++;
+            }
+        }
+    }
+    return i;
+}
+
+int PauseMenuDataMgr::getNumberOfItemsInTab(int tab_index) const {
+    PouchItem* first = mTabs[tab_index];
+    auto& items = getItems();
+    if (!first)
+        return 0;
+
+    if (items.isEmpty())
+        return 0;
+    int count = 0;
+
+    auto type = first->getType();
+    if (type == PouchItemType::Bow) {
+        type = PouchItemType::Arrow;
+    } else if (isPouchItemArmor(type)) {
+        type = PouchItemType::ArmorLower;
+    }
+    switch (type) {
+    case PouchItemType::Sword:
+    case PouchItemType::Shield:
+    case PouchItemType::Material:
+    case PouchItemType::Food:
+    case PouchItemType::KeyItem: {
+        for (auto* item = first; item && item->getType() == type;) {
+            count++;
+            item = items.next(item);
+            if (count >= NumItemsPerTabMax)
+                break;
+        }
+        break;
+    }
+    case PouchItemType::Arrow:
+    case PouchItemType::ArmorLower: {
+        for (auto* item = first; item && item->getType() <= type;) {
+            count++;
+            item = items.next(item);
+            if (count >= NumItemsPerTabMax)
+                break;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+    return count;
+}
+
+PouchItem* PauseMenuDataMgr::getPouchItemFromTabSlot(int tab_index, int slot_index) const {
+    if (tab_index >= NumTabMax) {
+        return nullptr;
+    }
+    int count = getNumberOfItemsInTab(tab_index);
+    PouchItem* item = mTabs[tab_index];
+    if (slot_index >= count || !item) {
+        return nullptr;
+    }
+    for (int i = 0; i < slot_index; i++) {
+        item = nextItem(item);
+    }
+    return item;
+}
+
+const sead::SafeString* PauseMenuDataMgr::getNameFromTabSlot(int tab_index, int slot_index) const {
+    if (tab_index >= NumTabMax) {
+        return nullptr;
+    }
+    int count = getNumberOfItemsInTab(tab_index);
+    PouchItem* item = mTabs[tab_index];
+    if (slot_index >= count || !item) {
+        return nullptr;
+    }
+    for (int i = 0; i < slot_index; i++) {
+        item = nextItem(item);
+    }
+    return item ? &(item->getName()) : nullptr;
+}
+
+bool PauseMenuDataMgr::isInInventoryFromTabSlot(int tab_index, int slot_index) const {
+    if (tab_index >= NumTabMax) {
+        return false;
+    }
+    int count = getNumberOfItemsInTab(tab_index);
+    PouchItem* item = mTabs[tab_index];
+    if (!item || slot_index >= count) {
+        return false;
+    }
+    for (int i = 0; i < slot_index; i++) {
+        item = nextItem(item);
+    }
+    return item ? item->isInInventory() : false;
+}
+
+bool PauseMenuDataMgr::isEquippedFromTabSlot(int tab_index, int slot_index) const {
+    if (tab_index >= NumTabMax) {
+        return false;
+    }
+    int count = getNumberOfItemsInTab(tab_index);
+    PouchItem* item = mTabs[tab_index];
+    if (slot_index >= count || !item) {
+        return false;
+    }
+    for (int i = 0; i < slot_index; i++) {
+        item = nextItem(item);
+    }
+    return item ? item->isEquipped() : false;
+}
+
+const sead::SafeString* PauseMenuDataMgr::equipFromTabSlot(int tab_index, int slot_index) {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    if (tab_index >= NumTabMax) {
+        return &sead::SafeString::cEmptyString;
+    }
+    int count = getNumberOfItemsInTab(tab_index);
+    PouchItem* item = mTabs[tab_index];
+    if (slot_index >= count || !item) {
+        return &sead::SafeString::cEmptyString;
+    }
+    for (int i = 0; i < slot_index; i++) {
+        item = getItems().next(item);
+    }
+    if (item && item->isInInventory()) {
+        autoEquip(item, getItems());
+    }
+    return &sead::SafeString::cEmptyString;
 }
 
 }  // namespace uking::ui
