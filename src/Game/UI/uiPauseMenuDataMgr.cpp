@@ -34,6 +34,7 @@ namespace uking::ui {
 
 SEAD_SINGLETON_DISPOSER_IMPL(PauseMenuDataMgr)
 
+// NOLINTNEXTLINE(misc-use-internal-linkage)
 sead::Vector2f sEmptyCookEffect{f32(CookEffectId::None), 0};
 
 namespace {
@@ -72,7 +73,7 @@ struct PouchStaticData {
     u32 _150{};
     u32 _154{};
     u32 _158{};
-
+    // NOLINTBEGIN
     sead::SafeString WeaponSmallSword = "WeaponSmallSword";
     sead::SafeString WeaponLargeSword = "WeaponLargeSword";
     sead::SafeString WeaponSpear = "WeaponSpear";
@@ -107,6 +108,7 @@ struct PouchStaticData {
     sead::SafeString Armor_149_Upper = "Armor_149_Upper";
     sead::SafeString Armor_150_Upper = "Armor_150_Upper";
     sead::SafeString Armor_151_Upper = "Armor_151_Upper";
+    // NOLINTEND
 
     sead::Buffer<CookTagInfo> cook_item_order{sCookItemOrder_.size(),
                                               sCookItemOrder_.getBufferPtr()};
@@ -226,7 +228,9 @@ int getWeaponPowerSortValue(const PouchItem* item, ksys::act::InfoData* data) {
 
 }  // namespace
 
+// NOLINTNEXTLINE(misc-use-internal-linkage)
 int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs);
+// NOLINTNEXTLINE(misc-use-internal-linkage)
 int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs);
 
 PauseMenuDataMgr::PauseMenuDataMgr() {
@@ -363,7 +367,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
 
     for (u32 idx = 0; idx < u32(NumPouchItemsMax); ++idx) {
         const char* item_name;
-        gdt::getFlag_PorchItem(&item_name, idx);
+        gdt::getFlag_PorchItem(&item_name, s32(idx));
 
         if (found_travel_medallion || sValues.Obj_WarpDLC == item_name)
             found_travel_medallion = true;
@@ -371,8 +375,8 @@ void PauseMenuDataMgr::doLoadFromGameData() {
         if (sead::SafeString(item_name).isEmpty())
             break;
 
-        const bool equipped = gdt::getFlag_PorchItem_EquipFlag(idx);
-        const s32 value = gdt::getFlag_PorchItem_Value1(idx);
+        const bool equipped = gdt::getFlag_PorchItem_EquipFlag(s32(idx));
+        const s32 value = gdt::getFlag_PorchItem_Value1(s32(idx));
         const auto type = getType(item_name);
 
         switch (type) {
@@ -409,14 +413,14 @@ void PauseMenuDataMgr::doLoadFromGameData() {
             sead::Vector2f v{0, 0};
 
             gdt::getFlag_StaminaRecover(&v, num_food);
-            mLastAddedItem->getCookData().setHealthRecover(v.x);
-            mLastAddedItem->getCookData().setEffectDuration(v.y);
+            mLastAddedItem->getCookData().setHealthRecover(s32(v.x));
+            mLastAddedItem->getCookData().setEffectDuration(s32(v.y));
 
             gdt::getFlag_CookEffect0(&v, num_food);
             mLastAddedItem->getCookData().setEffect(v);
 
             gdt::getFlag_CookEffect1(&v, num_food);
-            mLastAddedItem->getCookData().setSellPrice(v.x);
+            mLastAddedItem->getCookData().setSellPrice(s32(v.x));
 
             gdt::getFlag_CookMaterialName0(&item_name, num_food);
             mLastAddedItem->setIngredient(0, item_name);
@@ -441,7 +445,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
                    mLastAddedItem->getValue() <= 0) {
             const s32 new_value = getWeaponInventoryLife(mLastAddedItem->getName());
             mLastAddedItem->mValue = new_value;
-            gdt::setFlag_PorchItem_Value1(new_value, idx);
+            gdt::setFlag_PorchItem_Value1(new_value, s32(idx));
         }
     }
 
@@ -663,16 +667,16 @@ int PauseMenuDataMgr::countItems(PouchItemType type, bool count_any_weapon) cons
                 count += item->isInInventory();
             }
             return count;
-
-        } else if (type <= PouchItemType::ArmorLower) {
+        }
+        if (type <= PouchItemType::ArmorLower) {
             int count = 0;
             for (auto* item = getItemHead(PouchCategory::Armor);
                  item && item->getType() <= PouchItemType::ArmorLower; item = list.next(item)) {
                 count += item->isInInventory();
             }
             return count;
-
-        } else if (type == PouchItemType::Material) {
+        }
+        if (type == PouchItemType::Material) {
             head = getItemHeadp(PouchCategory::Material);
             if (!head)
                 return 0;
@@ -759,7 +763,7 @@ bool PauseMenuDataMgr::isWeaponSectionFull(const sead::SafeString& weapon_type) 
 
         s32 num = 0;
         if (!getItems().isEmpty()) {
-            for (auto item = getItemHead(category); item; item = nextItem(item)) {
+            for (auto* item = getItemHead(category); item; item = nextItem(item)) {
                 if (item->getType() != type)
                     break;
                 num += item->mInInventory;
@@ -1081,6 +1085,7 @@ void PauseMenuDataMgr::doAddToPouch(PouchItemType type, const sead::SafeString& 
                 // when getting champion ability, it's enabled by default
                 added_item->mEquipped = true;
             }
+            // NOLINTBEGIN(bugprone-branch-clone) merging branch doesn't match
             if (sValues.Obj_HeroSoul_Zora == item_name_to_add) {
                 mZoraSoulItem = added_item;
             } else if (sValues.Obj_HeroSoul_Rito == item_name_to_add) {
@@ -1098,6 +1103,7 @@ void PauseMenuDataMgr::doAddToPouch(PouchItemType type, const sead::SafeString& 
             } else if (sValues.Obj_DLC_HeroSoul_Gerudo == item_name_to_add) {
                 mGerudoSoulItem = added_item;
             }
+            // NOLINTEND(bugprone-branch-clone)
         }
         value = std::clamp(value, 0, ItemStackSizeMax);
         ksys::gdt::setFlag_IsOpenItemCategory(true, u32(PouchCategory::KeyItem));
@@ -1677,11 +1683,11 @@ int PauseMenuDataMgr::getRealArrowCount(const sead::SafeString& name) const {
     s32 status = 2;
     for (u32 i = 0; i < u32(NumPouchItemsMax); ++i) {
         const char* item_name;
-        ksys::gdt::getFlag_PorchItem(&item_name, i);
+        ksys::gdt::getFlag_PorchItem(&item_name, s32(i));
         if (sead::SafeString(item_name).isEmpty())
             break;
         if (sead::SafeString(item_name) == name) {
-            count = ksys::gdt::getFlag_PorchItem_Value1(i);
+            count = ksys::gdt::getFlag_PorchItem_Value1(s32(i));
             status = 1;
             break;
         }
@@ -1724,8 +1730,9 @@ void PauseMenuDataMgr::restoreMasterSword(bool only_if_broken) {
     }
 }
 
-static s32 checkItemRemoval(const sead::OffsetList<PouchItem>& items, const sead::SafeString& name,
-                            int num_to_remove, bool include_equipped_items, bool stackable) {
+namespace {
+s32 checkItemRemoval(const sead::OffsetList<PouchItem>& items, const sead::SafeString& name,
+                     int num_to_remove, bool include_equipped_items, bool stackable) {
     s32 total = 0;
     for (const auto& item : items) {
         if (name == item.getName() && (stackable || include_equipped_items || !item.isEquipped())) {
@@ -1736,6 +1743,7 @@ static s32 checkItemRemoval(const sead::OffsetList<PouchItem>& items, const sead
     }
     return false;
 }
+}  // namespace
 
 bool PauseMenuDataMgr::checkAddOrRemoveItem(const sead::SafeString& name, int count,
                                             bool include_equipped_items) const {
@@ -1862,7 +1870,7 @@ int PauseMenuDataMgr::countCookResults(const sead::SafeString& name, s32 effect_
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
-        if (check_effect_type && item->getCookData().getEffectId() != effect_type)
+        if (check_effect_type && item->getCookData().getEffectId() != f32(effect_type))
             continue;
         if (check_name && item->getName() != name)
             continue;
@@ -1937,7 +1945,7 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
             continue;
         if (!info->hasTag(item->getName().cstr(), ksys::act::tags::CookResult))
             continue;
-        if (item->getCookData().getEffectId() != effect_type && check_effect)
+        if (item->getCookData().getEffectId() != f32(effect_type) && check_effect)
             continue;
         if (check_name && item->getName() != name)
             continue;
@@ -2148,6 +2156,7 @@ void PauseMenuDataMgr::sortItems(PouchCategory category, bool do_not_save) {
     saveToGameData(items);
 }
 
+// NOLINTBEGIN(misc-use-anonymous-namespace)
 using SortPredicate = int (*)(const PouchItem* lhs, const PouchItem* rhs,
                               ksys::act::InfoData* data);
 
@@ -2171,30 +2180,6 @@ static auto getSortPredicateTable() {
     sead::SafeArray<SortPredicate, 7> table{{compareWeapon, compareBow, compareShield, compareArmor,
                                              compareMaterial, compareFood, compareKeyItem}};
     return table;
-}
-
-int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
-    if (!lhs || !rhs)
-        return 0;
-
-    auto* info_data = ksys::act::InfoData::instance();
-    if (!info_data || !lhs->isInInventory() || !rhs->isInInventory())
-        return 0;
-
-    const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
-    const auto cat2 = getCategoryForTypeWithLookupTable(rhs->getType());
-    if (cat1 != cat2)
-        return 0;
-
-    const auto cat3 = PauseMenuDataMgr::instance()->getCategoryToSort();
-    if (cat3 != PouchCategory::Invalid && cat1 != cat3)
-        return 0;
-
-    auto predicate_table = getSortPredicateTable();
-    const auto* fn = &predicate_table[0];
-    if (u32(cat1) < u32(predicate_table.size()))
-        fn = &predicate_table(u32(cat1));
-    return (*fn)(lhs, rhs, info_data);
 }
 
 static s32 compareSortKeys(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
@@ -2260,7 +2245,7 @@ static int compareWeaponType1(const PouchItem* lhs, const PouchItem* rhs,
 static int getShieldGuardPower(const PouchItem* item, ksys::act::InfoData* data) {
     int power = ksys::act::getWeaponCommonGuardPower(data, item->getName().cstr());
     if (item->getWeaponModifier().isOn(act::WeaponModifier::AddGuard))
-        power += item->getWeaponModifierValue();
+        power += s32(item->getWeaponModifierValue());
     return power;
 }
 
@@ -2282,6 +2267,66 @@ static int doCompareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act
         return 1;
 
     return compareItemValues(lhs, rhs);
+}
+// NOLINTEND(misc-use-anonymous-namespace)
+
+int pouchItemSortPredicate(const PouchItem* lhs, const PouchItem* rhs) {
+    if (!lhs || !rhs)
+        return 0;
+
+    auto* info_data = ksys::act::InfoData::instance();
+    if (!info_data || !lhs->isInInventory() || !rhs->isInInventory())
+        return 0;
+
+    const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
+    const auto cat2 = getCategoryForTypeWithLookupTable(rhs->getType());
+    if (cat1 != cat2)
+        return 0;
+
+    const auto cat3 = PauseMenuDataMgr::instance()->getCategoryToSort();
+    if (cat3 != PouchCategory::Invalid && cat1 != cat3)
+        return 0;
+
+    auto predicate_table = getSortPredicateTable();
+    const auto* fn = &predicate_table[0];
+    if (u32(cat1) < u32(predicate_table.size()))
+        fn = &predicate_table(s32(cat1));
+    return (*fn)(lhs, rhs, info_data);
+}
+
+int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
+    if (!lhs || !rhs)
+        return 0;
+
+    static constexpr sead::SafeArray<int, NumPouchItemTypes> sMap{{0, 1, 2, 3, 4, 4, 4, 7, 8, 9}};
+    const auto x1 = sMap[s32(lhs->getType())];
+    const auto x2 = sMap[s32(rhs->getType())];
+    if (x1 < x2)
+        return -1;
+    if (x1 > x2)
+        return 1;
+
+    if (lhs->getType() != PouchItemType::Arrow)
+        return 0;
+
+    auto* info_data = ksys::act::InfoData::instance();
+    if (!info_data || !lhs->isInInventory() || !rhs->isInInventory())
+        return 0;
+
+    const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
+    const auto cat2 = getCategoryForTypeWithLookupTable(rhs->getType());
+    if (cat1 != cat2)
+        return 0;
+
+    const auto cat3 = PauseMenuDataMgr::instance()->getCategoryToSort();
+    if (cat3 != PouchCategory::Invalid && cat1 != cat3)
+        return 0;
+
+    const auto predicate_table = getSortPredicateTable();
+    const auto* fn = &predicate_table[0];
+    if (u32(cat1) < u32(predicate_table.size()))
+        fn = &predicate_table(s32(cat1));
+    return (*fn)(lhs, rhs, info_data);
 }
 
 int compareWeapon(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
@@ -2305,13 +2350,12 @@ int compareShield(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoDat
             return cmp;
 
         return doCompareShield(lhs, rhs, data);
-
-    } else {
-        if (auto cmp = doCompareShield(lhs, rhs, data))
-            return cmp;
-
-        return compareSortKeys(lhs, rhs, data);
     }
+
+    if (auto cmp = doCompareShield(lhs, rhs, data))
+        return cmp;
+
+    return compareSortKeys(lhs, rhs, data);
 }
 
 int compareArmor(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
@@ -2362,7 +2406,8 @@ int compareMaterial(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoD
 }
 
 int compareFood(const PouchItem* lhs, const PouchItem* rhs, ksys::act::InfoData* data) {
-    int e1, e2;
+    int e1;
+    int e2;
     const int k1 = getFoodSortKey(&e1, lhs);
     const int k2 = getFoodSortKey(&e2, rhs);
     // Lower key is better
@@ -2420,41 +2465,6 @@ int getCookItemOrder(const PouchItem* item, ksys::act::InfoData* data) {
         }
     }
     return order.size();
-}
-
-int pouchItemSortPredicateForArrow(const PouchItem* lhs, const PouchItem* rhs) {
-    if (!lhs || !rhs)
-        return 0;
-
-    static constexpr sead::SafeArray<int, NumPouchItemTypes> sMap{{0, 1, 2, 3, 4, 4, 4, 7, 8, 9}};
-    const auto x1 = sMap[s32(lhs->getType())];
-    const auto x2 = sMap[s32(rhs->getType())];
-    if (x1 < x2)
-        return -1;
-    if (x1 > x2)
-        return 1;
-
-    if (lhs->getType() != PouchItemType::Arrow)
-        return 0;
-
-    auto* info_data = ksys::act::InfoData::instance();
-    if (!info_data || !lhs->isInInventory() || !rhs->isInInventory())
-        return 0;
-
-    const auto cat1 = getCategoryForTypeWithLookupTable(lhs->getType());
-    const auto cat2 = getCategoryForTypeWithLookupTable(rhs->getType());
-    if (cat1 != cat2)
-        return 0;
-
-    const auto cat3 = PauseMenuDataMgr::instance()->getCategoryToSort();
-    if (cat3 != PouchCategory::Invalid && cat1 != cat3)
-        return 0;
-
-    const auto predicate_table = getSortPredicateTable();
-    const auto* fn = &predicate_table[0];
-    if (u32(cat1) < u32(predicate_table.size()))
-        fn = &predicate_table(u32(cat1));
-    return (*fn)(lhs, rhs, info_data);
 }
 
 // NON_MATCHING: branching, but this is so trivial it isn't worth spending time on matching this
@@ -2779,7 +2789,7 @@ void PauseMenuDataMgr::updateEquippedItemArray() {
         if (item.getType() > PouchItemType::Shield)
             break;
         if (item.isEquipped())
-            mEquippedWeapons[u32(item.getType())] = &item;
+            mEquippedWeapons[s32(item.getType())] = &item;
     }
 }
 
