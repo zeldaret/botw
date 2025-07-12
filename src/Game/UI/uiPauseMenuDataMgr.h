@@ -281,7 +281,7 @@ public:
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 
     int countItems(PouchItemType type, bool count_any_weapon = false) const;
-    bool isWeaponSectionFull(const sead::SafeString& get_flag) const;
+    bool isWeaponSectionFull(const sead::SafeString& weapon_type) const;
 
     void itemGet(const sead::SafeString& name, int value, const act::WeaponModifierInfo* modifier);
     void cookItemGet(const uking::CookItem& cook_item);
@@ -405,8 +405,8 @@ private:
 
     struct Lists {
         Lists() {
-            list1.initOffset(PouchItem::getListNodeOffset());
-            list2.initOffset(PouchItem::getListNodeOffset());
+            list1.initOffset(s32(PouchItem::getListNodeOffset()));
+            list2.initOffset(s32(PouchItem::getListNodeOffset()));
             for (auto& item : buffer) {
                 new (&item) PouchItem();
                 list2.pushFront(&item);
@@ -441,13 +441,13 @@ private:
     bool useItemFromRecipe(Lists* lists, void* unk, int multiplier, PouchItem* item);
 
     PouchItem* getItemHead(PouchCategory category) const {
-        auto* p_head = mListHeads[u32(category)];
+        auto* p_head = mListHeads[s32(category)];
         if (!p_head)
             return nullptr;
         return *p_head;
     }
 
-    PouchItem** getItemHeadp(PouchCategory category) const { return mListHeads[u32(category)]; }
+    PouchItem** getItemHeadp(PouchCategory category) const { return mListHeads[s32(category)]; }
 
     PouchItem* nextItem(const PouchItem* item) const { return getItems().next(item); }
     bool isList2Empty() const { return mItemLists.list2.isEmpty(); }
