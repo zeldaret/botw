@@ -15,11 +15,13 @@
 #include "KingSystem/Utils/Types.h"
 
 class hkpEntity;
+class hkpConstraintInstance;
 
 namespace ksys::phys {
 
 class MotionAccessor;
 class RigidBody;
+class Constraint;
 
 class RigidBodyRequestMgr : public sead::hostio::Node {
 public:
@@ -62,6 +64,10 @@ public:
 
     bool registerMotionAccessor(MotionAccessor* accessor);
     bool deregisterMotionAccessor(MotionAccessor* accessor);
+
+    void pushConstraint(Constraint* constraint);
+    void addConstraintToWorld(hkpConstraintInstance* constraint);
+    void removeConstraintFromWorld(hkpConstraintInstance* constraint);
 
 private:
     struct Unk1;
