@@ -164,14 +164,15 @@ public:
         f32 getEffectLevel() const { return mEffect.y; }
 
         /// Number of quarter-hearts to recover,
-        /// for hearty food, this is number of yellow hearts (not quarter-hearts)
+        /// for hearty food, this is number of yellow quarter-hearts
         int mHealthRecover;
         int mEffectDuration;  // for potions, in seconds
         int mSellPrice;
 
         /// x - CookEffectId enum, but stored as f32
         /// y - level:
-        ///     - For Hearty (LifeMaxUp), this is also the number of yellow hearts
+        ///     - For Hearty (LifeMaxUp), this is also the number of yellow quarter-hearts (but
+        ///     stored as f32)
         ///     - For Stamina (GutsRecover), this is 0.0-3000.0 where each wheel is 1000.0
         ///     - For Endura (ExGutsMaxUp), this is 0-15, where each wheel is 5
         ///       - With 5 endura carrot + crit you can only get to 12
