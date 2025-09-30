@@ -1,21 +1,27 @@
 [submodule "tools/common"]
 	path = tools/common
 	url = https://github.com/open-ead/nx-decomp-tools
+	branch = master
 [submodule "toolchain/musl"]
 	path = toolchain/musl
 	url = https://github.com/open-ead/botw-lib-musl
+	branch = master
 [submodule "lib/sead"]
 	path = lib/sead
 	url = https://github.com/open-ead/sead
+	branch = master
 [submodule "lib/NintendoSDK"]
 	path = lib/NintendoSDK
 	url = https://github.com/open-ead/nnheaders
+	branch = master
 [submodule "lib/agl"]
 	path = lib/agl
 	url = https://github.com/open-ead/agl
+	branch = master
 [submodule "lib/EventFlow"]
 	path = lib/EventFlow
 	url = https://github.com/open-ead/EventFlow
+	branch = master
 [submodule "toolchain/nx-decomp-tools-binaries"]
 	path = toolchain/nx-decomp-tools-binaries
 	url = https://github.com/open-ead/nx-decomp-tools-binaries
