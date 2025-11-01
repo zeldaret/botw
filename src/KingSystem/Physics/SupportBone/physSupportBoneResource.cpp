@@ -248,7 +248,7 @@ void SupportBoneResource::BaseBone::postRead_() {
     aim = aim_local;
 
     base_rotate->normalize();
-    base_rotate->inverse(&reverse_rotate);
+    reverse_rotate.setInverse(*base_rotate);
 }
 
 }  // namespace ksys::phys
