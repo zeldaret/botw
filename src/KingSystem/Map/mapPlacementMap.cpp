@@ -25,9 +25,9 @@ PlacementMap::PlacementMap() {
     mCol = 0;
     mRow = 0;
     mNumRoutes = 0;
-    mP18 = 0;
-    mMgr = 0;
-    mPa = 0;
+    mP18 = nullptr;
+    mMgr = nullptr;
+    mPa = nullptr;
     mDynamicGroupIdx = 0xFFFFFFFF;
     mRes[0].mStatus = HkscRes::Status::_0;
     mRes[1].mStatus = HkscRes::Status::_0;
