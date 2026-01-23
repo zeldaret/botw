@@ -26,7 +26,7 @@ bool Step::sub_7100FDB89C(act::Actor* actor) const {
 bool Step::sub_7100FDB538(act::Actor* actor, const sead::SafeString& name) const {
     if (actor == nullptr)
         return false;
-    if (!_28)
+    if (_28 == 0)
         return true;
 
     for (int i = 0; i < links.size(); ++i) {

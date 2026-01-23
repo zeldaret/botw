@@ -13,13 +13,8 @@
 namespace ksys::map {
 
 // NON_MATCHING
-Object::Object() {
+Object::Object() : _b(0xFF), _18(nullptr), _20(nullptr), mProc(nullptr), mLinkData(nullptr) {
     mHardModeFlags.makeAllZero();
-    _b = 0xFF;
-    _18 = nullptr;
-    _20 = nullptr;
-    mProc = nullptr;
-    mLinkData = nullptr;
 }
 
 Object::~Object() {
