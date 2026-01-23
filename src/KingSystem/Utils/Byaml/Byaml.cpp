@@ -145,7 +145,7 @@ bool ByamlIter::getByamlDataByKey(ByamlData* data, const char* key) const {
 
     auto* header = reinterpret_cast<const al::ByamlHeader*>(mData);
     const s32 offset = header->getHashKeyTableOffset();
-    if (!offset) {
+    if (offset == 0) {
         return false;
     }
     const ByamlStringTableIter table = ByamlStringTableIter(&mData[offset]);

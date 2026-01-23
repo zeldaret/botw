@@ -3,10 +3,7 @@
 
 namespace ksys::qst {
 
-Indicator::Indicator(Step* step, sead::Heap* heap) {
-    this->heap = heap;
-    this->step = step;
-}
+Indicator::Indicator(Step* step, sead::Heap* heap) : heap(heap), step(step) {}
 
 Indicator::~Indicator() {
     finalize();

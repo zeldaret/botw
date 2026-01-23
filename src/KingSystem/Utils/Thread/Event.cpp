@@ -23,12 +23,12 @@ void Event::initialize(bool manual_reset) {
 }
 
 void Event::wait() {
-    if (!mSignalSet || !mManualReset)
+    if (mSignalSet == 0 || !mManualReset)
         mEvent.wait();
 }
 
 bool Event::wait(sead::TickSpan duration) {
-    return (mSignalSet && mManualReset) || mEvent.wait(duration);
+    return (mSignalSet != 0 && mManualReset) || mEvent.wait(duration);
 }
 
 void Event::setSignal() {
@@ -40,7 +40,7 @@ void Event::setSignal() {
 }
 
 void Event::resetSignal() {
-    if (!mSignalSet && mManualReset)
+    if (mSignalSet == 0 && mManualReset)
         return;
 
     mEvent.resetSignal();

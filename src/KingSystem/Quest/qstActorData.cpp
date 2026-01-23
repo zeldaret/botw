@@ -5,9 +5,7 @@ namespace ksys::qst {
 
 CameraTarget::~CameraTarget() = default;
 
-ActorData::ActorData(sead::Heap* heap) {
-    this->heap = heap;
-}
+ActorData::ActorData(sead::Heap* heap) : heap(heap) {}
 
 ActorData::~ActorData() {
     for (int i = 0; i < targets.size(); ++i) {
