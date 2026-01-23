@@ -187,27 +187,23 @@ void ObjectLinkData::setGenGroup(GenGroup* group) {
 
 // NON_MATCHING
 bool ObjectLinkArray::checkLink(MapLinkDefType t, bool b) {
-    bool x_exists;
+    bool x_exists = false;
     ObjectLink* link = nullptr;
 
-    if (t != MapLinkDefType::BasicSig) {
-        x_exists = false;
-    } else {
+    if (t == MapLinkDefType::BasicSig) {
         link = findLinkWithType(MapLinkDefType::BasicSigOnOnly);
         x_exists = link != nullptr;
-
-        if (link != nullptr)
-            goto done;
     }
 
-    link = findLinkWithType(t);
+    if (link == nullptr) {
+        link = findLinkWithType(t);
 
-    if (link == nullptr)
-        return false;
-    if (link->type == MapLinkDefType::VelocityControl)
-        return false;
+        if (link == nullptr)
+            return false;
+        if (link->type == MapLinkDefType::VelocityControl)
+            return false;
+    }
 
-done:
     act::ActorConstDataAccess acc{};
 
     if (link->other_obj != nullptr)
