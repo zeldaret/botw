@@ -63,8 +63,12 @@ enum class AttActionCode {
 };
 
 // clang-format off
-SEAD_ENUM(AttActionType, None,Talk,Listen,Awake,Grab,Open,Pick,Catch,CheckCatch,CatchWeapon,Skin,Sleep,Sit,Lumber,Pushpull,Read,Check,Boot,BootPStop,Leave,Remind,Buy,Ride,Wakeboard,WakeboardRide,RideRito,RideZora,Cook,KillTime,Display,DisplayBow,DisplayShield,PickUp,Pray,PullOut,Waterfall,CommandWait,CommandCome,Thrust,Put,PickToEvent,Dummy)
-SEAD_ENUM(AttPriorityType, Default,Enemy,Npc,Obj,ObjLow,ObjMiddle,ObjHigh,Bullet)
+SEAD_ENUM(AttActionType,
+    None, Talk, Listen, Awake, Grab, Open, Pick, Catch, CheckCatch, CatchWeapon, Skin, Sleep, Sit,
+    Lumber, Pushpull, Read, Check, Boot, BootPStop, Leave, Remind, Buy, Ride, Wakeboard,
+    WakeboardRide, RideRito, RideZora, Cook, KillTime, Display, DisplayBow, DisplayShield, PickUp,
+    Pray, PullOut, Waterfall, CommandWait, CommandCome, Thrust, Put, PickToEvent, Dummy)
+SEAD_ENUM(AttPriorityType, Default, Enemy, Npc, Obj, ObjLow, ObjMiddle, ObjHigh, Bullet)
 // clang-format on
 
 }  // namespace ksys::act

@@ -18,7 +18,7 @@ class E3Mgr {
 
 public:
     bool isDemoMode() const;
-    void setIsDemoMode(bool demoMode);
+    void setIsDemoMode(bool demo_mode);
     bool isRidDemo() const;
     bool is2017Demo() const;
 
@@ -36,8 +36,8 @@ public:
     bool isRidDemoAnd28IsOne_() const;
     bool isRidDemoAnd6fIsNonzero() const;
 
-    void setDemoStage(s32 demoStage);
-    void setDemoMode(s32 demoMode);
+    void setDemoStage(s32 demo_stage);
+    void setDemoMode(s32 demo_mode);
 
     void setTimerMaybe(s32 a2);
     s32 resIsReady();

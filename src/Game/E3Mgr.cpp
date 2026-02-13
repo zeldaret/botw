@@ -1,4 +1,4 @@
-#include "E3Mgr.h"
+#include "Game/E3Mgr.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -21,20 +21,20 @@ namespace uking {
 SEAD_SINGLETON_DISPOSER_IMPL(E3Mgr)
 
 bool E3Mgr::isDemoMode() const {
-    if (E3Mgr::is2017Demo()) {
+    if (is2017Demo()) {
         return true;
     }
-    if (E3Mgr::isRidDemo()) {
+    if (isRidDemo()) {
         return true;
     }
 
     return mForceDemoMode;
 }
 
-void E3Mgr::setIsDemoMode(bool demoMode) {
-    mForceDemoMode = demoMode;
+void E3Mgr::setIsDemoMode(bool demo_mode) {
+    mForceDemoMode = demo_mode;
     PlacementMgr::sFlags.set(PlacementMgr::MgrStaticFlags::DemoMode);
-    if (!demoMode) {
+    if (!demo_mode) {
         PlacementMgr::sFlags.reset(PlacementMgr::MgrStaticFlags::DemoMode);
     }
 }
@@ -56,15 +56,15 @@ void E3Mgr::set28() {
 }
 
 bool E3Mgr::isDemoMode0AndNotStageSelect() const {
-    return E3Mgr::isDemoMode() && mDemoMode == 0 && !isStageSelectState();
+    return isDemoMode() && mDemoMode == 0 && !isStageSelectState();
 }
 
 bool E3Mgr::isDemoMode1AndNotStageSelect() const {
-    return E3Mgr::isDemoMode() && mDemoMode == 1 && !isStageSelectState();
+    return isDemoMode() && mDemoMode == 1 && !isStageSelectState();
 }
 
 bool E3Mgr::isDemoMode2AndNotStageSelect() const {
-    return E3Mgr::isDemoMode() && mDemoMode == 2 && !isStageSelectState();
+    return isDemoMode() && mDemoMode == 2 && !isStageSelectState();
 }
 
 bool E3Mgr::is28One() const {
@@ -72,17 +72,11 @@ bool E3Mgr::is28One() const {
 }
 
 bool E3Mgr::isRidDemoAnd28IsOne() const {
-    if (isRidDemo() && is28One()) {
-        return true;
-    }
-    return false;
+    return isRidDemo() && is28One();
 }
 
 bool E3Mgr::isRidDemoAnd28IsOne_() const {
-    if ((isRidDemo() && is28One())) {
-        return true;
-    }
-    return false;
+    return isRidDemo() && is28One();
 }
 
 bool E3Mgr::isRidDemoAnd6fIsNonzero() const {
@@ -90,18 +84,18 @@ bool E3Mgr::isRidDemoAnd6fIsNonzero() const {
 }
 
 s32 E3Mgr::getDemoStage() const {
-    if ((isDemoMode()) && (mDemoMode == 2) && (isStageSelectState() == 0)) {
+    if (isDemoMode() && mDemoMode == 2 && !isStageSelectState()) {
         return mDemoStage;
     }
     return -1;
 }
 
-void E3Mgr::setDemoStage(s32 demoStage) {
-    mDemoStage = demoStage;
+void E3Mgr::setDemoStage(s32 demo_stage) {
+    mDemoStage = demo_stage;
 }
 
-void E3Mgr::setDemoMode(s32 demoMode) {
-    mDemoMode = demoMode;
+void E3Mgr::setDemoMode(s32 demo_mode) {
+    mDemoMode = demo_mode;
 }
 
 void E3Mgr::setTimerMaybe(s32 a2) {
@@ -141,7 +135,7 @@ void E3Mgr::set6C(bool a2) {
 }
 
 void E3Mgr::_auto2() {
-    E3Mgr::_auto3();
+    _auto3();
     _6d = 0;
 }
 
@@ -154,7 +148,7 @@ struct Dummy {
 extern Dummy* test;
 
 void E3Mgr::_auto3() {
-    bool isDemo;
+    bool is_demo;
 
     _6a = 0;
     _68 = 0;
@@ -171,8 +165,8 @@ void E3Mgr::_auto3() {
     mTick3.setNow();
     mTick4.setNow();
     _30 = -2;
-    isDemo = E3Mgr::isDemoMode();
-    if (isDemo) {
+    is_demo = isDemoMode();
+    if (is_demo) {
         if (test)
             test->a00 |= 0x40;
     }

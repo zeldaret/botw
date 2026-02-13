@@ -22,8 +22,9 @@ public:
                                               const sead::SafeString& damage_size);
 
     // clang-format off
-    SEAD_ENUM(DamageSize,Small,Middle,Large,Huge)
-    SEAD_ENUM(DamageSource,Sword,LargeSword,Spear,Arrow,Bomb,Body,Ancient,ShockWave,Impulse,GanonBeam)
+    SEAD_ENUM(DamageSize, Small, Middle, Large, Huge)
+    SEAD_ENUM(DamageSource,
+        Sword, LargeSword, Spear, Arrow, Bomb, Body, Ancient, ShockWave, Impulse, GanonBeam)
     // clang-format on
 
 private:

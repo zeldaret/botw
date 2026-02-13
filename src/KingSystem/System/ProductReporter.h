@@ -14,7 +14,25 @@ namespace ksys {
 
 class PlayReport;
 
-SEAD_ENUM(PlayReportKey, PlayReport_PlayTime , PlayReport_AllPlayTime , PlayReport_CtrlMode_Free , PlayReport_CtrlMode_Ext , PlayReport_CtrlMode_FullKey , PlayReport_CtrlMode_Handheld , PlayReport_CtrlMode_Console_Free , PlayReport_CtrlMode_Console_Ext , PlayReport_CtrlMode_Console_FullKey , PlayReport_PlayTime_Handheld , PlayReport_PlayTime_Console , PlayReport_AudioChannel_Mono , PlayReport_AudioChannel_Stereo , PlayReport_AudioChannel_5_1ch , PlayReport_AudioChannel_Other , PosTrackEndPointBlockNumber , PosTrackEndPointRecordIndex , PosTrackEndPointPosIndex)
+SEAD_ENUM(PlayReportKey,
+    PlayReport_PlayTime,
+    PlayReport_AllPlayTime,
+    PlayReport_CtrlMode_Free,
+    PlayReport_CtrlMode_Ext,
+    PlayReport_CtrlMode_FullKey,
+    PlayReport_CtrlMode_Handheld,
+    PlayReport_CtrlMode_Console_Free,
+    PlayReport_CtrlMode_Console_Ext,
+    PlayReport_CtrlMode_Console_FullKey,
+    PlayReport_PlayTime_Handheld,
+    PlayReport_PlayTime_Console,
+    PlayReport_AudioChannel_Mono,
+    PlayReport_AudioChannel_Stereo,
+    PlayReport_AudioChannel_5_1ch,
+    PlayReport_AudioChannel_Other,
+    PosTrackEndPointBlockNumber,
+    PosTrackEndPointRecordIndex,
+    PosTrackEndPointPosIndex)
 
 struct WorkTimes {
     util::InitConstants _0;
@@ -84,8 +102,8 @@ public:
 
     class Container {
     public:
-        void init(sead::Heap* heap, u64 capacity, u64 itemSize) {
-            auto* dataPointer = new (heap, 8, std::nothrow) u8[capacity * itemSize];
+        void init(sead::Heap* heap, u64 capacity, u64 item_size) {
+            auto* dataPointer = new (heap, 8, std::nothrow) u8[capacity * item_size];
             if (dataPointer != nullptr) {
                 mBuffer = dataPointer;
                 mBufferLength = 0;

@@ -10,8 +10,10 @@
 
 namespace ksys::world {
 
-SEAD_ENUM(TimeDivision, Morning_A,Morning_B,Noon_A,Noon_B,Evening_A,Evening_B,Night_A,Night_B)
-SEAD_ENUM(TimeType, Morning_A1,Morning_A2,Morning_B,Noon_A,Noon_B,Evening_A,Evening_B,Night_A,Night_B)
+SEAD_ENUM(TimeDivision,
+    Morning_A, Morning_B, Noon_A, Noon_B, Evening_A, Evening_B, Night_A, Night_B)
+SEAD_ENUM(TimeType,
+    Morning_A1, Morning_A2, Morning_B, Noon_A, Noon_B, Evening_A, Evening_B, Night_A, Night_B)
 
 enum class MoonType : u8 {
     FullMoon = 0,
