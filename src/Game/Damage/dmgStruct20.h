@@ -32,7 +32,7 @@ public:
 
     void reset() override;
 
-    __attribute__((noinline)) virtual void combineMaybe(Struct20Base* other) override;
+    __attribute__((noinline)) void combineMaybe(Struct20Base* other) override;
 
     // Unknown which fields belong in Struct20 vs Struct20Base
     u32 mField_8 = 0;

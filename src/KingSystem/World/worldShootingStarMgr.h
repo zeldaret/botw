@@ -10,12 +10,12 @@ namespace ksys::world {
 class ShootingStarMgr : public Job {
 public:
     ShootingStarMgr();
-    virtual ~ShootingStarMgr();
+    ~ShootingStarMgr() override;
 
     JobType getType() const override { return JobType::ShootingStar; }
 
-    virtual void init_(sead::Heap* heap) override;
-    virtual void calc_() override;
+    void init_(sead::Heap* heap) override;
+    void calc_() override;
     virtual void reset();
 
     static void setScheduled(bool enable);
