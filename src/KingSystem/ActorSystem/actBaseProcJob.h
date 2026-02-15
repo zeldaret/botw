@@ -65,7 +65,7 @@ struct BaseProcJobList {
 class BaseProcJobLists {
 public:
     BaseProcJobLists() = default;
-    ~BaseProcJobLists() { ; }
+    ~BaseProcJobLists() = default;
 
     void pushJob(BaseProcJobLink& link);
     void eraseJob(BaseProcJobLink& link);
