@@ -63,7 +63,7 @@ enum class MapLinkDefType {
 };
 
 struct ObjectLink {
-    ~ObjectLink() {}
+    ~ObjectLink() = default;
     act::Actor* getObjectActor() const;
     bool getObjectProcWithAccessor(act::ActorLinkConstDataAccess& accessor) const;
     const char* getDescription() const;

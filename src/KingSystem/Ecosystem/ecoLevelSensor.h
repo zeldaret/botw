@@ -1,6 +1,6 @@
 #pragma once
 
-#include <KingSystem/Map/mapObject.h>
+#include "KingSystem/Map/mapObject.h"
 #include <basis/seadTypes.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"

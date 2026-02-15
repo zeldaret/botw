@@ -1,5 +1,5 @@
 #include "KingSystem/System/OverlayArenaSystem.h"
-#include <KingSystem/Resource/resResourceMgrTask.h>
+#include "KingSystem/Resource/resResourceMgrTask.h"
 #include <heap/seadExpHeap.h>
 #include <heap/seadHeap.h>
 #include <thread/seadThreadUtil.h>

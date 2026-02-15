@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
-#include <KingSystem/Resource/resModelResourceDivide.h>
+#include "KingSystem/Resource/resModelResourceDivide.h"
 #include <codec/seadHashCRC32.h>
 #include <math/seadMathNumbers.h>
 #include "KingSystem/ActorSystem/actActorCreator.h"
