@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AttackHitCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AttackHitCheck, ksys::act::ai::Ai)
+
 public:
     explicit AttackHitCheck(const InitArg& arg);
     ~AttackHitCheck() override;

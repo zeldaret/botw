@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkFixedAngleVacuumShootTarget : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkFixedAngleVacuumShootTarget, ksys::act::ai::Action)
+
 public:
     explicit ForkFixedAngleVacuumShootTarget(const InitArg& arg);
     ~ForkFixedAngleVacuumShootTarget() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsOffLinkTag : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsOffLinkTag, Query)
+
 public:
     explicit IsOffLinkTag(const InitArg& arg);
     ~IsOffLinkTag() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NPCClerkRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NPCClerkRoot, NPCRoot)
+
 public:
     explicit NPCClerkRoot(const InitArg& arg);
     ~NPCClerkRoot() override;

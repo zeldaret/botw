@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WaitPartsSleep : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WaitPartsSleep, ksys::act::ai::Ai)
+
 public:
     explicit WaitPartsSleep(const InitArg& arg);
     ~WaitPartsSleep() override;

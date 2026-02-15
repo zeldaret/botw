@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LastBossThunderSign : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossThunderSign, ksys::act::ai::Action)
+
 public:
     explicit LastBossThunderSign(const InitArg& arg);
     ~LastBossThunderSign() override;

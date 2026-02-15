@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASTrgRemainsHowl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASTrgRemainsHowl, ksys::act::ai::Action)
+
 public:
     explicit ForkASTrgRemainsHowl(const InitArg& arg);
     ~ForkASTrgRemainsHowl() override;

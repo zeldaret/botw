@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DungeonRotateSymmetry : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DungeonRotateSymmetry, ksys::act::ai::Action)
+
 public:
     explicit DungeonRotateSymmetry(const InitArg& arg);
     ~DungeonRotateSymmetry() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DemoTurnToActor : public TurnToActor {
     SEAD_RTTI_OVERRIDE(DemoTurnToActor, TurnToActor)
+
 public:
     explicit DemoTurnToActor(const InitArg& arg);
     ~DemoTurnToActor() override;

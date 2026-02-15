@@ -8,6 +8,7 @@ namespace ksys::res {
 
 class Physics : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(Physics, Resource)
+
 public:
     Physics() : ParamIO("physics", 0) {}
 

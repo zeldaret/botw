@@ -9,6 +9,7 @@ namespace ksys::res {
 
 class MemoryTaskData : public util::TaskData {
     SEAD_RTTI_OVERRIDE(MemoryTaskData, util::TaskData)
+
 public:
     virtual ~MemoryTaskData() = default;
 
@@ -20,6 +21,7 @@ KSYS_CHECK_SIZE_NX150(MemoryTaskData, 0xa8);
 
 class MemoryTask : public util::ManagedTask {
     SEAD_RTTI_OVERRIDE(MemoryTask, util::ManagedTask)
+
 public:
     explicit MemoryTask(sead::Heap* heap);
     ~MemoryTask() override { ; }
@@ -37,6 +39,7 @@ KSYS_CHECK_SIZE_NX150(MemoryTask, 0x168);
 
 class MemoryTaskRequest : public util::TaskRequest {
     SEAD_RTTI_OVERRIDE(MemoryTaskRequest, util::TaskRequest)
+
 public:
     MemoryTaskRequest() = default;
 

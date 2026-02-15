@@ -6,6 +6,7 @@ namespace uking::action {
 
 class JumpTackle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(JumpTackle, ksys::act::ai::Action)
+
 public:
     explicit JumpTackle(const InitArg& arg);
     ~JumpTackle() override;

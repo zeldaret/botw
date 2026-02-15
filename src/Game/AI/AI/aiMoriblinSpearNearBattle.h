@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoriblinSpearNearBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoriblinSpearNearBattle, ksys::act::ai::Ai)
+
 public:
     explicit MoriblinSpearNearBattle(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventRecoverPlayerCondition : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventRecoverPlayerCondition, ksys::act::ai::Action)
+
 public:
     explicit EventRecoverPlayerCondition(const InitArg& arg);
     ~EventRecoverPlayerCondition() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FrontierSpotBgmTriggerAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FrontierSpotBgmTriggerAction, ksys::act::ai::Action)
+
 public:
     explicit FrontierSpotBgmTriggerAction(const InitArg& arg);
     ~FrontierSpotBgmTriggerAction() override;

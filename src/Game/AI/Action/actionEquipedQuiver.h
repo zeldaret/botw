@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EquipedQuiver : public EquipedOptionalWeaponAction {
     SEAD_RTTI_OVERRIDE(EquipedQuiver, EquipedOptionalWeaponAction)
+
 public:
     explicit EquipedQuiver(const InitArg& arg);
     ~EquipedQuiver() override;

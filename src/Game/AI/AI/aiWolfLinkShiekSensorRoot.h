@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WolfLinkShiekSensorRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkShiekSensorRoot, ksys::act::ai::Ai)
+
 public:
     explicit WolfLinkShiekSensorRoot(const InitArg& arg);
     ~WolfLinkShiekSensorRoot() override;

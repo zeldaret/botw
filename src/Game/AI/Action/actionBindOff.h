@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BindOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BindOff, ksys::act::ai::Action)
+
 public:
     explicit BindOff(const InitArg& arg);
     ~BindOff() override;

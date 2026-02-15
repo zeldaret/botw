@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TimeControlTagRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TimeControlTagRoot, ksys::act::ai::Ai)
+
 public:
     explicit TimeControlTagRoot(const InitArg& arg);
     ~TimeControlTagRoot() override;

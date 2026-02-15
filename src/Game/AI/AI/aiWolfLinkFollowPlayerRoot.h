@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WolfLinkFollowPlayerRoot : public HorseFollow {
     SEAD_RTTI_OVERRIDE(WolfLinkFollowPlayerRoot, HorseFollow)
+
 public:
     explicit WolfLinkFollowPlayerRoot(const InitArg& arg);
     ~WolfLinkFollowPlayerRoot() override;

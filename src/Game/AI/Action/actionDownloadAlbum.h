@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DownloadAlbum : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DownloadAlbum, ksys::act::ai::Action)
+
 public:
     explicit DownloadAlbum(const InitArg& arg);
     ~DownloadAlbum() override;

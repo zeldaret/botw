@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class InsectRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(InsectRoam, ksys::act::ai::Ai)
+
 public:
     explicit InsectRoam(const InitArg& arg);
     ~InsectRoam() override;

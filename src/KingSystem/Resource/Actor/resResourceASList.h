@@ -13,6 +13,7 @@ class AS;
 
 class ASList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ASList, Resource)
+
 public:
     struct ASDefine {
         const char* getFileName() const { return file_name.ref().cstr(); }

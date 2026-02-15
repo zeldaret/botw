@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolemChemicalVanishedSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolemChemicalVanishedSelect, ksys::act::ai::Ai)
+
 public:
     explicit GolemChemicalVanishedSelect(const InitArg& arg);
     ~GolemChemicalVanishedSelect() override;

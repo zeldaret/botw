@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantArmorEquip : public BindAction {
     SEAD_RTTI_OVERRIDE(GiantArmorEquip, BindAction)
+
 public:
     explicit GiantArmorEquip(const InitArg& arg);
     ~GiantArmorEquip() override;

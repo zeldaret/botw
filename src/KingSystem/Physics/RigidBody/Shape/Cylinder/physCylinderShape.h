@@ -18,6 +18,7 @@ struct CylinderShapeParam;
 
 class CylinderShape : public Shape {
     SEAD_RTTI_OVERRIDE(CylinderShape, Shape)
+
 public:
     enum class Flag {
         Dirty = 1 << 0,
@@ -72,6 +73,7 @@ struct CylinderShapeParam {
 
 class CylinderParam : public RigidBodyInstanceParam, public CylinderShapeParam {
     SEAD_RTTI_OVERRIDE(CylinderParam, RigidBodyInstanceParam)
+
 public:
     CylinderParam() : RigidBodyInstanceParam(ShapeType::Cylinder) {}
 };

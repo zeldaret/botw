@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyChemTargetActionBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyChemTargetActionBase, ksys::act::ai::Ai)
+
 public:
     explicit EnemyChemTargetActionBase(const InitArg& arg);
 

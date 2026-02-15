@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ElectricDie : public ElectricBlownOff {
     SEAD_RTTI_OVERRIDE(ElectricDie, ElectricBlownOff)
+
 public:
     explicit ElectricDie(const InitArg& arg);
     ~ElectricDie() override;

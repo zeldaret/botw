@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetFixed : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetFixed, ksys::act::ai::Action)
+
 public:
     explicit EventSetFixed(const InitArg& arg);
     ~EventSetFixed() override;

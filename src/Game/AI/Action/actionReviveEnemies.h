@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ReviveEnemies : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ReviveEnemies, ksys::act::ai::Action)
+
 public:
     explicit ReviveEnemies(const InitArg& arg);
     ~ReviveEnemies() override;

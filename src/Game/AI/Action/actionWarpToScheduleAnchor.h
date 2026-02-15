@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpToScheduleAnchor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpToScheduleAnchor, ksys::act::ai::Action)
+
 public:
     explicit WarpToScheduleAnchor(const InitArg& arg);
     ~WarpToScheduleAnchor() override;

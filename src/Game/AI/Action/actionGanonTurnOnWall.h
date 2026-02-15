@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GanonTurnOnWall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GanonTurnOnWall, ksys::act::ai::Action)
+
 public:
     explicit GanonTurnOnWall(const InitArg& arg);
     ~GanonTurnOnWall() override;

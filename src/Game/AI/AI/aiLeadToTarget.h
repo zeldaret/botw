@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LeadToTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LeadToTarget, ksys::act::ai::Ai)
+
 public:
     explicit LeadToTarget(const InitArg& arg);
     ~LeadToTarget() override;

@@ -15,6 +15,7 @@ namespace ksys::map {
 
 class AutoPlacementMgr {
     SEAD_SINGLETON_DISPOSER(AutoPlacementMgr)
+
 public:
     AutoPlacementMgr();
     virtual ~AutoPlacementMgr();

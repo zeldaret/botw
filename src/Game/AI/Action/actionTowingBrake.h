@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TowingBrake : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TowingBrake, ksys::act::ai::Action)
+
 public:
     explicit TowingBrake(const InitArg& arg);
     ~TowingBrake() override;

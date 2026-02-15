@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SunazarashiReturn : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SunazarashiReturn, ksys::act::ai::Ai)
+
 public:
     explicit SunazarashiReturn(const InitArg& arg);
     ~SunazarashiReturn() override;

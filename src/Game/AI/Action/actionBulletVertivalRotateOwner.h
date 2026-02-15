@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BulletVertivalRotateOwner : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BulletVertivalRotateOwner, ksys::act::ai::Action)
+
 public:
     explicit BulletVertivalRotateOwner(const InitArg& arg);
     ~BulletVertivalRotateOwner() override;

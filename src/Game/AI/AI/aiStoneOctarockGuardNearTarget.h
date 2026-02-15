@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class StoneOctarockGuardNearTarget : public TimedGuardNearTarget {
     SEAD_RTTI_OVERRIDE(StoneOctarockGuardNearTarget, TimedGuardNearTarget)
+
 public:
     explicit StoneOctarockGuardNearTarget(const InitArg& arg);
     ~StoneOctarockGuardNearTarget() override;

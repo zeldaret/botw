@@ -7,6 +7,7 @@ namespace ksys::util {
 
 class TaskQueue : public TaskQueueBase {
     SEAD_RTTI_OVERRIDE(TaskQueue, TaskQueueBase)
+
 public:
     explicit TaskQueue(sead::Heap* heap);
 

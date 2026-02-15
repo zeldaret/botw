@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WolfLinkEvent : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WolfLinkEvent, ksys::act::ai::Action)
+
 public:
     explicit WolfLinkEvent(const InitArg& arg);
     ~WolfLinkEvent() override;

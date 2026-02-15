@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqGroundHitAssassinBoss : public SeqGroundHit {
     SEAD_RTTI_OVERRIDE(SeqGroundHitAssassinBoss, SeqGroundHit)
+
 public:
     explicit SeqGroundHitAssassinBoss(const InitArg& arg);
     ~SeqGroundHitAssassinBoss() override;

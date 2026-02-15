@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AtOnWaitNoHitRope : public AtOnWait {
     SEAD_RTTI_OVERRIDE(AtOnWaitNoHitRope, AtOnWait)
+
 public:
     explicit AtOnWaitNoHitRope(const InitArg& arg);
     ~AtOnWaitNoHitRope() override;

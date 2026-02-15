@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SunazarashiEscapeMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SunazarashiEscapeMove, ksys::act::ai::Ai)
+
 public:
     explicit SunazarashiEscapeMove(const InitArg& arg);
     ~SunazarashiEscapeMove() override;

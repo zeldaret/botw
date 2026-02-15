@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MagneSliderBlockRootThunder : public MagneShaftRootBase {
     SEAD_RTTI_OVERRIDE(MagneSliderBlockRootThunder, MagneShaftRootBase)
+
 public:
     explicit MagneSliderBlockRootThunder(const InitArg& arg);
     ~MagneSliderBlockRootThunder() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FootStepCalcOn : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FootStepCalcOn, ksys::act::ai::Action)
+
 public:
     explicit FootStepCalcOn(const InitArg& arg);
     ~FootStepCalcOn() override;

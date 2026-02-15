@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForestGiantRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(ForestGiantRoot, EnemyRoot)
+
 public:
     explicit ForestGiantRoot(const InitArg& arg);
     ~ForestGiantRoot() override;

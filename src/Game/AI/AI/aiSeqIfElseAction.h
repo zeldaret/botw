@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqIfElseAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqIfElseAction, ksys::act::ai::Ai)
+
 public:
     explicit SeqIfElseAction(const InitArg& arg);
     ~SeqIfElseAction() override;

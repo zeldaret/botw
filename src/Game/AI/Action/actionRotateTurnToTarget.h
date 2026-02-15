@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RotateTurnToTarget : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RotateTurnToTarget, ksys::act::ai::Action)
+
 public:
     explicit RotateTurnToTarget(const InitArg& arg);
     ~RotateTurnToTarget() override;

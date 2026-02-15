@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetChallengeIcon : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetChallengeIcon, ksys::act::ai::Action)
+
 public:
     explicit SetChallengeIcon(const InitArg& arg);
     ~SetChallengeIcon() override;

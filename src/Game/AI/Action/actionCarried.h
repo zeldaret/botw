@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Carried : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Carried, ksys::act::ai::Action)
+
 public:
     explicit Carried(const InitArg& arg);
     ~Carried() override;

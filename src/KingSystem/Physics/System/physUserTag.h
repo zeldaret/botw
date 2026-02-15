@@ -10,6 +10,7 @@ class RigidBody;
 
 class UserTag {
     SEAD_RTTI_BASE(UserTag)
+
 public:
     UserTag() = default;
 

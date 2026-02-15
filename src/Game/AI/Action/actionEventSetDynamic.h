@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetDynamic : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetDynamic, ksys::act::ai::Action)
+
 public:
     explicit EventSetDynamic(const InitArg& arg);
     ~EventSetDynamic() override;

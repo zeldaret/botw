@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CameraEventReserveConnectTime : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraEventReserveConnectTime, ksys::act::ai::Action)
+
 public:
     explicit CameraEventReserveConnectTime(const InitArg& arg);
     ~CameraEventReserveConnectTime() override;

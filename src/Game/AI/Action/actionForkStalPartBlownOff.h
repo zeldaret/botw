@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkStalPartBlownOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkStalPartBlownOff, ksys::act::ai::Action)
+
 public:
     explicit ForkStalPartBlownOff(const InitArg& arg);
     ~ForkStalPartBlownOff() override;

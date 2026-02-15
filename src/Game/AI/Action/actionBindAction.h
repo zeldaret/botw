@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BindAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BindAction, ksys::act::ai::Action)
+
 public:
     explicit BindAction(const InitArg& arg);
     ~BindAction() override;

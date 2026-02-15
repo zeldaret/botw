@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EventOpenGetWeaponDemo : public EventOpenGetDemo {
     SEAD_RTTI_OVERRIDE(EventOpenGetWeaponDemo, EventOpenGetDemo)
+
 public:
     explicit EventOpenGetWeaponDemo(const InitArg& arg);
     ~EventOpenGetWeaponDemo() override;

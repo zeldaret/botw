@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ReflectThrown : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ReflectThrown, ksys::act::ai::Action)
+
 public:
     explicit ReflectThrown(const InitArg& arg);
     ~ReflectThrown() override;

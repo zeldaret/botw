@@ -23,6 +23,7 @@ struct RigidBodyCollisionMasks;
 
 class ContactListener : public hkpContactListener, public sead::hostio::Node {
     SEAD_RTTI_BASE(ContactListener)
+
 public:
     ContactListener(ContactMgr* mgr, ContactLayerType layer_type, int layer_count);
     ~ContactListener() override;

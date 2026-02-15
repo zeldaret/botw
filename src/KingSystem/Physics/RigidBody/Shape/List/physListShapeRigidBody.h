@@ -15,6 +15,7 @@ class ListShape;
 
 class ListShapeRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(ListShapeRigidBody, RigidBodyFromShape)
+
 public:
     static ListShapeRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
 

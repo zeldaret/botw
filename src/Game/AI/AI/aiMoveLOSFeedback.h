@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoveLOSFeedback : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoveLOSFeedback, ksys::act::ai::Ai)
+
 public:
     explicit MoveLOSFeedback(const InitArg& arg);
     ~MoveLOSFeedback() override;

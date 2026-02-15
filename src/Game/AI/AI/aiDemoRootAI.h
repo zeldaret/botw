@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DemoRootAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DemoRootAI, ksys::act::ai::Ai)
+
 public:
     explicit DemoRootAI(const InitArg& arg);
     ~DemoRootAI() override;

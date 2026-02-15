@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NoCountDead : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NoCountDead, ksys::act::ai::Action)
+
 public:
     explicit NoCountDead(const InitArg& arg);
     ~NoCountDead() override;

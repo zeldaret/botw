@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BecomeSpeaker : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BecomeSpeaker, ksys::act::ai::Action)
+
 public:
     explicit BecomeSpeaker(const InitArg& arg);
     ~BecomeSpeaker() override;

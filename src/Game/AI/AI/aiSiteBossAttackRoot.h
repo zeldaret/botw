@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SiteBossAttackRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossAttackRoot, ksys::act::ai::Ai)
+
 public:
     explicit SiteBossAttackRoot(const InitArg& arg);
     ~SiteBossAttackRoot() override;

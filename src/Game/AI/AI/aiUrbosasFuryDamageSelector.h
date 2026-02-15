@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class UrbosasFuryDamageSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(UrbosasFuryDamageSelector, ksys::act::ai::Ai)
+
 public:
     explicit UrbosasFuryDamageSelector(const InitArg& arg);
     ~UrbosasFuryDamageSelector() override;

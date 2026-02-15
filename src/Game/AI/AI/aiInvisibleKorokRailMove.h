@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class InvisibleKorokRailMove : public KorokRailMove {
     SEAD_RTTI_OVERRIDE(InvisibleKorokRailMove, KorokRailMove)
+
 public:
     explicit InvisibleKorokRailMove(const InitArg& arg);
     ~InvisibleKorokRailMove() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CameraEventOverwriteFar : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraEventOverwriteFar, ksys::act::ai::Action)
+
 public:
     explicit CameraEventOverwriteFar(const InitArg& arg);
     ~CameraEventOverwriteFar() override;

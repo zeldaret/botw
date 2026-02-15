@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkModelVisibleOff : public Fork {
     SEAD_RTTI_OVERRIDE(ForkModelVisibleOff, Fork)
+
 public:
     explicit ForkModelVisibleOff(const InitArg& arg);
     ~ForkModelVisibleOff() override;

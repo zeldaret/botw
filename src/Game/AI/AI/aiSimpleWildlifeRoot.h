@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SimpleWildlifeRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleWildlifeRoot, ksys::act::ai::Ai)
+
 public:
     explicit SimpleWildlifeRoot(const InitArg& arg);
     ~SimpleWildlifeRoot() override;

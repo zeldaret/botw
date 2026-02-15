@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetPosRotFromMyPos : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetPosRotFromMyPos, TargetPosAI)
+
 public:
     explicit TargetPosRotFromMyPos(const InitArg& arg);
     ~TargetPosRotFromMyPos() override;

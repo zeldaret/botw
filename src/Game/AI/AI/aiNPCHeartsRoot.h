@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NPCHeartsRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NPCHeartsRoot, NPCRoot)
+
 public:
     explicit NPCHeartsRoot(const InitArg& arg);
     ~NPCHeartsRoot() override;

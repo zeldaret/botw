@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyBaseFindPlayer : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyBaseFindPlayer, ksys::act::ai::Ai)
+
 public:
     explicit EnemyBaseFindPlayer(const InitArg& arg);
     ~EnemyBaseFindPlayer() override;

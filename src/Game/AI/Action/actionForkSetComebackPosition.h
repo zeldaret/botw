@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSetComebackPosition : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSetComebackPosition, ksys::act::ai::Action)
+
 public:
     explicit ForkSetComebackPosition(const InitArg& arg);
     ~ForkSetComebackPosition() override;

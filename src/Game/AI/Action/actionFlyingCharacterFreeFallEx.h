@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FlyingCharacterFreeFallEx : public FlyingCharacterFreeFall {
     SEAD_RTTI_OVERRIDE(FlyingCharacterFreeFallEx, FlyingCharacterFreeFall)
+
 public:
     explicit FlyingCharacterFreeFallEx(const InitArg& arg);
     ~FlyingCharacterFreeFallEx() override;

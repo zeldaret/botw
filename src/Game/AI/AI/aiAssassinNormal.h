@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinNormal : public LandHumEnemyNormal {
     SEAD_RTTI_OVERRIDE(AssassinNormal, LandHumEnemyNormal)
+
 public:
     explicit AssassinNormal(const InitArg& arg);
     ~AssassinNormal() override;

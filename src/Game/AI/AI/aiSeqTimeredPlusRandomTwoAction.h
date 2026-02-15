@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqTimeredPlusRandomTwoAction : public SeqTimeredTwoAction {
     SEAD_RTTI_OVERRIDE(SeqTimeredPlusRandomTwoAction, SeqTimeredTwoAction)
+
 public:
     explicit SeqTimeredPlusRandomTwoAction(const InitArg& arg);
     ~SeqTimeredPlusRandomTwoAction() override;

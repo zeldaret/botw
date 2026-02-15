@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossAvoid : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossAvoid, ksys::act::ai::Action)
+
 public:
     explicit SiteBossAvoid(const InitArg& arg);
     ~SiteBossAvoid() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalPartsHasSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalPartsHasSelect, ksys::act::ai::Ai)
+
 public:
     explicit StalPartsHasSelect(const InitArg& arg);
     ~StalPartsHasSelect() override;

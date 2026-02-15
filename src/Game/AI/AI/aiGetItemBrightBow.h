@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GetItemBrightBow : public GetItemNormal {
     SEAD_RTTI_OVERRIDE(GetItemBrightBow, GetItemNormal)
+
 public:
     explicit GetItemBrightBow(const InitArg& arg);
     ~GetItemBrightBow() override;

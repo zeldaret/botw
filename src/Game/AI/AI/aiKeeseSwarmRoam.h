@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class KeeseSwarmRoam : public CircleMove {
     SEAD_RTTI_OVERRIDE(KeeseSwarmRoam, CircleMove)
+
 public:
     explicit KeeseSwarmRoam(const InitArg& arg);
     ~KeeseSwarmRoam() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MoveByAnimeDrivenToTarget : public MoveByAnimeDriven {
     SEAD_RTTI_OVERRIDE(MoveByAnimeDrivenToTarget, MoveByAnimeDriven)
+
 public:
     explicit MoveByAnimeDrivenToTarget(const InitArg& arg);
     ~MoveByAnimeDrivenToTarget() override;

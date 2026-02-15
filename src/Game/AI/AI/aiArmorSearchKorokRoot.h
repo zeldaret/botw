@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ArmorSearchKorokRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ArmorSearchKorokRoot, ksys::act::ai::Ai)
+
 public:
     explicit ArmorSearchKorokRoot(const InitArg& arg);
     ~ArmorSearchKorokRoot() override;

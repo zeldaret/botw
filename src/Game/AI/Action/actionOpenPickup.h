@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenPickup : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenPickup, ksys::act::ai::Action)
+
 public:
     explicit OpenPickup(const InitArg& arg);
     ~OpenPickup() override;

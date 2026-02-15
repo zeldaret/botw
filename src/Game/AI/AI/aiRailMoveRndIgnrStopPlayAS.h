@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RailMoveRndIgnrStopPlayAS : public RailMoveRandomIgnoreStop {
     SEAD_RTTI_OVERRIDE(RailMoveRndIgnrStopPlayAS, RailMoveRandomIgnoreStop)
+
 public:
     explicit RailMoveRndIgnrStopPlayAS(const InitArg& arg);
     ~RailMoveRndIgnrStopPlayAS() override;

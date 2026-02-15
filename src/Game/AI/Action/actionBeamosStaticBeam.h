@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BeamosStaticBeam : public StopASPlay {
     SEAD_RTTI_OVERRIDE(BeamosStaticBeam, StopASPlay)
+
 public:
     explicit BeamosStaticBeam(const InitArg& arg);
     ~BeamosStaticBeam() override;

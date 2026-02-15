@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasSetItem : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasSetItem, Query)
+
 public:
     explicit HasSetItem(const InitArg& arg);
     ~HasSetItem() override;

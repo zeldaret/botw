@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetQuestStepAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetQuestStepAction, ksys::act::ai::Action)
+
 public:
     explicit SetQuestStepAction(const InitArg& arg);
     ~SetQuestStepAction() override;

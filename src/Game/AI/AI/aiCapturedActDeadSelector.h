@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CapturedActDeadSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CapturedActDeadSelector, ksys::act::ai::Ai)
+
 public:
     explicit CapturedActDeadSelector(const InitArg& arg);
     ~CapturedActDeadSelector() override;

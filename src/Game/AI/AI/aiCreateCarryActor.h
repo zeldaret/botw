@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CreateCarryActor : public CreateActor {
     SEAD_RTTI_OVERRIDE(CreateCarryActor, CreateActor)
+
 public:
     explicit CreateCarryActor(const InitArg& arg);
     ~CreateCarryActor() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GameDataAddVec3 : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GameDataAddVec3, ksys::act::ai::Action)
+
 public:
     explicit GameDataAddVec3(const InitArg& arg);
     ~GameDataAddVec3() override;

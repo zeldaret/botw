@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BackFlip : public RotateTurnToTarget {
     SEAD_RTTI_OVERRIDE(BackFlip, RotateTurnToTarget)
+
 public:
     explicit BackFlip(const InitArg& arg);
     ~BackFlip() override;

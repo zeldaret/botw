@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASTrgShootArrow : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASTrgShootArrow, ksys::act::ai::Action)
+
 public:
     explicit ForkASTrgShootArrow(const InitArg& arg);
     ~ForkASTrgShootArrow() override;

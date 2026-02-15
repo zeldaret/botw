@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetImpulseDamageMin : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetImpulseDamageMin, ksys::act::ai::Action)
+
 public:
     explicit SetImpulseDamageMin(const InitArg& arg);
     ~SetImpulseDamageMin() override;

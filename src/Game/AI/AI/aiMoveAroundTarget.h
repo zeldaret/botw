@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoveAroundTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoveAroundTarget, ksys::act::ai::Ai)
+
 public:
     explicit MoveAroundTarget(const InitArg& arg);
     ~MoveAroundTarget() override;

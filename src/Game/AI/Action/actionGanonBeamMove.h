@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GanonBeamMove : public BeamMove {
     SEAD_RTTI_OVERRIDE(GanonBeamMove, BeamMove)
+
 public:
     explicit GanonBeamMove(const InitArg& arg);
     ~GanonBeamMove() override;

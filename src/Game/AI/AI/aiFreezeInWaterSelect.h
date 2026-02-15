@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class FreezeInWaterSelect : public InWaterSelect {
     SEAD_RTTI_OVERRIDE(FreezeInWaterSelect, InWaterSelect)
+
 public:
     explicit FreezeInWaterSelect(const InitArg& arg);
     ~FreezeInWaterSelect() override;

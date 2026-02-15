@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AnimalRoam : public AnimalRoamBase {
     SEAD_RTTI_OVERRIDE(AnimalRoam, AnimalRoamBase)
+
 public:
     explicit AnimalRoam(const InitArg& arg);
     ~AnimalRoam() override;

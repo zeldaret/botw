@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DangerAvoidFlagSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DangerAvoidFlagSelect, ksys::act::ai::Ai)
+
 public:
     explicit DangerAvoidFlagSelect(const InitArg& arg);
     ~DangerAvoidFlagSelect() override;

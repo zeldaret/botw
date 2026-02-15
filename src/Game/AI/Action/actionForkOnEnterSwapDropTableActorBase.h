@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkOnEnterSwapDropTableActorBase : public Fork {
     SEAD_RTTI_OVERRIDE(ForkOnEnterSwapDropTableActorBase, Fork)
+
 public:
     explicit ForkOnEnterSwapDropTableActorBase(const InitArg& arg);
     ~ForkOnEnterSwapDropTableActorBase() override;

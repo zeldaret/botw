@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AppearMagneForce : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AppearMagneForce, ksys::act::ai::Action)
+
 public:
     explicit AppearMagneForce(const InitArg& arg);
     ~AppearMagneForce() override;

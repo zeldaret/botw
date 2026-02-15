@@ -6,6 +6,7 @@ namespace uking::action {
 
 class XLinkEventCreateAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(XLinkEventCreateAction, ksys::act::ai::Action)
+
 public:
     explicit XLinkEventCreateAction(const InitArg& arg);
     ~XLinkEventCreateAction() override;

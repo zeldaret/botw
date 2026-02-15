@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ReuseBulletPartsRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ReuseBulletPartsRoot, ksys::act::ai::Ai)
+
 public:
     explicit ReuseBulletPartsRoot(const InitArg& arg);
     ~ReuseBulletPartsRoot() override;

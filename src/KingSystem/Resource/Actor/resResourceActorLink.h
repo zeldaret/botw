@@ -12,6 +12,7 @@ namespace ksys::res {
 
 class ActorLink : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ActorLink, Resource)
+
 public:
     enum class User {
         Profile = 0,

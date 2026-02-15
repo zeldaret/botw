@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckTypeOfOwnedHorseForEvent : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckTypeOfOwnedHorseForEvent, Query)
+
 public:
     explicit CheckTypeOfOwnedHorseForEvent(const InitArg& arg);
     ~CheckTypeOfOwnedHorseForEvent() override;

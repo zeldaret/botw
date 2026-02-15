@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EnemyRigidBodyDieBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EnemyRigidBodyDieBase, ksys::act::ai::Action)
+
 public:
     explicit EnemyRigidBodyDieBase(const InitArg& arg);
     ~EnemyRigidBodyDieBase() override;

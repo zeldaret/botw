@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandwormRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandwormRoam, ksys::act::ai::Ai)
+
 public:
     explicit SandwormRoam(const InitArg& arg);
     ~SandwormRoam() override;

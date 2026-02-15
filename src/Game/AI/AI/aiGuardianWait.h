@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianWait : public GuardianAI {
     SEAD_RTTI_OVERRIDE(GuardianWait, GuardianAI)
+
 public:
     explicit GuardianWait(const InitArg& arg);
     ~GuardianWait() override;

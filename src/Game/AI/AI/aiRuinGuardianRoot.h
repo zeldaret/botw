@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RuinGuardianRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RuinGuardianRoot, ksys::act::ai::Ai)
+
 public:
     explicit RuinGuardianRoot(const InitArg& arg);
     ~RuinGuardianRoot() override;

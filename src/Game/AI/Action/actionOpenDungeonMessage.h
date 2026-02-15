@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenDungeonMessage : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenDungeonMessage, ksys::act::ai::Action)
+
 public:
     explicit OpenDungeonMessage(const InitArg& arg);
     ~OpenDungeonMessage() override;

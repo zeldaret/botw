@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NoticeTurn : public RotateTurnToTarget {
     SEAD_RTTI_OVERRIDE(NoticeTurn, RotateTurnToTarget)
+
 public:
     explicit NoticeTurn(const InitArg& arg);
     ~NoticeTurn() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerWeaponThrow : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWeaponThrow, PlayerAction)
+
 public:
     explicit PlayerWeaponThrow(const InitArg& arg);
 

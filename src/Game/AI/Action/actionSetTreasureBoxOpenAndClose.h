@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetTreasureBoxOpenAndClose : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetTreasureBoxOpenAndClose, ksys::act::ai::Action)
+
 public:
     explicit SetTreasureBoxOpenAndClose(const InitArg& arg);
     ~SetTreasureBoxOpenAndClose() override;

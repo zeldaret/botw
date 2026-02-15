@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitForFrame : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitForFrame, ksys::act::ai::Action)
+
 public:
     explicit WaitForFrame(const InitArg& arg);
     ~WaitForFrame() override;

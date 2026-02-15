@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetPosDynParamRotFromCtrPos : public TargetPosDynParamRot {
     SEAD_RTTI_OVERRIDE(TargetPosDynParamRotFromCtrPos, TargetPosDynParamRot)
+
 public:
     explicit TargetPosDynParamRotFromCtrPos(const InitArg& arg);
     ~TargetPosDynParamRotFromCtrPos() override;

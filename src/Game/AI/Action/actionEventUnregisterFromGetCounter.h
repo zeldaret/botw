@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventUnregisterFromGetCounter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventUnregisterFromGetCounter, ksys::act::ai::Action)
+
 public:
     explicit EventUnregisterFromGetCounter(const InitArg& arg);
     ~EventUnregisterFromGetCounter() override;

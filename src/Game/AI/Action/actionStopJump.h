@@ -7,6 +7,7 @@ namespace uking::action {
 
 class StopJump : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(StopJump, ActionWithPosAngReduce)
+
 public:
     explicit StopJump(const InitArg& arg);
     ~StopJump() override;

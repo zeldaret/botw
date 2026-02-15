@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantBattleCloseMove : public GiantBattleCloseAction {
     SEAD_RTTI_OVERRIDE(GiantBattleCloseMove, GiantBattleCloseAction)
+
 public:
     explicit GiantBattleCloseMove(const InitArg& arg);
     ~GiantBattleCloseMove() override;

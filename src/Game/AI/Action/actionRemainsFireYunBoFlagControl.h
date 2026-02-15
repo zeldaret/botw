@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemainsFireYunBoFlagControl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemainsFireYunBoFlagControl, ksys::act::ai::Action)
+
 public:
     explicit RemainsFireYunBoFlagControl(const InitArg& arg);
     ~RemainsFireYunBoFlagControl() override;

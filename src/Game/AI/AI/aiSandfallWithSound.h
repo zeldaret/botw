@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandfallWithSound : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandfallWithSound, ksys::act::ai::Ai)
+
 public:
     explicit SandfallWithSound(const InitArg& arg);
     ~SandfallWithSound() override;

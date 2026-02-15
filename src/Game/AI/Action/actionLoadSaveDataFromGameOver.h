@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LoadSaveDataFromGameOver : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LoadSaveDataFromGameOver, ksys::act::ai::Action)
+
 public:
     explicit LoadSaveDataFromGameOver(const InitArg& arg);
     ~LoadSaveDataFromGameOver() override;

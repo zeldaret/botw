@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TowingPlayer : public Towing {
     SEAD_RTTI_OVERRIDE(TowingPlayer, Towing)
+
 public:
     explicit TowingPlayer(const InitArg& arg);
     ~TowingPlayer() override;

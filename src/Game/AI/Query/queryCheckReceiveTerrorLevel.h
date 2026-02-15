@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckReceiveTerrorLevel : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckReceiveTerrorLevel, Query)
+
 public:
     explicit CheckReceiveTerrorLevel(const InitArg& arg);
     ~CheckReceiveTerrorLevel() override;

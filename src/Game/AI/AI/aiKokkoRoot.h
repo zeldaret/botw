@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class KokkoRoot : public PreyRoot {
     SEAD_RTTI_OVERRIDE(KokkoRoot, PreyRoot)
+
 public:
     explicit KokkoRoot(const InitArg& arg);
     ~KokkoRoot() override;

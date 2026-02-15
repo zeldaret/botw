@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TimidityEnemyDrawback : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TimidityEnemyDrawback, ksys::act::ai::Ai)
+
 public:
     explicit TimidityEnemyDrawback(const InitArg& arg);
     ~TimidityEnemyDrawback() override;

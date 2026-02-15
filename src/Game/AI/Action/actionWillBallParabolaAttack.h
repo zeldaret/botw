@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WillBallParabolaAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WillBallParabolaAttack, ksys::act::ai::Action)
+
 public:
     explicit WillBallParabolaAttack(const InitArg& arg);
     ~WillBallParabolaAttack() override;

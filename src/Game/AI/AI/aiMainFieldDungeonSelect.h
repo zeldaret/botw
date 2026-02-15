@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MainFieldDungeonSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MainFieldDungeonSelect, ksys::act::ai::Ai)
+
 public:
     explicit MainFieldDungeonSelect(const InitArg& arg);
     ~MainFieldDungeonSelect() override;

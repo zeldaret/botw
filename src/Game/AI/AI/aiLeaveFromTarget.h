@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LeaveFromTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LeaveFromTarget, ksys::act::ai::Ai)
+
 public:
     explicit LeaveFromTarget(const InitArg& arg);
     ~LeaveFromTarget() override;

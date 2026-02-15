@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossSwordChemicalPlus : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(SiteBossSwordChemicalPlus, ActionWithPosAngReduce)
+
 public:
     explicit SiteBossSwordChemicalPlus(const InitArg& arg);
     ~SiteBossSwordChemicalPlus() override;

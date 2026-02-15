@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DemoApplyDamageForPlayer : public ApplyDamageForPlayer {
     SEAD_RTTI_OVERRIDE(DemoApplyDamageForPlayer, ApplyDamageForPlayer)
+
 public:
     explicit DemoApplyDamageForPlayer(const InitArg& arg);
     ~DemoApplyDamageForPlayer() override;

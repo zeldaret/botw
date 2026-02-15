@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASHoldLinearMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASHoldLinearMove, ksys::act::ai::Action)
+
 public:
     explicit ForkASHoldLinearMove(const InitArg& arg);
     ~ForkASHoldLinearMove() override;

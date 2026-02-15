@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckStage : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckStage, Query)
+
 public:
     explicit CheckStage(const InitArg& arg);
     ~CheckStage() override;

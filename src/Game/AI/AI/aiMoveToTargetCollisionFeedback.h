@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoveToTargetCollisionFeedback : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoveToTargetCollisionFeedback, ksys::act::ai::Ai)
+
 public:
     explicit MoveToTargetCollisionFeedback(const InitArg& arg);
     ~MoveToTargetCollisionFeedback() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BindActionForManyActor : public BindAction {
     SEAD_RTTI_OVERRIDE(BindActionForManyActor, BindAction)
+
 public:
     explicit BindActionForManyActor(const InitArg& arg);
     ~BindActionForManyActor() override;

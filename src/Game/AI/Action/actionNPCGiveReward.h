@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCGiveReward : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCGiveReward, ksys::act::ai::Action)
+
 public:
     explicit NPCGiveReward(const InitArg& arg);
     ~NPCGiveReward() override;

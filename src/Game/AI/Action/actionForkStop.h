@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkStop : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(ForkStop, ActionWithPosAngReduce)
+
 public:
     explicit ForkStop(const InitArg& arg);
     ~ForkStop() override;

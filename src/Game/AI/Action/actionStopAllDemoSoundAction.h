@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StopAllDemoSoundAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StopAllDemoSoundAction, ksys::act::ai::Action)
+
 public:
     explicit StopAllDemoSoundAction(const InitArg& arg);
     ~StopAllDemoSoundAction() override;

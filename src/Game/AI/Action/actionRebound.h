@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Rebound : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Rebound, ActionWithAS)
+
 public:
     explicit Rebound(const InitArg& arg);
 

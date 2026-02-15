@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqOctarockAttack : public SeqThreeAction {
     SEAD_RTTI_OVERRIDE(SeqOctarockAttack, SeqThreeAction)
+
 public:
     explicit SeqOctarockAttack(const InitArg& arg);
     ~SeqOctarockAttack() override;

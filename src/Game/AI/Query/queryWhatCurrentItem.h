@@ -6,6 +6,7 @@ namespace uking::query {
 
 class WhatCurrentItem : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(WhatCurrentItem, Query)
+
 public:
     explicit WhatCurrentItem(const InitArg& arg);
     ~WhatCurrentItem() override;

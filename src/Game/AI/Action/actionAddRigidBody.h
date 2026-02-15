@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AddRigidBody : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AddRigidBody, ksys::act::ai::Action)
+
 public:
     explicit AddRigidBody(const InitArg& arg);
     ~AddRigidBody() override;

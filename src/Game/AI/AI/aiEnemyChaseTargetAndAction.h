@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyChaseTargetAndAction : public UnarmedEnemySearch {
     SEAD_RTTI_OVERRIDE(EnemyChaseTargetAndAction, UnarmedEnemySearch)
+
 public:
     explicit EnemyChaseTargetAndAction(const InitArg& arg);
     ~EnemyChaseTargetAndAction() override;

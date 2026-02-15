@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LynelSpinAttack : public ForkWeaponAttack {
     SEAD_RTTI_OVERRIDE(LynelSpinAttack, ForkWeaponAttack)
+
 public:
     explicit LynelSpinAttack(const InitArg& arg);
     ~LynelSpinAttack() override;

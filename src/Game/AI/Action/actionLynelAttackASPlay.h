@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LynelAttackASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LynelAttackASPlay, ksys::act::ai::Action)
+
 public:
     explicit LynelAttackASPlay(const InitArg& arg);
     ~LynelAttackASPlay() override;

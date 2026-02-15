@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyWatchKeepingWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyWatchKeepingWait, ksys::act::ai::Ai)
+
 public:
     explicit EnemyWatchKeepingWait(const InitArg& arg);
     ~EnemyWatchKeepingWait() override;

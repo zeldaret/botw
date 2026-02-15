@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckLastDamageAttacker : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckLastDamageAttacker, Query)
+
 public:
     explicit CheckLastDamageAttacker(const InitArg& arg);
     ~CheckLastDamageAttacker() override;

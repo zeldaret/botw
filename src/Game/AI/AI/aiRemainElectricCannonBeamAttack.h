@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemainElectricCannonBeamAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemainElectricCannonBeamAttack, ksys::act::ai::Ai)
+
 public:
     explicit RemainElectricCannonBeamAttack(const InitArg& arg);
     ~RemainElectricCannonBeamAttack() override;

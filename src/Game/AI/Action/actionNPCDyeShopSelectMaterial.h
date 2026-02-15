@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCDyeShopSelectMaterial : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCDyeShopSelectMaterial, ksys::act::ai::Action)
+
 public:
     explicit NPCDyeShopSelectMaterial(const InitArg& arg);
     ~NPCDyeShopSelectMaterial() override;

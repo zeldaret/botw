@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MotorcycleWaitUntilFellOver : public MotorcycleWait {
     SEAD_RTTI_OVERRIDE(MotorcycleWaitUntilFellOver, MotorcycleWait)
+
 public:
     explicit MotorcycleWaitUntilFellOver(const InitArg& arg);
     ~MotorcycleWaitUntilFellOver() override;

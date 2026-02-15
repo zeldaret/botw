@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DemoGetItemAnimStop : public DemoGetItem {
     SEAD_RTTI_OVERRIDE(DemoGetItemAnimStop, DemoGetItem)
+
 public:
     explicit DemoGetItemAnimStop(const InitArg& arg);
     ~DemoGetItemAnimStop() override;

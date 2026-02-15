@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetPlayerPos : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetPlayerPos, TargetPosAI)
+
 public:
     explicit TargetPlayerPos(const InitArg& arg);
     ~TargetPlayerPos() override;

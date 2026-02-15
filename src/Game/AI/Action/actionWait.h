@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Wait : public WaitBase {
     SEAD_RTTI_OVERRIDE(Wait, WaitBase)
+
 public:
     explicit Wait(const InitArg& arg);
 

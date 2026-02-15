@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DistanceLostCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DistanceLostCheck, ksys::act::ai::Ai)
+
 public:
     explicit DistanceLostCheck(const InitArg& arg);
     ~DistanceLostCheck() override;

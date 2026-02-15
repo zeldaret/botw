@@ -25,6 +25,7 @@ struct ListShapeParam {
 
 class ListShape : public Shape {
     SEAD_RTTI_OVERRIDE(ListShape, Shape)
+
 public:
     static ListShape* make(const ListShapeParam& param, sead::Heap* heap);
     ListShape* clone(sead::Heap* heap) const;
@@ -99,6 +100,7 @@ private:
 
 class ListShapeRigidBodyParam : public RigidBodyInstanceParam, public ListShapeParam {
     SEAD_RTTI_OVERRIDE(ListShapeRigidBodyParam, RigidBodyInstanceParam)
+
 public:
     ListShapeRigidBodyParam() : RigidBodyInstanceParam(ShapeType::List) {}
 };

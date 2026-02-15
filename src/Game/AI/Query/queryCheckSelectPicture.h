@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckSelectPicture : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckSelectPicture, Query)
+
 public:
     explicit CheckSelectPicture(const InitArg& arg);
     ~CheckSelectPicture() override;

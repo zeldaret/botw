@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EscapeOppositeToTargetInWater : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EscapeOppositeToTargetInWater, ksys::act::ai::Ai)
+
 public:
     explicit EscapeOppositeToTargetInWater(const InitArg& arg);
     ~EscapeOppositeToTargetInWater() override;

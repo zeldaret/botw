@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RememberMesOneActorEnemyRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(RememberMesOneActorEnemyRoot, EnemyRoot)
+
 public:
     explicit RememberMesOneActorEnemyRoot(const InitArg& arg);
     ~RememberMesOneActorEnemyRoot() override;

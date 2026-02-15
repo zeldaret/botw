@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkEndByPartsActorEnd : public Fork {
     SEAD_RTTI_OVERRIDE(ForkEndByPartsActorEnd, Fork)
+
 public:
     explicit ForkEndByPartsActorEnd(const InitArg& arg);
     ~ForkEndByPartsActorEnd() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MotorcycleDisappear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MotorcycleDisappear, ksys::act::ai::Action)
+
 public:
     explicit MotorcycleDisappear(const InitArg& arg);
     ~MotorcycleDisappear() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetTgIgnoreObstacle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetTgIgnoreObstacle, ksys::act::ai::Action)
+
 public:
     explicit SetTgIgnoreObstacle(const InitArg& arg);
     ~SetTgIgnoreObstacle() override;

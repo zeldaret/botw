@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WizzrobeRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(WizzrobeRoot, EnemyRoot)
+
 public:
     explicit WizzrobeRoot(const InitArg& arg);
     ~WizzrobeRoot() override;

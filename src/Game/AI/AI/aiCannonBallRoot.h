@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CannonBallRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CannonBallRoot, ksys::act::ai::Ai)
+
 public:
     explicit CannonBallRoot(const InitArg& arg);
     ~CannonBallRoot() override;

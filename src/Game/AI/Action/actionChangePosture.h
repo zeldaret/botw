@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChangePosture : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChangePosture, ksys::act::ai::Action)
+
 public:
     explicit ChangePosture(const InitArg& arg);
     ~ChangePosture() override;

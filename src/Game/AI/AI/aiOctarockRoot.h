@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class OctarockRoot : public OctarockRootBase {
     SEAD_RTTI_OVERRIDE(OctarockRoot, OctarockRootBase)
+
 public:
     explicit OctarockRoot(const InitArg& arg);
     ~OctarockRoot() override;

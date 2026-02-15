@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckE3Mode : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckE3Mode, Query)
+
 public:
     explicit CheckE3Mode(const InitArg& arg);
     ~CheckE3Mode() override;

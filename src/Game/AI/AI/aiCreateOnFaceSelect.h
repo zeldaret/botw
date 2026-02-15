@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CreateOnFaceSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CreateOnFaceSelect, ksys::act::ai::Ai)
+
 public:
     explicit CreateOnFaceSelect(const InitArg& arg);
     ~CreateOnFaceSelect() override;

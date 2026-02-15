@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyVacuumBombSelectBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyVacuumBombSelectBase, ksys::act::ai::Ai)
+
 public:
     explicit EnemyVacuumBombSelectBase(const InitArg& arg);
     ~EnemyVacuumBombSelectBase() override;

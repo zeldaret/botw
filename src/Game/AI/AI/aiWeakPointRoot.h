@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WeakPointRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WeakPointRoot, ksys::act::ai::Ai)
+
 public:
     explicit WeakPointRoot(const InitArg& arg);
     ~WeakPointRoot() override;

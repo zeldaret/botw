@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DunegonRotateWait : public DungeonRotateBase {
     SEAD_RTTI_OVERRIDE(DunegonRotateWait, DungeonRotateBase)
+
 public:
     explicit DunegonRotateWait(const InitArg& arg);
     ~DunegonRotateWait() override;

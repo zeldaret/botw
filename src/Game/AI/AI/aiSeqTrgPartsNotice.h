@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqTrgPartsNotice : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(SeqTrgPartsNotice, SeqTwoAction)
+
 public:
     explicit SeqTrgPartsNotice(const InitArg& arg);
     ~SeqTrgPartsNotice() override;

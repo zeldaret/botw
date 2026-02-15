@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StoneBall_BRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StoneBall_BRoot, ksys::act::ai::Ai)
+
 public:
     explicit StoneBall_BRoot(const InitArg& arg);
     ~StoneBall_BRoot() override;

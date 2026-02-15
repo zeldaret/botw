@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerDead : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerDead, PlayerAction)
+
 public:
     explicit PlayerDead(const InitArg& arg);
 

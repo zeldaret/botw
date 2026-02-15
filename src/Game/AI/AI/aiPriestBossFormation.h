@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossFormation : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossFormation, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossFormation(const InitArg& arg);
     ~PriestBossFormation() override;

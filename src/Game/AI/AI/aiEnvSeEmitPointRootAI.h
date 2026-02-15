@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnvSeEmitPointRootAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnvSeEmitPointRootAI, ksys::act::ai::Ai)
+
 public:
     explicit EnvSeEmitPointRootAI(const InitArg& arg);
     ~EnvSeEmitPointRootAI() override;

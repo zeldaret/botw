@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SetTargetPosForAngryKokko : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SetTargetPosForAngryKokko, ksys::act::ai::Ai)
+
 public:
     explicit SetTargetPosForAngryKokko(const InitArg& arg);
     ~SetTargetPosForAngryKokko() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MimicryResetCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MimicryResetCheck, ksys::act::ai::Ai)
+
 public:
     explicit MimicryResetCheck(const InitArg& arg);
     ~MimicryResetCheck() override;

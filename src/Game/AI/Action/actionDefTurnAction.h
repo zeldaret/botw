@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DefTurnAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DefTurnAction, ksys::act::ai::Action)
+
 public:
     explicit DefTurnAction(const InitArg& arg);
     ~DefTurnAction() override;

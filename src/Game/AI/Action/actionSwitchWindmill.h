@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SwitchWindmill : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwitchWindmill, ksys::act::ai::Action)
+
 public:
     explicit SwitchWindmill(const InitArg& arg);
     ~SwitchWindmill() override;

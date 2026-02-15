@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FirstRunelGrudgeDemo : public DragonPlayASForDemo {
     SEAD_RTTI_OVERRIDE(FirstRunelGrudgeDemo, DragonPlayASForDemo)
+
 public:
     explicit FirstRunelGrudgeDemo(const InitArg& arg);
     ~FirstRunelGrudgeDemo() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandwormNavSearchWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandwormNavSearchWait, ksys::act::ai::Ai)
+
 public:
     explicit SandwormNavSearchWait(const InitArg& arg);
     ~SandwormNavSearchWait() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyEscapeMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyEscapeMove, ksys::act::ai::Ai)
+
 public:
     explicit EnemyEscapeMove(const InitArg& arg);
     ~EnemyEscapeMove() override;

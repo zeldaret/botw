@@ -11,6 +11,7 @@ struct RigidBodyInstanceParam;
 /// A ClosestPointQuery with an owned QueryContactPointInfo.
 class ClosestPointQueryWithInfo : public ClosestPointQuery {
     SEAD_RTTI_OVERRIDE(ClosestPointQueryWithInfo, ClosestPointQuery)
+
 public:
     enum class Status {
         _1 = 1,
@@ -29,6 +30,7 @@ protected:
 /// A closest point query using a sphere rigid body.
 class SphereBasedClosestPointQuery : public ClosestPointQueryWithInfo {
     SEAD_RTTI_OVERRIDE(SphereBasedClosestPointQuery, ClosestPointQueryWithInfo)
+
 public:
     SphereBasedClosestPointQuery(const sead::Vector3f& position, float sphere_radius,
                                  ContactLayer layer, GroundHit ground_hit,

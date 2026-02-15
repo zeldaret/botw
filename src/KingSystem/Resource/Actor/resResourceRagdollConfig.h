@@ -10,6 +10,7 @@ namespace ksys::res {
 
 class RagdollConfig : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(RagdollConfig, Resource)
+
 public:
     RagdollConfig();
     ~RagdollConfig() override;

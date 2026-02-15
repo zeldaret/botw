@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetBeatGetDrop : public TargetBeatCheck {
     SEAD_RTTI_OVERRIDE(TargetBeatGetDrop, TargetBeatCheck)
+
 public:
     explicit TargetBeatGetDrop(const InitArg& arg);
     ~TargetBeatGetDrop() override;

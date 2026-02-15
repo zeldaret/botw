@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PrevASSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PrevASSelect, ksys::act::ai::Ai)
+
 public:
     explicit PrevASSelect(const InitArg& arg);
     ~PrevASSelect() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardJust : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(GuardJust, OnetimeStopASPlay)
+
 public:
     explicit GuardJust(const InitArg& arg);
     ~GuardJust() override;

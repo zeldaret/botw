@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ScrapEquip : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(ScrapEquip, ActionWithAS)
+
 public:
     explicit ScrapEquip(const InitArg& arg);
     ~ScrapEquip() override;

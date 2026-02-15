@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossPhaseFourth : public PriestBossPhase {
     SEAD_RTTI_OVERRIDE(PriestBossPhaseFourth, PriestBossPhase)
+
 public:
     explicit PriestBossPhaseFourth(const InitArg& arg);
     ~PriestBossPhaseFourth() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MimicFreeze : public Freeze {
     SEAD_RTTI_OVERRIDE(MimicFreeze, Freeze)
+
 public:
     explicit MimicFreeze(const InitArg& arg);
     ~MimicFreeze() override;

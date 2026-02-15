@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoCookPotCook : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoCookPotCook, ksys::act::ai::Action)
+
 public:
     explicit DemoCookPotCook(const InitArg& arg);
     ~DemoCookPotCook() override;

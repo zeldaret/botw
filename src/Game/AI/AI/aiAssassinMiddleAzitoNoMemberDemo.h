@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AssassinMiddleAzitoNoMemberDemo : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AssassinMiddleAzitoNoMemberDemo, ksys::act::ai::Ai)
+
 public:
     explicit AssassinMiddleAzitoNoMemberDemo(const InitArg& arg);
     ~AssassinMiddleAzitoNoMemberDemo() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HingeMagneFixedRigid : public FixedMagneSliderBlock {
     SEAD_RTTI_OVERRIDE(HingeMagneFixedRigid, FixedMagneSliderBlock)
+
 public:
     explicit HingeMagneFixedRigid(const InitArg& arg);
     ~HingeMagneFixedRigid() override;

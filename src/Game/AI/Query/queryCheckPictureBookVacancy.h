@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckPictureBookVacancy : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckPictureBookVacancy, Query)
+
 public:
     explicit CheckPictureBookVacancy(const InitArg& arg);
     ~CheckPictureBookVacancy() override;

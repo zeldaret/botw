@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HangedLamp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HangedLamp, ksys::act::ai::Ai)
+
 public:
     explicit HangedLamp(const InitArg& arg);
     ~HangedLamp() override;

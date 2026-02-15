@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class BeeSwarmFindPlayer : public FlyingEnemyFindPlayer {
     SEAD_RTTI_OVERRIDE(BeeSwarmFindPlayer, FlyingEnemyFindPlayer)
+
 public:
     explicit BeeSwarmFindPlayer(const InitArg& arg);
     ~BeeSwarmFindPlayer() override;

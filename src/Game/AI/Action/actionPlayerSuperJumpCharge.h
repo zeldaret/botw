@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSuperJumpCharge : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSuperJumpCharge, PlayerAction)
+
 public:
     explicit PlayerSuperJumpCharge(const InitArg& arg);
 

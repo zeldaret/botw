@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Walk : public MoveBase {
     SEAD_RTTI_OVERRIDE(Walk, MoveBase)
+
 public:
     explicit Walk(const InitArg& arg);
 

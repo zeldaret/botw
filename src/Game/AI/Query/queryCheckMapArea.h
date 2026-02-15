@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckMapArea : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckMapArea, Query)
+
 public:
     explicit CheckMapArea(const InitArg& arg);
     ~CheckMapArea() override;

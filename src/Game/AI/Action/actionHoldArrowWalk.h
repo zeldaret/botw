@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HoldArrowWalk : public MoveBase {
     SEAD_RTTI_OVERRIDE(HoldArrowWalk, MoveBase)
+
 public:
     explicit HoldArrowWalk(const InitArg& arg);
     ~HoldArrowWalk() override;

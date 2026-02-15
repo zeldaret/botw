@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CreateObjectsOfOwnedHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CreateObjectsOfOwnedHorse, ksys::act::ai::Action)
+
 public:
     explicit CreateObjectsOfOwnedHorse(const InitArg& arg);
     ~CreateObjectsOfOwnedHorse() override;

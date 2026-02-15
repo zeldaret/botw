@@ -8,6 +8,7 @@
 namespace uking {
 class AirOctaDataMgr {
     SEAD_RTTI_BASE(AirOctaDataMgr)
+
 public:
     ksys::act::BaseProcLink& getProc() { return mBaseProcLink; }
     void changeOctasYheightMaybe();

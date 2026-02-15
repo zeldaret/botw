@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EnemyAreaInOutSendMessage : public ActorAreaInOutSendMessage {
     SEAD_RTTI_OVERRIDE(EnemyAreaInOutSendMessage, ActorAreaInOutSendMessage)
+
 public:
     explicit EnemyAreaInOutSendMessage(const InitArg& arg);
     ~EnemyAreaInOutSendMessage() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EquipedAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EquipedAction, ksys::act::ai::Action)
+
 public:
     explicit EquipedAction(const InitArg& arg);
     ~EquipedAction() override;

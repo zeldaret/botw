@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ReflectableEscape : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ReflectableEscape, ksys::act::ai::Ai)
+
 public:
     explicit ReflectableEscape(const InitArg& arg);
     ~ReflectableEscape() override;

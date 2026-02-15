@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TurnForLookingAround : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TurnForLookingAround, ksys::act::ai::Ai)
+
 public:
     explicit TurnForLookingAround(const InitArg& arg);
     ~TurnForLookingAround() override;

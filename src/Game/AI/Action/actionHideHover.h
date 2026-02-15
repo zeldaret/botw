@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HideHover : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HideHover, ksys::act::ai::Action)
+
 public:
     explicit HideHover(const InitArg& arg);
     ~HideHover() override;

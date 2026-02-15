@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BombExplode : public ActionEx {
     SEAD_RTTI_OVERRIDE(BombExplode, ActionEx)
+
 public:
     explicit BombExplode(const InitArg& arg);
     ~BombExplode() override;

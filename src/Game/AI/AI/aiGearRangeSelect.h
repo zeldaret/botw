@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GearRangeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GearRangeSelect, ksys::act::ai::Ai)
+
 public:
     explicit GearRangeSelect(const InitArg& arg);
     ~GearRangeSelect() override;

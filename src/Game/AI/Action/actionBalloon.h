@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Balloon : public BalloonBase {
     SEAD_RTTI_OVERRIDE(Balloon, BalloonBase)
+
 public:
     explicit Balloon(const InitArg& arg);
     ~Balloon() override;

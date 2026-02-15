@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BokoblinNoise : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinNoise, ksys::act::ai::Ai)
+
 public:
     explicit BokoblinNoise(const InitArg& arg);
 

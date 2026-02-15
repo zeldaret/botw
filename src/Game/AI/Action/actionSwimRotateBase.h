@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwimRotateBase : public WaterFloatBase {
     SEAD_RTTI_OVERRIDE(SwimRotateBase, WaterFloatBase)
+
 public:
     explicit SwimRotateBase(const InitArg& arg);
     ~SwimRotateBase() override;

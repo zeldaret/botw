@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class FlyingEnemyBackKeepMove : public FlyingEnemyKeepMove {
     SEAD_RTTI_OVERRIDE(FlyingEnemyBackKeepMove, FlyingEnemyKeepMove)
+
 public:
     explicit FlyingEnemyBackKeepMove(const InitArg& arg);
     ~FlyingEnemyBackKeepMove() override;

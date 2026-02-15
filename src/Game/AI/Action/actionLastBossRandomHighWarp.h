@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LastBossRandomHighWarp : public LastBossNormalWarp {
     SEAD_RTTI_OVERRIDE(LastBossRandomHighWarp, LastBossNormalWarp)
+
 public:
     explicit LastBossRandomHighWarp(const InitArg& arg);
     ~LastBossRandomHighWarp() override;

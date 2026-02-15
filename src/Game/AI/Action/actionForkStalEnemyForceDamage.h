@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkStalEnemyForceDamage : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkStalEnemyForceDamage, ksys::act::ai::Action)
+
 public:
     explicit ForkStalEnemyForceDamage(const InitArg& arg);
     ~ForkStalEnemyForceDamage() override;

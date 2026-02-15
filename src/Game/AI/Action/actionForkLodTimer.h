@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkLodTimer : public Fork {
     SEAD_RTTI_OVERRIDE(ForkLodTimer, Fork)
+
 public:
     explicit ForkLodTimer(const InitArg& arg);
     ~ForkLodTimer() override;

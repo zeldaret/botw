@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkDynASPlay : public ForkASPlayBase {
     SEAD_RTTI_OVERRIDE(ForkDynASPlay, ForkASPlayBase)
+
 public:
     explicit ForkDynASPlay(const InitArg& arg);
     ~ForkDynASPlay() override;

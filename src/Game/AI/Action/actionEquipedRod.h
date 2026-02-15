@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EquipedRod : public EquipedAction {
     SEAD_RTTI_OVERRIDE(EquipedRod, EquipedAction)
+
 public:
     explicit EquipedRod(const InitArg& arg);
     ~EquipedRod() override;

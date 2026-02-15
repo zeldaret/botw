@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerBarrierBlow : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerBarrierBlow, ksys::act::ai::Ai)
+
 public:
     explicit PlayerBarrierBlow(const InitArg& arg);
     ~PlayerBarrierBlow() override;

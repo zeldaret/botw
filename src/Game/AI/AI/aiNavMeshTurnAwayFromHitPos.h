@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NavMeshTurnAwayFromHitPos : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NavMeshTurnAwayFromHitPos, ksys::act::ai::Ai)
+
 public:
     explicit NavMeshTurnAwayFromHitPos(const InitArg& arg);
     ~NavMeshTurnAwayFromHitPos() override;

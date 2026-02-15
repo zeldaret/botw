@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerShieldRideMove : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerShieldRideMove, PlayerAction)
+
 public:
     explicit PlayerShieldRideMove(const InitArg& arg);
 

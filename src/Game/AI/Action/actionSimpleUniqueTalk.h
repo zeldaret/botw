@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SimpleUniqueTalk : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SimpleUniqueTalk, ksys::act::ai::Action)
+
 public:
     explicit SimpleUniqueTalk(const InitArg& arg);
     ~SimpleUniqueTalk() override;

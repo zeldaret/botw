@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAnimReset : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAnimReset, ksys::act::ai::Action)
+
 public:
     explicit ForkAnimReset(const InitArg& arg);
     ~ForkAnimReset() override;

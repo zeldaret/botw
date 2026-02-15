@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NeckSpin : public StopASPlay {
     SEAD_RTTI_OVERRIDE(NeckSpin, StopASPlay)
+
 public:
     explicit NeckSpin(const InitArg& arg);
     ~NeckSpin() override;

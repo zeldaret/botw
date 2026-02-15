@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkNoWeaponAttackParamWeapon : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkNoWeaponAttackParamWeapon, ksys::act::ai::Action)
+
 public:
     explicit ForkNoWeaponAttackParamWeapon(const InitArg& arg);
     ~ForkNoWeaponAttackParamWeapon() override;

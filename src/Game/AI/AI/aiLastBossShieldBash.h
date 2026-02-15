@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LastBossShieldBash : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastBossShieldBash, ksys::act::ai::Ai)
+
 public:
     explicit LastBossShieldBash(const InitArg& arg);
     ~LastBossShieldBash() override;

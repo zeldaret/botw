@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SiteBossSpearLifeSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossSpearLifeSelector, ksys::act::ai::Ai)
+
 public:
     explicit SiteBossSpearLifeSelector(const InitArg& arg);
     ~SiteBossSpearLifeSelector() override;

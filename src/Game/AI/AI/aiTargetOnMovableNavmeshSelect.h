@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetOnMovableNavmeshSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetOnMovableNavmeshSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetOnMovableNavmeshSelect(const InitArg& arg);
     ~TargetOnMovableNavmeshSelect() override;

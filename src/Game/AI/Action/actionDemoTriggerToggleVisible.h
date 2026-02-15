@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoTriggerToggleVisible : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoTriggerToggleVisible, ksys::act::ai::Action)
+
 public:
     explicit DemoTriggerToggleVisible(const InitArg& arg);
     ~DemoTriggerToggleVisible() override;

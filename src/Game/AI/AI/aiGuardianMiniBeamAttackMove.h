@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniBeamAttackMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniBeamAttackMove, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniBeamAttackMove(const InitArg& arg);
     ~GuardianMiniBeamAttackMove() override;

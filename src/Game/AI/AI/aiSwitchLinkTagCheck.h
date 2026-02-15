@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SwitchLinkTagCheck : public SwitchAI {
     SEAD_RTTI_OVERRIDE(SwitchLinkTagCheck, SwitchAI)
+
 public:
     explicit SwitchLinkTagCheck(const InitArg& arg);
     ~SwitchLinkTagCheck() override;

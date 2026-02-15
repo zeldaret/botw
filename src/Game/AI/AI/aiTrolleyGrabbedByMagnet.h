@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TrolleyGrabbedByMagnet : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TrolleyGrabbedByMagnet, ksys::act::ai::Ai)
+
 public:
     explicit TrolleyGrabbedByMagnet(const InitArg& arg);
     ~TrolleyGrabbedByMagnet() override;

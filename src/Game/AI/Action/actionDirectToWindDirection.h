@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DirectToWindDirection : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DirectToWindDirection, ksys::act::ai::Action)
+
 public:
     explicit DirectToWindDirection(const InitArg& arg);
     ~DirectToWindDirection() override;

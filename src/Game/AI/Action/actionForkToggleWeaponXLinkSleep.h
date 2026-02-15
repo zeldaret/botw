@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkToggleWeaponXLinkSleep : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkToggleWeaponXLinkSleep, ksys::act::ai::Action)
+
 public:
     explicit ForkToggleWeaponXLinkSleep(const InitArg& arg);
     ~ForkToggleWeaponXLinkSleep() override;

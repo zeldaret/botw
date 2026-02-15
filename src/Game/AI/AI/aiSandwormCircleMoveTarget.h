@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandwormCircleMoveTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandwormCircleMoveTarget, ksys::act::ai::Ai)
+
 public:
     explicit SandwormCircleMoveTarget(const InitArg& arg);
     ~SandwormCircleMoveTarget() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetRainSplashRatio : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetRainSplashRatio, ksys::act::ai::Action)
+
 public:
     explicit EventSetRainSplashRatio(const InitArg& arg);
     ~EventSetRainSplashRatio() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class StalEnemyHideWait : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(StalEnemyHideWait, ActionWithPosAngReduce)
+
 public:
     explicit StalEnemyHideWait(const InitArg& arg);
     ~StalEnemyHideWait() override;

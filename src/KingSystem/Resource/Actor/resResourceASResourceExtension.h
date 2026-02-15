@@ -18,6 +18,7 @@ namespace ksys::res {
 
 class ASParamParser {
     SEAD_RTTI_BASE(ASParamParser)
+
 public:
     enum class Type {
         FrameCtrl = 0,
@@ -79,6 +80,7 @@ private:
 
 class ASFrameCtrlParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASFrameCtrlParser, ASParamParser)
+
 public:
     ASFrameCtrlParser() : ASParamParser(Type::FrameCtrl) {}
 
@@ -111,6 +113,7 @@ private:
 
 class ASTriggerEventsParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASTriggerEventsParser, ASParamParser)
+
 public:
     struct Event {
         agl::utl::ParameterObj obj;
@@ -134,6 +137,7 @@ private:
 
 class ASHoldEventsParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASHoldEventsParser, ASParamParser)
+
 public:
     struct Event {
         agl::utl::ParameterObj obj;
@@ -158,6 +162,7 @@ private:
 
 class ASStringArrayParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASStringArrayParser, ASParamParser)
+
 public:
     struct Value {
         agl::utl::Parameter<sead::SafeString> value;
@@ -179,6 +184,7 @@ private:
 
 class ASRangesParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASRangesParser, ASParamParser)
+
 public:
     struct Range {
         agl::utl::ParameterObj obj;
@@ -201,6 +207,7 @@ private:
 
 class ASFloatArrayParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASFloatArrayParser, ASParamParser)
+
 public:
     struct Value {
         agl::utl::Parameter<float> value;
@@ -223,6 +230,7 @@ private:
 
 class ASIntArrayParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASIntArrayParser, ASParamParser)
+
 public:
     struct Value {
         agl::utl::Parameter<int> value;
@@ -245,6 +253,7 @@ private:
 
 class ASBitIndexParser : public ASParamParser {
     SEAD_RTTI_OVERRIDE(ASBitIndexParser, ASParamParser)
+
 public:
     ASBitIndexParser() : ASParamParser(Type::BitIndex) {}
 

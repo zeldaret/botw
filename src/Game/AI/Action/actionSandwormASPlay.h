@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SandwormASPlay : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(SandwormASPlay, ActionWithPosAngReduce)
+
 public:
     explicit SandwormASPlay(const InitArg& arg);
     ~SandwormASPlay() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SoundOcclusionTagAction : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(SoundOcclusionTagAction, AreaTagAction)
+
 public:
     explicit SoundOcclusionTagAction(const InitArg& arg);
     ~SoundOcclusionTagAction() override;

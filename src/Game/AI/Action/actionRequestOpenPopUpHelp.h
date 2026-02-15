@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RequestOpenPopUpHelp : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RequestOpenPopUpHelp, ksys::act::ai::Action)
+
 public:
     explicit RequestOpenPopUpHelp(const InitArg& arg);
     ~RequestOpenPopUpHelp() override;

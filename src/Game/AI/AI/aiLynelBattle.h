@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelBattle, ksys::act::ai::Ai)
+
 public:
     explicit LynelBattle(const InitArg& arg);
     ~LynelBattle() override;

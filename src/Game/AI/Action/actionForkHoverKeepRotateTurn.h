@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkHoverKeepRotateTurn : public ForkHoverKeepRotateTurnBase {
     SEAD_RTTI_OVERRIDE(ForkHoverKeepRotateTurn, ForkHoverKeepRotateTurnBase)
+
 public:
     explicit ForkHoverKeepRotateTurn(const InitArg& arg);
     ~ForkHoverKeepRotateTurn() override;

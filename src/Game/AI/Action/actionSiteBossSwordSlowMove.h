@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossSwordSlowMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossSwordSlowMove, ksys::act::ai::Action)
+
 public:
     explicit SiteBossSwordSlowMove(const InitArg& arg);
     ~SiteBossSwordSlowMove() override;

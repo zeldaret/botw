@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyWarnNoticeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyWarnNoticeSelect, ksys::act::ai::Ai)
+
 public:
     explicit EnemyWarnNoticeSelect(const InitArg& arg);
     ~EnemyWarnNoticeSelect() override;

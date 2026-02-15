@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGravityScaleChange : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGravityScaleChange, ksys::act::ai::Action)
+
 public:
     explicit ForkGravityScaleChange(const InitArg& arg);
     ~ForkGravityScaleChange() override;

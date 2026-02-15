@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class Fork2AIUpperLowerBody : public ForkAI {
     SEAD_RTTI_OVERRIDE(Fork2AIUpperLowerBody, ForkAI)
+
 public:
     explicit Fork2AIUpperLowerBody(const InitArg& arg);
     ~Fork2AIUpperLowerBody() override;

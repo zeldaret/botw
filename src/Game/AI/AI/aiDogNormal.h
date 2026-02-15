@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DogNormal : public DomesticNormal {
     SEAD_RTTI_OVERRIDE(DogNormal, DomesticNormal)
+
 public:
     explicit DogNormal(const InitArg& arg);
     ~DogNormal() override;

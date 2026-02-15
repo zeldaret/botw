@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqNextMessage : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(SeqNextMessage, SeqTwoAction)
+
 public:
     explicit SeqNextMessage(const InitArg& arg);
     ~SeqNextMessage() override;

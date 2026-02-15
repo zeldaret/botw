@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventBgmStopAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventBgmStopAction, ksys::act::ai::Action)
+
 public:
     explicit EventBgmStopAction(const InitArg& arg);
     ~EventBgmStopAction() override;

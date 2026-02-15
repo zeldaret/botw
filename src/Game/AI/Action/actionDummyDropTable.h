@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DummyDropTable : public DummyAction {
     SEAD_RTTI_OVERRIDE(DummyDropTable, DummyAction)
+
 public:
     explicit DummyDropTable(const InitArg& arg);
     ~DummyDropTable() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForceSystemFadeOut : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForceSystemFadeOut, ksys::act::ai::Action)
+
 public:
     explicit ForceSystemFadeOut(const InitArg& arg);
     ~ForceSystemFadeOut() override;

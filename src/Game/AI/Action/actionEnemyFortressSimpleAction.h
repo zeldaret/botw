@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EnemyFortressSimpleAction : public ForkTimer {
     SEAD_RTTI_OVERRIDE(EnemyFortressSimpleAction, ForkTimer)
+
 public:
     explicit EnemyFortressSimpleAction(const InitArg& arg);
     ~EnemyFortressSimpleAction() override;

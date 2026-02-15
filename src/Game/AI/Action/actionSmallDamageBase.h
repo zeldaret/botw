@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SmallDamageBase : public TakeHitImpactForce {
     SEAD_RTTI_OVERRIDE(SmallDamageBase, TakeHitImpactForce)
+
 public:
     explicit SmallDamageBase(const InitArg& arg);
 

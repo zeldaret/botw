@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CollaborationShootingStarRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CollaborationShootingStarRoot, ksys::act::ai::Ai)
+
 public:
     explicit CollaborationShootingStarRoot(const InitArg& arg);
     ~CollaborationShootingStarRoot() override;

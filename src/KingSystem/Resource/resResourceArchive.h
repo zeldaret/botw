@@ -12,6 +12,7 @@ struct ArchiveOffset {
 
 class Archive : public sead::SharcArchiveRes, public IResource, public ArchiveOffset {
     SEAD_RTTI_OVERRIDE(Archive, sead::SharcArchiveRes)
+
 public:
     Archive();
     ~Archive() override;

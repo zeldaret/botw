@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerWakeBoardReady : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWakeBoardReady, PlayerAction)
+
 public:
     explicit PlayerWakeBoardReady(const InitArg& arg);
     ~PlayerWakeBoardReady() override;

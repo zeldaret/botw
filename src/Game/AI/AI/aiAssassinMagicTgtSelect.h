@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinMagicTgtSelect : public TargetInAreaSelect {
     SEAD_RTTI_OVERRIDE(AssassinMagicTgtSelect, TargetInAreaSelect)
+
 public:
     explicit AssassinMagicTgtSelect(const InitArg& arg);
     ~AssassinMagicTgtSelect() override;

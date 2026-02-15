@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GuardianMoveTo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GuardianMoveTo, ksys::act::ai::Action)
+
 public:
     explicit GuardianMoveTo(const InitArg& arg);
     ~GuardianMoveTo() override;

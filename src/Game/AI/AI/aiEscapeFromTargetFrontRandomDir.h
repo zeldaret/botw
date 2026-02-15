@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EscapeFromTargetFrontRandomDir : public EscapeFromTargetFront {
     SEAD_RTTI_OVERRIDE(EscapeFromTargetFrontRandomDir, EscapeFromTargetFront)
+
 public:
     explicit EscapeFromTargetFrontRandomDir(const InitArg& arg);
     ~EscapeFromTargetFrontRandomDir() override;

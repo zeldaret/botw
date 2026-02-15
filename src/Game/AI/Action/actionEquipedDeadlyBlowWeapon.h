@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EquipedDeadlyBlowWeapon : public EquipedAction {
     SEAD_RTTI_OVERRIDE(EquipedDeadlyBlowWeapon, EquipedAction)
+
 public:
     explicit EquipedDeadlyBlowWeapon(const InitArg& arg);
     ~EquipedDeadlyBlowWeapon() override;

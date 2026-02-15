@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StoneStickRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StoneStickRoot, ksys::act::ai::Ai)
+
 public:
     explicit StoneStickRoot(const InitArg& arg);
     ~StoneStickRoot() override;

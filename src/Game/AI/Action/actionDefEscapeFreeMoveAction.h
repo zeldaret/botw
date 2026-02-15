@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DefEscapeFreeMoveAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DefEscapeFreeMoveAction, ksys::act::ai::Action)
+
 public:
     explicit DefEscapeFreeMoveAction(const InitArg& arg);
     ~DefEscapeFreeMoveAction() override;

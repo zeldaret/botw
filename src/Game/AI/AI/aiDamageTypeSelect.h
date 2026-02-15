@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DamageTypeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DamageTypeSelect, ksys::act::ai::Ai)
+
 public:
     explicit DamageTypeSelect(const InitArg& arg);
     ~DamageTypeSelect() override;

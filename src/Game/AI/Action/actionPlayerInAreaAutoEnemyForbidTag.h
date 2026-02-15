@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerInAreaAutoEnemyForbidTag : public ForbidTag {
     SEAD_RTTI_OVERRIDE(PlayerInAreaAutoEnemyForbidTag, ForbidTag)
+
 public:
     explicit PlayerInAreaAutoEnemyForbidTag(const InitArg& arg);
     ~PlayerInAreaAutoEnemyForbidTag() override;

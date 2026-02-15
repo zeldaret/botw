@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSideStep : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSideStep, PlayerAction)
+
 public:
     explicit PlayerSideStep(const InitArg& arg);
 

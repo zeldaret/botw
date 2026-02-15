@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraLockOnBase : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraLockOnBase, CameraAction)
+
 public:
     explicit CameraLockOnBase(const InitArg& arg);
     ~CameraLockOnBase() override;

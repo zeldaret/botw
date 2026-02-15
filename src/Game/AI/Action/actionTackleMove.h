@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TackleMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TackleMove, ksys::act::ai::Action)
+
 public:
     explicit TackleMove(const InitArg& arg);
     ~TackleMove() override;

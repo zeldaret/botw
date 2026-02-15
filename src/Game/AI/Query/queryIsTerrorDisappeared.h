@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsTerrorDisappeared : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsTerrorDisappeared, Query)
+
 public:
     explicit IsTerrorDisappeared(const InitArg& arg);
     ~IsTerrorDisappeared() override;

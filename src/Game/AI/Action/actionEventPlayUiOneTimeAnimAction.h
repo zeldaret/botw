@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPlayUiOneTimeAnimAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPlayUiOneTimeAnimAction, ksys::act::ai::Action)
+
 public:
     explicit EventPlayUiOneTimeAnimAction(const InitArg& arg);
     ~EventPlayUiOneTimeAnimAction() override;

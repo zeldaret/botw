@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GolemPartRoot : public ReuseBulletPartsRoot {
     SEAD_RTTI_OVERRIDE(GolemPartRoot, ReuseBulletPartsRoot)
+
 public:
     explicit GolemPartRoot(const InitArg& arg);
     ~GolemPartRoot() override;

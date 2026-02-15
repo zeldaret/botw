@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerCutJump : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutJump, PlayerAction)
+
 public:
     explicit PlayerCutJump(const InitArg& arg);
 

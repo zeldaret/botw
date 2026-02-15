@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FireWoodBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FireWoodBase, ksys::act::ai::Action)
+
 public:
     explicit FireWoodBase(const InitArg& arg);
     ~FireWoodBase() override;

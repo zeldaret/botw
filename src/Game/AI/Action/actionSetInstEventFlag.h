@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetInstEventFlag : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetInstEventFlag, ksys::act::ai::Action)
+
 public:
     explicit SetInstEventFlag(const InitArg& arg);
     ~SetInstEventFlag() override;

@@ -19,6 +19,7 @@ class ResourceUnit;
 
 class Handle {
     SEAD_RTTI_BASE(Handle)
+
 public:
     enum class Status {
         /// "No File" (2)

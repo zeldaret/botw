@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkModelFadeOut : public Fork {
     SEAD_RTTI_OVERRIDE(ForkModelFadeOut, Fork)
+
 public:
     explicit ForkModelFadeOut(const InitArg& arg);
     ~ForkModelFadeOut() override;

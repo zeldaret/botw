@@ -9,6 +9,7 @@ struct CapsuleShape;
 
 class CapsuleRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(CapsuleRigidBody, RigidBodyFromShape)
+
 public:
     static CapsuleRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
 

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WaitForTargetClose : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WaitForTargetClose, ksys::act::ai::Ai)
+
 public:
     explicit WaitForTargetClose(const InitArg& arg);
     ~WaitForTargetClose() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class YunBoCannon : public GoronCannonBase {
     SEAD_RTTI_OVERRIDE(YunBoCannon, GoronCannonBase)
+
 public:
     explicit YunBoCannon(const InitArg& arg);
     ~YunBoCannon() override;

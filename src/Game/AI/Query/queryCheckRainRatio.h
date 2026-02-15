@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckRainRatio : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckRainRatio, Query)
+
 public:
     explicit CheckRainRatio(const InitArg& arg);
     ~CheckRainRatio() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChanegToLog : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChanegToLog, ksys::act::ai::Action)
+
 public:
     explicit ChanegToLog(const InitArg& arg);
     ~ChanegToLog() override;

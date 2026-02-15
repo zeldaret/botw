@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AnmDrivenHoverBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnmDrivenHoverBase, ksys::act::ai::Action)
+
 public:
     explicit AnmDrivenHoverBase(const InitArg& arg);
     ~AnmDrivenHoverBase() override;

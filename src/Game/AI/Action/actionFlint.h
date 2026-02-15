@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Flint : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Flint, ksys::act::ai::Action)
+
 public:
     explicit Flint(const InitArg& arg);
     ~Flint() override;

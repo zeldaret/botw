@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetUp : public GetUpBase {
     SEAD_RTTI_OVERRIDE(GetUp, GetUpBase)
+
 public:
     explicit GetUp(const InitArg& arg);
     ~GetUp() override;

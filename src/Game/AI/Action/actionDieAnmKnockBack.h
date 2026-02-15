@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DieAnmKnockBack : public SmallDamageBase {
     SEAD_RTTI_OVERRIDE(DieAnmKnockBack, SmallDamageBase)
+
 public:
     explicit DieAnmKnockBack(const InitArg& arg);
     ~DieAnmKnockBack() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventCloudShadowOnOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventCloudShadowOnOff, ksys::act::ai::Action)
+
 public:
     explicit EventCloudShadowOnOff(const InitArg& arg);
     ~EventCloudShadowOnOff() override;

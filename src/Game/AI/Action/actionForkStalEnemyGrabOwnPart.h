@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkStalEnemyGrabOwnPart : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkStalEnemyGrabOwnPart, ksys::act::ai::Action)
+
 public:
     explicit ForkStalEnemyGrabOwnPart(const InitArg& arg);
     ~ForkStalEnemyGrabOwnPart() override;

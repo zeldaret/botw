@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AppearFullPouchInfo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AppearFullPouchInfo, ksys::act::ai::Action)
+
 public:
     explicit AppearFullPouchInfo(const InitArg& arg);
     ~AppearFullPouchInfo() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyFeintBattle : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(EnemyFeintBattle, EnemyBattle)
+
 public:
     explicit EnemyFeintBattle(const InitArg& arg);
     ~EnemyFeintBattle() override;

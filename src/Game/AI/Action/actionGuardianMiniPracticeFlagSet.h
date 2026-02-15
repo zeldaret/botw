@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GuardianMiniPracticeFlagSet : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GuardianMiniPracticeFlagSet, ksys::act::ai::Action)
+
 public:
     explicit GuardianMiniPracticeFlagSet(const InitArg& arg);
     ~GuardianMiniPracticeFlagSet() override;

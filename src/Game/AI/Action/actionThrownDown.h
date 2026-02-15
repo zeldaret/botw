@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ThrownDown : public Ragdoll {
     SEAD_RTTI_OVERRIDE(ThrownDown, Ragdoll)
+
 public:
     explicit ThrownDown(const InitArg& arg);
     ~ThrownDown() override;

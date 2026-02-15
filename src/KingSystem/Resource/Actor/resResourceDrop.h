@@ -11,6 +11,7 @@ namespace ksys::res {
 
 class Drop : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(Drop, Resource)
+
 public:
     Drop() : ParamIO("drop", 0) {}
 

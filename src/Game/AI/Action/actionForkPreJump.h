@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkPreJump : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkPreJump, ksys::act::ai::Action)
+
 public:
     explicit ForkPreJump(const InitArg& arg);
     ~ForkPreJump() override;

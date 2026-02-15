@@ -6,6 +6,7 @@ namespace ksys {
 
 class MessageReceiverAdapter : public MessageReceiverEx {
     SEAD_RTTI_OVERRIDE(MessageReceiverAdapter, MessageReceiverEx)
+
 public:
     explicit MessageReceiverAdapter(MessageReceiver* wrapped);
     ~MessageReceiverAdapter() override;

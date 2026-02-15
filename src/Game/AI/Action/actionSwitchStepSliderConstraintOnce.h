@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwitchStepSliderConstraintOnce : public SwitchStepSliderConstraint {
     SEAD_RTTI_OVERRIDE(SwitchStepSliderConstraintOnce, SwitchStepSliderConstraint)
+
 public:
     explicit SwitchStepSliderConstraintOnce(const InitArg& arg);
 

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerMagnetSubject : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerMagnetSubject, PlayerAction)
+
 public:
     explicit PlayerMagnetSubject(const InitArg& arg);
 

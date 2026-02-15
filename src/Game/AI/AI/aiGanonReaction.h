@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GanonReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(GanonReaction, EnemyDefaultReaction)
+
 public:
     explicit GanonReaction(const InitArg& arg);
     ~GanonReaction() override;

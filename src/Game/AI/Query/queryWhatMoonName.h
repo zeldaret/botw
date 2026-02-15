@@ -6,6 +6,7 @@ namespace uking::query {
 
 class WhatMoonName : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(WhatMoonName, Query)
+
 public:
     explicit WhatMoonName(const InitArg& arg);
     ~WhatMoonName() override;

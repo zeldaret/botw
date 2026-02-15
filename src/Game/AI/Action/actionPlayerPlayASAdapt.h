@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerPlayASAdapt : public PlayASForDemo {
     SEAD_RTTI_OVERRIDE(PlayerPlayASAdapt, PlayASForDemo)
+
 public:
     explicit PlayerPlayASAdapt(const InitArg& arg);
     ~PlayerPlayASAdapt() override;

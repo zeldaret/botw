@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraWakeboard : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraWakeboard, CameraAction)
+
 public:
     explicit CameraWakeboard(const InitArg& arg);
     ~CameraWakeboard() override;

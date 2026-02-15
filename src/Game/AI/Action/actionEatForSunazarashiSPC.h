@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EatForSunazarashiSPC : public HorseEatAction {
     SEAD_RTTI_OVERRIDE(EatForSunazarashiSPC, HorseEatAction)
+
 public:
     explicit EatForSunazarashiSPC(const InitArg& arg);
     ~EatForSunazarashiSPC() override;

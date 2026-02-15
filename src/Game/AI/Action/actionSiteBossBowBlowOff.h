@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossBowBlowOff : public SiteBossBlowOff {
     SEAD_RTTI_OVERRIDE(SiteBossBowBlowOff, SiteBossBlowOff)
+
 public:
     explicit SiteBossBowBlowOff(const InitArg& arg);
     ~SiteBossBowBlowOff() override;

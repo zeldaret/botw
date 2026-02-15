@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyLost : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyLost, ksys::act::ai::Ai)
+
 public:
     explicit EnemyLost(const InitArg& arg);
     ~EnemyLost() override;

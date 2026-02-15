@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GanonBeamOnWall : public LastBossShootNormalArrowRoot {
     SEAD_RTTI_OVERRIDE(GanonBeamOnWall, LastBossShootNormalArrowRoot)
+
 public:
     explicit GanonBeamOnWall(const InitArg& arg);
     ~GanonBeamOnWall() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class Arrow : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(Arrow, ksys::act::ai::Ai)
+
 public:
     explicit Arrow(const InitArg& arg);
     ~Arrow() override;

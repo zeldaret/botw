@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SwarmGullMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwarmGullMove, ksys::act::ai::Action)
+
 public:
     explicit SwarmGullMove(const InitArg& arg);
     ~SwarmGullMove() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WolfLinkReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkReaction, ksys::act::ai::Ai)
+
 public:
     explicit WolfLinkReaction(const InitArg& arg);
     ~WolfLinkReaction() override;

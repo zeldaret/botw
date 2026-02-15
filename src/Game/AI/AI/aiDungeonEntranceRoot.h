@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DungeonEntranceRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonEntranceRoot, ksys::act::ai::Ai)
+
 public:
     explicit DungeonEntranceRoot(const InitArg& arg);
     ~DungeonEntranceRoot() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelNoticeAttacked : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelNoticeAttacked, ksys::act::ai::Ai)
+
 public:
     explicit LynelNoticeAttacked(const InitArg& arg);
     ~LynelNoticeAttacked() override;

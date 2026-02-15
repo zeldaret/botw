@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventTalkEndAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventTalkEndAction, ksys::act::ai::Action)
+
 public:
     explicit EventTalkEndAction(const InitArg& arg);
     ~EventTalkEndAction() override;

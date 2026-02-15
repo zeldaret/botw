@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WaterUpDownDrivenPreAttack : public WaterUpDownAnmDrivenMove {
     SEAD_RTTI_OVERRIDE(WaterUpDownDrivenPreAttack, WaterUpDownAnmDrivenMove)
+
 public:
     explicit WaterUpDownDrivenPreAttack(const InitArg& arg);
     ~WaterUpDownDrivenPreAttack() override;

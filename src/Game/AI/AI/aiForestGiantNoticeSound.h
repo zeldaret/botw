@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForestGiantNoticeSound : public EnemyNoticeSound {
     SEAD_RTTI_OVERRIDE(ForestGiantNoticeSound, EnemyNoticeSound)
+
 public:
     explicit ForestGiantNoticeSound(const InitArg& arg);
     ~ForestGiantNoticeSound() override;

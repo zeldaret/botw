@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasItemDye : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasItemDye, Query)
+
 public:
     explicit HasItemDye(const InitArg& arg);
     ~HasItemDye() override;

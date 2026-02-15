@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CameraEventOverwriteNear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraEventOverwriteNear, ksys::act::ai::Action)
+
 public:
     explicit CameraEventOverwriteNear(const InitArg& arg);
     ~CameraEventOverwriteNear() override;

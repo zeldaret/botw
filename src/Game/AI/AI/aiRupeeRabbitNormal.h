@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RupeeRabbitNormal : public PreyNormal {
     SEAD_RTTI_OVERRIDE(RupeeRabbitNormal, PreyNormal)
+
 public:
     explicit RupeeRabbitNormal(const InitArg& arg);
     ~RupeeRabbitNormal() override;

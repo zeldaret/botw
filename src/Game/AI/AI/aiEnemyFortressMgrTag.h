@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyFortressMgrTag : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyFortressMgrTag, ksys::act::ai::Ai)
+
 public:
     explicit EnemyFortressMgrTag(const InitArg& arg);
     ~EnemyFortressMgrTag() override;

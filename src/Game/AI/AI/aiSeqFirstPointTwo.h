@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqFirstPointTwo : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqFirstPointTwo, ksys::act::ai::Ai)
+
 public:
     explicit SeqFirstPointTwo(const InitArg& arg);
     ~SeqFirstPointTwo() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinCallSelect : public EnemyCalledAppear {
     SEAD_RTTI_OVERRIDE(AssassinCallSelect, EnemyCalledAppear)
+
 public:
     explicit AssassinCallSelect(const InitArg& arg);
     ~AssassinCallSelect() override;

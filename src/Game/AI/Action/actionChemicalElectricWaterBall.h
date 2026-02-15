@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ChemicalElectricWaterBall : public ChemicalAttackBall {
     SEAD_RTTI_OVERRIDE(ChemicalElectricWaterBall, ChemicalAttackBall)
+
 public:
     explicit ChemicalElectricWaterBall(const InitArg& arg);
     ~ChemicalElectricWaterBall() override;

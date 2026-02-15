@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AscendingCurrentFixedSize : public AscendingCurrent {
     SEAD_RTTI_OVERRIDE(AscendingCurrentFixedSize, AscendingCurrent)
+
 public:
     explicit AscendingCurrentFixedSize(const InitArg& arg);
     ~AscendingCurrentFixedSize() override;

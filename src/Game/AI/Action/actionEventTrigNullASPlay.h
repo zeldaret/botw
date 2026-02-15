@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventTrigNullASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventTrigNullASPlay, ksys::act::ai::Action)
+
 public:
     explicit EventTrigNullASPlay(const InitArg& arg);
     ~EventTrigNullASPlay() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WeakStateSelecter : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WeakStateSelecter, ksys::act::ai::Ai)
+
 public:
     explicit WeakStateSelecter(const InitArg& arg);
     ~WeakStateSelecter() override;

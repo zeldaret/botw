@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BowChildReflectBullet : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BowChildReflectBullet, ksys::act::ai::Action)
+
 public:
     explicit BowChildReflectBullet(const InitArg& arg);
     ~BowChildReflectBullet() override;

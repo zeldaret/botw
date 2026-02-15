@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayASForTimelineWithSword : public PlayASForTimeline {
     SEAD_RTTI_OVERRIDE(PlayASForTimelineWithSword, PlayASForTimeline)
+
 public:
     explicit PlayASForTimelineWithSword(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FlyingCharacterReaction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FlyingCharacterReaction, ksys::act::ai::Action)
+
 public:
     explicit FlyingCharacterReaction(const InitArg& arg);
     ~FlyingCharacterReaction() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WetSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WetSelect, ksys::act::ai::Ai)
+
 public:
     explicit WetSelect(const InitArg& arg);
     ~WetSelect() override;

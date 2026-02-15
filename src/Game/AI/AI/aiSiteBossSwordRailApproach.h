@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossSwordRailApproach : public SiteBossSwordApproachRoot {
     SEAD_RTTI_OVERRIDE(SiteBossSwordRailApproach, SiteBossSwordApproachRoot)
+
 public:
     explicit SiteBossSwordRailApproach(const InitArg& arg);
     ~SiteBossSwordRailApproach() override;

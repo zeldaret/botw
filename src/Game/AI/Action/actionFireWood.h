@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FireWood : public FireWoodBase {
     SEAD_RTTI_OVERRIDE(FireWood, FireWoodBase)
+
 public:
     explicit FireWood(const InitArg& arg);
     ~FireWood() override;

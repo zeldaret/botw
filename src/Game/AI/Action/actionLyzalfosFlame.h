@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LyzalfosFlame : public ChemicalAttackBall {
     SEAD_RTTI_OVERRIDE(LyzalfosFlame, ChemicalAttackBall)
+
 public:
     explicit LyzalfosFlame(const InitArg& arg);
     ~LyzalfosFlame() override;

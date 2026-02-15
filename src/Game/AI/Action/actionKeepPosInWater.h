@@ -7,6 +7,7 @@ namespace uking::action {
 
 class KeepPosInWater : public WaitBase {
     SEAD_RTTI_OVERRIDE(KeepPosInWater, WaitBase)
+
 public:
     explicit KeepPosInWater(const InitArg& arg);
     ~KeepPosInWater() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyRoam, ksys::act::ai::Ai)
+
 public:
     explicit EnemyRoam(const InitArg& arg);
 

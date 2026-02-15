@@ -12,6 +12,7 @@ class QueryContactPointInfo;
 
 class ClosestPointQuery {
     SEAD_RTTI_BASE(ClosestPointQuery)
+
 public:
     ClosestPointQuery(RigidBody* body, QueryContactPointInfo* contact_point_info);
     virtual ~ClosestPointQuery();

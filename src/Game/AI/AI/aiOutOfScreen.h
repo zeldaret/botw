@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OutOfScreen : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OutOfScreen, ksys::act::ai::Ai)
+
 public:
     explicit OutOfScreen(const InitArg& arg);
     ~OutOfScreen() override;

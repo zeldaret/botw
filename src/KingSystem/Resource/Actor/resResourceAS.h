@@ -14,6 +14,7 @@ class ASResource;
 
 class AS : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AS, Resource)
+
 public:
     AS();
     ~AS() override;

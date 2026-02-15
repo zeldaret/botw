@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ReduceDistanceToTargetPos : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ReduceDistanceToTargetPos, ksys::act::ai::Ai)
+
 public:
     explicit ReduceDistanceToTargetPos(const InitArg& arg);
     ~ReduceDistanceToTargetPos() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ViewWaitWithInstDynActor : public ViewWait {
     SEAD_RTTI_OVERRIDE(ViewWaitWithInstDynActor, ViewWait)
+
 public:
     explicit ViewWaitWithInstDynActor(const InitArg& arg);
     ~ViewWaitWithInstDynActor() override;

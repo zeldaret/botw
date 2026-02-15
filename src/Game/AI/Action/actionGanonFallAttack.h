@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GanonFallAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GanonFallAttack, ksys::act::ai::Action)
+
 public:
     explicit GanonFallAttack(const InitArg& arg);
     ~GanonFallAttack() override;

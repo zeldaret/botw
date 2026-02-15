@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KorokFlowerAppear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KorokFlowerAppear, ksys::act::ai::Action)
+
 public:
     explicit KorokFlowerAppear(const InitArg& arg);
     ~KorokFlowerAppear() override;

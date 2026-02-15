@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerBeetleSubject : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerBeetleSubject, PlayerAction)
+
 public:
     explicit PlayerBeetleSubject(const InitArg& arg);
 

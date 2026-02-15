@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FriendCallAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FriendCallAction, ksys::act::ai::Ai)
+
 public:
     explicit FriendCallAction(const InitArg& arg);
     ~FriendCallAction() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniGuardNavMeshWalk : public NavMeshWalk {
     SEAD_RTTI_OVERRIDE(GuardianMiniGuardNavMeshWalk, NavMeshWalk)
+
 public:
     explicit GuardianMiniGuardNavMeshWalk(const InitArg& arg);
     ~GuardianMiniGuardNavMeshWalk() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GetItemNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GetItemNormal, ksys::act::ai::Ai)
+
 public:
     explicit GetItemNormal(const InitArg& arg);
 

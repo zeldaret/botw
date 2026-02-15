@@ -7,6 +7,7 @@ namespace uking::action {
 
 class InsectLevelFlyMove : public LevelFlyMove {
     SEAD_RTTI_OVERRIDE(InsectLevelFlyMove, LevelFlyMove)
+
 public:
     explicit InsectLevelFlyMove(const InitArg& arg);
     ~InsectLevelFlyMove() override;

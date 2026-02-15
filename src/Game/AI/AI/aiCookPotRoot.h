@@ -8,6 +8,7 @@ namespace uking::ai {
 
 class CookPotRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CookPotRoot, ksys::act::ai::Ai)
+
 public:
     explicit CookPotRoot(const InitArg& arg);
     ~CookPotRoot() override;

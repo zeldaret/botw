@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FromPopPoolDamageSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FromPopPoolDamageSelect, ksys::act::ai::Ai)
+
 public:
     explicit FromPopPoolDamageSelect(const InitArg& arg);
     ~FromPopPoolDamageSelect() override;

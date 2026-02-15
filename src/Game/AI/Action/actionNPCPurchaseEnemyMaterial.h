@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCPurchaseEnemyMaterial : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCPurchaseEnemyMaterial, ksys::act::ai::Action)
+
 public:
     explicit NPCPurchaseEnemyMaterial(const InitArg& arg);
     ~NPCPurchaseEnemyMaterial() override;

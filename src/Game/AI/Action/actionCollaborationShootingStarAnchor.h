@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CollaborationShootingStarAnchor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CollaborationShootingStarAnchor, ksys::act::ai::Action)
+
 public:
     explicit CollaborationShootingStarAnchor(const InitArg& arg);
     ~CollaborationShootingStarAnchor() override;

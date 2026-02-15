@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerRequestRecreateDyeArmor : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerRequestRecreateDyeArmor, PlayerAction)
+
 public:
     explicit PlayerRequestRecreateDyeArmor(const InitArg& arg);
     ~PlayerRequestRecreateDyeArmor() override;

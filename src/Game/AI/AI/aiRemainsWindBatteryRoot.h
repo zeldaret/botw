@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemainsWindBatteryRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemainsWindBatteryRoot, ksys::act::ai::Ai)
+
 public:
     explicit RemainsWindBatteryRoot(const InitArg& arg);
     ~RemainsWindBatteryRoot() override;

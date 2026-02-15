@@ -7,6 +7,7 @@ namespace uking::action {
 
 class StalEnemyHeadShotReaction : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(StalEnemyHeadShotReaction, ActionWithPosAngReduce)
+
 public:
     explicit StalEnemyHeadShotReaction(const InitArg& arg);
     ~StalEnemyHeadShotReaction() override;

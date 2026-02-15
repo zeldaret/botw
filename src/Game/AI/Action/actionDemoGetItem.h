@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoGetItem : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoGetItem, ksys::act::ai::Action)
+
 public:
     explicit DemoGetItem(const InitArg& arg);
     ~DemoGetItem() override;

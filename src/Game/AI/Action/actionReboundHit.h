@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ReboundHit : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ReboundHit, ksys::act::ai::Action)
+
 public:
     explicit ReboundHit(const InitArg& arg);
 

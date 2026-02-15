@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Fall : public ActionEx {
     SEAD_RTTI_OVERRIDE(Fall, ActionEx)
+
 public:
     explicit Fall(const InitArg& arg);
     ~Fall() override;

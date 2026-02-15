@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EnvSeEmitPointBirdPlayAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EnvSeEmitPointBirdPlayAction, ksys::act::ai::Action)
+
 public:
     explicit EnvSeEmitPointBirdPlayAction(const InitArg& arg);
     ~EnvSeEmitPointBirdPlayAction() override;

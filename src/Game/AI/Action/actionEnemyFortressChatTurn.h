@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EnemyFortressChatTurn : public EnemyFortressChatTurnBase {
     SEAD_RTTI_OVERRIDE(EnemyFortressChatTurn, EnemyFortressChatTurnBase)
+
 public:
     explicit EnemyFortressChatTurn(const InitArg& arg);
     ~EnemyFortressChatTurn() override;

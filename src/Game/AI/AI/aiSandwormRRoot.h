@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SandwormRRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(SandwormRRoot, EnemyRoot)
+
 public:
     explicit SandwormRRoot(const InitArg& arg);
     ~SandwormRRoot() override;

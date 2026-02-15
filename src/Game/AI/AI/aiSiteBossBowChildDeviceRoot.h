@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SiteBossBowChildDeviceRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossBowChildDeviceRoot, ksys::act::ai::Ai)
+
 public:
     explicit SiteBossBowChildDeviceRoot(const InitArg& arg);
     ~SiteBossBowChildDeviceRoot() override;

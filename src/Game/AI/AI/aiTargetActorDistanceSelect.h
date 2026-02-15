@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetActorDistanceSelect : public TargetDistanceSelect {
     SEAD_RTTI_OVERRIDE(TargetActorDistanceSelect, TargetDistanceSelect)
+
 public:
     explicit TargetActorDistanceSelect(const InitArg& arg);
     ~TargetActorDistanceSelect() override;

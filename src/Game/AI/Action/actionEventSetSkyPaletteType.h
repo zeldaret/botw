@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetSkyPaletteType : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetSkyPaletteType, ksys::act::ai::Action)
+
 public:
     explicit EventSetSkyPaletteType(const InitArg& arg);
     ~EventSetSkyPaletteType() override;

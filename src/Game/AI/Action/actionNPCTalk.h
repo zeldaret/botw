@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCTalk : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCTalk, ksys::act::ai::Action)
+
 public:
     explicit NPCTalk(const InitArg& arg);
     ~NPCTalk() override;

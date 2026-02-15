@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerWaterFall : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerWaterFall, ksys::act::ai::Ai)
+
 public:
     explicit PlayerWaterFall(const InitArg& arg);
     ~PlayerWaterFall() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkFollowGround : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkFollowGround, ksys::act::ai::Action)
+
 public:
     explicit ForkFollowGround(const InitArg& arg);
     ~ForkFollowGround() override;

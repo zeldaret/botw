@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossSlowWarpMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossSlowWarpMove, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossSlowWarpMove(const InitArg& arg);
     ~PriestBossSlowWarpMove() override;

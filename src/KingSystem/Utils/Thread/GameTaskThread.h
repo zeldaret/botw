@@ -7,6 +7,7 @@ namespace ksys::util {
 
 class GameTaskThread : public TaskThread {
     SEAD_RTTI_OVERRIDE(GameTaskThread, TaskThread)
+
 public:
     GameTaskThread(const sead::SafeString& name, sead::Heap* heap, s32 priority,
                    sead::MessageQueue::BlockType block_type, long quit_msg, s32 stack_size,

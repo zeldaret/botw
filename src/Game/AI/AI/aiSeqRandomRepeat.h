@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqRandomRepeat : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqRandomRepeat, ksys::act::ai::Ai)
+
 public:
     explicit SeqRandomRepeat(const InitArg& arg);
     ~SeqRandomRepeat() override;

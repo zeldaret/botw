@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DomesticNormal : public PreyNormal {
     SEAD_RTTI_OVERRIDE(DomesticNormal, PreyNormal)
+
 public:
     explicit DomesticNormal(const InitArg& arg);
     ~DomesticNormal() override;

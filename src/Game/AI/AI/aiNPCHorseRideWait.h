@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCHorseRideWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCHorseRideWait, ksys::act::ai::Ai)
+
 public:
     explicit NPCHorseRideWait(const InitArg& arg);
     ~NPCHorseRideWait() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AnimalMoveStraightTimed : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnimalMoveStraightTimed, ksys::act::ai::Action)
+
 public:
     explicit AnimalMoveStraightTimed(const InitArg& arg);
     ~AnimalMoveStraightTimed() override;

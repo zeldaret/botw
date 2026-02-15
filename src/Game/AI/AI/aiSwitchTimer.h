@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwitchTimer : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwitchTimer, ksys::act::ai::Ai)
+
 public:
     explicit SwitchTimer(const InitArg& arg);
     ~SwitchTimer() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SmallDamageDirectPreTargetBone : public SmallDamage {
     SEAD_RTTI_OVERRIDE(SmallDamageDirectPreTargetBone, SmallDamage)
+
 public:
     explicit SmallDamageDirectPreTargetBone(const InitArg& arg);
     ~SmallDamageDirectPreTargetBone() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PlayerSetWakeUpMtx : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayerSetWakeUpMtx, ksys::act::ai::Action)
+
 public:
     explicit PlayerSetWakeUpMtx(const InitArg& arg);
     ~PlayerSetWakeUpMtx() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BoomerangMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BoomerangMove, ksys::act::ai::Action)
+
 public:
     explicit BoomerangMove(const InitArg& arg);
     ~BoomerangMove() override;

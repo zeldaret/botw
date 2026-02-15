@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Bolt : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Bolt, ksys::act::ai::Action)
+
 public:
     explicit Bolt(const InitArg& arg);
     ~Bolt() override;

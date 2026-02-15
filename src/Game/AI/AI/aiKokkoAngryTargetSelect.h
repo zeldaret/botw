@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KokkoAngryTargetSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KokkoAngryTargetSelect, ksys::act::ai::Ai)
+
 public:
     explicit KokkoAngryTargetSelect(const InitArg& arg);
     ~KokkoAngryTargetSelect() override;

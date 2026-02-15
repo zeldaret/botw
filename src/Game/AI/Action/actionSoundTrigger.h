@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SoundTrigger : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SoundTrigger, ksys::act::ai::Action)
+
 public:
     explicit SoundTrigger(const InitArg& arg);
     ~SoundTrigger() override;

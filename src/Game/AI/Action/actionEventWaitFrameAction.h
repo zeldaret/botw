@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventWaitFrameAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventWaitFrameAction, ksys::act::ai::Action)
+
 public:
     explicit EventWaitFrameAction(const InitArg& arg);
     ~EventWaitFrameAction() override;

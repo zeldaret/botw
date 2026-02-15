@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkAnimDriveTurn : public ForkAnimDriveMove {
     SEAD_RTTI_OVERRIDE(ForkAnimDriveTurn, ForkAnimDriveMove)
+
 public:
     explicit ForkAnimDriveTurn(const InitArg& arg);
     ~ForkAnimDriveTurn() override;

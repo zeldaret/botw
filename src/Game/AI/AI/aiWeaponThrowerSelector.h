@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WeaponThrowerSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WeaponThrowerSelector, ksys::act::ai::Ai)
+
 public:
     explicit WeaponThrowerSelector(const InitArg& arg);
     ~WeaponThrowerSelector() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetCharAmbientScale : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetCharAmbientScale, ksys::act::ai::Action)
+
 public:
     explicit EventSetCharAmbientScale(const InitArg& arg);
     ~EventSetCharAmbientScale() override;

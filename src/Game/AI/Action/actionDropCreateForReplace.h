@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DropCreateForReplace : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DropCreateForReplace, ksys::act::ai::Action)
+
 public:
     explicit DropCreateForReplace(const InitArg& arg);
     ~DropCreateForReplace() override;

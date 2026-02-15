@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LynelNormal : public LandHumEnemyNormal {
     SEAD_RTTI_OVERRIDE(LynelNormal, LandHumEnemyNormal)
+
 public:
     explicit LynelNormal(const InitArg& arg);
     ~LynelNormal() override;

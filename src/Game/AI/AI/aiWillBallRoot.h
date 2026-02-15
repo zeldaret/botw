@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WillBallRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WillBallRoot, ksys::act::ai::Ai)
+
 public:
     explicit WillBallRoot(const InitArg& arg);
     ~WillBallRoot() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AppearNearTargetOutOfScrnGnd : public AppearNearTarget {
     SEAD_RTTI_OVERRIDE(AppearNearTargetOutOfScrnGnd, AppearNearTarget)
+
 public:
     explicit AppearNearTargetOutOfScrnGnd(const InitArg& arg);
     ~AppearNearTargetOutOfScrnGnd() override;

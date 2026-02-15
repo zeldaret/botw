@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BlownOff : public Ragdoll {
     SEAD_RTTI_OVERRIDE(BlownOff, Ragdoll)
+
 public:
     explicit BlownOff(const InitArg& arg);
     ~BlownOff() override;

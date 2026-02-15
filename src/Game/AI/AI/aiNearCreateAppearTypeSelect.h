@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NearCreateAppearTypeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NearCreateAppearTypeSelect, ksys::act::ai::Ai)
+
 public:
     explicit NearCreateAppearTypeSelect(const InitArg& arg);
     ~NearCreateAppearTypeSelect() override;

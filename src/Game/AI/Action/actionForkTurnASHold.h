@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkTurnASHold : public ForkAlwaysTurn {
     SEAD_RTTI_OVERRIDE(ForkTurnASHold, ForkAlwaysTurn)
+
 public:
     explicit ForkTurnASHold(const InitArg& arg);
     ~ForkTurnASHold() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LastBossThunderAppear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossThunderAppear, ksys::act::ai::Action)
+
 public:
     explicit LastBossThunderAppear(const InitArg& arg);
     ~LastBossThunderAppear() override;

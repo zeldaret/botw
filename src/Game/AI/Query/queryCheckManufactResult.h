@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckManufactResult : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckManufactResult, Query)
+
 public:
     explicit CheckManufactResult(const InitArg& arg);
     ~CheckManufactResult() override;

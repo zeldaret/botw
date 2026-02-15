@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ElectricAttack : public TimeredASPlay {
     SEAD_RTTI_OVERRIDE(ElectricAttack, TimeredASPlay)
+
 public:
     explicit ElectricAttack(const InitArg& arg);
     ~ElectricAttack() override;

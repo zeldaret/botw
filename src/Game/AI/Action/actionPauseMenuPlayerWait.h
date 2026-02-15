@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PauseMenuPlayerWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PauseMenuPlayerWait, ksys::act::ai::Action)
+
 public:
     explicit PauseMenuPlayerWait(const InitArg& arg);
     ~PauseMenuPlayerWait() override;

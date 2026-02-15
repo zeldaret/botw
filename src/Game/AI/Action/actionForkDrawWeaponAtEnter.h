@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkDrawWeaponAtEnter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkDrawWeaponAtEnter, ksys::act::ai::Action)
+
 public:
     explicit ForkDrawWeaponAtEnter(const InitArg& arg);
     ~ForkDrawWeaponAtEnter() override;

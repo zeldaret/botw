@@ -25,6 +25,7 @@ namespace ksys::res {
 namespace {
 class ClearCachesTaskData : public util::TaskData {
     SEAD_RTTI_OVERRIDE(ClearCachesTaskData, util::TaskData)
+
 public:
     virtual ~ClearCachesTaskData() = default;
 

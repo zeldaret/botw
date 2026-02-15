@@ -14,6 +14,7 @@ class RagdollConfig;
 
 class RagdollConfigList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(RagdollConfigList, Resource)
+
 public:
     struct ImpulseParam {
         const char* getFileName() const { return file_name.ref().cstr(); }

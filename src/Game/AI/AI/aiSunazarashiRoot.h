@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SunazarashiRoot : public PreyRoot {
     SEAD_RTTI_OVERRIDE(SunazarashiRoot, PreyRoot)
+
 public:
     explicit SunazarashiRoot(const InitArg& arg);
     ~SunazarashiRoot() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PreAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PreAttack, ksys::act::ai::Action)
+
 public:
     explicit PreAttack(const InitArg& arg);
     ~PreAttack() override;

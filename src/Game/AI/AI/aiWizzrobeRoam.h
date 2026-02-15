@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WizzrobeRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WizzrobeRoam, ksys::act::ai::Ai)
+
 public:
     explicit WizzrobeRoam(const InitArg& arg);
     ~WizzrobeRoam() override;

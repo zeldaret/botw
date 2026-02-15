@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WaterUpDownMove : public WaterUpDownMoveBase {
     SEAD_RTTI_OVERRIDE(WaterUpDownMove, WaterUpDownMoveBase)
+
 public:
     explicit WaterUpDownMove(const InitArg& arg);
     ~WaterUpDownMove() override;

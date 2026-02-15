@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetCloudShadowMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetCloudShadowMove, ksys::act::ai::Action)
+
 public:
     explicit EventSetCloudShadowMove(const InitArg& arg);
     ~EventSetCloudShadowMove() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolemChemicalResetSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolemChemicalResetSelect, ksys::act::ai::Ai)
+
 public:
     explicit GolemChemicalResetSelect(const InitArg& arg);
     ~GolemChemicalResetSelect() override;

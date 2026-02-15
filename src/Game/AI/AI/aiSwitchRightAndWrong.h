@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SwitchRightAndWrong : public SwitchAI {
     SEAD_RTTI_OVERRIDE(SwitchRightAndWrong, SwitchAI)
+
 public:
     explicit SwitchRightAndWrong(const InitArg& arg);
     ~SwitchRightAndWrong() override;

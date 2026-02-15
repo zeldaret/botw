@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianRoam : public GuardianAI {
     SEAD_RTTI_OVERRIDE(GuardianRoam, GuardianAI)
+
 public:
     explicit GuardianRoam(const InitArg& arg);
     ~GuardianRoam() override;

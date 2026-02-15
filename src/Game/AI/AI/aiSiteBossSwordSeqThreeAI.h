@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SiteBossSwordSeqThreeAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossSwordSeqThreeAI, ksys::act::ai::Ai)
+
 public:
     explicit SiteBossSwordSeqThreeAI(const InitArg& arg);
     ~SiteBossSwordSeqThreeAI() override;

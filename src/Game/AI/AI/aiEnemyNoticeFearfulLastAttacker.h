@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyNoticeFearfulLastAttacker : public EnemyNoticeTerror {
     SEAD_RTTI_OVERRIDE(EnemyNoticeFearfulLastAttacker, EnemyNoticeTerror)
+
 public:
     explicit EnemyNoticeFearfulLastAttacker(const InitArg& arg);
     ~EnemyNoticeFearfulLastAttacker() override;

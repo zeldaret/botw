@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventDisableContactIdle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventDisableContactIdle, ksys::act::ai::Action)
+
 public:
     explicit EventDisableContactIdle(const InitArg& arg);
     ~EventDisableContactIdle() override;

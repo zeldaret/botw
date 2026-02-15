@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianMiniReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(GuardianMiniReaction, EnemyDefaultReaction)
+
 public:
     explicit GuardianMiniReaction(const InitArg& arg);
     ~GuardianMiniReaction() override;

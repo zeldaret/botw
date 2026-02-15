@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CanMarkMapPin : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CanMarkMapPin, Query)
+
 public:
     explicit CanMarkMapPin(const InitArg& arg);
     ~CanMarkMapPin() override;

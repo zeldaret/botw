@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ArmorBindWithAS : public ArmorBindAction {
     SEAD_RTTI_OVERRIDE(ArmorBindWithAS, ArmorBindAction)
+
 public:
     explicit ArmorBindWithAS(const InitArg& arg);
     ~ArmorBindWithAS() override;

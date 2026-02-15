@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwimGetUp : public GetUp {
     SEAD_RTTI_OVERRIDE(SwimGetUp, GetUp)
+
 public:
     explicit SwimGetUp(const InitArg& arg);
     ~SwimGetUp() override;

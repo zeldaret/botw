@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FldObjDlcHeroMapRelief : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FldObjDlcHeroMapRelief, ksys::act::ai::Ai)
+
 public:
     explicit FldObjDlcHeroMapRelief(const InitArg& arg);
     ~FldObjDlcHeroMapRelief() override;

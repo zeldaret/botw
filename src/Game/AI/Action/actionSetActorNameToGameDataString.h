@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetActorNameToGameDataString : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetActorNameToGameDataString, ksys::act::ai::Action)
+
 public:
     explicit SetActorNameToGameDataString(const InitArg& arg);
     ~SetActorNameToGameDataString() override;

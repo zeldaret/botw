@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PrevASOR2SelectTwo : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PrevASOR2SelectTwo, ksys::act::ai::Ai)
+
 public:
     explicit PrevASOR2SelectTwo(const InitArg& arg);
     ~PrevASOR2SelectTwo() override;

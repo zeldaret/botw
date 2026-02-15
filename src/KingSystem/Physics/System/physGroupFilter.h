@@ -12,6 +12,7 @@ namespace ksys::phys {
 
 class SystemGroupHandler {
     SEAD_RTTI_BASE(SystemGroupHandler)
+
 public:
     explicit SystemGroupHandler(int index, ContactLayerType layer_type)
         : mIndex(index), mLayerType(layer_type) {}
@@ -53,6 +54,7 @@ protected:
 
 class GroupFilter : public hkpGroupFilter {
     SEAD_RTTI_BASE(GroupFilter)
+
 public:
     GroupFilter(ContactLayerType type, ContactLayer::ValueType layer_first,
                 ContactLayer::ValueType layer_last);

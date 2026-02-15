@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSlide : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSlide, PlayerAction)
+
 public:
     explicit PlayerSlide(const InitArg& arg);
     ~PlayerSlide() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkWaitCloseGanonShoutMsgClose : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkWaitCloseGanonShoutMsgClose, ksys::act::ai::Action)
+
 public:
     explicit ForkWaitCloseGanonShoutMsgClose(const InitArg& arg);
     ~ForkWaitCloseGanonShoutMsgClose() override;

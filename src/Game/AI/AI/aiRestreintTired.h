@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RestreintTired : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RestreintTired, ksys::act::ai::Ai)
+
 public:
     explicit RestreintTired(const InitArg& arg);
     ~RestreintTired() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PlayerWarpEffectValueSetter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayerWarpEffectValueSetter, ksys::act::ai::Action)
+
 public:
     explicit PlayerWarpEffectValueSetter(const InitArg& arg);
     ~PlayerWarpEffectValueSetter() override;

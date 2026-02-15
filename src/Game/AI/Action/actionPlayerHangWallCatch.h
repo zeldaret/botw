@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerHangWallCatch : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHangWallCatch, PlayerAction)
+
 public:
     explicit PlayerHangWallCatch(const InitArg& arg);
 

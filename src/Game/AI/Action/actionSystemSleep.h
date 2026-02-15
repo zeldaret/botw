@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SystemSleep : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemSleep, ksys::act::ai::Action)
+
 public:
     explicit SystemSleep(const InitArg& arg);
     ~SystemSleep() override;

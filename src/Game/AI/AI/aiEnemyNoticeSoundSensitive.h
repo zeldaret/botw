@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyNoticeSoundSensitive : public EnemyNoticeSoundWithUI {
     SEAD_RTTI_OVERRIDE(EnemyNoticeSoundSensitive, EnemyNoticeSoundWithUI)
+
 public:
     explicit EnemyNoticeSoundSensitive(const InitArg& arg);
     ~EnemyNoticeSoundSensitive() override;

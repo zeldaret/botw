@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FlyingBalloonObserverTag : public AreaObserveActorAction {
     SEAD_RTTI_OVERRIDE(FlyingBalloonObserverTag, AreaObserveActorAction)
+
 public:
     explicit FlyingBalloonObserverTag(const InitArg& arg);
     ~FlyingBalloonObserverTag() override;

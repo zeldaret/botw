@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WaitOnObj : public WaitOnObjBase {
     SEAD_RTTI_OVERRIDE(WaitOnObj, WaitOnObjBase)
+
 public:
     explicit WaitOnObj(const InitArg& arg);
     ~WaitOnObj() override;

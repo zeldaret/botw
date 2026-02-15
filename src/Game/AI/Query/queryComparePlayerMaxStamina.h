@@ -6,6 +6,7 @@ namespace uking::query {
 
 class ComparePlayerMaxStamina : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(ComparePlayerMaxStamina, Query)
+
 public:
     explicit ComparePlayerMaxStamina(const InitArg& arg);
     ~ComparePlayerMaxStamina() override;

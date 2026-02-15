@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetRupee : public GetItem {
     SEAD_RTTI_OVERRIDE(GetRupee, GetItem)
+
 public:
     explicit GetRupee(const InitArg& arg);
 

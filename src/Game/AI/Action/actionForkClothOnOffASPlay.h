@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkClothOnOffASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkClothOnOffASPlay, ksys::act::ai::Action)
+
 public:
     explicit ForkClothOnOffASPlay(const InitArg& arg);
     ~ForkClothOnOffASPlay() override;

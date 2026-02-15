@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BurnDamage : public TimeredASPlay {
     SEAD_RTTI_OVERRIDE(BurnDamage, TimeredASPlay)
+
 public:
     explicit BurnDamage(const InitArg& arg);
     ~BurnDamage() override;

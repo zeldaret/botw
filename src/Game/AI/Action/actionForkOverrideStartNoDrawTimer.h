@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkOverrideStartNoDrawTimer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkOverrideStartNoDrawTimer, ksys::act::ai::Action)
+
 public:
     explicit ForkOverrideStartNoDrawTimer(const InitArg& arg);
     ~ForkOverrideStartNoDrawTimer() override;

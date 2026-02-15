@@ -7,6 +7,7 @@ namespace ksys::res {
 
 class AISchedule : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AISchedule, Resource)
+
 public:
     AISchedule() : ParamIO("baischedule", 0) {}
 

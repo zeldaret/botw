@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ExpandChemicalField : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ExpandChemicalField, ksys::act::ai::Action)
+
 public:
     explicit ExpandChemicalField(const InitArg& arg);
     ~ExpandChemicalField() override;

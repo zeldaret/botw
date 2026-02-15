@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LastBossDemoWarpMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastBossDemoWarpMove, ksys::act::ai::Ai)
+
 public:
     explicit LastBossDemoWarpMove(const InitArg& arg);
     ~LastBossDemoWarpMove() override;

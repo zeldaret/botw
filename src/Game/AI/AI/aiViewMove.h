@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ViewMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ViewMove, ksys::act::ai::Ai)
+
 public:
     explicit ViewMove(const InitArg& arg);
     ~ViewMove() override;

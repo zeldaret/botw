@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenGetDemoDialog : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenGetDemoDialog, ksys::act::ai::Action)
+
 public:
     explicit OpenGetDemoDialog(const InitArg& arg);
     ~OpenGetDemoDialog() override;

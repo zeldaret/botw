@@ -27,6 +27,7 @@ public:
 
     class BoneParams : public ASParamParser {
         SEAD_RTTI_OVERRIDE(BoneParams, ASParamParser)
+
     public:
         BoneParams() : ASParamParser(Type::BlenderBone) {}
         ~BoneParams() override;

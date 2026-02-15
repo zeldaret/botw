@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GolemRootBase : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(GolemRootBase, EnemyRoot)
+
 public:
     explicit GolemRootBase(const InitArg& arg);
     ~GolemRootBase() override;

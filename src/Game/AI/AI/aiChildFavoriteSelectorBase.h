@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChildFavoriteSelectorBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChildFavoriteSelectorBase, ksys::act::ai::Ai)
+
 public:
     explicit ChildFavoriteSelectorBase(const InitArg& arg);
     ~ChildFavoriteSelectorBase() override;

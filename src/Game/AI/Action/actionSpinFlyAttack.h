@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SpinFlyAttack : public LinearFlyAttack {
     SEAD_RTTI_OVERRIDE(SpinFlyAttack, LinearFlyAttack)
+
 public:
     explicit SpinFlyAttack(const InitArg& arg);
     ~SpinFlyAttack() override;

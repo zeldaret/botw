@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitUntilLifeUpDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitUntilLifeUpDemo, ksys::act::ai::Action)
+
 public:
     explicit WaitUntilLifeUpDemo(const InitArg& arg);
     ~WaitUntilLifeUpDemo() override;

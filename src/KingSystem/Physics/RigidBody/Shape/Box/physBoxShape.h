@@ -20,6 +20,7 @@ struct BoxShapeParam;
 
 class BoxShape : public Shape {
     SEAD_RTTI_OVERRIDE(BoxShape, Shape)
+
 public:
     enum class Flag {
         /// Whether there is a pending change.
@@ -74,6 +75,7 @@ struct BoxShapeParam {
 
 class BoxParam : public RigidBodyInstanceParam, public BoxShapeParam {
     SEAD_RTTI_OVERRIDE(BoxParam, RigidBodyInstanceParam)
+
 public:
     BoxParam() : RigidBodyInstanceParam(ShapeType::Box) {}
 };

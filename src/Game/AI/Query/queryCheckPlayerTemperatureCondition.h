@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckPlayerTemperatureCondition : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckPlayerTemperatureCondition, Query)
+
 public:
     explicit CheckPlayerTemperatureCondition(const InitArg& arg);
     ~CheckPlayerTemperatureCondition() override;

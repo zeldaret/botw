@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossLswordThrowFireBall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossLswordThrowFireBall, ksys::act::ai::Action)
+
 public:
     explicit SiteBossLswordThrowFireBall(const InitArg& arg);
     ~SiteBossLswordThrowFireBall() override;

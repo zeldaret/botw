@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LastBossChemicalPillarAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossChemicalPillarAttack, ksys::act::ai::Action)
+
 public:
     explicit LastBossChemicalPillarAttack(const InitArg& arg);
     ~LastBossChemicalPillarAttack() override;

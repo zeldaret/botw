@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitWhileCreatingOwnedHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitWhileCreatingOwnedHorse, ksys::act::ai::Action)
+
 public:
     explicit WaitWhileCreatingOwnedHorse(const InitArg& arg);
     ~WaitWhileCreatingOwnedHorse() override;

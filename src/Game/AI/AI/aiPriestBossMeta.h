@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossMeta : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossMeta, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossMeta(const InitArg& arg);
     ~PriestBossMeta() override;

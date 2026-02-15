@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RapidAttackAllowSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RapidAttackAllowSelect, ksys::act::ai::Ai)
+
 public:
     explicit RapidAttackAllowSelect(const InitArg& arg);
     ~RapidAttackAllowSelect() override;

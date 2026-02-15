@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckNumOfBuyPicture : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckNumOfBuyPicture, Query)
+
 public:
     explicit CheckNumOfBuyPicture(const InitArg& arg);
     ~CheckNumOfBuyPicture() override;

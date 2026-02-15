@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqGroundHit : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqGroundHit, ksys::act::ai::Ai)
+
 public:
     explicit SeqGroundHit(const InitArg& arg);
     ~SeqGroundHit() override;

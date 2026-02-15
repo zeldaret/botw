@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckHasManifactureArmor : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckHasManifactureArmor, Query)
+
 public:
     explicit CheckHasManifactureArmor(const InitArg& arg);
     ~CheckHasManifactureArmor() override;

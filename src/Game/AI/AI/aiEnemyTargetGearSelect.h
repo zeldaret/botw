@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyTargetGearSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyTargetGearSelect, ksys::act::ai::Ai)
+
 public:
     explicit EnemyTargetGearSelect(const InitArg& arg);
     ~EnemyTargetGearSelect() override;

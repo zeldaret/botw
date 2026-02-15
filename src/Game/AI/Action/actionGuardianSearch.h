@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianSearch : public GuardianMoveTo {
     SEAD_RTTI_OVERRIDE(GuardianSearch, GuardianMoveTo)
+
 public:
     explicit GuardianSearch(const InitArg& arg);
     ~GuardianSearch() override;

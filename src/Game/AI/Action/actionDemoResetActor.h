@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoResetActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoResetActor, ksys::act::ai::Action)
+
 public:
     explicit DemoResetActor(const InitArg& arg);
     ~DemoResetActor() override;

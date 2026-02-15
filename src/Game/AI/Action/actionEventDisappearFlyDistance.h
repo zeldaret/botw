@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventDisappearFlyDistance : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventDisappearFlyDistance, ksys::act::ai::Action)
+
 public:
     explicit EventDisappearFlyDistance(const InitArg& arg);
     ~EventDisappearFlyDistance() override;

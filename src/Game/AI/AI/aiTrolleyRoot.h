@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TrolleyRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TrolleyRoot, ksys::act::ai::Ai)
+
 public:
     explicit TrolleyRoot(const InitArg& arg);
     ~TrolleyRoot() override;

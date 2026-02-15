@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SideWalk : public SideWalkBase {
     SEAD_RTTI_OVERRIDE(SideWalk, SideWalkBase)
+
 public:
     explicit SideWalk(const InitArg& arg);
     ~SideWalk() override;

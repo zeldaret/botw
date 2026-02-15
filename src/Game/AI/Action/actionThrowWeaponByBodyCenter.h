@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ThrowWeaponByBodyCenter : public ThrowWeapon {
     SEAD_RTTI_OVERRIDE(ThrowWeaponByBodyCenter, ThrowWeapon)
+
 public:
     explicit ThrowWeaponByBodyCenter(const InitArg& arg);
     ~ThrowWeaponByBodyCenter() override;

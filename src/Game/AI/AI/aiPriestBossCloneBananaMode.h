@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossCloneBananaMode : public PriestBossBananaMode {
     SEAD_RTTI_OVERRIDE(PriestBossCloneBananaMode, PriestBossBananaMode)
+
 public:
     explicit PriestBossCloneBananaMode(const InitArg& arg);
     ~PriestBossCloneBananaMode() override;

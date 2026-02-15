@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoVoiceTrigger : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoVoiceTrigger, ksys::act::ai::Action)
+
 public:
     explicit DemoVoiceTrigger(const InitArg& arg);
     ~DemoVoiceTrigger() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AirOctaBoardBurn : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(AirOctaBoardBurn, SeqTwoAction)
+
 public:
     explicit AirOctaBoardBurn(const InitArg& arg);
     ~AirOctaBoardBurn() override;

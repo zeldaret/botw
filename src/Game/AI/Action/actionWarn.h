@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Warn : public StopASPlay {
     SEAD_RTTI_OVERRIDE(Warn, StopASPlay)
+
 public:
     explicit Warn(const InitArg& arg);
     ~Warn() override;

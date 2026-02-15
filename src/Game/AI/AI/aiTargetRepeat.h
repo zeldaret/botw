@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetRepeat : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetRepeat, ksys::act::ai::Ai)
+
 public:
     explicit TargetRepeat(const InitArg& arg);
     ~TargetRepeat() override;

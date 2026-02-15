@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantOneHandAttackWithLegTurn : public GiantOneHandActionWithLegTurn {
     SEAD_RTTI_OVERRIDE(GiantOneHandAttackWithLegTurn, GiantOneHandActionWithLegTurn)
+
 public:
     explicit GiantOneHandAttackWithLegTurn(const InitArg& arg);
     ~GiantOneHandAttackWithLegTurn() override;

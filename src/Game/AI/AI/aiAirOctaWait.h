@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AirOctaWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AirOctaWait, ksys::act::ai::Ai)
+
 public:
     explicit AirOctaWait(const InitArg& arg);
     ~AirOctaWait() override;

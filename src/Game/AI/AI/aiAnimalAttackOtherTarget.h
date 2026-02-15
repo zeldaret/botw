@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AnimalAttackOtherTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AnimalAttackOtherTarget, ksys::act::ai::Ai)
+
 public:
     explicit AnimalAttackOtherTarget(const InitArg& arg);
     ~AnimalAttackOtherTarget() override;

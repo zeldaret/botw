@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GanonSmallDamage : public SmallDamageBase {
     SEAD_RTTI_OVERRIDE(GanonSmallDamage, SmallDamageBase)
+
 public:
     explicit GanonSmallDamage(const InitArg& arg);
     ~GanonSmallDamage() override;

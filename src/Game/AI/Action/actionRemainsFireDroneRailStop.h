@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemainsFireDroneRailStop : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemainsFireDroneRailStop, ksys::act::ai::Action)
+
 public:
     explicit RemainsFireDroneRailStop(const InitArg& arg);
     ~RemainsFireDroneRailStop() override;

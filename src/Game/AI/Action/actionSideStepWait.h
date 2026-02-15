@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SideStepWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SideStepWait, ksys::act::ai::Action)
+
 public:
     explicit SideStepWait(const InitArg& arg);
     ~SideStepWait() override;

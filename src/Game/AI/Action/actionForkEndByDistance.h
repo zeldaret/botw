@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkEndByDistance : public Fork {
     SEAD_RTTI_OVERRIDE(ForkEndByDistance, Fork)
+
 public:
     explicit ForkEndByDistance(const InitArg& arg);
     ~ForkEndByDistance() override;

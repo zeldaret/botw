@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckHorseCustomizeSelect : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckHorseCustomizeSelect, Query)
+
 public:
     explicit CheckHorseCustomizeSelect(const InitArg& arg);
     ~CheckHorseCustomizeSelect() override;

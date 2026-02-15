@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AdvanceTime : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AdvanceTime, ksys::act::ai::Action)
+
 public:
     explicit AdvanceTime(const InitArg& arg);
     ~AdvanceTime() override;

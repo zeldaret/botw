@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqCloseDistTwoAction : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(SeqCloseDistTwoAction, SeqTwoAction)
+
 public:
     explicit SeqCloseDistTwoAction(const InitArg& arg);
     ~SeqCloseDistTwoAction() override;

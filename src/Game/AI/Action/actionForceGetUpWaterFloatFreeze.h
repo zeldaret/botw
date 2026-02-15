@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForceGetUpWaterFloatFreeze : public WaterFloatFreeze {
     SEAD_RTTI_OVERRIDE(ForceGetUpWaterFloatFreeze, WaterFloatFreeze)
+
 public:
     explicit ForceGetUpWaterFloatFreeze(const InitArg& arg);
     ~ForceGetUpWaterFloatFreeze() override;

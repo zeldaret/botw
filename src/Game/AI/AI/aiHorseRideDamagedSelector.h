@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HorseRideDamagedSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseRideDamagedSelector, ksys::act::ai::Ai)
+
 public:
     explicit HorseRideDamagedSelector(const InitArg& arg);
     ~HorseRideDamagedSelector() override;

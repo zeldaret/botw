@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FreeMoveToNearGround : public FreeMoveToTarget {
     SEAD_RTTI_OVERRIDE(FreeMoveToNearGround, FreeMoveToTarget)
+
 public:
     explicit FreeMoveToNearGround(const InitArg& arg);
     ~FreeMoveToNearGround() override;

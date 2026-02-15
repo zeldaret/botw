@@ -8,6 +8,7 @@ class SphereShape;
 
 class SphereRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(SphereRigidBody, RigidBodyFromShape)
+
 public:
     static SphereRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
 

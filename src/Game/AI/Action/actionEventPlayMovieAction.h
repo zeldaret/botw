@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPlayMovieAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPlayMovieAction, ksys::act::ai::Action)
+
 public:
     explicit EventPlayMovieAction(const InitArg& arg);
     ~EventPlayMovieAction() override;

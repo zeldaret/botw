@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCConfront : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCConfront, ksys::act::ai::Ai)
+
 public:
     explicit NPCConfront(const InitArg& arg);
     ~NPCConfront() override;

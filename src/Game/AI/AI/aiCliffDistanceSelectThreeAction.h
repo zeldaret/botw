@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CliffDistanceSelectThreeAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CliffDistanceSelectThreeAction, ksys::act::ai::Ai)
+
 public:
     explicit CliffDistanceSelectThreeAction(const InitArg& arg);
     ~CliffDistanceSelectThreeAction() override;

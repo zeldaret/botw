@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DungeonMoveAlwaysVibrateCam : public DungeonMove {
     SEAD_RTTI_OVERRIDE(DungeonMoveAlwaysVibrateCam, DungeonMove)
+
 public:
     explicit DungeonMoveAlwaysVibrateCam(const InitArg& arg);
     ~DungeonMoveAlwaysVibrateCam() override;

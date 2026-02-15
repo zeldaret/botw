@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AlarmLynelTag : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AlarmLynelTag, ksys::act::ai::Action)
+
 public:
     explicit AlarmLynelTag(const InitArg& arg);
     ~AlarmLynelTag() override;

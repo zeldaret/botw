@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DieAnm : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(DieAnm, ActionWithPosAngReduce)
+
 public:
     explicit DieAnm(const InitArg& arg);
     ~DieAnm() override;

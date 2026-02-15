@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyRandomRepeatSideStep : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyRandomRepeatSideStep, ksys::act::ai::Ai)
+
 public:
     explicit EnemyRandomRepeatSideStep(const InitArg& arg);
     ~EnemyRandomRepeatSideStep() override;

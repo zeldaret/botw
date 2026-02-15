@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class HorseMoveToPlayer : public HorseFollow {
     SEAD_RTTI_OVERRIDE(HorseMoveToPlayer, HorseFollow)
+
 public:
     explicit HorseMoveToPlayer(const InitArg& arg);
     ~HorseMoveToPlayer() override;

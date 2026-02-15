@@ -6,6 +6,7 @@ namespace uking::query {
 
 class RandomChoice3 : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(RandomChoice3, Query)
+
 public:
     explicit RandomChoice3(const InitArg& arg);
     ~RandomChoice3() override;

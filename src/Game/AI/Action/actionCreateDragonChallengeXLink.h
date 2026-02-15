@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CreateDragonChallengeXLink : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CreateDragonChallengeXLink, ksys::act::ai::Action)
+
 public:
     explicit CreateDragonChallengeXLink(const InitArg& arg);
     ~CreateDragonChallengeXLink() override;

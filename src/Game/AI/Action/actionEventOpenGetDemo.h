@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventOpenGetDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventOpenGetDemo, ksys::act::ai::Action)
+
 public:
     explicit EventOpenGetDemo(const InitArg& arg);
     ~EventOpenGetDemo() override;

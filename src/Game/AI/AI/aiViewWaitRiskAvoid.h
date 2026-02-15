@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ViewWaitRiskAvoid : public ViewWait {
     SEAD_RTTI_OVERRIDE(ViewWaitRiskAvoid, ViewWait)
+
 public:
     explicit ViewWaitRiskAvoid(const InitArg& arg);
     ~ViewWaitRiskAvoid() override;

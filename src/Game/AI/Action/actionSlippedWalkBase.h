@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SlippedWalkBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SlippedWalkBase, ksys::act::ai::Action)
+
 public:
     explicit SlippedWalkBase(const InitArg& arg);
     ~SlippedWalkBase() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LastBossFlyWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossFlyWait, ksys::act::ai::Action)
+
 public:
     explicit LastBossFlyWait(const InitArg& arg);
     ~LastBossFlyWait() override;

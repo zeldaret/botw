@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossSpearAttackVertical : public SiteBossSpearAttackBase {
     SEAD_RTTI_OVERRIDE(SiteBossSpearAttackVertical, SiteBossSpearAttackBase)
+
 public:
     explicit SiteBossSpearAttackVertical(const InitArg& arg);
     ~SiteBossSpearAttackVertical() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossEyeBeamStandAim : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossEyeBeamStandAim, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossEyeBeamStandAim(const InitArg& arg);
     ~PriestBossEyeBeamStandAim() override;

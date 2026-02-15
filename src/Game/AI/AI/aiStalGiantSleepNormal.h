@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalGiantSleepNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalGiantSleepNormal, ksys::act::ai::Ai)
+
 public:
     explicit StalGiantSleepNormal(const InitArg& arg);
     ~StalGiantSleepNormal() override;

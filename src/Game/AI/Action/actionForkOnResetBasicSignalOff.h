@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkOnResetBasicSignalOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkOnResetBasicSignalOff, ksys::act::ai::Action)
+
 public:
     explicit ForkOnResetBasicSignalOff(const InitArg& arg);
     ~ForkOnResetBasicSignalOff() override;

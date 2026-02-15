@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnimalLegTurnAutoSpeed : public ForkAnimalASPlay {
     SEAD_RTTI_OVERRIDE(AnimalLegTurnAutoSpeed, ForkAnimalASPlay)
+
 public:
     explicit AnimalLegTurnAutoSpeed(const InitArg& arg);
     ~AnimalLegTurnAutoSpeed() override;

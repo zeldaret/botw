@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetItemDataToPouch : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetItemDataToPouch, ksys::act::ai::Action)
+
 public:
     explicit EventSetItemDataToPouch(const InitArg& arg);
     ~EventSetItemDataToPouch() override;

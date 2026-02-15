@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ShopFixedItemNum : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ShopFixedItemNum, ksys::act::ai::Action)
+
 public:
     explicit ShopFixedItemNum(const InitArg& arg);
     ~ShopFixedItemNum() override;

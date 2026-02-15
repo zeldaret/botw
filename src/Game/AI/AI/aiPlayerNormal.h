@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerNormal, ksys::act::ai::Ai)
+
 public:
     explicit PlayerNormal(const InitArg& arg);
     ~PlayerNormal() override;

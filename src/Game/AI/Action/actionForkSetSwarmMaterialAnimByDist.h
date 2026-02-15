@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSetSwarmMaterialAnimByDist : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSetSwarmMaterialAnimByDist, ksys::act::ai::Action)
+
 public:
     explicit ForkSetSwarmMaterialAnimByDist(const InitArg& arg);
     ~ForkSetSwarmMaterialAnimByDist() override;

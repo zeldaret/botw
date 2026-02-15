@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LynelBreathMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LynelBreathMove, ksys::act::ai::Action)
+
 public:
     explicit LynelBreathMove(const InitArg& arg);
     ~LynelBreathMove() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HorseWaitThrowOffAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HorseWaitThrowOffAction, ksys::act::ai::Action)
+
 public:
     explicit HorseWaitThrowOffAction(const InitArg& arg);
     ~HorseWaitThrowOffAction() override;

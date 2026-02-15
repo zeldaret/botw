@@ -16,6 +16,7 @@ public:
 
 class SensorGroupFilter : public GroupFilter {
     SEAD_RTTI_OVERRIDE(SensorGroupFilter, GroupFilter)
+
 public:
     static SensorGroupFilter* make(ContactLayer::ValueType last, sead::Heap* heap);
 

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KeeseHangOnCeil : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KeeseHangOnCeil, ksys::act::ai::Ai)
+
 public:
     explicit KeeseHangOnCeil(const InitArg& arg);
     ~KeeseHangOnCeil() override;

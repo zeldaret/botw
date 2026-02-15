@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FishOnGround : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(FishOnGround, ActionWithPosAngReduce)
+
 public:
     explicit FishOnGround(const InitArg& arg);
     ~FishOnGround() override;

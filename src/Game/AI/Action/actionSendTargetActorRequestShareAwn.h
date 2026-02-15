@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SendTargetActorRequestShareAwn : public SendMessageToTargetActor {
     SEAD_RTTI_OVERRIDE(SendTargetActorRequestShareAwn, SendMessageToTargetActor)
+
 public:
     explicit SendTargetActorRequestShareAwn(const InitArg& arg);
     ~SendTargetActorRequestShareAwn() override;

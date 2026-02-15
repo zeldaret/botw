@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyDefaultReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyDefaultReaction, ksys::act::ai::Ai)
+
 public:
     explicit EnemyDefaultReaction(const InitArg& arg);
 

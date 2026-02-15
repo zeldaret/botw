@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class IbutsuWaterFallRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(IbutsuWaterFallRoot, ksys::act::ai::Ai)
+
 public:
     explicit IbutsuWaterFallRoot(const InitArg& arg);
     ~IbutsuWaterFallRoot() override;

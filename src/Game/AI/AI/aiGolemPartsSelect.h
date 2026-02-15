@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolemPartsSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolemPartsSelect, ksys::act::ai::Ai)
+
 public:
     explicit GolemPartsSelect(const InitArg& arg);
     ~GolemPartsSelect() override;

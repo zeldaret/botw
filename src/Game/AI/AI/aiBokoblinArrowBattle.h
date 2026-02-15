@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BokoblinArrowBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinArrowBattle, ksys::act::ai::Ai)
+
 public:
     explicit BokoblinArrowBattle(const InitArg& arg);
     ~BokoblinArrowBattle() override;

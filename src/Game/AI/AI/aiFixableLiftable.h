@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class FixableLiftable : public SimpleLiftable {
     SEAD_RTTI_OVERRIDE(FixableLiftable, SimpleLiftable)
+
 public:
     explicit FixableLiftable(const InitArg& arg);
     ~FixableLiftable() override;

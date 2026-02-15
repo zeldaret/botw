@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SimpleMessageDialogCtrl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SimpleMessageDialogCtrl, ksys::act::ai::Action)
+
 public:
     explicit SimpleMessageDialogCtrl(const InitArg& arg);
     ~SimpleMessageDialogCtrl() override;

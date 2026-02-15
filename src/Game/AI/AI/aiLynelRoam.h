@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelRoam, ksys::act::ai::Ai)
+
 public:
     explicit LynelRoam(const InitArg& arg);
     ~LynelRoam() override;

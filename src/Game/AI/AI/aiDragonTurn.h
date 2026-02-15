@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DragonTurn : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DragonTurn, ksys::act::ai::Ai)
+
 public:
     explicit DragonTurn(const InitArg& arg);
     ~DragonTurn() override;

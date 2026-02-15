@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForestGiantWakeUp : public PlayASForAnimalUnit {
     SEAD_RTTI_OVERRIDE(ForestGiantWakeUp, PlayASForAnimalUnit)
+
 public:
     explicit ForestGiantWakeUp(const InitArg& arg);
     ~ForestGiantWakeUp() override;

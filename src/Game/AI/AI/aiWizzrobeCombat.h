@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WizzrobeCombat : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WizzrobeCombat, ksys::act::ai::Ai)
+
 public:
     explicit WizzrobeCombat(const InitArg& arg);
     ~WizzrobeCombat() override;

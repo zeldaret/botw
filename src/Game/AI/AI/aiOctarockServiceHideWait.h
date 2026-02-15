@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OctarockServiceHideWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OctarockServiceHideWait, ksys::act::ai::Ai)
+
 public:
     explicit OctarockServiceHideWait(const InitArg& arg);
     ~OctarockServiceHideWait() override;

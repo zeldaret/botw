@@ -31,6 +31,7 @@ using TaskSelectionDelegateT = sead::Delegate1R<T, const TaskSelectionContext&, 
 
 class TaskQueueBase {
     SEAD_RTTI_BASE(TaskQueueBase)
+
 public:
     struct InitArg {
         bool enable_locks;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CalcVecLengthToGameData : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CalcVecLengthToGameData, ksys::act::ai::Action)
+
 public:
     explicit CalcVecLengthToGameData(const InitArg& arg);
     ~CalcVecLengthToGameData() override;

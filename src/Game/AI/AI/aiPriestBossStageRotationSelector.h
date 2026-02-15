@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossStageRotationSelector : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossStageRotationSelector, PriestBossMode)
+
 public:
     explicit PriestBossStageRotationSelector(const InitArg& arg);
     ~PriestBossStageRotationSelector() override;

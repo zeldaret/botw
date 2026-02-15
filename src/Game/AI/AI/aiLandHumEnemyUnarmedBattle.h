@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LandHumEnemyUnarmedBattle : public UnarmedEnemySearch {
     SEAD_RTTI_OVERRIDE(LandHumEnemyUnarmedBattle, UnarmedEnemySearch)
+
 public:
     explicit LandHumEnemyUnarmedBattle(const InitArg& arg);
     ~LandHumEnemyUnarmedBattle() override;

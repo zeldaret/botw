@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NavMoveNearTarget : public NavMoveTarget {
     SEAD_RTTI_OVERRIDE(NavMoveNearTarget, NavMoveTarget)
+
 public:
     explicit NavMoveNearTarget(const InitArg& arg);
     ~NavMoveNearTarget() override;

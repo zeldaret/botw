@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPlayUiStaffRollImage : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPlayUiStaffRollImage, ksys::act::ai::Action)
+
 public:
     explicit EventPlayUiStaffRollImage(const InitArg& arg);
     ~EventPlayUiStaffRollImage() override;

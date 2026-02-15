@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventAnimFlowForMapTower : public CameraEventAnimFlow {
     SEAD_RTTI_OVERRIDE(CameraEventAnimFlowForMapTower, CameraEventAnimFlow)
+
 public:
     explicit CameraEventAnimFlowForMapTower(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetWeather : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetWeather, ksys::act::ai::Action)
+
 public:
     explicit EventSetWeather(const InitArg& arg);
     ~EventSetWeather() override;

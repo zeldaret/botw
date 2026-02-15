@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FlowingDust : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FlowingDust, ksys::act::ai::Action)
+
 public:
     explicit FlowingDust(const InitArg& arg);
     ~FlowingDust() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LandOnCeil : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LandOnCeil, ksys::act::ai::Action)
+
 public:
     explicit LandOnCeil(const InitArg& arg);
     ~LandOnCeil() override;

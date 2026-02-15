@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAITreeVariableMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAITreeVariableMove, ksys::act::ai::Action)
+
 public:
     explicit ForkAITreeVariableMove(const InitArg& arg);
     ~ForkAITreeVariableMove() override;

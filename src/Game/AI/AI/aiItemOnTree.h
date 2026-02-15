@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ItemOnTree : public ItemRoot {
     SEAD_RTTI_OVERRIDE(ItemOnTree, ItemRoot)
+
 public:
     explicit ItemOnTree(const InitArg& arg);
     ~ItemOnTree() override;

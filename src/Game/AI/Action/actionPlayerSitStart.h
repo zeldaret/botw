@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSitStart : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSitStart, PlayerAction)
+
 public:
     explicit PlayerSitStart(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EventTagRootAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EventTagRootAI, ksys::act::ai::Ai)
+
 public:
     explicit EventTagRootAI(const InitArg& arg);
     ~EventTagRootAI() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonBattleRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonBattleRoot, ksys::act::ai::Ai)
+
 public:
     explicit GanonBattleRoot(const InitArg& arg);
     ~GanonBattleRoot() override;

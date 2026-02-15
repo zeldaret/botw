@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianMiniRollingAttackMove : public EnemyRangeKeepMove {
     SEAD_RTTI_OVERRIDE(GuardianMiniRollingAttackMove, EnemyRangeKeepMove)
+
 public:
     explicit GuardianMiniRollingAttackMove(const InitArg& arg);
     ~GuardianMiniRollingAttackMove() override;

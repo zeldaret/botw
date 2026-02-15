@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GanonBarrierOn : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GanonBarrierOn, ksys::act::ai::Action)
+
 public:
     explicit GanonBarrierOn(const InitArg& arg);
     ~GanonBarrierOn() override;

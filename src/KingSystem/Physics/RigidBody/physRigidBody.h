@@ -60,6 +60,7 @@ struct RigidBodyCollisionMasks {
 
 class RigidBody : public sead::IDisposer, public RigidBase {
     SEAD_RTTI_BASE(RigidBody)
+
 public:
     using CollisionMasks = RigidBodyCollisionMasks;
 

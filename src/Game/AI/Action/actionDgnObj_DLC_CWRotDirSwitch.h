@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DgnObj_DLC_CWRotDirSwitch : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DgnObj_DLC_CWRotDirSwitch, ksys::act::ai::Action)
+
 public:
     explicit DgnObj_DLC_CWRotDirSwitch(const InitArg& arg);
     ~DgnObj_DLC_CWRotDirSwitch() override;

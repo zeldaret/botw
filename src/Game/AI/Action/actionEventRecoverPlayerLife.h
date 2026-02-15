@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventRecoverPlayerLife : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventRecoverPlayerLife, ksys::act::ai::Action)
+
 public:
     explicit EventRecoverPlayerLife(const InitArg& arg);
     ~EventRecoverPlayerLife() override;

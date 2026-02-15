@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossSwordCreateIronPile : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossSwordCreateIronPile, ksys::act::ai::Action)
+
 public:
     explicit SiteBossSwordCreateIronPile(const InitArg& arg);
     ~SiteBossSwordCreateIronPile() override;

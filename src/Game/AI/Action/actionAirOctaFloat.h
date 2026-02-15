@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AirOctaFloat : public AirOctaFloatBase {
     SEAD_RTTI_OVERRIDE(AirOctaFloat, AirOctaFloatBase)
+
 public:
     explicit AirOctaFloat(const InitArg& arg);
     ~AirOctaFloat() override;

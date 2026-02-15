@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetLastAttackerPos : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetLastAttackerPos, TargetPosAI)
+
 public:
     explicit TargetLastAttackerPos(const InitArg& arg);
     ~TargetLastAttackerPos() override;

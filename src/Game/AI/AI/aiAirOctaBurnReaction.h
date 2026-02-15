@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AirOctaBurnReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AirOctaBurnReaction, ksys::act::ai::Ai)
+
 public:
     explicit AirOctaBurnReaction(const InitArg& arg);
     ~AirOctaBurnReaction() override;

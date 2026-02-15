@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CameraRumbleLoop : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraRumbleLoop, ksys::act::ai::Action)
+
 public:
     explicit CameraRumbleLoop(const InitArg& arg);
 

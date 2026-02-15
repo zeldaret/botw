@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossSpearChangeWaterLevel : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossSpearChangeWaterLevel, ksys::act::ai::Action)
+
 public:
     explicit SiteBossSpearChangeWaterLevel(const InitArg& arg);
     ~SiteBossSpearChangeWaterLevel() override;

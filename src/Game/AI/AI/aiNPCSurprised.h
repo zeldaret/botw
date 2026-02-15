@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCSurprised : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCSurprised, ksys::act::ai::Ai)
+
 public:
     explicit NPCSurprised(const InitArg& arg);
     ~NPCSurprised() override;

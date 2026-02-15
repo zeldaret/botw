@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GiantArmorRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GiantArmorRoot, ksys::act::ai::Ai)
+
 public:
     explicit GiantArmorRoot(const InitArg& arg);
     ~GiantArmorRoot() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SceneBgmCtrlAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SceneBgmCtrlAction, ksys::act::ai::Action)
+
 public:
     explicit SceneBgmCtrlAction(const InitArg& arg);
     ~SceneBgmCtrlAction() override;

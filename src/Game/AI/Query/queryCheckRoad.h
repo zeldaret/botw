@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckRoad : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckRoad, Query)
+
 public:
     explicit CheckRoad(const InitArg& arg);
     ~CheckRoad() override;

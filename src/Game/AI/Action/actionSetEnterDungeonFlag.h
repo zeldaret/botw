@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetEnterDungeonFlag : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetEnterDungeonFlag, ksys::act::ai::Action)
+
 public:
     explicit SetEnterDungeonFlag(const InitArg& arg);
     ~SetEnterDungeonFlag() override;

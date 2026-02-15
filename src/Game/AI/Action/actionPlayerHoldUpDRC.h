@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerHoldUpDRC : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHoldUpDRC, PlayerAction)
+
 public:
     explicit PlayerHoldUpDRC(const InitArg& arg);
     ~PlayerHoldUpDRC() override;

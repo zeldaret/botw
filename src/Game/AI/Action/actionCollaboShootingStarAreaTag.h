@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CollaboShootingStarAreaTag : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(CollaboShootingStarAreaTag, AreaTagAction)
+
 public:
     explicit CollaboShootingStarAreaTag(const InitArg& arg);
     ~CollaboShootingStarAreaTag() override;

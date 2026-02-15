@@ -22,6 +22,7 @@ public:
 private:
     class Receiver : public MessageReceiverEx {
         SEAD_RTTI_OVERRIDE(Receiver, MessageReceiverEx)
+
     public:
         explicit Receiver(IHandler& handler) : mHandler(handler) {}
         ~Receiver() override;

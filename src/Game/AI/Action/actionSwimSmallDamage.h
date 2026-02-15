@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwimSmallDamage : public SmallDamage {
     SEAD_RTTI_OVERRIDE(SwimSmallDamage, SmallDamage)
+
 public:
     explicit SwimSmallDamage(const InitArg& arg);
     ~SwimSmallDamage() override;

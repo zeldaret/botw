@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwimMoveASHoldEvent : public SwimMoveBase {
     SEAD_RTTI_OVERRIDE(SwimMoveASHoldEvent, SwimMoveBase)
+
 public:
     explicit SwimMoveASHoldEvent(const InitArg& arg);
     ~SwimMoveASHoldEvent() override;

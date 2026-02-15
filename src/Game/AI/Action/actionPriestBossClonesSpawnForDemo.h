@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PriestBossClonesSpawnForDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PriestBossClonesSpawnForDemo, ksys::act::ai::Action)
+
 public:
     explicit PriestBossClonesSpawnForDemo(const InitArg& arg);
     ~PriestBossClonesSpawnForDemo() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LastBossBeamAttackRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastBossBeamAttackRoot, ksys::act::ai::Ai)
+
 public:
     explicit LastBossBeamAttackRoot(const InitArg& arg);
     ~LastBossBeamAttackRoot() override;

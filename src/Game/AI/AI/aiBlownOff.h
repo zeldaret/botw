@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BlownOff : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BlownOff, ksys::act::ai::Ai)
+
 public:
     explicit BlownOff(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsAwakened : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsAwakened, Query)
+
 public:
     explicit IsAwakened(const InitArg& arg);
     ~IsAwakened() override;

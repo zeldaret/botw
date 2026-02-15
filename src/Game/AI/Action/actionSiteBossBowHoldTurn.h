@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossBowHoldTurn : public TurnBase {
     SEAD_RTTI_OVERRIDE(SiteBossBowHoldTurn, TurnBase)
+
 public:
     explicit SiteBossBowHoldTurn(const InitArg& arg);
     ~SiteBossBowHoldTurn() override;

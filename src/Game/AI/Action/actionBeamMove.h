@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BeamMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BeamMove, ksys::act::ai::Action)
+
 public:
     explicit BeamMove(const InitArg& arg);
     ~BeamMove() override;

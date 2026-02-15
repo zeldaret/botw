@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FadeoutDelete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FadeoutDelete, ksys::act::ai::Action)
+
 public:
     explicit FadeoutDelete(const InitArg& arg);
     ~FadeoutDelete() override;

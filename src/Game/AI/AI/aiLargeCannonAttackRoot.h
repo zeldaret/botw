@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LargeCannonAttackRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LargeCannonAttackRoot, ksys::act::ai::Ai)
+
 public:
     explicit LargeCannonAttackRoot(const InitArg& arg);
     ~LargeCannonAttackRoot() override;

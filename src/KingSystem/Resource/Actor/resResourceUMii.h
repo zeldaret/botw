@@ -9,6 +9,7 @@ namespace ksys::res {
 
 class UMii : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(UMii, Resource)
+
 public:
     UMii();
     ~UMii() override;

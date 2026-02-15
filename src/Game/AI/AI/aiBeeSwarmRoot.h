@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class BeeSwarmRoot : public SwarmRoot {
     SEAD_RTTI_OVERRIDE(BeeSwarmRoot, SwarmRoot)
+
 public:
     explicit BeeSwarmRoot(const InitArg& arg);
     ~BeeSwarmRoot() override;

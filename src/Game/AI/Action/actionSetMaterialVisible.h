@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetMaterialVisible : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetMaterialVisible, ksys::act::ai::Action)
+
 public:
     explicit SetMaterialVisible(const InitArg& arg);
     ~SetMaterialVisible() override;

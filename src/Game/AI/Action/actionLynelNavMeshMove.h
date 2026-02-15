@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LynelNavMeshMove : public AnimalMoveGuidedBase {
     SEAD_RTTI_OVERRIDE(LynelNavMeshMove, AnimalMoveGuidedBase)
+
 public:
     explicit LynelNavMeshMove(const InitArg& arg);
     ~LynelNavMeshMove() override;

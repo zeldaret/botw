@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkFlyToTargetDirect : public FreeMovingAction {
     SEAD_RTTI_OVERRIDE(ForkFlyToTargetDirect, FreeMovingAction)
+
 public:
     explicit ForkFlyToTargetDirect(const InitArg& arg);
     ~ForkFlyToTargetDirect() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyCutRope : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyCutRope, ksys::act::ai::Ai)
+
 public:
     explicit EnemyCutRope(const InitArg& arg);
     ~EnemyCutRope() override;

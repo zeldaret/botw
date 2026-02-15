@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FlyMove : public FlyMoveBase {
     SEAD_RTTI_OVERRIDE(FlyMove, FlyMoveBase)
+
 public:
     explicit FlyMove(const InitArg& arg);
     ~FlyMove() override;

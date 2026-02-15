@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IchigekiHeartDecrease : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IchigekiHeartDecrease, ksys::act::ai::Action)
+
 public:
     explicit IchigekiHeartDecrease(const InitArg& arg);
     ~IchigekiHeartDecrease() override;

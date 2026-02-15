@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkStalPartApplyDamageImpulse : public Fork {
     SEAD_RTTI_OVERRIDE(ForkStalPartApplyDamageImpulse, Fork)
+
 public:
     explicit ForkStalPartApplyDamageImpulse(const InitArg& arg);
     ~ForkStalPartApplyDamageImpulse() override;

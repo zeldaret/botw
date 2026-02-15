@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseRideOneTimeASPlay : public HorseRide {
     SEAD_RTTI_OVERRIDE(HorseRideOneTimeASPlay, HorseRide)
+
 public:
     explicit HorseRideOneTimeASPlay(const InitArg& arg);
     ~HorseRideOneTimeASPlay() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnmDrivenMoveAttack : public MoveByAnimeDriven {
     SEAD_RTTI_OVERRIDE(AnmDrivenMoveAttack, MoveByAnimeDriven)
+
 public:
     explicit AnmDrivenMoveAttack(const InitArg& arg);
     ~AnmDrivenMoveAttack() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelRecognizeTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelRecognizeTarget, ksys::act::ai::Ai)
+
 public:
     explicit LynelRecognizeTarget(const InitArg& arg);
     ~LynelRecognizeTarget() override;

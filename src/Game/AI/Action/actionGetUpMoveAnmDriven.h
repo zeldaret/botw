@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetUpMoveAnmDriven : public GetUp {
     SEAD_RTTI_OVERRIDE(GetUpMoveAnmDriven, GetUp)
+
 public:
     explicit GetUpMoveAnmDriven(const InitArg& arg);
     ~GetUpMoveAnmDriven() override;

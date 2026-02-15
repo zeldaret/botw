@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGanonBeastBeamShoot : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGanonBeastBeamShoot, ksys::act::ai::Action)
+
 public:
     explicit ForkGanonBeastBeamShoot(const InitArg& arg);
     ~ForkGanonBeastBeamShoot() override;

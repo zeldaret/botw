@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MotorcycleRoot : public MotorcycleRootBase {
     SEAD_RTTI_OVERRIDE(MotorcycleRoot, MotorcycleRootBase)
+
 public:
     explicit MotorcycleRoot(const InitArg& arg);
     ~MotorcycleRoot() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ElectricCable : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ElectricCable, ksys::act::ai::Ai)
+
 public:
     explicit ElectricCable(const InitArg& arg);
     ~ElectricCable() override;

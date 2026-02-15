@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetHomeDir : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetHomeDir, TargetPosAI)
+
 public:
     explicit TargetHomeDir(const InitArg& arg);
     ~TargetHomeDir() override;

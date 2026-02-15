@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwitchTorch : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwitchTorch, ksys::act::ai::Ai)
+
 public:
     explicit SwitchTorch(const InitArg& arg);
     ~SwitchTorch() override;

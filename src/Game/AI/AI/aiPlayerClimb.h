@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerClimb : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerClimb, ksys::act::ai::Ai)
+
 public:
     explicit PlayerClimb(const InitArg& arg);
 

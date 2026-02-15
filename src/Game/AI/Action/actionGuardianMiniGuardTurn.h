@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniGuardTurn : public Turn {
     SEAD_RTTI_OVERRIDE(GuardianMiniGuardTurn, Turn)
+
 public:
     explicit GuardianMiniGuardTurn(const InitArg& arg);
     ~GuardianMiniGuardTurn() override;

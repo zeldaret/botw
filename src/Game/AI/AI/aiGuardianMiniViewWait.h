@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianMiniViewWait : public ViewWait {
     SEAD_RTTI_OVERRIDE(GuardianMiniViewWait, ViewWait)
+
 public:
     explicit GuardianMiniViewWait(const InitArg& arg);
     ~GuardianMiniViewWait() override;

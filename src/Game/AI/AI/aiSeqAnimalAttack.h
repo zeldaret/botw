@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqAnimalAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqAnimalAttack, ksys::act::ai::Ai)
+
 public:
     explicit SeqAnimalAttack(const InitArg& arg);
     ~SeqAnimalAttack() override;

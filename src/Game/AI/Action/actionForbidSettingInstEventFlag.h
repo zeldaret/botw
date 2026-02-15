@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForbidSettingInstEventFlag : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForbidSettingInstEventFlag, ksys::act::ai::Action)
+
 public:
     explicit ForbidSettingInstEventFlag(const InitArg& arg);
     ~ForbidSettingInstEventFlag() override;

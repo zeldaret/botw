@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RangeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RangeSelect, ksys::act::ai::Ai)
+
 public:
     explicit RangeSelect(const InitArg& arg);
     ~RangeSelect() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MiniGolemLifted : public EnemyLifted {
     SEAD_RTTI_OVERRIDE(MiniGolemLifted, EnemyLifted)
+
 public:
     explicit MiniGolemLifted(const InitArg& arg);
     ~MiniGolemLifted() override;

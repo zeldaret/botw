@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EventDoorOpenAndClose : public DoorOpenAndClose {
     SEAD_RTTI_OVERRIDE(EventDoorOpenAndClose, DoorOpenAndClose)
+
 public:
     explicit EventDoorOpenAndClose(const InitArg& arg);
     ~EventDoorOpenAndClose() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSleep : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSleep, PlayerAction)
+
 public:
     explicit PlayerSleep(const InitArg& arg);
 

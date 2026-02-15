@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SwarmDamagedBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwarmDamagedBase, ksys::act::ai::Action)
+
 public:
     explicit SwarmDamagedBase(const InitArg& arg);
     ~SwarmDamagedBase() override;

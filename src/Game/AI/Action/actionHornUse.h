@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HornUse : public HornUseBase {
     SEAD_RTTI_OVERRIDE(HornUse, HornUseBase)
+
 public:
     explicit HornUse(const InitArg& arg);
     ~HornUse() override;

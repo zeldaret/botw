@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ItemAmiiboSelectDropTable : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ItemAmiiboSelectDropTable, ksys::act::ai::Action)
+
 public:
     explicit ItemAmiiboSelectDropTable(const InitArg& arg);
     ~ItemAmiiboSelectDropTable() override;

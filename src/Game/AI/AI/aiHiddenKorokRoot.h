@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HiddenKorokRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HiddenKorokRoot, ksys::act::ai::Ai)
+
 public:
     explicit HiddenKorokRoot(const InitArg& arg);
     ~HiddenKorokRoot() override;

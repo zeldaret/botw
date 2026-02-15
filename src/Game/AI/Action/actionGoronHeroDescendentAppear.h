@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GoronHeroDescendentAppear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GoronHeroDescendentAppear, ksys::act::ai::Action)
+
 public:
     explicit GoronHeroDescendentAppear(const InitArg& arg);
     ~GoronHeroDescendentAppear() override;

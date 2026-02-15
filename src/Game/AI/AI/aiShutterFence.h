@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ShutterFence : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ShutterFence, ksys::act::ai::Ai)
+
 public:
     explicit ShutterFence(const InitArg& arg);
     ~ShutterFence() override;

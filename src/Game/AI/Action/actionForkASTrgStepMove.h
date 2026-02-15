@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASTrgStepMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASTrgStepMove, ksys::act::ai::Action)
+
 public:
     explicit ForkASTrgStepMove(const InitArg& arg);
     ~ForkASTrgStepMove() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GetOffFromHorseAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GetOffFromHorseAction, ksys::act::ai::Action)
+
 public:
     explicit GetOffFromHorseAction(const InitArg& arg);
     ~GetOffFromHorseAction() override;

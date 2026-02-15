@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WaistRotEnemyArrowAttack : public EnemyBaseArrowAttack {
     SEAD_RTTI_OVERRIDE(WaistRotEnemyArrowAttack, EnemyBaseArrowAttack)
+
 public:
     explicit WaistRotEnemyArrowAttack(const InitArg& arg);
     ~WaistRotEnemyArrowAttack() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PointWindTagRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PointWindTagRoot, ksys::act::ai::Ai)
+
 public:
     explicit PointWindTagRoot(const InitArg& arg);
     ~PointWindTagRoot() override;

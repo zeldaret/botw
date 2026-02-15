@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaterSurfaceModelOnly : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaterSurfaceModelOnly, ksys::act::ai::Action)
+
 public:
     explicit WaterSurfaceModelOnly(const InitArg& arg);
     ~WaterSurfaceModelOnly() override;

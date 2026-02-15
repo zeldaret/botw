@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ShutterOpenWait : public ActionEx {
     SEAD_RTTI_OVERRIDE(ShutterOpenWait, ActionEx)
+
 public:
     explicit ShutterOpenWait(const InitArg& arg);
     ~ShutterOpenWait() override;

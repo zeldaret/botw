@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalEnemyNoHeadWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalEnemyNoHeadWait, ksys::act::ai::Ai)
+
 public:
     explicit StalEnemyNoHeadWait(const InitArg& arg);
     ~StalEnemyNoHeadWait() override;

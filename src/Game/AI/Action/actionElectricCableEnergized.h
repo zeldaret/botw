@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ElectricCableEnergized : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ElectricCableEnergized, ksys::act::ai::Action)
+
 public:
     explicit ElectricCableEnergized(const InitArg& arg);
     ~ElectricCableEnergized() override;

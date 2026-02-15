@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HorseRiddenByNPCBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseRiddenByNPCBase, ksys::act::ai::Ai)
+
 public:
     explicit HorseRiddenByNPCBase(const InitArg& arg);
 

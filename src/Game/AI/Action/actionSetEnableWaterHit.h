@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetEnableWaterHit : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetEnableWaterHit, ksys::act::ai::Action)
+
 public:
     explicit SetEnableWaterHit(const InitArg& arg);
     ~SetEnableWaterHit() override;

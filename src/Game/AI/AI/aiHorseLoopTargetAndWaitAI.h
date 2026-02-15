@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class HorseLoopTargetAndWaitAI : public HorseLoopTarget {
     SEAD_RTTI_OVERRIDE(HorseLoopTargetAndWaitAI, HorseLoopTarget)
+
 public:
     explicit HorseLoopTargetAndWaitAI(const InitArg& arg);
     ~HorseLoopTargetAndWaitAI() override;

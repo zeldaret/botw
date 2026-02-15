@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoonAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoonAI, ksys::act::ai::Ai)
+
 public:
     explicit MoonAI(const InitArg& arg);
 

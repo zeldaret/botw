@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WeaponDrawn : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(WeaponDrawn, OnetimeStopASPlay)
+
 public:
     explicit WeaponDrawn(const InitArg& arg);
     ~WeaponDrawn() override;

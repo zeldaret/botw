@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayASForAnimalUnit : public ForkAnimalASPlay {
     SEAD_RTTI_OVERRIDE(PlayASForAnimalUnit, ForkAnimalASPlay)
+
 public:
     explicit PlayASForAnimalUnit(const InitArg& arg);
     ~PlayASForAnimalUnit() override;

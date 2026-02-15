@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetInAreaSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetInAreaSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetInAreaSelect(const InitArg& arg);
     ~TargetInAreaSelect() override;

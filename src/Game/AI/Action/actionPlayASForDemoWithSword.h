@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayASForDemoWithSword : public PlayASForDemo {
     SEAD_RTTI_OVERRIDE(PlayASForDemoWithSword, PlayASForDemo)
+
 public:
     explicit PlayASForDemoWithSword(const InitArg& arg);
 

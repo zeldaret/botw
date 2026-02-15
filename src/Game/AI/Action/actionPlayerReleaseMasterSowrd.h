@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PlayerReleaseMasterSowrd : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayerReleaseMasterSowrd, ksys::act::ai::Action)
+
 public:
     explicit PlayerReleaseMasterSowrd(const InitArg& arg);
     ~PlayerReleaseMasterSowrd() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HorseEscapeRouteRailAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseEscapeRouteRailAI, ksys::act::ai::Ai)
+
 public:
     explicit HorseEscapeRouteRailAI(const InitArg& arg);
     ~HorseEscapeRouteRailAI() override;

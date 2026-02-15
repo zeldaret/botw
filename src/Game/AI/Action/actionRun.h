@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Run : public MoveBase {
     SEAD_RTTI_OVERRIDE(Run, MoveBase)
+
 public:
     explicit Run(const InitArg& arg);
 

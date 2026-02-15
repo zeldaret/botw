@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SendMessage4YunBoCannon : public SendMessage {
     SEAD_RTTI_OVERRIDE(SendMessage4YunBoCannon, SendMessage)
+
 public:
     explicit SendMessage4YunBoCannon(const InitArg& arg);
     ~SendMessage4YunBoCannon() override;

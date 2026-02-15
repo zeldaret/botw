@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ItemConductorDemoBind : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ItemConductorDemoBind, ksys::act::ai::Action)
+
 public:
     explicit ItemConductorDemoBind(const InitArg& arg);
     ~ItemConductorDemoBind() override;

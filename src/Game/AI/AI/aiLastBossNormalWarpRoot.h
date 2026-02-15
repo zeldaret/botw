@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LastBossNormalWarpRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastBossNormalWarpRoot, ksys::act::ai::Ai)
+
 public:
     explicit LastBossNormalWarpRoot(const InitArg& arg);
     ~LastBossNormalWarpRoot() override;

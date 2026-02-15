@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkOnLeaveGolemChemReset : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkOnLeaveGolemChemReset, ksys::act::ai::Action)
+
 public:
     explicit ForkOnLeaveGolemChemReset(const InitArg& arg);
     ~ForkOnLeaveGolemChemReset() override;

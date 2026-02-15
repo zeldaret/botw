@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NpcSwimMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NpcSwimMove, ksys::act::ai::Action)
+
 public:
     explicit NpcSwimMove(const InitArg& arg);
     ~NpcSwimMove() override;

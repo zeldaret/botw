@@ -49,6 +49,7 @@ KSYS_CHECK_SIZE_NX150(CookItem, 0x228);
 
 class CookingMgr {
     SEAD_SINGLETON_DISPOSER(CookingMgr)
+
 public:
     static constexpr s32 NumIngredientsMax = 5;
     static constexpr s32 NumEffects = 13;

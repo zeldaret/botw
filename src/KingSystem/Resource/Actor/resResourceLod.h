@@ -10,6 +10,7 @@ namespace ksys::res {
 
 class Lod : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(Lod, Resource)
+
 public:
     Lod() : ParamIO("lod", 0) {}
     ~Lod() override = default;

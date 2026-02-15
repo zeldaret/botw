@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IncreasePlayerMaxHeart : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IncreasePlayerMaxHeart, ksys::act::ai::Action)
+
 public:
     explicit IncreasePlayerMaxHeart(const InitArg& arg);
     ~IncreasePlayerMaxHeart() override;

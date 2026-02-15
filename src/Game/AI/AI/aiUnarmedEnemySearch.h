@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class UnarmedEnemySearch : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(UnarmedEnemySearch, ksys::act::ai::Ai)
+
 public:
     explicit UnarmedEnemySearch(const InitArg& arg);
     ~UnarmedEnemySearch() override;

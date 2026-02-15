@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RailMoveWithClose : public RailMove {
     SEAD_RTTI_OVERRIDE(RailMoveWithClose, RailMove)
+
 public:
     explicit RailMoveWithClose(const InitArg& arg);
     ~RailMoveWithClose() override;

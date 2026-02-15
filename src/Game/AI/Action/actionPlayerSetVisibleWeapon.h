@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSetVisibleWeapon : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSetVisibleWeapon, PlayerAction)
+
 public:
     explicit PlayerSetVisibleWeapon(const InitArg& arg);
     ~PlayerSetVisibleWeapon() override;

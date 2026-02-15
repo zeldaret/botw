@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoriblinUnarmedBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoriblinUnarmedBattle, ksys::act::ai::Ai)
+
 public:
     explicit MoriblinUnarmedBattle(const InitArg& arg);
     ~MoriblinUnarmedBattle() override;

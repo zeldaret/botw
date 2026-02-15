@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MoveRemainsElectric : public RailMoveRemains {
     SEAD_RTTI_OVERRIDE(MoveRemainsElectric, RailMoveRemains)
+
 public:
     explicit MoveRemainsElectric(const InitArg& arg);
     ~MoveRemainsElectric() override;

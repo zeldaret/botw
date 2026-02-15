@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniChangeWeapon : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniChangeWeapon, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniChangeWeapon(const InitArg& arg);
     ~GuardianMiniChangeWeapon() override;

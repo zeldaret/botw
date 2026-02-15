@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerEventStartWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerEventStartWait, PlayerAction)
+
 public:
     explicit PlayerEventStartWait(const InitArg& arg);
     ~PlayerEventStartWait() override;

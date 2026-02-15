@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelArrowAttackSelectBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelArrowAttackSelectBase, ksys::act::ai::Ai)
+
 public:
     explicit LynelArrowAttackSelectBase(const InitArg& arg);
     ~LynelArrowAttackSelectBase() override;

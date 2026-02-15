@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMoveToPosition : public GuardianMoveTo {
     SEAD_RTTI_OVERRIDE(GuardianMoveToPosition, GuardianMoveTo)
+
 public:
     explicit GuardianMoveToPosition(const InitArg& arg);
     ~GuardianMoveToPosition() override;

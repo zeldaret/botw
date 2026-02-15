@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCHorseReceptionResurrect : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCHorseReceptionResurrect, ksys::act::ai::Action)
+
 public:
     explicit NPCHorseReceptionResurrect(const InitArg& arg);
     ~NPCHorseReceptionResurrect() override;

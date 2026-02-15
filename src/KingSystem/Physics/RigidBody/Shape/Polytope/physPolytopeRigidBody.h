@@ -8,6 +8,7 @@ class PolytopeShape;
 
 class PolytopeRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(PolytopeRigidBody, RigidBodyFromShape)
+
 public:
     static PolytopeRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
 

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AwarenessShareOnePartsASPlay : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(AwarenessShareOnePartsASPlay, OnetimeStopASPlay)
+
 public:
     explicit AwarenessShareOnePartsASPlay(const InitArg& arg);
     ~AwarenessShareOnePartsASPlay() override;

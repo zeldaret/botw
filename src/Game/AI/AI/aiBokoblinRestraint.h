@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BokoblinRestraint : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinRestraint, ksys::act::ai::Ai)
+
 public:
     explicit BokoblinRestraint(const InitArg& arg);
     ~BokoblinRestraint() override;

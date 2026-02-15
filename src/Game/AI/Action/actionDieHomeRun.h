@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DieHomeRun : public Die {
     SEAD_RTTI_OVERRIDE(DieHomeRun, Die)
+
 public:
     explicit DieHomeRun(const InitArg& arg);
     ~DieHomeRun() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GanonBeamIgnite : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(GanonBeamIgnite, OnetimeStopASPlay)
+
 public:
     explicit GanonBeamIgnite(const InitArg& arg);
     ~GanonBeamIgnite() override;

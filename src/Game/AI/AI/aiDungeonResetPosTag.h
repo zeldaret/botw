@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DungeonResetPosTag : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonResetPosTag, ksys::act::ai::Ai)
+
 public:
     explicit DungeonResetPosTag(const InitArg& arg);
     ~DungeonResetPosTag() override;

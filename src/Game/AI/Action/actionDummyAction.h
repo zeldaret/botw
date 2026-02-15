@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DummyAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DummyAction, ksys::act::ai::Action)
+
 public:
     explicit DummyAction(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyRecognizeTargetBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyRecognizeTargetBase, ksys::act::ai::Ai)
+
 public:
     explicit EnemyRecognizeTargetBase(const InitArg& arg);
     ~EnemyRecognizeTargetBase() override;

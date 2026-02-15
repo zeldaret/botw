@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SwarmStopTimerEscape : public SwarmEscapeDie {
     SEAD_RTTI_OVERRIDE(SwarmStopTimerEscape, SwarmEscapeDie)
+
 public:
     explicit SwarmStopTimerEscape(const InitArg& arg);
     ~SwarmStopTimerEscape() override;

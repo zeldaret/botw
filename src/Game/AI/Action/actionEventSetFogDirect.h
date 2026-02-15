@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetFogDirect : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetFogDirect, ksys::act::ai::Action)
+
 public:
     explicit EventSetFogDirect(const InitArg& arg);
     ~EventSetFogDirect() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class On : public ActionEx {
     SEAD_RTTI_OVERRIDE(On, ActionEx)
+
 public:
     explicit On(const InitArg& arg);
     ~On() override;

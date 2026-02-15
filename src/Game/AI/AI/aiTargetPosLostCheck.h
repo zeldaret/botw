@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetPosLostCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetPosLostCheck, ksys::act::ai::Ai)
+
 public:
     explicit TargetPosLostCheck(const InitArg& arg);
     ~TargetPosLostCheck() override;

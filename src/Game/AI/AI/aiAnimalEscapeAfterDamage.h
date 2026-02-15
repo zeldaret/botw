@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AnimalEscapeAfterDamage : public AnimalEscapeAI {
     SEAD_RTTI_OVERRIDE(AnimalEscapeAfterDamage, AnimalEscapeAI)
+
 public:
     explicit AnimalEscapeAfterDamage(const InitArg& arg);
     ~AnimalEscapeAfterDamage() override;

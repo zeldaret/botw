@@ -8,6 +8,7 @@ namespace ksys::res {
 
 class Placement : public Resource {
     SEAD_RTTI_OVERRIDE(Placement, Resource)
+
 public:
     Placement() = default;
     ~Placement() override = default;

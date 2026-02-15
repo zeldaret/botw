@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WizzrobeTurn : public HoverTurn {
     SEAD_RTTI_OVERRIDE(WizzrobeTurn, HoverTurn)
+
 public:
     explicit WizzrobeTurn(const InitArg& arg);
     ~WizzrobeTurn() override;

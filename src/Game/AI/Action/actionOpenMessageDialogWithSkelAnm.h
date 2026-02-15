@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OpenMessageDialogWithSkelAnm : public OpenMessageDialogBase {
     SEAD_RTTI_OVERRIDE(OpenMessageDialogWithSkelAnm, OpenMessageDialogBase)
+
 public:
     explicit OpenMessageDialogWithSkelAnm(const InitArg& arg);
     ~OpenMessageDialogWithSkelAnm() override;

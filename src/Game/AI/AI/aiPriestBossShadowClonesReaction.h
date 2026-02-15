@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossShadowClonesReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(PriestBossShadowClonesReaction, EnemyDefaultReaction)
+
 public:
     explicit PriestBossShadowClonesReaction(const InitArg& arg);
     ~PriestBossShadowClonesReaction() override;

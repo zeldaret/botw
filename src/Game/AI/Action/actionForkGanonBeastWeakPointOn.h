@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkGanonBeastWeakPointOn : public ForkGanonBeastWeakPoint {
     SEAD_RTTI_OVERRIDE(ForkGanonBeastWeakPointOn, ForkGanonBeastWeakPoint)
+
 public:
     explicit ForkGanonBeastWeakPointOn(const InitArg& arg);
     ~ForkGanonBeastWeakPointOn() override;

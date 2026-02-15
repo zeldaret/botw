@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventTalkManualCtrlBase : public CameraEvent {
     SEAD_RTTI_OVERRIDE(CameraEventTalkManualCtrlBase, CameraEvent)
+
 public:
     explicit CameraEventTalkManualCtrlBase(const InitArg& arg);
     ~CameraEventTalkManualCtrlBase() override;

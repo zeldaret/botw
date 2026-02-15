@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ZoraSurfing : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ZoraSurfing, ksys::act::ai::Action)
+
 public:
     explicit ZoraSurfing(const InitArg& arg);
     ~ZoraSurfing() override;

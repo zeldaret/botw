@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MimicFlagSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MimicFlagSelect, ksys::act::ai::Ai)
+
 public:
     explicit MimicFlagSelect(const InitArg& arg);
     ~MimicFlagSelect() override;

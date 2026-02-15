@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSwarmAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSwarmAttack, ksys::act::ai::Action)
+
 public:
     explicit ForkSwarmAttack(const InitArg& arg);
     ~ForkSwarmAttack() override;

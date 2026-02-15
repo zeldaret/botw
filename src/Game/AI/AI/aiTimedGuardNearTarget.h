@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TimedGuardNearTarget : public GuardNearTarget {
     SEAD_RTTI_OVERRIDE(TimedGuardNearTarget, GuardNearTarget)
+
 public:
     explicit TimedGuardNearTarget(const InitArg& arg);
     ~TimedGuardNearTarget() override;

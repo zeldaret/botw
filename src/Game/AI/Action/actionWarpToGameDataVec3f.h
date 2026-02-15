@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpToGameDataVec3f : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpToGameDataVec3f, ksys::act::ai::Action)
+
 public:
     explicit WarpToGameDataVec3f(const InitArg& arg);
     ~WarpToGameDataVec3f() override;

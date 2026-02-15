@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HorseVanish : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HorseVanish, ksys::act::ai::Action)
+
 public:
     explicit HorseVanish(const InitArg& arg);
     ~HorseVanish() override;

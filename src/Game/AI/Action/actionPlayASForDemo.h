@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PlayASForDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayASForDemo, ksys::act::ai::Action)
+
 public:
     explicit PlayASForDemo(const InitArg& arg);
     ~PlayASForDemo() override;

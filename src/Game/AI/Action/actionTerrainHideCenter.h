@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TerrainHideCenter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TerrainHideCenter, ksys::act::ai::Action)
+
 public:
     explicit TerrainHideCenter(const InitArg& arg);
     ~TerrainHideCenter() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BattleCloseMoveAction : public BattleCloseMoveActionBase {
     SEAD_RTTI_OVERRIDE(BattleCloseMoveAction, BattleCloseMoveActionBase)
+
 public:
     explicit BattleCloseMoveAction(const InitArg& arg);
 

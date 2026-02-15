@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PriestBossShadowCloneVanish : public PriestBossWarpOrVanish {
     SEAD_RTTI_OVERRIDE(PriestBossShadowCloneVanish, PriestBossWarpOrVanish)
+
 public:
     explicit PriestBossShadowCloneVanish(const InitArg& arg);
     ~PriestBossShadowCloneVanish() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianCloseBattle : public GuardianAI {
     SEAD_RTTI_OVERRIDE(GuardianCloseBattle, GuardianAI)
+
 public:
     explicit GuardianCloseBattle(const InitArg& arg);
     ~GuardianCloseBattle() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemainsWindBarrier : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemainsWindBarrier, ksys::act::ai::Action)
+
 public:
     explicit RemainsWindBarrier(const InitArg& arg);
     ~RemainsWindBarrier() override;

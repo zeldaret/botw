@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCReturnRestPosRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCReturnRestPosRoot, ksys::act::ai::Ai)
+
 public:
     explicit NPCReturnRestPosRoot(const InitArg& arg);
     ~NPCReturnRestPosRoot() override;

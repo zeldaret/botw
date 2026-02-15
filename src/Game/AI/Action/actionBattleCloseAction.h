@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BattleCloseAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BattleCloseAction, ksys::act::ai::Action)
+
 public:
     explicit BattleCloseAction(const InitArg& arg);
     ~BattleCloseAction() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GuardianAimBeam : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GuardianAimBeam, ksys::act::ai::Action)
+
 public:
     explicit GuardianAimBeam(const InitArg& arg);
     ~GuardianAimBeam() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class UnarmedLargeAttack : public UnarmedAttack {
     SEAD_RTTI_OVERRIDE(UnarmedLargeAttack, UnarmedAttack)
+
 public:
     explicit UnarmedLargeAttack(const InitArg& arg);
     ~UnarmedLargeAttack() override;

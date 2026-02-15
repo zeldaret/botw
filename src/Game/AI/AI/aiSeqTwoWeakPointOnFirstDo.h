@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqTwoWeakPointOnFirstDo : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(SeqTwoWeakPointOnFirstDo, SeqTwoAction)
+
 public:
     explicit SeqTwoWeakPointOnFirstDo(const InitArg& arg);
     ~SeqTwoWeakPointOnFirstDo() override;

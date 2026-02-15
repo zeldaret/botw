@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TreasureBoxBurnedOut : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TreasureBoxBurnedOut, ksys::act::ai::Action)
+
 public:
     explicit TreasureBoxBurnedOut(const InitArg& arg);
     ~TreasureBoxBurnedOut() override;

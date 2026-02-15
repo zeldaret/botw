@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerGuardBreak : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGuardBreak, PlayerAction)
+
 public:
     explicit PlayerGuardBreak(const InitArg& arg);
 

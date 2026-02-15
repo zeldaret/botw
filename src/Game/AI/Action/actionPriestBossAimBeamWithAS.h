@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PriestBossAimBeamWithAS : public PriestBossAimBeam {
     SEAD_RTTI_OVERRIDE(PriestBossAimBeamWithAS, PriestBossAimBeam)
+
 public:
     explicit PriestBossAimBeamWithAS(const InitArg& arg);
     ~PriestBossAimBeamWithAS() override;

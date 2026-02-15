@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GanonBeastASPlayFromActiveWp : public ForkASPlayBase {
     SEAD_RTTI_OVERRIDE(GanonBeastASPlayFromActiveWp, ForkASPlayBase)
+
 public:
     explicit GanonBeastASPlayFromActiveWp(const InitArg& arg);
     ~GanonBeastASPlayFromActiveWp() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AncientNecklaceBallBase : public SimpleLiftable {
     SEAD_RTTI_OVERRIDE(AncientNecklaceBallBase, SimpleLiftable)
+
 public:
     explicit AncientNecklaceBallBase(const InitArg& arg);
     ~AncientNecklaceBallBase() override;

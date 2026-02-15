@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CircleMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CircleMove, ksys::act::ai::Ai)
+
 public:
     explicit CircleMove(const InitArg& arg);
     ~CircleMove() override;

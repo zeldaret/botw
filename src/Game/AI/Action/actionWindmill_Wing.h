@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Windmill_Wing : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Windmill_Wing, ksys::act::ai::Action)
+
 public:
     explicit Windmill_Wing(const InitArg& arg);
     ~Windmill_Wing() override;

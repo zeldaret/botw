@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AppearFromTargetFrontGround : public AppearNearTarget {
     SEAD_RTTI_OVERRIDE(AppearFromTargetFrontGround, AppearNearTarget)
+
 public:
     explicit AppearFromTargetFrontGround(const InitArg& arg);
     ~AppearFromTargetFrontGround() override;

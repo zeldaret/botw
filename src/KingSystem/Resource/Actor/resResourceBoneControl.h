@@ -14,6 +14,7 @@ namespace ksys::res {
 
 class BoneControl : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(BoneControl, Resource)
+
 public:
     struct Whole {
         agl::utl::ParameterObj obj;

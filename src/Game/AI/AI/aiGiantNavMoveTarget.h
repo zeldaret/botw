@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GiantNavMoveTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GiantNavMoveTarget, ksys::act::ai::Ai)
+
 public:
     explicit GiantNavMoveTarget(const InitArg& arg);
     ~GiantNavMoveTarget() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoForceSetPlayerSavePosAngle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoForceSetPlayerSavePosAngle, ksys::act::ai::Action)
+
 public:
     explicit DemoForceSetPlayerSavePosAngle(const InitArg& arg);
     ~DemoForceSetPlayerSavePosAngle() override;

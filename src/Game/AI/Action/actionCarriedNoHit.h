@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CarriedNoHit : public Carried {
     SEAD_RTTI_OVERRIDE(CarriedNoHit, Carried)
+
 public:
     explicit CarriedNoHit(const InitArg& arg);
     ~CarriedNoHit() override;

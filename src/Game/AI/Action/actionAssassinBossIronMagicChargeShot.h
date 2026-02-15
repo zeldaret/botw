@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AssassinBossIronMagicChargeShot : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AssassinBossIronMagicChargeShot, ksys::act::ai::Action)
+
 public:
     explicit AssassinBossIronMagicChargeShot(const InitArg& arg);
     ~AssassinBossIronMagicChargeShot() override;

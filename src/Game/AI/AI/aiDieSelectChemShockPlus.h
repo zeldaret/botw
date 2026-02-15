@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DieSelectChemShockPlus : public DieSelectChemicalPlus {
     SEAD_RTTI_OVERRIDE(DieSelectChemShockPlus, DieSelectChemicalPlus)
+
 public:
     explicit DieSelectChemShockPlus(const InitArg& arg);
     ~DieSelectChemShockPlus() override;

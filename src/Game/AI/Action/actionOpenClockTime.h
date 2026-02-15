@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenClockTime : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenClockTime, ksys::act::ai::Action)
+
 public:
     explicit OpenClockTime(const InitArg& arg);
     ~OpenClockTime() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GolemFireREnemyBattle : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(GolemFireREnemyBattle, EnemyBattle)
+
 public:
     explicit GolemFireREnemyBattle(const InitArg& arg);
     ~GolemFireREnemyBattle() override;

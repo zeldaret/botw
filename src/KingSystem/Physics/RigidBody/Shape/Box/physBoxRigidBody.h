@@ -9,6 +9,7 @@ struct RigidBodyInstanceParam;
 
 class BoxRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(BoxRigidBody, RigidBodyFromShape)
+
 public:
     static BoxRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
 

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EatAndHeal : public AnimalEatAction {
     SEAD_RTTI_OVERRIDE(EatAndHeal, AnimalEatAction)
+
 public:
     explicit EatAndHeal(const InitArg& arg);
     ~EatAndHeal() override;

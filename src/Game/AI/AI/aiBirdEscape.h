@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BirdEscape : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BirdEscape, ksys::act::ai::Ai)
+
 public:
     explicit BirdEscape(const InitArg& arg);
     ~BirdEscape() override;

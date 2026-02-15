@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Move2HomePos : public Move2HomePosBase {
     SEAD_RTTI_OVERRIDE(Move2HomePos, Move2HomePosBase)
+
 public:
     explicit Move2HomePos(const InitArg& arg);
     ~Move2HomePos() override;

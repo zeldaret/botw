@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForestGiantReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(ForestGiantReaction, EnemyDefaultReaction)
+
 public:
     explicit ForestGiantReaction(const InitArg& arg);
     ~ForestGiantReaction() override;

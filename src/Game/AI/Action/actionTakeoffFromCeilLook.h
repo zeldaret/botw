@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TakeoffFromCeilLook : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TakeoffFromCeilLook, ksys::act::ai::Action)
+
 public:
     explicit TakeoffFromCeilLook(const InitArg& arg);
     ~TakeoffFromCeilLook() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RestorePlayerPosAndRotate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RestorePlayerPosAndRotate, ksys::act::ai::Action)
+
 public:
     explicit RestorePlayerPosAndRotate(const InitArg& arg);
     ~RestorePlayerPosAndRotate() override;

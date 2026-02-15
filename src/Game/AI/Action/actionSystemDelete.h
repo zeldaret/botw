@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SystemDelete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemDelete, ksys::act::ai::Action)
+
 public:
     explicit SystemDelete(const InitArg& arg);
     ~SystemDelete() override;

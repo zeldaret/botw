@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StopTimerObserver : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StopTimerObserver, ksys::act::ai::Ai)
+
 public:
     explicit StopTimerObserver(const InitArg& arg);
     ~StopTimerObserver() override;

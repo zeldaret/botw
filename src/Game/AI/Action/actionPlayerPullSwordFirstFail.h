@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerPullSwordFirstFail : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerPullSwordFirstFail, PlayerAction)
+
 public:
     explicit PlayerPullSwordFirstFail(const InitArg& arg);
 

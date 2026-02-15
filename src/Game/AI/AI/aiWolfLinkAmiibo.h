@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WolfLinkAmiibo : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkAmiibo, ksys::act::ai::Ai)
+
 public:
     explicit WolfLinkAmiibo(const InitArg& arg);
     ~WolfLinkAmiibo() override;

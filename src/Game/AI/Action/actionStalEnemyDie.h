@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StalEnemyDie : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StalEnemyDie, ksys::act::ai::Action)
+
 public:
     explicit StalEnemyDie(const InitArg& arg);
     ~StalEnemyDie() override;

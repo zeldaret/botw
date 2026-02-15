@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SendSignalForSignalFlowAct : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SendSignalForSignalFlowAct, ksys::act::ai::Action)
+
 public:
     explicit SendSignalForSignalFlowAct(const InitArg& arg);
     ~SendSignalForSignalFlowAct() override;

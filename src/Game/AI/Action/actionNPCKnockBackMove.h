@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCKnockBackMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCKnockBackMove, ksys::act::ai::Action)
+
 public:
     explicit NPCKnockBackMove(const InitArg& arg);
     ~NPCKnockBackMove() override;

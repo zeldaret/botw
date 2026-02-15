@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FlyingCharacterBlownOffDie : public FlyingCharacterBlownOff {
     SEAD_RTTI_OVERRIDE(FlyingCharacterBlownOffDie, FlyingCharacterBlownOff)
+
 public:
     explicit FlyingCharacterBlownOffDie(const InitArg& arg);
     ~FlyingCharacterBlownOffDie() override;

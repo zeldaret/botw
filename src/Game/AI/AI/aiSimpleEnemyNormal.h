@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SimpleEnemyNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(SimpleEnemyNormal, EnemyNormal)
+
 public:
     explicit SimpleEnemyNormal(const InitArg& arg);
     ~SimpleEnemyNormal() override;

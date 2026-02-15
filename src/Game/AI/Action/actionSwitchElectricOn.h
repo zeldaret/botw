@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SwitchElectricOn : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwitchElectricOn, ksys::act::ai::Action)
+
 public:
     explicit SwitchElectricOn(const InitArg& arg);
 

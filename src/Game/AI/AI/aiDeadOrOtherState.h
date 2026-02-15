@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DeadOrOtherState : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DeadOrOtherState, ksys::act::ai::Ai)
+
 public:
     explicit DeadOrOtherState(const InitArg& arg);
 

@@ -11,6 +11,7 @@ namespace ksys::res {
 
 class EntryFactoryBase : public sead::DirectResourceFactoryBase {
     SEAD_RTTI_OVERRIDE(EntryFactoryBase, sead::DirectResourceFactoryBase)
+
 public:
     explicit EntryFactoryBase(f32 size_multiplier = 1.0, u32 size_constant = 0)
         : mSizeMultiplier(size_multiplier), mSizeConstant(size_constant) {}
@@ -31,6 +32,7 @@ KSYS_CHECK_SIZE_NX150(EntryFactoryBase, 0x80);
 template <typename T>
 class EntryFactory : public EntryFactoryBase {
     SEAD_RTTI_OVERRIDE(EntryFactory<T>, EntryFactoryBase)
+
 public:
     explicit EntryFactory(f32 size_multiplier = 1.0, u32 size_constant = 0)
         : EntryFactoryBase(size_multiplier, size_constant) {}

@@ -15,6 +15,7 @@ enum class Climate;
 // TODO
 class EnvMgr : public Job {
     SEAD_RTTI_OVERRIDE(EnvMgr, Job)
+
 public:
     struct EnvPaletteStatic {
         EnvPaletteStatic();

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HomePosDistanceSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HomePosDistanceSelector, ksys::act::ai::Ai)
+
 public:
     explicit HomePosDistanceSelector(const InitArg& arg);
     ~HomePosDistanceSelector() override;

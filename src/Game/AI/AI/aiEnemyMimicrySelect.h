@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyMimicrySelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyMimicrySelect, ksys::act::ai::Ai)
+
 public:
     explicit EnemyMimicrySelect(const InitArg& arg);
     ~EnemyMimicrySelect() override;

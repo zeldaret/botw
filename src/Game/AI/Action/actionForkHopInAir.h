@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkHopInAir : public Fork {
     SEAD_RTTI_OVERRIDE(ForkHopInAir, Fork)
+
 public:
     explicit ForkHopInAir(const InitArg& arg);
     ~ForkHopInAir() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class GeneralChoice2 : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(GeneralChoice2, Query)
+
 public:
     explicit GeneralChoice2(const InitArg& arg);
     ~GeneralChoice2() override;

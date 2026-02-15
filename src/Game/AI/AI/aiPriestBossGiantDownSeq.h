@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossGiantDownSeq : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossGiantDownSeq, PriestBossMode)
+
 public:
     explicit PriestBossGiantDownSeq(const InitArg& arg);
     ~PriestBossGiantDownSeq() override;

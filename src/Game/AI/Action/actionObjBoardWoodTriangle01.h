@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ObjBoardWoodTriangle01 : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ObjBoardWoodTriangle01, ksys::act::ai::Action)
+
 public:
     explicit ObjBoardWoodTriangle01(const InitArg& arg);
     ~ObjBoardWoodTriangle01() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ShelterFromRain : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(ShelterFromRain, AreaTagAction)
+
 public:
     explicit ShelterFromRain(const InitArg& arg);
     ~ShelterFromRain() override;

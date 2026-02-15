@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwarmBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwarmBattle, ksys::act::ai::Ai)
+
 public:
     explicit SwarmBattle(const InitArg& arg);
     ~SwarmBattle() override;

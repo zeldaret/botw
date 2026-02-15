@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Guard : public TakeHitImpactForce {
     SEAD_RTTI_OVERRIDE(Guard, TakeHitImpactForce)
+
 public:
     explicit Guard(const InitArg& arg);
 

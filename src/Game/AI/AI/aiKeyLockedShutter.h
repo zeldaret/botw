@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KeyLockedShutter : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KeyLockedShutter, ksys::act::ai::Ai)
+
 public:
     explicit KeyLockedShutter(const InitArg& arg);
     ~KeyLockedShutter() override;

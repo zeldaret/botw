@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemySittingTogether : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemySittingTogether, ksys::act::ai::Ai)
+
 public:
     explicit EnemySittingTogether(const InitArg& arg);
 

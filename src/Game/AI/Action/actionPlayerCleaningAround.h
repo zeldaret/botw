@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerCleaningAround : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCleaningAround, PlayerAction)
+
 public:
     explicit PlayerCleaningAround(const InitArg& arg);
     ~PlayerCleaningAround() override;

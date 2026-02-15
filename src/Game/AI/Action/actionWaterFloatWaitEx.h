@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WaterFloatWaitEx : public WaterFloatWait {
     SEAD_RTTI_OVERRIDE(WaterFloatWaitEx, WaterFloatWait)
+
 public:
     explicit WaterFloatWaitEx(const InitArg& arg);
     ~WaterFloatWaitEx() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyChaseShield : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyChaseShield, ksys::act::ai::Ai)
+
 public:
     explicit EnemyChaseShield(const InitArg& arg);
 

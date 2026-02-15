@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckRankOfEnemyAttackedNPC : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckRankOfEnemyAttackedNPC, Query)
+
 public:
     explicit CheckRankOfEnemyAttackedNPC(const InitArg& arg);
     ~CheckRankOfEnemyAttackedNPC() override;

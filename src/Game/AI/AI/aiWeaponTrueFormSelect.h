@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WeaponTrueFormSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WeaponTrueFormSelect, ksys::act::ai::Ai)
+
 public:
     explicit WeaponTrueFormSelect(const InitArg& arg);
     ~WeaponTrueFormSelect() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitTimer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitTimer, ksys::act::ai::Action)
+
 public:
     explicit WaitTimer(const InitArg& arg);
     ~WaitTimer() override;

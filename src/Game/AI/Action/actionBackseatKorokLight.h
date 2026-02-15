@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BackseatKorokLight : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BackseatKorokLight, ksys::act::ai::Action)
+
 public:
     explicit BackseatKorokLight(const InitArg& arg);
     ~BackseatKorokLight() override;

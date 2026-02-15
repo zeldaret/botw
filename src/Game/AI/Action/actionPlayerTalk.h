@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerTalk : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerTalk, PlayerAction)
+
 public:
     explicit PlayerTalk(const InitArg& arg);
     ~PlayerTalk() override;

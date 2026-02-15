@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SandwormTackleMove : public AtkTackleMove {
     SEAD_RTTI_OVERRIDE(SandwormTackleMove, AtkTackleMove)
+
 public:
     explicit SandwormTackleMove(const InitArg& arg);
     ~SandwormTackleMove() override;

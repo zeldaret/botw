@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WindCutter : public ChemicalAttack {
     SEAD_RTTI_OVERRIDE(WindCutter, ChemicalAttack)
+
 public:
     explicit WindCutter(const InitArg& arg);
     ~WindCutter() override;

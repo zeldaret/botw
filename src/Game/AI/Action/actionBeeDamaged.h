@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BeeDamaged : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BeeDamaged, ksys::act::ai::Action)
+
 public:
     explicit BeeDamaged(const InitArg& arg);
     ~BeeDamaged() override;

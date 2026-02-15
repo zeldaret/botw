@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class UnderWaterDepthSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(UnderWaterDepthSelect, ksys::act::ai::Ai)
+
 public:
     explicit UnderWaterDepthSelect(const InitArg& arg);
     ~UnderWaterDepthSelect() override;

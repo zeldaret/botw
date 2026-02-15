@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AtOnWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AtOnWait, ksys::act::ai::Action)
+
 public:
     explicit AtOnWait(const InitArg& arg);
 

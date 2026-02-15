@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckExistArrow : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckExistArrow, Query)
+
 public:
     explicit CheckExistArrow(const InitArg& arg);
     ~CheckExistArrow() override;

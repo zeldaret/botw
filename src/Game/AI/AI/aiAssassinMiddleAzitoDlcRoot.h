@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinMiddleAzitoDlcRoot : public AssassinMiddleAzitoRoot {
     SEAD_RTTI_OVERRIDE(AssassinMiddleAzitoDlcRoot, AssassinMiddleAzitoRoot)
+
 public:
     explicit AssassinMiddleAzitoDlcRoot(const InitArg& arg);
     ~AssassinMiddleAzitoDlcRoot() override;

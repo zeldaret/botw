@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StoneOctarockWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StoneOctarockWait, ksys::act::ai::Ai)
+
 public:
     explicit StoneOctarockWait(const InitArg& arg);
     ~StoneOctarockWait() override;

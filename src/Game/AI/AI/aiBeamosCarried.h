@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class BeamosCarried : public AddCarried {
     SEAD_RTTI_OVERRIDE(BeamosCarried, AddCarried)
+
 public:
     explicit BeamosCarried(const InitArg& arg);
     ~BeamosCarried() override;

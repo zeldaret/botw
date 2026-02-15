@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolemSleepTypeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolemSleepTypeSelect, ksys::act::ai::Ai)
+
 public:
     explicit GolemSleepTypeSelect(const InitArg& arg);
     ~GolemSleepTypeSelect() override;

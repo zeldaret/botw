@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChangeEmotion : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChangeEmotion, ksys::act::ai::Action)
+
 public:
     explicit ChangeEmotion(const InitArg& arg);
     ~ChangeEmotion() override;

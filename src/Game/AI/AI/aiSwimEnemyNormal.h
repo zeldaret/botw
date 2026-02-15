@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SwimEnemyNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(SwimEnemyNormal, EnemyNormal)
+
 public:
     explicit SwimEnemyNormal(const InitArg& arg);
     ~SwimEnemyNormal() override;

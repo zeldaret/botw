@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ForestGiantClosestAttackSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ForestGiantClosestAttackSelect, ksys::act::ai::Ai)
+
 public:
     explicit ForestGiantClosestAttackSelect(const InitArg& arg);
     ~ForestGiantClosestAttackSelect() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EquipHaveSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EquipHaveSelector, ksys::act::ai::Ai)
+
 public:
     explicit EquipHaveSelector(const InitArg& arg);
     ~EquipHaveSelector() override;

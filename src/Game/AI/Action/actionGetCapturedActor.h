@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetCapturedActor : public GetItem {
     SEAD_RTTI_OVERRIDE(GetCapturedActor, GetItem)
+
 public:
     explicit GetCapturedActor(const InitArg& arg);
     ~GetCapturedActor() override;

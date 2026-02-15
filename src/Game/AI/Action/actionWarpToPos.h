@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpToPos : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpToPos, ksys::act::ai::Action)
+
 public:
     explicit WarpToPos(const InitArg& arg);
     ~WarpToPos() override;

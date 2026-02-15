@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraAbyss : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraAbyss, CameraAction)
+
 public:
     explicit CameraAbyss(const InitArg& arg);
 

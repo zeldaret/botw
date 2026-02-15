@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetPosOnNavFaceSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetPosOnNavFaceSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetPosOnNavFaceSelect(const InitArg& arg);
     ~TargetPosOnNavFaceSelect() override;

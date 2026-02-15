@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventHoverNullASPlayBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventHoverNullASPlayBase, ksys::act::ai::Action)
+
 public:
     explicit EventHoverNullASPlayBase(const InitArg& arg);
     ~EventHoverNullASPlayBase() override;

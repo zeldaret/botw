@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetMyUp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetMyUp, ksys::act::ai::Ai)
+
 public:
     explicit TargetMyUp(const InitArg& arg);
     ~TargetMyUp() override;

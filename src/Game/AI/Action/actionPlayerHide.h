@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerHide : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHide, PlayerAction)
+
 public:
     explicit PlayerHide(const InitArg& arg);
     ~PlayerHide() override;

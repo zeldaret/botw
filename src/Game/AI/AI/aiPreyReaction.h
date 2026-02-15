@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreyReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreyReaction, ksys::act::ai::Ai)
+
 public:
     explicit PreyReaction(const InitArg& arg);
     ~PreyReaction() override;

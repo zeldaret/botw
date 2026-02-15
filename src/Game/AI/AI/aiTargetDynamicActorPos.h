@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetDynamicActorPos : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetDynamicActorPos, TargetPosAI)
+
 public:
     explicit TargetDynamicActorPos(const InitArg& arg);
     ~TargetDynamicActorPos() override;

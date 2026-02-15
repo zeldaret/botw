@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AppearGameOver : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AppearGameOver, ksys::act::ai::Action)
+
 public:
     explicit AppearGameOver(const InitArg& arg);
     ~AppearGameOver() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyWaitViewItem : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyWaitViewItem, ksys::act::ai::Ai)
+
 public:
     explicit EnemyWaitViewItem(const InitArg& arg);
     ~EnemyWaitViewItem() override;

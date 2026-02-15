@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetPredictRotSpdTargetPos : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetPredictRotSpdTargetPos, TargetPosAI)
+
 public:
     explicit TargetPredictRotSpdTargetPos(const InitArg& arg);
     ~TargetPredictRotSpdTargetPos() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkChemicalChuchuAttack : public ForkNoWeaponAttackAllTime {
     SEAD_RTTI_OVERRIDE(ForkChemicalChuchuAttack, ForkNoWeaponAttackAllTime)
+
 public:
     explicit ForkChemicalChuchuAttack(const InitArg& arg);
     ~ForkChemicalChuchuAttack() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerFrontRoll : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerFrontRoll, PlayerAction)
+
 public:
     explicit PlayerFrontRoll(const InitArg& arg);
 

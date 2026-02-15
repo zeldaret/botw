@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RangeSelectTwoAction : public RangeSelectAction {
     SEAD_RTTI_OVERRIDE(RangeSelectTwoAction, RangeSelectAction)
+
 public:
     explicit RangeSelectTwoAction(const InitArg& arg);
     ~RangeSelectTwoAction() override;

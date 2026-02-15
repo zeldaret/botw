@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCMove, ksys::act::ai::Ai)
+
 public:
     explicit NPCMove(const InitArg& arg);
     ~NPCMove() override;

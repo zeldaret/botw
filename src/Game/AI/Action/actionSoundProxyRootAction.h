@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SoundProxyRootAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SoundProxyRootAction, ksys::act::ai::Action)
+
 public:
     explicit SoundProxyRootAction(const InitArg& arg);
     ~SoundProxyRootAction() override;

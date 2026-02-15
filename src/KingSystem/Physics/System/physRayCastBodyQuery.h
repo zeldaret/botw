@@ -7,6 +7,7 @@ namespace ksys::phys {
 /// A RayCast that keeps track of the first rigid body that collided with the ray (if any).
 class RayCastBodyQuery : public RayCast {
     SEAD_RTTI_OVERRIDE(RayCastBodyQuery, RayCast)
+
 public:
     RayCastBodyQuery(SystemGroupHandler* group_handler, GroundHit ground_hit);
     ~RayCastBodyQuery() override;

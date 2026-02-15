@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DrowningDeath : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DrowningDeath, ksys::act::ai::Action)
+
 public:
     explicit DrowningDeath(const InitArg& arg);
     ~DrowningDeath() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianRoot : public GuardianAI {
     SEAD_RTTI_OVERRIDE(GuardianRoot, GuardianAI)
+
 public:
     explicit GuardianRoot(const InitArg& arg);
     ~GuardianRoot() override;

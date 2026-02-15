@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EnemyFortressChatSpeak : public EnemyFortressChatTalk {
     SEAD_RTTI_OVERRIDE(EnemyFortressChatSpeak, EnemyFortressChatTalk)
+
 public:
     explicit EnemyFortressChatSpeak(const InitArg& arg);
     ~EnemyFortressChatSpeak() override;

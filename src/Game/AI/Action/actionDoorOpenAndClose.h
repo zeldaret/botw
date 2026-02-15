@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DoorOpenAndClose : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DoorOpenAndClose, ksys::act::ai::Action)
+
 public:
     explicit DoorOpenAndClose(const InitArg& arg);
     ~DoorOpenAndClose() override;

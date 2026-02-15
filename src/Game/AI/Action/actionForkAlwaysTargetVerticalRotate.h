@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAlwaysTargetVerticalRotate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAlwaysTargetVerticalRotate, ksys::act::ai::Action)
+
 public:
     explicit ForkAlwaysTargetVerticalRotate(const InitArg& arg);
     ~ForkAlwaysTargetVerticalRotate() override;

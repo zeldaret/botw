@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyPursuingAttackCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyPursuingAttackCheck, ksys::act::ai::Ai)
+
 public:
     explicit EnemyPursuingAttackCheck(const InitArg& arg);
     ~EnemyPursuingAttackCheck() override;

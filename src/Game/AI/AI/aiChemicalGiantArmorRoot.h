@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ChemicalGiantArmorRoot : public GiantArmorRoot {
     SEAD_RTTI_OVERRIDE(ChemicalGiantArmorRoot, GiantArmorRoot)
+
 public:
     explicit ChemicalGiantArmorRoot(const InitArg& arg);
     ~ChemicalGiantArmorRoot() override;

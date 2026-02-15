@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DragonPlayASForDemo : public PlayASForDemo {
     SEAD_RTTI_OVERRIDE(DragonPlayASForDemo, PlayASForDemo)
+
 public:
     explicit DragonPlayASForDemo(const InitArg& arg);
     ~DragonPlayASForDemo() override;

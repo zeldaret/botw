@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossPierceBulletAttack : public SiteBossShootNormalArrowRoot {
     SEAD_RTTI_OVERRIDE(SiteBossPierceBulletAttack, SiteBossShootNormalArrowRoot)
+
 public:
     explicit SiteBossPierceBulletAttack(const InitArg& arg);
     ~SiteBossPierceBulletAttack() override;

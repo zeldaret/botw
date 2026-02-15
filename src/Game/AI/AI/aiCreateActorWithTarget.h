@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CreateActorWithTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CreateActorWithTarget, ksys::act::ai::Ai)
+
 public:
     explicit CreateActorWithTarget(const InitArg& arg);
     ~CreateActorWithTarget() override;

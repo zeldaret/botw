@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkLynelDrawWeaponASPlay : public ForkLynelDrawWeapon {
     SEAD_RTTI_OVERRIDE(ForkLynelDrawWeaponASPlay, ForkLynelDrawWeapon)
+
 public:
     explicit ForkLynelDrawWeaponASPlay(const InitArg& arg);
     ~ForkLynelDrawWeaponASPlay() override;

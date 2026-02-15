@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BikeWarpEffectValueSetter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BikeWarpEffectValueSetter, ksys::act::ai::Action)
+
 public:
     explicit BikeWarpEffectValueSetter(const InitArg& arg);
     ~BikeWarpEffectValueSetter() override;

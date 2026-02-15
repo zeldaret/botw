@@ -7,6 +7,7 @@ namespace uking::action {
 
 class RailMove : public RailMoveBase {
     SEAD_RTTI_OVERRIDE(RailMove, RailMoveBase)
+
 public:
     explicit RailMove(const InitArg& arg);
     ~RailMove() override;

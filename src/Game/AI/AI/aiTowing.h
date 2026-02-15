@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class Towing : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(Towing, ksys::act::ai::Ai)
+
 public:
     explicit Towing(const InitArg& arg);
     ~Towing() override;

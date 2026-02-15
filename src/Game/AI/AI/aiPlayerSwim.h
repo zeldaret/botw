@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerSwim : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerSwim, ksys::act::ai::Ai)
+
 public:
     explicit PlayerSwim(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EquipDisplayCreate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EquipDisplayCreate, ksys::act::ai::Action)
+
 public:
     explicit EquipDisplayCreate(const InitArg& arg);
     ~EquipDisplayCreate() override;

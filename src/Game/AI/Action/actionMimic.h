@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Mimic : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Mimic, ActionWithPosAngReduce)
+
 public:
     explicit Mimic(const InitArg& arg);
     ~Mimic() override;

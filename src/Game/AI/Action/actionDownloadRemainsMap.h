@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DownloadRemainsMap : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DownloadRemainsMap, ksys::act::ai::Action)
+
 public:
     explicit DownloadRemainsMap(const InitArg& arg);
     ~DownloadRemainsMap() override;

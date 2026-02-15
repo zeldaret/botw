@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AttackGraveChaseWithSensor : public AttackGraveChase {
     SEAD_RTTI_OVERRIDE(AttackGraveChaseWithSensor, AttackGraveChase)
+
 public:
     explicit AttackGraveChaseWithSensor(const InitArg& arg);
     ~AttackGraveChaseWithSensor() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsSuccessEndLastDemoAction : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsSuccessEndLastDemoAction, Query)
+
 public:
     explicit IsSuccessEndLastDemoAction(const InitArg& arg);
     ~IsSuccessEndLastDemoAction() override;

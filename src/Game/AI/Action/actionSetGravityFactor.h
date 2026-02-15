@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetGravityFactor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetGravityFactor, ksys::act::ai::Action)
+
 public:
     explicit SetGravityFactor(const InitArg& arg);
     ~SetGravityFactor() override;

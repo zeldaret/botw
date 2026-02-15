@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WizzrobeWeatherMagic : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WizzrobeWeatherMagic, ksys::act::ai::Ai)
+
 public:
     explicit WizzrobeWeatherMagic(const InitArg& arg);
     ~WizzrobeWeatherMagic() override;

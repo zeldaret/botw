@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasPouchItemByPouchCategory : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasPouchItemByPouchCategory, Query)
+
 public:
     explicit HasPouchItemByPouchCategory(const InitArg& arg);
     ~HasPouchItemByPouchCategory() override;

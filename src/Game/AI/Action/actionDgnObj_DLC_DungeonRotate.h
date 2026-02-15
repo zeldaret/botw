@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DgnObj_DLC_DungeonRotate : public DungeonRotateBase {
     SEAD_RTTI_OVERRIDE(DgnObj_DLC_DungeonRotate, DungeonRotateBase)
+
 public:
     explicit DgnObj_DLC_DungeonRotate(const InitArg& arg);
     ~DgnObj_DLC_DungeonRotate() override;

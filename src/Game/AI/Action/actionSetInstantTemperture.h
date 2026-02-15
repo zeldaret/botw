@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetInstantTemperture : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetInstantTemperture, ksys::act::ai::Action)
+
 public:
     explicit SetInstantTemperture(const InitArg& arg);
     ~SetInstantTemperture() override;

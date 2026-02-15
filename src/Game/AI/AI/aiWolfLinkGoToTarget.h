@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WolfLinkGoToTarget : public HorseFollow {
     SEAD_RTTI_OVERRIDE(WolfLinkGoToTarget, HorseFollow)
+
 public:
     explicit WolfLinkGoToTarget(const InitArg& arg);
     ~WolfLinkGoToTarget() override;

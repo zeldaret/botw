@@ -9,6 +9,7 @@ namespace uking::action {
 
 class EventHoverNullASPlay : public EventHoverNullASPlayBase {
     SEAD_RTTI_OVERRIDE(EventHoverNullASPlay, EventHoverNullASPlayBase)
+
 public:
     explicit EventHoverNullASPlay(const InitArg& arg);
     ~EventHoverNullASPlay() override;

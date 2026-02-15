@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkMultiSleep : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkMultiSleep, ksys::act::ai::Action)
+
 public:
     explicit ForkMultiSleep(const InitArg& arg);
     ~ForkMultiSleep() override;

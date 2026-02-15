@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StartHeartDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StartHeartDemo, ksys::act::ai::Action)
+
 public:
     explicit StartHeartDemo(const InitArg& arg);
     ~StartHeartDemo() override;

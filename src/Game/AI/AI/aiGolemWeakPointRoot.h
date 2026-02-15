@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GolemWeakPointRoot : public WeakPointRoot {
     SEAD_RTTI_OVERRIDE(GolemWeakPointRoot, WeakPointRoot)
+
 public:
     explicit GolemWeakPointRoot(const InitArg& arg);
     ~GolemWeakPointRoot() override;

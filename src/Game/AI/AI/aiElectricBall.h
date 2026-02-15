@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ElectricBall : public SimpleLiftable {
     SEAD_RTTI_OVERRIDE(ElectricBall, SimpleLiftable)
+
 public:
     explicit ElectricBall(const InitArg& arg);
 

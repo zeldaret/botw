@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class OneMemoryMagicBattleBase : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(OneMemoryMagicBattleBase, EnemyBattle)
+
 public:
     explicit OneMemoryMagicBattleBase(const InitArg& arg);
     ~OneMemoryMagicBattleBase() override;

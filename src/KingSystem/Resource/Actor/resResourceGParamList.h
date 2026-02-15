@@ -11,6 +11,7 @@ namespace ksys::res {
 
 class GParamList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(GParamList, Resource)
+
 public:
     GParamList() : ParamIO("bgparamlist", 0) {}
     ~GParamList() override = default;
@@ -123,6 +124,7 @@ KSYS_CHECK_SIZE_NX150(GParamList, 0x2c0);
 
 class DummyGParamList : public GParamList {
     SEAD_RTTI_OVERRIDE(DummyGParamList, GParamList)
+
 public:
     using GParamList::GParamList;
     ~DummyGParamList() override = default;

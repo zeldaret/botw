@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckShopSelectedItemName : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckShopSelectedItemName, Query)
+
 public:
     explicit CheckShopSelectedItemName(const InitArg& arg);
     ~CheckShopSelectedItemName() override;

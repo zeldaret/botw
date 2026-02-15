@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RangeObstacleCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RangeObstacleCheck, ksys::act::ai::Ai)
+
 public:
     explicit RangeObstacleCheck(const InitArg& arg);
     ~RangeObstacleCheck() override;

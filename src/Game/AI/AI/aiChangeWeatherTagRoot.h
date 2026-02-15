@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChangeWeatherTagRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChangeWeatherTagRoot, ksys::act::ai::Ai)
+
 public:
     explicit ChangeWeatherTagRoot(const InitArg& arg);
 

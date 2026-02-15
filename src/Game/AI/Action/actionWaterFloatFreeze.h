@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WaterFloatFreeze : public WaterFloatImmobile {
     SEAD_RTTI_OVERRIDE(WaterFloatFreeze, WaterFloatImmobile)
+
 public:
     explicit WaterFloatFreeze(const InitArg& arg);
     ~WaterFloatFreeze() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HopFlyByTriggers : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HopFlyByTriggers, ksys::act::ai::Action)
+
 public:
     explicit HopFlyByTriggers(const InitArg& arg);
     ~HopFlyByTriggers() override;

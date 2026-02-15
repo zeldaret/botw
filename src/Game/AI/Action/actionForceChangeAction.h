@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForceChangeAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForceChangeAction, ksys::act::ai::Action)
+
 public:
     explicit ForceChangeAction(const InitArg& arg);
     ~ForceChangeAction() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Angry : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Angry, ActionWithAS)
+
 public:
     explicit Angry(const InitArg& arg);
 

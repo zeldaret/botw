@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinBattleRange : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(AssassinBattleRange, EnemyBattle)
+
 public:
     explicit AssassinBattleRange(const InitArg& arg);
     ~AssassinBattleRange() override;

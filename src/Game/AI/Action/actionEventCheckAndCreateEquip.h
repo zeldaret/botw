@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventCheckAndCreateEquip : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventCheckAndCreateEquip, ksys::act::ai::Action)
+
 public:
     explicit EventCheckAndCreateEquip(const InitArg& arg);
     ~EventCheckAndCreateEquip() override;

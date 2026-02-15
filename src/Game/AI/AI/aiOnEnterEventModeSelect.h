@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OnEnterEventModeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OnEnterEventModeSelect, ksys::act::ai::Ai)
+
 public:
     explicit OnEnterEventModeSelect(const InitArg& arg);
     ~OnEnterEventModeSelect() override;

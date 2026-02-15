@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Tumble : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Tumble, ksys::act::ai::Action)
+
 public:
     explicit Tumble(const InitArg& arg);
     ~Tumble() override;

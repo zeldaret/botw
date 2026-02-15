@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChangeFreeMovingForDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChangeFreeMovingForDemo, ksys::act::ai::Action)
+
 public:
     explicit ChangeFreeMovingForDemo(const InitArg& arg);
     ~ChangeFreeMovingForDemo() override;

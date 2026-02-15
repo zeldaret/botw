@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Throw : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Throw, ActionWithPosAngReduce)
+
 public:
     explicit Throw(const InitArg& arg);
     ~Throw() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MasterSwordRoot : public WeaponRootAI {
     SEAD_RTTI_OVERRIDE(MasterSwordRoot, WeaponRootAI)
+
 public:
     explicit MasterSwordRoot(const InitArg& arg);
     ~MasterSwordRoot() override;

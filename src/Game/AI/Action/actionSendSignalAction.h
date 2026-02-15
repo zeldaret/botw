@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SendSignalAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SendSignalAction, ksys::act::ai::Action)
+
 public:
     explicit SendSignalAction(const InitArg& arg);
     ~SendSignalAction() override;

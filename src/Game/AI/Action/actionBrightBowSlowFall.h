@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BrightBowSlowFall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BrightBowSlowFall, ksys::act::ai::Action)
+
 public:
     explicit BrightBowSlowFall(const InitArg& arg);
     ~BrightBowSlowFall() override;

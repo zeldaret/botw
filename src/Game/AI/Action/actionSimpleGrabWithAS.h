@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SimpleGrabWithAS : public SimpleGrabWithASBase {
     SEAD_RTTI_OVERRIDE(SimpleGrabWithAS, SimpleGrabWithASBase)
+
 public:
     explicit SimpleGrabWithAS(const InitArg& arg);
     ~SimpleGrabWithAS() override;

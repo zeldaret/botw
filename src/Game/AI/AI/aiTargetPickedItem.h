@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetPickedItem : public CommonPickedItem {
     SEAD_RTTI_OVERRIDE(TargetPickedItem, CommonPickedItem)
+
 public:
     explicit TargetPickedItem(const InitArg& arg);
     ~TargetPickedItem() override;

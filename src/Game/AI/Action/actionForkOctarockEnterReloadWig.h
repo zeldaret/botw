@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkOctarockEnterReloadWig : public Fork {
     SEAD_RTTI_OVERRIDE(ForkOctarockEnterReloadWig, Fork)
+
 public:
     explicit ForkOctarockEnterReloadWig(const InitArg& arg);
     ~ForkOctarockEnterReloadWig() override;

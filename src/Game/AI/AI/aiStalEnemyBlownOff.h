@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalEnemyBlownOff : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalEnemyBlownOff, ksys::act::ai::Ai)
+
 public:
     explicit StalEnemyBlownOff(const InitArg& arg);
     ~StalEnemyBlownOff() override;

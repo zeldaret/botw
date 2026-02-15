@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandwormStun : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandwormStun, ksys::act::ai::Ai)
+
 public:
     explicit SandwormStun(const InitArg& arg);
     ~SandwormStun() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetPosAnchorOffsetTarget : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetPosAnchorOffsetTarget, TargetPosAI)
+
 public:
     explicit TargetPosAnchorOffsetTarget(const InitArg& arg);
     ~TargetPosAnchorOffsetTarget() override;

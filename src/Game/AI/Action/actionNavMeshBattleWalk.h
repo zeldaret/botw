@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NavMeshBattleWalk : public NavMeshAction {
     SEAD_RTTI_OVERRIDE(NavMeshBattleWalk, NavMeshAction)
+
 public:
     explicit NavMeshBattleWalk(const InitArg& arg);
 

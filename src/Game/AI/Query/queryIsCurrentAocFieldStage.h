@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsCurrentAocFieldStage : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsCurrentAocFieldStage, Query)
+
 public:
     explicit IsCurrentAocFieldStage(const InitArg& arg);
     ~IsCurrentAocFieldStage() override;

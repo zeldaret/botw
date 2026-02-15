@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSetJustAvoid : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSetJustAvoid, ksys::act::ai::Action)
+
 public:
     explicit ForkSetJustAvoid(const InitArg& arg);
     ~ForkSetJustAvoid() override;

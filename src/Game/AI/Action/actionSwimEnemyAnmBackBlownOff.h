@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwimEnemyAnmBackBlownOff : public SwimEnemyAnmBackBlownOffBase {
     SEAD_RTTI_OVERRIDE(SwimEnemyAnmBackBlownOff, SwimEnemyAnmBackBlownOffBase)
+
 public:
     explicit SwimEnemyAnmBackBlownOff(const InitArg& arg);
     ~SwimEnemyAnmBackBlownOff() override;

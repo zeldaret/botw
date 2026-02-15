@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetWeaponEquip : public GetItem {
     SEAD_RTTI_OVERRIDE(GetWeaponEquip, GetItem)
+
 public:
     explicit GetWeaponEquip(const InitArg& arg);
 

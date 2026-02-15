@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GiantEarthReleaseAttack : public EarthReleaseAttack {
     SEAD_RTTI_OVERRIDE(GiantEarthReleaseAttack, EarthReleaseAttack)
+
 public:
     explicit GiantEarthReleaseAttack(const InitArg& arg);
     ~GiantEarthReleaseAttack() override;

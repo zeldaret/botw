@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardFlagSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardFlagSelect, ksys::act::ai::Ai)
+
 public:
     explicit GuardFlagSelect(const InitArg& arg);
     ~GuardFlagSelect() override;

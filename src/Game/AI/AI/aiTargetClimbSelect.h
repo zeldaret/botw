@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetClimbSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetClimbSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetClimbSelect(const InitArg& arg);
     ~TargetClimbSelect() override;

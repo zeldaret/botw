@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FlyingCharacterDamageBase : public FlyingCharacterReaction {
     SEAD_RTTI_OVERRIDE(FlyingCharacterDamageBase, FlyingCharacterReaction)
+
 public:
     explicit FlyingCharacterDamageBase(const InitArg& arg);
     ~FlyingCharacterDamageBase() override;

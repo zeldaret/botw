@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ObservationPointAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ObservationPointAction, ksys::act::ai::Action)
+
 public:
     explicit ObservationPointAction(const InitArg& arg);
     ~ObservationPointAction() override;

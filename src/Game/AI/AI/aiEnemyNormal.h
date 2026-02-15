@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyNormal, ksys::act::ai::Ai)
+
 public:
     explicit EnemyNormal(const InitArg& arg);
     ~EnemyNormal() override;

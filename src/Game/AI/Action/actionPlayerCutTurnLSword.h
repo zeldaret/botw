@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerCutTurnLSword : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutTurnLSword, PlayerAction)
+
 public:
     explicit PlayerCutTurnLSword(const InitArg& arg);
 

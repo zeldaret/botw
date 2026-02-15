@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AirWallCurseGanon : public AirWallHorse {
     SEAD_RTTI_OVERRIDE(AirWallCurseGanon, AirWallHorse)
+
 public:
     explicit AirWallCurseGanon(const InitArg& arg);
     ~AirWallCurseGanon() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerStopInAir : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerStopInAir, PlayerAction)
+
 public:
     explicit PlayerStopInAir(const InitArg& arg);
 

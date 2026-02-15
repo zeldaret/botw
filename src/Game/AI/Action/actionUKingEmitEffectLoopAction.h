@@ -6,6 +6,7 @@ namespace uking::action {
 
 class UKingEmitEffectLoopAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(UKingEmitEffectLoopAction, ksys::act::ai::Action)
+
 public:
     explicit UKingEmitEffectLoopAction(const InitArg& arg);
     ~UKingEmitEffectLoopAction() override;

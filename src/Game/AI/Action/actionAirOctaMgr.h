@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AirOctaMgr : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AirOctaMgr, ksys::act::ai::Action)
+
 public:
     explicit AirOctaMgr(const InitArg& arg);
     ~AirOctaMgr() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventCreateParaShawlSetToPlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventCreateParaShawlSetToPlayer, ksys::act::ai::Action)
+
 public:
     explicit EventCreateParaShawlSetToPlayer(const InitArg& arg);
     ~EventCreateParaShawlSetToPlayer() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CheckExistenceOfParticipant : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CheckExistenceOfParticipant, ksys::act::ai::Action)
+
 public:
     explicit CheckExistenceOfParticipant(const InitArg& arg);
     ~CheckExistenceOfParticipant() override;

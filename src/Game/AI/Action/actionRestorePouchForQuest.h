@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RestorePouchForQuest : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RestorePouchForQuest, ksys::act::ai::Action)
+
 public:
     explicit RestorePouchForQuest(const InitArg& arg);
     ~RestorePouchForQuest() override;

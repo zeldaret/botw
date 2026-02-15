@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CapturedActFreeze : public Freeze {
     SEAD_RTTI_OVERRIDE(CapturedActFreeze, Freeze)
+
 public:
     explicit CapturedActFreeze(const InitArg& arg);
     ~CapturedActFreeze() override;

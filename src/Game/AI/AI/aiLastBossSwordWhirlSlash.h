@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LastBossSwordWhirlSlash : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastBossSwordWhirlSlash, ksys::act::ai::Ai)
+
 public:
     explicit LastBossSwordWhirlSlash(const InitArg& arg);
     ~LastBossSwordWhirlSlash() override;

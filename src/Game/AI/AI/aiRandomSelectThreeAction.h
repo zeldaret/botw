@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RandomSelectThreeAction : public RandomSelectThreeActionBase {
     SEAD_RTTI_OVERRIDE(RandomSelectThreeAction, RandomSelectThreeActionBase)
+
 public:
     explicit RandomSelectThreeAction(const InitArg& arg);
     ~RandomSelectThreeAction() override;

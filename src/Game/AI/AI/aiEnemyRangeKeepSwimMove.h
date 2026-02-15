@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyRangeKeepSwimMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyRangeKeepSwimMove, ksys::act::ai::Ai)
+
 public:
     explicit EnemyRangeKeepSwimMove(const InitArg& arg);
     ~EnemyRangeKeepSwimMove() override;

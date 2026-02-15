@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SwitchDistance : public SwitchAI {
     SEAD_RTTI_OVERRIDE(SwitchDistance, SwitchAI)
+
 public:
     explicit SwitchDistance(const InitArg& arg);
     ~SwitchDistance() override;

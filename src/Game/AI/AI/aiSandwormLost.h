@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SandwormLost : public EnemyLost {
     SEAD_RTTI_OVERRIDE(SandwormLost, EnemyLost)
+
 public:
     explicit SandwormLost(const InitArg& arg);
     ~SandwormLost() override;

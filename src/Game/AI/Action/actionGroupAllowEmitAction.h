@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GroupAllowEmitAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GroupAllowEmitAction, ksys::act::ai::Action)
+
 public:
     explicit GroupAllowEmitAction(const InitArg& arg);
     ~GroupAllowEmitAction() override;

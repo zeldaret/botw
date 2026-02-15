@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RegistedActorActionBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RegistedActorActionBase, ksys::act::ai::Action)
+
 public:
     explicit RegistedActorActionBase(const InitArg& arg);
     ~RegistedActorActionBase() override;

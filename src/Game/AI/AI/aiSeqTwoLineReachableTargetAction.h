@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqTwoLineReachableTargetAction : public SeqTwoLineReachableTargetActionBase {
     SEAD_RTTI_OVERRIDE(SeqTwoLineReachableTargetAction, SeqTwoLineReachableTargetActionBase)
+
 public:
     explicit SeqTwoLineReachableTargetAction(const InitArg& arg);
     ~SeqTwoLineReachableTargetAction() override;

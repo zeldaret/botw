@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardWithAS : public Guard {
     SEAD_RTTI_OVERRIDE(GuardWithAS, Guard)
+
 public:
     explicit GuardWithAS(const InitArg& arg);
     ~GuardWithAS() override;

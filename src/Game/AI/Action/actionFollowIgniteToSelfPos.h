@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FollowIgniteToSelfPos : public RotateTurnToTarget {
     SEAD_RTTI_OVERRIDE(FollowIgniteToSelfPos, RotateTurnToTarget)
+
 public:
     explicit FollowIgniteToSelfPos(const InitArg& arg);
     ~FollowIgniteToSelfPos() override;

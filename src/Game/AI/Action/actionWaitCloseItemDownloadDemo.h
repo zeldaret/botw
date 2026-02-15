@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitCloseItemDownloadDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitCloseItemDownloadDemo, ksys::act::ai::Action)
+
 public:
     explicit WaitCloseItemDownloadDemo(const InitArg& arg);
     ~WaitCloseItemDownloadDemo() override;

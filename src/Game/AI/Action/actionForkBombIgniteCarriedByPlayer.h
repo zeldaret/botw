@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkBombIgniteCarriedByPlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkBombIgniteCarriedByPlayer, ksys::act::ai::Action)
+
 public:
     explicit ForkBombIgniteCarriedByPlayer(const InitArg& arg);
     ~ForkBombIgniteCarriedByPlayer() override;

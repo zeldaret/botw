@@ -17,6 +17,7 @@ public:
 
 class Resource : public sead::DirectResource, public IResource {
     SEAD_RTTI_OVERRIDE(Resource, sead::DirectResource)
+
 public:
     Resource();
     ~Resource() override;

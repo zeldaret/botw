@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkDisableContactForAttack : public ForkDisableContact {
     SEAD_RTTI_OVERRIDE(ForkDisableContactForAttack, ForkDisableContact)
+
 public:
     explicit ForkDisableContactForAttack(const InitArg& arg);
     ~ForkDisableContactForAttack() override;

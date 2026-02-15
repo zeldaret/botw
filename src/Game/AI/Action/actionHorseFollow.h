@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseFollow : public AnimalFollowBase {
     SEAD_RTTI_OVERRIDE(HorseFollow, AnimalFollowBase)
+
 public:
     explicit HorseFollow(const InitArg& arg);
     ~HorseFollow() override;

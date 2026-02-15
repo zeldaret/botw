@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenItemCategory : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenItemCategory, ksys::act::ai::Action)
+
 public:
     explicit OpenItemCategory(const InitArg& arg);
     ~OpenItemCategory() override;

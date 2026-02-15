@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MetalObjectFixed : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MetalObjectFixed, ksys::act::ai::Ai)
+
 public:
     explicit MetalObjectFixed(const InitArg& arg);
     ~MetalObjectFixed() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventAppearCheckPointNum : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventAppearCheckPointNum, ksys::act::ai::Action)
+
 public:
     explicit EventAppearCheckPointNum(const InitArg& arg);
     ~EventAppearCheckPointNum() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LeaderDistanceSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LeaderDistanceSelector, ksys::act::ai::Ai)
+
 public:
     explicit LeaderDistanceSelector(const InitArg& arg);
     ~LeaderDistanceSelector() override;

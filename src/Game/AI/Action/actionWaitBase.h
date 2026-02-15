@@ -8,6 +8,7 @@ namespace uking::action {
 
 class WaitBase : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(WaitBase, ActionWithPosAngReduce)
+
 public:
     explicit WaitBase(const InitArg& arg);
     ~WaitBase() override;

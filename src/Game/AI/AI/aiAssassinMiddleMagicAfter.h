@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinMiddleMagicAfter : public AssassinMagicTgtSelect {
     SEAD_RTTI_OVERRIDE(AssassinMiddleMagicAfter, AssassinMagicTgtSelect)
+
 public:
     explicit AssassinMiddleMagicAfter(const InitArg& arg);
     ~AssassinMiddleMagicAfter() override;

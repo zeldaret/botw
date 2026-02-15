@@ -6,6 +6,7 @@ namespace uking::action {
 
 class XLinkEventFadeAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(XLinkEventFadeAction, ksys::act::ai::Action)
+
 public:
     explicit XLinkEventFadeAction(const InitArg& arg);
     ~XLinkEventFadeAction() override;

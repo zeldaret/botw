@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCRunaway : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCRunaway, ksys::act::ai::Ai)
+
 public:
     explicit NPCRunaway(const InitArg& arg);
     ~NPCRunaway() override;

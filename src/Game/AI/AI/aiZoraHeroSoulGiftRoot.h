@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ZoraHeroSoulGiftRoot : public HeroSoulGiftRoot {
     SEAD_RTTI_OVERRIDE(ZoraHeroSoulGiftRoot, HeroSoulGiftRoot)
+
 public:
     explicit ZoraHeroSoulGiftRoot(const InitArg& arg);
     ~ZoraHeroSoulGiftRoot() override;

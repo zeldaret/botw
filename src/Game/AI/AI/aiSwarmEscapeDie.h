@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwarmEscapeDie : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwarmEscapeDie, ksys::act::ai::Ai)
+
 public:
     explicit SwarmEscapeDie(const InitArg& arg);
     ~SwarmEscapeDie() override;

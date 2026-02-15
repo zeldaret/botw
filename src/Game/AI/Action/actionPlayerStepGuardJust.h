@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerStepGuardJust : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerStepGuardJust, PlayerAction)
+
 public:
     explicit PlayerStepGuardJust(const InitArg& arg);
 

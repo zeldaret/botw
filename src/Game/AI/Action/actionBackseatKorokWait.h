@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BackseatKorokWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BackseatKorokWait, ksys::act::ai::Action)
+
 public:
     explicit BackseatKorokWait(const InitArg& arg);
     ~BackseatKorokWait() override;

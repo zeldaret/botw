@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SceneSoundSetEndProcAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SceneSoundSetEndProcAction, ksys::act::ai::Action)
+
 public:
     explicit SceneSoundSetEndProcAction(const InitArg& arg);
     ~SceneSoundSetEndProcAction() override;

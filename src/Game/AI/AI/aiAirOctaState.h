@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AirOctaState : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(AirOctaState, EnemyRoot)
+
 public:
     explicit AirOctaState(const InitArg& arg);
     ~AirOctaState() override;

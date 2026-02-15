@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DeleteInGround : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DeleteInGround, ksys::act::ai::Action)
+
 public:
     explicit DeleteInGround(const InitArg& arg);
     ~DeleteInGround() override;

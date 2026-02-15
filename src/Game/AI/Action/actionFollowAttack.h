@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FollowAttack : public RotateTurnToTarget {
     SEAD_RTTI_OVERRIDE(FollowAttack, RotateTurnToTarget)
+
 public:
     explicit FollowAttack(const InitArg& arg);
     ~FollowAttack() override;

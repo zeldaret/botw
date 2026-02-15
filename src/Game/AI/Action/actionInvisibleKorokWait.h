@@ -6,6 +6,7 @@ namespace uking::action {
 
 class InvisibleKorokWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(InvisibleKorokWait, ksys::act::ai::Action)
+
 public:
     explicit InvisibleKorokWait(const InitArg& arg);
     ~InvisibleKorokWait() override;

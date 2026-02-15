@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NPCTargetMoveDynAs : public NPCTargetMove {
     SEAD_RTTI_OVERRIDE(NPCTargetMoveDynAs, NPCTargetMove)
+
 public:
     explicit NPCTargetMoveDynAs(const InitArg& arg);
     ~NPCTargetMoveDynAs() override;

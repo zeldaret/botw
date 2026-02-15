@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EscapeBackTurn : public ActionEx {
     SEAD_RTTI_OVERRIDE(EscapeBackTurn, ActionEx)
+
 public:
     explicit EscapeBackTurn(const InitArg& arg);
     ~EscapeBackTurn() override;

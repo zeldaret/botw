@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossCreateChildDevice : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossCreateChildDevice, ksys::act::ai::Action)
+
 public:
     explicit SiteBossCreateChildDevice(const InitArg& arg);
     ~SiteBossCreateChildDevice() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForceSetPlayerRestartPosAngle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForceSetPlayerRestartPosAngle, ksys::act::ai::Action)
+
 public:
     explicit ForceSetPlayerRestartPosAngle(const InitArg& arg);
     ~ForceSetPlayerRestartPosAngle() override;

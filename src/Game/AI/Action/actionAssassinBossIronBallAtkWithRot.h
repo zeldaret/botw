@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AssassinBossIronBallAtkWithRot : public AssassinBossIronBallAttack {
     SEAD_RTTI_OVERRIDE(AssassinBossIronBallAtkWithRot, AssassinBossIronBallAttack)
+
 public:
     explicit AssassinBossIronBallAtkWithRot(const InitArg& arg);
     ~AssassinBossIronBallAtkWithRot() override;

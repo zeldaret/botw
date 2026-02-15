@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DoorRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DoorRoot, ksys::act::ai::Ai)
+
 public:
     explicit DoorRoot(const InitArg& arg);
     ~DoorRoot() override;

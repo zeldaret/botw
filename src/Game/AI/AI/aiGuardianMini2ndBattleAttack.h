@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMini2ndBattleAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMini2ndBattleAttack, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMini2ndBattleAttack(const InitArg& arg);
     ~GuardianMini2ndBattleAttack() override;

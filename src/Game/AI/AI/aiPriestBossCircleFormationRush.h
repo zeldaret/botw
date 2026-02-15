@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossCircleFormationRush : public PriestBossFormation {
     SEAD_RTTI_OVERRIDE(PriestBossCircleFormationRush, PriestBossFormation)
+
 public:
     explicit PriestBossCircleFormationRush(const InitArg& arg);
     ~PriestBossCircleFormationRush() override;

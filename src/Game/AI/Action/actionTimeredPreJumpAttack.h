@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TimeredPreJumpAttack : public PreJumpAttack {
     SEAD_RTTI_OVERRIDE(TimeredPreJumpAttack, PreJumpAttack)
+
 public:
     explicit TimeredPreJumpAttack(const InitArg& arg);
     ~TimeredPreJumpAttack() override;

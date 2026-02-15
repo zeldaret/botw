@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianMiniBeamAttackNoWait : public GuardianMiniBeamAttack {
     SEAD_RTTI_OVERRIDE(GuardianMiniBeamAttackNoWait, GuardianMiniBeamAttack)
+
 public:
     explicit GuardianMiniBeamAttackNoWait(const InitArg& arg);
     ~GuardianMiniBeamAttackNoWait() override;

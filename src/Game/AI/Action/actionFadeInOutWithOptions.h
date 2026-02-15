@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FadeInOutWithOptions : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FadeInOutWithOptions, ksys::act::ai::Action)
+
 public:
     explicit FadeInOutWithOptions(const InitArg& arg);
     ~FadeInOutWithOptions() override;

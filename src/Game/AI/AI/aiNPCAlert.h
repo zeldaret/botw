@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCAlert : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCAlert, ksys::act::ai::Ai)
+
 public:
     explicit NPCAlert(const InitArg& arg);
     ~NPCAlert() override;

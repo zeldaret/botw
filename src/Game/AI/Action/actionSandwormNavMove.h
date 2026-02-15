@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SandwormNavMove : public NavMeshMoveWithAS {
     SEAD_RTTI_OVERRIDE(SandwormNavMove, NavMeshMoveWithAS)
+
 public:
     explicit SandwormNavMove(const InitArg& arg);
     ~SandwormNavMove() override;

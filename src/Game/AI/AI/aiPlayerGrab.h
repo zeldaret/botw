@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerGrab : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerGrab, ksys::act::ai::Ai)
+
 public:
     explicit PlayerGrab(const InitArg& arg);
 

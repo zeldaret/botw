@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniTargetOnScalffold : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniTargetOnScalffold, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniTargetOnScalffold(const InitArg& arg);
     ~GuardianMiniTargetOnScalffold() override;

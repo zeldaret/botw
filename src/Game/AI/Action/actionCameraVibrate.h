@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CameraVibrate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraVibrate, ksys::act::ai::Action)
+
 public:
     explicit CameraVibrate(const InitArg& arg);
     ~CameraVibrate() override;

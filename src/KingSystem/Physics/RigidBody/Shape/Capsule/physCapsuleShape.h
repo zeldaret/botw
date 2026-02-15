@@ -26,6 +26,7 @@ struct CapsuleShapeParam {
 
 struct CapsuleShape : Shape {
     SEAD_RTTI_OVERRIDE(CapsuleShape, Shape)
+
 public:
     enum class Flag {
         Modified = 1 << 0,
@@ -62,6 +63,7 @@ public:
 
 class CapsuleParam : public RigidBodyInstanceParam, public CapsuleShapeParam {
     SEAD_RTTI_OVERRIDE(CapsuleParam, RigidBodyInstanceParam)
+
 public:
     CapsuleParam() : RigidBodyInstanceParam(ShapeType::Capsule) {}
 };

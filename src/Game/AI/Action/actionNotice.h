@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Notice : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Notice, ActionWithAS)
+
 public:
     explicit Notice(const InitArg& arg);
 

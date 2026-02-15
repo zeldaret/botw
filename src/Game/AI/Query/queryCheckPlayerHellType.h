@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckPlayerHellType : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckPlayerHellType, Query)
+
 public:
     explicit CheckPlayerHellType(const InitArg& arg);
     ~CheckPlayerHellType() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGelDisableBodyRot : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGelDisableBodyRot, ksys::act::ai::Action)
+
 public:
     explicit ForkGelDisableBodyRot(const InitArg& arg);
     ~ForkGelDisableBodyRot() override;

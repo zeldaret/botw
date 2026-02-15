@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SystemFadeOutSleep : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemFadeOutSleep, ksys::act::ai::Action)
+
 public:
     explicit SystemFadeOutSleep(const InitArg& arg);
     ~SystemFadeOutSleep() override;

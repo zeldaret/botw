@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SeqPursuit : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(SeqPursuit, SeqTwoAction)
+
 public:
     explicit SeqPursuit(const InitArg& arg);
     ~SeqPursuit() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwitchWheel : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwitchWheel, ksys::act::ai::Ai)
+
 public:
     explicit SwitchWheel(const InitArg& arg);
     ~SwitchWheel() override;

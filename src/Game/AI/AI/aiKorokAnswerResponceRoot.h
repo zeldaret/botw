@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KorokAnswerResponceRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KorokAnswerResponceRoot, ksys::act::ai::Ai)
+
 public:
     explicit KorokAnswerResponceRoot(const InitArg& arg);
     ~KorokAnswerResponceRoot() override;

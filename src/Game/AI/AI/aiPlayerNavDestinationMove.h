@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerNavDestinationMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerNavDestinationMove, ksys::act::ai::Ai)
+
 public:
     explicit PlayerNavDestinationMove(const InitArg& arg);
     ~PlayerNavDestinationMove() override;

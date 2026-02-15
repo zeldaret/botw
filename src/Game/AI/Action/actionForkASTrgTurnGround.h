@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASTrgTurnGround : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASTrgTurnGround, ksys::act::ai::Action)
+
 public:
     explicit ForkASTrgTurnGround(const InitArg& arg);
     ~ForkASTrgTurnGround() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class IsPlacementAreaEnemy : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(IsPlacementAreaEnemy, ksys::act::ai::Ai)
+
 public:
     explicit IsPlacementAreaEnemy(const InitArg& arg);
     ~IsPlacementAreaEnemy() override;

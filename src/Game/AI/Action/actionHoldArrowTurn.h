@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HoldArrowTurn : public TurnBase {
     SEAD_RTTI_OVERRIDE(HoldArrowTurn, TurnBase)
+
 public:
     explicit HoldArrowTurn(const InitArg& arg);
 

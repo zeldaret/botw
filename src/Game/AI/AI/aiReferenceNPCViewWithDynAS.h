@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ReferenceNPCViewWithDynAS : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ReferenceNPCViewWithDynAS, ksys::act::ai::Ai)
+
 public:
     explicit ReferenceNPCViewWithDynAS(const InitArg& arg);
     ~ReferenceNPCViewWithDynAS() override;

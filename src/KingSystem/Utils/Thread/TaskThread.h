@@ -15,6 +15,7 @@ class TaskQueueLock;
 
 class TaskThread : public sead::Thread {
     SEAD_RTTI_BASE(TaskThread)
+
 public:
     enum Message {
         cMessage_QueueUpdated = 1,

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BattleCloseExplosivesGuardRun : public BattleCloseExplosivesAvoidRun {
     SEAD_RTTI_OVERRIDE(BattleCloseExplosivesGuardRun, BattleCloseExplosivesAvoidRun)
+
 public:
     explicit BattleCloseExplosivesGuardRun(const InitArg& arg);
     ~BattleCloseExplosivesGuardRun() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerForkDropWeaponWithSpeed : public ForkDropWeaponWithSpeed {
     SEAD_RTTI_OVERRIDE(PlayerForkDropWeaponWithSpeed, ForkDropWeaponWithSpeed)
+
 public:
     explicit PlayerForkDropWeaponWithSpeed(const InitArg& arg);
     ~PlayerForkDropWeaponWithSpeed() override;

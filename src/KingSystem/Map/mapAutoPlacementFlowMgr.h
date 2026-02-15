@@ -24,6 +24,7 @@ struct AutoPlacementFlowRes {
 
 class AutoPlacementFlowMgr {
     SEAD_SINGLETON_DISPOSER(AutoPlacementFlowMgr)
+
 public:
     AutoPlacementFlowMgr();
     virtual ~AutoPlacementFlowMgr();

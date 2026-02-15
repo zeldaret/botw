@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OffMiss : public Off {
     SEAD_RTTI_OVERRIDE(OffMiss, Off)
+
 public:
     explicit OffMiss(const InitArg& arg);
     ~OffMiss() override;

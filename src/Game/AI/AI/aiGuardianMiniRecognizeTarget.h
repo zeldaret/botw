@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniRecognizeTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniRecognizeTarget, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniRecognizeTarget(const InitArg& arg);
     ~GuardianMiniRecognizeTarget() override;

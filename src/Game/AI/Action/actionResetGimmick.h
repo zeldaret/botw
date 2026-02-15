@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ResetGimmick : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ResetGimmick, ksys::act::ai::Action)
+
 public:
     explicit ResetGimmick(const InitArg& arg);
     ~ResetGimmick() override;

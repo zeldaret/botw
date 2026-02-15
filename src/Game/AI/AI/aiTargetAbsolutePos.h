@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetAbsolutePos : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetAbsolutePos, TargetPosAI)
+
 public:
     explicit TargetAbsolutePos(const InitArg& arg);
     ~TargetAbsolutePos() override;

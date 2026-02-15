@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class Magnetglove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(Magnetglove, ksys::act::ai::Ai)
+
 public:
     explicit Magnetglove(const InitArg& arg);
     ~Magnetglove() override;

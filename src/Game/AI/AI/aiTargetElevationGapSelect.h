@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetElevationGapSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetElevationGapSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetElevationGapSelect(const InitArg& arg);
     ~TargetElevationGapSelect() override;

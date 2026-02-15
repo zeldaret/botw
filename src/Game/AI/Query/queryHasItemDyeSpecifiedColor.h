@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasItemDyeSpecifiedColor : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasItemDyeSpecifiedColor, Query)
+
 public:
     explicit HasItemDyeSpecifiedColor(const InitArg& arg);
     ~HasItemDyeSpecifiedColor() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StalPartCatch : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StalPartCatch, ksys::act::ai::Action)
+
 public:
     explicit StalPartCatch(const InitArg& arg);
     ~StalPartCatch() override;

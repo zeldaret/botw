@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckProConUse : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckProConUse, Query)
+
 public:
     explicit CheckProConUse(const InitArg& arg);
     ~CheckProConUse() override;

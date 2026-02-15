@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenItemMenu : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenItemMenu, ksys::act::ai::Action)
+
 public:
     explicit OpenItemMenu(const InitArg& arg);
     ~OpenItemMenu() override;

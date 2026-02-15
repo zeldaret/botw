@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SandwormRNormal : public SandwormNormal {
     SEAD_RTTI_OVERRIDE(SandwormRNormal, SandwormNormal)
+
 public:
     explicit SandwormRNormal(const InitArg& arg);
     ~SandwormRNormal() override;

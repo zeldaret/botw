@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Ragdoll : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Ragdoll, ksys::act::ai::Action)
+
 public:
     explicit Ragdoll(const InitArg& arg);
     ~Ragdoll() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossFastWarpAttack : public SiteBossSwordApproachRoot {
     SEAD_RTTI_OVERRIDE(PriestBossFastWarpAttack, SiteBossSwordApproachRoot)
+
 public:
     explicit PriestBossFastWarpAttack(const InitArg& arg);
     ~PriestBossFastWarpAttack() override;

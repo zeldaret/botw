@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenItemDownloadDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenItemDownloadDemo, ksys::act::ai::Action)
+
 public:
     explicit OpenItemDownloadDemo(const InitArg& arg);
     ~OpenItemDownloadDemo() override;

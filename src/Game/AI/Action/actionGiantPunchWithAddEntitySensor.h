@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantPunchWithAddEntitySensor : public GiantPunchAttack {
     SEAD_RTTI_OVERRIDE(GiantPunchWithAddEntitySensor, GiantPunchAttack)
+
 public:
     explicit GiantPunchWithAddEntitySensor(const InitArg& arg);
     ~GiantPunchWithAddEntitySensor() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ChuchuRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(ChuchuRoot, EnemyRoot)
+
 public:
     explicit ChuchuRoot(const InitArg& arg);
     ~ChuchuRoot() override;

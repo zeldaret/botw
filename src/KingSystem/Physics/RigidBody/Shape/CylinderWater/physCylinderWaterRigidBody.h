@@ -8,6 +8,7 @@ class CylinderWaterShape;
 
 class CylinderWaterRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(CylinderWaterRigidBody, RigidBodyFromShape)
+
 public:
     static CylinderWaterRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
 

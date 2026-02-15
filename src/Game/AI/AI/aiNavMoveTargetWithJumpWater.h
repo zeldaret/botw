@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NavMoveTargetWithJumpWater : public NavMoveTarget {
     SEAD_RTTI_OVERRIDE(NavMoveTargetWithJumpWater, NavMoveTarget)
+
 public:
     explicit NavMoveTargetWithJumpWater(const InitArg& arg);
     ~NavMoveTargetWithJumpWater() override;

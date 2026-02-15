@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PrevASSkipSeq : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(PrevASSkipSeq, SeqTwoAction)
+
 public:
     explicit PrevASSkipSeq(const InitArg& arg);
     ~PrevASSkipSeq() override;

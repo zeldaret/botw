@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WildHorseDefWanderAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WildHorseDefWanderAI, ksys::act::ai::Ai)
+
 public:
     explicit WildHorseDefWanderAI(const InitArg& arg);
     ~WildHorseDefWanderAI() override;

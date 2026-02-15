@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossShieldBashAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossShieldBashAttack, ksys::act::ai::Action)
+
 public:
     explicit SiteBossShieldBashAttack(const InitArg& arg);
     ~SiteBossShieldBashAttack() override;

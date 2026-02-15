@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkForceIgniteCarriedActor : public Fork {
     SEAD_RTTI_OVERRIDE(ForkForceIgniteCarriedActor, Fork)
+
 public:
     explicit ForkForceIgniteCarriedActor(const InitArg& arg);
     ~ForkForceIgniteCarriedActor() override;

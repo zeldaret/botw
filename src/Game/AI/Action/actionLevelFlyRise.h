@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LevelFlyRise : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LevelFlyRise, ksys::act::ai::Action)
+
 public:
     explicit LevelFlyRise(const InitArg& arg);
     ~LevelFlyRise() override;

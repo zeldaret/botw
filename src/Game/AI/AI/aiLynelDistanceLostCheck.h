@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LynelDistanceLostCheck : public DistanceLostCheck {
     SEAD_RTTI_OVERRIDE(LynelDistanceLostCheck, DistanceLostCheck)
+
 public:
     explicit LynelDistanceLostCheck(const InitArg& arg);
     ~LynelDistanceLostCheck() override;

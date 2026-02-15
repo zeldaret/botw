@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetDispHeartGauge : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetDispHeartGauge, ksys::act::ai::Action)
+
 public:
     explicit SetDispHeartGauge(const InitArg& arg);
     ~SetDispHeartGauge() override;

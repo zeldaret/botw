@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BasicStatusRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BasicStatusRoot, ksys::act::ai::Ai)
+
 public:
     explicit BasicStatusRoot(const InitArg& arg);
 

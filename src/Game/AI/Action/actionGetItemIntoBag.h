@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetItemIntoBag : public GetItem {
     SEAD_RTTI_OVERRIDE(GetItemIntoBag, GetItem)
+
 public:
     explicit GetItemIntoBag(const InitArg& arg);
 

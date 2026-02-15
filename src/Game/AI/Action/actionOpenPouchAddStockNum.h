@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenPouchAddStockNum : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenPouchAddStockNum, ksys::act::ai::Action)
+
 public:
     explicit OpenPouchAddStockNum(const InitArg& arg);
     ~OpenPouchAddStockNum() override;

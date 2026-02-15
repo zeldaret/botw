@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForbidTag : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForbidTag, ksys::act::ai::Action)
+
 public:
     explicit ForbidTag(const InitArg& arg);
     ~ForbidTag() override;

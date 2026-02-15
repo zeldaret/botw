@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GameDataAddInt : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GameDataAddInt, ksys::act::ai::Action)
+
 public:
     explicit GameDataAddInt(const InitArg& arg);
     ~GameDataAddInt() override;

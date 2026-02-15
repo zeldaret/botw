@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ToCDungeon : public ChangeSceneBase {
     SEAD_RTTI_OVERRIDE(ToCDungeon, ChangeSceneBase)
+
 public:
     explicit ToCDungeon(const InitArg& arg);
     ~ToCDungeon() override;

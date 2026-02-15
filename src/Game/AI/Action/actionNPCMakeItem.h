@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCMakeItem : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCMakeItem, ksys::act::ai::Action)
+
 public:
     explicit NPCMakeItem(const InitArg& arg);
     ~NPCMakeItem() override;

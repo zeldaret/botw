@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MetalObjectBuried : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MetalObjectBuried, ksys::act::ai::Ai)
+
 public:
     explicit MetalObjectBuried(const InitArg& arg);
     ~MetalObjectBuried() override;

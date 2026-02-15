@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PulleyChainASControl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PulleyChainASControl, ksys::act::ai::Action)
+
 public:
     explicit PulleyChainASControl(const InitArg& arg);
     ~PulleyChainASControl() override;

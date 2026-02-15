@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PreyDropItemRoot : public PreyRoot {
     SEAD_RTTI_OVERRIDE(PreyDropItemRoot, PreyRoot)
+
 public:
     explicit PreyDropItemRoot(const InitArg& arg);
     ~PreyDropItemRoot() override;

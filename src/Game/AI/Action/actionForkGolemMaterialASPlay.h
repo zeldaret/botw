@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGolemMaterialASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGolemMaterialASPlay, ksys::act::ai::Action)
+
 public:
     explicit ForkGolemMaterialASPlay(const InitArg& arg);
     ~ForkGolemMaterialASPlay() override;

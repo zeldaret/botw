@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsNoEquipArmorAnyTarget : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsNoEquipArmorAnyTarget, Query)
+
 public:
     explicit IsNoEquipArmorAnyTarget(const InitArg& arg);
     ~IsNoEquipArmorAnyTarget() override;

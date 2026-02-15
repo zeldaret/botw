@@ -18,6 +18,7 @@ class TaskThread;
 
 class TaskPostRunResult {
     SEAD_RTTI_BASE(TaskPostRunResult)
+
 public:
     virtual ~TaskPostRunResult() = default;
 
@@ -31,6 +32,7 @@ KSYS_CHECK_SIZE_NX150(TaskPostRunResult, 0x10);
 
 class TaskPostRunContext {
     SEAD_RTTI_BASE(TaskPostRunContext)
+
 public:
     virtual ~TaskPostRunContext() = default;
 
@@ -42,6 +44,7 @@ KSYS_CHECK_SIZE_NX150(TaskPostRunContext, 0x20);
 
 class TaskRemoveCallbackContext {
     SEAD_RTTI_BASE(TaskRemoveCallbackContext)
+
 public:
     virtual ~TaskRemoveCallbackContext() = default;
 
@@ -64,6 +67,7 @@ using TaskRemoveCallbackT = sead::Delegate1<T, const TaskRemoveCallbackContext&>
 
 class TaskDelegateSetter {
     SEAD_RTTI_BASE(TaskDelegateSetter)
+
 public:
     TaskDelegateSetter();
     explicit TaskDelegateSetter(TaskDelegate* delegate) : TaskDelegateSetter() {
@@ -80,6 +84,7 @@ KSYS_CHECK_SIZE_NX150(TaskDelegateSetter, 0x10);
 
 class TaskRequest {
     SEAD_RTTI_BASE(TaskRequest)
+
 public:
     TaskRequest() = default;
     explicit TaskRequest(bool has_handle) : mHasHandle(has_handle) {}
@@ -101,6 +106,7 @@ KSYS_CHECK_SIZE_NX150(TaskRequest, 0x50);
 
 class Task {
     SEAD_RTTI_BASE(Task)
+
 public:
     enum class Status {
         Uninitialized = 0,

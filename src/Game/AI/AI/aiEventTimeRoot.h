@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EventTimeRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EventTimeRoot, ksys::act::ai::Ai)
+
 public:
     explicit EventTimeRoot(const InitArg& arg);
     ~EventTimeRoot() override;

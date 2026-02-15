@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BlowOffAttack : public Attack {
     SEAD_RTTI_OVERRIDE(BlowOffAttack, Attack)
+
 public:
     explicit BlowOffAttack(const InitArg& arg);
     ~BlowOffAttack() override;

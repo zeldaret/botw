@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventAppearGolfCount : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventAppearGolfCount, ksys::act::ai::Action)
+
 public:
     explicit EventAppearGolfCount(const InitArg& arg);
     ~EventAppearGolfCount() override;

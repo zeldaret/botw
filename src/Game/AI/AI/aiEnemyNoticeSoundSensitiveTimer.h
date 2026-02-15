@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyNoticeSoundSensitiveTimer : public EnemyNoticeSoundSensitive {
     SEAD_RTTI_OVERRIDE(EnemyNoticeSoundSensitiveTimer, EnemyNoticeSoundSensitive)
+
 public:
     explicit EnemyNoticeSoundSensitiveTimer(const InitArg& arg);
     ~EnemyNoticeSoundSensitiveTimer() override;

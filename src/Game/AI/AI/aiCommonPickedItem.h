@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CommonPickedItem : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CommonPickedItem, ksys::act::ai::Ai)
+
 public:
     explicit CommonPickedItem(const InitArg& arg);
     ~CommonPickedItem() override;

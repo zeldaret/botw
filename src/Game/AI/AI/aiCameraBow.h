@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CameraBow : public CameraAI {
     SEAD_RTTI_OVERRIDE(CameraBow, CameraAI)
+
 public:
     explicit CameraBow(const InitArg& arg);
 

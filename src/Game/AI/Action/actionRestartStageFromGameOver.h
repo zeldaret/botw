@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RestartStageFromGameOver : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RestartStageFromGameOver, ksys::act::ai::Action)
+
 public:
     explicit RestartStageFromGameOver(const InitArg& arg);
     ~RestartStageFromGameOver() override;

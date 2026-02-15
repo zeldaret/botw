@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CircleMoveInWater : public CircleMoveInFluid {
     SEAD_RTTI_OVERRIDE(CircleMoveInWater, CircleMoveInFluid)
+
 public:
     explicit CircleMoveInWater(const InitArg& arg);
     ~CircleMoveInWater() override;

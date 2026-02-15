@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemainsWaterBattleRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemainsWaterBattleRoot, ksys::act::ai::Ai)
+
 public:
     explicit RemainsWaterBattleRoot(const InitArg& arg);
     ~RemainsWaterBattleRoot() override;

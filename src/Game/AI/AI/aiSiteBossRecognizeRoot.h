@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossRecognizeRoot : public SiteBossRecognizeRootBase {
     SEAD_RTTI_OVERRIDE(SiteBossRecognizeRoot, SiteBossRecognizeRootBase)
+
 public:
     explicit SiteBossRecognizeRoot(const InitArg& arg);
     ~SiteBossRecognizeRoot() override;

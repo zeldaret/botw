@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DamageField : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DamageField, ksys::act::ai::Action)
+
 public:
     explicit DamageField(const InitArg& arg);
     ~DamageField() override;

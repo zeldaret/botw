@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaterFloatBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaterFloatBase, ksys::act::ai::Action)
+
 public:
     explicit WaterFloatBase(const InitArg& arg);
     ~WaterFloatBase() override;

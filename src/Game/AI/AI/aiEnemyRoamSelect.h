@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyRoamSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyRoamSelect, ksys::act::ai::Ai)
+
 public:
     explicit EnemyRoamSelect(const InitArg& arg);
     ~EnemyRoamSelect() override;

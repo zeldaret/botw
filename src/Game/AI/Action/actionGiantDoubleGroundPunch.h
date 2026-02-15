@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantDoubleGroundPunch : public ForkSeqNoWeaponAttack {
     SEAD_RTTI_OVERRIDE(GiantDoubleGroundPunch, ForkSeqNoWeaponAttack)
+
 public:
     explicit GiantDoubleGroundPunch(const InitArg& arg);
     ~GiantDoubleGroundPunch() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyVacuumChangeItemSelect : public EnemyVacuumBombSelect {
     SEAD_RTTI_OVERRIDE(EnemyVacuumChangeItemSelect, EnemyVacuumBombSelect)
+
 public:
     explicit EnemyVacuumChangeItemSelect(const InitArg& arg);
     ~EnemyVacuumChangeItemSelect() override;

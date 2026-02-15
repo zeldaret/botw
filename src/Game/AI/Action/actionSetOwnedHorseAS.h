@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetOwnedHorseAS : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetOwnedHorseAS, ksys::act::ai::Action)
+
 public:
     explicit SetOwnedHorseAS(const InitArg& arg);
     ~SetOwnedHorseAS() override;

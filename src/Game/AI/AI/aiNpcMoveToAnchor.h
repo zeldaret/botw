@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NpcMoveToAnchor : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NpcMoveToAnchor, ksys::act::ai::Ai)
+
 public:
     explicit NpcMoveToAnchor(const InitArg& arg);
     ~NpcMoveToAnchor() override;

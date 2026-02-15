@@ -9,6 +9,7 @@ namespace ksys::res {
 
 class Awareness : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(Awareness, Resource)
+
 public:
     Awareness() : ParamIO("awareness", 0) {}
     ~Awareness() override = default;

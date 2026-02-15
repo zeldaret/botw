@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AddAutoPlacementCreator : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AddAutoPlacementCreator, ksys::act::ai::Action)
+
 public:
     explicit AddAutoPlacementCreator(const InitArg& arg);
     ~AddAutoPlacementCreator() override;

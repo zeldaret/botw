@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DoubleAttack : public StepDoubleAttack {
     SEAD_RTTI_OVERRIDE(DoubleAttack, StepDoubleAttack)
+
 public:
     explicit DoubleAttack(const InitArg& arg);
     ~DoubleAttack() override;

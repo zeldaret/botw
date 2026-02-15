@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AnimTimingAttackMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnimTimingAttackMove, ksys::act::ai::Action)
+
 public:
     explicit AnimTimingAttackMove(const InitArg& arg);
     ~AnimTimingAttackMove() override;

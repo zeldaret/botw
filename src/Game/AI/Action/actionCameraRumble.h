@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CameraRumble : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraRumble, ksys::act::ai::Action)
+
 public:
     explicit CameraRumble(const InitArg& arg);
 

@@ -30,6 +30,7 @@ class IMessageBroker {
 public:
     class SetIdArg {
         SEAD_RTTI_BASE(SetIdArg)
+
     public:
         SetIdArg() = default;
         explicit SetIdArg(u32 id) { setId(id); }

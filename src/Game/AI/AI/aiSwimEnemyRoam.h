@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwimEnemyRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwimEnemyRoam, ksys::act::ai::Ai)
+
 public:
     explicit SwimEnemyRoam(const InitArg& arg);
     ~SwimEnemyRoam() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetTargetFrameMtx : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetTargetFrameMtx, ksys::act::ai::Action)
+
 public:
     explicit SetTargetFrameMtx(const InitArg& arg);
     ~SetTargetFrameMtx() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MarkPosition : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MarkPosition, ksys::act::ai::Action)
+
 public:
     explicit MarkPosition(const InitArg& arg);
     ~MarkPosition() override;

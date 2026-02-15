@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasEnoughPayment : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasEnoughPayment, Query)
+
 public:
     explicit HasEnoughPayment(const InitArg& arg);
     ~HasEnoughPayment() override;

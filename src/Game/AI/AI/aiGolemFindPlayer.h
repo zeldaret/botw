@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GolemFindPlayer : public LargeEnemyFindPlayer {
     SEAD_RTTI_OVERRIDE(GolemFindPlayer, LargeEnemyFindPlayer)
+
 public:
     explicit GolemFindPlayer(const InitArg& arg);
     ~GolemFindPlayer() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NewMannequinRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NewMannequinRoot, ksys::act::ai::Ai)
+
 public:
     explicit NewMannequinRoot(const InitArg& arg);
     ~NewMannequinRoot() override;

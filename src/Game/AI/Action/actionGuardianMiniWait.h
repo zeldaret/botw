@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniWait : public Wait {
     SEAD_RTTI_OVERRIDE(GuardianMiniWait, Wait)
+
 public:
     explicit GuardianMiniWait(const InitArg& arg);
     ~GuardianMiniWait() override;

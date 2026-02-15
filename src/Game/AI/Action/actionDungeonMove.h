@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DungeonMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DungeonMove, ksys::act::ai::Action)
+
 public:
     explicit DungeonMove(const InitArg& arg);
     ~DungeonMove() override;

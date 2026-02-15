@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCArmorProcessing : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCArmorProcessing, ksys::act::ai::Action)
+
 public:
     explicit NPCArmorProcessing(const InitArg& arg);
     ~NPCArmorProcessing() override;

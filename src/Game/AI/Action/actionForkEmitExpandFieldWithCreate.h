@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkEmitExpandFieldWithCreate : public ForkEmitExpandField {
     SEAD_RTTI_OVERRIDE(ForkEmitExpandFieldWithCreate, ForkEmitExpandField)
+
 public:
     explicit ForkEmitExpandFieldWithCreate(const InitArg& arg);
     ~ForkEmitExpandFieldWithCreate() override;

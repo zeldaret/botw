@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OneTimeWaterFloatStopASPlay : public WaterFloatImmobile {
     SEAD_RTTI_OVERRIDE(OneTimeWaterFloatStopASPlay, WaterFloatImmobile)
+
 public:
     explicit OneTimeWaterFloatStopASPlay(const InitArg& arg);
     ~OneTimeWaterFloatStopASPlay() override;

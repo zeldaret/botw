@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SystemHideChase : public SystemHide {
     SEAD_RTTI_OVERRIDE(SystemHideChase, SystemHide)
+
 public:
     explicit SystemHideChase(const InitArg& arg);
     ~SystemHideChase() override;

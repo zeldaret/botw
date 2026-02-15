@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinBossAttackSeq : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(AssassinBossAttackSeq, SeqTwoAction)
+
 public:
     explicit AssassinBossAttackSeq(const InitArg& arg);
     ~AssassinBossAttackSeq() override;

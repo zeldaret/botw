@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForestGiantFindPlayer : public LargeEnemyFindPlayer {
     SEAD_RTTI_OVERRIDE(ForestGiantFindPlayer, LargeEnemyFindPlayer)
+
 public:
     explicit ForestGiantFindPlayer(const InitArg& arg);
     ~ForestGiantFindPlayer() override;

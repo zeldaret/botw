@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OctarockWaterWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OctarockWaterWait, ksys::act::ai::Ai)
+
 public:
     explicit OctarockWaterWait(const InitArg& arg);
     ~OctarockWaterWait() override;

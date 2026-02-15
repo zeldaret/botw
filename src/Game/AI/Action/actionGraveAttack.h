@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GraveAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GraveAttack, ksys::act::ai::Action)
+
 public:
     explicit GraveAttack(const InitArg& arg);
     ~GraveAttack() override;

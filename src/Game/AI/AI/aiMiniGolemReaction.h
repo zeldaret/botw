@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MiniGolemReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(MiniGolemReaction, EnemyDefaultReaction)
+
 public:
     explicit MiniGolemReaction(const InitArg& arg);
     ~MiniGolemReaction() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyFindBadStatusFriend : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyFindBadStatusFriend, ksys::act::ai::Ai)
+
 public:
     explicit EnemyFindBadStatusFriend(const InitArg& arg);
     ~EnemyFindBadStatusFriend() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CompareGameDataTime : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CompareGameDataTime, Query)
+
 public:
     explicit CompareGameDataTime(const InitArg& arg);
     ~CompareGameDataTime() override;

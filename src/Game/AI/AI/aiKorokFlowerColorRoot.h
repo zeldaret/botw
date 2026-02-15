@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KorokFlowerColorRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KorokFlowerColorRoot, ksys::act::ai::Ai)
+
 public:
     explicit KorokFlowerColorRoot(const InitArg& arg);
     ~KorokFlowerColorRoot() override;

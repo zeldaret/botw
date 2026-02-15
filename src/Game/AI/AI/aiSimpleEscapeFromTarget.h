@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SimpleEscapeFromTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleEscapeFromTarget, ksys::act::ai::Ai)
+
 public:
     explicit SimpleEscapeFromTarget(const InitArg& arg);
     ~SimpleEscapeFromTarget() override;

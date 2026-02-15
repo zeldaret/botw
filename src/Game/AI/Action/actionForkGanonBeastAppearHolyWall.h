@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGanonBeastAppearHolyWall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGanonBeastAppearHolyWall, ksys::act::ai::Action)
+
 public:
     explicit ForkGanonBeastAppearHolyWall(const InitArg& arg);
     ~ForkGanonBeastAppearHolyWall() override;

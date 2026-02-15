@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ShootingStartFlying : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ShootingStartFlying, ksys::act::ai::Action)
+
 public:
     explicit ShootingStartFlying(const InitArg& arg);
     ~ShootingStartFlying() override;

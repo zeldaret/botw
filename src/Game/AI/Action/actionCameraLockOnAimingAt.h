@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraLockOnAimingAt : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraLockOnAimingAt, CameraAction)
+
 public:
     explicit CameraLockOnAimingAt(const InitArg& arg);
     ~CameraLockOnAimingAt() override;

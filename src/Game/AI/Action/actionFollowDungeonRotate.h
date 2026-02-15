@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FollowDungeonRotate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FollowDungeonRotate, ksys::act::ai::Action)
+
 public:
     explicit FollowDungeonRotate(const InitArg& arg);
     ~FollowDungeonRotate() override;

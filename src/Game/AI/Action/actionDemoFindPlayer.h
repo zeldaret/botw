@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DemoFindPlayer : public TimeredASPlay {
     SEAD_RTTI_OVERRIDE(DemoFindPlayer, TimeredASPlay)
+
 public:
     explicit DemoFindPlayer(const InitArg& arg);
     ~DemoFindPlayer() override;

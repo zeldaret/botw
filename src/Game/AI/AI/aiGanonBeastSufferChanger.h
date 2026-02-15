@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonBeastSufferChanger : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonBeastSufferChanger, ksys::act::ai::Ai)
+
 public:
     explicit GanonBeastSufferChanger(const InitArg& arg);
     ~GanonBeastSufferChanger() override;

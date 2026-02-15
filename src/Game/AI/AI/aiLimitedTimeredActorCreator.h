@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LimitedTimeredActorCreator : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LimitedTimeredActorCreator, ksys::act::ai::Ai)
+
 public:
     explicit LimitedTimeredActorCreator(const InitArg& arg);
     ~LimitedTimeredActorCreator() override;

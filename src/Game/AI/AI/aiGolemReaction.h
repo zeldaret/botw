@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolemReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolemReaction, ksys::act::ai::Ai)
+
 public:
     explicit GolemReaction(const InitArg& arg);
     ~GolemReaction() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RemainsWaterRoot : public RemainsRoot {
     SEAD_RTTI_OVERRIDE(RemainsWaterRoot, RemainsRoot)
+
 public:
     explicit RemainsWaterRoot(const InitArg& arg);
     ~RemainsWaterRoot() override;

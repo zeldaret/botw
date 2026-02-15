@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WillBallAvoidCenterDist : public WillBallAction {
     SEAD_RTTI_OVERRIDE(WillBallAvoidCenterDist, WillBallAction)
+
 public:
     explicit WillBallAvoidCenterDist(const InitArg& arg);
     ~WillBallAvoidCenterDist() override;

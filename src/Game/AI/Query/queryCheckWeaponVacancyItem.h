@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckWeaponVacancyItem : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckWeaponVacancyItem, Query)
+
 public:
     explicit CheckWeaponVacancyItem(const InitArg& arg);
     ~CheckWeaponVacancyItem() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AirWallHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AirWallHorse, ksys::act::ai::Action)
+
 public:
     explicit AirWallHorse(const InitArg& arg);
     ~AirWallHorse() override;

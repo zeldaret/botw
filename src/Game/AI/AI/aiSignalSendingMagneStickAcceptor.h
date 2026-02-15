@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SignalSendingMagneStickAcceptor : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SignalSendingMagneStickAcceptor, ksys::act::ai::Ai)
+
 public:
     explicit SignalSendingMagneStickAcceptor(const InitArg& arg);
     ~SignalSendingMagneStickAcceptor() override;

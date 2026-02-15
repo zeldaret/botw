@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerHorseJump : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHorseJump, PlayerAction)
+
 public:
     explicit PlayerHorseJump(const InitArg& arg);
 

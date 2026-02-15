@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkDynActorNoTargetSelf : public ForkDynActorNoTargetSelfBase {
     SEAD_RTTI_OVERRIDE(ForkDynActorNoTargetSelf, ForkDynActorNoTargetSelfBase)
+
 public:
     explicit ForkDynActorNoTargetSelf(const InitArg& arg);
     ~ForkDynActorNoTargetSelf() override;

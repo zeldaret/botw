@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SandwormDamageJumpReaction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SandwormDamageJumpReaction, ksys::act::ai::Action)
+
 public:
     explicit SandwormDamageJumpReaction(const InitArg& arg);
     ~SandwormDamageJumpReaction() override;

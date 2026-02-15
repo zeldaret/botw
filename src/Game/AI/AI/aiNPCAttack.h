@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCAttack, ksys::act::ai::Ai)
+
 public:
     explicit NPCAttack(const InitArg& arg);
     ~NPCAttack() override;

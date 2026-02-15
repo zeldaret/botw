@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DungeonMoveTagCont : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonMoveTagCont, ksys::act::ai::Ai)
+
 public:
     explicit DungeonMoveTagCont(const InitArg& arg);
     ~DungeonMoveTagCont() override;

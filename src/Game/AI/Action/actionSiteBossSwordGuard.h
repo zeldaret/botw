@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossSwordGuard : public Guard {
     SEAD_RTTI_OVERRIDE(SiteBossSwordGuard, Guard)
+
 public:
     explicit SiteBossSwordGuard(const InitArg& arg);
     ~SiteBossSwordGuard() override;

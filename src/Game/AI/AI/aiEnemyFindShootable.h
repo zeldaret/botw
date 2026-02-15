@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyFindShootable : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyFindShootable, ksys::act::ai::Ai)
+
 public:
     explicit EnemyFindShootable(const InitArg& arg);
 

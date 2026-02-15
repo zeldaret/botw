@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LastAttackerSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastAttackerSelect, ksys::act::ai::Ai)
+
 public:
     explicit LastAttackerSelect(const InitArg& arg);
     ~LastAttackerSelect() override;

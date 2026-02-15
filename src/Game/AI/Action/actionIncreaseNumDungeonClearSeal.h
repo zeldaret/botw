@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IncreaseNumDungeonClearSeal : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IncreaseNumDungeonClearSeal, ksys::act::ai::Action)
+
 public:
     explicit IncreaseNumDungeonClearSeal(const InitArg& arg);
     ~IncreaseNumDungeonClearSeal() override;

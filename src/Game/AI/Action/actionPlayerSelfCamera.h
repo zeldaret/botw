@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSelfCamera : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSelfCamera, PlayerAction)
+
 public:
     explicit PlayerSelfCamera(const InitArg& arg);
 

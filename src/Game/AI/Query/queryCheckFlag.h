@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckFlag : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckFlag, Query)
+
 public:
     explicit CheckFlag(const InitArg& arg);
     ~CheckFlag() override;

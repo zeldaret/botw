@@ -6,6 +6,7 @@ namespace ksys::phys {
 
 class SensorContactListener : public ContactListener {
     SEAD_RTTI_OVERRIDE(SensorContactListener, ContactListener)
+
 public:
     static SensorContactListener* make(ContactMgr* mgr, sead::Heap* heap);
 

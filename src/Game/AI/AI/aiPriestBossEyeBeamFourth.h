@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossEyeBeamFourth : public PriestBossEyeBeam {
     SEAD_RTTI_OVERRIDE(PriestBossEyeBeamFourth, PriestBossEyeBeam)
+
 public:
     explicit PriestBossEyeBeamFourth(const InitArg& arg);
     ~PriestBossEyeBeamFourth() override;

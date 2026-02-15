@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BowShoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BowShoot, ksys::act::ai::Ai)
+
 public:
     explicit BowShoot(const InitArg& arg);
     ~BowShoot() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossThrowParts : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossThrowParts, ksys::act::ai::Action)
+
 public:
     explicit SiteBossThrowParts(const InitArg& arg);
     ~SiteBossThrowParts() override;

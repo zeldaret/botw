@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetHomeRangeSelect : public RangeSelect {
     SEAD_RTTI_OVERRIDE(TargetHomeRangeSelect, RangeSelect)
+
 public:
     explicit TargetHomeRangeSelect(const InitArg& arg);
     ~TargetHomeRangeSelect() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MasterSwordBase100EnemyRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MasterSwordBase100EnemyRoot, ksys::act::ai::Ai)
+
 public:
     explicit MasterSwordBase100EnemyRoot(const InitArg& arg);
     ~MasterSwordBase100EnemyRoot() override;

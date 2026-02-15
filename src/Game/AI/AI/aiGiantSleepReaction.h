@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GiantSleepReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GiantSleepReaction, ksys::act::ai::Ai)
+
 public:
     explicit GiantSleepReaction(const InitArg& arg);
     ~GiantSleepReaction() override;

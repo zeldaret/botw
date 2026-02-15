@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NullASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NullASPlay, ksys::act::ai::Action)
+
 public:
     explicit NullASPlay(const InitArg& arg);
     ~NullASPlay() override;

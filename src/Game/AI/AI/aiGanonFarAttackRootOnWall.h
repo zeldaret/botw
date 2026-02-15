@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonFarAttackRootOnWall : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonFarAttackRootOnWall, ksys::act::ai::Ai)
+
 public:
     explicit GanonFarAttackRootOnWall(const InitArg& arg);
     ~GanonFarAttackRootOnWall() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RailMoveRandomIgnoreStop : public RailMoveWithClose {
     SEAD_RTTI_OVERRIDE(RailMoveRandomIgnoreStop, RailMoveWithClose)
+
 public:
     explicit RailMoveRandomIgnoreStop(const InitArg& arg);
     ~RailMoveRandomIgnoreStop() override;

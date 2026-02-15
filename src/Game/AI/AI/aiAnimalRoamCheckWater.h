@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AnimalRoamCheckWater : public AnimalRoam {
     SEAD_RTTI_OVERRIDE(AnimalRoamCheckWater, AnimalRoam)
+
 public:
     explicit AnimalRoamCheckWater(const InitArg& arg);
     ~AnimalRoamCheckWater() override;

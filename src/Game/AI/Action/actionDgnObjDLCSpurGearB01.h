@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DgnObjDLCSpurGearB01 : public GearRotate {
     SEAD_RTTI_OVERRIDE(DgnObjDLCSpurGearB01, GearRotate)
+
 public:
     explicit DgnObjDLCSpurGearB01(const InitArg& arg);
     ~DgnObjDLCSpurGearB01() override;

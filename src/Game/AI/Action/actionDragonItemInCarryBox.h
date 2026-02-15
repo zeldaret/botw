@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DragonItemInCarryBox : public InCarryBox {
     SEAD_RTTI_OVERRIDE(DragonItemInCarryBox, InCarryBox)
+
 public:
     explicit DragonItemInCarryBox(const InitArg& arg);
     ~DragonItemInCarryBox() override;

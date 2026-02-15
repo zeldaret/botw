@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LynelMove : public AnimalMove {
     SEAD_RTTI_OVERRIDE(LynelMove, AnimalMove)
+
 public:
     explicit LynelMove(const InitArg& arg);
     ~LynelMove() override;

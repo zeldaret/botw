@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Stun : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Stun, ksys::act::ai::Action)
+
 public:
     explicit Stun(const InitArg& arg);
     ~Stun() override;

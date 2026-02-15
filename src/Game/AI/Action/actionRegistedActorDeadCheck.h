@@ -7,6 +7,7 @@ namespace uking::action {
 
 class RegistedActorDeadCheck : public RegistedActorDeadCheckBase {
     SEAD_RTTI_OVERRIDE(RegistedActorDeadCheck, RegistedActorDeadCheckBase)
+
 public:
     explicit RegistedActorDeadCheck(const InitArg& arg);
     ~RegistedActorDeadCheck() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantSleep : public Sleep {
     SEAD_RTTI_OVERRIDE(GiantSleep, Sleep)
+
 public:
     explicit GiantSleep(const InitArg& arg);
     ~GiantSleep() override;

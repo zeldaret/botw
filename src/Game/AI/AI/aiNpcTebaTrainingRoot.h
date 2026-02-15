@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NpcTebaTrainingRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NpcTebaTrainingRoot, NPCRoot)
+
 public:
     explicit NpcTebaTrainingRoot(const InitArg& arg);
     ~NpcTebaTrainingRoot() override;

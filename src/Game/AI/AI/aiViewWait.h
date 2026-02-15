@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ViewWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ViewWait, ksys::act::ai::Ai)
+
 public:
     explicit ViewWait(const InitArg& arg);
     ~ViewWait() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EquipedASPlay : public EquipedAction {
     SEAD_RTTI_OVERRIDE(EquipedASPlay, EquipedAction)
+
 public:
     explicit EquipedASPlay(const InitArg& arg);
     ~EquipedASPlay() override;

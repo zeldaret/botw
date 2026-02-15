@@ -6,6 +6,7 @@ namespace ksys::phys {
 
 class TerrainHeightFieldRigidBody : public RigidBody {
     SEAD_RTTI_OVERRIDE(TerrainHeightFieldRigidBody, RigidBody)
+
 public:
     bool getD8() const { return _d8; }
 

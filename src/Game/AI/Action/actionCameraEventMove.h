@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventMove : public CameraEvent {
     SEAD_RTTI_OVERRIDE(CameraEventMove, CameraEvent)
+
 public:
     explicit CameraEventMove(const InitArg& arg);
     ~CameraEventMove() override;

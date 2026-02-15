@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetPosOffset : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetPosOffset, TargetPosAI)
+
 public:
     explicit TargetPosOffset(const InitArg& arg);
     ~TargetPosOffset() override;

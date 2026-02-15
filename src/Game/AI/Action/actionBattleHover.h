@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BattleHover : public Hover {
     SEAD_RTTI_OVERRIDE(BattleHover, Hover)
+
 public:
     explicit BattleHover(const InitArg& arg);
     ~BattleHover() override;

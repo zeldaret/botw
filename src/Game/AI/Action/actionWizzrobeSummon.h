@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WizzrobeSummon : public TurnIgnite {
     SEAD_RTTI_OVERRIDE(WizzrobeSummon, TurnIgnite)
+
 public:
     explicit WizzrobeSummon(const InitArg& arg);
     ~WizzrobeSummon() override;

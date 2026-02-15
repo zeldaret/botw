@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LookAtObjectSeachAwareness : public LookAtObject {
     SEAD_RTTI_OVERRIDE(LookAtObjectSeachAwareness, LookAtObject)
+
 public:
     explicit LookAtObjectSeachAwareness(const InitArg& arg);
     ~LookAtObjectSeachAwareness() override;

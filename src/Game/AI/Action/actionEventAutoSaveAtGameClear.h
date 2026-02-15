@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventAutoSaveAtGameClear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventAutoSaveAtGameClear, ksys::act::ai::Action)
+
 public:
     explicit EventAutoSaveAtGameClear(const InitArg& arg);
     ~EventAutoSaveAtGameClear() override;

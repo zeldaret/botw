@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StraightMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StraightMove, ksys::act::ai::Ai)
+
 public:
     explicit StraightMove(const InitArg& arg);
     ~StraightMove() override;

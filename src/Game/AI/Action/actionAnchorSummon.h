@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnchorSummon : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(AnchorSummon, ActionWithPosAngReduce)
+
 public:
     explicit AnchorSummon(const InitArg& arg);
     ~AnchorSummon() override;

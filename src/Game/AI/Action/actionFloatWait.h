@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FloatWait : public WaterFloatBase {
     SEAD_RTTI_OVERRIDE(FloatWait, WaterFloatBase)
+
 public:
     explicit FloatWait(const InitArg& arg);
     ~FloatWait() override;

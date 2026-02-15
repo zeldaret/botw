@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetNPCTypeSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetNPCTypeSelector, ksys::act::ai::Ai)
+
 public:
     explicit TargetNPCTypeSelector(const InitArg& arg);
     ~TargetNPCTypeSelector() override;

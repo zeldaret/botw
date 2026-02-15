@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class InvincibleHiddenOctarock : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(InvincibleHiddenOctarock, ksys::act::ai::Ai)
+
 public:
     explicit InvincibleHiddenOctarock(const InitArg& arg);
     ~InvincibleHiddenOctarock() override;

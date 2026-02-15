@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventChangeShadowNearAndFar : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventChangeShadowNearAndFar, ksys::act::ai::Action)
+
 public:
     explicit EventChangeShadowNearAndFar(const InitArg& arg);
     ~EventChangeShadowNearAndFar() override;

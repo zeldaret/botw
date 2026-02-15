@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MimicEnemyNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(MimicEnemyNormal, EnemyNormal)
+
 public:
     explicit MimicEnemyNormal(const InitArg& arg);
     ~MimicEnemyNormal() override;

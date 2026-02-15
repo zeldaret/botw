@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CameraAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CameraAI, ksys::act::ai::Ai)
+
 public:
     explicit CameraAI(const InitArg& arg);
     ~CameraAI() override;

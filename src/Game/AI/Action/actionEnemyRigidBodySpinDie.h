@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EnemyRigidBodySpinDie : public EnemyRigidBodyDieBase {
     SEAD_RTTI_OVERRIDE(EnemyRigidBodySpinDie, EnemyRigidBodyDieBase)
+
 public:
     explicit EnemyRigidBodySpinDie(const InitArg& arg);
     ~EnemyRigidBodySpinDie() override;

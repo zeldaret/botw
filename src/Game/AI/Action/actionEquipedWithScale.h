@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EquipedWithScale : public EquipedAction {
     SEAD_RTTI_OVERRIDE(EquipedWithScale, EquipedAction)
+
 public:
     explicit EquipedWithScale(const InitArg& arg);
     ~EquipedWithScale() override;

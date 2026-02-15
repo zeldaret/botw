@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DungeonEntranceASPlay : public NullASPlay {
     SEAD_RTTI_OVERRIDE(DungeonEntranceASPlay, NullASPlay)
+
 public:
     explicit DungeonEntranceASPlay(const InitArg& arg);
     ~DungeonEntranceASPlay() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OnCliffWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OnCliffWait, ksys::act::ai::Action)
+
 public:
     explicit OnCliffWait(const InitArg& arg);
     ~OnCliffWait() override;

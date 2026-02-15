@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkTimerBase : public Fork {
     SEAD_RTTI_OVERRIDE(ForkTimerBase, Fork)
+
 public:
     explicit ForkTimerBase(const InitArg& arg);
     ~ForkTimerBase() override;

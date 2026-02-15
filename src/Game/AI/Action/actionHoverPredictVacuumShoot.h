@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HoverPredictVacuumShoot : public PredictVacuumShoot {
     SEAD_RTTI_OVERRIDE(HoverPredictVacuumShoot, PredictVacuumShoot)
+
 public:
     explicit HoverPredictVacuumShoot(const InitArg& arg);
     ~HoverPredictVacuumShoot() override;

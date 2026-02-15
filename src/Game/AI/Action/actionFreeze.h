@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Freeze : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Freeze, ActionWithPosAngReduce)
+
 public:
     explicit Freeze(const InitArg& arg);
     ~Freeze() override;

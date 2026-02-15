@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FishGoToAndNibble : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FishGoToAndNibble, ksys::act::ai::Ai)
+
 public:
     explicit FishGoToAndNibble(const InitArg& arg);
     ~FishGoToAndNibble() override;

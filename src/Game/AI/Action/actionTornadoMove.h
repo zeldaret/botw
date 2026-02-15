@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TornadoMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TornadoMove, ksys::act::ai::Action)
+
 public:
     explicit TornadoMove(const InitArg& arg);
     ~TornadoMove() override;

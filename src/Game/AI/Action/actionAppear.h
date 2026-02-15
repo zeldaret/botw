@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Appear : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Appear, ActionWithAS)
+
 public:
     explicit Appear(const InitArg& arg);
 

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardBackWalk : public BackWalkEx {
     SEAD_RTTI_OVERRIDE(GuardBackWalk, BackWalkEx)
+
 public:
     explicit GuardBackWalk(const InitArg& arg);
 

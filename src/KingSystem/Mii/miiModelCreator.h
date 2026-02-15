@@ -12,6 +12,7 @@ extern sead::SafeArray<sead::SafeString, 4> s_rot_labels;
 // FIXME: incomplete
 class ModelCreator final : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(ModelCreator)
+
 public:
     ModelCreator() = default;
 

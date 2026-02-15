@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetResetPos : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetResetPos, ksys::act::ai::Action)
+
 public:
     explicit SetResetPos(const InitArg& arg);
     ~SetResetPos() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSeparateThreeASPart : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSeparateThreeASPart, ksys::act::ai::Action)
+
 public:
     explicit ForkSeparateThreeASPart(const InitArg& arg);
     ~ForkSeparateThreeASPart() override;

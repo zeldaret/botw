@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ActivateAttackSensor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ActivateAttackSensor, ksys::act::ai::Action)
+
 public:
     explicit ActivateAttackSensor(const InitArg& arg);
     ~ActivateAttackSensor() override;

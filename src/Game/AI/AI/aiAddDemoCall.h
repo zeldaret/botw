@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AddDemoCall : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AddDemoCall, ksys::act::ai::Ai)
+
 public:
     explicit AddDemoCall(const InitArg& arg);
     ~AddDemoCall() override;

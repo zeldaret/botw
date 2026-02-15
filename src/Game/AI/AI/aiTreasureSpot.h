@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TreasureSpot : public CommonPickedItem {
     SEAD_RTTI_OVERRIDE(TreasureSpot, CommonPickedItem)
+
 public:
     explicit TreasureSpot(const InitArg& arg);
     ~TreasureSpot() override;

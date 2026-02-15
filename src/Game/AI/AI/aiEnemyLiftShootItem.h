@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyLiftShootItem : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyLiftShootItem, ksys::act::ai::Ai)
+
 public:
     explicit EnemyLiftShootItem(const InitArg& arg);
 

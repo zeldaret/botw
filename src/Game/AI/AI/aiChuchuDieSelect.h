@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ChuchuDieSelect : public DieSelectChemicalPlus {
     SEAD_RTTI_OVERRIDE(ChuchuDieSelect, DieSelectChemicalPlus)
+
 public:
     explicit ChuchuDieSelect(const InitArg& arg);
     ~ChuchuDieSelect() override;

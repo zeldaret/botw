@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerLadder : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerLadder, ksys::act::ai::Ai)
+
 public:
     explicit PlayerLadder(const InitArg& arg);
     ~PlayerLadder() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerBeamMove : public WindCutter {
     SEAD_RTTI_OVERRIDE(PlayerBeamMove, WindCutter)
+
 public:
     explicit PlayerBeamMove(const InitArg& arg);
     ~PlayerBeamMove() override;

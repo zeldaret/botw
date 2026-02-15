@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCReaction, ksys::act::ai::Ai)
+
 public:
     explicit NPCReaction(const InitArg& arg);
     ~NPCReaction() override;

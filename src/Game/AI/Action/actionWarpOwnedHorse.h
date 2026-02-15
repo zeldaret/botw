@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpOwnedHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpOwnedHorse, ksys::act::ai::Action)
+
 public:
     explicit WarpOwnedHorse(const InitArg& arg);
     ~WarpOwnedHorse() override;

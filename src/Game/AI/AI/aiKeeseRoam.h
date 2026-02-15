@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KeeseRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KeeseRoam, ksys::act::ai::Ai)
+
 public:
     explicit KeeseRoam(const InitArg& arg);
     ~KeeseRoam() override;

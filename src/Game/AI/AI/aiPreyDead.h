@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreyDead : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreyDead, ksys::act::ai::Ai)
+
 public:
     explicit PreyDead(const InitArg& arg);
     ~PreyDead() override;

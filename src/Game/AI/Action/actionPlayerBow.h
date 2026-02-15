@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerBow : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerBow, PlayerAction)
+
 public:
     explicit PlayerBow(const InitArg& arg);
 

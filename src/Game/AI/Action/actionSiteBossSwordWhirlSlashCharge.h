@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossSwordWhirlSlashCharge : public SiteBossSwordWhirlSlashChargeBase {
     SEAD_RTTI_OVERRIDE(SiteBossSwordWhirlSlashCharge, SiteBossSwordWhirlSlashChargeBase)
+
 public:
     explicit SiteBossSwordWhirlSlashCharge(const InitArg& arg);
     ~SiteBossSwordWhirlSlashCharge() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventLookDirect : public CameraEventLookBase {
     SEAD_RTTI_OVERRIDE(CameraEventLookDirect, CameraEventLookBase)
+
 public:
     explicit CameraEventLookDirect(const InitArg& arg);
 

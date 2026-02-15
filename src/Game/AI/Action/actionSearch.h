@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Search : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Search, ActionWithAS)
+
 public:
     explicit Search(const InitArg& arg);
     ~Search() override;

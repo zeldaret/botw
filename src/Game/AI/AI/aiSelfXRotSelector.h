@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SelfXRotSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SelfXRotSelector, ksys::act::ai::Ai)
+
 public:
     explicit SelfXRotSelector(const InitArg& arg);
     ~SelfXRotSelector() override;

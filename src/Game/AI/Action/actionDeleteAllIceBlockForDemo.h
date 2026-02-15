@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DeleteAllIceBlockForDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DeleteAllIceBlockForDemo, ksys::act::ai::Action)
+
 public:
     explicit DeleteAllIceBlockForDemo(const InitArg& arg);
     ~DeleteAllIceBlockForDemo() override;

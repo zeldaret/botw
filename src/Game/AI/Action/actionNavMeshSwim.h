@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NavMeshSwim : public NavMeshAction {
     SEAD_RTTI_OVERRIDE(NavMeshSwim, NavMeshAction)
+
 public:
     explicit NavMeshSwim(const InitArg& arg);
     ~NavMeshSwim() override;

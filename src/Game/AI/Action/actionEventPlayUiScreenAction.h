@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPlayUiScreenAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPlayUiScreenAction, ksys::act::ai::Action)
+
 public:
     explicit EventPlayUiScreenAction(const InitArg& arg);
     ~EventPlayUiScreenAction() override;

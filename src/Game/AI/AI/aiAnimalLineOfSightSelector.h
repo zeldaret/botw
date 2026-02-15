@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AnimalLineOfSightSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AnimalLineOfSightSelector, ksys::act::ai::Ai)
+
 public:
     explicit AnimalLineOfSightSelector(const InitArg& arg);
     ~AnimalLineOfSightSelector() override;

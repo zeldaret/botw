@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OneTimeEffectLocaterAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OneTimeEffectLocaterAction, ksys::act::ai::Action)
+
 public:
     explicit OneTimeEffectLocaterAction(const InitArg& arg);
     ~OneTimeEffectLocaterAction() override;

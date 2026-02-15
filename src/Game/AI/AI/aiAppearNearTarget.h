@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AppearNearTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AppearNearTarget, ksys::act::ai::Ai)
+
 public:
     explicit AppearNearTarget(const InitArg& arg);
     ~AppearNearTarget() override;

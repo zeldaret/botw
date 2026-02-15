@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GolemDieFromRagdoll : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GolemDieFromRagdoll, ksys::act::ai::Action)
+
 public:
     explicit GolemDieFromRagdoll(const InitArg& arg);
     ~GolemDieFromRagdoll() override;

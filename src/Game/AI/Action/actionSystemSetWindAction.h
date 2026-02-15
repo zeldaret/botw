@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SystemSetWindAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemSetWindAction, ksys::act::ai::Action)
+
 public:
     explicit SystemSetWindAction(const InitArg& arg);
 

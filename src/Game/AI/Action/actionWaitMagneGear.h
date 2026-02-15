@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitMagneGear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitMagneGear, ksys::act::ai::Action)
+
 public:
     explicit WaitMagneGear(const InitArg& arg);
     ~WaitMagneGear() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GetItemAnotherActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GetItemAnotherActor, ksys::act::ai::Action)
+
 public:
     explicit GetItemAnotherActor(const InitArg& arg);
     ~GetItemAnotherActor() override;

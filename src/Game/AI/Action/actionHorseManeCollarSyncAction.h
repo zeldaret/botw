@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HorseManeCollarSyncAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HorseManeCollarSyncAction, ksys::act::ai::Action)
+
 public:
     explicit HorseManeCollarSyncAction(const InitArg& arg);
     ~HorseManeCollarSyncAction() override;

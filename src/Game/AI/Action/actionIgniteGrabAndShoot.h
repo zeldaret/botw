@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IgniteGrabAndShoot : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IgniteGrabAndShoot, ksys::act::ai::Action)
+
 public:
     explicit IgniteGrabAndShoot(const InitArg& arg);
     ~IgniteGrabAndShoot() override;

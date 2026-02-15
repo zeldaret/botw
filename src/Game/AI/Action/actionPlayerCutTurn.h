@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerCutTurn : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutTurn, PlayerAction)
+
 public:
     explicit PlayerCutTurn(const InitArg& arg);
     ~PlayerCutTurn() override;

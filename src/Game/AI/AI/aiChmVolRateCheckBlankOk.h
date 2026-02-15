@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChmVolRateCheckBlankOk : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChmVolRateCheckBlankOk, ksys::act::ai::Ai)
+
 public:
     explicit ChmVolRateCheckBlankOk(const InitArg& arg);
     ~ChmVolRateCheckBlankOk() override;

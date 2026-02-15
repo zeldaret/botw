@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MiniGolemRoot : public GolemRootBase {
     SEAD_RTTI_OVERRIDE(MiniGolemRoot, GolemRootBase)
+
 public:
     explicit MiniGolemRoot(const InitArg& arg);
     ~MiniGolemRoot() override;

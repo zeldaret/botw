@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseSwimToTargetActor : public HorseSwim {
     SEAD_RTTI_OVERRIDE(HorseSwimToTargetActor, HorseSwim)
+
 public:
     explicit HorseSwimToTargetActor(const InitArg& arg);
     ~HorseSwimToTargetActor() override;

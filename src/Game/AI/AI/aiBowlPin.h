@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BowlPin : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BowlPin, ksys::act::ai::Ai)
+
 public:
     explicit BowlPin(const InitArg& arg);
     ~BowlPin() override;

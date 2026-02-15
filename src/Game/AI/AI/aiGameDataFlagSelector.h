@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GameDataFlagSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GameDataFlagSelector, ksys::act::ai::Ai)
+
 public:
     explicit GameDataFlagSelector(const InitArg& arg);
     ~GameDataFlagSelector() override;

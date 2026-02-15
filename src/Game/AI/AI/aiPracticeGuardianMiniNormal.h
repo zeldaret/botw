@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PracticeGuardianMiniNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PracticeGuardianMiniNormal, ksys::act::ai::Ai)
+
 public:
     explicit PracticeGuardianMiniNormal(const InitArg& arg);
     ~PracticeGuardianMiniNormal() override;

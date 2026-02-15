@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnimalASPlayCheckMoveDir : public ForkAnimalASPlay {
     SEAD_RTTI_OVERRIDE(AnimalASPlayCheckMoveDir, ForkAnimalASPlay)
+
 public:
     explicit AnimalASPlayCheckMoveDir(const InitArg& arg);
     ~AnimalASPlayCheckMoveDir() override;

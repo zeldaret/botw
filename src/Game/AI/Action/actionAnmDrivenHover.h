@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnmDrivenHover : public AnmDrivenHoverBase {
     SEAD_RTTI_OVERRIDE(AnmDrivenHover, AnmDrivenHoverBase)
+
 public:
     explicit AnmDrivenHover(const InitArg& arg);
     ~AnmDrivenHover() override;

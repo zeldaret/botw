@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LastBossStun : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossStun, ksys::act::ai::Action)
+
 public:
     explicit LastBossStun(const InitArg& arg);
     ~LastBossStun() override;

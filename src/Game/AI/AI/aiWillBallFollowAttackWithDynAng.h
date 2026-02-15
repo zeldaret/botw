@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WillBallFollowAttackWithDynAng : public WillBallFollowAttack {
     SEAD_RTTI_OVERRIDE(WillBallFollowAttackWithDynAng, WillBallFollowAttack)
+
 public:
     explicit WillBallFollowAttackWithDynAng(const InitArg& arg);
     ~WillBallFollowAttackWithDynAng() override;

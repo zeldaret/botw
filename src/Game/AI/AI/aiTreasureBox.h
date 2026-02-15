@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TreasureBox : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TreasureBox, ksys::act::ai::Ai)
+
 public:
     explicit TreasureBox(const InitArg& arg);
     ~TreasureBox() override;

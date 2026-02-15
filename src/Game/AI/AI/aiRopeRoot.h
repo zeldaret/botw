@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RopeRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RopeRoot, ksys::act::ai::Ai)
+
 public:
     explicit RopeRoot(const InitArg& arg);
     ~RopeRoot() override;

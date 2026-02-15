@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MoveMainRidigBody : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MoveMainRidigBody, ksys::act::ai::Action)
+
 public:
     explicit MoveMainRidigBody(const InitArg& arg);
     ~MoveMainRidigBody() override;

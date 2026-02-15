@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GelEnemySystemHideChase : public SystemHideChase {
     SEAD_RTTI_OVERRIDE(GelEnemySystemHideChase, SystemHideChase)
+
 public:
     explicit GelEnemySystemHideChase(const InitArg& arg);
     ~GelEnemySystemHideChase() override;

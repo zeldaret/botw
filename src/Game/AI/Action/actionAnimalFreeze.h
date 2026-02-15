@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnimalFreeze : public HorseFreeze {
     SEAD_RTTI_OVERRIDE(AnimalFreeze, HorseFreeze)
+
 public:
     explicit AnimalFreeze(const InitArg& arg);
     ~AnimalFreeze() override;

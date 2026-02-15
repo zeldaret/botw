@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetTreasure : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetTreasure, ksys::act::ai::Action)
+
 public:
     explicit SetTreasure(const InitArg& arg);
     ~SetTreasure() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChaseSound : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChaseSound, ksys::act::ai::Ai)
+
 public:
     explicit ChaseSound(const InitArg& arg);
     ~ChaseSound() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class ComparePlayerFireResistantLevel : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(ComparePlayerFireResistantLevel, Query)
+
 public:
     explicit ComparePlayerFireResistantLevel(const InitArg& arg);
     ~ComparePlayerFireResistantLevel() override;

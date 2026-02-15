@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AttackGrave : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AttackGrave, ksys::act::ai::Ai)
+
 public:
     explicit AttackGrave(const InitArg& arg);
     ~AttackGrave() override;

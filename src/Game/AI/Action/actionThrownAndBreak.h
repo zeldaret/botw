@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ThrownAndBreak : public Thrown {
     SEAD_RTTI_OVERRIDE(ThrownAndBreak, Thrown)
+
 public:
     explicit ThrownAndBreak(const InitArg& arg);
     ~ThrownAndBreak() override;

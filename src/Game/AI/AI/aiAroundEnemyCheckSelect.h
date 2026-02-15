@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AroundEnemyCheckSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AroundEnemyCheckSelect, ksys::act::ai::Ai)
+
 public:
     explicit AroundEnemyCheckSelect(const InitArg& arg);
     ~AroundEnemyCheckSelect() override;

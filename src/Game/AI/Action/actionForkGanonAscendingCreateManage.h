@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGanonAscendingCreateManage : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGanonAscendingCreateManage, ksys::act::ai::Action)
+
 public:
     explicit ForkGanonAscendingCreateManage(const InitArg& arg);
     ~ForkGanonAscendingCreateManage() override;

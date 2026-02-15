@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemainsFireBattleStepSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemainsFireBattleStepSelector, ksys::act::ai::Ai)
+
 public:
     explicit RemainsFireBattleStepSelector(const InitArg& arg);
     ~RemainsFireBattleStepSelector() override;

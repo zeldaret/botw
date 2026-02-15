@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BalloonBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BalloonBase, ksys::act::ai::Action)
+
 public:
     explicit BalloonBase(const InitArg& arg);
     ~BalloonBase() override;

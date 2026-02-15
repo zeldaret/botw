@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossWarpToSafePos : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossWarpToSafePos, PriestBossMode)
+
 public:
     explicit PriestBossWarpToSafePos(const InitArg& arg);
     ~PriestBossWarpToSafePos() override;

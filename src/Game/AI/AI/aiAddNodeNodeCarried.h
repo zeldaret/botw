@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AddNodeNodeCarried : public AddCarriedBase {
     SEAD_RTTI_OVERRIDE(AddNodeNodeCarried, AddCarriedBase)
+
 public:
     explicit AddNodeNodeCarried(const InitArg& arg);
     ~AddNodeNodeCarried() override;

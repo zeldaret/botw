@@ -6,6 +6,7 @@ namespace uking::query {
 
 class WhatDayOfTheWeek : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(WhatDayOfTheWeek, Query)
+
 public:
     explicit WhatDayOfTheWeek(const InitArg& arg);
     ~WhatDayOfTheWeek() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossIronBallStageRotate : public PriestBossIronBall {
     SEAD_RTTI_OVERRIDE(PriestBossIronBallStageRotate, PriestBossIronBall)
+
 public:
     explicit PriestBossIronBallStageRotate(const InitArg& arg);
     ~PriestBossIronBallStageRotate() override;

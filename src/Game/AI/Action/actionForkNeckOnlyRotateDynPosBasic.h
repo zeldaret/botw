@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkNeckOnlyRotateDynPosBasic : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkNeckOnlyRotateDynPosBasic, ksys::act::ai::Action)
+
 public:
     explicit ForkNeckOnlyRotateDynPosBasic(const InitArg& arg);
     ~ForkNeckOnlyRotateDynPosBasic() override;

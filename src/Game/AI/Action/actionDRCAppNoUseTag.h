@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DRCAppNoUseTag : public ForbidTag {
     SEAD_RTTI_OVERRIDE(DRCAppNoUseTag, ForbidTag)
+
 public:
     explicit DRCAppNoUseTag(const InitArg& arg);
     ~DRCAppNoUseTag() override;

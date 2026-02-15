@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TeleportForceApperPosition : public TeleportBase {
     SEAD_RTTI_OVERRIDE(TeleportForceApperPosition, TeleportBase)
+
 public:
     explicit TeleportForceApperPosition(const InitArg& arg);
     ~TeleportForceApperPosition() override;

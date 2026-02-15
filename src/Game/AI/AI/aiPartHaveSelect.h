@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PartHaveSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PartHaveSelect, ksys::act::ai::Ai)
+
 public:
     explicit PartHaveSelect(const InitArg& arg);
     ~PartHaveSelect() override;

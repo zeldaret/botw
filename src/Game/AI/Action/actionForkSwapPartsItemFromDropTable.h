@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkSwapPartsItemFromDropTable : public Fork {
     SEAD_RTTI_OVERRIDE(ForkSwapPartsItemFromDropTable, Fork)
+
 public:
     explicit ForkSwapPartsItemFromDropTable(const InitArg& arg);
     ~ForkSwapPartsItemFromDropTable() override;

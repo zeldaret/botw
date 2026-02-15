@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FldObjIvyBurnRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FldObjIvyBurnRoot, ksys::act::ai::Ai)
+
 public:
     explicit FldObjIvyBurnRoot(const InitArg& arg);
     ~FldObjIvyBurnRoot() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AreaBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AreaBase, ksys::act::ai::Action)
+
 public:
     explicit AreaBase(const InitArg& arg);
 

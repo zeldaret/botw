@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class OctarockOptionRoot : public SimpleLiftable {
     SEAD_RTTI_OVERRIDE(OctarockOptionRoot, SimpleLiftable)
+
 public:
     explicit OctarockOptionRoot(const InitArg& arg);
     ~OctarockOptionRoot() override;

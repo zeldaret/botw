@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WaitNearTargetAwarenessRange : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WaitNearTargetAwarenessRange, ksys::act::ai::Ai)
+
 public:
     explicit WaitNearTargetAwarenessRange(const InitArg& arg);
     ~WaitNearTargetAwarenessRange() override;

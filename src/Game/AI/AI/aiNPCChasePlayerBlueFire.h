@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCChasePlayerBlueFire : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCChasePlayerBlueFire, ksys::act::ai::Ai)
+
 public:
     explicit NPCChasePlayerBlueFire(const InitArg& arg);
     ~NPCChasePlayerBlueFire() override;

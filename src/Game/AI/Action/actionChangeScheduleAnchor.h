@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChangeScheduleAnchor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChangeScheduleAnchor, ksys::act::ai::Action)
+
 public:
     explicit ChangeScheduleAnchor(const InitArg& arg);
     ~ChangeScheduleAnchor() override;

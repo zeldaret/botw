@@ -31,6 +31,7 @@ class SystemGroupHandler;
 
 class RayCast {
     SEAD_RTTI_BASE(RayCast)
+
 public:
     enum class NormalCheckingMode {
         _0 = 0,

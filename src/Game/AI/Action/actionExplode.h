@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Explode : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Explode, ksys::act::ai::Action)
+
 public:
     explicit Explode(const InitArg& arg);
     ~Explode() override;

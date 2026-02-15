@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraRevolve : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraRevolve, CameraAction)
+
 public:
     explicit CameraRevolve(const InitArg& arg);
 

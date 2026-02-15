@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetBloodyMoonEnv : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetBloodyMoonEnv, ksys::act::ai::Action)
+
 public:
     explicit SetBloodyMoonEnv(const InitArg& arg);
     ~SetBloodyMoonEnv() override;

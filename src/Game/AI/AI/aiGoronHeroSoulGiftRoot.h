@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GoronHeroSoulGiftRoot : public HeroSoulGiftRoot {
     SEAD_RTTI_OVERRIDE(GoronHeroSoulGiftRoot, HeroSoulGiftRoot)
+
 public:
     explicit GoronHeroSoulGiftRoot(const InitArg& arg);
     ~GoronHeroSoulGiftRoot() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreyChemicalDeadReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreyChemicalDeadReaction, ksys::act::ai::Ai)
+
 public:
     explicit PreyChemicalDeadReaction(const InitArg& arg);
     ~PreyChemicalDeadReaction() override;

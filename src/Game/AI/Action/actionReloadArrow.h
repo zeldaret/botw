@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ReloadArrow : public ActionEx {
     SEAD_RTTI_OVERRIDE(ReloadArrow, ActionEx)
+
 public:
     explicit ReloadArrow(const InitArg& arg);
     ~ReloadArrow() override;

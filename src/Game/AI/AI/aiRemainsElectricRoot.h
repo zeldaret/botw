@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RemainsElectricRoot : public RemainsRoot {
     SEAD_RTTI_OVERRIDE(RemainsElectricRoot, RemainsRoot)
+
 public:
     explicit RemainsElectricRoot(const InitArg& arg);
     ~RemainsElectricRoot() override;

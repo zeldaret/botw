@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MusicianSpotBgmTriggerAction : public SpotBgmTriggerAction {
     SEAD_RTTI_OVERRIDE(MusicianSpotBgmTriggerAction, SpotBgmTriggerAction)
+
 public:
     explicit MusicianSpotBgmTriggerAction(const InitArg& arg);
     ~MusicianSpotBgmTriggerAction() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GoronCannonBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GoronCannonBase, ksys::act::ai::Ai)
+
 public:
     explicit GoronCannonBase(const InitArg& arg);
     ~GoronCannonBase() override;

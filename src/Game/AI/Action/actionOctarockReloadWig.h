@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OctarockReloadWig : public OctarockReloadWigBase {
     SEAD_RTTI_OVERRIDE(OctarockReloadWig, OctarockReloadWigBase)
+
 public:
     explicit OctarockReloadWig(const InitArg& arg);
     ~OctarockReloadWig() override;

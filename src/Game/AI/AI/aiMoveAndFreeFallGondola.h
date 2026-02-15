@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MoveAndFreeFallGondola : public RailMove {
     SEAD_RTTI_OVERRIDE(MoveAndFreeFallGondola, RailMove)
+
 public:
     explicit MoveAndFreeFallGondola(const InitArg& arg);
     ~MoveAndFreeFallGondola() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SilentKilled : public Ragdoll {
     SEAD_RTTI_OVERRIDE(SilentKilled, Ragdoll)
+
 public:
     explicit SilentKilled(const InitArg& arg);
     ~SilentKilled() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NoAutoPlacementEnemyDeadlyQuest : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NoAutoPlacementEnemyDeadlyQuest, ksys::act::ai::Action)
+
 public:
     explicit NoAutoPlacementEnemyDeadlyQuest(const InitArg& arg);
     ~NoAutoPlacementEnemyDeadlyQuest() override;

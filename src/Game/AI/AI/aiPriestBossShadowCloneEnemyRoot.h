@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossShadowCloneEnemyRoot : public PriestBossActorEnemyRoot {
     SEAD_RTTI_OVERRIDE(PriestBossShadowCloneEnemyRoot, PriestBossActorEnemyRoot)
+
 public:
     explicit PriestBossShadowCloneEnemyRoot(const InitArg& arg);
     ~PriestBossShadowCloneEnemyRoot() override;

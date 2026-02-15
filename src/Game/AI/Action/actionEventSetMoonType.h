@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetMoonType : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetMoonType, ksys::act::ai::Action)
+
 public:
     explicit EventSetMoonType(const InitArg& arg);
     ~EventSetMoonType() override;

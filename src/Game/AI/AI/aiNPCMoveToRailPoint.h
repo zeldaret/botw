@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCMoveToRailPoint : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCMoveToRailPoint, ksys::act::ai::Ai)
+
 public:
     explicit NPCMoveToRailPoint(const InitArg& arg);
     ~NPCMoveToRailPoint() override;

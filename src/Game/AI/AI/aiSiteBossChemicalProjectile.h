@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SiteBossChemicalProjectile : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossChemicalProjectile, ksys::act::ai::Ai)
+
 public:
     explicit SiteBossChemicalProjectile(const InitArg& arg);
     ~SiteBossChemicalProjectile() override;

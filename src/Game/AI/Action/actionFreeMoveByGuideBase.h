@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FreeMoveByGuideBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FreeMoveByGuideBase, ksys::act::ai::Action)
+
 public:
     explicit FreeMoveByGuideBase(const InitArg& arg);
     ~FreeMoveByGuideBase() override;

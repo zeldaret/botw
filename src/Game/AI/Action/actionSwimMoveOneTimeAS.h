@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwimMoveOneTimeAS : public SwimMoveBase {
     SEAD_RTTI_OVERRIDE(SwimMoveOneTimeAS, SwimMoveBase)
+
 public:
     explicit SwimMoveOneTimeAS(const InitArg& arg);
     ~SwimMoveOneTimeAS() override;

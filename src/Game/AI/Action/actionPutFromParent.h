@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PutFromParent : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PutFromParent, ksys::act::ai::Action)
+
 public:
     explicit PutFromParent(const InitArg& arg);
     ~PutFromParent() override;

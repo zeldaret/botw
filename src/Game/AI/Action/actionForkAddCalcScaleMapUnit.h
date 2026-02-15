@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkAddCalcScaleMapUnit : public Fork {
     SEAD_RTTI_OVERRIDE(ForkAddCalcScaleMapUnit, Fork)
+
 public:
     explicit ForkAddCalcScaleMapUnit(const InitArg& arg);
     ~ForkAddCalcScaleMapUnit() override;

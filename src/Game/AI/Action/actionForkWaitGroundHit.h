@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkWaitGroundHit : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkWaitGroundHit, ksys::act::ai::Action)
+
 public:
     explicit ForkWaitGroundHit(const InitArg& arg);
     ~ForkWaitGroundHit() override;

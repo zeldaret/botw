@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckPlayerWeaponFired : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckPlayerWeaponFired, Query)
+
 public:
     explicit CheckPlayerWeaponFired(const InitArg& arg);
     ~CheckPlayerWeaponFired() override;

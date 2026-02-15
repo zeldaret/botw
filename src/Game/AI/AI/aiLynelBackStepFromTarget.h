@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelBackStepFromTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelBackStepFromTarget, ksys::act::ai::Ai)
+
 public:
     explicit LynelBackStepFromTarget(const InitArg& arg);
     ~LynelBackStepFromTarget() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetInFanAreaSelect : public TargetInAreaSelect {
     SEAD_RTTI_OVERRIDE(TargetInFanAreaSelect, TargetInAreaSelect)
+
 public:
     explicit TargetInFanAreaSelect(const InitArg& arg);
     ~TargetInFanAreaSelect() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkAlwaysTurnUDLimit : public ForkAlwaysTurn {
     SEAD_RTTI_OVERRIDE(ForkAlwaysTurnUDLimit, ForkAlwaysTurn)
+
 public:
     explicit ForkAlwaysTurnUDLimit(const InitArg& arg);
     ~ForkAlwaysTurnUDLimit() override;

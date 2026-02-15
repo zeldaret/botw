@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DynamicFireWood : public FireWood {
     SEAD_RTTI_OVERRIDE(DynamicFireWood, FireWood)
+
 public:
     explicit DynamicFireWood(const InitArg& arg);
     ~DynamicFireWood() override;

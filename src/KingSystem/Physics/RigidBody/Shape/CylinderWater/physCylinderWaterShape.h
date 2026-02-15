@@ -13,6 +13,7 @@ class HavokCylinderWaterShape;
 
 class CylinderWaterShape : public Shape {
     SEAD_RTTI_OVERRIDE(CylinderWaterShape, Shape)
+
 public:
     enum class Flag {
         Dirty = 1 << 0,

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AirWallAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AirWallAction, ksys::act::ai::Action)
+
 public:
     explicit AirWallAction(const InitArg& arg);
 

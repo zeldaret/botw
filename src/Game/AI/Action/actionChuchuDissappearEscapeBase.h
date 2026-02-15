@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ChuchuDissappearEscapeBase : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(ChuchuDissappearEscapeBase, ActionWithAS)
+
 public:
     explicit ChuchuDissappearEscapeBase(const InitArg& arg);
     ~ChuchuDissappearEscapeBase() override;

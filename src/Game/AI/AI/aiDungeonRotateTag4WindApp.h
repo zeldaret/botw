@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DungeonRotateTag4WindApp : public WholeDungeonRotateTag {
     SEAD_RTTI_OVERRIDE(DungeonRotateTag4WindApp, WholeDungeonRotateTag)
+
 public:
     explicit DungeonRotateTag4WindApp(const InitArg& arg);
     ~DungeonRotateTag4WindApp() override;

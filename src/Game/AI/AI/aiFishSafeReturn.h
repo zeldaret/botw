@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FishSafeReturn : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FishSafeReturn, ksys::act::ai::Ai)
+
 public:
     explicit FishSafeReturn(const InitArg& arg);
     ~FishSafeReturn() override;

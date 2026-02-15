@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventLoopEndAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventLoopEndAction, ksys::act::ai::Action)
+
 public:
     explicit EventLoopEndAction(const InitArg& arg);
     ~EventLoopEndAction() override;

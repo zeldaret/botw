@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetActorGrabAdapter : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetActorGrabAdapter, ksys::act::ai::Ai)
+
 public:
     explicit TargetActorGrabAdapter(const InitArg& arg);
     ~TargetActorGrabAdapter() override;

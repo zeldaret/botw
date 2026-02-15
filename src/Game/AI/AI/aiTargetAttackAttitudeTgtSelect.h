@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetAttackAttitudeTgtSelect : public TargetAttackAttitudeTgtSelectBase {
     SEAD_RTTI_OVERRIDE(TargetAttackAttitudeTgtSelect, TargetAttackAttitudeTgtSelectBase)
+
 public:
     explicit TargetAttackAttitudeTgtSelect(const InitArg& arg);
     ~TargetAttackAttitudeTgtSelect() override;

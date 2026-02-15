@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LynelRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(LynelRoot, EnemyRoot)
+
 public:
     explicit LynelRoot(const InitArg& arg);
     ~LynelRoot() override;

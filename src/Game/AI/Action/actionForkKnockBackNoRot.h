@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkKnockBackNoRot : public SmallDamageBase {
     SEAD_RTTI_OVERRIDE(ForkKnockBackNoRot, SmallDamageBase)
+
 public:
     explicit ForkKnockBackNoRot(const InitArg& arg);
     ~ForkKnockBackNoRot() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EternalPlayerTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EternalPlayerTarget, ksys::act::ai::Ai)
+
 public:
     explicit EternalPlayerTarget(const InitArg& arg);
     ~EternalPlayerTarget() override;

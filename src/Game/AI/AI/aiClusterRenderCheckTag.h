@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ClusterRenderCheckTag : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ClusterRenderCheckTag, ksys::act::ai::Ai)
+
 public:
     explicit ClusterRenderCheckTag(const InitArg& arg);
     ~ClusterRenderCheckTag() override;

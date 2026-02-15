@@ -26,6 +26,7 @@ enum class RootAiFlag2 {};
 
 class RootAi : public Ai, public IRootAi {
     SEAD_RTTI_OVERRIDE(RootAi, Ai)
+
 public:
     explicit RootAi(const InitArg& arg);
     ~RootAi() override;

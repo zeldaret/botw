@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCSearch : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCSearch, ksys::act::ai::Ai)
+
 public:
     explicit NPCSearch(const InitArg& arg);
     ~NPCSearch() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelDirSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelDirSelect, ksys::act::ai::Ai)
+
 public:
     explicit LynelDirSelect(const InitArg& arg);
     ~LynelDirSelect() override;

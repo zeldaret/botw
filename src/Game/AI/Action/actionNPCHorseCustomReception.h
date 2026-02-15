@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCHorseCustomReception : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCHorseCustomReception, ksys::act::ai::Action)
+
 public:
     explicit NPCHorseCustomReception(const InitArg& arg);
     ~NPCHorseCustomReception() override;

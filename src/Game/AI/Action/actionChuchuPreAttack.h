@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ChuchuPreAttack : public ChuchuPreAttackBase {
     SEAD_RTTI_OVERRIDE(ChuchuPreAttack, ChuchuPreAttackBase)
+
 public:
     explicit ChuchuPreAttack(const InitArg& arg);
     ~ChuchuPreAttack() override;

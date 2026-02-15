@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PredictVacuumShoot : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PredictVacuumShoot, ksys::act::ai::Action)
+
 public:
     explicit PredictVacuumShoot(const InitArg& arg);
     ~PredictVacuumShoot() override;

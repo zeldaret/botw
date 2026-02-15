@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCTurnToPosition : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCTurnToPosition, ksys::act::ai::Action)
+
 public:
     explicit NPCTurnToPosition(const InitArg& arg);
     ~NPCTurnToPosition() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OnLeaveAttackInterval : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OnLeaveAttackInterval, ksys::act::ai::Action)
+
 public:
     explicit OnLeaveAttackInterval(const InitArg& arg);
     ~OnLeaveAttackInterval() override;

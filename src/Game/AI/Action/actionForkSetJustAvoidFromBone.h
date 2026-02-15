@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkSetJustAvoidFromBone : public ForkSetJustAvoid {
     SEAD_RTTI_OVERRIDE(ForkSetJustAvoidFromBone, ForkSetJustAvoid)
+
 public:
     explicit ForkSetJustAvoidFromBone(const InitArg& arg);
     ~ForkSetJustAvoidFromBone() override;

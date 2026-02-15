@@ -7,6 +7,7 @@ namespace uking::action {
 
 class KokkoMoveWithJump : public KokkoMove {
     SEAD_RTTI_OVERRIDE(KokkoMoveWithJump, KokkoMove)
+
 public:
     explicit KokkoMoveWithJump(const InitArg& arg);
     ~KokkoMoveWithJump() override;

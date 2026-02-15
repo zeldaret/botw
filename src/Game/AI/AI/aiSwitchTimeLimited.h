@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwitchTimeLimited : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwitchTimeLimited, ksys::act::ai::Ai)
+
 public:
     explicit SwitchTimeLimited(const InitArg& arg);
     ~SwitchTimeLimited() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CollaboShootingStarBrightTower : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CollaboShootingStarBrightTower, ksys::act::ai::Action)
+
 public:
     explicit CollaboShootingStarBrightTower(const InitArg& arg);
     ~CollaboShootingStarBrightTower() override;

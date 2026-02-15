@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForceGetUpFreeze : public Freeze {
     SEAD_RTTI_OVERRIDE(ForceGetUpFreeze, Freeze)
+
 public:
     explicit ForceGetUpFreeze(const InitArg& arg);
     ~ForceGetUpFreeze() override;

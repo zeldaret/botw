@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetOpenState : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetOpenState, ksys::act::ai::Action)
+
 public:
     explicit SetOpenState(const InitArg& arg);
     ~SetOpenState() override;

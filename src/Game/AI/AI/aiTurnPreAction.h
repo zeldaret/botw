@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TurnPreAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TurnPreAction, ksys::act::ai::Ai)
+
 public:
     explicit TurnPreAction(const InitArg& arg);
     ~TurnPreAction() override;

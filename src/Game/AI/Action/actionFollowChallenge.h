@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FollowChallenge : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FollowChallenge, ksys::act::ai::Action)
+
 public:
     explicit FollowChallenge(const InitArg& arg);
     ~FollowChallenge() override;

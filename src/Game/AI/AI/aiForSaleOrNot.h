@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ForSaleOrNot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ForSaleOrNot, ksys::act::ai::Ai)
+
 public:
     explicit ForSaleOrNot(const InitArg& arg);
     ~ForSaleOrNot() override;

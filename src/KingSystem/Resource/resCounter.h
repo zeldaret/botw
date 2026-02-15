@@ -19,6 +19,7 @@ public:
 
     class Data : public DataBase {
         SEAD_RTTI_OVERRIDE(Data, DataBase)
+
     public:
         explicit Data(void* data) : mData(data) {}
         virtual ~Data() = default;

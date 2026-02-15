@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BindParentAction : public BindAction {
     SEAD_RTTI_OVERRIDE(BindParentAction, BindAction)
+
 public:
     explicit BindParentAction(const InitArg& arg);
     ~BindParentAction() override;

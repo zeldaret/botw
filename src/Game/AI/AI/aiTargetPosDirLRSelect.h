@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetPosDirLRSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetPosDirLRSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetPosDirLRSelect(const InitArg& arg);
     ~TargetPosDirLRSelect() override;

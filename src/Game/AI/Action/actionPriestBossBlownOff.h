@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PriestBossBlownOff : public BlownOff {
     SEAD_RTTI_OVERRIDE(PriestBossBlownOff, BlownOff)
+
 public:
     explicit PriestBossBlownOff(const InitArg& arg);
     ~PriestBossBlownOff() override;

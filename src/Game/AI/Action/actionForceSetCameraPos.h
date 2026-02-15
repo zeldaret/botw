@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForceSetCameraPos : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForceSetCameraPos, ksys::act::ai::Action)
+
 public:
     explicit ForceSetCameraPos(const InitArg& arg);
     ~ForceSetCameraPos() override;

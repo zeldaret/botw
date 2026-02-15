@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCSale : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCSale, ksys::act::ai::Action)
+
 public:
     explicit NPCSale(const InitArg& arg);
     ~NPCSale() override;

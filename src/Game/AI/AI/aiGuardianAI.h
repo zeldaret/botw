@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianAI, ksys::act::ai::Ai)
+
 public:
     explicit GuardianAI(const InitArg& arg);
     ~GuardianAI() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class InDemoSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(InDemoSelect, ksys::act::ai::Ai)
+
 public:
     explicit InDemoSelect(const InitArg& arg);
     ~InDemoSelect() override;

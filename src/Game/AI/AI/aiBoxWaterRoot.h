@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BoxWaterRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BoxWaterRoot, ksys::act::ai::Ai)
+
 public:
     explicit BoxWaterRoot(const InitArg& arg);
     ~BoxWaterRoot() override;

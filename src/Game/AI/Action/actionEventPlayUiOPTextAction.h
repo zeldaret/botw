@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPlayUiOPTextAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPlayUiOPTextAction, ksys::act::ai::Action)
+
 public:
     explicit EventPlayUiOPTextAction(const InitArg& arg);
     ~EventPlayUiOPTextAction() override;

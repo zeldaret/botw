@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GoronHeroDescendentRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GoronHeroDescendentRoot, ksys::act::ai::Ai)
+
 public:
     explicit GoronHeroDescendentRoot(const InitArg& arg);
     ~GoronHeroDescendentRoot() override;

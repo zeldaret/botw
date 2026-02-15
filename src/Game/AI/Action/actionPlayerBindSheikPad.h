@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerBindSheikPad : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerBindSheikPad, PlayerAction)
+
 public:
     explicit PlayerBindSheikPad(const InitArg& arg);
     ~PlayerBindSheikPad() override;

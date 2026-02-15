@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TurnAndLookToObjNotAnimDriven : public LookAtObjectBase {
     SEAD_RTTI_OVERRIDE(TurnAndLookToObjNotAnimDriven, LookAtObjectBase)
+
 public:
     explicit TurnAndLookToObjNotAnimDriven(const InitArg& arg);
     ~TurnAndLookToObjNotAnimDriven() override;

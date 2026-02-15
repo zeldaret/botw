@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StopForLimitedTime : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StopForLimitedTime, ksys::act::ai::Action)
+
 public:
     explicit StopForLimitedTime(const InitArg& arg);
     ~StopForLimitedTime() override;

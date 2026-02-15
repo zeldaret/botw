@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Sleep : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Sleep, ActionWithPosAngReduce)
+
 public:
     explicit Sleep(const InitArg& arg);
     ~Sleep() override;

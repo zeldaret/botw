@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsEquipedDyedArmor : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsEquipedDyedArmor, Query)
+
 public:
     explicit IsEquipedDyedArmor(const InitArg& arg);
     ~IsEquipedDyedArmor() override;

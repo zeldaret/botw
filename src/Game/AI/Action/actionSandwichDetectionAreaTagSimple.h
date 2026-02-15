@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SandwichDetectionAreaTagSimple : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(SandwichDetectionAreaTagSimple, AreaTagAction)
+
 public:
     explicit SandwichDetectionAreaTagSimple(const InitArg& arg);
     ~SandwichDetectionAreaTagSimple() override;

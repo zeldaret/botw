@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TornadoRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TornadoRoot, ksys::act::ai::Ai)
+
 public:
     explicit TornadoRoot(const InitArg& arg);
     ~TornadoRoot() override;

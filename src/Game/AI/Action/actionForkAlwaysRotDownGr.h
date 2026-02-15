@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAlwaysRotDownGr : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAlwaysRotDownGr, ksys::act::ai::Action)
+
 public:
     explicit ForkAlwaysRotDownGr(const InitArg& arg);
     ~ForkAlwaysRotDownGr() override;

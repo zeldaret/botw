@@ -6,6 +6,7 @@ namespace uking::action {
 
 class JumpMainRigidBody : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(JumpMainRigidBody, ksys::act::ai::Action)
+
 public:
     explicit JumpMainRigidBody(const InitArg& arg);
     ~JumpMainRigidBody() override;

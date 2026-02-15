@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemainsFireBattleMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemainsFireBattleMove, ksys::act::ai::Ai)
+
 public:
     explicit RemainsFireBattleMove(const InitArg& arg);
     ~RemainsFireBattleMove() override;

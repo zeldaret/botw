@@ -7,6 +7,7 @@ namespace uking::action {
 
 class JumpToTarget : public JumpTo {
     SEAD_RTTI_OVERRIDE(JumpToTarget, JumpTo)
+
 public:
     explicit JumpToTarget(const InitArg& arg);
     ~JumpToTarget() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DownSwingAttack : public ActionEx {
     SEAD_RTTI_OVERRIDE(DownSwingAttack, ActionEx)
+
 public:
     explicit DownSwingAttack(const InitArg& arg);
     ~DownSwingAttack() override;

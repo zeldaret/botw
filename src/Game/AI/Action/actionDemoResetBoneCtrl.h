@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoResetBoneCtrl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoResetBoneCtrl, ksys::act::ai::Action)
+
 public:
     explicit DemoResetBoneCtrl(const InitArg& arg);
     ~DemoResetBoneCtrl() override;

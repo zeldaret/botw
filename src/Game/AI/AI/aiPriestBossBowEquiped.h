@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossBowEquiped : public BowEquiped {
     SEAD_RTTI_OVERRIDE(PriestBossBowEquiped, BowEquiped)
+
 public:
     explicit PriestBossBowEquiped(const InitArg& arg);
     ~PriestBossBowEquiped() override;

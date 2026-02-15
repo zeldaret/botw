@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChangeWeaponEquipState : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChangeWeaponEquipState, ksys::act::ai::Action)
+
 public:
     explicit ChangeWeaponEquipState(const InitArg& arg);
     ~ChangeWeaponEquipState() override;

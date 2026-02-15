@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TeleportBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TeleportBase, ksys::act::ai::Action)
+
 public:
     explicit TeleportBase(const InitArg& arg);
     ~TeleportBase() override;

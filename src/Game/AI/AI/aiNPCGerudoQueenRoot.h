@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NPCGerudoQueenRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NPCGerudoQueenRoot, NPCRoot)
+
 public:
     explicit NPCGerudoQueenRoot(const InitArg& arg);
     ~NPCGerudoQueenRoot() override;

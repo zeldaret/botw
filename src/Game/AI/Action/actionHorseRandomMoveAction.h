@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseRandomMoveAction : public AnimalMoveGuidedBase {
     SEAD_RTTI_OVERRIDE(HorseRandomMoveAction, AnimalMoveGuidedBase)
+
 public:
     explicit HorseRandomMoveAction(const InitArg& arg);
 

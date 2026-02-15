@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MotorcycleWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MotorcycleWait, ksys::act::ai::Action)
+
 public:
     explicit MotorcycleWait(const InitArg& arg);
     ~MotorcycleWait() override;

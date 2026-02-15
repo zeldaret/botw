@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BeginObservation : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BeginObservation, ksys::act::ai::Action)
+
 public:
     explicit BeginObservation(const InitArg& arg);
     ~BeginObservation() override;

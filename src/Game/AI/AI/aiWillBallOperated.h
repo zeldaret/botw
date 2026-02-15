@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WillBallOperated : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WillBallOperated, ksys::act::ai::Ai)
+
 public:
     explicit WillBallOperated(const InitArg& arg);
     ~WillBallOperated() override;

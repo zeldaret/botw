@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckEquipArmorSeriesType : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckEquipArmorSeriesType, Query)
+
 public:
     explicit CheckEquipArmorSeriesType(const InitArg& arg);
     ~CheckEquipArmorSeriesType() override;

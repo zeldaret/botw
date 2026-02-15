@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RodRoot : public WeaponRootAI {
     SEAD_RTTI_OVERRIDE(RodRoot, WeaponRootAI)
+
 public:
     explicit RodRoot(const InitArg& arg);
     ~RodRoot() override;

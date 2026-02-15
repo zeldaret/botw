@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChmVolRateCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChmVolRateCheck, ksys::act::ai::Ai)
+
 public:
     explicit ChmVolRateCheck(const InitArg& arg);
     ~ChmVolRateCheck() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AnimalMoveBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnimalMoveBase, ksys::act::ai::Action)
+
 public:
     explicit AnimalMoveBase(const InitArg& arg);
     ~AnimalMoveBase() override;

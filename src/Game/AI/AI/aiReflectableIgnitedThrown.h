@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ReflectableIgnitedThrown : public ReflectableThrown {
     SEAD_RTTI_OVERRIDE(ReflectableIgnitedThrown, ReflectableThrown)
+
 public:
     explicit ReflectableIgnitedThrown(const InitArg& arg);
     ~ReflectableIgnitedThrown() override;

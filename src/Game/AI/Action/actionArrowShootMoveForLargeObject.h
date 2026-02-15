@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ArrowShootMoveForLargeObject : public ArrowShootMove {
     SEAD_RTTI_OVERRIDE(ArrowShootMoveForLargeObject, ArrowShootMove)
+
 public:
     explicit ArrowShootMoveForLargeObject(const InitArg& arg);
     ~ArrowShootMoveForLargeObject() override;

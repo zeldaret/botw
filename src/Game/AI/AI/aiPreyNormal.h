@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreyNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreyNormal, ksys::act::ai::Ai)
+
 public:
     explicit PreyNormal(const InitArg& arg);
     ~PreyNormal() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniFinalBeamMove : public GuardianBeamFire {
     SEAD_RTTI_OVERRIDE(GuardianMiniFinalBeamMove, GuardianBeamFire)
+
 public:
     explicit GuardianMiniFinalBeamMove(const InitArg& arg);
     ~GuardianMiniFinalBeamMove() override;

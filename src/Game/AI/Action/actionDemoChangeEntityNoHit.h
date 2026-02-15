@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoChangeEntityNoHit : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoChangeEntityNoHit, ksys::act::ai::Action)
+
 public:
     explicit DemoChangeEntityNoHit(const InitArg& arg);
     ~DemoChangeEntityNoHit() override;

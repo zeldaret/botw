@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BasicSignalBossAwakeSleep : public BasicSignalEnemy {
     SEAD_RTTI_OVERRIDE(BasicSignalBossAwakeSleep, BasicSignalEnemy)
+
 public:
     explicit BasicSignalBossAwakeSleep(const InitArg& arg);
     ~BasicSignalBossAwakeSleep() override;

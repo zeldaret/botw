@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyVacuumWeaponTypeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyVacuumWeaponTypeSelect, ksys::act::ai::Ai)
+
 public:
     explicit EnemyVacuumWeaponTypeSelect(const InitArg& arg);
     ~EnemyVacuumWeaponTypeSelect() override;

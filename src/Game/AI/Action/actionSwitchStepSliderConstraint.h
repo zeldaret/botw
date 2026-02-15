@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SwitchStepSliderConstraint : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwitchStepSliderConstraint, ksys::act::ai::Action)
+
 public:
     explicit SwitchStepSliderConstraint(const InitArg& arg);
     ~SwitchStepSliderConstraint() override;

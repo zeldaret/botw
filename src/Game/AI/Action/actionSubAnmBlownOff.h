@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SubAnmBlownOff : public AnmBlownOff {
     SEAD_RTTI_OVERRIDE(SubAnmBlownOff, AnmBlownOff)
+
 public:
     explicit SubAnmBlownOff(const InitArg& arg);
     ~SubAnmBlownOff() override;

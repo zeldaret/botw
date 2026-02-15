@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForbidComeback : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(ForbidComeback, AreaTagAction)
+
 public:
     explicit ForbidComeback(const InitArg& arg);
     ~ForbidComeback() override;

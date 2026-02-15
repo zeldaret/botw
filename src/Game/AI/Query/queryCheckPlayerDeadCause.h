@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckPlayerDeadCause : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckPlayerDeadCause, Query)
+
 public:
     explicit CheckPlayerDeadCause(const InitArg& arg);
     ~CheckPlayerDeadCause() override;

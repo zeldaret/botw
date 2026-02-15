@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BeeAttack : public FlyMoveBase {
     SEAD_RTTI_OVERRIDE(BeeAttack, FlyMoveBase)
+
 public:
     explicit BeeAttack(const InitArg& arg);
     ~BeeAttack() override;

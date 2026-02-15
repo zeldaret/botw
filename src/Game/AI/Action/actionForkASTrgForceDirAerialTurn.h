@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkASTrgForceDirAerialTurn : public ForkASTrgAerialTurn {
     SEAD_RTTI_OVERRIDE(ForkASTrgForceDirAerialTurn, ForkASTrgAerialTurn)
+
 public:
     explicit ForkASTrgForceDirAerialTurn(const InitArg& arg);
     ~ForkASTrgForceDirAerialTurn() override;

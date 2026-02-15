@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FromCDungeonToMainField : public ChangeSceneBase {
     SEAD_RTTI_OVERRIDE(FromCDungeonToMainField, ChangeSceneBase)
+
 public:
     explicit FromCDungeonToMainField(const InitArg& arg);
     ~FromCDungeonToMainField() override;

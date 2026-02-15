@@ -51,6 +51,7 @@ enum class NavMeshSubMaterial {
 
 struct RigidBodyInstanceParam {
     SEAD_RTTI_BASE(RigidBodyInstanceParam)
+
 public:
     RigidBodyInstanceParam() = default;
     explicit RigidBodyInstanceParam(ShapeType type) : shape_type(type) {}

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SceneSoundKillDuckingAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SceneSoundKillDuckingAction, ksys::act::ai::Action)
+
 public:
     explicit SceneSoundKillDuckingAction(const InitArg& arg);
     ~SceneSoundKillDuckingAction() override;

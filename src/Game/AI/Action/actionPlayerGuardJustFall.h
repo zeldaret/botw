@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerGuardJustFall : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGuardJustFall, PlayerAction)
+
 public:
     explicit PlayerGuardJustFall(const InitArg& arg);
 

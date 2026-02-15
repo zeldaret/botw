@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SunazarashiNormal : public PreyNormal {
     SEAD_RTTI_OVERRIDE(SunazarashiNormal, PreyNormal)
+
 public:
     explicit SunazarashiNormal(const InitArg& arg);
     ~SunazarashiNormal() override;

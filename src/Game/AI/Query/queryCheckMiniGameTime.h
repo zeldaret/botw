@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckMiniGameTime : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckMiniGameTime, Query)
+
 public:
     explicit CheckMiniGameTime(const InitArg& arg);
     ~CheckMiniGameTime() override;

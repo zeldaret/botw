@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossLswordAtkWithChemical : public SiteBossLswordAtk {
     SEAD_RTTI_OVERRIDE(SiteBossLswordAtkWithChemical, SiteBossLswordAtk)
+
 public:
     explicit SiteBossLswordAtkWithChemical(const InitArg& arg);
     ~SiteBossLswordAtkWithChemical() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DungeonRotateTag4WaterApp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonRotateTag4WaterApp, ksys::act::ai::Ai)
+
 public:
     explicit DungeonRotateTag4WaterApp(const InitArg& arg);
     ~DungeonRotateTag4WaterApp() override;

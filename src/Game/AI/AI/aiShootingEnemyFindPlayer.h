@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ShootingEnemyFindPlayer : public SimpleShootingEnemyFindPlayer {
     SEAD_RTTI_OVERRIDE(ShootingEnemyFindPlayer, SimpleShootingEnemyFindPlayer)
+
 public:
     explicit ShootingEnemyFindPlayer(const InitArg& arg);
     ~ShootingEnemyFindPlayer() override;

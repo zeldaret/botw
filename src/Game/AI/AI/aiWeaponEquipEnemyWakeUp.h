@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WeaponEquipEnemyWakeUp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WeaponEquipEnemyWakeUp, ksys::act::ai::Ai)
+
 public:
     explicit WeaponEquipEnemyWakeUp(const InitArg& arg);
     ~WeaponEquipEnemyWakeUp() override;

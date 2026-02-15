@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerDoorPushOpen : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerDoorPushOpen, PlayerAction)
+
 public:
     explicit PlayerDoorPushOpen(const InitArg& arg);
 

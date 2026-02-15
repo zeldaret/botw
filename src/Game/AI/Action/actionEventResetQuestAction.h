@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventResetQuestAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventResetQuestAction, ksys::act::ai::Action)
+
 public:
     explicit EventResetQuestAction(const InitArg& arg);
     ~EventResetQuestAction() override;

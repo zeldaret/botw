@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemoveRigidBody : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemoveRigidBody, ksys::act::ai::Action)
+
 public:
     explicit RemoveRigidBody(const InitArg& arg);
     ~RemoveRigidBody() override;

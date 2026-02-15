@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPrizeSuccess : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPrizeSuccess, ksys::act::ai::Action)
+
 public:
     explicit EventPrizeSuccess(const InitArg& arg);
     ~EventPrizeSuccess() override;

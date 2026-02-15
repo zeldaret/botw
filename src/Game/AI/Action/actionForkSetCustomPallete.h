@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSetCustomPallete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSetCustomPallete, ksys::act::ai::Action)
+
 public:
     explicit ForkSetCustomPallete(const InitArg& arg);
     ~ForkSetCustomPallete() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AlertNearbyEnemies : public PlayASForAnimalUnit {
     SEAD_RTTI_OVERRIDE(AlertNearbyEnemies, PlayASForAnimalUnit)
+
 public:
     explicit AlertNearbyEnemies(const InitArg& arg);
     ~AlertNearbyEnemies() override;

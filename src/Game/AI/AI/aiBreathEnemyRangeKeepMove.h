@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class BreathEnemyRangeKeepMove : public EnemyRangeKeepMove {
     SEAD_RTTI_OVERRIDE(BreathEnemyRangeKeepMove, EnemyRangeKeepMove)
+
 public:
     explicit BreathEnemyRangeKeepMove(const InitArg& arg);
     ~BreathEnemyRangeKeepMove() override;

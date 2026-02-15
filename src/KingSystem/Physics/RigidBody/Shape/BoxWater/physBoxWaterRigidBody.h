@@ -8,6 +8,7 @@ class BoxWaterShape;
 
 class BoxWaterRigidBody : public RigidBodyFromShape {
     SEAD_RTTI_OVERRIDE(BoxWaterRigidBody, RigidBodyFromShape)
+
 public:
     static BoxWaterRigidBody* make(RigidBodyInstanceParam* param, sead::Heap* heap);
 

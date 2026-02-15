@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChemicalStayObjectRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChemicalStayObjectRoot, ksys::act::ai::Ai)
+
 public:
     explicit ChemicalStayObjectRoot(const InitArg& arg);
     ~ChemicalStayObjectRoot() override;

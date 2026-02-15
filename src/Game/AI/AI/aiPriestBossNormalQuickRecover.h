@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossNormalQuickRecover : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossNormalQuickRecover, PriestBossMode)
+
 public:
     explicit PriestBossNormalQuickRecover(const InitArg& arg);
     ~PriestBossNormalQuickRecover() override;

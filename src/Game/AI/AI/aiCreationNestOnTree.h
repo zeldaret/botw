@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CreationNestOnTree : public ItemOnTree {
     SEAD_RTTI_OVERRIDE(CreationNestOnTree, ItemOnTree)
+
 public:
     explicit CreationNestOnTree(const InitArg& arg);
     ~CreationNestOnTree() override;

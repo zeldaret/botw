@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Windmill_WingWithAutoAnime : public Windmill_Wing {
     SEAD_RTTI_OVERRIDE(Windmill_WingWithAutoAnime, Windmill_Wing)
+
 public:
     explicit Windmill_WingWithAutoAnime(const InitArg& arg);
     ~Windmill_WingWithAutoAnime() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ListenerFixPositionAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ListenerFixPositionAction, ksys::act::ai::Action)
+
 public:
     explicit ListenerFixPositionAction(const InitArg& arg);
     ~ListenerFixPositionAction() override;

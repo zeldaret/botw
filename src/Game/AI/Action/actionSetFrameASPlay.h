@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetFrameASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetFrameASPlay, ksys::act::ai::Action)
+
 public:
     explicit SetFrameASPlay(const InitArg& arg);
     ~SetFrameASPlay() override;

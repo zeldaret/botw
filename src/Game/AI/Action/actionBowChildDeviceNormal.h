@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BowChildDeviceNormal : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BowChildDeviceNormal, ksys::act::ai::Action)
+
 public:
     explicit BowChildDeviceNormal(const InitArg& arg);
     ~BowChildDeviceNormal() override;

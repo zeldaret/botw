@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ShiekSensorPlusDownloadDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ShiekSensorPlusDownloadDemo, ksys::act::ai::Action)
+
 public:
     explicit ShiekSensorPlusDownloadDemo(const InitArg& arg);
     ~ShiekSensorPlusDownloadDemo() override;

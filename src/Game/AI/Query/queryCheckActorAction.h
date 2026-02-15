@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckActorAction : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckActorAction, Query)
+
 public:
     explicit CheckActorAction(const InitArg& arg);
     ~CheckActorAction() override;

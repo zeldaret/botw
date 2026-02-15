@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkASTrgDeleteEquip : public ForkASTrgDelete {
     SEAD_RTTI_OVERRIDE(ForkASTrgDeleteEquip, ForkASTrgDelete)
+
 public:
     explicit ForkASTrgDeleteEquip(const InitArg& arg);
     ~ForkASTrgDeleteEquip() override;

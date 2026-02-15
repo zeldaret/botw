@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class KorokStoneLift : public SimpleLiftable {
     SEAD_RTTI_OVERRIDE(KorokStoneLift, SimpleLiftable)
+
 public:
     explicit KorokStoneLift(const InitArg& arg);
     ~KorokStoneLift() override;

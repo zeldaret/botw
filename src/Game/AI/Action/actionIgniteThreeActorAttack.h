@@ -7,6 +7,7 @@ namespace uking::action {
 
 class IgniteThreeActorAttack : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(IgniteThreeActorAttack, OnetimeStopASPlay)
+
 public:
     explicit IgniteThreeActorAttack(const InitArg& arg);
     ~IgniteThreeActorAttack() override;

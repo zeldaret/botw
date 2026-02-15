@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventCloseMessageTipsAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventCloseMessageTipsAction, ksys::act::ai::Action)
+
 public:
     explicit EventCloseMessageTipsAction(const InitArg& arg);
     ~EventCloseMessageTipsAction() override;

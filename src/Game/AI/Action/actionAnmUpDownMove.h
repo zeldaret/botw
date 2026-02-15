@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AnmUpDownMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnmUpDownMove, ksys::act::ai::Action)
+
 public:
     explicit AnmUpDownMove(const InitArg& arg);
     ~AnmUpDownMove() override;

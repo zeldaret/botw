@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WarpActivateTerminal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WarpActivateTerminal, ksys::act::ai::Ai)
+
 public:
     explicit WarpActivateTerminal(const InitArg& arg);
     ~WarpActivateTerminal() override;

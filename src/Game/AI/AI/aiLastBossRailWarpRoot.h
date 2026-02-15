@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LastBossRailWarpRoot : public LastBossNormalWarpRoot {
     SEAD_RTTI_OVERRIDE(LastBossRailWarpRoot, LastBossNormalWarpRoot)
+
 public:
     explicit LastBossRailWarpRoot(const InitArg& arg);
     ~LastBossRailWarpRoot() override;

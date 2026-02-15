@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemainElectricCannonCharge : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemainElectricCannonCharge, ksys::act::ai::Action)
+
 public:
     explicit RemainElectricCannonCharge(const InitArg& arg);
     ~RemainElectricCannonCharge() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardAndRevenge : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardAndRevenge, ksys::act::ai::Ai)
+
 public:
     explicit GuardAndRevenge(const InitArg& arg);
 

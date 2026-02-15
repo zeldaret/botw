@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KorokFlowerWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KorokFlowerWait, ksys::act::ai::Action)
+
 public:
     explicit KorokFlowerWait(const InitArg& arg);
     ~KorokFlowerWait() override;

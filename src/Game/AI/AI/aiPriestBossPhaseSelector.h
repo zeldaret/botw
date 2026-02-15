@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossPhaseSelector : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossPhaseSelector, PriestBossMode)
+
 public:
     explicit PriestBossPhaseSelector(const InitArg& arg);
     ~PriestBossPhaseSelector() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BackStepAttack : public BackStepBase {
     SEAD_RTTI_OVERRIDE(BackStepAttack, BackStepBase)
+
 public:
     explicit BackStepAttack(const InitArg& arg);
     ~BackStepAttack() override;

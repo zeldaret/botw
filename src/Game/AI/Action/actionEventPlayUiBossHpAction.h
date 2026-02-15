@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPlayUiBossHpAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPlayUiBossHpAction, ksys::act::ai::Action)
+
 public:
     explicit EventPlayUiBossHpAction(const InitArg& arg);
     ~EventPlayUiBossHpAction() override;

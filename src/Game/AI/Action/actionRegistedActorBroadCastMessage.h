@@ -7,6 +7,7 @@ namespace uking::action {
 
 class RegistedActorBroadCastMessage : public RegistedActorActionBase {
     SEAD_RTTI_OVERRIDE(RegistedActorBroadCastMessage, RegistedActorActionBase)
+
 public:
     explicit RegistedActorBroadCastMessage(const InitArg& arg);
     ~RegistedActorBroadCastMessage() override;

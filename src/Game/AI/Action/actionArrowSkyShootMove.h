@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ArrowSkyShootMove : public ArrowShootMove {
     SEAD_RTTI_OVERRIDE(ArrowSkyShootMove, ArrowShootMove)
+
 public:
     explicit ArrowSkyShootMove(const InitArg& arg);
     ~ArrowSkyShootMove() override;

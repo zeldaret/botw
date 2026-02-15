@@ -13,6 +13,7 @@ class LayerMaskBuilder;
 
 class Phantom {
     SEAD_RTTI_BASE(Phantom)
+
 public:
     /// @param havok_phantom If null, a hkpAabbPhantom will be automatically created.
     static Phantom* make(sead::Heap* heap, const sead::BoundBox3f& aabb,

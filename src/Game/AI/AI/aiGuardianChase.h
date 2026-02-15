@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianChase : public GuardianAI {
     SEAD_RTTI_OVERRIDE(GuardianChase, GuardianAI)
+
 public:
     explicit GuardianChase(const InitArg& arg);
     ~GuardianChase() override;

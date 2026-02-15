@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NPCWander : public NPCTravelBase {
     SEAD_RTTI_OVERRIDE(NPCWander, NPCTravelBase)
+
 public:
     explicit NPCWander(const InitArg& arg);
     ~NPCWander() override;

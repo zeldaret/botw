@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SnowBallNormal : public FixableLiftable {
     SEAD_RTTI_OVERRIDE(SnowBallNormal, FixableLiftable)
+
 public:
     explicit SnowBallNormal(const InitArg& arg);
     ~SnowBallNormal() override;

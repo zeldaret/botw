@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCBuyHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCBuyHorse, ksys::act::ai::Action)
+
 public:
     explicit NPCBuyHorse(const InitArg& arg);
     ~NPCBuyHorse() override;

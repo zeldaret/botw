@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GrudgeEyeball : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GrudgeEyeball, ksys::act::ai::Ai)
+
 public:
     explicit GrudgeEyeball(const InitArg& arg);
     ~GrudgeEyeball() override;

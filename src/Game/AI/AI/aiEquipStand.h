@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EquipStand : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EquipStand, ksys::act::ai::Ai)
+
 public:
     explicit EquipStand(const InitArg& arg);
     ~EquipStand() override;

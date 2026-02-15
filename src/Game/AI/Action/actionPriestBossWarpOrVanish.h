@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PriestBossWarpOrVanish : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PriestBossWarpOrVanish, ksys::act::ai::Action)
+
 public:
     explicit PriestBossWarpOrVanish(const InitArg& arg);
     ~PriestBossWarpOrVanish() override;

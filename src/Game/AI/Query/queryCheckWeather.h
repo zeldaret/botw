@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckWeather : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckWeather, Query)
+
 public:
     explicit CheckWeather(const InitArg& arg);
     ~CheckWeather() override;

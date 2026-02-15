@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CliffCheckSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CliffCheckSelect, ksys::act::ai::Ai)
+
 public:
     explicit CliffCheckSelect(const InitArg& arg);
     ~CliffCheckSelect() override;

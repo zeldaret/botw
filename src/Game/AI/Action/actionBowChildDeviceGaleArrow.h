@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BowChildDeviceGaleArrow : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BowChildDeviceGaleArrow, ksys::act::ai::Action)
+
 public:
     explicit BowChildDeviceGaleArrow(const InitArg& arg);
     ~BowChildDeviceGaleArrow() override;

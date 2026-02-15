@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerHellNoFade : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHellNoFade, PlayerAction)
+
 public:
     explicit PlayerHellNoFade(const InitArg& arg);
 

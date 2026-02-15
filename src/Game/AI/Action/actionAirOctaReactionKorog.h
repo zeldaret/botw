@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AirOctaReactionKorog : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AirOctaReactionKorog, ksys::act::ai::Action)
+
 public:
     explicit AirOctaReactionKorog(const InitArg& arg);
     ~AirOctaReactionKorog() override;

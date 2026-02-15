@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasPorchItemByCategory : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasPorchItemByCategory, Query)
+
 public:
     explicit HasPorchItemByCategory(const InitArg& arg);
     ~HasPorchItemByCategory() override;

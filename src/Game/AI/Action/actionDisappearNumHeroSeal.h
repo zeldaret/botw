@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DisappearNumHeroSeal : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DisappearNumHeroSeal, ksys::act::ai::Action)
+
 public:
     explicit DisappearNumHeroSeal(const InitArg& arg);
     ~DisappearNumHeroSeal() override;

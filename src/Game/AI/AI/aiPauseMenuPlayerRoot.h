@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PauseMenuPlayerRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PauseMenuPlayerRoot, ksys::act::ai::Ai)
+
 public:
     explicit PauseMenuPlayerRoot(const InitArg& arg);
     ~PauseMenuPlayerRoot() override;

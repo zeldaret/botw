@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SwitchWindHit : public SwitchAI {
     SEAD_RTTI_OVERRIDE(SwitchWindHit, SwitchAI)
+
 public:
     explicit SwitchWindHit(const InitArg& arg);
     ~SwitchWindHit() override;

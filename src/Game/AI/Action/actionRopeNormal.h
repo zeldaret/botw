@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RopeNormal : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RopeNormal, ksys::act::ai::Action)
+
 public:
     explicit RopeNormal(const InitArg& arg);
 

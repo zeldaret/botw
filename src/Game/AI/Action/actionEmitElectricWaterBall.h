@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EmitElectricWaterBall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EmitElectricWaterBall, ksys::act::ai::Action)
+
 public:
     explicit EmitElectricWaterBall(const InitArg& arg);
     ~EmitElectricWaterBall() override;

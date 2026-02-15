@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ChangeScene : public ChangeSceneBase {
     SEAD_RTTI_OVERRIDE(ChangeScene, ChangeSceneBase)
+
 public:
     explicit ChangeScene(const InitArg& arg);
     ~ChangeScene() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AirOctaRoot : public Fork2AI {
     SEAD_RTTI_OVERRIDE(AirOctaRoot, Fork2AI)
+
 public:
     explicit AirOctaRoot(const InitArg& arg);
     ~AirOctaRoot() override;

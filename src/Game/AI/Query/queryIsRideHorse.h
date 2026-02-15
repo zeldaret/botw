@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsRideHorse : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsRideHorse, Query)
+
 public:
     explicit IsRideHorse(const InitArg& arg);
     ~IsRideHorse() override;

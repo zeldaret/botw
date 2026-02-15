@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CustomDuckingEndAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CustomDuckingEndAction, ksys::act::ai::Action)
+
 public:
     explicit CustomDuckingEndAction(const InitArg& arg);
     ~CustomDuckingEndAction() override;

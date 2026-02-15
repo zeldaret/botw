@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AlertCreationNestOnTree : public CreationNestOnTree {
     SEAD_RTTI_OVERRIDE(AlertCreationNestOnTree, CreationNestOnTree)
+
 public:
     explicit AlertCreationNestOnTree(const InitArg& arg);
     ~AlertCreationNestOnTree() override;

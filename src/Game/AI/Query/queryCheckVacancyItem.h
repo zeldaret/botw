@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckVacancyItem : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckVacancyItem, Query)
+
 public:
     explicit CheckVacancyItem(const InitArg& arg);
     ~CheckVacancyItem() override;

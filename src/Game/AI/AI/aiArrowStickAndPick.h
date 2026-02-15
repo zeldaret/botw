@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ArrowStickAndPick : public CommonPickedItem {
     SEAD_RTTI_OVERRIDE(ArrowStickAndPick, CommonPickedItem)
+
 public:
     explicit ArrowStickAndPick(const InitArg& arg);
     ~ArrowStickAndPick() override;

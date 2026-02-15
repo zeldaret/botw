@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianStopWait : public GuardianMoveTo {
     SEAD_RTTI_OVERRIDE(GuardianStopWait, GuardianMoveTo)
+
 public:
     explicit GuardianStopWait(const InitArg& arg);
     ~GuardianStopWait() override;

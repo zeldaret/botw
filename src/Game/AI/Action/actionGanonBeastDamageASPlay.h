@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GanonBeastDamageASPlay : public ForkASPlayBase {
     SEAD_RTTI_OVERRIDE(GanonBeastDamageASPlay, ForkASPlayBase)
+
 public:
     explicit GanonBeastDamageASPlay(const InitArg& arg);
     ~GanonBeastDamageASPlay() override;

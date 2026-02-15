@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BattleCloseSlippedWalkBase : public BattleCloseActionWithAcc {
     SEAD_RTTI_OVERRIDE(BattleCloseSlippedWalkBase, BattleCloseActionWithAcc)
+
 public:
     explicit BattleCloseSlippedWalkBase(const InitArg& arg);
     ~BattleCloseSlippedWalkBase() override;

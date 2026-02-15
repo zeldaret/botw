@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DgnObjDlcGondolaCreateTag : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DgnObjDlcGondolaCreateTag, ksys::act::ai::Action)
+
 public:
     explicit DgnObjDlcGondolaCreateTag(const InitArg& arg);
     ~DgnObjDlcGondolaCreateTag() override;

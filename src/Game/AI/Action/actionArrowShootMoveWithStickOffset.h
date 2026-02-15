@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ArrowShootMoveWithStickOffset : public ArrowShootMove {
     SEAD_RTTI_OVERRIDE(ArrowShootMoveWithStickOffset, ArrowShootMove)
+
 public:
     explicit ArrowShootMoveWithStickOffset(const InitArg& arg);
     ~ArrowShootMoveWithStickOffset() override;

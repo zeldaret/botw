@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class InForceEnemyLostAreaSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(InForceEnemyLostAreaSelect, ksys::act::ai::Ai)
+
 public:
     explicit InForceEnemyLostAreaSelect(const InitArg& arg);
     ~InForceEnemyLostAreaSelect() override;

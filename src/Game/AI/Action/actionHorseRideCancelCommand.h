@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseRideCancelCommand : public HorseRideCommand {
     SEAD_RTTI_OVERRIDE(HorseRideCancelCommand, HorseRideCommand)
+
 public:
     explicit HorseRideCancelCommand(const InitArg& arg);
     ~HorseRideCancelCommand() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SceneSoundCtrlAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SceneSoundCtrlAction, ksys::act::ai::Action)
+
 public:
     explicit SceneSoundCtrlAction(const InitArg& arg);
     ~SceneSoundCtrlAction() override;

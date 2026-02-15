@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TurnIgnite : public StopASIgnite {
     SEAD_RTTI_OVERRIDE(TurnIgnite, StopASIgnite)
+
 public:
     explicit TurnIgnite(const InitArg& arg);
     ~TurnIgnite() override;

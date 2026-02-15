@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasPorchArrow : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasPorchArrow, Query)
+
 public:
     explicit HasPorchArrow(const InitArg& arg);
     ~HasPorchArrow() override;

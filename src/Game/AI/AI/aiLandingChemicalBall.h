@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LandingChemicalBall : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LandingChemicalBall, ksys::act::ai::Ai)
+
 public:
     explicit LandingChemicalBall(const InitArg& arg);
     ~LandingChemicalBall() override;

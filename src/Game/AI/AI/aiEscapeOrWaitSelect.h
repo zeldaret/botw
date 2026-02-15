@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EscapeOrWaitSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EscapeOrWaitSelect, ksys::act::ai::Ai)
+
 public:
     explicit EscapeOrWaitSelect(const InitArg& arg);
     ~EscapeOrWaitSelect() override;

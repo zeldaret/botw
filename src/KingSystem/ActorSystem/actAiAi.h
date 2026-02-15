@@ -7,6 +7,7 @@ namespace ksys::act::ai {
 
 class Ai : public ActionBase {
     SEAD_RTTI_OVERRIDE(Ai, ActionBase)
+
 public:
     explicit Ai(const InitArg& arg);
     ~Ai() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WindControl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WindControl, ksys::act::ai::Action)
+
 public:
     explicit WindControl(const InitArg& arg);
     ~WindControl() override;

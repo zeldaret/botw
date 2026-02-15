@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OnRagdollSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OnRagdollSelect, ksys::act::ai::Ai)
+
 public:
     explicit OnRagdollSelect(const InitArg& arg);
     ~OnRagdollSelect() override;

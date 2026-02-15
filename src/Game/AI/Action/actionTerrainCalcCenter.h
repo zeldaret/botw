@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TerrainCalcCenter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TerrainCalcCenter, ksys::act::ai::Action)
+
 public:
     explicit TerrainCalcCenter(const InitArg& arg);
     ~TerrainCalcCenter() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SunazarashiTowing : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SunazarashiTowing, ksys::act::ai::Ai)
+
 public:
     explicit SunazarashiTowing(const InitArg& arg);
     ~SunazarashiTowing() override;

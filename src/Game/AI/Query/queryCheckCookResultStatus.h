@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckCookResultStatus : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckCookResultStatus, Query)
+
 public:
     explicit CheckCookResultStatus(const InitArg& arg);
     ~CheckCookResultStatus() override;

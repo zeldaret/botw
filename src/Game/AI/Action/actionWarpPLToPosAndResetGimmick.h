@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpPLToPosAndResetGimmick : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpPLToPosAndResetGimmick, ksys::act::ai::Action)
+
 public:
     explicit WarpPLToPosAndResetGimmick(const InitArg& arg);
     ~WarpPLToPosAndResetGimmick() override;

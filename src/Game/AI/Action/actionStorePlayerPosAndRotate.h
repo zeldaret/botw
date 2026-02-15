@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StorePlayerPosAndRotate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StorePlayerPosAndRotate, ksys::act::ai::Action)
+
 public:
     explicit StorePlayerPosAndRotate(const InitArg& arg);
     ~StorePlayerPosAndRotate() override;

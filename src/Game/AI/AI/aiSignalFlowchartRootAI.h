@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SignalFlowchartRootAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SignalFlowchartRootAI, ksys::act::ai::Ai)
+
 public:
     explicit SignalFlowchartRootAI(const InitArg& arg);
     ~SignalFlowchartRootAI() override;

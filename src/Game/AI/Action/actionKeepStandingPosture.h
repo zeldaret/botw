@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KeepStandingPosture : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KeepStandingPosture, ksys::act::ai::Action)
+
 public:
     explicit KeepStandingPosture(const InitArg& arg);
     ~KeepStandingPosture() override;

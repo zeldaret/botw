@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MiniGolemSleep : public SpecialEnemySleep {
     SEAD_RTTI_OVERRIDE(MiniGolemSleep, SpecialEnemySleep)
+
 public:
     explicit MiniGolemSleep(const InitArg& arg);
     ~MiniGolemSleep() override;

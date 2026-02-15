@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class VacuumedBombDamageSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(VacuumedBombDamageSelect, ksys::act::ai::Ai)
+
 public:
     explicit VacuumedBombDamageSelect(const InitArg& arg);
     ~VacuumedBombDamageSelect() override;

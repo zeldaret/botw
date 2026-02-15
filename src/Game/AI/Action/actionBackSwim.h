@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BackSwim : public WaterFloatBase {
     SEAD_RTTI_OVERRIDE(BackSwim, WaterFloatBase)
+
 public:
     explicit BackSwim(const InitArg& arg);
     ~BackSwim() override;

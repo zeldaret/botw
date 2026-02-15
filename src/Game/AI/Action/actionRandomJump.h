@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RandomJump : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RandomJump, ksys::act::ai::Action)
+
 public:
     explicit RandomJump(const InitArg& arg);
     ~RandomJump() override;

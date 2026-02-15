@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BattleCloseExplosivesAvoidRun : public BattleCloseMoveAction {
     SEAD_RTTI_OVERRIDE(BattleCloseExplosivesAvoidRun, BattleCloseMoveAction)
+
 public:
     explicit BattleCloseExplosivesAvoidRun(const InitArg& arg);
     ~BattleCloseExplosivesAvoidRun() override;

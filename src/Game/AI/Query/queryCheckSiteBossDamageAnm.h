@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckSiteBossDamageAnm : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckSiteBossDamageAnm, Query)
+
 public:
     explicit CheckSiteBossDamageAnm(const InitArg& arg);
     ~CheckSiteBossDamageAnm() override;

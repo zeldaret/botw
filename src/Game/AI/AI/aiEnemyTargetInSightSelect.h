@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyTargetInSightSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyTargetInSightSelect, ksys::act::ai::Ai)
+
 public:
     explicit EnemyTargetInSightSelect(const InitArg& arg);
     ~EnemyTargetInSightSelect() override;

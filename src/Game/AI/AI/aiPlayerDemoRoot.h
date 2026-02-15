@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerDemoRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerDemoRoot, ksys::act::ai::Ai)
+
 public:
     explicit PlayerDemoRoot(const InitArg& arg);
     ~PlayerDemoRoot() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TakeHitImpactForce : public ActionEx {
     SEAD_RTTI_OVERRIDE(TakeHitImpactForce, ActionEx)
+
 public:
     explicit TakeHitImpactForce(const InitArg& arg);
     ~TakeHitImpactForce() override;

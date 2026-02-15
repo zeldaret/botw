@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KnockBackShock : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KnockBackShock, ksys::act::ai::Action)
+
 public:
     explicit KnockBackShock(const InitArg& arg);
     ~KnockBackShock() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RemainsElectricBGCamera : public RailMoveRemainsBGCamera {
     SEAD_RTTI_OVERRIDE(RemainsElectricBGCamera, RailMoveRemainsBGCamera)
+
 public:
     explicit RemainsElectricBGCamera(const InitArg& arg);
     ~RemainsElectricBGCamera() override;

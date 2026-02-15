@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FixedMagneStick : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FixedMagneStick, ksys::act::ai::Action)
+
 public:
     explicit FixedMagneStick(const InitArg& arg);
     ~FixedMagneStick() override;

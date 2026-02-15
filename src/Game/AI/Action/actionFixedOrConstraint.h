@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FixedOrConstraint : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FixedOrConstraint, ksys::act::ai::Action)
+
 public:
     explicit FixedOrConstraint(const InitArg& arg);
     ~FixedOrConstraint() override;

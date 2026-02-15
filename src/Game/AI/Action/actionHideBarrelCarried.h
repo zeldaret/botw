@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HideBarrelCarried : public Carried {
     SEAD_RTTI_OVERRIDE(HideBarrelCarried, Carried)
+
 public:
     explicit HideBarrelCarried(const InitArg& arg);
     ~HideBarrelCarried() override;

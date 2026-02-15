@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class OctarockReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(OctarockReaction, EnemyDefaultReaction)
+
 public:
     explicit OctarockReaction(const InitArg& arg);
     ~OctarockReaction() override;

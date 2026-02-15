@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalEnemyGrabShootOwnPart : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalEnemyGrabShootOwnPart, ksys::act::ai::Ai)
+
 public:
     explicit StalEnemyGrabShootOwnPart(const InitArg& arg);
     ~StalEnemyGrabShootOwnPart() override;

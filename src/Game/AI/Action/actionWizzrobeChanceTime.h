@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WizzrobeChanceTime : public HoverBase {
     SEAD_RTTI_OVERRIDE(WizzrobeChanceTime, HoverBase)
+
 public:
     explicit WizzrobeChanceTime(const InitArg& arg);
     ~WizzrobeChanceTime() override;

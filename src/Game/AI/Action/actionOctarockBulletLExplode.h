@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OctarockBulletLExplode : public Explode {
     SEAD_RTTI_OVERRIDE(OctarockBulletLExplode, Explode)
+
 public:
     explicit OctarockBulletLExplode(const InitArg& arg);
     ~OctarockBulletLExplode() override;

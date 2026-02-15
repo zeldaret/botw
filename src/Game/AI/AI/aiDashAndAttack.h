@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DashAndAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DashAndAttack, ksys::act::ai::Ai)
+
 public:
     explicit DashAndAttack(const InitArg& arg);
     ~DashAndAttack() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class RisingAirOneTime : public AscendingCurrent {
     SEAD_RTTI_OVERRIDE(RisingAirOneTime, AscendingCurrent)
+
 public:
     explicit RisingAirOneTime(const InitArg& arg);
     ~RisingAirOneTime() override;

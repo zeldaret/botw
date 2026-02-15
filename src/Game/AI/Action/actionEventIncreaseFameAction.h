@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventIncreaseFameAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventIncreaseFameAction, ksys::act::ai::Action)
+
 public:
     explicit EventIncreaseFameAction(const InitArg& arg);
 

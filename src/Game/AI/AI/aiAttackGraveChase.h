@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AttackGraveChase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AttackGraveChase, ksys::act::ai::Ai)
+
 public:
     explicit AttackGraveChase(const InitArg& arg);
     ~AttackGraveChase() override;

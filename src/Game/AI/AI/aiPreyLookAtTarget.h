@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreyLookAtTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreyLookAtTarget, ksys::act::ai::Ai)
+
 public:
     explicit PreyLookAtTarget(const InitArg& arg);
     ~PreyLookAtTarget() override;

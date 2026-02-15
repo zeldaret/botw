@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetExtraLifeOfPlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetExtraLifeOfPlayer, ksys::act::ai::Action)
+
 public:
     explicit SetExtraLifeOfPlayer(const InitArg& arg);
     ~SetExtraLifeOfPlayer() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LandRagdoll : public Ragdoll {
     SEAD_RTTI_OVERRIDE(LandRagdoll, Ragdoll)
+
 public:
     explicit LandRagdoll(const InitArg& arg);
     ~LandRagdoll() override;

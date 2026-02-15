@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SetPartBind : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SetPartBind, ksys::act::ai::Ai)
+
 public:
     explicit SetPartBind(const InitArg& arg);
     ~SetPartBind() override;

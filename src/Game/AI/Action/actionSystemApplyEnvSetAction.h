@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SystemApplyEnvSetAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemApplyEnvSetAction, ksys::act::ai::Action)
+
 public:
     explicit SystemApplyEnvSetAction(const InitArg& arg);
     ~SystemApplyEnvSetAction() override;

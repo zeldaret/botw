@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SetTargetPosForFlyThroughMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SetTargetPosForFlyThroughMove, ksys::act::ai::Ai)
+
 public:
     explicit SetTargetPosForFlyThroughMove(const InitArg& arg);
     ~SetTargetPosForFlyThroughMove() override;

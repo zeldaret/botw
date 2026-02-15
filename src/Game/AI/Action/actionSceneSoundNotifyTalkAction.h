@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SceneSoundNotifyTalkAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SceneSoundNotifyTalkAction, ksys::act::ai::Action)
+
 public:
     explicit SceneSoundNotifyTalkAction(const InitArg& arg);
     ~SceneSoundNotifyTalkAction() override;

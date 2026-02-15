@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwarmReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwarmReaction, ksys::act::ai::Ai)
+
 public:
     explicit SwarmReaction(const InitArg& arg);
     ~SwarmReaction() override;

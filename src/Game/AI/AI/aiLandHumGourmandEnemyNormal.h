@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LandHumGourmandEnemyNormal : public LandHumEnemyNormal {
     SEAD_RTTI_OVERRIDE(LandHumGourmandEnemyNormal, LandHumEnemyNormal)
+
 public:
     explicit LandHumGourmandEnemyNormal(const InitArg& arg);
     ~LandHumGourmandEnemyNormal() override;

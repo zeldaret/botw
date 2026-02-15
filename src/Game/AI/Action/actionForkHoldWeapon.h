@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkHoldWeapon : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkHoldWeapon, ksys::act::ai::Action)
+
 public:
     explicit ForkHoldWeapon(const InitArg& arg);
     ~ForkHoldWeapon() override;

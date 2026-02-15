@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCTalkNoMessageStepperAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCTalkNoMessageStepperAction, ksys::act::ai::Action)
+
 public:
     explicit NPCTalkNoMessageStepperAction(const InitArg& arg);
     ~NPCTalkNoMessageStepperAction() override;

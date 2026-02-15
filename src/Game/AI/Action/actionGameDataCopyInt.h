@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GameDataCopyInt : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GameDataCopyInt, ksys::act::ai::Action)
+
 public:
     explicit GameDataCopyInt(const InitArg& arg);
     ~GameDataCopyInt() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniNeckSpinBeam : public NeckSpinBeam {
     SEAD_RTTI_OVERRIDE(GuardianMiniNeckSpinBeam, NeckSpinBeam)
+
 public:
     explicit GuardianMiniNeckSpinBeam(const InitArg& arg);
     ~GuardianMiniNeckSpinBeam() override;

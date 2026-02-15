@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GearStop : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GearStop, ksys::act::ai::Action)
+
 public:
     explicit GearStop(const InitArg& arg);
     ~GearStop() override;

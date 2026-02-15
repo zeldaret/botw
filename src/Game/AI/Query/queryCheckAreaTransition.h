@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckAreaTransition : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckAreaTransition, Query)
+
 public:
     explicit CheckAreaTransition(const InitArg& arg);
     ~CheckAreaTransition() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class IncredibleAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(IncredibleAction, ksys::act::ai::Ai)
+
 public:
     explicit IncredibleAction(const InitArg& arg);
     ~IncredibleAction() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NPCTurnToObjectGreeting : public NPCTurnToObject {
     SEAD_RTTI_OVERRIDE(NPCTurnToObjectGreeting, NPCTurnToObject)
+
 public:
     explicit NPCTurnToObjectGreeting(const InitArg& arg);
     ~NPCTurnToObjectGreeting() override;

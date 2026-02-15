@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HideShootArrow : public ShootArrow {
     SEAD_RTTI_OVERRIDE(HideShootArrow, ShootArrow)
+
 public:
     explicit HideShootArrow(const InitArg& arg);
     ~HideShootArrow() override;

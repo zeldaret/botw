@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TemperatureRandSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TemperatureRandSelect, ksys::act::ai::Ai)
+
 public:
     explicit TemperatureRandSelect(const InitArg& arg);
     ~TemperatureRandSelect() override;

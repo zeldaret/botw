@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelEscapeFromTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelEscapeFromTarget, ksys::act::ai::Ai)
+
 public:
     explicit LynelEscapeFromTarget(const InitArg& arg);
     ~LynelEscapeFromTarget() override;

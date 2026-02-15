@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SunMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SunMove, ksys::act::ai::Action)
+
 public:
     explicit SunMove(const InitArg& arg);
     ~SunMove() override;

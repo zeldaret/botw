@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SendPlayerNoticeMessageBase : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(SendPlayerNoticeMessageBase, OnetimeStopASPlay)
+
 public:
     explicit SendPlayerNoticeMessageBase(const InitArg& arg);
     ~SendPlayerNoticeMessageBase() override;

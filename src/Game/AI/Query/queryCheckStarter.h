@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckStarter : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckStarter, Query)
+
 public:
     explicit CheckStarter(const InitArg& arg);
     ~CheckStarter() override;

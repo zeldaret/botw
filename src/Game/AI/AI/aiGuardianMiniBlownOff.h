@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniBlownOff : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniBlownOff, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniBlownOff(const InitArg& arg);
     ~GuardianMiniBlownOff() override;

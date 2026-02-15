@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniBattleStateSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniBattleStateSelect, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniBattleStateSelect(const InitArg& arg);
     ~GuardianMiniBattleStateSelect() override;

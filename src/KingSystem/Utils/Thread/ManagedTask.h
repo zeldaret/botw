@@ -10,6 +10,7 @@ class TaskMgr;
 
 class ManagedTask : public Task {
     SEAD_RTTI_OVERRIDE(ManagedTask, Task)
+
 public:
     explicit ManagedTask(sead::Heap* heap);
     explicit ManagedTask(sead::IDisposer::HeapNullOption heap_null_option);

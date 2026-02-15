@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DisappearNumTargets : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DisappearNumTargets, ksys::act::ai::Action)
+
 public:
     explicit DisappearNumTargets(const InitArg& arg);
     ~DisappearNumTargets() override;

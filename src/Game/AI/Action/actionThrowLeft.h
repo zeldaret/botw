@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ThrowLeft : public Throw {
     SEAD_RTTI_OVERRIDE(ThrowLeft, Throw)
+
 public:
     explicit ThrowLeft(const InitArg& arg);
 

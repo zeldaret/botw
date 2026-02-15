@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkBoneControlFrontGround : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkBoneControlFrontGround, ksys::act::ai::Action)
+
 public:
     explicit ForkBoneControlFrontGround(const InitArg& arg);
     ~ForkBoneControlFrontGround() override;

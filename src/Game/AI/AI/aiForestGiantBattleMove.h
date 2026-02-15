@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForestGiantBattleMove : public WaitNearTarget {
     SEAD_RTTI_OVERRIDE(ForestGiantBattleMove, WaitNearTarget)
+
 public:
     explicit ForestGiantBattleMove(const InitArg& arg);
     ~ForestGiantBattleMove() override;

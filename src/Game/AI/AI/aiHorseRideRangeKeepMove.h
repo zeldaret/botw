@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HorseRideRangeKeepMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseRideRangeKeepMove, ksys::act::ai::Ai)
+
 public:
     explicit HorseRideRangeKeepMove(const InitArg& arg);
     ~HorseRideRangeKeepMove() override;

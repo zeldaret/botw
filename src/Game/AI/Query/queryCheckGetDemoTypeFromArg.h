@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckGetDemoTypeFromArg : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckGetDemoTypeFromArg, Query)
+
 public:
     explicit CheckGetDemoTypeFromArg(const InitArg& arg);
     ~CheckGetDemoTypeFromArg() override;

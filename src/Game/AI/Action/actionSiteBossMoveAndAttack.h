@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossMoveAndAttack : public SiteBossMove {
     SEAD_RTTI_OVERRIDE(SiteBossMoveAndAttack, SiteBossMove)
+
 public:
     explicit SiteBossMoveAndAttack(const InitArg& arg);
     ~SiteBossMoveAndAttack() override;

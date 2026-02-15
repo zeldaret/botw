@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyMoveBattle : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(EnemyMoveBattle, EnemyBattle)
+
 public:
     explicit EnemyMoveBattle(const InitArg& arg);
     ~EnemyMoveBattle() override;

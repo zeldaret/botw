@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WholeDungeonRotateTag : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WholeDungeonRotateTag, ksys::act::ai::Ai)
+
 public:
     explicit WholeDungeonRotateTag(const InitArg& arg);
     ~WholeDungeonRotateTag() override;

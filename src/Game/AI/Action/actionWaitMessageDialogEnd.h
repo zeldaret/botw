@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitMessageDialogEnd : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitMessageDialogEnd, ksys::act::ai::Action)
+
 public:
     explicit WaitMessageDialogEnd(const InitArg& arg);
     ~WaitMessageDialogEnd() override;

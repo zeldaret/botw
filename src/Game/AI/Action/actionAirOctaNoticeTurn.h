@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AirOctaNoticeTurn : public NoticeTurn {
     SEAD_RTTI_OVERRIDE(AirOctaNoticeTurn, NoticeTurn)
+
 public:
     explicit AirOctaNoticeTurn(const InitArg& arg);
     ~AirOctaNoticeTurn() override;

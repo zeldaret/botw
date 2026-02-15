@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinFieldShooterBattle : public AssassinFieldShooterBattleBase {
     SEAD_RTTI_OVERRIDE(AssassinFieldShooterBattle, AssassinFieldShooterBattleBase)
+
 public:
     explicit AssassinFieldShooterBattle(const InitArg& arg);
     ~AssassinFieldShooterBattle() override;

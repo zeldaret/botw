@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TurnToEmptySpace : public TurnAndLookToObjNotAnimDriven {
     SEAD_RTTI_OVERRIDE(TurnToEmptySpace, TurnAndLookToObjNotAnimDriven)
+
 public:
     explicit TurnToEmptySpace(const InitArg& arg);
     ~TurnToEmptySpace() override;

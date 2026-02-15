@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyConfuse : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyConfuse, ksys::act::ai::Ai)
+
 public:
     explicit EnemyConfuse(const InitArg& arg);
     ~EnemyConfuse() override;

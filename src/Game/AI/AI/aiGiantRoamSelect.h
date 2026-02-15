@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GiantRoamSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GiantRoamSelect, ksys::act::ai::Ai)
+
 public:
     explicit GiantRoamSelect(const InitArg& arg);
     ~GiantRoamSelect() override;

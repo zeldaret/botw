@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerZoraRide : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerZoraRide, PlayerAction)
+
 public:
     explicit PlayerZoraRide(const InitArg& arg);
     ~PlayerZoraRide() override;

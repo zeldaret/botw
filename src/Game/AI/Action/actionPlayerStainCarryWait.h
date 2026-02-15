@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerStainCarryWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerStainCarryWait, PlayerAction)
+
 public:
     explicit PlayerStainCarryWait(const InitArg& arg);
 

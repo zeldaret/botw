@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GameDataConvertIntToSring : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GameDataConvertIntToSring, ksys::act::ai::Action)
+
 public:
     explicit GameDataConvertIntToSring(const InitArg& arg);
     ~GameDataConvertIntToSring() override;

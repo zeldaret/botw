@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasSpecificArmorSeries : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasSpecificArmorSeries, Query)
+
 public:
     explicit HasSpecificArmorSeries(const InitArg& arg);
     ~HasSpecificArmorSeries() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LastBossPostNormalWarp : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossPostNormalWarp, ksys::act::ai::Action)
+
 public:
     explicit LastBossPostNormalWarp(const InitArg& arg);
     ~LastBossPostNormalWarp() override;

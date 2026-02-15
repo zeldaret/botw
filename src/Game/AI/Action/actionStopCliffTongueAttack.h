@@ -7,6 +7,7 @@ namespace uking::action {
 
 class StopCliffTongueAttack : public OnCliffWait {
     SEAD_RTTI_OVERRIDE(StopCliffTongueAttack, OnCliffWait)
+
 public:
     explicit StopCliffTongueAttack(const InitArg& arg);
     ~StopCliffTongueAttack() override;

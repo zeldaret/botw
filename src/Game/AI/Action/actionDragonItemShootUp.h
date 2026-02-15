@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DragonItemShootUp : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DragonItemShootUp, ksys::act::ai::Action)
+
 public:
     explicit DragonItemShootUp(const InitArg& arg);
     ~DragonItemShootUp() override;

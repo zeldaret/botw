@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DrawnSwordBowSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DrawnSwordBowSelect, ksys::act::ai::Ai)
+
 public:
     explicit DrawnSwordBowSelect(const InitArg& arg);
     ~DrawnSwordBowSelect() override;

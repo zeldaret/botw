@@ -6,6 +6,7 @@ namespace uking::query {
 
 class EnemyRestLifeRate : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(EnemyRestLifeRate, Query)
+
 public:
     explicit EnemyRestLifeRate(const InitArg& arg);
     ~EnemyRestLifeRate() override;

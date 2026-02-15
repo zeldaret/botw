@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LynelFindPlayer : public EnemyBaseFindPlayer {
     SEAD_RTTI_OVERRIDE(LynelFindPlayer, EnemyBaseFindPlayer)
+
 public:
     explicit LynelFindPlayer(const InitArg& arg);
     ~LynelFindPlayer() override;

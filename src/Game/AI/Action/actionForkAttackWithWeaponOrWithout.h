@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAttackWithWeaponOrWithout : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAttackWithWeaponOrWithout, ksys::act::ai::Action)
+
 public:
     explicit ForkAttackWithWeaponOrWithout(const InitArg& arg);
     ~ForkAttackWithWeaponOrWithout() override;

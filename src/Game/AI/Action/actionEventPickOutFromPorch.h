@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPickOutFromPorch : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPickOutFromPorch, ksys::act::ai::Action)
+
 public:
     explicit EventPickOutFromPorch(const InitArg& arg);
     ~EventPickOutFromPorch() override;

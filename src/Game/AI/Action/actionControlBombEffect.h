@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ControlBombEffect : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(ControlBombEffect, AreaTagAction)
+
 public:
     explicit ControlBombEffect(const InitArg& arg);
     ~ControlBombEffect() override;

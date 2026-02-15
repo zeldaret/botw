@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BowChildDeviceAppear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BowChildDeviceAppear, ksys::act::ai::Action)
+
 public:
     explicit BowChildDeviceAppear(const InitArg& arg);
     ~BowChildDeviceAppear() override;

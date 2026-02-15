@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventVariableFade : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventVariableFade, ksys::act::ai::Action)
+
 public:
     explicit EventVariableFade(const InitArg& arg);
     ~EventVariableFade() override;

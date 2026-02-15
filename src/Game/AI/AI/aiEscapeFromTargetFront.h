@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EscapeFromTargetFront : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EscapeFromTargetFront, ksys::act::ai::Ai)
+
 public:
     explicit EscapeFromTargetFront(const InitArg& arg);
     ~EscapeFromTargetFront() override;

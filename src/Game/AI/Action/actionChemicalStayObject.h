@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChemicalStayObject : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChemicalStayObject, ksys::act::ai::Action)
+
 public:
     explicit ChemicalStayObject(const InitArg& arg);
     ~ChemicalStayObject() override;

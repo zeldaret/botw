@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Move2HomePosBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Move2HomePosBase, ksys::act::ai::Action)
+
 public:
     explicit Move2HomePosBase(const InitArg& arg);
     ~Move2HomePosBase() override;

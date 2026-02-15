@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSwitchHang : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSwitchHang, PlayerAction)
+
 public:
     explicit PlayerSwitchHang(const InitArg& arg);
 

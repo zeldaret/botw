@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TargetCircle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TargetCircle, ksys::act::ai::Action)
+
 public:
     explicit TargetCircle(const InitArg& arg);
     ~TargetCircle() override;

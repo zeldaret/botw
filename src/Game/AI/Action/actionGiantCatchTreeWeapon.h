@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantCatchTreeWeapon : public Catch {
     SEAD_RTTI_OVERRIDE(GiantCatchTreeWeapon, Catch)
+
 public:
     explicit GiantCatchTreeWeapon(const InitArg& arg);
     ~GiantCatchTreeWeapon() override;

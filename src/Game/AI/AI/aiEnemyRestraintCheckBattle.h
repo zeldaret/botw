@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyRestraintCheckBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyRestraintCheckBattle, ksys::act::ai::Ai)
+
 public:
     explicit EnemyRestraintCheckBattle(const InitArg& arg);
     ~EnemyRestraintCheckBattle() override;

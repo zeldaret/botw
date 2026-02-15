@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ArrowChargeAndShoot : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(ArrowChargeAndShoot, SeqTwoAction)
+
 public:
     explicit ArrowChargeAndShoot(const InitArg& arg);
     ~ArrowChargeAndShoot() override;

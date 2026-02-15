@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSlipAndStop : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSlipAndStop, ksys::act::ai::Action)
+
 public:
     explicit ForkSlipAndStop(const InitArg& arg);
     ~ForkSlipAndStop() override;

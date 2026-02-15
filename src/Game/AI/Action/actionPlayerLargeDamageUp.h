@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerLargeDamageUp : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerLargeDamageUp, PlayerAction)
+
 public:
     explicit PlayerLargeDamageUp(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PlayerCalmHorseDown : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayerCalmHorseDown, ksys::act::ai::Action)
+
 public:
     explicit PlayerCalmHorseDown(const InitArg& arg);
     ~PlayerCalmHorseDown() override;

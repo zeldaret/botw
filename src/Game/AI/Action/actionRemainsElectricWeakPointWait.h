@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemainsElectricWeakPointWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemainsElectricWeakPointWait, ksys::act::ai::Action)
+
 public:
     explicit RemainsElectricWeakPointWait(const InitArg& arg);
     ~RemainsElectricWeakPointWait() override;

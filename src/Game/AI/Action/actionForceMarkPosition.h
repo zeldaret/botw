@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForceMarkPosition : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForceMarkPosition, ksys::act::ai::Action)
+
 public:
     explicit ForceMarkPosition(const InitArg& arg);
     ~ForceMarkPosition() override;

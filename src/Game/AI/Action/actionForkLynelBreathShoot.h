@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkLynelBreathShoot : public ForkVacuumShootToTarget {
     SEAD_RTTI_OVERRIDE(ForkLynelBreathShoot, ForkVacuumShootToTarget)
+
 public:
     explicit ForkLynelBreathShoot(const InitArg& arg);
     ~ForkLynelBreathShoot() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventControlRupeeUI : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventControlRupeeUI, ksys::act::ai::Action)
+
 public:
     explicit EventControlRupeeUI(const InitArg& arg);
     ~EventControlRupeeUI() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckExistActor : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckExistActor, Query)
+
 public:
     explicit CheckExistActor(const InitArg& arg);
     ~CheckExistActor() override;

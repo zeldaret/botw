@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RestLifeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RestLifeSelect, ksys::act::ai::Ai)
+
 public:
     explicit RestLifeSelect(const InitArg& arg);
     ~RestLifeSelect() override;

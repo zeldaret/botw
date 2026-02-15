@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ControllerRumble : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ControllerRumble, ksys::act::ai::Action)
+
 public:
     explicit ControllerRumble(const InitArg& arg);
 

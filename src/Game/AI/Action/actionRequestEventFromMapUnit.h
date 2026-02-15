@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RequestEventFromMapUnit : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RequestEventFromMapUnit, ksys::act::ai::Action)
+
 public:
     explicit RequestEventFromMapUnit(const InitArg& arg);
     ~RequestEventFromMapUnit() override;

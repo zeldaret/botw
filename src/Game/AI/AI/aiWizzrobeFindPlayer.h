@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WizzrobeFindPlayer : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WizzrobeFindPlayer, ksys::act::ai::Ai)
+
 public:
     explicit WizzrobeFindPlayer(const InitArg& arg);
     ~WizzrobeFindPlayer() override;

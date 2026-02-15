@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HorseEatAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HorseEatAction, ksys::act::ai::Action)
+
 public:
     explicit HorseEatAction(const InitArg& arg);
     ~HorseEatAction() override;

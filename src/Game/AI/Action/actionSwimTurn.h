@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwimTurn : public SwimTurnBase {
     SEAD_RTTI_OVERRIDE(SwimTurn, SwimTurnBase)
+
 public:
     explicit SwimTurn(const InitArg& arg);
     ~SwimTurn() override;

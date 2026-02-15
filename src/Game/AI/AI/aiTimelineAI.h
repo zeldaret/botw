@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TimelineAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TimelineAI, ksys::act::ai::Ai)
+
 public:
     explicit TimelineAI(const InitArg& arg);
 

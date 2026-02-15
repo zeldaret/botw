@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SwitchHitOnce : public SwitchHit {
     SEAD_RTTI_OVERRIDE(SwitchHitOnce, SwitchHit)
+
 public:
     explicit SwitchHitOnce(const InitArg& arg);
 

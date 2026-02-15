@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AtAndBodyOnWait : public AtOnWait {
     SEAD_RTTI_OVERRIDE(AtAndBodyOnWait, AtOnWait)
+
 public:
     explicit AtAndBodyOnWait(const InitArg& arg);
     ~AtAndBodyOnWait() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventChangeFadeColor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventChangeFadeColor, ksys::act::ai::Action)
+
 public:
     explicit EventChangeFadeColor(const InitArg& arg);
     ~EventChangeFadeColor() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AttackPartBind : public Attack {
     SEAD_RTTI_OVERRIDE(AttackPartBind, Attack)
+
 public:
     explicit AttackPartBind(const InitArg& arg);
     ~AttackPartBind() override;

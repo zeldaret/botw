@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossSwordShieldRepair : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(SiteBossSwordShieldRepair, OnetimeStopASPlay)
+
 public:
     explicit SiteBossSwordShieldRepair(const InitArg& arg);
     ~SiteBossSwordShieldRepair() override;

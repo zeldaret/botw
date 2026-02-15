@@ -6,6 +6,7 @@ namespace uking::action {
 
 class FreeMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FreeMove, ksys::act::ai::Action)
+
 public:
     explicit FreeMove(const InitArg& arg);
     ~FreeMove() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ActionEx : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ActionEx, ksys::act::ai::Action)
+
 public:
     explicit ActionEx(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HorseSaddleDefaultAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HorseSaddleDefaultAction, ksys::act::ai::Action)
+
 public:
     explicit HorseSaddleDefaultAction(const InitArg& arg);
     ~HorseSaddleDefaultAction() override;

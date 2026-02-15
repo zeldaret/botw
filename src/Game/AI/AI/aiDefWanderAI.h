@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DefWanderAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DefWanderAI, ksys::act::ai::Ai)
+
 public:
     explicit DefWanderAI(const InitArg& arg);
     ~DefWanderAI() override;

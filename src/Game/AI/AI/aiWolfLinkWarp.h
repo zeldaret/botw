@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WolfLinkWarp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkWarp, ksys::act::ai::Ai)
+
 public:
     explicit WolfLinkWarp(const InitArg& arg);
     ~WolfLinkWarp() override;

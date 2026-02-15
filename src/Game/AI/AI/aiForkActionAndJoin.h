@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ForkActionAndJoin : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ForkActionAndJoin, ksys::act::ai::Ai)
+
 public:
     explicit ForkActionAndJoin(const InitArg& arg);
     ~ForkActionAndJoin() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ItemAmiiboRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ItemAmiiboRoot, ksys::act::ai::Ai)
+
 public:
     explicit ItemAmiiboRoot(const InitArg& arg);
     ~ItemAmiiboRoot() override;

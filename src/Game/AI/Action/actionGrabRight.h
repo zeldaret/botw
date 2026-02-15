@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GrabRight : public Grab {
     SEAD_RTTI_OVERRIDE(GrabRight, Grab)
+
 public:
     explicit GrabRight(const InitArg& arg);
 

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EquipedWeaponChild : public BindAction {
     SEAD_RTTI_OVERRIDE(EquipedWeaponChild, BindAction)
+
 public:
     explicit EquipedWeaponChild(const InitArg& arg);
 

@@ -11,6 +11,7 @@ namespace ksys::frm {
 
 struct RootTaskParam : public sead::TaskParameter {
     SEAD_RTTI_OVERRIDE(RootTaskParam, sead::TaskParameter)
+
 public:
     using ThreadIdArray = sead::FixedObjArray<u32, 4>;
 

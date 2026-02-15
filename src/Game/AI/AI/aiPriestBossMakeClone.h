@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossMakeClone : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossMakeClone, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossMakeClone(const InitArg& arg);
     ~PriestBossMakeClone() override;

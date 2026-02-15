@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAllowReactionLift : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAllowReactionLift, ksys::act::ai::Action)
+
 public:
     explicit ForkAllowReactionLift(const InitArg& arg);
     ~ForkAllowReactionLift() override;

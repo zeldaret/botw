@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonThrowActorRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonThrowActorRoot, ksys::act::ai::Ai)
+
 public:
     explicit GanonThrowActorRoot(const InitArg& arg);
     ~GanonThrowActorRoot() override;

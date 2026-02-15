@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkASTrgEmitShockWaveAtEnter : public ForkASTrgEmitShockWave {
     SEAD_RTTI_OVERRIDE(ForkASTrgEmitShockWaveAtEnter, ForkASTrgEmitShockWave)
+
 public:
     explicit ForkASTrgEmitShockWaveAtEnter(const InitArg& arg);
     ~ForkASTrgEmitShockWaveAtEnter() override;

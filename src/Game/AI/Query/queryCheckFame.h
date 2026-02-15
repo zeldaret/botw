@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckFame : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckFame, Query)
+
 public:
     explicit CheckFame(const InitArg& arg);
     ~CheckFame() override;

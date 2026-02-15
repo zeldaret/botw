@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KorokStartStandRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KorokStartStandRoot, ksys::act::ai::Ai)
+
 public:
     explicit KorokStartStandRoot(const InitArg& arg);
     ~KorokStartStandRoot() override;

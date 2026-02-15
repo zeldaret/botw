@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetYfogRatio : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetYfogRatio, ksys::act::ai::Action)
+
 public:
     explicit EventSetYfogRatio(const InitArg& arg);
     ~EventSetYfogRatio() override;

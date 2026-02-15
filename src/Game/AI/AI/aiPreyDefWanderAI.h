@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PreyDefWanderAI : public DefWanderAI {
     SEAD_RTTI_OVERRIDE(PreyDefWanderAI, DefWanderAI)
+
 public:
     explicit PreyDefWanderAI(const InitArg& arg);
     ~PreyDefWanderAI() override;

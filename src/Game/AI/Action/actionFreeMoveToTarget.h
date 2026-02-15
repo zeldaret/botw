@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FreeMoveToTarget : public FreeMove {
     SEAD_RTTI_OVERRIDE(FreeMoveToTarget, FreeMove)
+
 public:
     explicit FreeMoveToTarget(const InitArg& arg);
     ~FreeMoveToTarget() override;

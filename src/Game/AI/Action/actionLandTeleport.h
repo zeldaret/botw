@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LandTeleport : public TeleportBase {
     SEAD_RTTI_OVERRIDE(LandTeleport, TeleportBase)
+
 public:
     explicit LandTeleport(const InitArg& arg);
     ~LandTeleport() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASHoldLegTurn : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASHoldLegTurn, ksys::act::ai::Action)
+
 public:
     explicit ForkASHoldLegTurn(const InitArg& arg);
     ~ForkASHoldLegTurn() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenPorch : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenPorch, ksys::act::ai::Action)
+
 public:
     explicit OpenPorch(const InitArg& arg);
     ~OpenPorch() override;

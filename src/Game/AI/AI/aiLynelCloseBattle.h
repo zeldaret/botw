@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LynelCloseBattle : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(LynelCloseBattle, EnemyBattle)
+
 public:
     explicit LynelCloseBattle(const InitArg& arg);
     ~LynelCloseBattle() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventIncreaseRupeeAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventIncreaseRupeeAction, ksys::act::ai::Action)
+
 public:
     explicit EventIncreaseRupeeAction(const InitArg& arg);
 

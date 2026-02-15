@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerCutDash : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutDash, PlayerAction)
+
 public:
     explicit PlayerCutDash(const InitArg& arg);
 

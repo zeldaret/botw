@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AssassinBossIronBallAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AssassinBossIronBallAttack, ksys::act::ai::Ai)
+
 public:
     explicit AssassinBossIronBallAttack(const InitArg& arg);
     ~AssassinBossIronBallAttack() override;

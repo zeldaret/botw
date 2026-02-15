@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PullOutTree : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PullOutTree, ksys::act::ai::Ai)
+
 public:
     explicit PullOutTree(const InitArg& arg);
     ~PullOutTree() override;

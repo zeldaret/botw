@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkDrownTimer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkDrownTimer, ksys::act::ai::Action)
+
 public:
     explicit ForkDrownTimer(const InitArg& arg);
     ~ForkDrownTimer() override;

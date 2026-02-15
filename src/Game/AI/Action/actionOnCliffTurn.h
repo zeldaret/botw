@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OnCliffTurn : public TurnBase {
     SEAD_RTTI_OVERRIDE(OnCliffTurn, TurnBase)
+
 public:
     explicit OnCliffTurn(const InitArg& arg);
     ~OnCliffTurn() override;

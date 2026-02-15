@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASTrgHorseParamUse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASTrgHorseParamUse, ksys::act::ai::Action)
+
 public:
     explicit ForkASTrgHorseParamUse(const InitArg& arg);
     ~ForkASTrgHorseParamUse() override;

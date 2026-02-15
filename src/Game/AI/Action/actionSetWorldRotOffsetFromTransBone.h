@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetWorldRotOffsetFromTransBone : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetWorldRotOffsetFromTransBone, ksys::act::ai::Action)
+
 public:
     explicit SetWorldRotOffsetFromTransBone(const InitArg& arg);
     ~SetWorldRotOffsetFromTransBone() override;

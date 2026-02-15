@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HuntingDead : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HuntingDead, ksys::act::ai::Action)
+
 public:
     explicit HuntingDead(const InitArg& arg);
     ~HuntingDead() override;

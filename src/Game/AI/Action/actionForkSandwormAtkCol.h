@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkSandwormAtkCol : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkSandwormAtkCol, ksys::act::ai::Action)
+
 public:
     explicit ForkSandwormAtkCol(const InitArg& arg);
     ~ForkSandwormAtkCol() override;

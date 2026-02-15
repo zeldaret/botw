@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqPredictOctarockAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqPredictOctarockAttack, ksys::act::ai::Ai)
+
 public:
     explicit SeqPredictOctarockAttack(const InitArg& arg);
     ~SeqPredictOctarockAttack() override;

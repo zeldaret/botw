@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WolfLinkAmiiboWarp : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WolfLinkAmiiboWarp, ksys::act::ai::Action)
+
 public:
     explicit WolfLinkAmiiboWarp(const InitArg& arg);
     ~WolfLinkAmiiboWarp() override;

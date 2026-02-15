@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class StoneOctarockBattle : public ShootingEnemyBattle {
     SEAD_RTTI_OVERRIDE(StoneOctarockBattle, ShootingEnemyBattle)
+
 public:
     explicit StoneOctarockBattle(const InitArg& arg);
     ~StoneOctarockBattle() override;

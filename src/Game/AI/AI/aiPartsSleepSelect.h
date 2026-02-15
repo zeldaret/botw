@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PartsSleepSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PartsSleepSelect, ksys::act::ai::Ai)
+
 public:
     explicit PartsSleepSelect(const InitArg& arg);
     ~PartsSleepSelect() override;

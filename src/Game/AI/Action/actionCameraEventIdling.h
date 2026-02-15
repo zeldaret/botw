@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventIdling : public CameraEvent {
     SEAD_RTTI_OVERRIDE(CameraEventIdling, CameraEvent)
+
 public:
     explicit CameraEventIdling(const InitArg& arg);
 

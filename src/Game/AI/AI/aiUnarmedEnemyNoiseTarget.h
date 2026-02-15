@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class UnarmedEnemyNoiseTarget : public UnarmedEnemySearch {
     SEAD_RTTI_OVERRIDE(UnarmedEnemyNoiseTarget, UnarmedEnemySearch)
+
 public:
     explicit UnarmedEnemyNoiseTarget(const InitArg& arg);
     ~UnarmedEnemyNoiseTarget() override;

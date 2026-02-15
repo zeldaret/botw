@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonBeastStairState : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonBeastStairState, ksys::act::ai::Ai)
+
 public:
     explicit GanonBeastStairState(const InitArg& arg);
     ~GanonBeastStairState() override;

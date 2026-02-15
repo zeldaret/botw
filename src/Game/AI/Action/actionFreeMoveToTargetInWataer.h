@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FreeMoveToTargetInWataer : public FreeMoveToTarget {
     SEAD_RTTI_OVERRIDE(FreeMoveToTargetInWataer, FreeMoveToTarget)
+
 public:
     explicit FreeMoveToTargetInWataer(const InitArg& arg);
     ~FreeMoveToTargetInWataer() override;

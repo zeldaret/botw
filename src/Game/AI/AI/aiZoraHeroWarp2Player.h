@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ZoraHeroWarp2Player : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ZoraHeroWarp2Player, ksys::act::ai::Ai)
+
 public:
     explicit ZoraHeroWarp2Player(const InitArg& arg);
     ~ZoraHeroWarp2Player() override;

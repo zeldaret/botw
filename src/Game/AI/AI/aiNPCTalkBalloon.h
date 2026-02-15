@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCTalkBalloon : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCTalkBalloon, ksys::act::ai::Ai)
+
 public:
     explicit NPCTalkBalloon(const InitArg& arg);
     ~NPCTalkBalloon() override;

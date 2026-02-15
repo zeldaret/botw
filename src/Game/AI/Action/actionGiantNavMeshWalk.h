@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantNavMeshWalk : public GiantNavMeshWalkWithVibration {
     SEAD_RTTI_OVERRIDE(GiantNavMeshWalk, GiantNavMeshWalkWithVibration)
+
 public:
     explicit GiantNavMeshWalk(const InitArg& arg);
     ~GiantNavMeshWalk() override;

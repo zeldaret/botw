@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraTail : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraTail, CameraAction)
+
 public:
     explicit CameraTail(const InitArg& arg);
     ~CameraTail() override;

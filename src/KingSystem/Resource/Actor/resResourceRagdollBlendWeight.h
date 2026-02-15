@@ -11,6 +11,7 @@ namespace ksys::res {
 
 class RagdollBlendWeight : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(RagdollBlendWeight, Resource)
+
 public:
     struct InputWeight {
         agl::utl::Parameter<sead::SafeString> rigid_name;

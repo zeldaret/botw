@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Attack : public AttackBase {
     SEAD_RTTI_OVERRIDE(Attack, AttackBase)
+
 public:
     explicit Attack(const InitArg& arg);
     ~Attack() override;

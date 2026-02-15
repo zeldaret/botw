@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniGuardSideWalk : public TargetCircleWalk {
     SEAD_RTTI_OVERRIDE(GuardianMiniGuardSideWalk, TargetCircleWalk)
+
 public:
     explicit GuardianMiniGuardSideWalk(const InitArg& arg);
     ~GuardianMiniGuardSideWalk() override;

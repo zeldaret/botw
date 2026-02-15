@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MoveByAnimeDriven : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MoveByAnimeDriven, ksys::act::ai::Action)
+
 public:
     explicit MoveByAnimeDriven(const InitArg& arg);
     ~MoveByAnimeDriven() override;

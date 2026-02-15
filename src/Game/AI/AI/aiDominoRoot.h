@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DominoRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DominoRoot, ksys::act::ai::Ai)
+
 public:
     explicit DominoRoot(const InitArg& arg);
     ~DominoRoot() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LastBossFlyWaitTurnToTarget : public LastBossFlyWait {
     SEAD_RTTI_OVERRIDE(LastBossFlyWaitTurnToTarget, LastBossFlyWait)
+
 public:
     explicit LastBossFlyWaitTurnToTarget(const InitArg& arg);
     ~LastBossFlyWaitTurnToTarget() override;

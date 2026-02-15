@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandwormFindTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandwormFindTarget, ksys::act::ai::Ai)
+
 public:
     explicit SandwormFindTarget(const InitArg& arg);
     ~SandwormFindTarget() override;

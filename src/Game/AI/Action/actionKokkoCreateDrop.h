@@ -7,6 +7,7 @@ namespace uking::action {
 
 class KokkoCreateDrop : public KokkoCreateDropBase {
     SEAD_RTTI_OVERRIDE(KokkoCreateDrop, KokkoCreateDropBase)
+
 public:
     explicit KokkoCreateDrop(const InitArg& arg);
     ~KokkoCreateDrop() override;

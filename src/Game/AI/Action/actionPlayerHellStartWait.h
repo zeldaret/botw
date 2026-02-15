@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerHellStartWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHellStartWait, PlayerAction)
+
 public:
     explicit PlayerHellStartWait(const InitArg& arg);
     ~PlayerHellStartWait() override;

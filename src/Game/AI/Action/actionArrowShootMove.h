@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ArrowShootMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ArrowShootMove, ksys::act::ai::Action)
+
 public:
     explicit ArrowShootMove(const InitArg& arg);
     ~ArrowShootMove() override;

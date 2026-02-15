@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WeaponUsageSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WeaponUsageSelect, ksys::act::ai::Ai)
+
 public:
     explicit WeaponUsageSelect(const InitArg& arg);
 

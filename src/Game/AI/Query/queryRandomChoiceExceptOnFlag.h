@@ -6,6 +6,7 @@ namespace uking::query {
 
 class RandomChoiceExceptOnFlag : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(RandomChoiceExceptOnFlag, Query)
+
 public:
     explicit RandomChoiceExceptOnFlag(const InitArg& arg);
     ~RandomChoiceExceptOnFlag() override;

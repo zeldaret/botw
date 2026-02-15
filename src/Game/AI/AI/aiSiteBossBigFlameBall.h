@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossBigFlameBall : public SiteBossFlameBall {
     SEAD_RTTI_OVERRIDE(SiteBossBigFlameBall, SiteBossFlameBall)
+
 public:
     explicit SiteBossBigFlameBall(const InitArg& arg);
     ~SiteBossBigFlameBall() override;

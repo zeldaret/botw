@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGanonBeastHeadBarrier : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGanonBeastHeadBarrier, ksys::act::ai::Action)
+
 public:
     explicit ForkGanonBeastHeadBarrier(const InitArg& arg);
     ~ForkGanonBeastHeadBarrier() override;

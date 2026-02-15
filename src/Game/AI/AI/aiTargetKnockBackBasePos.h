@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TargetKnockBackBasePos : public TargetPosAI {
     SEAD_RTTI_OVERRIDE(TargetKnockBackBasePos, TargetPosAI)
+
 public:
     explicit TargetKnockBackBasePos(const InitArg& arg);
     ~TargetKnockBackBasePos() override;

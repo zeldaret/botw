@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniGroggy : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniGroggy, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniGroggy(const InitArg& arg);
     ~GuardianMiniGroggy() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoveToCameraFrontXZ : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoveToCameraFrontXZ, ksys::act::ai::Ai)
+
 public:
     explicit MoveToCameraFrontXZ(const InitArg& arg);
     ~MoveToCameraFrontXZ() override;

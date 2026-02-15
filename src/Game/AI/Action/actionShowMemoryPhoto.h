@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ShowMemoryPhoto : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ShowMemoryPhoto, ksys::act::ai::Action)
+
 public:
     explicit ShowMemoryPhoto(const InitArg& arg);
     ~ShowMemoryPhoto() override;

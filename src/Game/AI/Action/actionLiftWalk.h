@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LiftWalk : public MoveBase {
     SEAD_RTTI_OVERRIDE(LiftWalk, MoveBase)
+
 public:
     explicit LiftWalk(const InitArg& arg);
 

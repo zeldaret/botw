@@ -12,6 +12,7 @@ namespace ksys::res {
 
 class ModelList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ModelList, Resource)
+
 public:
     struct ControllerInfo {
         agl::utl::Parameter<sead::Color4f> mAddColor;

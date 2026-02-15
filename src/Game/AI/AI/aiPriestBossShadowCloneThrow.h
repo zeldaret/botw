@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossShadowCloneThrow : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossShadowCloneThrow, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossShadowCloneThrow(const InitArg& arg);
     ~PriestBossShadowCloneThrow() override;

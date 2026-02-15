@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CapturedActorReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CapturedActorReaction, ksys::act::ai::Ai)
+
 public:
     explicit CapturedActorReaction(const InitArg& arg);
     ~CapturedActorReaction() override;

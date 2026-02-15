@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class StalEnemyReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(StalEnemyReaction, EnemyDefaultReaction)
+
 public:
     explicit StalEnemyReaction(const InitArg& arg);
     ~StalEnemyReaction() override;

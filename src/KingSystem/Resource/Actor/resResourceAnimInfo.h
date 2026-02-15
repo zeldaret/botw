@@ -13,6 +13,7 @@ namespace ksys::res {
 // TODO
 class AnimInfo : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AnimInfo, Resource)
+
 public:
     struct Anim {
         sead::SafeString name;

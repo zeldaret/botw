@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WildHorseCreate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WildHorseCreate, ksys::act::ai::Action)
+
 public:
     explicit WildHorseCreate(const InitArg& arg);
     ~WildHorseCreate() override;

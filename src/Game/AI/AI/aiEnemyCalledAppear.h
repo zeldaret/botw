@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyCalledAppear : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyCalledAppear, ksys::act::ai::Ai)
+
 public:
     explicit EnemyCalledAppear(const InitArg& arg);
     ~EnemyCalledAppear() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoVisibleOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoVisibleOff, ksys::act::ai::Action)
+
 public:
     explicit DemoVisibleOff(const InitArg& arg);
     ~DemoVisibleOff() override;

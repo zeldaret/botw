@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GanonStunRecover : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GanonStunRecover, ksys::act::ai::Action)
+
 public:
     explicit GanonStunRecover(const InitArg& arg);
     ~GanonStunRecover() override;

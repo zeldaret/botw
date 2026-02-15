@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventDummyAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventDummyAction, ksys::act::ai::Action)
+
 public:
     explicit EventDummyAction(const InitArg& arg);
     ~EventDummyAction() override;

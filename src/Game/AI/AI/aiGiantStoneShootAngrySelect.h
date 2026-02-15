@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GiantStoneShootAngrySelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GiantStoneShootAngrySelect, ksys::act::ai::Ai)
+
 public:
     explicit GiantStoneShootAngrySelect(const InitArg& arg);
     ~GiantStoneShootAngrySelect() override;

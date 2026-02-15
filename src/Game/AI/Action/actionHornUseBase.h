@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HornUseBase : public TimeredASPlay {
     SEAD_RTTI_OVERRIDE(HornUseBase, TimeredASPlay)
+
 public:
     explicit HornUseBase(const InitArg& arg);
     ~HornUseBase() override;

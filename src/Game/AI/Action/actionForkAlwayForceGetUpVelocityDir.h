@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkAlwayForceGetUpVelocityDir : public ForkAlwaysForceGetUp {
     SEAD_RTTI_OVERRIDE(ForkAlwayForceGetUpVelocityDir, ForkAlwaysForceGetUp)
+
 public:
     explicit ForkAlwayForceGetUpVelocityDir(const InitArg& arg);
     ~ForkAlwayForceGetUpVelocityDir() override;

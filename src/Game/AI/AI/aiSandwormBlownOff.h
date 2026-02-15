@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandwormBlownOff : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandwormBlownOff, ksys::act::ai::Ai)
+
 public:
     explicit SandwormBlownOff(const InitArg& arg);
     ~SandwormBlownOff() override;

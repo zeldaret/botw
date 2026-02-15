@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SweepCollision : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SweepCollision, ksys::act::ai::Action)
+
 public:
     explicit SweepCollision(const InitArg& arg);
     ~SweepCollision() override;

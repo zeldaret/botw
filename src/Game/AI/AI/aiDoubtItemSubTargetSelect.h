@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DoubtItemSubTargetSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DoubtItemSubTargetSelect, ksys::act::ai::Ai)
+
 public:
     explicit DoubtItemSubTargetSelect(const InitArg& arg);
     ~DoubtItemSubTargetSelect() override;

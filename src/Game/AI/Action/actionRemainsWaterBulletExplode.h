@@ -7,6 +7,7 @@ namespace uking::action {
 
 class RemainsWaterBulletExplode : public Explode {
     SEAD_RTTI_OVERRIDE(RemainsWaterBulletExplode, Explode)
+
 public:
     explicit RemainsWaterBulletExplode(const InitArg& arg);
     ~RemainsWaterBulletExplode() override;

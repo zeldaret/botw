@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RemainsWindRoot : public RemainsRoot {
     SEAD_RTTI_OVERRIDE(RemainsWindRoot, RemainsRoot)
+
 public:
     explicit RemainsWindRoot(const InitArg& arg);
     ~RemainsWindRoot() override;

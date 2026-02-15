@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsOnEnterDungeonFlag : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsOnEnterDungeonFlag, Query)
+
 public:
     explicit IsOnEnterDungeonFlag(const InitArg& arg);
     ~IsOnEnterDungeonFlag() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseRideDynSetGearCommand : public HorseRideCommand {
     SEAD_RTTI_OVERRIDE(HorseRideDynSetGearCommand, HorseRideCommand)
+
 public:
     explicit HorseRideDynSetGearCommand(const InitArg& arg);
     ~HorseRideDynSetGearCommand() override;

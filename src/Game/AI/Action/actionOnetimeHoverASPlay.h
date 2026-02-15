@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OnetimeHoverASPlay : public HoverBase {
     SEAD_RTTI_OVERRIDE(OnetimeHoverASPlay, HoverBase)
+
 public:
     explicit OnetimeHoverASPlay(const InitArg& arg);
     ~OnetimeHoverASPlay() override;

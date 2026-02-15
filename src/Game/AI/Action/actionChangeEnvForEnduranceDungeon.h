@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChangeEnvForEnduranceDungeon : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChangeEnvForEnduranceDungeon, ksys::act::ai::Action)
+
 public:
     explicit ChangeEnvForEnduranceDungeon(const InitArg& arg);
     ~ChangeEnvForEnduranceDungeon() override;

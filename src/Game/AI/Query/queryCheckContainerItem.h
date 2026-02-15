@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckContainerItem : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckContainerItem, Query)
+
 public:
     explicit CheckContainerItem(const InitArg& arg);
     ~CheckContainerItem() override;

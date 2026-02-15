@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCTebaApproachPlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCTebaApproachPlayer, ksys::act::ai::Action)
+
 public:
     explicit NPCTebaApproachPlayer(const InitArg& arg);
     ~NPCTebaApproachPlayer() override;

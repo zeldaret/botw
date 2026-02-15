@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianBezierRailMove : public RailMoveWithClose {
     SEAD_RTTI_OVERRIDE(GuardianBezierRailMove, RailMoveWithClose)
+
 public:
     explicit GuardianBezierRailMove(const InitArg& arg);
     ~GuardianBezierRailMove() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkAlwaysForceGetUpWithOffset : public ForkAlwaysForceGetUp {
     SEAD_RTTI_OVERRIDE(ForkAlwaysForceGetUpWithOffset, ForkAlwaysForceGetUp)
+
 public:
     explicit ForkAlwaysForceGetUpWithOffset(const InitArg& arg);
     ~ForkAlwaysForceGetUpWithOffset() override;

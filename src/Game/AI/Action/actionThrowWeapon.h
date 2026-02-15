@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ThrowWeapon : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(ThrowWeapon, ActionWithAS)
+
 public:
     explicit ThrowWeapon(const InitArg& arg);
     ~ThrowWeapon() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StunWithDamageReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StunWithDamageReaction, ksys::act::ai::Ai)
+
 public:
     explicit StunWithDamageReaction(const InitArg& arg);
     ~StunWithDamageReaction() override;

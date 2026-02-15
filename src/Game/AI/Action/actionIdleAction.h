@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IdleAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IdleAction, ksys::act::ai::Action)
+
 public:
     explicit IdleAction(const InitArg& arg);
     ~IdleAction() override;

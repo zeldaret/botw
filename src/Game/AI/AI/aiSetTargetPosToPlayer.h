@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SetTargetPosToPlayer : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SetTargetPosToPlayer, ksys::act::ai::Ai)
+
 public:
     explicit SetTargetPosToPlayer(const InitArg& arg);
     ~SetTargetPosToPlayer() override;

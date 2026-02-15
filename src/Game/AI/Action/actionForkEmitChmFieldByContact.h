@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkEmitChmFieldByContact : public ForkEmitChmField {
     SEAD_RTTI_OVERRIDE(ForkEmitChmFieldByContact, ForkEmitChmField)
+
 public:
     explicit ForkEmitChmFieldByContact(const InitArg& arg);
     ~ForkEmitChmFieldByContact() override;

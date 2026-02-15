@@ -35,6 +35,7 @@ class AttClient;
 
 class AttCheck {
     SEAD_RTTI_BASE(AttCheck)
+
 public:
     struct CreateArg {
         agl::utl::ResParameterList res_list;
@@ -69,6 +70,7 @@ protected:
 
 class AttCheckLine : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckLine, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -82,6 +84,7 @@ private:
 
 class AttCheckScreen : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckScreen, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -90,6 +93,7 @@ public:
 
 class AttCheckArea : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckArea, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -110,6 +114,7 @@ protected:
 
 class AttCheckAreaSphere : public AttCheckArea {
     SEAD_RTTI_OVERRIDE(AttCheckAreaSphere, AttCheckArea)
+
 public:
     using AttCheckArea::AttCheckArea;
 
@@ -128,6 +133,7 @@ private:
 
 class AttCheckAreaFan : public AttCheckArea {
     SEAD_RTTI_OVERRIDE(AttCheckAreaFan, AttCheckArea)
+
 public:
     using AttCheckArea::AttCheckArea;
 
@@ -154,6 +160,7 @@ private:
 
 class AttCheckAreaCylinderFan : public AttCheckArea {
     SEAD_RTTI_OVERRIDE(AttCheckAreaCylinderFan, AttCheckArea)
+
 public:
     using AttCheckArea::AttCheckArea;
 
@@ -181,6 +188,7 @@ private:
 
 class AttCheckAreaBox : public AttCheckArea {
     SEAD_RTTI_OVERRIDE(AttCheckAreaBox, AttCheckArea)
+
 public:
     explicit AttCheckAreaBox(AttCheckType type) : AttCheckArea(type) {}
 
@@ -202,6 +210,7 @@ private:
 
 class AttCheckEachOtherArea : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckEachOtherArea, AttCheck)
+
 public:
     explicit AttCheckEachOtherArea(AttCheckType type);
 
@@ -229,6 +238,7 @@ private:
 
 class AttCheckAngle : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckAngle, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -243,6 +253,7 @@ private:
 
 class AttCheckWeight : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckWeight, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -251,6 +262,7 @@ public:
 
 class AttCheckRideHorse : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckRideHorse, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -259,6 +271,7 @@ public:
 
 class AttCheckRideSpace : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckRideSpace, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -267,6 +280,7 @@ public:
 
 class AttCheckSwim : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckSwim, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -275,6 +289,7 @@ public:
 
 class AttCheckCarry : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckCarry, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -283,6 +298,7 @@ public:
 
 class AttCheckNoCarry : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckNoCarry, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -291,6 +307,7 @@ public:
 
 class AttCheckGrab : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckGrab, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -299,6 +316,7 @@ public:
 
 class AttCheckBootFirstTower : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckBootFirstTower, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -307,6 +325,7 @@ public:
 
 class AttCheckFireContact : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckFireContact, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -315,6 +334,7 @@ public:
 
 class AttCheckCharacterOn : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckCharacterOn, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 
@@ -323,6 +343,7 @@ public:
 
 class AttCheckUnderWater : public AttCheck {
     SEAD_RTTI_OVERRIDE(AttCheckUnderWater, AttCheck)
+
 public:
     using AttCheck::AttCheck;
 

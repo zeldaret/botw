@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TeachPlayerInAreaForRefActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TeachPlayerInAreaForRefActor, ksys::act::ai::Action)
+
 public:
     explicit TeachPlayerInAreaForRefActor(const InitArg& arg);
     ~TeachPlayerInAreaForRefActor() override;

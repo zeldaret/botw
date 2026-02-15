@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossActorRoot : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossActorRoot, PriestBossMode)
+
 public:
     explicit PriestBossActorRoot(const InitArg& arg);
     ~PriestBossActorRoot() override;

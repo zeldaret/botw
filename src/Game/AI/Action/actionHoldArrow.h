@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HoldArrow : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(HoldArrow, ActionWithPosAngReduce)
+
 public:
     explicit HoldArrow(const InitArg& arg);
 

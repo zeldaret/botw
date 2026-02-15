@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GrabLeftTurn : public TurnBase {
     SEAD_RTTI_OVERRIDE(GrabLeftTurn, TurnBase)
+
 public:
     explicit GrabLeftTurn(const InitArg& arg);
 

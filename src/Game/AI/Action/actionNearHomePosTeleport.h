@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NearHomePosTeleport : public LandTeleport {
     SEAD_RTTI_OVERRIDE(NearHomePosTeleport, LandTeleport)
+
 public:
     explicit NearHomePosTeleport(const InitArg& arg);
     ~NearHomePosTeleport() override;

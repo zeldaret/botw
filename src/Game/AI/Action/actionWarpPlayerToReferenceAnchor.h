@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpPlayerToReferenceAnchor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpPlayerToReferenceAnchor, ksys::act::ai::Action)
+
 public:
     explicit WarpPlayerToReferenceAnchor(const InitArg& arg);
     ~WarpPlayerToReferenceAnchor() override;

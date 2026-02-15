@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCEventWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCEventWait, ksys::act::ai::Action)
+
 public:
     explicit NPCEventWait(const InitArg& arg);
     ~NPCEventWait() override;

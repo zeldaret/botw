@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ChemicalWeaponRoot : public WeaponRootAI {
     SEAD_RTTI_OVERRIDE(ChemicalWeaponRoot, WeaponRootAI)
+
 public:
     explicit ChemicalWeaponRoot(const InitArg& arg);
     ~ChemicalWeaponRoot() override;

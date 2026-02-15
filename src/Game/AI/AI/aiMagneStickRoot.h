@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MagneStickRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MagneStickRoot, ksys::act::ai::Ai)
+
 public:
     explicit MagneStickRoot(const InitArg& arg);
     ~MagneStickRoot() override;

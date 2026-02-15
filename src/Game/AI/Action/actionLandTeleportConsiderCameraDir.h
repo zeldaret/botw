@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LandTeleportConsiderCameraDir : public LandTeleport {
     SEAD_RTTI_OVERRIDE(LandTeleportConsiderCameraDir, LandTeleport)
+
 public:
     explicit LandTeleportConsiderCameraDir(const InitArg& arg);
     ~LandTeleportConsiderCameraDir() override;

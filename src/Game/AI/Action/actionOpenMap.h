@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenMap : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenMap, ksys::act::ai::Action)
+
 public:
     explicit OpenMap(const InitArg& arg);
     ~OpenMap() override;

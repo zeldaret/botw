@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NoAtTackleMove : public TackleMove {
     SEAD_RTTI_OVERRIDE(NoAtTackleMove, TackleMove)
+
 public:
     explicit NoAtTackleMove(const InitArg& arg);
     ~NoAtTackleMove() override;

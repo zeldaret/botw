@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FollowDungeonRotateASPlay : public FollowDungeonRotate {
     SEAD_RTTI_OVERRIDE(FollowDungeonRotateASPlay, FollowDungeonRotate)
+
 public:
     explicit FollowDungeonRotateASPlay(const InitArg& arg);
     ~FollowDungeonRotateASPlay() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkStopWithNavCheck : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkStopWithNavCheck, ksys::act::ai::Action)
+
 public:
     explicit ForkStopWithNavCheck(const InitArg& arg);
     ~ForkStopWithNavCheck() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventMultiTalk : public CameraEvent {
     SEAD_RTTI_OVERRIDE(CameraEventMultiTalk, CameraEvent)
+
 public:
     explicit CameraEventMultiTalk(const InitArg& arg);
     ~CameraEventMultiTalk() override;

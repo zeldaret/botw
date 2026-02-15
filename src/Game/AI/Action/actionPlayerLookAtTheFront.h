@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerLookAtTheFront : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerLookAtTheFront, PlayerAction)
+
 public:
     explicit PlayerLookAtTheFront(const InitArg& arg);
     ~PlayerLookAtTheFront() override;

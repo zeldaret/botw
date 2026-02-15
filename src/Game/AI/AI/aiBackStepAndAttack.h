@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BackStepAndAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BackStepAndAttack, ksys::act::ai::Ai)
+
 public:
     explicit BackStepAndAttack(const InitArg& arg);
     ~BackStepAndAttack() override;

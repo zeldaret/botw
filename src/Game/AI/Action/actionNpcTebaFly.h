@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NpcTebaFly : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NpcTebaFly, ksys::act::ai::Action)
+
 public:
     explicit NpcTebaFly(const InitArg& arg);
     ~NpcTebaFly() override;

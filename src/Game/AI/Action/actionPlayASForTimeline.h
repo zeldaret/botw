@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayASForTimeline : public PlayASForDemo {
     SEAD_RTTI_OVERRIDE(PlayASForTimeline, PlayASForDemo)
+
 public:
     explicit PlayASForTimeline(const InitArg& arg);
     ~PlayASForTimeline() override;

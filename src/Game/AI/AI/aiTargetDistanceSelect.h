@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetDistanceSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetDistanceSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetDistanceSelect(const InitArg& arg);
     ~TargetDistanceSelect() override;

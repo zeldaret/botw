@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonWeaponAttackOnFloor : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonWeaponAttackOnFloor, ksys::act::ai::Ai)
+
 public:
     explicit GanonWeaponAttackOnFloor(const InitArg& arg);
     ~GanonWeaponAttackOnFloor() override;

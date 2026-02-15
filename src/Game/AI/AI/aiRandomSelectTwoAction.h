@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RandomSelectTwoAction : public RandomSelectTwoActionBase {
     SEAD_RTTI_OVERRIDE(RandomSelectTwoAction, RandomSelectTwoActionBase)
+
 public:
     explicit RandomSelectTwoAction(const InitArg& arg);
     ~RandomSelectTwoAction() override;

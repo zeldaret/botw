@@ -23,6 +23,7 @@ namespace ksys::act::ai {
 
 class Query {
     SEAD_RTTI_BASE(Query)
+
 public:
     struct InitArg {
         Actor* actor;

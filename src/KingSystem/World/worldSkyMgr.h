@@ -12,6 +12,7 @@ namespace ksys::world {
 // TODO
 class SkyMgr : public Job {
     SEAD_RTTI_OVERRIDE(SkyMgr, Job)
+
 public:
     struct PrCloud {
         agl::utl::Parameter<float> mScrollSpd;

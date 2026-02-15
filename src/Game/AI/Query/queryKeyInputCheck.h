@@ -6,6 +6,7 @@ namespace uking::query {
 
 class KeyInputCheck : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(KeyInputCheck, Query)
+
 public:
     explicit KeyInputCheck(const InitArg& arg);
     ~KeyInputCheck() override;

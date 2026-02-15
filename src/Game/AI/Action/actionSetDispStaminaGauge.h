@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetDispStaminaGauge : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetDispStaminaGauge, ksys::act::ai::Action)
+
 public:
     explicit SetDispStaminaGauge(const InitArg& arg);
     ~SetDispStaminaGauge() override;

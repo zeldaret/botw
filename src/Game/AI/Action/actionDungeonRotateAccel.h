@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DungeonRotateAccel : public DungeonRotateBase {
     SEAD_RTTI_OVERRIDE(DungeonRotateAccel, DungeonRotateBase)
+
 public:
     explicit DungeonRotateAccel(const InitArg& arg);
     ~DungeonRotateAccel() override;

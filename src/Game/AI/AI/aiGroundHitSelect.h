@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GroundHitSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GroundHitSelect, ksys::act::ai::Ai)
+
 public:
     explicit GroundHitSelect(const InitArg& arg);
     ~GroundHitSelect() override;

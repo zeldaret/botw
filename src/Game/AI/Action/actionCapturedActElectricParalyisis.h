@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CapturedActElectricParalyisis : public ElectricParalysis {
     SEAD_RTTI_OVERRIDE(CapturedActElectricParalyisis, ElectricParalysis)
+
 public:
     explicit CapturedActElectricParalyisis(const InitArg& arg);
     ~CapturedActElectricParalyisis() override;

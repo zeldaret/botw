@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerRideHorse : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerRideHorse, ksys::act::ai::Ai)
+
 public:
     explicit PlayerRideHorse(const InitArg& arg);
     ~PlayerRideHorse() override;

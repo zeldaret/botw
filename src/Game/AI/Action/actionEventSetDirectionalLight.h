@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetDirectionalLight : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetDirectionalLight, ksys::act::ai::Action)
+
 public:
     explicit EventSetDirectionalLight(const InitArg& arg);
     ~EventSetDirectionalLight() override;

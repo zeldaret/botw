@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkASTrgShootArrowWithBaseBone : public ForkASTrgShootArrow {
     SEAD_RTTI_OVERRIDE(ForkASTrgShootArrowWithBaseBone, ForkASTrgShootArrow)
+
 public:
     explicit ForkASTrgShootArrowWithBaseBone(const InitArg& arg);
     ~ForkASTrgShootArrowWithBaseBone() override;

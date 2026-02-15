@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ViewfrustumCheckTagRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ViewfrustumCheckTagRoot, ksys::act::ai::Ai)
+
 public:
     explicit ViewfrustumCheckTagRoot(const InitArg& arg);
     ~ViewfrustumCheckTagRoot() override;

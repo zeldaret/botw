@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnterFromResetSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnterFromResetSelect, ksys::act::ai::Ai)
+
 public:
     explicit EnterFromResetSelect(const InitArg& arg);
     ~EnterFromResetSelect() override;

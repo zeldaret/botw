@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasCookResultInPorch : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasCookResultInPorch, Query)
+
 public:
     explicit HasCookResultInPorch(const InitArg& arg);
     ~HasCookResultInPorch() override;

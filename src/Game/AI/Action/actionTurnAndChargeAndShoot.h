@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TurnAndChargeAndShoot : public ChargeAndShoot {
     SEAD_RTTI_OVERRIDE(TurnAndChargeAndShoot, ChargeAndShoot)
+
 public:
     explicit TurnAndChargeAndShoot(const InitArg& arg);
     ~TurnAndChargeAndShoot() override;

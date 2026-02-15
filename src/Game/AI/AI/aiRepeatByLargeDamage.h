@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RepeatByLargeDamage : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RepeatByLargeDamage, ksys::act::ai::Ai)
+
 public:
     explicit RepeatByLargeDamage(const InitArg& arg);
     ~RepeatByLargeDamage() override;

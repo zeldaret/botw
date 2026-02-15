@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DownloadShiekSensorMoveIcon : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DownloadShiekSensorMoveIcon, ksys::act::ai::Action)
+
 public:
     explicit DownloadShiekSensorMoveIcon(const InitArg& arg);
     ~DownloadShiekSensorMoveIcon() override;

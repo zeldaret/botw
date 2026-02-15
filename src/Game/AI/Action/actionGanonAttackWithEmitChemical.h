@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GanonAttackWithEmitChemical : public GanonWeaponNearAttack {
     SEAD_RTTI_OVERRIDE(GanonAttackWithEmitChemical, GanonWeaponNearAttack)
+
 public:
     explicit GanonAttackWithEmitChemical(const InitArg& arg);
     ~GanonAttackWithEmitChemical() override;

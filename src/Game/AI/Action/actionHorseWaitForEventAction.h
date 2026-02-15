@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HorseWaitForEventAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HorseWaitForEventAction, ksys::act::ai::Action)
+
 public:
     explicit HorseWaitForEventAction(const InitArg& arg);
     ~HorseWaitForEventAction() override;

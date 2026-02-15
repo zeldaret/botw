@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FallAttackWithAtAttr : public FallAttack {
     SEAD_RTTI_OVERRIDE(FallAttackWithAtAttr, FallAttack)
+
 public:
     explicit FallAttackWithAtAttr(const InitArg& arg);
     ~FallAttackWithAtAttr() override;

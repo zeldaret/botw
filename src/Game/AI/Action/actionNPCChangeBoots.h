@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCChangeBoots : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCChangeBoots, ksys::act::ai::Action)
+
 public:
     explicit NPCChangeBoots(const InitArg& arg);
     ~NPCChangeBoots() override;

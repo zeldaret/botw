@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsAppAlreadyExchanged : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsAppAlreadyExchanged, Query)
+
 public:
     explicit IsAppAlreadyExchanged(const InitArg& arg);
     ~IsAppAlreadyExchanged() override;

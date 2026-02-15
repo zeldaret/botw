@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GrabRightWalk : public MoveBase {
     SEAD_RTTI_OVERRIDE(GrabRightWalk, MoveBase)
+
 public:
     explicit GrabRightWalk(const InitArg& arg);
 

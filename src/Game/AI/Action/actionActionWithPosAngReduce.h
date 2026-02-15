@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ActionWithPosAngReduce : public ActionEx {
     SEAD_RTTI_OVERRIDE(ActionWithPosAngReduce, ActionEx)
+
 public:
     explicit ActionWithPosAngReduce(const InitArg& arg);
 

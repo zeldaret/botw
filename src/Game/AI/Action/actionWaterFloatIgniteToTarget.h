@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WaterFloatIgniteToTarget : public OneTimeWaterFloatStopASPlay {
     SEAD_RTTI_OVERRIDE(WaterFloatIgniteToTarget, OneTimeWaterFloatStopASPlay)
+
 public:
     explicit WaterFloatIgniteToTarget(const InitArg& arg);
     ~WaterFloatIgniteToTarget() override;

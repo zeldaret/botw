@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnimalTurn : public PlayASForAnimalUnit {
     SEAD_RTTI_OVERRIDE(AnimalTurn, PlayASForAnimalUnit)
+
 public:
     explicit AnimalTurn(const InitArg& arg);
     ~AnimalTurn() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class KeeseSwarmNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(KeeseSwarmNormal, EnemyNormal)
+
 public:
     explicit KeeseSwarmNormal(const InitArg& arg);
     ~KeeseSwarmNormal() override;

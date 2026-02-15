@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TimeredNeckSpin : public NeckSpin {
     SEAD_RTTI_OVERRIDE(TimeredNeckSpin, NeckSpin)
+
 public:
     explicit TimeredNeckSpin(const InitArg& arg);
     ~TimeredNeckSpin() override;

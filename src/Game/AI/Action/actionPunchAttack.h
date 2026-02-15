@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PunchAttack : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(PunchAttack, ActionWithAS)
+
 public:
     explicit PunchAttack(const InitArg& arg);
     ~PunchAttack() override;

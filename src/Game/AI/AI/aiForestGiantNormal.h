@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForestGiantNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(ForestGiantNormal, EnemyNormal)
+
 public:
     explicit ForestGiantNormal(const InitArg& arg);
     ~ForestGiantNormal() override;

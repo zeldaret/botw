@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckFadeState : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckFadeState, Query)
+
 public:
     explicit CheckFadeState(const InitArg& arg);
     ~CheckFadeState() override;

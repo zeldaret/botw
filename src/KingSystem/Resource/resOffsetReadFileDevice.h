@@ -26,6 +26,7 @@ KSYS_CHECK_SIZE_NX150(OffsetRead, 0x18);
 
 class OffsetReadFileDevice : public sead::MainFileDevice, public OffsetRead {
     SEAD_RTTI_OVERRIDE(OffsetReadFileDevice, sead::MainFileDevice)
+
 public:
     explicit OffsetReadFileDevice(sead::Heap* heap);
     ~OffsetReadFileDevice() override = default;

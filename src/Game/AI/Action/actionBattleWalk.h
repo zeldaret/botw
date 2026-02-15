@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BattleWalk : public MoveBase {
     SEAD_RTTI_OVERRIDE(BattleWalk, MoveBase)
+
 public:
     explicit BattleWalk(const InitArg& arg);
 

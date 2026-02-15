@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SpecialEnemySleep : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SpecialEnemySleep, ksys::act::ai::Ai)
+
 public:
     explicit SpecialEnemySleep(const InitArg& arg);
     ~SpecialEnemySleep() override;

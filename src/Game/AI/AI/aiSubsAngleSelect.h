@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SubsAngleSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SubsAngleSelect, ksys::act::ai::Ai)
+
 public:
     explicit SubsAngleSelect(const InitArg& arg);
     ~SubsAngleSelect() override;

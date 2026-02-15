@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HorseLoopTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseLoopTarget, ksys::act::ai::Ai)
+
 public:
     explicit HorseLoopTarget(const InitArg& arg);
     ~HorseLoopTarget() override;

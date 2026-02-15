@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckDownloadItemNum : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckDownloadItemNum, Query)
+
 public:
     explicit CheckDownloadItemNum(const InitArg& arg);
     ~CheckDownloadItemNum() override;

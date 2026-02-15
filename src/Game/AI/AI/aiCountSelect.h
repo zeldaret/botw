@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CountSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CountSelect, ksys::act::ai::Ai)
+
 public:
     explicit CountSelect(const InitArg& arg);
     ~CountSelect() override;

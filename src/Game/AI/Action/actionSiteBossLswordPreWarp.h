@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossLswordPreWarp : public LastBossPreNormalWarp {
     SEAD_RTTI_OVERRIDE(SiteBossLswordPreWarp, LastBossPreNormalWarp)
+
 public:
     explicit SiteBossLswordPreWarp(const InitArg& arg);
     ~SiteBossLswordPreWarp() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreSleepCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreSleepCheck, ksys::act::ai::Ai)
+
 public:
     explicit PreSleepCheck(const InitArg& arg);
     ~PreSleepCheck() override;

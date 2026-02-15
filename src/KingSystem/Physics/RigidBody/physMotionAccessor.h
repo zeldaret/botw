@@ -16,6 +16,7 @@ struct RigidBodyInstanceParam;
 
 class MotionAccessor {
     SEAD_RTTI_BASE(MotionAccessor)
+
 public:
     explicit MotionAccessor(RigidBody* body);
 

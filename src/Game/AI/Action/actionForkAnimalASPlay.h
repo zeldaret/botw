@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAnimalASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAnimalASPlay, ksys::act::ai::Action)
+
 public:
     explicit ForkAnimalASPlay(const InitArg& arg);
     ~ForkAnimalASPlay() override;

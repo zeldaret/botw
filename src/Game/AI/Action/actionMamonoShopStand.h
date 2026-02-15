@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MamonoShopStand : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MamonoShopStand, ksys::act::ai::Action)
+
 public:
     explicit MamonoShopStand(const InitArg& arg);
     ~MamonoShopStand() override;

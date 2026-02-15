@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class StalHeadLifted : public Lifted {
     SEAD_RTTI_OVERRIDE(StalHeadLifted, Lifted)
+
 public:
     explicit StalHeadLifted(const InitArg& arg);
     ~StalHeadLifted() override;

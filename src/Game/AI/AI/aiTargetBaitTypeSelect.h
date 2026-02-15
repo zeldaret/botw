@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetBaitTypeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetBaitTypeSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetBaitTypeSelect(const InitArg& arg);
     ~TargetBaitTypeSelect() override;

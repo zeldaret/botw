@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetLinkTagBasic : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetLinkTagBasic, ksys::act::ai::Action)
+
 public:
     explicit SetLinkTagBasic(const InitArg& arg);
     ~SetLinkTagBasic() override;

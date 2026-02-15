@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerParashawlGlide : public PlayerGlide {
     SEAD_RTTI_OVERRIDE(PlayerParashawlGlide, PlayerGlide)
+
 public:
     explicit PlayerParashawlGlide(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AirOctaWoodBridge : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AirOctaWoodBridge, ksys::act::ai::Action)
+
 public:
     explicit AirOctaWoodBridge(const InitArg& arg);
     ~AirOctaWoodBridge() override;

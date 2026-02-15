@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LinkageEnemyNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(LinkageEnemyNormal, EnemyNormal)
+
 public:
     explicit LinkageEnemyNormal(const InitArg& arg);
     ~LinkageEnemyNormal() override;

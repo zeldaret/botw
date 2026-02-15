@@ -7,6 +7,7 @@ namespace uking::action {
 
 class StopASPlay : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(StopASPlay, ActionWithPosAngReduce)
+
 public:
     explicit StopASPlay(const InitArg& arg);
     ~StopASPlay() override;

@@ -9,6 +9,7 @@ namespace ksys::phys {
 /// A MotionAccessor that uses the RigidBody's internal motion instance directly.
 class RigidBodyMotionSensor : public MotionAccessor {
     SEAD_RTTI_OVERRIDE(RigidBodyMotionSensor, MotionAccessor)
+
 public:
     enum class Flag {
         _40000 = 1 << 18,

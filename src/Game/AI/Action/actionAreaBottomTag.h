@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AreaBottomTag : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(AreaBottomTag, AreaTagAction)
+
 public:
     explicit AreaBottomTag(const InitArg& arg);
     ~AreaBottomTag() override;

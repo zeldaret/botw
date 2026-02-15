@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PartsNoticeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PartsNoticeSelect, ksys::act::ai::Ai)
+
 public:
     explicit PartsNoticeSelect(const InitArg& arg);
     ~PartsNoticeSelect() override;

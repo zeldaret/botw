@@ -6,6 +6,7 @@ namespace uking::action {
 
 class InWaterSelForkASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(InWaterSelForkASPlay, ksys::act::ai::Action)
+
 public:
     explicit InWaterSelForkASPlay(const InitArg& arg);
     ~InWaterSelForkASPlay() override;

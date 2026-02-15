@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SwitchPlayerEquipment : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwitchPlayerEquipment, ksys::act::ai::Action)
+
 public:
     explicit SwitchPlayerEquipment(const InitArg& arg);
     ~SwitchPlayerEquipment() override;

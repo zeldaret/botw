@@ -6,6 +6,7 @@ namespace uking::action {
 
 class InCarryBox : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(InCarryBox, ksys::act::ai::Action)
+
 public:
     explicit InCarryBox(const InitArg& arg);
     ~InCarryBox() override;

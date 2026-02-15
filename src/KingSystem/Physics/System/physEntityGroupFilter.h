@@ -20,6 +20,7 @@ public:
 
 class EntityGroupFilter : public GroupFilter {
     SEAD_RTTI_OVERRIDE(EntityGroupFilter, GroupFilter)
+
 public:
     static EntityGroupFilter* make(ContactLayer::ValueType first, ContactLayer::ValueType last,
                                    sead::Heap* heap);

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossNormalMoveSelector : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossNormalMoveSelector, PriestBossMode)
+
 public:
     explicit PriestBossNormalMoveSelector(const InitArg& arg);
     ~PriestBossNormalMoveSelector() override;

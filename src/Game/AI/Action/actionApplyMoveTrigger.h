@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ApplyMoveTrigger : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ApplyMoveTrigger, ksys::act::ai::Action)
+
 public:
     explicit ApplyMoveTrigger(const InitArg& arg);
     ~ApplyMoveTrigger() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalPartNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalPartNormal, ksys::act::ai::Ai)
+
 public:
     explicit StalPartNormal(const InitArg& arg);
     ~StalPartNormal() override;

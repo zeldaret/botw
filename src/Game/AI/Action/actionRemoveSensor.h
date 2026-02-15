@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemoveSensor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemoveSensor, ksys::act::ai::Action)
+
 public:
     explicit RemoveSensor(const InitArg& arg);
     ~RemoveSensor() override;

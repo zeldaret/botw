@@ -6,6 +6,7 @@ namespace uking::query {
 
 class EnemyDieCheck : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(EnemyDieCheck, Query)
+
 public:
     explicit EnemyDieCheck(const InitArg& arg);
     ~EnemyDieCheck() override;

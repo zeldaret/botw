@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AppearFromTargetFrontAfterChase : public AppearNearTarget {
     SEAD_RTTI_OVERRIDE(AppearFromTargetFrontAfterChase, AppearNearTarget)
+
 public:
     explicit AppearFromTargetFrontAfterChase(const InitArg& arg);
     ~AppearFromTargetFrontAfterChase() override;

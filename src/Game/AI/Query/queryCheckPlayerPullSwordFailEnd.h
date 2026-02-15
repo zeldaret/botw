@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckPlayerPullSwordFailEnd : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckPlayerPullSwordFailEnd, Query)
+
 public:
     explicit CheckPlayerPullSwordFailEnd(const InitArg& arg);
     ~CheckPlayerPullSwordFailEnd() override;

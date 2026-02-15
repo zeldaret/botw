@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventIncreasePorchItemAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventIncreasePorchItemAction, ksys::act::ai::Action)
+
 public:
     explicit EventIncreasePorchItemAction(const InitArg& arg);
     ~EventIncreasePorchItemAction() override;

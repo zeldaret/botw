@@ -48,6 +48,7 @@ constexpr float operator""_m(unsigned long long minutes) {
 // TODO
 class TimeMgr : public Job {
     SEAD_RTTI_OVERRIDE(TimeMgr, Job)
+
 public:
     enum class BloodMoonForceMode {
         Disabled = 0,

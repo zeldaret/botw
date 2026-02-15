@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ZoraHeroRescuePlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ZoraHeroRescuePlayer, ksys::act::ai::Action)
+
 public:
     explicit ZoraHeroRescuePlayer(const InitArg& arg);
     ~ZoraHeroRescuePlayer() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemainsLithograph : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemainsLithograph, ksys::act::ai::Ai)
+
 public:
     explicit RemainsLithograph(const InitArg& arg);
     ~RemainsLithograph() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCLerpAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCLerpAction, ksys::act::ai::Action)
+
 public:
     explicit NPCLerpAction(const InitArg& arg);
     ~NPCLerpAction() override;

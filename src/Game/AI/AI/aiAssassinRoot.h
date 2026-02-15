@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(AssassinRoot, NPCRoot)
+
 public:
     explicit AssassinRoot(const InitArg& arg);
     ~AssassinRoot() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PriestBossSideMove : public MoveBase {
     SEAD_RTTI_OVERRIDE(PriestBossSideMove, MoveBase)
+
 public:
     explicit PriestBossSideMove(const InitArg& arg);
     ~PriestBossSideMove() override;

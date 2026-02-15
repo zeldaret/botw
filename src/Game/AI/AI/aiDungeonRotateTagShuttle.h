@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DungeonRotateTagShuttle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonRotateTagShuttle, ksys::act::ai::Ai)
+
 public:
     explicit DungeonRotateTagShuttle(const InitArg& arg);
     ~DungeonRotateTagShuttle() override;

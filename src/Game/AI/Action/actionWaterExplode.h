@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaterExplode : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaterExplode, ksys::act::ai::Action)
+
 public:
     explicit WaterExplode(const InitArg& arg);
     ~WaterExplode() override;

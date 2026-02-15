@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetRequestAttention : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetRequestAttention, ksys::act::ai::Action)
+
 public:
     explicit SetRequestAttention(const InitArg& arg);
     ~SetRequestAttention() override;

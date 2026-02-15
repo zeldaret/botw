@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GearRotate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GearRotate, ksys::act::ai::Action)
+
 public:
     explicit GearRotate(const InitArg& arg);
     ~GearRotate() override;

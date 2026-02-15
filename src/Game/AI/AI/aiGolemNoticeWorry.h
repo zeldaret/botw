@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolemNoticeWorry : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolemNoticeWorry, ksys::act::ai::Ai)
+
 public:
     explicit GolemNoticeWorry(const InitArg& arg);
     ~GolemNoticeWorry() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CameraGameRoot : public CameraAI {
     SEAD_RTTI_OVERRIDE(CameraGameRoot, CameraAI)
+
 public:
     explicit CameraGameRoot(const InitArg& arg);
 

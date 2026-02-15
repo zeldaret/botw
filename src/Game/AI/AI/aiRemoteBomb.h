@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemoteBomb : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemoteBomb, ksys::act::ai::Ai)
+
 public:
     explicit RemoteBomb(const InitArg& arg);
     ~RemoteBomb() override;

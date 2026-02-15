@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossGiantDeadSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossGiantDeadSelector, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossGiantDeadSelector(const InitArg& arg);
     ~PriestBossGiantDeadSelector() override;

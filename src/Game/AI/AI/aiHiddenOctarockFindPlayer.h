@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HiddenOctarockFindPlayer : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HiddenOctarockFindPlayer, ksys::act::ai::Ai)
+
 public:
     explicit HiddenOctarockFindPlayer(const InitArg& arg);
     ~HiddenOctarockFindPlayer() override;

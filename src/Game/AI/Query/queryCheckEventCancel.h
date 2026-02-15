@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckEventCancel : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckEventCancel, Query)
+
 public:
     explicit CheckEventCancel(const InitArg& arg);
     ~CheckEventCancel() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyNotice : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyNotice, ksys::act::ai::Ai)
+
 public:
     explicit EnemyNotice(const InitArg& arg);
 

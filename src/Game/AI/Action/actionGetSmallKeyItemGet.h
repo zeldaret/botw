@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetSmallKeyItemGet : public GetItem {
     SEAD_RTTI_OVERRIDE(GetSmallKeyItemGet, GetItem)
+
 public:
     explicit GetSmallKeyItemGet(const InitArg& arg);
 

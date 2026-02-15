@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BokoblinRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinRoam, ksys::act::ai::Ai)
+
 public:
     explicit BokoblinRoam(const InitArg& arg);
     ~BokoblinRoam() override;

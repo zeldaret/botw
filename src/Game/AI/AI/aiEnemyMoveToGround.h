@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyMoveToGround : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyMoveToGround, ksys::act::ai::Ai)
+
 public:
     explicit EnemyMoveToGround(const InitArg& arg);
     ~EnemyMoveToGround() override;

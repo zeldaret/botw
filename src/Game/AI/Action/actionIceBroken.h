@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IceBroken : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IceBroken, ksys::act::ai::Action)
+
 public:
     explicit IceBroken(const InitArg& arg);
     ~IceBroken() override;

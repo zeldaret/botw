@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DgnObj_DLC_CogWheel_Rotate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DgnObj_DLC_CogWheel_Rotate, ksys::act::ai::Action)
+
 public:
     explicit DgnObj_DLC_CogWheel_Rotate(const InitArg& arg);
     ~DgnObj_DLC_CogWheel_Rotate() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkGanonBeastWeakPointCheck : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGanonBeastWeakPointCheck, ksys::act::ai::Action)
+
 public:
     explicit ForkGanonBeastWeakPointCheck(const InitArg& arg);
     ~ForkGanonBeastWeakPointCheck() override;

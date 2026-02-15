@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EnemyRushAttack : public RandomMoveAction {
     SEAD_RTTI_OVERRIDE(EnemyRushAttack, RandomMoveAction)
+
 public:
     explicit EnemyRushAttack(const InitArg& arg);
     ~EnemyRushAttack() override;

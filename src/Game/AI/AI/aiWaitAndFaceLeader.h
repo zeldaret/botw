@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WaitAndFaceLeader : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WaitAndFaceLeader, ksys::act::ai::Ai)
+
 public:
     explicit WaitAndFaceLeader(const InitArg& arg);
     ~WaitAndFaceLeader() override;

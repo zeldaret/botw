@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TargetCircleSwim : public TargetCircle {
     SEAD_RTTI_OVERRIDE(TargetCircleSwim, TargetCircle)
+
 public:
     explicit TargetCircleSwim(const InitArg& arg);
     ~TargetCircleSwim() override;

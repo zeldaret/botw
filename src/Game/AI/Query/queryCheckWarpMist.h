@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckWarpMist : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckWarpMist, Query)
+
 public:
     explicit CheckWarpMist(const InitArg& arg);
     ~CheckWarpMist() override;

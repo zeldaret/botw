@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSkin : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSkin, PlayerAction)
+
 public:
     explicit PlayerSkin(const InitArg& arg);
 

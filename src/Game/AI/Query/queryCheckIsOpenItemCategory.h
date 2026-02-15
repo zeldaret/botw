@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckIsOpenItemCategory : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckIsOpenItemCategory, Query)
+
 public:
     explicit CheckIsOpenItemCategory(const InitArg& arg);
     ~CheckIsOpenItemCategory() override;

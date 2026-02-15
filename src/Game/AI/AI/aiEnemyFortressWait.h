@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyFortressWait : public EnemyWaitViewItem {
     SEAD_RTTI_OVERRIDE(EnemyFortressWait, EnemyWaitViewItem)
+
 public:
     explicit EnemyFortressWait(const InitArg& arg);
     ~EnemyFortressWait() override;

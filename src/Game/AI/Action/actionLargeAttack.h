@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LargeAttack : public ActionEx {
     SEAD_RTTI_OVERRIDE(LargeAttack, ActionEx)
+
 public:
     explicit LargeAttack(const InitArg& arg);
     ~LargeAttack() override;

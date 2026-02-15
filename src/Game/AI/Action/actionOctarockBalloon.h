@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OctarockBalloon : public OctarockBalloonBase {
     SEAD_RTTI_OVERRIDE(OctarockBalloon, OctarockBalloonBase)
+
 public:
     explicit OctarockBalloon(const InitArg& arg);
     ~OctarockBalloon() override;

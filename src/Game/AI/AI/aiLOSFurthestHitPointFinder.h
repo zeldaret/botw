@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LOSFurthestHitPointFinder : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LOSFurthestHitPointFinder, ksys::act::ai::Ai)
+
 public:
     explicit LOSFurthestHitPointFinder(const InitArg& arg);
     ~LOSFurthestHitPointFinder() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Eat : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Eat, ActionWithPosAngReduce)
+
 public:
     explicit Eat(const InitArg& arg);
     ~Eat() override;

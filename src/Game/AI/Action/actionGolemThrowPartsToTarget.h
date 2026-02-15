@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GolemThrowPartsToTarget : public GolemThrowPartsToTargetBase {
     SEAD_RTTI_OVERRIDE(GolemThrowPartsToTarget, GolemThrowPartsToTargetBase)
+
 public:
     explicit GolemThrowPartsToTarget(const InitArg& arg);
     ~GolemThrowPartsToTarget() override;

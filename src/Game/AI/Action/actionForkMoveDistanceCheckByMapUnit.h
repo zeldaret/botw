@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkMoveDistanceCheckByMapUnit : public ForkMoveDistanceCheckByDistance {
     SEAD_RTTI_OVERRIDE(ForkMoveDistanceCheckByMapUnit, ForkMoveDistanceCheckByDistance)
+
 public:
     explicit ForkMoveDistanceCheckByMapUnit(const InitArg& arg);
     ~ForkMoveDistanceCheckByMapUnit() override;

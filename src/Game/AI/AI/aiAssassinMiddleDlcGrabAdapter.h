@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinMiddleDlcGrabAdapter : public TargetActorGrabAdapter {
     SEAD_RTTI_OVERRIDE(AssassinMiddleDlcGrabAdapter, TargetActorGrabAdapter)
+
 public:
     explicit AssassinMiddleDlcGrabAdapter(const InitArg& arg);
     ~AssassinMiddleDlcGrabAdapter() override;

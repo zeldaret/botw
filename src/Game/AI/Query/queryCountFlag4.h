@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CountFlag4 : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CountFlag4, Query)
+
 public:
     explicit CountFlag4(const InitArg& arg);
     ~CountFlag4() override;

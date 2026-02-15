@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StunBossReaction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StunBossReaction, ksys::act::ai::Ai)
+
 public:
     explicit StunBossReaction(const InitArg& arg);
     ~StunBossReaction() override;

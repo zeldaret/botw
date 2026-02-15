@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCSaleAppReception : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCSaleAppReception, ksys::act::ai::Action)
+
 public:
     explicit NPCSaleAppReception(const InitArg& arg);
     ~NPCSaleAppReception() override;

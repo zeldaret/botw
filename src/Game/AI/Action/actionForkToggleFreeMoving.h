@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkToggleFreeMoving : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkToggleFreeMoving, ksys::act::ai::Action)
+
 public:
     explicit ForkToggleFreeMoving(const InitArg& arg);
     ~ForkToggleFreeMoving() override;

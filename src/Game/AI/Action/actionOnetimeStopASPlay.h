@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OnetimeStopASPlay : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(OnetimeStopASPlay, ActionWithAS)
+
 public:
     explicit OnetimeStopASPlay(const InitArg& arg);
     ~OnetimeStopASPlay() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LynelHighJumpAttack : public JumpAttack {
     SEAD_RTTI_OVERRIDE(LynelHighJumpAttack, JumpAttack)
+
 public:
     explicit LynelHighJumpAttack(const InitArg& arg);
     ~LynelHighJumpAttack() override;

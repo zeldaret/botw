@@ -14,6 +14,7 @@ struct BoxShapeParam;
 
 class BoxWaterShape : public Shape {
     SEAD_RTTI_OVERRIDE(BoxWaterShape, Shape)
+
 public:
     enum class Flag {
         IsWater = 1 << 0,

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossSwordWhirlSlash : public SiteBossSwordAttackBase {
     SEAD_RTTI_OVERRIDE(SiteBossSwordWhirlSlash, SiteBossSwordAttackBase)
+
 public:
     explicit SiteBossSwordWhirlSlash(const InitArg& arg);
     ~SiteBossSwordWhirlSlash() override;

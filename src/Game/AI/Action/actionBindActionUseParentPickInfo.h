@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BindActionUseParentPickInfo : public BindActionForManyActor {
     SEAD_RTTI_OVERRIDE(BindActionUseParentPickInfo, BindActionForManyActor)
+
 public:
     explicit BindActionUseParentPickInfo(const InitArg& arg);
     ~BindActionUseParentPickInfo() override;

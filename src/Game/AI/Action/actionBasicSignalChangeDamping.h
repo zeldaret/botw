@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BasicSignalChangeDamping : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BasicSignalChangeDamping, ksys::act::ai::Action)
+
 public:
     explicit BasicSignalChangeDamping(const InitArg& arg);
     ~BasicSignalChangeDamping() override;

@@ -12,6 +12,7 @@ class AS;
 
 class ASResource {
     SEAD_RTTI_BASE(ASResource)
+
 public:
     struct ParseArgs {
         agl::utl::ResParameterList list;
@@ -51,6 +52,7 @@ protected:
 
 class ASResourceWithChildren : public ASResource {
     SEAD_RTTI_OVERRIDE(ASResourceWithChildren, ASResource)
+
 public:
     using ASResource::ASResource;
     ~ASResourceWithChildren() override;
@@ -72,6 +74,7 @@ protected:
 
 class ASSequencePlayContainerResource : public ASResourceWithChildren {
     SEAD_RTTI_OVERRIDE(ASSequencePlayContainerResource, ASResourceWithChildren)
+
 public:
     using ASResourceWithChildren::ASResourceWithChildren;
 
@@ -89,6 +92,7 @@ protected:
 
 class ASSelectorResource : public ASResourceWithChildren {
     SEAD_RTTI_OVERRIDE(ASSelectorResource, ASResourceWithChildren)
+
 public:
     using ASResourceWithChildren::ASResourceWithChildren;
 
@@ -106,6 +110,7 @@ protected:
 
 class ASBlenderResource : public ASResourceWithChildren {
     SEAD_RTTI_OVERRIDE(ASBlenderResource, ASResourceWithChildren)
+
 public:
     using ASResourceWithChildren::ASResourceWithChildren;
 
@@ -125,6 +130,7 @@ protected:
 
 class ASAssetResource : public ASResource {
     SEAD_RTTI_OVERRIDE(ASAssetResource, ASResource)
+
 public:
     using ASResource::ASResource;
 
@@ -139,6 +145,7 @@ protected:
 
 class ASAssetExResource : public ASAssetResource {
     SEAD_RTTI_OVERRIDE(ASAssetExResource, ASAssetResource)
+
 public:
     using ASAssetResource::ASAssetResource;
 
@@ -148,6 +155,7 @@ protected:
 
 class ASSkeltalAssetResource : public ASAssetResource {
     SEAD_RTTI_OVERRIDE(ASSkeltalAssetResource, ASAssetResource)
+
 public:
     using ASAssetResource::ASAssetResource;
 

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MasquaradeSubTargetSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MasquaradeSubTargetSelect, ksys::act::ai::Ai)
+
 public:
     explicit MasquaradeSubTargetSelect(const InitArg& arg);
     ~MasquaradeSubTargetSelect() override;

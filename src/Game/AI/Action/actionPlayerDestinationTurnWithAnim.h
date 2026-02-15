@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerDestinationTurnWithAnim : public PlayerDestinationTurn {
     SEAD_RTTI_OVERRIDE(PlayerDestinationTurnWithAnim, PlayerDestinationTurn)
+
 public:
     explicit PlayerDestinationTurnWithAnim(const InitArg& arg);
     ~PlayerDestinationTurnWithAnim() override;

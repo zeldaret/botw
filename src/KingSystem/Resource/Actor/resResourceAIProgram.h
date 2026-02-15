@@ -17,6 +17,7 @@ namespace ksys::res {
 
 class AIProgram : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AIProgram, Resource)
+
 public:
     struct Definition {
         const agl::utl::ParameterBase* findSInstParam(u32 name_hash) const;

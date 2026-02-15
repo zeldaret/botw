@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventFlagOFFAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventFlagOFFAction, ksys::act::ai::Action)
+
 public:
     explicit EventFlagOFFAction(const InitArg& arg);
     ~EventFlagOFFAction() override;

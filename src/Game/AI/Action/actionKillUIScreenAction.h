@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KillUIScreenAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KillUIScreenAction, ksys::act::ai::Action)
+
 public:
     explicit KillUIScreenAction(const InitArg& arg);
     ~KillUIScreenAction() override;

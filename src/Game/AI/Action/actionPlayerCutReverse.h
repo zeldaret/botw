@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerCutReverse : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCutReverse, PlayerAction)
+
 public:
     explicit PlayerCutReverse(const InitArg& arg);
 

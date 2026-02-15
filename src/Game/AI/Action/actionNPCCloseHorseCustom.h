@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCCloseHorseCustom : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCCloseHorseCustom, ksys::act::ai::Action)
+
 public:
     explicit NPCCloseHorseCustom(const InitArg& arg);
     ~NPCCloseHorseCustom() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventWatchCannonHit : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventWatchCannonHit, ksys::act::ai::Action)
+
 public:
     explicit EventWatchCannonHit(const InitArg& arg);
     ~EventWatchCannonHit() override;

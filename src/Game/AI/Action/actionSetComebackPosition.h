@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SetComebackPosition : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(SetComebackPosition, AreaTagAction)
+
 public:
     explicit SetComebackPosition(const InitArg& arg);
     ~SetComebackPosition() override;

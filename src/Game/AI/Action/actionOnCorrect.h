@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OnCorrect : public On {
     SEAD_RTTI_OVERRIDE(OnCorrect, On)
+
 public:
     explicit OnCorrect(const InitArg& arg);
     ~OnCorrect() override;

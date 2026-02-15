@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChildHaveSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChildHaveSelect, ksys::act::ai::Ai)
+
 public:
     explicit ChildHaveSelect(const InitArg& arg);
     ~ChildHaveSelect() override;

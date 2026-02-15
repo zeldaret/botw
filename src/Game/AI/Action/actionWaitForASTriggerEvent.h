@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitForASTriggerEvent : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitForASTriggerEvent, ksys::act::ai::Action)
+
 public:
     explicit WaitForASTriggerEvent(const InitArg& arg);
     ~WaitForASTriggerEvent() override;

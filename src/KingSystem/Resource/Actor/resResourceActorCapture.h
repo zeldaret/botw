@@ -11,6 +11,7 @@ namespace ksys::res {
 
 class ActorCapture : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(ActorCapture, Resource)
+
 public:
     struct ActorCaptureConstants {
         // NON_MATCHING: equivalent but reordered

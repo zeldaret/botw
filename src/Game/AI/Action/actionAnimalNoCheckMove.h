@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnimalNoCheckMove : public AnimalMove {
     SEAD_RTTI_OVERRIDE(AnimalNoCheckMove, AnimalMove)
+
 public:
     explicit AnimalNoCheckMove(const InitArg& arg);
     ~AnimalNoCheckMove() override;

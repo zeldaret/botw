@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DisplaySelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DisplaySelect, ksys::act::ai::Ai)
+
 public:
     explicit DisplaySelect(const InitArg& arg);
     ~DisplaySelect() override;

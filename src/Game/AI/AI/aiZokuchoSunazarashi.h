@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ZokuchoSunazarashi : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ZokuchoSunazarashi, ksys::act::ai::Ai)
+
 public:
     explicit ZokuchoSunazarashi(const InitArg& arg);
     ~ZokuchoSunazarashi() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ASPlaySimpleAnmDriven : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ASPlaySimpleAnmDriven, ksys::act::ai::Action)
+
 public:
     explicit ASPlaySimpleAnmDriven(const InitArg& arg);
     ~ASPlaySimpleAnmDriven() override;

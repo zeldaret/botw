@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KorokFlowerRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KorokFlowerRoot, ksys::act::ai::Ai)
+
 public:
     explicit KorokFlowerRoot(const InitArg& arg);
     ~KorokFlowerRoot() override;

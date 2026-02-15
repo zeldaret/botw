@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PlayerEmitEquipmentNoise : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayerEmitEquipmentNoise, ksys::act::ai::Action)
+
 public:
     explicit PlayerEmitEquipmentNoise(const InitArg& arg);
     ~PlayerEmitEquipmentNoise() override;

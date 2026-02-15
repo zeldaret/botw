@@ -6,6 +6,7 @@ namespace uking::query {
 
 class BranchByDyeColor : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(BranchByDyeColor, Query)
+
 public:
     explicit BranchByDyeColor(const InitArg& arg);
     ~BranchByDyeColor() override;

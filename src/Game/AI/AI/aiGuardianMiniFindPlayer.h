@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianMiniFindPlayer : public LandHumEnemyFindPlayer {
     SEAD_RTTI_OVERRIDE(GuardianMiniFindPlayer, LandHumEnemyFindPlayer)
+
 public:
     explicit GuardianMiniFindPlayer(const InitArg& arg);
     ~GuardianMiniFindPlayer() override;

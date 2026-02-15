@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForestGiantRoam : public BokoblinRoam {
     SEAD_RTTI_OVERRIDE(ForestGiantRoam, BokoblinRoam)
+
 public:
     explicit ForestGiantRoam(const InitArg& arg);
     ~ForestGiantRoam() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventUpdateMiniGameBestScore : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventUpdateMiniGameBestScore, ksys::act::ai::Action)
+
 public:
     explicit EventUpdateMiniGameBestScore(const InitArg& arg);
     ~EventUpdateMiniGameBestScore() override;

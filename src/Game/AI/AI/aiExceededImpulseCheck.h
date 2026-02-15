@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ExceededImpulseCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ExceededImpulseCheck, ksys::act::ai::Ai)
+
 public:
     explicit ExceededImpulseCheck(const InitArg& arg);
     ~ExceededImpulseCheck() override;

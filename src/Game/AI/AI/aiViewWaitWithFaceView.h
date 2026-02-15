@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ViewWaitWithFaceView : public ViewWait {
     SEAD_RTTI_OVERRIDE(ViewWaitWithFaceView, ViewWait)
+
 public:
     explicit ViewWaitWithFaceView(const InitArg& arg);
     ~ViewWaitWithFaceView() override;

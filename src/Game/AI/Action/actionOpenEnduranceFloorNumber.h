@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenEnduranceFloorNumber : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenEnduranceFloorNumber, ksys::act::ai::Action)
+
 public:
     explicit OpenEnduranceFloorNumber(const InitArg& arg);
     ~OpenEnduranceFloorNumber() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreyStun : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreyStun, ksys::act::ai::Ai)
+
 public:
     explicit PreyStun(const InitArg& arg);
     ~PreyStun() override;

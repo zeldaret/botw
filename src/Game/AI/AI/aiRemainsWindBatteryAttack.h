@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RemainsWindBatteryAttack : public GuardianBeamAttackBase {
     SEAD_RTTI_OVERRIDE(RemainsWindBatteryAttack, GuardianBeamAttackBase)
+
 public:
     explicit RemainsWindBatteryAttack(const InitArg& arg);
     ~RemainsWindBatteryAttack() override;

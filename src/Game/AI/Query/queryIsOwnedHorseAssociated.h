@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsOwnedHorseAssociated : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsOwnedHorseAssociated, Query)
+
 public:
     explicit IsOwnedHorseAssociated(const InitArg& arg);
     ~IsOwnedHorseAssociated() override;

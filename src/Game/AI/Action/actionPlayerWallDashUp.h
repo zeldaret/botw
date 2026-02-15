@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerWallDashUp : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWallDashUp, PlayerAction)
+
 public:
     explicit PlayerWallDashUp(const InitArg& arg);
 

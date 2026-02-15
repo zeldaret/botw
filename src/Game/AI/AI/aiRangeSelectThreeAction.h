@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RangeSelectThreeAction : public RangeSelectAction {
     SEAD_RTTI_OVERRIDE(RangeSelectThreeAction, RangeSelectAction)
+
 public:
     explicit RangeSelectThreeAction(const InitArg& arg);
     ~RangeSelectThreeAction() override;

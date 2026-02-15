@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BalloonPlantNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BalloonPlantNormal, ksys::act::ai::Ai)
+
 public:
     explicit BalloonPlantNormal(const InitArg& arg);
     ~BalloonPlantNormal() override;

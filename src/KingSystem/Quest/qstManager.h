@@ -13,6 +13,7 @@ struct Quest;
 
 class Manager {
     SEAD_SINGLETON_DISPOSER(Manager)
+
 public:
     Manager();
     virtual ~Manager();

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ShockWave : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ShockWave, ksys::act::ai::Action)
+
 public:
     explicit ShockWave(const InitArg& arg);
     ~ShockWave() override;

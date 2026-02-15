@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckCurrentMap : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckCurrentMap, Query)
+
 public:
     explicit CheckCurrentMap(const InitArg& arg);
     ~CheckCurrentMap() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AreaFireObserve : public AreaFireObserveBase {
     SEAD_RTTI_OVERRIDE(AreaFireObserve, AreaFireObserveBase)
+
 public:
     explicit AreaFireObserve(const InitArg& arg);
 

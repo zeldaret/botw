@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ChallengeChainRing : public FollowChallenge {
     SEAD_RTTI_OVERRIDE(ChallengeChainRing, FollowChallenge)
+
 public:
     explicit ChallengeChainRing(const InitArg& arg);
     ~ChallengeChainRing() override;

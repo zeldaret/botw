@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckResultOfNPCConflict : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckResultOfNPCConflict, Query)
+
 public:
     explicit CheckResultOfNPCConflict(const InitArg& arg);
     ~CheckResultOfNPCConflict() override;

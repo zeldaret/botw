@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DieAnmDropWeapon : public DieAnm {
     SEAD_RTTI_OVERRIDE(DieAnmDropWeapon, DieAnm)
+
 public:
     explicit DieAnmDropWeapon(const InitArg& arg);
     ~DieAnmDropWeapon() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkJumpToTargetOnDownEnd : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkJumpToTargetOnDownEnd, ksys::act::ai::Action)
+
 public:
     explicit ForkJumpToTargetOnDownEnd(const InitArg& arg);
     ~ForkJumpToTargetOnDownEnd() override;

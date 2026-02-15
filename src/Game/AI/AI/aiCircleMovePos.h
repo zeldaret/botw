@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CircleMovePos : public CircleMove {
     SEAD_RTTI_OVERRIDE(CircleMovePos, CircleMove)
+
 public:
     explicit CircleMovePos(const InitArg& arg);
     ~CircleMovePos() override;

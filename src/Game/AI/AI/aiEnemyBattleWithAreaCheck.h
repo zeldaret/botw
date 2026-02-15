@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyBattleWithAreaCheck : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(EnemyBattleWithAreaCheck, EnemyBattle)
+
 public:
     explicit EnemyBattleWithAreaCheck(const InitArg& arg);
     ~EnemyBattleWithAreaCheck() override;

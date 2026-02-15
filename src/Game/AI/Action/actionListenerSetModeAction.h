@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ListenerSetModeAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ListenerSetModeAction, ksys::act::ai::Action)
+
 public:
     explicit ListenerSetModeAction(const InitArg& arg);
     ~ListenerSetModeAction() override;

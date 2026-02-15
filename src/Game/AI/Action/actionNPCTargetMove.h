@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NPCTargetMove : public RandomMoveAction {
     SEAD_RTTI_OVERRIDE(NPCTargetMove, RandomMoveAction)
+
 public:
     explicit NPCTargetMove(const InitArg& arg);
     ~NPCTargetMove() override;

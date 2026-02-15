@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetChemicalWeaponPower : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetChemicalWeaponPower, ksys::act::ai::Action)
+
 public:
     explicit SetChemicalWeaponPower(const InitArg& arg);
     ~SetChemicalWeaponPower() override;

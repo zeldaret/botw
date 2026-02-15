@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AwarenessScale : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AwarenessScale, ksys::act::ai::Ai)
+
 public:
     explicit AwarenessScale(const InitArg& arg);
     ~AwarenessScale() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SendMessageBroadCast : public SendMessage {
     SEAD_RTTI_OVERRIDE(SendMessageBroadCast, SendMessage)
+
 public:
     explicit SendMessageBroadCast(const InitArg& arg);
     ~SendMessageBroadCast() override;

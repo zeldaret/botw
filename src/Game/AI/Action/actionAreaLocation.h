@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AreaLocation : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AreaLocation, ksys::act::ai::Action)
+
 public:
     explicit AreaLocation(const InitArg& arg);
     ~AreaLocation() override;

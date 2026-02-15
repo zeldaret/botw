@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckCurseRRetryEverOnce : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckCurseRRetryEverOnce, Query)
+
 public:
     explicit CheckCurseRRetryEverOnce(const InitArg& arg);
     ~CheckCurseRRetryEverOnce() override;

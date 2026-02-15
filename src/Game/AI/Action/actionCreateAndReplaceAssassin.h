@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CreateAndReplaceAssassin : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CreateAndReplaceAssassin, ksys::act::ai::Action)
+
 public:
     explicit CreateAndReplaceAssassin(const InitArg& arg);
     ~CreateAndReplaceAssassin() override;

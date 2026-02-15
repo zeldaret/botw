@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WaitForCloseOrWaterSide : public WaitForTargetClose {
     SEAD_RTTI_OVERRIDE(WaitForCloseOrWaterSide, WaitForTargetClose)
+
 public:
     explicit WaitForCloseOrWaterSide(const InitArg& arg);
     ~WaitForCloseOrWaterSide() override;

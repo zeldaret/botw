@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RailMoveRemains : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RailMoveRemains, ksys::act::ai::Ai)
+
 public:
     explicit RailMoveRemains(const InitArg& arg);
     ~RailMoveRemains() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelRodeo : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelRodeo, ksys::act::ai::Ai)
+
 public:
     explicit LynelRodeo(const InitArg& arg);
     ~LynelRodeo() override;

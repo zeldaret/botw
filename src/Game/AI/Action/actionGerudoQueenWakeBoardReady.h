@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GerudoQueenWakeBoardReady : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GerudoQueenWakeBoardReady, ksys::act::ai::Action)
+
 public:
     explicit GerudoQueenWakeBoardReady(const InitArg& arg);
     ~GerudoQueenWakeBoardReady() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ArmorBindNodeAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ArmorBindNodeAction, ksys::act::ai::Action)
+
 public:
     explicit ArmorBindNodeAction(const InitArg& arg);
     ~ArmorBindNodeAction() override;

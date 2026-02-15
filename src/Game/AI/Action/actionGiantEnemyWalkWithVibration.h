@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantEnemyWalkWithVibration : public MoveBase {
     SEAD_RTTI_OVERRIDE(GiantEnemyWalkWithVibration, MoveBase)
+
 public:
     explicit GiantEnemyWalkWithVibration(const InitArg& arg);
     ~GiantEnemyWalkWithVibration() override;

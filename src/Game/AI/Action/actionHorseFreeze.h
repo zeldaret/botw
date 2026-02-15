@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseFreeze : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(HorseFreeze, ActionWithPosAngReduce)
+
 public:
     explicit HorseFreeze(const InitArg& arg);
     ~HorseFreeze() override;

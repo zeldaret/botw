@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RemainElectricCannonRoot : public RemainElectricCannonRootBase {
     SEAD_RTTI_OVERRIDE(RemainElectricCannonRoot, RemainElectricCannonRootBase)
+
 public:
     explicit RemainElectricCannonRoot(const InitArg& arg);
     ~RemainElectricCannonRoot() override;

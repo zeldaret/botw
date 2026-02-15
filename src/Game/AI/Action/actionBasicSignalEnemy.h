@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BasicSignalEnemy : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BasicSignalEnemy, ksys::act::ai::Action)
+
 public:
     explicit BasicSignalEnemy(const InitArg& arg);
     ~BasicSignalEnemy() override;

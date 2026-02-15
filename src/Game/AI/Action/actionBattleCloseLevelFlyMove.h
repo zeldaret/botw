@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BattleCloseLevelFlyMove : public BattleCloseLevelFlyMoveBase {
     SEAD_RTTI_OVERRIDE(BattleCloseLevelFlyMove, BattleCloseLevelFlyMoveBase)
+
 public:
     explicit BattleCloseLevelFlyMove(const InitArg& arg);
     ~BattleCloseLevelFlyMove() override;

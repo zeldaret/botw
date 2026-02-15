@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkWeaponShockWave : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkWeaponShockWave, ksys::act::ai::Action)
+
 public:
     explicit ForkWeaponShockWave(const InitArg& arg);
     ~ForkWeaponShockWave() override;

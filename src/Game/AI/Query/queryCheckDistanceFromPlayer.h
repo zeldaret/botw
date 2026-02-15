@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckDistanceFromPlayer : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckDistanceFromPlayer, Query)
+
 public:
     explicit CheckDistanceFromPlayer(const InitArg& arg);
     ~CheckDistanceFromPlayer() override;

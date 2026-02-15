@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FreeMoveToTargetWithBank : public FreeMoveToTarget {
     SEAD_RTTI_OVERRIDE(FreeMoveToTargetWithBank, FreeMoveToTarget)
+
 public:
     explicit FreeMoveToTargetWithBank(const InitArg& arg);
     ~FreeMoveToTargetWithBank() override;

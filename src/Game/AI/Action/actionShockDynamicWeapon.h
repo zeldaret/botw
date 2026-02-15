@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ShockDynamicWeapon : public Shock {
     SEAD_RTTI_OVERRIDE(ShockDynamicWeapon, Shock)
+
 public:
     explicit ShockDynamicWeapon(const InitArg& arg);
     ~ShockDynamicWeapon() override;

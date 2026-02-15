@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DragonFixPlacement : public NullASPlay {
     SEAD_RTTI_OVERRIDE(DragonFixPlacement, NullASPlay)
+
 public:
     explicit DragonFixPlacement(const InitArg& arg);
     ~DragonFixPlacement() override;

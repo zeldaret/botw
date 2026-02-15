@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ForbidDoubleNoticeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ForbidDoubleNoticeSelect, ksys::act::ai::Ai)
+
 public:
     explicit ForbidDoubleNoticeSelect(const InitArg& arg);
     ~ForbidDoubleNoticeSelect() override;

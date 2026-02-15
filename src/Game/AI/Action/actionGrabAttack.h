@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GrabAttack : public Grab {
     SEAD_RTTI_OVERRIDE(GrabAttack, Grab)
+
 public:
     explicit GrabAttack(const InitArg& arg);
     ~GrabAttack() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StrangeBeacon : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StrangeBeacon, ksys::act::ai::Action)
+
 public:
     explicit StrangeBeacon(const InitArg& arg);
     ~StrangeBeacon() override;

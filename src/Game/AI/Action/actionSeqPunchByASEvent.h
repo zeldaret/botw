@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SeqPunchByASEvent : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(SeqPunchByASEvent, ActionWithAS)
+
 public:
     explicit SeqPunchByASEvent(const InitArg& arg);
     ~SeqPunchByASEvent() override;

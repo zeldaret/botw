@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WaterFallWithSound : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WaterFallWithSound, ksys::act::ai::Ai)
+
 public:
     explicit WaterFallWithSound(const InitArg& arg);
     ~WaterFallWithSound() override;

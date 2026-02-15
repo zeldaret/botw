@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerLookAtObject : public LookAtObjectBase {
     SEAD_RTTI_OVERRIDE(PlayerLookAtObject, LookAtObjectBase)
+
 public:
     explicit PlayerLookAtObject(const InitArg& arg);
     ~PlayerLookAtObject() override;

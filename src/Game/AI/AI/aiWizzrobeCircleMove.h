@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WizzrobeCircleMove : public CircleMoveTarget {
     SEAD_RTTI_OVERRIDE(WizzrobeCircleMove, CircleMoveTarget)
+
 public:
     explicit WizzrobeCircleMove(const InitArg& arg);
     ~WizzrobeCircleMove() override;

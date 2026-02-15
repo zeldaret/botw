@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SlideMoveViewTarget : public MoveBase {
     SEAD_RTTI_OVERRIDE(SlideMoveViewTarget, MoveBase)
+
 public:
     explicit SlideMoveViewTarget(const InitArg& arg);
     ~SlideMoveViewTarget() override;

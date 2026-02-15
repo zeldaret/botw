@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossCircleFormationShoot : public PriestBossFormation {
     SEAD_RTTI_OVERRIDE(PriestBossCircleFormationShoot, PriestBossFormation)
+
 public:
     explicit PriestBossCircleFormationShoot(const InitArg& arg);
     ~PriestBossCircleFormationShoot() override;

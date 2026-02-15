@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ThrownSpear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ThrownSpear, ksys::act::ai::Action)
+
 public:
     explicit ThrownSpear(const InitArg& arg);
     ~ThrownSpear() override;

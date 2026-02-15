@@ -7,6 +7,7 @@ namespace uking::action {
 
 class StopChargeChemicalWeaponPower : public SetChemicalWeaponPower {
     SEAD_RTTI_OVERRIDE(StopChargeChemicalWeaponPower, SetChemicalWeaponPower)
+
 public:
     explicit StopChargeChemicalWeaponPower(const InitArg& arg);
     ~StopChargeChemicalWeaponPower() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NavMeshGuardRun : public NavMeshAction {
     SEAD_RTTI_OVERRIDE(NavMeshGuardRun, NavMeshAction)
+
 public:
     explicit NavMeshGuardRun(const InitArg& arg);
     ~NavMeshGuardRun() override;

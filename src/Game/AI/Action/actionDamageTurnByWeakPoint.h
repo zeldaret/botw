@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DamageTurnByWeakPoint : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DamageTurnByWeakPoint, ksys::act::ai::Action)
+
 public:
     explicit DamageTurnByWeakPoint(const InitArg& arg);
     ~DamageTurnByWeakPoint() override;

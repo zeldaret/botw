@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CurseRRematchCount : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CurseRRematchCount, ksys::act::ai::Action)
+
 public:
     explicit CurseRRematchCount(const InitArg& arg);
     ~CurseRRematchCount() override;

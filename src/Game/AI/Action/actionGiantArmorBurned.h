@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantArmorBurned : public GiantArmorAction {
     SEAD_RTTI_OVERRIDE(GiantArmorBurned, GiantArmorAction)
+
 public:
     explicit GiantArmorBurned(const InitArg& arg);
     ~GiantArmorBurned() override;

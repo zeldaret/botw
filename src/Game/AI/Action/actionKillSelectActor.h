@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KillSelectActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KillSelectActor, ksys::act::ai::Action)
+
 public:
     explicit KillSelectActor(const InitArg& arg);
     ~KillSelectActor() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SystemHide : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemHide, ksys::act::ai::Action)
+
 public:
     explicit SystemHide(const InitArg& arg);
     ~SystemHide() override;

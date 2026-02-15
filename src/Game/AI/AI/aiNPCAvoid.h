@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCAvoid : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCAvoid, ksys::act::ai::Ai)
+
 public:
     explicit NPCAvoid(const InitArg& arg);
     ~NPCAvoid() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossSwordAfterImageMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossSwordAfterImageMove, ksys::act::ai::Action)
+
 public:
     explicit SiteBossSwordAfterImageMove(const InitArg& arg);
     ~SiteBossSwordAfterImageMove() override;

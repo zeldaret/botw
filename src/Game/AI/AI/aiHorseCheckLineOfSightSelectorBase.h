@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HorseCheckLineOfSightSelectorBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseCheckLineOfSightSelectorBase, ksys::act::ai::Ai)
+
 public:
     explicit HorseCheckLineOfSightSelectorBase(const InitArg& arg);
     ~HorseCheckLineOfSightSelectorBase() override;

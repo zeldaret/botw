@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DuckRoot : public PreyRoot {
     SEAD_RTTI_OVERRIDE(DuckRoot, PreyRoot)
+
 public:
     explicit DuckRoot(const InitArg& arg);
     ~DuckRoot() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventOpenMessageTips : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventOpenMessageTips, ksys::act::ai::Action)
+
 public:
     explicit EventOpenMessageTips(const InitArg& arg);
     ~EventOpenMessageTips() override;

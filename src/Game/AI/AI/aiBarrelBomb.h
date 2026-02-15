@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class BarrelBomb : public SimpleLiftable {
     SEAD_RTTI_OVERRIDE(BarrelBomb, SimpleLiftable)
+
 public:
     explicit BarrelBomb(const InitArg& arg);
 

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RangeCheckSeqTwoAction : public SeqTargetTwoAction {
     SEAD_RTTI_OVERRIDE(RangeCheckSeqTwoAction, SeqTargetTwoAction)
+
 public:
     explicit RangeCheckSeqTwoAction(const InitArg& arg);
     ~RangeCheckSeqTwoAction() override;

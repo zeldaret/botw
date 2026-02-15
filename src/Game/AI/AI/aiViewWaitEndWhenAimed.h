@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ViewWaitEndWhenAimed : public TimeredViewWait {
     SEAD_RTTI_OVERRIDE(ViewWaitEndWhenAimed, TimeredViewWait)
+
 public:
     explicit ViewWaitEndWhenAimed(const InitArg& arg);
     ~ViewWaitEndWhenAimed() override;

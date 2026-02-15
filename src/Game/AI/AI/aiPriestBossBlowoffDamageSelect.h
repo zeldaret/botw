@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossBlowoffDamageSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossBlowoffDamageSelect, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossBlowoffDamageSelect(const InitArg& arg);
     ~PriestBossBlowoffDamageSelect() override;

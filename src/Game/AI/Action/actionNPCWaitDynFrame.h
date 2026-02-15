@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NPCWaitDynFrame : public NPCWaitFrame {
     SEAD_RTTI_OVERRIDE(NPCWaitDynFrame, NPCWaitFrame)
+
 public:
     explicit NPCWaitDynFrame(const InitArg& arg);
     ~NPCWaitDynFrame() override;

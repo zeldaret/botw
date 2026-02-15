@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAlwaysSetModelEffect : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAlwaysSetModelEffect, ksys::act::ai::Action)
+
 public:
     explicit ForkAlwaysSetModelEffect(const InitArg& arg);
     ~ForkAlwaysSetModelEffect() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BasicSignalEnemyForceNotice : public BasicSignalEnemy {
     SEAD_RTTI_OVERRIDE(BasicSignalEnemyForceNotice, BasicSignalEnemy)
+
 public:
     explicit BasicSignalEnemyForceNotice(const InitArg& arg);
     ~BasicSignalEnemyForceNotice() override;

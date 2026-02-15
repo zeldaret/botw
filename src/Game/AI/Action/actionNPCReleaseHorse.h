@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCReleaseHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCReleaseHorse, ksys::act::ai::Action)
+
 public:
     explicit NPCReleaseHorse(const InitArg& arg);
     ~NPCReleaseHorse() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ApplyDamageForPlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ApplyDamageForPlayer, ksys::act::ai::Action)
+
 public:
     explicit ApplyDamageForPlayer(const InitArg& arg);
     ~ApplyDamageForPlayer() override;

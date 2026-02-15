@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AnimalFollowTarget : public HorseFollow {
     SEAD_RTTI_OVERRIDE(AnimalFollowTarget, HorseFollow)
+
 public:
     explicit AnimalFollowTarget(const InitArg& arg);
     ~AnimalFollowTarget() override;

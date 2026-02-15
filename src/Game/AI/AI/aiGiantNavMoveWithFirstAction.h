@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GiantNavMoveWithFirstAction : public GiantNavMoveTarget {
     SEAD_RTTI_OVERRIDE(GiantNavMoveWithFirstAction, GiantNavMoveTarget)
+
 public:
     explicit GiantNavMoveWithFirstAction(const InitArg& arg);
     ~GiantNavMoveWithFirstAction() override;

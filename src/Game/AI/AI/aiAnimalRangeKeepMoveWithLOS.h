@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AnimalRangeKeepMoveWithLOS : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AnimalRangeKeepMoveWithLOS, ksys::act::ai::Ai)
+
 public:
     explicit AnimalRangeKeepMoveWithLOS(const InitArg& arg);
     ~AnimalRangeKeepMoveWithLOS() override;

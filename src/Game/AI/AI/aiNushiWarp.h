@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NushiWarp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NushiWarp, ksys::act::ai::Ai)
+
 public:
     explicit NushiWarp(const InitArg& arg);
     ~NushiWarp() override;

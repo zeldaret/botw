@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class HorseCheckLineOfSightSelector : public HorseCheckLineOfSightSelectorBase {
     SEAD_RTTI_OVERRIDE(HorseCheckLineOfSightSelector, HorseCheckLineOfSightSelectorBase)
+
 public:
     explicit HorseCheckLineOfSightSelector(const InitArg& arg);
     ~HorseCheckLineOfSightSelector() override;

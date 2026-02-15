@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsHorseNumMax : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsHorseNumMax, Query)
+
 public:
     explicit IsHorseNumMax(const InitArg& arg);
     ~IsHorseNumMax() override;

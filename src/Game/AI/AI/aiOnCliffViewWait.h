@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class OnCliffViewWait : public ViewWait {
     SEAD_RTTI_OVERRIDE(OnCliffViewWait, ViewWait)
+
 public:
     explicit OnCliffViewWait(const InitArg& arg);
     ~OnCliffViewWait() override;

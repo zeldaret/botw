@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LynelNoticeTerror : public EnemyNoticeTerror {
     SEAD_RTTI_OVERRIDE(LynelNoticeTerror, EnemyNoticeTerror)
+
 public:
     explicit LynelNoticeTerror(const InitArg& arg);
     ~LynelNoticeTerror() override;

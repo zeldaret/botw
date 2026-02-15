@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraClimbObj : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraClimbObj, CameraAction)
+
 public:
     explicit CameraClimbObj(const InitArg& arg);
     ~CameraClimbObj() override;

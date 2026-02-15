@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ConditionMoveActionSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ConditionMoveActionSelect, ksys::act::ai::Ai)
+
 public:
     explicit ConditionMoveActionSelect(const InitArg& arg);
     ~ConditionMoveActionSelect() override;

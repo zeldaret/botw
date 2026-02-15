@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayASForDemoPreMove : public PlayASForDemo {
     SEAD_RTTI_OVERRIDE(PlayASForDemoPreMove, PlayASForDemo)
+
 public:
     explicit PlayASForDemoPreMove(const InitArg& arg);
     ~PlayASForDemoPreMove() override;

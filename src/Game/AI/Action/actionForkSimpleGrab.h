@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkSimpleGrab : public ForkSimpleGrabBase {
     SEAD_RTTI_OVERRIDE(ForkSimpleGrab, ForkSimpleGrabBase)
+
 public:
     explicit ForkSimpleGrab(const InitArg& arg);
     ~ForkSimpleGrab() override;

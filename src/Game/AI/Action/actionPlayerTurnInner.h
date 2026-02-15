@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerTurnInner : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerTurnInner, PlayerAction)
+
 public:
     explicit PlayerTurnInner(const InitArg& arg);
     ~PlayerTurnInner() override;

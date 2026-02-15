@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonApproachOnWallRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonApproachOnWallRoot, ksys::act::ai::Ai)
+
 public:
     explicit GanonApproachOnWallRoot(const InitArg& arg);
     ~GanonApproachOnWallRoot() override;

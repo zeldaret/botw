@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OpenMessageDialog : public OpenMessageDialogBase {
     SEAD_RTTI_OVERRIDE(OpenMessageDialog, OpenMessageDialogBase)
+
 public:
     explicit OpenMessageDialog(const InitArg& arg);
     ~OpenMessageDialog() override;

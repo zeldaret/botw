@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SendMessageToTargetActor : public SendMessage {
     SEAD_RTTI_OVERRIDE(SendMessageToTargetActor, SendMessage)
+
 public:
     explicit SendMessageToTargetActor(const InitArg& arg);
     ~SendMessageToTargetActor() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsItemInStock : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsItemInStock, Query)
+
 public:
     explicit IsItemInStock(const InitArg& arg);
     ~IsItemInStock() override;

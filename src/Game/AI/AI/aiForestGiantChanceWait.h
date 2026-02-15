@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ForestGiantChanceWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ForestGiantChanceWait, ksys::act::ai::Ai)
+
 public:
     explicit ForestGiantChanceWait(const InitArg& arg);
     ~ForestGiantChanceWait() override;

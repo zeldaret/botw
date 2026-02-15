@@ -7,6 +7,7 @@ namespace uking::action {
 
 class BowArrowReload : public BindAction {
     SEAD_RTTI_OVERRIDE(BowArrowReload, BindAction)
+
 public:
     explicit BowArrowReload(const InitArg& arg);
 

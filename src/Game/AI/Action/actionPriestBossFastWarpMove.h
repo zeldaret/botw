@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PriestBossFastWarpMove : public PriestBossWarpOrVanish {
     SEAD_RTTI_OVERRIDE(PriestBossFastWarpMove, PriestBossWarpOrVanish)
+
 public:
     explicit PriestBossFastWarpMove(const InitArg& arg);
     ~PriestBossFastWarpMove() override;

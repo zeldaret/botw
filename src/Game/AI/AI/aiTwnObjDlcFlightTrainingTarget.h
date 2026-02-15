@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TwnObjDlcFlightTrainingTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TwnObjDlcFlightTrainingTarget, ksys::act::ai::Ai)
+
 public:
     explicit TwnObjDlcFlightTrainingTarget(const InitArg& arg);
     ~TwnObjDlcFlightTrainingTarget() override;

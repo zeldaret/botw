@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelLineMoveAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelLineMoveAttack, ksys::act::ai::Ai)
+
 public:
     explicit LynelLineMoveAttack(const InitArg& arg);
     ~LynelLineMoveAttack() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkOnEnterCharCtrlInvalid : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkOnEnterCharCtrlInvalid, ksys::act::ai::Action)
+
 public:
     explicit ForkOnEnterCharCtrlInvalid(const InitArg& arg);
     ~ForkOnEnterCharCtrlInvalid() override;

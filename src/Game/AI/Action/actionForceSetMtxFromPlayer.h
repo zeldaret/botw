@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForceSetMtxFromPlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForceSetMtxFromPlayer, ksys::act::ai::Action)
+
 public:
     explicit ForceSetMtxFromPlayer(const InitArg& arg);
     ~ForceSetMtxFromPlayer() override;

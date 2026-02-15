@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HiddenKorokAppear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HiddenKorokAppear, ksys::act::ai::Action)
+
 public:
     explicit HiddenKorokAppear(const InitArg& arg);
     ~HiddenKorokAppear() override;

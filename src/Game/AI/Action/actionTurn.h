@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Turn : public TurnBase {
     SEAD_RTTI_OVERRIDE(Turn, TurnBase)
+
 public:
     explicit Turn(const InitArg& arg);
 

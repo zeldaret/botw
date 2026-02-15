@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEdit : public ActionEx {
     SEAD_RTTI_OVERRIDE(CameraEdit, ActionEx)
+
 public:
     explicit CameraEdit(const InitArg& arg);
     ~CameraEdit() override;

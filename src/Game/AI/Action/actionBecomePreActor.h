@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BecomePreActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BecomePreActor, ksys::act::ai::Action)
+
 public:
     explicit BecomePreActor(const InitArg& arg);
     ~BecomePreActor() override;

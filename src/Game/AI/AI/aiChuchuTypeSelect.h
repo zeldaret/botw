@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ChuchuTypeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ChuchuTypeSelect, ksys::act::ai::Ai)
+
 public:
     explicit ChuchuTypeSelect(const InitArg& arg);
     ~ChuchuTypeSelect() override;

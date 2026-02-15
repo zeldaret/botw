@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitForCloseFade : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitForCloseFade, ksys::act::ai::Action)
+
 public:
     explicit WaitForCloseFade(const InitArg& arg);
     ~WaitForCloseFade() override;

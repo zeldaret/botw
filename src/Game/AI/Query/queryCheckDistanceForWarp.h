@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckDistanceForWarp : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckDistanceForWarp, Query)
+
 public:
     explicit CheckDistanceForWarp(const InitArg& arg);
     ~CheckDistanceForWarp() override;

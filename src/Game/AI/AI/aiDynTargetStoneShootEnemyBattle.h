@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DynTargetStoneShootEnemyBattle : public StoneShootEnemyBattle {
     SEAD_RTTI_OVERRIDE(DynTargetStoneShootEnemyBattle, StoneShootEnemyBattle)
+
 public:
     explicit DynTargetStoneShootEnemyBattle(const InitArg& arg);
     ~DynTargetStoneShootEnemyBattle() override;

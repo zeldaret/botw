@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SystemWarp : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SystemWarp, ksys::act::ai::Action)
+
 public:
     explicit SystemWarp(const InitArg& arg);
     ~SystemWarp() override;

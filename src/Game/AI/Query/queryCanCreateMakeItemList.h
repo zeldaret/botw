@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CanCreateMakeItemList : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CanCreateMakeItemList, Query)
+
 public:
     explicit CanCreateMakeItemList(const InitArg& arg);
     ~CanCreateMakeItemList() override;

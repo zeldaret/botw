@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AscendingCurrentShieldable : public AscendingCurrent {
     SEAD_RTTI_OVERRIDE(AscendingCurrentShieldable, AscendingCurrent)
+
 public:
     explicit AscendingCurrentShieldable(const InitArg& arg);
     ~AscendingCurrentShieldable() override;

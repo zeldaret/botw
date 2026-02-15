@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MimicCliffStopEnemyNormalBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MimicCliffStopEnemyNormalBase, ksys::act::ai::Ai)
+
 public:
     explicit MimicCliffStopEnemyNormalBase(const InitArg& arg);
     ~MimicCliffStopEnemyNormalBase() override;

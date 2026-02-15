@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelWarp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelWarp, ksys::act::ai::Ai)
+
 public:
     explicit LynelWarp(const InitArg& arg);
     ~LynelWarp() override;

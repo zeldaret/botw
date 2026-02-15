@@ -17,6 +17,7 @@ class AttCheck;
 
 class AttClient : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AttClient, Resource)
+
 public:
     AttClient() : ParamIO("atcl", 0) {}
     ~AttClient() override;
@@ -52,6 +53,7 @@ KSYS_CHECK_SIZE_NX150(AttClient, 0x428);
 
 class AttClientList : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(AttClientList, Resource)
+
 public:
     struct Client {
         const char* getFileName() const { return file_name.ref().cstr(); }

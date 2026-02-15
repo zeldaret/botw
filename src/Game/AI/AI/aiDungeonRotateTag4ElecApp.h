@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DungeonRotateTag4ElecApp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonRotateTag4ElecApp, ksys::act::ai::Ai)
+
 public:
     explicit DungeonRotateTag4ElecApp(const InitArg& arg);
     ~DungeonRotateTag4ElecApp() override;

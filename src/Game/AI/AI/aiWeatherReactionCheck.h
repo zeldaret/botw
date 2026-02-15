@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WeatherReactionCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WeatherReactionCheck, ksys::act::ai::Ai)
+
 public:
     explicit WeatherReactionCheck(const InitArg& arg);
     ~WeatherReactionCheck() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyTreeWeaponSearchOrBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyTreeWeaponSearchOrBattle, ksys::act::ai::Ai)
+
 public:
     explicit EnemyTreeWeaponSearchOrBattle(const InitArg& arg);
     ~EnemyTreeWeaponSearchOrBattle() override;

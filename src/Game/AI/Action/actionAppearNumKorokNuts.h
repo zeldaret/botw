@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AppearNumKorokNuts : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AppearNumKorokNuts, ksys::act::ai::Action)
+
 public:
     explicit AppearNumKorokNuts(const InitArg& arg);
     ~AppearNumKorokNuts() override;

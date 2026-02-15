@@ -7,6 +7,7 @@ namespace uking::action {
 
 class IgniteToTargetSimple : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(IgniteToTargetSimple, OnetimeStopASPlay)
+
 public:
     explicit IgniteToTargetSimple(const InitArg& arg);
     ~IgniteToTargetSimple() override;

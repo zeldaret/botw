@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventOnWaitRevivalAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventOnWaitRevivalAction, ksys::act::ai::Action)
+
 public:
     explicit EventOnWaitRevivalAction(const InitArg& arg);
     ~EventOnWaitRevivalAction() override;

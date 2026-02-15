@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemySkyArrowAttack : public EnemyBaseArrowAttack {
     SEAD_RTTI_OVERRIDE(EnemySkyArrowAttack, EnemyBaseArrowAttack)
+
 public:
     explicit EnemySkyArrowAttack(const InitArg& arg);
     ~EnemySkyArrowAttack() override;

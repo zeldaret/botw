@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitForKeyInput : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitForKeyInput, ksys::act::ai::Action)
+
 public:
     explicit WaitForKeyInput(const InitArg& arg);
     ~WaitForKeyInput() override;

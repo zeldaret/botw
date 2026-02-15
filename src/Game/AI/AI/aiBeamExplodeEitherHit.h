@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class BeamExplodeEitherHit : public BeamExplode {
     SEAD_RTTI_OVERRIDE(BeamExplodeEitherHit, BeamExplode)
+
 public:
     explicit BeamExplodeEitherHit(const InitArg& arg);
     ~BeamExplodeEitherHit() override;

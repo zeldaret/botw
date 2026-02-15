@@ -16,6 +16,7 @@ class RigidBodyMotionSensor;
 
 class RigidBodyMotionEntity : public MotionAccessor {
     SEAD_RTTI_OVERRIDE(RigidBodyMotionEntity, MotionAccessor)
+
 public:
     enum class Flag {
         _1 = 1 << 0,

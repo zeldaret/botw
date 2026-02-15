@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class InitFromInCarryBoxSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(InitFromInCarryBoxSelect, ksys::act::ai::Ai)
+
 public:
     explicit InitFromInCarryBoxSelect(const InitArg& arg);
     ~InitFromInCarryBoxSelect() override;

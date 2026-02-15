@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BattleDungeonBGMAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BattleDungeonBGMAction, ksys::act::ai::Action)
+
 public:
     explicit BattleDungeonBGMAction(const InitArg& arg);
     ~BattleDungeonBGMAction() override;

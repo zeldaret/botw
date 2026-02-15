@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EventFadeOut : public EventFade {
     SEAD_RTTI_OVERRIDE(EventFadeOut, EventFade)
+
 public:
     explicit EventFadeOut(const InitArg& arg);
     ~EventFadeOut() override;

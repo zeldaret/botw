@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GiveCookResultForNpc : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GiveCookResultForNpc, ksys::act::ai::Action)
+
 public:
     explicit GiveCookResultForNpc(const InitArg& arg);
     ~GiveCookResultForNpc() override;

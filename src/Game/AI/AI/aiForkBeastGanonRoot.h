@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ForkBeastGanonRoot : public ForkAI {
     SEAD_RTTI_OVERRIDE(ForkBeastGanonRoot, ForkAI)
+
 public:
     explicit ForkBeastGanonRoot(const InitArg& arg);
     ~ForkBeastGanonRoot() override;

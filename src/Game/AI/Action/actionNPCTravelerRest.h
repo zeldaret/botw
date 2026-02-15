@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCTravelerRest : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCTravelerRest, ksys::act::ai::Action)
+
 public:
     explicit NPCTravelerRest(const InitArg& arg);
     ~NPCTravelerRest() override;

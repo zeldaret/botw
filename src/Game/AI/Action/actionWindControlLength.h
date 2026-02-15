@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WindControlLength : public WindControl {
     SEAD_RTTI_OVERRIDE(WindControlLength, WindControl)
+
 public:
     explicit WindControlLength(const InitArg& arg);
     ~WindControlLength() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class KokkoThrown : public Thrown {
     SEAD_RTTI_OVERRIDE(KokkoThrown, Thrown)
+
 public:
     explicit KokkoThrown(const InitArg& arg);
     ~KokkoThrown() override;

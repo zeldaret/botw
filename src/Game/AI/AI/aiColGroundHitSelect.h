@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ColGroundHitSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ColGroundHitSelect, ksys::act::ai::Ai)
+
 public:
     explicit ColGroundHitSelect(const InitArg& arg);
     ~ColGroundHitSelect() override;

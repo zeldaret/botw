@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyFortressWatchKeepingWait : public EnemyWatchKeepingWait {
     SEAD_RTTI_OVERRIDE(EnemyFortressWatchKeepingWait, EnemyWatchKeepingWait)
+
 public:
     explicit EnemyFortressWatchKeepingWait(const InitArg& arg);
     ~EnemyFortressWatchKeepingWait() override;

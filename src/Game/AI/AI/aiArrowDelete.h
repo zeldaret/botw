@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ArrowDelete : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ArrowDelete, ksys::act::ai::Ai)
+
 public:
     explicit ArrowDelete(const InitArg& arg);
     ~ArrowDelete() override;

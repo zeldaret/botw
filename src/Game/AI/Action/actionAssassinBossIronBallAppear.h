@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AssassinBossIronBallAppear : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AssassinBossIronBallAppear, ksys::act::ai::Action)
+
 public:
     explicit AssassinBossIronBallAppear(const InitArg& arg);
     ~AssassinBossIronBallAppear() override;

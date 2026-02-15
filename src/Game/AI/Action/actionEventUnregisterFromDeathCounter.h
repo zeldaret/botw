@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventUnregisterFromDeathCounter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventUnregisterFromDeathCounter, ksys::act::ai::Action)
+
 public:
     explicit EventUnregisterFromDeathCounter(const InitArg& arg);
     ~EventUnregisterFromDeathCounter() override;

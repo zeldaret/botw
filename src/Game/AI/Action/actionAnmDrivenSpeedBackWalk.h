@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AnmDrivenSpeedBackWalk : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnmDrivenSpeedBackWalk, ksys::act::ai::Action)
+
 public:
     explicit AnmDrivenSpeedBackWalk(const InitArg& arg);
     ~AnmDrivenSpeedBackWalk() override;

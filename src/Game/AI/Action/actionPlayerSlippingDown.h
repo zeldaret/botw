@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PlayerSlippingDown : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayerSlippingDown, ksys::act::ai::Action)
+
 public:
     explicit PlayerSlippingDown(const InitArg& arg);
     ~PlayerSlippingDown() override;

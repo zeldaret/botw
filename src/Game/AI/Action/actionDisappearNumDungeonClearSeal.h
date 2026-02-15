@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DisappearNumDungeonClearSeal : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DisappearNumDungeonClearSeal, ksys::act::ai::Action)
+
 public:
     explicit DisappearNumDungeonClearSeal(const InitArg& arg);
     ~DisappearNumDungeonClearSeal() override;

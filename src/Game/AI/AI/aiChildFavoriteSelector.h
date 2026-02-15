@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ChildFavoriteSelector : public ChildFavoriteSelectorBase {
     SEAD_RTTI_OVERRIDE(ChildFavoriteSelector, ChildFavoriteSelectorBase)
+
 public:
     explicit ChildFavoriteSelector(const InitArg& arg);
     ~ChildFavoriteSelector() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FlyMoveToTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FlyMoveToTarget, ksys::act::ai::Ai)
+
 public:
     explicit FlyMoveToTarget(const InitArg& arg);
     ~FlyMoveToTarget() override;

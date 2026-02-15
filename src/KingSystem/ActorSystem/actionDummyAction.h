@@ -6,6 +6,7 @@ namespace ksys::act::ai {
 
 class DummyAction : public Action {
     SEAD_RTTI_OVERRIDE(DummyAction, Action)
+
 public:
     explicit DummyAction(const InitArg& arg);
     void enter_(InlineParamPack* params) override;

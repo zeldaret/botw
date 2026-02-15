@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CameraAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraAction, ksys::act::ai::Action)
+
 public:
     explicit CameraAction(const InitArg& arg);
     ~CameraAction() override;

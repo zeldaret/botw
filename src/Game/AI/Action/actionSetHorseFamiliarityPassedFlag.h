@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetHorseFamiliarityPassedFlag : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetHorseFamiliarityPassedFlag, ksys::act::ai::Action)
+
 public:
     explicit SetHorseFamiliarityPassedFlag(const InitArg& arg);
     ~SetHorseFamiliarityPassedFlag() override;

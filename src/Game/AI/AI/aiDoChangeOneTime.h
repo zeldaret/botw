@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DoChangeOneTime : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DoChangeOneTime, ksys::act::ai::Ai)
+
 public:
     explicit DoChangeOneTime(const InitArg& arg);
     ~DoChangeOneTime() override;

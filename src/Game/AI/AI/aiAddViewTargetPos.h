@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AddViewTargetPos : public AddViewTargetPosBase {
     SEAD_RTTI_OVERRIDE(AddViewTargetPos, AddViewTargetPosBase)
+
 public:
     explicit AddViewTargetPos(const InitArg& arg);
     ~AddViewTargetPos() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class LevelFlyRiseLookingTarget : public LevelFlyLook {
     SEAD_RTTI_OVERRIDE(LevelFlyRiseLookingTarget, LevelFlyLook)
+
 public:
     explicit LevelFlyRiseLookingTarget(const InitArg& arg);
     ~LevelFlyRiseLookingTarget() override;

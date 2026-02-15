@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GiantSleepNormal : public SpecialEnemySleep {
     SEAD_RTTI_OVERRIDE(GiantSleepNormal, SpecialEnemySleep)
+
 public:
     explicit GiantSleepNormal(const InitArg& arg);
     ~GiantSleepNormal() override;

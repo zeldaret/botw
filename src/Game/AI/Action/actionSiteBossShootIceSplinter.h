@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossShootIceSplinter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossShootIceSplinter, ksys::act::ai::Action)
+
 public:
     explicit SiteBossShootIceSplinter(const InitArg& arg);
     ~SiteBossShootIceSplinter() override;

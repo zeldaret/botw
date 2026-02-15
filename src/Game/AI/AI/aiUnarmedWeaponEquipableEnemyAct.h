@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class UnarmedWeaponEquipableEnemyAct : public UnarmedEnemySearchWeapon {
     SEAD_RTTI_OVERRIDE(UnarmedWeaponEquipableEnemyAct, UnarmedEnemySearchWeapon)
+
 public:
     explicit UnarmedWeaponEquipableEnemyAct(const InitArg& arg);
     ~UnarmedWeaponEquipableEnemyAct() override;

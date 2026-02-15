@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoKokkoAngry : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoKokkoAngry, ksys::act::ai::Action)
+
 public:
     explicit DemoKokkoAngry(const InitArg& arg);
     ~DemoKokkoAngry() override;

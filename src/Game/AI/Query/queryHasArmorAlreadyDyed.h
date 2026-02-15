@@ -6,6 +6,7 @@ namespace uking::query {
 
 class HasArmorAlreadyDyed : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(HasArmorAlreadyDyed, Query)
+
 public:
     explicit HasArmorAlreadyDyed(const InitArg& arg);
     ~HasArmorAlreadyDyed() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemySearchShieldItemFindPlayer : public LandHumEnemyFindPlayer {
     SEAD_RTTI_OVERRIDE(EnemySearchShieldItemFindPlayer, LandHumEnemyFindPlayer)
+
 public:
     explicit EnemySearchShieldItemFindPlayer(const InitArg& arg);
     ~EnemySearchShieldItemFindPlayer() override;

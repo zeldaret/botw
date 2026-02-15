@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCRoot, ksys::act::ai::Ai)
+
 public:
     explicit NPCRoot(const InitArg& arg);
     ~NPCRoot() override;

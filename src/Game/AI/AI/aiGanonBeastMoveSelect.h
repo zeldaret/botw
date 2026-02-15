@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonBeastMoveSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonBeastMoveSelect, ksys::act::ai::Ai)
+
 public:
     explicit GanonBeastMoveSelect(const InitArg& arg);
     ~GanonBeastMoveSelect() override;

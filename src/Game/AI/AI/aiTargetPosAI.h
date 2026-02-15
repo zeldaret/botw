@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetPosAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetPosAI, ksys::act::ai::Ai)
+
 public:
     explicit TargetPosAI(const InitArg& arg);
     ~TargetPosAI() override;

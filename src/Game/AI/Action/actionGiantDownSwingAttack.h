@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantDownSwingAttack : public GiantAttackWithAS {
     SEAD_RTTI_OVERRIDE(GiantDownSwingAttack, GiantAttackWithAS)
+
 public:
     explicit GiantDownSwingAttack(const InitArg& arg);
     ~GiantDownSwingAttack() override;

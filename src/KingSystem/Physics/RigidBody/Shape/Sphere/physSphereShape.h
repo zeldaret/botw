@@ -23,6 +23,7 @@ struct SphereShapeParam {
 
 class SphereShape : public Shape {
     SEAD_RTTI_OVERRIDE(SphereShape, Shape)
+
 public:
     enum class Flag {
         /// Whether there is a pending change.
@@ -67,6 +68,7 @@ public:
 
 class SphereParam : public RigidBodyInstanceParam, public SphereShapeParam {
     SEAD_RTTI_OVERRIDE(SphereParam, RigidBodyInstanceParam)
+
 public:
     SphereParam() : RigidBodyInstanceParam(ShapeType::Sphere) {}
 };

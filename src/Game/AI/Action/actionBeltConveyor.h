@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BeltConveyor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BeltConveyor, ksys::act::ai::Action)
+
 public:
     explicit BeltConveyor(const InitArg& arg);
     ~BeltConveyor() override;

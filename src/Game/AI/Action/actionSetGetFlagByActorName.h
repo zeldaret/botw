@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SetGetFlagByActorName : public SetGetFlagBase {
     SEAD_RTTI_OVERRIDE(SetGetFlagByActorName, SetGetFlagBase)
+
 public:
     explicit SetGetFlagByActorName(const InitArg& arg);
     ~SetGetFlagByActorName() override;

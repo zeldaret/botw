@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PreyRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PreyRoot, ksys::act::ai::Ai)
+
 public:
     explicit PreyRoot(const InitArg& arg);
     ~PreyRoot() override;

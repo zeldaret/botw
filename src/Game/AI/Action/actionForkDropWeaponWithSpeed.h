@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkDropWeaponWithSpeed : public ForkDropWeapon {
     SEAD_RTTI_OVERRIDE(ForkDropWeaponWithSpeed, ForkDropWeapon)
+
 public:
     explicit ForkDropWeaponWithSpeed(const InitArg& arg);
     ~ForkDropWeaponWithSpeed() override;

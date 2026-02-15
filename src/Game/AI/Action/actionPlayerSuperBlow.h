@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSuperBlow : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSuperBlow, PlayerAction)
+
 public:
     explicit PlayerSuperBlow(const InitArg& arg);
 

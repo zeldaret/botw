@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GelJumpTackle : public JumpTackle {
     SEAD_RTTI_OVERRIDE(GelJumpTackle, JumpTackle)
+
 public:
     explicit GelJumpTackle(const InitArg& arg);
     ~GelJumpTackle() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossLswordFirstCreateFBall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossLswordFirstCreateFBall, ksys::act::ai::Action)
+
 public:
     explicit SiteBossLswordFirstCreateFBall(const InitArg& arg);
     ~SiteBossLswordFirstCreateFBall() override;

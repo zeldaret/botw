@@ -6,6 +6,7 @@ namespace uking::action {
 
 class HorseReturnToSafePos : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(HorseReturnToSafePos, ksys::act::ai::Action)
+
 public:
     explicit HorseReturnToSafePos(const InitArg& arg);
     ~HorseReturnToSafePos() override;

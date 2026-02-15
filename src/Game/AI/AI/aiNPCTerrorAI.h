@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCTerrorAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCTerrorAI, ksys::act::ai::Ai)
+
 public:
     explicit NPCTerrorAI(const InitArg& arg);
     ~NPCTerrorAI() override;

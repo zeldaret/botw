@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class JumpAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(JumpAttack, ksys::act::ai::Ai)
+
 public:
     explicit JumpAttack(const InitArg& arg);
 

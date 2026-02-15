@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnmTimingBackWalk : public BackWalkWithAS {
     SEAD_RTTI_OVERRIDE(AnmTimingBackWalk, BackWalkWithAS)
+
 public:
     explicit AnmTimingBackWalk(const InitArg& arg);
     ~AnmTimingBackWalk() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkWeaponShockWaveCheckValue : public ForkWeaponShockWave {
     SEAD_RTTI_OVERRIDE(ForkWeaponShockWaveCheckValue, ForkWeaponShockWave)
+
 public:
     explicit ForkWeaponShockWaveCheckValue(const InitArg& arg);
     ~ForkWeaponShockWaveCheckValue() override;

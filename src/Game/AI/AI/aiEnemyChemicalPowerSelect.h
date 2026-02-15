@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyChemicalPowerSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyChemicalPowerSelect, ksys::act::ai::Ai)
+
 public:
     explicit EnemyChemicalPowerSelect(const InitArg& arg);
     ~EnemyChemicalPowerSelect() override;

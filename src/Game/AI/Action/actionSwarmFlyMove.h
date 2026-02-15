@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwarmFlyMove : public FlyMoveBase {
     SEAD_RTTI_OVERRIDE(SwarmFlyMove, FlyMoveBase)
+
 public:
     explicit SwarmFlyMove(const InitArg& arg);
     ~SwarmFlyMove() override;

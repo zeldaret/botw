@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseReinsBindAction : public HorseReinsDefaultAction {
     SEAD_RTTI_OVERRIDE(HorseReinsBindAction, HorseReinsDefaultAction)
+
 public:
     explicit HorseReinsBindAction(const InitArg& arg);
     ~HorseReinsBindAction() override;

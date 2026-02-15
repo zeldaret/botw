@@ -7,6 +7,7 @@ namespace uking::action {
 
 class IsMorphEndASPlay : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(IsMorphEndASPlay, OnetimeStopASPlay)
+
 public:
     explicit IsMorphEndASPlay(const InitArg& arg);
     ~IsMorphEndASPlay() override;

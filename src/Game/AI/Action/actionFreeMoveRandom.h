@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FreeMoveRandom : public FreeMove {
     SEAD_RTTI_OVERRIDE(FreeMoveRandom, FreeMove)
+
 public:
     explicit FreeMoveRandom(const InitArg& arg);
     ~FreeMoveRandom() override;

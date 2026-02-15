@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DragonChemicalBall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DragonChemicalBall, ksys::act::ai::Action)
+
 public:
     explicit DragonChemicalBall(const InitArg& arg);
     ~DragonChemicalBall() override;

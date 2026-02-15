@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DragonMoveTo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DragonMoveTo, ksys::act::ai::Action)
+
 public:
     explicit DragonMoveTo(const InitArg& arg);
     ~DragonMoveTo() override;

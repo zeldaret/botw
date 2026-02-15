@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckDieCnt : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckDieCnt, Query)
+
 public:
     explicit CheckDieCnt(const InitArg& arg);
     ~CheckDieCnt() override;

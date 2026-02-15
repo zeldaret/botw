@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NoticePartsRangeSelector : public RangeSelect {
     SEAD_RTTI_OVERRIDE(NoticePartsRangeSelector, RangeSelect)
+
 public:
     explicit NoticePartsRangeSelector(const InitArg& arg);
     ~NoticePartsRangeSelector() override;

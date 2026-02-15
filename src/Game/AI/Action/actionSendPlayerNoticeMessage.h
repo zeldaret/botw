@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SendPlayerNoticeMessage : public SendPlayerNoticeMessageBase {
     SEAD_RTTI_OVERRIDE(SendPlayerNoticeMessage, SendPlayerNoticeMessageBase)
+
 public:
     explicit SendPlayerNoticeMessage(const InitArg& arg);
     ~SendPlayerNoticeMessage() override;

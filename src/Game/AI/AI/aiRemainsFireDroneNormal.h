@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RemainsFireDroneNormal : public RailMove {
     SEAD_RTTI_OVERRIDE(RemainsFireDroneNormal, RailMove)
+
 public:
     explicit RemainsFireDroneNormal(const InitArg& arg);
     ~RemainsFireDroneNormal() override;

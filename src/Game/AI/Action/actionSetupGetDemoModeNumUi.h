@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetupGetDemoModeNumUi : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetupGetDemoModeNumUi, ksys::act::ai::Action)
+
 public:
     explicit SetupGetDemoModeNumUi(const InitArg& arg);
     ~SetupGetDemoModeNumUi() override;

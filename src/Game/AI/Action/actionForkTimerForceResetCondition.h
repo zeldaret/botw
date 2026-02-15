@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkTimerForceResetCondition : public ForkTimer {
     SEAD_RTTI_OVERRIDE(ForkTimerForceResetCondition, ForkTimer)
+
 public:
     explicit ForkTimerForceResetCondition(const InitArg& arg);
     ~ForkTimerForceResetCondition() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckPlayerState : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckPlayerState, Query)
+
 public:
     explicit CheckPlayerState(const InitArg& arg);
     ~CheckPlayerState() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DeletePorchItemIncludeEquip : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DeletePorchItemIncludeEquip, ksys::act::ai::Action)
+
 public:
     explicit DeletePorchItemIncludeEquip(const InitArg& arg);
     ~DeletePorchItemIncludeEquip() override;

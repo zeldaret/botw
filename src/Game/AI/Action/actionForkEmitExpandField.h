@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkEmitExpandField : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkEmitExpandField, ksys::act::ai::Action)
+
 public:
     explicit ForkEmitExpandField(const InitArg& arg);
     ~ForkEmitExpandField() override;

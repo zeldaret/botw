@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SSMagneStickAcceptorReject : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SSMagneStickAcceptorReject, ksys::act::ai::Action)
+
 public:
     explicit SSMagneStickAcceptorReject(const InitArg& arg);
     ~SSMagneStickAcceptorReject() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CameraRoot : public CameraAI {
     SEAD_RTTI_OVERRIDE(CameraRoot, CameraAI)
+
 public:
     explicit CameraRoot(const InitArg& arg);
     ~CameraRoot() override;

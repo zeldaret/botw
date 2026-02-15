@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChangeSceneBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChangeSceneBase, ksys::act::ai::Action)
+
 public:
     explicit ChangeSceneBase(const InitArg& arg);
     ~ChangeSceneBase() override;

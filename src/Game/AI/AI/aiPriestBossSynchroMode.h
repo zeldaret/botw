@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossSynchroMode : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossSynchroMode, PriestBossMode)
+
 public:
     explicit PriestBossSynchroMode(const InitArg& arg);
     ~PriestBossSynchroMode() override;

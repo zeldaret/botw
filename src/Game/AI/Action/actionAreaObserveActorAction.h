@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AreaObserveActorAction : public AreaActorObserve {
     SEAD_RTTI_OVERRIDE(AreaObserveActorAction, AreaActorObserve)
+
 public:
     explicit AreaObserveActorAction(const InitArg& arg);
     ~AreaObserveActorAction() override;

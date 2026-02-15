@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossShootNormalArrow : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossShootNormalArrow, ksys::act::ai::Action)
+
 public:
     explicit SiteBossShootNormalArrow(const InitArg& arg);
     ~SiteBossShootNormalArrow() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WolfLinkLeadToTarget : public LeadToTarget {
     SEAD_RTTI_OVERRIDE(WolfLinkLeadToTarget, LeadToTarget)
+
 public:
     explicit WolfLinkLeadToTarget(const InitArg& arg);
     ~WolfLinkLeadToTarget() override;

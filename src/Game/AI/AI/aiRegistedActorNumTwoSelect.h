@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class RegistedActorNumTwoSelect : public RegistedActorNumTwoSelectBase {
     SEAD_RTTI_OVERRIDE(RegistedActorNumTwoSelect, RegistedActorNumTwoSelectBase)
+
 public:
     explicit RegistedActorNumTwoSelect(const InitArg& arg);
     ~RegistedActorNumTwoSelect() override;

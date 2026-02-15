@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HoldArrowBackWalk : public BackWalkEx {
     SEAD_RTTI_OVERRIDE(HoldArrowBackWalk, BackWalkEx)
+
 public:
     explicit HoldArrowBackWalk(const InitArg& arg);
 

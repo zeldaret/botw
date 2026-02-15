@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerIceGrabReady : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerIceGrabReady, PlayerAction)
+
 public:
     explicit PlayerIceGrabReady(const InitArg& arg);
     ~PlayerIceGrabReady() override;

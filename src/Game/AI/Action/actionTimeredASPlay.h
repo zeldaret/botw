@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TimeredASPlay : public WaitBase {
     SEAD_RTTI_OVERRIDE(TimeredASPlay, WaitBase)
+
 public:
     explicit TimeredASPlay(const InitArg& arg);
     ~TimeredASPlay() override;

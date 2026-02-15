@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WaterSurface4RemainsLava : public WaterSurface {
     SEAD_RTTI_OVERRIDE(WaterSurface4RemainsLava, WaterSurface)
+
 public:
     explicit WaterSurface4RemainsLava(const InitArg& arg);
     ~WaterSurface4RemainsLava() override;

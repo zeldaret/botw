@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventBgmCtrlAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventBgmCtrlAction, ksys::act::ai::Action)
+
 public:
     explicit EventBgmCtrlAction(const InitArg& arg);
     ~EventBgmCtrlAction() override;

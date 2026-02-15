@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoBeastGanonGrudgeDrop : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoBeastGanonGrudgeDrop, ksys::act::ai::Action)
+
 public:
     explicit DemoBeastGanonGrudgeDrop(const InitArg& arg);
     ~DemoBeastGanonGrudgeDrop() override;

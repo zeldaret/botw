@@ -11,6 +11,7 @@ class SystemGroupHandler;
 
 class ShapeCastWithInfo : public ShapeCast {
     SEAD_RTTI_OVERRIDE(ShapeCastWithInfo, ShapeCast)
+
 public:
     ShapeCastWithInfo(RigidBody* body, int num_contact_points, Mode mode,
                       const sead::SafeString& name, LowPriority low_priority);
@@ -36,6 +37,7 @@ protected:
 
 class SphereCast : public ShapeCastWithInfo {
     SEAD_RTTI_OVERRIDE(SphereCast, ShapeCastWithInfo)
+
 public:
     SphereCast(ContactLayer layer, GroundHit ground_hit, SystemGroupHandler* group_handler,
                int num_contact_points, Mode mode, const sead::Vector3f& from, float sphere_radius,

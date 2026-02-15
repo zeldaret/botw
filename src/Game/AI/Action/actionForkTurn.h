@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkTurn : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkTurn, ksys::act::ai::Action)
+
 public:
     explicit ForkTurn(const InitArg& arg);
     ~ForkTurn() override;

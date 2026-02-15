@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class KakarikoKokkoTimeline : public AnimalTimelineAI {
     SEAD_RTTI_OVERRIDE(KakarikoKokkoTimeline, AnimalTimelineAI)
+
 public:
     explicit KakarikoKokkoTimeline(const InitArg& arg);
     ~KakarikoKokkoTimeline() override;

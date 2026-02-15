@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkFreeMoving : public FreeMovingAction {
     SEAD_RTTI_OVERRIDE(ForkFreeMoving, FreeMovingAction)
+
 public:
     explicit ForkFreeMoving(const InitArg& arg);
     ~ForkFreeMoving() override;

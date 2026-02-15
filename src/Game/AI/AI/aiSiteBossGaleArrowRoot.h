@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossGaleArrowRoot : public WithoutWeaponArrow {
     SEAD_RTTI_OVERRIDE(SiteBossGaleArrowRoot, WithoutWeaponArrow)
+
 public:
     explicit SiteBossGaleArrowRoot(const InitArg& arg);
     ~SiteBossGaleArrowRoot() override;

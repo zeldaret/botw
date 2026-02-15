@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AddNoUseTerritoryCounter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AddNoUseTerritoryCounter, ksys::act::ai::Action)
+
 public:
     explicit AddNoUseTerritoryCounter(const InitArg& arg);
     ~AddNoUseTerritoryCounter() override;

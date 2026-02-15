@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HoverTurn : public TurnBase {
     SEAD_RTTI_OVERRIDE(HoverTurn, TurnBase)
+
 public:
     explicit HoverTurn(const InitArg& arg);
     ~HoverTurn() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossLineFormationFall : public PriestBossFormation {
     SEAD_RTTI_OVERRIDE(PriestBossLineFormationFall, PriestBossFormation)
+
 public:
     explicit PriestBossLineFormationFall(const InitArg& arg);
     ~PriestBossLineFormationFall() override;

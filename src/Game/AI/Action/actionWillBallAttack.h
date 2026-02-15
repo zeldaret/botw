@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WillBallAttack : public WillBallAction {
     SEAD_RTTI_OVERRIDE(WillBallAttack, WillBallAction)
+
 public:
     explicit WillBallAttack(const InitArg& arg);
     ~WillBallAttack() override;

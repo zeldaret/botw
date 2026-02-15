@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GambleTreasureBoxRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GambleTreasureBoxRoot, ksys::act::ai::Ai)
+
 public:
     explicit GambleTreasureBoxRoot(const InitArg& arg);
     ~GambleTreasureBoxRoot() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OwnedHorseObserveAction : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(OwnedHorseObserveAction, AreaTagAction)
+
 public:
     explicit OwnedHorseObserveAction(const InitArg& arg);
     ~OwnedHorseObserveAction() override;

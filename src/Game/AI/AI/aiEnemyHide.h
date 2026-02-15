@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EnemyHide : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyHide, ksys::act::ai::Ai)
+
 public:
     explicit EnemyHide(const InitArg& arg);
     ~EnemyHide() override;

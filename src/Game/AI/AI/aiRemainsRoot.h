@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RemainsRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RemainsRoot, ksys::act::ai::Ai)
+
 public:
     explicit RemainsRoot(const InitArg& arg);
     ~RemainsRoot() override;

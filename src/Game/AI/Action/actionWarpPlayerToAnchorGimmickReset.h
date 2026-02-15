@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpPlayerToAnchorGimmickReset : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpPlayerToAnchorGimmickReset, ksys::act::ai::Action)
+
 public:
     explicit WarpPlayerToAnchorGimmickReset(const InitArg& arg);
     ~WarpPlayerToAnchorGimmickReset() override;

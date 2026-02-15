@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ViewChaseSound : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ViewChaseSound, ksys::act::ai::Ai)
+
 public:
     explicit ViewChaseSound(const InitArg& arg);
     ~ViewChaseSound() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventRollbackQuestAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventRollbackQuestAction, ksys::act::ai::Action)
+
 public:
     explicit EventRollbackQuestAction(const InitArg& arg);
     ~EventRollbackQuestAction() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LumberjackTree : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LumberjackTree, ksys::act::ai::Ai)
+
 public:
     explicit LumberjackTree(const InitArg& arg);
     ~LumberjackTree() override;

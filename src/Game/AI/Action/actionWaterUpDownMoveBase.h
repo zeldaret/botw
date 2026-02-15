@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaterUpDownMoveBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaterUpDownMoveBase, ksys::act::ai::Action)
+
 public:
     explicit WaterUpDownMoveBase(const InitArg& arg);
     ~WaterUpDownMoveBase() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenDungeonTitle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenDungeonTitle, ksys::act::ai::Action)
+
 public:
     explicit OpenDungeonTitle(const InitArg& arg);
     ~OpenDungeonTitle() override;

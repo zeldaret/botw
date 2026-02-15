@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkAITreeValWeakPointTimer : public Fork {
     SEAD_RTTI_OVERRIDE(ForkAITreeValWeakPointTimer, Fork)
+
 public:
     explicit ForkAITreeValWeakPointTimer(const InitArg& arg);
     ~ForkAITreeValWeakPointTimer() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NpcSwimNavMove : public RandomMoveAction {
     SEAD_RTTI_OVERRIDE(NpcSwimNavMove, RandomMoveAction)
+
 public:
     explicit NpcSwimNavMove(const InitArg& arg);
     ~NpcSwimNavMove() override;

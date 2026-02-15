@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsWaitRevival : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsWaitRevival, Query)
+
 public:
     explicit IsWaitRevival(const InitArg& arg);
     ~IsWaitRevival() override;

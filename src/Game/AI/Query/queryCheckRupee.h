@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckRupee : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckRupee, Query)
+
 public:
     explicit CheckRupee(const InitArg& arg);
     ~CheckRupee() override;

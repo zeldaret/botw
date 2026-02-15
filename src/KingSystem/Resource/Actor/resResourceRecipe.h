@@ -11,6 +11,7 @@ namespace ksys::res {
 
 class Recipe : public ParamIO, public Resource {
     SEAD_RTTI_OVERRIDE(Recipe, Resource)
+
 public:
     struct Item {
         agl::utl::Parameter<sead::SafeString> name;

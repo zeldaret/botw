@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ImmediateStopOwnedHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ImmediateStopOwnedHorse, ksys::act::ai::Action)
+
 public:
     explicit ImmediateStopOwnedHorse(const InitArg& arg);
     ~ImmediateStopOwnedHorse() override;

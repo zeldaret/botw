@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ActorAreaInOutSendMessage : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(ActorAreaInOutSendMessage, AreaTagAction)
+
 public:
     explicit ActorAreaInOutSendMessage(const InitArg& arg);
     ~ActorAreaInOutSendMessage() override;

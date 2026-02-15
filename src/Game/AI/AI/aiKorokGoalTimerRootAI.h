@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KorokGoalTimerRootAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KorokGoalTimerRootAI, ksys::act::ai::Ai)
+
 public:
     explicit KorokGoalTimerRootAI(const InitArg& arg);
     ~KorokGoalTimerRootAI() override;

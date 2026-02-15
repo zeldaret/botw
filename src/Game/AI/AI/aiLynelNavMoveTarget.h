@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LynelNavMoveTarget : public LynelNavMoveNoStop {
     SEAD_RTTI_OVERRIDE(LynelNavMoveTarget, LynelNavMoveNoStop)
+
 public:
     explicit LynelNavMoveTarget(const InitArg& arg);
     ~LynelNavMoveTarget() override;

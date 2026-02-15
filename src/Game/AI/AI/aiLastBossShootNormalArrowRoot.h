@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LastBossShootNormalArrowRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastBossShootNormalArrowRoot, ksys::act::ai::Ai)
+
 public:
     explicit LastBossShootNormalArrowRoot(const InitArg& arg);
     ~LastBossShootNormalArrowRoot() override;

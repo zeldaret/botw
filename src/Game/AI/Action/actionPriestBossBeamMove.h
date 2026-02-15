@@ -6,6 +6,7 @@ namespace uking::action {
 
 class PriestBossBeamMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PriestBossBeamMove, ksys::act::ai::Action)
+
 public:
     explicit PriestBossBeamMove(const InitArg& arg);
     ~PriestBossBeamMove() override;

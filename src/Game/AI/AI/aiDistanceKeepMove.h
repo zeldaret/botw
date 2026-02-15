@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DistanceKeepMove : public WaitNearTarget {
     SEAD_RTTI_OVERRIDE(DistanceKeepMove, WaitNearTarget)
+
 public:
     explicit DistanceKeepMove(const InitArg& arg);
     ~DistanceKeepMove() override;

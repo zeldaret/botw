@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GolemRepairParts : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(GolemRepairParts, ActionWithAS)
+
 public:
     explicit GolemRepairParts(const InitArg& arg);
     ~GolemRepairParts() override;

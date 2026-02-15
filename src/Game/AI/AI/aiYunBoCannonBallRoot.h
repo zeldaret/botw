@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class YunBoCannonBallRoot : public CannonBallRoot {
     SEAD_RTTI_OVERRIDE(YunBoCannonBallRoot, CannonBallRoot)
+
 public:
     explicit YunBoCannonBallRoot(const InitArg& arg);
     ~YunBoCannonBallRoot() override;

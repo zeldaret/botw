@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASTrgWeaponDrop : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASTrgWeaponDrop, ksys::act::ai::Action)
+
 public:
     explicit ForkASTrgWeaponDrop(const InitArg& arg);
     ~ForkASTrgWeaponDrop() override;

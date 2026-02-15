@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PullOut : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(PullOut, ActionWithAS)
+
 public:
     explicit PullOut(const InitArg& arg);
     ~PullOut() override;

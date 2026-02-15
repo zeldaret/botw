@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ReqCreateManufactedEquipItem : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ReqCreateManufactedEquipItem, ksys::act::ai::Action)
+
 public:
     explicit ReqCreateManufactedEquipItem(const InitArg& arg);
     ~ReqCreateManufactedEquipItem() override;

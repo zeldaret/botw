@@ -22,6 +22,7 @@ class QueryContactPointInfo;
 
 class ShapeCast {
     SEAD_RTTI_BASE(ShapeCast)
+
 public:
     enum class WeldClosestPoints : bool { Yes = true, No = false };
 

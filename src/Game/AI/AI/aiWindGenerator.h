@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WindGenerator : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WindGenerator, ksys::act::ai::Ai)
+
 public:
     explicit WindGenerator(const InitArg& arg);
 

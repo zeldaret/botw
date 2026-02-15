@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSwimLand : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSwimLand, PlayerAction)
+
 public:
     explicit PlayerSwimLand(const InitArg& arg);
 

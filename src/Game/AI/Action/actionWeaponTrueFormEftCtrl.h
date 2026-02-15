@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WeaponTrueFormEftCtrl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WeaponTrueFormEftCtrl, ksys::act::ai::Action)
+
 public:
     explicit WeaponTrueFormEftCtrl(const InitArg& arg);
     ~WeaponTrueFormEftCtrl() override;

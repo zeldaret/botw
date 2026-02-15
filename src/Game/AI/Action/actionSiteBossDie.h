@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossDie : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossDie, ksys::act::ai::Action)
+
 public:
     explicit SiteBossDie(const InitArg& arg);
     ~SiteBossDie() override;

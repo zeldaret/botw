@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class HorseRideChaseBattleMove : public HorseRideChaseBattleMoveBase {
     SEAD_RTTI_OVERRIDE(HorseRideChaseBattleMove, HorseRideChaseBattleMoveBase)
+
 public:
     explicit HorseRideChaseBattleMove(const InitArg& arg);
     ~HorseRideChaseBattleMove() override;

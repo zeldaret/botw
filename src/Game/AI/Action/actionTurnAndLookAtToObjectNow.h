@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TurnAndLookAtToObjectNow : public LookAtObject {
     SEAD_RTTI_OVERRIDE(TurnAndLookAtToObjectNow, LookAtObject)
+
 public:
     explicit TurnAndLookAtToObjectNow(const InitArg& arg);
     ~TurnAndLookAtToObjectNow() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class FirstSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(FirstSelect, ksys::act::ai::Ai)
+
 public:
     explicit FirstSelect(const InitArg& arg);
     ~FirstSelect() override;

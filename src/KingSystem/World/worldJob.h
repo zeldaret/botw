@@ -22,6 +22,7 @@ constexpr int NumJobTypes = 9;
 
 class Job : public sead::Job, public sead::hostio::Node {
     SEAD_RTTI_BASE(Job)
+
 public:
     Job();
     ~Job() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyShootAttackExplosives : public EnemyBaseArrowAttack {
     SEAD_RTTI_OVERRIDE(EnemyShootAttackExplosives, EnemyBaseArrowAttack)
+
 public:
     explicit EnemyShootAttackExplosives(const InitArg& arg);
     ~EnemyShootAttackExplosives() override;

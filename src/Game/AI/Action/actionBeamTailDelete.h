@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BeamTailDelete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BeamTailDelete, ksys::act::ai::Action)
+
 public:
     explicit BeamTailDelete(const InitArg& arg);
     ~BeamTailDelete() override;

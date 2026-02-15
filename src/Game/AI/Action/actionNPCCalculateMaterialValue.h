@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCCalculateMaterialValue : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCCalculateMaterialValue, ksys::act::ai::Action)
+
 public:
     explicit NPCCalculateMaterialValue(const InitArg& arg);
     ~NPCCalculateMaterialValue() override;

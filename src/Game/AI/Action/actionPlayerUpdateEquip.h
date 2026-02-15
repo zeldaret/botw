@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerUpdateEquip : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerUpdateEquip, PlayerAction)
+
 public:
     explicit PlayerUpdateEquip(const InitArg& arg);
     ~PlayerUpdateEquip() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsWeaponDrawn : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsWeaponDrawn, Query)
+
 public:
     explicit IsWeaponDrawn(const InitArg& arg);
     ~IsWeaponDrawn() override;

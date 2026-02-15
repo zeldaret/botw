@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SendMessage : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SendMessage, ksys::act::ai::Action)
+
 public:
     explicit SendMessage(const InitArg& arg);
     ~SendMessage() override;

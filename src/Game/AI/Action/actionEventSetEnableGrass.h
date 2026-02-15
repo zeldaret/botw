@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetEnableGrass : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetEnableGrass, ksys::act::ai::Action)
+
 public:
     explicit EventSetEnableGrass(const InitArg& arg);
     ~EventSetEnableGrass() override;

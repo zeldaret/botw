@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WithoutWeaponArrow : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WithoutWeaponArrow, ksys::act::ai::Ai)
+
 public:
     explicit WithoutWeaponArrow(const InitArg& arg);
     ~WithoutWeaponArrow() override;

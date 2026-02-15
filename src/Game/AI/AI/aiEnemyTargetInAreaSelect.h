@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyTargetInAreaSelect : public TargetInAreaSelect {
     SEAD_RTTI_OVERRIDE(EnemyTargetInAreaSelect, TargetInAreaSelect)
+
 public:
     explicit EnemyTargetInAreaSelect(const InitArg& arg);
     ~EnemyTargetInAreaSelect() override;

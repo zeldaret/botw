@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LookAtTheFront : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LookAtTheFront, ksys::act::ai::Action)
+
 public:
     explicit LookAtTheFront(const InitArg& arg);
     ~LookAtTheFront() override;

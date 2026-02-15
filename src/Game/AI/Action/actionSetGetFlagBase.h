@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetGetFlagBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetGetFlagBase, ksys::act::ai::Action)
+
 public:
     explicit SetGetFlagBase(const InitArg& arg);
     ~SetGetFlagBase() override;

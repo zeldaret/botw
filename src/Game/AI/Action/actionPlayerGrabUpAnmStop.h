@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerGrabUpAnmStop : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGrabUpAnmStop, PlayerAction)
+
 public:
     explicit PlayerGrabUpAnmStop(const InitArg& arg);
 

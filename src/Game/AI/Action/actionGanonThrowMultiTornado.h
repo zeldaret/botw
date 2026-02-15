@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GanonThrowMultiTornado : public GanonThrowTornado {
     SEAD_RTTI_OVERRIDE(GanonThrowMultiTornado, GanonThrowTornado)
+
 public:
     explicit GanonThrowMultiTornado(const InitArg& arg);
     ~GanonThrowMultiTornado() override;

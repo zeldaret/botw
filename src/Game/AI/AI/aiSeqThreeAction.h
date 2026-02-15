@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqThreeAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqThreeAction, ksys::act::ai::Ai)
+
 public:
     explicit SeqThreeAction(const InitArg& arg);
     ~SeqThreeAction() override;

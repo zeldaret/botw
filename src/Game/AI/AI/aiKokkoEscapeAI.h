@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class KokkoEscapeAI : public AnimalEscapeAI {
     SEAD_RTTI_OVERRIDE(KokkoEscapeAI, AnimalEscapeAI)
+
 public:
     explicit KokkoEscapeAI(const InitArg& arg);
     ~KokkoEscapeAI() override;

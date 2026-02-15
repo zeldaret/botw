@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseRideArrowReload : public HorseRide {
     SEAD_RTTI_OVERRIDE(HorseRideArrowReload, HorseRide)
+
 public:
     explicit HorseRideArrowReload(const InitArg& arg);
     ~HorseRideArrowReload() override;

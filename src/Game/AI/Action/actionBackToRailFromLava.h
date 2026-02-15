@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BackToRailFromLava : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BackToRailFromLava, ksys::act::ai::Action)
+
 public:
     explicit BackToRailFromLava(const InitArg& arg);
     ~BackToRailFromLava() override;

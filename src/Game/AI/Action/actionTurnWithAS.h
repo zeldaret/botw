@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TurnWithAS : public TurnBase {
     SEAD_RTTI_OVERRIDE(TurnWithAS, TurnBase)
+
 public:
     explicit TurnWithAS(const InitArg& arg);
     ~TurnWithAS() override;

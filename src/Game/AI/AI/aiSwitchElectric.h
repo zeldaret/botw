@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwitchElectric : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwitchElectric, ksys::act::ai::Ai)
+
 public:
     explicit SwitchElectric(const InitArg& arg);
 

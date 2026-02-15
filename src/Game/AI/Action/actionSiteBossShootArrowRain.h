@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SiteBossShootArrowRain : public SiteBossShootNormalArrow {
     SEAD_RTTI_OVERRIDE(SiteBossShootArrowRain, SiteBossShootNormalArrow)
+
 public:
     explicit SiteBossShootArrowRain(const InitArg& arg);
     ~SiteBossShootArrowRain() override;

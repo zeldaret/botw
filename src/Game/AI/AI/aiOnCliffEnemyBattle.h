@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OnCliffEnemyBattle : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OnCliffEnemyBattle, ksys::act::ai::Ai)
+
 public:
     explicit OnCliffEnemyBattle(const InitArg& arg);
     ~OnCliffEnemyBattle() override;

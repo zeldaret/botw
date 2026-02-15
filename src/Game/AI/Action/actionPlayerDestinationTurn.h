@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerDestinationTurn : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerDestinationTurn, PlayerAction)
+
 public:
     explicit PlayerDestinationTurn(const InitArg& arg);
 

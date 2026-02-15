@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CreateActorInAreaBasic : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CreateActorInAreaBasic, ksys::act::ai::Action)
+
 public:
     explicit CreateActorInAreaBasic(const InitArg& arg);
     ~CreateActorInAreaBasic() override;

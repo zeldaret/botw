@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TargetCircleGuardWalk : public TargetCircle {
     SEAD_RTTI_OVERRIDE(TargetCircleGuardWalk, TargetCircle)
+
 public:
     explicit TargetCircleGuardWalk(const InitArg& arg);
 

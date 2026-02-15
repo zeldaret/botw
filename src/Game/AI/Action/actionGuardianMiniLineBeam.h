@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniLineBeam : public SimpleLineBeam {
     SEAD_RTTI_OVERRIDE(GuardianMiniLineBeam, SimpleLineBeam)
+
 public:
     explicit GuardianMiniLineBeam(const InitArg& arg);
     ~GuardianMiniLineBeam() override;

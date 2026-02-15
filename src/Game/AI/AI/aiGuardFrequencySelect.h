@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardFrequencySelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardFrequencySelect, ksys::act::ai::Ai)
+
 public:
     explicit GuardFrequencySelect(const InitArg& arg);
     ~GuardFrequencySelect() override;

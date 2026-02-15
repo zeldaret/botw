@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ApplyHorizontalImpulse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ApplyHorizontalImpulse, ksys::act::ai::Action)
+
 public:
     explicit ApplyHorizontalImpulse(const InitArg& arg);
     ~ApplyHorizontalImpulse() override;

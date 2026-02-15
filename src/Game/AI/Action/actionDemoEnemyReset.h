@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoEnemyReset : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoEnemyReset, ksys::act::ai::Action)
+
 public:
     explicit DemoEnemyReset(const InitArg& arg);
     ~DemoEnemyReset() override;

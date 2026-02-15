@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class KokkoAngry : public CreateActorWithTarget {
     SEAD_RTTI_OVERRIDE(KokkoAngry, CreateActorWithTarget)
+
 public:
     explicit KokkoAngry(const InitArg& arg);
     ~KokkoAngry() override;

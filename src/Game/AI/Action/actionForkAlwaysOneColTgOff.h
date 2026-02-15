@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAlwaysOneColTgOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAlwaysOneColTgOff, ksys::act::ai::Action)
+
 public:
     explicit ForkAlwaysOneColTgOff(const InitArg& arg);
     ~ForkAlwaysOneColTgOff() override;

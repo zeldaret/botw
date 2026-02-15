@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SimpleKokkoRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleKokkoRoot, ksys::act::ai::Ai)
+
 public:
     explicit SimpleKokkoRoot(const InitArg& arg);
     ~SimpleKokkoRoot() override;

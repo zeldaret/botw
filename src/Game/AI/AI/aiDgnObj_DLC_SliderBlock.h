@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DgnObj_DLC_SliderBlock : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DgnObj_DLC_SliderBlock, ksys::act::ai::Ai)
+
 public:
     explicit DgnObj_DLC_SliderBlock(const InitArg& arg);
     ~DgnObj_DLC_SliderBlock() override;

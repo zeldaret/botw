@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemainsWaterBulletShooter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemainsWaterBulletShooter, ksys::act::ai::Action)
+
 public:
     explicit RemainsWaterBulletShooter(const InitArg& arg);
     ~RemainsWaterBulletShooter() override;

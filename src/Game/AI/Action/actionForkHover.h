@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkHover : public HoverBase {
     SEAD_RTTI_OVERRIDE(ForkHover, HoverBase)
+
 public:
     explicit ForkHover(const InitArg& arg);
     ~ForkHover() override;

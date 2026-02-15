@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ApplyMoveImpulse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ApplyMoveImpulse, ksys::act::ai::Action)
+
 public:
     explicit ApplyMoveImpulse(const InitArg& arg);
     ~ApplyMoveImpulse() override;

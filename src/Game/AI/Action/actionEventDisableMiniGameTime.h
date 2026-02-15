@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventDisableMiniGameTime : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventDisableMiniGameTime, ksys::act::ai::Action)
+
 public:
     explicit EventDisableMiniGameTime(const InitArg& arg);
     ~EventDisableMiniGameTime() override;

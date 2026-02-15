@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SlippedCircleWalk : public SlippedCircleWalkBase {
     SEAD_RTTI_OVERRIDE(SlippedCircleWalk, SlippedCircleWalkBase)
+
 public:
     explicit SlippedCircleWalk(const InitArg& arg);
     ~SlippedCircleWalk() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BocoblinBackStepAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BocoblinBackStepAttack, ksys::act::ai::Ai)
+
 public:
     explicit BocoblinBackStepAttack(const InitArg& arg);
     ~BocoblinBackStepAttack() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EquipConditionSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EquipConditionSelect, ksys::act::ai::Ai)
+
 public:
     explicit EquipConditionSelect(const InitArg& arg);
     ~EquipConditionSelect() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DisappearDeathCounter : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DisappearDeathCounter, ksys::act::ai::Action)
+
 public:
     explicit DisappearDeathCounter(const InitArg& arg);
     ~DisappearDeathCounter() override;

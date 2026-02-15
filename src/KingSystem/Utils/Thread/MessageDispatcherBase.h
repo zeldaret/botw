@@ -11,6 +11,7 @@ struct MessageType;
 
 class MessageDispatcherBase {
     SEAD_RTTI_BASE(MessageDispatcherBase)
+
 public:
     MessageDispatcherBase();
     virtual ~MessageDispatcherBase();

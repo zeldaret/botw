@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ChildDeviceReflectArrow : public WithoutWeaponArrow {
     SEAD_RTTI_OVERRIDE(ChildDeviceReflectArrow, WithoutWeaponArrow)
+
 public:
     explicit ChildDeviceReflectArrow(const InitArg& arg);
     ~ChildDeviceReflectArrow() override;

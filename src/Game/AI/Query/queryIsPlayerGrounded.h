@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsPlayerGrounded : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsPlayerGrounded, Query)
+
 public:
     explicit IsPlayerGrounded(const InitArg& arg);
     ~IsPlayerGrounded() override;

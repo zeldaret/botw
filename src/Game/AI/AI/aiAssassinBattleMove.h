@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinBattleMove : public EnemyRangeKeepMove {
     SEAD_RTTI_OVERRIDE(AssassinBattleMove, EnemyRangeKeepMove)
+
 public:
     explicit AssassinBattleMove(const InitArg& arg);
     ~AssassinBattleMove() override;

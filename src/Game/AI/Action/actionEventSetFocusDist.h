@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetFocusDist : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetFocusDist, ksys::act::ai::Action)
+
 public:
     explicit EventSetFocusDist(const InitArg& arg);
     ~EventSetFocusDist() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AttackBase : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(AttackBase, ActionWithPosAngReduce)
+
 public:
     explicit AttackBase(const InitArg& arg);
     ~AttackBase() override;

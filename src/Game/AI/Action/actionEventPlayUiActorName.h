@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventPlayUiActorName : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventPlayUiActorName, ksys::act::ai::Action)
+
 public:
     explicit EventPlayUiActorName(const InitArg& arg);
     ~EventPlayUiActorName() override;

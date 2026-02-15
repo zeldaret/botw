@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AreaFireObserveBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AreaFireObserveBase, ksys::act::ai::Action)
+
 public:
     explicit AreaFireObserveBase(const InitArg& arg);
     ~AreaFireObserveBase() override;

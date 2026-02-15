@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NoDeleteCurrentActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NoDeleteCurrentActor, ksys::act::ai::Action)
+
 public:
     explicit NoDeleteCurrentActor(const InitArg& arg);
     ~NoDeleteCurrentActor() override;

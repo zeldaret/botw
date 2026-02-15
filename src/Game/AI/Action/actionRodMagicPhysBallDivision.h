@@ -7,6 +7,7 @@ namespace uking::action {
 
 class RodMagicPhysBallDivision : public RodMagicPhysBall {
     SEAD_RTTI_OVERRIDE(RodMagicPhysBallDivision, RodMagicPhysBall)
+
 public:
     explicit RodMagicPhysBallDivision(const InitArg& arg);
     ~RodMagicPhysBallDivision() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventAddGameDataToRupeeAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventAddGameDataToRupeeAction, ksys::act::ai::Action)
+
 public:
     explicit EventAddGameDataToRupeeAction(const InitArg& arg);
     ~EventAddGameDataToRupeeAction() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossArrowRainAttack : public SiteBossReflectArrowRoot {
     SEAD_RTTI_OVERRIDE(SiteBossArrowRainAttack, SiteBossReflectArrowRoot)
+
 public:
     explicit SiteBossArrowRainAttack(const InitArg& arg);
     ~SiteBossArrowRainAttack() override;

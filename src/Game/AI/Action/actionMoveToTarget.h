@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MoveToTarget : public MoveToTargetBase {
     SEAD_RTTI_OVERRIDE(MoveToTarget, MoveToTargetBase)
+
 public:
     explicit MoveToTarget(const InitArg& arg);
     ~MoveToTarget() override;

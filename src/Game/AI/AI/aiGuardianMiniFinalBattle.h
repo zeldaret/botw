@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GuardianMiniFinalBattle : public EnemyBattle {
     SEAD_RTTI_OVERRIDE(GuardianMiniFinalBattle, EnemyBattle)
+
 public:
     explicit GuardianMiniFinalBattle(const InitArg& arg);
     ~GuardianMiniFinalBattle() override;

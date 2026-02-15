@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PipeDrawing : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PipeDrawing, ksys::act::ai::Ai)
+
 public:
     explicit PipeDrawing(const InitArg& arg);
     ~PipeDrawing() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class Fork3AI : public ForkAI {
     SEAD_RTTI_OVERRIDE(Fork3AI, ForkAI)
+
 public:
     explicit Fork3AI(const InitArg& arg);
     ~Fork3AI() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SimpleLiftableDLC : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleLiftableDLC, ksys::act::ai::Ai)
+
 public:
     explicit SimpleLiftableDLC(const InitArg& arg);
     ~SimpleLiftableDLC() override;

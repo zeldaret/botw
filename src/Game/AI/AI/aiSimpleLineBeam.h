@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SimpleLineBeam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleLineBeam, ksys::act::ai::Ai)
+
 public:
     explicit SimpleLineBeam(const InitArg& arg);
     ~SimpleLineBeam() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsCurrentMainFieldDungeonStage : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsCurrentMainFieldDungeonStage, Query)
+
 public:
     explicit IsCurrentMainFieldDungeonStage(const InitArg& arg);
     ~IsCurrentMainFieldDungeonStage() override;

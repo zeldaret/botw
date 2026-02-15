@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpToStaticAnchor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpToStaticAnchor, ksys::act::ai::Action)
+
 public:
     explicit WarpToStaticAnchor(const InitArg& arg);
     ~WarpToStaticAnchor() override;

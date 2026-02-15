@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventCancelSleepTargetActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventCancelSleepTargetActor, ksys::act::ai::Action)
+
 public:
     explicit EventCancelSleepTargetActor(const InitArg& arg);
     ~EventCancelSleepTargetActor() override;

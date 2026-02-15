@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class OctarockHideEscape : public OctarockEscape {
     SEAD_RTTI_OVERRIDE(OctarockHideEscape, OctarockEscape)
+
 public:
     explicit OctarockHideEscape(const InitArg& arg);
     ~OctarockHideEscape() override;

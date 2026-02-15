@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TimeSpecControllerRumble : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TimeSpecControllerRumble, ksys::act::ai::Action)
+
 public:
     explicit TimeSpecControllerRumble(const InitArg& arg);
     ~TimeSpecControllerRumble() override;

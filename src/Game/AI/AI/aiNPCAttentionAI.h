@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCAttentionAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCAttentionAI, ksys::act::ai::Ai)
+
 public:
     explicit NPCAttentionAI(const InitArg& arg);
     ~NPCAttentionAI() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraShieldSurfing : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraShieldSurfing, CameraAction)
+
 public:
     explicit CameraShieldSurfing(const InitArg& arg);
     ~CameraShieldSurfing() override;

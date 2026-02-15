@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class HiddenOctarockNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(HiddenOctarockNormal, EnemyNormal)
+
 public:
     explicit HiddenOctarockNormal(const InitArg& arg);
     ~HiddenOctarockNormal() override;

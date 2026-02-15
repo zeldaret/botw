@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WindBoxPlace : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WindBoxPlace, ksys::act::ai::Ai)
+
 public:
     explicit WindBoxPlace(const InitArg& arg);
     ~WindBoxPlace() override;

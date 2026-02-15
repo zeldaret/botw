@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EnemyChangeWeapon : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EnemyChangeWeapon, ksys::act::ai::Action)
+
 public:
     explicit EnemyChangeWeapon(const InitArg& arg);
     ~EnemyChangeWeapon() override;

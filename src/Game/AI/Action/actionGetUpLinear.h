@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GetUpLinear : public GetUpBase {
     SEAD_RTTI_OVERRIDE(GetUpLinear, GetUpBase)
+
 public:
     explicit GetUpLinear(const InitArg& arg);
     ~GetUpLinear() override;

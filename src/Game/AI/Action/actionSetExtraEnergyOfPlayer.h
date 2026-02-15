@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetExtraEnergyOfPlayer : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetExtraEnergyOfPlayer, ksys::act::ai::Action)
+
 public:
     explicit SetExtraEnergyOfPlayer(const InitArg& arg);
     ~SetExtraEnergyOfPlayer() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckSellResult : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckSellResult, Query)
+
 public:
     explicit CheckSellResult(const InitArg& arg);
     ~CheckSellResult() override;

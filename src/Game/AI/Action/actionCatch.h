@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Catch : public ActionEx {
     SEAD_RTTI_OVERRIDE(Catch, ActionEx)
+
 public:
     explicit Catch(const InitArg& arg);
     ~Catch() override;

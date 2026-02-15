@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DgnObj_DLC_CogWheel2 : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DgnObj_DLC_CogWheel2, ksys::act::ai::Ai)
+
 public:
     explicit DgnObj_DLC_CogWheel2(const InitArg& arg);
     ~DgnObj_DLC_CogWheel2() override;

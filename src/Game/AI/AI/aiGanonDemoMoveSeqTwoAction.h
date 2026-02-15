@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonDemoMoveSeqTwoAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonDemoMoveSeqTwoAction, ksys::act::ai::Ai)
+
 public:
     explicit GanonDemoMoveSeqTwoAction(const InitArg& arg);
     ~GanonDemoMoveSeqTwoAction() override;

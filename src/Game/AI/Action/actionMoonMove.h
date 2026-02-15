@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MoonMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MoonMove, ksys::act::ai::Action)
+
 public:
     explicit MoonMove(const InitArg& arg);
     ~MoonMove() override;

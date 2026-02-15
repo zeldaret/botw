@@ -10,6 +10,7 @@ class TaskQueueBase;
 
 class TaskQueueLock {
     SEAD_RTTI_BASE(TaskQueueLock)
+
 public:
     TaskQueueLock();
     explicit TaskQueueLock(TaskThread* thread) : TaskQueueLock() { thread->lock(this); }

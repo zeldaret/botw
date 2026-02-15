@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WarpPlayerToActor : public WarpPlayerBase {
     SEAD_RTTI_OVERRIDE(WarpPlayerToActor, WarpPlayerBase)
+
 public:
     explicit WarpPlayerToActor(const InitArg& arg);
     ~WarpPlayerToActor() override;

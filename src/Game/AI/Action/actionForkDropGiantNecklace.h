@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkDropGiantNecklace : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkDropGiantNecklace, ksys::act::ai::Action)
+
 public:
     explicit ForkDropGiantNecklace(const InitArg& arg);
     ~ForkDropGiantNecklace() override;

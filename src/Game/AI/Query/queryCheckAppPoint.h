@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckAppPoint : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckAppPoint, Query)
+
 public:
     explicit CheckAppPoint(const InitArg& arg);
     ~CheckAppPoint() override;

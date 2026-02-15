@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RotatedWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RotatedWait, ksys::act::ai::Action)
+
 public:
     explicit RotatedWait(const InitArg& arg);
     ~RotatedWait() override;

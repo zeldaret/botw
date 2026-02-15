@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalEnemyRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalEnemyRoot, ksys::act::ai::Ai)
+
 public:
     explicit StalEnemyRoot(const InitArg& arg);
     ~StalEnemyRoot() override;

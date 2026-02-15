@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckMaterialValue : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckMaterialValue, Query)
+
 public:
     explicit CheckMaterialValue(const InitArg& arg);
     ~CheckMaterialValue() override;

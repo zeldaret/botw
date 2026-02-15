@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LinkTagCheck : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LinkTagCheck, ksys::act::ai::Ai)
+
 public:
     explicit LinkTagCheck(const InitArg& arg);
 

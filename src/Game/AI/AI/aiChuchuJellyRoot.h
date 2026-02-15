@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class ChuchuJellyRoot : public ItemRoot {
     SEAD_RTTI_OVERRIDE(ChuchuJellyRoot, ItemRoot)
+
 public:
     explicit ChuchuJellyRoot(const InitArg& arg);
     ~ChuchuJellyRoot() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StartShiekSensorGaugeDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StartShiekSensorGaugeDemo, ksys::act::ai::Action)
+
 public:
     explicit StartShiekSensorGaugeDemo(const InitArg& arg);
     ~StartShiekSensorGaugeDemo() override;

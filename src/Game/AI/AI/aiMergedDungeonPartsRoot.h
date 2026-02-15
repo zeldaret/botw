@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MergedDungeonPartsRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MergedDungeonPartsRoot, ksys::act::ai::Ai)
+
 public:
     explicit MergedDungeonPartsRoot(const InitArg& arg);
     ~MergedDungeonPartsRoot() override;

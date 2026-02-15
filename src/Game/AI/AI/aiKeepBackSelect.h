@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KeepBackSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KeepBackSelect, ksys::act::ai::Ai)
+
 public:
     explicit KeepBackSelect(const InitArg& arg);
     ~KeepBackSelect() override;

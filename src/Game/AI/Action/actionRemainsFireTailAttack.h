@@ -6,6 +6,7 @@ namespace uking::action {
 
 class RemainsFireTailAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RemainsFireTailAttack, ksys::act::ai::Action)
+
 public:
     explicit RemainsFireTailAttack(const InitArg& arg);
     ~RemainsFireTailAttack() override;

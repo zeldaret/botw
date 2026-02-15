@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KokkoMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KokkoMove, ksys::act::ai::Action)
+
 public:
     explicit KokkoMove(const InitArg& arg);
     ~KokkoMove() override;

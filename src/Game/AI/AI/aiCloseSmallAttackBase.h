@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class CloseSmallAttackBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CloseSmallAttackBase, ksys::act::ai::Ai)
+
 public:
     explicit CloseSmallAttackBase(const InitArg& arg);
     ~CloseSmallAttackBase() override;

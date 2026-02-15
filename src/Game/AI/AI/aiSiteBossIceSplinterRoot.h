@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossIceSplinterRoot : public SiteBossChemicalProjectile {
     SEAD_RTTI_OVERRIDE(SiteBossIceSplinterRoot, SiteBossChemicalProjectile)
+
 public:
     explicit SiteBossIceSplinterRoot(const InitArg& arg);
     ~SiteBossIceSplinterRoot() override;

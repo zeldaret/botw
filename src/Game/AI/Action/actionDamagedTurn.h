@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DamagedTurn : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DamagedTurn, ksys::act::ai::Action)
+
 public:
     explicit DamagedTurn(const InitArg& arg);
     ~DamagedTurn() override;

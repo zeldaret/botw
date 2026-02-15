@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenGetDemoDialogDressFairy : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenGetDemoDialogDressFairy, ksys::act::ai::Action)
+
 public:
     explicit OpenGetDemoDialogDressFairy(const InitArg& arg);
     ~OpenGetDemoDialogDressFairy() override;

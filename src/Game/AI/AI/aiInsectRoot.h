@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class InsectRoot : public SimpleWildlifeRoot {
     SEAD_RTTI_OVERRIDE(InsectRoot, SimpleWildlifeRoot)
+
 public:
     explicit InsectRoot(const InitArg& arg);
     ~InsectRoot() override;

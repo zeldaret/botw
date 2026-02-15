@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckTypeOfWildHorseAssociated : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckTypeOfWildHorseAssociated, Query)
+
 public:
     explicit CheckTypeOfWildHorseAssociated(const InitArg& arg);
     ~CheckTypeOfWildHorseAssociated() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerZoraRide : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerZoraRide, ksys::act::ai::Ai)
+
 public:
     explicit PlayerZoraRide(const InitArg& arg);
     ~PlayerZoraRide() override;

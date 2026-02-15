@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class BossBattleRoomRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BossBattleRoomRoot, ksys::act::ai::Ai)
+
 public:
     explicit BossBattleRoomRoot(const InitArg& arg);
     ~BossBattleRoomRoot() override;

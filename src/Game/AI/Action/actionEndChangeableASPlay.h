@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EndChangeableASPlay : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EndChangeableASPlay, ksys::act::ai::Action)
+
 public:
     explicit EndChangeableASPlay(const InitArg& arg);
     ~EndChangeableASPlay() override;

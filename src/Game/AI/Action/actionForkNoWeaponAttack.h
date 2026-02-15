@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkNoWeaponAttack : public ForkNoWeaponAttackBase {
     SEAD_RTTI_OVERRIDE(ForkNoWeaponAttack, ForkNoWeaponAttackBase)
+
 public:
     explicit ForkNoWeaponAttack(const InitArg& arg);
     ~ForkNoWeaponAttack() override;

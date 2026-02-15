@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GanonWeaponNearAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GanonWeaponNearAttack, ksys::act::ai::Action)
+
 public:
     explicit GanonWeaponNearAttack(const InitArg& arg);
     ~GanonWeaponNearAttack() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoMotorcyclePutMaterials : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoMotorcyclePutMaterials, ksys::act::ai::Action)
+
 public:
     explicit DemoMotorcyclePutMaterials(const InitArg& arg);
     ~DemoMotorcyclePutMaterials() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TrgTargetChangeToPlayerSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TrgTargetChangeToPlayerSelect, ksys::act::ai::Ai)
+
 public:
     explicit TrgTargetChangeToPlayerSelect(const InitArg& arg);
     ~TrgTargetChangeToPlayerSelect() override;

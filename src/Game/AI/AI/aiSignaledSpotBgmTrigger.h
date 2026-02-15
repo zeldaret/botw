@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SignaledSpotBgmTrigger : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SignaledSpotBgmTrigger, ksys::act::ai::Ai)
+
 public:
     explicit SignaledSpotBgmTrigger(const InitArg& arg);
     ~SignaledSpotBgmTrigger() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoDelete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoDelete, ksys::act::ai::Action)
+
 public:
     explicit DemoDelete(const InitArg& arg);
     ~DemoDelete() override;

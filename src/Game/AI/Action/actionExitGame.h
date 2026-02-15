@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ExitGame : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ExitGame, ksys::act::ai::Action)
+
 public:
     explicit ExitGame(const InitArg& arg);
     ~ExitGame() override;

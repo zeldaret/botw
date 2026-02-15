@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerEquipHaveMasterSword : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerEquipHaveMasterSword, PlayerAction)
+
 public:
     explicit PlayerEquipHaveMasterSword(const InitArg& arg);
     ~PlayerEquipHaveMasterSword() override;

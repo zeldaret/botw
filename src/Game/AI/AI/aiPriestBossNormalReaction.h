@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossNormalReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(PriestBossNormalReaction, EnemyDefaultReaction)
+
 public:
     explicit PriestBossNormalReaction(const InitArg& arg);
     ~PriestBossNormalReaction() override;

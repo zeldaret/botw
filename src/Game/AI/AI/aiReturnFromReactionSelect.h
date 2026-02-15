@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ReturnFromReactionSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ReturnFromReactionSelect, ksys::act::ai::Ai)
+
 public:
     explicit ReturnFromReactionSelect(const InitArg& arg);
     ~ReturnFromReactionSelect() override;

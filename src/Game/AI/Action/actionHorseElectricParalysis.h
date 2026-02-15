@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseElectricParalysis : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(HorseElectricParalysis, ActionWithPosAngReduce)
+
 public:
     explicit HorseElectricParalysis(const InitArg& arg);
     ~HorseElectricParalysis() override;

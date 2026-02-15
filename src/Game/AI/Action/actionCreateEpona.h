@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CreateEpona : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CreateEpona, ksys::act::ai::Action)
+
 public:
     explicit CreateEpona(const InitArg& arg);
     ~CreateEpona() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkASTrgDelete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkASTrgDelete, ksys::act::ai::Action)
+
 public:
     explicit ForkASTrgDelete(const InitArg& arg);
     ~ForkASTrgDelete() override;

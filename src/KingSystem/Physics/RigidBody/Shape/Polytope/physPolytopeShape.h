@@ -23,6 +23,7 @@ struct PolytopeShapeParam {
 
 class PolytopeShape : public Shape {
     SEAD_RTTI_OVERRIDE(PolytopeShape, Shape)
+
 public:
     enum class Flag {
         _1 = 1 << 0,
@@ -79,6 +80,7 @@ constexpr PolytopeShape::Flag operator|(PolytopeShape::Flag a, PolytopeShape::Fl
 
 class PolytopeParam : public RigidBodyInstanceParam, public PolytopeShapeParam {
     SEAD_RTTI_OVERRIDE(PolytopeParam, RigidBodyInstanceParam)
+
 public:
     PolytopeParam() : RigidBodyInstanceParam(ShapeType::Polytope) {}
 };

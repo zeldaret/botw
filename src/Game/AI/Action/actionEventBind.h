@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventBind : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventBind, ksys::act::ai::Action)
+
 public:
     explicit EventBind(const InitArg& arg);
     ~EventBind() override;

@@ -51,6 +51,7 @@ sead::FixedSafeString<32>* getDefaultString32();
 /// Base class for actions and AIs, which can be seen as looping actions.
 class ActionBase {
     SEAD_RTTI_BASE(ActionBase)
+
 public:
     struct InitArg {
         Actor* actor;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventAnim : public CameraEventAnimBase {
     SEAD_RTTI_OVERRIDE(CameraEventAnim, CameraEventAnimBase)
+
 public:
     explicit CameraEventAnim(const InitArg& arg);
     ~CameraEventAnim() override;

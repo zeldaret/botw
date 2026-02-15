@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MessageReceiveCheckEveryFrame : public MessageReceiveCheckBasic {
     SEAD_RTTI_OVERRIDE(MessageReceiveCheckEveryFrame, MessageReceiveCheckBasic)
+
 public:
     explicit MessageReceiveCheckEveryFrame(const InitArg& arg);
     ~MessageReceiveCheckEveryFrame() override;

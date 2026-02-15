@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonBeastWait : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonBeastWait, ksys::act::ai::Ai)
+
 public:
     explicit GanonBeastWait(const InitArg& arg);
     ~GanonBeastWait() override;

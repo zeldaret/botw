@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetGameDataIntAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetGameDataIntAction, ksys::act::ai::Action)
+
 public:
     explicit EventSetGameDataIntAction(const InitArg& arg);
     ~EventSetGameDataIntAction() override;

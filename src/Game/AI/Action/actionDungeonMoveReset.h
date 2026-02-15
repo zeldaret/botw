@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DungeonMoveReset : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DungeonMoveReset, ksys::act::ai::Action)
+
 public:
     explicit DungeonMoveReset(const InitArg& arg);
     ~DungeonMoveReset() override;

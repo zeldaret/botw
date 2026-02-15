@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerAnchorMove : public PlayerGuidedMove {
     SEAD_RTTI_OVERRIDE(PlayerAnchorMove, PlayerGuidedMove)
+
 public:
     explicit PlayerAnchorMove(const InitArg& arg);
     ~PlayerAnchorMove() override;

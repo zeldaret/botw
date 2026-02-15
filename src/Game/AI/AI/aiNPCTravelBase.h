@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCTravelBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCTravelBase, ksys::act::ai::Ai)
+
 public:
     explicit NPCTravelBase(const InitArg& arg);
     ~NPCTravelBase() override;

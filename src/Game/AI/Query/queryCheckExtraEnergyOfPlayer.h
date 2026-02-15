@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckExtraEnergyOfPlayer : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckExtraEnergyOfPlayer, Query)
+
 public:
     explicit CheckExtraEnergyOfPlayer(const InitArg& arg);
     ~CheckExtraEnergyOfPlayer() override;

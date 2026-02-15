@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SandwormNoticeSound : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SandwormNoticeSound, ksys::act::ai::Ai)
+
 public:
     explicit SandwormNoticeSound(const InitArg& arg);
     ~SandwormNoticeSound() override;

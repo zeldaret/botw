@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniGuardBreak : public GuardBreak {
     SEAD_RTTI_OVERRIDE(GuardianMiniGuardBreak, GuardBreak)
+
 public:
     explicit GuardianMiniGuardBreak(const InitArg& arg);
     ~GuardianMiniGuardBreak() override;

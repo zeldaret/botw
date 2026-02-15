@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkEmitChmFieldFromWeapon : public ForkEmitChmField {
     SEAD_RTTI_OVERRIDE(ForkEmitChmFieldFromWeapon, ForkEmitChmField)
+
 public:
     explicit ForkEmitChmFieldFromWeapon(const InitArg& arg);
     ~ForkEmitChmFieldFromWeapon() override;

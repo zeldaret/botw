@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ExplodeReserved : public StopASPlay {
     SEAD_RTTI_OVERRIDE(ExplodeReserved, StopASPlay)
+
 public:
     explicit ExplodeReserved(const InitArg& arg);
     ~ExplodeReserved() override;

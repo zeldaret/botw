@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerDead : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerDead, ksys::act::ai::Ai)
+
 public:
     explicit PlayerDead(const InitArg& arg);
 

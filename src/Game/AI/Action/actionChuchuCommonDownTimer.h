@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ChuchuCommonDownTimer : public Fork {
     SEAD_RTTI_OVERRIDE(ChuchuCommonDownTimer, Fork)
+
 public:
     explicit ChuchuCommonDownTimer(const InitArg& arg);
     ~ChuchuCommonDownTimer() override;

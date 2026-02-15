@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Kick : public ActionEx {
     SEAD_RTTI_OVERRIDE(Kick, ActionEx)
+
 public:
     explicit Kick(const InitArg& arg);
     ~Kick() override;

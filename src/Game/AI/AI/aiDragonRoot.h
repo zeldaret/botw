@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DragonRoot : public DragonRootBase {
     SEAD_RTTI_OVERRIDE(DragonRoot, DragonRootBase)
+
 public:
     explicit DragonRoot(const InitArg& arg);
     ~DragonRoot() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkBeastGanonMessageDialogCtrl : public SimpleMessageDialogCtrl {
     SEAD_RTTI_OVERRIDE(ForkBeastGanonMessageDialogCtrl, SimpleMessageDialogCtrl)
+
 public:
     explicit ForkBeastGanonMessageDialogCtrl(const InitArg& arg);
     ~ForkBeastGanonMessageDialogCtrl() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardLoop : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(GuardLoop, ActionWithPosAngReduce)
+
 public:
     explicit GuardLoop(const InitArg& arg);
 

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class DungeonRemainsFire : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonRemainsFire, ksys::act::ai::Ai)
+
 public:
     explicit DungeonRemainsFire(const InitArg& arg);
     ~DungeonRemainsFire() override;

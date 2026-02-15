@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MoveToTargetCurveBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MoveToTargetCurveBase, ksys::act::ai::Action)
+
 public:
     explicit MoveToTargetCurveBase(const InitArg& arg);
     ~MoveToTargetCurveBase() override;

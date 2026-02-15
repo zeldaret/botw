@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Stick : public ActionEx {
     SEAD_RTTI_OVERRIDE(Stick, ActionEx)
+
 public:
     explicit Stick(const InitArg& arg);
     ~Stick() override;

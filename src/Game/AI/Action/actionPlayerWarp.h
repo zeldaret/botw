@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerWarp : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWarp, PlayerAction)
+
 public:
     explicit PlayerWarp(const InitArg& arg);
 

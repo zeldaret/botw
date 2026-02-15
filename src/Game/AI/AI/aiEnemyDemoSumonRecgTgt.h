@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyDemoSumonRecgTgt : public EnemyRecognizeTargetBase {
     SEAD_RTTI_OVERRIDE(EnemyDemoSumonRecgTgt, EnemyRecognizeTargetBase)
+
 public:
     explicit EnemyDemoSumonRecgTgt(const InitArg& arg);
     ~EnemyDemoSumonRecgTgt() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class AssassinShooterJuniorAzitoRoot : public RememberMesOneActorEnemyRoot {
     SEAD_RTTI_OVERRIDE(AssassinShooterJuniorAzitoRoot, RememberMesOneActorEnemyRoot)
+
 public:
     explicit AssassinShooterJuniorAzitoRoot(const InitArg& arg);
     ~AssassinShooterJuniorAzitoRoot() override;

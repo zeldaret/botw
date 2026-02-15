@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpToActor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpToActor, ksys::act::ai::Action)
+
 public:
     explicit WarpToActor(const InitArg& arg);
     ~WarpToActor() override;

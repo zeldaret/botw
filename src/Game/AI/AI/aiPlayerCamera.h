@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PlayerCamera : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerCamera, ksys::act::ai::Ai)
+
 public:
     explicit PlayerCamera(const InitArg& arg);
 

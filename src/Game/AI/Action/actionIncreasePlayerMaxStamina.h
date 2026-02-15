@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IncreasePlayerMaxStamina : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IncreasePlayerMaxStamina, ksys::act::ai::Action)
+
 public:
     explicit IncreasePlayerMaxStamina(const InitArg& arg);
     ~IncreasePlayerMaxStamina() override;

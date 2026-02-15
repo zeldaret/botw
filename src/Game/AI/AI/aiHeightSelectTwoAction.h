@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HeightSelectTwoAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HeightSelectTwoAction, ksys::act::ai::Ai)
+
 public:
     explicit HeightSelectTwoAction(const InitArg& arg);
     ~HeightSelectTwoAction() override;

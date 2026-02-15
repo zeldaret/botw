@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DungeonRotateTagCont : public DungeonRotateTagInOrder {
     SEAD_RTTI_OVERRIDE(DungeonRotateTagCont, DungeonRotateTagInOrder)
+
 public:
     explicit DungeonRotateTagCont(const InitArg& arg);
     ~DungeonRotateTagCont() override;

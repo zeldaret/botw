@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LandHumEnemyThrowWeapon : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LandHumEnemyThrowWeapon, ksys::act::ai::Ai)
+
 public:
     explicit LandHumEnemyThrowWeapon(const InitArg& arg);
     ~LandHumEnemyThrowWeapon() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TimeredViewWait : public ViewWait {
     SEAD_RTTI_OVERRIDE(TimeredViewWait, ViewWait)
+
 public:
     explicit TimeredViewWait(const InitArg& arg);
     ~TimeredViewWait() override;

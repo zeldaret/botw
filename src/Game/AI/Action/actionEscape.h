@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Escape : public MoveBase {
     SEAD_RTTI_OVERRIDE(Escape, MoveBase)
+
 public:
     explicit Escape(const InitArg& arg);
 

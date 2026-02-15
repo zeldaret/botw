@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TerminalEnduranceWarpRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TerminalEnduranceWarpRoot, ksys::act::ai::Ai)
+
 public:
     explicit TerminalEnduranceWarpRoot(const InitArg& arg);
     ~TerminalEnduranceWarpRoot() override;

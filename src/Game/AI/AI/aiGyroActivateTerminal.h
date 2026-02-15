@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GyroActivateTerminal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GyroActivateTerminal, ksys::act::ai::Ai)
+
 public:
     explicit GyroActivateTerminal(const InitArg& arg);
     ~GyroActivateTerminal() override;

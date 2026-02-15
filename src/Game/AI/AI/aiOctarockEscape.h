@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OctarockEscape : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OctarockEscape, ksys::act::ai::Ai)
+
 public:
     explicit OctarockEscape(const InitArg& arg);
     ~OctarockEscape() override;

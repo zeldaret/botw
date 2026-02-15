@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCReturnAnchor : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCReturnAnchor, ksys::act::ai::Ai)
+
 public:
     explicit NPCReturnAnchor(const InitArg& arg);
     ~NPCReturnAnchor() override;

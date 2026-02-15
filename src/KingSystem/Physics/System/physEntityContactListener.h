@@ -8,6 +8,7 @@ namespace ksys::phys {
 
 class EntityContactListener : public ContactListener {
     SEAD_RTTI_OVERRIDE(EntityContactListener, ContactListener)
+
 public:
     static EntityContactListener* make(ContactMgr* mgr, sead::Heap* heap);
 

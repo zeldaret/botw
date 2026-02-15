@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CloseArmorProcessing : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CloseArmorProcessing, ksys::act::ai::Action)
+
 public:
     explicit CloseArmorProcessing(const InitArg& arg);
     ~CloseArmorProcessing() override;

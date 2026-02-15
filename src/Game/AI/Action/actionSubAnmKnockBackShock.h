@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SubAnmKnockBackShock : public AnmKnockBackShock {
     SEAD_RTTI_OVERRIDE(SubAnmKnockBackShock, AnmKnockBackShock)
+
 public:
     explicit SubAnmKnockBackShock(const InitArg& arg);
     ~SubAnmKnockBackShock() override;

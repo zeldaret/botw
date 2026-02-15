@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenMessageDialogTrig : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenMessageDialogTrig, ksys::act::ai::Action)
+
 public:
     explicit OpenMessageDialogTrig(const InitArg& arg);
     ~OpenMessageDialogTrig() override;

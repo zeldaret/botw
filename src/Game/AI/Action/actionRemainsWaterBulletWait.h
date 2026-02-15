@@ -7,6 +7,7 @@ namespace uking::action {
 
 class RemainsWaterBulletWait : public RemainsWaterBulletAction {
     SEAD_RTTI_OVERRIDE(RemainsWaterBulletWait, RemainsWaterBulletAction)
+
 public:
     explicit RemainsWaterBulletWait(const InitArg& arg);
     ~RemainsWaterBulletWait() override;

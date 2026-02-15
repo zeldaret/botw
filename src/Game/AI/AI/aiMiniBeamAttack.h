@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MiniBeamAttack : public BreathAttackEnemyBattle {
     SEAD_RTTI_OVERRIDE(MiniBeamAttack, BreathAttackEnemyBattle)
+
 public:
     explicit MiniBeamAttack(const InitArg& arg);
     ~MiniBeamAttack() override;

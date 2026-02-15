@@ -6,6 +6,7 @@ namespace uking::query {
 
 class BranchByGameOver : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(BranchByGameOver, Query)
+
 public:
     explicit BranchByGameOver(const InitArg& arg);
     ~BranchByGameOver() override;

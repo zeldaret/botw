@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GelEnemyAppear : public Appear {
     SEAD_RTTI_OVERRIDE(GelEnemyAppear, Appear)
+
 public:
     explicit GelEnemyAppear(const InitArg& arg);
     ~GelEnemyAppear() override;

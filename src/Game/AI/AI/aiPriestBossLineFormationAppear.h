@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossLineFormationAppear : public SeqTwoAction {
     SEAD_RTTI_OVERRIDE(PriestBossLineFormationAppear, SeqTwoAction)
+
 public:
     explicit PriestBossLineFormationAppear(const InitArg& arg);
     ~PriestBossLineFormationAppear() override;

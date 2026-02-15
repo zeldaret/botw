@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class SiteBossReaction : public EnemyDefaultReaction {
     SEAD_RTTI_OVERRIDE(SiteBossReaction, EnemyDefaultReaction)
+
 public:
     explicit SiteBossReaction(const InitArg& arg);
     ~SiteBossReaction() override;

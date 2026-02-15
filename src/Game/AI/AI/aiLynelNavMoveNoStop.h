@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelNavMoveNoStop : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelNavMoveNoStop, ksys::act::ai::Ai)
+
 public:
     explicit LynelNavMoveNoStop(const InitArg& arg);
     ~LynelNavMoveNoStop() override;

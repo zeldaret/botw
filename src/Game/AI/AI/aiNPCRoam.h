@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCRoam : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCRoam, ksys::act::ai::Ai)
+
 public:
     explicit NPCRoam(const InitArg& arg);
     ~NPCRoam() override;

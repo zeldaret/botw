@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AttackPowerExplode : public Explode {
     SEAD_RTTI_OVERRIDE(AttackPowerExplode, Explode)
+
 public:
     explicit AttackPowerExplode(const InitArg& arg);
     ~AttackPowerExplode() override;

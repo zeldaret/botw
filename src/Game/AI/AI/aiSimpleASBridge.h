@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SimpleASBridge : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleASBridge, ksys::act::ai::Ai)
+
 public:
     explicit SimpleASBridge(const InitArg& arg);
     ~SimpleASBridge() override;

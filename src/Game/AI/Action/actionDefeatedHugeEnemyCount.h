@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DefeatedHugeEnemyCount : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DefeatedHugeEnemyCount, ksys::act::ai::Action)
+
 public:
     explicit DefeatedHugeEnemyCount(const InitArg& arg);
     ~DefeatedHugeEnemyCount() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TreasureBoxOpenWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TreasureBoxOpenWait, ksys::act::ai::Action)
+
 public:
     explicit TreasureBoxOpenWait(const InitArg& arg);
     ~TreasureBoxOpenWait() override;

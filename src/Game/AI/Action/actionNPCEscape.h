@@ -7,6 +7,7 @@ namespace uking::action {
 
 class NPCEscape : public RandomMoveAction {
     SEAD_RTTI_OVERRIDE(NPCEscape, RandomMoveAction)
+
 public:
     explicit NPCEscape(const InitArg& arg);
     ~NPCEscape() override;

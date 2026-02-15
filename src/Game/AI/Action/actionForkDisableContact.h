@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkDisableContact : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkDisableContact, ksys::act::ai::Action)
+
 public:
     explicit ForkDisableContact(const InitArg& arg);
     ~ForkDisableContact() override;

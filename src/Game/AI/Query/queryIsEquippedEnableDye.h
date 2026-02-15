@@ -6,6 +6,7 @@ namespace uking::query {
 
 class IsEquippedEnableDye : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(IsEquippedEnableDye, Query)
+
 public:
     explicit IsEquippedEnableDye(const InitArg& arg);
     ~IsEquippedEnableDye() override;

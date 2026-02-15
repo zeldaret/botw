@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAlwaysForceGetUp : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAlwaysForceGetUp, ksys::act::ai::Action)
+
 public:
     explicit ForkAlwaysForceGetUp(const InitArg& arg);
     ~ForkAlwaysForceGetUp() override;

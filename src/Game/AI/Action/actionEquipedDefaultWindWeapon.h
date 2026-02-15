@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EquipedDefaultWindWeapon : public EquipedAction {
     SEAD_RTTI_OVERRIDE(EquipedDefaultWindWeapon, EquipedAction)
+
 public:
     explicit EquipedDefaultWindWeapon(const InitArg& arg);
 

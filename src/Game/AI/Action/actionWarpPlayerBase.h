@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WarpPlayerBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WarpPlayerBase, ksys::act::ai::Action)
+
 public:
     explicit WarpPlayerBase(const InitArg& arg);
     ~WarpPlayerBase() override;

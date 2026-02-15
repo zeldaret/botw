@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GolemNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(GolemNormal, EnemyNormal)
+
 public:
     explicit GolemNormal(const InitArg& arg);
     ~GolemNormal() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RandomSelectThreeActionBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RandomSelectThreeActionBase, ksys::act::ai::Ai)
+
 public:
     explicit RandomSelectThreeActionBase(const InitArg& arg);
     ~RandomSelectThreeActionBase() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class ComparePlayerOriginalHeart : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(ComparePlayerOriginalHeart, Query)
+
 public:
     explicit ComparePlayerOriginalHeart(const InitArg& arg);
     ~ComparePlayerOriginalHeart() override;

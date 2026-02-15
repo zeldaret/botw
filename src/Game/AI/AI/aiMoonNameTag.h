@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class MoonNameTag : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(MoonNameTag, ksys::act::ai::Ai)
+
 public:
     explicit MoonNameTag(const InitArg& arg);
     ~MoonNameTag() override;

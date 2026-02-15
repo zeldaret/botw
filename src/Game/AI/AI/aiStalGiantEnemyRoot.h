@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class StalGiantEnemyRoot : public StalEnemyRoot {
     SEAD_RTTI_OVERRIDE(StalGiantEnemyRoot, StalEnemyRoot)
+
 public:
     explicit StalGiantEnemyRoot(const InitArg& arg);
     ~StalGiantEnemyRoot() override;

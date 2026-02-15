@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NushiEscapeSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NushiEscapeSelector, ksys::act::ai::Ai)
+
 public:
     explicit NushiEscapeSelector(const InitArg& arg);
     ~NushiEscapeSelector() override;

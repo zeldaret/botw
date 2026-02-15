@@ -7,6 +7,7 @@ namespace uking::action {
 
 class Vanish : public TimeredASPlay {
     SEAD_RTTI_OVERRIDE(Vanish, TimeredASPlay)
+
 public:
     explicit Vanish(const InitArg& arg);
     ~Vanish() override;

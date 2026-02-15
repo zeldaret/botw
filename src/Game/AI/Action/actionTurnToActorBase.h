@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TurnToActorBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TurnToActorBase, ksys::act::ai::Action)
+
 public:
     explicit TurnToActorBase(const InitArg& arg);
     ~TurnToActorBase() override;

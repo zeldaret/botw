@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class InWaterSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(InWaterSelect, ksys::act::ai::Ai)
+
 public:
     explicit InWaterSelect(const InitArg& arg);
     ~InWaterSelect() override;

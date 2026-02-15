@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WolfLinkRushAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkRushAttack, ksys::act::ai::Ai)
+
 public:
     explicit WolfLinkRushAttack(const InitArg& arg);
     ~WolfLinkRushAttack() override;

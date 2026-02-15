@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SafeMoveAroundTarget : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SafeMoveAroundTarget, ksys::act::ai::Ai)
+
 public:
     explicit SafeMoveAroundTarget(const InitArg& arg);
     ~SafeMoveAroundTarget() override;

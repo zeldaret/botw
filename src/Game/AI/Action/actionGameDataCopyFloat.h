@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GameDataCopyFloat : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GameDataCopyFloat, ksys::act::ai::Action)
+
 public:
     explicit GameDataCopyFloat(const InitArg& arg);
     ~GameDataCopyFloat() override;

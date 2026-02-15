@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MagneGearEmbeded : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MagneGearEmbeded, ksys::act::ai::Action)
+
 public:
     explicit MagneGearEmbeded(const InitArg& arg);
     ~MagneGearEmbeded() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolemClimbedTimeSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolemClimbedTimeSelect, ksys::act::ai::Ai)
+
 public:
     explicit GolemClimbedTimeSelect(const InitArg& arg);
     ~GolemClimbedTimeSelect() override;

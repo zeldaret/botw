@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class WarpTagRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WarpTagRoot, ksys::act::ai::Ai)
+
 public:
     explicit WarpTagRoot(const InitArg& arg);
     ~WarpTagRoot() override;

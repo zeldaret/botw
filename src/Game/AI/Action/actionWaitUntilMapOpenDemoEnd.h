@@ -6,6 +6,7 @@ namespace uking::action {
 
 class WaitUntilMapOpenDemoEnd : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaitUntilMapOpenDemoEnd, ksys::act::ai::Action)
+
 public:
     explicit WaitUntilMapOpenDemoEnd(const InitArg& arg);
     ~WaitUntilMapOpenDemoEnd() override;

@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckItemShopPorchVacancy : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckItemShopPorchVacancy, Query)
+
 public:
     explicit CheckItemShopPorchVacancy(const InitArg& arg);
     ~CheckItemShopPorchVacancy() override;

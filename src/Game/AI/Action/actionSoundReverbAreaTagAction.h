@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SoundReverbAreaTagAction : public AreaTagAction {
     SEAD_RTTI_OVERRIDE(SoundReverbAreaTagAction, AreaTagAction)
+
 public:
     explicit SoundReverbAreaTagAction(const InitArg& arg);
     ~SoundReverbAreaTagAction() override;

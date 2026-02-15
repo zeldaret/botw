@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GolfBallRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GolfBallRoot, ksys::act::ai::Ai)
+
 public:
     explicit GolfBallRoot(const InitArg& arg);
     ~GolfBallRoot() override;

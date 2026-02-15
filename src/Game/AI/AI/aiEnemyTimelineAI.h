@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyTimelineAI : public TimelineAI {
     SEAD_RTTI_OVERRIDE(EnemyTimelineAI, TimelineAI)
+
 public:
     explicit EnemyTimelineAI(const InitArg& arg);
     ~EnemyTimelineAI() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class EnemyWarnNoticeEndChase : public EnemyWarnNoticeSelect {
     SEAD_RTTI_OVERRIDE(EnemyWarnNoticeEndChase, EnemyWarnNoticeSelect)
+
 public:
     explicit EnemyWarnNoticeEndChase(const InitArg& arg);
     ~EnemyWarnNoticeEndChase() override;

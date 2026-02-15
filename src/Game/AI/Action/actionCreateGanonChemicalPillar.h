@@ -6,6 +6,7 @@ namespace uking::action {
 
 class CreateGanonChemicalPillar : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CreateGanonChemicalPillar, ksys::act::ai::Action)
+
 public:
     explicit CreateGanonChemicalPillar(const InitArg& arg);
     ~CreateGanonChemicalPillar() override;

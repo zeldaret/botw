@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GiantAttackWithAS : public GiantAttack {
     SEAD_RTTI_OVERRIDE(GiantAttackWithAS, GiantAttack)
+
 public:
     explicit GiantAttackWithAS(const InitArg& arg);
     ~GiantAttackWithAS() override;

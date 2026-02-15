@@ -6,6 +6,7 @@ namespace uking::action {
 
 class AnmToRagdollDie : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnmToRagdollDie, ksys::act::ai::Action)
+
 public:
     explicit AnmToRagdollDie(const InitArg& arg);
     ~AnmToRagdollDie() override;

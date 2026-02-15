@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GiantArmorAsWeakPoint : public GiantArmorRoot {
     SEAD_RTTI_OVERRIDE(GiantArmorAsWeakPoint, GiantArmorRoot)
+
 public:
     explicit GiantArmorAsWeakPoint(const InitArg& arg);
     ~GiantArmorAsWeakPoint() override;

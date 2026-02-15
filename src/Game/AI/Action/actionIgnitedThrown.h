@@ -6,6 +6,7 @@ namespace uking::action {
 
 class IgnitedThrown : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(IgnitedThrown, ksys::act::ai::Action)
+
 public:
     explicit IgnitedThrown(const InitArg& arg);
     ~IgnitedThrown() override;

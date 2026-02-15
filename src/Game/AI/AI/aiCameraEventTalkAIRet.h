@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CameraEventTalkAIRet : public CameraEventTalk {
     SEAD_RTTI_OVERRIDE(CameraEventTalkAIRet, CameraEventTalk)
+
 public:
     explicit CameraEventTalkAIRet(const InitArg& arg);
 

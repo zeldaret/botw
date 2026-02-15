@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class WindGeneratorSignal : public WindGenerator {
     SEAD_RTTI_OVERRIDE(WindGeneratorSignal, WindGenerator)
+
 public:
     explicit WindGeneratorSignal(const InitArg& arg);
     ~WindGeneratorSignal() override;

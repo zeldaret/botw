@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LifeChangeDemoCaller : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LifeChangeDemoCaller, ksys::act::ai::Ai)
+
 public:
     explicit LifeChangeDemoCaller(const InitArg& arg);
     ~LifeChangeDemoCaller() override;

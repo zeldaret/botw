@@ -6,6 +6,7 @@ namespace uking::action {
 
 class Puddle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(Puddle, ksys::act::ai::Action)
+
 public:
     explicit Puddle(const InitArg& arg);
     ~Puddle() override;

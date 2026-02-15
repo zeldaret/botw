@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SpreadToEnemy : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(SpreadToEnemy, OnetimeStopASPlay)
+
 public:
     explicit SpreadToEnemy(const InitArg& arg);
     ~SpreadToEnemy() override;

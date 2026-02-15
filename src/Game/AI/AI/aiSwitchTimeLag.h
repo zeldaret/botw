@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SwitchTimeLag : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SwitchTimeLag, ksys::act::ai::Ai)
+
 public:
     explicit SwitchTimeLag(const InitArg& arg);
     ~SwitchTimeLag() override;

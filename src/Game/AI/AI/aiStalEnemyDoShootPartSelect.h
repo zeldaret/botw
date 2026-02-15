@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalEnemyDoShootPartSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalEnemyDoShootPartSelect, ksys::act::ai::Ai)
+
 public:
     explicit StalEnemyDoShootPartSelect(const InitArg& arg);
     ~StalEnemyDoShootPartSelect() override;

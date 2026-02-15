@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MoveBase : public ActionEx {
     SEAD_RTTI_OVERRIDE(MoveBase, ActionEx)
+
 public:
     explicit MoveBase(const InitArg& arg);
     ~MoveBase() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class CameraTool : public CameraAI {
     SEAD_RTTI_OVERRIDE(CameraTool, CameraAI)
+
 public:
     explicit CameraTool(const InitArg& arg);
     ~CameraTool() override;

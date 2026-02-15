@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class PriestBossAfterImageRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossAfterImageRoot, ksys::act::ai::Ai)
+
 public:
     explicit PriestBossAfterImageRoot(const InitArg& arg);
     ~PriestBossAfterImageRoot() override;

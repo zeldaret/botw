@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossBowMoveForArrowRain : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossBowMoveForArrowRain, ksys::act::ai::Action)
+
 public:
     explicit SiteBossBowMoveForArrowRain(const InitArg& arg);
     ~SiteBossBowMoveForArrowRain() override;

@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelOnNoNavMeshPos : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelOnNoNavMeshPos, ksys::act::ai::Ai)
+
 public:
     explicit LynelOnNoNavMeshPos(const InitArg& arg);
     ~LynelOnNoNavMeshPos() override;

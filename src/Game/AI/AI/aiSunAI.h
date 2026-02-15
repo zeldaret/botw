@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SunAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SunAI, ksys::act::ai::Ai)
+
 public:
     explicit SunAI(const InitArg& arg);
 

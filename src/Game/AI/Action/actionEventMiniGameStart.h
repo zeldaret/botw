@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventMiniGameStart : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventMiniGameStart, ksys::act::ai::Action)
+
 public:
     explicit EventMiniGameStart(const InitArg& arg);
     ~EventMiniGameStart() override;

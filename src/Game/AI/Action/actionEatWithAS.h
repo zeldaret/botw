@@ -7,6 +7,7 @@ namespace uking::action {
 
 class EatWithAS : public Eat {
     SEAD_RTTI_OVERRIDE(EatWithAS, Eat)
+
 public:
     explicit EatWithAS(const InitArg& arg);
     ~EatWithAS() override;

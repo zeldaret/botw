@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ChemicalAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ChemicalAttack, ksys::act::ai::Action)
+
 public:
     explicit ChemicalAttack(const InitArg& arg);
     ~ChemicalAttack() override;

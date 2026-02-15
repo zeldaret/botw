@@ -6,6 +6,7 @@ namespace uking::action {
 
 class KorokTargetMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(KorokTargetMove, ksys::act::ai::Action)
+
 public:
     explicit KorokTargetMove(const InitArg& arg);
     ~KorokTargetMove() override;

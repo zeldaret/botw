@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CapturedActKnockBack : public SmallDamageBase {
     SEAD_RTTI_OVERRIDE(CapturedActKnockBack, SmallDamageBase)
+
 public:
     explicit CapturedActKnockBack(const InitArg& arg);
     ~CapturedActKnockBack() override;

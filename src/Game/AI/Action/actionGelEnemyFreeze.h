@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GelEnemyFreeze : public Freeze {
     SEAD_RTTI_OVERRIDE(GelEnemyFreeze, Freeze)
+
 public:
     explicit GelEnemyFreeze(const InitArg& arg);
     ~GelEnemyFreeze() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class OctarockReloadWigBase : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(OctarockReloadWigBase, OnetimeStopASPlay)
+
 public:
     explicit OctarockReloadWigBase(const InitArg& arg);
     ~OctarockReloadWigBase() override;

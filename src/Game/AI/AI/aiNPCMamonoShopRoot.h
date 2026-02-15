@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NPCMamonoShopRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NPCMamonoShopRoot, NPCRoot)
+
 public:
     explicit NPCMamonoShopRoot(const InitArg& arg);
     ~NPCMamonoShopRoot() override;

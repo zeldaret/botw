@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkBattleNodeForAttackGround : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkBattleNodeForAttackGround, ksys::act::ai::Action)
+
 public:
     explicit ForkBattleNodeForAttackGround(const InitArg& arg);
     ~ForkBattleNodeForAttackGround() override;

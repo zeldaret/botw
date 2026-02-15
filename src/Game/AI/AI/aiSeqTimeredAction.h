@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SeqTimeredAction : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqTimeredAction, ksys::act::ai::Ai)
+
 public:
     explicit SeqTimeredAction(const InitArg& arg);
     ~SeqTimeredAction() override;

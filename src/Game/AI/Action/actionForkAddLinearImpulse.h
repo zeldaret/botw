@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAddLinearImpulse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAddLinearImpulse, ksys::act::ai::Action)
+
 public:
     explicit ForkAddLinearImpulse(const InitArg& arg);
     ~ForkAddLinearImpulse() override;

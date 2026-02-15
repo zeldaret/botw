@@ -6,6 +6,7 @@ namespace uking::action {
 
 class DemoSweep : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(DemoSweep, ksys::act::ai::Action)
+
 public:
     explicit DemoSweep(const InitArg& arg);
     ~DemoSweep() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HorseRideLookWait : public HorseRide {
     SEAD_RTTI_OVERRIDE(HorseRideLookWait, HorseRide)
+
 public:
     explicit HorseRideLookWait(const InitArg& arg);
     ~HorseRideLookWait() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DragonFollow : public FollowChallenge {
     SEAD_RTTI_OVERRIDE(DragonFollow, FollowChallenge)
+
 public:
     explicit DragonFollow(const InitArg& arg);
     ~DragonFollow() override;

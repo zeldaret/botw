@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class TiredDistSelect : public TargetHomeRangeSelect {
     SEAD_RTTI_OVERRIDE(TiredDistSelect, TargetHomeRangeSelect)
+
 public:
     explicit TiredDistSelect(const InitArg& arg);
     ~TiredDistSelect() override;

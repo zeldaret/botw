@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GanonGrudgeNormal : public EnemyNormal {
     SEAD_RTTI_OVERRIDE(GanonGrudgeNormal, EnemyNormal)
+
 public:
     explicit GanonGrudgeNormal(const InitArg& arg);
     ~GanonGrudgeNormal() override;

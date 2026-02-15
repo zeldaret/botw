@@ -11,6 +11,7 @@ class RayCastRequestMgr;
 /// A RayCast that is used by RayCastRequestMgr to process raycast requests.
 class RayCastForRequest : public RayCast {
     SEAD_RTTI_OVERRIDE(RayCastForRequest, RayCast)
+
 public:
     static RayCastForRequest* allocRequest(SystemGroupHandler* group_handler = nullptr,
                                            GroundHit ground_hit = GroundHit::HitAll);

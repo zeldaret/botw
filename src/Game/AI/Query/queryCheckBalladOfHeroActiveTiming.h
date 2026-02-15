@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckBalladOfHeroActiveTiming : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckBalladOfHeroActiveTiming, Query)
+
 public:
     explicit CheckBalladOfHeroActiveTiming(const InitArg& arg);
     ~CheckBalladOfHeroActiveTiming() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GuardianMiniGuardBattleWalk : public BattleCloseWalk {
     SEAD_RTTI_OVERRIDE(GuardianMiniGuardBattleWalk, BattleCloseWalk)
+
 public:
     explicit GuardianMiniGuardBattleWalk(const InitArg& arg);
     ~GuardianMiniGuardBattleWalk() override;

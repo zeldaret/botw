@@ -7,6 +7,7 @@ namespace uking::action {
 
 class DefRandomMoveAction : public RandomMoveAction {
     SEAD_RTTI_OVERRIDE(DefRandomMoveAction, RandomMoveAction)
+
 public:
     explicit DefRandomMoveAction(const InitArg& arg);
 

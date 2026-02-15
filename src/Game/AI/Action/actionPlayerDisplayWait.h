@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerDisplayWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerDisplayWait, PlayerAction)
+
 public:
     explicit PlayerDisplayWait(const InitArg& arg);
 

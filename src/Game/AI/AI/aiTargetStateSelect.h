@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetStateSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetStateSelect, ksys::act::ai::Ai)
+
 public:
     explicit TargetStateSelect(const InitArg& arg);
     ~TargetStateSelect() override;

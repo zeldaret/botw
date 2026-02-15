@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class RailMoveObjectOneWay : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(RailMoveObjectOneWay, ksys::act::ai::Ai)
+
 public:
     explicit RailMoveObjectOneWay(const InitArg& arg);
     ~RailMoveObjectOneWay() override;

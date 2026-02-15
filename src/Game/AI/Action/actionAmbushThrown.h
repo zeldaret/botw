@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AmbushThrown : public ReflectThrown {
     SEAD_RTTI_OVERRIDE(AmbushThrown, ReflectThrown)
+
 public:
     explicit AmbushThrown(const InitArg& arg);
     ~AmbushThrown() override;

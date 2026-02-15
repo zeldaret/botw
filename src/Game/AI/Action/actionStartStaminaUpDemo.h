@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StartStaminaUpDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StartStaminaUpDemo, ksys::act::ai::Action)
+
 public:
     explicit StartStaminaUpDemo(const InitArg& arg);
     ~StartStaminaUpDemo() override;

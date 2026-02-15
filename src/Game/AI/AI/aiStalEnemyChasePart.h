@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class StalEnemyChasePart : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalEnemyChasePart, ksys::act::ai::Ai)
+
 public:
     explicit StalEnemyChasePart(const InitArg& arg);
     ~StalEnemyChasePart() override;

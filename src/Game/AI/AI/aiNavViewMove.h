@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NavViewMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NavViewMove, ksys::act::ai::Ai)
+
 public:
     explicit NavViewMove(const InitArg& arg);
     ~NavViewMove() override;

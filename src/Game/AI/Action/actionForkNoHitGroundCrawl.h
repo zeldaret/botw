@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkNoHitGroundCrawl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkNoHitGroundCrawl, ksys::act::ai::Action)
+
 public:
     explicit ForkNoHitGroundCrawl(const InitArg& arg);
     ~ForkNoHitGroundCrawl() override;

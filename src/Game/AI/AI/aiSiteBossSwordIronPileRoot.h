@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class SiteBossSwordIronPileRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossSwordIronPileRoot, ksys::act::ai::Ai)
+
 public:
     explicit SiteBossSwordIronPileRoot(const InitArg& arg);
     ~SiteBossSwordIronPileRoot() override;

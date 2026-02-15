@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ForkAnimDriveMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkAnimDriveMove, ksys::act::ai::Action)
+
 public:
     explicit ForkAnimDriveMove(const InitArg& arg);
     ~ForkAnimDriveMove() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class LevelFlyMoveBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LevelFlyMoveBase, ksys::act::ai::Action)
+
 public:
     explicit LevelFlyMoveBase(const InitArg& arg);
     ~LevelFlyMoveBase() override;

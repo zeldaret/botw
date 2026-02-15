@@ -6,6 +6,7 @@ namespace uking::action {
 
 class NPCAnchorWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCAnchorWait, ksys::act::ai::Action)
+
 public:
     explicit NPCAnchorWait(const InitArg& arg);
     ~NPCAnchorWait() override;

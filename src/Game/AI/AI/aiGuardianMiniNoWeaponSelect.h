@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniNoWeaponSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniNoWeaponSelect, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniNoWeaponSelect(const InitArg& arg);
     ~GuardianMiniNoWeaponSelect() override;

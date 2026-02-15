@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerSwimWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSwimWait, PlayerAction)
+
 public:
     explicit PlayerSwimWait(const InitArg& arg);
 

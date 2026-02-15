@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class PriestBossIAIAttack : public IAIAttack {
     SEAD_RTTI_OVERRIDE(PriestBossIAIAttack, IAIAttack)
+
 public:
     explicit PriestBossIAIAttack(const InitArg& arg);
     ~PriestBossIAIAttack() override;

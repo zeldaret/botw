@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class HeroSoulGiftRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HeroSoulGiftRoot, ksys::act::ai::Ai)
+
 public:
     explicit HeroSoulGiftRoot(const InitArg& arg);
     ~HeroSoulGiftRoot() override;

@@ -22,6 +22,7 @@ class EntryFactoryBase;
 
 class ILoadRequest {
     SEAD_RTTI_BASE(ILoadRequest)
+
 public:
     ILoadRequest() = default;
     ILoadRequest(const ILoadRequest&) = default;
@@ -36,6 +37,7 @@ KSYS_CHECK_SIZE_NX150(ILoadRequest, 0x20);
 
 class LoadRequest : public ILoadRequest {
     SEAD_RTTI_OVERRIDE(LoadRequest, ILoadRequest)
+
 public:
     LoadRequest();
     LoadRequest(s32 load_data_alignment, u32 lane_id, bool arg_20);
@@ -68,6 +70,7 @@ KSYS_CHECK_SIZE_NX150(LoadRequest, 0x80);
 
 class SimpleLoadRequest : public ILoadRequest {
     SEAD_RTTI_OVERRIDE(SimpleLoadRequest, ILoadRequest)
+
 public:
     SimpleLoadRequest();
     ~SimpleLoadRequest() override = default;
@@ -81,6 +84,7 @@ KSYS_CHECK_SIZE_NX150(SimpleLoadRequest, 0x38);
 
 class SimplePackedLoadRequest : public ILoadRequest {
     SEAD_RTTI_OVERRIDE(SimplePackedLoadRequest, ILoadRequest)
+
 public:
     SimplePackedLoadRequest();
     ~SimplePackedLoadRequest() override = default;

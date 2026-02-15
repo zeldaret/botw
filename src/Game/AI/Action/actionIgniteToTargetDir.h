@@ -7,6 +7,7 @@ namespace uking::action {
 
 class IgniteToTargetDir : public IgniteToTargetSimple {
     SEAD_RTTI_OVERRIDE(IgniteToTargetDir, IgniteToTargetSimple)
+
 public:
     explicit IgniteToTargetDir(const InitArg& arg);
     ~IgniteToTargetDir() override;

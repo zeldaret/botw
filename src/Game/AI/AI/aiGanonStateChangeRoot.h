@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GanonStateChangeRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GanonStateChangeRoot, ksys::act::ai::Ai)
+
 public:
     explicit GanonStateChangeRoot(const InitArg& arg);
     ~GanonStateChangeRoot() override;

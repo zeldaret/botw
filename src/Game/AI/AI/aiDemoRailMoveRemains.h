@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DemoRailMoveRemains : public RailMoveRemains {
     SEAD_RTTI_OVERRIDE(DemoRailMoveRemains, RailMoveRemains)
+
 public:
     explicit DemoRailMoveRemains(const InitArg& arg);
     ~DemoRailMoveRemains() override;

@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class LastBossShootGaleArrowRoot : public LastBossShootNormalArrowRoot {
     SEAD_RTTI_OVERRIDE(LastBossShootGaleArrowRoot, LastBossShootNormalArrowRoot)
+
 public:
     explicit LastBossShootGaleArrowRoot(const InitArg& arg);
     ~LastBossShootGaleArrowRoot() override;

@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ForkNoCountActionReservedTimer : public ForkTimer {
     SEAD_RTTI_OVERRIDE(ForkNoCountActionReservedTimer, ForkTimer)
+
 public:
     explicit ForkNoCountActionReservedTimer(const InitArg& arg);
     ~ForkNoCountActionReservedTimer() override;

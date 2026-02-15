@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraWaterfallClimb : public CameraAction {
     SEAD_RTTI_OVERRIDE(CameraWaterfallClimb, CameraAction)
+
 public:
     explicit CameraWaterfallClimb(const InitArg& arg);
     ~CameraWaterfallClimb() override;

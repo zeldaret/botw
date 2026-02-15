@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MagneShaftRootBase : public MagneStickRoot {
     SEAD_RTTI_OVERRIDE(MagneShaftRootBase, MagneStickRoot)
+
 public:
     explicit MagneShaftRootBase(const InitArg& arg);
     ~MagneShaftRootBase() override;

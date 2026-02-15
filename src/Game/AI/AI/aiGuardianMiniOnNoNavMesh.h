@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class GuardianMiniOnNoNavMesh : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardianMiniOnNoNavMesh, ksys::act::ai::Ai)
+
 public:
     explicit GuardianMiniOnNoNavMesh(const InitArg& arg);
     ~GuardianMiniOnNoNavMesh() override;

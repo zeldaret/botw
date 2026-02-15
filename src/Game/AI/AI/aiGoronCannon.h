@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class GoronCannon : public GoronCannonBase {
     SEAD_RTTI_OVERRIDE(GoronCannon, GoronCannonBase)
+
 public:
     explicit GoronCannon(const InitArg& arg);
     ~GoronCannon() override;

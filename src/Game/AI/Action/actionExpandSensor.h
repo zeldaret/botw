@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ExpandSensor : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ExpandSensor, ksys::act::ai::Action)
+
 public:
     explicit ExpandSensor(const InitArg& arg);
     ~ExpandSensor() override;

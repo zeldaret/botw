@@ -7,6 +7,7 @@ namespace uking::action {
 
 class FollowIgniteToBonePos : public RotateTurnToTarget {
     SEAD_RTTI_OVERRIDE(FollowIgniteToBonePos, RotateTurnToTarget)
+
 public:
     explicit FollowIgniteToBonePos(const InitArg& arg);
     ~FollowIgniteToBonePos() override;

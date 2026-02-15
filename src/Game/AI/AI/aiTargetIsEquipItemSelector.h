@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class TargetIsEquipItemSelector : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(TargetIsEquipItemSelector, ksys::act::ai::Ai)
+
 public:
     explicit TargetIsEquipItemSelector(const InitArg& arg);
     ~TargetIsEquipItemSelector() override;

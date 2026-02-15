@@ -7,6 +7,7 @@ namespace uking::action {
 
 class HoverBase : public FreeMovingAction {
     SEAD_RTTI_OVERRIDE(HoverBase, FreeMovingAction)
+
 public:
     explicit HoverBase(const InitArg& arg);
 

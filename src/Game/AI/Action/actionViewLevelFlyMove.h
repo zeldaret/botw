@@ -7,6 +7,7 @@ namespace uking::action {
 
 class ViewLevelFlyMove : public WizzrobeVisibleWalk {
     SEAD_RTTI_OVERRIDE(ViewLevelFlyMove, WizzrobeVisibleWalk)
+
 public:
     explicit ViewLevelFlyMove(const InitArg& arg);
     ~ViewLevelFlyMove() override;

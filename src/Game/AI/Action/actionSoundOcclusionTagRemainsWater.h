@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SoundOcclusionTagRemainsWater : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SoundOcclusionTagRemainsWater, ksys::act::ai::Action)
+
 public:
     explicit SoundOcclusionTagRemainsWater(const InitArg& arg);
     ~SoundOcclusionTagRemainsWater() override;

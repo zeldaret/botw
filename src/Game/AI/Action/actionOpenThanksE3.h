@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenThanksE3 : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenThanksE3, ksys::act::ai::Action)
+
 public:
     explicit OpenThanksE3(const InitArg& arg);
     ~OpenThanksE3() override;

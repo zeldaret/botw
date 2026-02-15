@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class NPCTravelerRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NPCTravelerRoot, NPCRoot)
+
 public:
     explicit NPCTravelerRoot(const InitArg& arg);
     ~NPCTravelerRoot() override;

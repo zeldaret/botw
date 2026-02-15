@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSetDiffuseAttenuate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSetDiffuseAttenuate, ksys::act::ai::Action)
+
 public:
     explicit EventSetDiffuseAttenuate(const InitArg& arg);
     ~EventSetDiffuseAttenuate() override;

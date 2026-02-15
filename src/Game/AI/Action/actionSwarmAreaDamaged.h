@@ -7,6 +7,7 @@ namespace uking::action {
 
 class SwarmAreaDamaged : public SwarmDamagedBase {
     SEAD_RTTI_OVERRIDE(SwarmAreaDamaged, SwarmDamagedBase)
+
 public:
     explicit SwarmAreaDamaged(const InitArg& arg);
     ~SwarmAreaDamaged() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class OpenDungeonSmallTitleSetLabel : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(OpenDungeonSmallTitleSetLabel, ksys::act::ai::Action)
+
 public:
     explicit OpenDungeonSmallTitleSetLabel(const InitArg& arg);
     ~OpenDungeonSmallTitleSetLabel() override;

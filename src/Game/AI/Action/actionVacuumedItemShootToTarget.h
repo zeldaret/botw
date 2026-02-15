@@ -7,6 +7,7 @@ namespace uking::action {
 
 class VacuumedItemShootToTarget : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(VacuumedItemShootToTarget, OnetimeStopASPlay)
+
 public:
     explicit VacuumedItemShootToTarget(const InitArg& arg);
     ~VacuumedItemShootToTarget() override;

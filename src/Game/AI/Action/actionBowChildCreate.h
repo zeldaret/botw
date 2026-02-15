@@ -6,6 +6,7 @@ namespace uking::action {
 
 class BowChildCreate : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(BowChildCreate, ksys::act::ai::Action)
+
 public:
     explicit BowChildCreate(const InitArg& arg);
     ~BowChildCreate() override;

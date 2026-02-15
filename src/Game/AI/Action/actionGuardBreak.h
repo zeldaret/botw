@@ -6,6 +6,7 @@ namespace uking::action {
 
 class GuardBreak : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GuardBreak, ksys::act::ai::Action)
+
 public:
     explicit GuardBreak(const InitArg& arg);
     ~GuardBreak() override;

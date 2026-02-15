@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class InWaterKeepSelect : public InWaterSelect {
     SEAD_RTTI_OVERRIDE(InWaterKeepSelect, InWaterSelect)
+
 public:
     explicit InWaterKeepSelect(const InitArg& arg);
     ~InWaterKeepSelect() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SiteBossBowChildDeviceBreak : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossBowChildDeviceBreak, ksys::act::ai::Action)
+
 public:
     explicit SiteBossBowChildDeviceBreak(const InitArg& arg);
     ~SiteBossBowChildDeviceBreak() override;

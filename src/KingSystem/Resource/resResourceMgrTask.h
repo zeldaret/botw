@@ -83,6 +83,7 @@ KSYS_CHECK_SIZE_NX150(FileDevicePrefix, 0x30);
 // FIXME: very incomplete.
 class ResourceMgrTask : public sead::CalculateTask, public sead::hostio::Node {
     SEAD_RTTI_OVERRIDE(ResourceMgrTask, sead::CalculateTask)
+
 public:
     enum class LaneId {
         _0 = 0,

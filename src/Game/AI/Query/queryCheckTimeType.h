@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckTimeType : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckTimeType, Query)
+
 public:
     explicit CheckTimeType(const InitArg& arg);
     ~CheckTimeType() override;

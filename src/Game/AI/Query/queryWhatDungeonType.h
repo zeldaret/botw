@@ -6,6 +6,7 @@ namespace uking::query {
 
 class WhatDungeonType : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(WhatDungeonType, Query)
+
 public:
     explicit WhatDungeonType(const InitArg& arg);
     ~WhatDungeonType() override;

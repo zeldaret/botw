@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class DynTgBreathAttackEnemyBattle : public BreathAttackEnemyBattle {
     SEAD_RTTI_OVERRIDE(DynTgBreathAttackEnemyBattle, BreathAttackEnemyBattle)
+
 public:
     explicit DynTgBreathAttackEnemyBattle(const InitArg& arg);
     ~DynTgBreathAttackEnemyBattle() override;

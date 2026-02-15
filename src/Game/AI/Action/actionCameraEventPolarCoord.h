@@ -7,6 +7,7 @@ namespace uking::action {
 
 class CameraEventPolarCoord : public CameraEvent {
     SEAD_RTTI_OVERRIDE(CameraEventPolarCoord, CameraEvent)
+
 public:
     explicit CameraEventPolarCoord(const InitArg& arg);
 

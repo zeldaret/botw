@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckEquipment : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckEquipment, Query)
+
 public:
     explicit CheckEquipment(const InitArg& arg);
     ~CheckEquipment() override;

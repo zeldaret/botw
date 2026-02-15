@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ClosePouchAddStockNum : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ClosePouchAddStockNum, ksys::act::ai::Action)
+
 public:
     explicit ClosePouchAddStockNum(const InitArg& arg);
     ~ClosePouchAddStockNum() override;

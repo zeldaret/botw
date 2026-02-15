@@ -7,6 +7,7 @@ namespace uking::action {
 
 class PlayerLadderDownStart : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerLadderDownStart, PlayerAction)
+
 public:
     explicit PlayerLadderDownStart(const InitArg& arg);
 

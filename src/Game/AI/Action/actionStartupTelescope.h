@@ -6,6 +6,7 @@ namespace uking::action {
 
 class StartupTelescope : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StartupTelescope, ksys::act::ai::Action)
+
 public:
     explicit StartupTelescope(const InitArg& arg);
     ~StartupTelescope() override;

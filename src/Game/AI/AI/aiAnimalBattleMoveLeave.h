@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class AnimalBattleMoveLeave : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AnimalBattleMoveLeave, ksys::act::ai::Ai)
+
 public:
     explicit AnimalBattleMoveLeave(const InitArg& arg);
     ~AnimalBattleMoveLeave() override;

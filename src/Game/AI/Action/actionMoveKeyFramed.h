@@ -6,6 +6,7 @@ namespace uking::action {
 
 class MoveKeyFramed : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MoveKeyFramed, ksys::act::ai::Action)
+
 public:
     explicit MoveKeyFramed(const InitArg& arg);
     ~MoveKeyFramed() override;

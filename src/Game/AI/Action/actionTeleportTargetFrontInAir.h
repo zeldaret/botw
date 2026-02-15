@@ -6,6 +6,7 @@ namespace uking::action {
 
 class TeleportTargetFrontInAir : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(TeleportTargetFrontInAir, ksys::act::ai::Action)
+
 public:
     explicit TeleportTargetFrontInAir(const InitArg& arg);
     ~TeleportTargetFrontInAir() override;

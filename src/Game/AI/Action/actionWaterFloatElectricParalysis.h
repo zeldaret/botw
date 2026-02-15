@@ -7,6 +7,7 @@ namespace uking::action {
 
 class WaterFloatElectricParalysis : public OneTimeWaterFloatStopASPlay {
     SEAD_RTTI_OVERRIDE(WaterFloatElectricParalysis, OneTimeWaterFloatStopASPlay)
+
 public:
     explicit WaterFloatElectricParalysis(const InitArg& arg);
     ~WaterFloatElectricParalysis() override;

@@ -6,6 +6,7 @@ namespace uking::action {
 
 class InvisibleKorokMove : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(InvisibleKorokMove, ksys::act::ai::Action)
+
 public:
     explicit InvisibleKorokMove(const InitArg& arg);
     ~InvisibleKorokMove() override;

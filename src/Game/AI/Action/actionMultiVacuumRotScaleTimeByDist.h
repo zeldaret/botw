@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MultiVacuumRotScaleTimeByDist : public MultiVacuumRotScaleTimeByDistWithTgt {
     SEAD_RTTI_OVERRIDE(MultiVacuumRotScaleTimeByDist, MultiVacuumRotScaleTimeByDistWithTgt)
+
 public:
     explicit MultiVacuumRotScaleTimeByDist(const InitArg& arg);
     ~MultiVacuumRotScaleTimeByDist() override;

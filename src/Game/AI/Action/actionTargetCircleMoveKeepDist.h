@@ -7,6 +7,7 @@ namespace uking::action {
 
 class TargetCircleMoveKeepDist : public TargetCircle {
     SEAD_RTTI_OVERRIDE(TargetCircleMoveKeepDist, TargetCircle)
+
 public:
     explicit TargetCircleMoveKeepDist(const InitArg& arg);
     ~TargetCircleMoveKeepDist() override;

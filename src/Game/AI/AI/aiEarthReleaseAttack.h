@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class EarthReleaseAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EarthReleaseAttack, ksys::act::ai::Ai)
+
 public:
     explicit EarthReleaseAttack(const InitArg& arg);
     ~EarthReleaseAttack() override;

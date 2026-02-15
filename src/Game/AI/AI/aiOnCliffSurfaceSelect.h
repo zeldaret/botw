@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class OnCliffSurfaceSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(OnCliffSurfaceSelect, ksys::act::ai::Ai)
+
 public:
     explicit OnCliffSurfaceSelect(const InitArg& arg);
     ~OnCliffSurfaceSelect() override;

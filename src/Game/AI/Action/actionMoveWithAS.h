@@ -7,6 +7,7 @@ namespace uking::action {
 
 class MoveWithAS : public MoveBase {
     SEAD_RTTI_OVERRIDE(MoveWithAS, MoveBase)
+
 public:
     explicit MoveWithAS(const InitArg& arg);
     ~MoveWithAS() override;

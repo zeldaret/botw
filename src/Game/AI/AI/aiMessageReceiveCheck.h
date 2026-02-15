@@ -7,6 +7,7 @@ namespace uking::ai {
 
 class MessageReceiveCheck : public MessageReceiveCheckBasic {
     SEAD_RTTI_OVERRIDE(MessageReceiveCheck, MessageReceiveCheckBasic)
+
 public:
     explicit MessageReceiveCheck(const InitArg& arg);
     ~MessageReceiveCheck() override;

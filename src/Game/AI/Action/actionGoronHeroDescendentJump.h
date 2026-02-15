@@ -7,6 +7,7 @@ namespace uking::action {
 
 class GoronHeroDescendentJump : public MoveToTargetCurveBase {
     SEAD_RTTI_OVERRIDE(GoronHeroDescendentJump, MoveToTargetCurveBase)
+
 public:
     explicit GoronHeroDescendentJump(const InitArg& arg);
     ~GoronHeroDescendentJump() override;

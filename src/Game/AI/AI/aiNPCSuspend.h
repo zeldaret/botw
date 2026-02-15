@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class NPCSuspend : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(NPCSuspend, ksys::act::ai::Ai)
+
 public:
     explicit NPCSuspend(const InitArg& arg);
     ~NPCSuspend() override;

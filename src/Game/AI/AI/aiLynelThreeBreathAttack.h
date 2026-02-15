@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class LynelThreeBreathAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelThreeBreathAttack, ksys::act::ai::Ai)
+
 public:
     explicit LynelThreeBreathAttack(const InitArg& arg);
     ~LynelThreeBreathAttack() override;

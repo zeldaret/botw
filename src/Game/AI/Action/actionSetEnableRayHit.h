@@ -6,6 +6,7 @@ namespace uking::action {
 
 class SetEnableRayHit : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SetEnableRayHit, ksys::act::ai::Action)
+
 public:
     explicit SetEnableRayHit(const InitArg& arg);
     ~SetEnableRayHit() override;

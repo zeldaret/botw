@@ -6,6 +6,7 @@ namespace uking::action {
 
 class ReuseActorDelete : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ReuseActorDelete, ksys::act::ai::Action)
+
 public:
     explicit ReuseActorDelete(const InitArg& arg);
     ~ReuseActorDelete() override;

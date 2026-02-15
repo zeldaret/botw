@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class ZoraHeroRelicBattleRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ZoraHeroRelicBattleRoot, ksys::act::ai::Ai)
+
 public:
     explicit ZoraHeroRelicBattleRoot(const InitArg& arg);
     ~ZoraHeroRelicBattleRoot() override;

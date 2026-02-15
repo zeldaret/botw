@@ -7,6 +7,7 @@ namespace uking::action {
 
 class AnimalPlayASAndKeepOnGround : public PlayASForAnimalUnit {
     SEAD_RTTI_OVERRIDE(AnimalPlayASAndKeepOnGround, PlayASForAnimalUnit)
+
 public:
     explicit AnimalPlayASAndKeepOnGround(const InitArg& arg);
     ~AnimalPlayASAndKeepOnGround() override;

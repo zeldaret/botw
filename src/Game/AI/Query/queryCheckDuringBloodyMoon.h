@@ -6,6 +6,7 @@ namespace uking::query {
 
 class CheckDuringBloodyMoon : public ksys::act::ai::Query {
     SEAD_RTTI_OVERRIDE(CheckDuringBloodyMoon, Query)
+
 public:
     explicit CheckDuringBloodyMoon(const InitArg& arg);
     ~CheckDuringBloodyMoon() override;

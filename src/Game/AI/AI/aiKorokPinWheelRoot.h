@@ -6,6 +6,7 @@ namespace uking::ai {
 
 class KorokPinWheelRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(KorokPinWheelRoot, ksys::act::ai::Ai)
+
 public:
     explicit KorokPinWheelRoot(const InitArg& arg);
     ~KorokPinWheelRoot() override;

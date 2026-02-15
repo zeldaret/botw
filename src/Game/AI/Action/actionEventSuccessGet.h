@@ -6,6 +6,7 @@ namespace uking::action {
 
 class EventSuccessGet : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EventSuccessGet, ksys::act::ai::Action)
+
 public:
     explicit EventSuccessGet(const InitArg& arg);
     ~EventSuccessGet() override;
