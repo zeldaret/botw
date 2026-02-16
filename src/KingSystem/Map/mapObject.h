@@ -123,6 +123,8 @@ public:
     void setRevivalFlagValue(bool value);
     void setFieldATrue();
 
+    bool checkRevivalMaybe(bool a1);
+
     sead::Vector3f getScale() const;
     sead::Vector3f getRotate() const;
     void setTranslate(const sead::Vector3f& translate);
@@ -185,6 +187,12 @@ public:
     const auto& getActorFlags8() const { return mActorFlags8; }
     const auto& getHardModeFlags() const { return mHardModeFlags; }
 
+    bool isLinkTag() const { return mFlags.isOn(Flag::IsLinkTag); }
+    bool isSetFlag8() const { return mFlags.isOn(Flag::_8); }
+    bool isIncrementSave() const { return mFlags.isOn(Flag::IncrementSave); }
+
+    void setFlag8() { mFlags.set(Flag::_8); }
+
     auto getActorDataIdx() const { return mActorDataIdx; }
     auto getIdx() const { return mIdx; }
     auto getId() const { return mId; }
@@ -202,6 +210,10 @@ public:
     ObjectLinkData* getLinkData() const { return mLinkData; }
 
     gdt::FlagHandle getRevivalGameDataFlagHash() const { return mRevivalGameDataFlagHash; }
+    void setRevivalGameDataFlagHash(const gdt::FlagHandle& value) {
+        mRevivalGameDataFlagHash = value;
+    }
+
     u32 getHashId() const { return mHashId; }
 
     const sead::Vector3f& getTranslate() const { return mTranslate; }
