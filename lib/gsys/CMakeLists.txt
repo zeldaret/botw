@@ -4,6 +4,7 @@ add_library(gsys OBJECT
   include/gsys/gsysMaskedProjLight.h
   include/gsys/gsysMaskedProjLight.h
   include/gsys/gsysMaskedSpotLight.h
+  include/gsys/gsysMemBuffer.h
   include/gsys/gsysModel.h
   include/gsys/gsysModelAccessKey.h
   include/gsys/gsysModelNW.h
@@ -16,6 +17,7 @@ add_library(gsys OBJECT
   include/gsys/gsysPointLight.h
   include/gsys/gsysSpotLight.h
 
+  src/gsys/gsysMemBuffer.cpp
   src/gsys/gsysModelAccessKey.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysParticleConfig.cpp
