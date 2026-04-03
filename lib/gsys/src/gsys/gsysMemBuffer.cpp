@@ -26,8 +26,7 @@ void* MemBuffer::alloc(size_t size, u32 align) {
 }
 
 void MemBuffer::free() {
-    if (mBuffer)
-        delete static_cast<u8*>(mBuffer);
+    delete static_cast<u8*>(mBuffer);
 }
 
 }  // namespace gsys
