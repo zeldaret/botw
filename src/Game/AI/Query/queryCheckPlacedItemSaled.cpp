@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckPlacedItemSaled.h"
 #include <evfl/Query.h>
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,16 @@ CheckPlacedItemSaled::CheckPlacedItemSaled(const InitArg& arg) : ksys::act::ai::
 
 CheckPlacedItemSaled::~CheckPlacedItemSaled() = default;
 
-// FIXME: implement
 int CheckPlacedItemSaled::doQuery() {
-    return -1;
+    auto* gdm = ksys::gdt::Manager::instance();
+    int state = 2;
+    if (gdm != nullptr) {
+        gdm->getParamBypassPerm().get().getS32(&state, "PlacedItemCountState");
+        if (state == 3) {
+            state = 1;
+        }
+    }
+    return state;
 }
 
 void CheckPlacedItemSaled::loadParams(const evfl::QueryArg& arg) {}

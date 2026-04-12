@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckMaterialValue.h"
 #include <evfl/Query.h>
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,15 @@ CheckMaterialValue::CheckMaterialValue(const InitArg& arg) : ksys::act::ai::Quer
 
 CheckMaterialValue::~CheckMaterialValue() = default;
 
-// FIXME: implement
 int CheckMaterialValue::doQuery() {
-    return -1;
+    int mat = 0;
+    auto* gdm = ksys::gdt::Manager::instance();
+    if (!gdm)
+        return 0;
+
+    gdm->getParamBypassPerm().get().getS32(&mat, "AllMaterialValue");
+
+    return mat > 0;
 }
 
 void CheckMaterialValue::loadParams(const evfl::QueryArg& arg) {}
