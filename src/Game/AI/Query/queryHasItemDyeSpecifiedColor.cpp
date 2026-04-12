@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryHasItemDyeSpecifiedColor.h"
 #include <evfl/Query.h>
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::query {
 
@@ -8,9 +9,18 @@ HasItemDyeSpecifiedColor::HasItemDyeSpecifiedColor(const InitArg& arg)
 
 HasItemDyeSpecifiedColor::~HasItemDyeSpecifiedColor() = default;
 
-// FIXME: implement
 int HasItemDyeSpecifiedColor::doQuery() {
-    return -1;
+    s32 sis = ksys::gdt::getFlag_Shop_ItemState();
+    switch (sis) {
+    case 0:
+    case 9:
+        return 1;
+    case 8:
+        return 0;
+    default:
+        break;
+    }
+    return 0;
 }
 
 void HasItemDyeSpecifiedColor::loadParams(const evfl::QueryArg& arg) {}

@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckItemShopDecide.h"
 #include <evfl/Query.h>
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::query {
 
@@ -7,9 +8,15 @@ CheckItemShopDecide::CheckItemShopDecide(const InitArg& arg) : ksys::act::ai::Qu
 
 CheckItemShopDecide::~CheckItemShopDecide() = default;
 
-// FIXME: implement
 int CheckItemShopDecide::doQuery() {
-    return -1;
+    bool isd = false;
+    auto* gdm = ksys::gdt::Manager::instance();
+    if (gdm != nullptr) {
+        if (gdm->getParam().get().getBool(&isd, "Shop_IsDecide") && isd) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void CheckItemShopDecide::loadParams(const evfl::QueryArg& arg) {}

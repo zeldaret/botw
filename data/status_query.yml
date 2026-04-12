@@ -1,5 +1,5 @@
 query::BranchByDyeColor:
-  status: pending
+  status: done
 query::BranchByGameOver:
   status: pending
 query::CanCreateMakeItemList:
@@ -17,9 +17,9 @@ query::CheckActorAction14_2:
 query::CheckAddPorchItem:
   status: pending
 query::CheckAppPoint:
-  status: pending
+  status: done
 query::CheckAppShopSelect:
-  status: pending
+  status: done
 query::CheckAreaTransition:
   status: pending
 query::CheckBalladOfHeroActiveTiming:
@@ -47,9 +47,9 @@ query::CheckDownloadItemNum:
 query::CheckDuringBloodyMoon:
   status: pending
 query::CheckDyeShopSelect:
-  status: pending
+  status: done
 query::CheckE3Mode:
-  status: pending
+  status: done
 query::CheckEatActor:
   status: pending
 query::CheckElapsedTimeOfMiniGame:
@@ -97,13 +97,13 @@ query::CheckHorseTakenOut:
 query::CheckIsOpenItemCategory:
   status: done
 query::CheckItemShopDecide:
-  status: pending
+  status: done
 query::CheckItemShopPorchVacancy:
-  status: pending
+  status: done
 query::CheckItemShopSelect:
   status: pending
 query::CheckItemShopSelectBuy:
-  status: pending
+  status: done
 query::CheckJustBeforeEventCancel:
   status: pending
 query::CheckLastDamageAttacker:
@@ -115,7 +115,7 @@ query::CheckMapArea:
 query::CheckMasterSwordState:
   status: pending
 query::CheckMaterialValue:
-  status: pending
+  status: done
 query::CheckMiniGameTime:
   status: pending
 query::CheckMiniGameTimeOver:
@@ -127,7 +127,7 @@ query::CheckOwnedHorseFamiliarity:
 query::CheckPictureBookVacancy:
   status: pending
 query::CheckPlacedItemSaled:
-  status: pending
+  status: done
 query::CheckPlayerDeadCause:
   status: pending
 query::CheckPlayerEquip:
@@ -149,7 +149,7 @@ query::CheckPlayerTemperatureCondition:
 query::CheckPlayerWeaponFired:
   status: pending
 query::CheckPorchInItem:
-  status: pending
+  status: done
 query::CheckProConUse:
   status: done
 query::CheckRainRatio:
@@ -163,7 +163,7 @@ query::CheckResultOfNPCConflict:
 query::CheckRoad:
   status: pending
 query::CheckRupee:
-  status: pending
+  status: done
 query::CheckSelectPicture:
   status: pending
 query::CheckSellResult:
@@ -235,7 +235,7 @@ query::HasEnoughPayment:
 query::HasItemDye:
   status: done
 query::HasItemDyeSpecifiedColor:
-  status: pending
+  status: done
 query::HasPorchArrow:
   status: done
 query::HasPorchItem:
@@ -245,7 +245,7 @@ query::HasPorchItemByCategory:
 query::HasPouchItemByPouchCategory:
   status: done
 query::HasSetItem:
-  status: pending
+  status: done
 query::HasSpecificArmorSeries:
   status: pending
 query::IsAppAlreadyExchanged:
@@ -301,7 +301,7 @@ query::IsSoldOut:
 query::IsSuccessEndLastDemoAction:
   status: done
 query::IsTerrorDisappeared:
-  status: pending
+  status: done
 query::IsWaitRevival:
   status: pending
 query::IsWeaponDrawn:
