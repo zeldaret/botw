@@ -8,6 +8,7 @@ target_sources(uking PRIVATE
 
     Constraint/physConstraint.cpp
     Constraint/physConstraint.h
+    Constraint/physConstraintListener.h
 
     Ragdoll/physRagdollConfig.cpp
     Ragdoll/physRagdollConfig.h
@@ -194,4 +195,4 @@ target_sources(uking PRIVATE
     physLayerMaskBuilder.h
     physMaterialMask.cpp
     physMaterialMask.h
-    )
+)

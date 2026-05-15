@@ -8,6 +8,7 @@
 namespace ksys::act {
 class Actor;
 class ActorLinkConstDataAccess;
+class ActorConstDataAccess;
 }  // namespace ksys::act
 
 namespace ksys::map {
@@ -94,7 +95,11 @@ public:
 
     void deleteArrays();
     void release(Object* obj, bool a1);
+    bool allocLinks(s32 num_links_ref, s32 num_links_other, s32 num_links_cs, sead::Heap* heap);
     bool allocLinksToSelf(s32 num_links, sead::Heap* heap);
+
+    bool addLink(Object* dest, const sead::SafeString& definition_name, bool passive, Object* src,
+                 MubinIter* iter);
 
     bool sub_7100D4EC40(Object* src, ObjectLink* link, Object* dest);
     void sub_7100D4FB78(Object* obj);
@@ -103,7 +108,9 @@ public:
 
     ObjectLink* findLinkWithType(MapLinkDefType t);
     ObjectLink* findLinkWithType_0(MapLinkDefType t);
+    bool sub_7100D4EF30(act::ActorConstDataAccess& accessor);
 
+    Object* findObjectByActorName(const sead::SafeString& name);
     void setGenGroup(GenGroup* group);
 
     void x_1(act::Actor* actor, Object* obj);

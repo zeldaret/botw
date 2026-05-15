@@ -4,10 +4,12 @@
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 class hkpWorld;
+class hkpConstraintInstance;
 
 namespace ksys::phys {
 
@@ -16,6 +18,8 @@ class ContactLayerCollisionInfo;
 class ContactLayerCollisionInfoGroup;
 class ContactMgr;
 class ContactPointInfo;
+class ConstraintMgr;
+class ConstraintParam;
 class GroupFilter;
 class LayerContactPointInfo;
 class MaterialTable;
@@ -51,6 +55,15 @@ public:
     RagdollInstanceMgr* getRagdollInstanceMgr() const { return mRagdollInstanceMgr; }
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
+    RigidBody* getWorldRigidBody() const { return mWorldRigidBody; }
+
+    void addConstraintToWorld(hkpConstraintInstance* constraint) {
+        getRigidBodyRequestMgr()->addConstraintToWorld(constraint);
+    }
+
+    void removeConstraintFromWorld(hkpConstraintInstance* constraint) {
+        getRigidBodyRequestMgr()->removeConstraintFromWorld(constraint);
+    }
 
     bool isPaused() const;
 
@@ -134,6 +147,9 @@ public:
     // 0x0000007101216cec
     sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;
 
+    void addConstraintParam(ConstraintParam* cs_param);
+    void removeConstraintParam(ConstraintParam* cs_param);
+
 private:
     u8 _28[0x64 - 0x28];
     float _64 = 1.0 / 30.0;
@@ -151,7 +167,7 @@ private:
     // FIXME: type
     sead::FixedPtrArray<void*, 2> _128;
     ContactMgr* mContactMgr;
-    void* _150;
+    ConstraintMgr* mConstraintMgr;
     StaticCompoundMgr* mStaticCompoundMgr;
     RigidBodyRequestMgr* mRigidBodyRequestMgr;
     RagdollInstanceMgr* mRagdollInstanceMgr;
@@ -159,7 +175,7 @@ private:
     SystemData* mSystemData;
     MaterialTable* mMaterialTable;
     void* _188{};
-    void* _190{};
+    RigidBody* mWorldRigidBody{};
     void* _198{};
     void* _1a0{};
     sead::Heap* mPhysicsSystemHeap{};

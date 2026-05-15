@@ -98,7 +98,7 @@ public:
         _100000 = 1 << 20,
         _200000 = 1 << 21,
         _400000 = 1 << 22,
-        _800000 = 1 << 23,
+        ConstraintAttached = 1 << 23,
         _1000000 = 1 << 24,
         _2000000 = 1 << 25,
         _4000000 = 1 << 26,
@@ -499,6 +499,8 @@ public:
     void setMotionFlag(MotionFlag flag);
     void setFlag200() { mFlags.set(Flag::_200); }
     void resetFlag200() { mFlags.reset(Flag::_200); }
+
+    void setConstraintAttached() { mFlags.set(Flag::ConstraintAttached); }
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
 
