@@ -119,6 +119,8 @@ public:
     f32 getHorseAvoidOffset() const;
     bool horseTargetedIsCircularMoveAlways() const;
 
+    void setActor687();
+
 private:
     Actor* getActor() const;
 
