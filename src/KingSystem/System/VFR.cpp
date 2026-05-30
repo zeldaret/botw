@@ -1,5 +1,6 @@
 #include "KingSystem/System/VFR.h"
 #include <mc/seadCoreInfo.h>
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace ksys {
 
@@ -173,6 +174,47 @@ bool VFR::hasCustomTimeMultiplier() const {
             return true;
     }
     return false;
+}
+
+// NON_MATCHING: Modern Clang optimises (idx == 0 || idx == 4) into a single bitwise OR and
+// comparison ((idx | 4) == 4), whereas the original ROM Clang 4.0.1 compilation retains the split
+// conditional branches (cbz and cmp).
+void VFR::setSlowTime(u32 idx, f32 multiplier) {
+    // Audio filtering triggers are restricted to channels 0 and 4 in the original layout.
+    if (idx == 0 || idx == 4) {
+        auto* snd = snd::SoundMgr::instance();
+        __builtin_assume(snd != nullptr);
+        __builtin_assume(snd->mFxMgr != nullptr);
+        // Access mFxMgr and mState directly. The original executable does not perform null checks.
+        if (snd->mFxMgr->mState == 2) {
+            // Evaluates whether the trigger is specifically for the index 4 channel.
+            snd->mFxMgr->setSlowTime(idx == 4);
+        }
+    }
+
+    // Only commit the new target scale value if it is strictly positive (non-zero/non-negative).
+    if (multiplier > 0.0f) {
+        mTimeSpeedMultipliers[idx].target_value = multiplier;
+    }
+}
+
+// NON_MATCHING: Modern Clang optimises (idx == 0 || idx == 4) into a single bitwise OR and
+// comparison ((idx | 4) == 4), whereas the original ROM Clang 4.0.1 compilation retains the split
+// conditional branches (cbz and cmp).
+void VFR::endSlowTime(u32 idx) {
+    // Like setSlowTime, audio channel sweep operations only affect indices 0 and 4.
+    if (idx == 0 || idx == 4) {
+        auto* snd = snd::SoundMgr::instance();
+        __builtin_assume(snd != nullptr);
+        __builtin_assume(snd->mFxMgr != nullptr);
+        // Access mFxMgr and mState directly without null-checking, matching original ROM assembly.
+        if (snd->mFxMgr->mState != 2) {
+            snd->mFxMgr->endSlowTime();
+        }
+    }
+
+    // Restore the speed scale factor of this index back to standard rate (1.0f).
+    mTimeSpeedMultipliers[idx].target_value = 1.0f;
 }
 
 VFR::ScopedDeltaSetter::ScopedDeltaSetter() = default;

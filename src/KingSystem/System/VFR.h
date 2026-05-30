@@ -64,10 +64,14 @@ public:
     f32 getDeltaAndSetMin(f32* raw_delta_frames, u32 include_mask, u32 exclude_mask);
     void resetTimeMultipliers();
     bool hasCustomTimeMultiplier() const;
-    // TODO: requires ksys::Sound
-    void setTimeMultiplier(u32 idx, f32 multiplier);
-    // TODO: requires ksys::Sound
-    void resetTimeMultiplier(u32 idx);
+
+    /// Activates the slow motion scale factor for a given time speed multiplier index.
+    /// Interacts directly with the Sound Manager to trigger slow motion audio filters if necessary.
+    void setSlowTime(u32 idx, f32 multiplier);
+
+    /// Ends the slow motion scale factor, returning the time speed multiplier target back to
+    /// standard speed (1.0). Deactivates slow motion audio filters if they were previously enabled.
+    void endSlowTime(u32 idx);
 
     f32 getDeltaFrame(u32 core) const { return *mDeltaFrames[core]; }
     f32 getDeltaFrame() const { return getDeltaFrame(sead::CoreInfo::getCurrentCoreId()); }
