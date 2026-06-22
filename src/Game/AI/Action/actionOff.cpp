@@ -28,7 +28,8 @@ void Off::loadParams_() {
 }
 
 void Off::calc_() {
-    ActionEx::calc_();
+    if (isFinishedAS(*mTargetIdx_s, *mSeqBankIdx_s))
+        setFinished();
 }
 
 }  // namespace uking::action
