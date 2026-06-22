@@ -21,7 +21,8 @@ void PlayerStoleOpenBase::loadParams_() {
 }
 
 void PlayerStoleOpenBase::calc_() {
-    ActionEx::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
