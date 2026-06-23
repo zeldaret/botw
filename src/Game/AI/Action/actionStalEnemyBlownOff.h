@@ -66,7 +66,15 @@ protected:
     const sead::Vector3f* mHeadShotAddVec_s{};
     // static_param at offset 0x128
     const sead::Vector3f* mHeadRotateOffset_s{};
-    u8 _pad_130[0x24]{};
+    u32 _130_1{};
+    u32 _130_2{};
+    u32 _130_3{};
+    u32 _130_4{};
+    u32 _130_5{};
+    u32 _130_6{};
+    u32 _130_7{};
+    u32 _130_8{};
+    u32 _130_9{};
     // checked by isChangeable(): value > 1 means changeable (offset 0x154)
     s32 mChangeableState2{};
 };
