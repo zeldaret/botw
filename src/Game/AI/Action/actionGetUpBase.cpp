@@ -28,4 +28,8 @@ void GetUpBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GetUpBase::isFinished() const {
+    return const_cast<GetUpBase*>(this)->isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action

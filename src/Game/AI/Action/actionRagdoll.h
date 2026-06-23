@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -52,6 +53,34 @@ protected:
     const sead::Vector3f* mDownBackCtrlOffset_s{};
     // static_param at offset 0xb8
     const sead::Vector3f* mDownFrontCtrlOffset_s{};
+    // ragdoll internal state at offset 0xc0
+    sead::Vector3f mRagdollForce{};
+    // ragdoll state at offset 0xcc
+    s32 mCounter1{};
+    s32 mCounter2{};
+    // ragdoll state at offset 0xd4
+    f32 mFloat1_d4{};
+    // ragdoll state at offset 0xd8
+    s32 mCounter3{};
+    s32 mCounter4{};
+    // ragdoll state at offset 0xe0
+    f32 mFloat2_e0{};
+    // ragdoll state at offset 0xe4
+    s32 mCounter5{};
+    s32 mCounter6{};
+    // ragdoll state at offset 0xec: checked by BlownOff::isChangeable()
+    s32 mChangeableState{};
+    // ragdoll state at offset 0xf0
+    f32 mFloat3_f0{};
+    f32 mFloat4_f4{};
+    // ragdoll state at offset 0xf8
+    void* mStatePtr_f8{};
+    // ragdoll state at offset 0x100
+    s32 mCounter7_100{};
+    // ragdoll state at offset 0x104
+    bool mFlag_104{};
+    // ragdoll state at offset 0x108
+    void* mStatePtr2_108{};
     // aitree_variable at offset 0x110
     void* mCRBOffsetUnit_a{};
 };

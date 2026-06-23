@@ -15,6 +15,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool isChangeable() const override;
     void calc_() override;
 
     // static_param at offset 0x20
@@ -65,6 +66,9 @@ protected:
     const sead::Vector3f* mHeadShotAddVec_s{};
     // static_param at offset 0x128
     const sead::Vector3f* mHeadRotateOffset_s{};
+    u8 _pad_130[0x24]{};
+    // checked by isChangeable(): value > 1 means changeable (offset 0x154)
+    s32 mChangeableState2{};
 };
 
 }  // namespace uking::action

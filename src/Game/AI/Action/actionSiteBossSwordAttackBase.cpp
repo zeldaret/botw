@@ -40,4 +40,8 @@ void SiteBossSwordAttackBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossSwordAttackBase::isFinished() const {
+    return const_cast<SiteBossSwordAttackBase*>(this)->isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
