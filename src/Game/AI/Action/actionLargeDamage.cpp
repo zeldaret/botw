@@ -22,4 +22,8 @@ void LargeDamage::calc_() {
     ActionEx::calc_();
 }
 
+bool LargeDamage::isChangeable() const {
+    return ksys::act::ai::Action::isChangeable();
+}
+
 }  // namespace uking::action

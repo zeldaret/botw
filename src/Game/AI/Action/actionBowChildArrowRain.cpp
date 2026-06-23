@@ -44,4 +44,8 @@ void BowChildArrowRain::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool BowChildArrowRain::isChangeable() const {
+    return ksys::act::ai::Action::isChangeable();
+}
+
 }  // namespace uking::action
