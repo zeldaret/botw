@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAppearNumTargets.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -12,6 +13,11 @@ bool AppearNumTargets::init_(sead::Heap* heap) {
 
 void AppearNumTargets::loadParams_() {
     getDynamicParam(&mGameDataIntTargetCounter_d, "GameDataIntTargetCounter");
+}
+
+bool AppearNumTargets::oneShot_() {
+    ui::setShowGolfCount(mGameDataIntTargetCounter_d);
+    return true;
 }
 
 }  // namespace uking::action
