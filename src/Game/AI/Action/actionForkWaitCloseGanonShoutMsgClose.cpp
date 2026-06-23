@@ -27,4 +27,8 @@ void ForkWaitCloseGanonShoutMsgClose::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool ForkWaitCloseGanonShoutMsgClose::isChangeable() const {
+    return !*mInBeastGanonVoiceSequence_a;
+}
+
 }  // namespace uking::action
