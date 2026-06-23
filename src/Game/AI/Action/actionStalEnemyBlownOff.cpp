@@ -45,4 +45,8 @@ void StalEnemyBlownOff::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool StalEnemyBlownOff::isChangeable() const {
+    return mChangeableState2 > 1;
+}
+
 }  // namespace uking::action
