@@ -13,6 +13,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
+    bool isFinished() const override;
+
     void calc_() override;
 };
 
