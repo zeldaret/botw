@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool isChangeable() const override;
     void calc_() override;
 
     // FIXME: remove this

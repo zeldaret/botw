@@ -32,4 +32,8 @@ void FreeMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool FreeMove::isChangeable() const {
+    return *mIsChangeable_s;
+}
+
 }  // namespace uking::action
