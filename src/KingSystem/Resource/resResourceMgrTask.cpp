@@ -681,8 +681,7 @@ void ResourceMgrTask::setCompactionStopped(bool stopped) {
         old_counter = mCompactionCounter.increment();
 
     stubbedLogFunction();
-    u32 new_counter = mCompactionCounter;
-    if (new_counter == 0)
+    if (mCompactionCounter == 0)
         stubbedLogFunction();
     else if (old_counter == 0)
         stubbedLogFunction();
