@@ -42,4 +42,8 @@ void SiteBossLswordAtk::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossLswordAtk::isFinished() const {
+    return const_cast<SiteBossLswordAtk*>(this)->isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action

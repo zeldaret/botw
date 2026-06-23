@@ -26,4 +26,8 @@ void GanonBarrierOn::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GanonBarrierOn::isFinished() const {
+    return const_cast<GanonBarrierOn*>(this)->isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
