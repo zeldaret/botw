@@ -12,4 +12,8 @@ void ActionWithAS::calc_() {
     ActionWithPosAngReduce::calc_();
 }
 
+bool ActionWithAS::isFinished() const {
+    return mFlags.isOn(Flag::Finished) || const_cast<ActionWithAS*>(this)->isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
