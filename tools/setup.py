@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+from common.setup_venv import enter_venv
+if __name__ == "__main__":
+    enter_venv()
+
 import argparse
 import hashlib
 from pathlib import Path
