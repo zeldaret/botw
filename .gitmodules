@@ -26,3 +26,6 @@
 	path = toolchain/nx-decomp-tools-binaries
 	url = https://github.com/open-ead/nx-decomp-tools-binaries
 	branch = master
+[submodule "lib/xlink2"]
+	path = lib/xlink2
+	url = https://github.com/Nitr4m12/xlink2

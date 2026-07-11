@@ -8,7 +8,7 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
-#include <xlink2/xlink2.h>
+#include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actActorEditorNode.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
