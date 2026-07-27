@@ -110,7 +110,7 @@ public:
     virtual void m43() {}
     virtual bool canTakeDamage();
     virtual void m45() {}
-    virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6);
+    virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, s32* a5, s32* a6);
     virtual bool addDamage(s64 a2, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54, s32 f40);
     virtual void onApplyDamage() {}
 
@@ -119,17 +119,21 @@ public:
 
     void clearCallbacks();
     void resetStuff();
-    void callDamageCallbacks(u32 a2, u32* a3, s32* a4, u32* a5, u32* a6, u32* a7, u64 a8);
+    void callDamageCallbacks(u32 a2, u32* a3, s32* a4, u32* a5, s32* a6, s32* a7, u64 a8);
     s64 calcMaybe();
 
     inline void tryBuffDamage(s32& damage);
     inline void tryApplyDamageRecovery(s32& damage);
 
-private:
+    void setDamageType(s32 type) { mDamageType = type; }
+
+    bool isOwnedByPlayer() const { return mIsOwnedByPlayer; }
+
+public:
     s32 mField_40 = 0;
-    s32 mDamage = 0;
+    u32 mDamage = 0;
     s32 mField_48 = 0;
-    s32 mMinDmg = 0;
+    u32 mMinDmg = 0;
     s32 mField_50 = -1;
     s32 mField_54 = -1;
     s32 mFlags2 = 0;
