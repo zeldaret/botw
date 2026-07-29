@@ -6,9 +6,11 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyResource.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
+#include "KingSystem/Physics/System/physContactListener.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
 #include "KingSystem/Physics/System/physSensorGroupFilter.h"
 #include "KingSystem/Physics/System/physSystemData.h"
@@ -47,6 +49,10 @@ void System::initSystemData(sead::Heap* heap) {
                       mContactMgr);
 }
 
+void System::removeSystemGroupHandler(SystemGroupHandler* handler) {
+    mGroupFilters[int(handler->getLayerType())]->removeSystemGroupHandler(handler);
+}
+
 ContactPointInfo* System::allocContactPointInfo(sead::Heap* heap, int num,
                                                 const sead::SafeString& name, int a, int b,
                                                 int c) const {
@@ -63,8 +69,23 @@ LayerContactPointInfo* System::allocLayerContactPointInfo(sead::Heap* heap, int 
     return mContactMgr->makeLayerContactPointInfo(heap, num, num2, name, a, b, c);
 }
 
+void System::freeLayerContactPointInfo(LayerContactPointInfo* info) const {
+    mContactListeners[int(info->getLayerType())]->removeLayerPairsForContactPointInfo(info);
+    mContactMgr->freeContactPointInfo(info);
+}
+
 void System::registerContactPointInfo(ContactPointInfo* info) const {
     mContactMgr->registerContactPointInfo(info);
+}
+
+void System::registerContactPointLayerPair(LayerContactPointInfo* info, ContactLayer layer1,
+                                           ContactLayer layer2, bool enabled) {
+    mContactListeners[int(info->getLayerType())]->addLayerPairForContactPointInfo(info, layer1,
+                                                                                  layer2, enabled);
+}
+
+ContactLayerCollisionInfo* System::trackLayerPair(ContactLayer layer_a, ContactLayer layer_b) {
+    return mContactListeners[int(getContactLayerType(layer_a))]->trackLayerPair(layer_a, layer_b);
 }
 
 RagdollControllerKeyList* System::getRagdollCtrlKeyList() const {
