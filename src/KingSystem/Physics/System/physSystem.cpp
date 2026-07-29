@@ -1,4 +1,6 @@
 #include "KingSystem/Physics/System/physSystem.h"
+#include <heap/seadHeap.h>
+#include <thread/seadThread.h>
 #include "KingSystem/Physics/Cloth/physClothResource.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerKeyList.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
@@ -12,6 +14,7 @@
 #include "KingSystem/Physics/System/physMaterialTable.h"
 #include "KingSystem/Physics/System/physSensorGroupFilter.h"
 #include "KingSystem/Physics/System/physSystemData.h"
+#include "KingSystem/Physics/physHavokMemoryAllocator.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resSystem.h"
 
@@ -71,6 +74,21 @@ RagdollControllerKeyList* System::getRagdollCtrlKeyList() const {
     if (!mSystemData)
         return nullptr;
     return mSystemData->getRagdollCtrlKeyList();
+}
+
+bool System::isHavokMainHeapOom() const {
+    return f32(mHavokAllocator->getHeapFreeSize()) / f32(mHavokAllocator->getHeapSize()) < 0.05f;
+}
+
+sead::Heap* System::getPhysicsTempHeap(LowPriority low_priority) const {
+    if (low_priority == LowPriority::No &&
+        sead::ThreadMgr::instance()->getCurrentThread()->getPriority() <=
+            sead::Thread::cDefaultPriority) {
+        if (mPhysicsTempDefaultHeap->getMaxAllocatableSize(8) <= 0x2800)
+            mPhysicsTempDefaultHeap->dump();
+        return mPhysicsTempDefaultHeap;
+    }
+    return mPhysicsTempLowHeap;
 }
 
 }  // namespace ksys::phys

@@ -17,6 +17,7 @@ class ContactLayerCollisionInfoGroup;
 class ContactMgr;
 class ContactPointInfo;
 class GroupFilter;
+class HavokMemoryAllocator;
 class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
@@ -131,7 +132,8 @@ public:
     // 0x000000710121684c
     void decrementWorldUnkCounter(ContactLayerType layer_type);
 
-    // 0x0000007101216cec
+    bool isHavokMainHeapOom() const;
+
     sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;
 
 private:
@@ -141,7 +143,8 @@ private:
     float _6c = 1.0;
     float _70 = 1.0 / 30.0;
     float mTimeFactor{};
-    u8 _78[0xa8 - 0x78];
+    HavokMemoryAllocator* mHavokAllocator{};
+    u8 _80[0xa8 - 0x80];
     sead::CriticalSection mCS;
     void* _e8{};
     void* _f0{};
