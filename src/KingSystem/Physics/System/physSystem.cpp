@@ -67,6 +67,24 @@ void System::registerContactPointInfo(ContactPointInfo* info) const {
     mContactMgr->registerContactPointInfo(info);
 }
 
+CollisionInfo* System::allocCollisionInfo(sead::Heap* heap, const sead::SafeString& name) const {
+    return mContactMgr->makeCollisionInfo(heap, name);
+}
+
+void System::freeCollisionInfo(CollisionInfo* info) const {
+    mContactMgr->freeCollisionInfo(info);
+}
+
+ContactLayerCollisionInfoGroup*
+System::makeContactLayerCollisionInfoGroup(sead::Heap* heap, ContactLayer layer, int capacity,
+                                           const sead::SafeString& name) {
+    return mContactMgr->makeContactLayerCollisionInfoGroup(heap, layer, capacity, name);
+}
+
+void System::freeContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group) {
+    mContactMgr->freeContactLayerCollisionInfoGroup(group);
+}
+
 RagdollControllerKeyList* System::getRagdollCtrlKeyList() const {
     if (!mSystemData)
         return nullptr;
