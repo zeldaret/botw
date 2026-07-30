@@ -9,7 +9,9 @@
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
+#include "KingSystem/Physics/System/physRayCastRequestMgr.h"
 #include "KingSystem/Physics/System/physSensorGroupFilter.h"
 #include "KingSystem/Physics/System/physSystemData.h"
 #include "KingSystem/Resource/resEntryFactory.h"
@@ -18,6 +20,10 @@
 namespace ksys::phys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(System)
+
+bool System::isPaused() const {
+    return mPaused;
+}
 
 void System::initSystemData(sead::Heap* heap) {
     res::registerEntryFactory(new (heap) res::EntryFactory<RigidBodyResource>(1.0, 0x400), "hkrb");
@@ -55,6 +61,37 @@ ContactPointInfo* System::allocContactPointInfo(sead::Heap* heap, int num,
 
 void System::freeContactPointInfo(ContactPointInfo* info) const {
     mContactMgr->freeContactPointInfo(info);
+}
+
+CollisionInfo* System::allocCollisionInfo(sead::Heap* heap, const sead::SafeString& name) const {
+    return mContactMgr->makeCollisionInfo(heap, name);
+}
+
+void System::freeCollisionInfo(CollisionInfo* info) const {
+    mContactMgr->freeCollisionInfo(info);
+}
+
+ContactLayerCollisionInfoGroup*
+System::makeContactLayerCollisionInfoGroup(sead::Heap* heap, ContactLayer layer, int capacity,
+                                           const sead::SafeString& name) {
+    return mContactMgr->makeContactLayerCollisionInfoGroup(heap, layer, capacity, name);
+}
+
+void System::freeContactLayerCollisionInfoGroup(ContactLayerCollisionInfoGroup* group) {
+    mContactMgr->freeContactLayerCollisionInfoGroup(group);
+}
+
+GroupFilter* System::getGroupFilter(ContactLayerType type) const {
+    return mGroupFilters[static_cast<s32>(type)];
+}
+
+RayCastForRequest* System::allocRayCastRequest(SystemGroupHandler* group_handler,
+                                               GroundHit ground_hit) {
+    return mRayCastRequestMgr->allocRequest(group_handler, ground_hit);
+}
+
+SystemGroupHandler* System::addSystemGroupHandler(ContactLayerType layer_type, int free_list_idx) {
+    return getGroupFilter(layer_type)->addSystemGroupHandler(free_list_idx);
 }
 
 LayerContactPointInfo* System::allocLayerContactPointInfo(sead::Heap* heap, int num, int num2,

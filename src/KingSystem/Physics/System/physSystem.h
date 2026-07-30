@@ -20,6 +20,7 @@ class GroupFilter;
 class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
+class RayCastRequestMgr;
 class RagdollControllerKeyList;
 class RagdollInstanceMgr;
 class RigidBody;
@@ -135,7 +136,9 @@ public:
     sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;
 
 private:
-    u8 _28[0x64 - 0x28];
+    u8 _28[0x60 - 0x28];
+    bool mPaused;
+    u8 _61[0x64 - 0x61];
     float _64 = 1.0 / 30.0;
     float _68 = 1.0 / 30.0;
     float _6c = 1.0;
@@ -158,7 +161,7 @@ private:
     void* mRigidBodyDividedMeshShapeMgr;
     SystemData* mSystemData;
     MaterialTable* mMaterialTable;
-    void* _188{};
+    RayCastRequestMgr* mRayCastRequestMgr{};
     void* _190{};
     void* _198{};
     void* _1a0{};
