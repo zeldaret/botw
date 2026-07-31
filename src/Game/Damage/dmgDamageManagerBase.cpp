@@ -238,7 +238,7 @@ bool DamageManagerBase::canTakeDamage() {
     return item.mCanTakeDamageFromType[damageTypeMaybe] & 0x1;
 }
 
-void DamageManagerBase::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
+void DamageManagerBase::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, s32* a5, s32* a6) {
     Struct20* currentStruct = sead::DynamicCast<Struct20>(mStruct20_b);
     if (!currentStruct) {
         return;
