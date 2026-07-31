@@ -129,6 +129,9 @@ public:
     // 0x0000007101216814
     bool getEntityContactListenerField91() const;
 
+    // 0x00000071012167ec
+    void setDisableSensorContactPointInfoNotifications(bool disable);
+
     // 0x000000710121682c
     void incrementWorldUnkCounter(ContactLayerType layer_type);
     // 0x000000710121684c
@@ -141,7 +144,9 @@ public:
 private:
     u8 _28[0x60 - 0x28];
     bool mPaused;
-    u8 _61[0x64 - 0x61];
+    u8 _61;
+    u8 _62;
+    u8 _63;
     float _64 = 1.0 / 30.0;
     float _68 = 1.0 / 30.0;
     float _6c = 1.0;

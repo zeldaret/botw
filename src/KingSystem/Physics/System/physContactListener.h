@@ -42,6 +42,14 @@ public:
 
     void unregisterCollisionWithBody(RigidBody* body);
 
+    bool get90() const { return _90; }
+    void set90(bool value) { _90 = value; }
+    bool get91() const { return _91; }
+    void set91(bool value) { _91 = value; }
+    void setDisableContactPointInfoNotifications(bool value) {
+        mDisableContactPointInfoNotifications = value;
+    }
+
     void contactPointCallback(const hkpContactPointEvent& event) override;
     void collisionAddedCallback(const hkpCollisionEvent& event) override;
     void collisionRemovedCallback(const hkpCollisionEvent& event) override;

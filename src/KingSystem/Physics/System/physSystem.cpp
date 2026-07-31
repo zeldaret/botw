@@ -1,10 +1,12 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include <heap/seadHeap.h>
 #include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Physics/Cloth/physClothResource.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerKeyList.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyResource.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
@@ -152,6 +154,49 @@ sead::Heap* System::getPhysicsTempHeap(LowPriority low_priority) const {
         mPhysicsTempDefaultHeap->dump();
 
     return mPhysicsTempDefaultHeap;
+}
+
+void System::removeRigidBodyFromContactSystem(RigidBody* body) {
+    const auto layer_type = getContactLayerType(body->getContactLayer());
+
+    if (mPaused)
+        mContactMgr->removeContactPointsWithBody(body);
+
+    mContactListeners[static_cast<s32>(layer_type)]->unregisterCollisionWithBody(body);
+    mContactMgr->removeCollisionEntriesWithBody(body);
+    mContactMgr->removeImpulseEntriesWithBody(body);
+}
+
+void System::setEntityContactListenerField90(bool value) {
+    mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->set90(value);
+}
+
+bool System::getEntityContactListenerField90() const {
+    return mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->get90();
+}
+
+void System::setEntityContactListenerField91(bool value) {
+    mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->set91(value);
+}
+
+bool System::getEntityContactListenerField91() const {
+    return mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->get91();
+}
+
+void System::setDisableSensorContactPointInfoNotifications(bool disable) {
+    mContactListeners[static_cast<s32>(ContactLayerType::Sensor)]
+        ->setDisableContactPointInfoNotifications(disable);
+}
+
+bool System::isActorSystemIdle() const {
+    const bool flag = _62 || _61;
+
+    auto* mgr = act::BaseProcMgr::instance();
+    if (!mgr)
+        return true;
+
+    const bool idle = mgr->getStatus() != act::BaseProcMgr::Status::ProcessingActorJobs;
+    return flag || idle;
 }
 
 }  // namespace ksys::phys
