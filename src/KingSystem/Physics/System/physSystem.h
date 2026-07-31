@@ -14,6 +14,7 @@ namespace ksys::phys {
 class CollisionInfo;
 class ContactLayerCollisionInfo;
 class ContactLayerCollisionInfoGroup;
+class ContactListener;
 class ContactMgr;
 class ContactPointInfo;
 class GroupFilter;
@@ -151,8 +152,7 @@ private:
     GroupFilter* mEntityGroupFilter{};
     GroupFilter* mSensorGroupFilter{};
     sead::FixedPtrArray<GroupFilter, 2> mGroupFilters;
-    // FIXME: type
-    sead::FixedPtrArray<void*, 2> _128;
+    sead::FixedPtrArray<ContactListener, 2> mContactListeners;
     ContactMgr* mContactMgr;
     void* _150;
     StaticCompoundMgr* mStaticCompoundMgr;

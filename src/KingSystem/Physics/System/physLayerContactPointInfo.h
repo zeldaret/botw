@@ -84,6 +84,8 @@ public:
     bool registerLayerPair(ContactLayer layer1, ContactLayer layer2, bool enabled = true);
     bool isPairUnknown(ContactLayer layer1, ContactLayer layer2) const;
 
+    ContactLayerType getLayerType() const { return mLayerType; }
+
     ContactCallback* getCallback() const { return mCallback; }
     void setCallback(ContactCallback* callback) { mCallback = callback; }
 
