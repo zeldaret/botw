@@ -1,5 +1,8 @@
 #include "Game/AI/Query/queryCheckCookResultStatus.h"
 #include <evfl/Query.h>
+#include "Game/Cooking/cookManager.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 
 namespace uking::query {
 
@@ -7,9 +10,22 @@ CheckCookResultStatus::CheckCookResultStatus(const InitArg& arg) : ksys::act::ai
 
 CheckCookResultStatus::~CheckCookResultStatus() = default;
 
-// FIXME: implement
 int CheckCookResultStatus::doQuery() {
-    return -1;
+    auto* cooking_mgr = CookingMgr::instance();
+    if (!cooking_mgr)
+        return 0;
+
+    CookItem cook_item;
+    cooking_mgr->getCookItem(cook_item);
+
+    switch (*mCheckType) {
+    case 0:
+        return !ksys::act::hasTag(cook_item.actor_name, ksys::act::tags::CookFailure);
+    case 1:
+        return cook_item.is_crit;
+    default:
+        return 0;
+    }
 }
 
 void CheckCookResultStatus::loadParams(const evfl::QueryArg& arg) {
