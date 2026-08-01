@@ -283,7 +283,7 @@ query::IsNeedEquipWeapon:
 query::IsNoEquipArmorAnyTarget:
   status: pending
 query::IsOffLinkTag:
-  status: pending
+  status: done
 query::IsOnEnterDungeonFlag:
   status: done
 query::IsOnInstEventFlag:

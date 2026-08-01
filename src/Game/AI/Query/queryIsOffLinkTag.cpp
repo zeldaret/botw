@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryIsOffLinkTag.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ IsOffLinkTag::IsOffLinkTag(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 IsOffLinkTag::~IsOffLinkTag() = default;
 
-// FIXME: implement
 int IsOffLinkTag::doQuery() {
-    return -1;
+    return !mActor->checkBasicSig();
 }
 
 void IsOffLinkTag::loadParams(const evfl::QueryArg& arg) {
