@@ -1,10 +1,12 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include <heap/seadHeap.h>
 #include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Physics/Cloth/physClothResource.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerKeyList.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyResource.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
@@ -152,6 +154,51 @@ sead::Heap* System::getPhysicsTempHeap(LowPriority low_priority) const {
         mPhysicsTempDefaultHeap->dump();
 
     return mPhysicsTempDefaultHeap;
+}
+
+void System::removeRigidBodyFromContactSystem(RigidBody* body) {
+    const auto layer_type = getContactLayerType(body->getContactLayer());
+
+    if (mPaused)
+        mContactMgr->removeContactPointsWithBody(body);
+
+    mContactListeners[static_cast<s32>(layer_type)]->unregisterCollisionWithBody(body);
+    mContactMgr->removeCollisionEntriesWithBody(body);
+    mContactMgr->removeImpulseEntriesWithBody(body);
+}
+
+void System::setMagneMassScalingEnabled(bool enabled) {
+    mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->setMagneMassScalingEnabled(
+        enabled);
+}
+
+bool System::isMagneMassScalingEnabled() const {
+    return mContactListeners[static_cast<s32>(ContactLayerType::Entity)]
+        ->isMagneMassScalingEnabled();
+}
+
+void System::setEntityContactListenerField91(bool value) {
+    mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->set91(value);
+}
+
+bool System::getEntityContactListenerField91() const {
+    return mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->get91();
+}
+
+void System::setDisableSensorContactPointInfoNotifications(bool disable) {
+    mContactListeners[static_cast<s32>(ContactLayerType::Sensor)]
+        ->setDisableContactPointInfoNotifications(disable);
+}
+
+bool System::isActorSystemIdle() const {
+    const bool is_idle = _62 || _61;
+
+    auto* mgr = act::BaseProcMgr::instance();
+    if (!mgr)
+        return true;
+
+    const bool actor_jobs_idle = mgr->getStatus() != act::BaseProcMgr::Status::ProcessingActorJobs;
+    return is_idle || actor_jobs_idle;
 }
 
 }  // namespace ksys::phys
