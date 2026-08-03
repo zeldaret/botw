@@ -167,12 +167,14 @@ void System::removeRigidBodyFromContactSystem(RigidBody* body) {
     mContactMgr->removeImpulseEntriesWithBody(body);
 }
 
-void System::setEntityContactListenerField90(bool value) {
-    mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->set90(value);
+void System::setMagneMassScalingEnabled(bool enabled) {
+    mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->setMagneMassScalingEnabled(
+        enabled);
 }
 
-bool System::getEntityContactListenerField90() const {
-    return mContactListeners[static_cast<s32>(ContactLayerType::Entity)]->get90();
+bool System::isMagneMassScalingEnabled() const {
+    return mContactListeners[static_cast<s32>(ContactLayerType::Entity)]
+        ->isMagneMassScalingEnabled();
 }
 
 void System::setEntityContactListenerField91(bool value) {
@@ -189,14 +191,14 @@ void System::setDisableSensorContactPointInfoNotifications(bool disable) {
 }
 
 bool System::isActorSystemIdle() const {
-    const bool flag = _62 || _61;
+    const bool is_idle = _62 || _61;
 
     auto* mgr = act::BaseProcMgr::instance();
     if (!mgr)
         return true;
 
-    const bool idle = mgr->getStatus() != act::BaseProcMgr::Status::ProcessingActorJobs;
-    return flag || idle;
+    const bool actor_jobs_idle = mgr->getStatus() != act::BaseProcMgr::Status::ProcessingActorJobs;
+    return is_idle || actor_jobs_idle;
 }
 
 }  // namespace ksys::phys

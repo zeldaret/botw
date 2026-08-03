@@ -42,8 +42,8 @@ public:
 
     void unregisterCollisionWithBody(RigidBody* body);
 
-    bool get90() const { return _90; }
-    void set90(bool value) { _90 = value; }
+    bool isMagneMassScalingEnabled() const { return mMagneMassScalingEnabled; }
+    void setMagneMassScalingEnabled(bool enabled) { mMagneMassScalingEnabled = enabled; }
     bool get91() const { return _91; }
     void set91(bool value) { _91 = value; }
     void setDisableContactPointInfoNotifications(bool value) {
@@ -133,7 +133,7 @@ protected:
     u32 mTrackedLayersBufferSize{};
     u32 mLayerCount{};
     sead::CriticalSection mCS;
-    bool _90 = false;
+    bool mMagneMassScalingEnabled = false;
     bool _91 = false;
     bool mDisableContactPointInfoNotifications = false;
 };

@@ -115,11 +115,10 @@ public:
 
     RagdollControllerKeyList* getRagdollCtrlKeyList() const;
 
-    // TODO: rename
     // 0x0000007101216c60
-    void setEntityContactListenerField90(bool value);
+    void setMagneMassScalingEnabled(bool enabled);
     // 0x0000007101216c74
-    bool getEntityContactListenerField90() const;
+    bool isMagneMassScalingEnabled() const;
 
     // 0x0000007101216ca4
     bool isActorSystemIdle() const;
@@ -144,8 +143,8 @@ public:
 private:
     u8 _28[0x60 - 0x28];
     bool mPaused;
-    u8 _61;
-    u8 _62;
+    bool _61;
+    bool _62;
     u8 _63;
     float _64 = 1.0 / 30.0;
     float _68 = 1.0 / 30.0;
