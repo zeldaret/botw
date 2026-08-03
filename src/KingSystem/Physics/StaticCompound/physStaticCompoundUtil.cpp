@@ -17,7 +17,8 @@ u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_colli
         return 1;
     };
 
-    if (shape.getType() == hkcdShapeType::BV_COMPRESSED_MESH) {
+    switch (shape.getType()) {
+    case hkcdShapeType::BV_COMPRESSED_MESH: {
         if (*shape_key == HK_INVALID_SHAPE_KEY)
             return no_material();
 
@@ -36,7 +37,7 @@ u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_colli
         return 0;
     }
 
-    if (shape.getType() == hkcdShapeType::STATIC_COMPOUND) {
+    case hkcdShapeType::STATIC_COMPOUND: {
         if (*shape_key == HK_INVALID_SHAPE_KEY)
             return no_material();
 
@@ -50,7 +51,7 @@ u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_colli
                                              &child_key);
     }
 
-    if (shape.getType() == hkcdShapeType::LIST) {
+    case hkcdShapeType::LIST: {
         if (*shape_key == HK_INVALID_SHAPE_KEY)
             return no_material();
 
@@ -60,8 +61,10 @@ u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_colli
                                              *list.getChildShape(*shape_key, buffer), shape_key);
     }
 
-    p_masks->material_mask = shape.getUserData();
-    return 0;
+    default:
+        p_masks->material_mask = shape.getUserData();
+        return 0;
+    }
 }
 
 void getBodyGroupAndObjectFromSCShape(StaticCompoundRigidBodyGroup** p_body_group,
