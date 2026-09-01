@@ -1,6 +1,7 @@
 project(gsys CXX ASM)
 
 add_library(gsys OBJECT
+  include/gsys/gsysApplicationPackageInfo.h
   include/gsys/gsysMaskedProjLight.h
   include/gsys/gsysMaskedProjLight.h
   include/gsys/gsysMaskedSpotLight.h
@@ -17,6 +18,7 @@ add_library(gsys OBJECT
   include/gsys/gsysPointLight.h
   include/gsys/gsysSpotLight.h
 
+  src/gsys/gsysApplicationPackageInfo.cpp
   src/gsys/gsysMemBuffer.cpp
   src/gsys/gsysModelAccessKey.cpp
   src/gsys/gsysModelSceneConfig.cpp
