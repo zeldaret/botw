@@ -117,4 +117,6 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(PlayerInfo, 0x3B0);
 
+bool hasValidPlayerActor();
+
 }  // namespace ksys::act

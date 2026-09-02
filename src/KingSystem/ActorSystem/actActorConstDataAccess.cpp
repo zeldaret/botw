@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -415,6 +416,14 @@ bool acquireActor(BaseProcLink* link, ActorConstDataAccess* accessor) {
         }
         return accessor->acquire(sead::DynamicCast<Actor>(proc));
     });
+}
+
+bool ActorAccessor::getPlayerFromPlayerInfo(ActorConstDataAccess* access) {
+    auto* player_info = PlayerInfo::instance();
+    if (!player_info)
+        return false;
+    acquireActor(&player_info->getPlayerLink(), access);
+    return access->hasProc();
 }
 
 }  // namespace ksys::act

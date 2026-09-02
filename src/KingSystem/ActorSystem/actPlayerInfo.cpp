@@ -131,4 +131,11 @@ sead::Vector3f& PlayerInfo::getPlayerPosForPostCalc() {
     return mPlayerPosForPostCalc;
 }
 
+bool hasValidPlayerActor() {
+    auto* player_info = PlayerInfo::instance();
+    if (!player_info)
+        return false;
+    return player_info->getPlayerLink().hasProc();
+}
+
 }  // namespace ksys::act

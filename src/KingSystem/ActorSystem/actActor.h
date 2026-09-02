@@ -172,6 +172,8 @@ public:
                        const sead::Vector3f& ang_vel, const sead::Vector3f& scale,
                        bool is_life_infinite, int i, int life) const;
 
+    void setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale = nullptr);
+
     // FIXME: figure out return types, parameters and names
     virtual s32 getMaxLife();
     virtual void m31();

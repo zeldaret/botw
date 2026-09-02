@@ -128,4 +128,12 @@ KSYS_CHECK_SIZE_NX150(ActorConstDataAccess, 0x18);
 
 bool acquireActor(BaseProcLink* link, ActorConstDataAccess* accessor);
 
+// FIXME: incomplete -- only the one method needed so far has been decompiled. Other known
+// members (from data/uking_functions.csv): getPlayerBase, getField568, getPosition2,
+// checkLinkTagActivated, triggerLink.
+class ActorAccessor {
+public:
+    static bool getPlayerFromPlayerInfo(ActorConstDataAccess* access);
+};
+
 }  // namespace ksys::act
