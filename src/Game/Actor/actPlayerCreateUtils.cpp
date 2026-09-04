@@ -31,21 +31,31 @@ void requestCreateWeaponByRawLife(const char* actor_class, const sead::Matrix34f
                                                     &params, task_lane_id);
 }
 
+namespace {
+// TODO: uking_functions.csv lists two unclaimed statics right next to each other,
+// getPlayerPosition (0x72b82c, 48 bytes) and getPlayerPositionViaPlayerInfo (0x72b85c, 108
+// bytes), that look like a plausible match for this. Worth confirming which TU they actually
+// belong to before claiming the addresses.
+const sead::Vector3f& getPlayerPosition() {
+    if (!ksys::act::PlayerInfo::instance())
+        return sead::Vector3f::zero;
+
+    return ksys::act::PlayerInfo::instance()->getPlayerPos();
+}
+}  // namespace
+
 // NON_MATCHING: instruction-scheduling spread across two large, near-identical NEON/FP blocks
 // rotation matrix construction, then normal-vector normalize-and-clamp, done once per raycast
 // attempt.
 void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* actor) {
     const auto* weapon_common = actor->getParam()->getRes().mGParamList->getWeaponCommon();
-    const auto& drop_rot = weapon_common->mDropFromPorchRot.ref();
+    const sead::Vector3f drop_rot = weapon_common->mDropFromPorchRot.ref();
 
     sead::Matrix34f rot_mtx;
-    rot_mtx.makeR({sead::Mathf::deg2rad(drop_rot.x), sead::Mathf::deg2rad(drop_rot.y),
-                   sead::Mathf::deg2rad(drop_rot.z)});
+    rot_mtx.makeRT({sead::Mathf::deg2rad(drop_rot.x), sead::Mathf::deg2rad(drop_rot.y),
+                    sead::Mathf::deg2rad(drop_rot.z)},
+                   sead::Vector3f::zero);
     mtx->setMul(*mtx, rot_mtx);
-
-    // half_offset clears the actor's own bounding box, from its rigid body AABB if it has one.
-    const sead::Vector3f row0 = mtx->getBase(0);
-    const sead::Vector3f row2 = mtx->getBase(2);
 
     sead::Vector3f half_offset;
     auto* rigid_body = actor->getMainBody();
@@ -53,72 +63,47 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* acto
         sead::BoundBox3f local_aabb;
         rigid_body->getAabbInLocal(&local_aabb);
         const sead::Vector3f center = rigid_body->getCenterOfMassInLocal();
-        const sead::Vector3f local_offset{center.x, 0.0f, local_aabb.getSizeZ()};
-        half_offset.x = (local_offset.x * row0.x) + (local_offset.z * row0.z);
+        half_offset.setRotated(*mtx, {center.x, 0.0f, local_aabb.getSizeZ()});
         half_offset.y = -local_aabb.getSizeY() * 0.5f;
-        half_offset.z = (local_offset.x * row2.x) + (local_offset.z * row2.z);
     } else {
-        const sead::Vector3f local_offset{0.0f, 0.0f, 0.3f};
-        half_offset.x = local_offset.z * row0.z;
+        half_offset.setRotated(*mtx, {0.0f, 0.0f, 0.3f});
         half_offset.y = -0.2f;
-        half_offset.z = local_offset.z * row2.z;
     }
 
-    const sead::Vector3f pos = mtx->getTranslation();
+    sead::Vector3f pos;
+    mtx->getTranslation(pos);
 
     sead::Vector3f drop_pos = pos - half_offset;
+    sead::Vector3f hit_pos;
+    sead::Vector3f hit_normal;
     sead::Vector3f start = pos;
     sead::Vector3f end = pos - half_offset * 1.25f;
-    start.y += 0.2f;
-    end.y += 0.2f;
-
-    // Midpoint between pos and hit_pos, nudged along the hit normal by normal_scale * |half_offset|
-    auto calcRestingPos = [&](const sead::Vector3f& hit_pos, const sead::Vector3f& hit_normal_in,
-                              f32 normal_scale) {
-        sead::Vector3f normal = hit_normal_in;
-        normal.y *= 0.5f;
-
-        f32 normal_len = sead::Mathf::sqrt((normal.x * normal.x) + (normal.y * normal.y) +
-                                           (normal.z * normal.z));
-        if (normal_len > 0.0f)
-            normal *= 1.0f / normal_len;
-
-        f32 half_offset_len =
-            sead::Mathf::sqrt((half_offset.x * half_offset.x) + (half_offset.y * half_offset.y) +
-                              (half_offset.z * half_offset.z)) *
-            normal_scale;
-        normal *= half_offset_len;
-        normal.y = sead::Mathf::max(normal.y, 0.0f);
-
-        return (pos + hit_pos) * 0.5f + normal;
-    };
 
     ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
     query.enableGroundHitLayers();
     query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    start.y += 0.2f;
+    end.y += 0.2f;
     query.setStartAndEnd(start, end);
 
-    sead::Vector3f hit_pos;
-    sead::Vector3f hit_normal;
     if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
         query.getHitPosition(&hit_pos);
         query.getHitNormal(&hit_normal);
-        drop_pos = calcRestingPos(hit_pos, hit_normal, 0.5f);
+        hit_normal.y *= 0.5f;
+        hit_normal.normalize();
+        hit_normal *= half_offset.length() * 0.5f;
+        hit_normal.y = sead::Mathf::max(hit_normal.y, 0.0f);
+        drop_pos = (pos + hit_pos) * 0.5f + hit_normal;
         sead::Vector3f drop_pos_end = drop_pos + half_offset;
 
         query.resetCastResult();
         query.setStartAndEnd(drop_pos, drop_pos_end);
         if (query.worldRayCast(ksys::phys::ContactLayerType::Entity) &&
             ksys::act::hasValidPlayerActor()) {
-            sead::Vector3f target = ksys::act::PlayerInfo::instance() ?
-                                        ksys::act::PlayerInfo::instance()->getPlayerPos() :
-                                        sead::Vector3f::zero;
-            target.y += 0.4f;
-            drop_pos = target;
-
+            drop_pos = getPlayerPosition();
             const sead::Vector3f almost_up{0.0f, 1.0f, 0.01f};
-            const sead::Vector3f world_z{0.0f, 0.0f, 1.0f};
-            ksys::util::calcMatrixFromZAxis(mtx, almost_up, world_z, drop_pos);
+            drop_pos.y += 0.4f;
+            ksys::util::makeMtxFrontUpPos(mtx, almost_up, sead::Vector3f::ez, drop_pos);
         }
     } else {
         end.y -= 0.6f;
@@ -127,7 +112,11 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* acto
         if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
             query.getHitPosition(&hit_pos);
             query.getHitNormal(&hit_normal);
-            drop_pos = calcRestingPos(hit_pos, hit_normal, 0.6f);
+            hit_normal.y *= 0.5f;
+            hit_normal.normalize();
+            hit_normal *= half_offset.length() * 0.6f;
+            hit_normal.y = sead::Mathf::max(hit_normal.y, 0.0f);
+            drop_pos = (pos + hit_pos) * 0.5f + hit_normal;
         }
     }
 

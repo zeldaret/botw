@@ -62,8 +62,8 @@ inline sead::Vector3f getCol(const sead::Matrix34f& mtx, int col) {
     return result;
 }
 
-/// Builds an orthonormal basis matrix with `z_axis` as its Z column.
-void calcMatrixFromZAxis(sead::Matrix34f* result, const sead::Vector3f& z_axis,
-                         const sead::Vector3f& up_reference, const sead::Vector3f& translation);
+/// Builds an orthonormal basis matrix with `front` as its Z column.
+void makeMtxFrontUpPos(sead::Matrix34f* result, const sead::Vector3f& front,
+                       const sead::Vector3f& up, const sead::Vector3f& pos);
 
 }  // namespace ksys::util
