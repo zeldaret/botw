@@ -88,7 +88,10 @@ public:
         No = false,
     };
 
+    /// Contact data passed to ContactCallback. The vector and collision-mask pointers are borrowed
+    /// for the duration of the callback; copy their values if they are needed afterwards.
     struct Event {
+        /// The other rigid body in the contact, rather than the body receiving the callback.
         RigidBody* body;
         const sead::Vector3f* position;
         const sead::Vector3f* separating_normal;
@@ -133,6 +136,12 @@ public:
         const ContactPoint* const* mPointsStart = nullptr;
     };
 
+    /// The output parameter starts at ShouldDisableContact::No. Set it to Yes to request that the
+    /// physical contact be disabled, independently of the return value.
+    ///
+    /// When called by ContactMgr::registerContactPoint, return false to skip recording the point,
+    /// or true to allow recording (subject to available storage). ContactListener's manifold
+    /// callback ignores the return value and only checks the ShouldDisableContact output.
     using ContactCallback = sead::IDelegate2R<ShouldDisableContact*, const Event&, bool>;
 
     static ContactPointInfo* make(sead::Heap* heap, int num, const sead::SafeString& name, int a,
