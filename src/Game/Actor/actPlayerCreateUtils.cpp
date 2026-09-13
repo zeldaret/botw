@@ -31,8 +31,8 @@ void requestCreateWeaponByRawLife(const char* actor_class, const sead::Matrix34f
                                                     &params, task_lane_id);
 }
 
-// Separately-addressed target function (0x72b82c, 48 bytes); kept with external linkage to
-// match rather than folded into an anonymous namespace.
+// Separately-addressed target function (0x72b82c, confirmed via IDA); kept with external
+// linkage to match rather than folded into an anonymous namespace.
 // NOLINTNEXTLINE(misc-use-internal-linkage) doesn't match with static
 const sead::Vector3f& getPlayerPosition() {
     if (!ksys::act::PlayerInfo::instance())
@@ -41,9 +41,8 @@ const sead::Vector3f& getPlayerPosition() {
     return ksys::act::PlayerInfo::instance()->getPlayerPos();
 }
 
-// NON_MATCHING: 56 bytes vs. the target's 1732. Gap is in the "obstructed, drop near player"
-// branch, where makeMtxFrontUpPos's own setTranslation and the explicit one right after don't
-// fold together the way they do in target.
+// NON_MATCHING: 24 bytes vs. the target's 1732. The final setTranslation writes through three
+// incrementally-derived pointers here; target reaches the same three offsets directly off mtx.
 void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* actor) {
     const auto* weapon_common = actor->getParam()->getRes().mGParamList->getWeaponCommon();
     const sead::Vector3f drop_rot = weapon_common->mDropFromPorchRot.ref();
@@ -99,12 +98,11 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* acto
         query.setStartAndEnd(drop_pos, drop_pos_end);
         if (query.worldRayCast(ksys::phys::ContactLayerType::Entity) &&
             ksys::act::hasValidPlayerActor()) {
-            sead::Vector3f player_pos = getPlayerPosition();
+            drop_pos = getPlayerPosition();
             const sead::Vector3f almost_up{0.0f, 1.0f, 0.01f};
-            // Target really does add this as a double, promoting player_pos.y and back.
-            player_pos.y += 0.4;
-            ksys::util::makeMtxFrontUpPos(mtx, almost_up, sead::Vector3f::ez, player_pos);
-            mtx->setTranslation(player_pos);
+            // Target really does add this as a double, promoting drop_pos.y and back.
+            drop_pos.y += 0.4;
+            ksys::util::makeMtxFrontUpPos(mtx, almost_up, sead::Vector3f::ez, drop_pos);
         }
     } else {
         end.y -= 0.6f;
@@ -122,6 +120,8 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* acto
             drop_pos = (pos + hit_pos) * 0.5f + hit_normal;
         }
     }
+
+    mtx->setTranslation(drop_pos);
 }
 
 bool calcValidDropPosition(sead::Vector3f* out_pos, const sead::Vector3f& pos) {
