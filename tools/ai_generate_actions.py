@@ -122,7 +122,7 @@ def generate_action(class_dir: Path, name: str, info: list, parent: str, seen_vi
     out.append("#pragma once")
     out.append("")
     if parent:
-        out.append(f'#include "Game/AI/Action/action{parent}.h"')
+        out.append(f'#include "{ai_common.find_header(class_dir, f"action{parent}.h")}"')
     out.append('#include "KingSystem/ActorSystem/actAiAction.h"')
     out.append("")
     out.append("namespace uking::action {")
@@ -156,7 +156,7 @@ def generate_action(class_dir: Path, name: str, info: list, parent: str, seen_vi
 
     # .cpp
     out = []
-    out.append(f'#include "Game/AI/Action/{header_file_name}"')
+    out.append(f'#include "{ai_common.find_header(class_dir, header_file_name)}"')
     out.append("")
     out.append("namespace uking::action {")
     out.append("")
@@ -202,11 +202,11 @@ def generate_action_factories(class_dir: Path, actions: Iterable[str]) -> None:
 // For major edits, please edit the generator script (ai_generate_queries.py) instead.
 // If edits are made to this file, make sure they are not lost when the generator is re-run.
 """)
-    out.append('#include "Game/AI/aiActionFactories.h"')
+    out.append('#include "Game/Actor/aiActionFactories.h"')
     out.append('#include <array>')
     for name in actions:
         name = name[0].upper() + name[1:]
-        out.append(f'#include "Game/AI/Action/action{name}.h"')
+        out.append(f'#include "{ai_common.find_header(class_dir, f"action{name}.h")}"')
     out.append('#include "KingSystem/ActorSystem/actAiAction.h"')
     out.append('')
     out.append('namespace uking {')
@@ -229,7 +229,7 @@ def generate_action_factories(class_dir: Path, actions: Iterable[str]) -> None:
 
 def main() -> None:
     src_root = Path(__file__).parent.parent
-    class_dir = src_root / "src" / "Game" / "AI" / "Action"
+    class_dir = src_root / "src" / "Game" / "Actor" / "Action"
     class_dir.mkdir(exist_ok=True)
 
     action_vtables: Dict[str, List[int]] = ai_common.get_vtables()["Action"]

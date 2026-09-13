@@ -1,0 +1,26 @@
+target_sources(uking PRIVATE
+  aiDefWanderAI.cpp
+  aiDefWanderAI.h
+  aiHorseEscapeRouteRailAI.cpp
+  aiHorseEscapeRouteRailAI.h
+  aiHorseGoToEatAI.cpp
+  aiHorseGoToEatAI.h
+  aiHorseLoopTargetAndWaitAI.cpp
+  aiHorseLoopTargetAndWaitAI.h
+  aiHorseNatureSelectAI.cpp
+  aiHorseNatureSelectAI.h
+  aiHorseRiddenAI.cpp
+  aiHorseRiddenAI.h
+  aiHorseRiddenByEnemyAI.cpp
+  aiHorseRiddenByEnemyAI.h
+  aiHorseRiddenByNPCBase.cpp
+  aiHorseRiddenByNPCBase.h
+  aiHorseWanderAI.cpp
+  aiHorseWanderAI.h
+  aiNonPlayerHorseRide.cpp
+  aiNonPlayerHorseRide.h
+  aiRideHorseAI.cpp
+  aiRideHorseAI.h
+  aiWildHorseDefWanderAI.cpp
+  aiWildHorseDefWanderAI.h
+)

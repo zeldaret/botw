@@ -122,7 +122,7 @@ def generate_ai(class_dir: Path, name: str, info: list, parent: str, seen_virtua
     out.append("#pragma once")
     out.append("")
     if parent:
-        out.append(f'#include "Game/AI/AI/ai{parent}.h"')
+        out.append(f'#include "{ai_common.find_header(class_dir, f"ai{parent}.h")}"')
     out.append('#include "KingSystem/ActorSystem/actAiAi.h"')
     out.append("")
     out.append("namespace uking::ai {")
@@ -156,7 +156,7 @@ def generate_ai(class_dir: Path, name: str, info: list, parent: str, seen_virtua
 
     # .cpp
     out = []
-    out.append(f'#include "Game/AI/AI/{header_file_name}"')
+    out.append(f'#include "{ai_common.find_header(class_dir, header_file_name)}"')
     out.append("")
     out.append("namespace uking::ai {")
     out.append("")
@@ -202,11 +202,11 @@ def generate_ai_factories(class_dir: Path, ais: Iterable[str]) -> None:
 // For major edits, please edit the generator script (ai_generate_ais.py) instead.
 // If edits are made to this file, make sure they are not lost when the generator is re-run.
 """)
-    out.append('#include "Game/AI/aiAiFactories.h"')
+    out.append('#include "Game/Actor/aiAiFactories.h"')
     out.append('#include <array>')
     for name in ais:
         name = name[0].upper() + name[1:]
-        out.append(f'#include "Game/AI/AI/ai{name}.h"')
+        out.append(f'#include "{ai_common.find_header(class_dir, f"ai{name}.h")}"')
     out.append('#include "KingSystem/ActorSystem/actAiAi.h"')
     out.append('')
     out.append('namespace uking {')
@@ -229,7 +229,7 @@ def generate_ai_factories(class_dir: Path, ais: Iterable[str]) -> None:
 
 def main() -> None:
     src_root = Path(__file__).parent.parent
-    class_dir = src_root / "src" / "Game" / "AI" / "AI"
+    class_dir = src_root / "src" / "Game" / "Actor" / "AI"
     class_dir.mkdir(exist_ok=True)
 
     ai_vtables: Dict[str, List[int]] = ai_common.get_vtables()["AI"]
