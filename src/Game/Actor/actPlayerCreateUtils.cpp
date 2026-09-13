@@ -31,22 +31,19 @@ void requestCreateWeaponByRawLife(const char* actor_class, const sead::Matrix34f
                                                     &params, task_lane_id);
 }
 
-namespace {
-// TODO: uking_functions.csv lists two unclaimed statics right next to each other,
-// getPlayerPosition (0x72b82c, 48 bytes) and getPlayerPositionViaPlayerInfo (0x72b85c, 108
-// bytes), that look like a plausible match for this. Worth confirming which TU they actually
-// belong to before claiming the addresses.
+// Separately-addressed target function (0x72b82c, 48 bytes); kept with external linkage to
+// match rather than folded into an anonymous namespace.
+// NOLINTNEXTLINE(misc-use-internal-linkage) doesn't match with static
 const sead::Vector3f& getPlayerPosition() {
     if (!ksys::act::PlayerInfo::instance())
         return sead::Vector3f::zero;
 
     return ksys::act::PlayerInfo::instance()->getPlayerPos();
 }
-}  // namespace
 
-// NON_MATCHING: instruction-scheduling spread across two large, near-identical NEON/FP blocks
-// rotation matrix construction, then normal-vector normalize-and-clamp, done once per raycast
-// attempt.
+// NON_MATCHING: 56 bytes vs. the target's 1732. Gap is in the "obstructed, drop near player"
+// branch, where makeMtxFrontUpPos's own setTranslation and the explicit one right after don't
+// fold together the way they do in target.
 void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* actor) {
     const auto* weapon_common = actor->getParam()->getRes().mGParamList->getWeaponCommon();
     const sead::Vector3f drop_rot = weapon_common->mDropFromPorchRot.ref();
@@ -92,7 +89,9 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* acto
         hit_normal.y *= 0.5f;
         hit_normal.normalize();
         hit_normal *= half_offset.length() * 0.5f;
-        hit_normal.y = sead::Mathf::max(hit_normal.y, 0.0f);
+        // NOLINTNEXTLINE(readability-use-std-min-max) matches target closer than max()
+        if (hit_normal.y < 0.0f)
+            hit_normal.y = 0.0f;
         drop_pos = (pos + hit_pos) * 0.5f + hit_normal;
         sead::Vector3f drop_pos_end = drop_pos + half_offset;
 
@@ -100,10 +99,12 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* acto
         query.setStartAndEnd(drop_pos, drop_pos_end);
         if (query.worldRayCast(ksys::phys::ContactLayerType::Entity) &&
             ksys::act::hasValidPlayerActor()) {
-            drop_pos = getPlayerPosition();
+            sead::Vector3f player_pos = getPlayerPosition();
             const sead::Vector3f almost_up{0.0f, 1.0f, 0.01f};
-            drop_pos.y += 0.4f;
-            ksys::util::makeMtxFrontUpPos(mtx, almost_up, sead::Vector3f::ez, drop_pos);
+            // Target really does add this as a double, promoting player_pos.y and back.
+            player_pos.y += 0.4;
+            ksys::util::makeMtxFrontUpPos(mtx, almost_up, sead::Vector3f::ez, player_pos);
+            mtx->setTranslation(player_pos);
         }
     } else {
         end.y -= 0.6f;
@@ -115,12 +116,12 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* mtx, ksys::act::Actor* acto
             hit_normal.y *= 0.5f;
             hit_normal.normalize();
             hit_normal *= half_offset.length() * 0.6f;
-            hit_normal.y = sead::Mathf::max(hit_normal.y, 0.0f);
+            // NOLINTNEXTLINE(readability-use-std-min-max) matches target closer than max()
+            if (hit_normal.y < 0.0f)
+                hit_normal.y = 0.0f;
             drop_pos = (pos + hit_pos) * 0.5f + hit_normal;
         }
     }
-
-    mtx->setTranslation(drop_pos);
 }
 
 bool calcValidDropPosition(sead::Vector3f* out_pos, const sead::Vector3f& pos) {
