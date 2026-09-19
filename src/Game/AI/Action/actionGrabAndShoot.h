@@ -7,6 +7,7 @@ namespace uking::action {
 class GrabAndShoot : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GrabAndShoot, ksys::act::ai::Action)
 public:
+    bool isChangeable() const override { return false; }
     explicit GrabAndShoot(const InitArg& arg);
     ~GrabAndShoot() override;
 

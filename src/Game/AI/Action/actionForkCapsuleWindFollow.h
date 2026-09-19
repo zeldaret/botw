@@ -7,6 +7,7 @@ namespace uking::action {
 class ForkCapsuleWindFollow : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkCapsuleWindFollow, ksys::act::ai::Action)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit ForkCapsuleWindFollow(const InitArg& arg);
     ~ForkCapsuleWindFollow() override;
 

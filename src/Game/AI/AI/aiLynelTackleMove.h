@@ -7,6 +7,7 @@ namespace uking::ai {
 class LynelTackleMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LynelTackleMove, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit LynelTackleMove(const InitArg& arg);
     ~LynelTackleMove() override;
 

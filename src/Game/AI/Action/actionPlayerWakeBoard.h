@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerWakeBoard : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWakeBoard, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerWakeBoard(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

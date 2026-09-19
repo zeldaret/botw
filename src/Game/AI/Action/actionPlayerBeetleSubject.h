@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerBeetleSubject : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerBeetleSubject, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerBeetleSubject(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

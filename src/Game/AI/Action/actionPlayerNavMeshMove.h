@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerNavMeshMove : public PlayerGuidedMove {
     SEAD_RTTI_OVERRIDE(PlayerNavMeshMove, PlayerGuidedMove)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerNavMeshMove(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

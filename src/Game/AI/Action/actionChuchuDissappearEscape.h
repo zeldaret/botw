@@ -8,6 +8,8 @@ namespace uking::action {
 class ChuchuDissappearEscape : public ChuchuDissappearEscapeBase {
     SEAD_RTTI_OVERRIDE(ChuchuDissappearEscape, ChuchuDissappearEscapeBase)
 public:
+    bool isFinished() const override { return false; }
+    bool isFailed() const override { return false; }
     explicit ChuchuDissappearEscape(const InitArg& arg);
     ~ChuchuDissappearEscape() override;
 

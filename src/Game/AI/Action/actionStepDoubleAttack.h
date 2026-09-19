@@ -7,6 +7,7 @@ namespace uking::action {
 class StepDoubleAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StepDoubleAttack, ksys::act::ai::Action)
 public:
+    bool isChangeable() const override { return false; }
     explicit StepDoubleAttack(const InitArg& arg);
     ~StepDoubleAttack() override;
 

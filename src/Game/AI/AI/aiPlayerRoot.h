@@ -7,6 +7,7 @@ namespace uking::ai {
 class PlayerRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerRoot, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerRoot(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

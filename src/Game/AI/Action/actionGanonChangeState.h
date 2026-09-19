@@ -7,6 +7,7 @@ namespace uking::action {
 class GanonChangeState : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GanonChangeState, ksys::act::ai::Action)
 public:
+    bool isChangeable() const override { return false; }
     explicit GanonChangeState(const InitArg& arg);
     ~GanonChangeState() override;
 

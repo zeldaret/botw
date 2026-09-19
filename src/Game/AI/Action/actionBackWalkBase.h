@@ -8,6 +8,7 @@ namespace uking::action {
 class BackWalkBase : public ActionEx {
     SEAD_RTTI_OVERRIDE(BackWalkBase, ActionEx)
 public:
+    bool isChangeable() const override { return true; }
     explicit BackWalkBase(const InitArg& arg);
     ~BackWalkBase() override;
 

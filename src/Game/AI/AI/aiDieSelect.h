@@ -7,6 +7,7 @@ namespace uking::ai {
 class DieSelect : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DieSelect, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit DieSelect(const InitArg& arg);
     ~DieSelect() override;
 

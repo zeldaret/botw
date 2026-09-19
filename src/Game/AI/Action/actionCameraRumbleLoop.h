@@ -7,6 +7,7 @@ namespace uking::action {
 class CameraRumbleLoop : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(CameraRumbleLoop, ksys::act::ai::Action)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit CameraRumbleLoop(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

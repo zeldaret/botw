@@ -14,6 +14,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override { return true; }
 };
 
 }  // namespace uking::action

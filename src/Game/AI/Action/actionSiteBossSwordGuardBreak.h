@@ -8,6 +8,7 @@ namespace uking::action {
 class SiteBossSwordGuardBreak : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(SiteBossSwordGuardBreak, OnetimeStopASPlay)
 public:
+    bool isChangeable() const override { return true; }
     explicit SiteBossSwordGuardBreak(const InitArg& arg);
     ~SiteBossSwordGuardBreak() override;
 

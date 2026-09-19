@@ -7,6 +7,7 @@ namespace uking::action {
 class SideStep : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SideStep, ksys::act::ai::Action)
 public:
+    bool isChangeable() const override { return false; }
     explicit SideStep(const InitArg& arg);
     ~SideStep() override;
 

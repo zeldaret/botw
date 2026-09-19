@@ -8,6 +8,7 @@ namespace uking::action {
 class TakeHitImpactForce : public ActionEx {
     SEAD_RTTI_OVERRIDE(TakeHitImpactForce, ActionEx)
 public:
+    bool isChangeable() const override { return true; }
     explicit TakeHitImpactForce(const InitArg& arg);
     ~TakeHitImpactForce() override;
 

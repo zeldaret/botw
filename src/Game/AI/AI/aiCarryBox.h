@@ -7,6 +7,7 @@ namespace uking::ai {
 class CarryBox : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CarryBox, ksys::act::ai::Ai)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit CarryBox(const InitArg& arg);
     ~CarryBox() override;
 

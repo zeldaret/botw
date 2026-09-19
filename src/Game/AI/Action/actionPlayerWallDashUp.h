@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerWallDashUp : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWallDashUp, PlayerAction)
 public:
+    bool isChangeable() const override { return true; }
     explicit PlayerWallDashUp(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

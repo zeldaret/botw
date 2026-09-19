@@ -8,6 +8,7 @@ namespace uking::action {
 class SandwormTackleMove : public AtkTackleMove {
     SEAD_RTTI_OVERRIDE(SandwormTackleMove, AtkTackleMove)
 public:
+    bool isFailed() const override { return false; }
     explicit SandwormTackleMove(const InitArg& arg);
     ~SandwormTackleMove() override;
 

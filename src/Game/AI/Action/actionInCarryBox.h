@@ -7,6 +7,7 @@ namespace uking::action {
 class InCarryBox : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(InCarryBox, ksys::act::ai::Action)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit InCarryBox(const InitArg& arg);
     ~InCarryBox() override;
 

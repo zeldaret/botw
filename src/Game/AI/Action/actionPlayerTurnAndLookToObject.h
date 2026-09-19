@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerTurnAndLookToObject : public PlayerLookAtObject {
     SEAD_RTTI_OVERRIDE(PlayerTurnAndLookToObject, PlayerLookAtObject)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerTurnAndLookToObject(const InitArg& arg);
     ~PlayerTurnAndLookToObject() override;
 

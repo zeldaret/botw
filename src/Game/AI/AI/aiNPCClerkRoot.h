@@ -8,6 +8,7 @@ namespace uking::ai {
 class NPCClerkRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NPCClerkRoot, NPCRoot)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit NPCClerkRoot(const InitArg& arg);
     ~NPCClerkRoot() override;
 

@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override {}
     // static_param at offset 0x38
     const bool* mIsCheckActive_s{};
     // static_param at offset 0x40

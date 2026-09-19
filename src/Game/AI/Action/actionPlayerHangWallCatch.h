@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerHangWallCatch : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHangWallCatch, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerHangWallCatch(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

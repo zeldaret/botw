@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerLandDamage : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerLandDamage, PlayerAction)
 public:
+    bool isChangeable() const override { return true; }
     explicit PlayerLandDamage(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

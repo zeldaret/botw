@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerDoorPullOpen : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerDoorPullOpen, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerDoorPullOpen(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

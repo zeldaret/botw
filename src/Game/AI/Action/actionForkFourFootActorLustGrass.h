@@ -7,6 +7,7 @@ namespace uking::action {
 class ForkFourFootActorLustGrass : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkFourFootActorLustGrass, ksys::act::ai::Action)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit ForkFourFootActorLustGrass(const InitArg& arg);
     ~ForkFourFootActorLustGrass() override;
 

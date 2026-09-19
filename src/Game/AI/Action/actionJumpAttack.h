@@ -7,6 +7,7 @@ namespace uking::action {
 class JumpAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(JumpAttack, ksys::act::ai::Action)
 public:
+    bool isChangeable() const override { return false; }
     explicit JumpAttack(const InitArg& arg);
     ~JumpAttack() override;
 

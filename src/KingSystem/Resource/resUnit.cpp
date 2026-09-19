@@ -141,16 +141,27 @@ ResourceUnit::Status ResourceUnit::getStatus() const {
     return mStatus;
 }
 
-static const ResourceUnit::Status sUnitStatusTransitionTable[] = {
-    ResourceUnit::Status::_8,  ResourceUnit::Status::_11, ResourceUnit::Status::_11,
-    ResourceUnit::Status::_14, ResourceUnit::Status::_14,
-};
 
-// NON_MATCHING: ldr + sxtw -> ldrsw
 void ResourceUnit::updateStatus() {
-    const s32 idx = mStatus;
-    if (Status::_2 <= idx && idx <= Status::_6)
-        mStatus = sUnitStatusTransitionTable[idx];
+    switch (mStatus) {
+    case Status::_2:
+        mStatus = Status::_8;
+        break;
+    case Status::_3:
+        mStatus = Status::_11;
+        break;
+    case Status::_4:
+        mStatus = Status::_11;
+        break;
+    case Status::_5:
+        mStatus = Status::_14;
+        break;
+    case Status::_6:
+        mStatus = Status::_14;
+        break;
+    default:
+        break;
+    }
 }
 
 bool ResourceUnit::isTask1NotQueued() const {

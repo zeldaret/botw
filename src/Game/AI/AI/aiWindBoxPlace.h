@@ -7,6 +7,7 @@ namespace uking::ai {
 class WindBoxPlace : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WindBoxPlace, ksys::act::ai::Ai)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit WindBoxPlace(const InitArg& arg);
     ~WindBoxPlace() override;
 

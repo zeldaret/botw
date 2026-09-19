@@ -8,6 +8,7 @@ namespace uking::action {
 class SmallDamageBase : public TakeHitImpactForce {
     SEAD_RTTI_OVERRIDE(SmallDamageBase, TakeHitImpactForce)
 public:
+    bool isChangeable() const override { return true; }
     explicit SmallDamageBase(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

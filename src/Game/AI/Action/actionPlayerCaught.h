@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerCaught : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerCaught, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerCaught(const InitArg& arg);
     ~PlayerCaught() override;
 

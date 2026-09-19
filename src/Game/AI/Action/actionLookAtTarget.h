@@ -8,6 +8,7 @@ namespace uking::action {
 class LookAtTarget : public TurnBase {
     SEAD_RTTI_OVERRIDE(LookAtTarget, TurnBase)
 public:
+    bool isFinished() const override { return false; }
     explicit LookAtTarget(const InitArg& arg);
     ~LookAtTarget() override;
 

@@ -7,6 +7,7 @@ namespace uking::ai {
 class IAIAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(IAIAttack, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit IAIAttack(const InitArg& arg);
     ~IAIAttack() override;
 

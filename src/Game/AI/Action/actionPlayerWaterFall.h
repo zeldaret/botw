@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerWaterFall : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWaterFall, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerWaterFall(const InitArg& arg);
     ~PlayerWaterFall() override;
 

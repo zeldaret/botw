@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerLadderJump : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerLadderJump, PlayerAction)
 public:
+    bool isChangeable() const override { return true; }
     explicit PlayerLadderJump(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

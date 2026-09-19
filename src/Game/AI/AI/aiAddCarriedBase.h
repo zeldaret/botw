@@ -7,6 +7,7 @@ namespace uking::ai {
 class AddCarriedBase : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AddCarriedBase, ksys::act::ai::Ai)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit AddCarriedBase(const InitArg& arg);
     ~AddCarriedBase() override;
 

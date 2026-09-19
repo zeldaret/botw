@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerIceBlockRemove : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerIceBlockRemove, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerIceBlockRemove(const InitArg& arg);
     ~PlayerIceBlockRemove() override;
 

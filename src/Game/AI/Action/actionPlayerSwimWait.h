@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerSwimWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSwimWait, PlayerAction)
 public:
+    bool isChangeable() const override { return true; }
     explicit PlayerSwimWait(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

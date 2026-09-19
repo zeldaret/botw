@@ -8,6 +8,7 @@ namespace uking::action {
 class HoldArrow : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(HoldArrow, ActionWithPosAngReduce)
 public:
+    bool isChangeable() const override { return true; }
     explicit HoldArrow(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -7,6 +7,7 @@ namespace uking::action {
 class LastBossJustGuard : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossJustGuard, ksys::act::ai::Action)
 public:
+    bool isChangeable() const override { return true; }
     explicit LastBossJustGuard(const InitArg& arg);
     ~LastBossJustGuard() override;
 

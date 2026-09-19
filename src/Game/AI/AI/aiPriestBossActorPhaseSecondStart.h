@@ -7,6 +7,7 @@ namespace uking::ai {
 class PriestBossActorPhaseSecondStart : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PriestBossActorPhaseSecondStart, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit PriestBossActorPhaseSecondStart(const InitArg& arg);
     ~PriestBossActorPhaseSecondStart() override;
 

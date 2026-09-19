@@ -14,6 +14,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override { return false; }
     // dynamic_param at offset 0x20
     int* mTextType_d{};
 };

@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override {}
     // map_unit_param at offset 0x38
     sead::SafeString mGolemSleepType_m{};
 };

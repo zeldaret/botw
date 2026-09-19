@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerWakeBoardGoal : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWakeBoardGoal, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerWakeBoardGoal(const InitArg& arg);
     ~PlayerWakeBoardGoal() override;
 

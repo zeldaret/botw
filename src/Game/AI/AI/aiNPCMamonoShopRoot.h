@@ -8,6 +8,7 @@ namespace uking::ai {
 class NPCMamonoShopRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(NPCMamonoShopRoot, NPCRoot)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit NPCMamonoShopRoot(const InitArg& arg);
     ~NPCMamonoShopRoot() override;
 

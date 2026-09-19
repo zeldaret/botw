@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool handleMessage_(const ksys::Message& message) override { return false; }
 };
 
 }  // namespace uking::ai

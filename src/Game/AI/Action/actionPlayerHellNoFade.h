@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerHellNoFade : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHellNoFade, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerHellNoFade(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

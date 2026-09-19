@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerStainWait : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerStainWait, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerStainWait(const InitArg& arg);
     ~PlayerStainWait() override;
 

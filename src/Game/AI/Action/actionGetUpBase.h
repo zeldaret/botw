@@ -7,6 +7,7 @@ namespace uking::action {
 class GetUpBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GetUpBase, ksys::act::ai::Action)
 public:
+    bool isChangeable() const override { return false; }
     explicit GetUpBase(const InitArg& arg);
     ~GetUpBase() override;
 

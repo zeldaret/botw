@@ -11,6 +11,8 @@ public:
     explicit ShootArrow(const InitArg& arg);
     ~ShootArrow() override;
 
+    bool isChangeable() const override { return false; }
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 

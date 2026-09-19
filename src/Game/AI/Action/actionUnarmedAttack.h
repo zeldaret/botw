@@ -8,6 +8,7 @@ namespace uking::action {
 class UnarmedAttack : public ActionEx {
     SEAD_RTTI_OVERRIDE(UnarmedAttack, ActionEx)
 public:
+    bool isChangeable() const override { return false; }
     explicit UnarmedAttack(const InitArg& arg);
     ~UnarmedAttack() override;
 

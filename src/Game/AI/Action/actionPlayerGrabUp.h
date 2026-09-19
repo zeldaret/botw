@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerGrabUp : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerGrabUp, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerGrabUp(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

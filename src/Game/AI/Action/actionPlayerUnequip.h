@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerUnequip : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerUnequip, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerUnequip(const InitArg& arg);
     ~PlayerUnequip() override;
 

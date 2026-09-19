@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerHell : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHell, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerHell(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

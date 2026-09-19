@@ -8,6 +8,7 @@ namespace uking::action {
 class DownSwingAttack : public ActionEx {
     SEAD_RTTI_OVERRIDE(DownSwingAttack, ActionEx)
 public:
+    bool isChangeable() const override { return false; }
     explicit DownSwingAttack(const InitArg& arg);
     ~DownSwingAttack() override;
 

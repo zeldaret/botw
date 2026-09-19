@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override {}
     // aitree_variable at offset 0x38
     int* mLynelAIFlags_a{};
 };

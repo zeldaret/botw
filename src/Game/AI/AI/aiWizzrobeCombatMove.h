@@ -7,6 +7,7 @@ namespace uking::ai {
 class WizzrobeCombatMove : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WizzrobeCombatMove, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit WizzrobeCombatMove(const InitArg& arg);
     ~WizzrobeCombatMove() override;
 

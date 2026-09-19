@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerClimbRest : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerClimbRest, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerClimbRest(const InitArg& arg);
     ~PlayerClimbRest() override;
 

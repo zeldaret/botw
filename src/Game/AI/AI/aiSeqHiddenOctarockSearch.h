@@ -7,6 +7,7 @@ namespace uking::ai {
 class SeqHiddenOctarockSearch : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SeqHiddenOctarockSearch, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit SeqHiddenOctarockSearch(const InitArg& arg);
     ~SeqHiddenOctarockSearch() override;
 

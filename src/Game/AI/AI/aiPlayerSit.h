@@ -7,6 +7,7 @@ namespace uking::ai {
 class PlayerSit : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(PlayerSit, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerSit(const InitArg& arg);
 
     bool init_(sead::Heap* heap) override;

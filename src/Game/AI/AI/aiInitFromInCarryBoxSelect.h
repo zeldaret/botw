@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override {}
     // static_param at offset 0x38
     const bool* mIsResetInCarryBoxFlag_s{};
     // aitree_variable at offset 0x40

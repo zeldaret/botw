@@ -8,6 +8,7 @@ namespace uking::action {
 class OnetimeChangeableASPlay : public OnetimeStopASPlay {
     SEAD_RTTI_OVERRIDE(OnetimeChangeableASPlay, OnetimeStopASPlay)
 public:
+    bool isChangeable() const override { return true; }
     explicit OnetimeChangeableASPlay(const InitArg& arg);
     ~OnetimeChangeableASPlay() override;
 

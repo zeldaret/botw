@@ -8,6 +8,7 @@ namespace uking::ai {
 class AssassinBossEscapeFromTarget : public SimpleEscapeFromTarget {
     SEAD_RTTI_OVERRIDE(AssassinBossEscapeFromTarget, SimpleEscapeFromTarget)
 public:
+    bool isChangeable() const override { return false; }
     explicit AssassinBossEscapeFromTarget(const InitArg& arg);
     ~AssassinBossEscapeFromTarget() override;
 

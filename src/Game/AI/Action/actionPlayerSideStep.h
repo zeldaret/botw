@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerSideStep : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSideStep, PlayerAction)
 public:
+    bool isChangeable() const override { return true; }
     explicit PlayerSideStep(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

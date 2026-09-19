@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerSelfCamera : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSelfCamera, PlayerAction)
 public:
+    bool isChangeable() const override { return true; }
     explicit PlayerSelfCamera(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

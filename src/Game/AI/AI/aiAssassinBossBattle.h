@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool handleMessage_(const ksys::Message& message) override { return false; }
     // static_param at offset 0x38
     const int* mRetFrmDmgAtkTimer_s{};
     // static_param at offset 0x40

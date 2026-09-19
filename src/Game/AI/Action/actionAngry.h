@@ -8,6 +8,7 @@ namespace uking::action {
 class Angry : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(Angry, ActionWithAS)
 public:
+    bool isChangeable() const override { return false; }
     explicit Angry(const InitArg& arg);
 
     bool init_(sead::Heap* heap) override;

@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerDestinationTurnRefActor : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerDestinationTurnRefActor, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerDestinationTurnRefActor(const InitArg& arg);
     ~PlayerDestinationTurnRefActor() override;
 

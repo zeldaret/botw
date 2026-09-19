@@ -8,6 +8,7 @@ namespace uking::ai {
 class NPCHorseRide : public NonPlayerHorseRide {
     SEAD_RTTI_OVERRIDE(NPCHorseRide, NonPlayerHorseRide)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit NPCHorseRide(const InitArg& arg);
     ~NPCHorseRide() override;
 

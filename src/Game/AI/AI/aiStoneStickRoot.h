@@ -7,6 +7,7 @@ namespace uking::ai {
 class StoneStickRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StoneStickRoot, ksys::act::ai::Ai)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit StoneStickRoot(const InitArg& arg);
     ~StoneStickRoot() override;
 

@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerPullSwordFirstFail : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerPullSwordFirstFail, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerPullSwordFirstFail(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

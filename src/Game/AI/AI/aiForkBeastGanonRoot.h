@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override {}
 };
 
 }  // namespace uking::ai

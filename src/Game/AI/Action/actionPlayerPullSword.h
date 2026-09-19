@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerPullSword : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerPullSword, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerPullSword(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

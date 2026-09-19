@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerPickUp : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerPickUp, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerPickUp(const InitArg& arg);
     ~PlayerPickUp() override;
 

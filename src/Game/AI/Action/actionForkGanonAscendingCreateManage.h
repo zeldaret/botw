@@ -7,6 +7,7 @@ namespace uking::action {
 class ForkGanonAscendingCreateManage : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ForkGanonAscendingCreateManage, ksys::act::ai::Action)
 public:
+    bool hasUpdateForPreDeleteCb() override { return true; }
     explicit ForkGanonAscendingCreateManage(const InitArg& arg);
     ~ForkGanonAscendingCreateManage() override;
 

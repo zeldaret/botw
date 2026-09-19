@@ -8,6 +8,7 @@ namespace uking::action {
 class LargeAttack : public ActionEx {
     SEAD_RTTI_OVERRIDE(LargeAttack, ActionEx)
 public:
+    bool isChangeable() const override { return false; }
     explicit LargeAttack(const InitArg& arg);
     ~LargeAttack() override;
 

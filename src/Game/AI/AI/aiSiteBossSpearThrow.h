@@ -7,6 +7,7 @@ namespace uking::ai {
 class SiteBossSpearThrow : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossSpearThrow, ksys::act::ai::Ai)
 public:
+    bool isChangeable() const override { return true; }
     explicit SiteBossSpearThrow(const InitArg& arg);
     ~SiteBossSpearThrow() override;
 

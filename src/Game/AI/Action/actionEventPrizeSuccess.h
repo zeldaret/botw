@@ -13,6 +13,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override { return true; }
     // dynamic_param at offset 0x20
     int* mPrizeNumber_d{};
 };

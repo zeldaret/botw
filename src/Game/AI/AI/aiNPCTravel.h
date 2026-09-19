@@ -8,6 +8,7 @@ namespace uking::ai {
 class NPCTravel : public NPCTravelBase {
     SEAD_RTTI_OVERRIDE(NPCTravel, NPCTravelBase)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit NPCTravel(const InitArg& arg);
     ~NPCTravel() override;
 

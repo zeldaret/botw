@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override {}
     // map_unit_param at offset 0x38
     const sead::Vector3f* mTransFieldBodyGroup00_m{};
     // map_unit_param at offset 0x40

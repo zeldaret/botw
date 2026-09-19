@@ -7,6 +7,7 @@ namespace uking::ai {
 class LastBossRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LastBossRoot, ksys::act::ai::Ai)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit LastBossRoot(const InitArg& arg);
     ~LastBossRoot() override;
 

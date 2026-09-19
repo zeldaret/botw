@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool handleMessage_(const ksys::Message& message) override { return false; }
     // static_param at offset 0x170
     const float* mChangeWaitRate_s{};
     // static_param at offset 0x178

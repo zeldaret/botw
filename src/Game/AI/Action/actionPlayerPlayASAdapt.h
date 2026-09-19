@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerPlayASAdapt : public PlayASForDemo {
     SEAD_RTTI_OVERRIDE(PlayerPlayASAdapt, PlayASForDemo)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerPlayASAdapt(const InitArg& arg);
     ~PlayerPlayASAdapt() override;
 

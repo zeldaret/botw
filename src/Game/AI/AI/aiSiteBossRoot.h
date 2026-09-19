@@ -7,6 +7,7 @@ namespace uking::ai {
 class SiteBossRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossRoot, ksys::act::ai::Ai)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit SiteBossRoot(const InitArg& arg);
     ~SiteBossRoot() override;
 

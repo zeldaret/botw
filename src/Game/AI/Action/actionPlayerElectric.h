@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerElectric : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerElectric, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerElectric(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -8,6 +8,7 @@ namespace uking::action {
 class Fall : public ActionEx {
     SEAD_RTTI_OVERRIDE(Fall, ActionEx)
 public:
+    bool isChangeable() const override { return false; }
     explicit Fall(const InitArg& arg);
     ~Fall() override;
 

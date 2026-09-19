@@ -8,6 +8,7 @@ namespace uking::ai {
 class AssassinRoot : public NPCRoot {
     SEAD_RTTI_OVERRIDE(AssassinRoot, NPCRoot)
 public:
+    bool hasPreDeleteCb() override { return true; }
     explicit AssassinRoot(const InitArg& arg);
     ~AssassinRoot() override;
 

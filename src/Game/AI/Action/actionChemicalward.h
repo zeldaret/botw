@@ -8,6 +8,7 @@ namespace uking::action {
 class Chemicalward : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Chemicalward, ActionWithPosAngReduce)
 public:
+    bool isChangeable() const override { return false; }
     explicit Chemicalward(const InitArg& arg);
     ~Chemicalward() override;
 

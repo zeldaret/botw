@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerRailMove : public PlayerGuidedMove {
     SEAD_RTTI_OVERRIDE(PlayerRailMove, PlayerGuidedMove)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerRailMove(const InitArg& arg);
     ~PlayerRailMove() override;
 

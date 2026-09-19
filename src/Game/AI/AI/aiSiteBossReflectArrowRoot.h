@@ -8,6 +8,7 @@ namespace uking::ai {
 class SiteBossReflectArrowRoot : public SiteBossShootNormalArrowRoot {
     SEAD_RTTI_OVERRIDE(SiteBossReflectArrowRoot, SiteBossShootNormalArrowRoot)
 public:
+    bool isChangeable() const override { return false; }
     explicit SiteBossReflectArrowRoot(const InitArg& arg);
     ~SiteBossReflectArrowRoot() override;
 

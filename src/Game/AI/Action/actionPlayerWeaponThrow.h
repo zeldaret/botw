@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerWeaponThrow : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWeaponThrow, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerWeaponThrow(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

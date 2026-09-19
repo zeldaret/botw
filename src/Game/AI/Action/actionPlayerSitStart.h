@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerSitStart : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerSitStart, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerSitStart(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

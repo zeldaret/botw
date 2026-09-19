@@ -8,6 +8,7 @@ namespace uking::action {
 class PlayerHorseGetOffInDemo : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerHorseGetOffInDemo, PlayerAction)
 public:
+    bool isChangeable() const override { return false; }
     explicit PlayerHorseGetOffInDemo(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
