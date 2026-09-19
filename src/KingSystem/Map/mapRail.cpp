@@ -4,6 +4,8 @@
 
 namespace ksys::map {
 
+KSYS_VISIBILITY_HIDDEN u32 Rail::sHashBase;
+
 RailPoint::~RailPoint() = default;
 
 const MubinIter& RailPoint::getIter() const {
@@ -39,9 +41,13 @@ bool RailPoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
-Rail::Rail() = default;
+Rail::Rail() : mHashId(sHashBase) {}
 
 Rail::~Rail() {
+    const s32 count = mRailPoints.size();
+    for (s32 i = 0; i < count; ++i) {
+        delete mRailPoints[i];
+    }
     mRailPoints.freeBuffer();
 }
 
@@ -196,7 +202,7 @@ Rail* RailConnectablePoint::getJunctionRail() const {
     return mJunctionRail;
 }
 
-RailPoint* RailConnectablePoint::getJunctionPoint() const {
+RailPoint** RailConnectablePoint::getJunctionPoint() const {
     return mJunctionPoint;
 }
 
@@ -221,9 +227,8 @@ bool RailRoutePoint::parse(MubinIter* iter, sead::Heap* heap) {
 }
 
 RailRoute::RailRoute() {
-    mFlags.set(Flag::AutoPlacementEnabled);
-    mFlags.set(Flag::EnableHorseTrace);
-    mFlags.set(Flag::Walkable);
+    mFlags.reset(Flag(0x3c));
+    mFlags.set(Flag(0x38));
 }
 
 RailRoute::~RailRoute() = default;
@@ -253,47 +258,42 @@ const char* RailRoute::getCheckPointName(s32 idx) const {
 }
 
 bool RailRoute::parse(MubinIter* iter) {
-    int success = Rail::parse(iter);
+    bool success = Rail::parse(iter);
 
     bool result = false;
     if (iter->tryGetParamBoolByKey(&result, "RenderEnabled")) {
-        if (result) {
+        if (result)
             mFlags.set(Flag::RenderEnabled);
-        } else {
+        else
             mFlags.reset(Flag::RenderEnabled);
-        }
     }
 
     if (iter->tryGetParamBoolByKey(&result, "AutoPlacementEnabled")) {
-        if (result) {
+        if (result)
             mFlags.set(Flag::AutoPlacementEnabled);
-        } else {
+        else
             mFlags.reset(Flag::AutoPlacementEnabled);
-        }
     } else {
         success = false;
     }
 
     if (iter->tryGetParamBoolByKey(&result, "IsWalkable")) {
-        if (result) {
+        if (result)
             mFlags.set(Flag::Walkable);
-        } else {
+        else
             mFlags.reset(Flag::Walkable);
-        }
     } else {
         success = false;
     }
 
     if (iter->tryGetParamBoolByKey(&result, "IsEnableHorseTrace")) {
-        if (result) {
+        if (result)
             mFlags.set(Flag::EnableHorseTrace);
-        } else {
+        else
             mFlags.reset(Flag::EnableHorseTrace);
-        }
     }
 
-    success &= iter->tryGetParamStringByKey(&mRouteId, "RouteId");
-    return success;
+    return success & iter->tryGetParamStringByKey(&mRouteId, "RouteId");
 }
 
 }  // namespace ksys::map

@@ -32,9 +32,4 @@ bool CounterBase::isFlagSet() const {
     return mFlag;
 }
 
-bool Counter::doSetData_(const CounterBase::Data& data) {
-    mData = data.mData;
-    return true;
-}
-
 }  // namespace ksys::res

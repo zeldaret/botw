@@ -757,4 +757,9 @@ void ResourceMgrTask::setPack(Handle* pack) {
     res::stubbedLogFunction();
 }
 
+bool Counter::doSetData_(const CounterBase::Data& data) {
+    mData = data.mData;
+    return true;
+}
+
 }  // namespace ksys::res

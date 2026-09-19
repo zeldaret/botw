@@ -12,12 +12,9 @@ class RailPoint {
     friend class Rail;
 
 public:
-    RailPoint() {
-        mSRT.scale = sead::Vector3f::ones;
-        mSRT.rotate = sead::Vector3f::zero;
-        mSRT.translate = sead::Vector3f::zero;
-        mCtrlPoints[0] = sead::Vector3f::zero;
-        mCtrlPoints[1] = sead::Vector3f::zero;
+    RailPoint()
+        : mSRT{sead::Vector3f::ones, sead::Vector3f::zero, sead::Vector3f::zero},
+          mCtrlPoints{{sead::Vector3f::zero, sead::Vector3f::zero}} {
         mPrevDistance = 0.0;
         mNextDistance = 0.0;
     }
@@ -78,10 +75,10 @@ public:
     };
 
 protected:
-    static constexpr u32 sHashBase = 0;
+    KSYS_VISIBILITY_HIDDEN static u32 sHashBase;
 
     sead::TypedBitFlag<Flag> mFlags{};
-    u32 mHashId = sHashBase;
+    u32 mHashId;
     const char* mUniqueName{};
     sead::Buffer<RailPoint*> mRailPoints{};
     MubinIter mIter{};
@@ -137,18 +134,18 @@ public:
     bool parse(MubinIter* iter, sead::Heap* heap) override;
 
     Rail* getJunctionRail() const;
-    RailPoint* getJunctionPoint() const;
+    RailPoint** getJunctionPoint() const;
     void parseJunctions(Placement18 p18, s32 idx, u32 hash, sead::Heap* heap);
 
 protected:
     Rail* mJunctionRail;
-    RailPoint* mJunctionPoint;
+    RailPoint** mJunctionPoint;
 };
 
 class RailConnectable : public Rail {
 public:
-    RailConnectable();
-    ~RailConnectable() override;
+    RailConnectable() = default;
+    ~RailConnectable() override = default;
 
     s32 x_18() override { return 1; }
     s32 x_20() override { return 1; }
@@ -185,7 +182,7 @@ public:
     const char* getCheckPointName(s32 idx) const;
 
 protected:
-    const char* mRouteId;
+    const char* mRouteId{};
 };
 
 }  // namespace ksys::map
