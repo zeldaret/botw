@@ -141,7 +141,6 @@ ResourceUnit::Status ResourceUnit::getStatus() const {
     return mStatus;
 }
 
-
 void ResourceUnit::updateStatus() {
     switch (mStatus) {
     case Status::_2:
