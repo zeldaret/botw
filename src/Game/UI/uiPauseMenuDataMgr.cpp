@@ -2467,21 +2467,27 @@ int getCookItemOrder(const PouchItem* item, ksys::act::InfoData* data) {
     return order.size();
 }
 
-// NON_MATCHING: branching, but this is so trivial it isn't worth spending time on matching this
 const sead::SafeString* PauseMenuDataMgr::getEquippedItemName(PouchItemType type) const {
     const auto lock = sead::makeScopedLock(mCritSection);
     const auto& items = getItems();
 
+    const sead::SafeString* result = nullptr;
     if (!isPouchItemEquipment(type) || items.isEmpty())
-        return nullptr;
+        goto end;
 
-    auto* first = type <= PouchItemType::Shield ? items.nth(0) : getItemHead(PouchCategory::Armor);
-    for (auto* item = first; item; item = items.next(item)) {
-        if (item->isEquipped() && item->getType() == type)
-            return &item->getName();
+    {
+        auto* first =
+            type <= PouchItemType::Shield ? items.nth(0) : getItemHead(PouchCategory::Armor);
+        for (auto* item = first; item; item = items.next(item)) {
+            if (item->isEquipped() && item->getType() == type) {
+                result = &item->getName();
+                break;
+            }
+        }
     }
 
-    return nullptr;
+end:
+    return result;
 }
 
 const PouchItem* PauseMenuDataMgr::getEquippedItem(PouchItemType type) const {
