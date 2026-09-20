@@ -323,7 +323,8 @@ T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::R
         if (unit) {
 #ifdef MATCHING_HACK_NX_CLANG
             const auto& unit_path = unit->getPath();
-            auto* path = reinterpret_cast<sead::FixedSafeString<128>*>(reinterpret_cast<char*>(resource) - 0x98);
+            auto* path = reinterpret_cast<sead::FixedSafeString<128>*>(
+                reinterpret_cast<char*>(resource) - 0x98);
             path->copy(unit_path);
 #else
             static_cast<ParamIO*>(res)->getPath().copy(unit->getPath());

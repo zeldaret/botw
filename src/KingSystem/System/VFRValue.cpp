@@ -10,9 +10,7 @@ namespace ksys {
 namespace {
 
 struct InitInfo {
-    explicit InitInfo(sead::TickTime time = {}) : mInfo(time) {
-        mTag = 0x8004EF;
-    }
+    explicit InitInfo(sead::TickTime time = {}) : mInfo(time) { mTag = 0x8004EF; }
     u32 mTag;
     util::InitTimeInfo mInfo;
 };

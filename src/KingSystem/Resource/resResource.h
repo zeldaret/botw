@@ -25,7 +25,8 @@ public:
 #ifdef MATCHING_HACK_NX_CLANG
     __attribute__((always_inline))
 #endif
-    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
+    static bool
+    checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
         const sead::RuntimeTypeInfo::Interface* clsTypeInfo = Resource::getRuntimeTypeInfoStatic();
         if (typeInfo == clsTypeInfo)
             return true;
@@ -38,6 +39,7 @@ public:
     const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override {
         return getRuntimeTypeInfoStatic();
     }
+
 public:
     Resource();
     ~Resource() override;

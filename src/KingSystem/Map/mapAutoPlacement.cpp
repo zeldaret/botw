@@ -185,8 +185,10 @@ bool AutoPlacement::sub_7100650144(PlacementGroup* grp, bool check_exposure) {
 
 #ifdef MATCHING_HACK_NX_CLANG
 __asm__(
-    ".global _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE\n"
-    ".type _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE, %function\n"
+    ".global "
+    "_ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE\n"
+    ".type _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE, "
+    "%function\n"
     "_ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE:\n"
     "    sub     sp, sp, #0x50\n"
     "    stp     x24, x23, [sp, #0x10]\n"
@@ -235,7 +237,8 @@ __asm__(
     "    mov     x1, x20\n"
     "    mov     w2, w22\n"
     "    mov     x3, x19\n"
-    "    bl      _ZN4ksys3map13AutoPlacement14sub_710064E178ERKN4sead14SafeStringBaseIcEEjRKNS2_7Vector3IfEE\n"
+    "    bl      "
+    "_ZN4ksys3map13AutoPlacement14sub_710064E178ERKN4sead14SafeStringBaseIcEEjRKNS2_7Vector3IfEE\n"
     "    tbz     w0, #0x0, .L_sub_710064EF24_64f008\n"
     "    ldrb    w8, [x21, #0xa]\n"
     "    cmp     w8, #0xfd\n"
@@ -246,7 +249,8 @@ __asm__(
     "    ldr     x0, [x24]\n"
     "    mov     x1, x20\n"
     "    mov     x2, x19\n"
-    "    bl      _ZN4ksys3map16AutoPlacementMgr5auto2ERKN4sead14SafeStringBaseIcEERKNS2_7Vector3IfEE\n"
+    "    bl      "
+    "_ZN4ksys3map16AutoPlacementMgr5auto2ERKN4sead14SafeStringBaseIcEERKNS2_7Vector3IfEE\n"
     "    tbz     w0, #0x0, .L_sub_710064EF24_64f024\n"
     ".L_sub_710064EF24_64f008:\n"
     "    mov     w0, wzr\n"
@@ -260,12 +264,12 @@ __asm__(
     ".L_sub_710064EF24_64f024:\n"
     "    orr     w0, wzr, #0x1\n"
     "    b       .L_sub_710064EF24_64f00c\n"
-    ".size _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE, . - _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE\n"
+    ".size _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE, "
+    ". - _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE\n"
     ".section .rodata\n"
     ".L_sub_710064EF24_dragon:\n"
     "    .string \"Enemy_Dragon\"\n"
-    ".text\n"
-);
+    ".text\n");
 #else
 bool AutoPlacement::sub_710064EF24(ActorSpawnInfo* info, const sead::Vector3f& pos) {
     auto* mgr = AutoPlacementMgr::instance();

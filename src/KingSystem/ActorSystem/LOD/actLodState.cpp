@@ -310,38 +310,36 @@ LodState::~LodState() {
 // NON_MATCHING: ????? reordering
 void LodState::initFlags() {
 #ifdef MATCHING_HACK_NX_CLANG
-    asm volatile(
-        "orr     w11, wzr, #0x3f800000\n"
-        "str     w11, [%0, #0x28]\n"
-        "ldrh    w11, [%0, #0x26]\n"
-        "mov     w8, #0xfffd\n"
-        "and     w8, w11, w8\n"
-        "mov     x11, #-0x3c0001\n"
-        "strh    w8, [%0, #0x26]\n"
-        "ldr     w8, [%0, #0x14]\n"
-        "ldr     x9, [%0, #0x8]\n"
-        "mov     x10, #-0x303c0001\n"
-        "movk    x10, #0x60bf\n"
-        "tst     x9, #0x20000000\n"
-        "movk    x11, #0x60bf\n"
-        "orr     w8, w8, #0x2000000\n"
-        "str     w8, [%0, #0x14]\n"
-        "mov     x8, #-0x103c0001\n"
-        "movk    x8, #0x60bf\n"
-        "orr     x8, x9, x8\n"
-        "and     w9, w9, #0x10000000\n"
-        "orr     x9, x9, x10\n"
-        "orr     w10, wzr, #0xffff\n"
-        "csel    x8, x8, x9, ne\n"
-        "and     x8, x8, x11\n"
-        "str     x8, [%0, #0x8]\n"
-        "orr     w8, wzr, #0xfffffffd\n"
-        "str     wzr, [%0, #0x40]\n"
-        "stp     w10, w8, [%0, #0x60]\n"
-        :
-        : "r"(this)
-        : "x8", "x9", "x10", "x11", "memory"
-    );
+    asm volatile("orr     w11, wzr, #0x3f800000\n"
+                 "str     w11, [%0, #0x28]\n"
+                 "ldrh    w11, [%0, #0x26]\n"
+                 "mov     w8, #0xfffd\n"
+                 "and     w8, w11, w8\n"
+                 "mov     x11, #-0x3c0001\n"
+                 "strh    w8, [%0, #0x26]\n"
+                 "ldr     w8, [%0, #0x14]\n"
+                 "ldr     x9, [%0, #0x8]\n"
+                 "mov     x10, #-0x303c0001\n"
+                 "movk    x10, #0x60bf\n"
+                 "tst     x9, #0x20000000\n"
+                 "movk    x11, #0x60bf\n"
+                 "orr     w8, w8, #0x2000000\n"
+                 "str     w8, [%0, #0x14]\n"
+                 "mov     x8, #-0x103c0001\n"
+                 "movk    x8, #0x60bf\n"
+                 "orr     x8, x9, x8\n"
+                 "and     w9, w9, #0x10000000\n"
+                 "orr     x9, x9, x10\n"
+                 "orr     w10, wzr, #0xffff\n"
+                 "csel    x8, x8, x9, ne\n"
+                 "and     x8, x8, x11\n"
+                 "str     x8, [%0, #0x8]\n"
+                 "orr     w8, wzr, #0xfffffffd\n"
+                 "str     wzr, [%0, #0x40]\n"
+                 "stp     w10, w8, [%0, #0x60]\n"
+                 :
+                 : "r"(this)
+                 : "x8", "x9", "x10", "x11", "memory");
 #else
     _28 = 1.0f;
     mFlags26.reset(2);

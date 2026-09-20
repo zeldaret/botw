@@ -16,8 +16,10 @@ public:
         static const sead::RuntimeTypeInfo::Derive<sead::DirectResourceFactoryBase> typeInfo;
         return &typeInfo;
     }
-    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) __attribute__((noinline));
-    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override {
+    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo)
+        __attribute__((noinline));
+    bool
+    checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override {
         return checkDerivedRuntimeTypeInfoStatic(typeInfo);
     }
     const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override {
@@ -51,14 +53,18 @@ public:
         static const sead::RuntimeTypeInfo::Derive<EntryFactoryBase> typeInfo;
         return &typeInfo;
     }
-    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
-        const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactory<T>::getRuntimeTypeInfoStatic();
+    static bool
+    checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        const sead::RuntimeTypeInfo::Interface* clsTypeInfo =
+            EntryFactory<T>::getRuntimeTypeInfoStatic();
         if (typeInfo == clsTypeInfo)
             return true;
         return EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(typeInfo);
     }
-    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override {
-        const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactory<T>::getRuntimeTypeInfoStatic();
+    bool
+    checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override {
+        const sead::RuntimeTypeInfo::Interface* clsTypeInfo =
+            EntryFactory<T>::getRuntimeTypeInfoStatic();
         if (typeInfo == clsTypeInfo)
             return true;
         return EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(typeInfo);

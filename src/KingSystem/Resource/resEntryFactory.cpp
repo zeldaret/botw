@@ -14,8 +14,10 @@ u32 EntryFactoryBase::getLoadDataAlignment() const {
 }
 
 #ifdef MATCHING_HACK_NX_CLANG
-bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
-    const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactoryBase::getRuntimeTypeInfoStatic();
+bool EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(
+    const sead::RuntimeTypeInfo::Interface* typeInfo) {
+    const sead::RuntimeTypeInfo::Interface* clsTypeInfo =
+        EntryFactoryBase::getRuntimeTypeInfoStatic();
     if (typeInfo == clsTypeInfo)
         return true;
     return sead::DirectResourceFactoryBase::checkDerivedRuntimeTypeInfoStatic(typeInfo);

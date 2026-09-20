@@ -16,8 +16,7 @@ public:
 #ifdef MATCHING_HACK_NX_CLANG
         ActorCaptureConstants() {
             register const sead::Vector3f* zero_ptr asm("x8") = &sead::Vector3f::zero;
-            asm(
-                "orr     x10, xzr, #0x4000000000000000\n"
+            asm("orr     x10, xzr, #0x4000000000000000\n"
                 "mov     w11, #0x40a00000\n"
                 "stp     x10, x11, [%0]\n"
                 "ldr     w10, [%1, #0x8]\n"
@@ -36,18 +35,15 @@ public:
                 "stp     x10, x8, [%0, #0x10]\n"
                 "mov     w8, #-0x412c0000\n"
                 "movk    w8, #0xcd10\n"
-                "str     w8, [%0, #0x20]\n"
-                :: "r"(this), "r"(zero_ptr)
-                : "x8", "x10", "x11", "memory"
-            );
+                "str     w8, [%0, #0x20]\n" ::"r"(this),
+                "r"(zero_ptr)
+                : "x8", "x10", "x11", "memory");
         }
 #else
         ActorCaptureConstants()
-            : camera_position{0.0, 2.0, 5.0},
-              camera_direction{0.0, 2.0, 0.0},
+            : camera_position{0.0, 2.0, 5.0}, camera_direction{0.0, 2.0, 0.0},
               light_direction{0.5720610022544861, -0.7071070075035095, -0.41562700271606445},
-              actor_position(sead::Vector3f::zero),
-              actor_rotation(sead::Vector3f::zero) {}
+              actor_position(sead::Vector3f::zero), actor_rotation(sead::Vector3f::zero) {}
 #endif
         sead::Vector3f camera_position;
         sead::Vector3f camera_direction;

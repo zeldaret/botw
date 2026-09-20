@@ -124,8 +124,10 @@ bool shouldSkipSpawnWhenRaining(map::Object* obj) {
                 u64 xy;
                 u32 z;
             } pos;
-            const u64 xy = *reinterpret_cast<const u64*>(reinterpret_cast<const char*>(&obj->getTranslate()));
-            const u32 z = *reinterpret_cast<const u32*>(reinterpret_cast<const char*>(&obj->getTranslate()) + 8);
+            const u64 xy =
+                *reinterpret_cast<const u64*>(reinterpret_cast<const char*>(&obj->getTranslate()));
+            const u32 z = *reinterpret_cast<const u32*>(
+                reinterpret_cast<const char*>(&obj->getTranslate()) + 8);
             pos.xy = xy;
             pos.z = z;
             return !mgr->isRaining(*reinterpret_cast<const sead::Vector3f*>(&pos));
