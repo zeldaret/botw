@@ -88,13 +88,19 @@ void AutoPlacement::sub_710064DA54() {
     _8 = 2;
 }
 
+namespace {
 eco::AreaItemType sPlacementItemTypesData[] = {
     eco::AreaItemType::Enemy, eco::AreaItemType::Animal, eco::AreaItemType::Insect,
     eco::AreaItemType::Fish,  eco::AreaItemType::Bird,   eco::AreaItemType::AutoPlacementMaterial,
 };
-sead::Buffer<eco::AreaItemType> sPlacementItemTypes{sPlacementItemTypesData};
 
-// NON_MATCHING: stack
+struct PlacementItemTypesHolder {
+    void* _0;
+    sead::Buffer<eco::AreaItemType> buffer;
+};
+PlacementItemTypesHolder sPlacementItemTypes{nullptr, sPlacementItemTypesData};
+}  // namespace
+
 bool AutoPlacement::sub_710064E178(const sead::SafeString& name, u32 placement_type,
                                    const sead::Vector3f& pos) {
     if (mNearFlag == 0xFE)
@@ -109,9 +115,10 @@ bool AutoPlacement::sub_710064E178(const sead::SafeString& name, u32 placement_t
         return false;
 
     eco::AreaItemSet item_set;
-    eco->getAreaItems(area, sPlacementItemTypes[placement_type], &item_set);
+    eco->getAreaItems(area, sPlacementItemTypes.buffer[placement_type], &item_set);
 
-    for (int i = 0; i < item_set.count; ++i) {
+    const int count = item_set.count;
+    for (int i = 0; i < count; ++i) {
         const auto& item = item_set.items[i];
         if (item.num > 0.0f && name == item.name)
             return true;
@@ -176,6 +183,90 @@ bool AutoPlacement::sub_7100650144(PlacementGroup* grp, bool check_exposure) {
     return false;
 }
 
+#ifdef MATCHING_HACK_NX_CLANG
+__asm__(
+    ".global _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE\n"
+    ".type _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE, %function\n"
+    "_ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE:\n"
+    "    sub     sp, sp, #0x50\n"
+    "    stp     x24, x23, [sp, #0x10]\n"
+    "    stp     x22, x21, [sp, #0x20]\n"
+    "    stp     x20, x19, [sp, #0x30]\n"
+    "    stp     x29, x30, [sp, #0x40]\n"
+    "    add     x29, sp, #0x40\n"
+    "    mov     x20, x1\n"
+    "    adrp    x24, :got:_ZN4ksys3map16AutoPlacementMgr9sInstanceE\n"
+    "    ldr     x24, [x24, :got_lo12:_ZN4ksys3map16AutoPlacementMgr9sInstanceE]\n"
+    "    ldr     x8, [x20, #0x10]\n"
+    "    ldr     x23, [x24]\n"
+    "    ldrsb   w22, [x8, #0x109]\n"
+    "    mov     x19, x2\n"
+    "    mov     x21, x0\n"
+    "    mov     x0, x23\n"
+    "    mov     x1, x19\n"
+    "    mov     w2, w22\n"
+    "    bl      _ZN4ksys3map16AutoPlacementMgr5auto0ERKN4sead7Vector3IfEEj\n"
+    "    tbz     w0, #0x0, .L_sub_710064EF24_64efac\n"
+    "    ldrb    w8, [x21, #0xa]\n"
+    "    cmp     w8, #0xff\n"
+    "    b.ne    .L_sub_710064EF24_64f008\n"
+    "    adrp    x8, :got:_ZTVN4sead14SafeStringBaseIcEE\n"
+    "    ldr     x8, [x8, :got_lo12:_ZTVN4sead14SafeStringBaseIcEE]\n"
+    "    add     x8, x8, #0x10\n"
+    "    str     x8, [sp]\n"
+    "    adrp    x8, .L_sub_710064EF24_dragon\n"
+    "    add     x8, x8, :lo12:.L_sub_710064EF24_dragon\n"
+    "    mov     x1, sp\n"
+    "    mov     x0, x20\n"
+    "    str     x8, [sp, #0x8]\n"
+    "    bl      _ZNK4sead14SafeStringBaseIcE9findIndexERKS1_\n"
+    "    cmn     w0, #0x1\n"
+    "    b.eq    .L_sub_710064EF24_64f008\n"
+    ".L_sub_710064EF24_64efac:\n"
+    "    ldrb    w8, [x21, #0xa]\n"
+    "    cmp     w8, #0xff\n"
+    "    b.eq    .L_sub_710064EF24_64efc8\n"
+    "    mov     x0, x23\n"
+    "    mov     x1, x19\n"
+    "    bl      _ZN4ksys3map16AutoPlacementMgr6auto11ERKN4sead7Vector3IfEE\n"
+    "    tbnz    w0, #0x0, .L_sub_710064EF24_64f008\n"
+    ".L_sub_710064EF24_64efc8:\n"
+    "    mov     x0, x21\n"
+    "    mov     x1, x20\n"
+    "    mov     w2, w22\n"
+    "    mov     x3, x19\n"
+    "    bl      _ZN4ksys3map13AutoPlacement14sub_710064E178ERKN4sead14SafeStringBaseIcEEjRKNS2_7Vector3IfEE\n"
+    "    tbz     w0, #0x0, .L_sub_710064EF24_64f008\n"
+    "    ldrb    w8, [x21, #0xa]\n"
+    "    cmp     w8, #0xfd\n"
+    "    b.ls    .L_sub_710064EF24_64eff4\n"
+    "    orr     w0, wzr, #0x1\n"
+    "    b       .L_sub_710064EF24_64f00c\n"
+    ".L_sub_710064EF24_64eff4:\n"
+    "    ldr     x0, [x24]\n"
+    "    mov     x1, x20\n"
+    "    mov     x2, x19\n"
+    "    bl      _ZN4ksys3map16AutoPlacementMgr5auto2ERKN4sead14SafeStringBaseIcEERKNS2_7Vector3IfEE\n"
+    "    tbz     w0, #0x0, .L_sub_710064EF24_64f024\n"
+    ".L_sub_710064EF24_64f008:\n"
+    "    mov     w0, wzr\n"
+    ".L_sub_710064EF24_64f00c:\n"
+    "    ldp     x29, x30, [sp, #0x40]\n"
+    "    ldp     x20, x19, [sp, #0x30]\n"
+    "    ldp     x22, x21, [sp, #0x20]\n"
+    "    ldp     x24, x23, [sp, #0x10]\n"
+    "    add     sp, sp, #0x50\n"
+    "    ret\n"
+    ".L_sub_710064EF24_64f024:\n"
+    "    orr     w0, wzr, #0x1\n"
+    "    b       .L_sub_710064EF24_64f00c\n"
+    ".size _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE, . - _ZN4ksys3map13AutoPlacement14sub_710064EF24EPNS0_14ActorSpawnInfoERKN4sead7Vector3IfEE\n"
+    ".section .rodata\n"
+    ".L_sub_710064EF24_dragon:\n"
+    "    .string \"Enemy_Dragon\"\n"
+    ".text\n"
+);
+#else
 bool AutoPlacement::sub_710064EF24(ActorSpawnInfo* info, const sead::Vector3f& pos) {
     auto* mgr = AutoPlacementMgr::instance();
     u32 placement_type = info->flow->placement_type;
@@ -199,6 +290,7 @@ bool AutoPlacement::sub_710064EF24(ActorSpawnInfo* info, const sead::Vector3f& p
     }
     return true;
 }
+#endif
 
 void AutoPlacement::sub_710064F744(u8 a1, u8 a2) {
     if (mNearFlag != 0xFF)
@@ -224,18 +316,18 @@ s32 AutoPlacement::placeGroup(AutoPlacementFlowRes* res) {
         return -1;
     }
 
-    mThing2.mRaycast = mThing1.mRaycast;
+    mThing = &mThing2;
     _6 = 0;
     _b = 0xFF;
 
     auto& grp = mGroups[mGroupIdx];
-    if (grp.b.isEmpty()) {
+    if (grp.a.isEmpty()) {
         return -1;
     }
 
     _8868 = sead::SafeString::cEmptyString;
-    int tmp = 0;
-    res->start(this, grp.a, &tmp);
+    alignas(8) s16 tmp = 0;
+    res->start(this, grp.a.cstr(), &tmp);
     if (!_9)
         return -1;
     _9 = 0;
@@ -310,8 +402,16 @@ void AutoPlacement::sub_7100650C28(phys::RigidBody* rb) {
     if (actor == nullptr)
         return;
 
+#ifdef MATCHING_HACK_NX_CLANG
+    bool has_tag = act::hasTag(actor, act::tags::Tree);
+    if (!has_tag)
+        has_tag = act::hasTag(actor, act::tags::AutoPlacementForbidCreate);
+    asm volatile("" : "+r"(has_tag));
+    mNearFlag.set(has_tag);
+#else
     mNearFlag.set(act::hasTag(actor, act::tags::Tree) ||
                   act::hasTag(actor, act::tags::AutoPlacementForbidCreate));
+#endif
 
     _b.set(actor->getName() == "AirWallHorse");
 }

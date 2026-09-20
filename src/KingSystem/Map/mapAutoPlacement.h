@@ -171,7 +171,7 @@ private:
     PlacementThing mThing1{false};
     PlacementThing mThing2{false};
     PlacementThing mThing3{true};
-    void* mX;
+    PlacementThing* mThing;
     sead::Buffer<ObjectRef> mObjectRefs;
 };
 

@@ -11,7 +11,7 @@ namespace ksys::map {
 class AutoPlacement;
 
 struct AutoPlacementFlowRes {
-    void start(AutoPlacement* placement, const sead::SafeString& unit_name, int*);
+    void start(AutoPlacement* placement, const char* unit_name, s16*);
 
     res::Handle handle;
     sead::SafeString evfl_name;
