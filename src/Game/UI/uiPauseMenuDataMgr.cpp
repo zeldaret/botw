@@ -1919,7 +1919,6 @@ PouchCategory PauseMenuDataMgr::getCategoryForType(PouchItemType type) const {
     }
 }
 
-// NON_MATCHING: two harmless reorderings
 void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect_type,
                                         bool check_effect) {
     auto* info = ksys::act::InfoData::instance();
@@ -1953,8 +1952,19 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
         const auto stam = f32(item->getCookData().mEffectDuration) * 30.0f;
         if (stam < min_stam) {
             min_hp = item->getCookData().mHealthRecover;
+#ifdef MATCHING_HACK_NX_CLANG
+            if (check_effect) {
+                min_stam = stam;
+                to_remove = item;
+            } else {
+                asm volatile("mov %0, %2\nmov %1.16b, v0.16b"
+                             : "=r"(to_remove), "=w"(min_stam)
+                             : "r"(item));
+            }
+#else
             min_stam = stam;
             to_remove = item;
+#endif
             min_level = item->getCookData().getEffectLevel();
         } else if (stam == min_stam) {
             const auto hp = item->getCookData().mHealthRecover;
@@ -1964,8 +1974,14 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
                 min_level = item->getCookData().getEffectLevel();
             } else if (check_effect && hp == min_hp &&
                        item->getCookData().getEffectLevel() < min_level) {
-                min_level = item->getCookData().getEffectLevel();
+#ifdef MATCHING_HACK_NX_CLANG
+                asm volatile("mov %0, %2\nmov %1.16b, v0.16b"
+                             : "=r"(to_remove), "=w"(min_level)
+                             : "r"(item));
+#else
                 to_remove = item;
+                min_level = item->getCookData().getEffectLevel();
+#endif
             }
         }
     }
