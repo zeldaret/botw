@@ -88,34 +88,14 @@ MapLinkDefType ObjectLink::getTypeForName(const sead::SafeString& name) {
 }
 
 bool ObjectLink::sub_7100D4E310(MapLinkDefType t) {
-    switch (t) {
-    case MapLinkDefType::Create:
-    case MapLinkDefType::Delete:
-    case MapLinkDefType::MtxCopyCreate:
-    case MapLinkDefType::Freeze:
-    case MapLinkDefType::ForbidAttention:
+    int val = int(t) - 15;
+    if (int(t) < 15)
         return true;
-    default:
-        break;
-    case MapLinkDefType::BasicSig:
-    case MapLinkDefType::AxisX:
-    case MapLinkDefType::AxisY:
-    case MapLinkDefType::AxisZ:
-    case MapLinkDefType::NAxisX:
-    case MapLinkDefType::NAxisY:
-    case MapLinkDefType::NAxisZ:
-    case MapLinkDefType::GimmickSuccess:
-    case MapLinkDefType::VelocityControl:
-    case MapLinkDefType::BasicSigOnOnly:
-    case MapLinkDefType::Remains:
-    case MapLinkDefType::DeadUp:
-    case MapLinkDefType::LifeZero:
-    case MapLinkDefType::Stable:
-    case MapLinkDefType::ChangeAtnSig:
-        return true;
-    }
 
-    return false;
+#ifdef MATCHING_HACK_NX_CLANG
+    asm("");
+#endif
+    return u32(val) < 5;
 }
 
 bool ObjectLink::isPlacementLODOrForSaleLink(MapLinkDefType t) {
@@ -140,7 +120,7 @@ ObjectLinkData::ObjectLinkData() = default;
 
 void ObjectLinkData::deleteArrays() {
     if (mRails) {
-        delete[] mRails;
+        ::operator delete[](mRails);
         mRails = nullptr;
     }
 

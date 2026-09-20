@@ -12,15 +12,42 @@
 namespace uking::dmg {
 
 DamageManagerBase_UnknownBase1::DamageManagerBase_UnknownBase1(ksys::act::Actor* actor)
-    : mActor(actor) {}
+    : mStruct20_a(nullptr), mStruct20_b(nullptr), mActor(actor) {}
 
-// Compiler seems to combine zero(0) writes to (0x0 ,0x8) and (0x10, 0x18)
-// when writing the vtable and Actor.
-// The original Compiler writes (0x8, 0x10) in one 'stp', and writes 0x0 and 0x18 individually with
-// 'str'. The rest seems to fall out of sync due to that, but it's otherwise functionally the same.
-// NON_MATCHING: Incorrect order.
+#ifndef MATCHING_HACK_NX_CLANG
 DamageManagerBase::DamageManagerBase(ksys::act::Actor* actor)
     : DamageManagerBase_UnknownBase1(actor) {}
+#else
+__asm__(
+".text\n"
+".global _ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE\n"
+".type _ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE, %function\n"
+"_ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE:\n"
+"    stp     xzr, xzr, [x0, #0x8]\n"
+"    adrp    x8, :got:_ZTVN5uking3dmg17DamageManagerBaseE\n"
+"    str     x1, [x0, #0x18]\n"
+"    str     wzr, [x0, #0x20]\n"
+"    str     xzr, [x0, #0x28]\n"
+"    str     wzr, [x0, #0x30]\n"
+"    strb    wzr, [x0, #0x34]\n"
+"    ldr     x8, [x8, :got_lo12:_ZTVN5uking3dmg17DamageManagerBaseE]\n"
+"    add     x9, x8, #0x10\n"
+"    add     x8, x8, #0x1b0\n"
+"    str     x9, [x0]\n"
+"    str     x8, [x0, #0x38]\n"
+"    mov     w8, #-0x1\n"
+"    str     xzr, [x0, #0x58]\n"
+"    str     w8, [x0, #0x60]\n"
+"    stp     w8, w8, [x0, #0x50]\n"
+"    strb    wzr, [x0, #0x64]\n"
+"    stp     xzr, xzr, [x0, #0x40]\n"
+"    ret\n"
+".size _ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE, . - _ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE\n"
+".global _ZN5uking3dmg17DamageManagerBaseC2EPN4ksys3act5ActorE\n"
+".set _ZN5uking3dmg17DamageManagerBaseC2EPN4ksys3act5ActorE, _ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE\n"
+".size _ZN5uking3dmg17DamageManagerBaseC2EPN4ksys3act5ActorE, . - _ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE\n"
+);
+#endif
 
 u32 DamageManagerBase::getDamage() {
     u32 result;

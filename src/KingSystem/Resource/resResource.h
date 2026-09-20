@@ -16,7 +16,28 @@ public:
 };
 
 class Resource : public sead::DirectResource, public IResource {
-    SEAD_RTTI_OVERRIDE(Resource, sead::DirectResource)
+public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<sead::DirectResource> typeInfo;
+        return &typeInfo;
+    }
+
+#ifdef MATCHING_HACK_NX_CLANG
+    __attribute__((always_inline))
+#endif
+    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        const sead::RuntimeTypeInfo::Interface* clsTypeInfo = Resource::getRuntimeTypeInfoStatic();
+        if (typeInfo == clsTypeInfo)
+            return true;
+
+        return sead::DirectResource::checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+
+    SEAD_RTTI_CHECKDERIVEDRUNTIMETYPEINFO_OVERRIDE(Resource)
+
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override {
+        return getRuntimeTypeInfoStatic();
+    }
 public:
     Resource();
     ~Resource() override;

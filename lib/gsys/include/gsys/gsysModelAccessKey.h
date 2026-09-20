@@ -30,7 +30,11 @@ protected:
 };
 
 struct BoneAccessKey {
-    BoneAccessKey() { reset(); }
+#ifdef MATCHING_HACK_NX_CLANG
+    BoneAccessKey() {}
+#else
+    BoneAccessKey() = default;
+#endif
 
     void reset() {
         model_unit_index = -1;
@@ -48,8 +52,13 @@ struct BoneAccessKey {
         return !operator==(lhs, rhs);
     }
 
-    s16 model_unit_index{};
-    s16 bone_index{};
+#ifdef MATCHING_HACK_NX_CLANG
+    s16 model_unit_index;
+    s16 bone_index;
+#else
+    s16 model_unit_index = -1;
+    s16 bone_index = -1;
+#endif
 };
 
 class BoneAccessKeyEx : public IModelAccesssHandle {

@@ -10,7 +10,22 @@
 namespace ksys::res {
 
 class EntryFactoryBase : public sead::DirectResourceFactoryBase {
+#ifdef MATCHING_HACK_NX_CLANG
+public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<sead::DirectResourceFactoryBase> typeInfo;
+        return &typeInfo;
+    }
+    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) __attribute__((noinline));
+    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override {
+        return checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override {
+        return getRuntimeTypeInfoStatic();
+    }
+#else
     SEAD_RTTI_OVERRIDE(EntryFactoryBase, sead::DirectResourceFactoryBase)
+#endif
 public:
     explicit EntryFactoryBase(f32 size_multiplier = 1.0, u32 size_constant = 0)
         : mSizeMultiplier(size_multiplier), mSizeConstant(size_constant) {}
@@ -30,7 +45,30 @@ KSYS_CHECK_SIZE_NX150(EntryFactoryBase, 0x80);
 
 template <typename T>
 class EntryFactory : public EntryFactoryBase {
+#ifdef MATCHING_HACK_NX_CLANG
+public:
+    static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
+        static const sead::RuntimeTypeInfo::Derive<EntryFactoryBase> typeInfo;
+        return &typeInfo;
+    }
+    static bool checkDerivedRuntimeTypeInfoStatic(const sead::RuntimeTypeInfo::Interface* typeInfo) {
+        const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactory<T>::getRuntimeTypeInfoStatic();
+        if (typeInfo == clsTypeInfo)
+            return true;
+        return EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* typeInfo) const override {
+        const sead::RuntimeTypeInfo::Interface* clsTypeInfo = EntryFactory<T>::getRuntimeTypeInfoStatic();
+        if (typeInfo == clsTypeInfo)
+            return true;
+        return EntryFactoryBase::checkDerivedRuntimeTypeInfoStatic(typeInfo);
+    }
+    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override {
+        return getRuntimeTypeInfoStatic();
+    }
+#else
     SEAD_RTTI_OVERRIDE(EntryFactory<T>, EntryFactoryBase)
+#endif
 public:
     explicit EntryFactory(f32 size_multiplier = 1.0, u32 size_constant = 0)
         : EntryFactoryBase(size_multiplier, size_constant) {}

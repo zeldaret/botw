@@ -46,8 +46,11 @@ void StaticCompoundMgr::resetExtraTransformsAndApply() {
         mStaticCompounds[i]->resetExtraTransformsAndApply();
 }
 
-// NON_MATCHING: should be a tail call but somehow isn't
-StaticCompoundRigidBodyGroup* StaticCompoundMgr::getBodyGroup(int group_index) const {
+#ifdef MATCHING_HACK_NX_CLANG
+__attribute__((disable_tail_calls))
+#endif
+StaticCompoundRigidBodyGroup*
+StaticCompoundMgr::getBodyGroup(int group_index) const {
     if (mStaticCompounds.size() < 1)
         return nullptr;
 

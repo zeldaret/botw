@@ -138,6 +138,10 @@ inline bool AIProgram::getSInstParam_(const T** value, const AIProgram::Definiti
         return false;
     }
     *value = param->ptrT<T>();
+#ifdef MATCHING_HACK_NX_CLANG
+    if (!std::is_same<T, bool>::value)
+        asm volatile("");
+#endif
     return true;
 }
 

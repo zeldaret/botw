@@ -40,11 +40,21 @@ void Task::finalize_() {
         return;
 
     removeFromQueue();
+#ifdef MATCHING_HACK_NX_CLANG
+    register TaskPostRunCallback** callbacks asm("x20") = &mPostRunCallback;
+    asm("" : "+r"(callbacks));
+#endif
     deleteDelegate_();
     mUserData = nullptr;
     mQueue = nullptr;
+#ifdef MATCHING_HACK_NX_CLANG
+    auto** cb = reinterpret_cast<void**>(callbacks);
+    cb[0] = nullptr;
+    cb[1] = nullptr;
+#else
     mPostRunCallback = nullptr;
     mRemoveCallback = nullptr;
+#endif
     mStatus = Status::Finalized;
 }
 

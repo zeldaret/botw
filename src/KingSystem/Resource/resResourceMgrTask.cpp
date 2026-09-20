@@ -226,7 +226,10 @@ void ResourceMgrTask::controlField9c0d88(bool off) {
         _9c0d88.increment();
     }
 
-    mFlags.change(Flag::_400, _9c0d88 <= 0);
+    if (_9c0d88 > 0)
+        mFlags.reset(Flag::_400);
+    else
+        mFlags.set(Flag::_400);
 }
 
 void ResourceMgrTask::setFlag2000Or5000(s32 type) {

@@ -80,7 +80,40 @@ RayCast::RayCast(SystemGroupHandler* group_handler, GroundHit ground_hit)
 
 RayCast::~RayCast() = default;
 
-// NON_MATCHING: reorderings
+#ifdef MATCHING_HACK_NX_CLANG
+void RayCast::reset() {
+    register RayCast* r asm("x0") = this;
+    register const sead::Vector3f* zero_ptr asm("x8") = &sead::Vector3f::zero;
+    asm volatile(
+        "ldr     w10, [%1]\n"
+        "str     w10, [%0, #0x14]\n"
+        "ldr     w11, [%1, #0x4]\n"
+        "str     w11, [%0, #0x18]\n"
+        "ldr     w12, [%1, #0x8]\n"
+        "stp     w10, w11, [%0, #0x8]\n"
+        "str     xzr, [%0, #0x68]\n"
+        "str     wzr, [%0, #0xa0]\n"
+        "str     w12, [%0, #0x1c]\n"
+        "str     w12, [%0, #0x10]\n"
+        "ldrb    wzr, [%0, #0x98]\n"
+        "strb    wzr, [%0, #0x30]\n"
+        "ldr     w10, [%1]\n"
+        "str     w10, [%0, #0x34]\n"
+        "ldr     w10, [%1, #0x4]\n"
+        "str     w10, [%0, #0x38]\n"
+        "ldr     w8, [%1, #0x8]\n"
+        "mov     w9, #-0x40800000\n"
+        "str     xzr, [%0, #0x48]\n"
+        "str     wzr, [%0, #0x50]\n"
+        "strb    wzr, [%0, #0x54]\n"
+        "stp     w8, w9, [%0, #0x3c]\n"
+        "stp     xzr, xzr, [%0, #0x58]\n"
+        "str     wzr, [%0, #0x70]\n"
+        :: "r"(r), "r"(zero_ptr)
+        : "x8", "x9", "x10", "x11", "x12", "memory"
+    );
+}
+#else
 void RayCast::reset() {
     mTo = sead::Vector3f::zero;
     mFrom = sead::Vector3f::zero;
@@ -89,6 +122,7 @@ void RayCast::reset() {
 
     resetCastResult();
 }
+#endif
 
 void RayCast::resetCastResult() {
     static_cast<void>(_98.load());

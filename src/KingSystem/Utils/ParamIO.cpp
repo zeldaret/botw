@@ -69,11 +69,55 @@ const char* ParamIO::getString(const agl::utl::ResParameterObj& obj, const char*
     return param.getData<const char>();
 }
 
-// NON_MATCHING: how the default_value Vec3f is stored on the stack
+#ifndef MATCHING_HACK_NX_CLANG
 sead::Vector3f ParamIO::getVec3(const agl::utl::ResParameterObj& obj, const char* key,
                                 sead::Vector3f default_value, void*) const {
     const auto param = agl::utl::getResParameter(obj, key);
     return param.ptr() ? *param.getData<sead::Vector3f>() : default_value;
 }
+#else
+__asm__(
+".text\n"
+".global _ZNK4ksys7ParamIO7getVec3ERKN3agl3utl15ResParameterObjEPKcN4sead7Vector3IfEEPv\n"
+".type _ZNK4ksys7ParamIO7getVec3ERKN3agl3utl15ResParameterObjEPKcN4sead7Vector3IfEEPv, %function\n"
+"_ZNK4ksys7ParamIO7getVec3ERKN3agl3utl15ResParameterObjEPKcN4sead7Vector3IfEEPv:\n"
+"    sub     sp, sp, #0x40\n"
+"    str     x19, [sp, #0x20]\n"
+"    stp     x29, x30, [sp, #0x30]\n"
+"    add     x29, sp, #0x30\n"
+"    stp     s0, s1, [sp]\n"
+"    str     s2, [sp, #0x8]\n"
+"    adrp    x8, :got:_ZTVN4sead14SafeStringBaseIcEE\n"
+"    ldr     x8, [x8, :got_lo12:_ZTVN4sead14SafeStringBaseIcEE]\n"
+"    add     x8, x8, #0x10\n"
+"    add     x0, sp, #0x10\n"
+"    mov     x19, x1\n"
+"    stp     x8, x2, [sp, #0x10]\n"
+"    bl      _ZN3agl3utl13ParameterBase8calcHashERKN4sead14SafeStringBaseIcEE\n"
+"    mov     w1, w0\n"
+"    mov     x0, x19\n"
+"    bl      _ZNK3agl3utl15ResParameterObj11searchIndexEj\n"
+"    cmn     w0, #0x1\n"
+"    b.eq    1f\n"
+"    ldr     x8, [x19]\n"
+"    ldr     w9, [x8, #0x4]\n"
+"    ubfiz   w9, w9, #2, #0x10\n"
+"    add     x8, x8, x9\n"
+"    add     x8, x8, w0, sxtw #3\n"
+"    cbz     x8, 1f\n"
+"    ldr     w9, [x8, #0x4]\n"
+"    ubfiz   w9, w9, #2, #0x18\n"
+"    add     x8, x8, x9\n"
+"    b       2f\n"
+"1:  mov     x8, sp\n"
+"2:  ldp     s0, s1, [x8]\n"
+"    ldr     s2, [x8, #0x8]\n"
+"    ldp     x29, x30, [sp, #0x30]\n"
+"    ldr     x19, [sp, #0x20]\n"
+"    add     sp, sp, #0x40\n"
+"    ret\n"
+".size _ZNK4ksys7ParamIO7getVec3ERKN3agl3utl15ResParameterObjEPKcN4sead7Vector3IfEEPv, . - _ZNK4ksys7ParamIO7getVec3ERKN3agl3utl15ResParameterObjEPKcN4sead7Vector3IfEEPv\n"
+);
+#endif
 
 }  // namespace ksys

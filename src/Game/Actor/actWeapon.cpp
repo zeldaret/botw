@@ -20,11 +20,14 @@ WeaponModifierInfo::WeaponModifierInfo(const ui::PouchItem& item) {
 
 void WeaponModifierInfo::fromItem(const ui::PouchItem& item) {
     if (item.getType() <= ui::PouchItemType::Shield) {
+#ifdef MATCHING_HACK_NX_CLANG
+        asm("");
+#endif
         set(item.getWeaponData().mModifier, item.getWeaponData().mModifierValue);
-    } else {
-        flags.setDirect(0);
-        value = 0;
+        return;
     }
+    flags.setDirect(0);
+    value = 0;
 }
 
 int WeaponModifierInfo::getAddLife() const {

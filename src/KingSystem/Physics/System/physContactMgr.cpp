@@ -214,9 +214,10 @@ void ContactMgr::clearContactPoints() {
     if (mNumContactPoints != 0)
         mNumContactPoints = 0;
 
-    for (auto& info : mContactPointInfoInstances) {
-        if (info.mNumContactPoints != 0)
-            info.mNumContactPoints = 0;
+    const auto end = mContactPointInfoInstances.end();
+    for (auto it = mContactPointInfoInstances.begin(); it != end; ++it) {
+        if (it->mNumContactPoints != 0)
+            it->mNumContactPoints = 0;
     }
 }
 

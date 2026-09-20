@@ -117,14 +117,25 @@ bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeStri
 
 // NON_MATCHING: this version doesn't have unnecessary register moves.
 bool shouldSkipSpawnWhenRaining(map::Object* obj) {
-    if (obj->getFlags().isOff(map::Object::Flag::CreateNotRain))
-        return false;
-
-    if (!world::Manager::instance())
-        return false;
-
-    const auto pos = obj->getTranslate();
-    return !world::Manager::instance()->isRaining(pos);
+    if (obj->getFlags().isOn(map::Object::Flag::CreateNotRain)) {
+        if (auto* mgr = world::Manager::instance()) {
+#ifdef MATCHING_HACK_NX_CLANG
+            struct Vec3 {
+                u64 xy;
+                u32 z;
+            } pos;
+            const u64 xy = *reinterpret_cast<const u64*>(reinterpret_cast<const char*>(&obj->getTranslate()));
+            const u32 z = *reinterpret_cast<const u32*>(reinterpret_cast<const char*>(&obj->getTranslate()) + 8);
+            pos.xy = xy;
+            pos.z = z;
+            return !mgr->isRaining(*reinterpret_cast<const sead::Vector3f*>(&pos));
+#else
+            const auto pos = obj->getTranslate();
+            return !mgr->isRaining(pos);
+#endif
+        }
+    }
+    return false;
 }
 
 bool shouldSkipSpawnIfGodForestOff(map::Object* obj) {

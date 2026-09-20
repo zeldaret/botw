@@ -1,6 +1,7 @@
 #include "KingSystem/Utils/Thread/ManagedTask.h"
 #include "KingSystem/Utils/Thread/ManagedTaskHandle.h"
 #include "KingSystem/Utils/Thread/TaskMgr.h"
+#include "KingSystem/Utils/Thread/TaskQueueBase.h"
 #include "KingSystem/Utils/Thread/TaskQueueLock.h"
 
 namespace ksys::util {
@@ -83,22 +84,21 @@ void ManagedTask::attachHandle(ManagedTaskHandle* handle, TaskQueueBase* queue) 
     mHandle = handle;
 }
 
-// NON_MATCHING: switch
 void ManagedTask::detachHandle() {
     TaskQueueLock lock;
-    lock.lock(mQueue);
+    mQueue->lock(&lock);
 
     if (mHandle) {
-        switch (mHandle->getStatus()) {
-        case ManagedTaskHandle::Status::TaskRemoved:
-        case ManagedTaskHandle::Status::TaskFinished:
+        if (mHandle->getStatus() == ManagedTaskHandle::Status::TaskRemoved) {
             mHandle = nullptr;
             if (mMgr)
                 mMgr->freeTask(this);
-            break;
-        default:
+        } else if (mHandle->getStatus() == ManagedTaskHandle::Status::TaskFinished) {
             mHandle = nullptr;
-            break;
+            if (mMgr)
+                mMgr->freeTask(this);
+        } else {
+            mHandle = nullptr;
         }
     }
 }

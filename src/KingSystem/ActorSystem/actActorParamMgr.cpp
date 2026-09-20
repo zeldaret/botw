@@ -294,12 +294,14 @@ bool ActorParamMgr::loadFileAsync(ActorParam* param, ActorParam::ResourceType ty
 template <typename T>
 T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::ResourceType type,
                                       void*) {
+    T* res = nullptr;
     const s32 current_idx = *idx;
     auto& handle = param->mHandles[param->mActiveBufferIdx][current_idx];
     *idx = current_idx + 1;
 
     if (ActorParam::isValidType(type)) {
-        if (auto* res = static_cast<T*>(param->getRes().mArray[s32(type)]))
+        res = static_cast<T*>(param->getRes().mArray[s32(type)]);
+        if (res)
             return res;
     }
 
@@ -314,11 +316,19 @@ T* ActorParamMgr::handleAsyncFileLoad(ActorParam* param, s32* idx, ActorParam::R
     if (handle.checkLoadStatus() && type != Type::EventFlow)
         param->_a = true;
 
-    auto* res = sead::DynamicCast<T>(handle.getResource());
+    auto* resource = handle.getResource();
+    res = sead::DynamicCast<T>(resource);
     if (res) {
         auto* unit = handle.getUnit();
-        if (unit)
+        if (unit) {
+#ifdef MATCHING_HACK_NX_CLANG
+            const auto& unit_path = unit->getPath();
+            auto* path = reinterpret_cast<sead::FixedSafeString<128>*>(reinterpret_cast<char*>(resource) - 0x98);
+            path->copy(unit_path);
+#else
             static_cast<ParamIO*>(res)->getPath().copy(unit->getPath());
+#endif
+        }
     } else {
         res = sead::DynamicCast<T>(mDummyResources[s32(type)].getResource());
     }

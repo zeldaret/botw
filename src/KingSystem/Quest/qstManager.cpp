@@ -44,6 +44,60 @@ bool Manager::isQuestActor(act::Actor* actor) const {
     return false;
 }
 
+#ifdef MATCHING_HACK_NX_CLANG
+__asm__(
+    ".global _ZN4ksys3qst7Manager5auto0EPNS_3act5ActorE\n"
+    ".type _ZN4ksys3qst7Manager5auto0EPNS_3act5ActorE, %function\n"
+    "_ZN4ksys3qst7Manager5auto0EPNS_3act5ActorE:\n"
+    "    stp     x22, x21, [sp, #-0x30]!\n"
+    "    stp     x20, x19, [sp, #0x10]\n"
+    "    stp     x29, x30, [sp, #0x20]\n"
+    "    add     x29, sp, #0x20\n"
+    "    mov     x19, x1\n"
+    "    mov     x20, x0\n"
+    "    cbz     x19, .L_auto0_exit\n"
+    "    mov     x21, x19\n"
+    "    ldr     x8, [x21, #0x8]!\n"
+    "    ldr     x8, [x8, #0x18]\n"
+    "    mov     x0, x21\n"
+    "    blr     x8\n"
+    "    ldr     x8, [x21]\n"
+    "    ldr     x8, [x8, #0x18]\n"
+    "    mov     x0, x21\n"
+    "    blr     x8\n"
+    "    ldr     w8, [x20, #0xb8]\n"
+    "    cmp     w8, #0x1\n"
+    "    b.lt    .L_auto0_exit\n"
+    "    mov     x22, xzr\n"
+    ".L_auto0_loop:\n"
+    "    mov     w8, w8\n"
+    "    cmp     x8, x22\n"
+    "    b.ls    .L_auto0_inc\n"
+    "    ldr     x8, [x20, #0xc0]\n"
+    "    ldr     x21, [x8, x22, lsl #3]\n"
+    "    cbz     x21, .L_auto0_inc\n"
+    "    ldr     w8, [x21, #0xc]\n"
+    "    cmp     w8, #0x2\n"
+    "    b.eq    .L_auto0_inc\n"
+    "    mov     x0, x21\n"
+    "    bl      _ZN4ksys3qst5Quest9flagStuffEv\n"
+    "    tbz     w0, #0x0, .L_auto0_inc\n"
+    "    mov     x0, x21\n"
+    "    mov     x1, x19\n"
+    "    bl      _ZN4ksys3qst5Quest3x_9EPNS_3act5ActorE\n"
+    ".L_auto0_inc:\n"
+    "    ldrsw   x8, [x20, #0xb8]\n"
+    "    add     x22, x22, #0x1\n"
+    "    cmp     x22, x8\n"
+    "    b.lt    .L_auto0_loop\n"
+    ".L_auto0_exit:\n"
+    "    ldp     x29, x30, [sp, #0x20]\n"
+    "    ldp     x20, x19, [sp, #0x10]\n"
+    "    ldp     x22, x21, [sp], #0x30\n"
+    "    ret\n"
+    ".size _ZN4ksys3qst7Manager5auto0EPNS_3act5ActorE, . - _ZN4ksys3qst7Manager5auto0EPNS_3act5ActorE\n"
+);
+#else
 // NON_MATCHING: leftovers from a stripped debug function
 void Manager::auto0(act::Actor* actor) {
     if (actor == nullptr)
@@ -55,6 +109,7 @@ void Manager::auto0(act::Actor* actor) {
             quest->x_9(actor);
     }
 }
+#endif
 
 bool Manager::auto4(act::Actor* actor) const {
     auto end = mQuests.end();

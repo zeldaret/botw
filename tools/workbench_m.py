@@ -9,17 +9,6 @@ import re
 import subprocess
 import sys
 
-# Ensure running in tools venv
-sys.path.append(str(Path(__file__).resolve().parent))
-from common.setup_venv import enter_venv
-
-if __name__ == "__main__":
-    enter_venv()
-
-import cxxfilt
-from colorama import Fore, Style, init
-init(autoreset=True)
-
 ROOT = Path(__file__).resolve().parent.parent
 UKING_ELF = ROOT / "build" / "uking"
 MAIN_ELF = ROOT / "data" / "main.elf"
@@ -28,6 +17,31 @@ TOOLCHAIN_DIR = ROOT / "toolchain" / "clang-4.0.1" / "bin"
 LLVM_SYMBOLIZER = TOOLCHAIN_DIR / "llvm-symbolizer"
 LLVM_NM = TOOLCHAIN_DIR / "llvm-nm"
 CACHE_FILE = ROOT / "tools" / ".workbench_m_cache.json"
+
+try:
+    import cxxfilt
+except ImportError:
+    class _FallbackCxxfilt:
+        @staticmethod
+        def demangle(name):
+            try:
+                res = subprocess.run([str(TOOLCHAIN_DIR / "llvm-cxxfilt"), name], capture_output=True, text=True)
+                if res.returncode == 0:
+                    return res.stdout.strip()
+            except Exception:
+                pass
+            return name
+    cxxfilt = _FallbackCxxfilt()
+
+try:
+    from colorama import Fore, Style, init
+    init(autoreset=True)
+except ImportError:
+    class _EmptyStr:
+        def __getattr__(self, name):
+            return ""
+    Fore = _EmptyStr()
+    Style = _EmptyStr()
 
 
 def get_symbols_from_binary():

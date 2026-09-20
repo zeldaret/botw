@@ -9,7 +9,14 @@ namespace ksys {
 
 namespace {
 
-util::InitTimeInfoEx sInitInfo;
+struct InitInfo {
+    explicit InitInfo(sead::TickTime time = {}) : mInfo(time) {
+        mTag = 0x8004EF;
+    }
+    u32 mTag;
+    util::InitTimeInfo mInfo;
+};
+InitInfo sInitInfo;
 
 template <typename T>
 void updateStatsImpl(const T& value, T* prev_value, T* mean) {

@@ -31,6 +31,9 @@ public:
     void removeStaticCompound(StaticCompound* sc);
 
     void resetExtraTransformsAndApply();
+#ifdef MATCHING_HACK_NX_CLANG
+    __attribute__((disable_tail_calls))
+#endif
     StaticCompoundRigidBodyGroup* getBodyGroup(int group_index) const;
     bool hasBodyGroup(const StaticCompoundRigidBodyGroup* group) const;
     void processUpdates();
