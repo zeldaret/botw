@@ -30,3 +30,6 @@
 	path = lib/xlink2
 	url = https://github.com/Nitr4m12/xlink2
 	branch = main
+[submodule "lib/curl"]
+	path = lib/curl
+	url = https://github.com/german77/curl.git
