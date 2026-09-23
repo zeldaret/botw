@@ -71186,7 +71186,7 @@ Address,Quality,Size,Name
 0x0000007100c9584c,O,000232,Curl_retry_request
 0x0000007100c95934,O,000284,Curl_setup_transfer
 0x0000007100c95a50,O,000532,Curl_close
-0x0000007100c95c64,M,000588,Curl_open
+0x0000007100c95c64,O,000588,Curl_open
 0x0000007100c95eb0,M,017052,Curl_setopt
 0x0000007100c9a14c,U,000236,
 0x0000007100c9a238,O,000308,Curl_disconnect
@@ -71202,8 +71202,8 @@ Address,Quality,Size,Name
 0x0000007100c9a7c8,O,000048,Curl_protocol_doing
 0x0000007100c9a7f8,O,000184,Curl_protocol_connect
 0x0000007100c9a8b0,O,000324,Curl_setup_conn
-0x0000007100c9a9f4,M,000188,Curl_connect
-0x0000007100c9aab0,U,008688,create_conn
+0x0000007100c9a9f4,O,000188,Curl_connect
+0x0000007100c9aab0,O,008688,create_conn
 0x0000007100c9cca0,O,000572,Curl_done
 0x0000007100c9cedc,O,000204,Curl_do
 0x0000007100c9cfa8,O,000128,Curl_do_more
@@ -71247,7 +71247,7 @@ Address,Quality,Size,Name
 0x0000007100c9dc58,O,000016,Curl_SigloRealloc
 0x0000007100c9dc68,O,000016,Curl_SigloStrdup
 0x0000007100c9dc78,O,000016,Curl_SigloCalloc
-0x0000007100c9dc88,M,000088,Curl_SigloAllocAligned
+0x0000007100c9dc88,O,000088,Curl_SigloAllocAligned
 0x0000007100c9dce0,O,000072,Curl_SigloFreeAligned
 0x0000007100c9dd28,U,000012,Curl_SigloMiddlewareInfo
 0x0000007100c9dd34,U,000288,
@@ -71305,7 +71305,7 @@ Address,Quality,Size,Name
 0x0000007100c9f670,O,000208,Curl_timeleft
 0x0000007100c9f740,O,000112,Curl_persistconninfo
 0x0000007100c9f7b0,O,000552,Curl_updateconninfo
-0x0000007100c9f9d8,M,001700,Curl_is_connected
+0x0000007100c9f9d8,O,001700,Curl_is_connected
 0x0000007100ca007c,O,000124,Curl_closesocket
 0x0000007100ca00f8,O,000332,Curl_connecthost
 0x0000007100ca0244,M,002052,singleipconnect
