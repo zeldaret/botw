@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-
-from common.setup_venv import enter_venv
-if __name__ == "__main__":
-    enter_venv()
+#!/usr/bin/env -S uv run
 
 import argparse
 import hashlib
@@ -11,11 +7,12 @@ import subprocess
 import tempfile
 import urllib.request
 from typing import Optional
-from common import setup_common as setup
 
+from nx_decomp_tools.util import config, fail
+from nx_decomp_tools import setup
 
-TARGET_PATH = setup.get_target_path()
-TARGET_ELF_PATH = setup.get_target_elf_path()
+TARGET_PATH = config.get_base_nso_path()
+TARGET_ELF_PATH = config.get_base_elf_path()
 
 
 def _download_downgrade_to_v150_patch(version: str, dest: Path):
@@ -39,10 +36,10 @@ def prepare_executable(original_nso: Optional[Path]):
         return
 
     if original_nso is None:
-        setup.fail("please pass a path to the NSO (refer to the readme for more details)")
+        fail("please pass a path to the NSO (refer to the readme for more details)")
 
     if not original_nso.is_file():
-        setup.fail(f"{original_nso} is not a file")
+        fail(f"{original_nso} is not a file")
 
     nso_data = original_nso.read_bytes()
     nso_hash = hashlib.sha256(nso_data).hexdigest()
@@ -63,40 +60,40 @@ def prepare_executable(original_nso: Optional[Path]):
         print(f">>> found {"compressed" if is_compressed else "uncompressed"} {version_str} NSO")
 
         if version_str == "1.5.0":
-            if is_compressed:
-                setup._decompress_nso(original_nso, TARGET_PATH)
-            else:
-                TARGET_PATH.write_bytes(nso_data)
+            setup.convert_nso_to_elf(original_nso)
             break
 
         with tempfile.TemporaryDirectory() as tmpdir:
             patch_path = Path(tmpdir) / "patch"
             patch_version_str = "v" + version_str.replace(".","")
             _download_downgrade_to_v150_patch(patch_version_str, patch_path)
+            decompressed_nso_path = Path(tmpdir) / f"{patch_version_str}.nso"
             if is_compressed:
-                decompressed_nso_path = Path(tmpdir) / f"{patch_version_str}.nso"
-                setup._decompress_nso(original_nso, decompressed_nso_path)
+                # decompress -> patch -> elf
+                setup.convert_nso_to_elf(original_nso, uncompressed_nso_out_path=decompressed_nso_path)
+                setup.apply_xdelta3_patch(decompressed_nso_path, patch_path, config.get_uncompressed_nso_path())
+                setup.convert_nso_to_elf(config.get_uncompressed_nso_path())
             else:
-                decompressed_nso_path = original_nso
-
-            setup._apply_xdelta3_patch(decompressed_nso_path, patch_path, TARGET_PATH)
+                # patch -> elf
+                setup.apply_xdelta3_patch(original_nso, patch_path, decompressed_nso_path)
+                setup.convert_nso_to_elf(decompressed_nso_path)
         break
     else:
-        setup.fail(f"unknown executable: {nso_hash}")
+        fail(f"unknown executable: {nso_hash}")
 
     if not TARGET_PATH.is_file():
-        setup.fail("internal error while preparing executable (missing NSO); please report")
+        fail("internal error while preparing executable (missing NSO); please report")
     if hashlib.sha256(TARGET_PATH.read_bytes()).hexdigest() != TARGET_HASH:
-        setup.fail("internal error while preparing executable (wrong NSO hash); please report")
+        fail("internal error while preparing executable (wrong NSO hash); please report")
 
-    setup._convert_nso_to_elf(TARGET_PATH)
+    setup.convert_nso_to_elf(TARGET_PATH)
 
     if not TARGET_ELF_PATH.is_file():
-        setup.fail("internal error while preparing executable (missing ELF); please report")
+        fail("internal error while preparing executable (missing ELF); please report")
 
 
 def create_build_dir():
-    build_dir = setup.ROOT / "build"
+    build_dir = config.get_build_root()
     if build_dir.is_dir():
         print(">>> build directory already exists: nothing to do")
         return

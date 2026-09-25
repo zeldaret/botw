@@ -1,0 +1,15 @@
+[project]
+name = "tools"
+version = "0.0.0"
+requires-python = ">=3.14"
+dependencies = [
+    "nx-decomp-tools",
+    "oead>=1.3.0",
+    "pyyaml>=6.0.3",
+]
+
+[tool.uv.sources]
+nx-decomp-tools.workspace = true
+
+[tool.uv.workspace]
+members = ["common"]

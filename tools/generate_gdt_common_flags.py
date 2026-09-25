@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
+
 import argparse
 from pathlib import Path
 import typing as tp

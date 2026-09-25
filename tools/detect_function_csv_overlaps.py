@@ -1,12 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
+
 import csv
 import io
-from common.util import utils
+from nx_decomp_tools.util import csv as decomp_csv
+from nx_decomp_tools.util import config
 
 new_rows = []
 prev = None
 
-for info in utils.get_functions(all=True):
+for info in decomp_csv.get_functions(all=True):
     if prev is not None:
         if (prev.addr <= info.addr < prev.addr + prev.size) or \
                 (prev.addr <= info.addr + info.size < prev.addr + prev.size):
@@ -30,4 +32,4 @@ writer = csv.writer(buffer, lineterminator="\n")
 writer.writerow("Address,Quality,Size,Name".split(","))
 for row in new_rows:
     writer.writerow(row)
-utils.get_functions_csv_path().write_text(buffer.getvalue())
+config.get_functions_csv_path().write_text(buffer.getvalue())

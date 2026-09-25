@@ -1,11 +1,12 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
+
 import argparse
 from typing import Dict, Optional
 
 import yaml
 from colorama import Fore
 
-from common.util import utils
+from nx_decomp_tools.util import config
 
 # TODO: add behaviors after they have been generated
 _TYPES = ("action", "ai", "query")
@@ -18,7 +19,7 @@ def main() -> None:
 
     filter_type: Optional[str] = args.type
 
-    data_path = utils.get_repo_root() / "data"
+    data_path = config.get_repo_root() / "data"
     for class_type in _TYPES:
         if filter_type is not None and class_type != filter_type:
             continue
