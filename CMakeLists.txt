@@ -57,4 +57,12 @@ target_link_libraries(uking PRIVATE xlink2)
 add_subdirectory(lib/hkStubs)
 target_link_libraries(uking PRIVATE hkStubs)
 
+enable_language(C)
+set(BUILD_CURL_EXE OFF)
+set(BUILD_CURL_TESTS OFF)
+set(ENABLE_MANUAL  OFF)
+add_subdirectory(lib/curl)
+target_compile_options(libcurl PRIVATE -fno-strict-aliasing)
+target_link_libraries(uking PRIVATE libcurl)
+
 add_subdirectory(src)
