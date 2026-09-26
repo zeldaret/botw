@@ -1,5 +1,7 @@
 #include "Game/AI/Query/queryIsOnEnterDungeonFlag.h"
 #include <evfl/Query.h>
+#include "Game/gameScene.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::query {
 
@@ -7,9 +9,8 @@ IsOnEnterDungeonFlag::IsOnEnterDungeonFlag(const InitArg& arg) : ksys::act::ai::
 
 IsOnEnterDungeonFlag::~IsOnEnterDungeonFlag() = default;
 
-// FIXME: implement
 int IsOnEnterDungeonFlag::doQuery() {
-    return -1;
+    return ksys::gdt::isDungeonEntered(GameScene::getCurrentMapName(), false);
 }
 
 void IsOnEnterDungeonFlag::loadParams(const evfl::QueryArg& arg) {}
