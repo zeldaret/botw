@@ -22,4 +22,8 @@ void GuardianMiniFinalBeamMove::calc_() {
     GuardianBeamFire::calc_();
 }
 
+bool GuardianMiniFinalBeamMove::isFinished() const {
+    return ksys::act::ai::Action::isFinished();
+}
+
 }  // namespace uking::action

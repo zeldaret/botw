@@ -41,4 +41,8 @@ void SiteBossThrowParts::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossThrowParts::isFinished() const {
+    return const_cast<SiteBossThrowParts*>(this)->isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action

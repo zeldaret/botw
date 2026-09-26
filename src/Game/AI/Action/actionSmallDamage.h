@@ -13,6 +13,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
+    bool isFinished() const override;
 };
 
 }  // namespace uking::action
