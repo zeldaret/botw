@@ -27,7 +27,7 @@ query::CheckBalladOfHeroActiveTiming:
 query::CheckContainerItem:
   status: done
 query::CheckCookResultStatus:
-  status: pending
+  status: done
 query::CheckCurrentMap:
   status: pending
 query::CheckCurseRRetryEverOnce:
