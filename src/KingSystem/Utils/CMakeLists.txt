@@ -79,6 +79,8 @@ target_sources(uking PRIVATE
   HeapUtil.h
   InitTimeInfo.h
   IteratorUtil.h
+  MathUtil.cpp
+  MathUtil.h
   ParamIO.cpp
   ParamIO.h
   SafeDelete.h

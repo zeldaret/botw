@@ -52,7 +52,8 @@ public:
     void disableLayer(ContactLayer layer);
     void setLayers(const LayerMaskBuilder& builder);
     bool isLayerEnabled(ContactLayer layer) const;
-
+    void enableGroundHitLayers();
+    void enableCommonHitLayers();
     void setGroundHit(GroundHit ground_hit);
     GroundHit getGroundHit() const;
 

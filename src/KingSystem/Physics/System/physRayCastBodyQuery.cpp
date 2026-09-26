@@ -26,4 +26,24 @@ void RayCastBodyQuery::onRigidBodyHit(RigidBody* body) {
     mHitRigidBody = body;
 }
 
+void RayCast::enableGroundHitLayers() {
+    enableLayer(ContactLayer::EntityGround);
+    enableLayer(ContactLayer::EntityGroundRough);
+    enableLayer(ContactLayer::EntityGroundSmooth);
+    enableLayer(ContactLayer::EntityGroundObject);
+    enableLayer(ContactLayer::EntityTree);
+}
+
+void RayCast::enableCommonHitLayers() {
+    enableLayer(ContactLayer::EntityNPC);
+    enableLayer(ContactLayer::EntityGround);
+    enableLayer(ContactLayer::EntityGroundRough);
+    enableLayer(ContactLayer::EntityGroundSmooth);
+    enableLayer(ContactLayer::EntityGroundObject);
+    enableLayer(ContactLayer::EntityTree);
+    enableLayer(ContactLayer::EntityObject);
+    enableLayer(ContactLayer::EntitySmallObject);
+    enableLayer(ContactLayer::EntityRope);
+}
+
 }  // namespace ksys::phys
