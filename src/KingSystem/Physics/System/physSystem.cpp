@@ -103,6 +103,26 @@ SystemGroupHandler* System::addSystemGroupHandler(ContactLayerType layer_type, i
     return getGroupFilter(layer_type)->addSystemGroupHandler(free_list_idx);
 }
 
+void System::initGroupHandlers() {
+    for (int i = 0; i < NumContactLayerTypes; ++i) {
+        const auto layer_type = static_cast<ContactLayerType>(i);
+        for (auto& handler : mStaticGroupHandlers[i])
+            handler = addSystemGroupHandler(layer_type, 0);
+        for (auto& handler : mStaticGroupHandlersLowIdx[i])
+            handler = addSystemGroupHandler(layer_type, 1);
+    }
+}
+
+SystemGroupHandler* System::getStaticGroupHandler(ContactLayerType layer_type,
+                                                  StaticGroupHandlerId id) const {
+    return mStaticGroupHandlers[static_cast<s32>(layer_type)][id];
+}
+
+SystemGroupHandler* System::getStaticGroupHandlerLowIdx(ContactLayerType layer_type,
+                                                        StaticGroupHandlerId id) const {
+    return mStaticGroupHandlersLowIdx[static_cast<s32>(layer_type)][id];
+}
+
 LayerContactPointInfo* System::allocLayerContactPointInfo(sead::Heap* heap, int num, int num2,
                                                           const sead::SafeString& name, int a,
                                                           int b, int c) const {
