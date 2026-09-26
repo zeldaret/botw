@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
+
 import argparse
 from pathlib import Path
 from typing import Union
@@ -7,6 +8,8 @@ import yaml
 
 import ai_common
 from ai_common import BaseClasses
+
+# FIXME: uhhh where does this come from??
 from common.util.graph import Graph
 
 _known_vtables = {
