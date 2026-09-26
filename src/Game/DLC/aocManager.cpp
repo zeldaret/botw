@@ -1,8 +1,11 @@
 #include "Game/DLC/aocManager.h"
+#include <algorithm>
 #include <container/seadBuffer.h>
 #include <filedevice/seadFileDeviceMgr.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadStringBuilder.h>
 #include <resource/seadSharcArchiveRes.h>
+#include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
@@ -14,6 +17,21 @@
 #include <nn/fs.h>
 #include <prim/seadStringUtil.h>
 #endif
+
+namespace ksys::act {
+
+bool LifeRecoverInfo::onApplyDamage(s32& damage) {
+    if (mExtraHp1 == 0)
+        return damage > 0;
+
+    const auto previous_extra_hp = mExtraHp1;
+    const auto remaining_extra_hp = std::max(previous_extra_hp - damage, 0);
+    damage -= previous_extra_hp - remaining_extra_hp;
+    mExtraHp1 = sead::Mathf::clampMax(remaining_extra_hp, mExtraHp2);
+    return remaining_extra_hp != previous_extra_hp;
+}
+
+}  // namespace ksys::act
 
 namespace uking::aoc {
 
