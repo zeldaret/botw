@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.30)
 project(uking CXX)
+
+set(SEAD_USE_OLD_NNHEADERS_REPO OFF CACHE BOOL "Enable new nnsdk repo")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Use response files when linking objects because of the large number of source files
@@ -33,8 +35,9 @@ target_compile_options(uking PRIVATE -Wextra-semi)
 set(NN_SDK 4.4.0)
 set(NN_WARE 1.6.1)
 set(NN_SDK_TYPE "Release")
-add_subdirectory(lib/NintendoSDK)
-target_link_libraries(uking PUBLIC NintendoSDK)
+add_subdirectory(lib/nnsdk)
+add_subdirectory(lib/nnware)
+target_link_libraries(uking PUBLIC $<LINK_LIBRARY:whole_archive,nn_gfx>)
 
 add_subdirectory(lib/sead)
 target_link_libraries(uking PUBLIC sead)
