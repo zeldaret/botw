@@ -37,3 +37,5 @@ if(NOT TARGET agl)
   add_subdirectory(../agl)
 endif()
 target_link_libraries(gsys PUBLIC agl)
+
+target_link_libraries(gsys PUBLIC nn_g3d)
