@@ -54,7 +54,7 @@ public:
     f32 getStaminaMax() const;
     void updateStaminaMaxFromGameData();
     void setMaxStaminaForPlayerActor(f32 max_stamina);  // requires PlayerBase
-    f32 getMaxStaminaFromPlayerActor() const;           // requires PlayerBase
+    f32 getMaxStamina() const;                          // requires PlayerBase
     void recoverStamina();                              // requires PlayerBase
     void recoverCondition();                            // requires PlayerBase
 

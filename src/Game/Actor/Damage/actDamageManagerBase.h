@@ -99,7 +99,7 @@ public:
     virtual s32 getDamageFromTypeIndex(s32 damageTypeMaybe);
 
     void clearCallbacks();
-    void resetStuff();
+    void resetDamageInfo();
     void callDamageCallbacks(u32 a2, u32* a3, s32* a4, u32* a5, u32* a6, u32* a7, u64 a8);
     s64 calcMaybe();
 
