@@ -2,7 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
-namespace uking::action {
+namespace ksys::eft {
 
 class FootStepCalcOn : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(FootStepCalcOn, ksys::act::ai::Action)
@@ -24,4 +24,4 @@ protected:
     sead::SafeString mInstanceName_d{};
 };
 
-}  // namespace uking::action
+}  // namespace ksys::eft

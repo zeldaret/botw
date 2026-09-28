@@ -1,6 +1,6 @@
-#include "Game/Actor/Action/actionEmitEffectLoopAction.h"
+#include "KingSystem/Effect/Actor/Action/actionEmitEffectLoopAction.h"
 
-namespace uking::action {
+namespace ksys::eft {
 
 EmitEffectLoopAction::EmitEffectLoopAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
@@ -43,4 +43,4 @@ void EmitEffectLoopAction::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-}  // namespace uking::action
+}  // namespace ksys::eft

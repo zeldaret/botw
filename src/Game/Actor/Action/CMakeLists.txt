@@ -679,8 +679,6 @@ target_sources(uking PRIVATE
   actionElectricDie.h
   actionElectricParalysis.cpp
   actionElectricParalysis.h
-  actionEmitEffectLoopAction.cpp
-  actionEmitEffectLoopAction.h
   actionEmitElectricWaterBall.cpp
   actionEmitElectricWaterBall.h
   actionEndChangeableASPlay.cpp
@@ -1003,8 +1001,6 @@ target_sources(uking PRIVATE
   actionFollowIgniteToBonePos.h
   actionFollowIgniteToSelfPos.cpp
   actionFollowIgniteToSelfPos.h
-  actionFootStepCalcOn.cpp
-  actionFootStepCalcOn.h
   actionForbidComeback.cpp
   actionForbidComeback.h
   actionForbidSettingInstEventFlag.cpp
@@ -2230,8 +2226,6 @@ target_sources(uking PRIVATE
   actionOnEnterSwapDropTableActor.h
   actionOnetimeChangeableASPlay.cpp
   actionOnetimeChangeableASPlay.h
-  actionOneTimeEffectLocaterAction.cpp
-  actionOneTimeEffectLocaterAction.h
   actionOnetimeHoverASPlay.cpp
   actionOnetimeHoverASPlay.h
   actionOnetimeMoveASPlay.cpp

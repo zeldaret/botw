@@ -1,6 +1,6 @@
-#include "Game/Actor/Action/actionOneTimeEffectLocaterAction.h"
+#include "KingSystem/Effect/Actor/Action/actionOneTimeEffectLocaterAction.h"
 
-namespace uking::action {
+namespace ksys::eft {
 
 OneTimeEffectLocaterAction::OneTimeEffectLocaterAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
@@ -25,4 +25,4 @@ void OneTimeEffectLocaterAction::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-}  // namespace uking::action
+}  // namespace ksys::eft

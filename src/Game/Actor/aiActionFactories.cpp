@@ -310,7 +310,6 @@
 #include "Game/Actor/Action/actionElectricCableEnergized.h"
 #include "Game/Actor/Action/actionElectricDie.h"
 #include "Game/Actor/Action/actionElectricParalysis.h"
-#include "Game/Actor/Action/actionEmitEffectLoopAction.h"
 #include "Game/Actor/Action/actionEmitElectricWaterBall.h"
 #include "Game/Actor/Action/actionEndChangeableASPlay.h"
 #include "Game/Actor/Action/actionEnemyAreaInOutSendMessage.h"
@@ -460,7 +459,6 @@
 #include "Game/Actor/Action/actionFollowDungeonRotateASPlay.h"
 #include "Game/Actor/Action/actionFollowIgniteToBonePos.h"
 #include "Game/Actor/Action/actionFollowIgniteToSelfPos.h"
-#include "Game/Actor/Action/actionFootStepCalcOn.h"
 #include "Game/Actor/Action/actionForbidComeback.h"
 #include "Game/Actor/Action/actionForbidSettingInstEventFlag.h"
 #include "Game/Actor/Action/actionForceChangeAction.h"
@@ -1016,7 +1014,6 @@
 #include "Game/Actor/Action/actionOnEnterSwapDropTableActor.h"
 #include "Game/Actor/Action/actionOnLeaveAttackInterval.h"
 #include "Game/Actor/Action/actionOnMUAssignSaveForUsed.h"
-#include "Game/Actor/Action/actionOneTimeEffectLocaterAction.h"
 #include "Game/Actor/Action/actionOneTimeStopASPlayerNoEnd.h"
 #include "Game/Actor/Action/actionOneTimeWaterFloatStopASPlay.h"
 #include "Game/Actor/Action/actionOnetimeChangeableASPlay.h"
@@ -1732,6 +1729,9 @@
 #include "Game/Actor/System/Action/actionSystemSetWindAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actionDummyAction.h"
+#include "KingSystem/Effect/Actor/Action/actionEmitEffectLoopAction.h"
+#include "KingSystem/Effect/Actor/Action/actionFootStepCalcOn.h"
+#include "KingSystem/Effect/Actor/Action/actionOneTimeEffectLocaterAction.h"
 #include "KingSystem/Sound/Actor/Action/actionBattleDungeonBGMAction.h"
 #include "KingSystem/Sound/Actor/Action/actionCustomDuckingEndAction.h"
 #include "KingSystem/Sound/Actor/Action/actionCustomDuckingStartAction.h"
@@ -1900,7 +1900,7 @@ static Factory sActionFactories[] = {
     {0x13f11ba3, Factory::make<action::Off>},
     {0x14041be8, Factory::make<action::GameDataSubFloat>},
     {0x140f2d8b, Factory::make<action::ImmediateStopOwnedHorse>},
-    {0x143eb340, Factory::make<action::EmitEffectLoopAction>},
+    {0x143eb340, Factory::make<ksys::eft::EmitEffectLoopAction>},
     {0x14441f7e, Factory::make<action::UseNavMeshConnectAction>},
     {0x144c0919, Factory::make<ksys::snd::EventBgmStopAction>},
     {0x145bcbee, Factory::make<ksys::snd::FrontierSpotBgmTriggerAction>},
@@ -1910,7 +1910,7 @@ static Factory sActionFactories[] = {
     {0x150ece86, Factory::make<action::PlayerLookAtObjectNow>},
     {0x1527f16a, Factory::make<action::LookAtObjectSeachAwareness>},
     {0x1558fc14, Factory::make<action::SweepCollision>},
-    {0x1565cded, Factory::make<action::FootStepCalcOn>},
+    {0x1565cded, Factory::make<ksys::eft::FootStepCalcOn>},
     {0x15e680b2, Factory::make<action::SandwormDamageJumpReaction>},
     {0x15ff2b69, Factory::make<action::AnimMatrixDriven>},
     {0x16308239, Factory::make<action::ChangeFreeMovingForDemo>},
@@ -2008,7 +2008,7 @@ static Factory sActionFactories[] = {
     {0x24c7daed, Factory::make<action::ForkStalEnemyGrabOwnPart>},
     {0x254e484f, Factory::make<action::TargetCircleMoveKeepDist>},
     {0x255ab9d5, Factory::make<action::EnemyRushAttack>},
-    {0x25817612, Factory::make<action::OneTimeEffectLocaterAction>},
+    {0x25817612, Factory::make<ksys::eft::OneTimeEffectLocaterAction>},
     {0x2585eb82, Factory::make<action::OnetimeStopASSyncPlay>},
     {0x25dd4bc2, Factory::make<action::SystemApplyEnvSetAction>},
     {0x25ea26f5, Factory::make<action::EventOpenMessageTips>},
