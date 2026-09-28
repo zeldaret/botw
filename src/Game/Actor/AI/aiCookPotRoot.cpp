@@ -49,8 +49,8 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
         // This is checking if the pot is lit.
         if (isCurrentChild("着火")) {
             // TODO: sub_7100EDC4B8
-            // TODO: GameSceneSubsys12 class
-            // GameSceneSubsys12 handles carried items.
+            // TODO: PlayerCarryBoxMgr class
+            // PlayerCarryBoxMgr handles carried items.
             // This needs to check if the player is targeting the pot.
             if (true /* TODO */) {
                 if (!_48 /* TODO */) {
