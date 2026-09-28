@@ -297,7 +297,6 @@
 #include "Game/Actor/AI/aiEnemyWarnNoticeSelect.h"
 #include "Game/Actor/AI/aiEnemyWatchKeepingWait.h"
 #include "Game/Actor/AI/aiEnterFromResetSelect.h"
-#include "Game/Actor/AI/aiEnvSeEmitPointRootAI.h"
 #include "Game/Actor/AI/aiEquipConditionSelect.h"
 #include "Game/Actor/AI/aiEquipHaveSelector.h"
 #include "Game/Actor/AI/aiEquipShieldEnemySearchWeapon.h"
@@ -885,7 +884,6 @@
 #include "Game/Actor/AI/aiShutterFence.h"
 #include "Game/Actor/AI/aiSignalFlowchartRootAI.h"
 #include "Game/Actor/AI/aiSignalSendingMagneStickAcceptor.h"
-#include "Game/Actor/AI/aiSignaledSpotBgmTrigger.h"
 #include "Game/Actor/AI/aiSimpleASBridge.h"
 #include "Game/Actor/AI/aiSimpleEnemyNormal.h"
 #include "Game/Actor/AI/aiSimpleEscapeFromTarget.h"
@@ -934,7 +932,6 @@
 #include "Game/Actor/AI/aiSnowOctarockBattle.h"
 #include "Game/Actor/AI/aiSoundTriggerTag.h"
 #include "Game/Actor/AI/aiSpearWeaponSelect.h"
-#include "Game/Actor/AI/aiSpotBgmTrigger.h"
 #include "Game/Actor/AI/aiStalEnemyBlownOff.h"
 #include "Game/Actor/AI/aiStalEnemyChasePart.h"
 #include "Game/Actor/AI/aiStalEnemyDoShootPartSelect.h"
@@ -1177,6 +1174,9 @@
 #include "Game/Actor/Player/AI/aiPlayerWaterFall.h"
 #include "Game/Actor/Player/AI/aiPlayerZoraRide.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Sound/Actor/AI/aiEnvSeEmitPointRootAI.h"
+#include "KingSystem/Sound/Actor/AI/aiSignaledSpotBgmTrigger.h"
+#include "KingSystem/Sound/Actor/AI/aiSpotBgmTrigger.h"
 
 namespace uking {
 
@@ -1395,7 +1395,7 @@ static Factory sAiFactories[] = {
     {0x2b6b3cc4, Factory::make<ai::DragonReturn>},
     {0x2bb4c29b, Factory::make<ai::RodRoot>},
     {0x2bd26ed8, Factory::make<ai::FriendCallAction>},
-    {0x2bdc5bd3, Factory::make<ai::SignaledSpotBgmTrigger>},
+    {0x2bdc5bd3, Factory::make<ksys::snd::SignaledSpotBgmTrigger>},
     {0x2bf9275a, Factory::make<ai::SandfallWithSound>},
     {0x2c179c6a, Factory::make<ai::AppearFromTargetFrontAfterChase>},
     {0x2c303b83, Factory::make<ai::LifeChangeDemoCaller>},
@@ -1781,7 +1781,7 @@ static Factory sAiFactories[] = {
     {0x83954035, Factory::make<ai::CollaborationShootingStarRoot>},
     {0x840ecf9b, Factory::make<ai::GolemNoticeWorry>},
     {0x8420d2cd, Factory::make<ai::DefWanderAI>},
-    {0x85015e28, Factory::make<ai::SpotBgmTrigger>},
+    {0x85015e28, Factory::make<ksys::snd::SpotBgmTrigger>},
     {0x851d52c6, Factory::make<ai::DungeonMoveTag>},
     {0x852fec32, Factory::make<ai::SiteBossReflectArrowRoot>},
     {0x85a5c9c2, Factory::make<ai::EnemyTreeWeaponSearchOrBattle>},
@@ -2242,7 +2242,7 @@ static Factory sAiFactories[] = {
     {0xe63a2601, Factory::make<ai::RemainElectricCannonBeamAttack>},
     {0xe6467eac, Factory::make<ai::ChangeWindTagRoot>},
     {0xe64b7b7b, Factory::make<ai::ForkActionAndJoin>},
-    {0xe689f298, Factory::make<ai::EnvSeEmitPointRootAI>},
+    {0xe689f298, Factory::make<ksys::snd::EnvSeEmitPointRootAI>},
     {0xe698a93b, Factory::make<ai::DashAndAttack>},
     {0xe757fa36, Factory::make<ai::SiteBossLswordRoot>},
     {0xe75ced01, Factory::make<ai::AirOctaFlyUp>},

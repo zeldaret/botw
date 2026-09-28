@@ -635,8 +635,6 @@ target_sources(uking PRIVATE
   aiEnemyWatchKeepingWait.h
   aiEnterFromResetSelect.cpp
   aiEnterFromResetSelect.h
-  aiEnvSeEmitPointRootAI.cpp
-  aiEnvSeEmitPointRootAI.h
   aiEquipConditionSelect.cpp
   aiEquipConditionSelect.h
   aiEquipHaveSelector.cpp
@@ -1889,8 +1887,6 @@ target_sources(uking PRIVATE
   aiShootingStarRoot.h
   aiShutterFence.cpp
   aiShutterFence.h
-  aiSignaledSpotBgmTrigger.cpp
-  aiSignaledSpotBgmTrigger.h
   aiSignalFlowchartRootAI.cpp
   aiSignalFlowchartRootAI.h
   aiSignalSendingMagneStickAcceptor.cpp
@@ -2001,8 +1997,6 @@ target_sources(uking PRIVATE
   aiSpearWeaponSelect.h
   aiSleepNormal.cpp
   aiSleepNormal.h
-  aiSpotBgmTrigger.cpp
-  aiSpotBgmTrigger.h
   aiStalEnemyBlownOff.cpp
   aiStalEnemyBlownOff.h
   aiStalEnemyChasePart.cpp

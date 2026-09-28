@@ -1,3 +1,5 @@
+add_subdirectory(Actor)
+
 target_sources(uking PRIVATE
   sndInfoData.cpp
   sndInfoData.h
