@@ -623,8 +623,6 @@ target_sources(uking PRIVATE
   actionDropWeapon.h
   actionDrowningDeath.cpp
   actionDrowningDeath.h
-  actionDummyAction.cpp
-  actionDummyAction.h
   actionDummyDropTable.cpp
   actionDummyDropTable.h
   actionDummyTriggerAction.cpp

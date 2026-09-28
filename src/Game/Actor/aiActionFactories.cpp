@@ -283,7 +283,6 @@
 #include "Game/Actor/Action/actionDropCreateForReplace.h"
 #include "Game/Actor/Action/actionDropWeapon.h"
 #include "Game/Actor/Action/actionDrowningDeath.h"
-#include "Game/Actor/Action/actionDummyAction.h"
 #include "Game/Actor/Action/actionDummyDropTable.h"
 #include "Game/Actor/Action/actionDummyTriggerAction.h"
 #include "Game/Actor/Action/actionDunegonRotateWait.h"
@@ -2543,7 +2542,7 @@ static Factory sActionFactories[] = {
     {0x73664194, Factory::make<action::HorseEatAction>},
     {0x7380112a, Factory::make<action::MimicFreeze>},
     {0x73df6d4c, Factory::make<ksys::act::ai::DummyAction>},
-    {0x73e6fb3b, Factory::make<action::DummyAction>},
+    {0x73e6fb3b, Factory::make<ksys::act::ai::DummyAction>},
     {0x73fec15b, Factory::make<ksys::snd::SpotBgmTriggerAction>},
     {0x740366f6, Factory::make<action::LynelNavMeshMove>},
     {0x74137cda, Factory::make<action::TerrainHideCenter>},
