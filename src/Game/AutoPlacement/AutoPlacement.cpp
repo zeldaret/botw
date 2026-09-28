@@ -1,17 +1,17 @@
-#include "KingSystem/Map/mapAutoPlacement.h"
+#include "Game/AutoPlacement/AutoPlacement.h"
+#include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
-#include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
-#include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 
-namespace ksys::map {
+namespace uking {
 
 AutoPlacement::AutoPlacement() = default;
 AutoPlacement::~AutoPlacement() = default;
@@ -33,10 +33,10 @@ u32 AutoPlacement::sub_710064CD80(u32 a, u32 b) {
 }
 
 void ActorSpawnInfo::calcSpawnLocations() {
-    auto* mgr = act::InfoData::instance();
+    auto* mgr = ksys::act::InfoData::instance();
     al::ByamlIter iter;
 
-    using namespace act::tags;
+    using namespace ksys::act::tags;
 
     spawn_location.makeAllZero();
     if (mgr == nullptr || !mgr->getActorIter(&iter, name.cstr()))
@@ -88,11 +88,12 @@ void AutoPlacement::sub_710064DA54() {
     _8 = 2;
 }
 
-eco::AreaItemType sPlacementItemTypesData[] = {
-    eco::AreaItemType::Enemy, eco::AreaItemType::Animal, eco::AreaItemType::Insect,
-    eco::AreaItemType::Fish,  eco::AreaItemType::Bird,   eco::AreaItemType::AutoPlacementMaterial,
+ksys::eco::AreaItemType sPlacementItemTypesData[] = {
+    ksys::eco::AreaItemType::Enemy,  ksys::eco::AreaItemType::Animal,
+    ksys::eco::AreaItemType::Insect, ksys::eco::AreaItemType::Fish,
+    ksys::eco::AreaItemType::Bird,   ksys::eco::AreaItemType::AutoPlacementMaterial,
 };
-sead::Buffer<eco::AreaItemType> sPlacementItemTypes{sPlacementItemTypesData};
+sead::Buffer<ksys::eco::AreaItemType> sPlacementItemTypes{sPlacementItemTypesData};
 
 // NON_MATCHING: stack
 bool AutoPlacement::sub_710064E178(const sead::SafeString& name, u32 placement_type,
@@ -100,7 +101,7 @@ bool AutoPlacement::sub_710064E178(const sead::SafeString& name, u32 placement_t
     if (mNearFlag == 0xFE)
         return true;
 
-    auto* eco = eco::Ecosystem::instance();
+    auto* eco = ksys::eco::Ecosystem::instance();
     if (eco == nullptr)
         return false;
 
@@ -108,7 +109,7 @@ bool AutoPlacement::sub_710064E178(const sead::SafeString& name, u32 placement_t
     if (area < 0)
         return false;
 
-    eco::AreaItemSet item_set;
+    ksys::eco::AreaItemSet item_set;
     eco->getAreaItems(area, sPlacementItemTypes[placement_type], &item_set);
 
     for (int i = 0; i < item_set.count; ++i) {
@@ -129,12 +130,12 @@ bool PlacementThing::invoke() {
     if (mRaycast == nullptr || mState != State::Initialized)
         return false;
 
-    mRaycast->enableLayer(phys::ContactLayer::EntityGround);
-    mRaycast->enableLayer(phys::ContactLayer::EntityGroundRough);
-    mRaycast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
-    mRaycast->enableLayer(phys::ContactLayer::EntityAirWall);
-    mRaycast->enableLayer(phys::ContactLayer::EntityGroundObject);
-    mRaycast->enableLayer(phys::ContactLayer::EntityTree);
+    mRaycast->enableLayer(ksys::phys::ContactLayer::EntityGround);
+    mRaycast->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    mRaycast->enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    mRaycast->enableLayer(ksys::phys::ContactLayer::EntityAirWall);
+    mRaycast->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    mRaycast->enableLayer(ksys::phys::ContactLayer::EntityTree);
 
     if (_8944) {
         sead::Vector3f v1 = mVec1 + sead::Vector3f{0, 4, 30};
@@ -165,13 +166,13 @@ bool AutoPlacement::sub_7100650144(PlacementGroup* grp, bool check_exposure) {
         return true;
     }
 
-    if (object->getProc() == nullptr && object->getFlags0().isOn(Object::Flag0::_80))
+    if (object->getProc() == nullptr && object->getFlags0().isOn(ksys::map::Object::Flag0::_80))
         return true;
 
     if (grp->_1d != 2)
         return false;
 
-    if (check_exposure && !world::WeatherMgr::isExposureZero())
+    if (check_exposure && !ksys::world::WeatherMgr::isExposureZero())
         return true;
     return false;
 }
@@ -273,11 +274,12 @@ void PlacementThing::stepRaycast() {
 
     switch (mState) {
     case State::Uninitialized:
-        mRaycast = phys::RayCastForRequest::allocRequest(nullptr, phys::GroundHit::Animal);
+        mRaycast =
+            ksys::phys::RayCastForRequest::allocRequest(nullptr, ksys::phys::GroundHit::Animal);
         next = mRaycast != nullptr ? State::Initialized : State::Invalid;
         break;
     case State::LayersDone:
-        mRaycast->submitRequest(phys::ContactLayerType::Entity);
+        mRaycast->submitRequest(ksys::phys::ContactLayerType::Entity);
         next = State::RaycastDone;
         break;
     case State::PlacementDone:
@@ -295,14 +297,14 @@ void PlacementThing::stepRaycast() {
     mState = next;
 }
 
-void AutoPlacement::sub_7100650C28(phys::RigidBody* rb) {
+void AutoPlacement::sub_7100650C28(ksys::phys::RigidBody* rb) {
     if (rb == nullptr)
         return;
 
-    if (rb->getContactLayer() == phys::ContactLayer::EntityTree)
+    if (rb->getContactLayer() == ksys::phys::ContactLayer::EntityTree)
         mNearFlag.setDirect(1);
 
-    auto* tag = sead::DynamicCast<act::PhysicsUserTag>(rb->getUserTag());
+    auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(rb->getUserTag());
     if (tag == nullptr)
         return;
 
@@ -310,8 +312,8 @@ void AutoPlacement::sub_7100650C28(phys::RigidBody* rb) {
     if (actor == nullptr)
         return;
 
-    mNearFlag.set(act::hasTag(actor, act::tags::Tree) ||
-                  act::hasTag(actor, act::tags::AutoPlacementForbidCreate));
+    mNearFlag.set(ksys::act::hasTag(actor, ksys::act::tags::Tree) ||
+                  ksys::act::hasTag(actor, ksys::act::tags::AutoPlacementForbidCreate));
 
     _b.set(actor->getName() == "AirWallHorse");
 }
@@ -332,4 +334,4 @@ const char* PlacementThing::getCurrentWaterSubMat() const {
     }
 }
 
-}  // namespace ksys::map
+}  // namespace uking

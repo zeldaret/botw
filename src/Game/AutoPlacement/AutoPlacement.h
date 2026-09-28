@@ -15,7 +15,7 @@ class RayCastForRequest;
 class RigidBody;
 }  // namespace ksys::phys
 
-namespace ksys::map {
+namespace uking {
 
 class AutoPlacement;
 struct AutoPlacementFlowRes;
@@ -67,24 +67,24 @@ public:
 
     bool invoke();
     void stepRaycast();
-    void sub_7100650C28(phys::RigidBody*);
+    void sub_7100650C28(ksys::phys::RigidBody*);
     const char* getCurrentGroundMat() const;
     const char* getCurrentWaterSubMat() const;
 
 private:
     friend class AutoPlacement;
 
-    phys::RayCastForRequest* mRaycast{};
+    ksys::phys::RayCastForRequest* mRaycast{};
     u8 _8880{};
     u8 mUnderwater{};
     sead::Vector3f mVec1{};
     sead::Vector3f mQueryVec{};
     u32 _889c{};
     f32 _88a0 = 1.0f;
-    phys::MaterialMask mMask1;
-    phys::MaterialMask mMask2;
+    ksys::phys::MaterialMask mMask1;
+    ksys::phys::MaterialMask mMask2;
     f32 mWaterQuery = -1.0f;
-    sead::Delegate1<PlacementThing, phys::RigidBody*> mDelegate;
+    sead::Delegate1<PlacementThing, ksys::phys::RigidBody*> mDelegate;
     sead::CriticalSection mCS{};
     State mState;
     u8 _8944{};
@@ -141,11 +141,11 @@ public:
     s32 placeGroup(AutoPlacementFlowRes* res);
     s32 sub_7100650908();
     void stepAllRaycasts();
-    void sub_7100650C28(phys::RigidBody* rb);
+    void sub_7100650C28(ksys::phys::RigidBody* rb);
 
 private:
     struct ObjectRef {
-        Object* obj;
+        ksys::map::Object* obj;
         void* _8;
     };
 
@@ -175,4 +175,4 @@ private:
     sead::Buffer<ObjectRef> mObjectRefs;
 };
 
-}  // namespace ksys::map
+}  // namespace uking

@@ -11,7 +11,7 @@ namespace ksys::act {
 class Actor;
 }  // namespace ksys::act
 
-namespace ksys::map {
+namespace uking {
 
 class AutoPlacementMgr {
     SEAD_SINGLETON_DISPOSER(AutoPlacementMgr)
@@ -19,9 +19,9 @@ public:
     AutoPlacementMgr();
     virtual ~AutoPlacementMgr();
 
-    bool sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
+    bool sub_7100659E40(ksys::act::Actor* actor, const sead::SafeString& actor_name, int count,
                         bool is_box);
-    void sub_7100659F94(act::Actor* actor);
+    void sub_7100659F94(ksys::act::Actor* actor);
 
     // 0x0000007100654e44
     bool threadFn();
@@ -38,4 +38,4 @@ public:
 };
 // KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
 
-}  // namespace ksys::map
+}  // namespace uking

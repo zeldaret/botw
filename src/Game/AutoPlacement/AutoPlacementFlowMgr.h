@@ -6,14 +6,14 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resHandle.h"
 
-namespace ksys::map {
+namespace uking {
 
 class AutoPlacement;
 
 struct AutoPlacementFlowRes {
     void start(AutoPlacement* placement, const sead::SafeString& unit_name, int*);
 
-    res::Handle handle;
+    ksys::res::Handle handle;
     sead::SafeString evfl_name;
     evfl::FlowchartContext flowchart_ctx;
     AutoPlacement* placement;
@@ -38,4 +38,4 @@ private:
     sead::SafeArray<AutoPlacementFlowRes, 7> mFlowNearArray;
 };
 
-}  // namespace ksys::map
+}  // namespace uking

@@ -1,9 +1,9 @@
-#include "KingSystem/Map/mapAutoPlacementFlowMgr.h"
+#include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
 #include <container/seadBuffer.h>
 #include <evfl/ResActor.h>
 #include "KingSystem/Resource/resLoadRequest.h"
 
-namespace ksys::map {
+namespace uking {
 
 const char* sFlowResNamesData[] = {
     "AutoPlacement_Animal.bfevfl",
@@ -38,7 +38,7 @@ void AutoPlacementFlowMgr::loadEventFlows() {
 
         sead::FixedSafeString<128> path;
         path.format("EventFlow/%s", flow.evfl_name.cstr());
-        res::LoadRequest req;
+        ksys::res::LoadRequest req;
         req.mRequester = "AutoPlacementFlow";
 
         flow.handle.requestLoad(path, &req);
@@ -51,11 +51,11 @@ void AutoPlacementFlowMgr::loadEventFlows() {
 
         sead::FixedSafeString<128> path;
         path.format("EventFlow/%s", flow.evfl_name.cstr());
-        res::LoadRequest req;
+        ksys::res::LoadRequest req;
         req.mRequester = "AutoPlacementFlow";
 
         flow.handle.requestLoad(path, &req);
     }
 }
 
-}  // namespace ksys::map
+}  // namespace uking
