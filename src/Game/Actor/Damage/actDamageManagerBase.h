@@ -3,39 +3,20 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
-#include "Game/Actor/Damage/dmgInfoManager.h"
-#include "Game/Actor/Damage/dmgStruct20.h"
+#include "Game/Actor/Damage/actDamageInfoMgr.h"
+#include "Game/Actor/Damage/actStruct20.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actIDamageManager.h"
 
 namespace ksys::act {
 class Actor;
 class ActorParam;
 }  // namespace ksys::act
 
-namespace uking::dmg {
-
-class DamageCallback;
-
-// FIXME: Unknown base. This base seems to handle callbacks and messaging, so maybe a shared base?
-class DamageManagerBase_UnknownBase1 {
-public:
-    explicit DamageManagerBase_UnknownBase1(ksys::act::Actor* WeaponActor);
-    virtual ~DamageManagerBase_UnknownBase1() = default;
-
-    // Sturct20 for Damage receive/send?
-    Struct20Base* mStruct20_a = nullptr;
-    Struct20Base* mStruct20_b = nullptr;
-
-    ksys::act::Actor* mActor = nullptr;
-
-    sead::Buffer<DamageCallback*> mCallbacks{};
-
-    // Callback status flags?
-    s32 mField_30 = 0;
-    s8 mField_34 = 0;
-};
+namespace uking::act {
 
 // FIXME: Unknown base 2. Helper functions maybe? Might also contain some of the fields from
 // DamageManagerBase.
@@ -44,25 +25,22 @@ public:
     virtual ~DamageManagerBase_UnknownBase2() = default;
 };
 
-class DamageManagerBase : public DamageManagerBase_UnknownBase1,
-                          public DamageManagerBase_UnknownBase2 {
+class DamageManagerBase : public ksys::act::IDamageManager, public DamageManagerBase_UnknownBase2 {
 public:
     explicit DamageManagerBase(ksys::act::Actor* actor);
     ~DamageManagerBase() override = default;
 
-    SEAD_RTTI_BASE(DamageManagerBase)
+    SEAD_RTTI_OVERRIDE(DamageManagerBase, ksys::act::IDamageManager)
 
-    virtual u32 getDamage();
-    virtual s32 getField48() { return mField_48; }
-    virtual s32 getMinDmg() { return mMinDmg; }
-    virtual s32 getField50() { return mField_50; }
-    virtual s32 getField54() { return mField_54; }
-    virtual bool checkDamageFlags() { return false; }
-    virtual s32 getFlags2() { return mFlags2; }
-    virtual void addDamageCallback(s32 eventId, DamageCallback* callback);
-    virtual void removeDamageCallback(DamageCallback* callback);
+    u32 getDamage() override;
+    s32 getField48() override { return mField_48; }
+    s32 getMinDmg() override { return mMinDmg; }
+    s32 getField50() override { return mField_50; }
+    s32 getField54() override { return mField_54; }
+    bool checkDamageFlags() override { return false; }
+    s32 getFlags2() override { return mFlags2; }
     virtual f32 m13() { return 0.0f; }
-    virtual bool m14() { return false; }
+    virtual bool getStasisBlowVelocity(sead::Vector3f* velocity) { return false; }
     virtual bool applyDamage(s32& life);
     virtual bool m16() { return false; }
     virtual void accumulateStasisBlowVelocity() {}
@@ -140,4 +118,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(DamageManagerBase, 0x68);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

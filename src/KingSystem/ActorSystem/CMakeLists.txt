@@ -101,6 +101,8 @@ target_sources(uking PRIVATE
     actDebug.h
     actGlobalParameter.cpp
     actGlobalParameter.h
+    actIDamageManager.cpp
+    actIDamageManager.h
     actInfoCommon.cpp
     actInfoCommon.h
     actInfoData.cpp

@@ -1,6 +1,5 @@
-#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "Game/Actor/Damage/actDamageManagerBase.h"
 #include "Game/AOC/aocHardModeManager.h"
-#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -9,18 +8,14 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 
-namespace uking::dmg {
-
-DamageManagerBase_UnknownBase1::DamageManagerBase_UnknownBase1(ksys::act::Actor* actor)
-    : mActor(actor) {}
+namespace uking::act {
 
 // Compiler seems to combine zero(0) writes to (0x0 ,0x8) and (0x10, 0x18)
 // when writing the vtable and Actor.
 // The original Compiler writes (0x8, 0x10) in one 'stp', and writes 0x0 and 0x18 individually with
 // 'str'. The rest seems to fall out of sync due to that, but it's otherwise functionally the same.
 // NON_MATCHING: Incorrect order.
-DamageManagerBase::DamageManagerBase(ksys::act::Actor* actor)
-    : DamageManagerBase_UnknownBase1(actor) {}
+DamageManagerBase::DamageManagerBase(ksys::act::Actor* actor) : IDamageManager(actor) {}
 
 u32 DamageManagerBase::getDamage() {
     u32 result;
@@ -30,81 +25,6 @@ u32 DamageManagerBase::getDamage() {
         result = 0LL;
 
     return result;
-}
-
-void DamageManagerBase::addDamageCallback(s32 eventId, DamageCallback* callback) {
-    if (mCallbacks.isBufferReady() && !callback->mDamageManager) {
-        DamageCallback* next = mCallbacks[eventId];
-        if (next) {
-            DamageCallback* prev;
-            while (next) {
-                prev = next;
-                next = next->mNext;
-            }
-
-            prev->mNext = callback;
-            callback->mPrev = prev;
-        } else {
-            mCallbacks[eventId] = callback;
-        }
-
-        callback->mDamageManager = this;
-        callback->mEventId = eventId;
-    }
-}
-
-void DamageManagerBase::removeDamageCallback(DamageCallback* callback) {
-    if (!mCallbacks.isBufferReady() || callback->mDamageManager != this) {
-        return;
-    }
-
-    u32 event_id = callback->mEventId;
-    DamageCallback* current_callback = mCallbacks[event_id];
-    if (!current_callback) {
-        if (mActor) {
-            // Logging about trying to remove missing callback?
-            mActor->nullsub_4649();
-        }
-
-        callback->mDamageManager = nullptr;
-        callback->mEventId = -1;
-#ifdef MATCHING_HACK_NX_CLANG
-        asm("");  // Stop optimizing with the other clear below
-#endif
-        return;
-    }
-
-    if (current_callback == callback) {
-        mCallbacks[event_id] = callback->mNext;
-        current_callback = mCallbacks[event_id];
-        if (current_callback) {
-            current_callback->mPrev = nullptr;
-        }
-#ifdef MATCHING_HACK_NX_CLANG
-        asm("");  // Stop re-using variables, generating an extra register
-#endif
-    } else {
-        do {
-            if (current_callback == callback) {
-                DamageCallback* prev = callback->mPrev;
-                if (prev) {
-                    prev->mNext = callback->mNext;
-                }
-                DamageCallback* next = callback->mNext;
-                if (next) {
-                    next->mPrev = callback->mPrev;
-                }
-            }
-            current_callback = current_callback->mNext;
-        } while (current_callback);
-    }
-    callback->mNext = nullptr;
-#ifdef MATCHING_HACK_NX_CLANG
-    asm("");  // Stop combining the mNext and mDamageManager
-#endif
-    callback->mDamageManager = nullptr;
-    callback->mEventId = -1;
-    callback->mPrev = nullptr;
 }
 
 bool DamageManagerBase::applyDamage(s32& life) {
@@ -276,4 +196,19 @@ s32 DamageManagerBase::m49(s32 damageTypeMaybe) {
     return 0;
 }
 
-}  // namespace uking::dmg
+void Struct20::combineMaybe(ksys::act::Struct20Base* other) {
+    Struct20* otherStruct = sead::DynamicCast<Struct20>(other);
+    if (!otherStruct) {
+        return;
+    }
+
+    mField_8 += otherStruct->mField_8;
+    mField_C += otherStruct->mField_C;
+    mField_10 += otherStruct->mField_10;
+    if (mField_18 < otherStruct->mField_18) {
+        mField_14 = otherStruct->mField_14;
+        mField_18 = otherStruct->mField_18;
+    }
+}
+
+}  // namespace uking::act
