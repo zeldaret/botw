@@ -150,7 +150,7 @@ public:
     void getUniqueName(const char** out) const;
 
     Object* findPlacementLODLinkObject(const PlacementActors* unused) const;
-    Object* findPlacementLODLinkObject() const;
+    Object* findPlacementLODLinkObject_0(const PlacementActors* unused) const;
 
     const char* getHashIdStringDebug() const;
     const char* getHashIdStringDebug_0() const;

@@ -14,7 +14,6 @@ class EntryFactoryBase;
 namespace ksys::act {
 
 class Actor;
-class Camera;
 
 // TODO: incomplete
 class ActorCaptureMgr {
@@ -27,14 +26,14 @@ public:
     virtual ~ActorCaptureMgr();
 
     void init(const InitArg& arg);
-    void setCamera(Camera* camera);
+    void setCamera(Actor* camera);
 
     void loadCaptureParam();
     const char* getCapturedActorName() const;
 
 private:
     Actor* mActor{};
-    Camera* mCamera{};
+    Actor* mCamera{};
     res::EntryFactoryBase* mFactory{};
     res::Handle mDummyFile;
     res::Handle mCaptureParamFile;

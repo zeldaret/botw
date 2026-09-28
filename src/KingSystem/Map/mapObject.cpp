@@ -327,7 +327,7 @@ Object* Object::findPlacementLODLinkObject(const PlacementActors*) const {
     return nullptr;
 }
 
-Object* Object::findPlacementLODLinkObject() const {
+Object* Object::findPlacementLODLinkObject_0(const PlacementActors*) const {
     if (!mLinkData)
         return nullptr;
 

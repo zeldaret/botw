@@ -36,7 +36,7 @@ public:
         : EntryFactoryBase(size_multiplier, size_constant) {}
 
     u32 getResourceSize() const override { return sizeof(T); }
-    u32 getLoadDataAlignment() const override { return T::cLoadDataAlignment; }
+    u32 getLoadDataAlignment() const override { return mResource.getLoadDataAlignment(); }
 
     sead::DirectResource* newResource_(sead::Heap* heap_, s32 alignment) override {
         sead::Heap* heap = util::getHeapOrCurrentHeap(heap_);

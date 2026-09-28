@@ -53162,7 +53162,7 @@ Address,Quality,Size,Name
 0x000000710089cb4c,U,000040,
 0x000000710089cb74,O,000276,_ZN4ksys3act15ActorCaptureMgrC1Ev
 0x000000710089cc88,O,000332,_ZN4ksys3act15ActorCaptureMgr4initERKNS1_7InitArgE
-0x000000710089cdd4,O,000012,_ZN4ksys3act15ActorCaptureMgr9setCameraEPNS0_6CameraE
+0x000000710089cdd4,O,000012,_ZN4ksys3act15ActorCaptureMgr9setCameraEPNS0_5ActorE
 0x000000710089cde0,U,004112,ActorCaptureMgr::x_1
 0x000000710089ddf0,O,000224,_ZN4sead21FormatFixedSafeStringILi1024EEC2EPKcz
 0x000000710089ded0,U,000572,ActorCaptureMgr::calc
@@ -54428,7 +54428,7 @@ Address,Quality,Size,Name
 0x0000007100901ce0,U,000148,nxargs::dtorDelete
 0x0000007100901d74,O,000804,_ZN4ksys6nxargs4initEPN4sead4HeapE
 0x0000007100902098,O,000632,_ZN4ksys6nxargs12allocEntriesEPN4sead4HeapEPKh
-0x0000007100902310,W,000320,_ZN4ksys6nxargs10handleArgsEv
+0x0000007100902310,U,000320,_ZN4ksys6nxargs10handleArgsEv
 0x0000007100902450,U,002848,
 0x0000007100902f70,U,000004,j__ZdlPv_410
 0x0000007100902f74,U,000240,_ZN4sead15FixedSafeStringILi37EEaSERKNS_14SafeStringBaseIcEE
@@ -74326,7 +74326,7 @@ Address,Quality,Size,Name
 0x0000007100d4c3dc,U,000968,PlacementObj::getDispDistanceComplex
 0x0000007100d4c7a4,O,000092,_ZNK4ksys3map6Object26getUnitConfigNameFromByamlEv
 0x0000007100d4c800,O,000052,_ZNK4ksys3map6Object26findPlacementLODLinkObjectEPKNS0_15PlacementActorsE
-0x0000007100d4c834,O,000052,_ZNK4ksys3map6Object26findPlacementLODLinkObjectEv
+0x0000007100d4c834,O,000052,_ZNK4ksys3map6Object28findPlacementLODLinkObject_0EPKNS0_15PlacementActorsE
 0x0000007100d4c868,U,000040,PlacementObj::getPlacementLODLinkObj_0
 0x0000007100d4c890,U,000040,PlacementLinkData::getPlacementLODLinkObj
 0x0000007100d4c8b8,O,000108,_ZNK4ksys3map6Object20getHashIdStringDebugEv
