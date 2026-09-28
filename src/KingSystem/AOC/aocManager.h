@@ -11,15 +11,15 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys {
-class OverlayArena;
-}
-
 namespace sead {
 class FileDevice;
 }
 
-namespace uking::aoc {
+namespace ksys {
+class OverlayArena;
+}
+
+namespace ksys::aoc {
 
 // TODO
 class Manager {
@@ -38,12 +38,12 @@ public:
     /// @return Whether the Champion's Ballad DLC is supported.
     bool hasAoc3() const { return mVersion >= 0x300; }
 
-    void loadAocMainFieldPack(ksys::OverlayArena* arena);
+    void loadAocMainFieldPack(OverlayArena* arena);
     void registerAocMainFieldPack();
     void unloadAocMainFieldPack();
 
     sead::FileDevice* getFileDeviceForMapFile(const sead::SafeString& path) const;
-    bool getFileDeviceForMap(sead::FileDevice** p_file_device, ksys::res::Handle** p_handle,
+    bool getFileDeviceForMap(sead::FileDevice** p_file_device, res::Handle** p_handle,
                              const sead::SafeString& path);
     sead::FileDevice* getFileDeviceForStaticCompound(const sead::SafeString& path) const;
     sead::FileDevice* getFileDeviceForTeraMesh(const sead::SafeString& path) const;
@@ -61,7 +61,7 @@ public:
     static bool isAocField(const sead::SafeString& map_type);
 
     sead::FileDevice* getFileDeviceForDungeonPack(const sead::SafeString& path) const;
-    void registerAocPack(ksys::res::Handle* pack);
+    void registerAocPack(res::Handle* pack);
     bool aocPackHasFile(const sead::SafeString& path) const;
 
     bool changeMoviePath(sead::BufferedSafeString& path) const;
@@ -82,14 +82,14 @@ private:
         sead::Vector3f rotate = sead::Vector3f::zero;
         sead::Vector3f translate2 = sead::Vector3f::zero;
         float scale = 0.0;
-        ksys::gdt::FlagHandle flag_handle = ksys::gdt::InvalidHandle;
+        gdt::FlagHandle flag_handle = gdt::InvalidHandle;
     };
     KSYS_CHECK_SIZE_NX150(DLCPosition, 0x2c);
 
     struct VersionFile {
         bool readVersion();
 
-        ksys::res::Handle file_handle;
+        res::Handle file_handle;
         sead::FixedSafeString<16> string;
     };
     KSYS_CHECK_SIZE_NX150(VersionFile, 0x78);
@@ -100,27 +100,27 @@ private:
     void resetFlags();
     void initGameData();
     void reinitFlags();
-    void onGdtReinit(ksys::gdt::Manager::ReinitEvent* event);
+    void onGdtReinit(gdt::Manager::ReinitEvent* event);
 
     sead::FileDevice* mFileDevice{};
 
-    ksys::res::FileDevicePrefix mVersionFileDevPrefix;
+    res::FileDevicePrefix mVersionFileDevPrefix;
     VersionFile mVersionFile{};
     u32 mVersion{};
 
-    ksys::res::Handle mAocMainFieldPack;
-    ksys::res::FileDevicePrefix mAocMainFieldPackPrefix;
-    ksys::res::Handle* mAocPack{};
-    ksys::res::FileDevicePrefix mAocPackPrefix;
+    res::Handle mAocMainFieldPack;
+    res::FileDevicePrefix mAocMainFieldPackPrefix;
+    res::Handle* mAocPack{};
+    res::FileDevicePrefix mAocPackPrefix;
 
     sead::SafeArray<DLCPosition, 20> mDLCPositions;
 
-    ksys::gdt::FlagHandle mFlagAocVerAtLastPlay{};
-    ksys::gdt::FlagHandle mFlagLatestAocVerPlayed{};
-    ksys::gdt::FlagHandle mFlagHasAocVer1{};
-    ksys::gdt::FlagHandle mFlagHasAocVer2{};
-    ksys::gdt::FlagHandle mFlagHasAocVer3{};
-    ksys::gdt::Manager::ReinitSignal::Slot mGdtReinitSlot;
+    gdt::FlagHandle mFlagAocVerAtLastPlay{};
+    gdt::FlagHandle mFlagLatestAocVerPlayed{};
+    gdt::FlagHandle mFlagHasAocVer1{};
+    gdt::FlagHandle mFlagHasAocVer2{};
+    gdt::FlagHandle mFlagHasAocVer3{};
+    gdt::Manager::ReinitSignal::Slot mGdtReinitSlot;
 
     sead::BitFlag8 mVersionFlags{};
 #ifdef NNSDK
@@ -129,4 +129,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0x598);
 
-}  // namespace uking::aoc
+}  // namespace ksys::aoc

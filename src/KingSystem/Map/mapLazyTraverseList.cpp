@@ -1,6 +1,6 @@
 #include "KingSystem/Map/mapLazyTraverseList.h"
 
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace ksys::map {
@@ -10,9 +10,9 @@ LazyTraverseList::LazyTraverseList(sead::Heap* heap) {
     sead::SafeString path = "Map/MainField/LazyTraverseList.mubin";
     ksys::res::LoadRequest request;
 
-    if (uking::aoc::Manager::instance())
-        uking::aoc::Manager::instance()->getFileDeviceForMap(&request.mAocFileDevice,
-                                                             &request.mPackHandle, path);
+    if (aoc::Manager::instance())
+        aoc::Manager::instance()->getFileDeviceForMap(&request.mAocFileDevice, &request.mPackHandle,
+                                                      path);
 
     handle.load(path, &request);
 

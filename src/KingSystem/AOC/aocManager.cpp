@@ -1,4 +1,4 @@
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include <container/seadBuffer.h>
 #include <filedevice/seadFileDeviceMgr.h>
 #include <prim/seadStringBuilder.h>
@@ -15,7 +15,7 @@
 #include <prim/seadStringUtil.h>
 #endif
 
-namespace uking::aoc {
+namespace ksys::aoc {
 
 namespace {
 
@@ -24,7 +24,7 @@ struct DungeonInfo {
     sead::SafeString flag;
 };
 
-ksys::util::InitConstants sInitConstants;
+util::InitConstants sInitConstants;
 DungeonInfo sDungeonInfoData[] = {
     {120, "Defeat_OneHitDungeon001"},
     {121, "BalladOfHeroGerudo_AppearDungeon03"},
@@ -55,7 +55,7 @@ Manager::Manager() : mVersionFile(), mGdtReinitSlot{this, &Manager::onGdtReinit}
 }
 
 Manager::~Manager() {
-    if (auto* gdm = ksys::gdt::Manager::instance())
+    if (auto* gdm = gdt::Manager::instance())
         gdm->removeReinitCallback(mGdtReinitSlot);
 
     mAocMainFieldPackPrefix.deregister();
@@ -64,23 +64,23 @@ Manager::~Manager() {
 
     if (mFileDevice) {
         sead::FileDeviceMgr::instance()->unmount("aoc");
-        ksys::util::safeDelete(mFileDevice);
+        util::safeDelete(mFileDevice);
     }
 
 #ifdef NNSDK
     if (mAocFsCache) {
         nn::fs::Unmount("aoc");
-        ksys::util::safeDelete(mAocFsCache);
+        util::safeDelete(mAocFsCache);
     }
 #endif
 }
 
 void Manager::resetFlags() {
-    mFlagAocVerAtLastPlay = ksys::gdt::InvalidHandle;
-    mFlagLatestAocVerPlayed = ksys::gdt::InvalidHandle;
-    mFlagHasAocVer1 = ksys::gdt::InvalidHandle;
-    mFlagHasAocVer2 = ksys::gdt::InvalidHandle;
-    mFlagHasAocVer3 = ksys::gdt::InvalidHandle;
+    mFlagAocVerAtLastPlay = gdt::InvalidHandle;
+    mFlagLatestAocVerPlayed = gdt::InvalidHandle;
+    mFlagHasAocVer1 = gdt::InvalidHandle;
+    mFlagHasAocVer2 = gdt::InvalidHandle;
+    mFlagHasAocVer3 = gdt::InvalidHandle;
 }
 
 void Manager::init(sead::Heap* heap) {
@@ -108,7 +108,7 @@ void Manager::loadVersionFile() {
 
     mVersionFileDevPrefix.registerPrefix("Aoc/0010/", mFileDevice, false);
 
-    ksys::res::LoadRequest req;
+    res::LoadRequest req;
     req.mRequester = "aocManager";
     req._26 = false;
     req.mAocFileDevice = mFileDevice;
@@ -116,7 +116,7 @@ void Manager::loadVersionFile() {
     mVersionFile.file_handle.requestLoad(path, &req);
 }
 
-void Manager::loadAocMainFieldPack(ksys::OverlayArena* arena) {
+void Manager::loadAocMainFieldPack(OverlayArena* arena) {
     if (!hasAoc3())
         return;
 
@@ -124,7 +124,7 @@ void Manager::loadAocMainFieldPack(ksys::OverlayArena* arena) {
     if (!device)
         return;
 
-    ksys::res::LoadRequest req;
+    res::LoadRequest req;
     req.mRequester = "aocManager";
     req._8 = true;
     req._26 = false;
@@ -166,7 +166,7 @@ sead::FileDevice* Manager::getFileDeviceForMapFile(const sead::SafeString& path)
     return nullptr;
 }
 
-bool Manager::getFileDeviceForMap(sead::FileDevice** p_file_device, ksys::res::Handle** p_handle,
+bool Manager::getFileDeviceForMap(sead::FileDevice** p_file_device, res::Handle** p_handle,
                                   const sead::SafeString& path) {
     if (!hasAoc2())
         return false;
@@ -363,7 +363,7 @@ sead::FileDevice* Manager::getFileDeviceForDungeonPack(const sead::SafeString& p
     return device;
 }
 
-void Manager::registerAocPack(ksys::res::Handle* pack) {
+void Manager::registerAocPack(res::Handle* pack) {
     mAocPack = pack;
     if (pack) {
         mAocPackPrefix.registerPrefix("Aoc/0010/", pack->getResource(), true);
@@ -382,7 +382,7 @@ bool Manager::aocPackHasFile(const sead::SafeString& path) const {
 
     sead::FixedStringBuilder<0x81> builder;
     builder.copy(path.cstr());
-    ksys::res::ResourceMgrTask::instance()->addSExtensionPrefix(builder);
+    res::ResourceMgrTask::instance()->addSExtensionPrefix(builder);
     return res->isExistFile(builder);
 }
 
@@ -489,7 +489,7 @@ bool Manager::VersionFile::readVersion() {
 
 void Manager::initGameData() {
     reinitFlags();
-    ksys::gdt::Manager::instance()->addReinitCallback(mGdtReinitSlot);
+    gdt::Manager::instance()->addReinitCallback(mGdtReinitSlot);
 }
 
 static const sead::SafeString& getDungeonFlag(int number) {
@@ -501,23 +501,23 @@ static const sead::SafeString& getDungeonFlag(int number) {
 }
 
 void Manager::reinitFlags() {
-    mFlagAocVerAtLastPlay = ksys::gdt::Manager::instance()->getS32Handle("AoCVerAtLastPlay");
-    mFlagLatestAocVerPlayed = ksys::gdt::Manager::instance()->getS32Handle("LatestAoCVerPlayed");
+    mFlagAocVerAtLastPlay = gdt::Manager::instance()->getS32Handle("AoCVerAtLastPlay");
+    mFlagLatestAocVerPlayed = gdt::Manager::instance()->getS32Handle("LatestAoCVerPlayed");
     mFlagHasAocVer1 =
-        ksys::gdt::Manager::instance()->getBoolHandle(GameDataFlag::text(GameDataFlag::HasAoCVer1));
+        gdt::Manager::instance()->getBoolHandle(GameDataFlag::text(GameDataFlag::HasAoCVer1));
     mFlagHasAocVer2 =
-        ksys::gdt::Manager::instance()->getBoolHandle(GameDataFlag::text(GameDataFlag::HasAoCVer2));
+        gdt::Manager::instance()->getBoolHandle(GameDataFlag::text(GameDataFlag::HasAoCVer2));
     mFlagHasAocVer3 =
-        ksys::gdt::Manager::instance()->getBoolHandle(GameDataFlag::text(GameDataFlag::HasAoCVer3));
+        gdt::Manager::instance()->getBoolHandle(GameDataFlag::text(GameDataFlag::HasAoCVer3));
 
     for (int i = 0; i < mDLCPositions.size(); ++i) {
-        ksys::gdt::FlagHandle handle = ksys::gdt::InvalidHandle;
+        gdt::FlagHandle handle = gdt::InvalidHandle;
 
         if (i < NumDungeons) {
-            if (mDLCPositions[i].flag_handle == ksys::gdt::InvalidHandle)
+            if (mDLCPositions[i].flag_handle == gdt::InvalidHandle)
                 continue;
 
-            handle = ksys::gdt::Manager::instance()->getBoolHandle(getDungeonFlag(i + 120));
+            handle = gdt::Manager::instance()->getBoolHandle(getDungeonFlag(i + 120));
         }
 
         mDLCPositions[i].flag_handle = handle;
@@ -525,22 +525,22 @@ void Manager::reinitFlags() {
 }
 
 void Manager::setGameDataFlags() const {
-    ksys::gdt::Manager::instance()->setS32(mVersion, mFlagAocVerAtLastPlay);
+    gdt::Manager::instance()->setS32(mVersion, mFlagAocVerAtLastPlay);
 
     s32 latest_ver;
-    if (ksys::gdt::Manager::instance()->getS32(mFlagLatestAocVerPlayed, &latest_ver)) {
+    if (gdt::Manager::instance()->getS32(mFlagLatestAocVerPlayed, &latest_ver)) {
         if (u32(latest_ver) < mVersion)
-            ksys::gdt::Manager::instance()->setS32(mVersion, mFlagLatestAocVerPlayed);
+            gdt::Manager::instance()->setS32(mVersion, mFlagLatestAocVerPlayed);
     }
 
     const auto ver = mVersion;
-    ksys::gdt::Manager::instance()->setBool(ver >= 0x100, mFlagHasAocVer1);
-    ksys::gdt::Manager::instance()->setBool(ver >= 0x200, mFlagHasAocVer2);
-    ksys::gdt::Manager::instance()->setBool(ver >= 0x300, mFlagHasAocVer3);
+    gdt::Manager::instance()->setBool(ver >= 0x100, mFlagHasAocVer1);
+    gdt::Manager::instance()->setBool(ver >= 0x200, mFlagHasAocVer2);
+    gdt::Manager::instance()->setBool(ver >= 0x300, mFlagHasAocVer3);
 }
 
-void Manager::onGdtReinit(ksys::gdt::Manager::ReinitEvent* event) {
+void Manager::onGdtReinit(gdt::Manager::ReinitEvent* event) {
     reinitFlags();
 }
 
-}  // namespace uking::aoc
+}  // namespace ksys::aoc

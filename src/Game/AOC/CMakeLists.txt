@@ -3,6 +3,4 @@ target_sources(uking PRIVATE
   aocChampionBalladManager.h
   aocHardModeManager.cpp
   aocHardModeManager.h
-  aocManager.cpp
-  aocManager.h
 )

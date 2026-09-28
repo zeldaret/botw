@@ -4,7 +4,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 
-namespace uking {
+namespace uking::aoc {
 
 enum class BlightType : u32 { Wind, Electric, Fire, Water };
 
@@ -23,4 +23,4 @@ private:
     sead::SafeArray<u8, 4> mBlightCounts;
 };
 
-}  // namespace uking
+}  // namespace uking::aoc

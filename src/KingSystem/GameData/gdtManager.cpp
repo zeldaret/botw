@@ -8,7 +8,7 @@
 #include <thread/seadThreadUtil.h>
 #include <time/seadTickTime.h>
 #include <type_traits>
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Map/mapMubinIter.h"
@@ -426,7 +426,7 @@ void Manager::fixQuestFlags() {
 }
 
 void Manager::fixQuestFlagsDlc2() {
-    if (uking::aoc::Manager::instance()->hasAoc3())
+    if (aoc::Manager::instance()->hasAoc3())
         return;
 
     enum {

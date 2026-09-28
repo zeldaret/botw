@@ -1,6 +1,6 @@
-#include "Game/DLC/aocChampionBalladManager.h"
+#include "Game/AOC/aocChampionBalladManager.h"
 
-namespace uking {
+namespace uking::aoc {
 
 SEAD_SINGLETON_DISPOSER_IMPL(ChampionBalladManager)
 
@@ -29,4 +29,4 @@ s8 ChampionBalladManager::getBlightRematchCount(BlightType blight_type) const {
         return mBlightCounts[u32(blight_type)];
     return 0;
 }
-}  // namespace uking
+}  // namespace uking::aoc

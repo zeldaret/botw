@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiCookPotRoot.h"
-#include "Game/DLC/aocHardModeManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include "KingSystem/ActorSystem/actActor.h"
