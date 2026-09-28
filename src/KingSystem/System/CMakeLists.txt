@@ -15,8 +15,6 @@ target_sources(uking PRIVATE
     CoreInfo.h
     CurrentResNameMgr.cpp
     CurrentResNameMgr.h
-    DebugFinder.cpp
-    DebugFinder.h
     DebugMessage.h
     GameConfig.h
     HavokWorkerMgr.cpp
@@ -48,6 +46,8 @@ target_sources(uking PRIVATE
     Revision.h
     StageInfo.cpp
     StageInfo.h
+    StagePreActorCache.cpp
+    StagePreActorCache.h
     StarterPackMgr.cpp
     StarterPackMgr.h
     StringBoard.h

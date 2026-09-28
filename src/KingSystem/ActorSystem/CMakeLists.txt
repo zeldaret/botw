@@ -13,9 +13,6 @@ target_sources(uking PRIVATE
     Awareness/actAwarenessInstance.h
 
 
-    LOD/actLodState.cpp
-    LOD/actLodState.h
-
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
     Profiles/actWeaponBase.cpp
@@ -62,10 +59,6 @@ target_sources(uking PRIVATE
     actAiQuery.h
     actAiQueries.cpp
     actAiQueries.h
-    actAiRoot.cpp
-    actAiRoot.h
-    actASSetting.cpp
-    actASSetting.h
     actBaseProc.cpp
     actBaseProc.h
     actBaseProcAccessor.cpp
@@ -99,6 +92,8 @@ target_sources(uking PRIVATE
     actClusteredRenderer.h
     actDebug.cpp
     actDebug.h
+    actDebugFinder.cpp
+    actDebugFinder.h
     actGlobalParameter.cpp
     actGlobalParameter.h
     actIDamageManager.cpp
@@ -110,6 +105,8 @@ target_sources(uking PRIVATE
     actInstParamPack.cpp
     actInstParamPack.h
     actLifeRecoveryInfo.h
+    actLodState.cpp
+    actLodState.h
     actPhysicsConstraints.cpp
     actPhysicsConstraints.h
     actPhysicsUserTag.cpp
@@ -134,6 +131,8 @@ target_sources(uking PRIVATE
     aiFork6AI.h
     aiForkAI.cpp
     aiForkAI.h
+    aiRootAi.cpp
+    aiRootAi.h
 
     behaviorDummyBehavior.cpp
     behaviorDummyBehavior.h

@@ -3,7 +3,7 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 
-namespace ksys {
+namespace ksys::act {
 
 class DebugFinder {
     SEAD_SINGLETON_DISPOSER(DebugFinder)
@@ -16,4 +16,4 @@ private:
     u32 unused_3 = 0;
 };
 
-}  // namespace ksys
+}  // namespace ksys::act

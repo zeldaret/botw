@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actActorEditorNode.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/System/KingEditor.h"
 
 namespace ksys::act {
