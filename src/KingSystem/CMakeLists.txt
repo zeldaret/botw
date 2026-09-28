@@ -17,6 +17,7 @@ add_subdirectory(Sound)
 add_subdirectory(System)
 add_subdirectory(Terrain)
 add_subdirectory(Utils)
+add_subdirectory(Volante)
 add_subdirectory(World)
 add_subdirectory(XLink)
 

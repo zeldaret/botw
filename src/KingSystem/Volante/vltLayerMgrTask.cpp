@@ -1,7 +1,10 @@
-#include "KingSystem/Utils/HeapUtil.h"
 #include <heap/seadHeapMgr.h>
 #include <thread/seadThread.h>
+#include "KingSystem/Utils/HeapUtil.h"
 
+// The heap helpers declared in HeapUtil.h are defined at the start of this TU in the original
+// binary: they follow a static initializer, their statics sit right before LayerMgrTask::sInstance
+// and they are out-of-line.
 namespace ksys::util {
 
 // Name, layout and purpose unknown; this is stubbed in release builds
