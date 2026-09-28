@@ -13,6 +13,8 @@ target_sources(uking PRIVATE
     CameraEditor.cpp
     CameraEditor.h
     CoreInfo.h
+    CurrentResNameMgr.cpp
+    CurrentResNameMgr.h
     DebugFinder.cpp
     DebugFinder.h
     DebugMessage.h

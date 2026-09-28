@@ -1,6 +1,6 @@
-#include "KingSystem/Resource/resCurrentResNameMgr.h"
+#include "KingSystem/System/CurrentResNameMgr.h"
 
-namespace ksys::res {
+namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(CurrentResNameMgr)
 
@@ -10,4 +10,4 @@ sead::SafeString CurrentResNameMgr::getCurrentResName() const {
     return sead::SafeString::cEmptyString;
 }
 
-}  // namespace ksys::res
+}  // namespace ksys

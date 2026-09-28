@@ -4,7 +4,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::res {
+namespace ksys {
 
 /// Current Resource Name Manager?
 /// Stubbed in release builds.
@@ -18,4 +18,4 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(CurrentResNameMgr, 0x20);
 
-}  // namespace ksys::res
+}  // namespace ksys

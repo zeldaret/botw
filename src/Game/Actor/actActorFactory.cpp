@@ -1,7 +1,7 @@
-#include "KingSystem/ActorSystem/actActorFactory.h"
+#include "Game/Actor/actActorFactory.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 
-namespace ksys::act {
+namespace uking::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(ActorFactoryHolder)
 
@@ -10,12 +10,12 @@ void ActorFactory::dummy() {}
 void ActorFactory::dummy2() {}
 
 ActorFactoryHolder::~ActorFactoryHolder() {
-    ActorCreator::deleteInstance();
+    ksys::act::ActorCreator::deleteInstance();
 }
 
 void ActorFactoryHolder::init(sead::Heap* heap) {
-    ActorCreator::createInstance(heap);
-    ActorCreator::instance()->setActorFactory(&mFactory);
+    ksys::act::ActorCreator::createInstance(heap);
+    ksys::act::ActorCreator::instance()->setActorFactory(&mFactory);
 }
 
-}  // namespace ksys::act
+}  // namespace uking::act
