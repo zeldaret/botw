@@ -1,6 +1,6 @@
-#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
-#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {

@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
 #include <Havok/Common/Base/Types/Geometry/hkStridedVertices.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/ConvexTransform/hkpConvexTransformShape.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>

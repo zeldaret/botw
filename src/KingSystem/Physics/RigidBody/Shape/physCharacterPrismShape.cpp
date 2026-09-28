@@ -1,8 +1,8 @@
-#include "KingSystem/Physics/RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCharacterPrismShape.h"
 #include <Havok/Geometry/Internal/Types/hkcdVertex.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/hkpConvexShape.h>
-#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
 #include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {

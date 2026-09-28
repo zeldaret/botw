@@ -1,12 +1,12 @@
-#include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
+#include "KingSystem/Physics/System/physStaticCompound.h"
 #include <Havok/Common/Serialize/Util/hkNativePackfileUtils.h>
 #include <Havok/Common/Serialize/Util/hkRootLevelContainer.h>
 #include <Havok/Physics2012/Utilities/Serialize/hkpPhysicsData.h>
 #include <heap/seadHeapMgr.h>
 #include <prim/seadScopedLock.h>
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundInfo.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
+#include "KingSystem/Physics/System/physStaticCompoundInfo.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundRigidBodyGroup.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/Debug.h"
 #include "KingSystem/Utils/HeapUtil.h"

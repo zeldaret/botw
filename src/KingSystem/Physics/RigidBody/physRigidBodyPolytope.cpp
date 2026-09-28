@@ -1,5 +1,5 @@
-#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyPolytope.h"
+#include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {

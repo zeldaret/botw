@@ -1,9 +1,9 @@
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include <Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h>
 #include <prim/seadScopedLock.h>
-#include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundInfo.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
+#include "KingSystem/Physics/System/physStaticCompound.h"
+#include "KingSystem/Physics/System/physStaticCompoundInfo.h"
+#include "KingSystem/Physics/System/physStaticCompoundRigidBodyGroup.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {

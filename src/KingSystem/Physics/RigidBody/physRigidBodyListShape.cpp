@@ -1,5 +1,5 @@
-#include "KingSystem/Physics/RigidBody/Shape/List/physListShapeRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/List/physListShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physListShape.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {

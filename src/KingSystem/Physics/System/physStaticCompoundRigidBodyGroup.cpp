@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
+#include "KingSystem/Physics/System/physStaticCompoundRigidBodyGroup.h"
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpPhysicsSystem.h>
@@ -6,8 +6,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromResource.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundInfo.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physStaticCompoundInfo.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/MathUtil.h"
 

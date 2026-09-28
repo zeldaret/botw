@@ -1,14 +1,14 @@
-#include "KingSystem/Physics/RigidBody/Shape/List/physListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physListShape.h"
 #include <Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 #include <Havok/Physics2012/Collide/Shape/Convex/Sphere/hkpSphereShape.h>
 #include <basis/seadRawPrint.h>
 #include <container/seadSafeArray.h>
-#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeShape.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCharacterPrismShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/physHeapUtil.h"
 
 namespace ksys::phys {
