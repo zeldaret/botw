@@ -6,8 +6,11 @@
 #include "container/seadRingBuffer.h"
 
 namespace ksys::act {
-
 class Actor;
+}
+
+namespace uking::act {
+
 class PlayerBase;
 
 class PlayerInfoBase {
@@ -22,15 +25,15 @@ class PlayerInfo : public PlayerInfoBase {
     ~PlayerInfo() override;
 
 public:
-    BaseProcLink& getPlayerLink() { return mPlayerLink; }
+    ksys::act::BaseProcLink& getPlayerLink() { return mPlayerLink; }
     bool init();
     void setAndAcquirePlayer(PlayerBase* player);  // requires PlayerOrEnemy and PlayerBase
     void resetPlayer(PlayerBase* player);
-    bool acquireHorse(BaseProc* horse);
-    void setHorseLink(const BaseProcLink& horse_link);
+    bool acquireHorse(ksys::act::BaseProc* horse);
+    void setHorseLink(const ksys::act::BaseProcLink& horse_link);
     PlayerBase* getPlayer() const;
     PlayerBase* getPlayer_() const;                // possibly duped by compiler?
-    Actor* getRiddenHorse() const;                 // requires PlayerBase vtable
+    ksys::act::Actor* getRiddenHorse() const;      // requires PlayerBase vtable
     void setMaxLifeForPlayerActor(s32 max_heart);  // requires PlayerBase
     s32 getMaxLifeFromPlayerActor() const;
     void setMaxHeartValue(s32 quarter_hearts);
@@ -101,8 +104,8 @@ private:
         ~Info7() override;
     } mInfo7;
     PlayerBase* mPlayerActor = nullptr;
-    BaseProcLink mPlayerLink;
-    BaseProcLink mHorseLink;
+    ksys::act::BaseProcLink mPlayerLink;
+    ksys::act::BaseProcLink mHorseLink;
     sead::Vector3f mPlayerPos{0, 0, 0};
     sead::Vector3f mPlayerPosForPostCalc{0, 0, 0};
     f32 mMaxHeartValue = 0;
@@ -117,4 +120,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(PlayerInfo, 0x3B0);
 
-}  // namespace ksys::act
+}  // namespace uking::act

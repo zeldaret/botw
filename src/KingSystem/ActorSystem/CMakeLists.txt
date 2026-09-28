@@ -16,8 +16,6 @@ target_sources(uking PRIVATE
     LOD/actLodState.cpp
     LOD/actLodState.h
 
-    Profiles/actPlayerBase.cpp
-    Profiles/actPlayerBase.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
     Profiles/actWeaponBase.cpp
@@ -116,10 +114,6 @@ target_sources(uking PRIVATE
     actPhysicsConstraints.h
     actPhysicsUserTag.cpp
     actPhysicsUserTag.h
-    actPlayerInfo.cpp
-    actPlayerInfo.h
-    actPlayerInfoBase.cpp
-    actPlayerInfoStub.cpp
     actTag.h
 
     actionDummyAction.cpp

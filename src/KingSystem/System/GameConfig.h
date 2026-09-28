@@ -2,6 +2,8 @@
 
 #include <prim/seadSafeString.h>
 
+namespace ksys {
+
 class GameConfig {
 public:
     static GameConfig* getInstance() { return sInstancePtr; }
@@ -15,3 +17,5 @@ public:
 private:
     static GameConfig* sInstancePtr;
 };
+
+}  // namespace ksys

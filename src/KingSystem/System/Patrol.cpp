@@ -1,6 +1,6 @@
 #include "KingSystem/System/Patrol.h"
 #include <devenv/seadEnvUtil.h>
-#include "KingSystem/Framework/GameConfig.h"
+#include "KingSystem/System/GameConfig.h"
 
 namespace ksys {
 

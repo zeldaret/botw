@@ -4,6 +4,8 @@
 #include <limits>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actPlayerCreateUtils.h"
 #include "Game/Actor/actWeapon.h"
@@ -12,14 +14,12 @@
 #include "Game/Scene/gameScene.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameItemUtils.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
@@ -315,7 +315,7 @@ void PauseMenuDataMgr::initForNewSave() {
     mCanSeeHealthBar = false;
     mEquippedWeapons.fill({});
 
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
     if (player) {
         player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponRight), 1);
         player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponLeft), 1);
@@ -1357,7 +1357,7 @@ void PauseMenuDataMgr::removeItem(const sead::SafeString& name) {
 
 void PauseMenuDataMgr::removeWeaponIfEquipped(const sead::SafeString& name) {
     const auto lock = sead::makeScopedLock(mCritSection);
-    if (!ksys::act::PlayerInfo::instance()->getPlayer())
+    if (!uking::act::PlayerInfo::instance()->getPlayer())
         return;
 
     const auto& items = getItems();
@@ -1502,7 +1502,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
         }
     }
 
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
 
     s32 slot = 0;  // <- this is required to match
     for (u64 i = 0; i != equipment_items.size(); slot = s32(++i)) {

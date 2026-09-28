@@ -1,5 +1,5 @@
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
-namespace ksys::act {
+#include "Game/Actor/Player/actPlayerInfo.h"
+namespace uking::act {
 // these are separate from actPlayerInfo.cpp so clang doesn't inline/dedupe them
 PlayerInfo::Info1::Info1() = default;
 PlayerInfo::Info1::~Info1() = default;
@@ -16,4 +16,4 @@ PlayerInfo::Info6::~Info6() = default;
 PlayerInfo::Info7::Info7() = default;
 PlayerInfo::Info7::~Info7() = default;
 
-}  // namespace ksys::act
+}  // namespace uking::act

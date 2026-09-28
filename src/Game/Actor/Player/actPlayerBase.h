@@ -3,10 +3,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
-namespace ksys::act {
+namespace uking::act {
 
 // TODO
-class PlayerBase : public Actor {
+class PlayerBase : public ksys::act::Actor {
 public:
     // FIXME: name for x and name+type for y
     void switchEquipment(const sead::SafeString& slot, int frames, int x = -1,
@@ -16,4 +16,4 @@ public:
     void setExtraLife(s32 extra_life, f32 x);
 };
 
-}  // namespace ksys::act
+}  // namespace uking::act

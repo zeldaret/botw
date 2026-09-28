@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryComparePlayerMaxStamina.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -9,7 +9,7 @@ ComparePlayerMaxStamina::ComparePlayerMaxStamina(const InitArg& arg) : ksys::act
 ComparePlayerMaxStamina::~ComparePlayerMaxStamina() = default;
 
 int ComparePlayerMaxStamina::doQuery() {
-    auto* pi = ksys::act::PlayerInfo::instance();
+    auto* pi = uking::act::PlayerInfo::instance();
     if (pi == nullptr)
         return 0;
 
