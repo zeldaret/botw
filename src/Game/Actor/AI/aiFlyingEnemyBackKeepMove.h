@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiFlyingEnemyKeepMove.h"
+#include "Game/Actor/AI/aiFlyingEnemyDistanceKeepMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class FlyingEnemyBackKeepMove : public FlyingEnemyKeepMove {
-    SEAD_RTTI_OVERRIDE(FlyingEnemyBackKeepMove, FlyingEnemyKeepMove)
+class FlyingEnemyBackKeepMove : public FlyingEnemyDistanceKeepMove {
+    SEAD_RTTI_OVERRIDE(FlyingEnemyBackKeepMove, FlyingEnemyDistanceKeepMove)
 public:
     explicit FlyingEnemyBackKeepMove(const InitArg& arg);
     ~FlyingEnemyBackKeepMove() override;

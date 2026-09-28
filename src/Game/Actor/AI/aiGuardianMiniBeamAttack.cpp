@@ -2,20 +2,21 @@
 
 namespace uking::ai {
 
-GuardianMiniBeamAttack::GuardianMiniBeamAttack(const InitArg& arg) : MiniBeamAttack(arg) {}
+GuardianMiniBeamAttack::GuardianMiniBeamAttack(const InitArg& arg)
+    : GuideBeamAttackEnemyBattle(arg) {}
 
 GuardianMiniBeamAttack::~GuardianMiniBeamAttack() = default;
 
 void GuardianMiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    MiniBeamAttack::enter_(params);
+    GuideBeamAttackEnemyBattle::enter_(params);
 }
 
 void GuardianMiniBeamAttack::leave_() {
-    MiniBeamAttack::leave_();
+    GuideBeamAttackEnemyBattle::leave_();
 }
 
 void GuardianMiniBeamAttack::loadParams_() {
-    MiniBeamAttack::loadParams_();
+    GuideBeamAttackEnemyBattle::loadParams_();
     getStaticParam(&mHeadNodeName_s, "HeadNodeName");
     getStaticParam(&mAttackInterval_s, "AttackInterval");
     getStaticParam(&mEndShaderASFrame_s, "EndShaderASFrame");

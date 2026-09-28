@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-SiteBossBowBlowOff::SiteBossBowBlowOff(const InitArg& arg) : SiteBossBlowOff(arg) {}
+SiteBossBowBlowOff::SiteBossBowBlowOff(const InitArg& arg) : LastBossBlowOff(arg) {}
 
 SiteBossBowBlowOff::~SiteBossBowBlowOff() = default;
 
 bool SiteBossBowBlowOff::init_(sead::Heap* heap) {
-    return SiteBossBlowOff::init_(heap);
+    return LastBossBlowOff::init_(heap);
 }
 
 void SiteBossBowBlowOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossBlowOff::enter_(params);
+    LastBossBlowOff::enter_(params);
 }
 
 void SiteBossBowBlowOff::leave_() {
-    SiteBossBlowOff::leave_();
+    LastBossBlowOff::leave_();
 }
 
 void SiteBossBowBlowOff::loadParams_() {
-    SiteBossBlowOff::loadParams_();
+    LastBossBlowOff::loadParams_();
     getStaticParam(&mAddForceRecoverTime_s, "AddForceRecoverTime");
     getStaticParam(&mIsRemoveCharacterController_s, "IsRemoveCharacterController");
     getStaticParam(&mForceRecoverDist_s, "ForceRecoverDist");
@@ -27,7 +27,7 @@ void SiteBossBowBlowOff::loadParams_() {
 }
 
 void SiteBossBowBlowOff::calc_() {
-    SiteBossBlowOff::calc_();
+    LastBossBlowOff::calc_();
 }
 
 }  // namespace uking::action

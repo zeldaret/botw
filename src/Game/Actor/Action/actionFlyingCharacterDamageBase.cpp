@@ -3,24 +3,24 @@
 namespace uking::action {
 
 FlyingCharacterDamageBase::FlyingCharacterDamageBase(const InitArg& arg)
-    : FlyingCharacterReaction(arg) {}
+    : FlyingCharacterFreeFallBase(arg) {}
 
 FlyingCharacterDamageBase::~FlyingCharacterDamageBase() = default;
 
 bool FlyingCharacterDamageBase::init_(sead::Heap* heap) {
-    return FlyingCharacterReaction::init_(heap);
+    return FlyingCharacterFreeFallBase::init_(heap);
 }
 
 void FlyingCharacterDamageBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterReaction::enter_(params);
+    FlyingCharacterFreeFallBase::enter_(params);
 }
 
 void FlyingCharacterDamageBase::leave_() {
-    FlyingCharacterReaction::leave_();
+    FlyingCharacterFreeFallBase::leave_();
 }
 
 void FlyingCharacterDamageBase::loadParams_() {
-    FlyingCharacterReaction::loadParams_();
+    FlyingCharacterFreeFallBase::loadParams_();
     getStaticParam(&mHitImpactForceSmallSwordS_s, "HitImpactForceSmallSwordS");
     getStaticParam(&mHitImpactForceSmallSwordL_s, "HitImpactForceSmallSwordL");
     getStaticParam(&mHitImpactForceLargeSwordS_s, "HitImpactForceLargeSwordS");
@@ -39,7 +39,7 @@ void FlyingCharacterDamageBase::loadParams_() {
 }
 
 void FlyingCharacterDamageBase::calc_() {
-    FlyingCharacterReaction::calc_();
+    FlyingCharacterFreeFallBase::calc_();
 }
 
 }  // namespace uking::action

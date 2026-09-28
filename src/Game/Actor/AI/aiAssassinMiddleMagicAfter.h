@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiAssassinMagicTgtSelect.h"
+#include "Game/Actor/AI/aiTargetHeightAreaSelect.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class AssassinMiddleMagicAfter : public AssassinMagicTgtSelect {
-    SEAD_RTTI_OVERRIDE(AssassinMiddleMagicAfter, AssassinMagicTgtSelect)
+class AssassinMiddleMagicAfter : public TargetHeightAreaSelect {
+    SEAD_RTTI_OVERRIDE(AssassinMiddleMagicAfter, TargetHeightAreaSelect)
 public:
     explicit AssassinMiddleMagicAfter(const InitArg& arg);
     ~AssassinMiddleMagicAfter() override;

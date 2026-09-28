@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-ForestGiantFindPlayer::ForestGiantFindPlayer(const InitArg& arg) : LargeEnemyFindPlayer(arg) {}
+ForestGiantFindPlayer::ForestGiantFindPlayer(const InitArg& arg) : GiantEnemyFindPlayer(arg) {}
 
 ForestGiantFindPlayer::~ForestGiantFindPlayer() = default;
 
 bool ForestGiantFindPlayer::init_(sead::Heap* heap) {
-    return LargeEnemyFindPlayer::init_(heap);
+    return GiantEnemyFindPlayer::init_(heap);
 }
 
 void ForestGiantFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    LargeEnemyFindPlayer::enter_(params);
+    GiantEnemyFindPlayer::enter_(params);
 }
 
 void ForestGiantFindPlayer::leave_() {
-    LargeEnemyFindPlayer::leave_();
+    GiantEnemyFindPlayer::leave_();
 }
 
 void ForestGiantFindPlayer::loadParams_() {
-    LargeEnemyFindPlayer::loadParams_();
+    GiantEnemyFindPlayer::loadParams_();
 }
 
 }  // namespace uking::ai

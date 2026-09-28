@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionBattleCloseSlippedWalkBase.h"
+#include "Game/Actor/Action/actionBattleCloseSlippedMoveBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class BattleCloseSlippedWalk : public BattleCloseSlippedWalkBase {
-    SEAD_RTTI_OVERRIDE(BattleCloseSlippedWalk, BattleCloseSlippedWalkBase)
+class BattleCloseSlippedWalk : public BattleCloseSlippedMoveBase {
+    SEAD_RTTI_OVERRIDE(BattleCloseSlippedWalk, BattleCloseSlippedMoveBase)
 public:
     explicit BattleCloseSlippedWalk(const InitArg& arg);
     ~BattleCloseSlippedWalk() override;

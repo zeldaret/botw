@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiBeamExplodeBase.h"
+#include "Game/Actor/AI/aiSimpleBeamExplode.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class GuardianMiniBeam : public BeamExplodeBase {
-    SEAD_RTTI_OVERRIDE(GuardianMiniBeam, BeamExplodeBase)
+class GuardianMiniBeam : public SimpleBeamExplode {
+    SEAD_RTTI_OVERRIDE(GuardianMiniBeam, SimpleBeamExplode)
 public:
     explicit GuardianMiniBeam(const InitArg& arg);
     ~GuardianMiniBeam() override;

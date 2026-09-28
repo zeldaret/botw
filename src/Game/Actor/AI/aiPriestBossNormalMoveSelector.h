@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class PriestBossNormalMoveSelector : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossNormalMoveSelector, PriestBossMode)
+class PriestBossNormalMoveSelector : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossNormalMoveSelector, PriestBoss)
 public:
     explicit PriestBossNormalMoveSelector(const InitArg& arg);
     ~PriestBossNormalMoveSelector() override;

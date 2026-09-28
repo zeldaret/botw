@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionAtkTackleMove.h"
+#include "Game/Actor/Action/actionTackleAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SandwormTackleMove : public AtkTackleMove {
-    SEAD_RTTI_OVERRIDE(SandwormTackleMove, AtkTackleMove)
+class SandwormTackleMove : public TackleAttack {
+    SEAD_RTTI_OVERRIDE(SandwormTackleMove, TackleAttack)
 public:
     explicit SandwormTackleMove(const InitArg& arg);
     ~SandwormTackleMove() override;

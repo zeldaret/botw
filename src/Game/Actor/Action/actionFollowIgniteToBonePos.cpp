@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-FollowIgniteToBonePos::FollowIgniteToBonePos(const InitArg& arg) : RotateTurnToTarget(arg) {}
+FollowIgniteToBonePos::FollowIgniteToBonePos(const InitArg& arg) : ASPlayRotateTurnToTarget(arg) {}
 
 FollowIgniteToBonePos::~FollowIgniteToBonePos() = default;
 
 bool FollowIgniteToBonePos::init_(sead::Heap* heap) {
-    return RotateTurnToTarget::init_(heap);
+    return ASPlayRotateTurnToTarget::init_(heap);
 }
 
 void FollowIgniteToBonePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    RotateTurnToTarget::enter_(params);
+    ASPlayRotateTurnToTarget::enter_(params);
 }
 
 void FollowIgniteToBonePos::leave_() {
-    RotateTurnToTarget::leave_();
+    ASPlayRotateTurnToTarget::leave_();
 }
 
 void FollowIgniteToBonePos::loadParams_() {
-    RotateTurnToTarget::loadParams_();
+    ASPlayRotateTurnToTarget::loadParams_();
     getStaticParam(&mLocalOffSetX_s, "LocalOffSetX");
     getStaticParam(&mLocalOffSetY_s, "LocalOffSetY");
     getStaticParam(&mLocalOffSetZ_s, "LocalOffSetZ");
@@ -28,7 +28,7 @@ void FollowIgniteToBonePos::loadParams_() {
 }
 
 void FollowIgniteToBonePos::calc_() {
-    RotateTurnToTarget::calc_();
+    ASPlayRotateTurnToTarget::calc_();
 }
 
 }  // namespace uking::action

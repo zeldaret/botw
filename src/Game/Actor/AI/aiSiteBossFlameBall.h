@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiSiteBossChemicalProjectile.h"
+#include "Game/Actor/AI/aiGanonFlameBall.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class SiteBossFlameBall : public SiteBossChemicalProjectile {
-    SEAD_RTTI_OVERRIDE(SiteBossFlameBall, SiteBossChemicalProjectile)
+class SiteBossFlameBall : public GanonFlameBall {
+    SEAD_RTTI_OVERRIDE(SiteBossFlameBall, GanonFlameBall)
 public:
     explicit SiteBossFlameBall(const InitArg& arg);
     ~SiteBossFlameBall() override;

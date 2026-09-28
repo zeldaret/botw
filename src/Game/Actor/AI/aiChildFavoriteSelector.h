@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiChildFavoriteSelectorBase.h"
+#include "Game/Actor/AI/aiChildSelector.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class ChildFavoriteSelector : public ChildFavoriteSelectorBase {
-    SEAD_RTTI_OVERRIDE(ChildFavoriteSelector, ChildFavoriteSelectorBase)
+class ChildFavoriteSelector : public ChildSelector {
+    SEAD_RTTI_OVERRIDE(ChildFavoriteSelector, ChildSelector)
 public:
     explicit ChildFavoriteSelector(const InitArg& arg);
     ~ChildFavoriteSelector() override;

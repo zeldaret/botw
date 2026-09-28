@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-AnimalEscapeAI::AnimalEscapeAI(const InitArg& arg) : AnimalRoamBase(arg) {}
+AnimalEscapeAI::AnimalEscapeAI(const InitArg& arg) : AnimalRndMove(arg) {}
 
 AnimalEscapeAI::~AnimalEscapeAI() = default;
 
 bool AnimalEscapeAI::init_(sead::Heap* heap) {
-    return AnimalRoamBase::init_(heap);
+    return AnimalRndMove::init_(heap);
 }
 
 void AnimalEscapeAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    AnimalRoamBase::enter_(params);
+    AnimalRndMove::enter_(params);
 }
 
 void AnimalEscapeAI::leave_() {
-    AnimalRoamBase::leave_();
+    AnimalRndMove::leave_();
 }
 
 void AnimalEscapeAI::loadParams_() {
-    AnimalRoamBase::loadParams_();
+    AnimalRndMove::loadParams_();
     getStaticParam(&mNumTimesAllowStuck_s, "NumTimesAllowStuck");
     getStaticParam(&mContinueDistance_s, "ContinueDistance");
     getStaticParam(&mShouldEscapeDistance_s, "ShouldEscapeDistance");

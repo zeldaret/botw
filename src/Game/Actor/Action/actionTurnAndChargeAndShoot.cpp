@@ -2,29 +2,29 @@
 
 namespace uking::action {
 
-TurnAndChargeAndShoot::TurnAndChargeAndShoot(const InitArg& arg) : ChargeAndShoot(arg) {}
+TurnAndChargeAndShoot::TurnAndChargeAndShoot(const InitArg& arg) : ArrowChargeAndShoot(arg) {}
 
 TurnAndChargeAndShoot::~TurnAndChargeAndShoot() = default;
 
 bool TurnAndChargeAndShoot::init_(sead::Heap* heap) {
-    return ChargeAndShoot::init_(heap);
+    return ArrowChargeAndShoot::init_(heap);
 }
 
 void TurnAndChargeAndShoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChargeAndShoot::enter_(params);
+    ArrowChargeAndShoot::enter_(params);
 }
 
 void TurnAndChargeAndShoot::leave_() {
-    ChargeAndShoot::leave_();
+    ArrowChargeAndShoot::leave_();
 }
 
 void TurnAndChargeAndShoot::loadParams_() {
-    ChargeAndShoot::loadParams_();
+    ArrowChargeAndShoot::loadParams_();
     getStaticParam(&mRotSpeed_s, "RotSpeed");
 }
 
 void TurnAndChargeAndShoot::calc_() {
-    ChargeAndShoot::calc_();
+    ArrowChargeAndShoot::calc_();
 }
 
 }  // namespace uking::action

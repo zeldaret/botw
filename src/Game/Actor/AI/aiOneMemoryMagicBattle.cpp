@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-OneMemoryMagicBattle::OneMemoryMagicBattle(const InitArg& arg) : OneMemoryMagicBattleBase(arg) {}
+OneMemoryMagicBattle::OneMemoryMagicBattle(const InitArg& arg) : MagicBattle(arg) {}
 
 OneMemoryMagicBattle::~OneMemoryMagicBattle() = default;
 
 bool OneMemoryMagicBattle::init_(sead::Heap* heap) {
-    return OneMemoryMagicBattleBase::init_(heap);
+    return MagicBattle::init_(heap);
 }
 
 void OneMemoryMagicBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    OneMemoryMagicBattleBase::enter_(params);
+    MagicBattle::enter_(params);
 }
 
 void OneMemoryMagicBattle::leave_() {
-    OneMemoryMagicBattleBase::leave_();
+    MagicBattle::leave_();
 }
 
 void OneMemoryMagicBattle::loadParams_() {
-    OneMemoryMagicBattleBase::loadParams_();
+    MagicBattle::loadParams_();
     getStaticParam(&mMemoryPartsName_s, "MemoryPartsName");
 }
 

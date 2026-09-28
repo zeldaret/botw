@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionRotateTurnToTarget.h"
+#include "Game/Actor/Action/actionASPlayRotateTurnToTarget.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class NoticeTurn : public RotateTurnToTarget {
-    SEAD_RTTI_OVERRIDE(NoticeTurn, RotateTurnToTarget)
+class NoticeTurn : public ASPlayRotateTurnToTarget {
+    SEAD_RTTI_OVERRIDE(NoticeTurn, ASPlayRotateTurnToTarget)
 public:
     explicit NoticeTurn(const InitArg& arg);
     ~NoticeTurn() override;

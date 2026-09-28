@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-GoronCannon::GoronCannon(const InitArg& arg) : GoronCannonBase(arg) {}
+GoronCannon::GoronCannon(const InitArg& arg) : BigCannon(arg) {}
 
 GoronCannon::~GoronCannon() = default;
 
 bool GoronCannon::init_(sead::Heap* heap) {
-    return GoronCannonBase::init_(heap);
+    return BigCannon::init_(heap);
 }
 
 void GoronCannon::enter_(ksys::act::ai::InlineParamPack* params) {
-    GoronCannonBase::enter_(params);
+    BigCannon::enter_(params);
 }
 
 void GoronCannon::leave_() {
-    GoronCannonBase::leave_();
+    BigCannon::leave_();
 }
 
 void GoronCannon::loadParams_() {
-    GoronCannonBase::loadParams_();
+    BigCannon::loadParams_();
 }
 
 }  // namespace uking::ai

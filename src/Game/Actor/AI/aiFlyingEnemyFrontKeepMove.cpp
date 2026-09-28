@@ -2,24 +2,25 @@
 
 namespace uking::ai {
 
-FlyingEnemyFrontKeepMove::FlyingEnemyFrontKeepMove(const InitArg& arg) : FlyingEnemyKeepMove(arg) {}
+FlyingEnemyFrontKeepMove::FlyingEnemyFrontKeepMove(const InitArg& arg)
+    : FlyingEnemyDistanceKeepMove(arg) {}
 
 FlyingEnemyFrontKeepMove::~FlyingEnemyFrontKeepMove() = default;
 
 bool FlyingEnemyFrontKeepMove::init_(sead::Heap* heap) {
-    return FlyingEnemyKeepMove::init_(heap);
+    return FlyingEnemyDistanceKeepMove::init_(heap);
 }
 
 void FlyingEnemyFrontKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingEnemyKeepMove::enter_(params);
+    FlyingEnemyDistanceKeepMove::enter_(params);
 }
 
 void FlyingEnemyFrontKeepMove::leave_() {
-    FlyingEnemyKeepMove::leave_();
+    FlyingEnemyDistanceKeepMove::leave_();
 }
 
 void FlyingEnemyFrontKeepMove::loadParams_() {
-    FlyingEnemyKeepMove::loadParams_();
+    FlyingEnemyDistanceKeepMove::loadParams_();
 }
 
 }  // namespace uking::ai

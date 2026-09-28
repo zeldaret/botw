@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiWholeDungeonRotateTag.h"
+#include "Game/Actor/AI/aiDungeonRotateTagApp.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class DungeonRotateTag4FireApp : public WholeDungeonRotateTag {
-    SEAD_RTTI_OVERRIDE(DungeonRotateTag4FireApp, WholeDungeonRotateTag)
+class DungeonRotateTag4FireApp : public DungeonRotateTagApp {
+    SEAD_RTTI_OVERRIDE(DungeonRotateTag4FireApp, DungeonRotateTagApp)
 public:
     explicit DungeonRotateTag4FireApp(const InitArg& arg);
     ~DungeonRotateTag4FireApp() override;

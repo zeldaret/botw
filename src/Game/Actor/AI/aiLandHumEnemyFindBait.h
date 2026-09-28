@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiUnarmedEnemySearch.h"
+#include "Game/Actor/AI/aiNavMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class LandHumEnemyFindBait : public UnarmedEnemySearch {
-    SEAD_RTTI_OVERRIDE(LandHumEnemyFindBait, UnarmedEnemySearch)
+class LandHumEnemyFindBait : public NavMove {
+    SEAD_RTTI_OVERRIDE(LandHumEnemyFindBait, NavMove)
 public:
     explicit LandHumEnemyFindBait(const InitArg& arg);
     ~LandHumEnemyFindBait() override;

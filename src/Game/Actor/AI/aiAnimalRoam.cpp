@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-AnimalRoam::AnimalRoam(const InitArg& arg) : AnimalRoamBase(arg) {}
+AnimalRoam::AnimalRoam(const InitArg& arg) : AnimalRndMove(arg) {}
 
 AnimalRoam::~AnimalRoam() = default;
 
 bool AnimalRoam::init_(sead::Heap* heap) {
-    return AnimalRoamBase::init_(heap);
+    return AnimalRndMove::init_(heap);
 }
 
 void AnimalRoam::enter_(ksys::act::ai::InlineParamPack* params) {
-    AnimalRoamBase::enter_(params);
+    AnimalRndMove::enter_(params);
 }
 
 void AnimalRoam::leave_() {
-    AnimalRoamBase::leave_();
+    AnimalRndMove::leave_();
 }
 
 void AnimalRoam::loadParams_() {
-    AnimalRoamBase::loadParams_();
+    AnimalRndMove::loadParams_();
     getStaticParam(&mFinishChangeCount_s, "FinishChangeCount");
     getStaticParam(&mLimitRadius_s, "LimitRadius");
     getStaticParam(&mChangeWaitRate_s, "ChangeWaitRate");

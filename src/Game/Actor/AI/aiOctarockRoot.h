@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiOctarockRootBase.h"
+#include "Game/Actor/AI/aiVacuumEnemyRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class OctarockRoot : public OctarockRootBase {
-    SEAD_RTTI_OVERRIDE(OctarockRoot, OctarockRootBase)
+class OctarockRoot : public VacuumEnemyRoot {
+    SEAD_RTTI_OVERRIDE(OctarockRoot, VacuumEnemyRoot)
 public:
     explicit OctarockRoot(const InitArg& arg);
     ~OctarockRoot() override;

@@ -2,25 +2,24 @@
 
 namespace uking::ai {
 
-SiteBossIceSplinterRoot::SiteBossIceSplinterRoot(const InitArg& arg)
-    : SiteBossChemicalProjectile(arg) {}
+SiteBossIceSplinterRoot::SiteBossIceSplinterRoot(const InitArg& arg) : GanonFlameBall(arg) {}
 
 SiteBossIceSplinterRoot::~SiteBossIceSplinterRoot() = default;
 
 bool SiteBossIceSplinterRoot::init_(sead::Heap* heap) {
-    return SiteBossChemicalProjectile::init_(heap);
+    return GanonFlameBall::init_(heap);
 }
 
 void SiteBossIceSplinterRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossChemicalProjectile::enter_(params);
+    GanonFlameBall::enter_(params);
 }
 
 void SiteBossIceSplinterRoot::leave_() {
-    SiteBossChemicalProjectile::leave_();
+    GanonFlameBall::leave_();
 }
 
 void SiteBossIceSplinterRoot::loadParams_() {
-    SiteBossChemicalProjectile::loadParams_();
+    GanonFlameBall::loadParams_();
     getStaticParam(&mReflectAtkPower_s, "ReflectAtkPower");
     getStaticParam(&mChaseAngleMin_s, "ChaseAngleMin");
     getStaticParam(&mRotateSpeed_s, "RotateSpeed");

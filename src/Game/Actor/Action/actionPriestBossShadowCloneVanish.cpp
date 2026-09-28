@@ -3,29 +3,29 @@
 namespace uking::action {
 
 PriestBossShadowCloneVanish::PriestBossShadowCloneVanish(const InitArg& arg)
-    : PriestBossWarpOrVanish(arg) {}
+    : PriestBossCloneFastWarp(arg) {}
 
 PriestBossShadowCloneVanish::~PriestBossShadowCloneVanish() = default;
 
 bool PriestBossShadowCloneVanish::init_(sead::Heap* heap) {
-    return PriestBossWarpOrVanish::init_(heap);
+    return PriestBossCloneFastWarp::init_(heap);
 }
 
 void PriestBossShadowCloneVanish::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossWarpOrVanish::enter_(params);
+    PriestBossCloneFastWarp::enter_(params);
 }
 
 void PriestBossShadowCloneVanish::leave_() {
-    PriestBossWarpOrVanish::leave_();
+    PriestBossCloneFastWarp::leave_();
 }
 
 void PriestBossShadowCloneVanish::loadParams_() {
-    PriestBossWarpOrVanish::loadParams_();
+    PriestBossCloneFastWarp::loadParams_();
     getStaticParam(&mDelayFrames_s, "DelayFrames");
 }
 
 void PriestBossShadowCloneVanish::calc_() {
-    PriestBossWarpOrVanish::calc_();
+    PriestBossCloneFastWarp::calc_();
 }
 
 }  // namespace uking::action

@@ -2,12 +2,12 @@
 
 namespace uking::ai {
 
-TargetRangeSelect::TargetRangeSelect(const InitArg& arg) : RangeSelect(arg) {}
+TargetRangeSelect::TargetRangeSelect(const InitArg& arg) : NewRangeSelect(arg) {}
 
 TargetRangeSelect::~TargetRangeSelect() = default;
 
 void TargetRangeSelect::loadParams_() {
-    RangeSelect::loadParams_();
+    NewRangeSelect::loadParams_();
     getStaticParam(&mIsXZOnly_s, "IsXZOnly");
 }
 

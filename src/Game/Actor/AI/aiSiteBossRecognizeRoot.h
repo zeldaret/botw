@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiSiteBossRecognizeRootBase.h"
+#include "Game/Actor/AI/aiLastBossRecognizeRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class SiteBossRecognizeRoot : public SiteBossRecognizeRootBase {
-    SEAD_RTTI_OVERRIDE(SiteBossRecognizeRoot, SiteBossRecognizeRootBase)
+class SiteBossRecognizeRoot : public LastBossRecognizeRoot {
+    SEAD_RTTI_OVERRIDE(SiteBossRecognizeRoot, LastBossRecognizeRoot)
 public:
     explicit SiteBossRecognizeRoot(const InitArg& arg);
     ~SiteBossRecognizeRoot() override;

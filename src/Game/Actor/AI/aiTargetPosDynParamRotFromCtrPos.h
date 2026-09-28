@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiTargetPosDynParamRot.h"
+#include "Game/Actor/AI/aiTargetPosDynParamRotFromMyPos.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class TargetPosDynParamRotFromCtrPos : public TargetPosDynParamRot {
-    SEAD_RTTI_OVERRIDE(TargetPosDynParamRotFromCtrPos, TargetPosDynParamRot)
+class TargetPosDynParamRotFromCtrPos : public TargetPosDynParamRotFromMyPos {
+    SEAD_RTTI_OVERRIDE(TargetPosDynParamRotFromCtrPos, TargetPosDynParamRotFromMyPos)
 public:
     explicit TargetPosDynParamRotFromCtrPos(const InitArg& arg);
     ~TargetPosDynParamRotFromCtrPos() override;

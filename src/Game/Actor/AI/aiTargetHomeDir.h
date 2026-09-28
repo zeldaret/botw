@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiTargetPosAI.h"
+#include "Game/Actor/AI/aiTargetActorPos.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class TargetHomeDir : public TargetPosAI {
-    SEAD_RTTI_OVERRIDE(TargetHomeDir, TargetPosAI)
+class TargetHomeDir : public TargetActorPos {
+    SEAD_RTTI_OVERRIDE(TargetHomeDir, TargetActorPos)
 public:
     explicit TargetHomeDir(const InitArg& arg);
     ~TargetHomeDir() override;

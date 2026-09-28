@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-AddViewTargetPos::AddViewTargetPos(const InitArg& arg) : AddViewTargetPosBase(arg) {}
+AddViewTargetPos::AddViewTargetPos(const InitArg& arg) : AddViewTarget(arg) {}
 
 AddViewTargetPos::~AddViewTargetPos() = default;
 
 bool AddViewTargetPos::init_(sead::Heap* heap) {
-    return AddViewTargetPosBase::init_(heap);
+    return AddViewTarget::init_(heap);
 }
 
 void AddViewTargetPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    AddViewTargetPosBase::enter_(params);
+    AddViewTarget::enter_(params);
 }
 
 void AddViewTargetPos::leave_() {
-    AddViewTargetPosBase::leave_();
+    AddViewTarget::leave_();
 }
 
 void AddViewTargetPos::loadParams_() {
-    AddViewTargetPosBase::loadParams_();
+    AddViewTarget::loadParams_();
 }
 
 }  // namespace uking::ai

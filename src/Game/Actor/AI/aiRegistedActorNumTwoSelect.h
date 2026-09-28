@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiRegistedActorNumTwoSelectBase.h"
+#include "Game/Actor/AI/aiRegistedActor.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class RegistedActorNumTwoSelect : public RegistedActorNumTwoSelectBase {
-    SEAD_RTTI_OVERRIDE(RegistedActorNumTwoSelect, RegistedActorNumTwoSelectBase)
+class RegistedActorNumTwoSelect : public RegistedActor {
+    SEAD_RTTI_OVERRIDE(RegistedActorNumTwoSelect, RegistedActor)
 public:
     explicit RegistedActorNumTwoSelect(const InitArg& arg);
     ~RegistedActorNumTwoSelect() override;

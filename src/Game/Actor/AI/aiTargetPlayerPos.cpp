@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-TargetPlayerPos::TargetPlayerPos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetPlayerPos::TargetPlayerPos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetPlayerPos::~TargetPlayerPos() = default;
 
 bool TargetPlayerPos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetPlayerPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetPlayerPos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetPlayerPos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
 }
 
 }  // namespace uking::ai

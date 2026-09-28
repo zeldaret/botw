@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiUnarmedEnemySearchWeapon.h"
+#include "Game/Actor/AI/aiEnemySearch.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class EquipShieldEnemySearchWeapon : public UnarmedEnemySearchWeapon {
-    SEAD_RTTI_OVERRIDE(EquipShieldEnemySearchWeapon, UnarmedEnemySearchWeapon)
+class EquipShieldEnemySearchWeapon : public EnemySearch {
+    SEAD_RTTI_OVERRIDE(EquipShieldEnemySearchWeapon, EnemySearch)
 public:
     explicit EquipShieldEnemySearchWeapon(const InitArg& arg);
     ~EquipShieldEnemySearchWeapon() override;

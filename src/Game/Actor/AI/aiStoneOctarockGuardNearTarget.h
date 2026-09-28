@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiTimedGuardNearTarget.h"
+#include "Game/Actor/AI/aiInvincibleNearTarget.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class StoneOctarockGuardNearTarget : public TimedGuardNearTarget {
-    SEAD_RTTI_OVERRIDE(StoneOctarockGuardNearTarget, TimedGuardNearTarget)
+class StoneOctarockGuardNearTarget : public InvincibleNearTarget {
+    SEAD_RTTI_OVERRIDE(StoneOctarockGuardNearTarget, InvincibleNearTarget)
 public:
     explicit StoneOctarockGuardNearTarget(const InitArg& arg);
     ~StoneOctarockGuardNearTarget() override;

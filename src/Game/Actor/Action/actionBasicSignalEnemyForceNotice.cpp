@@ -3,29 +3,29 @@
 namespace uking::action {
 
 BasicSignalEnemyForceNotice::BasicSignalEnemyForceNotice(const InitArg& arg)
-    : BasicSignalEnemy(arg) {}
+    : BasicSignalEnemyNotice(arg) {}
 
 BasicSignalEnemyForceNotice::~BasicSignalEnemyForceNotice() = default;
 
 bool BasicSignalEnemyForceNotice::init_(sead::Heap* heap) {
-    return BasicSignalEnemy::init_(heap);
+    return BasicSignalEnemyNotice::init_(heap);
 }
 
 void BasicSignalEnemyForceNotice::enter_(ksys::act::ai::InlineParamPack* params) {
-    BasicSignalEnemy::enter_(params);
+    BasicSignalEnemyNotice::enter_(params);
 }
 
 void BasicSignalEnemyForceNotice::leave_() {
-    BasicSignalEnemy::leave_();
+    BasicSignalEnemyNotice::leave_();
 }
 
 void BasicSignalEnemyForceNotice::loadParams_() {
-    BasicSignalEnemy::loadParams_();
+    BasicSignalEnemyNotice::loadParams_();
     getStaticParam(&mInterval_s, "Interval");
 }
 
 void BasicSignalEnemyForceNotice::calc_() {
-    BasicSignalEnemy::calc_();
+    BasicSignalEnemyNotice::calc_();
 }
 
 }  // namespace uking::action

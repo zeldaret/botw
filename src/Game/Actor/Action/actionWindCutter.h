@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionChemicalAttack.h"
+#include "Game/Actor/Action/actionEmitAttackBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class WindCutter : public ChemicalAttack {
-    SEAD_RTTI_OVERRIDE(WindCutter, ChemicalAttack)
+class WindCutter : public EmitAttackBase {
+    SEAD_RTTI_OVERRIDE(WindCutter, EmitAttackBase)
 public:
     explicit WindCutter(const InitArg& arg);
     ~WindCutter() override;

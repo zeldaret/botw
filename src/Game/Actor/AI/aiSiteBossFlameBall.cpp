@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-SiteBossFlameBall::SiteBossFlameBall(const InitArg& arg) : SiteBossChemicalProjectile(arg) {}
+SiteBossFlameBall::SiteBossFlameBall(const InitArg& arg) : GanonFlameBall(arg) {}
 
 SiteBossFlameBall::~SiteBossFlameBall() = default;
 
 bool SiteBossFlameBall::init_(sead::Heap* heap) {
-    return SiteBossChemicalProjectile::init_(heap);
+    return GanonFlameBall::init_(heap);
 }
 
 void SiteBossFlameBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossChemicalProjectile::enter_(params);
+    GanonFlameBall::enter_(params);
 }
 
 void SiteBossFlameBall::leave_() {
-    SiteBossChemicalProjectile::leave_();
+    GanonFlameBall::leave_();
 }
 
 void SiteBossFlameBall::loadParams_() {
-    SiteBossChemicalProjectile::loadParams_();
+    GanonFlameBall::loadParams_();
     getStaticParam(&mChemicalIndex_s, "ChemicalIndex");
     getStaticParam(&mAtAttr_s, "AtAttr");
     getStaticParam(&mMoveSpeed_s, "MoveSpeed");

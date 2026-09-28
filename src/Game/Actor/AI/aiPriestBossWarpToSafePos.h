@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class PriestBossWarpToSafePos : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossWarpToSafePos, PriestBossMode)
+class PriestBossWarpToSafePos : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossWarpToSafePos, PriestBoss)
 public:
     explicit PriestBossWarpToSafePos(const InitArg& arg);
     ~PriestBossWarpToSafePos() override;

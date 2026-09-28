@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-OctarockRoot::OctarockRoot(const InitArg& arg) : OctarockRootBase(arg) {}
+OctarockRoot::OctarockRoot(const InitArg& arg) : VacuumEnemyRoot(arg) {}
 
 OctarockRoot::~OctarockRoot() = default;
 
 bool OctarockRoot::init_(sead::Heap* heap) {
-    return OctarockRootBase::init_(heap);
+    return VacuumEnemyRoot::init_(heap);
 }
 
 void OctarockRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    OctarockRootBase::enter_(params);
+    VacuumEnemyRoot::enter_(params);
 }
 
 void OctarockRoot::leave_() {
-    OctarockRootBase::leave_();
+    VacuumEnemyRoot::leave_();
 }
 
 void OctarockRoot::loadParams_() {
-    OctarockRootBase::loadParams_();
+    VacuumEnemyRoot::loadParams_();
     getStaticParam(&mIsWigBreakable_s, "IsWigBreakable");
     getStaticParam(&mItemName_s, "ItemName");
     getStaticParam(&mConnectRigidBodyName_s, "ConnectRigidBodyName");

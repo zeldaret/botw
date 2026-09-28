@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-WindCutter::WindCutter(const InitArg& arg) : ChemicalAttack(arg) {}
+WindCutter::WindCutter(const InitArg& arg) : EmitAttackBase(arg) {}
 
 WindCutter::~WindCutter() = default;
 
 bool WindCutter::init_(sead::Heap* heap) {
-    return ChemicalAttack::init_(heap);
+    return EmitAttackBase::init_(heap);
 }
 
 void WindCutter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChemicalAttack::enter_(params);
+    EmitAttackBase::enter_(params);
 }
 
 void WindCutter::leave_() {
-    ChemicalAttack::leave_();
+    EmitAttackBase::leave_();
 }
 
 void WindCutter::loadParams_() {
-    ChemicalAttack::loadParams_();
+    EmitAttackBase::loadParams_();
     getStaticParam(&mLevelAtkMult_s, "LevelAtkMult");
     getStaticParam(&mLevelBaseScaleAdd_s, "LevelBaseScaleAdd");
     getStaticParam(&mLevelRangeMult_s, "LevelRangeMult");
@@ -31,7 +31,7 @@ void WindCutter::loadParams_() {
 }
 
 void WindCutter::calc_() {
-    ChemicalAttack::calc_();
+    EmitAttackBase::calc_();
 }
 
 }  // namespace uking::action

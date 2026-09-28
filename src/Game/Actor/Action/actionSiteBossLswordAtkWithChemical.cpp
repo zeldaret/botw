@@ -3,24 +3,24 @@
 namespace uking::action {
 
 SiteBossLswordAtkWithChemical::SiteBossLswordAtkWithChemical(const InitArg& arg)
-    : SiteBossLswordAtk(arg) {}
+    : SiteBossLswordAttack(arg) {}
 
 SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() = default;
 
 bool SiteBossLswordAtkWithChemical::init_(sead::Heap* heap) {
-    return SiteBossLswordAtk::init_(heap);
+    return SiteBossLswordAttack::init_(heap);
 }
 
 void SiteBossLswordAtkWithChemical::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossLswordAtk::enter_(params);
+    SiteBossLswordAttack::enter_(params);
 }
 
 void SiteBossLswordAtkWithChemical::leave_() {
-    SiteBossLswordAtk::leave_();
+    SiteBossLswordAttack::leave_();
 }
 
 void SiteBossLswordAtkWithChemical::loadParams_() {
-    SiteBossLswordAtk::loadParams_();
+    SiteBossLswordAttack::loadParams_();
     getStaticParam(&mEmitNum_s, "EmitNum");
     getStaticParam(&mEmitInterval_s, "EmitInterval");
     getStaticParam(&mEmitAttackDamage_s, "EmitAttackDamage");
@@ -41,7 +41,7 @@ void SiteBossLswordAtkWithChemical::loadParams_() {
 }
 
 void SiteBossLswordAtkWithChemical::calc_() {
-    SiteBossLswordAtk::calc_();
+    SiteBossLswordAttack::calc_();
 }
 
 }  // namespace uking::action

@@ -2,20 +2,20 @@
 
 namespace uking::ai {
 
-NPCHorseRide::NPCHorseRide(const InitArg& arg) : NonPlayerHorseRide(arg) {}
+NPCHorseRide::NPCHorseRide(const InitArg& arg) : RideHorseNonPlayer(arg) {}
 
 NPCHorseRide::~NPCHorseRide() = default;
 
 bool NPCHorseRide::init_(sead::Heap* heap) {
-    return NonPlayerHorseRide::init_(heap);
+    return RideHorseNonPlayer::init_(heap);
 }
 
 void NPCHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {
-    NonPlayerHorseRide::enter_(params);
+    RideHorseNonPlayer::enter_(params);
 }
 
 void NPCHorseRide::leave_() {
-    NonPlayerHorseRide::leave_();
+    RideHorseNonPlayer::leave_();
 }
 
 void NPCHorseRide::loadParams_() {

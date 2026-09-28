@@ -2,20 +2,20 @@
 
 namespace uking::ai {
 
-UnarmedEnemyNoiseTarget::UnarmedEnemyNoiseTarget(const InitArg& arg) : UnarmedEnemySearch(arg) {}
+UnarmedEnemyNoiseTarget::UnarmedEnemyNoiseTarget(const InitArg& arg) : NavMove(arg) {}
 
 UnarmedEnemyNoiseTarget::~UnarmedEnemyNoiseTarget() = default;
 
 void UnarmedEnemyNoiseTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    UnarmedEnemySearch::enter_(params);
+    NavMove::enter_(params);
 }
 
 void UnarmedEnemyNoiseTarget::leave_() {
-    UnarmedEnemySearch::leave_();
+    NavMove::leave_();
 }
 
 void UnarmedEnemyNoiseTarget::loadParams_() {
-    UnarmedEnemySearch::loadParams_();
+    NavMove::loadParams_();
     getStaticParam(&mLostTime_s, "LostTime");
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mLostRange_s, "LostRange");

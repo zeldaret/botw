@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionSimpleMessageDialogCtrl.h"
+#include "Game/Actor/Action/actionForkBasicMessageDialogCtrl.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForkBeastGanonMessageDialogCtrl : public SimpleMessageDialogCtrl {
-    SEAD_RTTI_OVERRIDE(ForkBeastGanonMessageDialogCtrl, SimpleMessageDialogCtrl)
+class ForkBeastGanonMessageDialogCtrl : public ForkBasicMessageDialogCtrl {
+    SEAD_RTTI_OVERRIDE(ForkBeastGanonMessageDialogCtrl, ForkBasicMessageDialogCtrl)
 public:
     explicit ForkBeastGanonMessageDialogCtrl(const InitArg& arg);
     ~ForkBeastGanonMessageDialogCtrl() override;

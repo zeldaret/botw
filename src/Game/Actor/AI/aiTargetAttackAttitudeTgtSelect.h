@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiTargetAttackAttitudeTgtSelectBase.h"
+#include "Game/Actor/AI/aiTargetAttackAttitudeTgt.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class TargetAttackAttitudeTgtSelect : public TargetAttackAttitudeTgtSelectBase {
-    SEAD_RTTI_OVERRIDE(TargetAttackAttitudeTgtSelect, TargetAttackAttitudeTgtSelectBase)
+class TargetAttackAttitudeTgtSelect : public TargetAttackAttitudeTgt {
+    SEAD_RTTI_OVERRIDE(TargetAttackAttitudeTgtSelect, TargetAttackAttitudeTgt)
 public:
     explicit TargetAttackAttitudeTgtSelect(const InitArg& arg);
     ~TargetAttackAttitudeTgtSelect() override;

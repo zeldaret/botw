@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiRailMove.h"
+#include "Game/Actor/AI/aiBezierRailMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class MoveAndFreeFallGondola : public RailMove {
-    SEAD_RTTI_OVERRIDE(MoveAndFreeFallGondola, RailMove)
+class MoveAndFreeFallGondola : public BezierRailMove {
+    SEAD_RTTI_OVERRIDE(MoveAndFreeFallGondola, BezierRailMove)
 public:
     explicit MoveAndFreeFallGondola(const InitArg& arg);
     ~MoveAndFreeFallGondola() override;

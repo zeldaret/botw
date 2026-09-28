@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-GolemSleepNormal::GolemSleepNormal(const InitArg& arg) : SpecialEnemySleep(arg) {}
+GolemSleepNormal::GolemSleepNormal(const InitArg& arg) : SleepNormal(arg) {}
 
 GolemSleepNormal::~GolemSleepNormal() = default;
 
 bool GolemSleepNormal::init_(sead::Heap* heap) {
-    return SpecialEnemySleep::init_(heap);
+    return SleepNormal::init_(heap);
 }
 
 void GolemSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    SpecialEnemySleep::enter_(params);
+    SleepNormal::enter_(params);
 }
 
 void GolemSleepNormal::leave_() {
-    SpecialEnemySleep::leave_();
+    SleepNormal::leave_();
 }
 
 void GolemSleepNormal::loadParams_() {
-    SpecialEnemySleep::loadParams_();
+    SleepNormal::loadParams_();
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 

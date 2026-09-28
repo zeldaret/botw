@@ -17,10 +17,10 @@ target_sources(uking PRIVATE
   aiHorseRiddenByNPCBase.h
   aiHorseWanderAI.cpp
   aiHorseWanderAI.h
-  aiNonPlayerHorseRide.cpp
-  aiNonPlayerHorseRide.h
   aiRideHorseAI.cpp
   aiRideHorseAI.h
+  aiRideHorseNonPlayer.cpp
+  aiRideHorseNonPlayer.h
   aiWildHorseDefWanderAI.cpp
   aiWildHorseDefWanderAI.h
 )

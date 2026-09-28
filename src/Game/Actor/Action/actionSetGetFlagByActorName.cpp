@@ -2,16 +2,16 @@
 
 namespace uking::action {
 
-SetGetFlagByActorName::SetGetFlagByActorName(const InitArg& arg) : SetGetFlagBase(arg) {}
+SetGetFlagByActorName::SetGetFlagByActorName(const InitArg& arg) : SetFlag(arg) {}
 
 SetGetFlagByActorName::~SetGetFlagByActorName() = default;
 
 bool SetGetFlagByActorName::init_(sead::Heap* heap) {
-    return SetGetFlagBase::init_(heap);
+    return SetFlag::init_(heap);
 }
 
 void SetGetFlagByActorName::loadParams_() {
-    SetGetFlagBase::loadParams_();
+    SetFlag::loadParams_();
     getDynamicParam(&mActorName_d, "ActorName");
 }
 

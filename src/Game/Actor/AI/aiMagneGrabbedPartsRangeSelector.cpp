@@ -3,24 +3,24 @@
 namespace uking::ai {
 
 MagneGrabbedPartsRangeSelector::MagneGrabbedPartsRangeSelector(const InitArg& arg)
-    : RangeSelect(arg) {}
+    : NewRangeSelect(arg) {}
 
 MagneGrabbedPartsRangeSelector::~MagneGrabbedPartsRangeSelector() = default;
 
 bool MagneGrabbedPartsRangeSelector::init_(sead::Heap* heap) {
-    return RangeSelect::init_(heap);
+    return NewRangeSelect::init_(heap);
 }
 
 void MagneGrabbedPartsRangeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    RangeSelect::enter_(params);
+    NewRangeSelect::enter_(params);
 }
 
 void MagneGrabbedPartsRangeSelector::leave_() {
-    RangeSelect::leave_();
+    NewRangeSelect::leave_();
 }
 
 void MagneGrabbedPartsRangeSelector::loadParams_() {
-    RangeSelect::loadParams_();
+    NewRangeSelect::loadParams_();
     getStaticParam(&mPartsName_s, "PartsName");
 }
 

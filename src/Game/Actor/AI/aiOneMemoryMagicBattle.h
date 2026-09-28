@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiOneMemoryMagicBattleBase.h"
+#include "Game/Actor/AI/aiMagicBattle.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class OneMemoryMagicBattle : public OneMemoryMagicBattleBase {
-    SEAD_RTTI_OVERRIDE(OneMemoryMagicBattle, OneMemoryMagicBattleBase)
+class OneMemoryMagicBattle : public MagicBattle {
+    SEAD_RTTI_OVERRIDE(OneMemoryMagicBattle, MagicBattle)
 public:
     explicit OneMemoryMagicBattle(const InitArg& arg);
     ~OneMemoryMagicBattle() override;

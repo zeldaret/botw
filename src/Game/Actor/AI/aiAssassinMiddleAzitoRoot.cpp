@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-AssassinMiddleAzitoRoot::AssassinMiddleAzitoRoot(const InitArg& arg) : AssassinNormal(arg) {}
+AssassinMiddleAzitoRoot::AssassinMiddleAzitoRoot(const InitArg& arg) : GuardHomePosNormal(arg) {}
 
 AssassinMiddleAzitoRoot::~AssassinMiddleAzitoRoot() = default;
 
 bool AssassinMiddleAzitoRoot::init_(sead::Heap* heap) {
-    return AssassinNormal::init_(heap);
+    return GuardHomePosNormal::init_(heap);
 }
 
 void AssassinMiddleAzitoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    AssassinNormal::enter_(params);
+    GuardHomePosNormal::enter_(params);
 }
 
 void AssassinMiddleAzitoRoot::leave_() {
-    AssassinNormal::leave_();
+    GuardHomePosNormal::leave_();
 }
 
 void AssassinMiddleAzitoRoot::loadParams_() {
-    AssassinNormal::loadParams_();
+    GuardHomePosNormal::loadParams_();
     getStaticParam(&mEntryPoint_s, "EntryPoint");
     getStaticParam(&mDemoName_s, "DemoName");
     getStaticParam(&mLikeItem_s, "LikeItem");

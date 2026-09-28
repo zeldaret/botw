@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionRotateTurnToTarget.h"
+#include "Game/Actor/Action/actionASPlayRotateTurnToTarget.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class FollowIgniteToSelfPos : public RotateTurnToTarget {
-    SEAD_RTTI_OVERRIDE(FollowIgniteToSelfPos, RotateTurnToTarget)
+class FollowIgniteToSelfPos : public ASPlayRotateTurnToTarget {
+    SEAD_RTTI_OVERRIDE(FollowIgniteToSelfPos, ASPlayRotateTurnToTarget)
 public:
     explicit FollowIgniteToSelfPos(const InitArg& arg);
     ~FollowIgniteToSelfPos() override;

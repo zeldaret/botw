@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionForkASTrgEmitShockWave.h"
+#include "Game/Actor/Action/actionForkEmitShockWave.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForkASTrgEmitShockWavePos : public ForkASTrgEmitShockWave {
-    SEAD_RTTI_OVERRIDE(ForkASTrgEmitShockWavePos, ForkASTrgEmitShockWave)
+class ForkASTrgEmitShockWavePos : public ForkEmitShockWave {
+    SEAD_RTTI_OVERRIDE(ForkASTrgEmitShockWavePos, ForkEmitShockWave)
 public:
     explicit ForkASTrgEmitShockWavePos(const InitArg& arg);
     ~ForkASTrgEmitShockWavePos() override;

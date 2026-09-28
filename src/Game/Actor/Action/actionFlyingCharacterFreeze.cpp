@@ -2,27 +2,28 @@
 
 namespace uking::action {
 
-FlyingCharacterFreeze::FlyingCharacterFreeze(const InitArg& arg) : FlyingCharacterReaction(arg) {}
+FlyingCharacterFreeze::FlyingCharacterFreeze(const InitArg& arg)
+    : FlyingCharacterFreeFallBase(arg) {}
 
 bool FlyingCharacterFreeze::init_(sead::Heap* heap) {
-    return FlyingCharacterReaction::init_(heap);
+    return FlyingCharacterFreeFallBase::init_(heap);
 }
 
 void FlyingCharacterFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterReaction::enter_(params);
+    FlyingCharacterFreeFallBase::enter_(params);
 }
 
 void FlyingCharacterFreeze::leave_() {
-    FlyingCharacterReaction::leave_();
+    FlyingCharacterFreeFallBase::leave_();
 }
 
 void FlyingCharacterFreeze::loadParams_() {
-    FlyingCharacterReaction::loadParams_();
+    FlyingCharacterFreeFallBase::loadParams_();
     getStaticParam(&mStopTime_s, "StopTime");
 }
 
 void FlyingCharacterFreeze::calc_() {
-    FlyingCharacterReaction::calc_();
+    FlyingCharacterFreeFallBase::calc_();
 }
 
 }  // namespace uking::action

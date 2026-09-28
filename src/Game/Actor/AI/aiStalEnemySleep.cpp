@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-StalEnemySleep::StalEnemySleep(const InitArg& arg) : SpecialEnemySleep(arg) {}
+StalEnemySleep::StalEnemySleep(const InitArg& arg) : SleepNormal(arg) {}
 
 StalEnemySleep::~StalEnemySleep() = default;
 
 bool StalEnemySleep::init_(sead::Heap* heap) {
-    return SpecialEnemySleep::init_(heap);
+    return SleepNormal::init_(heap);
 }
 
 void StalEnemySleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    SpecialEnemySleep::enter_(params);
+    SleepNormal::enter_(params);
 }
 
 void StalEnemySleep::leave_() {
-    SpecialEnemySleep::leave_();
+    SleepNormal::leave_();
 }
 
 void StalEnemySleep::loadParams_() {
-    SpecialEnemySleep::loadParams_();
+    SleepNormal::loadParams_();
     getStaticParam(&mUseAwarenessWakeUp_s, "UseAwarenessWakeUp");
     getStaticParam(&mUseNoticeActiveWakeUp_s, "UseNoticeActiveWakeUp");
 }

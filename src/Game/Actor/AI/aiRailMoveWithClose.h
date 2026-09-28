@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiRailMove.h"
+#include "Game/Actor/AI/aiBezierRailMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class RailMoveWithClose : public RailMove {
-    SEAD_RTTI_OVERRIDE(RailMoveWithClose, RailMove)
+class RailMoveWithClose : public BezierRailMove {
+    SEAD_RTTI_OVERRIDE(RailMoveWithClose, BezierRailMove)
 public:
     explicit RailMoveWithClose(const InitArg& arg);
     ~RailMoveWithClose() override;

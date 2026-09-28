@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiLargeEnemyFindPlayer.h"
+#include "Game/Actor/AI/aiGiantEnemyFindPlayer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class ForestGiantFindPlayer : public LargeEnemyFindPlayer {
-    SEAD_RTTI_OVERRIDE(ForestGiantFindPlayer, LargeEnemyFindPlayer)
+class ForestGiantFindPlayer : public GiantEnemyFindPlayer {
+    SEAD_RTTI_OVERRIDE(ForestGiantFindPlayer, GiantEnemyFindPlayer)
 public:
     explicit ForestGiantFindPlayer(const InitArg& arg);
     ~ForestGiantFindPlayer() override;

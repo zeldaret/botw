@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiOctarockEscape.h"
+#include "Game/Actor/AI/aiOctarockHideEscapeBase.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class OctarockHideEscape : public OctarockEscape {
-    SEAD_RTTI_OVERRIDE(OctarockHideEscape, OctarockEscape)
+class OctarockHideEscape : public OctarockHideEscapeBase {
+    SEAD_RTTI_OVERRIDE(OctarockHideEscape, OctarockHideEscapeBase)
 public:
     explicit OctarockHideEscape(const InitArg& arg);
     ~OctarockHideEscape() override;

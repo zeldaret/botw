@@ -3,24 +3,24 @@
 namespace uking::ai {
 
 AssassinMiddleMagicAfter::AssassinMiddleMagicAfter(const InitArg& arg)
-    : AssassinMagicTgtSelect(arg) {}
+    : TargetHeightAreaSelect(arg) {}
 
 AssassinMiddleMagicAfter::~AssassinMiddleMagicAfter() = default;
 
 bool AssassinMiddleMagicAfter::init_(sead::Heap* heap) {
-    return AssassinMagicTgtSelect::init_(heap);
+    return TargetHeightAreaSelect::init_(heap);
 }
 
 void AssassinMiddleMagicAfter::enter_(ksys::act::ai::InlineParamPack* params) {
-    AssassinMagicTgtSelect::enter_(params);
+    TargetHeightAreaSelect::enter_(params);
 }
 
 void AssassinMiddleMagicAfter::leave_() {
-    AssassinMagicTgtSelect::leave_();
+    TargetHeightAreaSelect::leave_();
 }
 
 void AssassinMiddleMagicAfter::loadParams_() {
-    AssassinMagicTgtSelect::loadParams_();
+    TargetHeightAreaSelect::loadParams_();
     getAITreeVariable(&mIsInterseptAttack_a, "IsInterseptAttack");
 }
 

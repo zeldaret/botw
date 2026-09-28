@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiDragonRootBase.h"
+#include "Game/Actor/AI/aiControlRailRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class DragonRoot : public DragonRootBase {
-    SEAD_RTTI_OVERRIDE(DragonRoot, DragonRootBase)
+class DragonRoot : public ControlRailRoot {
+    SEAD_RTTI_OVERRIDE(DragonRoot, ControlRailRoot)
 public:
     explicit DragonRoot(const InitArg& arg);
     ~DragonRoot() override;

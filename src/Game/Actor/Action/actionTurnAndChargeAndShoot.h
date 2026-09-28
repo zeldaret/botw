@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionChargeAndShoot.h"
+#include "Game/Actor/Action/actionArrowChargeAndShoot.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class TurnAndChargeAndShoot : public ChargeAndShoot {
-    SEAD_RTTI_OVERRIDE(TurnAndChargeAndShoot, ChargeAndShoot)
+class TurnAndChargeAndShoot : public ArrowChargeAndShoot {
+    SEAD_RTTI_OVERRIDE(TurnAndChargeAndShoot, ArrowChargeAndShoot)
 public:
     explicit TurnAndChargeAndShoot(const InitArg& arg);
     ~TurnAndChargeAndShoot() override;

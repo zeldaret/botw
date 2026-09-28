@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-SandwormNormal::SandwormNormal(const InitArg& arg) : SandwormNormalBase(arg) {}
+SandwormNormal::SandwormNormal(const InitArg& arg) : AwnSeal(arg) {}
 
 SandwormNormal::~SandwormNormal() = default;
 
 bool SandwormNormal::init_(sead::Heap* heap) {
-    return SandwormNormalBase::init_(heap);
+    return AwnSeal::init_(heap);
 }
 
 void SandwormNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    SandwormNormalBase::enter_(params);
+    AwnSeal::enter_(params);
 }
 
 void SandwormNormal::leave_() {
-    SandwormNormalBase::leave_();
+    AwnSeal::leave_();
 }
 
 void SandwormNormal::loadParams_() {
-    SandwormNormalBase::loadParams_();
+    AwnSeal::loadParams_();
 }
 
 }  // namespace uking::ai

@@ -17,8 +17,8 @@ target_sources(uking PRIVATE
   aiAddPlayerLargeAttackJustGuard.h
   aiAddSwarmMove.cpp
   aiAddSwarmMove.h
-  aiAddViewTargetPosBase.cpp
-  aiAddViewTargetPosBase.h
+  aiAddViewTarget.cpp
+  aiAddViewTarget.h
   aiAddViewTargetPos.cpp
   aiAddViewTargetPos.h
   aiAirOctaBoardBurn.cpp
@@ -43,8 +43,8 @@ target_sources(uking PRIVATE
   aiAmbushableWeaponShoot.h
   aiAnchorRangeSelectTwoAction.cpp
   aiAnchorRangeSelectTwoAction.h
-  aiAncientNecklaceBallBase.cpp
-  aiAncientNecklaceBallBase.h
+  aiPlayASSwitch.cpp
+  aiPlayASSwitch.h
   aiAncientNecklaceBall.cpp
   aiAncientNecklaceBall.h
   aiAnimalAttackOtherTarget.cpp
@@ -67,8 +67,8 @@ target_sources(uking PRIVATE
   aiAnimalRangeKeepMove.h
   aiAnimalRangeKeepMoveWithLOS.cpp
   aiAnimalRangeKeepMoveWithLOS.h
-  aiAnimalRoamBase.cpp
-  aiAnimalRoamBase.h
+  aiAnimalRndMove.cpp
+  aiAnimalRndMove.h
   aiAnimalRoamCheckWater.cpp
   aiAnimalRoamCheckWater.h
   aiAnimalRoam.cpp
@@ -81,8 +81,8 @@ target_sources(uking PRIVATE
   aiAppearFromTargetFrontAfterChase.h
   aiAppearFromTargetFrontGround.cpp
   aiAppearFromTargetFrontGround.h
-  aiAppearNearTarget.cpp
-  aiAppearNearTarget.h
+  aiAppearFromTarget.cpp
+  aiAppearFromTarget.h
   aiAppearNearTargetOutOfScrnGnd.cpp
   aiAppearNearTargetOutOfScrnGnd.h
   aiArmorSearchKorokRoot.cpp
@@ -127,12 +127,12 @@ target_sources(uking PRIVATE
   aiAssassinBossRoot.h
   aiAssassinCallSelect.cpp
   aiAssassinCallSelect.h
-  aiAssassinFieldShooterBattleBase.cpp
-  aiAssassinFieldShooterBattleBase.h
+  aiAssassinShooterBattle.cpp
+  aiAssassinShooterBattle.h
   aiAssassinFieldShooterBattle.cpp
   aiAssassinFieldShooterBattle.h
-  aiAssassinMagicTgtSelect.cpp
-  aiAssassinMagicTgtSelect.h
+  aiTargetHeightAreaSelect.cpp
+  aiTargetHeightAreaSelect.h
   aiAssassinMiddleAzitoDlcRoot.cpp
   aiAssassinMiddleAzitoDlcRoot.h
   aiAssassinMiddleAzitoNoMemberDemo.cpp
@@ -147,8 +147,8 @@ target_sources(uking PRIVATE
   aiAssassinMiddleMagicAfter.h
   aiAssassinMiddleRoot.cpp
   aiAssassinMiddleRoot.h
-  aiAssassinNormal.cpp
-  aiAssassinNormal.h
+  aiGuardHomePosNormal.cpp
+  aiGuardHomePosNormal.h
   aiAssassinRoot.cpp
   aiAssassinRoot.h
   aiAssassinShooterJuniorAzitoRoot.cpp
@@ -177,8 +177,8 @@ target_sources(uking PRIVATE
   aiBasicStatusRoot.h
   aiBattleBgmRequestFinishTag.cpp
   aiBattleBgmRequestFinishTag.h
-  aiBeamExplodeBase.cpp
-  aiBeamExplodeBase.h
+  aiSimpleBeamExplode.cpp
+  aiSimpleBeamExplode.h
   aiBeamExplode.cpp
   aiBeamExplodeEitherHit.cpp
   aiBeamExplodeEitherHit.h
@@ -263,8 +263,8 @@ target_sources(uking PRIVATE
   aiChemicalWeaponRoot.h
   aiChildDeviceReflectArrow.cpp
   aiChildDeviceReflectArrow.h
-  aiChildFavoriteSelectorBase.cpp
-  aiChildFavoriteSelectorBase.h
+  aiChildSelector.cpp
+  aiChildSelector.h
   aiChildFavoriteSelector.cpp
   aiChildFavoriteSelector.h
   aiChildHaveSelect.cpp
@@ -403,8 +403,8 @@ target_sources(uking PRIVATE
   aiDragonItemRoot.h
   aiDragonReturn.cpp
   aiDragonReturn.h
-  aiDragonRootBase.cpp
-  aiDragonRootBase.h
+  aiControlRailRoot.cpp
+  aiControlRailRoot.h
   aiDragonRoot.cpp
   aiDragonRoot.h
   aiDragonTurn.cpp
@@ -479,8 +479,8 @@ target_sources(uking PRIVATE
   aiEnemyChemicalPowerSelect.h
   aiEnemyChemicalSelect.cpp
   aiEnemyChemicalSelect.h
-  aiEnemyChemTargetActionBase.cpp
-  aiEnemyChemTargetActionBase.h
+  aiEnemyTargetAction.cpp
+  aiEnemyTargetAction.h
   aiEnemyChemTargetAction.cpp
   aiEnemyChemTargetAction.h
   aiEnemyConfuse.cpp
@@ -685,8 +685,8 @@ target_sources(uking PRIVATE
   aiFlyingEnemyFindPlayer.h
   aiFlyingEnemyFrontKeepMove.cpp
   aiFlyingEnemyFrontKeepMove.h
-  aiFlyingEnemyKeepMove.cpp
-  aiFlyingEnemyKeepMove.h
+  aiFlyingEnemyDistanceKeepMove.cpp
+  aiFlyingEnemyDistanceKeepMove.h
   aiFlyingEnemySideKeepMove.cpp
   aiFlyingEnemySideKeepMove.h
   aiFlyInsectRoam.cpp
@@ -869,8 +869,8 @@ target_sources(uking PRIVATE
   aiGolemWeakPointRoot.h
   aiGolfBallRoot.cpp
   aiGolfBallRoot.h
-  aiGoronCannonBase.cpp
-  aiGoronCannonBase.h
+  aiBigCannon.cpp
+  aiBigCannon.h
   aiGoronCannon.cpp
   aiGoronCannon.h
   aiGoronHeroDescendentRoot.cpp
@@ -893,8 +893,8 @@ target_sources(uking PRIVATE
   aiGuardianAI.h
   aiGuardianBattleBeamAttack.cpp
   aiGuardianBattleBeamAttack.h
-  aiGuardianBeamAttackBase.cpp
-  aiGuardianBeamAttackBase.h
+  aiGuardianCommonBeamAttack.cpp
+  aiGuardianCommonBeamAttack.h
   aiGuardianBeamAttack.cpp
   aiGuardianBeamAttack.h
   aiGuardianBeam.cpp
@@ -965,8 +965,8 @@ target_sources(uking PRIVATE
   aiGuardianTargetLost.h
   aiGuardianWait.cpp
   aiGuardianWait.h
-  aiGuardNearTarget.cpp
-  aiGuardNearTarget.h
+  aiInvincibleNearTargetBase.cpp
+  aiInvincibleNearTargetBase.h
   aiGyroActivateTerminal.cpp
   aiGyroActivateTerminal.h
   aiHangedLamp.cpp
@@ -989,8 +989,8 @@ target_sources(uking PRIVATE
   aiHiddenOctarockSearchTarget.h
   aiHomePosDistanceSelector.cpp
   aiHomePosDistanceSelector.h
-  aiHorseCheckLineOfSightSelectorBase.cpp
-  aiHorseCheckLineOfSightSelectorBase.h
+  aiCheckLineOfSightSelector.cpp
+  aiCheckLineOfSightSelector.h
   aiHorseCheckLineOfSightSelector.cpp
   aiHorseCheckLineOfSightSelector.h
   aiHorse.cpp
@@ -1149,8 +1149,8 @@ target_sources(uking PRIVATE
   aiLandingChemicalBall.h
   aiLargeCannonAttackRoot.cpp
   aiLargeCannonAttackRoot.h
-  aiLargeEnemyFindPlayer.cpp
-  aiLargeEnemyFindPlayer.h
+  aiGiantEnemyFindPlayer.cpp
+  aiGiantEnemyFindPlayer.h
   aiLastAttackerSelect.cpp
   aiLastAttackerSelect.h
   aiLastAttackerSpecialActionSelect.cpp
@@ -1297,8 +1297,8 @@ target_sources(uking PRIVATE
   aiMetalObjectBuried.h
   aiMetalObjectFixed.cpp
   aiMetalObjectFixed.h
-  aiMimicCliffStopEnemyNormalBase.cpp
-  aiMimicCliffStopEnemyNormalBase.h
+  aiCliffStopEnemyNormal.cpp
+  aiCliffStopEnemyNormal.h
   aiMimicCliffStopEnemyNormal.cpp
   aiMimicCliffStopEnemyNormal.h
   aiMimicEnemyFindPlayer.cpp
@@ -1309,8 +1309,8 @@ target_sources(uking PRIVATE
   aiMimicFlagSelect.h
   aiMimicryResetCheck.cpp
   aiMimicryResetCheck.h
-  aiMiniBeamAttack.cpp
-  aiMiniBeamAttack.h
+  aiGuideBeamAttackEnemyBattle.cpp
+  aiGuideBeamAttackEnemyBattle.h
   aiMiniGolemLifted.cpp
   aiMiniGolemLifted.h
   aiMiniGolemReaction.cpp
@@ -1329,8 +1329,8 @@ target_sources(uking PRIVATE
   aiMoriblinSpearNearBattle.h
   aiMoriblinUnarmedBattle.cpp
   aiMoriblinUnarmedBattle.h
-  aiMotorcycleRootBase.cpp
-  aiMotorcycleRootBase.h
+  aiHorseRiddenStatusSelector.cpp
+  aiHorseRiddenStatusSelector.h
   aiMotorcycleRoot.cpp
   aiMotorcycleRoot.h
   aiMoveAndFreeFallGondola.cpp
@@ -1429,8 +1429,8 @@ target_sources(uking PRIVATE
   aiNpcTebaTrainingRoot.h
   aiNPCTimeline.cpp
   aiNPCTimeline.h
-  aiNPCTravelBase.cpp
-  aiNPCTravelBase.h
+  aiNPCScheduleMove.cpp
+  aiNPCScheduleMove.h
   aiNPCTravel.cpp
   aiNPCTravelerRoot.cpp
   aiNPCTravelerRoot.h
@@ -1443,16 +1443,16 @@ target_sources(uking PRIVATE
   aiNushiWarp.h
   aiOctarockBattle.cpp
   aiOctarockBattle.h
-  aiOctarockEscape.cpp
-  aiOctarockEscape.h
+  aiOctarockHideEscapeBase.cpp
+  aiOctarockHideEscapeBase.h
   aiOctarockHideEscape.cpp
   aiOctarockHideEscape.h
   aiOctarockOptionRoot.cpp
   aiOctarockOptionRoot.h
   aiOctarockReaction.cpp
   aiOctarockReaction.h
-  aiOctarockRootBase.cpp
-  aiOctarockRootBase.h
+  aiVacuumEnemyRoot.cpp
+  aiVacuumEnemyRoot.h
   aiOctarockRoot.cpp
   aiOctarockRoot.h
   aiOctarockServiceHideWait.cpp
@@ -1465,8 +1465,8 @@ target_sources(uking PRIVATE
   aiOnCliffSurfaceSelect.h
   aiOnCliffViewWait.cpp
   aiOnCliffViewWait.h
-  aiOneMemoryMagicBattleBase.cpp
-  aiOneMemoryMagicBattleBase.h
+  aiMagicBattle.cpp
+  aiMagicBattle.h
   aiOneMemoryMagicBattle.cpp
   aiOneMemoryMagicBattle.h
   aiOnEnterEventModeSelect.cpp
@@ -1615,8 +1615,8 @@ target_sources(uking PRIVATE
   aiPriestBossMetaAIRoot.h
   aiPriestBossMeta.cpp
   aiPriestBossMeta.h
-  aiPriestBossMode.cpp
-  aiPriestBossMode.h
+  aiPriestBoss.cpp
+  aiPriestBoss.h
   aiPriestBossNormalMoveSelector.cpp
   aiPriestBossNormalMoveSelector.h
   aiPriestBossNormalQuickRecover.cpp
@@ -1657,8 +1657,8 @@ target_sources(uking PRIVATE
   aiPriestIronBallAttack.h
   aiPullOutTree.cpp
   aiPullOutTree.h
-  aiRailMove.cpp
-  aiRailMove.h
+  aiBezierRailMove.cpp
+  aiBezierRailMove.h
   aiRailMoveObject.cpp
   aiRailMoveObject.h
   aiRailMoveObjectOneWay.cpp
@@ -1693,8 +1693,8 @@ target_sources(uking PRIVATE
   aiRangeObstacleCheck.h
   aiRangeSelectAction.cpp
   aiRangeSelectAction.h
-  aiRangeSelect.cpp
-  aiRangeSelect.h
+  aiNewRangeSelect.cpp
+  aiNewRangeSelect.h
   aiRangeSelectThreeAction.cpp
   aiRangeSelectThreeAction.h
   aiRangeSelectTwoAction.cpp
@@ -1713,14 +1713,14 @@ target_sources(uking PRIVATE
   aiReflectableIgnitedThrown.h
   aiReflectableThrown.cpp
   aiReflectableThrown.h
-  aiRegistedActorNumTwoSelectBase.cpp
-  aiRegistedActorNumTwoSelectBase.h
+  aiRegistedActor.cpp
+  aiRegistedActor.h
   aiRegistedActorNumTwoSelect.cpp
   aiRegistedActorNumTwoSelect.h
   aiRemainElectricCannonBeamAttack.cpp
   aiRemainElectricCannonBeamAttack.h
-  aiRemainElectricCannonRootBase.cpp
-  aiRemainElectricCannonRootBase.h
+  aiLargeCannonRoot.cpp
+  aiLargeCannonRoot.h
   aiRemainElectricCannonRoot.cpp
   aiRemainElectricCannonRoot.h
   aiRemainsElectricBGCamera.cpp
@@ -1801,8 +1801,8 @@ target_sources(uking PRIVATE
   aiSandwormLost.h
   aiSandwormNavSearchWait.cpp
   aiSandwormNavSearchWait.h
-  aiSandwormNormalBase.cpp
-  aiSandwormNormalBase.h
+  aiAwnSeal.cpp
+  aiAwnSeal.h
   aiSandwormNormal.cpp
   aiSandwormNormal.h
   aiSandwormNoticeSound.cpp
@@ -1867,8 +1867,8 @@ target_sources(uking PRIVATE
   aiSeqTrgPartsNotice.h
   aiSeqTwoAction.cpp
   aiSeqTwoAction.h
-  aiSeqTwoLineReachableTargetActionBase.cpp
-  aiSeqTwoLineReachableTargetActionBase.h
+  aiSeqTwoLineReachableTarget.cpp
+  aiSeqTwoLineReachableTarget.h
   aiSeqTwoLineReachableTargetAction.cpp
   aiSeqTwoLineReachableTargetAction.h
   aiSeqTwoWeakPointOnFirstDo.cpp
@@ -1911,8 +1911,8 @@ target_sources(uking PRIVATE
   aiSimpleLineBeam.h
   aiSimpleShootingEnemyFindPlayer.cpp
   aiSimpleShootingEnemyFindPlayer.h
-  aiSimpleWildlifeRoot.cpp
-  aiSimpleWildlifeRoot.h
+  aiCapturedActorRoot.cpp
+  aiCapturedActorRoot.h
   aiSiteBossApproachRoot.cpp
   aiSiteBossApproachRoot.h
   aiSiteBossArrowRainAttack.cpp
@@ -1927,8 +1927,8 @@ target_sources(uking PRIVATE
   aiSiteBossBowChildDeviceRoot.h
   aiSiteBossBowRoot.cpp
   aiSiteBossBowRoot.h
-  aiSiteBossChemicalProjectile.cpp
-  aiSiteBossChemicalProjectile.h
+  aiGanonFlameBall.cpp
+  aiGanonFlameBall.h
   aiSiteBossFlameBall.cpp
   aiSiteBossFlameBall.h
   aiSiteBossGaleArrowRoot.cpp
@@ -1949,8 +1949,8 @@ target_sources(uking PRIVATE
   aiSiteBossPierceBulletAttack.h
   aiSiteBossReaction.cpp
   aiSiteBossReaction.h
-  aiSiteBossRecognizeRootBase.cpp
-  aiSiteBossRecognizeRootBase.h
+  aiLastBossRecognizeRoot.cpp
+  aiLastBossRecognizeRoot.h
   aiSiteBossRecognizeRoot.cpp
   aiSiteBossRecognizeRoot.h
   aiSiteBossReflectArrowRoot.cpp
@@ -1999,8 +1999,8 @@ target_sources(uking PRIVATE
   aiSoundTriggerTag.h
   aiSpearWeaponSelect.cpp
   aiSpearWeaponSelect.h
-  aiSpecialEnemySleep.cpp
-  aiSpecialEnemySleep.h
+  aiSleepNormal.cpp
+  aiSleepNormal.h
   aiSpotBgmTrigger.cpp
   aiSpotBgmTrigger.h
   aiStalEnemyBlownOff.cpp
@@ -2125,8 +2125,8 @@ target_sources(uking PRIVATE
   aiTargetActorGrabAdapter.h
   aiTargetAngerSelect.cpp
   aiTargetAngerSelect.h
-  aiTargetAttackAttitudeTgtSelectBase.cpp
-  aiTargetAttackAttitudeTgtSelectBase.h
+  aiTargetAttackAttitudeTgt.cpp
+  aiTargetAttackAttitudeTgt.h
   aiTargetAttackAttitudeTgtSelect.cpp
   aiTargetAttackAttitudeTgtSelect.h
   aiTargetBaitTypeSelect.cpp
@@ -2185,24 +2185,24 @@ target_sources(uking PRIVATE
   aiTargetPickedItem.h
   aiTargetPlayerPos.cpp
   aiTargetPlayerPos.h
-  aiTargetPosAI.cpp
-  aiTargetPosAI.h
+  aiTargetActorPos.cpp
+  aiTargetActorPos.h
   aiTargetPosAnchorOffsetSelf.cpp
   aiTargetPosAnchorOffsetSelf.h
   aiTargetPosAnchorOffsetTarget.cpp
   aiTargetPosAnchorOffsetTarget.h
   aiTargetPosDirLRSelect.cpp
   aiTargetPosDirLRSelect.h
-  aiTargetPosDynParamRot.cpp
+  aiTargetPosDynParamRotFromMyPos.cpp
   aiTargetPosDynParamRotFromCtrPos.cpp
   aiTargetPosDynParamRotFromCtrPos.h
-  aiTargetPosDynParamRot.h
+  aiTargetPosDynParamRotFromMyPos.h
   aiTargetPosLostCheck.cpp
   aiTargetPosLostCheck.h
-  aiTargetPosOffset.cpp
+  aiOffsetTargetPos.cpp
   aiTargetPosOffsetFromMyPos.cpp
   aiTargetPosOffsetFromMyPos.h
-  aiTargetPosOffset.h
+  aiOffsetTargetPos.h
   aiTargetPosOnNavFaceSelect.cpp
   aiTargetPosOnNavFaceSelect.h
   aiTargetPosRotFromMyPos.cpp
@@ -2227,8 +2227,8 @@ target_sources(uking PRIVATE
   aiTerminalEnduranceWarpRoot.h
   aiTimeControlTagRoot.cpp
   aiTimeControlTagRoot.h
-  aiTimedGuardNearTarget.cpp
-  aiTimedGuardNearTarget.h
+  aiInvincibleNearTarget.cpp
+  aiInvincibleNearTarget.h
   aiTimelineAI.cpp
   aiTimelineAI.h
   aiTimeredViewWait.cpp
@@ -2265,10 +2265,10 @@ target_sources(uking PRIVATE
   aiTwnObjDlcFlightTrainingTarget.h
   aiUnarmedEnemyNoiseTarget.cpp
   aiUnarmedEnemyNoiseTarget.h
-  aiUnarmedEnemySearch.cpp
-  aiUnarmedEnemySearch.h
-  aiUnarmedEnemySearchWeapon.cpp
-  aiUnarmedEnemySearchWeapon.h
+  aiNavMove.cpp
+  aiNavMove.h
+  aiEnemySearch.cpp
+  aiEnemySearch.h
   aiUnarmedWeaponEquipableEnemyAct.cpp
   aiUnarmedWeaponEquipableEnemyAct.h
   aiUnderWaterDepthSelect.cpp
@@ -2355,8 +2355,8 @@ target_sources(uking PRIVATE
   aiWeatherReactionCheck.h
   aiWetSelect.cpp
   aiWetSelect.h
-  aiWholeDungeonRotateTag.cpp
-  aiWholeDungeonRotateTag.h
+  aiDungeonRotateTagApp.cpp
+  aiDungeonRotateTagApp.h
   aiWillBallAttackLevelSelect.cpp
   aiWillBallAttackLevelSelect.h
   aiWillBallFollowAttack.cpp

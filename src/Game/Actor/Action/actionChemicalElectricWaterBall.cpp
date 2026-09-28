@@ -2,25 +2,24 @@
 
 namespace uking::action {
 
-ChemicalElectricWaterBall::ChemicalElectricWaterBall(const InitArg& arg)
-    : ChemicalAttackBall(arg) {}
+ChemicalElectricWaterBall::ChemicalElectricWaterBall(const InitArg& arg) : ChemicalAttack(arg) {}
 
 ChemicalElectricWaterBall::~ChemicalElectricWaterBall() = default;
 
 bool ChemicalElectricWaterBall::init_(sead::Heap* heap) {
-    return ChemicalAttackBall::init_(heap);
+    return ChemicalAttack::init_(heap);
 }
 
 void ChemicalElectricWaterBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChemicalAttackBall::enter_(params);
+    ChemicalAttack::enter_(params);
 }
 
 void ChemicalElectricWaterBall::leave_() {
-    ChemicalAttackBall::leave_();
+    ChemicalAttack::leave_();
 }
 
 void ChemicalElectricWaterBall::loadParams_() {
-    ChemicalAttackBall::loadParams_();
+    ChemicalAttack::loadParams_();
     getStaticParam(&mDeleteTime_s, "DeleteTime");
     getStaticParam(&mTargetScale_s, "TargetScale");
     getStaticParam(&mScaleKeep_s, "ScaleKeep");
@@ -28,7 +27,7 @@ void ChemicalElectricWaterBall::loadParams_() {
 }
 
 void ChemicalElectricWaterBall::calc_() {
-    ChemicalAttackBall::calc_();
+    ChemicalAttack::calc_();
 }
 
 }  // namespace uking::action
