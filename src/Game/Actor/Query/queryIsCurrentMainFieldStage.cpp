@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryIsCurrentMainFieldStage.h"
 #include <evfl/Query.h>
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 
 namespace uking::query {
 

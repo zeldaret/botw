@@ -1,4 +1,4 @@
-#include "Game/Actor/AI/aiCameraEvent.h"
+#include "Game/Actor/Camera/AI/aiCameraEvent.h"
 
 namespace uking::ai {
 

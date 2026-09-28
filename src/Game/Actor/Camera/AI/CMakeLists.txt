@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   aiCameraBow.h
   aiCameraEditRoot.cpp
   aiCameraEditRoot.h
+  aiCameraEvent.cpp
+  aiCameraEvent.h
   aiCameraEventReturnSavePoint.cpp
   aiCameraEventReturnSavePoint.h
   aiCameraEventTalk.cpp

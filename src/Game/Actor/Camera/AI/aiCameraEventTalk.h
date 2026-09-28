@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/AI/aiCameraEvent.h"
+#include "Game/Actor/Camera/AI/aiCameraEvent.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {

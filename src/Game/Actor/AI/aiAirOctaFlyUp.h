@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 namespace uking {
 class AirOctaDataMgr;

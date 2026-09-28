@@ -1,4 +1,4 @@
-#include "Game/gameStageInfo.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking {

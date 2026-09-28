@@ -1,4 +1,4 @@
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace ksys {
 
