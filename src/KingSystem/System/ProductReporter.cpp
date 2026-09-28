@@ -9,7 +9,7 @@
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Framework/frmFramework.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/VFR.h"
 
@@ -218,6 +218,31 @@ bool ProductReporter::incrementSceneAndRomWorkTime() {
     }
 
     return true;
+}
+
+void PlayReport::addPlayTimes() {
+    if (!gdt::Manager::instance())
+        return;
+
+    if (!PlayReportMgr::instance())
+        return;
+
+    if (!PlayReportMgr::instance()->getReporter())
+        return;
+
+    s32 playTime =
+        PlayReportMgr::instance()->getReporter()->getS32(PlayReportKey::PlayReport_PlayTime);
+
+    s32 allPlayTime =
+        PlayReportMgr::instance()->getReporter()->getS32(PlayReportKey::PlayReport_AllPlayTime);
+
+    add(sead::SafeString("PlayTime"), u32(playTime));
+    add(sead::SafeString("AllPlayTime"), u32(allPlayTime));
+}
+
+void PlayReport::addPosition(const sead::Vector2f& position) {
+    add(sead::SafeString("PosX"), position.x);
+    add(sead::SafeString("PosZ"), position.y);
 }
 
 #define PRODUCT_REPORTER_S32_GETTER(NAME, PLAY_REPORT_KEY)                                         \

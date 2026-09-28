@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndResource.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
 #include <heap/seadFrameHeap.h>

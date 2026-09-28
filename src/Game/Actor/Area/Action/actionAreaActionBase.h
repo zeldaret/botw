@@ -4,11 +4,11 @@
 
 namespace uking::action {
 
-class AreaTagAction : public ksys::act::ai::Action {
-    SEAD_RTTI_OVERRIDE(AreaTagAction, ksys::act::ai::Action)
+class AreaActionBase : public ksys::act::ai::Action {
+    SEAD_RTTI_OVERRIDE(AreaActionBase, ksys::act::ai::Action)
 public:
-    explicit AreaTagAction(const InitArg& arg);
-    ~AreaTagAction() override;
+    explicit AreaActionBase(const InitArg& arg);
+    ~AreaActionBase() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
 

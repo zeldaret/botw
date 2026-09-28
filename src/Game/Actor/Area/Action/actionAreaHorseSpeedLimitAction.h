@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Area/Action/actionAreaTagAction.h"
+#include "Game/Actor/Area/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class AreaHorseSpeedLimitAction : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(AreaHorseSpeedLimitAction, AreaTagAction)
+class AreaHorseSpeedLimitAction : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(AreaHorseSpeedLimitAction, AreaActionBase)
 public:
     explicit AreaHorseSpeedLimitAction(const InitArg& arg);
     ~AreaHorseSpeedLimitAction() override;

@@ -2,20 +2,20 @@
 
 namespace ksys::snd {
 
-SoundOcclusionTagAction::SoundOcclusionTagAction(const InitArg& arg) : AreaTagAction(arg) {}
+SoundOcclusionTagAction::SoundOcclusionTagAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 SoundOcclusionTagAction::~SoundOcclusionTagAction() = default;
 
 bool SoundOcclusionTagAction::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 void SoundOcclusionTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void SoundOcclusionTagAction::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void SoundOcclusionTagAction::loadParams_() {
@@ -23,7 +23,7 @@ void SoundOcclusionTagAction::loadParams_() {
 }
 
 void SoundOcclusionTagAction::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 }  // namespace ksys::snd

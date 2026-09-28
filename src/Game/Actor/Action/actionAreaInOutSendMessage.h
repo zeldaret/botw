@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Game/Actor/Area/Action/actionAreaTagAction.h"
+#include "Game/Actor/Area/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ActorAreaInOutSendMessage : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(ActorAreaInOutSendMessage, AreaTagAction)
+class AreaInOutSendMessage : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(AreaInOutSendMessage, AreaActionBase)
 public:
-    explicit ActorAreaInOutSendMessage(const InitArg& arg);
-    ~ActorAreaInOutSendMessage() override;
+    explicit AreaInOutSendMessage(const InitArg& arg);
+    ~AreaInOutSendMessage() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

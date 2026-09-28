@@ -2,12 +2,12 @@
 
 namespace uking::action {
 
-AreaRecreateActorAction::AreaRecreateActorAction(const InitArg& arg) : AreaTagAction(arg) {}
+AreaRecreateActorAction::AreaRecreateActorAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 AreaRecreateActorAction::~AreaRecreateActorAction() = default;
 
 bool AreaRecreateActorAction::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 }  // namespace uking::action
