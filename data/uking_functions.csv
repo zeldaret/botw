@@ -58012,7 +58012,7 @@ Address,Quality,Size,Name
 0x00000071009ce95c,U,000128,
 0x00000071009ce9dc,U,000128,
 0x00000071009cea5c,U,000084,
-0x00000071009ceab0,U,000132,ScreenAkashNum::ctor
+0x00000071009ceab0,U,000132,uking::ui::ScreenAkashNum::ctor
 0x00000071009ceb34,U,000080,uking::ui::ScreenAkashNum::dtor
 0x00000071009ceb84,U,000080,uking::ui::ScreenAkashNum::dtor_thunk108
 0x00000071009cebd4,U,000080,uking::ui::ScreenAkashNum::dtor_thunk110
@@ -58131,7 +58131,7 @@ Address,Quality,Size,Name
 0x00000071009d03a0,U,000008,
 0x00000071009d03a8,U,000004,nullsub_2899
 0x00000071009d03ac,U,000604,sinit_uiScreenAkashNum
-0x00000071009d0608,U,000100,ScreenAmiiboWindow::ctor
+0x00000071009d0608,U,000100,uking::ui::ScreenAmiiboWindow::ctor
 0x00000071009d066c,U,000004,uking::ui::ScreenAmiiboWindow::dtor
 0x00000071009d0670,U,000008,uking::ui::ScreenAmiiboWindow::dtor_thunk108
 0x00000071009d0678,U,000008,uking::ui::ScreenAmiiboWindow::dtor_thunk110
@@ -58185,7 +58185,7 @@ Address,Quality,Size,Name
 0x00000071009d314c,U,000124,
 0x00000071009d31c8,U,000276,
 0x00000071009d32dc,U,000444,ui::getPhotoLocation
-0x00000071009d3498,U,000640,ScreenAppAlbum::ctor
+0x00000071009d3498,U,000640,uking::ui::ScreenAppAlbum::ctor
 0x00000071009d3718,U,000220,uking::ui::ScreenAppAlbum::dtor
 0x00000071009d37f4,U,000220,uking::ui::ScreenAppAlbum::dtor_thunk108
 0x00000071009d38d0,U,000220,uking::ui::ScreenAppAlbum::dtor_thunk110
@@ -58268,9 +58268,9 @@ Address,Quality,Size,Name
 0x00000071009d7294,U,000252,
 0x00000071009d7390,U,000004,nullsub_5462
 0x00000071009d7394,U,000796,sinitAppCameraStrings
-0x00000071009d76b0,U,001232,ScreenAppCamera::ctor
-0x00000071009d7b80,U,000192,ScreenAppCamera::invoked1
-0x00000071009d7c40,U,000080,ScreenAppCamera::invoked2
+0x00000071009d76b0,U,001232,uking::ui::ScreenAppCamera::ctor
+0x00000071009d7b80,U,000192,uking::ui::ScreenAppCamera::invoked1
+0x00000071009d7c40,U,000080,uking::ui::ScreenAppCamera::invoked2
 0x00000071009d7c90,U,000408,uking::ui::ScreenAppCamera::dtor
 0x00000071009d7e28,U,000008,uking::ui::ScreenAppCamera::dtor_thunk108
 0x00000071009d7e30,U,000008,uking::ui::ScreenAppCamera::dtor_thunk110
@@ -58287,7 +58287,7 @@ Address,Quality,Size,Name
 0x00000071009d92e4,U,000004,ScreenAppCamera::m156_null
 0x00000071009d92e8,U,000280,ScreenAppCamera::m158
 0x00000071009d9400,U,000232,ScreenAppCamera::m159
-0x00000071009d94e8,U,000972,ScreenAppCamera::calledFromM159
+0x00000071009d94e8,U,000972,uking::ui::ScreenAppCamera::calledFromM159
 0x00000071009d98b4,U,000004,ScreenAppCamera::m160_null
 0x00000071009d98b8,U,000368,ScreenAppCamera::m162
 0x00000071009d9a28,U,000036,ScreenAppCamera::m163
@@ -58304,7 +58304,7 @@ Address,Quality,Size,Name
 0x00000071009db72c,U,000040,ScreenAppCamera::m99
 0x00000071009db754,U,000308,ScreenAppCamera::m100
 0x00000071009db888,U,000092,ScreenAppCamera::m101
-0x00000071009db8e4,U,000004,ScreenAppCamera::m110
+0x00000071009db8e4,U,000004,j_uking::ui::ScreenAppCamera::onOpenForEventClip
 0x00000071009db8e8,U,000004,ScreenAppCamera::m127_null
 0x00000071009db8ec,U,000220,
 0x00000071009db9c8,U,000592,
@@ -58314,7 +58314,7 @@ Address,Quality,Size,Name
 0x00000071009dbd00,U,000008,ScreenAppCamera::m157
 0x00000071009dbd08,U,000008,ScreenAppCamera::m161
 0x00000071009dbd10,U,000008,ScreenAppCamera::m165
-0x00000071009dbd18,U,000004,ScreenAppCamera::m166_null
+0x00000071009dbd18,U,000004,uking::ui::ScreenAppCamera::m166_null
 0x00000071009dbd1c,U,000004,j__ZdlPv_533
 0x00000071009dbd20,U,000040,
 0x00000071009dbd48,U,000024,
@@ -58332,7 +58332,7 @@ Address,Quality,Size,Name
 0x00000071009dbe7c,U,000004,nullsub_5464
 0x00000071009dbe80,U,000004,nullsub_5465
 0x00000071009dbe84,U,001160,sinitAppHomeStrings
-0x00000071009dc30c,U,000224,ScreenAppHome::ctor
+0x00000071009dc30c,U,000224,uking::ui::ScreenAppHome::ctor
 0x00000071009dc3ec,U,000312,uking::ui::ScreenAppHome::dtor
 0x00000071009dc524,U,000008,uking::ui::ScreenAppHome::dtor_thunk108
 0x00000071009dc52c,U,000008,uking::ui::ScreenAppHome::dtor_thunk110
@@ -58392,7 +58392,7 @@ Address,Quality,Size,Name
 0x00000071009dff7c,U,000004,nullsub_2913
 0x00000071009dff80,U,000004,j__ZdlPv_537
 0x00000071009dff84,U,000300,
-0x00000071009e00b0,U,001800,ScreenAppMapDungeon::ctor
+0x00000071009e00b0,U,001800,uking::ui::ScreenAppMapDungeon::ctor
 0x00000071009e07b8,U,001004,uking::ui::ScreenAppMapDungeon::dtor
 0x00000071009e0ba4,U,000008,uking::ui::ScreenAppMapDungeon::dtor_thunk108
 0x00000071009e0bac,U,000008,uking::ui::ScreenAppMapDungeon::dtor_thunk110
@@ -58510,11 +58510,11 @@ Address,Quality,Size,Name
 0x00000071009e8578,U,000004,nullsub_5489
 0x00000071009e857c,U,000004,nullsub_5490
 0x00000071009e8580,U,005668,sinitAppMapStrings
-0x00000071009e9ba4,U,000576,ScreenAppMap::ctor
-0x00000071009e9de4,U,000168,ScreenAppMap::dtor
+0x00000071009e9ba4,U,000576,uking::ui::ScreenAppMap::ctor
+0x00000071009e9de4,U,000168,uking::ui::ScreenAppMap::dtor
 0x00000071009e9e8c,U,000008,uking::ui::ScreenAppMap::dtor_thunk108
 0x00000071009e9e94,U,000008,uking::ui::ScreenAppMap::dtor_thunk110
-0x00000071009e9e9c,U,000036,ScreenAppMap::dtorDelete
+0x00000071009e9e9c,U,000036,uking::ui::ScreenAppMap::dtorDelete
 0x00000071009e9ec0,U,000040,uking::ui::ScreenAppMap::dtorDelete_thunk108
 0x00000071009e9ee8,U,000040,uking::ui::ScreenAppMap::dtorDelete_thunk110
 0x00000071009e9f10,U,000016,
@@ -58537,21 +58537,21 @@ Address,Quality,Size,Name
 0x00000071009eb0e0,U,000152,
 0x00000071009eb178,U,000216,
 0x00000071009eb250,U,000588,
-0x00000071009eb49c,U,000028,ScreenAppMap::mainEnter
-0x00000071009eb4b8,U,000116,ScreenAppMap::mainRun
+0x00000071009eb49c,U,000028,uking::ui::ScreenAppMap::mainEnter
+0x00000071009eb4b8,U,000116,uking::ui::ScreenAppMap::mainRun
 0x00000071009eb52c,U,000512,
 0x00000071009eb72c,U,000228,
-0x00000071009eb810,U,000004,ScreenAppMap::mainLeave
-0x00000071009eb814,U,000160,ScreenAppMap::subEnter
-0x00000071009eb8b4,U,000172,ScreenAppMap::subRun
+0x00000071009eb810,U,000004,uking::ui::ScreenAppMap::mainLeave
+0x00000071009eb814,U,000160,uking::ui::ScreenAppMap::subEnter
+0x00000071009eb8b4,U,000172,uking::ui::ScreenAppMap::subRun
 0x00000071009eb960,U,000264,
 0x00000071009eba68,U,000376,
-0x00000071009ebbe0,U,000028,ScreenAppMap::subLeave
-0x00000071009ebbfc,U,000108,ScreenAppMap::demoEnter
-0x00000071009ebc68,U,000260,ScreenAppMap::demoRun
+0x00000071009ebbe0,U,000028,uking::ui::ScreenAppMap::subLeave
+0x00000071009ebbfc,U,000108,uking::ui::ScreenAppMap::demoEnter
+0x00000071009ebc68,U,000260,uking::ui::ScreenAppMap::demoRun
 0x00000071009ebd6c,U,000348,
 0x00000071009ebec8,U,000340,
-0x00000071009ec01c,U,000056,ScreenAppMap::demoLeave
+0x00000071009ec01c,U,000056,uking::ui::ScreenAppMap::demoLeave
 0x00000071009ec054,U,000312,ScreenAppMap::m98
 0x00000071009ec18c,U,000060,ScreenAppMap::m100
 0x00000071009ec1c8,U,000360,ScreenAppMap::m101
@@ -58649,7 +58649,7 @@ Address,Quality,Size,Name
 0x00000071009f296c,U,000068,_ZN6xlink227FixedEnumPropertyDefinitionILi11EED0Ev
 0x00000071009f29b0,U,000004,j__ZdlPv_543
 0x00000071009f29b4,U,000244,_ZN4sead16WFixedSafeStringILi64EEaSERKNS_14SafeStringBaseIDsEE
-0x00000071009f2aa8,U,000084,ScreenAppMenuBtn::ctor
+0x00000071009f2aa8,U,000084,uking::ui::ScreenAppMenuBtn::ctor
 0x00000071009f2afc,U,000004,uking::ui::ScreenAppMenuBtn::dtor
 0x00000071009f2b00,U,000008,
 0x00000071009f2b08,U,000008,
@@ -58705,7 +58705,7 @@ Address,Quality,Size,Name
 0x00000071009f6744,U,000668,
 0x00000071009f69e0,U,000124,
 0x00000071009f6a5c,U,000152,
-0x00000071009f6af4,U,000564,ScreenAppPictureBook::ctor
+0x00000071009f6af4,U,000564,uking::ui::ScreenAppPictureBook::ctor
 0x00000071009f6d28,U,000220,uking::ui::ScreenAppPictureBook::dtor
 0x00000071009f6e04,U,000220,uking::ui::ScreenAppPictureBook::dtor_thunk108
 0x00000071009f6ee0,U,000220,uking::ui::ScreenAppPictureBook::dtor_thunk110
@@ -58777,7 +58777,7 @@ Address,Quality,Size,Name
 0x00000071009fb528,U,000260,
 0x00000071009fb62c,U,000208,
 0x00000071009fb6fc,U,000300,
-0x00000071009fb828,U,000076,ScreenAppSystemWindowNoBtn::ctor
+0x00000071009fb828,U,000076,uking::ui::ScreenAppSystemWindowNoBtn::ctor
 0x00000071009fb874,U,000004,uking::ui::ScreenAppSystemWindowNoBtn::dtor
 0x00000071009fb878,U,000008,uking::ui::ScreenAppSystemWindowNoBtn::dtor_thunk108
 0x00000071009fb880,U,000008,uking::ui::ScreenAppSystemWindowNoBtn::dtor_thunk110
@@ -58794,7 +58794,7 @@ Address,Quality,Size,Name
 0x00000071009fbadc,U,000208,
 0x00000071009fbbac,U,000132,uking::ui::ScreenAppSystemWindowNoBtn::checkDerivedRuntimeTypeInfo
 0x00000071009fbc30,U,000092,uking::ui::ScreenAppSystemWindowNoBtn::getRuntimeTypeInfo
-0x00000071009fbc8c,U,000104,ScreenAppSystemWindow::ctor
+0x00000071009fbc8c,U,000104,uking::ui::ScreenAppSystemWindow::ctor
 0x00000071009fbcf4,U,000004,uking::ui::ScreenAppSystemWindow::dtor
 0x00000071009fbcf8,U,000008,uking::ui::ScreenAppSystemWindow::dtor_thunk108
 0x00000071009fbd00,U,000008,uking::ui::ScreenAppSystemWindow::dtor_thunk110
@@ -58821,7 +58821,7 @@ Address,Quality,Size,Name
 0x00000071009fcd4c,U,000008,
 0x00000071009fcd54,U,000008,
 0x00000071009fcd5c,U,000008,
-0x00000071009fcd64,U,000208,ScreenAppTool::ctor
+0x00000071009fcd64,U,000208,uking::ui::ScreenAppTool::ctor
 0x00000071009fce34,U,000252,uking::ui::ScreenAppTool::dtor
 0x00000071009fcf30,U,000008,uking::ui::ScreenAppTool::dtor_thunk108
 0x00000071009fcf38,U,000008,uking::ui::ScreenAppTool::dtor_thunk110
@@ -58873,7 +58873,7 @@ Address,Quality,Size,Name
 0x0000007100a00100,U,000008,
 0x0000007100a00108,U,000004,nullsub_2944
 0x0000007100a0010c,U,000616,sinitAppTool
-0x0000007100a00374,U,000068,ScreenBootUp::ctor
+0x0000007100a00374,U,000068,uking::ui::ScreenBootUp::ctor
 0x0000007100a003b8,U,000004,uking::ui::ScreenBootUp::dtor
 0x0000007100a003bc,U,000008,uking::ui::ScreenBootUp::dtor_thunk108
 0x0000007100a003c4,U,000008,uking::ui::ScreenBootUp::dtor_thunk110
@@ -58886,7 +58886,7 @@ Address,Quality,Size,Name
 0x0000007100a00528,U,000092,uking::ui::ScreenBootUp::getRuntimeTypeInfo
 0x0000007100a00584,U,000004,Screen::m93_null
 0x0000007100a00588,U,000004,Screen::m98_null
-0x0000007100a0058c,U,000256,ScreenChallengeWin::ctor
+0x0000007100a0058c,U,000256,uking::ui::ScreenChallengeWin::ctor
 0x0000007100a0068c,U,000040,uking::ui::ScreenChallengeWin::dtor
 0x0000007100a006b4,U,000048,uking::ui::ScreenChallengeWin::dtor_thunk108
 0x0000007100a006e4,U,000048,uking::ui::ScreenChallengeWin::dtor_thunk110
@@ -58903,7 +58903,7 @@ Address,Quality,Size,Name
 0x0000007100a00bfc,U,000148,
 0x0000007100a00c90,U,000132,uking::ui::ScreenChallengeWin::checkDerivedRuntimeTypeInfo
 0x0000007100a00d14,U,000092,uking::ui::ScreenChallengeWin::getRuntimeTypeInfo
-0x0000007100a00d70,U,000072,ScreenChangeController::ctor
+0x0000007100a00d70,U,000072,uking::ui::ScreenChangeController::ctor
 0x0000007100a00db8,U,000004,uking::ui::ScreenChangeController::dtor
 0x0000007100a00dbc,U,000008,uking::ui::ScreenChangeController::dtor_thunk108
 0x0000007100a00dc4,U,000008,uking::ui::ScreenChangeController::dtor_thunk110
@@ -58931,7 +58931,7 @@ Address,Quality,Size,Name
 0x0000007100a0177c,U,000412,
 0x0000007100a01918,U,000276,
 0x0000007100a01a2c,U,000040,
-0x0000007100a01a54,U,000752,ScreenControllerWindow::ctor
+0x0000007100a01a54,U,000752,uking::ui::ScreenControllerWindow::ctor
 0x0000007100a01d44,U,000040,uking::ui::ScreenControllerWindow::dtor
 0x0000007100a01d6c,U,000048,uking::ui::ScreenControllerWindow::dtor_thunk108
 0x0000007100a01d9c,U,000048,uking::ui::ScreenControllerWindow::dtor_thunk110
@@ -58966,7 +58966,7 @@ Address,Quality,Size,Name
 0x0000007100a03478,U,000244,
 0x0000007100a0356c,U,000004,nullsub_5492
 0x0000007100a03570,U,000640,sinitScreenDemoNameEnemy
-0x0000007100a037f0,U,000068,ScreenDemoNameEnemy::ctor
+0x0000007100a037f0,U,000068,uking::ui::ScreenDemoNameEnemy::ctor
 0x0000007100a03834,U,000004,uking::ui::ScreenDemoNameEnemy::dtor
 0x0000007100a03838,U,000008,uking::ui::ScreenDemoNameEnemy::dtor_thunk108
 0x0000007100a03840,U,000008,uking::ui::ScreenDemoNameEnemy::dtor_thunk110
@@ -58980,7 +58980,7 @@ Address,Quality,Size,Name
 0x0000007100a03db4,U,000092,uking::ui::ScreenDemoNameEnemy::getRuntimeTypeInfo
 0x0000007100a03e10,U,000008,
 0x0000007100a03e18,U,000004,Screen::m94_null
-0x0000007100a03e1c,U,000068,ScreenDemoName::ctor
+0x0000007100a03e1c,U,000068,uking::ui::ScreenDemoName::ctor
 0x0000007100a03e60,U,000004,uking::ui::ScreenDemoName::dtor
 0x0000007100a03e64,U,000008,uking::ui::ScreenDemoName::dtor_thunk108
 0x0000007100a03e6c,U,000008,uking::ui::ScreenDemoName::dtor_thunk110
@@ -58993,7 +58993,7 @@ Address,Quality,Size,Name
 0x0000007100a03ffc,U,000132,uking::ui::ScreenDemoName::checkDerivedRuntimeTypeInfo
 0x0000007100a04080,U,000092,uking::ui::ScreenDemoName::getRuntimeTypeInfo
 0x0000007100a040dc,U,000008,
-0x0000007100a040e4,U,000072,ScreenDemoStart::ctor
+0x0000007100a040e4,U,000072,uking::ui::ScreenDemoStart::ctor
 0x0000007100a0412c,U,000004,uking::ui::ScreenDemoStart::dtor
 0x0000007100a04130,U,000008,uking::ui::ScreenDemoStart::dtor_thunk108
 0x0000007100a04138,U,000008,uking::ui::ScreenDemoStart::dtor_thunk110
@@ -59006,7 +59006,7 @@ Address,Quality,Size,Name
 0x0000007100a042d8,U,000132,uking::ui::ScreenDemoStart::checkDerivedRuntimeTypeInfo
 0x0000007100a0435c,U,000092,uking::ui::ScreenDemoStart::getRuntimeTypeInfo
 0x0000007100a043b8,U,000008,
-0x0000007100a043c0,U,000148,ScreenDLCSinJuAkashiNum::ctor
+0x0000007100a043c0,U,000148,uking::ui::ScreenDLCSinJuAkashiNum::ctor
 0x0000007100a04454,U,000080,uking::ui::ScreenDLCSinJuAkashiNum::dtor
 0x0000007100a044a4,U,000080,uking::ui::ScreenDLCSinJuAkashiNum::dtor_thunk108
 0x0000007100a044f4,U,000080,uking::ui::ScreenDLCSinJuAkashiNum::dtor_thunk110
@@ -59054,7 +59054,7 @@ Address,Quality,Size,Name
 0x0000007100a050b8,U,000604,sinitDLCSinJuAkashiNum_00
 0x0000007100a05314,U,000048,
 0x0000007100a05344,U,000484,
-0x0000007100a05528,U,000392,ScreenDLCWindow::ctor
+0x0000007100a05528,U,000392,uking::ui::ScreenDLCWindow::ctor
 0x0000007100a056b0,U,000040,uking::ui::ScreenDLCWindow::dtor
 0x0000007100a056d8,U,000048,uking::ui::ScreenDLCWindow::dtor_thunk108
 0x0000007100a05708,U,000048,uking::ui::ScreenDLCWindow::dtor_thunk110
@@ -59084,7 +59084,7 @@ Address,Quality,Size,Name
 0x0000007100a0689c,U,000004,nullsub_5494
 0x0000007100a068a0,U,000004,nullsub_5495
 0x0000007100a068a4,U,002816,sinitDoStrings
-0x0000007100a073a4,U,000100,ScreenDoCommand::ctor
+0x0000007100a073a4,U,000100,uking::ui::ScreenDoCommand::ctor
 0x0000007100a07408,U,000092,uking::ui::ScreenDoCommand::dtor
 0x0000007100a07464,U,000096,uking::ui::ScreenDoCommand::dtor_thunk108
 0x0000007100a074c4,U,000096,uking::ui::ScreenDoCommand::dtor_thunk110
@@ -59092,7 +59092,7 @@ Address,Quality,Size,Name
 0x0000007100a07588,U,000104,uking::ui::ScreenDoCommand::dtorDelete_thunk108
 0x0000007100a075f0,U,000104,uking::ui::ScreenDoCommand::dtorDelete_thunk110
 0x0000007100a07658,U,000052,
-0x0000007100a0768c,U,000160,ScreenDoCommand::setCommand
+0x0000007100a0768c,U,000160,uking::ui::ScreenDoCommand::setCommand
 0x0000007100a0772c,U,000008,
 0x0000007100a07734,U,000252,
 0x0000007100a07830,U,000108,
@@ -59108,7 +59108,7 @@ Address,Quality,Size,Name
 0x0000007100a081f8,U,000192,
 0x0000007100a082b8,U,000132,uking::ui::ScreenDoCommand::checkDerivedRuntimeTypeInfo
 0x0000007100a0833c,U,000092,uking::ui::ScreenDoCommand::getRuntimeTypeInfo
-0x0000007100a08398,U,000068,ScreenEnd::ctor
+0x0000007100a08398,U,000068,uking::ui::ScreenEnd::ctor
 0x0000007100a083dc,U,000004,uking::ui::ScreenEnd::dtor
 0x0000007100a083e0,U,000008,uking::ui::ScreenEnd::dtor_thunk108
 0x0000007100a083e8,U,000008,uking::ui::ScreenEnd::dtor_thunk110
@@ -59119,7 +59119,7 @@ Address,Quality,Size,Name
 0x0000007100a08498,U,000004,nullsub_2963
 0x0000007100a0849c,U,000132,uking::ui::ScreenEnd::checkDerivedRuntimeTypeInfo
 0x0000007100a08520,U,000092,uking::ui::ScreenEnd::getRuntimeTypeInfo
-0x0000007100a0857c,U,000132,ScreenEnergyMeterDLC::ctor
+0x0000007100a0857c,U,000132,uking::ui::ScreenEnergyMeterDLC::ctor
 0x0000007100a08600,U,000092,uking::ui::ScreenEnergyMeterDLC::dtor
 0x0000007100a0865c,U,000096,uking::ui::ScreenEnergyMeterDLC::dtor_thunk108
 0x0000007100a086bc,U,000096,uking::ui::ScreenEnergyMeterDLC::dtor_thunk110
@@ -59137,7 +59137,7 @@ Address,Quality,Size,Name
 0x0000007100a0964c,U,000012,
 0x0000007100a09658,U,000004,nullsub_5496
 0x0000007100a0965c,U,000500,sinit_uiScreenFadeStatus
-0x0000007100a09850,U,000128,ScreenFadeStatus::ctor
+0x0000007100a09850,U,000128,uking::ui::ScreenFadeStatus::ctor
 0x0000007100a098d0,U,000108,uking::ui::ScreenFadeStatus::dtor
 0x0000007100a0993c,U,000112,uking::ui::ScreenFadeStatus::dtor_thunk108
 0x0000007100a099ac,U,000112,uking::ui::ScreenFadeStatus::dtor_thunk110
@@ -59150,7 +59150,7 @@ Address,Quality,Size,Name
 0x0000007100a0a338,U,000132,uking::ui::ScreenFadeStatus::checkDerivedRuntimeTypeInfo
 0x0000007100a0a3bc,U,000092,uking::ui::ScreenFadeStatus::getRuntimeTypeInfo
 0x0000007100a0a418,U,000008,ScreenFadeStatus::m18
-0x0000007100a0a420,U,000092,ScreenGameOver::ctor
+0x0000007100a0a420,U,000092,uking::ui::ScreenGameOver::ctor
 0x0000007100a0a47c,U,000004,uking::ui::ScreenGameOver::dtor
 0x0000007100a0a480,U,000008,uking::ui::ScreenGameOver::dtor_thunk108
 0x0000007100a0a488,U,000008,uking::ui::ScreenGameOver::dtor_thunk110
@@ -59190,7 +59190,7 @@ Address,Quality,Size,Name
 0x0000007100a0acec,U,000468,sinit_GameOverScreen
 0x0000007100a0aec0,U,000004,nullsub_5497
 0x0000007100a0aec4,U,000384,sinit_uiScreenGamePadBG
-0x0000007100a0b044,U,000088,ScreenGamePadBG::ctor
+0x0000007100a0b044,U,000088,uking::ui::ScreenGamePadBG::ctor
 0x0000007100a0b09c,U,000004,uking::ui::ScreenGamePadBG::dtor
 0x0000007100a0b0a0,U,000008,uking::ui::ScreenGamePadBG::dtor_thunk108
 0x0000007100a0b0a8,U,000008,uking::ui::ScreenGamePadBG::dtor_thunk110
@@ -59206,7 +59206,7 @@ Address,Quality,Size,Name
 0x0000007100a0b2c4,U,000132,uking::ui::ScreenGamePadBG::checkDerivedRuntimeTypeInfo
 0x0000007100a0b348,U,000092,uking::ui::ScreenGamePadBG::getRuntimeTypeInfo
 0x0000007100a0b3a4,U,000008,
-0x0000007100a0b3ac,U,000068,ScreenGameTitle::ctor
+0x0000007100a0b3ac,U,000068,uking::ui::ScreenGameTitle::ctor
 0x0000007100a0b3f0,U,000004,uking::ui::ScreenGameTitle::dtor
 0x0000007100a0b3f4,U,000008,uking::ui::ScreenGameTitle::dtor_thunk108
 0x0000007100a0b3fc,U,000008,uking::ui::ScreenGameTitle::dtor_thunk110
@@ -59216,7 +59216,7 @@ Address,Quality,Size,Name
 0x0000007100a0b478,U,000012,
 0x0000007100a0b484,U,000132,uking::ui::ScreenGameTitle::checkDerivedRuntimeTypeInfo
 0x0000007100a0b508,U,000092,uking::ui::ScreenGameTitle::getRuntimeTypeInfo
-0x0000007100a0b564,U,000068,ScreenHardModeTextDLC::ctor
+0x0000007100a0b564,U,000068,uking::ui::ScreenHardModeTextDLC::ctor
 0x0000007100a0b5a8,U,000004,uking::ui::ScreenHardModeTextDLC::dtor
 0x0000007100a0b5ac,U,000008,uking::ui::ScreenHardModeTextDLC::dtor_thunk108
 0x0000007100a0b5b4,U,000008,uking::ui::ScreenHardModeTextDLC::dtor_thunk110
@@ -59227,7 +59227,7 @@ Address,Quality,Size,Name
 0x0000007100a0b63c,U,000124,
 0x0000007100a0b6b8,U,000132,uking::ui::ScreenHardModeTextDLC::checkDerivedRuntimeTypeInfo
 0x0000007100a0b73c,U,000092,uking::ui::ScreenHardModeTextDLC::getRuntimeTypeInfo
-0x0000007100a0b798,U,000256,ScreenHardMode::ctor
+0x0000007100a0b798,U,000256,uking::ui::ScreenHardMode::ctor
 0x0000007100a0b898,U,000040,uking::ui::ScreenHardMode::dtor
 0x0000007100a0b8c0,U,000048,uking::ui::ScreenHardMode::dtor_thunk108
 0x0000007100a0b8f0,U,000048,uking::ui::ScreenHardMode::dtor_thunk110
@@ -59245,7 +59245,7 @@ Address,Quality,Size,Name
 0x0000007100a0bd68,U,000404,ScreenHardMode::m94
 0x0000007100a0befc,U,000172,ScreenHardMode::m106
 0x0000007100a0bfa8,U,000032,ScreenHardMode::m107
-0x0000007100a0bfc8,U,000188,ScreenHardMode::setWindowType
+0x0000007100a0bfc8,U,000188,uking::ui::ScreenHardMode::setWindowType
 0x0000007100a0c084,U,000740,
 0x0000007100a0c368,U,000684,
 0x0000007100a0c614,U,000076,ScreenHardMode::m154
@@ -59352,7 +59352,7 @@ Address,Quality,Size,Name
 0x0000007100a0d764,U,000008,
 0x0000007100a0d76c,U,000004,nullsub_2995
 0x0000007100a0d770,U,001908,sinit_uiScreenHardMode
-0x0000007100a0dee4,U,000080,ScreenHomeMenuCapture::ctor
+0x0000007100a0dee4,U,000080,uking::ui::ScreenHomeMenuCapture::ctor
 0x0000007100a0df34,U,000004,uking::ui::ScreenHomeMenuCapture::dtor
 0x0000007100a0df38,U,000008,uking::ui::ScreenHomeMenuCapture::dtor_thunk108
 0x0000007100a0df40,U,000008,uking::ui::ScreenHomeMenuCapture::dtor_thunk110
@@ -59365,7 +59365,7 @@ Address,Quality,Size,Name
 0x0000007100a0e054,U,000068,
 0x0000007100a0e098,U,000132,uking::ui::ScreenHomeMenuCapture::checkDerivedRuntimeTypeInfo
 0x0000007100a0e11c,U,000092,uking::ui::ScreenHomeMenuCapture::getRuntimeTypeInfo
-0x0000007100a0e178,U,000076,ScreenKeyBoradTextArea::ctor
+0x0000007100a0e178,U,000076,uking::ui::ScreenKeyBoradTextArea::ctor
 0x0000007100a0e1c4,U,000104,uking::ui::ScreenKeyBoradTextArea::dtor
 0x0000007100a0e22c,U,000104,uking::ui::ScreenKeyBoradTextArea::dtor_thunk108
 0x0000007100a0e294,U,000104,uking::ui::ScreenKeyBoradTextArea::dtor_thunk110
@@ -59386,7 +59386,7 @@ Address,Quality,Size,Name
 0x0000007100a0e690,U,000092,uking::ui::ScreenKeyBoradTextArea::getRuntimeTypeInfo
 0x0000007100a0e6ec,U,000004,nullsub_2998
 0x0000007100a0e6f0,U,000004,nullsub_2999
-0x0000007100a0e6f4,U,000076,ScreenKeyNum::ctor
+0x0000007100a0e6f4,U,000076,uking::ui::ScreenKeyNum::ctor
 0x0000007100a0e740,U,000004,uking::ui::ScreenKeyNum::dtor
 0x0000007100a0e744,U,000008,uking::ui::ScreenKeyNum::dtor_thunk108
 0x0000007100a0e74c,U,000008,uking::ui::ScreenKeyNum::dtor_thunk110
@@ -59400,7 +59400,7 @@ Address,Quality,Size,Name
 0x0000007100a0e924,U,000296,
 0x0000007100a0ea4c,U,000132,uking::ui::ScreenKeyNum::checkDerivedRuntimeTypeInfo
 0x0000007100a0ead0,U,000092,uking::ui::ScreenKeyNum::getRuntimeTypeInfo
-0x0000007100a0eb2c,U,000132,ScreenKologNum::ctor
+0x0000007100a0eb2c,U,000132,uking::ui::ScreenKologNum::ctor
 0x0000007100a0ebb0,U,000080,uking::ui::ScreenKologNum::dtor
 0x0000007100a0ec00,U,000080,uking::ui::ScreenKologNum::dtor_thunk108
 0x0000007100a0ec50,U,000080,uking::ui::ScreenKologNum::dtor_thunk110
@@ -59424,7 +59424,7 @@ Address,Quality,Size,Name
 0x0000007100a0f238,U,000004,nullsub_3002
 0x0000007100a0f23c,U,000096,
 0x0000007100a0f29c,U,000012,
-0x0000007100a0f2a8,U,000084,ScreenKologNum::numCountEnter
+0x0000007100a0f2a8,U,000084,uking::ui::ScreenKologNum::numCountEnter
 0x0000007100a0f2fc,U,000380,
 0x0000007100a0f478,U,000004,nullsub_3003
 0x0000007100a0f47c,U,000016,
@@ -59445,7 +59445,7 @@ Address,Quality,Size,Name
 0x0000007100a0f6a8,U,000008,
 0x0000007100a0f6b0,U,000004,nullsub_3005
 0x0000007100a0f6b4,U,000604,sinit_uiScreenKologNum
-0x0000007100a0f910,U,000068,ScreenLastComplete::ctor
+0x0000007100a0f910,U,000068,uking::ui::ScreenLastComplete::ctor
 0x0000007100a0f954,U,000004,uking::ui::ScreenLastComplete::dtor
 0x0000007100a0f958,U,000008,uking::ui::ScreenLastComplete::dtor_thunk108
 0x0000007100a0f960,U,000008,uking::ui::ScreenLastComplete::dtor_thunk110
@@ -59456,7 +59456,7 @@ Address,Quality,Size,Name
 0x0000007100a0fb98,U,000012,
 0x0000007100a0fba4,U,000132,uking::ui::ScreenLastComplete::checkDerivedRuntimeTypeInfo
 0x0000007100a0fc28,U,000092,uking::ui::ScreenLastComplete::getRuntimeTypeInfo
-0x0000007100a0fc84,U,000068,ScreenLoadingWeapon::ctor
+0x0000007100a0fc84,U,000068,uking::ui::ScreenLoadingWeapon::ctor
 0x0000007100a0fcc8,U,000004,uking::ui::ScreenLoadingWeapon::dtor
 0x0000007100a0fccc,U,000008,uking::ui::ScreenLoadingWeapon::dtor_thunk108
 0x0000007100a0fcd4,U,000008,uking::ui::ScreenLoadingWeapon::dtor_thunk110
@@ -59466,7 +59466,7 @@ Address,Quality,Size,Name
 0x0000007100a0fd50,U,000052,
 0x0000007100a0fd84,U,000132,uking::ui::ScreenLoadingWeapon::checkDerivedRuntimeTypeInfo
 0x0000007100a0fe08,U,000092,uking::ui::ScreenLoadingWeapon::getRuntimeTypeInfo
-0x0000007100a0fe64,U,000100,ScreenMainHardMode::ctor
+0x0000007100a0fe64,U,000100,uking::ui::ScreenMainHardMode::ctor
 0x0000007100a0fec8,U,000152,
 0x0000007100a0ff60,U,000004,j_Screen::m6
 0x0000007100a0ff64,U,000004,uking::ui::ScreenMainHardMode::dtor
@@ -59479,7 +59479,7 @@ Address,Quality,Size,Name
 0x0000007100a10070,U,000092,uking::ui::ScreenMainHardMode::getRuntimeTypeInfo
 0x0000007100a100cc,U,000008,
 0x0000007100a100d4,U,000012,
-0x0000007100a100e0,U,000152,ScreenMainHorse::ctor
+0x0000007100a100e0,U,000152,uking::ui::ScreenMainHorse::ctor
 0x0000007100a10178,U,000004,uking::ui::ScreenMainHorse::dtor
 0x0000007100a1017c,U,000008,uking::ui::ScreenMainHorse::dtor_thunk108
 0x0000007100a10184,U,000008,uking::ui::ScreenMainHorse::dtor_thunk110
@@ -59497,7 +59497,7 @@ Address,Quality,Size,Name
 0x0000007100a10e40,U,000092,uking::ui::ScreenMainHorse::getRuntimeTypeInfo
 0x0000007100a10e9c,U,000012,
 0x0000007100a10ea8,U,000036,
-0x0000007100a10ecc,U,001212,ScreenMainScreen3D::ctor
+0x0000007100a10ecc,U,001212,uking::ui::ScreenMainScreen3D::ctor
 0x0000007100a11388,U,000472,uking::ui::ScreenMainScreen3D::dtor
 0x0000007100a11560,U,000008,uking::ui::ScreenMainScreen3D::dtor_thunk108
 0x0000007100a11568,U,000008,uking::ui::ScreenMainScreen3D::dtor_thunk110
@@ -59532,7 +59532,7 @@ Address,Quality,Size,Name
 0x0000007100a16628,U,000092,
 0x0000007100a16684,U,000052,sead::DelegateR_StaminaGaugePart_stateExtraEnergy::invoke
 0x0000007100a166b8,U,000092,
-0x0000007100a16714,U,000088,ScreenMainScreenHeartIchigekiDLC::ctor
+0x0000007100a16714,U,000088,uking::ui::ScreenMainScreenHeartIchigekiDLC::ctor
 0x0000007100a1676c,U,000004,uking::ui::ScreenMainScreenHeartIchigekiDLC::dtor
 0x0000007100a16770,U,000008,uking::ui::ScreenMainScreenHeartIchigekiDLC::dtor_thunk108
 0x0000007100a16778,U,000008,uking::ui::ScreenMainScreenHeartIchigekiDLC::dtor_thunk110
@@ -59547,7 +59547,7 @@ Address,Quality,Size,Name
 0x0000007100a16aec,U,000064,
 0x0000007100a16b2c,U,000132,uking::ui::ScreenMainScreenHeartIchigekiDLC::checkDerivedRuntimeTypeInfo
 0x0000007100a16bb0,U,000092,uking::ui::ScreenMainScreenHeartIchigekiDLC::getRuntimeTypeInfo
-0x0000007100a16c0c,U,000092,ScreenMainScreenMS::ctor
+0x0000007100a16c0c,U,000092,uking::ui::ScreenMainScreenMS::ctor
 0x0000007100a16c68,U,000004,uking::ui::ScreenMainScreenMS::dtor
 0x0000007100a16c6c,U,000008,uking::ui::ScreenMainScreenMS::dtor_thunk108
 0x0000007100a16c74,U,000008,uking::ui::ScreenMainScreenMS::dtor_thunk110
@@ -59575,7 +59575,7 @@ Address,Quality,Size,Name
 0x0000007100a17844,U,000252,
 0x0000007100a17940,U,000004,nullsub_5498
 0x0000007100a17944,U,000436,sinit_uiScreenMainScreen
-0x0000007100a17af8,U,001276,ScreenMainScreen::ctor
+0x0000007100a17af8,U,001276,uking::ui::ScreenMainScreen::ctor
 0x0000007100a17ff4,U,000196,uking::ui::ScreenMainScreen::dtor
 0x0000007100a180b8,U,000196,uking::ui::ScreenMainScreen::dtor_thunk108
 0x0000007100a1817c,U,000196,uking::ui::ScreenMainScreen::dtor_thunk110
@@ -59594,7 +59594,7 @@ Address,Quality,Size,Name
 0x0000007100a199b8,U,000708,
 0x0000007100a19c7c,U,000236,ScreenMainScreen::m84
 0x0000007100a19d68,U,000012,ScreenMainScreen::m85
-0x0000007100a19d74,U,000004,ScreenMainScreen::m88_null
+0x0000007100a19d74,U,000004,uking::ui::ScreenMainScreen::m88_null
 0x0000007100a19d78,U,000204,ScreenMainScreen::m98
 0x0000007100a19e44,U,000092,ScreenMainScreen::m90
 0x0000007100a19ea0,U,000524,ScreenMainScreen::m130
@@ -59608,7 +59608,7 @@ Address,Quality,Size,Name
 0x0000007100a1ab48,U,000016,
 0x0000007100a1ab58,U,000016,
 0x0000007100a1ab68,U,000012,
-0x0000007100a1ab74,U,000016,ScreenMainScreen::showInfoOverlayWithString
+0x0000007100a1ab74,U,000016,uking::ui::ScreenMainScreen::showInfoOverlayWithString
 0x0000007100a1ab84,U,000016,
 0x0000007100a1ab94,U,000052,
 0x0000007100a1abc8,U,000032,
@@ -59657,7 +59657,7 @@ Address,Quality,Size,Name
 0x0000007100a1ec2c,U,000036,
 0x0000007100a1ec50,U,000004,nullsub_5499
 0x0000007100a1ec54,U,000724,sinitMainShortCut00
-0x0000007100a1ef28,U,000404,ScreenMainShortCut::ctor
+0x0000007100a1ef28,U,000404,uking::ui::ScreenMainShortCut::ctor
 0x0000007100a1f0bc,U,000124,uking::ui::ScreenMainShortCut::dtor
 0x0000007100a1f138,U,000128,uking::ui::ScreenMainShortCut::dtor_thunk108
 0x0000007100a1f1b8,U,000128,uking::ui::ScreenMainShortCut::dtor_thunk110
@@ -59724,7 +59724,7 @@ Address,Quality,Size,Name
 0x0000007100a223dc,U,000004,nullsub_3013
 0x0000007100a223e0,U,000208,
 0x0000007100a224b0,U,000212,
-0x0000007100a22584,U,000128,ScreenMamoNum::ctor
+0x0000007100a22584,U,000128,uking::ui::ScreenMamoNum::ctor
 0x0000007100a22604,U,000092,uking::ui::ScreenMamoNum::dtor
 0x0000007100a22660,U,000096,uking::ui::ScreenMamoNum::dtor_thunk108
 0x0000007100a226c0,U,000096,uking::ui::ScreenMamoNum::dtor_thunk110
@@ -59771,7 +59771,7 @@ Address,Quality,Size,Name
 0x0000007100a233ec,U,000252,
 0x0000007100a234e8,U,000004,nullsub_5500
 0x0000007100a234ec,U,000652,sinit_uiScreenMessageGet
-0x0000007100a23778,U,000336,ScreenMessageGet::ctor
+0x0000007100a23778,U,000336,uking::ui::ScreenMessageGet::ctor
 0x0000007100a238c8,U,000060,
 0x0000007100a23904,U,000188,uking::ui::ScreenMessageGet::dtor
 0x0000007100a239c0,U,000008,uking::ui::ScreenMessageGet::dtor_thunk108
@@ -59792,7 +59792,7 @@ Address,Quality,Size,Name
 0x0000007100a2511c,U,000856,
 0x0000007100a25474,U,000452,
 0x0000007100a25638,U,000192,
-0x0000007100a256f8,U,000252,ScreenMessageGet::onCloseStart
+0x0000007100a256f8,U,000252,uking::ui::ScreenMessageGet::onCloseStart
 0x0000007100a257f4,U,000036,
 0x0000007100a25818,U,000680,
 0x0000007100a25ac0,U,000004,j_j__ZN3eui6Screen7doDraw_EPKNS_10DrawInfoEx16RenderBufferInfoE_0
@@ -59803,7 +59803,7 @@ Address,Quality,Size,Name
 0x0000007100a25be0,U,000092,
 0x0000007100a25c3c,U,000008,
 0x0000007100a25c44,U,000008,sead::IDelegate2R::clone
-0x0000007100a25c4c,U,000116,ScreenMessageTipsPauseMenu::ctor
+0x0000007100a25c4c,U,000116,uking::ui::ScreenMessageTipsPauseMenu::ctor
 0x0000007100a25cc0,U,000004,uking::ui::ScreenMessageTipsPauseMenu::dtor
 0x0000007100a25cc4,U,000008,uking::ui::ScreenMessageTipsPauseMenu::dtor_thunk108
 0x0000007100a25ccc,U,000008,uking::ui::ScreenMessageTipsPauseMenu::dtor_thunk110
@@ -59821,7 +59821,7 @@ Address,Quality,Size,Name
 0x0000007100a2616c,U,000092,uking::ui::ScreenMessageTipsPauseMenu::getRuntimeTypeInfo
 0x0000007100a261c8,U,000004,nullsub_5501
 0x0000007100a261cc,U,001056,sinitScreenMessageTipsRunTime
-0x0000007100a265ec,U,000148,ScreenMessageTipsRunTime::ctor
+0x0000007100a265ec,U,000148,uking::ui::ScreenMessageTipsRunTime::ctor
 0x0000007100a26680,U,000080,uking::ui::ScreenMessageTipsRunTime::dtor
 0x0000007100a266d0,U,000080,uking::ui::ScreenMessageTipsRunTime::dtor_thunk108
 0x0000007100a26720,U,000080,uking::ui::ScreenMessageTipsRunTime::dtor_thunk110
@@ -59843,7 +59843,7 @@ Address,Quality,Size,Name
 0x0000007100a26eb4,U,000004,nullsub_5503
 0x0000007100a26eb8,U,000004,nullsub_5504
 0x0000007100a26ebc,U,000868,sinit_uiScreenMiniGame
-0x0000007100a27220,U,000212,ScreenMiniGame::ctor
+0x0000007100a27220,U,000212,uking::ui::ScreenMiniGame::ctor
 0x0000007100a272f4,U,000040,uking::ui::ScreenMiniGame::dtor
 0x0000007100a2731c,U,000048,uking::ui::ScreenMiniGame::dtor_thunk108
 0x0000007100a2734c,U,000048,uking::ui::ScreenMiniGame::dtor_thunk110
@@ -59871,7 +59871,7 @@ Address,Quality,Size,Name
 0x0000007100a28418,U,000188,
 0x0000007100a284d4,U,000132,uking::ui::ScreenMiniGame::checkDerivedRuntimeTypeInfo
 0x0000007100a28558,U,000092,uking::ui::ScreenMiniGame::getRuntimeTypeInfo
-0x0000007100a285b4,U,000076,ScreenOPtext::ctor
+0x0000007100a285b4,U,000076,uking::ui::ScreenOPtext::ctor
 0x0000007100a28600,U,000004,uking::ui::ScreenOPtext::dtor
 0x0000007100a28604,U,000008,uking::ui::ScreenOPtext::dtor_thunk108
 0x0000007100a2860c,U,000008,uking::ui::ScreenOPtext::dtor_thunk110
@@ -59885,7 +59885,7 @@ Address,Quality,Size,Name
 0x0000007100a287c4,U,000092,uking::ui::ScreenOPtext::getRuntimeTypeInfo
 0x0000007100a28820,U,000004,nullsub_5505
 0x0000007100a28824,U,001020,sinit_uiScreenOptionWindow
-0x0000007100a28c20,U,000176,ScreenOptionWindow::ctor
+0x0000007100a28c20,U,000176,uking::ui::ScreenOptionWindow::ctor
 0x0000007100a28cd0,U,000028,
 0x0000007100a28cec,U,000192,uking::ui::ScreenOptionWindow::dtor
 0x0000007100a28dac,U,000196,uking::ui::ScreenOptionWindow::dtor_thunk108
@@ -59923,7 +59923,7 @@ Address,Quality,Size,Name
 0x0000007100a2bcfc,U,000008,ScreenOptionWindow::m18
 0x0000007100a2bd04,U,000048,
 0x0000007100a2bd34,U,000092,
-0x0000007100a2bd90,U,000076,ScreenPauseMenuBG::ctor
+0x0000007100a2bd90,U,000076,uking::ui::ScreenPauseMenuBG::ctor
 0x0000007100a2bddc,U,000004,uking::ui::ScreenPauseMenuBG::dtor
 0x0000007100a2bde0,U,000008,uking::ui::ScreenPauseMenuBG::dtor_thunk108
 0x0000007100a2bde8,U,000008,uking::ui::ScreenPauseMenuBG::dtor_thunk110
@@ -59939,7 +59939,7 @@ Address,Quality,Size,Name
 0x0000007100a2bf64,U,000104,
 0x0000007100a2bfcc,U,000132,uking::ui::ScreenPauseMenuBG::checkDerivedRuntimeTypeInfo
 0x0000007100a2c050,U,000092,uking::ui::ScreenPauseMenuBG::getRuntimeTypeInfo
-0x0000007100a2c0ac,U,000068,ScreenPauseMenuEiketsu::ctor
+0x0000007100a2c0ac,U,000068,uking::ui::ScreenPauseMenuEiketsu::ctor
 0x0000007100a2c0f0,U,000004,uking::ui::ScreenPauseMenuEiketsu::dtor
 0x0000007100a2c0f4,U,000008,uking::ui::ScreenPauseMenuEiketsu::dtor_thunk108
 0x0000007100a2c0fc,U,000008,uking::ui::ScreenPauseMenuEiketsu::dtor_thunk110
@@ -59963,7 +59963,7 @@ Address,Quality,Size,Name
 0x0000007100a2c5d0,U,000004,nullsub_5506
 0x0000007100a2c5d4,U,000004,nullsub_5507
 0x0000007100a2c5d8,U,000696,sinit_uiScreenPauseMenuInfo
-0x0000007100a2c890,U,000644,ScreenPauseMenuInfo::ctor
+0x0000007100a2c890,U,000644,uking::ui::ScreenPauseMenuInfo::ctor
 0x0000007100a2cb14,U,000060,
 0x0000007100a2cb50,U,000328,uking::ui::ScreenPauseMenuInfo::dtor
 0x0000007100a2cc98,U,000008,uking::ui::ScreenPauseMenuInfo::dtor_thunk108
@@ -60012,7 +60012,7 @@ Address,Quality,Size,Name
 0x0000007100a31d64,U,000004,nullsub_3021
 0x0000007100a31d68,U,000052,sead::Delegate2R_ScreenPauseMenuInfo::invoke
 0x0000007100a31d9c,U,000092,
-0x0000007100a31df8,U,000088,ScreenPauseMenuMantan::ctor
+0x0000007100a31df8,U,000088,uking::ui::ScreenPauseMenuMantan::ctor
 0x0000007100a31e50,U,000004,uking::ui::ScreenPauseMenuMantan::dtor
 0x0000007100a31e54,U,000008,
 0x0000007100a31e5c,U,000008,
@@ -60033,7 +60033,7 @@ Address,Quality,Size,Name
 0x0000007100a3234c,U,000132,uking::ui::ScreenPauseMenuMantan::checkDerivedRuntimeTypeInfo
 0x0000007100a323d0,U,000092,uking::ui::ScreenPauseMenuMantan::getRuntimeTypeInfo
 0x0000007100a3242c,U,000008,
-0x0000007100a32434,U,000108,ScreenPauseMenuRecipe::ctor
+0x0000007100a32434,U,000108,uking::ui::ScreenPauseMenuRecipe::ctor
 0x0000007100a324a0,U,000188,uking::ui::ScreenPauseMenuRecipe::dtor
 0x0000007100a3255c,U,000192,uking::ui::ScreenPauseMenuRecipe::dtor_thunk108
 0x0000007100a3261c,U,000192,uking::ui::ScreenPauseMenuRecipe::dtor_thunk110
@@ -60061,13 +60061,13 @@ Address,Quality,Size,Name
 0x0000007100a33244,U,000004,nullsub_5513
 0x0000007100a33248,U,000004,nullsub_5514
 0x0000007100a3324c,U,003352,sinit_uiScreenPauseMenu
-0x0000007100a33f64,U,000620,ScreenPauseMenu::ctor
+0x0000007100a33f64,U,000620,uking::ui::ScreenPauseMenu::ctor
 0x0000007100a341d0,U,000220,
-0x0000007100a342ac,U,000392,PauseMenuScreen::dtor
+0x0000007100a342ac,U,000392,uking::ui::ScreenPauseMenu::dtor
 0x0000007100a34434,U,000216,
 0x0000007100a3450c,U,000008,uking::ui::ScreenPauseMenu::dtor_thunk108
 0x0000007100a34514,U,000008,uking::ui::ScreenPauseMenu::dtor_thunk110
-0x0000007100a3451c,U,000036,PauseMenuScreen::dtorDelete
+0x0000007100a3451c,U,000036,uking::ui::ScreenPauseMenu::dtorDelete
 0x0000007100a34540,U,000040,uking::ui::ScreenPauseMenu::dtorDelete_thunk108
 0x0000007100a34568,U,000040,uking::ui::ScreenPauseMenu::dtorDelete_thunk110
 0x0000007100a34590,U,000044,
@@ -60185,14 +60185,14 @@ Address,Quality,Size,Name
 0x0000007100a3ef04,U,000028,
 0x0000007100a3ef20,U,000008,
 0x0000007100a3ef28,U,000004,nullsub_3028
-0x0000007100a3ef2c,U,000200,ScreenPickUp::ctor
+0x0000007100a3ef2c,U,000200,uking::ui::ScreenPickUp::ctor
 0x0000007100a3eff4,U,000164,uking::ui::ScreenPickUp::dtor
 0x0000007100a3f098,U,000168,uking::ui::ScreenPickUp::dtor_thunk108
 0x0000007100a3f140,U,000168,uking::ui::ScreenPickUp::dtor_thunk110
 0x0000007100a3f1e8,U,000172,uking::ui::ScreenPickUp::dtorDelete
 0x0000007100a3f294,U,000176,uking::ui::ScreenPickUp::dtorDelete_thunk108
 0x0000007100a3f344,U,000176,uking::ui::ScreenPickUp::dtorDelete_thunk110
-0x0000007100a3f3f4,U,000092,ScreenPickUp::setItemAndOpen
+0x0000007100a3f3f4,U,000092,uking::ui::ScreenPickUp::setItemAndOpen
 0x0000007100a3f450,U,000348,
 0x0000007100a3f5ac,U,000444,
 0x0000007100a3f768,U,000052,
@@ -60213,7 +60213,7 @@ Address,Quality,Size,Name
 0x0000007100a406dc,U,000544,sinit_uiScreenPickUp
 0x0000007100a408fc,U,000004,nullsub_5515
 0x0000007100a40900,U,000396,sinit_uiScreenReadyGo
-0x0000007100a40a8c,U,000068,ScreenReadyGo::ctor
+0x0000007100a40a8c,U,000068,uking::ui::ScreenReadyGo::ctor
 0x0000007100a40ad0,U,000004,uking::ui::ScreenReadyGo::dtor
 0x0000007100a40ad4,U,000008,uking::ui::ScreenReadyGo::dtor_thunk108
 0x0000007100a40adc,U,000008,uking::ui::ScreenReadyGo::dtor_thunk110
@@ -60226,7 +60226,7 @@ Address,Quality,Size,Name
 0x0000007100a40c58,U,000104,
 0x0000007100a40cc0,U,000132,uking::ui::ScreenReadyGo::checkDerivedRuntimeTypeInfo
 0x0000007100a40d44,U,000092,uking::ui::ScreenReadyGo::getRuntimeTypeInfo
-0x0000007100a40da0,U,000160,ScreenRupee::ctor
+0x0000007100a40da0,U,000160,uking::ui::ScreenRupee::ctor
 0x0000007100a40e40,U,000104,uking::ui::ScreenRupee::dtor
 0x0000007100a40ea8,U,000108,uking::ui::ScreenRupee::dtor_thunk108
 0x0000007100a40f14,U,000108,uking::ui::ScreenRupee::dtor_thunk110
@@ -60276,7 +60276,7 @@ Address,Quality,Size,Name
 0x0000007100a41d3c,U,000008,
 0x0000007100a41d44,U,000004,nullsub_3034
 0x0000007100a41d48,U,000668,sinitRupeeScreen
-0x0000007100a41fe4,U,000444,ScreenSaveTransferWindow::ctor
+0x0000007100a41fe4,U,000444,uking::ui::ScreenSaveTransferWindow::ctor
 0x0000007100a421a0,U,000156,uking::ui::ScreenSaveTransferWindow::dtor
 0x0000007100a4223c,U,000160,uking::ui::ScreenSaveTransferWindow::dtor_thunk108
 0x0000007100a422dc,U,000160,uking::ui::ScreenSaveTransferWindow::dtor_thunk110
@@ -60482,11 +60482,11 @@ Address,Quality,Size,Name
 0x0000007100a469e4,U,000004,j__ZdlPv_557
 0x0000007100a469e8,U,000240,_ZN4sead15FixedSafeStringILi20EEaSERKNS_14SafeStringBaseIcEE
 0x0000007100a46ad8,U,002988,sinit_uiScreenSaveTransferWindow
-0x0000007100a47684,U,000344,ScreenEx::ctor
-0x0000007100a477dc,U,000100,ScreenEx::dtor
+0x0000007100a47684,U,000344,uking::ui::ScreenEx::ctor
+0x0000007100a477dc,U,000100,uking::ui::ScreenEx::dtor
 0x0000007100a47840,U,000104,uking::ui::ScreenEx::dtor_thunk108
 0x0000007100a478a8,U,000104,uking::ui::ScreenEx::dtor_thunk110
-0x0000007100a47910,U,000108,ScreenEx::dtorDelete
+0x0000007100a47910,U,000108,uking::ui::ScreenEx::dtorDelete
 0x0000007100a4797c,U,000112,uking::ui::ScreenEx::dtorDelete_thunk108
 0x0000007100a479ec,U,000112,uking::ui::ScreenEx::dtorDelete_thunk110
 0x0000007100a47a5c,U,000360,
@@ -60544,7 +60544,7 @@ Address,Quality,Size,Name
 0x0000007100a4a4f8,U,000208,eui::PartsEx::GetRuntimeTypeInfoStatic
 0x0000007100a4a5c8,U,000208,_ZN3eui10AnimButton24GetRuntimeTypeInfoStaticEv
 0x0000007100a4a698,U,000312,sinit_uiScreenEx
-0x0000007100a4a7d0,U,000080,ScreenSeekPadMenuBG::ctor
+0x0000007100a4a7d0,U,000080,uking::ui::ScreenSeekPadMenuBG::ctor
 0x0000007100a4a820,U,000004,uking::ui::ScreenSeekPadMenuBG::dtor
 0x0000007100a4a824,U,000008,uking::ui::ScreenSeekPadMenuBG::dtor_thunk108
 0x0000007100a4a82c,U,000008,uking::ui::ScreenSeekPadMenuBG::dtor_thunk110
@@ -60553,15 +60553,15 @@ Address,Quality,Size,Name
 0x0000007100a4a880,U,000040,uking::ui::ScreenSeekPadMenuBG::dtorDelete_thunk110
 0x0000007100a4a8a8,U,000116,
 0x0000007100a4a91c,U,000108,
-0x0000007100a4a988,U,000024,ScreenSeekPadMenuBG::stopTypeAnimAtMin
-0x0000007100a4a9a0,U,000024,ScreenSeekPadMenuBG::stopTypeAnimAtMax
+0x0000007100a4a988,U,000024,uking::ui::ScreenSeekPadMenuBG::stopTypeAnimAtMin
+0x0000007100a4a9a0,U,000024,uking::ui::ScreenSeekPadMenuBG::stopTypeAnimAtMax
 0x0000007100a4a9b8,U,000012,
 0x0000007100a4a9c4,U,000092,
 0x0000007100a4aa20,U,000016,
 0x0000007100a4aa30,U,000016,
 0x0000007100a4aa40,U,000132,uking::ui::ScreenSeekPadMenuBG::checkDerivedRuntimeTypeInfo
 0x0000007100a4aac4,U,000092,uking::ui::ScreenSeekPadMenuBG::getRuntimeTypeInfo
-0x0000007100a4ab20,U,000068,ScreenShopBG::ctor
+0x0000007100a4ab20,U,000068,uking::ui::ScreenShopBG::ctor
 0x0000007100a4ab64,U,000004,uking::ui::ScreenShopBG::dtor
 0x0000007100a4ab68,U,000008,uking::ui::ScreenShopBG::dtor_thunk108
 0x0000007100a4ab70,U,000008,uking::ui::ScreenShopBG::dtor_thunk110
@@ -60575,7 +60575,7 @@ Address,Quality,Size,Name
 0x0000007100a4ac40,U,000024,
 0x0000007100a4ac58,U,000132,uking::ui::ScreenShopBG::checkDerivedRuntimeTypeInfo
 0x0000007100a4acdc,U,000092,uking::ui::ScreenShopBG::getRuntimeTypeInfo
-0x0000007100a4ad38,U,000076,ScreenShopBtnList15::ctor
+0x0000007100a4ad38,U,000076,uking::ui::ScreenShopBtnList15::ctor
 0x0000007100a4ad84,U,000080,uking::ui::ScreenShopBtnList15::dtor
 0x0000007100a4add4,U,000080,uking::ui::ScreenShopBtnList15::dtor_thunk108
 0x0000007100a4ae24,U,000080,uking::ui::ScreenShopBtnList15::dtor_thunk110
@@ -60612,7 +60612,7 @@ Address,Quality,Size,Name
 0x0000007100a4b9e4,U,000064,
 0x0000007100a4ba24,U,000076,
 0x0000007100a4ba70,U,000116,
-0x0000007100a4bae4,U,000364,ScreenShopBtnList20::ctor
+0x0000007100a4bae4,U,000364,uking::ui::ScreenShopBtnList20::ctor
 0x0000007100a4bc50,U,000040,uking::ui::ScreenShopBtnList20::dtor
 0x0000007100a4bc78,U,000048,uking::ui::ScreenShopBtnList20::dtor_thunk108
 0x0000007100a4bca8,U,000048,uking::ui::ScreenShopBtnList20::dtor_thunk110
@@ -60630,7 +60630,7 @@ Address,Quality,Size,Name
 0x0000007100a4ca6c,U,000172,
 0x0000007100a4cb18,U,000272,
 0x0000007100a4cc28,U,000112,
-0x0000007100a4cc98,U,000024,ScreenShopBtnList20::stopTypeAnimAtMax
+0x0000007100a4cc98,U,000024,uking::ui::ScreenShopBtnList20::stopTypeAnimAtMax
 0x0000007100a4ccb0,U,000172,
 0x0000007100a4cd5c,U,000020,
 0x0000007100a4cd70,U,000016,
@@ -60658,7 +60658,7 @@ Address,Quality,Size,Name
 0x0000007100a4d9a8,U,000004,
 0x0000007100a4d9ac,U,000036,
 0x0000007100a4d9d0,U,000016,
-0x0000007100a4d9e0,U,000088,ScreenShopBtnList5::ctor
+0x0000007100a4d9e0,U,000088,uking::ui::ScreenShopBtnList5::ctor
 0x0000007100a4da38,U,000004,uking::ui::ScreenShopBtnList5::dtor
 0x0000007100a4da3c,U,000008,uking::ui::ScreenShopBtnList5::dtor_thunk108
 0x0000007100a4da44,U,000008,uking::ui::ScreenShopBtnList5::dtor_thunk110
@@ -60688,7 +60688,7 @@ Address,Quality,Size,Name
 0x0000007100a4e6ac,U,000260,
 0x0000007100a4e7b0,U,000004,nullsub_5516
 0x0000007100a4e7b4,U,000692,sinit_uiScreenShopHorse
-0x0000007100a4ea68,U,000176,ScreenShopHorse::ctor
+0x0000007100a4ea68,U,000176,uking::ui::ScreenShopHorse::ctor
 0x0000007100a4eb18,U,000004,uking::ui::ScreenShopHorse::dtor
 0x0000007100a4eb1c,U,000008,uking::ui::ScreenShopHorse::dtor_thunk108
 0x0000007100a4eb24,U,000008,uking::ui::ScreenShopHorse::dtor_thunk110
@@ -60726,7 +60726,7 @@ Address,Quality,Size,Name
 0x0000007100a513a4,U,000252,
 0x0000007100a514a0,U,000252,
 0x0000007100a5159c,U,000252,
-0x0000007100a51698,U,000248,ScreenShopInfo::ctor
+0x0000007100a51698,U,000248,uking::ui::ScreenShopInfo::ctor
 0x0000007100a51790,U,000060,
 0x0000007100a517cc,U,000104,uking::ui::ScreenShopInfo::dtor
 0x0000007100a51834,U,000108,uking::ui::ScreenShopInfo::dtor_thunk108
@@ -60755,7 +60755,7 @@ Address,Quality,Size,Name
 0x0000007100a52e60,U,000888,
 0x0000007100a531d8,U,000100,_ZN3aal11GroupDucker6Target10initializeEPNS_5GroupERKNS0_14TargetSettingsE
 0x0000007100a5323c,U,000212,uking::ui::setPorchNumText
-0x0000007100a53310,U,000024,ScreenShopInfo::hidePorchNum
+0x0000007100a53310,U,000024,uking::ui::ScreenShopInfo::hidePorchNum
 0x0000007100a53328,U,000220,
 0x0000007100a53404,U,000132,uking::ui::ScreenShopInfo::checkDerivedRuntimeTypeInfo
 0x0000007100a53488,U,000092,uking::ui::ScreenShopInfo::getRuntimeTypeInfo
@@ -60764,7 +60764,7 @@ Address,Quality,Size,Name
 0x0000007100a5351c,U,000092,
 0x0000007100a53578,U,000012,
 0x0000007100a53584,U,000036,
-0x0000007100a535a8,U,000080,ScreenSkip::ctor
+0x0000007100a535a8,U,000080,uking::ui::ScreenSkip::ctor
 0x0000007100a535f8,U,000004,uking::ui::ScreenSkip::dtor
 0x0000007100a535fc,U,000008,uking::ui::ScreenSkip::dtor_thunk108
 0x0000007100a53604,U,000008,uking::ui::ScreenSkip::dtor_thunk110
@@ -60783,7 +60783,7 @@ Address,Quality,Size,Name
 0x0000007100a5397c,U,000036,
 0x0000007100a539a0,U,000004,nullsub_5517
 0x0000007100a539a4,U,001052,sinit_uiScreenSousaGuide
-0x0000007100a53dc0,U,000084,ScreenSousaGuide::ctor
+0x0000007100a53dc0,U,000084,uking::ui::ScreenSousaGuide::ctor
 0x0000007100a53e14,U,000080,uking::ui::ScreenSousaGuide::dtor
 0x0000007100a53e64,U,000080,uking::ui::ScreenSousaGuide::dtor_thunk108
 0x0000007100a53eb4,U,000080,uking::ui::ScreenSousaGuide::dtor_thunk110
@@ -60818,7 +60818,7 @@ Address,Quality,Size,Name
 0x0000007100a57eb4,U,000520,
 0x0000007100a580bc,U,000036,
 0x0000007100a580e0,U,000112,
-0x0000007100a58150,U,000308,ScreenStaffRollDLC::ctor
+0x0000007100a58150,U,000308,uking::ui::ScreenStaffRollDLC::ctor
 0x0000007100a58284,U,000324,uking::ui::ScreenStaffRollDLC::dtor
 0x0000007100a583c8,U,000008,uking::ui::ScreenStaffRollDLC::dtor_thunk108
 0x0000007100a583d0,U,000008,uking::ui::ScreenStaffRollDLC::dtor_thunk110
@@ -60896,7 +60896,7 @@ Address,Quality,Size,Name
 0x0000007100a5d5f4,U,000520,
 0x0000007100a5d7fc,U,000036,
 0x0000007100a5d820,U,000112,
-0x0000007100a5d890,U,000296,ScreenStaffRoll::ctor
+0x0000007100a5d890,U,000296,uking::ui::ScreenStaffRoll::ctor
 0x0000007100a5d9b8,U,000324,uking::ui::ScreenStaffRoll::dtor
 0x0000007100a5dafc,U,000008,uking::ui::ScreenStaffRoll::dtor_thunk108
 0x0000007100a5db04,U,000008,uking::ui::ScreenStaffRoll::dtor_thunk110
@@ -60954,7 +60954,7 @@ Address,Quality,Size,Name
 0x0000007100a602a4,U,000004,nullsub_3093
 0x0000007100a602a8,U,000140,
 0x0000007100a60334,U,000140,
-0x0000007100a603c0,U,000076,ScreenSystemWindowNoBtn::ctor
+0x0000007100a603c0,U,000076,uking::ui::ScreenSystemWindowNoBtn::ctor
 0x0000007100a6040c,U,000004,uking::ui::ScreenSystemWindowNoBtn::dtor
 0x0000007100a60410,U,000008,
 0x0000007100a60418,U,000008,
@@ -60968,7 +60968,7 @@ Address,Quality,Size,Name
 0x0000007100a606c4,U,000100,
 0x0000007100a60728,U,000132,uking::ui::ScreenSystemWindowNoBtn::checkDerivedRuntimeTypeInfo
 0x0000007100a607ac,U,000092,uking::ui::ScreenSystemWindowNoBtn::getRuntimeTypeInfo
-0x0000007100a60808,U,000136,ScreenSystemWindow00::ctor
+0x0000007100a60808,U,000136,uking::ui::ScreenSystemWindow00::ctor
 0x0000007100a60890,U,000004,uking::ui::ScreenSystemWindow00::dtor
 0x0000007100a60894,U,000008,uking::ui::ScreenSystemWindow00::dtor_thunk108
 0x0000007100a6089c,U,000008,uking::ui::ScreenSystemWindow00::dtor_thunk110
@@ -61008,7 +61008,7 @@ Address,Quality,Size,Name
 0x0000007100a65e0c,U,000240,_ZN4sead15FixedSafeStringILi6EEaSERKNS_14SafeStringBaseIcEE
 0x0000007100a65efc,U,000004,j__ZdlPv_567
 0x0000007100a65f00,U,000240,_ZN4sead19FixedSafeStringBaseIcLi6EEaSERKNS_14SafeStringBaseIcEE
-0x0000007100a65ff0,U,000536,ScreenSystemWindow01::ctor
+0x0000007100a65ff0,U,000536,uking::ui::ScreenSystemWindow01::ctor
 0x0000007100a66208,U,000240,uking::ui::ScreenSystemWindow01::dtor
 0x0000007100a662f8,U,000008,uking::ui::ScreenSystemWindow01::dtor_thunk108
 0x0000007100a66300,U,000008,uking::ui::ScreenSystemWindow01::dtor_thunk110
@@ -61048,7 +61048,7 @@ Address,Quality,Size,Name
 0x0000007100a68b6c,U,000004,ScreenSystemWindow01::m96_null
 0x0000007100a68b70,U,000004,ScreenSystemWindow01::m97_null
 0x0000007100a68b74,U,000272,_ZN3eui12NormalButton24GetRuntimeTypeInfoStaticEv
-0x0000007100a68c84,U,000152,ScreenTime::ctor
+0x0000007100a68c84,U,000152,uking::ui::ScreenTime::ctor
 0x0000007100a68d1c,U,000040,uking::ui::ScreenTime::dtor
 0x0000007100a68d44,U,000048,uking::ui::ScreenTime::dtor_thunk108
 0x0000007100a68d74,U,000048,uking::ui::ScreenTime::dtor_thunk110
@@ -61061,7 +61061,7 @@ Address,Quality,Size,Name
 0x0000007100a69120,U,000092,uking::ui::ScreenTime::getRuntimeTypeInfo
 0x0000007100a6917c,U,000004,nullsub_5524
 0x0000007100a69180,U,000612,sinit_uiScreenTitle
-0x0000007100a693e4,U,000148,ScreenTitle::ctor
+0x0000007100a693e4,U,000148,uking::ui::ScreenTitle::ctor
 0x0000007100a69478,U,000080,uking::ui::ScreenTitle::dtor
 0x0000007100a694c8,U,000080,uking::ui::ScreenTitle::dtor_thunk108
 0x0000007100a69518,U,000080,uking::ui::ScreenTitle::dtor_thunk110
@@ -61086,7 +61086,7 @@ Address,Quality,Size,Name
 0x0000007100a6bb14,U,000092,uking::ui::ScreenTitle::getRuntimeTypeInfo
 0x0000007100a6bb70,U,000008,
 0x0000007100a6bb78,U,000004,nullsub_3101
-0x0000007100a6bb7c,U,000072,ScreenWolfLinkHeartGauge::ctor
+0x0000007100a6bb7c,U,000072,uking::ui::ScreenWolfLinkHeartGauge::ctor
 0x0000007100a6bbc4,U,000004,uking::ui::ScreenWolfLinkHeartGauge::dtor
 0x0000007100a6bbc8,U,000008,uking::ui::ScreenWolfLinkHeartGauge::dtor_thunk108
 0x0000007100a6bbd0,U,000008,uking::ui::ScreenWolfLinkHeartGauge::dtor_thunk110
@@ -61356,12 +61356,12 @@ Address,Quality,Size,Name
 0x0000007100a81bc8,U,000488,
 0x0000007100a81db0,U,000356,
 0x0000007100a81f14,U,000032,
-0x0000007100a81f34,U,002300,ScreenFactory::create
-0x0000007100a82830,U,000016,ScreenFactory::getName
-0x0000007100a82840,U,000008,ScreenFactory::getCount
-0x0000007100a82848,U,000004,ScreenFactory::dtor
-0x0000007100a8284c,U,000004,ScreenFactory::dtorDelete
-0x0000007100a82850,U,000016,ScreenFactory::a
+0x0000007100a81f34,U,002300,uking::ui::ScreenFactory::create
+0x0000007100a82830,U,000016,uking::ui::ScreenFactory::getName
+0x0000007100a82840,U,000008,uking::ui::ScreenFactory::getCount
+0x0000007100a82848,U,000004,uking::ui::ScreenFactory::dtor
+0x0000007100a8284c,U,000004,uking::ui::ScreenFactory::dtorDelete
+0x0000007100a82850,U,000016,uking::ui::ScreenFactory::a
 0x0000007100a82860,U,000036,uking::ui::ScreenThanks::dtorDelete
 0x0000007100a82884,U,000008,uking::ui::ScreenThanks::checkDerivedRuntimeTypeInfo
 0x0000007100a8288c,U,000092,uking::ui::ScreenThanks::getRuntimeTypeInfo
