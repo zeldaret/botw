@@ -1,4 +1,4 @@
-#include "Game/Damage/dmgStruct20.h"
+#include "Game/Actor/Damage/dmgStruct20.h"
 
 namespace uking::dmg {
 

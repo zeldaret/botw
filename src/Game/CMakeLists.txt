@@ -1,6 +1,5 @@
 add_subdirectory(Actor)
 add_subdirectory(Cooking)
-add_subdirectory(Damage)
 add_subdirectory(DLC)
 add_subdirectory(Scene)
 add_subdirectory(UI)

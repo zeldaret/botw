@@ -1,4 +1,4 @@
-#include "Game/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"

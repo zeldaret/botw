@@ -5,8 +5,8 @@
 #include <heap/seadExpHeap.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
-#include "Game/Damage/dmgInfoManager.h"
-#include "Game/Damage/dmgStruct20.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include "Game/Actor/Damage/dmgStruct20.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
