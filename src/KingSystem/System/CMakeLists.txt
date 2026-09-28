@@ -27,8 +27,6 @@ target_sources(uking PRIVATE
     MemoryProfiler.h
     MessageCapture.cpp
     MessageCapture.h
-    NXArgs.cpp
-    NXArgs.h
     OcclusionQueryCylinder.cpp
     OcclusionQueryCylinder.h
     OverlayArena.cpp
@@ -50,8 +48,6 @@ target_sources(uking PRIVATE
     StarterPackMgr.cpp
     StarterPackMgr.h
     StringBoard.h
-    SystemPauseMgr.cpp
-    SystemPauseMgr.h
     SystemTimers.cpp
     SystemTimers.h
     Terminal.cpp

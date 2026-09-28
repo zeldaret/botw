@@ -23,7 +23,25 @@ class TaskThread;
 }  // namespace util
 
 class OverlayArena;
-class SystemPauseMgr;
+
+class ISystemPauseMgr {
+public:
+    virtual ~ISystemPauseMgr() = default;
+
+    virtual void m2() = 0;
+    virtual void waitForOnUiActorMgrAndBlockSaveMaybe() = 0;
+    virtual void stopNfpAndWaitForSaveMgr() = 0;
+    virtual void waitForOnUiActorMgr() = 0;
+    virtual void pauseGameSceneAndWait() = 0;
+    virtual bool releaseScreensAndShowMainLayer() = 0;
+    virtual void onSystemPauseResume() = 0;
+    virtual void waitForStageGenFinalStep() = 0;
+    virtual void restoreMainLayerAndResumeGameScene() = 0;
+    virtual bool hideMainLayer() = 0;
+    virtual void openFadeScreen() = 0;
+    virtual void showMainLayerAndResumeProcJobs() = 0;
+    virtual void clearHideMainLayerAndResumeEvents() = 0;
+};
 
 // FIXME: incomplete
 class OverlayArenaSystem {
@@ -34,7 +52,7 @@ class OverlayArenaSystem {
 
 public:
     struct InitArg {
-        SystemPauseMgr* system_pause_mgr;
+        ISystemPauseMgr* system_pause_mgr;
     };
 
     bool init(const InitArg& arg, sead::Heap* heap);
@@ -95,7 +113,7 @@ private:
     OverlayArena* mAudioArena = nullptr;
     OverlayArena* mUnknownArena = nullptr;
     sead::Heap* mJpegHeap = nullptr;
-    SystemPauseMgr* mSystemPauseMgr = nullptr;
+    ISystemPauseMgr* mSystemPauseMgr = nullptr;
     OverlayArenaSystemS1 mS1;
     u32 _b8 = 0;
     util::TaskThread* mPrepareThread = nullptr;

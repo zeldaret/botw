@@ -12,4 +12,8 @@ target_sources(uking PRIVATE
   gamePlayReport.h
   E3Mgr.cpp
   E3Mgr.h
+  NXArgs.cpp
+  NXArgs.h
+  SystemPauseMgr.cpp
+  SystemPauseMgr.h
 )

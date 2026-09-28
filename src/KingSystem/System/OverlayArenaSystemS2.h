@@ -6,15 +6,15 @@
 
 namespace ksys {
 
+class ISystemPauseMgr;
 class OverlayArenaSystemS1;
-class SystemPauseMgr;
 
 // FIXME: incomplete
 class OverlayArenaSystemS2 {
 public:
     struct InitArg {
         OverlayArenaSystemS1* s1;
-        SystemPauseMgr* system_pause_mgr;
+        ISystemPauseMgr* system_pause_mgr;
     };
 
     OverlayArenaSystemS2();

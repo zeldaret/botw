@@ -9,7 +9,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys {
+namespace uking {
 
 class nxargs {
     SEAD_SINGLETON_DISPOSER(nxargs)
@@ -96,4 +96,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(nxargs, 0x48);
 
-}  // namespace ksys
+}  // namespace uking

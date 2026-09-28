@@ -1,6 +1,6 @@
-#include "KingSystem/System/NXArgs.h"
+#include "Game/NXArgs.h"
 
-namespace ksys {
+namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
@@ -75,4 +75,4 @@ void nxargs::allocEntries(sead::Heap* heap, const u8* data) {
     }
 }
 
-}  // namespace ksys
+}  // namespace uking

@@ -1,9 +1,9 @@
-#include "KingSystem/System/SystemPauseMgr.h"
+#include "Game/SystemPauseMgr.h"
 
-namespace ksys {
+namespace uking {
 
 SystemPauseMgr::SystemPauseMgr() = default;
 
 SystemPauseMgr::~SystemPauseMgr() = default;
 
-}  // namespace ksys
+}  // namespace uking
