@@ -17,11 +17,8 @@ class SZSDecompressor;
 
 namespace ksys {
 
-namespace util {
 class Task;
 class TaskThread;
-}  // namespace util
-
 class OverlayArena;
 
 class ISystemPauseMgr {
@@ -116,14 +113,14 @@ private:
     ISystemPauseMgr* mSystemPauseMgr = nullptr;
     OverlayArenaSystemS1 mS1;
     u32 _b8 = 0;
-    util::TaskThread* mPrepareThread = nullptr;
-    util::Task* mTask = nullptr;
+    TaskThread* mPrepareThread = nullptr;
+    Task* mTask = nullptr;
     sead::DelegateR<OverlayArenaSystem, bool> mDelegate;
     OverlayArenaSystemS2 mS2;
     sead::Atomic<u32> _130 = 0;
     sead::Atomic<u32> _134 = 0;
     res::Handle mResHandle;
-    util::Event mEvent;
+    Event mEvent;
 };
 KSYS_CHECK_SIZE_NX150(OverlayArenaSystem, 0x1c8);
 

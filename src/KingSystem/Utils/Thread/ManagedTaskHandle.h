@@ -4,7 +4,7 @@
 #include <time/seadTickSpan.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class ManagedTask;
 class TaskQueueBase;
@@ -57,4 +57,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(ManagedTaskHandle, 0x28);
 
-}  // namespace ksys::util
+}  // namespace ksys

@@ -3,7 +3,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Thread/TaskQueueBase.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class TaskQueue : public TaskQueueBase {
     SEAD_RTTI_OVERRIDE(TaskQueue, TaskQueueBase)
@@ -18,4 +18,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(TaskQueue, 0xd0);
 
-}  // namespace ksys::util
+}  // namespace ksys

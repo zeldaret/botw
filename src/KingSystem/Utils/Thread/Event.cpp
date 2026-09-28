@@ -1,6 +1,6 @@
 #include "KingSystem/Utils/Thread/Event.h"
 
-namespace ksys::util {
+namespace ksys {
 
 Event::Event() = default;
 
@@ -51,4 +51,4 @@ bool Event::isSignalSet() const {
     return mSignalSet == 1;
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

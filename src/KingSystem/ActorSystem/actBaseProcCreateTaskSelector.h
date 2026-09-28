@@ -15,9 +15,9 @@ public:
     auto& getDelegate() { return mDelegate; }
 
 private:
-    util::Task* selectTask(const util::TaskSelectionContext& context);
+    Task* selectTask(const TaskSelectionContext& context);
 
-    util::TaskSelectionDelegateT<BaseProcCreateTaskSelector> mDelegate{
+    TaskSelectionDelegateT<BaseProcCreateTaskSelector> mDelegate{
         this, &BaseProcCreateTaskSelector::selectTask};
 };
 KSYS_CHECK_SIZE_NX150(BaseProcCreateTaskSelector, 0x40);

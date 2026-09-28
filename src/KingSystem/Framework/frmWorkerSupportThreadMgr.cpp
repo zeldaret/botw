@@ -15,13 +15,13 @@ SEAD_SINGLETON_DISPOSER_IMPL(WorkerSupportThreadMgr)
 void WorkerSupportThreadMgr::init(sead::Heap* heap) {
     auto* worker = mWorkers;
     for (size_t i = 0; i < NumWorkers; ++i) {
-        auto* mgr = new (heap) util::TaskMgr(heap);
-        mgr->init<util::ManagedTask>(NumTasks, heap);
+        auto* mgr = new (heap) TaskMgr(heap);
+        mgr->init<ManagedTask>(NumTasks, heap);
         worker->task_mgr = mgr;
 
-        worker->task_handle = new (heap) util::ManagedTaskHandle;
+        worker->task_handle = new (heap) ManagedTaskHandle;
         for (int j = 0; j < NumTasks; ++j)
-            worker->tasks[j] = new (heap) util::ManagedTask(heap);
+            worker->tasks[j] = new (heap) ManagedTask(heap);
 
         const auto affinity = [&] {
             if (i == 0)
@@ -30,11 +30,11 @@ void WorkerSupportThreadMgr::init(sead::Heap* heap) {
         }();
 
         worker->thread_name.format("WorkerSupport[%d]", int(i));
-        worker->task_thread = new (heap) util::GameTaskThread(
+        worker->task_thread = new (heap) GameTaskThread(
             worker->thread_name, heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(17),
             sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0x20000, 32);
 
-        util::TaskThread::InitArg arg;
+        TaskThread::InitArg arg;
         arg.batch_size = 0;
         arg.heap = nullptr;
         arg.queue = nullptr;
@@ -85,23 +85,23 @@ static int getTaskIdx(u32 id) {
     return idx[id];
 }
 
-util::ManagedTask* WorkerSupportThreadMgr::getTask(int id) {
+ManagedTask* WorkerSupportThreadMgr::getTask(int id) {
     return mWorkers[getWorkerIdx(id)].tasks[getTaskIdx(id)];
 }
 
-void WorkerSupportThreadMgr::submitRequest(int id, util::TaskDelegate* delegate) {
+void WorkerSupportThreadMgr::submitRequest(int id, TaskDelegate* delegate) {
     auto& worker = mWorkers[getWorkerIdx(id)];
     if (mThreadsPaused)
         return;
 
-    util::TaskRequest req{false};
+    TaskRequest req{false};
     req.mName = worker.thread_name;
     req.mDelegate = delegate;
     req.mHasHandle = true;
     req.mSynchronous = false;
     req.mThread = worker.task_thread;
 
-    util::TaskMgrRequest task_mgr_req;
+    TaskMgrRequest task_mgr_req;
     task_mgr_req.request = &req;
     task_mgr_req.handle = worker.task_handle;
     task_mgr_req.task = worker.tasks[getTaskIdx(id)];

@@ -67,7 +67,7 @@ private:
                            InstParamPack* params, bool sleep_after_init, bool = false);
 
     BaseProc* doCreateProc(BaseProcCreateArg& arg);
-    void onTaskRemoved(const util::TaskRemoveCallbackContext& context);
+    void onTaskRemoved(const TaskRemoveCallbackContext& context);
 
     sead::Heap* mForBaseProcDualHeap;
     sead::Heap* mPlacementMgrHeap;
@@ -79,8 +79,7 @@ private:
     void* _60{};
     sead::Delegate1R<ActorCreator, BaseProcCreateArg&, BaseProc*> mCreateProcDelegate{
         this, &ActorCreator::doCreateProc};
-    util::TaskRemoveCallbackT<ActorCreator> mTaskRemovedDelegate{this,
-                                                                 &ActorCreator::onTaskRemoved};
+    TaskRemoveCallbackT<ActorCreator> mTaskRemovedDelegate{this, &ActorCreator::onTaskRemoved};
     sead::CriticalSection mActorListCS;
     ActorFactory* mActorFactory;
 };

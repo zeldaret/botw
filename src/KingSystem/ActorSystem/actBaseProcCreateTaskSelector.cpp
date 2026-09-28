@@ -7,9 +7,9 @@ namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(BaseProcCreateTaskSelector)
 
-util::Task* BaseProcCreateTaskSelector::selectTask(const util::TaskSelectionContext& context) {
-    util::Task* min_task = nullptr;
-    util::Task* lane1_task = nullptr;
+Task* BaseProcCreateTaskSelector::selectTask(const TaskSelectionContext& context) {
+    Task* min_task = nullptr;
+    Task* lane1_task = nullptr;
     auto min = std::numeric_limits<float>::max();
 
     for (auto& it : context) {

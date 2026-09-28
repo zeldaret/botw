@@ -3,11 +3,11 @@
 
 namespace ksys::res {
 
-ControlTask::ControlTask(sead::Heap* heap) : util::ManagedTask(heap) {}
+ControlTask::ControlTask(sead::Heap* heap) : ManagedTask(heap) {}
 
 void ControlTask::onRun_() {}
 
-void ControlTask::prepareImpl_(util::TaskRequest* req_) {
+void ControlTask::prepareImpl_(TaskRequest* req_) {
     auto* req = static_cast<ControlTaskRequest*>(req_);
 
     mData.mHasResLoadReq = req->mHasResLoadReq;

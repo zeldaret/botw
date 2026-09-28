@@ -12,9 +12,7 @@ namespace ksys {
 
 class OverlayArena;
 
-namespace util {
 class Event;
-}
 
 namespace res {
 
@@ -41,7 +39,7 @@ public:
     void setEvent();
 
 private:
-    util::Event* mEvent = nullptr;
+    Event* mEvent = nullptr;
     OverlayArena* mArena = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ArchiveWork, 0x10);

@@ -2,10 +2,10 @@
 
 #include <prim/seadRuntimeTypeInfo.h>
 
-namespace ksys::util {
+namespace ksys {
 
 class TaskData {
     SEAD_RTTI_BASE(TaskData)
 };
 
-}  // namespace ksys::util
+}  // namespace ksys

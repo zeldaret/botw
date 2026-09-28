@@ -175,8 +175,8 @@ private:
     std::array<s32, 2> mNumHandles;
     s32 mRefCount{};
     sead::CriticalSection mCS{nullptr};
-    util::Event mEvent{nullptr,
-                       sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified, true};
+    Event mEvent{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified,
+                 true};
 };
 KSYS_CHECK_SIZE_NX150(ActorParam, 0x200);
 

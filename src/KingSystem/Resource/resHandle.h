@@ -111,7 +111,7 @@ private:
     sead::TypedBitFlag<Flag> mFlags = Flag::Dummy;
     Status mStatus = Status::NoFile;
     ResourceUnit* mUnit = nullptr;
-    util::ManagedTaskHandle mTaskHandle;
+    ManagedTaskHandle mTaskHandle;
     sead::ListNode mListNode;
 };
 KSYS_CHECK_SIZE_NX150(Handle, 0x50);

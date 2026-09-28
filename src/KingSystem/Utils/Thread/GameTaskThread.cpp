@@ -1,6 +1,6 @@
 #include "KingSystem/Utils/Thread/GameTaskThread.h"
 
-namespace ksys::util {
+namespace ksys {
 
 GameTaskThread::GameTaskThread(const sead::SafeString& name, sead::Heap* heap, s32 priority,
                                sead::MessageQueue::BlockType block_type, long quit_msg,
@@ -12,4 +12,4 @@ void GameTaskThread::quit(bool) {
     Thread::quit(false);
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

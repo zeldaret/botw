@@ -23,8 +23,8 @@
 namespace ksys::res {
 
 namespace {
-class ClearCachesTaskData : public util::TaskData {
-    SEAD_RTTI_OVERRIDE(ClearCachesTaskData, util::TaskData)
+class ClearCachesTaskData : public TaskData {
+    SEAD_RTTI_OVERRIDE(ClearCachesTaskData, TaskData)
 public:
     virtual ~ClearCachesTaskData() = default;
 
@@ -106,17 +106,17 @@ void ResourceMgrTask::insertOverlayArena(OverlayArena* arena) {
     }
 }
 
-util::TaskThread* ResourceMgrTask::makeResourceLoadingThread(sead::Heap* heap,
-                                                             bool use_game_task_thread) {
+TaskThread* ResourceMgrTask::makeResourceLoadingThread(sead::Heap* heap,
+                                                       bool use_game_task_thread) {
     if (use_game_task_thread) {
-        return new (heap) util::GameTaskThread(
+        return new (heap) GameTaskThread(
             "Resource Loading", heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(19),
             sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0xfa000, 32);
     }
 
-    return new (heap) util::TaskThread(
-        "Resource Loading", heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(19),
-        sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0xa000, 32);
+    return new (heap)
+        TaskThread("Resource Loading", heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(19),
+                   sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0xa000, 32);
 }
 
 void ResourceMgrTask::clearAllCaches(OverlayArena* arena) {
@@ -135,13 +135,13 @@ void ResourceMgrTask::clearAllCaches(OverlayArena* arena) {
     req.mData_c = -1;
     req.mData_mStr = arena->getHeap()->getName();
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
 }
 
 bool ResourceMgrTask::isDefragDone() const {
-    return mTask2->getStatus() == util::Task::Status::PostFinishCallback;
+    return mTask2->getStatus() == Task::Status::PostFinishCallback;
 }
 
 f32 ResourceMgrTask::getDefragProgress() const {
@@ -263,7 +263,7 @@ void ResourceMgrTask::deregisterUnit(ResourceUnit* unit) {
     }
 }
 
-void ResourceMgrTask::requestClearCache(ResourceUnit** p_unit, util::Task* task) {
+void ResourceMgrTask::requestClearCache(ResourceUnit** p_unit, Task* task) {
     if (!p_unit || !*p_unit || !(*p_unit)->isStatusFlag8000Set()) {
         stubbedLogFunction();
         return;
@@ -405,7 +405,7 @@ bool ResourceMgrTask::calc_(void*) {
         req.mData_8 = false;
         req.mData_c = -1;
 
-        util::TaskMgrRequest request;
+        TaskMgrRequest request;
         request.request = &req;
         mResourceMemoryTaskMgr->submitRequest(request);
         mTexHandleMgr->clearAllCache();
@@ -522,7 +522,7 @@ ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
     auto* unit = mUnitPool.tryAlloc();
 
     if (!unit) {
-        util::TaskQueueLock lock;
+        TaskQueueLock lock;
 
         auto* queue = mResourceControlThread->getTaskQueue();
         auto it = queue->activeTasksRobustBegin(&lock);
@@ -541,7 +541,7 @@ ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
         ClearCachesTaskData data;
         data._8 = true;
         data._c = 100;
-        util::TaskRequest req;
+        TaskRequest req;
         req.mLaneId = u8(LaneId::_8);
         req.mHasHandle = true;
         req.mSynchronous = true;
@@ -555,7 +555,7 @@ ResourceUnit* ResourceMgrTask::clearCachesAndGetUnit(const GetUnitArg& arg) {
     }
 
     if (!unit) {
-        util::TaskQueueLock lock;
+        TaskQueueLock lock;
 
         auto* queue = mResourceControlThread->getTaskQueue();
         auto it = queue->activeTasksRobustBegin(&lock);
@@ -658,7 +658,7 @@ void ResourceMgrTask::clearUnits_() {
 
 void ResourceMgrTask::systemCalc_() {
     if (mTask1->canSubmitRequest()) {
-        util::TaskRequest request;
+        TaskRequest request;
         request.mSynchronous = false;
         request.mHasHandle = false;
         request.mLaneId = u8(LaneId::_6);
@@ -732,7 +732,7 @@ void ResourceMgrTask::clearAllCachesSynchronously(OverlayArena* arena) {
     req.mData_c = -1;
     req.mData_mStr = arena->getHeap()->getName();
 
-    util::TaskMgrRequest task_mgr_request;
+    TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
 }

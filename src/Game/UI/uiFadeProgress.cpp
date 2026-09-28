@@ -1,5 +1,6 @@
 #include "Game/UI/uiFadeProgress.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/System/UIGlue.h"
 
 namespace uking::ui {
 
@@ -37,7 +38,7 @@ void FadeProgress::updateFadeScreen() {
     if (new_progress < progress)
         progress = new_progress;
     mGaugeValue = progress;
-    applyScreenFade(progress);
+    ksys::ui::applyScreenFade(progress);
 }
 
 void FadeProgress::setProgress(float value) {

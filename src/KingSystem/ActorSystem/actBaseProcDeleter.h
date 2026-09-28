@@ -5,10 +5,10 @@
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 class TaskMgr;
 class TaskQueue;
-}  // namespace ksys::util
+}  // namespace ksys
 
 namespace ksys::act {
 
@@ -19,7 +19,7 @@ class BaseProcDeleter {
 public:
     struct InitArg {
         sead::Heap* heap;
-        util::TaskQueue* task_queue;
+        TaskQueue* task_queue;
         int task_queue_size;
     };
 
@@ -40,12 +40,11 @@ private:
     bool doPreDelete(void* proc);
     bool doUnloadParam(void* actor_param);
 
-    util::TaskMgr* mTaskMgr{};
-    util::TaskQueue* mTaskQueue{};
+    TaskMgr* mTaskMgr{};
+    TaskQueue* mTaskQueue{};
     sead::Buffer<void*> mBuffer;
-    util::TaskDelegateT<BaseProcDeleter> mPreDeleteDelegate{this, &BaseProcDeleter::doPreDelete};
-    util::TaskDelegateT<BaseProcDeleter> mUnloadActorParamDelegate{this,
-                                                                   &BaseProcDeleter::doUnloadParam};
+    TaskDelegateT<BaseProcDeleter> mPreDeleteDelegate{this, &BaseProcDeleter::doPreDelete};
+    TaskDelegateT<BaseProcDeleter> mUnloadActorParamDelegate{this, &BaseProcDeleter::doUnloadParam};
 };
 KSYS_CHECK_SIZE_NX150(BaseProcDeleter, 0x68);
 

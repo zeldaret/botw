@@ -98,12 +98,12 @@ bool ResourceUnit::init(const ResourceUnit::InitArg& arg) {
     }
 
     {
-        util::TaskDelegateSetter setter;
+        TaskDelegateSetter setter;
         mTask1.setDelegate(setter);
     }
 
     {
-        util::TaskDelegateSetter setter;
+        TaskDelegateSetter setter;
         mTask2.setDelegate(setter);
     }
 
@@ -154,7 +154,7 @@ void ResourceUnit::updateStatus() {
 }
 
 bool ResourceUnit::isTask1NotQueued() const {
-    return mTask1.getStatus() == util::Task::Status::RemovedFromQueue;
+    return mTask1.getStatus() == Task::Status::RemovedFromQueue;
 }
 
 bool ResourceUnit::isStatus0() const {
@@ -243,7 +243,7 @@ bool ResourceUnit::removeTask3FromQueue() {
 void ResourceUnit::requestInitLoad(const RequestInitLoadArg& arg) {
     mStatus = Status::_7;
 
-    util::TaskRequest req;
+    TaskRequest req;
     req.mHasHandle = arg.has_handle;
     req.mSynchronous = false;
     req.mLaneId = arg.lane_id;

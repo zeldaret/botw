@@ -7,7 +7,7 @@
 #include <nn/oe.h>
 
 #include "KingSystem/Camera/CameraMgr.h"
-#include "KingSystem/Framework/Framework.h"
+#include "KingSystem/Framework/frmFramework.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/System/PlayReportMgr.h"

@@ -11,12 +11,12 @@ class DelegateThread;
 class Thread;
 }  // namespace sead
 
-namespace ksys::util {
+namespace ksys {
 class GameTaskThread;
 class ManagedTask;
 class ManagedTaskHandle;
 class TaskMgr;
-}  // namespace ksys::util
+}  // namespace ksys
 
 namespace ksys::frm {
 
@@ -28,7 +28,7 @@ class WorkerSupportThreadMgr {
 public:
     void init(sead::Heap* heap);
 
-    void submitRequest(int id, util::TaskDelegate* delegate);
+    void submitRequest(int id, TaskDelegate* delegate);
     void waitForTask(int id);
     void pauseThreads();
     void resumeThreads();
@@ -39,18 +39,18 @@ private:
     static constexpr int NumTasks = 5;
 
     struct Worker {
-        util::GameTaskThread* task_thread = nullptr;
+        GameTaskThread* task_thread = nullptr;
         sead::DelegateThread* thread;
-        util::ManagedTask* tasks[NumTasks];
-        util::TaskMgr* task_mgr = nullptr;
-        util::ManagedTaskHandle* task_handle;
+        ManagedTask* tasks[NumTasks];
+        TaskMgr* task_mgr = nullptr;
+        ManagedTaskHandle* task_handle;
         sead::FixedSafeString<32> thread_name;
     };
 
     void initSleeperThreads();
     void sleeperThreadFun(sead::Thread* thread, sead::MessageQueue::Element);
 
-    util::ManagedTask* getTask(int id);
+    ManagedTask* getTask(int id);
 
     Worker mWorkers[NumWorkers];
     bool mThreadsPaused = false;

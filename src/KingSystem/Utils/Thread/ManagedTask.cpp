@@ -3,7 +3,7 @@
 #include "KingSystem/Utils/Thread/TaskMgr.h"
 #include "KingSystem/Utils/Thread/TaskQueueLock.h"
 
-namespace ksys::util {
+namespace ksys {
 
 ManagedTask::ManagedTask(sead::Heap* heap) : Task(heap) {}
 
@@ -103,4 +103,4 @@ void ManagedTask::detachHandle() {
     }
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

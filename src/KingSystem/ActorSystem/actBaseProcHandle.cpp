@@ -26,7 +26,7 @@ bool BaseProcHandle::hasProcCreationFailed() const {
     if (status == BaseProcUnit::Status::NoProc || status == BaseProcUnit::Status::Cancelled)
         return true;
 
-    if (mUnit->getCreateTask().getStatus() == util::Task::Status::RemovedFromQueue ||
+    if (mUnit->getCreateTask().getStatus() == Task::Status::RemovedFromQueue ||
         status == BaseProcUnit::Status::Cancelled) {
         return true;
     }
@@ -38,7 +38,7 @@ bool BaseProcHandle::isProcCreationCancelled() const {
     if (!mUnit)
         return false;
 
-    if (mUnit->getCreateTask().getStatus() == util::Task::Status::RemovedFromQueue)
+    if (mUnit->getCreateTask().getStatus() == Task::Status::RemovedFromQueue)
         return true;
 
     if (mUnit->getStatus() == BaseProcUnit::Status::Cancelled)

@@ -4,7 +4,7 @@
 #include "KingSystem/Utils/Thread/TaskThread.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class TaskQueueBase;
 
@@ -25,4 +25,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(TaskQueueLock, 0x10);
 
-}  // namespace ksys::util
+}  // namespace ksys

@@ -66,12 +66,12 @@ void OverlayArenaSystem::destroyHeaps() {
 bool OverlayArenaSystem::init(const InitArg& arg, sead::Heap* heap) {
     mSystemPauseMgr = arg.system_pause_mgr;
 
-    mPrepareThread = new (heap) util::TaskThread(
+    mPrepareThread = new (heap) TaskThread(
         "OverlayArena Prepare", heap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(17),
         sead::MessageQueue::BlockType::Blocking, 0x7fffffff, 0x14000, 32);
 
     {
-        util::TaskThread::InitArg arg_;
+        TaskThread::InitArg arg_;
         arg_.batch_size = 0;
         arg_.queue = nullptr;
         arg_.num_lanes = 1;
@@ -84,8 +84,8 @@ bool OverlayArenaSystem::init(const InitArg& arg, sead::Heap* heap) {
     mDelegate = {this, &OverlayArenaSystem::delegatedFunction};
 
     {
-        mTask = new (heap) util::Task(heap);
-        util::TaskDelegateSetter setter;
+        mTask = new (heap) Task(heap);
+        TaskDelegateSetter setter;
         mTask->setDelegate(setter);
     }
 

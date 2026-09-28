@@ -42,8 +42,8 @@ void BaseProcInitializer::init(sead::Heap* parent_heap, const BaseProcInitialize
     mThreads.allocBufferAssert(NumThreads, mHeap);
 
     const auto init_queue = [&] {
-        mTaskQueue = new (mHeap) util::TaskQueue(mHeap);
-        util::TaskQueue::InitArg arg;
+        mTaskQueue = new (mHeap) TaskQueue(mHeap);
+        TaskQueue::InitArg arg;
         arg.enable_locks = true;
         arg.heap = mHeap;
         arg.num_lanes = 5;
@@ -53,16 +53,16 @@ void BaseProcInitializer::init(sead::Heap* parent_heap, const BaseProcInitialize
     };
     init_queue();
 
-    mTaskMgr = new (mHeap) util::TaskMgr(mHeap);
+    mTaskMgr = new (mHeap) TaskMgr(mHeap);
     mTaskMgr->initAndCheckType<BaseProcCreateTask>(args.queue_size, mHeap);
 
     for (int i = 0; i < NumThreads; ++i) {
         mThreads[i].thread_name.format("%s", args.thread_name.cstr());
-        mThreads[i].thread = new (mHeap) util::GameTaskThread(
+        mThreads[i].thread = new (mHeap) GameTaskThread(
             mThreads[i].thread_name, mHeap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(20),
             sead::MessageQueue::BlockType::Blocking, 0x7FFFFFFF, 0x100000, 64);
         {
-            util::TaskThread::InitArg arg;
+            TaskThread::InitArg arg;
             arg.num_lanes = 5;
             arg.heap = mHeap;
             arg.queue = mTaskQueue;
@@ -109,7 +109,7 @@ bool BaseProcInitializer::requestCreateBaseProc(const BaseProcCreateRequest& req
     if (req.task_data)
         task_req.mName = req.task_data->mProcName;
 
-    util::TaskMgrRequest mgr_req;
+    TaskMgrRequest mgr_req;
     if (req.task_data->mProcHandle) {
         if (!req.task_data->mProcHandle->allocUnit()) {
             req.task_data->mProcHandle->setFailed(true);
@@ -214,11 +214,11 @@ void BaseProcInitializer::pauseMainThread() {
 void BaseProcInitializer::resumeMainThread() {
     mThreads[0].valid = true;
     if (!mThreads[0].thread) {
-        mThreads[0].thread = new (mHeap) util::GameTaskThread(
+        mThreads[0].thread = new (mHeap) GameTaskThread(
             mThreads[0].thread_name, mHeap, sead::ThreadUtil::ConvertPrioritySeadToPlatform(20),
             sead::MessageQueue::BlockType::Blocking, 0x7FFFFFFF, 0x100000, 64);
         {
-            util::TaskThread::InitArg arg;
+            TaskThread::InitArg arg;
             arg.num_lanes = 5;
             arg.heap = mHeap;
             arg.queue = mTaskQueue;
@@ -272,8 +272,8 @@ int BaseProcInitializer::getQueueSize(int x) const {
     return count;
 }
 
-void BaseProcInitializer::removeTasksIf(sead::IDelegate1R<util::Task*, bool>& predicate) {
-    util::TaskQueueLock lock;
+void BaseProcInitializer::removeTasksIf(sead::IDelegate1R<Task*, bool>& predicate) {
+    TaskQueueLock lock;
     auto it = mTaskQueue->activeTasksRobustBegin(&lock);
     const auto end = mTaskQueue->activeTasksRobustEnd();
     for (; it != end; ++it) {

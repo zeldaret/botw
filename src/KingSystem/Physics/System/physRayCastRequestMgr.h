@@ -33,7 +33,7 @@ private:
     sead::CriticalSection mCS;
     sead::TList<RayCastForRequest*> mQueuedList;
     sead::TList<RayCastForRequest*> mFreeList;
-    util::TaskDelegateT<RayCastRequestMgr> mWorkerFunction;
+    TaskDelegateT<RayCastRequestMgr> mWorkerFunction;
     /// The number of requests to process per batch.
     int mBatchSize = 1;
     int mLargestRecordedQueueSize = 0;
