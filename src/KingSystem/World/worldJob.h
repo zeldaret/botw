@@ -34,7 +34,7 @@ protected:
     virtual void calcType1_() {}
     virtual void calcType2_() {}
     virtual void m9() {}
-    virtual void m10() {}
+    virtual void drawDebug() {}
     virtual void m11() {}
 
     virtual JobType getType() const = 0;

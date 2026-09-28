@@ -140,7 +140,7 @@ void DamageManagerBase::preDelete1() {
 }
 
 bool DamageManagerBase::canTakeDamage() {
-    u32 damageTypeMaybe = m49(getField50());
+    u32 damageTypeMaybe = getDamageFromTypeIndex(getField50());
     if (!DamageInfoMgr::instance()) {
         return false;
     }
@@ -188,7 +188,7 @@ bool DamageManagerBase::addDamage(s64, s32 damage, s32 df48, s32 minDmg, s32 f50
     return true;
 }
 
-s32 DamageManagerBase::m49(s32 damageTypeMaybe) {
+s32 DamageManagerBase::getDamageFromTypeIndex(s32 damageTypeMaybe) {
     if (damageTypeMaybe == 3) {
         return 2;
     }

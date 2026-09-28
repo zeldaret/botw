@@ -3,13 +3,17 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
-#include <math/seadVector.h>
+#include <math/seadMatrix.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
 #include "Game/Actor/Damage/actDamageInfoMgr.h"
 #include "Game/Actor/Damage/actStruct20.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actIDamageManager.h"
+
+namespace ksys {
+class Message;
+}  // namespace ksys
 
 namespace ksys::act {
 class Actor;
@@ -39,10 +43,10 @@ public:
     s32 getField54() override { return mField_54; }
     bool checkDamageFlags() override { return false; }
     s32 getFlags2() override { return mFlags2; }
-    virtual f32 m13() { return 0.0f; }
+    virtual f32 getStasisBlowPowerRatio() { return 0.0f; }
     virtual bool getStasisBlowVelocity(sead::Vector3f* velocity) { return false; }
     virtual bool applyDamage(s32& life);
-    virtual bool m16() { return false; }
+    virtual bool handleMessage(const ksys::Message&) { return false; }
     virtual void accumulateStasisBlowVelocity() {}
     virtual s32 getNumCallbacks();
     virtual bool initCallbacks(sead::Heap* heap);
@@ -51,13 +55,13 @@ public:
     virtual void resetDamage();
 
     virtual void preDelete2() {}
-    virtual void m22() {}
+    virtual void calcDamage() {}
     virtual bool allocStruct20(sead::Heap* heap);
     virtual void preDelete1();
     virtual s64 m25() { return 0; }
     virtual s64 m26() { return 0; }
     virtual s32 getPosition() { return 0; }
-    virtual s32 m28() { return 0; }
+    virtual bool getDamageDir(sead::Vector3f* dir) { return false; }
 
     //(FIXME: incomplete)
     virtual s64 m29(s64 a2);
@@ -65,11 +69,11 @@ public:
     // qword pointer? (FIXME: incomplete)
     virtual s64 m30(u64 a2);
 
-    virtual s32 m31() { return 0; }
-    virtual s32 m32() { return 0; }
-    virtual s64 m33() { return 0; }
+    virtual bool getHitDirection(sead::Vector3f* dir) { return false; }
+    virtual s32 getDamageImpulse() { return 0; }
+    virtual s64 getAttackOtherMaterialMask() { return 0; }
     virtual s64 tgSensorMaterialOnHitMaybe() { return 0; }
-    virtual s32 m35() { return 0; }
+    virtual bool getAttackSourceMtx(sead::Matrix34f* mtx) { return false; }
 
     // FIXME: incomplete. Return dummy Base Proc Link
     virtual ksys::act::BaseProcLink* getAttacker();
@@ -77,23 +81,22 @@ public:
     // FIXME: incomplete. Same as getAttacker, but return different Actor ProcLink I assume.
     virtual s64 m37();
 
-    virtual s32 m38() { return 0; }
+    virtual s32 isDamageSourceObjectMaybe() { return 0; }
 
     // FIXME: Incomplete. Call isSlowTimeMaybe
     virtual bool isSlowTime();
 
-    virtual s32 m40() { return 0; }
-    virtual s32 m41() { return 0; }
-    virtual s32 m42() { return 0; }
-    virtual void m43() {}
+    virtual s32 getAttackDirType() { return 0; }
+    virtual s32 getAttackInfoFlagFC() { return 0; }
+    virtual s32 isDamageItemFlagCheckDisabled() { return 0; }
+    virtual void applyAttackInfoStateChangeDamage() {}
     virtual bool canTakeDamage();
     virtual void applyRequestedDamage() {}
     virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6);
     virtual bool addDamage(s64 a2, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54, s32 f40);
     virtual void onApplyDamage() {}
 
-    // Something depending on damage type?
-    virtual s32 m49(s32 damageTypeMaybe);
+    virtual s32 getDamageFromTypeIndex(s32 damageTypeMaybe);
 
     void clearCallbacks();
     void resetStuff();
