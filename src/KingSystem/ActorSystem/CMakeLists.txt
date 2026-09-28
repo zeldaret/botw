@@ -118,10 +118,32 @@ target_sources(uking PRIVATE
 
     actionDummyAction.cpp
     actionDummyAction.h
+    aiDemoRootAI.cpp
+    aiDemoRootAI.h
     aiDummyAi.cpp
     aiDummyAi.h
+    aiFork2AI.cpp
+    aiFork2AI.h
+    aiFork3AI.cpp
+    aiFork3AI.h
+    aiFork4AI.cpp
+    aiFork4AI.h
+    aiFork5AI.cpp
+    aiFork5AI.h
+    aiFork6AI.cpp
+    aiFork6AI.h
+    aiForkAI.cpp
+    aiForkAI.h
+
     behaviorDummyBehavior.cpp
     behaviorDummyBehavior.h
+
+    queryCheckEventCancel.cpp
+    queryCheckEventCancel.h
+    queryCheckJustBeforeEventCancel.cpp
+    queryCheckJustBeforeEventCancel.h
     queryDummyQuery.cpp
     queryDummyQuery.h
+    queryIsWaitRevival.cpp
+    queryIsWaitRevival.h
     )

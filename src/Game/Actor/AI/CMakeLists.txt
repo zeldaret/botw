@@ -347,8 +347,6 @@ target_sources(uking PRIVATE
   aiDeadOrOtherState.h
   aiDemoRailMoveRemains.cpp
   aiDemoRailMoveRemains.h
-  aiDemoRootAI.cpp
-  aiDemoRootAI.h
   aiDgnObj_DLC_CogWheel2.cpp
   aiDgnObj_DLC_CogWheel2.h
   aiDgnObj_DLC_CogWheel_Physics_Ctr.cpp
@@ -717,22 +715,10 @@ target_sources(uking PRIVATE
   aiForestGiantRoot.h
   aiForestGiantStoneShootBattle.cpp
   aiForestGiantStoneShootBattle.h
-  aiFork2AI.cpp
-  aiFork2AI.h
   aiFork2AIUpperLowerBody.cpp
   aiFork2AIUpperLowerBody.h
-  aiFork3AI.cpp
-  aiFork3AI.h
-  aiFork4AI.cpp
-  aiFork4AI.h
-  aiFork5AI.cpp
-  aiFork5AI.h
-  aiFork6AI.cpp
-  aiFork6AI.h
   aiForkActionAndJoin.cpp
   aiForkActionAndJoin.h
-  aiForkAI.cpp
-  aiForkAI.h
   aiForkBeastGanonRoot.cpp
   aiForkBeastGanonRoot.h
   aiForSaleOrNot.cpp

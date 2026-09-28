@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiFork2AI.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/aiFork2AI.h"
 
 namespace uking::ai {
 
-class AirOctaRoot : public Fork2AI {
-    SEAD_RTTI_OVERRIDE(AirOctaRoot, Fork2AI)
+class AirOctaRoot : public ksys::act::ai::Fork2AI {
+    SEAD_RTTI_OVERRIDE(AirOctaRoot, ksys::act::ai::Fork2AI)
 public:
     explicit AirOctaRoot(const InitArg& arg);
     ~AirOctaRoot() override;

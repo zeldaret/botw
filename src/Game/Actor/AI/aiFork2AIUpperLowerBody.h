@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiForkAI.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/aiForkAI.h"
 
 namespace uking::ai {
 
-class Fork2AIUpperLowerBody : public ForkAI {
-    SEAD_RTTI_OVERRIDE(Fork2AIUpperLowerBody, ForkAI)
+class Fork2AIUpperLowerBody : public ksys::act::ai::ForkAI {
+    SEAD_RTTI_OVERRIDE(Fork2AIUpperLowerBody, ksys::act::ai::ForkAI)
 public:
     explicit Fork2AIUpperLowerBody(const InitArg& arg);
     ~Fork2AIUpperLowerBody() override;

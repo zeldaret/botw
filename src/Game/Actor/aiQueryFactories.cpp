@@ -35,7 +35,6 @@
 #include "Game/Actor/Query/queryCheckEquipArmorSeriesType.h"
 #include "Game/Actor/Query/queryCheckEquipItemType.h"
 #include "Game/Actor/Query/queryCheckEquipment.h"
-#include "Game/Actor/Query/queryCheckEventCancel.h"
 #include "Game/Actor/Query/queryCheckExistActor.h"
 #include "Game/Actor/Query/queryCheckExistArrow.h"
 #include "Game/Actor/Query/queryCheckExtraEnergyOfPlayer.h"
@@ -57,7 +56,6 @@
 #include "Game/Actor/Query/queryCheckItemShopPorchVacancy.h"
 #include "Game/Actor/Query/queryCheckItemShopSelect.h"
 #include "Game/Actor/Query/queryCheckItemShopSelectBuy.h"
-#include "Game/Actor/Query/queryCheckJustBeforeEventCancel.h"
 #include "Game/Actor/Query/queryCheckLastDamageAttacker.h"
 #include "Game/Actor/Query/queryCheckManufactResult.h"
 #include "Game/Actor/Query/queryCheckMapArea.h"
@@ -156,7 +154,6 @@
 #include "Game/Actor/Query/queryIsSoldOut.h"
 #include "Game/Actor/Query/queryIsSuccessEndLastDemoAction.h"
 #include "Game/Actor/Query/queryIsTerrorDisappeared.h"
-#include "Game/Actor/Query/queryIsWaitRevival.h"
 #include "Game/Actor/Query/queryIsWeaponDrawn.h"
 #include "Game/Actor/Query/queryKeyInputCheck.h"
 #include "Game/Actor/Query/queryRandomChoice2.h"
@@ -170,7 +167,10 @@
 #include "Game/Actor/Query/queryWhatMoonName.h"
 #include "KingSystem/ActorSystem/actAiQueries.h"
 #include "KingSystem/ActorSystem/actAiQuery.h"
+#include "KingSystem/ActorSystem/queryCheckEventCancel.h"
+#include "KingSystem/ActorSystem/queryCheckJustBeforeEventCancel.h"
 #include "KingSystem/ActorSystem/queryDummyQuery.h"
+#include "KingSystem/ActorSystem/queryIsWaitRevival.h"
 
 namespace uking {
 
@@ -233,7 +233,7 @@ static ksys::act::ai::QueryFactory sQueryFactories[] = {
     {0x5f93f5f6, Factory::make<query::CheckEquipment>},
     {0x6013e082, Factory::make<ksys::act::ai::DummyQuery>},
     {0x63148c7e, Factory::make<query::ComparePlayerFireResistantLevel>},
-    {0x6593295f, Factory::make<query::IsWaitRevival>},
+    {0x6593295f, Factory::make<ksys::act::ai::IsWaitRevival>},
     {0x668f18a7, Factory::make<query::CheckAppShopSelect>},
     {0x67f56d1d, Factory::make<query::CheckSiteBossDamageAnm>},
     {0x692f3d2e, Factory::make<query::CheckDeadlyQuestEscapeTiming>},
@@ -274,7 +274,7 @@ static ksys::act::ai::QueryFactory sQueryFactories[] = {
     {0x979ded52, Factory::make<query::CheckDistanceFromPlayer>},
     {0x98297948, Factory::make<query::HasArmorAlreadyDyed>},
     {0x988da1f6, Factory::make<query::IsHorseNumMax>},
-    {0x98934f65, Factory::make<query::CheckJustBeforeEventCancel>},
+    {0x98934f65, Factory::make<ksys::act::ai::CheckJustBeforeEventCancel>},
     {0x9909e013, Factory::make<query::CheckIsOpenItemCategory>},
     {0x9a1ef0c2, Factory::make<query::CheckNumOfBuyPicture>},
     {0x9f439257, Factory::make<query::WhatCurrentItem>},
@@ -331,7 +331,7 @@ static ksys::act::ai::QueryFactory sQueryFactories[] = {
     {0xeda9870b, Factory::make<query::CheckTerrorLevel>},
     {0xf0074ef3, Factory::make<query::IsOnInstEventFlag>},
     {0xf39c6c52, Factory::make<query::CheckWeaponVacancyItem>},
-    {0xf3bfbc24, Factory::make<query::CheckEventCancel>},
+    {0xf3bfbc24, Factory::make<ksys::act::ai::CheckEventCancel>},
     {0xf445bb27, Factory::make<query::CheckStage>},
     {0xf44bfc07, Factory::make<query::CheckPlayerState>},
     {0xf4db0067, Factory::make<query::IsCurrentMainFieldStage>},

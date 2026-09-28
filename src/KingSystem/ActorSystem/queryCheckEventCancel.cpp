@@ -1,9 +1,9 @@
-#include "Game/Actor/Query/queryCheckEventCancel.h"
+#include "KingSystem/ActorSystem/queryCheckEventCancel.h"
 #include <evfl/Query.h>
 
-namespace uking::query {
+namespace ksys::act::ai {
 
-CheckEventCancel::CheckEventCancel(const InitArg& arg) : ksys::act::ai::Query(arg) {}
+CheckEventCancel::CheckEventCancel(const InitArg& arg) : Query(arg) {}
 
 CheckEventCancel::~CheckEventCancel() = default;
 
@@ -16,4 +16,4 @@ void CheckEventCancel::loadParams(const evfl::QueryArg& arg) {}
 
 void CheckEventCancel::loadParams() {}
 
-}  // namespace uking::query
+}  // namespace ksys::act::ai

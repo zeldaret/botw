@@ -2,9 +2,9 @@
 
 #include "KingSystem/ActorSystem/actAiQuery.h"
 
-namespace uking::query {
+namespace ksys::act::ai {
 
-class CheckEventCancel : public ksys::act::ai::Query {
+class CheckEventCancel : public Query {
     SEAD_RTTI_OVERRIDE(CheckEventCancel, Query)
 public:
     explicit CheckEventCancel(const InitArg& arg);
@@ -15,4 +15,4 @@ public:
     void loadParams(const evfl::QueryArg& arg) override;
 };
 
-}  // namespace uking::query
+}  // namespace ksys::act::ai

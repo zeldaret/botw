@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Game/Actor/AI/aiForkAI.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/aiForkAI.h"
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
 class Fork5AI : public ForkAI {
     SEAD_RTTI_OVERRIDE(Fork5AI, ForkAI)
@@ -14,4 +14,4 @@ public:
 protected:
 };
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai

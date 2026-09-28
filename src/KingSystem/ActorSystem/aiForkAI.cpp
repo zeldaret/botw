@@ -1,9 +1,9 @@
-#include "Game/Actor/AI/aiForkAI.h"
+#include "KingSystem/ActorSystem/aiForkAI.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
-ForkAI::ForkAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+ForkAI::ForkAI(const InitArg& arg) : Ai(arg) {}
 
 ForkAI::~ForkAI() = default;
 
@@ -12,7 +12,7 @@ bool ForkAI::init_(sead::Heap* heap) {
     return true;
 }
 
-void ForkAI::enter_(ksys::act::ai::InlineParamPack* params) {
+void ForkAI::enter_(InlineParamPack* params) {
     const int num_children = getNumChildren();
     if (num_children >= 1) {
         for (int i = 0; i < num_children; ++i)
@@ -22,10 +22,10 @@ void ForkAI::enter_(ksys::act::ai::InlineParamPack* params) {
         SEAD_WARN("ForkAI::enter_: no children");
         changeChildIdx(num_children - 1);
     }
-    setRootAiFlag(ksys::act::ai::RootAiFlag::_8);
+    setRootAiFlag(RootAiFlag::_8);
 }
 
-bool ForkAI::reenter(ksys::act::ai::ActionBase* other, const sead::SafeString& context) {
+bool ForkAI::reenter(ActionBase* other, const sead::SafeString& context) {
     auto* other_ = sead::DynamicCast<ForkAI>(other);
     if (!other_)
         return false;
@@ -101,7 +101,7 @@ bool ForkAI::isChangeable() const {
     return true;
 }
 
-bool ForkAI::handleMessage_(const ksys::Message& message) {
+bool ForkAI::handleMessage_(const Message& message) {
     const int num_children = getNumChildren();
 
     bool ok = false;
@@ -115,7 +115,7 @@ bool ForkAI::handleMessage_(const ksys::Message& message) {
     return true;
 }
 
-bool ForkAI::handleAck_(const ksys::MessageAck& message) {
+bool ForkAI::handleAck_(const MessageAck& message) {
     const int num_children = getNumChildren();
 
     bool ok = false;
@@ -129,7 +129,7 @@ bool ForkAI::handleAck_(const ksys::MessageAck& message) {
     return true;
 }
 
-void ForkAI::getCurrentName(sead::BufferedSafeString* name, ksys::act::ai::ActionBase* last) const {
+void ForkAI::getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const {
     name->appendWithFormat("/%s{", getName());
     if (this != last) {
         const int num_children = getNumChildren();
@@ -154,4 +154,4 @@ void ForkAI::getNames(sead::BufferedSafeString* out) const {
     out->appendWithFormat("}");
 }
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai
