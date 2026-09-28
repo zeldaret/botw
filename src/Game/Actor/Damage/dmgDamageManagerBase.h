@@ -65,7 +65,7 @@ public:
     virtual bool m14() { return false; }
     virtual bool applyDamage(s32& life);
     virtual bool m16() { return false; }
-    virtual void m17() {}
+    virtual void accumulateStasisBlowVelocity() {}
     virtual s32 getNumCallbacks();
     virtual bool initCallbacks(sead::Heap* heap);
 
@@ -109,7 +109,7 @@ public:
     virtual s32 m42() { return 0; }
     virtual void m43() {}
     virtual bool canTakeDamage();
-    virtual void m45() {}
+    virtual void applyRequestedDamage() {}
     virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6);
     virtual bool addDamage(s64 a2, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54, s32 f40);
     virtual void onApplyDamage() {}

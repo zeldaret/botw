@@ -88,7 +88,7 @@ SphereCast::~SphereCast() {
 
 void SphereCast::setRadius(float radius) {
     mSphere->setRadius(radius);
-    mSphere->x_40();
+    mSphere->processUpdateFlags();
 }
 
 }  // namespace ksys::phys

@@ -436,7 +436,7 @@ void RigidBody::replaceMotionObject() {
     }
 }
 
-void RigidBody::x_10() {
+void RigidBody::removeFromWorldImmediatelyAndResetLinks() {
     auto lock = makeScopedLock();
 
     if (isEntity()) {
@@ -988,7 +988,7 @@ void RigidBody::changeMotionType(MotionType motion_type) {
     mMotionFlags.set(MotionFlag::DirtyMaxVelOrTimeFactor);
     mMotionFlags.set(MotionFlag::DirtyDampingOrGravityFactor);
     mMotionFlags.set(MotionFlag::DirtyCenterOfMassLocal);
-    x_40();
+    processUpdateFlags();
 }
 
 void RigidBody::updateMotionTypeRelatedFlags() {

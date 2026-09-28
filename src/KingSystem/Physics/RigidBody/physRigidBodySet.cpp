@@ -172,9 +172,9 @@ bool RigidBodySet::hasNoRigidBodyWithFlag8(bool require_motion_flag_1_to_be_unse
     return true;
 }
 
-void RigidBodySet::callRigidBody_x_7(u8 type) {
+void RigidBodySet::requestSuspendGravity(u8 type) {
     for (auto& body : mRigidBodies)
-        body.x_17(type);
+        body.requestSuspendGravity(type);
 }
 
 }  // namespace ksys::phys
