@@ -27,7 +27,7 @@ class PlayerInfo : public PlayerInfoBase {
 public:
     ksys::act::BaseProcLink& getPlayerLink() { return mPlayerLink; }
     bool init();
-    void setAndAcquirePlayer(PlayerBase* player);  // requires PlayerOrEnemy and PlayerBase
+    void setAndAcquirePlayer(PlayerBase* player);  // requires CombatActor and PlayerBase
     void resetPlayer(PlayerBase* player);
     bool acquireHorse(ksys::act::BaseProc* horse);
     void setHorseLink(const ksys::act::BaseProcLink& horse_link);
