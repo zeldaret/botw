@@ -2,23 +2,23 @@
 
 namespace uking::action {
 
-HoldArrow::HoldArrow(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+HoldArrow::HoldArrow(const InitArg& arg) : StopBase(arg) {}
 
 void HoldArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void HoldArrow::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void HoldArrow::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
 }
 
 void HoldArrow::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

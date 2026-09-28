@@ -15,7 +15,7 @@ void OnetimeStopASPlay::leave_() {
 }
 
 void OnetimeStopASPlay::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mIsIgnoreSame_s, "IsIgnoreSame");
     getStaticParam(&mASName_s, "ASName");
 }

@@ -2,23 +2,23 @@
 
 namespace uking::action {
 
-GuardianMiniNeckSpinBeam::GuardianMiniNeckSpinBeam(const InitArg& arg) : NeckSpinBeam(arg) {}
+GuardianMiniNeckSpinBeam::GuardianMiniNeckSpinBeam(const InitArg& arg) : BeamNeckSpin(arg) {}
 
 GuardianMiniNeckSpinBeam::~GuardianMiniNeckSpinBeam() = default;
 
 void GuardianMiniNeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {
-    NeckSpinBeam::enter_(params);
+    BeamNeckSpin::enter_(params);
 }
 
 void GuardianMiniNeckSpinBeam::loadParams_() {
-    NeckSpinBeam::loadParams_();
+    BeamNeckSpin::loadParams_();
     getStaticParam(&mSpinNum_s, "SpinNum");
     getStaticParam(&mMaxLengthTime_s, "MaxLengthTime");
     getStaticParam(&mIsStraight_s, "IsStraight");
 }
 
 void GuardianMiniNeckSpinBeam::calc_() {
-    NeckSpinBeam::calc_();
+    BeamNeckSpin::calc_();
 }
 
 }  // namespace uking::action

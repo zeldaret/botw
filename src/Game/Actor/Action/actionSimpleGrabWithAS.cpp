@@ -2,12 +2,12 @@
 
 namespace uking::action {
 
-SimpleGrabWithAS::SimpleGrabWithAS(const InitArg& arg) : SimpleGrabWithASBase(arg) {}
+SimpleGrabWithAS::SimpleGrabWithAS(const InitArg& arg) : SimpleGrabBase(arg) {}
 
 SimpleGrabWithAS::~SimpleGrabWithAS() = default;
 
 void SimpleGrabWithAS::loadParams_() {
-    SimpleGrabWithASBase::loadParams_();
+    SimpleGrabBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
 }
 

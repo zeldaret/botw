@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-AnchorSummon::AnchorSummon(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+AnchorSummon::AnchorSummon(const InitArg& arg) : StopBase(arg) {}
 
 AnchorSummon::~AnchorSummon() = default;
 
 bool AnchorSummon::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void AnchorSummon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void AnchorSummon::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void AnchorSummon::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
     getDynamicParam(&mSummonActor_d, "SummonActor");
     getDynamicParam(&mSummonActorEquip1_d, "SummonActorEquip1");
@@ -27,7 +27,7 @@ void AnchorSummon::loadParams_() {
 }
 
 void AnchorSummon::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

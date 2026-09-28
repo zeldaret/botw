@@ -17,7 +17,7 @@ void BattleCloseWalk::leave_() {
 }
 
 void BattleCloseWalk::loadParams_() {
-    BattleCloseMoveActionBase::loadParams_();
+    AvoidingCloseMoveActionBase::loadParams_();
 }
 
 void BattleCloseWalk::calc_() {

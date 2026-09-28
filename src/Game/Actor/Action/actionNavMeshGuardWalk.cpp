@@ -2,7 +2,7 @@
 
 namespace uking::action {
 
-NavMeshGuardWalk::NavMeshGuardWalk(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshGuardWalk::NavMeshGuardWalk(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 NavMeshGuardWalk::~NavMeshGuardWalk() = default;
 

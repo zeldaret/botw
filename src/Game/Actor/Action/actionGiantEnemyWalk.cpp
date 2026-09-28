@@ -2,28 +2,28 @@
 
 namespace uking::action {
 
-GiantEnemyWalk::GiantEnemyWalk(const InitArg& arg) : GiantEnemyWalkWithVibration(arg) {}
+GiantEnemyWalk::GiantEnemyWalk(const InitArg& arg) : GiantEnemyMoveWithVibration(arg) {}
 
 GiantEnemyWalk::~GiantEnemyWalk() = default;
 
 bool GiantEnemyWalk::init_(sead::Heap* heap) {
-    return GiantEnemyWalkWithVibration::init_(heap);
+    return GiantEnemyMoveWithVibration::init_(heap);
 }
 
 void GiantEnemyWalk::enter_(ksys::act::ai::InlineParamPack* params) {
-    GiantEnemyWalkWithVibration::enter_(params);
+    GiantEnemyMoveWithVibration::enter_(params);
 }
 
 void GiantEnemyWalk::leave_() {
-    GiantEnemyWalkWithVibration::leave_();
+    GiantEnemyMoveWithVibration::leave_();
 }
 
 void GiantEnemyWalk::loadParams_() {
-    GiantEnemyWalkWithVibration::loadParams_();
+    GiantEnemyMoveWithVibration::loadParams_();
 }
 
 void GiantEnemyWalk::calc_() {
-    GiantEnemyWalkWithVibration::calc_();
+    GiantEnemyMoveWithVibration::calc_();
 }
 
 }  // namespace uking::action

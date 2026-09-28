@@ -19,7 +19,7 @@ void CapturedActKnockBack::leave_() {
 }
 
 void CapturedActKnockBack::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
 }
 
 void CapturedActKnockBack::calc_() {

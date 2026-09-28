@@ -2,22 +2,22 @@
 
 namespace uking::action {
 
-Grab::Grab(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Grab::Grab(const InitArg& arg) : StopBase(arg) {}
 
 bool Grab::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void Grab::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void Grab::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void Grab::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mGrabIdx_s, "GrabIdx");
     getStaticParam(&mCheckRadius_s, "CheckRadius");
     getStaticParam(&mCheckSpeed_s, "CheckSpeed");
@@ -25,7 +25,7 @@ void Grab::loadParams_() {
 }
 
 void Grab::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

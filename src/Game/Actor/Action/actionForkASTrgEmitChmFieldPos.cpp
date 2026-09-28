@@ -2,29 +2,30 @@
 
 namespace uking::action {
 
-ForkASTrgEmitChmFieldPos::ForkASTrgEmitChmFieldPos(const InitArg& arg) : ForkEmitChmField(arg) {}
+ForkASTrgEmitChmFieldPos::ForkASTrgEmitChmFieldPos(const InitArg& arg)
+    : ForkTrgEmitChmFieldBase(arg) {}
 
 ForkASTrgEmitChmFieldPos::~ForkASTrgEmitChmFieldPos() = default;
 
 bool ForkASTrgEmitChmFieldPos::init_(sead::Heap* heap) {
-    return ForkEmitChmField::init_(heap);
+    return ForkTrgEmitChmFieldBase::init_(heap);
 }
 
 void ForkASTrgEmitChmFieldPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkEmitChmField::enter_(params);
+    ForkTrgEmitChmFieldBase::enter_(params);
 }
 
 void ForkASTrgEmitChmFieldPos::leave_() {
-    ForkEmitChmField::leave_();
+    ForkTrgEmitChmFieldBase::leave_();
 }
 
 void ForkASTrgEmitChmFieldPos::loadParams_() {
-    ForkEmitChmField::loadParams_();
+    ForkTrgEmitChmFieldBase::loadParams_();
     getStaticParam(&mOffsetPos_s, "OffsetPos");
 }
 
 void ForkASTrgEmitChmFieldPos::calc_() {
-    ForkEmitChmField::calc_();
+    ForkTrgEmitChmFieldBase::calc_();
 }
 
 }  // namespace uking::action

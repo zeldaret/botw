@@ -2,22 +2,23 @@
 
 namespace uking::action {
 
-BattleCloseMoveAction::BattleCloseMoveAction(const InitArg& arg) : BattleCloseMoveActionBase(arg) {}
+BattleCloseMoveAction::BattleCloseMoveAction(const InitArg& arg)
+    : AvoidingCloseMoveActionBase(arg) {}
 
 bool BattleCloseMoveAction::init_(sead::Heap* heap) {
-    return BattleCloseMoveActionBase::init_(heap);
+    return AvoidingCloseMoveActionBase::init_(heap);
 }
 
 void BattleCloseMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    BattleCloseMoveActionBase::enter_(params);
+    AvoidingCloseMoveActionBase::enter_(params);
 }
 
 void BattleCloseMoveAction::leave_() {
-    BattleCloseMoveActionBase::leave_();
+    AvoidingCloseMoveActionBase::leave_();
 }
 
 void BattleCloseMoveAction::calc_() {
-    BattleCloseMoveActionBase::calc_();
+    AvoidingCloseMoveActionBase::calc_();
 }
 
 }  // namespace uking::action

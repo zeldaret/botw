@@ -2,21 +2,21 @@
 
 namespace uking::action {
 
-BackWalkWithAS::BackWalkWithAS(const InitArg& arg) : BackWalkEx(arg) {}
+BackWalkWithAS::BackWalkWithAS(const InitArg& arg) : NormalBackWalk(arg) {}
 
 BackWalkWithAS::~BackWalkWithAS() = default;
 
 void BackWalkWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
-    BackWalkEx::enter_(params);
+    NormalBackWalk::enter_(params);
 }
 
 void BackWalkWithAS::loadParams_() {
-    BackWalkEx::loadParams_();
+    NormalBackWalk::loadParams_();
     getStaticParam(&mASName_s, "ASName");
 }
 
 void BackWalkWithAS::calc_() {
-    BackWalkEx::calc_();
+    NormalBackWalk::calc_();
 }
 
 }  // namespace uking::action

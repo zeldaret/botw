@@ -2,30 +2,30 @@
 
 namespace uking::action {
 
-WillBallAttack::WillBallAttack(const InitArg& arg) : WillBallAction(arg) {}
+WillBallAttack::WillBallAttack(const InitArg& arg) : WillBallBase(arg) {}
 
 WillBallAttack::~WillBallAttack() = default;
 
 bool WillBallAttack::init_(sead::Heap* heap) {
-    return WillBallAction::init_(heap);
+    return WillBallBase::init_(heap);
 }
 
 void WillBallAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    WillBallAction::enter_(params);
+    WillBallBase::enter_(params);
 }
 
 void WillBallAttack::leave_() {
-    WillBallAction::leave_();
+    WillBallBase::leave_();
 }
 
 void WillBallAttack::loadParams_() {
-    WillBallAction::loadParams_();
+    WillBallBase::loadParams_();
     getStaticParam(&mReactionLevel_s, "ReactionLevel");
     getStaticParam(&mIsAbleGuard_s, "IsAbleGuard");
 }
 
 void WillBallAttack::calc_() {
-    WillBallAction::calc_();
+    WillBallBase::calc_();
 }
 
 }  // namespace uking::action

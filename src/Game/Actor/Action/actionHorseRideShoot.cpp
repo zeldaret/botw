@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-HorseRideShoot::HorseRideShoot(const InitArg& arg) : HorseRide(arg) {}
+HorseRideShoot::HorseRideShoot(const InitArg& arg) : HorseRideBase(arg) {}
 
 HorseRideShoot::~HorseRideShoot() = default;
 
 bool HorseRideShoot::init_(sead::Heap* heap) {
-    return HorseRide::init_(heap);
+    return HorseRideBase::init_(heap);
 }
 
 void HorseRideShoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRide::enter_(params);
+    HorseRideBase::enter_(params);
 }
 
 void HorseRideShoot::leave_() {
-    HorseRide::leave_();
+    HorseRideBase::leave_();
 }
 
 void HorseRideShoot::loadParams_() {
-    HorseRide::loadParams_();
+    HorseRideBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mOffsetRangeMin_s, "OffsetRangeMin");
     getStaticParam(&mOffsetRangeMax_s, "OffsetRangeMax");
@@ -31,7 +31,7 @@ void HorseRideShoot::loadParams_() {
 }
 
 void HorseRideShoot::calc_() {
-    HorseRide::calc_();
+    HorseRideBase::calc_();
 }
 
 }  // namespace uking::action

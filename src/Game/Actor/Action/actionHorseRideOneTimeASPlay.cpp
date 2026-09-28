@@ -2,30 +2,30 @@
 
 namespace uking::action {
 
-HorseRideOneTimeASPlay::HorseRideOneTimeASPlay(const InitArg& arg) : HorseRide(arg) {}
+HorseRideOneTimeASPlay::HorseRideOneTimeASPlay(const InitArg& arg) : HorseRideBase(arg) {}
 
 HorseRideOneTimeASPlay::~HorseRideOneTimeASPlay() = default;
 
 bool HorseRideOneTimeASPlay::init_(sead::Heap* heap) {
-    return HorseRide::init_(heap);
+    return HorseRideBase::init_(heap);
 }
 
 void HorseRideOneTimeASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRide::enter_(params);
+    HorseRideBase::enter_(params);
 }
 
 void HorseRideOneTimeASPlay::leave_() {
-    HorseRide::leave_();
+    HorseRideBase::leave_();
 }
 
 void HorseRideOneTimeASPlay::loadParams_() {
-    HorseRide::loadParams_();
+    HorseRideBase::loadParams_();
     getStaticParam(&mIgnoreSameAS_s, "IgnoreSameAS");
     getStaticParam(&mASName_s, "ASName");
 }
 
 void HorseRideOneTimeASPlay::calc_() {
-    HorseRide::calc_();
+    HorseRideBase::calc_();
 }
 
 }  // namespace uking::action

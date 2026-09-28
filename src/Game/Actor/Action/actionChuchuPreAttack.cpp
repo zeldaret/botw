@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-ChuchuPreAttack::ChuchuPreAttack(const InitArg& arg) : ChuchuPreAttackBase(arg) {}
+ChuchuPreAttack::ChuchuPreAttack(const InitArg& arg) : GelJumpBase(arg) {}
 
 ChuchuPreAttack::~ChuchuPreAttack() = default;
 
 bool ChuchuPreAttack::init_(sead::Heap* heap) {
-    return ChuchuPreAttackBase::init_(heap);
+    return GelJumpBase::init_(heap);
 }
 
 void ChuchuPreAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChuchuPreAttackBase::enter_(params);
+    GelJumpBase::enter_(params);
 }
 
 void ChuchuPreAttack::leave_() {
-    ChuchuPreAttackBase::leave_();
+    GelJumpBase::leave_();
 }
 
 void ChuchuPreAttack::loadParams_() {
-    ChuchuPreAttackBase::loadParams_();
+    GelJumpBase::loadParams_();
     getStaticParam(&mSubASSlot_s, "SubASSlot");
     getStaticParam(&mHitImpactForceSmallSwordS_s, "HitImpactForceSmallSwordS");
     getStaticParam(&mHitImpactForceSmallSwordL_s, "HitImpactForceSmallSwordL");
@@ -35,7 +35,7 @@ void ChuchuPreAttack::loadParams_() {
 }
 
 void ChuchuPreAttack::calc_() {
-    ChuchuPreAttackBase::calc_();
+    GelJumpBase::calc_();
 }
 
 }  // namespace uking::action

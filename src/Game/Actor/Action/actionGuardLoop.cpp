@@ -2,10 +2,10 @@
 
 namespace uking::action {
 
-GuardLoop::GuardLoop(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+GuardLoop::GuardLoop(const InitArg& arg) : StopBase(arg) {}
 
 void GuardLoop::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 }  // namespace uking::action

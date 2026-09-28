@@ -3,31 +3,31 @@
 namespace uking::action {
 
 ForkEmitChmFieldFromWeapon::ForkEmitChmFieldFromWeapon(const InitArg& arg)
-    : ForkEmitChmField(arg) {}
+    : ForkTrgEmitChmFieldBase(arg) {}
 
 ForkEmitChmFieldFromWeapon::~ForkEmitChmFieldFromWeapon() = default;
 
 bool ForkEmitChmFieldFromWeapon::init_(sead::Heap* heap) {
-    return ForkEmitChmField::init_(heap);
+    return ForkTrgEmitChmFieldBase::init_(heap);
 }
 
 void ForkEmitChmFieldFromWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkEmitChmField::enter_(params);
+    ForkTrgEmitChmFieldBase::enter_(params);
 }
 
 void ForkEmitChmFieldFromWeapon::leave_() {
-    ForkEmitChmField::leave_();
+    ForkTrgEmitChmFieldBase::leave_();
 }
 
 void ForkEmitChmFieldFromWeapon::loadParams_() {
-    ForkEmitChmField::loadParams_();
+    ForkTrgEmitChmFieldBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mSeqBank_s, "SeqBank");
     getStaticParam(&mTargetBone_s, "TargetBone");
 }
 
 void ForkEmitChmFieldFromWeapon::calc_() {
-    ForkEmitChmField::calc_();
+    ForkTrgEmitChmFieldBase::calc_();
 }
 
 }  // namespace uking::action

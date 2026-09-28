@@ -2,14 +2,14 @@
 
 namespace uking::action {
 
-ActionWithAS::ActionWithAS(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+ActionWithAS::ActionWithAS(const InitArg& arg) : StopBase(arg) {}
 
 void ActionWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void ActionWithAS::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

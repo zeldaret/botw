@@ -2,31 +2,31 @@
 
 namespace uking::action {
 
-HorseRideViewWait::HorseRideViewWait(const InitArg& arg) : HorseRide(arg) {}
+HorseRideViewWait::HorseRideViewWait(const InitArg& arg) : HorseRideBase(arg) {}
 
 HorseRideViewWait::~HorseRideViewWait() = default;
 
 bool HorseRideViewWait::init_(sead::Heap* heap) {
-    return HorseRide::init_(heap);
+    return HorseRideBase::init_(heap);
 }
 
 void HorseRideViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRide::enter_(params);
+    HorseRideBase::enter_(params);
 }
 
 void HorseRideViewWait::leave_() {
-    HorseRide::leave_();
+    HorseRideBase::leave_();
 }
 
 void HorseRideViewWait::loadParams_() {
-    HorseRide::loadParams_();
+    HorseRideBase::loadParams_();
     getStaticParam(&mRotRatio_s, "RotRatio");
     getStaticParam(&mASName_s, "ASName");
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
 void HorseRideViewWait::calc_() {
-    HorseRide::calc_();
+    HorseRideBase::calc_();
 }
 
 }  // namespace uking::action

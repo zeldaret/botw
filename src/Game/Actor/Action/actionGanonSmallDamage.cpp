@@ -19,7 +19,7 @@ void GanonSmallDamage::leave_() {
 }
 
 void GanonSmallDamage::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mUpAS_s, "UpAS");
     getStaticParam(&mAS_s, "AS");
 }

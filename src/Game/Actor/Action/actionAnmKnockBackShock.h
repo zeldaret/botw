@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionKnockBackShock.h"
+#include "Game/Actor/Action/actionSimpleKnockBackShock.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class AnmKnockBackShock : public KnockBackShock {
-    SEAD_RTTI_OVERRIDE(AnmKnockBackShock, KnockBackShock)
+class AnmKnockBackShock : public SimpleKnockBackShock {
+    SEAD_RTTI_OVERRIDE(AnmKnockBackShock, SimpleKnockBackShock)
 public:
     explicit AnmKnockBackShock(const InitArg& arg);
     ~AnmKnockBackShock() override;

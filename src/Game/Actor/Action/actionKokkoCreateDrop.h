@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionKokkoCreateDropBase.h"
+#include "Game/Actor/Action/actionCreateDropBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class KokkoCreateDrop : public KokkoCreateDropBase {
-    SEAD_RTTI_OVERRIDE(KokkoCreateDrop, KokkoCreateDropBase)
+class KokkoCreateDrop : public CreateDropBase {
+    SEAD_RTTI_OVERRIDE(KokkoCreateDrop, CreateDropBase)
 public:
     explicit KokkoCreateDrop(const InitArg& arg);
     ~KokkoCreateDrop() override;

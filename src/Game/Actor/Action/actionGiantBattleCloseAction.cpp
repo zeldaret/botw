@@ -19,7 +19,7 @@ void GiantBattleCloseAction::leave_() {
 }
 
 void GiantBattleCloseAction::loadParams_() {
-    BattleCloseMoveActionBase::loadParams_();
+    AvoidingCloseMoveActionBase::loadParams_();
     getStaticParam(&mVibrationPower_s, "VibrationPower");
 }
 

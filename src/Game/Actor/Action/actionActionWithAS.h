@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ActionWithAS : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(ActionWithAS, ActionWithPosAngReduce)
+class ActionWithAS : public StopBase {
+    SEAD_RTTI_OVERRIDE(ActionWithAS, StopBase)
 public:
     explicit ActionWithAS(const InitArg& arg);
 

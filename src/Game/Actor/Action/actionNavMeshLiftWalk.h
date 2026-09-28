@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionNavMeshAction.h"
+#include "Game/Actor/Action/actionNavMeshMoveBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class NavMeshLiftWalk : public NavMeshAction {
-    SEAD_RTTI_OVERRIDE(NavMeshLiftWalk, NavMeshAction)
+class NavMeshLiftWalk : public NavMeshMoveBase {
+    SEAD_RTTI_OVERRIDE(NavMeshLiftWalk, NavMeshMoveBase)
 public:
     explicit NavMeshLiftWalk(const InitArg& arg);
 

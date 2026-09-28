@@ -19,7 +19,7 @@ void PunchAttack::leave_() {
 }
 
 void PunchAttack::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mAttackIntensity_s, "AttackIntensity");
     getStaticParam(&mIsGuardPierce_s, "IsGuardPierce");
     getStaticParam(&mIsForceGuardBreak_s, "IsForceGuardBreak");

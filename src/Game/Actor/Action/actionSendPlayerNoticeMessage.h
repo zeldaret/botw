@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionSendPlayerNoticeMessageBase.h"
+#include "Game/Actor/Action/actionSendNoticeMessageBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SendPlayerNoticeMessage : public SendPlayerNoticeMessageBase {
-    SEAD_RTTI_OVERRIDE(SendPlayerNoticeMessage, SendPlayerNoticeMessageBase)
+class SendPlayerNoticeMessage : public SendNoticeMessageBase {
+    SEAD_RTTI_OVERRIDE(SendPlayerNoticeMessage, SendNoticeMessageBase)
 public:
     explicit SendPlayerNoticeMessage(const InitArg& arg);
     ~SendPlayerNoticeMessage() override;

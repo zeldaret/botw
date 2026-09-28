@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionMove2HomePosBase.h"
+#include "Game/Actor/Action/actionMoveHomePosBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class Move2HomePos : public Move2HomePosBase {
-    SEAD_RTTI_OVERRIDE(Move2HomePos, Move2HomePosBase)
+class Move2HomePos : public MoveHomePosBase {
+    SEAD_RTTI_OVERRIDE(Move2HomePos, MoveHomePosBase)
 public:
     explicit Move2HomePos(const InitArg& arg);
     ~Move2HomePos() override;

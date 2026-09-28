@@ -2,14 +2,14 @@
 
 namespace uking::action {
 
-SmallDamageBase::SmallDamageBase(const InitArg& arg) : TakeHitImpactForce(arg) {}
+SmallDamageBase::SmallDamageBase(const InitArg& arg) : KnockBackHitImpactForce(arg) {}
 
 void SmallDamageBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    TakeHitImpactForce::enter_(params);
+    KnockBackHitImpactForce::enter_(params);
 }
 
 void SmallDamageBase::calc_() {
-    TakeHitImpactForce::calc_();
+    KnockBackHitImpactForce::calc_();
 }
 
 }  // namespace uking::action

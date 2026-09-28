@@ -2,26 +2,26 @@
 
 namespace uking::action {
 
-NavMeshLiftWalk::NavMeshLiftWalk(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshLiftWalk::NavMeshLiftWalk(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 bool NavMeshLiftWalk::init_(sead::Heap* heap) {
-    return NavMeshAction::init_(heap);
+    return NavMeshMoveBase::init_(heap);
 }
 
 void NavMeshLiftWalk::enter_(ksys::act::ai::InlineParamPack* params) {
-    NavMeshAction::enter_(params);
+    NavMeshMoveBase::enter_(params);
 }
 
 void NavMeshLiftWalk::leave_() {
-    NavMeshAction::leave_();
+    NavMeshMoveBase::leave_();
 }
 
 void NavMeshLiftWalk::loadParams_() {
-    NavMeshAction::loadParams_();
+    NavMeshMoveBase::loadParams_();
 }
 
 void NavMeshLiftWalk::calc_() {
-    NavMeshAction::calc_();
+    NavMeshMoveBase::calc_();
 }
 
 }  // namespace uking::action

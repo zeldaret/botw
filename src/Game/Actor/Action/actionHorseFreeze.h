@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class HorseFreeze : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(HorseFreeze, ActionWithPosAngReduce)
+class HorseFreeze : public StopBase {
+    SEAD_RTTI_OVERRIDE(HorseFreeze, StopBase)
 public:
     explicit HorseFreeze(const InitArg& arg);
     ~HorseFreeze() override;

@@ -2,30 +2,30 @@
 
 namespace uking::action {
 
-NavMeshSlippedWalk::NavMeshSlippedWalk(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshSlippedWalk::NavMeshSlippedWalk(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 NavMeshSlippedWalk::~NavMeshSlippedWalk() = default;
 
 bool NavMeshSlippedWalk::init_(sead::Heap* heap) {
-    return NavMeshAction::init_(heap);
+    return NavMeshMoveBase::init_(heap);
 }
 
 void NavMeshSlippedWalk::enter_(ksys::act::ai::InlineParamPack* params) {
-    NavMeshAction::enter_(params);
+    NavMeshMoveBase::enter_(params);
 }
 
 void NavMeshSlippedWalk::leave_() {
-    NavMeshAction::leave_();
+    NavMeshMoveBase::leave_();
 }
 
 void NavMeshSlippedWalk::loadParams_() {
-    NavMeshAction::loadParams_();
+    NavMeshMoveBase::loadParams_();
     getStaticParam(&mAccRatio_s, "AccRatio");
     getStaticParam(&mASName_s, "ASName");
 }
 
 void NavMeshSlippedWalk::calc_() {
-    NavMeshAction::calc_();
+    NavMeshMoveBase::calc_();
 }
 
 }  // namespace uking::action

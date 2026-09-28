@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionMoveToTargetCurveBase.h"
+#include "Game/Actor/Action/actionCurveMoveToTargetBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GoronHeroDescendentJump : public MoveToTargetCurveBase {
-    SEAD_RTTI_OVERRIDE(GoronHeroDescendentJump, MoveToTargetCurveBase)
+class GoronHeroDescendentJump : public CurveMoveToTargetBase {
+    SEAD_RTTI_OVERRIDE(GoronHeroDescendentJump, CurveMoveToTargetBase)
 public:
     explicit GoronHeroDescendentJump(const InitArg& arg);
     ~GoronHeroDescendentJump() override;

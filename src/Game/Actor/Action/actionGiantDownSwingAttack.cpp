@@ -2,29 +2,29 @@
 
 namespace uking::action {
 
-GiantDownSwingAttack::GiantDownSwingAttack(const InitArg& arg) : GiantAttackWithAS(arg) {}
+GiantDownSwingAttack::GiantDownSwingAttack(const InitArg& arg) : AttackWithAS(arg) {}
 
 GiantDownSwingAttack::~GiantDownSwingAttack() = default;
 
 bool GiantDownSwingAttack::init_(sead::Heap* heap) {
-    return GiantAttackWithAS::init_(heap);
+    return AttackWithAS::init_(heap);
 }
 
 void GiantDownSwingAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    GiantAttackWithAS::enter_(params);
+    AttackWithAS::enter_(params);
 }
 
 void GiantDownSwingAttack::leave_() {
-    GiantAttackWithAS::leave_();
+    AttackWithAS::leave_();
 }
 
 void GiantDownSwingAttack::loadParams_() {
-    GiantAttackWithAS::loadParams_();
+    AttackWithAS::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
 }
 
 void GiantDownSwingAttack::calc_() {
-    GiantAttackWithAS::calc_();
+    AttackWithAS::calc_();
 }
 
 }  // namespace uking::action

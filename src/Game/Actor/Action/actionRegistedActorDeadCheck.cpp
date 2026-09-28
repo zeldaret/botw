@@ -3,28 +3,28 @@
 namespace uking::action {
 
 RegistedActorDeadCheck::RegistedActorDeadCheck(const InitArg& arg)
-    : RegistedActorDeadCheckBase(arg) {}
+    : RegistedActorAllDeadCheckBase(arg) {}
 
 RegistedActorDeadCheck::~RegistedActorDeadCheck() = default;
 
 bool RegistedActorDeadCheck::init_(sead::Heap* heap) {
-    return RegistedActorDeadCheckBase::init_(heap);
+    return RegistedActorAllDeadCheckBase::init_(heap);
 }
 
 void RegistedActorDeadCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    RegistedActorDeadCheckBase::enter_(params);
+    RegistedActorAllDeadCheckBase::enter_(params);
 }
 
 void RegistedActorDeadCheck::leave_() {
-    RegistedActorDeadCheckBase::leave_();
+    RegistedActorAllDeadCheckBase::leave_();
 }
 
 void RegistedActorDeadCheck::loadParams_() {
-    RegistedActorDeadCheckBase::loadParams_();
+    RegistedActorAllDeadCheckBase::loadParams_();
 }
 
 void RegistedActorDeadCheck::calc_() {
-    RegistedActorDeadCheckBase::calc_();
+    RegistedActorAllDeadCheckBase::calc_();
 }
 
 }  // namespace uking::action

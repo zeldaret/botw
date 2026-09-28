@@ -19,7 +19,7 @@ void SubAnmSmallDamage::leave_() {
 }
 
 void SubAnmSmallDamage::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mSubASSlot_s, "SubASSlot");
     getStaticParam(&mSubAS_s, "SubAS");
     getStaticParam(&mLeaveSubAS_s, "LeaveSubAS");

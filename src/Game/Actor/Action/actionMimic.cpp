@@ -2,20 +2,20 @@
 
 namespace uking::action {
 
-Mimic::Mimic(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Mimic::Mimic(const InitArg& arg) : StopBase(arg) {}
 
 Mimic::~Mimic() = default;
 
 void Mimic::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void Mimic::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void Mimic::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mMimicTime_s, "MimicTime");
     getStaticParam(&mMimicRate_s, "MimicRate");
     getStaticParam(&mMimicStartASName_s, "MimicStartASName");
@@ -26,7 +26,7 @@ void Mimic::loadParams_() {
 }
 
 void Mimic::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionHorseRide.h"
+#include "Game/Actor/Action/actionHorseRideBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class HorseRideArrowReload : public HorseRide {
-    SEAD_RTTI_OVERRIDE(HorseRideArrowReload, HorseRide)
+class HorseRideArrowReload : public HorseRideBase {
+    SEAD_RTTI_OVERRIDE(HorseRideArrowReload, HorseRideBase)
 public:
     explicit HorseRideArrowReload(const InitArg& arg);
     ~HorseRideArrowReload() override;

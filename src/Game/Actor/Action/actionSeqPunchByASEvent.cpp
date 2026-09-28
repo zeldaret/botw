@@ -19,7 +19,7 @@ void SeqPunchByASEvent::leave_() {
 }
 
 void SeqPunchByASEvent::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mAttackIntensity_s, "AttackIntensity");
     getStaticParam(&mIsHammer_s, "IsHammer");

@@ -2,26 +2,26 @@
 
 namespace uking::action {
 
-FlyingCharacterDamage::FlyingCharacterDamage(const InitArg& arg) : FlyingCharacterDamageBase(arg) {}
+FlyingCharacterDamage::FlyingCharacterDamage(const InitArg& arg) : FlyingActorDamageBase(arg) {}
 
 bool FlyingCharacterDamage::init_(sead::Heap* heap) {
-    return FlyingCharacterDamageBase::init_(heap);
+    return FlyingActorDamageBase::init_(heap);
 }
 
 void FlyingCharacterDamage::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterDamageBase::enter_(params);
+    FlyingActorDamageBase::enter_(params);
 }
 
 void FlyingCharacterDamage::leave_() {
-    FlyingCharacterDamageBase::leave_();
+    FlyingActorDamageBase::leave_();
 }
 
 void FlyingCharacterDamage::loadParams_() {
-    FlyingCharacterDamageBase::loadParams_();
+    FlyingActorDamageBase::loadParams_();
 }
 
 void FlyingCharacterDamage::calc_() {
-    FlyingCharacterDamageBase::calc_();
+    FlyingActorDamageBase::calc_();
 }
 
 }  // namespace uking::action

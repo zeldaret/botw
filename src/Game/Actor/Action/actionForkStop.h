@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForkStop : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(ForkStop, ActionWithPosAngReduce)
+class ForkStop : public StopBase {
+    SEAD_RTTI_OVERRIDE(ForkStop, StopBase)
 public:
     explicit ForkStop(const InitArg& arg);
     ~ForkStop() override;

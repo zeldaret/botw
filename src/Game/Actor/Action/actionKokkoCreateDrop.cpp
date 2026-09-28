@@ -2,28 +2,28 @@
 
 namespace uking::action {
 
-KokkoCreateDrop::KokkoCreateDrop(const InitArg& arg) : KokkoCreateDropBase(arg) {}
+KokkoCreateDrop::KokkoCreateDrop(const InitArg& arg) : CreateDropBase(arg) {}
 
 KokkoCreateDrop::~KokkoCreateDrop() = default;
 
 bool KokkoCreateDrop::init_(sead::Heap* heap) {
-    return KokkoCreateDropBase::init_(heap);
+    return CreateDropBase::init_(heap);
 }
 
 void KokkoCreateDrop::enter_(ksys::act::ai::InlineParamPack* params) {
-    KokkoCreateDropBase::enter_(params);
+    CreateDropBase::enter_(params);
 }
 
 void KokkoCreateDrop::leave_() {
-    KokkoCreateDropBase::leave_();
+    CreateDropBase::leave_();
 }
 
 void KokkoCreateDrop::loadParams_() {
-    KokkoCreateDropBase::loadParams_();
+    CreateDropBase::loadParams_();
 }
 
 void KokkoCreateDrop::calc_() {
-    KokkoCreateDropBase::calc_();
+    CreateDropBase::calc_();
 }
 
 }  // namespace uking::action

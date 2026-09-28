@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionGiantNavMeshWalkWithVibration.h"
+#include "Game/Actor/Action/actionGiantNavMeshMoveWithVibration.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GiantNavMeshWalk : public GiantNavMeshWalkWithVibration {
-    SEAD_RTTI_OVERRIDE(GiantNavMeshWalk, GiantNavMeshWalkWithVibration)
+class GiantNavMeshWalk : public GiantNavMeshMoveWithVibration {
+    SEAD_RTTI_OVERRIDE(GiantNavMeshWalk, GiantNavMeshMoveWithVibration)
 public:
     explicit GiantNavMeshWalk(const InitArg& arg);
     ~GiantNavMeshWalk() override;

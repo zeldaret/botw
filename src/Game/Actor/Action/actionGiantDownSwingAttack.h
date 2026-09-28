@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionGiantAttackWithAS.h"
+#include "Game/Actor/Action/actionAttackWithAS.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GiantDownSwingAttack : public GiantAttackWithAS {
-    SEAD_RTTI_OVERRIDE(GiantDownSwingAttack, GiantAttackWithAS)
+class GiantDownSwingAttack : public AttackWithAS {
+    SEAD_RTTI_OVERRIDE(GiantDownSwingAttack, AttackWithAS)
 public:
     explicit GiantDownSwingAttack(const InitArg& arg);
     ~GiantDownSwingAttack() override;

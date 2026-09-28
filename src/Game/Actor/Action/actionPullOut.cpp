@@ -19,7 +19,7 @@ void PullOut::leave_() {
 }
 
 void PullOut::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mAnimGrabPos_s, "AnimGrabPos");
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }

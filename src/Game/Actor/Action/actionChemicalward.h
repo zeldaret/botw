@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class Chemicalward : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(Chemicalward, ActionWithPosAngReduce)
+class Chemicalward : public StopBase {
+    SEAD_RTTI_OVERRIDE(Chemicalward, StopBase)
 public:
     explicit Chemicalward(const InitArg& arg);
     ~Chemicalward() override;

@@ -2,29 +2,29 @@
 
 namespace uking::action {
 
-RailMove::RailMove(const InitArg& arg) : RailMoveBase(arg) {}
+RailMove::RailMove(const InitArg& arg) : DestPointMoveBase(arg) {}
 
 RailMove::~RailMove() = default;
 
 bool RailMove::init_(sead::Heap* heap) {
-    return RailMoveBase::init_(heap);
+    return DestPointMoveBase::init_(heap);
 }
 
 void RailMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    RailMoveBase::enter_(params);
+    DestPointMoveBase::enter_(params);
 }
 
 void RailMove::leave_() {
-    RailMoveBase::leave_();
+    DestPointMoveBase::leave_();
 }
 
 void RailMove::loadParams_() {
-    RailMoveBase::loadParams_();
+    DestPointMoveBase::loadParams_();
     getDynamicParam(&mRailName_d, "RailName");
 }
 
 void RailMove::calc_() {
-    RailMoveBase::calc_();
+    DestPointMoveBase::calc_();
 }
 
 }  // namespace uking::action

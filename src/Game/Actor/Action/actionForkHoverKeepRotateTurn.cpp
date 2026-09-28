@@ -2,29 +2,28 @@
 
 namespace uking::action {
 
-ForkHoverKeepRotateTurn::ForkHoverKeepRotateTurn(const InitArg& arg)
-    : ForkHoverKeepRotateTurnBase(arg) {}
+ForkHoverKeepRotateTurn::ForkHoverKeepRotateTurn(const InitArg& arg) : ForkKeepRotateTurn(arg) {}
 
 ForkHoverKeepRotateTurn::~ForkHoverKeepRotateTurn() = default;
 
 bool ForkHoverKeepRotateTurn::init_(sead::Heap* heap) {
-    return ForkHoverKeepRotateTurnBase::init_(heap);
+    return ForkKeepRotateTurn::init_(heap);
 }
 
 void ForkHoverKeepRotateTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkHoverKeepRotateTurnBase::enter_(params);
+    ForkKeepRotateTurn::enter_(params);
 }
 
 void ForkHoverKeepRotateTurn::leave_() {
-    ForkHoverKeepRotateTurnBase::leave_();
+    ForkKeepRotateTurn::leave_();
 }
 
 void ForkHoverKeepRotateTurn::loadParams_() {
-    ForkHoverKeepRotateTurnBase::loadParams_();
+    ForkKeepRotateTurn::loadParams_();
 }
 
 void ForkHoverKeepRotateTurn::calc_() {
-    ForkHoverKeepRotateTurnBase::calc_();
+    ForkKeepRotateTurn::calc_();
 }
 
 }  // namespace uking::action

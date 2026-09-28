@@ -2,28 +2,28 @@
 
 namespace uking::action {
 
-GiantNavMeshWalk::GiantNavMeshWalk(const InitArg& arg) : GiantNavMeshWalkWithVibration(arg) {}
+GiantNavMeshWalk::GiantNavMeshWalk(const InitArg& arg) : GiantNavMeshMoveWithVibration(arg) {}
 
 GiantNavMeshWalk::~GiantNavMeshWalk() = default;
 
 bool GiantNavMeshWalk::init_(sead::Heap* heap) {
-    return GiantNavMeshWalkWithVibration::init_(heap);
+    return GiantNavMeshMoveWithVibration::init_(heap);
 }
 
 void GiantNavMeshWalk::enter_(ksys::act::ai::InlineParamPack* params) {
-    GiantNavMeshWalkWithVibration::enter_(params);
+    GiantNavMeshMoveWithVibration::enter_(params);
 }
 
 void GiantNavMeshWalk::leave_() {
-    GiantNavMeshWalkWithVibration::leave_();
+    GiantNavMeshMoveWithVibration::leave_();
 }
 
 void GiantNavMeshWalk::loadParams_() {
-    GiantNavMeshWalkWithVibration::loadParams_();
+    GiantNavMeshMoveWithVibration::loadParams_();
 }
 
 void GiantNavMeshWalk::calc_() {
-    GiantNavMeshWalkWithVibration::calc_();
+    GiantNavMeshMoveWithVibration::calc_();
 }
 
 }  // namespace uking::action
