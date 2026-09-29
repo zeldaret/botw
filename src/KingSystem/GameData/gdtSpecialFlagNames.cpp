@@ -7,7 +7,7 @@ namespace ksys::gdt::flagname {
         return #name;                                                                              \
     }
 
-GDT_DEFINE_SPECIAL_FLAG_NAME(Aoc_HardMode_Enabled)
+GDT_DEFINE_SPECIAL_FLAG_NAME(AoC_HardMode_Enabled)
 GDT_DEFINE_SPECIAL_FLAG_NAME(BowPorchStockNum)
 GDT_DEFINE_SPECIAL_FLAG_NAME(CaptionPictSize)
 GDT_DEFINE_SPECIAL_FLAG_NAME(CurrentHart)
