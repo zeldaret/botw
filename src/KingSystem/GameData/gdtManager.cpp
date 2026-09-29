@@ -83,7 +83,7 @@ void Manager::init(sead::Heap* heap, sead::Framework* framework) {
 
     mGameDataHeap = util::DualHeap::create(0xf00000, "GameDataHeap", heap, nullptr, sizeof(void*),
                                            sead::Heap::cHeapDirection_Forward, true);
-    mIncreaseLogger = new (mGameDataHeap) IncreaseLogger;
+    mDeferredFlagWriter = new (mGameDataHeap) DeferredFlagWriter;
     SaveMgr::createInstance(mGameDataHeap);
 
     SaveMgr::InitArg arg;
@@ -556,8 +556,8 @@ void Manager::incrementS32NoCheck(s32 value, const sead::SafeString& name) {
         s32 current = 0;
         if (getParamBypassPerm().get().getS32(&current, name))
             setS32NoCheck(current + value, name);
-    } else if (mIncreaseLogger) {
-        mIncreaseLogger->addRecord(value, name, -1, true);
+    } else if (mDeferredFlagWriter) {
+        mDeferredFlagWriter->addRecord(value, name, -1, true);
     }
 }
 
@@ -569,13 +569,13 @@ void Manager::incrementS32(s32 value, const sead::SafeString& name) {
         s32 current = 0;
         if (getParam().get().getS32(&current, name))
             setS32(current + value, name);
-    } else if (mIncreaseLogger) {
-        mIncreaseLogger->addRecord(value, name, -1, false);
+    } else if (mDeferredFlagWriter) {
+        mDeferredFlagWriter->addRecord(value, name, -1, false);
     }
 }
 
-void Manager::IncreaseLogger::addRecord(s32 value, const sead::SafeString& name, s32 sub_idx,
-                                        bool debug) {
+void Manager::DeferredFlagWriter::addRecord(s32 value, const sead::SafeString& name, s32 sub_idx,
+                                            bool debug) {
     const u32 name_hash = sead::HashCRC32::calcStringHash(name);
     const auto core = sead::CoreInfo::getCurrentCoreId();
     const u32 platform_core_id = sead::CoreInfo::getPlatformCoreId(core);
