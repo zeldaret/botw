@@ -31,9 +31,6 @@ void requestCreateWeaponByRawLife(const char* actor_class, const sead::Matrix34f
                                                     &params, task_lane_id);
 }
 
-// Separately-addressed target function (0x72b82c, confirmed via IDA); kept with external
-// linkage to match rather than folded into an anonymous namespace.
-// NOLINTNEXTLINE(misc-use-internal-linkage) doesn't match with static
 const sead::Vector3f& getPlayerPosition() {
     if (!ksys::act::PlayerInfo::instance())
         return sead::Vector3f::zero;
