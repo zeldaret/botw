@@ -32,10 +32,11 @@ void requestCreateWeaponByRawLife(const char* actor_class, const sead::Matrix34f
 }
 
 const sead::Vector3f& getPlayerPosition() {
-    if (!ksys::act::PlayerInfo::instance())
+    auto* player_info = ksys::act::PlayerInfo::instance();
+    if (!player_info)
         return sead::Vector3f::zero;
 
-    return ksys::act::PlayerInfo::instance()->getPlayerPos();
+    return player_info->getPlayerPos();
 }
 
 // NON_MATCHING: 24 bytes vs. the target's 1732. The final setTranslation writes through three
