@@ -279,7 +279,7 @@ private:
     int mManualWindTimer = 0;
     u32 mMapEdgeWindDirectionType = 0;
     int mWeatherTypeTimer = 0;
-    int _798 = -1;
+    ForcedWeatherType mForcedWeatherType = ForcedWeatherType::None;
     int _79c = 0;
     int mTempDirectTimer = 0;
     int mTempDirectDayTimer = 0;

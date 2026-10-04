@@ -58,13 +58,18 @@ bool isValidTemp(float temp) {
     return temp < 99999;
 }
 
-WeatherType getForcedWeatherType(int index) {
-    switch (index) {
-    case 0:
+bool isDayTime(float time) {
+    // Evaluate both bounds of the time range.
+    return (6_h <= time) & (time <= 18_h);
+}
+
+WeatherType getForcedWeatherType(ForcedWeatherType type) {
+    switch (type) {
+    case ForcedWeatherType::ThunderRain:
         return WeatherType::ThunderRain;
-    case 1:
+    case ForcedWeatherType::Bluesky:
         return WeatherType::Bluesky;
-    case 2:
+    case ForcedWeatherType::HeavySnow:
         return WeatherType::HeavySnow;
     default:
         return WeatherType::Bluesky;
@@ -142,73 +147,60 @@ float Manager::getClimateTransitionProgress() const {
 }
 
 WeatherType Manager::getWeatherType(Climate climate) {
-    WeatherType weather;
+    if (mStageType == StageType::OpenWorld && mFieldType == FieldType::AocField &&
+        mScalingMode == ScalingMode::Disabled) {
+        if (mForcedWeatherType > ForcedWeatherType::None)
+            return getForcedWeatherType(mForcedWeatherType);
+        if (mWeatherType != WeatherType::Invalid)
+            return mWeatherType;
+        return getWeatherMgr()->getWeather();
+    }
+
+    WeatherType weather = mWeatherType;
     WeatherType climate_weather = WeatherType::Bluesky;
 
-    if (mStageType == StageType::OpenWorld) {
-        if (mFieldType == FieldType::AocField && mScalingMode == ScalingMode::Disabled) {
-            if (_798 >= 0)
-                return getForcedWeatherType(_798);
-            if (mWeatherType != WeatherType::Invalid)
-                return mWeatherType;
-            return getWeatherMgr()->getWeather();
+    if (mStageType == StageType::OpenWorld && worldInfoLoaded()) {
+        const float time = getTimeMgr()->getTime();
+        if (4_h <= time && time < 8_h)
+            climate_weather = getWeatherMgr()->getWeatherForTimeBlock1(climate);
+        else if (8_h <= time && time < 12_h)
+            climate_weather = getWeatherMgr()->getWeatherForTimeBlock2(climate);
+        else if (12_h <= time && time < 16_h)
+            climate_weather = getWeatherMgr()->getWeatherForTimeBlock3(climate);
+        else if (16_h <= time && time < 20_h)
+            climate_weather = getWeatherMgr()->getWeatherForTimeBlock4(climate);
+        else if ((20_h <= time) & (time < 24_h))
+            climate_weather = getWeatherMgr()->getWeatherForTimeBlock5(climate);
+        else
+            climate_weather = getWeatherMgr()->getWeatherForTimeBlock0(climate);
+
+        if (isDayLockBlueSky(climate) && isDayTime(time))
+            climate_weather = WeatherType::Bluesky;
+        if (isNightLockBlueSky(climate) && !isDayTime(time))
+            climate_weather = WeatherType::Bluesky;
+
+        if (getWeatherMgr()->isGetPlayerStole2()) {
+            if (getEnvMgr()->isWaterRelicRainOn(climate))
+                climate_weather = WeatherType::BlueskyRain;
+
+            const int pattern = mWorldInfo.mClimates[int(climate)].BlueSkyRainPat.ref();
+            if (pattern == 2 && climate_weather == WeatherType::Rain)
+                climate_weather = WeatherType::BlueskyRain;
+            if (pattern == 1) {
+                climate_weather =
+                    getWeatherMgr()->mBlueskyRain ? WeatherType::BlueskyRain : climate_weather;
+            }
         }
 
-        weather = mWeatherType;
-        if (worldInfoLoaded()) {
-            const float time = getTimeMgr()->getTime();
-            if (4_h <= time && time < 8_h)
-                climate_weather = getWeatherMgr()->getWeatherForTimeBlock1(climate);
-            else if (8_h <= time && time < 12_h)
-                climate_weather = getWeatherMgr()->getWeatherForTimeBlock2(climate);
-            else if (12_h <= time && time < 16_h)
-                climate_weather = getWeatherMgr()->getWeatherForTimeBlock3(climate);
-            else if (16_h <= time && time < 20_h)
-                climate_weather = getWeatherMgr()->getWeatherForTimeBlock4(climate);
-            else {
-                const bool last_time_block = (20_h <= time) & (time < 24_h);
-                auto* weather_mgr = getWeatherMgr();
-                if (last_time_block)
-                    climate_weather = weather_mgr->getWeatherForTimeBlock5(climate);
-                else
-                    climate_weather = weather_mgr->getWeatherForTimeBlock0(climate);
-            }
-
-            // Evaluate both bounds of the time range.
-            if (isDayLockBlueSky(climate)) {
-                climate_weather =
-                    (6_h <= time) & (time <= 18_h) ? WeatherType::Bluesky : climate_weather;
-            }
-            if (isNightLockBlueSky(climate)) {
-                climate_weather =
-                    (6_h <= time) & (time <= 18_h) ? climate_weather : WeatherType::Bluesky;
-            }
-
-            if (getWeatherMgr()->isGetPlayerStole2()) {
-                if (getEnvMgr()->isWaterRelicRainOn(climate))
-                    climate_weather = WeatherType::BlueskyRain;
-
-                const int pattern = mWorldInfo.mClimates[int(climate)].BlueSkyRainPat.ref();
-                if (pattern == 2 && climate_weather == WeatherType::Rain)
-                    climate_weather = WeatherType::BlueskyRain;
-                if (pattern == 1) {
-                    climate_weather =
-                        getWeatherMgr()->mBlueskyRain ? WeatherType::BlueskyRain : climate_weather;
-                }
-            }
-
-            if (mCurrentClimate == Climate::HyrulePlainClimate &&
-                getEnvMgr()->getConcentrationBM() > 0.0f) {
-                climate_weather = WeatherType::Bluesky;
-            }
+        if (mCurrentClimate == Climate::HyrulePlainClimate &&
+            getEnvMgr()->getConcentrationBM() > 0.0f) {
+            climate_weather = WeatherType::Bluesky;
         }
-    } else {
-        weather = mWeatherType;
     }
 
     weather = u8(weather) < NumWeatherTypes ? weather : climate_weather;
-    if (_798 >= 0)
-        weather = getForcedWeatherType(_798);
+    if (mForcedWeatherType > ForcedWeatherType::None)
+        weather = getForcedWeatherType(mForcedWeatherType);
     if (u8(weather) < NumWeatherTypes || weather == WeatherType::Invalid)
         return weather;
     return WeatherType::Bluesky;
@@ -728,7 +720,7 @@ void Manager::onStageInit(StageType stage_type, bool is_demo, bool is_main_field
     mDirectionalLightVecA = {0, 1, 0};
     mDirectionalLightVecB = {0, 1, 0};
     mDirectionalLightTimer = 0;
-    _798 = -1;
+    mForcedWeatherType = ForcedWeatherType::None;
     _79c = 0;
 
     getTimeMgr()->reset();
