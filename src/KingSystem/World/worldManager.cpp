@@ -136,7 +136,7 @@ bool Manager::isNightLockBlueSky(Climate climate) const {
     return mWorldInfo.mClimates[int(climate)].NightLockBlueSky.ref();
 }
 
-bool Manager::isRaining(const sead::Vector3f& pos) {
+bool Manager::isRaining(const sead::Vector3f& pos) const {
     const Climate climate = getClimate(pos);
     switch (getWeatherType(climate)) {
     case WeatherType::Rain:
