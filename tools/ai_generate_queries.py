@@ -114,7 +114,7 @@ def generate_query(class_dir: Path, name: str, query) -> None:
 
     # .cpp
     out = []
-    out.append(f'#include "Game/AI/Query/{header_file_name}"')
+    out.append(f'#include "{ai_common.find_header(class_dir, header_file_name)}"')
     out.append(f'#include <evfl/query.h>')
     out.append("")
     out.append("namespace uking::query {")
@@ -152,11 +152,11 @@ def generate_query_factories(class_dir: Path, aidef) -> None:
 // For major edits, please edit the generator script (ai_generate_queries.py) instead.
 // If edits are made to this file, make sure they are not lost when the generator is re-run.
 """)
-    out.append('#include "Game/AI/aiQueryFactories.h"')
+    out.append('#include "Game/Actor/aiQueryFactories.h"')
     out.append('#include <array>')
     for query_name in queries:
         query_name = query_name[0].upper() + query_name[1:]
-        out.append(f'#include "Game/AI/Query/query{query_name}.h"')
+        out.append(f'#include "{ai_common.find_header(class_dir, f"query{query_name}.h")}"')
     out.append('#include "KingSystem/ActorSystem/actAiQueries.h"')
     out.append('#include "KingSystem/ActorSystem/actAiQuery.h"')
     out.append('')
@@ -180,7 +180,7 @@ def generate_query_factories(class_dir: Path, aidef) -> None:
 
 def main() -> None:
     src_root = Path(__file__).parent.parent
-    class_dir = src_root / "src" / "Game" / "AI" / "Query"
+    class_dir = src_root / "src" / "Game" / "Actor" / "Query"
     class_dir.mkdir(exist_ok=True)
 
     parser = argparse.ArgumentParser(description="Generates stubs for AI queries.")

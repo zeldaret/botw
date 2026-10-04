@@ -6,11 +6,11 @@
 #include <mc/seadWorkerMgr.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResource.h"
-#include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::world {

@@ -1,0 +1,24 @@
+target_sources(uking PRIVATE
+  aiCameraAI.cpp
+  aiCameraAI.h
+  aiCameraBow.cpp
+  aiCameraBow.h
+  aiCameraEditRoot.cpp
+  aiCameraEditRoot.h
+  aiCameraEvent.cpp
+  aiCameraEvent.h
+  aiCameraEventReturnSavePoint.cpp
+  aiCameraEventReturnSavePoint.h
+  aiCameraEventTalk.cpp
+  aiCameraEventTalk.h
+  aiCameraEventTalkAI.cpp
+  aiCameraEventTalkAI.h
+  aiCameraEventTalkAIRet.cpp
+  aiCameraEventTalkAIRet.h
+  aiCameraGameRoot.cpp
+  aiCameraGameRoot.h
+  aiCameraRoot.cpp
+  aiCameraRoot.h
+  aiCameraTool.cpp
+  aiCameraTool.h
+)

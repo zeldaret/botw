@@ -60,3 +60,15 @@ def topologically_sort_vtables(all_vtables: dict, type_: str) -> List[int]:
         for i in range(len(classes) - 1):
             graph.add_edge(classes[i + 1], classes[i])
     return graph.topological_sort()
+
+
+def find_header(class_dir, name: str) -> str:
+    """Include path for an AI class header, wherever it lives under src/ (feature folders included)."""
+    src = class_dir
+    while src.name != "src":
+        src = src.parent
+    default = (class_dir / name).relative_to(src).as_posix()
+    if (class_dir / name).exists():
+        return default
+    hits = sorted(src.rglob(name))
+    return hits[0].relative_to(src).as_posix() if hits else default

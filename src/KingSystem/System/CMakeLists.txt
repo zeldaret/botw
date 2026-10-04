@@ -12,8 +12,6 @@ target_sources(uking PRIVATE
     BasicProfiler.h
     CameraEditor.cpp
     CameraEditor.h
-    CameraMgr.cpp
-    CameraMgr.h
     CoreInfo.h
     DebugFinder.cpp
     DebugFinder.h

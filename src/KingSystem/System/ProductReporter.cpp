@@ -6,10 +6,10 @@
 #include <nn/account.h>
 #include <nn/oe.h>
 
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Framework/Framework.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Sound/sndMgr.h"
-#include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/VFR.h"
 

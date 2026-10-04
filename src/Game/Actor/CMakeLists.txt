@@ -1,4 +1,21 @@
+add_subdirectory(Action)
+add_subdirectory(AI)
+add_subdirectory(Area)
+add_subdirectory(Camera)
+add_subdirectory(Damage)
+add_subdirectory(Event)
+add_subdirectory(Horse)
+add_subdirectory(NPC)
+add_subdirectory(Player)
+add_subdirectory(Query)
+add_subdirectory(System)
 target_sources(uking PRIVATE
+  aiActionFactories.cpp
+  aiActionFactories.h
+  aiAiFactories.cpp
+  aiAiFactories.h
+  aiQueryFactories.cpp
+  aiQueryFactories.h
   actDragon.cpp
   actDragon.h
   actPlayerCreateMgr.cpp

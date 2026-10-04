@@ -1,0 +1,20 @@
+#pragma once
+
+#include "Game/Actor/Player/Action/actionPlayerAction.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::action {
+
+class PlayerLadderToClimb : public PlayerAction {
+    SEAD_RTTI_OVERRIDE(PlayerLadderToClimb, PlayerAction)
+public:
+    explicit PlayerLadderToClimb(const InitArg& arg);
+
+    void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void leave_() override;
+
+protected:
+    void calc_() override;
+};
+
+}  // namespace uking::action

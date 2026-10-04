@@ -75,7 +75,6 @@ target_sources(uking PRIVATE
   Debug.h
   FixedString.h
   HashUtil.h
-  HeapUtil.cpp
   HeapUtil.h
   InitTimeInfo.h
   IteratorUtil.h
