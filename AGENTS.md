@@ -28,7 +28,20 @@ in your commit messages and PR description.
 - Do not use `goto` for matching unless it is **absolutely** necessary and plausible
   that the original source code contained `goto`.
 - The naming convention are different across the game and libraries. For the most
-  part just be consistent with the code around your changes.
+  part, just be consistent with the code around your changes.
+- If the code matches, but it doesn't look like something that would normally be written
+  by a developer, it is likely there are still compiler optimizations that should be undone.
+  Common optimizations include:
+  - Inlining helper functions
+  - Look-up table or unsensible if-else chain. Use switch statement instead.
+  - Duplicated code. The compiler can duplicate code in multiple places in the function to optimize
+    control flow.
+  - Complex or unsensible control flow. The compiler can deduplicate code to optimize control flow,
+    especially duplicated if-conditions. In this case, the re-implementation should re-duplicate
+    the code.
+  - Loop unrolling.
+- Use functional style cast only for converting an `enum class` to the underlying integer type, narrowing
+  a number type, or converting between signed and unsigned. Do not use C-style casts.
 
 # PR Rules
 
