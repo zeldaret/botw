@@ -220,7 +220,7 @@ private:
         Unloaded,
     };
 
-    WeatherType getWeatherType(Climate climate);
+    WeatherType getWeatherType(Climate climate) const;
 
     void overrideWindSpeed(float* wind_speed) const;
 

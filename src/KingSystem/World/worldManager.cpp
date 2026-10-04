@@ -146,7 +146,7 @@ float Manager::getClimateTransitionProgress() const {
     return mClimateTransitionProgress;
 }
 
-WeatherType Manager::getWeatherType(Climate climate) {
+WeatherType Manager::getWeatherType(Climate climate) const {
     if (mStageType == StageType::OpenWorld && mFieldType == FieldType::AocField &&
         mScalingMode == ScalingMode::Disabled) {
         if (mForcedWeatherType > ForcedWeatherType::None)
