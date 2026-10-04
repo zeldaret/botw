@@ -481,10 +481,10 @@ public:
     void incrementS32(s32 value, const sead::SafeString& name);
 
     void increaseS32CommonFlag(s32 value, const sead::SafeString& name, s32 sub_idx, bool debug) {
-        if (!mIncreaseLogger)
+        if (!mDeferredFlagWriter)
             return;
 
-        mIncreaseLogger->addRecord(value, name, sub_idx, debug);
+        mDeferredFlagWriter->addRecord(value, name, sub_idx, debug);
         if (debug)
             onChangedByDebug();
     }
@@ -554,7 +554,7 @@ private:
         sead::MethodTreeMgr* method_tree_mgr = nullptr;
     };
 
-    struct IncreaseLogger {
+    struct DeferredFlagWriter {
         struct Record {
             bool debug = false;
             u32 name_hash = 0;
@@ -646,7 +646,7 @@ private:
     TriggerParamRef mParamBypassPerm{&mFlagBuffer1, &mFlagBuffer, false, false, false};
     TriggerParamRef mParam{&mFlagBuffer1, &mFlagBuffer, true, false, false};
 
-    IncreaseLogger* mIncreaseLogger = nullptr;
+    DeferredFlagWriter* mDeferredFlagWriter = nullptr;
 
     TriggerParam* mFlagBuffer1;
     TriggerParam* mFlagBuffer;

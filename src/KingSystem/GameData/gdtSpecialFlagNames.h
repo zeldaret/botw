@@ -2,7 +2,7 @@
 
 namespace ksys::gdt::flagname {
 
-const char* Aoc_HardMode_Enabled();
+const char* AoC_HardMode_Enabled();
 const char* BowPorchStockNum();
 const char* CaptionPictSize();
 const char* CurrentHart();
