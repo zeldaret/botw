@@ -1,15 +1,17 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 import enum
 
-import cxxfilt
 import zlib
 from typing import List, Dict, Iterable, Optional, Set
 
 from pathlib import Path
 import textwrap
 import ai_common
+
+# FIXME: no longer have this
 from common.util import elf
 
+from nx_decomp_tools.util import demangle
 
 def get_member_name(entry) -> str:
     type_ = entry["type"]
@@ -49,7 +51,7 @@ def generate_ai_loadparam_body(info: list) -> str:
         elif type_ == "call":
             fn_name: str = entry["fn"]
             if fn_name.startswith("_ZN") and fn_name.endswith("11loadParams_Ev"):
-                parent_class_name = cxxfilt.demangle(fn_name).split("::")[-2]
+                parent_class_name = demangle(fn_name).split("::")[-2]
                 out.append(f"{parent_class_name}::loadParams_();")
             else:
                 out.append(f"// FIXME: CALL {fn_name} @ {entry['addr']:#x}")

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 
 import argparse
 
@@ -8,6 +8,7 @@ import cxxfilt
 from pathlib import Path
 from typing import Dict, Iterable
 
+# FIXME: looks like need to switch to viking 
 import common.util.checker
 import common.util.elf
 from common.util import utils

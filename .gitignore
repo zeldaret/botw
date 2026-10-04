@@ -35,6 +35,7 @@ bin/
 *.gpr
 *.rep/
 *.lock
+!uv.lock
 
 # Debugging
 perf.data
