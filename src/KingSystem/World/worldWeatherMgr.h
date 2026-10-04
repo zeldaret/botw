@@ -28,6 +28,14 @@ public:
     void loadInfo();
     WeatherType rollNewWeather(Climate climate);
     bool x_0();
+    WeatherType getWeather() const;
+    WeatherType getWeatherForTimeBlock0(Climate climate) const;
+    WeatherType getWeatherForTimeBlock1(Climate climate) const;
+    WeatherType getWeatherForTimeBlock2(Climate climate) const;
+    WeatherType getWeatherForTimeBlock3(Climate climate) const;
+    WeatherType getWeatherForTimeBlock4(Climate climate) const;
+    WeatherType getWeatherForTimeBlock5(Climate climate) const;
+    bool isGetPlayerStole2() const;
 
     u8 _20[0x24 - 0x20];
     float _24;
@@ -40,7 +48,9 @@ public:
     u8 _284[0x318 - 0x284];
     float mTimeBlock;  // 0x318
     u32 mWeekDay;      // 0x31c
-    u8 _31c[0x398 - 0x320];
+    u8 _31c[0x393 - 0x320];
+    u8 mBlueskyRain;
+    u8 _394[0x398 - 0x394];
 };
 KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);
 

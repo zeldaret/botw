@@ -211,8 +211,7 @@ public:
 
     bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
 
-    u8 sub_71010F337C(const sead::Vector3f& pos);  // TODO implement this : 0x71010F337C - maybe has
-                                                   // a different parameter type
+    u8 getWeatherTypeAtPosition(const sead::Vector3f& pos);
 
 private:
     enum class WorldInfoLoadStatus : u8 {
@@ -220,6 +219,8 @@ private:
         Loaded,
         Unloaded,
     };
+
+    WeatherType getWeatherType(Climate climate);
 
     void overrideWindSpeed(float* wind_speed) const;
 

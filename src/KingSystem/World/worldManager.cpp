@@ -58,6 +58,19 @@ bool isValidTemp(float temp) {
     return temp < 99999;
 }
 
+WeatherType getForcedWeatherType(int index) {
+    switch (index) {
+    case 0:
+        return WeatherType::ThunderRain;
+    case 1:
+        return WeatherType::Bluesky;
+    case 2:
+        return WeatherType::HeavySnow;
+    default:
+        return WeatherType::Bluesky;
+    }
+}
+
 }  // namespace
 
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
@@ -126,6 +139,79 @@ Climate Manager::getPrevClimate() const {
 
 float Manager::getClimateTransitionProgress() const {
     return mClimateTransitionProgress;
+}
+
+WeatherType Manager::getWeatherType(Climate climate) {
+    WeatherType weather;
+    WeatherType climate_weather = WeatherType::Bluesky;
+
+    if (mStageType == StageType::OpenWorld) {
+        if (mFieldType == FieldType::AocField && mScalingMode == ScalingMode::Disabled) {
+            if (_798 >= 0)
+                return getForcedWeatherType(_798);
+            if (mWeatherType != WeatherType::Invalid)
+                return mWeatherType;
+            return getWeatherMgr()->getWeather();
+        }
+
+        weather = mWeatherType;
+        if (worldInfoLoaded()) {
+            const float time = getTimeMgr()->getTime();
+            if (4_h <= time && time < 8_h)
+                climate_weather = getWeatherMgr()->getWeatherForTimeBlock1(climate);
+            else if (8_h <= time && time < 12_h)
+                climate_weather = getWeatherMgr()->getWeatherForTimeBlock2(climate);
+            else if (12_h <= time && time < 16_h)
+                climate_weather = getWeatherMgr()->getWeatherForTimeBlock3(climate);
+            else if (16_h <= time && time < 20_h)
+                climate_weather = getWeatherMgr()->getWeatherForTimeBlock4(climate);
+            else {
+                const bool last_time_block = (20_h <= time) & (time < 24_h);
+                auto* weather_mgr = getWeatherMgr();
+                if (last_time_block)
+                    climate_weather = weather_mgr->getWeatherForTimeBlock5(climate);
+                else
+                    climate_weather = weather_mgr->getWeatherForTimeBlock0(climate);
+            }
+
+            // Evaluate both bounds of the time range.
+            if (isDayLockBlueSky(climate)) {
+                climate_weather =
+                    (6_h <= time) & (time <= 18_h) ? WeatherType::Bluesky : climate_weather;
+            }
+            if (isNightLockBlueSky(climate)) {
+                climate_weather =
+                    (6_h <= time) & (time <= 18_h) ? climate_weather : WeatherType::Bluesky;
+            }
+
+            if (getWeatherMgr()->isGetPlayerStole2()) {
+                if (getEnvMgr()->isWaterRelicRainOn(climate))
+                    climate_weather = WeatherType::BlueskyRain;
+
+                const int pattern = mWorldInfo.mClimates[int(climate)].BlueSkyRainPat.ref();
+                if (pattern == 2 && climate_weather == WeatherType::Rain)
+                    climate_weather = WeatherType::BlueskyRain;
+                if (pattern == 1) {
+                    climate_weather =
+                        getWeatherMgr()->mBlueskyRain ? WeatherType::BlueskyRain : climate_weather;
+                }
+            }
+
+            if (mCurrentClimate == Climate::HyrulePlainClimate &&
+                getEnvMgr()->getConcentrationBM() > 0.0f) {
+                climate_weather = WeatherType::Bluesky;
+            }
+        }
+    } else {
+        weather = mWeatherType;
+    }
+
+    weather = u8(weather) < NumWeatherTypes ? weather : climate_weather;
+    if (_798 >= 0)
+        weather = getForcedWeatherType(_798);
+    if (u8(weather) < NumWeatherTypes || weather == WeatherType::Invalid)
+        return weather;
+    return WeatherType::Bluesky;
 }
 
 bool Manager::isDayLockBlueSky(Climate climate) const {
@@ -889,6 +975,12 @@ void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
         mIgnitedCenter = unk_center;
         mIgnitedRadius = 7.0;
     }
+}
+
+u8 Manager::getWeatherTypeAtPosition(const sead::Vector3f& pos) {
+    const Climate climate = getClimate(pos);
+    const WeatherType weather = getWeatherType(climate);
+    return u8(weather);
 }
 
 }  // namespace ksys::world
