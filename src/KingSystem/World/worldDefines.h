@@ -33,6 +33,13 @@ enum class ScalingMode {
     Disabled = 1,
 };
 
+enum class ForcedWeatherType : s32 {
+    None = -1,
+    ThunderRain = 0,
+    Bluesky = 1,
+    HeavySnow = 2,
+};
+
 enum class WeatherType : u8 {
     Bluesky,
     Cloudy,
