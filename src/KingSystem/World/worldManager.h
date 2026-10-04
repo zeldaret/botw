@@ -111,7 +111,7 @@ public:
     bool isDayLockBlueSky(Climate climate) const;
     bool isNightLockBlueSky(Climate climate) const;
 
-    bool isRaining(const sead::Vector3f& pos) const;
+    bool isRaining(const sead::Vector3f& pos);
 
     float calcTempDay(float height) const;
     float calcTempNight(float height) const;
@@ -220,6 +220,8 @@ private:
         Loaded,
         Unloaded,
     };
+
+    WeatherType getWeatherType(Climate climate);
 
     void overrideWindSpeed(float* wind_speed) const;
 
