@@ -23,8 +23,8 @@ public:
     f32 mCounter;
     f32 mField_4;
     u8 gap_8[16];  // Is this really a gap?
-    u32 mExtraHp1;
-    u32 mExtraHp2;
+    s32 mExtraHp1;
+    s32 mExtraHp2;
     u32 mMaxLife;
     f32 mRecoverFactor;
     s32 mField_28;
