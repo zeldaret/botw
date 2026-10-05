@@ -221,6 +221,8 @@ private:
         Unloaded,
     };
 
+    WeatherType getWeatherType(Climate climate) const;
+
     void overrideWindSpeed(float* wind_speed) const;
 
     void calcManagers(sead::WorkerMgr* worker_mgr);

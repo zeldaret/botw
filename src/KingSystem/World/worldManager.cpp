@@ -136,6 +136,19 @@ bool Manager::isNightLockBlueSky(Climate climate) const {
     return mWorldInfo.mClimates[int(climate)].NightLockBlueSky.ref();
 }
 
+bool Manager::isRaining(const sead::Vector3f& pos) const {
+    const Climate climate = getClimate(pos);
+    switch (getWeatherType(climate)) {
+    case WeatherType::Rain:
+    case WeatherType::HeavyRain:
+    case WeatherType::ThunderRain:
+    case WeatherType::BlueskyRain:
+        return true;
+    default:
+        return false;
+    }
+}
+
 float Manager::calcTempDay(float height) const {
     float normal_temp = 23.0f;
 
