@@ -3,7 +3,9 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::act {
 
@@ -27,6 +29,20 @@ Actor::Actor(const CreateArg& arg) : BaseProc(arg) {
 
 Actor::~Actor() {
     // FIXME
+}
+
+void Actor::setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale) {
+    mMtx = mtx;
+
+    if (mFieldBodyGroup) {
+        mHomeMtx = phys::System::instance()->getStaticCompoundMgr()->getInvTransformedMatrix(
+            mFieldBodyGroup, mtx);
+    } else {
+        mHomeMtx = mtx;
+    }
+
+    if (scale)
+        mScale = *scale;
 }
 
 void Actor::clearFlag(Actor::ActorFlag flag) {
