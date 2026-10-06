@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiRemainElectricCannonRootBase.h"
+#include "Game/Actor/AI/aiLargeCannonRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class RemainElectricCannonRoot : public RemainElectricCannonRootBase {
-    SEAD_RTTI_OVERRIDE(RemainElectricCannonRoot, RemainElectricCannonRootBase)
+class RemainElectricCannonRoot : public LargeCannonRoot {
+    SEAD_RTTI_OVERRIDE(RemainElectricCannonRoot, LargeCannonRoot)
 public:
     explicit RemainElectricCannonRoot(const InitArg& arg);
     ~RemainElectricCannonRoot() override;

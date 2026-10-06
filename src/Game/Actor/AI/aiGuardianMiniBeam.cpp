@@ -2,20 +2,20 @@
 
 namespace uking::ai {
 
-GuardianMiniBeam::GuardianMiniBeam(const InitArg& arg) : BeamExplodeBase(arg) {}
+GuardianMiniBeam::GuardianMiniBeam(const InitArg& arg) : SimpleBeamExplode(arg) {}
 
 GuardianMiniBeam::~GuardianMiniBeam() = default;
 
 void GuardianMiniBeam::enter_(ksys::act::ai::InlineParamPack* params) {
-    BeamExplodeBase::enter_(params);
+    SimpleBeamExplode::enter_(params);
 }
 
 void GuardianMiniBeam::leave_() {
-    BeamExplodeBase::leave_();
+    SimpleBeamExplode::leave_();
 }
 
 void GuardianMiniBeam::loadParams_() {
-    BeamExplodeBase::loadParams_();
+    SimpleBeamExplode::loadParams_();
 }
 
 }  // namespace uking::ai

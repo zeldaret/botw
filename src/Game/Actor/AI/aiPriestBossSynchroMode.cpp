@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-PriestBossSynchroMode::PriestBossSynchroMode(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossSynchroMode::PriestBossSynchroMode(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossSynchroMode::~PriestBossSynchroMode() = default;
 
 bool PriestBossSynchroMode::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossSynchroMode::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 void PriestBossSynchroMode::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossSynchroMode::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getAITreeVariable(&mEquipWeaponBufIndex_a, "EquipWeaponBufIndex");
     getAITreeVariable(&mReturnFromBananaMode_a, "ReturnFromBananaMode");
 }

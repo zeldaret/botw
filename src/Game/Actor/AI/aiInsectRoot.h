@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiSimpleWildlifeRoot.h"
+#include "Game/Actor/AI/aiCapturedActorRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class InsectRoot : public SimpleWildlifeRoot {
-    SEAD_RTTI_OVERRIDE(InsectRoot, SimpleWildlifeRoot)
+class InsectRoot : public CapturedActorRoot {
+    SEAD_RTTI_OVERRIDE(InsectRoot, CapturedActorRoot)
 public:
     explicit InsectRoot(const InitArg& arg);
     ~InsectRoot() override;

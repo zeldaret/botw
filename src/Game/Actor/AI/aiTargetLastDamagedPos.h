@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiTargetPosAI.h"
+#include "Game/Actor/AI/aiTargetActorPos.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class TargetLastDamagedPos : public TargetPosAI {
-    SEAD_RTTI_OVERRIDE(TargetLastDamagedPos, TargetPosAI)
+class TargetLastDamagedPos : public TargetActorPos {
+    SEAD_RTTI_OVERRIDE(TargetLastDamagedPos, TargetActorPos)
 public:
     explicit TargetLastDamagedPos(const InitArg& arg);
     ~TargetLastDamagedPos() override;

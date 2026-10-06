@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiHorseCheckLineOfSightSelectorBase.h"
+#include "Game/Actor/AI/aiCheckLineOfSightSelector.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class HorseCheckLineOfSightSelector : public HorseCheckLineOfSightSelectorBase {
-    SEAD_RTTI_OVERRIDE(HorseCheckLineOfSightSelector, HorseCheckLineOfSightSelectorBase)
+class HorseCheckLineOfSightSelector : public CheckLineOfSightSelector {
+    SEAD_RTTI_OVERRIDE(HorseCheckLineOfSightSelector, CheckLineOfSightSelector)
 public:
     explicit HorseCheckLineOfSightSelector(const InitArg& arg);
     ~HorseCheckLineOfSightSelector() override;

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionWaterUpDownMoveBase.h"
+#include "Game/Actor/Action/actionWaterDepthMoveBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class WaterUpDownMove : public WaterUpDownMoveBase {
-    SEAD_RTTI_OVERRIDE(WaterUpDownMove, WaterUpDownMoveBase)
+class WaterUpDownMove : public WaterDepthMoveBase {
+    SEAD_RTTI_OVERRIDE(WaterUpDownMove, WaterDepthMoveBase)
 public:
     explicit WaterUpDownMove(const InitArg& arg);
     ~WaterUpDownMove() override;

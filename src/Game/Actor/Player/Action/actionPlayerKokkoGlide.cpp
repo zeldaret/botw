@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-PlayerKokkoGlide::PlayerKokkoGlide(const InitArg& arg) : PlayerGlide(arg) {}
+PlayerKokkoGlide::PlayerKokkoGlide(const InitArg& arg) : PlayerParashawlGlideBase(arg) {}
 
 void PlayerKokkoGlide::enter_(ksys::act::ai::InlineParamPack* params) {
-    PlayerGlide::enter_(params);
+    PlayerParashawlGlideBase::enter_(params);
 }
 
 void PlayerKokkoGlide::leave_() {
-    PlayerGlide::leave_();
+    PlayerParashawlGlideBase::leave_();
 }
 
 void PlayerKokkoGlide::loadParams_() {
-    PlayerGlide::loadParams_();
+    PlayerParashawlGlideBase::loadParams_();
     getStaticParam(&mEnergyGlide_s, "EnergyGlide");
     getStaticParam(&mNoEnergyTime_s, "NoEnergyTime");
 }
 
 void PlayerKokkoGlide::calc_() {
-    PlayerGlide::calc_();
+    PlayerParashawlGlideBase::calc_();
 }
 
 }  // namespace uking::action

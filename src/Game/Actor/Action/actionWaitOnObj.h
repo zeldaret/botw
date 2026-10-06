@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionWaitOnObjBase.h"
+#include "Game/Actor/Action/actionStopOnObj.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class WaitOnObj : public WaitOnObjBase {
-    SEAD_RTTI_OVERRIDE(WaitOnObj, WaitOnObjBase)
+class WaitOnObj : public StopOnObj {
+    SEAD_RTTI_OVERRIDE(WaitOnObj, StopOnObj)
 public:
     explicit WaitOnObj(const InitArg& arg);
     ~WaitOnObj() override;

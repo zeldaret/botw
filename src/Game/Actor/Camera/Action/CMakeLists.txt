@@ -93,8 +93,8 @@ target_sources(uking PRIVATE
   actionCameraLockOn.h
   actionCameraLockOnAimingAt.cpp
   actionCameraLockOnAimingAt.h
-  actionCameraLockOnBase.cpp
-  actionCameraLockOnBase.h
+  actionCameraTrackBase.cpp
+  actionCameraTrackBase.h
   actionCameraMagneCatch.cpp
   actionCameraMagneCatch.h
   actionCameraMotorcycle.cpp

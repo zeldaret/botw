@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-TargetKnockBackBasePos::TargetKnockBackBasePos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetKnockBackBasePos::TargetKnockBackBasePos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetKnockBackBasePos::~TargetKnockBackBasePos() = default;
 
 bool TargetKnockBackBasePos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetKnockBackBasePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetKnockBackBasePos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetKnockBackBasePos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
 }
 
 }  // namespace uking::ai

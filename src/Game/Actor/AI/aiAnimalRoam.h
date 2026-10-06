@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiAnimalRoamBase.h"
+#include "Game/Actor/AI/aiAnimalRndMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class AnimalRoam : public AnimalRoamBase {
-    SEAD_RTTI_OVERRIDE(AnimalRoam, AnimalRoamBase)
+class AnimalRoam : public AnimalRndMove {
+    SEAD_RTTI_OVERRIDE(AnimalRoam, AnimalRndMove)
 public:
     explicit AnimalRoam(const InitArg& arg);
     ~AnimalRoam() override;

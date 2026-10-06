@@ -3,24 +3,24 @@
 namespace uking::ai {
 
 HorseCheckLineOfSightSelector::HorseCheckLineOfSightSelector(const InitArg& arg)
-    : HorseCheckLineOfSightSelectorBase(arg) {}
+    : CheckLineOfSightSelector(arg) {}
 
 HorseCheckLineOfSightSelector::~HorseCheckLineOfSightSelector() = default;
 
 bool HorseCheckLineOfSightSelector::init_(sead::Heap* heap) {
-    return HorseCheckLineOfSightSelectorBase::init_(heap);
+    return CheckLineOfSightSelector::init_(heap);
 }
 
 void HorseCheckLineOfSightSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseCheckLineOfSightSelectorBase::enter_(params);
+    CheckLineOfSightSelector::enter_(params);
 }
 
 void HorseCheckLineOfSightSelector::leave_() {
-    HorseCheckLineOfSightSelectorBase::leave_();
+    CheckLineOfSightSelector::leave_();
 }
 
 void HorseCheckLineOfSightSelector::loadParams_() {
-    HorseCheckLineOfSightSelectorBase::loadParams_();
+    CheckLineOfSightSelector::loadParams_();
 }
 
 }  // namespace uking::ai

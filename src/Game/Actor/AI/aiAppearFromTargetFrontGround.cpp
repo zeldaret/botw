@@ -3,24 +3,24 @@
 namespace uking::ai {
 
 AppearFromTargetFrontGround::AppearFromTargetFrontGround(const InitArg& arg)
-    : AppearNearTarget(arg) {}
+    : AppearFromTarget(arg) {}
 
 AppearFromTargetFrontGround::~AppearFromTargetFrontGround() = default;
 
 bool AppearFromTargetFrontGround::init_(sead::Heap* heap) {
-    return AppearNearTarget::init_(heap);
+    return AppearFromTarget::init_(heap);
 }
 
 void AppearFromTargetFrontGround::enter_(ksys::act::ai::InlineParamPack* params) {
-    AppearNearTarget::enter_(params);
+    AppearFromTarget::enter_(params);
 }
 
 void AppearFromTargetFrontGround::leave_() {
-    AppearNearTarget::leave_();
+    AppearFromTarget::leave_();
 }
 
 void AppearFromTargetFrontGround::loadParams_() {
-    AppearNearTarget::loadParams_();
+    AppearFromTarget::loadParams_();
 }
 
 }  // namespace uking::ai

@@ -43,7 +43,7 @@ AddSwarmMove:
 - {type: static_param, param_type: const bool*, param_name: IsEndBySensor, param_offset: 0x58}
 - {type: static_param, param_type: 'sead::SafeString', param_name: AnimName, param_offset: 0x60}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x70}
-AddViewTargetPosBase: []
+AddViewTarget: []
 AddViewTargetPos:
 - {type: call, fn: _ZN5uking2ai20AddViewTargetPosBase11loadParams_Ev, addr: 0x71002f9d24}
 SeqTwoAction:
@@ -137,7 +137,7 @@ AnchorRangeSelectTwoAction:
 - {type: static_param, param_type: const float*, param_name: FarDist, param_offset: 0x70}
 - {type: static_param, param_type: 'sead::SafeString', param_name: AnchorName, param_offset: 0x78}
 SimpleLiftable: []
-AncientNecklaceBallBase:
+PlayASSwitch:
 - {type: static_param, param_type: const bool*, param_name: IsIgnoreSameOnAS, param_offset: 0xc8}
 - {type: static_param, param_type: const bool*, param_name: IsIgnoreSameOffAS, param_offset: 0xd0}
 - {type: static_param, param_type: 'sead::SafeString', param_name: OnAS, param_offset: 0xd8}
@@ -169,7 +169,7 @@ AnimalBattleAggressive:
 AnimalBattleMoveLeave:
 - {type: static_param, param_type: const float*, param_name: CheckForwardDist, param_offset: 0x38}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x40}
-AnimalRoamBase:
+AnimalRndMove:
 - {type: static_param, param_type: const float*, param_name: SearchNextPathRadius, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: RadiusLimit, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: ForwardDirDistCoefficient, param_offset: 0x48}
@@ -271,18 +271,18 @@ TimelineAI:
 AnimalTimelineAI:
 - {type: call, fn: _ZN5uking2ai10TimelineAI11loadParams_Ev, addr: 0x7100e1c440}
 - {type: aitree_variable, param_type: 'sead::SafeString*', param_name: DomesticAnimalRailName, param_offset: 0x40}
-AppearNearTarget:
+AppearFromTarget:
 - {type: static_param, param_type: const float*, param_name: Dist, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: TeraDist, param_offset: 0x40}
 - {type: map_unit_param, param_type: const int*, param_name: NearCreateAppearID, param_offset: 0x48}
 - {type: aitree_variable, param_type: bool*, param_name: IsStopFallCheck, param_offset: 0x50}
 AppearFromTargetFrontAfterChase:
-- {type: call, fn: _ZN5uking2ai16AppearNearTarget11loadParams_Ev, addr: 0x710030e73c}
+- {type: call, fn: _ZN5uking2ai16AppearFromTarget11loadParams_Ev, addr: 0x710030e73c}
 - {type: static_param, param_type: const float*, param_name: AppearDist, param_offset: 0x90}
 AppearFromTargetFrontGround:
-- {type: call, fn: _ZN5uking2ai16AppearNearTarget11loadParams_Ev, addr: 0x710030e73c}
+- {type: call, fn: _ZN5uking2ai16AppearFromTarget11loadParams_Ev, addr: 0x710030e73c}
 AppearNearTargetOutOfScrnGnd:
-- {type: call, fn: _ZN5uking2ai16AppearNearTarget11loadParams_Ev, addr: 0x710030e73c}
+- {type: call, fn: _ZN5uking2ai16AppearFromTarget11loadParams_Ev, addr: 0x710030e73c}
 ArmorSearchKorokRoot:
 - {type: static_param, param_type: const float*, param_name: SearchKorokDis, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: SearchRefreshFrame, param_offset: 0x40}
@@ -403,7 +403,7 @@ AssassinCallSelect:
 - {type: call, fn: _ZN5uking2ai17EnemyCalledAppear11loadParams_Ev, addr: 0x710038306c}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ChangeDemoName, param_offset: 0x38}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ChangeDemoEPName, param_offset: 0x48}
-AssassinFieldShooterBattleBase:
+AssassinShooterBattle:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x38}
 - {type: static_param, param_type: const int*, param_name: TiredTime, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: WarpDistNear, param_offset: 0x48}
@@ -412,7 +412,7 @@ AssassinFieldShooterBattleBase:
 - {type: static_param, param_type: const float*, param_name: TiredGrHeight, param_offset: 0x60}
 - {type: static_param, param_type: const float*, param_name: IntervalIntensity, param_offset: 0x68}
 AssassinFieldShooterBattle:
-- {type: call, fn: _ZN5uking2ai30AssassinFieldShooterBattleBase11loadParams_Ev, addr: 0x710032267c}
+- {type: call, fn: _ZN5uking2ai21AssassinShooterBattle11loadParams_Ev, addr: 0x710032267c}
 EnemyNormal:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x70}
 - {type: static_param, param_type: const int*, param_name: SoundLostTimer, param_offset: 0x78}
@@ -443,7 +443,7 @@ LandHumEnemyNormal:
 - {type: static_param, param_type: const float*, param_name: ExplosivesSearchDist, param_offset: 0x3d8}
 - {type: static_param, param_type: const float*, param_name: ExplosivesSearchSpeed, param_offset: 0x3e0}
 - {type: static_param, param_type: const float*, param_name: ExplosivesSearchAng, param_offset: 0x3e8}
-AssassinNormal:
+GuardHomePosNormal:
 - {type: call, fn: _ZN5uking2ai18LandHumEnemyNormal11loadParams_Ev, addr: 0x7100462d90}
 AssassinMiddleAzitoRoot:
 - {type: call, fn: _ZN5uking2ai14AssassinNormal11loadParams_Ev, addr: 0x710040ce80}
@@ -472,7 +472,7 @@ AssassinMiddleDlcGrabAdapter:
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x40}
 TargetInAreaSelect:
 - {type: static_param, param_type: const int*, param_name: Option, param_offset: 0x38}
-AssassinMagicTgtSelect:
+TargetHeightAreaSelect:
 - {type: call, fn: _ZN5uking2ai18TargetInAreaSelect11loadParams_Ev, addr: 0x71005bfe60}
 - {type: static_param, param_type: const float*, param_name: Height, param_offset: 0x40}
 AssassinMiddleMagicAfter:
@@ -529,11 +529,11 @@ BarrelBomb:
 - {type: map_unit_param, param_type: const bool*, param_name: IsFixedPlace, param_offset: 0xc8}
 BasicStatusRoot: []
 BattleBgmRequestFinishTag: []
-BeamExplodeBase:
+SimpleBeamExplode:
 - {type: static_param, param_type: const float*, param_name: MaxDistance, param_offset: 0x38}
 - {type: static_param, param_type: const bool*, param_name: IsDelete, param_offset: 0x40}
 BeamExplode:
-- {type: call, fn: _ZN5uking2ai15BeamExplodeBase11loadParams_Ev, addr: 0x710056cae0}
+- {type: call, fn: _ZN5uking2ai17SimpleBeamExplode11loadParams_Ev, addr: 0x710056cae0}
 BeamExplodeEitherHit:
 - {type: call, fn: _ZN5uking2ai11BeamExplode11loadParams_Ev, addr: 0x7100328d08}
 - {type: aitree_variable, param_type: bool*, param_name: IsReflectThrownBullet, param_offset: 0x58}
@@ -818,7 +818,7 @@ ChildDeviceReflectArrow:
 - {type: static_param, param_type: const int*, param_name: ReflectCountMax, param_offset: 0x140}
 - {type: static_param, param_type: const float*, param_name: ReflectAimSpeed, param_offset: 0x148}
 - {type: static_param, param_type: const float*, param_name: ReflectAccel, param_offset: 0x150}
-ChildFavoriteSelectorBase:
+ChildSelector:
 - {type: static_param, param_type: const bool*, param_name: IsNoChildForceEnd, param_offset: 0x38}
 - {type: static_param, param_type: const bool*, param_name: IsCheckEveryFrame, param_offset: 0x40}
 ChildFavoriteSelector:
@@ -1097,7 +1097,7 @@ DoorRoot:
 - {type: aitree_variable, param_type: bool*, param_name: IsOpenToInside, param_offset: 0xa0}
 DoubtItemSubTargetSelect: []
 DragonDropItemTargetRootAI: []
-DragonRootBase: []
+ControlRailRoot: []
 DragonRoot:
 - {type: call, fn: _ZN5uking2ai14DragonRootBase11loadParams_Ev, addr: 0x710035714c}
 - {type: static_param, param_type: const int*, param_name: ChemicalBulletRate, param_offset: 0xc0}
@@ -1236,7 +1236,7 @@ DungeonRotateTag3D:
 DungeonRotateTag4ElecApp:
 - {type: map_unit_param, param_type: const int*, param_name: CtrlDgnRemainsElectricBodyPart, param_offset: 0x38}
 - {type: map_unit_param, param_type: const float*, param_name: InitDgnRotRad, param_offset: 0x40}
-WholeDungeonRotateTag:
+DungeonRotateTagApp:
 - {type: map_unit_param, param_type: const float*, param_name: TiltAngle, param_offset: 0x38}
 DungeonRotateTag4FireApp:
 - {type: call, fn: _ZN5uking2ai21WholeDungeonRotateTag11loadParams_Ev, addr: 0x71003797ac}
@@ -1312,7 +1312,7 @@ EnemyChaseShield:
 - {type: static_param, param_type: const int*, param_name: EquipItemSearchIdx, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: TurnAng, param_offset: 0x48}
 - {type: static_param, param_type: const float*, param_name: ShieldReachDist, param_offset: 0x50}
-UnarmedEnemySearch:
+NavMove:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: ReachTargetArea, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: TurnStartAng, param_offset: 0x48}
@@ -1323,13 +1323,13 @@ EnemyChaseTargetAndAction:
 - {type: static_param, param_type: const float*, param_name: LostSpeed, param_offset: 0x78}
 - {type: static_param, param_type: const float*, param_name: LostAng, param_offset: 0x80}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x88}
-EnemyChemTargetActionBase:
+EnemyTargetAction:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: ActionDist, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: ActionDir, param_offset: 0x48}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x50}
 EnemyChemTargetAction:
-- {type: call, fn: _ZN5uking2ai25EnemyChemTargetActionBase11loadParams_Ev, addr: 0x71003c0010}
+- {type: call, fn: _ZN5uking2ai17EnemyTargetAction11loadParams_Ev, addr: 0x71003c0010}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x58}
 EnemyChemicalPowerSelect: []
 EnemyChemicalSelect:
@@ -1418,9 +1418,9 @@ EnemyHideGrass:
 - {type: static_param, param_type: const float*, param_name: HearingRatio, param_offset: 0x40}
 EnemyHideShootingBattle:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x38}
-NonPlayerHorseRide: []
+RideHorseNonPlayer: []
 EnemyHorseRide:
-- {type: call, fn: _ZN5uking2ai18NonPlayerHorseRide11loadParams_Ev, addr: 0x7100e605d8}
+- {type: call, fn: _ZN5uking2ai18RideHorseNonPlayer11loadParams_Ev, addr: 0x7100e605d8}
 - {type: static_param, param_type: const int*, param_name: UpperBodyASSlot, param_offset: 0xe0}
 - {type: static_param, param_type: const int*, param_name: LowerBodyASSlot, param_offset: 0xe8}
 EnemyLifeSelect:
@@ -1692,7 +1692,7 @@ EquipConditionSelect:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x38}
 EquipHaveSelector:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x38}
-UnarmedEnemySearchWeapon:
+EnemySearch:
 - {type: call, fn: _ZN5uking2ai18UnarmedEnemySearch11loadParams_Ev, addr: 0x71004b64a0}
 - {type: static_param, param_type: const int*, param_name: EquipItemSearchIdx, param_offset: 0x6b8}
 - {type: static_param, param_type: const int*, param_name: RepathTime, param_offset: 0x6c0}
@@ -1701,7 +1701,7 @@ UnarmedEnemySearchWeapon:
 - {type: static_param, param_type: const bool*, param_name: IsUseSight, param_offset: 0x6d8}
 - {type: static_param, param_type: const float*, param_name: LineReachableWeaponDist, param_offset: 0x6e0}
 EquipShieldEnemySearchWeapon:
-- {type: call, fn: _ZN5uking2ai24UnarmedEnemySearchWeapon11loadParams_Ev, addr: 0x71003b777c}
+- {type: call, fn: _ZN5uking2ai11EnemySearch11loadParams_Ev, addr: 0x71003b777c}
 EquipStand:
 - {type: static_param, param_type: 'sead::SafeString', param_name: DisplayAttKey, param_offset: 0x78}
 - {type: static_param, param_type: 'sead::SafeString', param_name: TakeOutAttKey, param_offset: 0x88}
@@ -1749,7 +1749,7 @@ FishGoToAndNibble:
 - {type: static_param, param_type: const float*, param_name: DepthGiveUp, param_offset: 0x58}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x60}
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TargetActor, param_offset: 0x68}
-SimpleWildlifeRoot:
+CapturedActorRoot:
 - {type: static_param, param_type: const int*, param_name: InvalidTgtTimerVal, param_offset: 0x68}
 - {type: static_param, param_type: const int*, param_name: InvalidEscapeTimerVal, param_offset: 0x70}
 - {type: static_param, param_type: const bool*, param_name: IsDeleteWhenDead, param_offset: 0x78}
@@ -1804,7 +1804,7 @@ FlyMoveToTarget:
 - {type: static_param, param_type: const float*, param_name: OutDist, param_offset: 0x48}
 - {type: static_param, param_type: const float*, param_name: OffsetHeight, param_offset: 0x50}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x58}
-FlyingEnemyKeepMove:
+FlyingEnemyDistanceKeepMove:
 - {type: static_param, param_type: const float*, param_name: LostDistance, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: AngleRange, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: SpaceDistance, param_offset: 0x48}
@@ -1842,10 +1842,10 @@ ForestGiantClosestAttackSelect:
 - {type: static_param, param_type: const int*, param_name: HipDropRate, param_offset: 0x38}
 - {type: static_param, param_type: const int*, param_name: HipDropRateFar, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: FarDist, param_offset: 0x48}
-LargeEnemyFindPlayer:
+GiantEnemyFindPlayer:
 - {type: call, fn: _ZN5uking2ai19EnemyBaseFindPlayer11loadParams_Ev, addr: 0x71003815ac}
 ForestGiantFindPlayer:
-- {type: call, fn: _ZN5uking2ai20LargeEnemyFindPlayer11loadParams_Ev, addr: 0x71003f6a30}
+- {type: call, fn: _ZN5uking2ai20GiantEnemyFindPlayer11loadParams_Ev, addr: 0x71003f6a30}
 ForestGiantNormal:
 - {type: call, fn: _ZN5uking2ai11EnemyNormal11loadParams_Ev, addr: 0x71003a3e2c}
 - {type: static_param, param_type: const float*, param_name: SleepingHearAwnRatio, param_offset: 0x3d0}
@@ -2121,12 +2121,12 @@ GiantNavMoveWithFirstAction:
 - {type: call, fn: _ZN5uking2ai18GiantNavMoveTarget11loadParams_Ev, addr: 0x71003f8fb4}
 GiantRoamSelect:
 - {type: map_unit_param, param_type: const int*, param_name: GiantRoamType, param_offset: 0x38}
-SpecialEnemySleep:
+SleepNormal:
 - {type: static_param, param_type: const float*, param_name: AwakeDelayTime, param_offset: 0x38}
 - {type: static_param, param_type: const bool*, param_name: IsAwakenByHearing, param_offset: 0x40}
 - {type: static_param, param_type: const bool*, param_name: IsWaitAfterAwaken, param_offset: 0x48}
 GiantSleepNormal:
-- {type: call, fn: _ZN5uking2ai17SpecialEnemySleep11loadParams_Ev, addr: 0x710059ad6c}
+- {type: call, fn: _ZN5uking2ai11SleepNormal11loadParams_Ev, addr: 0x710059ad6c}
 - {type: static_param, param_type: const float*, param_name: ForceAwakeDist, param_offset: 0x60}
 - {type: static_param, param_type: 'sead::SafeString', param_name: AwakeRbName, param_offset: 0x68}
 GiantSleepReaction: []
@@ -2145,7 +2145,7 @@ GolemClimbedTimeSelect:
 - {type: static_param, param_type: const int*, param_name: LimitTime, param_offset: 0x38}
 - {type: aitree_variable, param_type: float*, param_name: GolemClimbedTime, param_offset: 0x40}
 GolemFindPlayer:
-- {type: call, fn: _ZN5uking2ai20LargeEnemyFindPlayer11loadParams_Ev, addr: 0x71003f6a30}
+- {type: call, fn: _ZN5uking2ai20GiantEnemyFindPlayer11loadParams_Ev, addr: 0x71003f6a30}
 - {type: static_param, param_type: const float*, param_name: SearchExplosiveDist, param_offset: 0x140}
 GolemFireREnemyBattle:
 - {type: call, fn: _ZN5uking2ai11EnemyBattle11loadParams_Ev, addr: 0x71003827ec}
@@ -2227,7 +2227,7 @@ GolemRoot:
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: GolemWeakPointActor, param_offset: 0x348}
 - {type: aitree_variable, param_type: float*, param_name: GolemClimbedTime, param_offset: 0x358}
 GolemSleepNormal:
-- {type: call, fn: _ZN5uking2ai17SpecialEnemySleep11loadParams_Ev, addr: 0x710059ad6c}
+- {type: call, fn: _ZN5uking2ai11SleepNormal11loadParams_Ev, addr: 0x710059ad6c}
 - {type: aitree_variable, param_type: void*, param_name: GolemChemicalController, param_offset: 0x60}
 GolemSleepTypeSelect:
 - {type: map_unit_param, param_type: 'sead::SafeString', param_name: GolemSleepType, param_offset: 0x38}
@@ -2236,7 +2236,7 @@ GolfBallRoot:
 - {type: static_param, param_type: const int*, param_name: IntSmashContinueFrame, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: FloatJudgeSmash, param_offset: 0x48}
 - {type: static_param, param_type: const float*, param_name: FloatJudgeStop, param_offset: 0x50}
-GoronCannonBase:
+BigCannon:
 - {type: static_param, param_type: const float*, param_name: RotRadAccel, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: RotBrake, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: ShotCannonBallScale, param_offset: 0x48}
@@ -2283,7 +2283,7 @@ GuardianBattleBeamAttack:
 - {type: call, fn: _ZN5uking2ai10GuardianAI11loadParams_Ev, addr: 0x710040da68}
 GuardianBeam:
 - {type: static_param, param_type: const float*, param_name: MaxDistance, param_offset: 0x38}
-GuardianBeamAttackBase: []
+GuardianCommonBeamAttack: []
 GuardianBeamAttack:
 - {type: call, fn: _ZN5uking2ai22GuardianBeamAttackBase11loadParams_Ev, addr: 0x7100411ddc}
 - {type: static_param, param_type: const float*, param_name: LightRadius, param_offset: 0x80}
@@ -2291,7 +2291,7 @@ GuardianBeamAttack:
 - {type: static_param, param_type: const float*, param_name: LightLengthOffset, param_offset: 0x90}
 - {type: static_param, param_type: const float*, param_name: EarSpeed, param_offset: 0x98}
 - {type: static_param, param_type: const bool*, param_name: AdjustRadius, param_offset: 0xa0}
-RailMove:
+BezierRailMove:
 - {type: static_param, param_type: const bool*, param_name: IsIgnoreNoWaitStopPoint, param_offset: 0x38}
 RailMoveWithClose:
 - {type: call, fn: _ZN5uking2ai8RailMove11loadParams_Ev, addr: 0x710032c528}
@@ -2340,8 +2340,8 @@ GuardianMiniBattleStateSelect:
 - {type: static_param, param_type: const float*, param_name: FinalLifeRatio, param_offset: 0x40}
 - {type: static_param, param_type: const bool*, param_name: IsEnterOnly, param_offset: 0x48}
 GuardianMiniBeam:
-- {type: call, fn: _ZN5uking2ai15BeamExplodeBase11loadParams_Ev, addr: 0x710056cae0}
-MiniBeamAttack:
+- {type: call, fn: _ZN5uking2ai17SimpleBeamExplode11loadParams_Ev, addr: 0x710056cae0}
+GuideBeamAttackEnemyBattle:
 - {type: call, fn: _ZN5uking2ai23BreathAttackEnemyBattle11loadParams_Ev, addr: 0x710033f664}
 - {type: static_param, param_type: const float*, param_name: FluctuationRange, param_offset: 0xb0}
 - {type: static_param, param_type: const float*, param_name: FluctuationSpan, param_offset: 0xb8}
@@ -2538,13 +2538,13 @@ HomePosDistanceSelector:
 Horse:
 - {type: static_param, param_type: const float*, param_name: DistanceFall, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: DistanceFallDie, param_offset: 0x40}
-HorseCheckLineOfSightSelectorBase:
+CheckLineOfSightSelector:
 - {type: static_param, param_type: const int*, param_name: DirectionNum, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: DirectionAngle, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: Distance, param_offset: 0x48}
 - {type: static_param, param_type: const float*, param_name: RadiusScale, param_offset: 0x50}
 HorseCheckLineOfSightSelector:
-- {type: call, fn: _ZN5uking2ai33HorseCheckLineOfSightSelectorBase11loadParams_Ev, addr: 0x7100346d88}
+- {type: call, fn: _ZN5uking2ai24CheckLineOfSightSelector11loadParams_Ev, addr: 0x7100346d88}
 HorseDamageTypeSelect: []
 HorseEscapeRouteRailAI:
 - {type: static_param, param_type: const int*, param_name: Count, param_offset: 0x38}
@@ -3164,7 +3164,7 @@ LynelThreeBreathAttack:
 LynelWarp: []
 MagneGearRoot: []
 MagneGrabSelect: []
-RangeSelect:
+NewRangeSelect:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: FarDist, param_offset: 0x40}
 - {type: static_param, param_type: const bool*, param_name: IsSelectEveryFrame, param_offset: 0x48}
@@ -3244,7 +3244,7 @@ MetalObjectBuried:
 - {type: map_unit_param, param_type: const bool*, param_name: EnableRevival, param_offset: 0x68}
 MetalObjectFixed:
 - {type: map_unit_param, param_type: const bool*, param_name: IsFixedPlace, param_offset: 0x38}
-MimicCliffStopEnemyNormalBase:
+CliffStopEnemyNormal:
 - {type: static_param, param_type: const int*, param_name: NoticeSoundTime, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: OffsetHand, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: OffsetTail, param_offset: 0x48}
@@ -3253,7 +3253,7 @@ MimicCliffStopEnemyNormalBase:
 - {type: aitree_variable, param_type: bool*, param_name: IsStartResetMimicry, param_offset: 0x60}
 - {type: aitree_variable, param_type: bool*, param_name: IsCliffFreeze, param_offset: 0x68}
 MimicCliffStopEnemyNormal:
-- {type: call, fn: _ZN5uking2ai29MimicCliffStopEnemyNormalBase11loadParams_Ev, addr: 0x7100352f8c}
+- {type: call, fn: _ZN5uking2ai20CliffStopEnemyNormal11loadParams_Ev, addr: 0x7100352f8c}
 - {type: static_param, param_type: const float*, param_name: JumpDistXZ, param_offset: 0x1e0}
 MimicEnemyFindPlayer:
 - {type: call, fn: _ZN5uking2ai19EnemyBaseFindPlayer11loadParams_Ev, addr: 0x71003815ac}
@@ -3282,7 +3282,7 @@ MiniGolemRoot:
 - {type: static_param, param_type: const int*, param_name: LiftDeadTime, param_offset: 0x318}
 - {type: aitree_variable, param_type: bool*, param_name: IsAllowReactionLift, param_offset: 0x310}
 MiniGolemSleep:
-- {type: call, fn: _ZN5uking2ai17SpecialEnemySleep11loadParams_Ev, addr: 0x710059ad6c}
+- {type: call, fn: _ZN5uking2ai11SleepNormal11loadParams_Ev, addr: 0x710059ad6c}
 - {type: aitree_variable, param_type: void*, param_name: GolemChemicalController, param_offset: 0x60}
 MoonAI: []
 MoonNameTag:
@@ -3313,7 +3313,7 @@ MoriblinUnarmedBattle:
 - {type: static_param, param_type: const float*, param_name: AttackStartRotate, param_offset: 0x60}
 - {type: static_param, param_type: const int*, param_name: PursuingAttackInterval, param_offset: 0x70}
 - {type: static_param, param_type: const float*, param_name: PursuingAttackStartAng, param_offset: 0x78}
-MotorcycleRootBase: []
+HorseRiddenStatusSelector: []
 MotorcycleRoot:
 - {type: call, fn: _ZN5uking2ai18MotorcycleRootBase11loadParams_Ev, addr: 0x710043ec84}
 - {type: static_param, param_type: const float*, param_name: InWaterRateForDisappear, param_offset: 0x38}
@@ -3517,7 +3517,7 @@ NPCTerrorAI:
 - {type: dynamic_param, param_type: 'ksys::act::BaseProcLink*', param_name: TerrorEmitter, param_offset: 0x78}
 NPCTimeline:
 - {type: call, fn: _ZN5uking2ai10TimelineAI11loadParams_Ev, addr: 0x7100e1c440}
-NPCTravelBase: []
+NPCScheduleMove: []
 NPCTravel:
 - {type: call, fn: _ZN5uking2ai13NPCTravelBase11loadParams_Ev, addr: 0x71004df788}
 - {type: static_param, param_type: const float*, param_name: WaitHorseReturnDist, param_offset: 0x78}
@@ -3596,7 +3596,7 @@ OctarockBattle:
 - {type: static_param, param_type: const bool*, param_name: IsLostAttack, param_offset: 0xf0}
 - {type: static_param, param_type: 'sead::SafeString', param_name: ShootActorKey, param_offset: 0xf8}
 - {type: static_param, param_type: 'sead::SafeString', param_name: VacuumPartsKey, param_offset: 0x108}
-OctarockEscape:
+OctarockHideEscapeBase:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x38}
 OctarockHideEscape:
 - {type: call, fn: _ZN5uking2ai14OctarockEscape11loadParams_Ev, addr: 0x71004ec950}
@@ -3608,7 +3608,7 @@ OctarockReaction:
 - {type: call, fn: _ZN5uking2ai20EnemyDefaultReaction11loadParams_Ev, addr: 0x7100388294}
 - {type: static_param, param_type: const bool*, param_name: IsWigBreackByGust, param_offset: 0x68}
 - {type: aitree_variable, param_type: void*, param_name: OctarockFormChangeUnit, param_offset: 0x70}
-OctarockRootBase:
+VacuumEnemyRoot:
 - {type: call, fn: _ZN5uking2ai9EnemyRoot11loadParams_Ev, addr: 0x71003b6090}
 OctarockRoot:
 - {type: call, fn: _ZN5uking2ai16OctarockRootBase11loadParams_Ev, addr: 0x71005e3400}
@@ -3672,7 +3672,7 @@ OnCliffViewWait:
 OnEnterEventModeSelect: []
 OnNavFaceSelect: []
 OnRagdollSelect: []
-OneMemoryMagicBattleBase:
+MagicBattle:
 - {type: call, fn: _ZN5uking2ai11EnemyBattle11loadParams_Ev, addr: 0x71003827ec}
 - {type: static_param, param_type: const int*, param_name: EnlargeTime, param_offset: 0x90}
 - {type: static_param, param_type: const float*, param_name: AttackRatio, param_offset: 0xa8}
@@ -3681,7 +3681,7 @@ OneMemoryMagicBattleBase:
 - {type: static_param, param_type: const int*, param_name: MagicPer, param_offset: 0x98}
 - {type: static_param, param_type: const int*, param_name: AttackPowDirect, param_offset: 0xa0}
 OneMemoryMagicBattle:
-- {type: call, fn: _ZN5uking2ai24OneMemoryMagicBattleBase11loadParams_Ev, addr: 0x710049d940}
+- {type: call, fn: _ZN5uking2ai11MagicBattle11loadParams_Ev, addr: 0x710049d940}
 - {type: static_param, param_type: 'sead::SafeString', param_name: MemoryPartsName, param_offset: 0xe0}
 OptionalWeaponAI: []
 OutOfScreen:
@@ -3850,7 +3850,7 @@ PreyLookAtTarget:
 PreyReaction: []
 PreyStun:
 - {type: static_param, param_type: const int*, param_name: StunTime, param_offset: 0x38}
-PriestBossMode:
+PriestBoss:
 - {type: aitree_variable, param_type: void*, param_name: PriestBossMetaAIUnit, param_offset: 0x38}
 PriestBossActorRoot:
 - {type: call, fn: _ZN5uking2ai14PriestBossMode11loadParams_Ev, addr: 0x7100505e7c}
@@ -4277,18 +4277,18 @@ ReflectableEscape:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x50}
 ReflectableIgnitedThrown:
 - {type: call, fn: _ZN5uking2ai17ReflectableThrown11loadParams_Ev, addr: 0x710053dda4}
-RegistedActorNumTwoSelectBase:
+RegistedActor:
 - {type: aitree_variable, param_type: void*, param_name: RegistedActorUnit, param_offset: 0x38}
 RegistedActorNumTwoSelect:
 - {type: call, fn: _ZN5uking2ai29RegistedActorNumTwoSelectBase11loadParams_Ev, addr: 0x710053e124}
 - {type: static_param, param_type: const int*, param_name: Num, param_offset: 0x40}
 RemainElectricCannonBeamAttack: []
-RemainElectricCannonRootBase:
+LargeCannonRoot:
 - {type: static_param, param_type: const float*, param_name: SearchMaxDist, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: SearchMinDist, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: SearchDistMargin, param_offset: 0x48}
 RemainElectricCannonRoot:
-- {type: call, fn: _ZN5uking2ai28RemainElectricCannonRootBase11loadParams_Ev, addr: 0x71004743b4}
+- {type: call, fn: _ZN5uking2ai15LargeCannonRoot11loadParams_Ev, addr: 0x71004743b4}
 - {type: static_param, param_type: const float*, param_name: SearchMaxDistLoiter, param_offset: 0x60}
 RemainsElectricBGCamera:
 - {type: call, fn: _ZN5uking2ai23RailMoveRemainsBGCamera11loadParams_Ev, addr: 0x7100536b3c}
@@ -4444,7 +4444,7 @@ SandwormLost:
 - {type: static_param, param_type: const float*, param_name: DiveSandOffset, param_offset: 0x60}
 SandwormNavSearchWait:
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x38}
-SandwormNormalBase:
+AwnSeal:
 - {type: call, fn: _ZN5uking2ai11EnemyNormal11loadParams_Ev, addr: 0x71003a3e2c}
 - {type: static_param, param_type: const bool*, param_name: SealedSight, param_offset: 0x3d0}
 - {type: static_param, param_type: const bool*, param_name: SealedHearing, param_offset: 0x3d8}
@@ -4546,7 +4546,7 @@ SeqTrgPartsNotice:
 - {type: call, fn: _ZN5uking2ai12SeqTwoAction11loadParams_Ev, addr: 0x710056706c}
 - {type: static_param, param_type: 'sead::SafeString', param_name: PartsName, param_offset: 0x58}
 - {type: static_param, param_type: const bool*, param_name: IsFinishByNoNoticeActionEnd, param_offset: 0x50}
-SeqTwoLineReachableTargetActionBase:
+SeqTwoLineReachableTarget:
 - {type: static_param, param_type: const int*, param_name: ReachableCheckType1, param_offset: 0x38}
 - {type: static_param, param_type: const int*, param_name: ReachableCheckType2, param_offset: 0x40}
 SeqTwoLineReachableTargetAction:
@@ -4652,7 +4652,7 @@ SiteBossArrowRainAttack:
 - {type: call, fn: _ZN5uking2ai24SiteBossReflectArrowRoot11loadParams_Ev, addr: 0x71005829f0}
 SiteBossAttackRoot:
 - {type: static_param, param_type: const int*, param_name: EquipWeapon, param_offset: 0x38}
-SiteBossChemicalProjectile:
+GanonFlameBall:
 - {type: static_param, param_type: const float*, param_name: ExplosionTime, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: ChaseAngleLimit, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: ReflectSpeedRate, param_offset: 0x48}
@@ -4782,14 +4782,14 @@ SiteBossPierceBulletAttack: []
 SiteBossReaction:
 - {type: call, fn: _ZN5uking2ai20EnemyDefaultReaction11loadParams_Ev, addr: 0x7100388294}
 - {type: static_param, param_type: const bool*, param_name: IsChangeEffectiveDamage, param_offset: 0x68}
-SiteBossRecognizeRootBase:
+LastBossRecognizeRoot:
 - {type: static_param, param_type: const int*, param_name: AttackNum, param_offset: 0x38}
 - {type: static_param, param_type: const int*, param_name: AttackRandNum, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: WarpStartDist, param_offset: 0x48}
 - {type: static_param, param_type: const float*, param_name: ForceWarpRetryDist, param_offset: 0x50}
 - {type: dynamic_param, param_type: bool*, param_name: IsAttackPatternFixed, param_offset: 0x58}
 SiteBossRecognizeRoot:
-- {type: call, fn: _ZN5uking2ai25SiteBossRecognizeRootBase11loadParams_Ev, addr: 0x7100478ff8}
+- {type: call, fn: _ZN5uking2ai21LastBossRecognizeRoot11loadParams_Ev, addr: 0x7100478ff8}
 - {type: static_param, param_type: const int*, param_name: IgnoreWaprDistMax, param_offset: 0x68}
 - {type: static_param, param_type: const bool*, param_name: IsCheckChildDevice, param_offset: 0x70}
 - {type: static_param, param_type: const bool*, param_name: IgnoreWarpDistRetFromDamage, param_offset: 0x78}
@@ -4970,7 +4970,7 @@ StalEnemyRoot:
 - {type: aitree_variable, param_type: bool*, param_name: IsStopFallCheck, param_offset: 0xc0}
 - {type: aitree_variable, param_type: void*, param_name: StalEnemyUnit, param_offset: 0xc8}
 StalEnemySleep:
-- {type: call, fn: _ZN5uking2ai17SpecialEnemySleep11loadParams_Ev, addr: 0x710059ad6c}
+- {type: call, fn: _ZN5uking2ai11SleepNormal11loadParams_Ev, addr: 0x710059ad6c}
 - {type: static_param, param_type: const bool*, param_name: UseAwarenessWakeUp, param_offset: 0x60}
 - {type: static_param, param_type: const bool*, param_name: UseNoticeActiveWakeUp, param_offset: 0x68}
 StalGiantEnemyReaction:
@@ -5072,13 +5072,13 @@ StoneBall_BRoot:
 - {type: static_param, param_type: const float*, param_name: DoubleBombImpulseAmplifyPower, param_offset: 0x48}
 StoneOctarockBattle:
 - {type: call, fn: _ZN5uking2ai19ShootingEnemyBattle11loadParams_Ev, addr: 0x7100569bd8}
-GuardNearTarget:
+InvincibleNearTargetBase:
 - {type: static_param, param_type: const int*, param_name: WeaponIdx, param_offset: 0x38}
 - {type: static_param, param_type: const float*, param_name: BaseDist, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: GuardStartDist, param_offset: 0x48}
 - {type: static_param, param_type: const float*, param_name: GuardEndDist, param_offset: 0x50}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x58}
-TimedGuardNearTarget:
+InvincibleNearTarget:
 - {type: call, fn: _ZN5uking2ai15GuardNearTarget11loadParams_Ev, addr: 0x710044d110}
 - {type: static_param, param_type: const int*, param_name: GuardEndTime, param_offset: 0x88}
 - {type: static_param, param_type: const float*, param_name: GuardStartAngle, param_offset: 0x90}
@@ -5194,7 +5194,7 @@ SwitchWheel:
 SwitchWindHit:
 - {type: call, fn: _ZN5uking2ai8SwitchAI11loadParams_Ev, addr: 0x71005b5e1c}
 - {type: static_param, param_type: const float*, param_name: WaitTime, param_offset: 0x38}
-TargetPosAI:
+TargetActorPos:
 - {type: static_param, param_type: const bool*, param_name: OnEnterOnly, param_offset: 0x38}
 TargetAbsolutePos:
 - {type: call, fn: _ZN5uking2ai11TargetPosAI11loadParams_Ev, addr: 0x71005bad1c}
@@ -5207,7 +5207,7 @@ TargetDistanceSelect:
 TargetActorDistanceSelect:
 - {type: call, fn: _ZN5uking2ai20TargetDistanceSelect11loadParams_Ev, addr: 0x71005be408}
 TargetAngerSelect: []
-TargetAttackAttitudeTgtSelectBase: []
+TargetAttackAttitudeTgt: []
 TargetAttackAttitudeTgtSelect:
 - {type: call, fn: _ZN5uking2ai33TargetAttackAttitudeTgtSelectBase11loadParams_Ev, addr: 0x71005bb700}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x48}
@@ -5282,7 +5282,7 @@ TargetPosAnchorOffsetTarget:
 TargetPosDirLRSelect:
 - {type: static_param, param_type: const bool*, param_name: IsCheckEveryFrame, param_offset: 0x38}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x40}
-TargetPosDynParamRot:
+TargetPosDynParamRotFromMyPos:
 - {type: call, fn: _ZN5uking2ai11TargetPosAI11loadParams_Ev, addr: 0x71005bad1c}
 - {type: static_param, param_type: const float*, param_name: MinDist, param_offset: 0x40}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: Angle, param_offset: 0x48}
@@ -5296,7 +5296,7 @@ TargetPosLostCheck:
 - {type: static_param, param_type: const float*, param_name: LostVMax, param_offset: 0x48}
 - {type: static_param, param_type: const float*, param_name: LostRange, param_offset: 0x50}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0x58}
-TargetPosOffset:
+OffsetTargetPos:
 - {type: call, fn: _ZN5uking2ai11TargetPosAI11loadParams_Ev, addr: 0x71005bad1c}
 - {type: static_param, param_type: const int*, param_name: Dir, param_offset: 0x40}
 - {type: static_param, param_type: const float*, param_name: Offset, param_offset: 0x48}
@@ -5444,7 +5444,7 @@ UnarmedEnemyNoiseTarget:
 - {type: static_param, param_type: const float*, param_name: SearchWeaponTargetDist, param_offset: 0xb8}
 - {type: dynamic_param, param_type: 'sead::Vector3f*', param_name: TargetPos, param_offset: 0xc0}
 UnarmedWeaponEquipableEnemyAct:
-- {type: call, fn: _ZN5uking2ai24UnarmedEnemySearchWeapon11loadParams_Ev, addr: 0x71003b777c}
+- {type: call, fn: _ZN5uking2ai11EnemySearch11loadParams_Ev, addr: 0x71003b777c}
 UnderWaterDepthSelect:
 - {type: static_param, param_type: const float*, param_name: DeepDepth, param_offset: 0x38}
 - {type: static_param, param_type: const bool*, param_name: OnEnterOnly, param_offset: 0x40}

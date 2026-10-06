@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-TargetDynamicActorPos::TargetDynamicActorPos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetDynamicActorPos::TargetDynamicActorPos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetDynamicActorPos::~TargetDynamicActorPos() = default;
 
 bool TargetDynamicActorPos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetDynamicActorPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetDynamicActorPos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetDynamicActorPos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 

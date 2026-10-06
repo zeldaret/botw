@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiGoronCannonBase.h"
+#include "Game/Actor/AI/aiBigCannon.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class YunBoCannon : public GoronCannonBase {
-    SEAD_RTTI_OVERRIDE(YunBoCannon, GoronCannonBase)
+class YunBoCannon : public BigCannon {
+    SEAD_RTTI_OVERRIDE(YunBoCannon, BigCannon)
 public:
     explicit YunBoCannon(const InitArg& arg);
     ~YunBoCannon() override;

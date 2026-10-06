@@ -2,25 +2,24 @@
 
 namespace uking::ai {
 
-PriestBossGiantStageRotRoot::PriestBossGiantStageRotRoot(const InitArg& arg)
-    : PriestBossMode(arg) {}
+PriestBossGiantStageRotRoot::PriestBossGiantStageRotRoot(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossGiantStageRotRoot::~PriestBossGiantStageRotRoot() = default;
 
 bool PriestBossGiantStageRotRoot::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossGiantStageRotRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 void PriestBossGiantStageRotRoot::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossGiantStageRotRoot::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mCentralAngle_s, "CentralAngle");
     getStaticParam(&mPercentRadiusHeight_s, "PercentRadiusHeight");
     getStaticParam(&mIronBallHeightOffset_s, "IronBallHeightOffset");

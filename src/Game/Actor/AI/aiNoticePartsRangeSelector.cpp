@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-NoticePartsRangeSelector::NoticePartsRangeSelector(const InitArg& arg) : RangeSelect(arg) {}
+NoticePartsRangeSelector::NoticePartsRangeSelector(const InitArg& arg) : NewRangeSelect(arg) {}
 
 NoticePartsRangeSelector::~NoticePartsRangeSelector() = default;
 
 bool NoticePartsRangeSelector::init_(sead::Heap* heap) {
-    return RangeSelect::init_(heap);
+    return NewRangeSelect::init_(heap);
 }
 
 void NoticePartsRangeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    RangeSelect::enter_(params);
+    NewRangeSelect::enter_(params);
 }
 
 void NoticePartsRangeSelector::leave_() {
-    RangeSelect::leave_();
+    NewRangeSelect::leave_();
 }
 
 void NoticePartsRangeSelector::loadParams_() {
-    RangeSelect::loadParams_();
+    NewRangeSelect::loadParams_();
     getStaticParam(&mPartsName_s, "PartsName");
 }
 

@@ -3,24 +3,24 @@
 namespace uking::ai {
 
 StoneOctarockGuardNearTarget::StoneOctarockGuardNearTarget(const InitArg& arg)
-    : TimedGuardNearTarget(arg) {}
+    : InvincibleNearTarget(arg) {}
 
 StoneOctarockGuardNearTarget::~StoneOctarockGuardNearTarget() = default;
 
 bool StoneOctarockGuardNearTarget::init_(sead::Heap* heap) {
-    return TimedGuardNearTarget::init_(heap);
+    return InvincibleNearTarget::init_(heap);
 }
 
 void StoneOctarockGuardNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    TimedGuardNearTarget::enter_(params);
+    InvincibleNearTarget::enter_(params);
 }
 
 void StoneOctarockGuardNearTarget::leave_() {
-    TimedGuardNearTarget::leave_();
+    InvincibleNearTarget::leave_();
 }
 
 void StoneOctarockGuardNearTarget::loadParams_() {
-    TimedGuardNearTarget::loadParams_();
+    InvincibleNearTarget::loadParams_();
     getStaticParam(&mNoticeTerrorLevel_s, "NoticeTerrorLevel");
 }
 

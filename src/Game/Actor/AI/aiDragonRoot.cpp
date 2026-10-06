@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-DragonRoot::DragonRoot(const InitArg& arg) : DragonRootBase(arg) {}
+DragonRoot::DragonRoot(const InitArg& arg) : ControlRailRoot(arg) {}
 
 DragonRoot::~DragonRoot() = default;
 
 bool DragonRoot::init_(sead::Heap* heap) {
-    return DragonRootBase::init_(heap);
+    return ControlRailRoot::init_(heap);
 }
 
 void DragonRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    DragonRootBase::enter_(params);
+    ControlRailRoot::enter_(params);
 }
 
 void DragonRoot::leave_() {
-    DragonRootBase::leave_();
+    ControlRailRoot::leave_();
 }
 
 void DragonRoot::loadParams_() {
-    DragonRootBase::loadParams_();
+    ControlRailRoot::loadParams_();
     getStaticParam(&mChemicalBulletRate_s, "ChemicalBulletRate");
     getStaticParam(&mChemicalBulletNum_s, "ChemicalBulletNum");
     getStaticParam(&mUpdraftInterval_s, "UpdraftInterval");

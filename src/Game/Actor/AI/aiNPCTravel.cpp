@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-NPCTravel::NPCTravel(const InitArg& arg) : NPCTravelBase(arg) {}
+NPCTravel::NPCTravel(const InitArg& arg) : NPCScheduleMove(arg) {}
 
 NPCTravel::~NPCTravel() = default;
 
 bool NPCTravel::init_(sead::Heap* heap) {
-    return NPCTravelBase::init_(heap);
+    return NPCScheduleMove::init_(heap);
 }
 
 void NPCTravel::enter_(ksys::act::ai::InlineParamPack* params) {
-    NPCTravelBase::enter_(params);
+    NPCScheduleMove::enter_(params);
 }
 
 void NPCTravel::leave_() {
-    NPCTravelBase::leave_();
+    NPCScheduleMove::leave_();
 }
 
 void NPCTravel::loadParams_() {
-    NPCTravelBase::loadParams_();
+    NPCScheduleMove::loadParams_();
     getStaticParam(&mWaitHorseReturnDist_s, "WaitHorseReturnDist");
     getStaticParam(&mGiveUpWaitHorseTime_s, "GiveUpWaitHorseTime");
 }

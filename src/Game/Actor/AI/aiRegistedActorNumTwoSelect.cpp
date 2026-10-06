@@ -2,25 +2,24 @@
 
 namespace uking::ai {
 
-RegistedActorNumTwoSelect::RegistedActorNumTwoSelect(const InitArg& arg)
-    : RegistedActorNumTwoSelectBase(arg) {}
+RegistedActorNumTwoSelect::RegistedActorNumTwoSelect(const InitArg& arg) : RegistedActor(arg) {}
 
 RegistedActorNumTwoSelect::~RegistedActorNumTwoSelect() = default;
 
 bool RegistedActorNumTwoSelect::init_(sead::Heap* heap) {
-    return RegistedActorNumTwoSelectBase::init_(heap);
+    return RegistedActor::init_(heap);
 }
 
 void RegistedActorNumTwoSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    RegistedActorNumTwoSelectBase::enter_(params);
+    RegistedActor::enter_(params);
 }
 
 void RegistedActorNumTwoSelect::leave_() {
-    RegistedActorNumTwoSelectBase::leave_();
+    RegistedActor::leave_();
 }
 
 void RegistedActorNumTwoSelect::loadParams_() {
-    RegistedActorNumTwoSelectBase::loadParams_();
+    RegistedActor::loadParams_();
     getStaticParam(&mNum_s, "Num");
 }
 

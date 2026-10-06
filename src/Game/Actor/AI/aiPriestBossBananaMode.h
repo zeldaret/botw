@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class PriestBossBananaMode : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossBananaMode, PriestBossMode)
+class PriestBossBananaMode : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossBananaMode, PriestBoss)
 public:
     explicit PriestBossBananaMode(const InitArg& arg);
     ~PriestBossBananaMode() override;

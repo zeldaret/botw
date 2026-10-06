@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-PriestBossFastWarpMove::PriestBossFastWarpMove(const InitArg& arg) : PriestBossWarpOrVanish(arg) {}
+PriestBossFastWarpMove::PriestBossFastWarpMove(const InitArg& arg) : PriestBossCloneFastWarp(arg) {}
 
 PriestBossFastWarpMove::~PriestBossFastWarpMove() = default;
 
 bool PriestBossFastWarpMove::init_(sead::Heap* heap) {
-    return PriestBossWarpOrVanish::init_(heap);
+    return PriestBossCloneFastWarp::init_(heap);
 }
 
 void PriestBossFastWarpMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossWarpOrVanish::enter_(params);
+    PriestBossCloneFastWarp::enter_(params);
 }
 
 void PriestBossFastWarpMove::leave_() {
-    PriestBossWarpOrVanish::leave_();
+    PriestBossCloneFastWarp::leave_();
 }
 
 void PriestBossFastWarpMove::loadParams_() {
-    PriestBossWarpOrVanish::loadParams_();
+    PriestBossCloneFastWarp::loadParams_();
     getStaticParam(&mAfterImage0AppearFrame_s, "AfterImage0AppearFrame");
     getStaticParam(&mAfterImage1AppearFrame_s, "AfterImage1AppearFrame");
     getStaticParam(&mAppearFrame_s, "AppearFrame");
@@ -33,7 +33,7 @@ void PriestBossFastWarpMove::loadParams_() {
 }
 
 void PriestBossFastWarpMove::calc_() {
-    PriestBossWarpOrVanish::calc_();
+    PriestBossCloneFastWarp::calc_();
 }
 
 }  // namespace uking::action

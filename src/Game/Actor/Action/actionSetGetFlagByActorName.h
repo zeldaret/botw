@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionSetGetFlagBase.h"
+#include "Game/Actor/Action/actionSetFlag.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SetGetFlagByActorName : public SetGetFlagBase {
-    SEAD_RTTI_OVERRIDE(SetGetFlagByActorName, SetGetFlagBase)
+class SetGetFlagByActorName : public SetFlag {
+    SEAD_RTTI_OVERRIDE(SetGetFlagByActorName, SetFlag)
 public:
     explicit SetGetFlagByActorName(const InitArg& arg);
     ~SetGetFlagByActorName() override;

@@ -2,16 +2,16 @@
 
 namespace uking::action {
 
-SetGetFlag::SetGetFlag(const InitArg& arg) : SetGetFlagBase(arg) {}
+SetGetFlag::SetGetFlag(const InitArg& arg) : SetFlag(arg) {}
 
 SetGetFlag::~SetGetFlag() = default;
 
 bool SetGetFlag::init_(sead::Heap* heap) {
-    return SetGetFlagBase::init_(heap);
+    return SetFlag::init_(heap);
 }
 
 void SetGetFlag::loadParams_() {
-    SetGetFlagBase::loadParams_();
+    SetFlag::loadParams_();
 }
 
 }  // namespace uking::action

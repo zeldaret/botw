@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionGolemThrowPartsToTargetBase.h"
+#include "Game/Actor/Action/actionGolemThrowPartsBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GolemThrowPartsToTarget : public GolemThrowPartsToTargetBase {
-    SEAD_RTTI_OVERRIDE(GolemThrowPartsToTarget, GolemThrowPartsToTargetBase)
+class GolemThrowPartsToTarget : public GolemThrowPartsBase {
+    SEAD_RTTI_OVERRIDE(GolemThrowPartsToTarget, GolemThrowPartsBase)
 public:
     explicit GolemThrowPartsToTarget(const InitArg& arg);
     ~GolemThrowPartsToTarget() override;

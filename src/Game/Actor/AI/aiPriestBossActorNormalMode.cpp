@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossActorNormalMode::PriestBossActorNormalMode(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossActorNormalMode::~PriestBossActorNormalMode() = default;
 
 bool PriestBossActorNormalMode::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossActorNormalMode::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 void PriestBossActorNormalMode::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossActorNormalMode::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mApproachWarpRate_s, "ApproachWarpRate");
     getStaticParam(&mApproachStartDistance_s, "ApproachStartDistance");
     getStaticParam(&mLeaveStartDistance_s, "LeaveStartDistance");

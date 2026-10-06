@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-PriestBossGiantDownSeq::PriestBossGiantDownSeq(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossGiantDownSeq::PriestBossGiantDownSeq(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossGiantDownSeq::~PriestBossGiantDownSeq() = default;
 
 bool PriestBossGiantDownSeq::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossGiantDownSeq::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 void PriestBossGiantDownSeq::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossGiantDownSeq::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mRecoverIfAlreadyDown_s, "RecoverIfAlreadyDown");
     getStaticParam(&mIsUseRecover_s, "IsUseRecover");
     getStaticParam(&mHitGroundASName_s, "HitGroundASName");

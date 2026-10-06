@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiRangeSelect.h"
+#include "Game/Actor/AI/aiNewRangeSelect.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class TargetHomeRangeSelect : public RangeSelect {
-    SEAD_RTTI_OVERRIDE(TargetHomeRangeSelect, RangeSelect)
+class TargetHomeRangeSelect : public NewRangeSelect {
+    SEAD_RTTI_OVERRIDE(TargetHomeRangeSelect, NewRangeSelect)
 public:
     explicit TargetHomeRangeSelect(const InitArg& arg);
     ~TargetHomeRangeSelect() override;

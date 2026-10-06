@@ -101,8 +101,8 @@ target_sources(uking PRIVATE
   actionPlayerForkDropWeaponWithSpeed.h
   actionPlayerFrontRoll.cpp
   actionPlayerFrontRoll.h
-  actionPlayerGlide.cpp
-  actionPlayerGlide.h
+  actionPlayerParashawlGlideBase.cpp
+  actionPlayerParashawlGlideBase.h
   actionPlayerGrabPut.cpp
   actionPlayerGrabPut.h
   actionPlayerGrabReady.cpp

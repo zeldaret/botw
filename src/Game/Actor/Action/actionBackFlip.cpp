@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-BackFlip::BackFlip(const InitArg& arg) : RotateTurnToTarget(arg) {}
+BackFlip::BackFlip(const InitArg& arg) : ASPlayRotateTurnToTarget(arg) {}
 
 BackFlip::~BackFlip() = default;
 
 bool BackFlip::init_(sead::Heap* heap) {
-    return RotateTurnToTarget::init_(heap);
+    return ASPlayRotateTurnToTarget::init_(heap);
 }
 
 void BackFlip::enter_(ksys::act::ai::InlineParamPack* params) {
-    RotateTurnToTarget::enter_(params);
+    ASPlayRotateTurnToTarget::enter_(params);
 }
 
 void BackFlip::leave_() {
-    RotateTurnToTarget::leave_();
+    ASPlayRotateTurnToTarget::leave_();
 }
 
 void BackFlip::loadParams_() {
-    RotateTurnToTarget::loadParams_();
+    ASPlayRotateTurnToTarget::loadParams_();
     getStaticParam(&mSpeed_s, "Speed");
     getStaticParam(&mPosRestRatio_s, "PosRestRatio");
     getStaticParam(&mJumpHeight_s, "JumpHeight");
@@ -28,7 +28,7 @@ void BackFlip::loadParams_() {
 }
 
 void BackFlip::calc_() {
-    RotateTurnToTarget::calc_();
+    ASPlayRotateTurnToTarget::calc_();
 }
 
 }  // namespace uking::action

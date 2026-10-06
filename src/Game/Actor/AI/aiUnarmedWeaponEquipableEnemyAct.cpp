@@ -3,24 +3,24 @@
 namespace uking::ai {
 
 UnarmedWeaponEquipableEnemyAct::UnarmedWeaponEquipableEnemyAct(const InitArg& arg)
-    : UnarmedEnemySearchWeapon(arg) {}
+    : EnemySearch(arg) {}
 
 UnarmedWeaponEquipableEnemyAct::~UnarmedWeaponEquipableEnemyAct() = default;
 
 bool UnarmedWeaponEquipableEnemyAct::init_(sead::Heap* heap) {
-    return UnarmedEnemySearchWeapon::init_(heap);
+    return EnemySearch::init_(heap);
 }
 
 void UnarmedWeaponEquipableEnemyAct::enter_(ksys::act::ai::InlineParamPack* params) {
-    UnarmedEnemySearchWeapon::enter_(params);
+    EnemySearch::enter_(params);
 }
 
 void UnarmedWeaponEquipableEnemyAct::leave_() {
-    UnarmedEnemySearchWeapon::leave_();
+    EnemySearch::leave_();
 }
 
 void UnarmedWeaponEquipableEnemyAct::loadParams_() {
-    UnarmedEnemySearchWeapon::loadParams_();
+    EnemySearch::loadParams_();
 }
 
 }  // namespace uking::ai

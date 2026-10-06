@@ -2,6 +2,6 @@
 
 namespace uking::action {
 
-CameraLockOn::CameraLockOn(const InitArg& arg) : CameraLockOnBase(arg) {}
+CameraLockOn::CameraLockOn(const InitArg& arg) : CameraTrackBase(arg) {}
 
 }  // namespace uking::action

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiMotorcycleRootBase.h"
+#include "Game/Actor/AI/aiHorseRiddenStatusSelector.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class MotorcycleRoot : public MotorcycleRootBase {
-    SEAD_RTTI_OVERRIDE(MotorcycleRoot, MotorcycleRootBase)
+class MotorcycleRoot : public HorseRiddenStatusSelector {
+    SEAD_RTTI_OVERRIDE(MotorcycleRoot, HorseRiddenStatusSelector)
 public:
     explicit MotorcycleRoot(const InitArg& arg);
     ~MotorcycleRoot() override;

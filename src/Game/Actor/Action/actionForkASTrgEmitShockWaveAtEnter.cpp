@@ -3,29 +3,29 @@
 namespace uking::action {
 
 ForkASTrgEmitShockWaveAtEnter::ForkASTrgEmitShockWaveAtEnter(const InitArg& arg)
-    : ForkASTrgEmitShockWave(arg) {}
+    : ForkEmitShockWave(arg) {}
 
 ForkASTrgEmitShockWaveAtEnter::~ForkASTrgEmitShockWaveAtEnter() = default;
 
 bool ForkASTrgEmitShockWaveAtEnter::init_(sead::Heap* heap) {
-    return ForkASTrgEmitShockWave::init_(heap);
+    return ForkEmitShockWave::init_(heap);
 }
 
 void ForkASTrgEmitShockWaveAtEnter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkASTrgEmitShockWave::enter_(params);
+    ForkEmitShockWave::enter_(params);
 }
 
 void ForkASTrgEmitShockWaveAtEnter::leave_() {
-    ForkASTrgEmitShockWave::leave_();
+    ForkEmitShockWave::leave_();
 }
 
 void ForkASTrgEmitShockWaveAtEnter::loadParams_() {
-    ForkASTrgEmitShockWave::loadParams_();
+    ForkEmitShockWave::loadParams_();
     getStaticParam(&mOffsetPos_s, "OffsetPos");
 }
 
 void ForkASTrgEmitShockWaveAtEnter::calc_() {
-    ForkASTrgEmitShockWave::calc_();
+    ForkEmitShockWave::calc_();
 }
 
 }  // namespace uking::action

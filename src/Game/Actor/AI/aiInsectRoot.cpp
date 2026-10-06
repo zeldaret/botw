@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-InsectRoot::InsectRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
+InsectRoot::InsectRoot(const InitArg& arg) : CapturedActorRoot(arg) {}
 
 InsectRoot::~InsectRoot() = default;
 
 bool InsectRoot::init_(sead::Heap* heap) {
-    return SimpleWildlifeRoot::init_(heap);
+    return CapturedActorRoot::init_(heap);
 }
 
 void InsectRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    SimpleWildlifeRoot::enter_(params);
+    CapturedActorRoot::enter_(params);
 }
 
 void InsectRoot::leave_() {
-    SimpleWildlifeRoot::leave_();
+    CapturedActorRoot::leave_();
 }
 
 void InsectRoot::loadParams_() {
-    SimpleWildlifeRoot::loadParams_();
+    CapturedActorRoot::loadParams_();
     getStaticParam(&mIsEscapeInWater_s, "IsEscapeInWater");
 }
 

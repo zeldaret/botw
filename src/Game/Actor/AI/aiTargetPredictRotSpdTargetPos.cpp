@@ -2,24 +2,25 @@
 
 namespace uking::ai {
 
-TargetPredictRotSpdTargetPos::TargetPredictRotSpdTargetPos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetPredictRotSpdTargetPos::TargetPredictRotSpdTargetPos(const InitArg& arg)
+    : TargetActorPos(arg) {}
 
 TargetPredictRotSpdTargetPos::~TargetPredictRotSpdTargetPos() = default;
 
 bool TargetPredictRotSpdTargetPos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetPredictRotSpdTargetPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetPredictRotSpdTargetPos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetPredictRotSpdTargetPos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
     getStaticParam(&mAddSpeed_s, "AddSpeed");
 }
 

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiGuardianBeamAttackBase.h"
+#include "Game/Actor/AI/aiGuardianCommonBeamAttack.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class RemainsWindBatteryAttack : public GuardianBeamAttackBase {
-    SEAD_RTTI_OVERRIDE(RemainsWindBatteryAttack, GuardianBeamAttackBase)
+class RemainsWindBatteryAttack : public GuardianCommonBeamAttack {
+    SEAD_RTTI_OVERRIDE(RemainsWindBatteryAttack, GuardianCommonBeamAttack)
 public:
     explicit RemainsWindBatteryAttack(const InitArg& arg);
     ~RemainsWindBatteryAttack() override;

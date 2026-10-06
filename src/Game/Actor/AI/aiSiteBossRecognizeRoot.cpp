@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-SiteBossRecognizeRoot::SiteBossRecognizeRoot(const InitArg& arg) : SiteBossRecognizeRootBase(arg) {}
+SiteBossRecognizeRoot::SiteBossRecognizeRoot(const InitArg& arg) : LastBossRecognizeRoot(arg) {}
 
 SiteBossRecognizeRoot::~SiteBossRecognizeRoot() = default;
 
 bool SiteBossRecognizeRoot::init_(sead::Heap* heap) {
-    return SiteBossRecognizeRootBase::init_(heap);
+    return LastBossRecognizeRoot::init_(heap);
 }
 
 void SiteBossRecognizeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    SiteBossRecognizeRootBase::enter_(params);
+    LastBossRecognizeRoot::enter_(params);
 }
 
 void SiteBossRecognizeRoot::leave_() {
-    SiteBossRecognizeRootBase::leave_();
+    LastBossRecognizeRoot::leave_();
 }
 
 void SiteBossRecognizeRoot::loadParams_() {
-    SiteBossRecognizeRootBase::loadParams_();
+    LastBossRecognizeRoot::loadParams_();
     getStaticParam(&mIgnoreWaprDistMax_s, "IgnoreWaprDistMax");
     getStaticParam(&mIsCheckChildDevice_s, "IsCheckChildDevice");
     getStaticParam(&mIgnoreWarpDistRetFromDamage_s, "IgnoreWarpDistRetFromDamage");

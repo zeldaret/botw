@@ -2,29 +2,29 @@
 
 namespace uking::action {
 
-HorseRideChaseCommand::HorseRideChaseCommand(const InitArg& arg) : HorseRideMoveCommand(arg) {}
+HorseRideChaseCommand::HorseRideChaseCommand(const InitArg& arg) : HorseRideSetGearCommand(arg) {}
 
 HorseRideChaseCommand::~HorseRideChaseCommand() = default;
 
 bool HorseRideChaseCommand::init_(sead::Heap* heap) {
-    return HorseRideMoveCommand::init_(heap);
+    return HorseRideSetGearCommand::init_(heap);
 }
 
 void HorseRideChaseCommand::enter_(ksys::act::ai::InlineParamPack* params) {
-    HorseRideMoveCommand::enter_(params);
+    HorseRideSetGearCommand::enter_(params);
 }
 
 void HorseRideChaseCommand::leave_() {
-    HorseRideMoveCommand::leave_();
+    HorseRideSetGearCommand::leave_();
 }
 
 void HorseRideChaseCommand::loadParams_() {
-    HorseRideMoveCommand::loadParams_();
+    HorseRideSetGearCommand::loadParams_();
     getStaticParam(&mChaseKeepDist_s, "ChaseKeepDist");
 }
 
 void HorseRideChaseCommand::calc_() {
-    HorseRideMoveCommand::calc_();
+    HorseRideSetGearCommand::calc_();
 }
 
 }  // namespace uking::action

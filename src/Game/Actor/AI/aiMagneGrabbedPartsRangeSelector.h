@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiRangeSelect.h"
+#include "Game/Actor/AI/aiNewRangeSelect.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class MagneGrabbedPartsRangeSelector : public RangeSelect {
-    SEAD_RTTI_OVERRIDE(MagneGrabbedPartsRangeSelector, RangeSelect)
+class MagneGrabbedPartsRangeSelector : public NewRangeSelect {
+    SEAD_RTTI_OVERRIDE(MagneGrabbedPartsRangeSelector, NewRangeSelect)
 public:
     explicit MagneGrabbedPartsRangeSelector(const InitArg& arg);
     ~MagneGrabbedPartsRangeSelector() override;

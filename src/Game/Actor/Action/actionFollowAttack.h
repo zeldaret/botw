@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionRotateTurnToTarget.h"
+#include "Game/Actor/Action/actionASPlayRotateTurnToTarget.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class FollowAttack : public RotateTurnToTarget {
-    SEAD_RTTI_OVERRIDE(FollowAttack, RotateTurnToTarget)
+class FollowAttack : public ASPlayRotateTurnToTarget {
+    SEAD_RTTI_OVERRIDE(FollowAttack, ASPlayRotateTurnToTarget)
 public:
     explicit FollowAttack(const InitArg& arg);
     ~FollowAttack() override;

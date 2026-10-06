@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-FishRoot::FishRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
+FishRoot::FishRoot(const InitArg& arg) : CapturedActorRoot(arg) {}
 
 FishRoot::~FishRoot() = default;
 
 bool FishRoot::init_(sead::Heap* heap) {
-    return SimpleWildlifeRoot::init_(heap);
+    return CapturedActorRoot::init_(heap);
 }
 
 void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    SimpleWildlifeRoot::enter_(params);
+    CapturedActorRoot::enter_(params);
 }
 
 void FishRoot::leave_() {
-    SimpleWildlifeRoot::leave_();
+    CapturedActorRoot::leave_();
 }
 
 void FishRoot::loadParams_() {
-    SimpleWildlifeRoot::loadParams_();
+    CapturedActorRoot::loadParams_();
     getStaticParam(&mInWaterDepth_s, "InWaterDepth");
     getStaticParam(&mOnGroundDepth_s, "OnGroundDepth");
     getStaticParam(&mNextJumpTimeBase_s, "NextJumpTimeBase");

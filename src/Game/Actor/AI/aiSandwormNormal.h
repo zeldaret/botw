@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiSandwormNormalBase.h"
+#include "Game/Actor/AI/aiAwnSeal.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class SandwormNormal : public SandwormNormalBase {
-    SEAD_RTTI_OVERRIDE(SandwormNormal, SandwormNormalBase)
+class SandwormNormal : public AwnSeal {
+    SEAD_RTTI_OVERRIDE(SandwormNormal, AwnSeal)
 public:
     explicit SandwormNormal(const InitArg& arg);
     ~SandwormNormal() override;

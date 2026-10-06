@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiTargetPosAI.h"
+#include "Game/Actor/AI/aiTargetActorPos.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class TargetPosAnchorOffsetSelf : public TargetPosAI {
-    SEAD_RTTI_OVERRIDE(TargetPosAnchorOffsetSelf, TargetPosAI)
+class TargetPosAnchorOffsetSelf : public TargetActorPos {
+    SEAD_RTTI_OVERRIDE(TargetPosAnchorOffsetSelf, TargetActorPos)
 public:
     explicit TargetPosAnchorOffsetSelf(const InitArg& arg);
     ~TargetPosAnchorOffsetSelf() override;

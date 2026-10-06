@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiEnemyChemTargetActionBase.h"
+#include "Game/Actor/AI/aiEnemyTargetAction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class EnemyChemTargetAction : public EnemyChemTargetActionBase {
-    SEAD_RTTI_OVERRIDE(EnemyChemTargetAction, EnemyChemTargetActionBase)
+class EnemyChemTargetAction : public EnemyTargetAction {
+    SEAD_RTTI_OVERRIDE(EnemyChemTargetAction, EnemyTargetAction)
 public:
     explicit EnemyChemTargetAction(const InitArg& arg);
     ~EnemyChemTargetAction() override;

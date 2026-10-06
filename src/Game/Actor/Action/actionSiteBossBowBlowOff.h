@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionSiteBossBlowOff.h"
+#include "Game/Actor/Action/actionLastBossBlowOff.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SiteBossBowBlowOff : public SiteBossBlowOff {
-    SEAD_RTTI_OVERRIDE(SiteBossBowBlowOff, SiteBossBlowOff)
+class SiteBossBowBlowOff : public LastBossBlowOff {
+    SEAD_RTTI_OVERRIDE(SiteBossBowBlowOff, LastBossBlowOff)
 public:
     explicit SiteBossBowBlowOff(const InitArg& arg);
     ~SiteBossBowBlowOff() override;

@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-RemainsFireDroneNormal::RemainsFireDroneNormal(const InitArg& arg) : RailMove(arg) {}
+RemainsFireDroneNormal::RemainsFireDroneNormal(const InitArg& arg) : BezierRailMove(arg) {}
 
 RemainsFireDroneNormal::~RemainsFireDroneNormal() = default;
 
 bool RemainsFireDroneNormal::init_(sead::Heap* heap) {
-    return RailMove::init_(heap);
+    return BezierRailMove::init_(heap);
 }
 
 void RemainsFireDroneNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    RailMove::enter_(params);
+    BezierRailMove::enter_(params);
 }
 
 void RemainsFireDroneNormal::leave_() {
-    RailMove::leave_();
+    BezierRailMove::leave_();
 }
 
 void RemainsFireDroneNormal::loadParams_() {
-    RailMove::loadParams_();
+    BezierRailMove::loadParams_();
     getStaticParam(&mLightLengthOffset_s, "LightLengthOffset");
     getStaticParam(&mAdjustRadius_s, "AdjustRadius");
     getMapUnitParam(&mSearchLightType_m, "SearchLightType");

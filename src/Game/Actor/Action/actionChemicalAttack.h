@@ -1,11 +1,12 @@
 #pragma once
 
+#include "Game/Actor/Action/actionEmitAttackBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ChemicalAttack : public ksys::act::ai::Action {
-    SEAD_RTTI_OVERRIDE(ChemicalAttack, ksys::act::ai::Action)
+class ChemicalAttack : public EmitAttackBase {
+    SEAD_RTTI_OVERRIDE(ChemicalAttack, EmitAttackBase)
 public:
     explicit ChemicalAttack(const InitArg& arg);
     ~ChemicalAttack() override;
@@ -18,20 +19,10 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const int* mAttackIntensity_s{};
-    // static_param at offset 0x28
-    const int* mAttackMinPower_s{};
-    // map_unit_param at offset 0x30
-    const int* mAttackPower_m{};
-    // map_unit_param at offset 0x38
-    const int* mAttackPowerForPlayer_m{};
-    // map_unit_param at offset 0x40
-    const float* mScaleTime_m{};
-    // map_unit_param at offset 0x48
-    const float* mRange_m{};
-    // map_unit_param at offset 0x50
-    sead::SafeString mRigidBodyName_m{};
+    // static_param at offset 0x80
+    const bool* mIsUseMyRange_s{};
+    // static_param at offset 0x88
+    const int* mAttackType_s{};
 };
 
 }  // namespace uking::action

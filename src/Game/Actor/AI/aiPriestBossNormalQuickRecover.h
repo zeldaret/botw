@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class PriestBossNormalQuickRecover : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossNormalQuickRecover, PriestBossMode)
+class PriestBossNormalQuickRecover : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossNormalQuickRecover, PriestBoss)
 public:
     explicit PriestBossNormalQuickRecover(const InitArg& arg);
     ~PriestBossNormalQuickRecover() override;

@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-TargetAbsolutePos::TargetAbsolutePos(const InitArg& arg) : TargetPosAI(arg) {}
+TargetAbsolutePos::TargetAbsolutePos(const InitArg& arg) : TargetActorPos(arg) {}
 
 TargetAbsolutePos::~TargetAbsolutePos() = default;
 
 bool TargetAbsolutePos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    return TargetActorPos::init_(heap);
 }
 
 void TargetAbsolutePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    TargetPosAI::enter_(params);
+    TargetActorPos::enter_(params);
 }
 
 void TargetAbsolutePos::leave_() {
-    TargetPosAI::leave_();
+    TargetActorPos::leave_();
 }
 
 void TargetAbsolutePos::loadParams_() {
-    TargetPosAI::loadParams_();
+    TargetActorPos::loadParams_();
     getStaticParam(&mTargetPos_s, "TargetPos");
 }
 

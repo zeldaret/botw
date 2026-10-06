@@ -3,30 +3,30 @@
 namespace uking::action {
 
 ForkBeastGanonMessageDialogCtrl::ForkBeastGanonMessageDialogCtrl(const InitArg& arg)
-    : SimpleMessageDialogCtrl(arg) {}
+    : ForkBasicMessageDialogCtrl(arg) {}
 
 ForkBeastGanonMessageDialogCtrl::~ForkBeastGanonMessageDialogCtrl() = default;
 
 bool ForkBeastGanonMessageDialogCtrl::init_(sead::Heap* heap) {
-    return SimpleMessageDialogCtrl::init_(heap);
+    return ForkBasicMessageDialogCtrl::init_(heap);
 }
 
 void ForkBeastGanonMessageDialogCtrl::enter_(ksys::act::ai::InlineParamPack* params) {
-    SimpleMessageDialogCtrl::enter_(params);
+    ForkBasicMessageDialogCtrl::enter_(params);
 }
 
 void ForkBeastGanonMessageDialogCtrl::leave_() {
-    SimpleMessageDialogCtrl::leave_();
+    ForkBasicMessageDialogCtrl::leave_();
 }
 
 void ForkBeastGanonMessageDialogCtrl::loadParams_() {
-    SimpleMessageDialogCtrl::loadParams_();
+    ForkBasicMessageDialogCtrl::loadParams_();
     getAITreeVariable(&mGanonBeastVoiceSequenceCount_a, "GanonBeastVoiceSequenceCount");
     getAITreeVariable(&mInBeastGanonVoiceSequence_a, "InBeastGanonVoiceSequence");
 }
 
 void ForkBeastGanonMessageDialogCtrl::calc_() {
-    SimpleMessageDialogCtrl::calc_();
+    ForkBasicMessageDialogCtrl::calc_();
 }
 
 }  // namespace uking::action

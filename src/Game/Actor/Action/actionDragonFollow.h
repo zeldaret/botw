@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionFollowChallenge.h"
+#include "Game/Actor/Action/actionAppearFollowChallenge.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class DragonFollow : public FollowChallenge {
-    SEAD_RTTI_OVERRIDE(DragonFollow, FollowChallenge)
+class DragonFollow : public AppearFollowChallenge {
+    SEAD_RTTI_OVERRIDE(DragonFollow, AppearFollowChallenge)
 public:
     explicit DragonFollow(const InitArg& arg);
     ~DragonFollow() override;

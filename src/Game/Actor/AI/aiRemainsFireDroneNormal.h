@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiRailMove.h"
+#include "Game/Actor/AI/aiBezierRailMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class RemainsFireDroneNormal : public RailMove {
-    SEAD_RTTI_OVERRIDE(RemainsFireDroneNormal, RailMove)
+class RemainsFireDroneNormal : public BezierRailMove {
+    SEAD_RTTI_OVERRIDE(RemainsFireDroneNormal, BezierRailMove)
 public:
     explicit RemainsFireDroneNormal(const InitArg& arg);
     ~RemainsFireDroneNormal() override;

@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-GolemFindPlayer::GolemFindPlayer(const InitArg& arg) : LargeEnemyFindPlayer(arg) {}
+GolemFindPlayer::GolemFindPlayer(const InitArg& arg) : GiantEnemyFindPlayer(arg) {}
 
 GolemFindPlayer::~GolemFindPlayer() = default;
 
 bool GolemFindPlayer::init_(sead::Heap* heap) {
-    return LargeEnemyFindPlayer::init_(heap);
+    return GiantEnemyFindPlayer::init_(heap);
 }
 
 void GolemFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    LargeEnemyFindPlayer::enter_(params);
+    GiantEnemyFindPlayer::enter_(params);
 }
 
 void GolemFindPlayer::leave_() {
-    LargeEnemyFindPlayer::leave_();
+    GiantEnemyFindPlayer::leave_();
 }
 
 void GolemFindPlayer::loadParams_() {
-    LargeEnemyFindPlayer::loadParams_();
+    GiantEnemyFindPlayer::loadParams_();
     getStaticParam(&mSearchExplosiveDist_s, "SearchExplosiveDist");
 }
 

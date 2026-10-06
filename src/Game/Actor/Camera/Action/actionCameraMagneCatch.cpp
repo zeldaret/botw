@@ -2,7 +2,7 @@
 
 namespace uking::action {
 
-CameraMagneCatch::CameraMagneCatch(const InitArg& arg) : CameraLockOnBase(arg) {}
+CameraMagneCatch::CameraMagneCatch(const InitArg& arg) : CameraTrackBase(arg) {}
 
 CameraMagneCatch::~CameraMagneCatch() = default;
 

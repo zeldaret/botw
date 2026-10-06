@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiMimicCliffStopEnemyNormalBase.h"
+#include "Game/Actor/AI/aiCliffStopEnemyNormal.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class MimicCliffStopEnemyNormal : public MimicCliffStopEnemyNormalBase {
-    SEAD_RTTI_OVERRIDE(MimicCliffStopEnemyNormal, MimicCliffStopEnemyNormalBase)
+class MimicCliffStopEnemyNormal : public CliffStopEnemyNormal {
+    SEAD_RTTI_OVERRIDE(MimicCliffStopEnemyNormal, CliffStopEnemyNormal)
 public:
     explicit MimicCliffStopEnemyNormal(const InitArg& arg);
     ~MimicCliffStopEnemyNormal() override;

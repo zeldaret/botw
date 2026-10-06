@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-LyzalfosFlame::LyzalfosFlame(const InitArg& arg) : ChemicalAttackBall(arg) {}
+LyzalfosFlame::LyzalfosFlame(const InitArg& arg) : ChemicalAttack(arg) {}
 
 LyzalfosFlame::~LyzalfosFlame() = default;
 
 bool LyzalfosFlame::init_(sead::Heap* heap) {
-    return ChemicalAttackBall::init_(heap);
+    return ChemicalAttack::init_(heap);
 }
 
 void LyzalfosFlame::enter_(ksys::act::ai::InlineParamPack* params) {
-    ChemicalAttackBall::enter_(params);
+    ChemicalAttack::enter_(params);
 }
 
 void LyzalfosFlame::leave_() {
-    ChemicalAttackBall::leave_();
+    ChemicalAttack::leave_();
 }
 
 void LyzalfosFlame::loadParams_() {
-    ChemicalAttackBall::loadParams_();
+    ChemicalAttack::loadParams_();
     getStaticParam(&mLengthFrame_s, "LengthFrame");
     getStaticParam(&mAtResetTime_s, "AtResetTime");
     getStaticParam(&mAtChaseFrame_s, "AtChaseFrame");
@@ -30,7 +30,7 @@ void LyzalfosFlame::loadParams_() {
 }
 
 void LyzalfosFlame::calc_() {
-    ChemicalAttackBall::calc_();
+    ChemicalAttack::calc_();
 }
 
 }  // namespace uking::action

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionSiteBossLswordAtk.h"
+#include "Game/Actor/Action/actionSiteBossLswordAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SiteBossLswordAtkWithChemical : public SiteBossLswordAtk {
-    SEAD_RTTI_OVERRIDE(SiteBossLswordAtkWithChemical, SiteBossLswordAtk)
+class SiteBossLswordAtkWithChemical : public SiteBossLswordAttack {
+    SEAD_RTTI_OVERRIDE(SiteBossLswordAtkWithChemical, SiteBossLswordAttack)
 public:
     explicit SiteBossLswordAtkWithChemical(const InitArg& arg);
     ~SiteBossLswordAtkWithChemical() override;

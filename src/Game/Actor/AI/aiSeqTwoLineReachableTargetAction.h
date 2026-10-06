@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiSeqTwoLineReachableTargetActionBase.h"
+#include "Game/Actor/AI/aiSeqTwoLineReachableTarget.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class SeqTwoLineReachableTargetAction : public SeqTwoLineReachableTargetActionBase {
-    SEAD_RTTI_OVERRIDE(SeqTwoLineReachableTargetAction, SeqTwoLineReachableTargetActionBase)
+class SeqTwoLineReachableTargetAction : public SeqTwoLineReachableTarget {
+    SEAD_RTTI_OVERRIDE(SeqTwoLineReachableTargetAction, SeqTwoLineReachableTarget)
 public:
     explicit SeqTwoLineReachableTargetAction(const InitArg& arg);
     ~SeqTwoLineReachableTargetAction() override;

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiPriestBossMode.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class PriestBossIronBallRoot : public PriestBossMode {
-    SEAD_RTTI_OVERRIDE(PriestBossIronBallRoot, PriestBossMode)
+class PriestBossIronBallRoot : public PriestBoss {
+    SEAD_RTTI_OVERRIDE(PriestBossIronBallRoot, PriestBoss)
 public:
     explicit PriestBossIronBallRoot(const InitArg& arg);
     ~PriestBossIronBallRoot() override;

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiAppearNearTarget.h"
+#include "Game/Actor/AI/aiAppearFromTarget.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class AppearFromTargetFrontGround : public AppearNearTarget {
-    SEAD_RTTI_OVERRIDE(AppearFromTargetFrontGround, AppearNearTarget)
+class AppearFromTargetFrontGround : public AppearFromTarget {
+    SEAD_RTTI_OVERRIDE(AppearFromTargetFrontGround, AppearFromTarget)
 public:
     explicit AppearFromTargetFrontGround(const InitArg& arg);
     ~AppearFromTargetFrontGround() override;

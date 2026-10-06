@@ -2,25 +2,24 @@
 
 namespace uking::ai {
 
-DungeonRotateTag4WindApp::DungeonRotateTag4WindApp(const InitArg& arg)
-    : WholeDungeonRotateTag(arg) {}
+DungeonRotateTag4WindApp::DungeonRotateTag4WindApp(const InitArg& arg) : DungeonRotateTagApp(arg) {}
 
 DungeonRotateTag4WindApp::~DungeonRotateTag4WindApp() = default;
 
 bool DungeonRotateTag4WindApp::init_(sead::Heap* heap) {
-    return WholeDungeonRotateTag::init_(heap);
+    return DungeonRotateTagApp::init_(heap);
 }
 
 void DungeonRotateTag4WindApp::enter_(ksys::act::ai::InlineParamPack* params) {
-    WholeDungeonRotateTag::enter_(params);
+    DungeonRotateTagApp::enter_(params);
 }
 
 void DungeonRotateTag4WindApp::leave_() {
-    WholeDungeonRotateTag::leave_();
+    DungeonRotateTagApp::leave_();
 }
 
 void DungeonRotateTag4WindApp::loadParams_() {
-    WholeDungeonRotateTag::loadParams_();
+    DungeonRotateTagApp::loadParams_();
 }
 
 }  // namespace uking::ai

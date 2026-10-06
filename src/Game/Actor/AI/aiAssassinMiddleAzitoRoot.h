@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiAssassinNormal.h"
+#include "Game/Actor/AI/aiGuardHomePosNormal.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class AssassinMiddleAzitoRoot : public AssassinNormal {
-    SEAD_RTTI_OVERRIDE(AssassinMiddleAzitoRoot, AssassinNormal)
+class AssassinMiddleAzitoRoot : public GuardHomePosNormal {
+    SEAD_RTTI_OVERRIDE(AssassinMiddleAzitoRoot, GuardHomePosNormal)
 public:
     explicit AssassinMiddleAzitoRoot(const InitArg& arg);
     ~AssassinMiddleAzitoRoot() override;

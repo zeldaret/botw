@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/AI/aiAppearNearTarget.h"
+#include "Game/Actor/AI/aiAppearFromTarget.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
 
-class AppearFromTargetFrontAfterChase : public AppearNearTarget {
-    SEAD_RTTI_OVERRIDE(AppearFromTargetFrontAfterChase, AppearNearTarget)
+class AppearFromTargetFrontAfterChase : public AppearFromTarget {
+    SEAD_RTTI_OVERRIDE(AppearFromTargetFrontAfterChase, AppearFromTarget)
 public:
     explicit AppearFromTargetFrontAfterChase(const InitArg& arg);
     ~AppearFromTargetFrontAfterChase() override;

@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-EnemyChemTargetAction::EnemyChemTargetAction(const InitArg& arg) : EnemyChemTargetActionBase(arg) {}
+EnemyChemTargetAction::EnemyChemTargetAction(const InitArg& arg) : EnemyTargetAction(arg) {}
 
 EnemyChemTargetAction::~EnemyChemTargetAction() = default;
 
 bool EnemyChemTargetAction::init_(sead::Heap* heap) {
-    return EnemyChemTargetActionBase::init_(heap);
+    return EnemyTargetAction::init_(heap);
 }
 
 void EnemyChemTargetAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyChemTargetActionBase::enter_(params);
+    EnemyTargetAction::enter_(params);
 }
 
 void EnemyChemTargetAction::leave_() {
-    EnemyChemTargetActionBase::leave_();
+    EnemyTargetAction::leave_();
 }
 
 void EnemyChemTargetAction::loadParams_() {
-    EnemyChemTargetActionBase::loadParams_();
+    EnemyTargetAction::loadParams_();
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 

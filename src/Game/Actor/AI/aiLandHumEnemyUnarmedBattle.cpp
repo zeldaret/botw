@@ -2,21 +2,20 @@
 
 namespace uking::ai {
 
-LandHumEnemyUnarmedBattle::LandHumEnemyUnarmedBattle(const InitArg& arg)
-    : UnarmedEnemySearch(arg) {}
+LandHumEnemyUnarmedBattle::LandHumEnemyUnarmedBattle(const InitArg& arg) : NavMove(arg) {}
 
 LandHumEnemyUnarmedBattle::~LandHumEnemyUnarmedBattle() = default;
 
 void LandHumEnemyUnarmedBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    UnarmedEnemySearch::enter_(params);
+    NavMove::enter_(params);
 }
 
 void LandHumEnemyUnarmedBattle::leave_() {
-    UnarmedEnemySearch::leave_();
+    NavMove::leave_();
 }
 
 void LandHumEnemyUnarmedBattle::loadParams_() {
-    UnarmedEnemySearch::loadParams_();
+    NavMove::loadParams_();
     getStaticParam(&mLostTimer_s, "LostTimer");
     getStaticParam(&mEquipItemSearchIdx_s, "EquipItemSearchIdx");
     getStaticParam(&mSearchWeaponDist_s, "SearchWeaponDist");

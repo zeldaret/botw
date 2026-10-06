@@ -2,24 +2,24 @@
 
 namespace uking::ai {
 
-PriestBossWarpToSafePos::PriestBossWarpToSafePos(const InitArg& arg) : PriestBossMode(arg) {}
+PriestBossWarpToSafePos::PriestBossWarpToSafePos(const InitArg& arg) : PriestBoss(arg) {}
 
 PriestBossWarpToSafePos::~PriestBossWarpToSafePos() = default;
 
 bool PriestBossWarpToSafePos::init_(sead::Heap* heap) {
-    return PriestBossMode::init_(heap);
+    return PriestBoss::init_(heap);
 }
 
 void PriestBossWarpToSafePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    PriestBossMode::enter_(params);
+    PriestBoss::enter_(params);
 }
 
 void PriestBossWarpToSafePos::leave_() {
-    PriestBossMode::leave_();
+    PriestBoss::leave_();
 }
 
 void PriestBossWarpToSafePos::loadParams_() {
-    PriestBossMode::loadParams_();
+    PriestBoss::loadParams_();
     getStaticParam(&mOffsetY_s, "OffsetY");
     getStaticParam(&mOffsetZ_s, "OffsetZ");
     getAITreeVariable(&mIsActive_a, "IsActive");
