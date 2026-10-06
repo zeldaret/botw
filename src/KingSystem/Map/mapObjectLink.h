@@ -106,8 +106,6 @@ public:
 
     void setGenGroup(GenGroup* group);
 
-    void x_1(act::Actor* actor, Object* obj);
-
     bool checkCreateOrDeleteLinkObjRevival() const {
         return checkDeleteLinkObjRevival() || checkCreateLinkObjRevival();
     }

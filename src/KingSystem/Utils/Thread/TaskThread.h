@@ -7,7 +7,7 @@
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class Task;
 class TaskQueueBase;
@@ -106,4 +106,4 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(TaskThread, 0x1a0);
 
-}  // namespace ksys::util
+}  // namespace ksys

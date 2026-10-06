@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryComparePlayerHeart.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -9,7 +9,7 @@ ComparePlayerHeart::ComparePlayerHeart(const InitArg& arg) : ksys::act::ai::Quer
 ComparePlayerHeart::~ComparePlayerHeart() = default;
 
 int ComparePlayerHeart::doQuery() {
-    auto* pi = ksys::act::PlayerInfo::instance();
+    auto* pi = uking::act::PlayerInfo::instance();
     if (pi == nullptr)
         return 0;
 

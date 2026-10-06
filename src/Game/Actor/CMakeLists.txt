@@ -16,6 +16,8 @@ target_sources(uking PRIVATE
   aiAiFactories.h
   aiQueryFactories.cpp
   aiQueryFactories.h
+  actActorFactory.cpp
+  actActorFactory.h
   actDragon.cpp
   actDragon.h
   actPlayerCreateMgr.cpp

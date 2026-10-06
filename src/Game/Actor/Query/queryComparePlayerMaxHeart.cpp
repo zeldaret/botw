@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryComparePlayerMaxHeart.h"
 #include <evfl/Query.h>
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -9,7 +9,7 @@ ComparePlayerMaxHeart::ComparePlayerMaxHeart(const InitArg& arg) : ksys::act::ai
 ComparePlayerMaxHeart::~ComparePlayerMaxHeart() = default;
 
 int ComparePlayerMaxHeart::doQuery() {
-    auto* pi = ksys::act::PlayerInfo::instance();
+    auto* pi = uking::act::PlayerInfo::instance();
     if (pi == nullptr)
         return 0;
 

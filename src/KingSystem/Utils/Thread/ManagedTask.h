@@ -3,7 +3,7 @@
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class ManagedTaskHandle;
 class TaskMgr;
@@ -43,4 +43,4 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(ManagedTask, 0xc0);
 
-}  // namespace ksys::util
+}  // namespace ksys

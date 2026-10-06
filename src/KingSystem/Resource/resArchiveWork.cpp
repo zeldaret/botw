@@ -16,7 +16,7 @@ ArchiveWork::~ArchiveWork() {
 }
 
 bool ArchiveWork::init(const ArchiveWork::InitArg& arg) {
-    mEvent = new (arg.heap) util::Event(
+    mEvent = new (arg.heap) Event(
         nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified, false);
     mEvent->resetSignal();
 

@@ -4,7 +4,7 @@
 #include "KingSystem/Utils/Thread/TaskQueue.h"
 #include "KingSystem/Utils/Thread/TaskQueueLock.h"
 
-namespace ksys::util {
+namespace ksys {
 
 TaskThread::TaskThread(const sead::SafeString& name, sead::Heap* heap, s32 priority,
                        sead::MessageQueue::BlockType block_type,
@@ -259,4 +259,4 @@ void TaskThread::cancelCurrentTask() {
         mTask->cancel();
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

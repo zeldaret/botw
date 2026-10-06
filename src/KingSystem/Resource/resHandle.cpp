@@ -209,7 +209,7 @@ bool Handle::parseResource(Context* context) {
     if (mFlags.isOn(Flag::UnloadRequested))
         return false;
 
-    if (mTaskHandle.getStatus() == util::ManagedTaskHandle::Status::TaskRemoved ||
+    if (mTaskHandle.getStatus() == ManagedTaskHandle::Status::TaskRemoved ||
         (mUnit && mUnit->isTask1NotQueued())) {
         stubbedLogFunction();
         mStatus = Status::Cancelled;

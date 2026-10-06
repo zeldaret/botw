@@ -3,11 +3,11 @@
 
 namespace ksys::res {
 
-MemoryTask::MemoryTask(sead::Heap* heap) : util::ManagedTask(heap) {}
+MemoryTask::MemoryTask(sead::Heap* heap) : ManagedTask(heap) {}
 
 void MemoryTask::onRun_() {}
 
-void MemoryTask::prepareImpl_(util::TaskRequest* req_) {
+void MemoryTask::prepareImpl_(TaskRequest* req_) {
     auto* req = static_cast<MemoryTaskRequest*>(req_);
     mData._8 = req->mData_8;
     mData._c = req->mData_c;

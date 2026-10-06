@@ -7,7 +7,7 @@
 #include "KingSystem/Utils/Thread/TaskQueueLock.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 
-namespace ksys::util {
+namespace ksys {
 
 static const auto cSleepSpan = sead::TickSpan::makeFromMicroSeconds(10);
 
@@ -333,7 +333,8 @@ void TaskQueueBase::notifyThreadsForNewTasks() {
     }
 
     if (retry_count >= 2)
-        PrintDebug(sead::FormatFixedSafeString<128>("↓↓↓\nリトライ回数 %d 回\n↑↑↑\n", retry_count));
+        util::PrintDebug(
+            sead::FormatFixedSafeString<128>("↓↓↓\nリトライ回数 %d 回\n↑↑↑\n", retry_count));
 }
 
 bool TaskQueueBase::push(const PushArg& arg) {
@@ -482,4 +483,4 @@ void TaskQueueBase::fetchTask(Task** out_task) {
     unlock();
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

@@ -4,7 +4,7 @@
 #include "KingSystem/Utils/Thread/TaskQueueLock.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 
-namespace ksys::util {
+namespace ksys {
 
 TaskDelegateSetter::TaskDelegateSetter() = default;
 
@@ -282,4 +282,4 @@ void Task::setLaneId(u8 id) {
     mLaneId = id;
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

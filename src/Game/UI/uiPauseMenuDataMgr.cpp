@@ -4,22 +4,22 @@
 #include <limits>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actPlayerCreateUtils.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Cooking/cookManager.h"
-#include "Game/DLC/aocManager.h"
 #include "Game/Scene/gameScene.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameItemUtils.h"
-#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
-#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
@@ -315,7 +315,7 @@ void PauseMenuDataMgr::initForNewSave() {
     mCanSeeHealthBar = false;
     mEquippedWeapons.fill({});
 
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
     if (player) {
         player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponRight), 1);
         player->switchEquipment(getDefaultEquipment(EquipmentSlot::WeaponLeft), 1);
@@ -450,7 +450,7 @@ void PauseMenuDataMgr::doLoadFromGameData() {
     }
 
     // Add the Travel Medallion (Obj_WarpDLC) to the inventory if it is missing for some reason
-    if (aoc::Manager::instance()->hasAoc2() &&
+    if (ksys::aoc::Manager::instance()->hasAoc2() &&
         !(found_travel_medallion | !gdt::getFlag_IsGet_Obj_WarpDLC())) {
         addToPouch(sValues.Obj_WarpDLC.cstr(), PouchItemType::KeyItem, lists, 1, false, nullptr,
                    true);
@@ -986,12 +986,12 @@ void PauseMenuDataMgr::doAddToPouch(PouchItemType type, const sead::SafeString& 
     }
 
     if (item_name_to_add == sValues.Obj_WarpDLC) {
-        if (!aoc::Manager::instance()->hasAoc2()) {
+        if (!ksys::aoc::Manager::instance()->hasAoc2()) {
             return;
         }
     }
 
-    if (!aoc::Manager::instance()->hasAoc3()) {
+    if (!ksys::aoc::Manager::instance()->hasAoc3()) {
         if (item_name_to_add == sValues.Obj_DLC_HeroSoul_Zora) {
             item_name_to_add = sValues.Obj_HeroSoul_Zora;
         } else if (item_name_to_add == sValues.Obj_DLC_HeroSoul_Rito) {
@@ -1357,7 +1357,7 @@ void PauseMenuDataMgr::removeItem(const sead::SafeString& name) {
 
 void PauseMenuDataMgr::removeWeaponIfEquipped(const sead::SafeString& name) {
     const auto lock = sead::makeScopedLock(mCritSection);
-    if (!ksys::act::PlayerInfo::instance()->getPlayer())
+    if (!uking::act::PlayerInfo::instance()->getPlayer())
         return;
 
     const auto& items = getItems();
@@ -1502,7 +1502,7 @@ void PauseMenuDataMgr::createPlayerEquipment() {
         }
     }
 
-    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
 
     s32 slot = 0;  // <- this is required to match
     for (u64 i = 0; i != equipment_items.size(); slot = s32(++i)) {
@@ -2621,23 +2621,26 @@ bool PauseMenuDataMgr::isHeroSoulEnabled(const sead::SafeString& name) const {
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 bool PauseMenuDataMgr::hasRitoSoulPlus() const {
-    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Rito() && aoc::Manager::instance()->hasAoc3();
+    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Rito() &&
+           ksys::aoc::Manager::instance()->hasAoc3();
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 bool PauseMenuDataMgr::hasGoronSoulPlus() const {
-    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Goron() && aoc::Manager::instance()->hasAoc3();
+    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Goron() &&
+           ksys::aoc::Manager::instance()->hasAoc3();
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 bool PauseMenuDataMgr::hasGerudoSoulPlus() const {
     return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Gerudo() &&
-           aoc::Manager::instance()->hasAoc3();
+           ksys::aoc::Manager::instance()->hasAoc3();
 }
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 bool PauseMenuDataMgr::hasZoraSoulPlus() const {
-    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Zora() && aoc::Manager::instance()->hasAoc3();
+    return ksys::gdt::getFlag_IsGet_Obj_DLC_HeroSoul_Zora() &&
+           ksys::aoc::Manager::instance()->hasAoc3();
 }
 
 int PauseMenuDataMgr::countItemsWithCategoryByType(PouchCategory category) const {

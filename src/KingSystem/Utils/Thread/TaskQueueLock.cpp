@@ -1,7 +1,7 @@
 #include "KingSystem/Utils/Thread/TaskQueueLock.h"
 #include "KingSystem/Utils/Thread/TaskQueueBase.h"
 
-namespace ksys::util {
+namespace ksys {
 
 TaskQueueLock::TaskQueueLock() = default;
 
@@ -23,4 +23,4 @@ void TaskQueueLock::unlock() {
     }
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

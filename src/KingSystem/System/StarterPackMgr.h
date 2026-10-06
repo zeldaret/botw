@@ -3,14 +3,14 @@
 #include <devenv/seadEnvUtil.h>
 #include <heap/seadExpHeap.h>
 #include <prim/seadSafeString.h>
-#include "Game/DLC/aocManager.h"
-#include "KingSystem/Framework/GameConfig.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceArchive.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/System/GameConfig.h"
 #include "KingSystem/System/OverlayArena.h"
 #include "KingSystem/Utils/Types.h"
 

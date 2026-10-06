@@ -7,7 +7,7 @@
 #include "KingSystem/Utils/Thread/TaskMgr.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class LowPrioThreadMgr {
     SEAD_SINGLETON_DISPOSER(LowPrioThreadMgr)
@@ -55,4 +55,4 @@ private:
     sead::Buffer<CoreThreadTask> mCoreThreadTasks{};
 };
 
-}  // namespace ksys::util
+}  // namespace ksys

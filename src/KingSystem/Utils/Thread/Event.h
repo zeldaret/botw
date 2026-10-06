@@ -4,7 +4,7 @@
 #include <thread/seadEvent.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class Event {
 public:
@@ -32,4 +32,4 @@ private:
 KSYS_CHECK_SIZE_NX150(sead::Event, 0x30);
 KSYS_CHECK_SIZE_NX150(Event, 0x40);
 
-}  // namespace ksys::util
+}  // namespace ksys

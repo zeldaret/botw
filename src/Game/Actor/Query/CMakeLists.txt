@@ -61,8 +61,6 @@ target_sources(uking PRIVATE
   queryCheckEquipItemType.h
   queryCheckEquipment.cpp
   queryCheckEquipment.h
-  queryCheckEventCancel.cpp
-  queryCheckEventCancel.h
   queryCheckExistActor.cpp
   queryCheckExistActor.h
   queryCheckExistArrow.cpp
@@ -105,8 +103,6 @@ target_sources(uking PRIVATE
   queryCheckItemShopSelectBuy.h
   queryCheckItemShopSelect.cpp
   queryCheckItemShopSelect.h
-  queryCheckJustBeforeEventCancel.cpp
-  queryCheckJustBeforeEventCancel.h
   queryCheckLastDamageAttacker.cpp
   queryCheckLastDamageAttacker.h
   queryCheckManufactResult.cpp
@@ -303,8 +299,6 @@ target_sources(uking PRIVATE
   queryIsSuccessEndLastDemoAction.h
   queryIsTerrorDisappeared.cpp
   queryIsTerrorDisappeared.h
-  queryIsWaitRevival.cpp
-  queryIsWaitRevival.h
   queryIsWeaponDrawn.cpp
   queryIsWeaponDrawn.h
   queryKeyInputCheck.cpp

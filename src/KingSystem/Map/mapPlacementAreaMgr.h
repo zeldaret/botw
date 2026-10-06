@@ -203,7 +203,7 @@ public:
     // d231cc
     void boundsChecking_1();  // looks eerily similar to boundsChecking
     // d2388c
-    void weirdSetup();  // perhaps used with teleport feature?
+    void weirdSetup(const sead::Vector3f& pos);  // perhaps used with teleport feature?
     bool isInsideNpc(const sead::Vector3f& pos);
     // d24400
     void pushFarModels();

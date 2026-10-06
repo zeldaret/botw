@@ -3,7 +3,7 @@
 #include <utility/aglParameter.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
-#include "KingSystem/Resource/resCurrentResNameMgr.h"
+#include "KingSystem/System/CurrentResNameMgr.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::res {

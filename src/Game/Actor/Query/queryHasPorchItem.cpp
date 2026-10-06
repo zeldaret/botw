@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryHasPorchItem.h"
 #include <evfl/Query.h>
-#include "Game/UI/uiUtils.h"
+#include "KingSystem/System/UIGlue.h"
 
 namespace uking::query {
 
@@ -9,7 +9,7 @@ HasPorchItem::HasPorchItem(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 HasPorchItem::~HasPorchItem() = default;
 
 int HasPorchItem::doQuery() {
-    return ui::getItemValue(mPorchItemName) >= *mCount;
+    return ksys::ui::getItemValue(mPorchItemName) >= *mCount;
 }
 
 void HasPorchItem::loadParams(const evfl::QueryArg& arg) {

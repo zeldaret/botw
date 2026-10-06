@@ -614,7 +614,7 @@ int BaseProcMgr::getInitializerQueueSizeEx(int x) const {
     return mProcInitializer->getQueueSize(x);
 }
 
-void BaseProcMgr::removeInitializerTasksIf(sead::IDelegate1R<util::Task*, bool>& predicate) {
+void BaseProcMgr::removeInitializerTasksIf(sead::IDelegate1R<Task*, bool>& predicate) {
     mProcInitializer->removeTasksIf(predicate);
 }
 

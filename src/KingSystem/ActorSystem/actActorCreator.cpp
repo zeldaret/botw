@@ -23,7 +23,7 @@ ActorCreator::ActorCreator() {
     mPlacementMgrHeap = nullptr;
 }
 
-void ActorCreator::onTaskRemoved(const util::TaskRemoveCallbackContext& context) {
+void ActorCreator::onTaskRemoved(const TaskRemoveCallbackContext& context) {
     if (!context.mTask)
         return;
 

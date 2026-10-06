@@ -75,7 +75,7 @@ void BaseProcCreateTask::doPrepare(const BaseProcCreateTaskData* arg) {
     }();
 }
 
-void BaseProcCreateTask::prepareImpl_(util::TaskRequest* req) {
+void BaseProcCreateTask::prepareImpl_(TaskRequest* req) {
     doPrepare(sead::DynamicCast<BaseProcCreateTaskRequest>(req)->mData);
     setDelegateInternal_(&mTaskDelegate);
 }

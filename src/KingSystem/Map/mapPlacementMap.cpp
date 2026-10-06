@@ -1,7 +1,7 @@
 #include "KingSystem/Map/mapPlacementMap.h"
 #include <prim/seadScopedLock.h>
 #include <thread/seadReadWriteLock.h>
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
@@ -201,8 +201,8 @@ bool PlacementMap::loadDynamicMap() {
     } else {
         path.append("_Dynamic_NoGrudgeMerge.mubin");
     }
-    if (uking::aoc::Manager::instance()) {
-        arg.mAocFileDevice = uking::aoc::Manager::instance()->getFileDeviceForMapFile(path);
+    if (aoc::Manager::instance()) {
+        arg.mAocFileDevice = aoc::Manager::instance()->getFileDeviceForMapFile(path);
     }
     return mDynamicMubinRes.requestLoad(path, &arg, 0);
 }
@@ -288,8 +288,8 @@ bool PlacementMap::loadStaticCompound(int hksc_idx, bool auto_gen_mu, bool req_a
             path.format("Physics/StaticCompound/%s-%d.hksc", mFolderAndFile.cstr(), hksc_idx);
         }
     }
-    if (uking::aoc::Manager::instance()) {
-        arg.mAocFileDevice = uking::aoc::Manager::instance()->getFileDeviceForStaticCompound(path);
+    if (aoc::Manager::instance()) {
+        arg.mAocFileDevice = aoc::Manager::instance()->getFileDeviceForStaticCompound(path);
     }
 
     return mRes[hksc_idx].mRes.requestLoad(path, &arg, 0);

@@ -347,8 +347,6 @@ target_sources(uking PRIVATE
   aiDeadOrOtherState.h
   aiDemoRailMoveRemains.cpp
   aiDemoRailMoveRemains.h
-  aiDemoRootAI.cpp
-  aiDemoRootAI.h
   aiDgnObj_DLC_CogWheel2.cpp
   aiDgnObj_DLC_CogWheel2.h
   aiDgnObj_DLC_CogWheel_Physics_Ctr.cpp
@@ -635,8 +633,6 @@ target_sources(uking PRIVATE
   aiEnemyWatchKeepingWait.h
   aiEnterFromResetSelect.cpp
   aiEnterFromResetSelect.h
-  aiEnvSeEmitPointRootAI.cpp
-  aiEnvSeEmitPointRootAI.h
   aiEquipConditionSelect.cpp
   aiEquipConditionSelect.h
   aiEquipHaveSelector.cpp
@@ -719,22 +715,10 @@ target_sources(uking PRIVATE
   aiForestGiantRoot.h
   aiForestGiantStoneShootBattle.cpp
   aiForestGiantStoneShootBattle.h
-  aiFork2AI.cpp
-  aiFork2AI.h
   aiFork2AIUpperLowerBody.cpp
   aiFork2AIUpperLowerBody.h
-  aiFork3AI.cpp
-  aiFork3AI.h
-  aiFork4AI.cpp
-  aiFork4AI.h
-  aiFork5AI.cpp
-  aiFork5AI.h
-  aiFork6AI.cpp
-  aiFork6AI.h
   aiForkActionAndJoin.cpp
   aiForkActionAndJoin.h
-  aiForkAI.cpp
-  aiForkAI.h
   aiForkBeastGanonRoot.cpp
   aiForkBeastGanonRoot.h
   aiForSaleOrNot.cpp
@@ -1889,8 +1873,6 @@ target_sources(uking PRIVATE
   aiShootingStarRoot.h
   aiShutterFence.cpp
   aiShutterFence.h
-  aiSignaledSpotBgmTrigger.cpp
-  aiSignaledSpotBgmTrigger.h
   aiSignalFlowchartRootAI.cpp
   aiSignalFlowchartRootAI.h
   aiSignalSendingMagneStickAcceptor.cpp
@@ -2001,8 +1983,6 @@ target_sources(uking PRIVATE
   aiSpearWeaponSelect.h
   aiSleepNormal.cpp
   aiSleepNormal.h
-  aiSpotBgmTrigger.cpp
-  aiSpotBgmTrigger.h
   aiStalEnemyBlownOff.cpp
   aiStalEnemyBlownOff.h
   aiStalEnemyChasePart.cpp

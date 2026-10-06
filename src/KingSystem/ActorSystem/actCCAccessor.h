@@ -1,5 +1,7 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+
 namespace ksys::phys {
 class CharacterController;
 };
@@ -21,6 +23,13 @@ public:
     void changeMotionType(phys::CharacterController* cc, MotionType motion_type);
     void resetRigidBodyMotion(Actor* actor);
     void resetMotionType(phys::CharacterController* cc);
+    void saveFlags(phys::CharacterController* cc);
+    void restoreSavedFlags(phys::CharacterController* cc);
+
+private:
+    MotionType mSavedMotionType{};
+    u8 mSavedFlagMask{};
+    u8 mSavedFlags{};
 };
 
 }  // namespace ksys::act

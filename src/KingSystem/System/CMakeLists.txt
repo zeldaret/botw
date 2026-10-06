@@ -13,9 +13,12 @@ target_sources(uking PRIVATE
     CameraEditor.cpp
     CameraEditor.h
     CoreInfo.h
+    CurrentResNameMgr.cpp
+    CurrentResNameMgr.h
     DebugFinder.cpp
     DebugFinder.h
     DebugMessage.h
+    GameConfig.h
     HavokWorkerMgr.cpp
     HavokWorkerMgr.h
     Hio.cpp
@@ -26,8 +29,6 @@ target_sources(uking PRIVATE
     MemoryProfiler.h
     MessageCapture.cpp
     MessageCapture.h
-    NXArgs.cpp
-    NXArgs.h
     OcclusionQueryCylinder.cpp
     OcclusionQueryCylinder.h
     OverlayArena.cpp
@@ -49,8 +50,6 @@ target_sources(uking PRIVATE
     StarterPackMgr.cpp
     StarterPackMgr.h
     StringBoard.h
-    SystemPauseMgr.cpp
-    SystemPauseMgr.h
     SystemTimers.cpp
     SystemTimers.h
     Terminal.cpp

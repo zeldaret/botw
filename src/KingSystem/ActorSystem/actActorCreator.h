@@ -17,10 +17,17 @@ class Object;
 namespace ksys::act {
 
 class Actor;
-class ActorFactory;
+struct ActorCreateArg;
 class BaseProc;
 struct BaseProcCreateArg;
 class BaseProcHandle;
+
+class IActorFactory {
+public:
+    virtual void dummy() = 0;
+    virtual BaseProc* createActor(const ActorCreateArg& arg) = 0;
+    virtual void dummy2() = 0;
+};
 
 class ActorCreator {
     SEAD_SINGLETON_DISPOSER(ActorCreator)
@@ -39,7 +46,7 @@ public:
     void enableDistanceUnloadChecks();
     void eraseActor(Actor* actor);
 
-    void setActorFactory(ActorFactory* factory) { mActorFactory = factory; }
+    void setActorFactory(IActorFactory* factory) { mActorFactory = factory; }
     bool get5a() const { return _5a; }
 
     sead::OffsetList<Actor>& getActorList() { return mActorList; }
@@ -67,7 +74,7 @@ private:
                            InstParamPack* params, bool sleep_after_init, bool = false);
 
     BaseProc* doCreateProc(BaseProcCreateArg& arg);
-    void onTaskRemoved(const util::TaskRemoveCallbackContext& context);
+    void onTaskRemoved(const TaskRemoveCallbackContext& context);
 
     sead::Heap* mForBaseProcDualHeap;
     sead::Heap* mPlacementMgrHeap;
@@ -79,10 +86,9 @@ private:
     void* _60{};
     sead::Delegate1R<ActorCreator, BaseProcCreateArg&, BaseProc*> mCreateProcDelegate{
         this, &ActorCreator::doCreateProc};
-    util::TaskRemoveCallbackT<ActorCreator> mTaskRemovedDelegate{this,
-                                                                 &ActorCreator::onTaskRemoved};
+    TaskRemoveCallbackT<ActorCreator> mTaskRemovedDelegate{this, &ActorCreator::onTaskRemoved};
     sead::CriticalSection mActorListCS;
-    ActorFactory* mActorFactory;
+    IActorFactory* mActorFactory;
 };
 KSYS_CHECK_SIZE_NX150(ActorCreator, 0xf0);
 

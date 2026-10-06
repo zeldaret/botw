@@ -3,7 +3,7 @@
 #include "KingSystem/Utils/Thread/TaskQueueBase.h"
 #include "KingSystem/Utils/Thread/TaskQueueLock.h"
 
-namespace ksys::util {
+namespace ksys {
 
 ManagedTaskHandle::ManagedTaskHandle() = default;
 
@@ -104,4 +104,4 @@ inline void ManagedTaskHandle::decrementRef_() {
     }
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

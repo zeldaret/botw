@@ -33,8 +33,8 @@ struct BaseProcCreateArg {
 };
 KSYS_CHECK_SIZE_NX150(BaseProcCreateArg, 0x58);
 
-class BaseProcCreateTaskData : public util::TaskData {
-    SEAD_RTTI_OVERRIDE(BaseProcCreateTaskData, util::TaskData)
+class BaseProcCreateTaskData : public TaskData {
+    SEAD_RTTI_OVERRIDE(BaseProcCreateTaskData, TaskData)
 
 public:
     BaseProcCreateTaskData() = default;
@@ -53,8 +53,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(BaseProcCreateTaskData, 0x68);
 
-class BaseProcCreateTaskRequest : public util::TaskRequest {
-    SEAD_RTTI_OVERRIDE(BaseProcCreateTaskRequest, util::TaskRequest)
+class BaseProcCreateTaskRequest : public TaskRequest {
+    SEAD_RTTI_OVERRIDE(BaseProcCreateTaskRequest, TaskRequest)
 
 public:
     BaseProcCreateTaskRequest() = default;
@@ -62,8 +62,8 @@ public:
     BaseProcCreateTaskData* mData{};
 };
 
-class BaseProcCreateTask : public util::ManagedTask {
-    SEAD_RTTI_OVERRIDE(BaseProcCreateTask, util::ManagedTask)
+class BaseProcCreateTask : public ManagedTask {
+    SEAD_RTTI_OVERRIDE(BaseProcCreateTask, ManagedTask)
 
 public:
     enum class LaneId : u8 {
@@ -77,7 +77,7 @@ public:
     void onBaseProcCreationFailed(BaseProc* proc, bool set_flag_5);
 
 protected:
-    void prepareImpl_(util::TaskRequest* req) override;
+    void prepareImpl_(TaskRequest* req) override;
 
 private:
     friend class BaseProcCreateTaskSelector;
@@ -92,8 +92,8 @@ private:
     sead::IDelegate1R<BaseProcCreateArg&, BaseProc*>* mCreateDelegate{};
     BaseProcUnit* mUnit{};
     map::Object* mMapObject{};
-    util::TaskDelegateT<BaseProcCreateTask> mTaskDelegate{
-        this, &BaseProcCreateTask::onTaskDelegateInvoked};
+    TaskDelegateT<BaseProcCreateTask> mTaskDelegate{this,
+                                                    &BaseProcCreateTask::onTaskDelegateInvoked};
     BaseProcLink mLink;
     f32 mDistanceToLoadSphere = -1.0;
     InstParamPack::Buffer mParams;

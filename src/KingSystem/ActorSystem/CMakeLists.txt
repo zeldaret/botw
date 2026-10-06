@@ -16,8 +16,6 @@ target_sources(uking PRIVATE
     LOD/actLodState.cpp
     LOD/actLodState.h
 
-    Profiles/actPlayerBase.cpp
-    Profiles/actPlayerBase.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
     Profiles/actWeaponBase.cpp
@@ -33,8 +31,6 @@ target_sources(uking PRIVATE
     actActorCreator.h
     actActorEditorNode.cpp
     actActorEditorNode.h
-    actActorFactory.cpp
-    actActorFactory.h
     actActorHeapUtil.cpp
     actActorHeapUtil.h
     actActorLimiter.cpp
@@ -116,18 +112,36 @@ target_sources(uking PRIVATE
     actPhysicsConstraints.h
     actPhysicsUserTag.cpp
     actPhysicsUserTag.h
-    actPlayerInfo.cpp
-    actPlayerInfo.h
-    actPlayerInfoBase.cpp
-    actPlayerInfoStub.cpp
     actTag.h
 
     actionDummyAction.cpp
     actionDummyAction.h
+    aiDemoRootAI.cpp
+    aiDemoRootAI.h
     aiDummyAi.cpp
     aiDummyAi.h
+    aiFork2AI.cpp
+    aiFork2AI.h
+    aiFork3AI.cpp
+    aiFork3AI.h
+    aiFork4AI.cpp
+    aiFork4AI.h
+    aiFork5AI.cpp
+    aiFork5AI.h
+    aiFork6AI.cpp
+    aiFork6AI.h
+    aiForkAI.cpp
+    aiForkAI.h
+
     behaviorDummyBehavior.cpp
     behaviorDummyBehavior.h
+
+    queryCheckEventCancel.cpp
+    queryCheckEventCancel.h
+    queryCheckJustBeforeEventCancel.cpp
+    queryCheckJustBeforeEventCancel.h
     queryDummyQuery.cpp
     queryDummyQuery.h
+    queryIsWaitRevival.cpp
+    queryIsWaitRevival.h
     )

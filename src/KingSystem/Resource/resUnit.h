@@ -196,14 +196,14 @@ private:
 
     void initLoad(void* x = nullptr);
     void prepareLoad();
-    void requestPrepareLoad(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    void requestPrepareLoad(TaskPostRunResult* result, const TaskPostRunContext& ctx);
 
     void unloadForSync();
     void clearCacheForSync(bool x);
 
     void unload();
     void clearCache(void* x);
-    void requestClearCache(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
+    void requestClearCache(TaskPostRunResult* result, const TaskPostRunContext& ctx);
 
     sead::TypedBitFlag<CacheFlag> mCacheFlags;
     sead::TypedBitFlag<Flag> mFlags;
@@ -226,13 +226,13 @@ private:
     sead::ListNode mArenaUnitListNode;
     sead::ListNode mArenaUnitListNode2;
     sead::ListNode mResMgrUnitListNode;
-    util::Task mTask1;
-    util::Task mTask2;
-    util::Task mTask3;
+    Task mTask1;
+    Task mTask2;
+    Task mTask3;
     ResourceUnitMapNode mMapNode{this};
     sead::Atomic<s32> mCounter;
-    util::Event mEvent{nullptr,
-                       sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified, true};
+    Event mEvent{nullptr, sead::IDisposer::HeapNullOption::DoNotAppendDisposerIfNoHeapSpecified,
+                 true};
     sead::ResourceMgr::LoadArg mLoadArg;
     sead::FixedSafeString<128> mPath;
     sead::Heap* mHeap = nullptr;

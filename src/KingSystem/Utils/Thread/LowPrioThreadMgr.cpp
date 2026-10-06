@@ -5,7 +5,7 @@
 #include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Utils/Thread/TaskQueue.h"
 
-namespace ksys::util {
+namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(LowPrioThreadMgr)
 
@@ -116,4 +116,4 @@ void LowPrioThreadMgr::resumeAllTasks() {
 
 void LowPrioThreadMgr::sub_710127AC40() {}
 
-}  // namespace ksys::util
+}  // namespace ksys

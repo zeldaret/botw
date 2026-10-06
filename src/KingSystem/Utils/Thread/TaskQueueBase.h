@@ -11,7 +11,7 @@
 #include "KingSystem/Utils/Thread/Event.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class Task;
 class TaskQueueLock;
@@ -156,4 +156,4 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(TaskQueueBase, 0x90);
 
-}  // namespace ksys::util
+}  // namespace ksys

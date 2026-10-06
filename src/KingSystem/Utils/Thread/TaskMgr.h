@@ -15,7 +15,7 @@
 #include "KingSystem/Utils/Thread/ManagedTask.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::util {
+namespace ksys {
 
 class ManagedTaskHandle;
 class TaskRequest;
@@ -93,7 +93,7 @@ protected:
 
     template <typename TaskType>
     void makeTaskType_(ManagedTask** task) {
-        *task = new TaskType(getCurrentHeap());
+        *task = new TaskType(util::getCurrentHeap());
     }
 
     template <typename TaskType>
@@ -114,4 +114,4 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(TaskMgr, 0x158);
 
-}  // namespace ksys::util
+}  // namespace ksys

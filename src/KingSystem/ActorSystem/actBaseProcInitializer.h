@@ -10,11 +10,11 @@ namespace sead {
 class Heap;
 }
 
-namespace ksys::util {
+namespace ksys {
 class TaskMgr;
 class TaskQueue;
 class TaskThread;
-}  // namespace ksys::util
+}  // namespace ksys
 
 namespace ksys::act {
 
@@ -24,14 +24,14 @@ struct BaseProcCreateRequest;
 struct BaseProcInitializerArgs {
     u32 queue_size;
     sead::SafeString thread_name = "BaseProcCreate";
-    util::TaskSelectionDelegate* task_selector = nullptr;
+    TaskSelectionDelegate* task_selector = nullptr;
 };
 
 class BaseProcInitializer {
 public:
     struct ThreadInfo {
         bool valid = false;
-        util::TaskThread* thread = nullptr;
+        TaskThread* thread = nullptr;
         sead::FixedSafeString<32> thread_name;
     };
     KSYS_CHECK_SIZE_NX150(ThreadInfo, 0x48);
@@ -68,15 +68,15 @@ public:
     void cancelTasks();
     int getQueueSize(int x = -1) const;
 
-    void removeTasksIf(sead::IDelegate1R<util::Task*, bool>& predicate);
+    void removeTasksIf(sead::IDelegate1R<Task*, bool>& predicate);
     void setActorGenerationEnabled(bool enabled);
 
-    util::TaskQueue* getTaskQueue() const { return mTaskQueue; }
+    TaskQueue* getTaskQueue() const { return mTaskQueue; }
 
 private:
     sead::Buffer<ThreadInfo> mThreads;
-    util::TaskMgr* mTaskMgr = nullptr;
-    util::TaskQueue* mTaskQueue = nullptr;
+    TaskMgr* mTaskMgr = nullptr;
+    TaskQueue* mTaskQueue = nullptr;
     sead::Heap* mHeap = nullptr;
     bool mActorGenerationEnabled = true;
 };

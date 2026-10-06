@@ -1,6 +1,7 @@
 add_subdirectory(Actor)
+add_subdirectory(AOC)
+add_subdirectory(AutoPlacement)
 add_subdirectory(Cooking)
-add_subdirectory(DLC)
 add_subdirectory(Scene)
 add_subdirectory(UI)
 
@@ -11,4 +12,8 @@ target_sources(uking PRIVATE
   gamePlayReport.h
   E3Mgr.cpp
   E3Mgr.h
+  NXArgs.cpp
+  NXArgs.h
+  SystemPauseMgr.cpp
+  SystemPauseMgr.h
 )

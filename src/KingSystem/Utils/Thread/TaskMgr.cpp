@@ -4,7 +4,7 @@
 #include "KingSystem/Utils/Thread/ManagedTask.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
 
-namespace ksys::util {
+namespace ksys {
 
 TaskMgr::TaskMgr(sead::Heap* heap)
     : mTasksCS(heap), mCS2(heap), mNewFreeTaskEvent(heap, true), mEvent2(heap, true) {
@@ -209,4 +209,4 @@ ManagedTask* TaskMgr::fetchIdleTask_(bool retry_until_success) {
     }
 }
 
-}  // namespace ksys::util
+}  // namespace ksys

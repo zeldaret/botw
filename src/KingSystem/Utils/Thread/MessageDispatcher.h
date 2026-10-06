@@ -154,7 +154,7 @@ private:
     sead::Buffer<u8> mBoolBuffer;
     sead::ObjList<u8*> mBools;
     sead::CriticalSection mCritSection;
-    util::Event mUpdateEndEvent;
+    Event mUpdateEndEvent;
     sead::Atomic<int> mNumEntries = 0;
 };
 

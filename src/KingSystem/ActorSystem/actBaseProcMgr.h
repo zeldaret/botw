@@ -37,7 +37,7 @@ class BaseProcJobQue;
 struct BaseProcCreateRequest {
     u32 task_lane_id;
     BaseProcCreateTaskData* task_data;
-    util::TaskRemoveCallback* task_remove_callback;
+    TaskRemoveCallback* task_remove_callback;
 };
 
 class BaseProcMgr {
@@ -201,7 +201,7 @@ public:
     bool isAnyInitializerThreadActive() const;
     int getInitializerQueueSize() const;
     int getInitializerQueueSizeEx(int x = -1) const;
-    void removeInitializerTasksIf(sead::IDelegate1R<util::Task*, bool>& predicate);
+    void removeInitializerTasksIf(sead::IDelegate1R<Task*, bool>& predicate);
     void setActorGenerationEnabled(bool enabled);
 
     // endregion

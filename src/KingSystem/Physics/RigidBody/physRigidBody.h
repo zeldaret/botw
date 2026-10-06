@@ -200,7 +200,7 @@ public:
 
     void replaceMotionObject();
     // 0x0000007100f8e110
-    void x_10();
+    void removeFromWorldImmediatelyAndResetLinks();
     // 0x0000007100f8e3fc
     void x_11();
 
@@ -217,7 +217,7 @@ public:
     void resetFrozenState();
 
     // 0x0000007100f8ee50 - FIXME: figure out what type is
-    void x_17(u8 type);
+    void requestSuspendGravity(u8 type);
 
     void updateCollidableQualityType(bool high_quality);
 
@@ -320,7 +320,7 @@ public:
     // 0x0000007100f9045c - calls a bunch of Havok world functions
     void doChangeMotionType(MotionType x, MotionType y);
     // 0x0000007100f908c8
-    void x_40();
+    void processUpdateFlags();
     void updateMotionTypeRelatedFlags();
     void triggerScheduledMotionTypeChange();
 
@@ -540,7 +540,7 @@ public:
     hkpMotion* getMotion() const;
 
     // 0x0000007100f96a4c
-    void x_123(bool unk);
+    void setRequestMgrContactCallbackEnabled(bool enabled);
 
     void setEntityMotionFlag1(bool set);
     bool isEntityMotionFlag1On() const;

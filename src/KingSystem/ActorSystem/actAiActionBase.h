@@ -90,7 +90,7 @@ public:
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
 
-    virtual void m9() {}
+    virtual void applyParams() {}
 
 protected:
     virtual bool oneShot_() { return true; }

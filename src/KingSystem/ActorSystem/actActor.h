@@ -197,7 +197,7 @@ public:
     virtual void m51();
     virtual void m52();
     virtual void m53();
-    virtual void killWithDropsAndEffects();
+    virtual void killWithDropsAndEffects(int emit_type);
     virtual void m55();
     virtual void m56();
     virtual void m57();

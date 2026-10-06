@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryHasPorchArrow.h"
 #include <evfl/Query.h>
-#include "Game/UI/uiUtils.h"
+#include "KingSystem/System/UIGlue.h"
 
 namespace uking::query {
 
@@ -9,9 +9,9 @@ HasPorchArrow::HasPorchArrow(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 HasPorchArrow::~HasPorchArrow() = default;
 
 int HasPorchArrow::doQuery() {
-    s32 arrow_cnt = ui::getItemValue("NormalArrow") + ui::getItemValue("FireArrow") +
-                    ui::getItemValue("IceArrow") + ui::getItemValue("ElectricArrow") +
-                    ui::getItemValue("BombArrow_A") + ui::getItemValue("AncientArrow");
+    s32 arrow_cnt = ksys::ui::getItemValue("NormalArrow") + ksys::ui::getItemValue("FireArrow") +
+                    ksys::ui::getItemValue("IceArrow") + ksys::ui::getItemValue("ElectricArrow") +
+                    ksys::ui::getItemValue("BombArrow_A") + ksys::ui::getItemValue("AncientArrow");
     return arrow_cnt < *mCheckNum;
 }
 
