@@ -10,6 +10,18 @@
 
 namespace ksys {
 
+namespace {
+bool sIsGameOver;
+}
+
+bool isGameOver() {
+    return sIsGameOver;
+}
+
+void setIsGameOver(bool is_game_over) {
+    sIsGameOver = is_game_over;
+}
+
 void initBaseProcMgr(sead::Heap* heap) {
     sead::ScopedCurrentHeapSetter setter(heap);
 
