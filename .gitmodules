@@ -14,6 +14,14 @@
 	path = lib/NintendoSDK
 	url = https://github.com/open-ead/nnheaders
 	branch = master
+[submodule "lib/nnsdk"]
+	path = lib/nnsdk
+	url = https://github.com/open-ead/nnsdk
+	branch = main
+[submodule "lib/nnware"]
+	path = lib/nnware
+	url = https://github.com/open-ead/nnware
+	branch = main
 [submodule "lib/agl"]
 	path = lib/agl
 	url = https://github.com/open-ead/agl

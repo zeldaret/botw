@@ -6,7 +6,7 @@
 #include <math/seadBoundBox.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
-#include <nn/g3d/World.h>
+#include <nn/g3d/g3d_World.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadRuntimeTypeInfo.h>

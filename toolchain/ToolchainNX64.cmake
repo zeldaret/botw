@@ -48,3 +48,12 @@ else()
     # Use lld for performance reasons (and because we don't want a dependency on GNU tools)
     add_link_options(-fuse-ld=lld)
 endif()
+
+set(CMAKE_CXX_LINK_LIBRARY_USING_whole_archive
+    "LINKER:--whole-archive" "<LINK_ITEM>" "LINKER:--no-whole-archive")
+set(CMAKE_CXX_LINK_LIBRARY_USING_whole_archive_SUPPORTED TRUE)
+# Allow mixing with links of the same library without a feature (requires CMake 3.30)
+# This is important because some dependencies in the middle can link a library
+# without whole_archive, for example your_project -links-> nn_g3d -links-> nn_gfx
+set(CMAKE_LINK_LIBRARY_whole_archive_ATTRIBUTES
+   LIBRARY_TYPE=STATIC DEDUPLICATION=YES OVERRIDE=DEFAULT)

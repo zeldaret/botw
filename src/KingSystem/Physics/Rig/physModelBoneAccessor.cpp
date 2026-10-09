@@ -6,8 +6,8 @@
 #include <gsys/gsysModelNW.h>
 #include <heap/seadExpHeap.h>
 #include <heap/seadHeapMgr.h>
-#include <nn/g3d/ResSkeleton.h>
-#include <nn/g3d/SkeletonObj.h>
+#include <nn/g3d/g3d_ResSkeleton.h>
+#include <nn/g3d/g3d_SkeletonObj.h>
 #include <type_traits>
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/MathUtil.h"
