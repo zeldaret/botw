@@ -88,34 +88,10 @@ MapLinkDefType ObjectLink::getTypeForName(const sead::SafeString& name) {
 }
 
 bool ObjectLink::sub_7100D4E310(MapLinkDefType t) {
-    switch (t) {
-    case MapLinkDefType::Create:
-    case MapLinkDefType::Delete:
-    case MapLinkDefType::MtxCopyCreate:
-    case MapLinkDefType::Freeze:
-    case MapLinkDefType::ForbidAttention:
+    const auto type = static_cast<s32>(t) - static_cast<s32>(MapLinkDefType::Create);
+    if (type < 0)
         return true;
-    default:
-        break;
-    case MapLinkDefType::BasicSig:
-    case MapLinkDefType::AxisX:
-    case MapLinkDefType::AxisY:
-    case MapLinkDefType::AxisZ:
-    case MapLinkDefType::NAxisX:
-    case MapLinkDefType::NAxisY:
-    case MapLinkDefType::NAxisZ:
-    case MapLinkDefType::GimmickSuccess:
-    case MapLinkDefType::VelocityControl:
-    case MapLinkDefType::BasicSigOnOnly:
-    case MapLinkDefType::Remains:
-    case MapLinkDefType::DeadUp:
-    case MapLinkDefType::LifeZero:
-    case MapLinkDefType::Stable:
-    case MapLinkDefType::ChangeAtnSig:
-        return true;
-    }
-
-    return false;
+    return type == 0 || type == 1 || type == 2 || type == 3 || type == 4;
 }
 
 bool ObjectLink::isPlacementLODOrForSaleLink(MapLinkDefType t) {
