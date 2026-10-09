@@ -7,7 +7,7 @@ GuardianMiniGuardNavMeshWalk::GuardianMiniGuardNavMeshWalk(const InitArg& arg) :
 GuardianMiniGuardNavMeshWalk::~GuardianMiniGuardNavMeshWalk() = default;
 
 void GuardianMiniGuardNavMeshWalk::loadParams_() {
-    NavMeshAction::loadParams_();
+    NavMeshMoveBase::loadParams_();
     getStaticParam(&mASSlot_s, "ASSlot");
     getStaticParam(&mASName_s, "ASName");
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionHornUseBase.h"
+#include "Game/Actor/Action/actionEquipHornUseBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class HornUse : public HornUseBase {
-    SEAD_RTTI_OVERRIDE(HornUse, HornUseBase)
+class HornUse : public EquipHornUseBase {
+    SEAD_RTTI_OVERRIDE(HornUse, EquipHornUseBase)
 public:
     explicit HornUse(const InitArg& arg);
     ~HornUse() override;

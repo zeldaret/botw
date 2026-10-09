@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionEnemyFortressChatTurnBase.h"
+#include "Game/Actor/Action/actionEnemyFortressChatLookBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class EnemyFortressChatTurn : public EnemyFortressChatTurnBase {
-    SEAD_RTTI_OVERRIDE(EnemyFortressChatTurn, EnemyFortressChatTurnBase)
+class EnemyFortressChatTurn : public EnemyFortressChatLookBase {
+    SEAD_RTTI_OVERRIDE(EnemyFortressChatTurn, EnemyFortressChatLookBase)
 public:
     explicit EnemyFortressChatTurn(const InitArg& arg);
     ~EnemyFortressChatTurn() override;

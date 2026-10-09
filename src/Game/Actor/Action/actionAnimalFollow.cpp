@@ -2,29 +2,29 @@
 
 namespace uking::action {
 
-AnimalFollow::AnimalFollow(const InitArg& arg) : AnimalFollowBase(arg) {}
+AnimalFollow::AnimalFollow(const InitArg& arg) : HorseFollowBase(arg) {}
 
 AnimalFollow::~AnimalFollow() = default;
 
 bool AnimalFollow::init_(sead::Heap* heap) {
-    return AnimalFollowBase::init_(heap);
+    return HorseFollowBase::init_(heap);
 }
 
 void AnimalFollow::enter_(ksys::act::ai::InlineParamPack* params) {
-    AnimalFollowBase::enter_(params);
+    HorseFollowBase::enter_(params);
 }
 
 void AnimalFollow::leave_() {
-    AnimalFollowBase::leave_();
+    HorseFollowBase::leave_();
 }
 
 void AnimalFollow::loadParams_() {
-    AnimalFollowBase::loadParams_();
+    HorseFollowBase::loadParams_();
     getStaticParam(&mDistanceKept_s, "DistanceKept");
 }
 
 void AnimalFollow::calc_() {
-    AnimalFollowBase::calc_();
+    HorseFollowBase::calc_();
 }
 
 }  // namespace uking::action

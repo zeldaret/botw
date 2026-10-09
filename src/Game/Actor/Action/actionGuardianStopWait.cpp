@@ -2,31 +2,31 @@
 
 namespace uking::action {
 
-GuardianStopWait::GuardianStopWait(const InitArg& arg) : GuardianMoveTo(arg) {}
+GuardianStopWait::GuardianStopWait(const InitArg& arg) : GuardianActionBase(arg) {}
 
 GuardianStopWait::~GuardianStopWait() = default;
 
 bool GuardianStopWait::init_(sead::Heap* heap) {
-    return GuardianMoveTo::init_(heap);
+    return GuardianActionBase::init_(heap);
 }
 
 void GuardianStopWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    GuardianMoveTo::enter_(params);
+    GuardianActionBase::enter_(params);
 }
 
 void GuardianStopWait::leave_() {
-    GuardianMoveTo::leave_();
+    GuardianActionBase::leave_();
 }
 
 void GuardianStopWait::loadParams_() {
-    GuardianMoveTo::loadParams_();
+    GuardianActionBase::loadParams_();
     getStaticParam(&mSpeed_s, "Speed");
     getDynamicParam(&mDynStopTime_d, "DynStopTime");
     getDynamicParam(&mDynStopPos_d, "DynStopPos");
 }
 
 void GuardianStopWait::calc_() {
-    GuardianMoveTo::calc_();
+    GuardianActionBase::calc_();
 }
 
 }  // namespace uking::action

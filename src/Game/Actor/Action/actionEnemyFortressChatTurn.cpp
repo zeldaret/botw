@@ -2,29 +2,29 @@
 
 namespace uking::action {
 
-EnemyFortressChatTurn::EnemyFortressChatTurn(const InitArg& arg) : EnemyFortressChatTurnBase(arg) {}
+EnemyFortressChatTurn::EnemyFortressChatTurn(const InitArg& arg) : EnemyFortressChatLookBase(arg) {}
 
 EnemyFortressChatTurn::~EnemyFortressChatTurn() = default;
 
 bool EnemyFortressChatTurn::init_(sead::Heap* heap) {
-    return EnemyFortressChatTurnBase::init_(heap);
+    return EnemyFortressChatLookBase::init_(heap);
 }
 
 void EnemyFortressChatTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyFortressChatTurnBase::enter_(params);
+    EnemyFortressChatLookBase::enter_(params);
 }
 
 void EnemyFortressChatTurn::leave_() {
-    EnemyFortressChatTurnBase::leave_();
+    EnemyFortressChatLookBase::leave_();
 }
 
 void EnemyFortressChatTurn::loadParams_() {
-    EnemyFortressChatTurnBase::loadParams_();
+    EnemyFortressChatLookBase::loadParams_();
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
 void EnemyFortressChatTurn::calc_() {
-    EnemyFortressChatTurnBase::calc_();
+    EnemyFortressChatLookBase::calc_();
 }
 
 }  // namespace uking::action

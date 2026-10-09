@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-Freeze::Freeze(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Freeze::Freeze(const InitArg& arg) : StopBase(arg) {}
 
 Freeze::~Freeze() = default;
 
 bool Freeze::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void Freeze::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void Freeze::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void Freeze::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mIsChangeInAir_s, "IsChangeInAir");
     getStaticParam(&mTransBoneKey_s, "TransBoneKey");
     getAITreeVariable(&mIsKeepFreeze_a, "IsKeepFreeze");
@@ -27,7 +27,7 @@ void Freeze::loadParams_() {
 }
 
 void Freeze::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

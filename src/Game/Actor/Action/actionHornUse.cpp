@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-HornUse::HornUse(const InitArg& arg) : HornUseBase(arg) {}
+HornUse::HornUse(const InitArg& arg) : EquipHornUseBase(arg) {}
 
 HornUse::~HornUse() = default;
 
 bool HornUse::init_(sead::Heap* heap) {
-    return HornUseBase::init_(heap);
+    return EquipHornUseBase::init_(heap);
 }
 
 void HornUse::enter_(ksys::act::ai::InlineParamPack* params) {
-    HornUseBase::enter_(params);
+    EquipHornUseBase::enter_(params);
 }
 
 void HornUse::leave_() {
-    HornUseBase::leave_();
+    EquipHornUseBase::leave_();
 }
 
 void HornUse::loadParams_() {
-    HornUseBase::loadParams_();
+    EquipHornUseBase::loadParams_();
     getStaticParam(&mSpreadDist_s, "SpreadDist");
     getStaticParam(&mSpreadTime_s, "SpreadTime");
     getStaticParam(&mTerrorLevel_s, "TerrorLevel");
@@ -27,7 +27,7 @@ void HornUse::loadParams_() {
 }
 
 void HornUse::calc_() {
-    HornUseBase::calc_();
+    EquipHornUseBase::calc_();
 }
 
 }  // namespace uking::action

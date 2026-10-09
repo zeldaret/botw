@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class StalEnemyHeadShotReaction : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(StalEnemyHeadShotReaction, ActionWithPosAngReduce)
+class StalEnemyHeadShotReaction : public StopBase {
+    SEAD_RTTI_OVERRIDE(StalEnemyHeadShotReaction, StopBase)
 public:
     explicit StalEnemyHeadShotReaction(const InitArg& arg);
     ~StalEnemyHeadShotReaction() override;

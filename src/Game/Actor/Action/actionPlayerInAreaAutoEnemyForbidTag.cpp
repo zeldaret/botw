@@ -3,24 +3,24 @@
 namespace uking::action {
 
 PlayerInAreaAutoEnemyForbidTag::PlayerInAreaAutoEnemyForbidTag(const InitArg& arg)
-    : ForbidTag(arg) {}
+    : BasicSignalForbidTag(arg) {}
 
 PlayerInAreaAutoEnemyForbidTag::~PlayerInAreaAutoEnemyForbidTag() = default;
 
 bool PlayerInAreaAutoEnemyForbidTag::init_(sead::Heap* heap) {
-    return ForbidTag::init_(heap);
+    return BasicSignalForbidTag::init_(heap);
 }
 
 void PlayerInAreaAutoEnemyForbidTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForbidTag::enter_(params);
+    BasicSignalForbidTag::enter_(params);
 }
 
 void PlayerInAreaAutoEnemyForbidTag::leave_() {
-    ForbidTag::leave_();
+    BasicSignalForbidTag::leave_();
 }
 
 void PlayerInAreaAutoEnemyForbidTag::loadParams_() {
-    ForbidTag::loadParams_();
+    BasicSignalForbidTag::loadParams_();
     getMapUnitParam(&mNonAutoPlacementAnimal_m, "NonAutoPlacementAnimal");
     getMapUnitParam(&mNonAutoPlacementBird_m, "NonAutoPlacementBird");
     getMapUnitParam(&mNonAutoPlacementEnemy_m, "NonAutoPlacementEnemy");
@@ -31,7 +31,7 @@ void PlayerInAreaAutoEnemyForbidTag::loadParams_() {
 }
 
 void PlayerInAreaAutoEnemyForbidTag::calc_() {
-    ForbidTag::calc_();
+    BasicSignalForbidTag::calc_();
 }
 
 }  // namespace uking::action

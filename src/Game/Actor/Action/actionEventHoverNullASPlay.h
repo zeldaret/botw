@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Game/Actor/Action/actionEventHoverNullASPlayBase.h"
+#include "Game/Actor/Action/actionEventNullASPlayBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
-class EventHoverNullASPlay : public EventHoverNullASPlayBase {
-    SEAD_RTTI_OVERRIDE(EventHoverNullASPlay, EventHoverNullASPlayBase)
+class EventHoverNullASPlay : public EventNullASPlayBase {
+    SEAD_RTTI_OVERRIDE(EventHoverNullASPlay, EventNullASPlayBase)
 public:
     explicit EventHoverNullASPlay(const InitArg& arg);
     ~EventHoverNullASPlay() override;

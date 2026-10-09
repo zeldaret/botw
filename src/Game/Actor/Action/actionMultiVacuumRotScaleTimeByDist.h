@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionMultiVacuumRotScaleTimeByDistWithTgt.h"
+#include "Game/Actor/Action/actionMultiVacuumRotBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class MultiVacuumRotScaleTimeByDist : public MultiVacuumRotScaleTimeByDistWithTgt {
-    SEAD_RTTI_OVERRIDE(MultiVacuumRotScaleTimeByDist, MultiVacuumRotScaleTimeByDistWithTgt)
+class MultiVacuumRotScaleTimeByDist : public MultiVacuumRotBase {
+    SEAD_RTTI_OVERRIDE(MultiVacuumRotScaleTimeByDist, MultiVacuumRotBase)
 public:
     explicit MultiVacuumRotScaleTimeByDist(const InitArg& arg);
     ~MultiVacuumRotScaleTimeByDist() override;

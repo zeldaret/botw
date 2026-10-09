@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-HorseFreeze::HorseFreeze(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+HorseFreeze::HorseFreeze(const InitArg& arg) : StopBase(arg) {}
 
 HorseFreeze::~HorseFreeze() = default;
 
 bool HorseFreeze::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void HorseFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void HorseFreeze::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void HorseFreeze::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mPauseDelayFrames_s, "PauseDelayFrames");
     getStaticParam(&mCanRiddenWhenLeave_s, "CanRiddenWhenLeave");
     getStaticParam(&mASName_s, "ASName");
@@ -28,7 +28,7 @@ void HorseFreeze::loadParams_() {
 }
 
 void HorseFreeze::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

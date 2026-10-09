@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SandwormASPlay : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(SandwormASPlay, ActionWithPosAngReduce)
+class SandwormASPlay : public StopBase {
+    SEAD_RTTI_OVERRIDE(SandwormASPlay, StopBase)
 public:
     explicit SandwormASPlay(const InitArg& arg);
     ~SandwormASPlay() override;

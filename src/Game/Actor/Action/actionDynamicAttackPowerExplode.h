@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionAttackPowerExplode.h"
+#include "Game/Actor/Action/actionEitherSideExplode.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class DynamicAttackPowerExplode : public AttackPowerExplode {
-    SEAD_RTTI_OVERRIDE(DynamicAttackPowerExplode, AttackPowerExplode)
+class DynamicAttackPowerExplode : public EitherSideExplode {
+    SEAD_RTTI_OVERRIDE(DynamicAttackPowerExplode, EitherSideExplode)
 public:
     explicit DynamicAttackPowerExplode(const InitArg& arg);
     ~DynamicAttackPowerExplode() override;

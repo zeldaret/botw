@@ -2,29 +2,30 @@
 
 namespace uking::action {
 
-ForkEmitChmFieldByContact::ForkEmitChmFieldByContact(const InitArg& arg) : ForkEmitChmField(arg) {}
+ForkEmitChmFieldByContact::ForkEmitChmFieldByContact(const InitArg& arg)
+    : ForkTrgEmitChmFieldBase(arg) {}
 
 ForkEmitChmFieldByContact::~ForkEmitChmFieldByContact() = default;
 
 bool ForkEmitChmFieldByContact::init_(sead::Heap* heap) {
-    return ForkEmitChmField::init_(heap);
+    return ForkTrgEmitChmFieldBase::init_(heap);
 }
 
 void ForkEmitChmFieldByContact::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkEmitChmField::enter_(params);
+    ForkTrgEmitChmFieldBase::enter_(params);
 }
 
 void ForkEmitChmFieldByContact::leave_() {
-    ForkEmitChmField::leave_();
+    ForkTrgEmitChmFieldBase::leave_();
 }
 
 void ForkEmitChmFieldByContact::loadParams_() {
-    ForkEmitChmField::loadParams_();
+    ForkTrgEmitChmFieldBase::loadParams_();
     getStaticParam(&mRigidBodyName_s, "RigidBodyName");
 }
 
 void ForkEmitChmFieldByContact::calc_() {
-    ForkEmitChmField::calc_();
+    ForkTrgEmitChmFieldBase::calc_();
 }
 
 }  // namespace uking::action

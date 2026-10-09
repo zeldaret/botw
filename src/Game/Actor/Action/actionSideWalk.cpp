@@ -2,30 +2,30 @@
 
 namespace uking::action {
 
-SideWalk::SideWalk(const InitArg& arg) : SideWalkBase(arg) {}
+SideWalk::SideWalk(const InitArg& arg) : SideMoveBase(arg) {}
 
 SideWalk::~SideWalk() = default;
 
 bool SideWalk::init_(sead::Heap* heap) {
-    return SideWalkBase::init_(heap);
+    return SideMoveBase::init_(heap);
 }
 
 void SideWalk::enter_(ksys::act::ai::InlineParamPack* params) {
-    SideWalkBase::enter_(params);
+    SideMoveBase::enter_(params);
 }
 
 void SideWalk::leave_() {
-    SideWalkBase::leave_();
+    SideMoveBase::leave_();
 }
 
 void SideWalk::loadParams_() {
-    SideWalkBase::loadParams_();
+    SideMoveBase::loadParams_();
     getStaticParam(&mIsIgnoreSameAS_s, "IsIgnoreSameAS");
     getStaticParam(&mASKeyName_s, "ASKeyName");
 }
 
 void SideWalk::calc_() {
-    SideWalkBase::calc_();
+    SideMoveBase::calc_();
 }
 
 }  // namespace uking::action

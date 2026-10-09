@@ -2,25 +2,25 @@
 
 namespace uking::action {
 
-Eat::Eat(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Eat::Eat(const InitArg& arg) : StopBase(arg) {}
 
 Eat::~Eat() = default;
 
 void Eat::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void Eat::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void Eat::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mIsHeal_s, "IsHeal");
 }
 
 void Eat::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

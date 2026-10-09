@@ -2,6 +2,6 @@
 
 namespace uking::action {
 
-AreaFireObserve::AreaFireObserve(const InitArg& arg) : AreaFireObserveBase(arg) {}
+AreaFireObserve::AreaFireObserve(const InitArg& arg) : FireObserveBase(arg) {}
 
 }  // namespace uking::action

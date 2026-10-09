@@ -2,31 +2,31 @@
 
 namespace uking::action {
 
-StopJump::StopJump(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+StopJump::StopJump(const InitArg& arg) : StopBase(arg) {}
 
 StopJump::~StopJump() = default;
 
 bool StopJump::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void StopJump::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void StopJump::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void StopJump::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mJumpHeight_s, "JumpHeight");
     getStaticParam(&mJumpLoopAS_s, "JumpLoopAS");
     getStaticParam(&mLandingAS_s, "LandingAS");
 }
 
 void StopJump::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

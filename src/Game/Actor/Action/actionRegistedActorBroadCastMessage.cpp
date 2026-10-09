@@ -3,28 +3,28 @@
 namespace uking::action {
 
 RegistedActorBroadCastMessage::RegistedActorBroadCastMessage(const InitArg& arg)
-    : RegistedActorActionBase(arg) {}
+    : RegistedActorSetActionBase(arg) {}
 
 RegistedActorBroadCastMessage::~RegistedActorBroadCastMessage() = default;
 
 bool RegistedActorBroadCastMessage::init_(sead::Heap* heap) {
-    return RegistedActorActionBase::init_(heap);
+    return RegistedActorSetActionBase::init_(heap);
 }
 
 void RegistedActorBroadCastMessage::enter_(ksys::act::ai::InlineParamPack* params) {
-    RegistedActorActionBase::enter_(params);
+    RegistedActorSetActionBase::enter_(params);
 }
 
 void RegistedActorBroadCastMessage::leave_() {
-    RegistedActorActionBase::leave_();
+    RegistedActorSetActionBase::leave_();
 }
 
 void RegistedActorBroadCastMessage::loadParams_() {
-    RegistedActorActionBase::loadParams_();
+    RegistedActorSetActionBase::loadParams_();
 }
 
 void RegistedActorBroadCastMessage::calc_() {
-    RegistedActorActionBase::calc_();
+    RegistedActorSetActionBase::calc_();
 }
 
 }  // namespace uking::action

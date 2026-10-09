@@ -15,7 +15,7 @@ void ThrowWeapon::leave_() {
 }
 
 void ThrowWeapon::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mSpeedMin_s, "SpeedMin");
     getStaticParam(&mSpeedMax_s, "SpeedMax");

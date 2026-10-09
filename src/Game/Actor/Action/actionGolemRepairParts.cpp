@@ -19,7 +19,7 @@ void GolemRepairParts::leave_() {
 }
 
 void GolemRepairParts::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mTgtBodyName_s, "TgtBodyName");
     getStaticParam(&mChmObjectName_s, "ChmObjectName");

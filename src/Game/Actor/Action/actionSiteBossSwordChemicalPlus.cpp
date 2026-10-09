@@ -2,29 +2,28 @@
 
 namespace uking::action {
 
-SiteBossSwordChemicalPlus::SiteBossSwordChemicalPlus(const InitArg& arg)
-    : ActionWithPosAngReduce(arg) {}
+SiteBossSwordChemicalPlus::SiteBossSwordChemicalPlus(const InitArg& arg) : StopBase(arg) {}
 
 SiteBossSwordChemicalPlus::~SiteBossSwordChemicalPlus() = default;
 
 bool SiteBossSwordChemicalPlus::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void SiteBossSwordChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void SiteBossSwordChemicalPlus::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void SiteBossSwordChemicalPlus::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
 }
 
 void SiteBossSwordChemicalPlus::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

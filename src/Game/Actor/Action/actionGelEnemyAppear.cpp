@@ -19,7 +19,7 @@ void GelEnemyAppear::leave_() {
 }
 
 void GelEnemyAppear::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
 }
 
 void GelEnemyAppear::calc_() {

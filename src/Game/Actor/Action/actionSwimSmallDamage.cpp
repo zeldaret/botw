@@ -15,7 +15,7 @@ void SwimSmallDamage::leave_() {
 }
 
 void SwimSmallDamage::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mInWaterDepth_s, "InWaterDepth");
     getStaticParam(&mFloatDepth_s, "FloatDepth");
     getStaticParam(&mFloatRadius_s, "FloatRadius");

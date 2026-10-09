@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionForkOnEnterSwapDropTableActor.h"
+#include "Game/Actor/Action/actionOnEnterSwapDropTable.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class OnEnterSwapDropTableActor : public ForkOnEnterSwapDropTableActor {
-    SEAD_RTTI_OVERRIDE(OnEnterSwapDropTableActor, ForkOnEnterSwapDropTableActor)
+class OnEnterSwapDropTableActor : public OnEnterSwapDropTable {
+    SEAD_RTTI_OVERRIDE(OnEnterSwapDropTableActor, OnEnterSwapDropTable)
 public:
     explicit OnEnterSwapDropTableActor(const InitArg& arg);
     ~OnEnterSwapDropTableActor() override;

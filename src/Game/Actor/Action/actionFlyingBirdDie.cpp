@@ -2,30 +2,30 @@
 
 namespace uking::action {
 
-FlyingBirdDie::FlyingBirdDie(const InitArg& arg) : FlyingCharacterDamageBase(arg) {}
+FlyingBirdDie::FlyingBirdDie(const InitArg& arg) : FlyingActorDamageBase(arg) {}
 
 FlyingBirdDie::~FlyingBirdDie() = default;
 
 bool FlyingBirdDie::init_(sead::Heap* heap) {
-    return FlyingCharacterDamageBase::init_(heap);
+    return FlyingActorDamageBase::init_(heap);
 }
 
 void FlyingBirdDie::enter_(ksys::act::ai::InlineParamPack* params) {
-    FlyingCharacterDamageBase::enter_(params);
+    FlyingActorDamageBase::enter_(params);
 }
 
 void FlyingBirdDie::leave_() {
-    FlyingCharacterDamageBase::leave_();
+    FlyingActorDamageBase::leave_();
 }
 
 void FlyingBirdDie::loadParams_() {
-    FlyingCharacterDamageBase::loadParams_();
+    FlyingActorDamageBase::loadParams_();
     getStaticParam(&mEnableHitGroundCheckTimer_s, "EnableHitGroundCheckTimer");
     getStaticParam(&mIsChangeStateFallOnce_s, "IsChangeStateFallOnce");
 }
 
 void FlyingBirdDie::calc_() {
-    FlyingCharacterDamageBase::calc_();
+    FlyingActorDamageBase::calc_();
 }
 
 }  // namespace uking::action

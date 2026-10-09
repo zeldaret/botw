@@ -2,28 +2,28 @@
 
 namespace uking::action {
 
-Throw::Throw(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Throw::Throw(const InitArg& arg) : StopBase(arg) {}
 
 Throw::~Throw() = default;
 
 bool Throw::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void Throw::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void Throw::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void Throw::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
 }
 
 void Throw::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

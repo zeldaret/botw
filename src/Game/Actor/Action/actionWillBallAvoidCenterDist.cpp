@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-WillBallAvoidCenterDist::WillBallAvoidCenterDist(const InitArg& arg) : WillBallAction(arg) {}
+WillBallAvoidCenterDist::WillBallAvoidCenterDist(const InitArg& arg) : WillBallBase(arg) {}
 
 WillBallAvoidCenterDist::~WillBallAvoidCenterDist() = default;
 
 bool WillBallAvoidCenterDist::init_(sead::Heap* heap) {
-    return WillBallAction::init_(heap);
+    return WillBallBase::init_(heap);
 }
 
 void WillBallAvoidCenterDist::enter_(ksys::act::ai::InlineParamPack* params) {
-    WillBallAction::enter_(params);
+    WillBallBase::enter_(params);
 }
 
 void WillBallAvoidCenterDist::leave_() {
-    WillBallAction::leave_();
+    WillBallBase::leave_();
 }
 
 void WillBallAvoidCenterDist::loadParams_() {
-    WillBallAction::loadParams_();
+    WillBallBase::loadParams_();
     getStaticParam(&mDist_s, "Dist");
     getStaticParam(&mMaxDist_s, "MaxDist");
     getStaticParam(&mMiddleDist_s, "MiddleDist");
@@ -27,7 +27,7 @@ void WillBallAvoidCenterDist::loadParams_() {
 }
 
 void WillBallAvoidCenterDist::calc_() {
-    WillBallAction::calc_();
+    WillBallBase::calc_();
 }
 
 }  // namespace uking::action

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionAnimalFollowBase.h"
+#include "Game/Actor/Action/actionHorseFollowBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class AnimalFollow : public AnimalFollowBase {
-    SEAD_RTTI_OVERRIDE(AnimalFollow, AnimalFollowBase)
+class AnimalFollow : public HorseFollowBase {
+    SEAD_RTTI_OVERRIDE(AnimalFollow, HorseFollowBase)
 public:
     explicit AnimalFollow(const InitArg& arg);
     ~AnimalFollow() override;

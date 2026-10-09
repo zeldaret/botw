@@ -2,16 +2,16 @@
 
 namespace uking::action {
 
-NavMeshMoveWithAS::NavMeshMoveWithAS(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshMoveWithAS::NavMeshMoveWithAS(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 NavMeshMoveWithAS::~NavMeshMoveWithAS() = default;
 
 bool NavMeshMoveWithAS::init_(sead::Heap* heap) {
-    return NavMeshAction::init_(heap);
+    return NavMeshMoveBase::init_(heap);
 }
 
 void NavMeshMoveWithAS::loadParams_() {
-    NavMeshAction::loadParams_();
+    NavMeshMoveBase::loadParams_();
     getStaticParam(&mIsIgnoreSameAS_s, "IsIgnoreSameAS");
     getStaticParam(&mASName_s, "ASName");
 }

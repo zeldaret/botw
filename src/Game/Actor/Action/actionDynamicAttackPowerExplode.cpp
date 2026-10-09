@@ -2,32 +2,31 @@
 
 namespace uking::action {
 
-DynamicAttackPowerExplode::DynamicAttackPowerExplode(const InitArg& arg)
-    : AttackPowerExplode(arg) {}
+DynamicAttackPowerExplode::DynamicAttackPowerExplode(const InitArg& arg) : EitherSideExplode(arg) {}
 
 DynamicAttackPowerExplode::~DynamicAttackPowerExplode() = default;
 
 bool DynamicAttackPowerExplode::init_(sead::Heap* heap) {
-    return AttackPowerExplode::init_(heap);
+    return EitherSideExplode::init_(heap);
 }
 
 void DynamicAttackPowerExplode::enter_(ksys::act::ai::InlineParamPack* params) {
-    AttackPowerExplode::enter_(params);
+    EitherSideExplode::enter_(params);
 }
 
 void DynamicAttackPowerExplode::leave_() {
-    AttackPowerExplode::leave_();
+    EitherSideExplode::leave_();
 }
 
 void DynamicAttackPowerExplode::loadParams_() {
-    AttackPowerExplode::loadParams_();
+    EitherSideExplode::loadParams_();
     getStaticParam(&mAttackPower_s, "AttackPower");
     getStaticParam(&mMinDamage_s, "MinDamage");
     getStaticParam(&mPlayerDamage_s, "PlayerDamage");
 }
 
 void DynamicAttackPowerExplode::calc_() {
-    AttackPowerExplode::calc_();
+    EitherSideExplode::calc_();
 }
 
 }  // namespace uking::action

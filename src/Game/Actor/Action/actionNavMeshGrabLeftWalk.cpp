@@ -2,6 +2,6 @@
 
 namespace uking::action {
 
-NavMeshGrabLeftWalk::NavMeshGrabLeftWalk(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshGrabLeftWalk::NavMeshGrabLeftWalk(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 }  // namespace uking::action

@@ -2,19 +2,19 @@
 
 namespace uking::action {
 
-PlayerStoleOpen::PlayerStoleOpen(const InitArg& arg) : PlayerStoleOpenEx(arg) {}
+PlayerStoleOpen::PlayerStoleOpen(const InitArg& arg) : BindPlayerNodeEx(arg) {}
 
 void PlayerStoleOpen::enter_(ksys::act::ai::InlineParamPack* params) {
-    PlayerStoleOpenEx::enter_(params);
+    BindPlayerNodeEx::enter_(params);
 }
 
 void PlayerStoleOpen::loadParams_() {
-    PlayerStoleOpenBase::loadParams_();
+    BindPlayerNodeBase::loadParams_();
     getStaticParam(&mEnlargeSpd_s, "EnlargeSpd");
 }
 
 void PlayerStoleOpen::calc_() {
-    PlayerStoleOpenEx::calc_();
+    BindPlayerNodeEx::calc_();
 }
 
 }  // namespace uking::action

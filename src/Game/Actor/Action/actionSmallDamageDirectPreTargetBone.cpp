@@ -8,7 +8,7 @@ SmallDamageDirectPreTargetBone::SmallDamageDirectPreTargetBone(const InitArg& ar
 SmallDamageDirectPreTargetBone::~SmallDamageDirectPreTargetBone() = default;
 
 void SmallDamageDirectPreTargetBone::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
     getStaticParam(&mPreTargetBone_s, "PreTargetBone");
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mIsSetHitPosSelecter_s, "IsSetHitPosSelecter");

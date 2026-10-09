@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionWillBallAction.h"
+#include "Game/Actor/Action/actionWillBallBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class WillBallAvoidCenterDist : public WillBallAction {
-    SEAD_RTTI_OVERRIDE(WillBallAvoidCenterDist, WillBallAction)
+class WillBallAvoidCenterDist : public WillBallBase {
+    SEAD_RTTI_OVERRIDE(WillBallAvoidCenterDist, WillBallBase)
 public:
     explicit WillBallAvoidCenterDist(const InitArg& arg);
     ~WillBallAvoidCenterDist() override;

@@ -3,8 +3,6 @@ target_sources(uking PRIVATE
   actionActionEx.h
   actionActionWithAS.cpp
   actionActionWithAS.h
-  actionActionWithPosAngReduce.cpp
-  actionActionWithPosAngReduce.h
   actionActivateAttackSensor.cpp
   actionActivateAttackSensor.h
   actionActorAreaInOutSendMessage.cpp
@@ -59,8 +57,6 @@ target_sources(uking PRIVATE
   actionAnimalEatAction.h
   actionAnimalElectricParalysis.cpp
   actionAnimalElectricParalysis.h
-  actionAnimalFollowBase.cpp
-  actionAnimalFollowBase.h
   actionAnimalFollow.cpp
   actionAnimalFollow.h
   actionAnimalFreeze.cpp
@@ -137,8 +133,6 @@ target_sources(uking PRIVATE
   actionAppearNumKorokNuts.h
   actionAppearNumTargets.cpp
   actionAppearNumTargets.h
-  actionApplyDamageForPlayer.cpp
-  actionApplyDamageForPlayer.h
   actionApplyHorizontalImpulse.cpp
   actionApplyHorizontalImpulse.h
   actionApplyMoveImpulse.cpp
@@ -199,16 +193,16 @@ target_sources(uking PRIVATE
   actionAtOnWait.h
   actionAtOnWaitNoHitRope.cpp
   actionAtOnWaitNoHitRope.h
-  actionAttackBase.cpp
-  actionAttackBase.h
   actionAttack.cpp
   actionAttack.h
   actionAttackJumpToTarget.cpp
   actionAttackJumpToTarget.h
   actionAttackPartBind.cpp
   actionAttackPartBind.h
-  actionAttackPowerExplode.cpp
-  actionAttackPowerExplode.h
+  actionAttackWithAS.cpp
+  actionAttackWithAS.h
+  actionAvoidingCloseMoveActionBase.cpp
+  actionAvoidingCloseMoveActionBase.h
   actionAvoidingCloseMoveActionWithAcc.cpp
   actionAvoidingCloseMoveActionWithAcc.h
   actionAvoidingCloseMoveBase.cpp
@@ -238,8 +232,6 @@ target_sources(uking PRIVATE
   actionBackWalkBase.cpp
   actionBackWalkBase.h
   actionBackWalk.cpp
-  actionBackWalkEx.cpp
-  actionBackWalkEx.h
   actionBackWalk.h
   actionBackWalkWithAS.cpp
   actionBackWalkWithAS.h
@@ -255,6 +247,8 @@ target_sources(uking PRIVATE
   actionBasicSignalEnemyForceNotice.cpp
   actionBasicSignalEnemyForceNotice.h
   actionBasicSignalEnemyNotice.h
+  actionBasicSignalForbidTag.cpp
+  actionBasicSignalForbidTag.h
   actionBattleCloseDangerAvoidRun.cpp
   actionBattleCloseDangerAvoidRun.h
   actionBattleCloseExplosivesAvoidRun.cpp
@@ -273,8 +267,6 @@ target_sources(uking PRIVATE
   actionBattleCloseMeanderGuardRun.h
   actionBattleCloseMeanderRun.cpp
   actionBattleCloseMeanderRun.h
-  actionBattleCloseMoveActionBase.cpp
-  actionBattleCloseMoveActionBase.h
   actionBattleCloseMoveAction.cpp
   actionBattleCloseMoveAction.h
   actionBattleCloseMove.cpp
@@ -295,6 +287,8 @@ target_sources(uking PRIVATE
   actionBattleWalk.h
   actionBeamMove.cpp
   actionBeamMove.h
+  actionBeamNeckSpin.cpp
+  actionBeamNeckSpin.h
   actionBeamosStaticBeam.cpp
   actionBeamosStaticBeam.h
   actionBeamTailDelete.cpp
@@ -323,6 +317,10 @@ target_sources(uking PRIVATE
   actionBindOff.h
   actionBindParentAction.cpp
   actionBindParentAction.h
+  actionBindPlayerNodeBase.cpp
+  actionBindPlayerNodeBase.h
+  actionBindPlayerNodeEx.cpp
+  actionBindPlayerNodeEx.h
   actionBirdEscape.cpp
   actionBirdEscape.h
   actionBlownOff.cpp
@@ -437,12 +435,8 @@ target_sources(uking PRIVATE
   actionChemicalward.h
   actionChuchuCommonDownTimer.cpp
   actionChuchuCommonDownTimer.h
-  actionChuchuDissappearEscapeBase.cpp
-  actionChuchuDissappearEscapeBase.h
   actionChuchuDissappearEscape.cpp
   actionChuchuDissappearEscape.h
-  actionChuchuPreAttackBase.cpp
-  actionChuchuPreAttackBase.h
   actionChuchuPreAttack.cpp
   actionChuchuPreAttack.h
   actionCloseArmorProcessing.cpp
@@ -473,6 +467,8 @@ target_sources(uking PRIVATE
   actionCreateAndReplaceAssassin.h
   actionCreateDragonChallengeXLink.cpp
   actionCreateDragonChallengeXLink.h
+  actionCreateDropBase.cpp
+  actionCreateDropBase.h
   actionCreateEpona.cpp
   actionCreateEpona.h
   actionCreateGanonChemicalPillar.cpp
@@ -481,6 +477,8 @@ target_sources(uking PRIVATE
   actionCreateObjectsOfOwnedHorse.h
   actionCurseRRematchCount.cpp
   actionCurseRRematchCount.h
+  actionCurveMoveToTargetBase.cpp
+  actionCurveMoveToTargetBase.h
   actionDamagedTurn.cpp
   actionDamagedTurn.h
   actionDamageField.cpp
@@ -497,6 +495,8 @@ target_sources(uking PRIVATE
   actionDeleteInGround.h
   actionDeletePorchItemIncludeEquip.cpp
   actionDeletePorchItemIncludeEquip.h
+  actionDemoApplyDamageBase.cpp
+  actionDemoApplyDamageBase.h
   actionDemoApplyDamageForPlayer.cpp
   actionDemoApplyDamageForPlayer.h
   actionDemoBeastGanonGrudgeDrop.cpp
@@ -541,6 +541,10 @@ target_sources(uking PRIVATE
   actionDemoVisibleOn.h
   actionDemoVoiceTrigger.cpp
   actionDemoVoiceTrigger.h
+  actionDestPlayerWarpBase.cpp
+  actionDestPlayerWarpBase.h
+  actionDestPointMoveBase.cpp
+  actionDestPointMoveBase.h
   actionDgnObj_DLC_CogWheel_ASPlay.cpp
   actionDgnObj_DLC_CogWheel_ASPlay.h
   actionDgnObj_DLC_CogWheel_Reject.cpp
@@ -571,6 +575,8 @@ target_sources(uking PRIVATE
   actionDirectToWindDirection.h
   actionDisableAutoSavePausing.cpp
   actionDisableAutoSavePausing.h
+  actionDisappearAndEscapeBase.cpp
+  actionDisappearAndEscapeBase.h
   actionDisappearDeathCounter.cpp
   actionDisappearDeathCounter.h
   actionDisappearNumDungeonClearSeal.cpp
@@ -669,6 +675,8 @@ target_sources(uking PRIVATE
   actionEat.h
   actionEatWithAS.cpp
   actionEatWithAS.h
+  actionEitherSideExplode.cpp
+  actionEitherSideExplode.h
   actionElectricAttack.cpp
   actionElectricAttack.h
   actionElectricBlownOff.cpp
@@ -689,12 +697,12 @@ target_sources(uking PRIVATE
   actionEnemyChangeWeapon.h
   actionEnemyFortressChatCall.cpp
   actionEnemyFortressChatCall.h
+  actionEnemyFortressChatLookBase.cpp
+  actionEnemyFortressChatLookBase.h
   actionEnemyFortressChatSpeak.cpp
   actionEnemyFortressChatSpeak.h
   actionEnemyFortressChatTalk.cpp
   actionEnemyFortressChatTalk.h
-  actionEnemyFortressChatTurnBase.cpp
-  actionEnemyFortressChatTurnBase.h
   actionEnemyFortressChatTurn.cpp
   actionEnemyFortressChatTurn.h
   actionEnemyFortressSimpleAction.cpp
@@ -715,6 +723,8 @@ target_sources(uking PRIVATE
   actionEquipDisplayGet.cpp
   actionEquipDisplayGet.h
   actionEquipDisplay.h
+  actionEquipHornUseBase.cpp
+  actionEquipHornUseBase.h
   actionEquipedAction.cpp
   actionEquipedAction.h
   actionEquipedASPlay.cpp
@@ -799,8 +809,6 @@ target_sources(uking PRIVATE
   actionEventFadeOut.h
   actionEventFireControl.cpp
   actionEventFireControl.h
-  actionEventHoverNullASPlayBase.cpp
-  actionEventHoverNullASPlayBase.h
   actionEventHoverNullASPlay.cpp
   actionEventHoverNullASPlay.h
   actionEventMiniGameFinish.cpp
@@ -815,6 +823,8 @@ target_sources(uking PRIVATE
   actionEventMiniGameTimeMove.h
   actionEventMiniGameTimerWrite.cpp
   actionEventMiniGameTimerWrite.h
+  actionEventNullASPlayBase.cpp
+  actionEventNullASPlayBase.h
   actionEventOpenGetDemo.cpp
   actionEventOpenGetDemo.h
   actionEventOpenGetWeaponDemo.cpp
@@ -937,8 +947,8 @@ target_sources(uking PRIVATE
   actionFallAttackWithAtAttr.h
   actionFall.cpp
   actionFall.h
-  actionFireWoodBase.cpp
-  actionFireWoodBase.h
+  actionFireBurnBase.cpp
+  actionFireBurnBase.h
   actionFireWood.cpp
   actionFireWood.h
   actionFirstRunelGrudgeDemo.cpp
@@ -959,6 +969,8 @@ target_sources(uking PRIVATE
   actionFloatWait.h
   actionFlowingDust.cpp
   actionFlowingDust.h
+  actionFlyingActorDamageBase.cpp
+  actionFlyingActorDamageBase.h
   actionFlyingBalloonObserverTag.cpp
   actionFlyingBalloonObserverTag.h
   actionFlyingBirdDie.cpp
@@ -967,8 +979,6 @@ target_sources(uking PRIVATE
   actionFlyingCharacterBlownOffDie.cpp
   actionFlyingCharacterBlownOffDie.h
   actionFlyingCharacterBlownOff.h
-  actionFlyingCharacterDamageBase.cpp
-  actionFlyingCharacterDamageBase.h
   actionFlyingCharacterDamage.cpp
   actionFlyingCharacterDamage.h
   actionFlyingCharacterDie.cpp
@@ -1005,8 +1015,6 @@ target_sources(uking PRIVATE
   actionForbidComeback.h
   actionForbidSettingInstEventFlag.cpp
   actionForbidSettingInstEventFlag.h
-  actionForbidTag.cpp
-  actionForbidTag.h
   actionForceChangeAction.cpp
   actionForceChangeAction.h
   actionForceEndPlayerSlow.cpp
@@ -1168,18 +1176,14 @@ target_sources(uking PRIVATE
   actionForkDropWeaponWithSpeed.h
   actionForkDrownTimer.cpp
   actionForkDrownTimer.h
-  actionForkDynActorNoTargetSelfBase.cpp
-  actionForkDynActorNoTargetSelfBase.h
   actionForkDynActorNoTargetSelf.cpp
   actionForkDynActorNoTargetSelf.h
   actionForkDynASPlay.cpp
   actionForkDynASPlay.h
   actionForkEmitChmFieldByContact.cpp
   actionForkEmitChmFieldByContact.h
-  actionForkEmitChmField.cpp
   actionForkEmitChmFieldFromWeapon.cpp
   actionForkEmitChmFieldFromWeapon.h
-  actionForkEmitChmField.h
   actionForkEmitExpandChemicalField.cpp
   actionForkEmitExpandChemicalField.h
   actionForkEmitExpandField.cpp
@@ -1188,6 +1192,8 @@ target_sources(uking PRIVATE
   actionForkEmitExpandFieldWithCreate.h
   actionForkEmitShockWaveByContact.cpp
   actionForkEmitShockWaveByContact.h
+  actionForkEndByConditionBase.cpp
+  actionForkEndByConditionBase.h
   actionForkEndByDistance.cpp
   actionForkEndByDistance.h
   actionForkEndByPartsActorEnd.cpp
@@ -1226,6 +1232,8 @@ target_sources(uking PRIVATE
   actionForkGelDisableBodyRot.h
   actionForkGolemMaterialASPlay.cpp
   actionForkGolemMaterialASPlay.h
+  actionForkGrabBase.cpp
+  actionForkGrabBase.h
   actionForkGravityScaleChange.cpp
   actionForkGravityScaleChange.h
   actionFork.h
@@ -1235,8 +1243,6 @@ target_sources(uking PRIVATE
   actionForkHopInAir.h
   actionForkHover.cpp
   actionForkHover.h
-  actionForkHoverKeepRotateTurnBase.cpp
-  actionForkHoverKeepRotateTurnBase.h
   actionForkHoverKeepRotateTurn.cpp
   actionForkHoverKeepRotateTurn.h
   actionForkIgniteCarriedActor.cpp
@@ -1245,6 +1251,8 @@ target_sources(uking PRIVATE
   actionForkInWaterDropWeaponWithSpeed.h
   actionForkJumpToTargetOnDownEnd.cpp
   actionForkJumpToTargetOnDownEnd.h
+  actionForkKeepRotateTurn.cpp
+  actionForkKeepRotateTurn.h
   actionForkKnockBackNoRot.cpp
   actionForkKnockBackNoRot.h
   actionForkLodNoCountTimer.cpp
@@ -1293,10 +1301,6 @@ target_sources(uking PRIVATE
   actionForkOctarockEnterReloadWig.h
   actionForkOnEnterCharCtrlInvalid.cpp
   actionForkOnEnterCharCtrlInvalid.h
-  actionForkOnEnterSwapDropTableActorBase.cpp
-  actionForkOnEnterSwapDropTableActorBase.h
-  actionForkOnEnterSwapDropTableActor.cpp
-  actionForkOnEnterSwapDropTableActor.h
   actionForkOnEnterWeaponUse.cpp
   actionForkOnEnterWeaponUse.h
   actionForkOnLeaveChildDelete.cpp
@@ -1329,8 +1333,6 @@ target_sources(uking PRIVATE
   actionForkSetJustAvoid.h
   actionForkSetSwarmMaterialAnimByDist.cpp
   actionForkSetSwarmMaterialAnimByDist.h
-  actionForkSimpleGrabBase.cpp
-  actionForkSimpleGrabBase.h
   actionForkSimpleGrab.cpp
   actionForkSimpleGrab.h
   actionForkSlipAndStop.cpp
@@ -1365,6 +1367,8 @@ target_sources(uking PRIVATE
   actionForkTogglePriestBossFreeMoving.h
   actionForkToggleWeaponXLinkSleep.cpp
   actionForkToggleWeaponXLinkSleep.h
+  actionForkTrgEmitChmFieldBase.cpp
+  actionForkTrgEmitChmFieldBase.h
   actionForkTurnASHold.cpp
   actionForkTurnASHold.h
   actionForkTurn.cpp
@@ -1477,6 +1481,8 @@ target_sources(uking PRIVATE
   actionGelEnemyFreeze.h
   actionGelEnemySystemHideChase.cpp
   actionGelEnemySystemHideChase.h
+  actionGelJumpBase.cpp
+  actionGelJumpBase.h
   actionGelJumpTackle.cpp
   actionGelJumpTackle.h
   actionGerudoQueenWakeBoardReady.cpp
@@ -1513,10 +1519,6 @@ target_sources(uking PRIVATE
   actionGiantArmorElectric.h
   actionGiantArmorEquip.cpp
   actionGiantArmorEquip.h
-  actionGiantAttack.cpp
-  actionGiantAttack.h
-  actionGiantAttackWithAS.cpp
-  actionGiantAttackWithAS.h
   actionGiantBattleCloseAction.cpp
   actionGiantBattleCloseAction.h
   actionGiantBattleCloseMove.cpp
@@ -1529,18 +1531,16 @@ target_sources(uking PRIVATE
   actionGiantDoubleGroundPunch.h
   actionGiantDownSwingAttack.cpp
   actionGiantDownSwingAttack.h
+  actionGiantEnemyMoveWithVibration.cpp
+  actionGiantEnemyMoveWithVibration.h
   actionGiantEnemyWalk.cpp
   actionGiantEnemyWalk.h
-  actionGiantEnemyWalkWithVibration.cpp
-  actionGiantEnemyWalkWithVibration.h
   actionGiantHandClapToTarget.cpp
   actionGiantHandClapToTarget.h
+  actionGiantNavMeshMoveWithVibration.cpp
+  actionGiantNavMeshMoveWithVibration.h
   actionGiantNavMeshWalk.cpp
   actionGiantNavMeshWalk.h
-  actionGiantNavMeshWalkWithVibration.cpp
-  actionGiantNavMeshWalkWithVibration.h
-  actionGiantOneHandActionWithLegTurn.cpp
-  actionGiantOneHandActionWithLegTurn.h
   actionGiantOneHandAttackWithLegTurn.cpp
   actionGiantOneHandAttackWithLegTurn.h
   actionGiantOneHandPunchWithLegTurn.cpp
@@ -1591,6 +1591,8 @@ target_sources(uking PRIVATE
   actionGuardBreak.h
   actionGuard.cpp
   actionGuard.h
+  actionGuardianActionBase.cpp
+  actionGuardianActionBase.h
   actionGuardianAimBeam.cpp
   actionGuardianAimBeam.h
   actionGuardianAimBeamWithAS.cpp
@@ -1623,8 +1625,6 @@ target_sources(uking PRIVATE
   actionGuardianMiniPracticeFlagSet.h
   actionGuardianMiniWait.cpp
   actionGuardianMiniWait.h
-  actionGuardianMoveTo.cpp
-  actionGuardianMoveTo.h
   actionGuardianMoveToPosition.cpp
   actionGuardianMoveToPosition.h
   actionGuardianMoveToTarget.cpp
@@ -1661,8 +1661,6 @@ target_sources(uking PRIVATE
   actionHoldArrowWalk.h
   actionHopFlyByTriggers.cpp
   actionHopFlyByTriggers.h
-  actionHornUseBase.cpp
-  actionHornUseBase.h
   actionHornUse.cpp
   actionHornUse.h
   actionHorseDie.cpp
@@ -1671,6 +1669,8 @@ target_sources(uking PRIVATE
   actionHorseEatCarriedItem.h
   actionHorseElectricParalysis.cpp
   actionHorseElectricParalysis.h
+  actionHorseFollowBase.cpp
+  actionHorseFollowBase.h
   actionHorseFollow.cpp
   actionHorseFollow.h
   actionHorseFreeze.cpp
@@ -1687,20 +1687,18 @@ target_sources(uking PRIVATE
   actionHorseRideArrowReload.h
   actionHorseRideAttack.cpp
   actionHorseRideAttack.h
+  actionHorseRideBase.cpp
+  actionHorseRideBase.h
   actionHorseRideCancelCommand.cpp
   actionHorseRideCancelCommand.h
   actionHorseRideChargeCommand.cpp
   actionHorseRideChargeCommand.h
   actionHorseRideChaseCommand.cpp
   actionHorseRideChaseCommand.h
-  actionHorseRideCommandBase.cpp
-  actionHorseRideCommandBase.h
   actionHorseRideCommand.cpp
   actionHorseRideCommand.h
-  actionHorseRide.cpp
   actionHorseRideDynSetGearCommand.cpp
   actionHorseRideDynSetGearCommand.h
-  actionHorseRide.h
   actionHorseRideLookWait.cpp
   actionHorseRideLookWait.h
   actionHorseRideLoopAttack.cpp
@@ -1711,6 +1709,8 @@ target_sources(uking PRIVATE
   actionHorseRideMoveToCommand.h
   actionHorseRideOneTimeASPlay.cpp
   actionHorseRideOneTimeASPlay.h
+  actionHorseRideOneTimeCommandBase.cpp
+  actionHorseRideOneTimeCommandBase.h
   actionHorseRideOneTimeViewASPlay.cpp
   actionHorseRideOneTimeViewASPlay.h
   actionHorseRideSearch.cpp
@@ -1757,6 +1757,8 @@ target_sources(uking PRIVATE
   actionIchigekiHeartUiOpen.h
   actionIdleAction.cpp
   actionIdleAction.h
+  actionIgniteActorReloadBase.cpp
+  actionIgniteActorReloadBase.h
   actionIgnitedThrown.cpp
   actionIgnitedThrown.h
   actionIgniteGrabAndShoot.cpp
@@ -1825,10 +1827,8 @@ target_sources(uking PRIVATE
   actionKillSelectActor.h
   actionKillUIScreenAction.cpp
   actionKillUIScreenAction.h
-  actionKnockBackShock.cpp
-  actionKnockBackShock.h
-  actionKokkoCreateDropBase.cpp
-  actionKokkoCreateDropBase.h
+  actionKnockBackHitImpactForce.cpp
+  actionKnockBackHitImpactForce.h
   actionKokkoCreateDrop.cpp
   actionKokkoCreateDrop.h
   actionKokkoMove.cpp
@@ -1881,6 +1881,8 @@ target_sources(uking PRIVATE
   actionLastBossRandomHighWarp.h
   actionLastBossStun.cpp
   actionLastBossStun.h
+  actionLastBossSwordWhirlSlashChargeBase.cpp
+  actionLastBossSwordWhirlSlashChargeBase.h
   actionLastBossThunderAppear.cpp
   actionLastBossThunderAppear.h
   actionLastBossThunderSign.cpp
@@ -1909,8 +1911,6 @@ target_sources(uking PRIVATE
   actionLinearFlyAttack.h
   actionLoadSaveDataFromGameOver.cpp
   actionLoadSaveDataFromGameOver.h
-  actionLookAtObjectBase.cpp
-  actionLookAtObjectBase.h
   actionLookAtObject.cpp
   actionLookAtObject.h
   actionLookAtObjectSeachAwareness.cpp
@@ -1965,8 +1965,6 @@ target_sources(uking PRIVATE
   actionMotorcycleWait.h
   actionMotorcycleWaitUntilFellOver.cpp
   actionMotorcycleWaitUntilFellOver.h
-  actionMove2HomePosBase.cpp
-  actionMove2HomePosBase.h
   actionMove2HomePos.cpp
   actionMove2HomePos.h
   actionMoveBase.cpp
@@ -1979,6 +1977,8 @@ target_sources(uking PRIVATE
   actionMoveByAnimeDriven.h
   actionMoveByAnimeDrivenToTarget.cpp
   actionMoveByAnimeDrivenToTarget.h
+  actionMoveHomePosBase.cpp
+  actionMoveHomePosBase.h
   actionMoveKeyFramed.cpp
   actionMoveKeyFramed.h
   actionMoveMainRidigBody.cpp
@@ -1988,8 +1988,6 @@ target_sources(uking PRIVATE
   actionMoveToTargetBase.cpp
   actionMoveToTargetBase.h
   actionMoveToTarget.cpp
-  actionMoveToTargetCurveBase.cpp
-  actionMoveToTargetCurveBase.h
   actionMoveToTargetCurve.cpp
   actionMoveToTargetCurve.h
   actionMoveToTargetDir.cpp
@@ -2007,14 +2005,12 @@ target_sources(uking PRIVATE
   actionMsg2CameraResetInterpolate.h
   actionMsg2CameraResetNoConnect.cpp
   actionMsg2CameraResetNoConnect.h
+  actionMultiVacuumBase.cpp
+  actionMultiVacuumBase.h
+  actionMultiVacuumRotBase.cpp
+  actionMultiVacuumRotBase.h
   actionMultiVacuumRotScaleTimeByDist.cpp
   actionMultiVacuumRotScaleTimeByDist.h
-  actionMultiVacuumRotScaleTimeByDistWithTgtBase.cpp
-  actionMultiVacuumRotScaleTimeByDistWithTgtBase.h
-  actionMultiVacuumRotScaleTimeByDistWithTgt.cpp
-  actionMultiVacuumRotScaleTimeByDistWithTgt.h
-  actionNavMeshAction.cpp
-  actionNavMeshAction.h
   actionNavMeshBattleWalk.cpp
   actionNavMeshBattleWalk.h
   actionNavMeshConnectAction.cpp
@@ -2035,6 +2031,8 @@ target_sources(uking PRIVATE
   actionNavMeshJump.h
   actionNavMeshLiftWalk.cpp
   actionNavMeshLiftWalk.h
+  actionNavMeshMoveBase.cpp
+  actionNavMeshMoveBase.h
   actionNavMeshMoveWithAS.cpp
   actionNavMeshMoveWithAS.h
   actionNavMeshRun.cpp
@@ -2047,8 +2045,6 @@ target_sources(uking PRIVATE
   actionNavMeshWalk.h
   actionNearHomePosTeleport.cpp
   actionNearHomePosTeleport.h
-  actionNeckSpinBeam.cpp
-  actionNeckSpinBeam.h
   actionNeckSpin.cpp
   actionNeckSpin.h
   actionNoAtTackleMove.cpp
@@ -2059,6 +2055,8 @@ target_sources(uking PRIVATE
   actionNoCountDead.h
   actionNoDeleteCurrentActor.cpp
   actionNoDeleteCurrentActor.h
+  actionNormalBackWalk.cpp
+  actionNormalBackWalk.h
   actionNotice.cpp
   actionNotice.h
   actionNoticeTurn.cpp
@@ -2205,8 +2203,6 @@ target_sources(uking PRIVATE
   actionOctarockBalloon.h
   actionOctarockBulletLExplode.cpp
   actionOctarockBulletLExplode.h
-  actionOctarockReloadWigBase.cpp
-  actionOctarockReloadWigBase.h
   actionOctarockReloadWig.cpp
   actionOctarockReloadWig.h
   actionOff.cpp
@@ -2222,8 +2218,14 @@ target_sources(uking PRIVATE
   actionOnCorrect.cpp
   actionOnCorrect.h
   actionOn.cpp
+  actionOneHandActionWithLegTurn.cpp
+  actionOneHandActionWithLegTurn.h
+  actionOnEnterSwapActorBase.cpp
+  actionOnEnterSwapActorBase.h
   actionOnEnterSwapDropTableActor.cpp
   actionOnEnterSwapDropTableActor.h
+  actionOnEnterSwapDropTable.cpp
+  actionOnEnterSwapDropTable.h
   actionOnetimeChangeableASPlay.cpp
   actionOnetimeChangeableASPlay.h
   actionOnetimeHoverASPlay.cpp
@@ -2315,11 +2317,7 @@ target_sources(uking PRIVATE
   actionPlayerLookAtObjectNow.h
   actionPlayerSlippingDown.cpp
   actionPlayerSlippingDown.h
-  actionPlayerStoleOpenBase.cpp
-  actionPlayerStoleOpenBase.h
   actionPlayerStoleOpen.cpp
-  actionPlayerStoleOpenEx.cpp
-  actionPlayerStoleOpenEx.h
   actionPlayerStoleOpen.h
   actionPlayerTurnAndLookToObjectNow.cpp
   actionPlayerTurnAndLookToObjectNow.h
@@ -2373,8 +2371,6 @@ target_sources(uking PRIVATE
   actionRagdollFreeze.cpp
   actionRagdollFreeze.h
   actionRagdoll.h
-  actionRailMoveBase.cpp
-  actionRailMoveBase.h
   actionRailMove.cpp
   actionRailMove.h
   actionRandomJump.cpp
@@ -2391,14 +2387,14 @@ target_sources(uking PRIVATE
   actionRecoverMasterSword.h
   actionReflectThrown.cpp
   actionReflectThrown.h
-  actionRegistedActorActionBase.cpp
-  actionRegistedActorActionBase.h
+  actionRegistedActorAllDeadCheckBase.cpp
+  actionRegistedActorAllDeadCheckBase.h
   actionRegistedActorBroadCastMessage.cpp
   actionRegistedActorBroadCastMessage.h
-  actionRegistedActorDeadCheckBase.cpp
-  actionRegistedActorDeadCheckBase.h
   actionRegistedActorDeadCheck.cpp
   actionRegistedActorDeadCheck.h
+  actionRegistedActorSetActionBase.cpp
+  actionRegistedActorSetActionBase.h
   actionReloadArrow.cpp
   actionReloadArrow.h
   actionRemainElectricCannonBeamFire.cpp
@@ -2519,16 +2515,16 @@ target_sources(uking PRIVATE
   actionSendMessageBroadCast.h
   actionSendMessage.cpp
   actionSendMessage.h
-  actionSendMessageToTargetActor.cpp
-  actionSendMessageToTargetActor.h
-  actionSendPlayerNoticeMessageBase.cpp
-  actionSendPlayerNoticeMessageBase.h
+  actionSendNoticeMessageBase.cpp
+  actionSendNoticeMessageBase.h
   actionSendPlayerNoticeMessage.cpp
   actionSendPlayerNoticeMessage.h
   actionSendSignalAction.cpp
   actionSendSignalAction.h
   actionSendSignalForSignalFlowAct.cpp
   actionSendSignalForSignalFlowAct.h
+  actionSendTargetActorMessageBase.cpp
+  actionSendTargetActorMessageBase.h
   actionSendTargetActorRequestShareAwn.cpp
   actionSendTargetActorRequestShareAwn.h
   actionSeqPunchByASEvent.cpp
@@ -2639,18 +2635,18 @@ target_sources(uking PRIVATE
   actionShutterOpen.h
   actionShutterOpenWait.cpp
   actionShutterOpenWait.h
+  actionSideMoveBase.cpp
+  actionSideMoveBase.h
   actionSideStep.cpp
   actionSideStep.h
   actionSideStepWait.cpp
   actionSideStepWait.h
-  actionSideWalkBase.cpp
-  actionSideWalkBase.h
   actionSideWalk.cpp
   actionSideWalk.h
   actionSilentKilled.cpp
   actionSilentKilled.h
-  actionSimpleGrabWithASBase.cpp
-  actionSimpleGrabWithASBase.h
+  actionSimpleGrabBase.cpp
+  actionSimpleGrabBase.h
   actionSimpleGrabWithAS.cpp
   actionSimpleGrabWithAS.h
   actionSimpleLineBeam.cpp
@@ -2665,6 +2661,8 @@ target_sources(uking PRIVATE
   actionSiteBossAvoid.h
   actionLastBossBlowOff.cpp
   actionLastBossBlowOff.h
+  actionSimpleKnockBackShock.cpp
+  actionSimpleKnockBackShock.h
   actionSiteBossBowBlowOff.cpp
   actionSiteBossBowBlowOff.h
   actionSiteBossBowChildDeviceBreak.cpp
@@ -2749,8 +2747,6 @@ target_sources(uking PRIVATE
   actionSiteBossSwordSlowMove.h
   actionSiteBossSwordThrowElectricBall.cpp
   actionSiteBossSwordThrowElectricBall.h
-  actionSiteBossSwordWhirlSlashChargeBase.cpp
-  actionSiteBossSwordWhirlSlashChargeBase.h
   actionSiteBossSwordWhirlSlashCharge.cpp
   actionSiteBossSwordWhirlSlashCharge.h
   actionSiteBossSwordWhirlSlash.cpp
@@ -2765,12 +2761,12 @@ target_sources(uking PRIVATE
   actionSlippedBackWalkBase.h
   actionSlippedBackWalk.cpp
   actionSlippedBackWalk.h
-  actionSlippedCircleWalkBase.cpp
-  actionSlippedCircleWalkBase.h
+  actionSlippedCircleMoveBase.cpp
+  actionSlippedCircleMoveBase.h
   actionSlippedCircleWalk.cpp
   actionSlippedCircleWalk.h
-  actionSlippedWalkBase.cpp
-  actionSlippedWalkBase.h
+  actionSlippedMoveBase.cpp
+  actionSlippedMoveBase.h
   actionSlippedWalk.cpp
   actionSlippedWalk.h
   actionSmallDamageBackwardBase.cpp
@@ -2831,6 +2827,8 @@ target_sources(uking PRIVATE
   actionStopASIgnite.h
   actionStopASPlay.cpp
   actionStopASPlay.h
+  actionStopBase.cpp
+  actionStopBase.h
   actionStopChargeChemicalWeaponPower.cpp
   actionStopChargeChemicalWeaponPower.h
   actionStopCliffTongueAttack.cpp
@@ -2841,6 +2839,8 @@ target_sources(uking PRIVATE
   actionStopForLimitedTime.h
   actionStopJump.cpp
   actionStopJump.h
+  actionStoppingAttackBase.cpp
+  actionStoppingAttackBase.h
   actionStorePlayerPosAndRotate.cpp
   actionStorePlayerPosAndRotate.h
   actionStrangeBeacon.cpp
@@ -2873,14 +2873,14 @@ target_sources(uking PRIVATE
   actionSwarmLevelFlyMove.h
   actionSweepCollision.cpp
   actionSweepCollision.h
-  actionSwimEnemyAnmBackBlownOffBase.cpp
-  actionSwimEnemyAnmBackBlownOffBase.h
   actionSwimEnemyAnmBackBlownOff.cpp
   actionSwimEnemyAnmBackBlownOffFromPL.cpp
   actionSwimEnemyAnmBackBlownOffFromPL.h
   actionSwimEnemyAnmBackBlownOff.h
   actionSwimEnemyAnmBackBlownOffToPL.cpp
   actionSwimEnemyAnmBackBlownOffToPL.h
+  actionSwimEnemyBlownOffBase.cpp
+  actionSwimEnemyBlownOffBase.h
   actionSwimGetUp.cpp
   actionSwimGetUp.h
   actionSwimMoveASHoldEvent.cpp
@@ -2927,8 +2927,6 @@ target_sources(uking PRIVATE
   actionSystemWarp.h
   actionTackleMove.cpp
   actionTackleMove.h
-  actionTakeHitImpactForce.cpp
-  actionTakeHitImpactForce.h
   actionTakeoffFromCeilLook.cpp
   actionTakeoffFromCeilLook.h
   actionTakeoffFromCeilLookTarget.cpp
@@ -3007,6 +3005,8 @@ target_sources(uking PRIVATE
   actionTurnAndChargeAndShoot.h
   actionTurnAndLookAtToObjectNow.cpp
   actionTurnAndLookAtToObjectNow.h
+  actionTurnAndLookToObjBase.cpp
+  actionTurnAndLookToObjBase.h
   actionTurnAndLookToObject.cpp
   actionTurnAndLookToObject.h
   actionTurnAndLookToObjNotAnimDriven.cpp
@@ -3015,6 +3015,8 @@ target_sources(uking PRIVATE
   actionTurnBase.h
   actionTurn.cpp
   actionTurn.h
+  actionTurnGiantAttack.cpp
+  actionTurnGiantAttack.h
   actionTurnIgnite.cpp
   actionTurnIgnite.h
   actionTurnToActorBase.cpp
@@ -3087,8 +3089,6 @@ target_sources(uking PRIVATE
   actionWarpOwnedHorse.h
   actionWarpPLAndResetGimmick.cpp
   actionWarpPLAndResetGimmick.h
-  actionWarpPlayerBase.cpp
-  actionWarpPlayerBase.h
   actionWarpPlayer.cpp
   actionWarpPlayer.h
   actionWarpPlayerToActor.cpp
@@ -3155,12 +3155,12 @@ target_sources(uking PRIVATE
   actionWeaponTrueFormEftCtrl.h
   actionWildHorseCreate.cpp
   actionWildHorseCreate.h
-  actionWillBallAction.cpp
-  actionWillBallAction.h
   actionWillBallAttack.cpp
   actionWillBallAttack.h
   actionWillBallAvoidCenterDist.cpp
   actionWillBallAvoidCenterDist.h
+  actionWillBallBase.cpp
+  actionWillBallBase.h
   actionWillBallParabolaAttack.cpp
   actionWillBallParabolaAttack.h
   actionWindControl.cpp

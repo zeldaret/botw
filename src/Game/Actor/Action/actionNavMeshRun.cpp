@@ -2,6 +2,6 @@
 
 namespace uking::action {
 
-NavMeshRun::NavMeshRun(const InitArg& arg) : NavMeshAction(arg) {}
+NavMeshRun::NavMeshRun(const InitArg& arg) : NavMeshMoveBase(arg) {}
 
 }  // namespace uking::action

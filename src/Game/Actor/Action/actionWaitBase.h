@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
-class WaitBase : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(WaitBase, ActionWithPosAngReduce)
+class WaitBase : public StopBase {
+    SEAD_RTTI_OVERRIDE(WaitBase, StopBase)
 public:
     explicit WaitBase(const InitArg& arg);
     ~WaitBase() override;

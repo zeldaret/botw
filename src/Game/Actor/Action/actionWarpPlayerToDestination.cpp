@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-WarpPlayerToDestination::WarpPlayerToDestination(const InitArg& arg) : WarpPlayerBase(arg) {}
+WarpPlayerToDestination::WarpPlayerToDestination(const InitArg& arg) : DestPlayerWarpBase(arg) {}
 
 WarpPlayerToDestination::~WarpPlayerToDestination() = default;
 
 bool WarpPlayerToDestination::init_(sead::Heap* heap) {
-    return WarpPlayerBase::init_(heap);
+    return DestPlayerWarpBase::init_(heap);
 }
 
 void WarpPlayerToDestination::enter_(ksys::act::ai::InlineParamPack* params) {
-    WarpPlayerBase::enter_(params);
+    DestPlayerWarpBase::enter_(params);
 }
 
 void WarpPlayerToDestination::leave_() {
-    WarpPlayerBase::leave_();
+    DestPlayerWarpBase::leave_();
 }
 
 void WarpPlayerToDestination::loadParams_() {
-    WarpPlayerBase::loadParams_();
+    DestPlayerWarpBase::loadParams_();
     getDynamicParam(&mDestinationX_d, "DestinationX");
     getDynamicParam(&mDestinationY_d, "DestinationY");
     getDynamicParam(&mDestinationZ_d, "DestinationZ");
@@ -27,7 +27,7 @@ void WarpPlayerToDestination::loadParams_() {
 }
 
 void WarpPlayerToDestination::calc_() {
-    WarpPlayerBase::calc_();
+    DestPlayerWarpBase::calc_();
 }
 
 }  // namespace uking::action

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionActionWithPosAngReduce.h"
+#include "Game/Actor/Action/actionStopBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class Throw : public ActionWithPosAngReduce {
-    SEAD_RTTI_OVERRIDE(Throw, ActionWithPosAngReduce)
+class Throw : public StopBase {
+    SEAD_RTTI_OVERRIDE(Throw, StopBase)
 public:
     explicit Throw(const InitArg& arg);
     ~Throw() override;

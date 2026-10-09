@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionForkEmitChmField.h"
+#include "Game/Actor/Action/actionForkTrgEmitChmFieldBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForkEmitChmFieldFromWeapon : public ForkEmitChmField {
-    SEAD_RTTI_OVERRIDE(ForkEmitChmFieldFromWeapon, ForkEmitChmField)
+class ForkEmitChmFieldFromWeapon : public ForkTrgEmitChmFieldBase {
+    SEAD_RTTI_OVERRIDE(ForkEmitChmFieldFromWeapon, ForkTrgEmitChmFieldBase)
 public:
     explicit ForkEmitChmFieldFromWeapon(const InitArg& arg);
     ~ForkEmitChmFieldFromWeapon() override;

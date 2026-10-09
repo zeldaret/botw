@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionForkSimpleGrabBase.h"
+#include "Game/Actor/Action/actionForkGrabBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForkSimpleGrab : public ForkSimpleGrabBase {
-    SEAD_RTTI_OVERRIDE(ForkSimpleGrab, ForkSimpleGrabBase)
+class ForkSimpleGrab : public ForkGrabBase {
+    SEAD_RTTI_OVERRIDE(ForkSimpleGrab, ForkGrabBase)
 public:
     explicit ForkSimpleGrab(const InitArg& arg);
     ~ForkSimpleGrab() override;

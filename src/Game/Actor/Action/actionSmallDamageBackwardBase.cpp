@@ -2,28 +2,29 @@
 
 namespace uking::action {
 
-SmallDamageBackwardBase::SmallDamageBackwardBase(const InitArg& arg) : TakeHitImpactForce(arg) {}
+SmallDamageBackwardBase::SmallDamageBackwardBase(const InitArg& arg)
+    : KnockBackHitImpactForce(arg) {}
 
 SmallDamageBackwardBase::~SmallDamageBackwardBase() = default;
 
 bool SmallDamageBackwardBase::init_(sead::Heap* heap) {
-    return TakeHitImpactForce::init_(heap);
+    return KnockBackHitImpactForce::init_(heap);
 }
 
 void SmallDamageBackwardBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    TakeHitImpactForce::enter_(params);
+    KnockBackHitImpactForce::enter_(params);
 }
 
 void SmallDamageBackwardBase::leave_() {
-    TakeHitImpactForce::leave_();
+    KnockBackHitImpactForce::leave_();
 }
 
 void SmallDamageBackwardBase::loadParams_() {
-    TakeHitImpactForce::loadParams_();
+    KnockBackHitImpactForce::loadParams_();
 }
 
 void SmallDamageBackwardBase::calc_() {
-    TakeHitImpactForce::calc_();
+    KnockBackHitImpactForce::calc_();
 }
 
 }  // namespace uking::action

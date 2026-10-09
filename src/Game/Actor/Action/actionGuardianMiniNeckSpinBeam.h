@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionNeckSpinBeam.h"
+#include "Game/Actor/Action/actionBeamNeckSpin.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class GuardianMiniNeckSpinBeam : public NeckSpinBeam {
-    SEAD_RTTI_OVERRIDE(GuardianMiniNeckSpinBeam, NeckSpinBeam)
+class GuardianMiniNeckSpinBeam : public BeamNeckSpin {
+    SEAD_RTTI_OVERRIDE(GuardianMiniNeckSpinBeam, BeamNeckSpin)
 public:
     explicit GuardianMiniNeckSpinBeam(const InitArg& arg);
     ~GuardianMiniNeckSpinBeam() override;

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionSlippedCircleWalkBase.h"
+#include "Game/Actor/Action/actionSlippedCircleMoveBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SlippedCircleWalk : public SlippedCircleWalkBase {
-    SEAD_RTTI_OVERRIDE(SlippedCircleWalk, SlippedCircleWalkBase)
+class SlippedCircleWalk : public SlippedCircleMoveBase {
+    SEAD_RTTI_OVERRIDE(SlippedCircleWalk, SlippedCircleMoveBase)
 public:
     explicit SlippedCircleWalk(const InitArg& arg);
     ~SlippedCircleWalk() override;

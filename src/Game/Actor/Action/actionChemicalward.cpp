@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-Chemicalward::Chemicalward(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+Chemicalward::Chemicalward(const InitArg& arg) : StopBase(arg) {}
 
 Chemicalward::~Chemicalward() = default;
 
 bool Chemicalward::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void Chemicalward::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void Chemicalward::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void Chemicalward::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mNodeAxisIdx_s, "NodeAxisIdx");
     getStaticParam(&mStableTime_s, "StableTime");
@@ -34,7 +34,7 @@ void Chemicalward::loadParams_() {
 }
 
 void Chemicalward::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

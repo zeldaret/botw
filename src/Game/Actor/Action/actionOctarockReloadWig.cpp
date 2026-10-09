@@ -2,30 +2,30 @@
 
 namespace uking::action {
 
-OctarockReloadWig::OctarockReloadWig(const InitArg& arg) : OctarockReloadWigBase(arg) {}
+OctarockReloadWig::OctarockReloadWig(const InitArg& arg) : IgniteActorReloadBase(arg) {}
 
 OctarockReloadWig::~OctarockReloadWig() = default;
 
 bool OctarockReloadWig::init_(sead::Heap* heap) {
-    return OctarockReloadWigBase::init_(heap);
+    return IgniteActorReloadBase::init_(heap);
 }
 
 void OctarockReloadWig::enter_(ksys::act::ai::InlineParamPack* params) {
-    OctarockReloadWigBase::enter_(params);
+    IgniteActorReloadBase::enter_(params);
 }
 
 void OctarockReloadWig::leave_() {
-    OctarockReloadWigBase::leave_();
+    IgniteActorReloadBase::leave_();
 }
 
 void OctarockReloadWig::loadParams_() {
-    OctarockReloadWigBase::loadParams_();
+    IgniteActorReloadBase::loadParams_();
     // FIXME: CALL _ZN4sead14SafeStringBaseIcEaSERKS1_ @ 0x7100b0caa0
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
 
 void OctarockReloadWig::calc_() {
-    OctarockReloadWigBase::calc_();
+    IgniteActorReloadBase::calc_();
 }
 
 }  // namespace uking::action

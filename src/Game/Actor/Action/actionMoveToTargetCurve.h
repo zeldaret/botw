@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionMoveToTargetCurveBase.h"
+#include "Game/Actor/Action/actionCurveMoveToTargetBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class MoveToTargetCurve : public MoveToTargetCurveBase {
-    SEAD_RTTI_OVERRIDE(MoveToTargetCurve, MoveToTargetCurveBase)
+class MoveToTargetCurve : public CurveMoveToTargetBase {
+    SEAD_RTTI_OVERRIDE(MoveToTargetCurve, CurveMoveToTargetBase)
 public:
     explicit MoveToTargetCurve(const InitArg& arg);
     ~MoveToTargetCurve() override;

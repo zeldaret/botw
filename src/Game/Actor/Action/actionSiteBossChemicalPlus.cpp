@@ -2,24 +2,24 @@
 
 namespace uking::action {
 
-SiteBossChemicalPlus::SiteBossChemicalPlus(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
+SiteBossChemicalPlus::SiteBossChemicalPlus(const InitArg& arg) : StopBase(arg) {}
 
 SiteBossChemicalPlus::~SiteBossChemicalPlus() = default;
 
 bool SiteBossChemicalPlus::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return StopBase::init_(heap);
 }
 
 void SiteBossChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    StopBase::enter_(params);
 }
 
 void SiteBossChemicalPlus::leave_() {
-    ActionWithPosAngReduce::leave_();
+    StopBase::leave_();
 }
 
 void SiteBossChemicalPlus::loadParams_() {
-    ActionWithPosAngReduce::loadParams_();
+    StopBase::loadParams_();
     getStaticParam(&mIsDeleteAllChildDevice_s, "IsDeleteAllChildDevice");
     getStaticParam(&mIsSetCanGuardArrowFlag_s, "IsSetCanGuardArrowFlag");
     getStaticParam(&mChemicalLoopASName_s, "ChemicalLoopASName");
@@ -27,7 +27,7 @@ void SiteBossChemicalPlus::loadParams_() {
 }
 
 void SiteBossChemicalPlus::calc_() {
-    ActionWithPosAngReduce::calc_();
+    StopBase::calc_();
 }
 
 }  // namespace uking::action

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionForkDynActorNoTargetSelfBase.h"
+#include "Game/Actor/Action/actionForkEndByConditionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForkDynActorNoTargetSelf : public ForkDynActorNoTargetSelfBase {
-    SEAD_RTTI_OVERRIDE(ForkDynActorNoTargetSelf, ForkDynActorNoTargetSelfBase)
+class ForkDynActorNoTargetSelf : public ForkEndByConditionBase {
+    SEAD_RTTI_OVERRIDE(ForkDynActorNoTargetSelf, ForkEndByConditionBase)
 public:
     explicit ForkDynActorNoTargetSelf(const InitArg& arg);
     ~ForkDynActorNoTargetSelf() override;

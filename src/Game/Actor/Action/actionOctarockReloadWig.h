@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Action/actionOctarockReloadWigBase.h"
+#include "Game/Actor/Action/actionIgniteActorReloadBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class OctarockReloadWig : public OctarockReloadWigBase {
-    SEAD_RTTI_OVERRIDE(OctarockReloadWig, OctarockReloadWigBase)
+class OctarockReloadWig : public IgniteActorReloadBase {
+    SEAD_RTTI_OVERRIDE(OctarockReloadWig, IgniteActorReloadBase)
 public:
     explicit OctarockReloadWig(const InitArg& arg);
     ~OctarockReloadWig() override;
