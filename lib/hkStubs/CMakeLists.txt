@@ -240,7 +240,4 @@ target_compile_options(hkStubs PRIVATE -fno-strict-aliasing)
 target_compile_options(hkStubs PRIVATE -Wno-invalid-offsetof)
 target_include_directories(hkStubs PUBLIC ./)
 
-if(NOT TARGET NintendoSDK)
-  add_subdirectory(../NintendoSDK)
-endif()
-target_link_libraries(hkStubs PUBLIC NintendoSDK)
+target_link_libraries(hkStubs PUBLIC nnSdk)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gsys/gsysModelUnit.h>
-#include <nn/g3d/ModelObj.h>
+#include <nn/g3d/g3d_ModelObj.h>
 #include <nn/gfx/gfx_MemoryPool.h>
 #include <nn/gfx/gfx_Types.h>
 #include <prim/seadDelegate.h>
