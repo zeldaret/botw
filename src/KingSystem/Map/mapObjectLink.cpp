@@ -1,6 +1,6 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include <container/seadBuffer.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectGenGroup.h"
 #include "KingSystem/Map/mapRail.h"
@@ -129,7 +129,7 @@ act::Actor* ObjectLink::getObjectActor() const {
     return other_obj->tryGetActor(false);
 }
 
-bool ObjectLink::getObjectProcWithAccessor(act::ActorLinkConstDataAccess& accessor) const {
+bool ObjectLink::getObjectProcWithAccessor(act::BaseProcAccessor& accessor) const {
     if (other_obj == nullptr)
         return accessor.acquire(nullptr);
     else
@@ -208,7 +208,7 @@ bool ObjectLinkArray::checkLink(MapLinkDefType t, bool b) {
         return false;
 
 done:
-    act::ActorConstDataAccess acc{};
+    act::ActorLinkConstDataAccess acc{};
 
     if (link->other_obj != nullptr)
         link->other_obj->getActorWithAccessor(acc);

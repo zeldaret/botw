@@ -1,6 +1,5 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/Player/actPlayerBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -116,7 +115,7 @@ PlayerBase* PlayerInfo::getPlayerUnchecked() {
 }
 
 sead::Vector3f& PlayerInfo::getPlayerPos() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
 
     ksys::act::acquireActor(&mPlayerLink, &accessor);
     accessor.debugLog(1, "getPlayerPos");
@@ -124,7 +123,7 @@ sead::Vector3f& PlayerInfo::getPlayerPos() {
 }
 
 sead::Vector3f& PlayerInfo::getPlayerPosForPostCalc() {
-    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorLinkConstDataAccess accessor;
 
     ksys::act::acquireActor(&mPlayerLink, &accessor);
     accessor.debugLog(0, "getPlayerPosForPostCalc");

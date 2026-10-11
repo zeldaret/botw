@@ -3,7 +3,7 @@
 #include "Game/Actor/AI/aiAirOctaRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/VFR.h"
@@ -49,7 +49,7 @@ void AirOctaFlyUp::calc_() {
         }
         if ((fly_up_multiplier * 0.5f >= 1.f && y >= getDataMgr()->vec_F8.y) ||
             mElapsedTime >= (*mFlyUpDuration_s * 3.0f)) {
-            ksys::act::ActorConstDataAccess linkData;
+            ksys::act::ActorLinkConstDataAccess linkData;
             if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
                 mUserData = 3;
                 getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData,
@@ -58,7 +58,7 @@ void AirOctaFlyUp::calc_() {
         }
     } else if (y - AirOctaY >= *mTargetDistance_d * 0.9f ||
                mElapsedTime >= (*mFlyUpDuration_s * 3.0f)) {
-        ksys::act::ActorConstDataAccess linkData;
+        ksys::act::ActorLinkConstDataAccess linkData;
         if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
             mUserData = 2;
             getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData,

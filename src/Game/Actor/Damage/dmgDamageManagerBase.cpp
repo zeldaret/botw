@@ -2,7 +2,7 @@
 #include "Game/AOC/aocHardModeManager.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
@@ -152,7 +152,7 @@ void DamageManagerBase::tryBuffDamage(s32& damage) {
         return;
     }
 
-    ksys::act::ActorConstDataAccess acc;
+    ksys::act::ActorLinkConstDataAccess acc;
     ksys::act::acquireActor(getAttacker(), &acc);
     if (aoc::HardModeManager::shouldApplyMasterModeDamageMultiplier(acc)) {
         aoc::HardModeManager::buffDamage(damage);

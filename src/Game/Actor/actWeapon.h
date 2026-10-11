@@ -5,7 +5,7 @@
 #include <prim/seadTypedBitFlag.h>
 
 namespace ksys::act {
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class InstParamPack;
 namespace ai {
 struct InlineParamPack;
@@ -94,8 +94,8 @@ struct WeaponModifierInfo {
     bool pickRandomBlueModifierTbox(const sead::SafeString& actor);
     bool pickRandomYellowModifierTbox(const sead::SafeString& actor);
 
-    bool pickRandomBlueModifierActor(const ksys::act::ActorConstDataAccess& acc);
-    bool pickRandomYellowModifierActor(const ksys::act::ActorConstDataAccess& acc);
+    bool pickRandomBlueModifierActor(const ksys::act::ActorLinkConstDataAccess& acc);
+    bool pickRandomYellowModifierActor(const ksys::act::ActorLinkConstDataAccess& acc);
 
     void setModifier(WeaponModifier modifier, s32 value_) {
         flags.setDirect((flags.getDirect() & u32(WeaponModifier::IsYellow)) | u32(modifier));

@@ -1,5 +1,5 @@
 #include "KingSystem/ActorSystem/actActorLimiter.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 
 namespace ksys::act {
@@ -35,7 +35,7 @@ bool ActorLimiter::List::addActor(BaseProc* proc, bool allow_evicting_old_actors
 
         target_node = mActorList.popFront();
         if (target_node) {
-            ActorConstDataAccess acc;
+            ActorLinkConstDataAccess acc;
             acquireActor(&target_node->proc_link, &acc);
 
             // Priority material actors will not be evicted if possible.

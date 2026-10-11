@@ -1,7 +1,7 @@
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include <thread/seadThread.h>
 #include <time/seadTickSpan.h>
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -595,7 +595,7 @@ bool BaseProc::setStateFlag(u32 flag_bit) {
     return BaseProcMgr::instance()->setProcFlag(*this, flag_bit);
 }
 
-bool BaseProc::acquire(ActorLinkConstDataAccess& accessor) {
+bool BaseProc::acquire(BaseProcAccessor& accessor) {
     if (mState == State::Delete)
         return false;
 

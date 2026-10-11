@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 
 namespace ksys::act {
@@ -9,7 +9,7 @@ PhysicsUserTag::PhysicsUserTag(Actor* actor) : mActor(actor) {}
 
 PhysicsUserTag::~PhysicsUserTag() = default;
 
-Actor* PhysicsUserTag::getActor(ActorLinkConstDataAccess* accessor, Actor* other_actor) const {
+Actor* PhysicsUserTag::getActor(BaseProcAccessor* accessor, Actor* other_actor) const {
     if (mActor != nullptr) {
         if (mActor != other_actor && !BaseProcMgr::instance()->isAccessingProcSafe(mActor, nullptr))
             return mActor;
@@ -19,7 +19,7 @@ Actor* PhysicsUserTag::getActor(ActorLinkConstDataAccess* accessor, Actor* other
     return mActor;
 }
 
-bool PhysicsUserTag::acquireActor(ActorLinkConstDataAccess* accessor) const {
+bool PhysicsUserTag::acquireActor(BaseProcAccessor* accessor) const {
     return accessor->acquire(mActor);
 }
 

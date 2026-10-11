@@ -18,7 +18,7 @@ class Object;
 namespace ksys::act {
 
 class Actor;
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProcLink;
 
 enum class ArrowType {
@@ -51,19 +51,19 @@ enum class ZukanType {
 
 bool hasTag(Actor* actor, const sead::SafeString& tag);
 bool hasTag(BaseProcLink* link, const sead::SafeString& tag);
-bool hasTag(const ActorConstDataAccess& accessor, const sead::SafeString& tag);
+bool hasTag(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tag);
 bool hasTag(const sead::SafeString& actor, const sead::SafeString& tag);
 
 bool hasTag(Actor* actor, u32 tag);
 bool hasTag(BaseProcLink* link, u32 tag);
-bool hasTag(const ActorConstDataAccess& accessor, u32 tag);
+bool hasTag(const ActorLinkConstDataAccess& accessor, u32 tag);
 bool hasTag(const sead::SafeString& actor, u32 tag);
 
 /// Checks whether the actor has at least one of the specified tags.
 /// @param tags A comma separated list of tags.
 bool hasOneTagAtLeast(Actor* actor, const sead::SafeString& tags);
 bool hasOneTagAtLeast(BaseProcLink* link, const sead::SafeString& tags);
-bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags);
+bool hasOneTagAtLeast(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tags);
 
 bool shouldSkipSpawnWhenRaining(map::Object* obj);
 bool shouldSkipSpawnIfGodForestOff(map::Object* obj);
@@ -88,48 +88,48 @@ ArrowType arrowTypeFromString(const sead::SafeString& name);
 ZukanType getZukanType(al::ByamlIter* iter);
 ZukanType getZukanType(Actor* actor);
 
-bool isPlayerProfile(const ActorConstDataAccess& accessor);
+bool isPlayerProfile(const ActorLinkConstDataAccess& accessor);
 bool isPlayerProfile(Actor* actor);
 bool isPlayerProfile(BaseProcLink* link);
 
 bool isCameraProfile(Actor* actor);
 
-bool isNPCProfile(const ActorConstDataAccess& accessor);
+bool isNPCProfile(const ActorLinkConstDataAccess& accessor);
 bool isNPCProfile(Actor* actor);
 bool isNPCProfile(BaseProcLink* link);
 bool isNPCOffPodFromWeapon(Actor* actor);
 
 bool isDemoNPCProfile(Actor* actor);
 
-bool isEnemyProfile(const ActorConstDataAccess& accessor);
+bool isEnemyProfile(const ActorLinkConstDataAccess& accessor);
 bool isEnemyProfile(Actor* actor);
 bool isEnemyProfile(BaseProcLink* link);
 
 bool isGuardianProfile(BaseProcLink* link);
 
-bool isLargeEnemy(const ActorConstDataAccess& accessor);
+bool isLargeEnemy(const ActorLinkConstDataAccess& accessor);
 bool isLargeEnemy(Actor* actor);
 
-bool isGanonBeast(const ActorConstDataAccess& accessor);
+bool isGanonBeast(const ActorLinkConstDataAccess& accessor);
 bool isGanonBeast(BaseProcLink* link);
 
 bool isNotLivingCreature(Actor* actor);
-bool isNotLivingCreature(const ActorConstDataAccess& accessor);
+bool isNotLivingCreature(const ActorLinkConstDataAccess& accessor);
 bool isNotLivingCreature(BaseProcLink* link);
 
-bool isWeaponProfile(const ActorConstDataAccess& accessor);
+bool isWeaponProfile(const ActorLinkConstDataAccess& accessor);
 bool isWeaponProfile(const sead::SafeString& actor);
 bool isWeaponProfile(Actor* actor);
 bool isWeaponProfile(BaseProcLink* link);
 
-bool isWeaponOrArmor(const ActorConstDataAccess& accessor);
+bool isWeaponOrArmor(const ActorLinkConstDataAccess& accessor);
 bool isWeaponOrArmor(Actor* actor);
 
-bool isBulletProfile(const ActorConstDataAccess& accessor);
+bool isBulletProfile(const ActorLinkConstDataAccess& accessor);
 bool isBulletProfile(Actor* actor);
 bool isBulletProfile(BaseProcLink* link);
 
-bool isHorseProfile(const ActorConstDataAccess& accessor);
+bool isHorseProfile(const ActorLinkConstDataAccess& accessor);
 bool isHorseProfile(Actor* actor);
 bool isHorseProfile(BaseProcLink* link);
 
@@ -138,14 +138,14 @@ bool isGrabAttClientEnabled(void* x, BaseProcLink* link);
 
 bool isStalfosParts(BaseProcLink* link);
 
-bool isDoor(const ActorConstDataAccess& accessor);
+bool isDoor(const ActorLinkConstDataAccess& accessor);
 bool isDoor(BaseProcLink* link);
 
-bool isPreyOrSwarm(const ActorConstDataAccess& accessor);
+bool isPreyOrSwarm(const ActorLinkConstDataAccess& accessor);
 bool isPreyOrSwarm(Actor* actor);
 bool isPreyOrSwarm(BaseProcLink* link);
 
-bool isWolfOrBear(const ActorConstDataAccess& accessor);
+bool isWolfOrBear(const ActorLinkConstDataAccess& accessor);
 bool isWolfOrBear(Actor* actor);
 bool isWolfOrBear(BaseProcLink* link);
 

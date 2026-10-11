@@ -25,8 +25,6 @@ target_sources(uking PRIVATE
     actActor.h
     actActorCaptureMgr.cpp
     actActorCaptureMgr.h
-    actActorConstDataAccess.cpp
-    actActorConstDataAccess.h
     actActorCreator.cpp
     actActorCreator.h
     actActorEditorNode.cpp
@@ -70,6 +68,8 @@ target_sources(uking PRIVATE
     actASSetting.h
     actBaseProc.cpp
     actBaseProc.h
+    actBaseProcAccessor.cpp
+    actBaseProcAccessor.h
     actBaseProcCreateTask.cpp
     actBaseProcCreateTask.h
     actBaseProcCreateTaskSelector.cpp

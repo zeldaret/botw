@@ -98,11 +98,11 @@ bool HardModeManager::shouldCreateLifeRecoverInfo(ksys::act::Actor* actor) {
 }
 
 bool HardModeManager::shouldApplyMasterModeDamageMultiplier(
-    const ksys::act::ActorConstDataAccess& accessor) {
+    const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
-    ksys::act::ActorConstDataAccess parent;
+    ksys::act::ActorLinkConstDataAccess parent;
     if (accessor.hasConnectedCalcParent() && accessor.acquireConnectedCalcParent(&parent))
         return shouldApplyMasterModeDamageMultiplier(parent);
 
