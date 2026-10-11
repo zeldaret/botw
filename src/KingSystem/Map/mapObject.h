@@ -3,7 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadHeap.h>
 #include <prim/seadTypedBitFlag.h>
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/Map/mapDebug.h"
@@ -103,7 +103,7 @@ public:
     act::BaseProc* tryGetProc(bool force);
     void unlinkProc(bool force);
 
-    bool getActorWithAccessor(act::ActorLinkConstDataAccess& accessor);
+    bool getActorWithAccessor(act::BaseProcAccessor& accessor);
     act::Actor* tryGetActor(bool force);
     act::Actor* getActor();
 

@@ -1,7 +1,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include <prim/seadScopedLock.h>
-#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Utils/Debug.h"
 
 namespace ksys::act {
@@ -80,7 +80,7 @@ BaseProc* BaseProcHandle::releaseProc() {
     BaseProc* proc = nullptr;
 
     {
-        ActorLinkConstDataAccess accessor;
+        BaseProcAccessor accessor;
         {
             const auto lock = sead::makeScopedLock(unit->getCS());
             if (unit->compareExchangeHandle(this, &gDummyProcHandle)) {
@@ -106,7 +106,7 @@ BaseProc* BaseProcHandle::releaseAndWakeProc() {
     BaseProc* proc = nullptr;
 
     {
-        ActorLinkConstDataAccess accessor;
+        BaseProcAccessor accessor;
         {
             const auto lock = sead::makeScopedLock(unit->getCS());
             if (unit->compareExchangeHandle(this, &gDummyProcHandle)) {
@@ -172,7 +172,7 @@ bool BaseProcUnit::deleteProc([[maybe_unused]] u32 x, BaseProcHandle* handle) {
     __builtin_assume(x);
 #endif
 
-    ActorLinkConstDataAccess accessor;
+    BaseProcAccessor accessor;
 
     {
         const auto lock = sead::makeScopedLock(mCS);

@@ -125,7 +125,7 @@ act::Actor* Object::tryGetActor(bool force) {
     return sead::DynamicCast<act::Actor>(proc);
 }
 
-bool Object::getActorWithAccessor(act::ActorLinkConstDataAccess& accessor) {
+bool Object::getActorWithAccessor(act::BaseProcAccessor& accessor) {
     act::BaseProcMgr* instance = act::BaseProcMgr::instance();
 
     if (instance == nullptr || !instance->isHighPriorityThread() || mProc == nullptr)

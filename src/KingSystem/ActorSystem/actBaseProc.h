@@ -16,7 +16,7 @@
 
 namespace ksys::act {
 
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 class BaseProc;
 class BaseProcLinkData;
 class BaseProcJobHandler;
@@ -103,10 +103,10 @@ public:
     }
     bool isDeleteOrInvalid() const { return mState >= act::BaseProc::State::Delete; }
 
-    /// For BaseProcLink or ActorLinkConstDataAccess.
-    bool acquire(ActorLinkConstDataAccess& accessor);
+    /// For BaseProcLink or BaseProcAccessor.
+    bool acquire(BaseProcAccessor& accessor);
     BaseProcLinkData* getBaseProcLinkData() const { return mBaseProcLinkData; }
-    /// For BaseProcLink or ActorLinkConstDataAccess.
+    /// For BaseProcLink or BaseProcAccessor.
     void release();
 
     BaseProc* getConnectedCalcParent() const;

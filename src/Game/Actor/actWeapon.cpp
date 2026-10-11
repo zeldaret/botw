@@ -1,7 +1,7 @@
 #include "Game/Actor/actWeapon.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/UI/uiPauseMenuDataMgr.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -409,7 +409,8 @@ bool WeaponModifierRanges::loadTierBlue(const ksys::res::GParamList& gparamlist)
 }
 
 // NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-bool WeaponModifierInfo::pickRandomBlueModifierActor(const ksys::act::ActorConstDataAccess& acc) {
+bool WeaponModifierInfo::pickRandomBlueModifierActor(
+    const ksys::act::ActorLinkConstDataAccess& acc) {
     WeaponModifierRanges ranges;
     const auto& gparamlist = *acc.getGParamList();
     if (ranges.loadTierBlue(gparamlist)) {
@@ -460,7 +461,8 @@ bool WeaponModifierRanges::loadTierYellow(const ksys::res::GParamList& gparamlis
 }
 
 // NON_MATCHING: isConfigValid() somehow does not match when inlined (but matches the Wii U version)
-bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorConstDataAccess& acc) {
+bool WeaponModifierInfo::pickRandomYellowModifierActor(
+    const ksys::act::ActorLinkConstDataAccess& acc) {
     WeaponModifierRanges ranges;
     const auto& gparamlist = *acc.getGParamList();
     if (ranges.loadTierYellow(gparamlist)) {

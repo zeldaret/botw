@@ -6,7 +6,7 @@
 namespace ksys::act {
 
 class Actor;
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 
 class PhysicsUserTag : public phys::UserTag {
     SEAD_RTTI_OVERRIDE(PhysicsUserTag, phys::UserTag)
@@ -15,8 +15,8 @@ public:
     explicit PhysicsUserTag(Actor* actor);
     ~PhysicsUserTag() override;
 
-    Actor* getActor(ActorLinkConstDataAccess* accessor, Actor* other_actor) const;
-    bool acquireActor(ActorLinkConstDataAccess* accessor) const;
+    Actor* getActor(BaseProcAccessor* accessor, Actor* other_actor) const;
+    bool acquireActor(BaseProcAccessor* accessor) const;
 
     Actor* getActor() const { return mActor; }
 

@@ -4,7 +4,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -23,14 +23,14 @@ namespace ksys::act {
 
 namespace {
 
-ActorConstDataAccess getAccessor(BaseProcLink* link) {
-    ActorConstDataAccess accessor;
+ActorLinkConstDataAccess getAccessor(BaseProcLink* link) {
+    ActorLinkConstDataAccess accessor;
     acquireActor(link, &accessor);
     return accessor;
 }
 
-ActorConstDataAccess getAccessor(Actor* actor) {
-    ActorConstDataAccess accessor{actor};
+ActorLinkConstDataAccess getAccessor(Actor* actor) {
+    ActorLinkConstDataAccess accessor{actor};
     return accessor;
 }
 
@@ -59,7 +59,7 @@ bool hasTag(BaseProcLink* link, const sead::SafeString& tag) {
     return hasTag(getAccessor(link), tag);
 }
 
-bool hasTag(const ActorConstDataAccess& accessor, const sead::SafeString& tag) {
+bool hasTag(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tag) {
     return accessor.hasTag(tag.cstr());
 }
 
@@ -76,7 +76,7 @@ bool hasTag(BaseProcLink* link, u32 tag) {
     return hasTag(getAccessor(link), tag);
 }
 
-bool hasTag(const ActorConstDataAccess& accessor, u32 tag) {
+bool hasTag(const ActorLinkConstDataAccess& accessor, u32 tag) {
     return accessor.hasTag(tag);
 }
 
@@ -105,7 +105,7 @@ bool hasOneTagAtLeast(BaseProcLink* link, const sead::SafeString& tags) {
     return false;
 }
 
-bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeString& tags) {
+bool hasOneTagAtLeast(const ActorLinkConstDataAccess& accessor, const sead::SafeString& tags) {
     sead::FixedSafeString<32> tag;
     for (auto it = tags.tokenBegin(","); tags.tokenEnd(",") != it; ++it) {
         it.get(&tag);
@@ -268,11 +268,11 @@ ZukanType getZukanType(Actor* actor) {
     return ZukanType::Invalid;
 }
 
-static bool isProfile(const ActorConstDataAccess& accessor, const sead::SafeString& profile) {
+static bool isProfile(const ActorLinkConstDataAccess& accessor, const sead::SafeString& profile) {
     return accessor.hasProc() && accessor.getProfile() == profile;
 }
 
-bool isPlayerProfile(const ActorConstDataAccess& accessor) {
+bool isPlayerProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "Player");
 }
 
@@ -292,7 +292,7 @@ bool isCameraProfile(Actor* actor) {
     return isProfile(getAccessor(actor), "Camera");
 }
 
-bool isNPCProfile(const ActorConstDataAccess& accessor) {
+bool isNPCProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "NPC");
 }
 
@@ -320,7 +320,7 @@ bool isDemoNPCProfile(Actor* actor) {
     return isProfile(getAccessor(actor), "DemoNPC");
 }
 
-bool isEnemyProfile(const ActorConstDataAccess& accessor) {
+bool isEnemyProfile(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -349,7 +349,7 @@ bool isGuardianProfile(BaseProcLink* link) {
     return profile == "Guardian" || profile == "GuardianComponent";
 }
 
-bool isLargeEnemy(const ActorConstDataAccess& accessor) {
+bool isLargeEnemy(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -362,7 +362,7 @@ bool isLargeEnemy(Actor* actor) {
     return isLargeEnemy(getAccessor(actor));
 }
 
-bool isGanonBeast(const ActorConstDataAccess& accessor) {
+bool isGanonBeast(const ActorLinkConstDataAccess& accessor) {
     return accessor.hasProc() && accessor.getName() == "Enemy_GanonBeast";
 }
 
@@ -374,7 +374,7 @@ bool isNotLivingCreature(Actor* actor) {
     return isNotLivingCreature(getAccessor(actor));
 }
 
-bool isNotLivingCreature(const ActorConstDataAccess& accessor) {
+bool isNotLivingCreature(const ActorLinkConstDataAccess& accessor) {
     if (isPlayerProfile(accessor))
         return false;
     if (isNPCProfile(accessor))
@@ -392,7 +392,7 @@ bool isNotLivingCreature(BaseProcLink* link) {
     return isNotLivingCreature(getAccessor(link));
 }
 
-bool isWeaponProfile(const ActorConstDataAccess& accessor) {
+bool isWeaponProfile(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
     return isWeaponProfile(accessor.getName());
@@ -412,7 +412,7 @@ bool isWeaponProfile(BaseProcLink* link) {
     return isWeaponProfile(getAccessor(link));
 }
 
-bool isWeaponOrArmor(const ActorConstDataAccess& accessor) {
+bool isWeaponOrArmor(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
 
@@ -429,7 +429,7 @@ bool isWeaponOrArmor(Actor* actor) {
     return isWeaponOrArmor(getAccessor(actor));
 }
 
-bool isBulletProfile(const ActorConstDataAccess& accessor) {
+bool isBulletProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "Bullet");
 }
 
@@ -441,7 +441,7 @@ bool isBulletProfile(BaseProcLink* link) {
     return isBulletProfile(getAccessor(link));
 }
 
-bool isHorseProfile(const ActorConstDataAccess& accessor) {
+bool isHorseProfile(const ActorLinkConstDataAccess& accessor) {
     return isProfile(accessor, "Horse");
 }
 
@@ -462,7 +462,7 @@ bool isStalfosParts(BaseProcLink* link) {
     return accessor.hasProc() && accessor.hasTag(tags::StalfosParts);
 }
 
-bool isDoor(const ActorConstDataAccess& accessor) {
+bool isDoor(const ActorLinkConstDataAccess& accessor) {
     return accessor.hasProc() && accessor.hasTag(tags::Door);
 }
 
@@ -470,7 +470,7 @@ bool isDoor(BaseProcLink* link) {
     return isDoor(getAccessor(link));
 }
 
-bool isPreyOrSwarm(const ActorConstDataAccess& accessor) {
+bool isPreyOrSwarm(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
     const auto& profile = accessor.getProfile();
@@ -485,7 +485,7 @@ bool isPreyOrSwarm(BaseProcLink* link) {
     return isPreyOrSwarm(getAccessor(link));
 }
 
-bool isWolfOrBear(const ActorConstDataAccess& accessor) {
+bool isWolfOrBear(const ActorLinkConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;
     return accessor.hasTag(tags::AnimalTypeWolf) || accessor.hasTag(tags::AnimalTypeBear);

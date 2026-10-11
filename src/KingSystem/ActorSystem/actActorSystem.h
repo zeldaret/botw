@@ -6,7 +6,7 @@
 
 namespace ksys::act {
 
-class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 
 // TODO: incomplete
 class ActorSystem {
@@ -16,7 +16,7 @@ class ActorSystem {
 public:
     void onBaseProcMgrCalc();
 
-    bool getPlayer(ActorConstDataAccess* accessor);
+    bool getPlayer(ActorLinkConstDataAccess* accessor);
 
     bool getAutoPlacementActorPos(const sead::SafeString& name, sead::Vector3f* pos) const;
 

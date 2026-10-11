@@ -11,7 +11,7 @@
 
 namespace ksys::act {
 
-class ActorLinkConstDataAccess;
+class BaseProcAccessor;
 class BaseProc;
 class BaseProcLinkData;
 
@@ -29,8 +29,8 @@ public:
     bool hasProcInCalcState() const;
     bool hasProcById(BaseProc* proc) const;
 
-    BaseProc* getProc(ActorLinkConstDataAccess* accessor, BaseProc* other_proc) const;
-    BaseProc* getProc(ActorLinkConstDataAccess* accessor) const;
+    BaseProc* getProc(BaseProcAccessor* accessor, BaseProc* other_proc) const;
+    BaseProc* getProc(BaseProcAccessor* accessor) const;
 
     /// Acquire the specified BaseProc.
     /// If a BaseProc has already been specified, it is released.
@@ -44,7 +44,7 @@ public:
     bool isAccessingSpecifiedProcUnsafe(BaseProc* other) const;
 
     template <typename Function>
-    auto getProcInContext(const Function& function) const;
+    KSYS_ALWAYS_INLINE auto getProcInContext(const Function& function) const;
 
 private:
     static constexpr u32 cInvalidId = -1;

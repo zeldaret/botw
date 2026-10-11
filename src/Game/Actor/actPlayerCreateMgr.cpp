@@ -7,7 +7,6 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -212,7 +211,7 @@ void CreatePlayerEquipActorMgr::requestCreateArmor(s32 slot_idx, const sead::Saf
     }
 
     {
-        ksys::act::ActorConstDataAccess access;
+        ksys::act::ActorLinkConstDataAccess access;
         ksys::act::acquireActor(&PlayerInfo::instance()->getPlayerLink(), &access);
         sead::Vector3f pos;
         access.getActorMtx().getTranslation(pos);

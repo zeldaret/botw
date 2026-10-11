@@ -4,7 +4,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Resource/resHandle.h"
@@ -42,7 +42,7 @@ public:
 
     static bool shouldCreateLifeRecoverInfo(ksys::act::Actor* actor);
     static bool
-    shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorConstDataAccess& accessor);
+    shouldApplyMasterModeDamageMultiplier(const ksys::act::ActorLinkConstDataAccess& accessor);
     static void buffDamage(s32& damage);
 
     bool isTestOfStrengthShrine() const;
