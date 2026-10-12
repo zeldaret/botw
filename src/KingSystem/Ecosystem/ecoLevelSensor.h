@@ -30,6 +30,9 @@ enum class WeaponModifier {
     NoneForced = 4,
 };
 
+// TODO Find out where this goes. It is currently used by ksys::eco::LevelSensor::scaleActor.
+WeaponModifier getRandomWeaponModifier(s32 judge_type, const sead::SafeString& unit_config_name);
+
 class LevelSensor {
 public:
     LevelSensor();
