@@ -10,6 +10,16 @@
 
 namespace ksys::eco {
 
+inline bool isScalingDisabled(const sead::Vector3f& position) {
+    if (world::Manager::instance()->getStageType() == StageType::OpenWorld &&
+        world::Manager::instance()->getFieldType() == world::FieldType::AocField &&
+        world::Manager::instance()->getScalingMode() == world::ScalingMode::Disabled) {
+        return true;
+    }
+
+    return Ecosystem::instance()->getFieldMapArea(position.x, position.z) == 28;
+}
+
 LevelSensor::LevelSensor() = default;
 
 LevelSensor::~LevelSensor() {
@@ -26,18 +36,161 @@ void LevelSensor::init(sead::Heap* heap) {
     mRootIter = new (heap) al::ByamlIter(res->getRawData());
 }
 
+bool LevelSensor::scaleWeapon(const sead::SafeString& weapon, WeaponModifier min_modifier,
+                              const char** scaled_weapon, WeaponModifier* scaled_modifier,
+                              act::Actor* actor) const {
+    if (actor) {
+        if (const auto* map_obj = actor->getMapObject()) {
+            const sead::Vector3f position = map_obj->getTranslate();
+            if (isScalingDisabled(position))
+                return false;
+        } else {
+            sead::Vector3f position;
+            actor->getMtx().getTranslation(position);
+            if (isScalingDisabled(position))
+                return false;
+        }
+    }
+
+    al::ByamlIter weapons_iter;
+    if (!mRootIter->tryGetIterByKey(&weapons_iter, "weapon"))
+        return false;
+
+    bool scaled;
+    bool finished = false;
+    for (s32 i = 0; i < weapons_iter.getSize(); ++i) {
+        al::ByamlIter weapon_iter;
+        if (!weapons_iter.tryGetIterByIndex(&weapon_iter, i)) {
+            scaled = false;
+            finished = true;
+            break;
+        }
+
+        al::ByamlIter actors_iter;
+        if (!weapon_iter.tryGetIterByKey(&actors_iter, "actors")) {
+            scaled = false;
+            finished = true;
+            break;
+        }
+
+        for (s32 j = 0; j < actors_iter.getSize() - 1; ++j) {
+            do {
+                al::ByamlIter actor_iter;
+                const char* actor_name;
+                if (!actors_iter.tryGetIterByIndex(&actor_iter, j) ||
+                    !actor_iter.tryGetStringByKey(&actor_name, "name")) {
+                    scaled = false;
+                    finished = true;
+                    break;
+                }
+
+                f32 actor_value;
+                s32 actor_plus;
+                if (!actor_iter.tryGetFloatByKey(&actor_value, "value") ||
+                    !actor_iter.tryGetIntByKey(&actor_plus, "plus")) {
+                    scaled = false;
+                    finished = true;
+                    break;
+                }
+
+                bool modifier_matches = false;
+                if (min_modifier == WeaponModifier::None) {
+                    if (actor_plus == -1)
+                        modifier_matches = true;
+                } else if (min_modifier == WeaponModifier::Blue) {
+                    if (actor_plus == 0)
+                        modifier_matches = true;
+                } else if (min_modifier == WeaponModifier::Yellow && actor_plus == 1) {
+                    modifier_matches = true;
+                }
+                if (!modifier_matches || !(actor_value < mWeaponPoints) || weapon != actor_name)
+                    break;
+
+                bool not_rank_up = false;
+                if (!weapon_iter.tryGetBoolByKey(&not_rank_up, "not_rank_up")) {
+                    scaled = false;
+                    finished = true;
+                    break;
+                }
+
+                al::ByamlIter next_iter;
+                f32 next_value = 0.0f;
+                if (j + 1 >= actors_iter.getSize()) {
+                    scaled = false;
+                    finished = true;
+                    break;
+                }
+
+                s32 found_index = -1;
+                s32 k = j + 1;
+                do {
+                    if (!actors_iter.tryGetIterByIndex(&next_iter, k) ||
+                        !next_iter.tryGetFloatByKey(&next_value, "value")) {
+                        scaled = false;
+                        finished = true;
+                        break;
+                    }
+                    if (not_rank_up) {
+                        const char* next_name;
+                        if (!next_iter.tryGetStringByKey(&next_name, "name")) {
+                            scaled = false;
+                            finished = true;
+                            break;
+                        }
+                        if (weapon != next_name)
+                            continue;
+                    }
+                    found_index = k;
+                    if (mWeaponPoints <= next_value)
+                        break;
+                } while (++k < actors_iter.getSize());
+                if (finished)
+                    break;
+
+                const char* found_name;
+                const char* series;
+                const char* actor_type;
+                s32 found_plus;
+                if (found_index < 0 || !actors_iter.tryGetIterByIndex(&next_iter, found_index) ||
+                    !next_iter.tryGetStringByKey(&found_name, "name") ||
+                    !weapon_iter.tryGetStringByKey(&series, "series") ||
+                    !weapon_iter.tryGetStringByKey(&actor_type, "actorType") ||
+                    !next_iter.tryGetIntByKey(&found_plus, "plus")) {
+                    scaled = false;
+                    finished = true;
+                    break;
+                }
+
+                *scaled_weapon = found_name;
+                switch (found_plus) {
+                case 0:
+                    *scaled_modifier = WeaponModifier::Blue;
+                    break;
+                case 1:
+                    *scaled_modifier = WeaponModifier::Yellow;
+                    break;
+                default:
+                    *scaled_modifier = WeaponModifier::None;
+                    break;
+                }
+                scaled = true;
+                finished = true;
+            } while (false);
+
+            if (finished)
+                break;
+        }
+        if (finished)
+            break;
+    }
+    return finished & scaled;
+}
+
 bool LevelSensor::scaleActor(const sead::SafeString& name, map::Object* obj,
                              const char** scaled_weapon, act::InstParamPack* pack,
                              const sead::Vector3f& position) const {
-    if (world::Manager::instance()->getStageType() == StageType::OpenWorld &&
-        world::Manager::instance()->getFieldType() == world::FieldType::AocField &&
-        world::Manager::instance()->getScalingMode() == world::ScalingMode::Disabled) {
+    if (isScalingDisabled(position))
         return false;
-    }
-
-    if (Ecosystem::instance()->getFieldMapArea(position.x, position.z) == 28) {
-        return false;
-    }
 
     if (name.startsWith("Enemy")) {
         const auto& mubin_iter = obj->getMubinIter();
