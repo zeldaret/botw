@@ -84881,9 +84881,9 @@ Address,Quality,Size,Name
 0x0000007100fd0698,U,000004,j__ZdlPv_1016
 0x0000007100fd069c,O,000372,_ZN4ksys4phys18motionTypeFromTextERKN4sead14SafeStringBaseIcEE
 0x0000007100fd0810,U,000092,
-0x0000007100fd086c,U,000356,
-0x0000007100fd09d0,U,000076,
-0x0000007100fd0a1c,U,000016,_ZN4ksys4phys36getCollisionFilterInfoFromCollidableEPNS0_23RigidBodyCollisionMasksEPjRK13hkpCollidablePKj
+0x0000007100fd086c,O,000356,_ZN4ksys4phys29getMaterialMaskFromCollidableEPNS0_23RigidBodyCollisionMasksEPjRK8hkpShapePKj
+0x0000007100fd09d0,O,000076,_ZN4ksys4phys32getBodyGroupAndObjectFromSCShapeEPPNS0_28StaticCompoundRigidBodyGroupEPPNS_3map6ObjectERK8hkpShapePKj
+0x0000007100fd0a1c,O,000016,_ZN4ksys4phys36getCollisionFilterInfoFromCollidableEPNS0_23RigidBodyCollisionMasksEPjRK13hkpCollidablePKj
 0x0000007100fd0a2c,U,000680,
 0x0000007100fd0cd4,U,000036,_ZN4ksys19PlayerTrackReporterC1Ev
 0x0000007100fd0cf8,U,000064,PlayerTrackReporter::dtor
@@ -106571,7 +106571,7 @@ Address,Quality,Size,Name
 0x000000710164ed44,U,002824,
 0x000000710164f84c,U,000272,
 0x000000710164f95c,U,000004,nullsub_5216
-0x000000710164f960,U,000312,
+0x000000710164f960,L,000312,_ZNK24hkpBvCompressedMeshShape20getPrimitiveUserDataEj
 0x000000710164fa98,U,000060,
 0x000000710164fad4,U,000468,
 0x000000710164fca8,U,000240,
