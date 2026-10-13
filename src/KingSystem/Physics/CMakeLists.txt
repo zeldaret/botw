@@ -41,17 +41,31 @@ target_sources(uking PRIVATE
     RigidBody/physRigidBody.h
     RigidBody/physRigidBodyAccessor.cpp
     RigidBody/physRigidBodyAccessor.h
+    RigidBody/physRigidBodyBox.cpp
+    RigidBody/physRigidBodyBox.h
+    RigidBody/physRigidBodyBoxWater.cpp
+    RigidBody/physRigidBodyBoxWater.h
+    RigidBody/physRigidBodyCapsule.cpp
+    RigidBody/physRigidBodyCapsule.h
     RigidBody/physRigidBodyContactEvent.h
+    RigidBody/physRigidBodyCylinder.cpp
+    RigidBody/physRigidBodyCylinder.h
+    RigidBody/physRigidBodyCylinderWater.cpp
+    RigidBody/physRigidBodyCylinderWater.h
     RigidBody/physRigidBodyFromResource.cpp
     RigidBody/physRigidBodyFromResource.h
     RigidBody/physRigidBodyFromShape.cpp
     RigidBody/physRigidBodyFromShape.h
+    RigidBody/physRigidBodyListShape.cpp
+    RigidBody/physRigidBodyListShape.h
     RigidBody/physRigidBodyMotionEntity.cpp
     RigidBody/physRigidBodyMotionEntity.h
     RigidBody/physRigidBodyMotionSensor.cpp
     RigidBody/physRigidBodyMotionSensor.h
     RigidBody/physRigidBodyParam.cpp
     RigidBody/physRigidBodyParam.h
+    RigidBody/physRigidBodyPolytope.cpp
+    RigidBody/physRigidBodyPolytope.h
     RigidBody/physRigidBodyRequestMgr.cpp
     RigidBody/physRigidBodyRequestMgr.h
     RigidBody/physRigidBodyResource.cpp
@@ -60,44 +74,30 @@ target_sources(uking PRIVATE
     RigidBody/physRigidBodySet.h
     RigidBody/physRigidBodySetParam.cpp
     RigidBody/physRigidBodySetParam.h
+    RigidBody/physRigidBodySphere.cpp
+    RigidBody/physRigidBodySphere.h
 
-    RigidBody/Shape/Box/physBoxRigidBody.cpp
-    RigidBody/Shape/Box/physBoxRigidBody.h
-    RigidBody/Shape/Box/physBoxShape.cpp
-    RigidBody/Shape/Box/physBoxShape.h
-    RigidBody/Shape/BoxWater/physBoxWaterRigidBody.cpp
-    RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h
-    RigidBody/Shape/BoxWater/physBoxWaterShape.cpp
-    RigidBody/Shape/BoxWater/physBoxWaterShape.h
-    RigidBody/Shape/Capsule/physCapsuleRigidBody.cpp
-    RigidBody/Shape/Capsule/physCapsuleRigidBody.h
-    RigidBody/Shape/Capsule/physCapsuleShape.cpp
-    RigidBody/Shape/Capsule/physCapsuleShape.h
-    RigidBody/Shape/CharacterPrism/physCharacterPrismShape.cpp
-    RigidBody/Shape/CharacterPrism/physCharacterPrismShape.h
-    RigidBody/Shape/Cylinder/physCylinderRigidBody.cpp
-    RigidBody/Shape/Cylinder/physCylinderRigidBody.h
-    RigidBody/Shape/Cylinder/physCylinderShape.cpp
-    RigidBody/Shape/Cylinder/physCylinderShape.h
-    RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.cpp
-    RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h
-    RigidBody/Shape/CylinderWater/physCylinderWaterShape.cpp
-    RigidBody/Shape/CylinderWater/physCylinderWaterShape.h
-    RigidBody/Shape/List/physListShape.cpp
-    RigidBody/Shape/List/physListShape.h
-    RigidBody/Shape/List/physListShapeRigidBody.cpp
-    RigidBody/Shape/List/physListShapeRigidBody.h
-    RigidBody/Shape/Polytope/physPolytopeRigidBody.cpp
-    RigidBody/Shape/Polytope/physPolytopeRigidBody.h
-    RigidBody/Shape/Polytope/physPolytopeShape.cpp
-    RigidBody/Shape/Polytope/physPolytopeShape.h
-    RigidBody/Shape/Sphere/physSphereRigidBody.cpp
-    RigidBody/Shape/Sphere/physSphereRigidBody.h
-    RigidBody/Shape/Sphere/physSphereShape.cpp
-    RigidBody/Shape/Sphere/physSphereShape.h
+    RigidBody/Shape/physBoxShape.cpp
+    RigidBody/Shape/physBoxShape.h
+    RigidBody/Shape/physBoxWaterShape.cpp
+    RigidBody/Shape/physBoxWaterShape.h
+    RigidBody/Shape/physCapsuleShape.cpp
+    RigidBody/Shape/physCapsuleShape.h
+    RigidBody/Shape/physCharacterPrismShape.cpp
+    RigidBody/Shape/physCharacterPrismShape.h
+    RigidBody/Shape/physCylinderShape.cpp
+    RigidBody/Shape/physCylinderShape.h
+    RigidBody/Shape/physCylinderWaterShape.cpp
+    RigidBody/Shape/physCylinderWaterShape.h
+    RigidBody/Shape/physListShape.cpp
+    RigidBody/Shape/physListShape.h
+    RigidBody/Shape/physPolytopeShape.cpp
+    RigidBody/Shape/physPolytopeShape.h
     RigidBody/Shape/physShape.h
     RigidBody/Shape/physShapeParamObj.cpp
     RigidBody/Shape/physShapeParamObj.h
+    RigidBody/Shape/physSphereShape.cpp
+    RigidBody/Shape/physSphereShape.h
 
     RigidBody/TeraMesh/physTeraMeshRigidBody.cpp
     RigidBody/TeraMesh/physTeraMeshRigidBody.h
@@ -105,18 +105,6 @@ target_sources(uking PRIVATE
     RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h
 
     RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h
-
-    StaticCompound/physStaticCompound.cpp
-    StaticCompound/physStaticCompound.h
-    StaticCompound/physStaticCompoundAutogen.cpp
-    StaticCompound/physStaticCompoundInfo.cpp
-    StaticCompound/physStaticCompoundInfo.h
-    StaticCompound/physStaticCompoundMgr.cpp
-    StaticCompound/physStaticCompoundMgr.h
-    StaticCompound/physStaticCompoundRigidBodyGroup.cpp
-    StaticCompound/physStaticCompoundRigidBodyGroup.h
-    StaticCompound/physStaticCompoundUtil.cpp
-    StaticCompound/physStaticCompoundUtil.h
 
     SupportBone/physSupportBoneParam.cpp
     SupportBone/physSupportBoneParam.h
@@ -144,6 +132,8 @@ target_sources(uking PRIVATE
     System/physContactMgr.h
     System/physContactPointInfo.cpp
     System/physContactPointInfo.h
+    System/physHavokMemoryAllocator.cpp
+    System/physHavokMemoryAllocator.h
     System/physLayerContactPointInfo.cpp
     System/physLayerContactPointInfo.h
     System/physEntityContactListener.cpp
@@ -178,6 +168,16 @@ target_sources(uking PRIVATE
     System/physShapeCast.h
     System/physShapeCastWithInfo.cpp
     System/physShapeCastWithInfo.h
+    System/physStaticCompound.cpp
+    System/physStaticCompound.h
+    System/physStaticCompoundInfo.cpp
+    System/physStaticCompoundInfo.h
+    System/physStaticCompoundMgr.cpp
+    System/physStaticCompoundMgr.h
+    System/physStaticCompoundRigidBodyGroup.cpp
+    System/physStaticCompoundRigidBodyGroup.h
+    System/physStaticCompoundUtil.cpp
+    System/physStaticCompoundUtil.h
     System/physSystem.cpp
     System/physSystem.h
     System/physSystemData.cpp
@@ -188,8 +188,6 @@ target_sources(uking PRIVATE
     physConversions.h
     physDefines.cpp
     physDefines.h
-    physHavokMemoryAllocator.cpp
-    physHavokMemoryAllocator.h
     physHeapUtil.h
     physLayerMaskBuilder.h
     physMaterialMask.cpp

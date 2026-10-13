@@ -1,5 +1,5 @@
-#include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/CylinderWater/physCylinderWaterShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinderWater.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCylinderWaterShape.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {

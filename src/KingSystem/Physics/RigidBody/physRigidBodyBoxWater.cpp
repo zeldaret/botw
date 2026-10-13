@@ -1,5 +1,5 @@
-#include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBoxWater.h"
+#include "KingSystem/Physics/RigidBody/Shape/physBoxWaterShape.h"
 
 namespace ksys::phys {
 

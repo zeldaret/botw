@@ -14,10 +14,10 @@
 #include <Havok/Physics2012/Utilities/Collide/ShapeUtils/ShapeKeyPath/hkpShapeKeyPath.h>
 #include <prim/seadScopeGuard.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundUtil.h"
 #include "KingSystem/Physics/System/physEntityContactListener.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physPhantom.h"
+#include "KingSystem/Physics/System/physStaticCompoundUtil.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physLayerMaskBuilder.h"

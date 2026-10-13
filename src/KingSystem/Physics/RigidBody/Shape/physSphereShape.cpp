@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
