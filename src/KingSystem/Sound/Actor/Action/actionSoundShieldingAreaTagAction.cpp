@@ -2,20 +2,21 @@
 
 namespace ksys::snd {
 
-SoundShieldingAreaTagAction::SoundShieldingAreaTagAction(const InitArg& arg) : AreaTagAction(arg) {}
+SoundShieldingAreaTagAction::SoundShieldingAreaTagAction(const InitArg& arg)
+    : AreaActionBase(arg) {}
 
 SoundShieldingAreaTagAction::~SoundShieldingAreaTagAction() = default;
 
 bool SoundShieldingAreaTagAction::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 void SoundShieldingAreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void SoundShieldingAreaTagAction::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void SoundShieldingAreaTagAction::loadParams_() {
@@ -24,7 +25,7 @@ void SoundShieldingAreaTagAction::loadParams_() {
 }
 
 void SoundShieldingAreaTagAction::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 }  // namespace ksys::snd

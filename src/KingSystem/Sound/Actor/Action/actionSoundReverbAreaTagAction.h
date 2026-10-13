@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Area/Action/actionAreaTagAction.h"
+#include "Game/Actor/Area/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::snd {
 
-class SoundReverbAreaTagAction : public uking::action::AreaTagAction {
-    SEAD_RTTI_OVERRIDE(SoundReverbAreaTagAction, uking::action::AreaTagAction)
+class SoundReverbAreaTagAction : public uking::action::AreaActionBase {
+    SEAD_RTTI_OVERRIDE(SoundReverbAreaTagAction, uking::action::AreaActionBase)
 public:
     explicit SoundReverbAreaTagAction(const InitArg& arg);
     ~SoundReverbAreaTagAction() override;

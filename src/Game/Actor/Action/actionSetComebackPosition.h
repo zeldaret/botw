@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Area/Action/actionAreaTagAction.h"
+#include "Game/Actor/Area/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SetComebackPosition : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(SetComebackPosition, AreaTagAction)
+class SetComebackPosition : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(SetComebackPosition, AreaActionBase)
 public:
     explicit SetComebackPosition(const InitArg& arg);
     ~SetComebackPosition() override;

@@ -2,12 +2,12 @@
 
 namespace uking::action {
 
-AreaActorObserve::AreaActorObserve(const InitArg& arg) : AreaTagAction(arg) {}
+AreaActorObserve::AreaActorObserve(const InitArg& arg) : AreaActionBase(arg) {}
 
 AreaActorObserve::~AreaActorObserve() = default;
 
 bool AreaActorObserve::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 void AreaActorObserve::loadParams_() {

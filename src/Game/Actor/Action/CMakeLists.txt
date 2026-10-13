@@ -5,8 +5,6 @@ target_sources(uking PRIVATE
   actionActionWithAS.h
   actionActivateAttackSensor.cpp
   actionActivateAttackSensor.h
-  actionActorAreaInOutSendMessage.cpp
-  actionActorAreaInOutSendMessage.h
   actionActorInfoToGameDataFloat.cpp
   actionActorInfoToGameDataFloat.h
   actionActorInfoToGameDataInt.cpp
@@ -149,6 +147,8 @@ target_sources(uking PRIVATE
   actionAreaBottomTag.h
   actionAreaFireObserve.cpp
   actionAreaFireObserve.h
+  actionAreaInOutSendMessage.cpp
+  actionAreaInOutSendMessage.h
   actionAreaLocation.cpp
   actionAreaLocation.h
   actionAreaRoot.cpp

@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  actionAreaActionBase.cpp
+  actionAreaActionBase.h
   actionAreaActorObserve.cpp
   actionAreaActorObserve.h
   actionAreaHorseSpeedLimitAction.cpp
@@ -9,8 +11,6 @@ target_sources(uking PRIVATE
   actionAreaOutRecreateActorAction.h
   actionAreaRecreateActorAction.cpp
   actionAreaRecreateActorAction.h
-  actionAreaTagAction.cpp
-  actionAreaTagAction.h
   actionFireObserveBase.cpp
   actionFireObserveBase.h
   actionOwnedHorseObserveAction.cpp
