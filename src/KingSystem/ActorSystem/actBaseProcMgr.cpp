@@ -3,10 +3,10 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcDeleter.h"
 #include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
 #include "KingSystem/ActorSystem/actBaseProcInitializer.h"
-#include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcJobQue.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 

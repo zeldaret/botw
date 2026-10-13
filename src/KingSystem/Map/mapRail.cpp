@@ -226,8 +226,6 @@ RailRoute::RailRoute() {
     mFlags.set(Flag::Walkable);
 }
 
-RailRoute::~RailRoute() = default;
-
 bool RailRoute::isRenderEnabled() const {
     return mFlags.isOn(Flag::RenderEnabled);
 }
@@ -251,6 +249,8 @@ const char* RailRoute::getRouteId() const {
 const char* RailRoute::getCheckPointName(s32 idx) const {
     return static_cast<RailRoutePoint*>(mRailPoints[idx])->mCheckPointName;
 }
+
+RailRoute::~RailRoute() = default;
 
 bool RailRoute::parse(MubinIter* iter) {
     int success = Rail::parse(iter);
