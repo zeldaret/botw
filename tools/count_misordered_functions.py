@@ -190,21 +190,26 @@ def colorize(line: str) -> str:
     return text
 
 
+def by_address(lines: list[str]) -> dict[int, str]:
+    return {int(line.partition(" ")[0], 16): line for line in lines}
+
+
 def print_comparison(baseline: Report, report: Report) -> bool:
     deltas: list[int] = []
     for (title, old_lines), new_lines in zip(baseline.sections().items(), report.sections().values()):
-        old_set, new_set = set(old_lines), set(new_lines)
-        fixed = [line for line in old_lines if line not in new_set]
-        added = [line for line in new_lines if line not in old_set]
+        old, new = by_address(old_lines), by_address(new_lines)
+        changes = sorted([(address, f"{Fore.GREEN}-", line) for address, line in old.items() if address not in new] +
+                         [(address, f"{Fore.RED}+", line) for address, line in new.items() if address not in old])
+        renamed = sum(1 for address, line in old.items() if address in new and new[address] != line)
         delta = len(new_lines) - len(old_lines)
         deltas.append(delta)
         color = Fore.RED if delta > 0 else Fore.GREEN if delta < 0 else ""
         print(f"{Style.BRIGHT}{title}: {len(old_lines)} -> {len(new_lines)} "
               f"{color}({delta:+d}){Style.RESET_ALL}")
-        for line in fixed:
-            print(f"{Fore.GREEN}-{Fore.RESET} {colorize(line)}")
-        for line in added:
-            print(f"{Fore.RED}+{Fore.RESET} {colorize(line)}")
+        for _, sign, line in changes:
+            print(f"{sign}{Fore.RESET} {colorize(line)}")
+        if renamed:
+            print(f"{Style.DIM}  {renamed} unchanged except for their object or function name{Style.RESET_ALL}")
         print()
 
     changes = ", ".join(f"{name} {delta:+d}" for name, delta in zip(Report.SUMMARY_NAMES, deltas))
