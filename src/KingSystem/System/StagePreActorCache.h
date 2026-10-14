@@ -8,8 +8,10 @@ class ForestRenderer;
 }
 
 namespace ksys::map {
-
 class LazyTraverseList;
+}
+
+namespace ksys {
 
 // TODO
 class StagePreActorCache {
@@ -17,13 +19,13 @@ class StagePreActorCache {
     StagePreActorCache();
 
 public:
-    LazyTraverseList* getObjects() const { return mObjects; }
+    map::LazyTraverseList* getObjects() const { return mObjects; }
     auto* getForestRenderer() { return mForestRenderer; }
 
 private:
     char _0[0x20];
-    LazyTraverseList* mObjects;
+    map::LazyTraverseList* mObjects;
     gfx::ForestRenderer* mForestRenderer;
 };
 
-}  // namespace ksys::map
+}  // namespace ksys

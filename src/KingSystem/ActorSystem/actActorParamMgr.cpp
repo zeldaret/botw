@@ -1,11 +1,11 @@
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include <prim/seadScopedLock.h>
-#include "KingSystem/ActorSystem/actASSetting.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 #include "KingSystem/Resource/Actor/resResourceAISchedule.h"
 #include "KingSystem/Resource/Actor/resResourceAS.h"
 #include "KingSystem/Resource/Actor/resResourceASList.h"
+#include "KingSystem/Resource/Actor/resResourceASSettingMgr.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/Actor/resResourceAnimInfo.h"
 #include "KingSystem/Resource/Actor/resResourceAttClient.h"
@@ -140,13 +140,13 @@ void ActorParamMgr::init(sead::Heap* heap, sead::Heap* debug_heap) {
 
     res::registerEntryFactory(new (mTempHeap) res::EntryFactory<res::ASSetting>(0.0, 0x80000),
                               "bassetting");
-    ASSetting::createInstance(mTempHeap);
-    ASSetting::instance()->init("Actor/ASSetting.bassetting", mTempHeap);
+    res::ASSettingMgr::createInstance(mTempHeap);
+    res::ASSettingMgr::instance()->init("Actor/ASSetting.bassetting", mTempHeap);
     ActorParam::resetDummyResources();
 }
 
 ActorParamMgr::~ActorParamMgr() {
-    ASSetting::deleteInstance();
+    res::ASSettingMgr::deleteInstance();
 }
 
 bool ActorParamMgr::checkPath(const sead::SafeString& path) const {

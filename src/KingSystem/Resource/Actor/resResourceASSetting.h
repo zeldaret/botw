@@ -29,7 +29,7 @@ public:
         SEAD_RTTI_OVERRIDE(BoneParams, ASParamParser)
     public:
         BoneParams() : ASParamParser(Type::BlenderBone) {}
-        ~BoneParams() override;
+        ~BoneParams() override { mBuffer.freeBuffer(); }
         bool parse(const ParseArgs& args) override;
         f32 getBoneWeight(const sead::SafeString& name) const;
 

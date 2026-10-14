@@ -1,9 +1,10 @@
-#include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"
+#include "KingSystem/Resource/Actor/resResourceASSetting.h"
 #include <container/seadSafeArray.h>
 #include <optional>
 #include <prim/seadSafeString.h>
-#include "KingSystem/ActorSystem/actASSetting.h"
-#include "KingSystem/Resource/resResourceASSetting.h"
+#include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"
+#include "KingSystem/Resource/Actor/resResourceASSettingMgr.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 
 namespace ksys::res {
 
@@ -211,13 +212,41 @@ bool ASBitIndexParser::parse(const ASParamParser::ParseArgs& args) {
     return true;
 }
 
-template <typename T>
-static ASParamParser* factoryImpl_(sead::Heap* heap) {
-    return new (heap) T;
+bool ASSetting::BoneParams::parse(const ASParamParser::ParseArgs& args) {
+    const auto num_objects = args.res_list.getResParameterObjNum();
+    if (num_objects == 0)
+        return true;
+
+    if (!mBuffer.tryAllocBuffer(num_objects, args.heap))
+        return false;
+
+    auto it = mBuffer.begin();
+    const auto end = mBuffer.end();
+
+    sead::FixedSafeString<32> obj_name{"BoneParam"};
+    const auto obj_name_base_len = obj_name.calcLength();
+
+    auto res_it = args.res_list.objBegin();
+    const auto res_end = args.res_list.objEnd();
+
+    for (; it != end && res_it != res_end; ++it, ++res_it) {
+        it->mBone.init("", "Bone", "ボーン名", "", &it->mObj);
+        it->mWeight.init(0.0, "Weight", "ウェイト値", "Min=0.f,Max=1.f", &it->mObj);
+
+        obj_name.trim(obj_name_base_len);
+        obj_name.appendWithFormat("%d", res_it.getIndex());
+        mList.addObj(&it->mObj, obj_name);
+    }
+
+    return true;
 }
 
-static ASParamParser* dummyASParserFactoryImpl_(sead::Heap*) {
-    return nullptr;
+f32 ASSetting::BoneParams::getBoneWeight(const sead::SafeString& name) const {
+    for (const auto& param : mBuffer) {
+        if (name == *param.mBone)
+            return *param.mWeight;
+    }
+    return 1.0;
 }
 
 namespace {
@@ -226,17 +255,7 @@ struct Factory {
     ASParamParser* (*make)(sead::Heap* heap);
 };
 
-sead::SafeArray<Factory, ASParamParser::NumTypes> sASFactories{{
-    {"FrameCtrl", factoryImpl_<ASFrameCtrlParser>},
-    {"TriggerEvents", factoryImpl_<ASTriggerEventsParser>},
-    {"HoldEvents", factoryImpl_<ASHoldEventsParser>},
-    {"StringArray", factoryImpl_<ASStringArrayParser>},
-    {"Ranges", factoryImpl_<ASRangesParser>},
-    {"FloatArray", factoryImpl_<ASFloatArrayParser>},
-    {"IntArray", factoryImpl_<ASIntArrayParser>},
-    {"BitIndex", factoryImpl_<ASBitIndexParser>},
-    {"BlenderBone", dummyASParserFactoryImpl_},
-}};
+extern sead::SafeArray<Factory, ASParamParser::NumTypes> sASFactories;
 }  // namespace
 
 ASExtensions::~ASExtensions() {
@@ -304,7 +323,7 @@ ASParamParser* ASExtensions::makeParser(const ASParamParser::ParseArgs& args) co
         const auto obj = args.res_list.getResParameterObj(0);
         if (obj.getNum() > 0) {
             const sead::SafeString name = obj.getResParameter(0).getData<const char>();
-            return act::ASSetting::instance()->getBoneParams(name);
+            return ASSettingMgr::instance()->getBoneParams(name);
         }
     }
 
@@ -326,6 +345,19 @@ ASParamParser* ASExtensions::makeParser(const ASParamParser::ParseArgs& args) co
     return parser;
 }
 
+// NON_MATCHING: sead::DirectResource to res::ASSetting cast nullptr check; branching for the return
+ASParamParser* ASSettingMgr::getBoneParams(const sead::SafeString& key) const {
+    auto* res = sead::DynamicCast<ASSetting>(mHandle.getResource());
+    if (!res)
+        return nullptr;
+
+    for (auto& bones : res->getBlenderBones()) {
+        if (key == bones.mKeyName.ref())
+            return &bones.mBoneParams;
+    }
+    return nullptr;
+}
+
 ASParamParser* ASExtensions::getParser(ASParamParser::Type type) const {
     for (int i = 0, n = mParsers.size(); i < n; ++i) {
         auto* parser = mParsers[i];
@@ -334,5 +366,107 @@ ASParamParser* ASExtensions::getParser(ASParamParser::Type type) const {
     }
     return nullptr;
 }
+
+ASSetting::ASSetting() {
+    mType = "assetting";
+    mVersion = 0;
+}
+
+ASSetting::~ASSetting() {
+    mBlenderBones.freeBuffer();
+}
+
+void ASSetting::doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) {}
+
+bool allocBlenderBones(sead::Buffer<ASSetting::BlenderBone>& buffer, int size, sead::Heap* heap,
+                       int align = sizeof(void*));
+
+bool ASSetting::parse_(u8* data, size_t size, sead::Heap* heap) {
+    if (!data)
+        return true;
+
+    agl::utl::ResParameterArchive archive{data};
+    const auto root = archive.getRootList();
+
+    addList(&mBlenderBoneList, "BlenderBone");
+
+    const auto lists = agl::utl::getResParameterList(root, "BlenderBone");
+    if (!lists.ptr())
+        return true;
+
+    const auto num_blender_bones = lists.getResParameterListNum();
+    if (num_blender_bones == 0)
+        return true;
+
+    if (!allocBlenderBones(mBlenderBones, num_blender_bones, heap))
+        return false;
+
+    auto res_it = lists.listBegin();
+    const auto res_it_end = lists.listEnd();
+    sead::FixedSafeString<32> list_name{"BlenderBone"};
+    const auto list_name_base_len = list_name.calcLength();
+
+    ASParamParser::ParseArgs args;
+    args.res_list = {};
+    args.heap = heap;
+
+    auto it = mBlenderBones.begin();
+    const auto end = mBlenderBones.end();
+    for (; it != end && res_it != res_it_end; ++it, ++res_it) {
+        list_name.trim(list_name_base_len);
+        list_name.appendWithFormat("%d", it.getIndex());
+        mBlenderBoneList.addList(&it->mList, list_name);
+
+        it->mKeyName.init("", "KeyName", "キー名", "", &it->mNameParamObj);
+        it->mList.addObj(&it->mNameParamObj, "NameParam");
+        it->mList.addList(&it->mBoneParams.getList(), "BoneParam");
+
+        const auto list = *res_it;
+        args.list = &it->mList;
+        args.res_list = agl::utl::getResParameterList(list, "BoneParam");
+        if (!it->mBoneParams.parse(args))
+            return false;
+    }
+
+    applyResParameterArchive(archive);
+    return true;
+}
+
+bool allocBlenderBones(sead::Buffer<ASSetting::BlenderBone>& buffer, int size, sead::Heap* heap,
+                       int align) {
+    return buffer.tryAllocBuffer(size, heap, align);
+}
+
+SEAD_SINGLETON_DISPOSER_IMPL(ASSettingMgr)
+
+void ASSettingMgr::init(const sead::SafeString& config_path, sead::Heap* heap) {
+    LoadRequest req;
+    req.mRequester = "ASSetting";
+    req._22 = true;
+    mHandle.load(config_path, &req);
+}
+
+template <typename T>
+static ASParamParser* factoryImpl_(sead::Heap* heap) {
+    return new (heap) T;
+}
+
+static ASParamParser* dummyASParserFactoryImpl_(sead::Heap*) {
+    return nullptr;
+}
+
+namespace {
+sead::SafeArray<Factory, ASParamParser::NumTypes> sASFactories{{
+    {"FrameCtrl", factoryImpl_<ASFrameCtrlParser>},
+    {"TriggerEvents", factoryImpl_<ASTriggerEventsParser>},
+    {"HoldEvents", factoryImpl_<ASHoldEventsParser>},
+    {"StringArray", factoryImpl_<ASStringArrayParser>},
+    {"Ranges", factoryImpl_<ASRangesParser>},
+    {"FloatArray", factoryImpl_<ASFloatArrayParser>},
+    {"IntArray", factoryImpl_<ASIntArrayParser>},
+    {"BitIndex", factoryImpl_<ASBitIndexParser>},
+    {"BlenderBone", dummyASParserFactoryImpl_},
+}};
+}  // namespace
 
 }  // namespace ksys::res

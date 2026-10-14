@@ -128,8 +128,6 @@ target_sources(uking PRIVATE
 
   resResource.cpp
   resResource.h
-  resResourceASSetting.cpp
-  resResourceASSetting.h
   resResourceArchive.cpp
   resResourceArchive.h
   resResourceGameData.cpp
@@ -153,8 +151,10 @@ target_sources(uking PRIVATE
   Actor/resResourceASList.h
   Actor/resResourceASResource.cpp
   Actor/resResourceASResource.h
-  Actor/resResourceASResourceExtension.cpp
   Actor/resResourceASResourceExtension.h
+  Actor/resResourceASSetting.cpp
+  Actor/resResourceASSetting.h
+  Actor/resResourceASSettingMgr.h
   Actor/resResourceAttCheck.cpp
   Actor/resResourceAttCheck.h
   Actor/resResourceAttClient.cpp
