@@ -93,8 +93,6 @@ target_sources(uking PRIVATE
   actionCameraLockOn.h
   actionCameraLockOnAimingAt.cpp
   actionCameraLockOnAimingAt.h
-  actionCameraTrackBase.cpp
-  actionCameraTrackBase.h
   actionCameraMagneCatch.cpp
   actionCameraMagneCatch.h
   actionCameraMotorcycle.cpp
@@ -107,6 +105,8 @@ target_sources(uking PRIVATE
   actionCameraShieldSurfing.h
   actionCameraTail.cpp
   actionCameraTail.h
+  actionCameraTrackBase.cpp
+  actionCameraTrackBase.h
   actionCameraWakeboard.cpp
   actionCameraWakeboard.h
   actionCameraWaterfallClimb.cpp

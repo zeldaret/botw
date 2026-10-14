@@ -3,8 +3,8 @@
 #include <thread/seadReadWriteLock.h>
 #include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/Map/mapObject.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompound.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundRigidBodyGroup.h"
+#include "KingSystem/Physics/System/physStaticCompound.h"
+#include "KingSystem/Physics/System/physStaticCompoundRigidBodyGroup.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 
 namespace ksys::map {

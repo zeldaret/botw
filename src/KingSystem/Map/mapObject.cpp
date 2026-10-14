@@ -6,7 +6,7 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
-#include "KingSystem/Map/mapStagePreActorCache.h"
+#include "KingSystem/System/StagePreActorCache.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Utils/Debug.h"
 

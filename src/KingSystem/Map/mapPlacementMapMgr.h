@@ -8,11 +8,14 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class FarActorMerge;
+}  // namespace ksys::act
+
 namespace ksys::map {
 
 class MapProperties;
 class Placement18;
-class FarActorMerge;
 class PlacementActors;
 
 class PlacementMap;
@@ -49,7 +52,7 @@ private:
     s32 _18;
     s32 _1c;
     PlacementMapArray mMapArray;
-    FarActorMerge* mFarActorMerge;
+    act::FarActorMerge* mFarActorMerge;
     s32 mNeedLoadDynMap;
     s32 mNeedLoadDynMapPhysics;
     bool mIsShrineOrDivineBeast;

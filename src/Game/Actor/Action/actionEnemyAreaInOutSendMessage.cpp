@@ -3,29 +3,29 @@
 namespace uking::action {
 
 EnemyAreaInOutSendMessage::EnemyAreaInOutSendMessage(const InitArg& arg)
-    : ActorAreaInOutSendMessage(arg) {}
+    : AreaInOutSendMessage(arg) {}
 
 EnemyAreaInOutSendMessage::~EnemyAreaInOutSendMessage() = default;
 
 bool EnemyAreaInOutSendMessage::init_(sead::Heap* heap) {
-    return ActorAreaInOutSendMessage::init_(heap);
+    return AreaInOutSendMessage::init_(heap);
 }
 
 void EnemyAreaInOutSendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActorAreaInOutSendMessage::enter_(params);
+    AreaInOutSendMessage::enter_(params);
 }
 
 void EnemyAreaInOutSendMessage::leave_() {
-    ActorAreaInOutSendMessage::leave_();
+    AreaInOutSendMessage::leave_();
 }
 
 void EnemyAreaInOutSendMessage::loadParams_() {
-    ActorAreaInOutSendMessage::loadParams_();
+    AreaInOutSendMessage::loadParams_();
     getStaticParam(&mMessageID_s, "MessageID");
 }
 
 void EnemyAreaInOutSendMessage::calc_() {
-    ActorAreaInOutSendMessage::calc_();
+    AreaInOutSendMessage::calc_();
 }
 
 }  // namespace uking::action

@@ -1,7 +1,7 @@
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
-#include "KingSystem/Physics/StaticCompound/physStaticCompoundUtil.h"
+#include "KingSystem/Physics/System/physStaticCompoundUtil.h"
 
 namespace ksys::phys {
 

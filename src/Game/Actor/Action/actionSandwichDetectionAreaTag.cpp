@@ -2,26 +2,26 @@
 
 namespace uking::action {
 
-SandwichDetectionAreaTag::SandwichDetectionAreaTag(const InitArg& arg) : AreaTagAction(arg) {}
+SandwichDetectionAreaTag::SandwichDetectionAreaTag(const InitArg& arg) : AreaActionBase(arg) {}
 
 SandwichDetectionAreaTag::~SandwichDetectionAreaTag() = default;
 
 bool SandwichDetectionAreaTag::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 void SandwichDetectionAreaTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void SandwichDetectionAreaTag::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void SandwichDetectionAreaTag::loadParams_() {}
 
 void SandwichDetectionAreaTag::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 }  // namespace uking::action

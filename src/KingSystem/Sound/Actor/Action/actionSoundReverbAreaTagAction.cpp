@@ -2,20 +2,20 @@
 
 namespace ksys::snd {
 
-SoundReverbAreaTagAction::SoundReverbAreaTagAction(const InitArg& arg) : AreaTagAction(arg) {}
+SoundReverbAreaTagAction::SoundReverbAreaTagAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 SoundReverbAreaTagAction::~SoundReverbAreaTagAction() = default;
 
 bool SoundReverbAreaTagAction::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 void SoundReverbAreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void SoundReverbAreaTagAction::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void SoundReverbAreaTagAction::loadParams_() {
@@ -28,7 +28,7 @@ void SoundReverbAreaTagAction::loadParams_() {
 }
 
 void SoundReverbAreaTagAction::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 }  // namespace ksys::snd

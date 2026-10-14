@@ -15,8 +15,6 @@ target_sources(uking PRIVATE
     CoreInfo.h
     CurrentResNameMgr.cpp
     CurrentResNameMgr.h
-    DebugFinder.cpp
-    DebugFinder.h
     DebugMessage.h
     GameConfig.h
     HavokWorkerMgr.cpp
@@ -39,6 +37,7 @@ target_sources(uking PRIVATE
     OverlayArenaSystemS2.h
     Patrol.cpp
     Patrol.h
+    PlayReport.cpp
     PlayReportMgr.cpp
     PlayReportMgr.h
     ProductReporter.cpp
@@ -47,6 +46,8 @@ target_sources(uking PRIVATE
     Revision.h
     StageInfo.cpp
     StageInfo.h
+    StagePreActorCache.cpp
+    StagePreActorCache.h
     StarterPackMgr.cpp
     StarterPackMgr.h
     StringBoard.h

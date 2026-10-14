@@ -4,7 +4,7 @@
 #include <heap/seadHeap.h>
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Resource/resSystem.h"
-#include "KingSystem/Sound/sndResource.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/OverlayArena.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Utils/Thread/Task.h"

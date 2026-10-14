@@ -23,10 +23,6 @@ namespace gsys {
 class Model;
 }  // namespace gsys
 
-namespace uking::dmg {
-class DamageManagerBase;
-}  // namespace uking::dmg
-
 namespace ksys {
 
 namespace as {
@@ -74,6 +70,7 @@ class BaseProcLink;
 class BoneControl;
 class Chemical;
 class ImpulseBaseProcLink;
+class IDamageManager;
 class ModelBindInfo;
 class Schedule;
 
@@ -270,7 +267,7 @@ public:
     virtual void onPlacementObjReset();
     virtual void getAtk();
     virtual void m126();
-    virtual uking::dmg::DamageManagerBase* getDamageMgr();
+    virtual IDamageManager* getDamageMgr();
     virtual void m128();
     virtual void m129();
     virtual void getPlayerRideInfo();

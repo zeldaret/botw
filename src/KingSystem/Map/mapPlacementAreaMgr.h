@@ -6,8 +6,8 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 
-#include "KingSystem/Map/mapStagePreActorCache.h"
 #include "KingSystem/Map/mapTypes.h"
+#include "KingSystem/System/StagePreActorCache.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::gdt {

@@ -3,9 +3,9 @@
 #include <Havok/Physics2012/Collide/Query/Collector/PointCollector/hkpAllCdPointCollector.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
-#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/physConversions.h"

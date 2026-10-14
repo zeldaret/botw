@@ -2,16 +2,16 @@
 
 namespace uking::action {
 
-OwnedHorseObserveAction::OwnedHorseObserveAction(const InitArg& arg) : AreaTagAction(arg) {}
+OwnedHorseObserveAction::OwnedHorseObserveAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 OwnedHorseObserveAction::~OwnedHorseObserveAction() = default;
 
 bool OwnedHorseObserveAction::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 void OwnedHorseObserveAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void OwnedHorseObserveAction::loadParams_() {
@@ -19,7 +19,7 @@ void OwnedHorseObserveAction::loadParams_() {
 }
 
 void OwnedHorseObserveAction::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 }  // namespace uking::action

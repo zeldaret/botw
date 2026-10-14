@@ -2,8 +2,8 @@
 #include <codec/seadHashCRC32.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
-#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actionDummyAction.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 
 namespace ksys::act::ai {

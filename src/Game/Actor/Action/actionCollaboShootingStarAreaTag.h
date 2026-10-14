@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/Actor/Area/Action/actionAreaTagAction.h"
+#include "Game/Actor/Area/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class CollaboShootingStarAreaTag : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(CollaboShootingStarAreaTag, AreaTagAction)
+class CollaboShootingStarAreaTag : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(CollaboShootingStarAreaTag, AreaActionBase)
 public:
     explicit CollaboShootingStarAreaTag(const InitArg& arg);
     ~CollaboShootingStarAreaTag() override;
