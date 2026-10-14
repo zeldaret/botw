@@ -282,6 +282,23 @@ public:
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 
     int countItems(PouchItemType type, bool count_any_weapon = false) const;
+    u32 getCachedWeaponCount(ItemUse use) const {
+        switch (use) {
+        case ItemUse::WeaponSmallSword:
+            return _44504;
+        case ItemUse::WeaponLargeSword:
+            return _44508;
+        case ItemUse::WeaponSpear:
+            return _4450c;
+        case ItemUse::WeaponBow:
+            return _44514;
+        case ItemUse::WeaponShield:
+            return _44510;
+        default:
+            return 0;
+        }
+    }
+
     bool isWeaponSectionFull(const sead::SafeString& weapon_type) const;
 
     void itemGet(const sead::SafeString& name, int value, const act::WeaponModifierInfo* modifier);

@@ -63,13 +63,27 @@ public:
     };
 
     explicit PlacementThing(bool set)
-        : mDelegate{this, &PlacementThing::sub_7100650C28}, _8944(set) {}
+        : mDelegate{this, &PlacementThing::sub_7100650C28}, _8944(set) {
+        mGroundNormal.x = 0.0f;
+        mGroundNormal.y = 1.0f;
+        mGroundNormal.z = 0.0f;
+    }
+
+    const sead::Vector3f& getQueryPosition() const { return mQueryVec; }
+    f32 getWaterQueryDepth() const { return mWaterQuery; }
+    int checkWaterSurface() {
+        const int on_surface = mWaterQuery > 0.0f;
+        if (on_surface)
+            mUnderwater = 1;
+        return on_surface;
+    }
 
     bool invoke();
     void stepRaycast();
     void sub_7100650C28(ksys::phys::RigidBody*);
     const char* getCurrentGroundMat() const;
     const char* getCurrentWaterSubMat() const;
+    const sead::Vector3f& getGroundNormal() const { return mGroundNormal; }
 
 private:
     friend class AutoPlacement;
@@ -81,8 +95,7 @@ private:
     u8 mHasAirWallHorseHit;
     sead::Vector3f mVec1{};
     sead::Vector3f mQueryVec{};
-    u32 _889c{};
-    f32 _88a0 = 1.0f;
+    sead::Vector3f mGroundNormal;
     ksys::phys::MaterialMask mMask1;
     ksys::phys::MaterialMask mMask2;
     f32 mWaterQuery = -1.0f;
@@ -139,12 +152,22 @@ public:
     bool sub_710064EF24(ActorSpawnInfo* info, const sead::Vector3f& pos);
     void sub_710064F744(u8 a1, u8 a2);
     void incrementGroup();
+    // Inferred interfaces to the original placement creation and eligibility helpers.
+    void sub_710064E344(AutoPlacementFlowRes* flow, s32 count, f32 group_radius, f32 offset_pos_y,
+                        s32 equip_count, const sead::SafeString& ride_list, bool mimicry);
+    bool sub_710064F54C(const sead::SafeString& unit_name, s32 min_count, s32 max_count,
+                        s32 resource_idx, bool mimicry);
+    bool isUsingGroupQuery() const { return mActiveQuery == &mThing2; }
+    void setGroupReady() { _9 = 1; }
     void setNearCreateWaitFrame(u16 value) { mNearCreateWaitFrame = value; }
     void setEquipCategory(s32 value) { _b = u8(value); }
+    void setWeatherMask(u16 value) { mWeatherMask = value; }
     bool sub_7100650144(PlacementGroup* grp, bool check_exposure);
     s32 placeGroup(AutoPlacementFlowRes* res);
     s32 sub_7100650908();
     void stepAllRaycasts();
+    PlacementThing* getActiveQuery() { return mActiveQuery; }
+    const PlacementThing* getActiveQuery() const { return mActiveQuery; }
 
 private:
     struct ObjectRef {
@@ -157,14 +180,13 @@ private:
     u8 _4 = 0xFF;
     u8 _5 = 0xFF;
     u16 mNearCreateWaitFrame = 0;
-    u8 _8 = 0;
-    u8 _9 = 2;
+    u8 _8 = 2;
+    u8 _9 = 0;
     sead::BitFlag<u8> mNearFlag{};
-    sead::BitFlag<u8> _b{};
+    sead::BitFlag<u8> _b{0xFF};
     u8 _c = 0;
     u8 _d = 0;
-    u8 _e = 0;
-    u8 _f = 0;
+    u16 mWeatherMask = 0;
     u8 _10 = 0;
     s32 _14 = 0;
     sead::Buffer<ActorSpawnInfo> mSpawnInfo;

@@ -34,6 +34,12 @@ public:
     // 0x0000007100659350
     bool auto11(const sead::Vector3f& pos);
 
+    // Original function at 0x71006592e8. Its service meaning is unknown.
+    float sub_71006592E8(const sead::Vector3f& pos);
+
+    // Inferred interface to the original water-depth query service.
+    f32 sub_7100659230(const sead::Vector3f& pos);
+
     sead::DelegateR<AutoPlacementMgr, bool> mDelegate;
 };
 // KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);

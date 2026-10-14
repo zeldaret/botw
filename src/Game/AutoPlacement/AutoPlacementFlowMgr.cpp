@@ -1,12 +1,19 @@
 #include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
+#include <cmath>
 #include <container/seadBuffer.h>
 #include <evfl/ResActor.h>
 #include <evfl/ResEventFlowFile.h>
 #include <evfl/ResFlowchart.h>
+#include <random/seadGlobalRandom.h>
 #include <resource/seadResource.h>
 #include "Game/AutoPlacement/AutoPlacement.h"
 #include "Game/AutoPlacement/AutoPlacementFlowInterfaces.h"
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/System/UIGlue.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking {
 
@@ -215,6 +222,158 @@ void defaultAction(const evfl::ActionArg&, evfl::ActionDoneHandler done_handler)
     done_handler.Invoke();
 }
 
+void createData(const evfl::ActionArg& arg, evfl::ActionDoneHandler done_handler) {
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    auto* placement = flow->placement;
+    s32 min_count = 1;
+    s32 max_count = 1;
+    s32 equip_count = -1;
+    f32 group_radius = 0.0f;
+    f32 offset_pos_y = 0.0f;
+    bool mimicry = false;
+    ore::StringView ride_list_value;
+    sead::SafeString ride_list;
+    arg.param_accessor.FindInt(&min_count, "MinNum");
+    arg.param_accessor.FindInt(&max_count, "MaxNum");
+    arg.param_accessor.FindFloat(&group_radius, "GroupRadius");
+    arg.param_accessor.FindFloat(&offset_pos_y, "OffsetPosY");
+    arg.param_accessor.FindInt(&equip_count, "EquipWeaponActorCount");
+    arg.param_accessor.FindBool(&mimicry, "Mimicry");
+    if (arg.param_accessor.FindString(&ride_list_value, "RideList"))
+        ride_list = ride_list_value.data();
+    const u32 range = 1 - u32(min_count) + u32(max_count);
+    const s32 count = s32(u32(min_count) + sead::GlobalRandom::instance()->getU32(range));
+    if (!placement->isUsingGroupQuery()) {
+        placement->sub_710064E344(flow, count, group_radius, offset_pos_y, equip_count, ride_list,
+                                  mimicry);
+    } else if (placement->sub_710064F54C(flow->unit_name, min_count, max_count, s8(flow->idx),
+                                         mimicry)) {
+        placement->setGroupReady();
+        placement->sub_710064F744(u8(count), u8(equip_count));
+    }
+    done_handler.Invoke();
+}
+
+void appearWeatherRate(const evfl::ActionArg& arg, evfl::ActionDoneHandler done_handler) {
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    auto* placement = flow->placement;
+    if (!placement->isUsingGroupQuery()) {
+        f32 rates[ksys::world::NumWeatherTypes];
+        for (auto& rate : rates)
+            rate = 1.0f;
+        u32 weather_mask = 0;
+        for (u32 i = 0; i != ksys::world::NumWeatherTypes; ++i) {
+            arg.param_accessor.FindFloat(&rates[i], ksys::world::Manager::getWeatherTypeString(i));
+            if (rates[i] > sead::GlobalRandom::instance()->getF32())
+                weather_mask |= 1 << i;
+        }
+        placement->setWeatherMask(u16(weather_mask));
+    }
+    done_handler.Invoke();
+}
+
+static const PlacementThing& activePlacementThing(const evfl::QueryArg& arg) {
+    const auto* flow = static_cast<const AutoPlacementFlowRes*>(arg.actor_user_data);
+    return *flow->placement->getActiveQuery();
+}
+
+int groundNorm(const evfl::QueryArg& arg) {
+    float angle_degrees;
+    if (!arg.param_accessor.FindFloat(&angle_degrees, "Angle"))
+        return -1;
+
+    constexpr float degrees_to_radians = 0.01745329238474369f;
+    const float normal_y = activePlacementThing(arg).getGroundNormal().y;
+    const float minimum_normal_y = std::cos(angle_degrees * degrees_to_radians);
+    return normal_y > minimum_normal_y ? 1 : 0;
+}
+
+int groundMat(const evfl::QueryArg& arg) {
+    static const char* const materials[] = {
+        "Soil",  "Stone", "Rock", "Sand", "Metal",     "Grass", "Ivy",       "Wood",
+        "Water", "Snow",  "Ice",  "Lava", "HeavySand", "Bog",   "HeavySnow",
+    };
+
+    const sead::SafeString material = activePlacementThing(arg).getCurrentGroundMat();
+    for (int i = 0; i < 15; ++i) {
+        if (material == materials[i])
+            return i;
+    }
+    return -1;
+}
+
+int waterSubMat(const evfl::QueryArg& arg) {
+    static const char* const sub_materials[] = {
+        "Water",
+        "Water_Ice",
+        "Water_Hot",
+        "Water_Poison",
+    };
+
+    const sead::SafeString sub_material = activePlacementThing(arg).getCurrentWaterSubMat();
+    for (int i = 0; i < 4; ++i) {
+        if (sub_material == sub_materials[i])
+            return i;
+    }
+    return -1;
+}
+
+int posHeight(const evfl::QueryArg& arg) {
+    float height;
+    if (!arg.param_accessor.FindFloat(&height, "Height"))
+        return -1;
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    return height <= flow->placement->getActiveQuery()->getQueryPosition().y;
+}
+
+int waterSurface(const evfl::QueryArg& arg) {
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    return flow->placement->getActiveQuery()->checkWaterSurface();
+}
+
+int waterDepth(const evfl::QueryArg& arg) {
+    f32 depth;
+    if (!arg.param_accessor.FindFloat(&depth, "Depth"))
+        return -1;
+
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    auto* placement = flow->placement;
+    const bool below_query_depth = depth < AutoPlacementMgr::instance()->sub_7100659230(
+                                               placement->getActiveQuery()->getQueryPosition());
+    const bool below_water_query = depth < placement->getActiveQuery()->getWaterQueryDepth();
+    const bool either_below = below_query_depth | below_water_query;
+    const bool both_below = below_query_depth & below_water_query;
+    return either_below ? (both_below ? 1 : -1) : 0;
+}
+
+int checkGameData(const evfl::QueryArg& arg) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return -1;
+
+    ore::StringView label;
+    if (!arg.param_accessor.FindString(&label, "Label"))
+        return -1;
+
+    bool value = false;
+    manager->getParam().get().getBool(&value, sead::SafeString(label.data()));
+    return value;
+}
+
+int checkPouchItemCount(const evfl::QueryArg& arg) {
+    int type;
+    int requested_count;
+    if (!arg.param_accessor.FindInt(&type, "Type") ||
+        !arg.param_accessor.FindInt(&requested_count, "Count"))
+        return -1;
+    if (static_cast<u32>(type) > 4)
+        return -1;
+
+    const auto* pouch = ui::PauseMenuDataMgr::instance();
+    const s32 item_count = s32(pouch->getCachedWeaponCount(static_cast<ui::ItemUse>(type)));
+    return item_count >= requested_count;
+}
+
 int defaultQuery(const evfl::QueryArg&) {
     return 0;
 }
@@ -310,3 +469,41 @@ void AutoPlacementFlowRes::initActionAndQueryHandlers() {
 }
 
 }  // namespace uking
+
+namespace uking::AutoPlacementFlowHandlers {
+int waterDistance(const evfl::QueryArg& arg) {
+    float distance;
+    if (!arg.param_accessor.FindFloat(&distance, "Distance"))
+        return -1;
+    const auto* res = static_cast<const AutoPlacementFlowRes*>(arg.actor_user_data);
+    return distance <= AutoPlacementMgr::instance()->sub_71006592E8(
+                           res->placement->getActiveQuery()->getQueryPosition());
+}
+}  // namespace uking::AutoPlacementFlowHandlers
+
+namespace uking::AutoPlacementFlowHandlers {
+int ecoAreaActorName(const evfl::QueryArg& arg) {
+    ore::StringView actor;
+    if (!arg.param_accessor.FindString(&actor, sActorName.cstr()))
+        return -1;
+    const auto* res = static_cast<const AutoPlacementFlowRes*>(arg.actor_user_data);
+    sead::SafeString name;
+    name = sead::SafeString(actor.data());
+    return name == res->unit_name;
+}
+}  // namespace uking::AutoPlacementFlowHandlers
+
+namespace uking::AutoPlacementFlowHandlers {
+int checkPouchItemCountFromActor(const evfl::QueryArg& arg) {
+    const ore::StringView actor_key{"Actor"};
+    const ore::StringView count_key{"Count"};
+    ore::StringView actor;
+    int count;
+    if (!arg.param_accessor.FindString(&actor, actor_key) ||
+        !arg.param_accessor.FindInt(&count, count_key))
+        return -1;
+    sead::SafeString name;
+    name = sead::SafeString(actor.data());
+    return ksys::ui::getItemValue(name) >= count;
+}
+}  // namespace uking::AutoPlacementFlowHandlers
