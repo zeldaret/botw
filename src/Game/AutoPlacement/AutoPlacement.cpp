@@ -225,18 +225,18 @@ s32 AutoPlacement::placeGroup(AutoPlacementFlowRes* res) {
         return -1;
     }
 
-    mThing2.mRaycast = mThing1.mRaycast;
-    _6 = 0;
+    mActiveQuery = &mThing2;
+    mNearCreateWaitFrame = 0;
     _b = 0xFF;
 
     auto& grp = mGroups[mGroupIdx];
-    if (grp.b.isEmpty()) {
+    if (grp.a.isEmpty()) {
         return -1;
     }
 
     _8868 = sead::SafeString::cEmptyString;
-    int tmp = 0;
-    res->start(this, grp.a, &tmp);
+    u16 spawn_location_flags = 0;
+    res->start(this, grp.a.cstr(), &spawn_location_flags);
     if (!_9)
         return -1;
     _9 = 0;
@@ -297,12 +297,12 @@ void PlacementThing::stepRaycast() {
     mState = next;
 }
 
-void AutoPlacement::sub_7100650C28(ksys::phys::RigidBody* rb) {
+void PlacementThing::sub_7100650C28(ksys::phys::RigidBody* rb) {
     if (rb == nullptr)
         return;
 
     if (rb->getContactLayer() == ksys::phys::ContactLayer::EntityTree)
-        mNearFlag.setDirect(1);
+        mHasForbiddenHit = 1;
 
     auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(rb->getUserTag());
     if (tag == nullptr)
@@ -312,10 +312,10 @@ void AutoPlacement::sub_7100650C28(ksys::phys::RigidBody* rb) {
     if (actor == nullptr)
         return;
 
-    mNearFlag.set(ksys::act::hasTag(actor, ksys::act::tags::Tree) ||
-                  ksys::act::hasTag(actor, ksys::act::tags::AutoPlacementForbidCreate));
+    mHasForbiddenHit |= ksys::act::hasTag(actor, ksys::act::tags::Tree) ||
+                        ksys::act::hasTag(actor, ksys::act::tags::AutoPlacementForbidCreate);
 
-    _b.set(actor->getName() == "AirWallHorse");
+    mHasAirWallHorseHit |= actor->getName() == "AirWallHorse";
 }
 
 const char* PlacementThing::getCurrentGroundMat() const {

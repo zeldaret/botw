@@ -14,7 +14,7 @@ class AutoPlacement;
 struct AutoPlacementFlowRes {
     bool load(int resource_idx, sead::Heap* heap);
     void initActionAndQueryHandlers();
-    void start(AutoPlacement* placement, const sead::SafeString& unit_name, int*);
+    void start(AutoPlacement* placement, const char* unit_name, const u16* spawn_location_flags);
 
     ksys::res::Handle handle;
     sead::SafeString evfl_name;

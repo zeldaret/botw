@@ -4,6 +4,7 @@
 #include <evfl/ResEventFlowFile.h>
 #include <evfl/ResFlowchart.h>
 #include <resource/seadResource.h>
+#include "Game/AutoPlacement/AutoPlacement.h"
 #include "Game/AutoPlacement/AutoPlacementFlowInterfaces.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 
@@ -150,6 +151,15 @@ bool AutoPlacementFlowRes::load(int resource_idx, sead::Heap* heap) {
     return true;
 }
 
+void AutoPlacementFlowRes::start(AutoPlacement* placement, const char* unit_name,
+                                 const u16* spawn_location_flags) {
+    this->unit_name = unit_name;
+    this->spawn_location_flags = *spawn_location_flags;
+    this->placement = placement;
+    if (flowchart_ctx.IsInitialized())
+        flowchart_ctx.Start(nullptr);
+}
+
 namespace {
 
 bool namesEqual(const ore::StringView& lhs, const ore::StringView& rhs) {
@@ -180,6 +190,36 @@ static ore::StringView sCreateData{"CreateData"};
 static ore::StringView sNearCreate{"NearCreate"};
 static ore::StringView sAppearWeatherRate{"AppearWeatherRate"};
 static ore::StringView sEquipCategory{"EquipCategory"};
+
+namespace AutoPlacementFlowHandlers {
+
+void nearCreate(const evfl::ActionArg& arg, evfl::ActionDoneHandler done_handler) {
+    int wait_frame;
+    if (arg.param_accessor.FindInt(&wait_frame, "WaitFrame")) {
+        auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+        flow->placement->setNearCreateWaitFrame(u16(wait_frame));
+    }
+    done_handler.Invoke();
+}
+
+void equipCategory(const evfl::ActionArg& arg, evfl::ActionDoneHandler done_handler) {
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    auto* placement = flow->placement;
+    int category = -1;
+    if (arg.param_accessor.FindInt(&category, "Category"))
+        placement->setEquipCategory(category);
+    done_handler.Invoke();
+}
+
+void defaultAction(const evfl::ActionArg&, evfl::ActionDoneHandler done_handler) {
+    done_handler.Invoke();
+}
+
+int defaultQuery(const evfl::QueryArg&) {
+    return 0;
+}
+
+}  // namespace AutoPlacementFlowHandlers
 
 // NON_MATCHING: external handler references use GOT addressing; compiler allocation differs.
 void AutoPlacementFlowRes::initActionAndQueryHandlers() {

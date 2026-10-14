@@ -77,6 +77,8 @@ private:
     ksys::phys::RayCastForRequest* mRaycast{};
     u8 _8880{};
     u8 mUnderwater{};
+    u8 mHasForbiddenHit;
+    u8 mHasAirWallHorseHit;
     sead::Vector3f mVec1{};
     sead::Vector3f mQueryVec{};
     u32 _889c{};
@@ -86,7 +88,7 @@ private:
     f32 mWaterQuery = -1.0f;
     sead::Delegate1<PlacementThing, ksys::phys::RigidBody*> mDelegate;
     sead::CriticalSection mCS{};
-    State mState;
+    State mState = State::Invalid;
     u8 _8944{};
     u8 _8945{};
 };
@@ -137,11 +139,12 @@ public:
     bool sub_710064EF24(ActorSpawnInfo* info, const sead::Vector3f& pos);
     void sub_710064F744(u8 a1, u8 a2);
     void incrementGroup();
+    void setNearCreateWaitFrame(u16 value) { mNearCreateWaitFrame = value; }
+    void setEquipCategory(s32 value) { _b = u8(value); }
     bool sub_7100650144(PlacementGroup* grp, bool check_exposure);
     s32 placeGroup(AutoPlacementFlowRes* res);
     s32 sub_7100650908();
     void stepAllRaycasts();
-    void sub_7100650C28(ksys::phys::RigidBody* rb);
 
 private:
     struct ObjectRef {
@@ -153,7 +156,7 @@ private:
     s16 mGroupIdx = -1;
     u8 _4 = 0xFF;
     u8 _5 = 0xFF;
-    s16 _6 = 0;
+    u16 mNearCreateWaitFrame = 0;
     u8 _8 = 0;
     u8 _9 = 2;
     sead::BitFlag<u8> mNearFlag{};
@@ -171,7 +174,7 @@ private:
     PlacementThing mThing1{false};
     PlacementThing mThing2{false};
     PlacementThing mThing3{true};
-    void* mX;
+    PlacementThing* mActiveQuery = &mThing1;
     sead::Buffer<ObjectRef> mObjectRefs;
 };
 
