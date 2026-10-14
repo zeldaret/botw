@@ -9,12 +9,12 @@ target_sources(uking PRIVATE
   queryCanMarkMapPin.h
   queryCheck100EnemyActiveTiming.cpp
   queryCheck100EnemyActiveTiming.h
+  queryCheckActorAction.cpp
+  queryCheckActorAction.h
   queryCheckActorAction13.cpp
   queryCheckActorAction13.h
   queryCheckActorAction14_2.cpp
   queryCheckActorAction14_2.h
-  queryCheckActorAction.cpp
-  queryCheckActorAction.h
   queryCheckAddPorchItem.cpp
   queryCheckAddPorchItem.h
   queryCheckAppPoint.cpp
@@ -99,10 +99,10 @@ target_sources(uking PRIVATE
   queryCheckItemShopDecide.h
   queryCheckItemShopPorchVacancy.cpp
   queryCheckItemShopPorchVacancy.h
-  queryCheckItemShopSelectBuy.cpp
-  queryCheckItemShopSelectBuy.h
   queryCheckItemShopSelect.cpp
   queryCheckItemShopSelect.h
+  queryCheckItemShopSelectBuy.cpp
+  queryCheckItemShopSelectBuy.h
   queryCheckLastDamageAttacker.cpp
   queryCheckLastDamageAttacker.h
   queryCheckManufactResult.cpp
@@ -235,10 +235,10 @@ target_sources(uking PRIVATE
   queryHasItemDyeSpecifiedColor.h
   queryHasPorchArrow.cpp
   queryHasPorchArrow.h
-  queryHasPorchItemByCategory.cpp
-  queryHasPorchItemByCategory.h
   queryHasPorchItem.cpp
   queryHasPorchItem.h
+  queryHasPorchItemByCategory.cpp
+  queryHasPorchItemByCategory.h
   queryHasPouchItemByPouchCategory.cpp
   queryHasPouchItemByPouchCategory.h
   queryHasSetItem.cpp
