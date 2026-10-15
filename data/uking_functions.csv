@@ -58109,7 +58109,7 @@ Address,Quality,Size,Name
 0x00000071009cff20,U,000008,
 0x00000071009cff28,U,000044,
 0x00000071009cff54,U,000004,nullsub_2898
-0x00000071009cff58,U,000008,
+0x00000071009cff58,U,000008,eui::EffectLinkUser::getSortKey
 0x00000071009cff60,U,000020,eui::EffectLinkUser::getAutoInputMtxSource
 0x00000071009cff74,O,000020,_ZNK6xlink25IUser24getMtxCorrectingDrawBoneEv
 0x00000071009cff88,U,000008,
@@ -67898,7 +67898,7 @@ Address,Quality,Size,Name
 0x0000007100bd6e64,U,000108,_ZN3eui10AnimButton11ChangeStateENS_10ButtonBase5StateE
 0x0000007100bd6ed0,U,000056,_ZN3eui10AnimButton16ForceChangeStateENS_10ButtonBase5StateE
 0x0000007100bd6f08,U,000352,_ZN3eui10AnimButton10CloneImpl_ERKS0_PNS_8LayoutExEPN4sead4HeapE
-0x0000007100bd7068,U,000208,
+0x0000007100bd7068,U,000208,_ZNK3eui10AnimButton18GetRuntimeTypeInfoEv
 0x0000007100bd7138,U,000036,_ZN3eui10AnimButtonD0Ev
 0x0000007100bd715c,U,000012,_ZNK3eui10ButtonBase12getClassNameEv
 0x0000007100bd7168,U,000076,_ZN3eui10ButtonBaseC1Ev
@@ -67949,7 +67949,7 @@ Address,Quality,Size,Name
 0x0000007100bd84c4,U,000116,_ZN3eui11CheckButton5BuildERKN2nn4ui2d10ControlSrcEPNS_8LayoutExE
 0x0000007100bd8538,U,000116,_ZN3eui11CheckButton9StartDownEv
 0x0000007100bd85ac,U,000144,_ZN3eui11CheckButton10UpdateDownEv
-0x0000007100bd863c,U,000004,j__ZN3eui11CheckButton24GetRuntimeTypeInfoStaticEv
+0x0000007100bd863c,U,000004,_ZNK3eui11CheckButton18GetRuntimeTypeInfoEv
 0x0000007100bd8640,U,000036,_ZN3eui11CheckButtonD0Ev
 0x0000007100bd8664,U,000012,_ZNK3eui15CheckKeepButton12getClassNameEv
 0x0000007100bd8670,U,000048,_ZN3eui15CheckKeepButtonC2ERKS0_PNS_8LayoutExEPN4sead4HeapE
@@ -68522,7 +68522,7 @@ Address,Quality,Size,Name
 0x0000007100bebda8,U,000008,
 0x0000007100bebdb0,U,000052,
 0x0000007100bebde4,U,000004,nullsub_3464
-0x0000007100bebde8,U,000008,
+0x0000007100bebde8,U,000008,eui::SoundLink2User::getSortKey
 0x0000007100bebdf0,U,000020,eui::SoundLink2User::getAutoInputMtxSource
 0x0000007100bebe04,U,000016,
 0x0000007100bebe14,U,000056,
@@ -99871,8 +99871,8 @@ Address,Quality,Size,Name
 0x000000710136582c,U,000104,_ZN4sead20NinJoyNpadControllerC1EPNS_13ControllerMgrEi
 0x0000007101365894,U,000012,
 0x00000071013658a0,U,004732,sead::NinJoyNpadController::calcImpl_
-0x0000007101366b1c,U,000288,
-0x0000007101366c3c,U,000092,
+0x0000007101366b1c,U,000288,sead::NinJoyNpadController::checkDerivedRuntimeTypeInfo
+0x0000007101366c3c,U,000092,sead::NinJoyNpadController::getRuntimeTypeInfo
 0x0000007101366c98,U,000004,j__ZdlPv_1400
 0x0000007101366c9c,U,000064,
 0x0000007101366cdc,U,000132,
@@ -101862,7 +101862,7 @@ Address,Quality,Size,Name
 0x00000071014125f4,L,000008,
 0x00000071014125fc,L,000008,hclObjectSpaceSkinPOperator::isExecutionSupportedMaybe
 0x0000007101412604,L,014124,
-0x0000007101415d30,U,000020,_ZN3agl3sdw9ShadowMap9drawDebugEPNS_11DrawContextEiRKN4sead8Matrix44IfEERKNS4_8Matrix34IfEES8_
+0x0000007101415d30,L,000020,hclObjectSpaceSkinPOperator::markBufferUsage
 0x0000007101415d44,L,000004,_ZN10hkTypeInfo18finishFunctionImplIN15hclSimClothData22LandscapeCollisionDataEEEvPvi
 0x0000007101415d48,L,000004,_ZN10hkTypeInfo19cleanupFunctionImplIN15hclSimClothData22LandscapeCollisionDataEEEvPv
 0x0000007101415d4c,L,000004,_ZN10hkTypeInfo18finishFunctionImplIN15hclSimClothData25OverridableSimulationInfoEEEvPvi
@@ -108507,7 +108507,7 @@ Address,Quality,Size,Name
 0x00000071016cafc4,L,000256,_ZN2nn3nex18JobConnectEndPoint16ConnectCancelledEv
 0x00000071016cb0c4,L,000572,_ZN2nn3nex18JobConnectEndPoint24ReportNATTraversalResultEb
 0x00000071016cb300,L,000032,_ZNK2nn3nex10StationURL17GetRVConnectionIDEv
-0x00000071016cb320,L,000004,j__ZN2nn3nex18JobConnectEndPoint16ConnectCancelledEv
+0x00000071016cb320,L,000004,_ZN2nn3nex18JobConnectEndPoint21TestSuspendedJobStateEv
 0x00000071016cb324,L,000092,_ZN2nn3nex18JobConnectEndPoint15CheckExceptionsEv
 0x00000071016cb380,L,000112,_ZN2nn3nex18JobConnectEndPoint19ConnectionCancelledEv
 0x00000071016cb3f0,L,000444,
