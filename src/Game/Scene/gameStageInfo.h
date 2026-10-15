@@ -28,6 +28,12 @@ public:
     static bool isAocField() { return sInfo.mIsAocField; }
     static bool isMainField() { return sInfo.mIsMainField; }
 
+    /// Get the current map type (e.g. MainFieldDungeon)
+    static const sead::SafeString& getCurrentMapType();
+
+    /// Get the current map name (e.g. RemainsWind, FinalTrial, ...)
+    static const sead::SafeString& getCurrentMapName();
+
     static sead::FixedSafeString<256> sStr;
 
 private:

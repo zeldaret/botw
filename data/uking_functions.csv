@@ -49623,8 +49623,8 @@ Address,Quality,Size,Name
 0x00000071007cbea4,U,000004,nullsub_2444
 0x00000071007cbea8,U,000004,j__ZdlPv_353
 0x00000071007cbeac,U,000440,StageFactory::create
-0x00000071007cc064,O,000020,_ZN5uking9GameScene17getCurrentMapTypeEv
-0x00000071007cc078,O,000020,_ZN5uking9GameScene17getCurrentMapNameEv
+0x00000071007cc064,O,000020,_ZN5uking9StageInfo17getCurrentMapTypeEv
+0x00000071007cc078,O,000020,_ZN5uking9StageInfo17getCurrentMapNameEv
 0x00000071007cc08c,U,000012,getPSavePosAngleForStageGen
 0x00000071007cc098,U,000012,getPSavePosForStageGen
 0x00000071007cc0a4,U,003264,genStageUpdateMapTypeFlags

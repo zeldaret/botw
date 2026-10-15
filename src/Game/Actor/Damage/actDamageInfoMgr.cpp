@@ -1,5 +1,5 @@
 #include "Game/Actor/Damage/actDamageInfoMgr.h"
-#include "Game/Scene/gameScene.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
@@ -49,7 +49,7 @@ bool DamageInfoMgr::isTrueFormMasterSword() const {
     if (ksys::gdt::getFlag_LastBossGanonBeastGenerateFlag())
         return true;
 
-    const sead::SafeString& map = GameScene::getCurrentMapName();
+    const sead::SafeString& map = StageInfo::getCurrentMapName();
 
     if (!ksys::gdt::getFlag_Die_PGanonElectric() && map == "RemainsElectric")
         return true;
