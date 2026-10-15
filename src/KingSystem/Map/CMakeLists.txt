@@ -1,4 +1,9 @@
 target_sources(uking PRIVATE
+  mapPlacement18.cpp
+  mapRailFactoryInterfaces.h
+  mapPlacement18.h
+  mapPlacementRailQueries.cpp
+
   mapTypes.h
   mapDebug.cpp
   mapDebug.h

@@ -12,6 +12,8 @@ namespace uking {
 class AutoPlacement;
 
 struct AutoPlacementFlowRes {
+    ~AutoPlacementFlowRes();
+
     bool load(int resource_idx, sead::Heap* heap);
     void initActionAndQueryHandlers();
     void start(AutoPlacement* placement, const char* unit_name, const u16* spawn_location_flags);
@@ -19,11 +21,11 @@ struct AutoPlacementFlowRes {
     ksys::res::Handle handle;
     sead::SafeString evfl_name;
     evfl::FlowchartContext flowchart_ctx;
-    AutoPlacement* placement;
+    AutoPlacement* placement = nullptr;
     sead::SafeString unit_name;
-    u8 idx;
-    s8 placement_type;
-    u16 spawn_location_flags;
+    u8 idx = 0xFF;
+    s8 placement_type = 0;
+    u16 spawn_location_flags = 0;
     sead::FixedObjArray<sead::SafeString, 32> actor_names;
 };
 

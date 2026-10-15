@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
@@ -24,7 +25,7 @@ class PlacementThing;
 struct PlacementGroup {
     sead::SafeString a;
     u32 _10;
-    u32 _14;
+    f32 heightOffset;
     u8 _18;
     u8 _19;
     u8 _1a;
@@ -37,16 +38,12 @@ struct PlacementGroup {
     u16 _22{};
     u8 _24;
     u8 _25{};
-    void* _28;
-    void* _30;
-    void* _38;
-    void* _40;
-    void* _48;
-    void* _50;
-    void* _58;
-    void* _60;
-    void* _68;
+    s8 equipCategory;
+    sead::Vector3f pos = sead::Vector3f::zero;
+    sead::Matrix34f transform = sead::Matrix34f::zero;
     sead::SafeString b;
+    f32 traverseDistPlus100;
+    f32 traverseDist;
     u32 _80{};
 };
 KSYS_CHECK_SIZE_NX150(PlacementGroup, 0x88);
@@ -79,6 +76,7 @@ public:
     }
 
     bool invoke();
+    bool processRaycastResult();
     void stepRaycast();
     void sub_7100650C28(ksys::phys::RigidBody*);
     const char* getCurrentGroundMat() const;
@@ -169,10 +167,22 @@ public:
     PlacementThing* getActiveQuery() { return mActiveQuery; }
     const PlacementThing* getActiveQuery() const { return mActiveQuery; }
 
+    const sead::Vector3f& getQueryPosition() const { return mActiveQuery->getQueryPosition(); }
+    bool isSecondaryQuery() const { return mActiveQuery == &mThing2; }
+    void setQueryRailName(const sead::SafeString& name) {
+        if (mActiveQuery == &mThing2)
+            _8868 = name;
+    }
+
+    bool getActorToSpawn(sead::SafeString* name, sead::Matrix34f* transform,
+                         sead::SafeString* ride_name, s32* rotation_mode, s32* equipment_count,
+                         bool* use_spawn_index, s32* count, bool* special_spawn,
+                         s32* equip_category);
+
 private:
     struct ObjectRef {
         ksys::map::Object* obj;
-        void* _8;
+        s32 locatorCacheIndex;
     };
 
     s16 _0 = 0;
@@ -198,6 +208,9 @@ private:
     PlacementThing mThing3{true};
     PlacementThing* mActiveQuery = &mThing1;
     sead::Buffer<ObjectRef> mObjectRefs;
+    s32 mNumObjectRefs = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(AutoPlacement, 0x8b08);
 
 }  // namespace uking

@@ -48,6 +48,10 @@ public:
     void reset();
     void resetCastResult();
 
+    // Expose the request result state used by completed asynchronous casts.
+    bool hasCastResult() const { return _70 == 1; }
+    bool hasHit() const { return mHasHit; }
+
     void enableLayer(ContactLayer layer);
     void disableLayer(ContactLayer layer);
     void setLayers(const LayerMaskBuilder& builder);
@@ -63,6 +67,8 @@ public:
     void setStart(const sead::Vector3f& start);
     void setEnd(const sead::Vector3f& end);
     void setStartAndEnd(const sead::Vector3f& start, const sead::Vector3f& end);
+    const sead::Vector3f& getStart() const { return mFrom; }
+    const sead::Vector3f& getEnd() const { return mTo; }
     void setStartAndDisplacement(const sead::Vector3f& start, const sead::Vector3f& displacement);
     void setStartAndDisplacementScaled(const sead::Vector3f& start,
                                        const sead::Vector3f& displacement,
@@ -80,6 +86,7 @@ public:
     bool phantomRayCast(Phantom* phantom);
 
     void getHitPosition(sead::Vector3f* position) const;
+    u32 getMaterialMaskData() const { return mMaterialMask.getRawData(); }
     bool getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,
                               u32 shape_key) const;
     void getHitNormal(sead::Vector3f* normal) const;

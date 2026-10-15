@@ -1,5 +1,6 @@
 #include "Game/AutoPlacement/AutoPlacement.h"
 #include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
+#include "Game/AutoPlacement/AutoPlacementLocatorCache.h"
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -61,6 +62,58 @@ void ActorSpawnInfo::calcSpawnLocations() {
         spawn_location.set(SpawnLocation::OnTreeLocator);
     else if (mgr->hasTag(iter, CreateFromOnTreeLocatorRandom))
         spawn_location.set(SpawnLocation::OnTreeLocatorRandom);
+}
+
+// NON_MATCHING: the complete body has a different compiler layout.
+void AutoPlacement::sub_710064CF60(bool force) {
+    if (mNearFlag == 0xff && !force) {
+        for (s32 i = 0; i < _0; ++i) {
+            auto& group = mGroups[i];
+            const u32 dx = u32(group._18) + 1 - _4;
+            const u32 dz = u32(group._19) + 1 - _5;
+            if (dx <= 2 && dz < 3)
+                continue;
+
+            const s32 last = _0 - 1;
+            if (i == last) {
+                group._1e = 0;
+            } else {
+                auto& tail = mGroups[last];
+                group = tail;
+                tail._1e = 0;
+                --i;
+            }
+            --_0;
+        }
+    } else {
+        {
+            auto lock = sead::makeScopedLock(mCS);
+            _0 = 0;
+        }
+        for (auto& group : mGroups)
+            group._1e = 0;
+    }
+
+    // Preserve the original wrapping word increment.
+    _14 = static_cast<s32>(static_cast<u32>(_14) + 1);
+    _c = 0;
+    mGroupIdx = -1;
+    _9 = 0;
+    PlacementThing* queries[] = {&mThing1, &mThing2, &mThing3};
+    for (auto* query : queries) {
+        auto lock = sead::makeScopedLock(query->mCS);
+        if (query->mRaycast)
+            query->mState = PlacementThing::State::PlacementDone;
+    }
+
+    for (s32 i = 0; i < mNumObjectRefs; ++i) {
+        const s32 index = mObjectRefs[i].locatorCacheIndex;
+        if (index >= 0) {
+            const u32 bit = 1u << (u32(static_cast<s8>(static_cast<u8>(mNearFlag))) & 31);
+            gActorLocators[index].usedModes.reset(bit);
+        }
+    }
+    mNumObjectRefs = 0;
 }
 
 void AutoPlacement::setSpawnInfo(const sead::SafeString& name, s32 count) {
@@ -150,6 +203,94 @@ bool PlacementThing::invoke() {
 
     mState = State::LayersDone;
     return true;
+}
+
+// NON_MATCHING: compiler layout and register allocation differ.
+bool PlacementThing::processRaycastResult() {
+    auto lock = sead::makeScopedLock(mCS);
+
+    if (AutoPlacementMgr::instance()->auto9()) {
+        _8880 = _8944;
+        return true;
+    }
+
+    if (mRaycast == nullptr || mState != State::RaycastDone) {
+        _8880 = _8944;
+        return true;
+    }
+
+    if (!mRaycast->hasCastResult())
+        return false;
+
+    const bool has_hit = mRaycast->hasHit();
+    if (_8944) {
+        if (has_hit) {
+            _8880 = 1;
+            mState = State::PlacementDone;
+            return true;
+        }
+    } else if (has_hit && !mHasForbiddenHit) {
+        if (mRaycast->isLayerEnabled(ksys::phys::ContactLayer::EntityWater)) {
+            sead::Vector3f hit_position;
+            mRaycast->getHitPosition(&hit_position);
+            mMask2.set(mRaycast->getMaterialMaskData());
+            mWaterQuery = hit_position.y - mQueryVec.y;
+            mState = State::PlacementDone;
+            return true;
+        }
+
+        if (mHasAirWallHorseHit && mRaycast->getGroundHit() == ksys::phys::GroundHit::Animal) {
+            sead::Vector3f hit_position;
+            mRaycast->getHitPosition(&hit_position);
+            const sead::Vector3f end = mRaycast->getEnd();
+            mRaycast->reset();
+            mRaycast->setStartAndEnd(hit_position, end);
+            mRaycast->setGroundHit(ksys::phys::GroundHit::HitAll);
+            mState = State::PlacementDone;
+            return true;
+        }
+
+        mRaycast->getHitPosition(&mQueryVec);
+        _8880 = 1;
+        mRaycast->getHitNormal(&mGroundNormal);
+        mMask1.set(mRaycast->getMaterialMaskData());
+        mRaycast->reset();
+        mRaycast->enableLayer(ksys::phys::ContactLayer::EntityWater);
+        const sead::Vector3f start{mQueryVec.x, 1000.0f, mQueryVec.z};
+        mRaycast->setStartAndEnd(start, mQueryVec);
+        mState = State::LayersDone;
+        return false;
+    }
+
+    if (!_8944 && _8880) {
+        mState = State::PlacementDone;
+        return true;
+    }
+
+    if (!_8944)
+        mQueryVec = mRaycast->getStart();
+    const u8 next_index = _8945 + 1;
+    _8945 = next_index;
+    if (next_index == 8) {
+        mState = State::PlacementDone;
+        return true;
+    }
+
+    const s32 signed_index = static_cast<s8>(next_index);
+    const u32 angle_index = (u32(next_index) << 29) - static_cast<u32>(signed_index);
+    f32 offset_x;
+    f32 offset_z;
+    sead::Mathf::sinCosIdx(&offset_x, &offset_z, angle_index);
+    offset_x *= 30.0f;
+    offset_z *= 30.0f;
+
+    mRaycast->reset();
+    const sead::Vector3f offset{offset_x, 4.0f, offset_z};
+    const sead::Vector3f start = mVec1 + offset;
+    const sead::Vector3f end = mVec1 - offset;
+    mRaycast->setStartAndEnd(start, end);
+    mState = State::LayersDone;
+    return false;
 }
 
 bool AutoPlacement::sub_7100650144(PlacementGroup* grp, bool check_exposure) {
@@ -332,6 +473,48 @@ const char* PlacementThing::getCurrentWaterSubMat() const {
     } else {
         return mMask1.getSubMaterialName();
     }
+}
+
+bool AutoPlacement::getActorToSpawn(sead::SafeString* name, sead::Matrix34f* transform,
+                                    sead::SafeString* ride_name, s32* rotation_mode,
+                                    s32* equipment_count, bool* use_spawn_index, s32* count,
+                                    bool* special_spawn, s32* equip_category) {
+    if (mGroupIdx < 0)
+        return false;
+
+    const auto& group = mGroups[mGroupIdx];
+    *name = group.a;
+    *ride_name = group.b;
+    *rotation_mode = s8(group._1d);
+    *transform = group.transform;
+    *special_spawn = (group._1f & 2) != 0;
+    *equip_category = group.equipCategory;
+
+    if (mNearFlag == 0xff) {
+        *use_spawn_index = (group._1f & 1) != 0;
+        *equipment_count = s8(group._1b);
+        *count = s32(group._1a) - group._80;
+    } else {
+        *use_spawn_index = false;
+        *equipment_count = -1;
+        *count = 1;
+    }
+
+    const auto& current_group = mGroups[mGroupIdx];
+    sead::Vector3f pos;
+    if (current_group._1d != 0xff) {
+        current_group.transform.getTranslation(pos);
+    } else {
+        pos = mThing2.mQueryVec;
+        f32 height = pos.y;
+        if (mThing2.mUnderwater)
+            height += mThing2.mWaterQuery;
+        height += current_group.heightOffset;
+        pos.y = height < pos.y ? pos.y : height;
+    }
+    if (s8(group._1d) == -1)
+        transform->setTranslation(pos);
+    return true;
 }
 
 }  // namespace uking

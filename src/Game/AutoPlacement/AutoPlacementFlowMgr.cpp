@@ -42,6 +42,16 @@ const char* sFlowNearResNamesData[] = {
 };
 sead::Buffer<const char*> sFlowNearResNames{sFlowNearResNamesData};
 
+AutoPlacementFlowMgr::AutoPlacementFlowMgr() : mHeap{}, mFlowArray{}, mFlowNearArray{} {}
+
+AutoPlacementFlowMgr::~AutoPlacementFlowMgr() = default;
+
+AutoPlacementFlowRes::~AutoPlacementFlowRes() {
+    flowchart_ctx.Clear();
+    actor_names.clear();
+    handle.unloadAndResetUnitFlag20000();
+}
+
 void AutoPlacementFlowMgr::loadEventFlows() {
     for (int i = 0; i < mFlowArray.size(); i++) {
         auto& flow = mFlowArray[i];

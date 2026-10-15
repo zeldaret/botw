@@ -20,6 +20,9 @@ namespace ksys::map {
 class Object;
 class PlacementTree;
 class PlacementActors;
+class Placement18;
+class Rail;
+class RailConnectablePoint;
 
 class PlacementMgr {
     SEAD_SINGLETON_DISPOSER(PlacementMgr)
@@ -39,6 +42,11 @@ class PlacementMgr {
     KSYS_CHECK_SIZE_NX150(TraverseResults, 0x80);
 
 public:
+    RailConnectablePoint* findNearestRailPoint(const sead::Vector3f& position, int x_extent,
+                                               int z_extent);
+    Rail* findNearestRail(const sead::SafeString& name, const sead::Vector3f& position,
+                          int x_extent, int z_extent);
+
     void releaseTree();
     void x_3();
     void reset7F0();
@@ -113,7 +121,8 @@ public:
 
     u32 mNumStaticObjs;
     u32 mActorDataMapSize;
-    u8 TEMP2[0x70];
+    Placement18* mRailPlacement;
+    u8 TEMP2_210[0x68];
 
     u32 _278;
     sead::Vector3f _27c;
