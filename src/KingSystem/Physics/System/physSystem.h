@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Physics/physDefines.h"
@@ -38,6 +39,12 @@ enum class IsIndoorStage {
 
 enum class LowPriority : bool { Yes = true, No = false };
 enum class OnlyLockIfNeeded : bool { Yes = true, No = false };
+
+/// Selects one of the SystemGroupHandlers that System preallocates for each layer type.
+/// Enumerator names are unknown. This must stay a sead enum: operator int() is const volatile,
+/// so the index goes through the stack, and a plain int drops that spill and unmatches both
+/// getters.
+SEAD_ENUM(StaticGroupHandlerId, _0, _1, _2, _3)
 
 class System {
     SEAD_SINGLETON_DISPOSER(System)
@@ -96,6 +103,15 @@ public:
     SystemGroupHandler* addSystemGroupHandler(ContactLayerType layer_type, int free_list_idx = 0);
     // 0x0000007101215b68
     void removeSystemGroupHandler(SystemGroupHandler* handler);
+
+    // 0x0000007101215984
+    void initGroupHandlers();
+    // 0x0000007101216894
+    SystemGroupHandler* getStaticGroupHandler(ContactLayerType layer_type,
+                                              StaticGroupHandlerId id) const;
+    // 0x00000071012168c8
+    SystemGroupHandler* getStaticGroupHandlerLowIdx(ContactLayerType layer_type,
+                                                    StaticGroupHandlerId id) const;
 
     hkpWorld* getHavokWorld(ContactLayerType type) const;
 
@@ -172,7 +188,14 @@ private:
     sead::Heap* mDebugHeap{};
     sead::Heap* mPhysicsTempDefaultHeap{};
     sead::Heap* mPhysicsTempLowHeap{};
-    u8 _1c8[0x480 - 0x1c8];
+    u8 _1c8[0x2c0 - 0x1c8];
+    /// Handlers taken from group filter free list 0.
+    sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 4>, NumContactLayerTypes>
+        mStaticGroupHandlers;
+    /// Handlers taken from group filter free list 1, which holds the handlers with a low index.
+    sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 2>, NumContactLayerTypes>
+        mStaticGroupHandlersLowIdx;
+    u8 _320[0x480 - 0x320];
 };
 KSYS_CHECK_SIZE_NX150(System, 0x480);
 
