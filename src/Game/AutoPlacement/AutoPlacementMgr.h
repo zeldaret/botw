@@ -19,9 +19,9 @@ public:
     AutoPlacementMgr();
     virtual ~AutoPlacementMgr();
 
-    bool sub_7100659E40(ksys::act::Actor* actor, const sead::SafeString& actor_name, int count,
-                        bool is_box);
-    void sub_7100659F94(ksys::act::Actor* actor);
+    bool addCreator(ksys::act::Actor* actor, const sead::SafeString& actor_name, int count,
+                    bool is_box);
+    void removeCreator(ksys::act::Actor* actor);
 
     // 0x0000007100654e44
     bool threadFn();

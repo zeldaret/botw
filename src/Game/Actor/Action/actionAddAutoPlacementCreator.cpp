@@ -44,7 +44,7 @@ void AddAutoPlacementCreator::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     if (AutoPlacementMgr::instance() != nullptr &&
-        AutoPlacementMgr::instance()->sub_7100659E40(mActor, mActorName_m, *mCount_m, is_box)) {
+        AutoPlacementMgr::instance()->addCreator(mActor, mActorName_m, *mCount_m, is_box)) {
         actor->setDeleteDistance(actor->getDeleteDistance() + 100.0f);
         mInitialised = true;
     }
@@ -57,7 +57,7 @@ void AddAutoPlacementCreator::leave_() {
         return;
 
     if (AutoPlacementMgr::instance() != nullptr)
-        AutoPlacementMgr::instance()->sub_7100659F94(mActor);
+        AutoPlacementMgr::instance()->removeCreator(mActor);
 
     mInitialised = false;
 }

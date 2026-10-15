@@ -125,7 +125,7 @@ public:
 
     bool sub_710064CBFC(sead::Heap* heap, u8 flag, s32 num_spawn, s32 num_obj);
     u32 sub_710064CD80(u32, u32);
-    void sub_710064CF60(bool force);
+    void reset(bool force);
 
     bool hasNearbyPlacedActorWithNameInGroup(const sead::SafeString& name,
                                              const sead::Vector3f& distance);
