@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
     Awareness/actAwarenessDefs.h
     Awareness/actAwarenessInstance.cpp
     Awareness/actAwarenessInstance.h
+    Awareness/actAwarenessMiscUtils.cpp
+    Awareness/actAwarenessMiscUtils.h
 
 
     Profiles/actRopeBase.cpp
