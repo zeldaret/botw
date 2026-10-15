@@ -622,8 +622,8 @@ FlagHandle Manager::getRevivalFlagHandle(const sead::SafeString& object_name,
 
 void Manager::allocParam1() {
     auto* parent_heap = OverlayArenaSystem::instance()->getGameDataWorkHeap();
-    auto* heap = util::tryCreateDualHeap(0, "param1", parent_heap, nullptr,
-                                         sead::Heap::cHeapDirection_Forward, false);
+    auto* heap = util::createDualHeap(0, "param1", parent_heap, nullptr,
+                                      sead::Heap::cHeapDirection_Forward, false);
     mFlagBuffer1 = new (heap) TriggerParam;
     mFlagBuffer1->copyAllFlags(*mFlagBuffer, heap, true);
     heap->adjust();
@@ -649,8 +649,8 @@ void Manager::allocRetryBuffer(sead::Heap* heap) {
     if (mRetryBuffer)
         return;
 
-    auto* buffer_heap = util::tryCreateDualHeap(0x100000, "RetryBuffer", heap, nullptr,
-                                                sead::Heap::cHeapDirection_Reverse, false);
+    auto* buffer_heap = util::createDualHeap(0x100000, "RetryBuffer", heap, nullptr,
+                                             sead::Heap::cHeapDirection_Reverse, false);
     mRetryBuffer = new (buffer_heap) TriggerParam;
     mRetryBuffer->copyPermanentFlags(*mFlagBuffer1, buffer_heap);
     buffer_heap->adjust();
