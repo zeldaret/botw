@@ -19,6 +19,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyPolytope.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Physics/System/physUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
