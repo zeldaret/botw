@@ -48,10 +48,10 @@ public:
     virtual ~AttCheck() = default;
 
     // FIXME: signatures and names
-    virtual void m4();
+    virtual void calcMtx();
     virtual bool check();
-    virtual float m6();
-    virtual void m7() {}
+    virtual float calcMaxRange();
+    virtual void drawDebug() {}
 
     virtual bool parse(const CreateArg& arg);
 
@@ -93,15 +93,15 @@ class AttCheckArea : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    void m4() override;
+    void calcMtx() override;
     bool check() override;
-    float m6() override;
-    void m7() override;
+    float calcMaxRange() override;
+    void drawDebug() override;
     bool parse(const CreateArg& arg) override;
 
     virtual bool m9() { return true; }
     virtual float m10() { return 0; }
-    virtual void m11() {}
+    virtual void drawDebugShape() {}
 
 protected:
     AttPos mAttPos;
@@ -116,7 +116,7 @@ public:
     bool parse(const CreateArg& arg) override;
     bool m9() override;
     float m10() override;
-    void m11() override;
+    void drawDebugShape() override;
 
 private:
     agl::utl::Parameter<bool> mForceEditModelArea;
@@ -134,7 +134,7 @@ public:
     bool parse(const CreateArg& arg) override;
     bool m9() override;
     float m10() override;
-    void m11() override;
+    void drawDebugShape() override;
 
 private:
     agl::utl::Parameter<bool> mAngleCheckIgnoreLockOn;
@@ -187,7 +187,7 @@ public:
     bool parse(const CreateArg& arg) override;
     bool m9() override;
     float m10() override;
-    void m11() override;
+    void drawDebugShape() override;
 
 private:
     agl::utl::Parameter<bool> mForceEditModelArea;
@@ -205,10 +205,10 @@ class AttCheckEachOtherArea : public AttCheck {
 public:
     explicit AttCheckEachOtherArea(AttCheckType type);
 
-    void m4() override;
+    void calcMtx() override;
     bool check() override;
-    float m6() override;
-    void m7() override;
+    float calcMaxRange() override;
+    void drawDebug() override;
     bool parse(const CreateArg& arg) override;
 
 private:
@@ -232,7 +232,7 @@ class AttCheckAngle : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    void m4() override;
+    void calcMtx() override;
     bool check() override;
     bool parse(const CreateArg& arg) override;
 

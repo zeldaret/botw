@@ -2,13 +2,13 @@
 
 namespace ksys::res {
 
-void AttCheck::m4() {}
+void AttCheck::calcMtx() {}
 
 bool AttCheck::check() {
     return true;
 }
 
-float AttCheck::m6() {
+float AttCheck::calcMaxRange() {
     return -1.0;
 }
 
