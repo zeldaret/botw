@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  mapRailFactory.cpp
+  mapRailFactory.h
   mapPlacement18.cpp
   mapRailFactoryInterfaces.h
   mapPlacement18.h

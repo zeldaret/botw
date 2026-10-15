@@ -206,6 +206,8 @@ public:
 
     // endregion
 
+    Mode getMode() const { return mMode; }
+
     auto getUnk3() const { return mUnk3; }
     void incrementUnk3();
     void decrementUnk3();

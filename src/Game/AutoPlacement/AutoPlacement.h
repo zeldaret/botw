@@ -19,12 +19,13 @@ class RigidBody;
 namespace uking {
 
 class AutoPlacement;
+struct AutoPlacementRequest;
 struct AutoPlacementFlowRes;
 class PlacementThing;
 
 struct PlacementGroup {
     sead::SafeString a;
-    u32 _10;
+    f32 radius;
     f32 heightOffset;
     u8 _18;
     u8 _19;
@@ -44,7 +45,7 @@ struct PlacementGroup {
     sead::SafeString b;
     f32 traverseDistPlus100;
     f32 traverseDist;
-    u32 _80{};
+    sead::Atomic<u32> _80{};
 };
 KSYS_CHECK_SIZE_NX150(PlacementGroup, 0x88);
 
@@ -151,6 +152,8 @@ public:
     void sub_710064F744(u8 a1, u8 a2);
     void incrementGroup();
     // Inferred interfaces to the original placement creation and eligibility helpers.
+    bool sub_710064DE34(const sead::SafeString& name, sead::Matrix34f* transform,
+                        s32* object_ref_index, s32 mode, s32 resource_idx);
     void sub_710064E344(AutoPlacementFlowRes* flow, s32 count, f32 group_radius, f32 offset_pos_y,
                         s32 equip_count, const sead::SafeString& ride_list, bool mimicry);
     bool sub_710064F54C(const sead::SafeString& unit_name, s32 min_count, s32 max_count,
@@ -174,12 +177,16 @@ public:
             _8868 = name;
     }
 
+    void setTimeDivisionMask(u32 mask) { mTimeDivisionMask = u8(mask); }
+
     bool getActorToSpawn(sead::SafeString* name, sead::Matrix34f* transform,
                          sead::SafeString* ride_name, s32* rotation_mode, s32* equipment_count,
                          bool* use_spawn_index, s32* count, bool* special_spawn,
                          s32* equip_category);
 
 private:
+    friend struct AutoPlacementRequest;
+
     struct ObjectRef {
         ksys::map::Object* obj;
         s32 locatorCacheIndex;
@@ -197,7 +204,7 @@ private:
     u8 _c = 0;
     u8 _d = 0;
     u16 mWeatherMask = 0;
-    u8 _10 = 0;
+    u8 mTimeDivisionMask = 0;
     s32 _14 = 0;
     sead::Buffer<ActorSpawnInfo> mSpawnInfo;
     sead::CriticalSection mCS{};

@@ -8,6 +8,10 @@ namespace sead {
 class Heap;
 }
 
+namespace uking {
+struct RoadNpcPlacementEntry;
+}
+
 namespace ksys {
 class OcclusionQueryCylinder;
 }
@@ -23,6 +27,7 @@ public:
     virtual ~LodState();
 
 private:
+    friend struct uking::RoadNpcPlacementEntry;
     void initFlags();
 
     sead::BitFlag64 mFlags8;

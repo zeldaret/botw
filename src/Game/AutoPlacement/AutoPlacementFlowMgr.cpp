@@ -384,6 +384,22 @@ int checkPouchItemCount(const evfl::QueryArg& arg) {
     return item_count >= requested_count;
 }
 
+int timeType(const evfl::QueryArg& arg) {
+    auto* world = ksys::world::Manager::instance();
+    auto* placement = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data)->placement;
+    if (!placement->isSecondaryQuery()) {
+        const auto* event = arg.main_event;
+        const auto* cases = event->cases.Get();
+        u32 mask = 0;
+        for (u32 i = 0; i < event->num_cases; ++i)
+            mask |= 1u << (cases[i].value & 31);
+        placement->setTimeDivisionMask(mask);
+    }
+    if (!world)
+        return -1;
+    return world->getTimeMgr()->getTimeDivision();
+}
+
 int defaultQuery(const evfl::QueryArg&) {
     return 0;
 }

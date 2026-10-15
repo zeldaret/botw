@@ -23,6 +23,10 @@ namespace gsys {
 class Model;
 }  // namespace gsys
 
+namespace uking {
+struct RoadNpcPlacementEntry;
+}
+
 namespace ksys {
 
 namespace as {
@@ -60,6 +64,7 @@ namespace ai {
 class RootAi;
 }
 
+class LodState;
 class LifeRecoverInfo;
 class Actor;
 class ActorCreator;
@@ -104,6 +109,7 @@ public:
     };
 
     enum class ActorFlag {
+        _a = 0xa,
         _18 = 0x18,
         _25 = 0x25,
         _29 = 0x29,
@@ -113,6 +119,7 @@ public:
     };
 
     enum class ActorFlag2 {
+        _8000 = 0x8000,
         InstEvent = 0x8,
         _20 = 0x20,
         NoDistanceCheck = 0x80,
@@ -161,8 +168,12 @@ public:
 
     void clearFlag(ActorFlag flag);
     bool checkFlag(ActorFlag flag) const;
+    bool isAutoPlacementActorReady() const;
     void setFlag(ActorFlag flag);
     void setFlag(ActorFlag flag, bool on);
+    void setTransform(const sead::Vector3f* position, const sead::Vector3f* rotation,
+                      const sead::Vector3f* scale);
+
     bool deleteEx(DeleteType type, DeleteReason reason, bool* ok = nullptr);
 
     void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f& vel,
@@ -308,6 +319,7 @@ public:
     }
 
 protected:
+    friend struct uking::RoadNpcPlacementEntry;
     friend class ActorCreator;
 
     struct Unk1 {
@@ -405,7 +417,7 @@ protected:
     /* 0x570 */ ActorParam* mActorParam = nullptr;
     /* 0x578 */ phys::InstanceSet* mPhysics = nullptr;
     /* 0x580 */ PhysicsConstraints mConstraints;
-    /* 0x598 */ void* _598 = nullptr;
+    /* 0x598 */ LodState* mLodState = nullptr;
     /* 0x5a0 */ BoneControl* mBoneControl = nullptr;
     /* 0x5a8 */ phys::StaticCompoundRigidBodyGroup* mFieldBodyGroup = nullptr;
     /* 0x5b0 */ void* _5b0 = nullptr;

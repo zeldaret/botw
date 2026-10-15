@@ -112,6 +112,75 @@ void Rail::calcTranslate(sead::Vector3f* pos_out, float progress) const {
     calcTranslateRotate(pos_out, nullptr, progress);
 }
 
+// NON_MATCHING: the complete body has a different compiler layout.
+void Rail::calcTranslateRotate(sead::Vector3f* pos_out, sead::Vector3f* rot_out,
+                               float progress) const {
+    const int count = mRailPoints.size();
+    if (count == 1) {
+        *pos_out = mRailPoints[0]->mSRT.translate;
+        if (rot_out)
+            *rot_out = sead::Vector3f::zero;
+        return;
+    }
+
+    const auto floorIndex = [](float value) {
+        const int integer = static_cast<int>(value);
+        return integer - (!(value >= 0.0f) && integer != value);
+    };
+    const bool closed = isClosed();
+    if (closed)
+        progress -= float(count) * float(floorIndex(progress / count));
+    int index = floorIndex(progress);
+    if (!closed && index == count - 1)
+        --index;
+    const float t = progress - index;
+    const RailPoint* start = mRailPoints[index];
+    const RailPoint* end = mRailPoints[(index + 1) % count];
+    const sead::Vector3f& p0 = start->mSRT.translate;
+    const sead::Vector3f& p3 = end->mSRT.translate;
+    if (!isBezier()) {
+        *pos_out = p0 + (p3 - p0) * t;
+        if (rot_out) {
+            *rot_out = p3 - p0;
+            rot_out->normalize();
+        }
+        return;
+    }
+
+    const sead::Vector3f p1 = p0 + start->mCtrlPoints[1];
+    const sead::Vector3f p2 = p3 + end->mCtrlPoints[0];
+    const float u = 1.0f - t;
+    const float u2 = u * u;
+    const float t2 = t * t;
+    *pos_out = p0 * (u * u2);
+    *pos_out += p1 * (t * u2 * 3.0f);
+    *pos_out += p2 * (t2 * u * 3.0f);
+    *pos_out += p3 * (t * t2);
+    if (!rot_out)
+        return;
+
+    const auto nearlyZero = [](const sead::Vector3f& v) {
+        return v.x <= 0.01f && v.x >= -0.01f && v.y <= 0.01f && v.y >= -0.01f && v.z <= 0.01f &&
+               v.z >= -0.01f;
+    };
+    if (nearlyZero(start->mCtrlPoints[1]) && t < 0.01f) {
+        *rot_out = p3 + end->mCtrlPoints[0];
+        *rot_out -= p0;
+    } else if (nearlyZero(end->mCtrlPoints[0]) && t > 0.99f) {
+        *rot_out = p3 - start->mCtrlPoints[1];
+        *rot_out -= p0;
+    } else {
+        const sead::Vector3f tangent_p1 = p0 + start->mCtrlPoints[1];
+        const sead::Vector3f tangent_p2 = p3 + end->mCtrlPoints[0];
+        const float threeT = t * 3.0f;
+        *rot_out = p0 * (u2 * -3.0f);
+        *rot_out += tangent_p1 * (u * 3.0f * (1.0f - threeT));
+        *rot_out += tangent_p2 * (threeT * (2.0f - threeT));
+        *rot_out += p3 * (t2 * 3.0f);
+    }
+    rot_out->normalize();
+}
+
 bool Rail::isClosed() const {
     return mFlags.isOn(Flag::Closed);
 }

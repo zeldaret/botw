@@ -1,4 +1,8 @@
 #include "Game/AutoPlacement/AutoPlacement.h"
+#include <random/seadGlobalRandom.h>
+#include <thread/seadThread.h>
+#include <time/seadTickSpan.h>
+#include "Game/AutoPlacement/AutoPlacementCreateGroupsInterfaces.h"
 #include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
 #include "Game/AutoPlacement/AutoPlacementLocatorCache.h"
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
@@ -340,6 +344,182 @@ bool AutoPlacement::sub_710064EF24(ActorSpawnInfo* info, const sead::Vector3f& p
             return false;
     }
     return true;
+}
+
+// NON_MATCHING: the complete bodies have different compiler layouts.
+void AutoPlacement::sub_710064E344(AutoPlacementFlowRes* flow, s32 group_count, f32 group_radius,
+                                   f32 offset_pos_y, s32 equip_weapon_actor_count,
+                                   const sead::SafeString& ride_list, bool mimicry) {
+    if (_0 > 255)
+        return;
+
+    const s32 resource_idx = static_cast<s8>(flow->idx);
+    sead::Matrix34f transform = sead::Matrix34f::ident;
+    s32 object_ref_index = -1;
+    if (flow->spawn_location_flags & 1) {
+        auto& query = mThing3;
+        const auto* active_query = mActiveQuery;
+        query.mCS.lock();
+        if (AutoPlacementMgr::instance()->auto9()) {
+            query.mCS.unlock();
+            return;
+        }
+        if (query.mState != PlacementThing::State::Invalid) {
+            if (query.mState != PlacementThing::State::PlacementDone)
+                query.mState = PlacementThing::State::PlacementDone;
+            query.mCS.unlock();
+            return;
+        }
+        query._8880 = 0;
+        query.mWaterQuery = -1.0f;
+        query.mUnderwater = 0;
+        query.mHasForbiddenHit = 0;
+        query.mHasAirWallHorseHit = 0;
+        query.mState = PlacementThing::State::Uninitialized;
+        query.mVec1 = active_query->mQueryVec;
+        query._8945 = 0;
+        query.mCS.unlock();
+
+        auto state = query.mState;
+        if (state != PlacementThing::State::Invalid &&
+            state != PlacementThing::State::PlacementDone) {
+            const auto delay = sead::TickSpan::makeFromMilliSeconds(1);
+            do {
+                if (state == PlacementThing::State::RaycastDone) {
+                    if (query.processRaycastResult() && query._8880 && !query.mHasForbiddenHit)
+                        return;
+                } else if (state == PlacementThing::State::Initialized) {
+                    query.invoke();
+                }
+                sead::Thread::sleep(delay);
+                state = query.mState;
+            } while (state != PlacementThing::State::Invalid &&
+                     state != PlacementThing::State::PlacementDone);
+        }
+        if (query._8880 && !query.mHasForbiddenHit)
+            return;
+    }
+
+    u8 placement_mode;
+    if (flow->spawn_location_flags & 2) {
+        placement_mode = sead::GlobalRandom::instance()->getF32() < 0.5f ? 0 : 2;
+    } else if (flow->spawn_location_flags & 4) {
+        placement_mode = 0;
+    } else {
+        const f32 branch_random = sead::GlobalRandom::instance()->getF32();
+        if ((flow->spawn_location_flags & 8) && branch_random < 0.5f) {
+            placement_mode = 0;
+        } else if (flow->spawn_location_flags & 0x10) {
+            placement_mode = 1;
+        } else {
+            const f32 trunk_random = sead::GlobalRandom::instance()->getF32();
+            if ((flow->spawn_location_flags & 0x20) && trunk_random < 0.5f) {
+                placement_mode = 1;
+            } else if (flow->spawn_location_flags & 0x40) {
+                placement_mode = 3;
+            } else {
+                const f32 tree_random = sead::GlobalRandom::instance()->getF32();
+                placement_mode =
+                    (flow->spawn_location_flags & 0x80) && tree_random < 0.5f ? 3 : 0xff;
+            }
+        }
+    }
+    const bool has_locator_transform = placement_mode != 0xff;
+    if (has_locator_transform) {
+        if (mNearFlag > 0xfd)
+            return;
+        if (!sub_710064DE34(flow->unit_name, &transform, &object_ref_index, placement_mode,
+                            resource_idx))
+            return;
+    }
+
+    mCS.lock();
+    const u16 old_count = static_cast<u16>(_0);
+    const s32 group_index = old_count > 255 ? 0 : _0;
+    ++_0;
+    auto& group = mGroups[group_index];
+    group._1e = 1;
+    group.a = flow->unit_name;
+    group.pos = mActiveQuery->mQueryVec;
+    s32 count = group_count;
+    if (has_locator_transform) {
+        group.transform = transform;
+        if (count < 1)
+            count = 1;
+    } else {
+        group.transform.makeIdentity();
+        group.transform.setTranslation(group.pos);
+    }
+    group._1a = static_cast<u8>(count);
+    if (mNearFlag == 0xfe)
+        group._1a = static_cast<u8>(group_count < 1 ? 1 : group_count);
+    group._22 = mWeatherMask;
+    group._25 = mTimeDivisionMask;
+    group._1c = static_cast<u8>(resource_idx);
+    group.equipCategory = -1;
+    if (mNearFlag != 0xff &&
+        AutoPlacementMgr::instance()->sub_7100659158(resource_idx, false) == 0) {
+        ksys::eco::AreaItemSet items;
+        const auto* item = sub_7100657D2C(&items, group.pos, flow->unit_name);
+        group.equipCategory =
+            static_cast<s8>(sub_7100657EC4(item, static_cast<s8>(static_cast<u8>(_b))));
+    }
+    group._20 = object_ref_index;
+    group.radius = group_radius;
+    group.heightOffset = offset_pos_y;
+    group.b = ride_list;
+    group._1d = placement_mode;
+    group._1f = 0;
+    if (flow->unit_name.cstr()[0] == '\0') {
+        group.traverseDistPlus100 = 0.0f;
+        group.traverseDist = 0.0f;
+    } else {
+        group.traverseDistPlus100 = getActorTraverseDistPlus100(1.0f, flow->unit_name);
+        group.traverseDist = getActorTraverseDist(1.0f, flow->unit_name);
+    }
+    if (mNearFlag == 0xff && sead::GlobalRandom::instance()->getF32() < 0.5f)
+        group._1f |= 1;
+    if (mimicry)
+        group._1f |= 2;
+    if (flow->spawn_location_flags & 0x100)
+        group._1f |= 4;
+    group._18 = _4;
+    group._1b = static_cast<u8>(equip_weapon_actor_count);
+    group._24 = 0;
+    group._19 = _5;
+    group._80 = 0;
+    mCS.unlock();
+}
+
+bool AutoPlacement::sub_710064F54C(const sead::SafeString& unit_name, s32 min_count, s32 max_count,
+                                   s32 resource_idx, bool mimicry) {
+    s64 group_index = mGroupIdx;
+    if (group_index < 0)
+        return false;
+
+    const auto& group = mGroups[s32(group_index)];
+    if (group._1e == 0)
+        return false;
+    if (unit_name != group.a)
+        return false;
+    if (group._1c != resource_idx)
+        return false;
+    if ((mimicry ^ ((group._1f & 2) >> 1)) & 1)
+        return false;
+
+    if (u8(mNearFlag) > 0xfd)
+        return true;
+
+    const auto& query_pos = mActiveQuery->mQueryVec;
+    const f32 dx = query_pos.x - group.pos.x;
+    const f32 dz = query_pos.z - group.pos.z;
+    const f32 radius = group.radius;
+    if (!(dx * dx + dz * dz <= radius * radius))
+        return false;
+
+    if (min_count <= group._1a && group._1a <= max_count)
+        return true;
+    return group._1d != 0xff;
 }
 
 void AutoPlacement::sub_710064F744(u8 a1, u8 a2) {
