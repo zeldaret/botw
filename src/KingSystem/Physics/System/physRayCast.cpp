@@ -17,8 +17,8 @@
 #include "KingSystem/Physics/System/physEntityContactListener.h"
 #include "KingSystem/Physics/System/physGroupFilter.h"
 #include "KingSystem/Physics/System/physPhantom.h"
-#include "KingSystem/Physics/System/physStaticCompoundUtil.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/System/physUtil.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physLayerMaskBuilder.h"
 
