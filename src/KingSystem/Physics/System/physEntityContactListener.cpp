@@ -275,7 +275,7 @@ static void updateMotionAccessorFlagsForMagneMassScaling(RigidBody* body_a, Rigi
 void EntityContactListener::setMagneMassScalingForContactIfNeeded(const hkpCollisionEvent& event,
                                                                   RigidBody* body_a,
                                                                   RigidBody* body_b) {
-    if (!System::instance()->getEntityContactListenerField90())
+    if (!System::instance()->isMagneMassScalingEnabled())
         return;
 
     if (!needsMagneMassScaling(event, body_a, body_b))
@@ -490,19 +490,19 @@ bool EntityContactListener::regularContactPointCallback(const hkpContactPointEve
         auto* modifier = hkpWorldConstraintUtil::findModifier(
             constraint, hkpConstraintAtom::TYPE_MODIFIER_VISCOUS_SURFACE);
 
-        const bool field90 = System::instance()->getEntityContactListenerField90();
+        const bool magne_mass_scaling_enabled = System::instance()->isMagneMassScalingEnabled();
 
         if (modifier && constraint->getUserData() & 1) {
             clearCallbackDelay(event);
 
-            if (field90 && hasEntityWithMotionFlag80(event)) {
+            if (magne_mass_scaling_enabled && hasEntityWithMotionFlag80(event)) {
                 updateMotionFlagsAtEndOfStep(event, body_a, body_b);
             } else {
                 body_a->getEntityMotionAccessor()->getContactFlags().makeAllZero();
                 body_b->getEntityMotionAccessor()->getContactFlags().makeAllZero();
                 removeViscousSurfaceModifier(event);
             }
-        } else if (field90 && needsMagneMassScaling(event, body_a, body_b) &&
+        } else if (magne_mass_scaling_enabled && needsMagneMassScaling(event, body_a, body_b) &&
                    !shouldProcessEntityContact(body_a, body_b)) {
             updateMotionAccessorFlagsForMagneMassScaling(body_a, body_b);
             setMagneMassScalingForContact(event, body_a, body_b);
