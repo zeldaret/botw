@@ -14,14 +14,14 @@ void ForceSetCameraPos::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
+void ForceSetCameraPos::calc_() {
+    ksys::act::ai::Action::calc_();
+}
+
 void ForceSetCameraPos::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
 void ForceSetCameraPos::loadParams_() {}
-
-void ForceSetCameraPos::calc_() {
-    ksys::act::ai::Action::calc_();
-}
 
 }  // namespace uking::action

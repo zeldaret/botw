@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 
 class hkpCollidable;
 class hkpShape;
@@ -14,6 +15,10 @@ namespace ksys::phys {
 
 class StaticCompoundRigidBodyGroup;
 struct RigidBodyCollisionMasks;
+enum class MotionType;
+
+// 0x0000007100fd069c
+MotionType motionTypeFromText(const sead::SafeString& text);
 
 // 0x0000007100fd0810
 u32 getMaterialMaskFromShape(const hkpShape& shape, const u32* shape_key,

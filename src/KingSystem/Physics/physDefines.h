@@ -401,6 +401,4 @@ FloorCode floorCodeFromText(const sead::SafeString& text);
 const char* wallCodeToText(WallCode code);
 WallCode wallCodeFromText(const sead::SafeString& text);
 
-MotionType motionTypeFromText(const sead::SafeString& text);
-
 }  // namespace ksys::phys

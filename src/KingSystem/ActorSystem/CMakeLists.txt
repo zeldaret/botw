@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
     Awareness/actAwarenessDefs.h
     Awareness/actAwarenessInstance.cpp
     Awareness/actAwarenessInstance.h
+    Awareness/actAwarenessMiscUtils.cpp
+    Awareness/actAwarenessMiscUtils.h
 
 
     Profiles/actRopeBase.cpp
@@ -77,8 +79,6 @@ target_sources(uking PRIVATE
     actBaseProcInitializer.h
     actBaseProcJob.cpp
     actBaseProcJob.h
-    actBaseProcJobHandler.cpp
-    actBaseProcJobHandler.h
     actBaseProcJobQue.cpp
     actBaseProcJobQue.h
     actBaseProcLink.cpp

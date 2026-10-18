@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryIsCurrentMainFieldStage.h"
 #include <evfl/Query.h>
-#include "Game/Scene/gameScene.h"
+#include "Game/Scene/gameStageInfo.h"
 
 namespace uking::query {
 
@@ -9,7 +9,7 @@ IsCurrentMainFieldStage::IsCurrentMainFieldStage(const InitArg& arg) : ksys::act
 IsCurrentMainFieldStage::~IsCurrentMainFieldStage() = default;
 
 int IsCurrentMainFieldStage::doQuery() {
-    return GameScene::getCurrentMapType() == "MainField";
+    return StageInfo::getCurrentMapType() == "MainField";
 }
 
 void IsCurrentMainFieldStage::loadParams(const evfl::QueryArg& arg) {}

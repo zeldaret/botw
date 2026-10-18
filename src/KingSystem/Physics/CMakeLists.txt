@@ -176,14 +176,14 @@ target_sources(uking PRIVATE
     System/physStaticCompoundMgr.h
     System/physStaticCompoundRigidBodyGroup.cpp
     System/physStaticCompoundRigidBodyGroup.h
-    System/physStaticCompoundUtil.cpp
-    System/physStaticCompoundUtil.h
     System/physSystem.cpp
     System/physSystem.h
     System/physSystemData.cpp
     System/physSystemData.h
     System/physUserTag.cpp
     System/physUserTag.h
+    System/physUtil.cpp
+    System/physUtil.h
 
     physConversions.h
     physDefines.cpp

@@ -14,6 +14,10 @@ void InWaterSelForkASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
+void InWaterSelForkASPlay::calc_() {
+    ksys::act::ai::Action::calc_();
+}
+
 void InWaterSelForkASPlay::leave_() {
     ksys::act::ai::Action::leave_();
 }
@@ -26,10 +30,6 @@ void InWaterSelForkASPlay::loadParams_() {
     getStaticParam(&mFirstRandomRatio_s, "FirstRandomRatio");
     getStaticParam(&mIsIgnoreSame_s, "IsIgnoreSame");
     getStaticParam(&mASName_s, "ASName");
-}
-
-void InWaterSelForkASPlay::calc_() {
-    ksys::act::ai::Action::calc_();
 }
 
 }  // namespace uking::action

@@ -231,10 +231,6 @@ void Awareness::calc() {
     resetFlag(Flag::_0);
 }
 
-u32 Awareness::calcHash(const sead::SafeString& key) {
-    return agl::utl::ParameterBase::calcHash(key);
-}
-
 void Awareness::Links2::calc() {
     count = 0;
 }

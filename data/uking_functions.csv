@@ -49623,8 +49623,8 @@ Address,Quality,Size,Name
 0x00000071007cbea4,U,000004,nullsub_2444
 0x00000071007cbea8,U,000004,j__ZdlPv_353
 0x00000071007cbeac,U,000440,StageFactory::create
-0x00000071007cc064,O,000020,_ZN5uking9GameScene17getCurrentMapTypeEv
-0x00000071007cc078,O,000020,_ZN5uking9GameScene17getCurrentMapNameEv
+0x00000071007cc064,O,000020,_ZN5uking9StageInfo17getCurrentMapTypeEv
+0x00000071007cc078,O,000020,_ZN5uking9StageInfo17getCurrentMapNameEv
 0x00000071007cc08c,U,000012,getPSavePosAngleForStageGen
 0x00000071007cc098,U,000012,getPSavePosForStageGen
 0x00000071007cc0a4,U,003264,genStageUpdateMapTypeFlags
@@ -75237,7 +75237,7 @@ Address,Quality,Size,Name
 0x0000007100d7ee8c,U,000076,
 0x0000007100d7eed8,U,000016,
 0x0000007100d7eee8,U,000128,
-0x0000007100d7ef68,O,000004,_ZN4ksys3act9Awareness8calcHashERKN4sead14SafeStringBaseIcEE
+0x0000007100d7ef68,O,000004,_ZN4ksys3act17calcAwarenessHashERKN4sead14SafeStringBaseIcEE
 0x0000007100d7ef6c,U,000116,
 0x0000007100d7efe0,U,000036,_ZN4ksys3act9Awareness4Unk18finalizeEv
 0x0000007100d7f004,U,000040,
