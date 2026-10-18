@@ -30,6 +30,7 @@ class Function(NamedTuple):
     decomp_addr: int
     name: str
     obj: str
+    is_weak: bool
 
 
 @dataclass
@@ -38,6 +39,7 @@ class MatchedFunctions:
     not_in_binary: int = 0
     shared_inline: int = 0
     ambiguous: int = 0
+    library: int = 0
 
 
 @dataclass
@@ -118,7 +120,13 @@ def match_functions(decomp_elf: Path, build_dir: Path) -> MatchedFunctions:
             matched.not_in_binary += 1
         elif len(in_binary) == 1 and len(definitions) == 1:
             obj = get_object_name(definitions[0].path, build_dir)
-            matched.functions.append(Function(info.addr, in_binary[0].address, info.decomp_name, obj))
+            # The decomp links all libraries before the game code, whereas the original
+            # interleaves them with it, so their objects would all count as misordered.
+            if obj.startswith("lib/"):
+                matched.library += 1
+                continue
+            matched.functions.append(
+                Function(info.addr, in_binary[0].address, info.decomp_name, obj, definitions[0].is_weak))
         elif all(definition.is_weak for definition in definitions):
             matched.shared_inline += 1
         else:
@@ -229,10 +237,13 @@ def main() -> None:
     decomp_elf = config.get_decomp_elf().resolve()
     matched = match_functions(decomp_elf, decomp_elf.parent)
 
+    # A weak function's copy in the original came from whichever object the linker saw first, so
+    # it can't place its object or make it split. It still counts within its object's main block.
+    strong_functions = [function for function in matched.functions if not function.is_weak]
     main_runs: dict[str, list[Function]] = {}
     split_objects: list[str] = []
     stray_functions: list[Function] = []
-    for obj, runs in split_into_blocks(matched.functions).items():
+    for obj, runs in split_into_blocks(strong_functions).items():
         main_run = max(runs, key=len)
         main_runs[obj] = main_run
         if len(runs) > 1:
@@ -240,13 +251,21 @@ def main() -> None:
             stray_functions += [function for run in runs if run is not main_run for function in run]
     stray_functions.sort()
 
+    main_blocks = {obj: list(run) for obj, run in main_runs.items()}
+    for function in matched.functions:
+        run = main_runs.get(function.obj)
+        if function.is_weak and run and run[0].orig_addr < function.orig_addr < run[-1].orig_addr:
+            main_blocks[function.obj].append(function)
+    for block in main_blocks.values():
+        block.sort()
+
     objects_in_original_order = sorted(main_runs, key=lambda obj: main_runs[obj][0].orig_addr)
     misordered_objects = out_of_order(objects_in_original_order,
                                       lambda obj: min(function.decomp_addr for function in main_runs[obj]))
 
     misordered_functions: list[Function] = []
     for obj in objects_in_original_order:
-        misordered_functions += out_of_order(main_runs[obj], lambda function: function.decomp_addr)
+        misordered_functions += out_of_order(main_blocks[obj], lambda function: function.decomp_addr)
 
     report = Report(
         misordered_objects=[f"0x{main_runs[obj][0].orig_addr + ORIGINAL_BASE:016x} {obj}" for obj in misordered_objects],
@@ -267,7 +286,8 @@ def main() -> None:
     print(f"{len(matched.functions):>7d} compared functions")
     print(f"{Style.DIM}{matched.not_in_binary:>7d} skipped, not in the decomp binary")
     print(f"{matched.shared_inline:>7d} skipped, inline in several objects")
-    print(f"{matched.ambiguous:>7d} skipped, ambiguous name{Style.RESET_ALL}")
+    print(f"{matched.ambiguous:>7d} skipped, ambiguous name")
+    print(f"{matched.library:>7d} skipped, library code{Style.RESET_ALL}")
     print(f"{len(main_runs):>7d} objects")
     print(f"{len(misordered_objects):>7d} {Fore.RED}misordered objects{Fore.RESET}")
     print(f"{len(split_objects):>7d} {Fore.YELLOW}objects split in the original{Fore.RESET} "
