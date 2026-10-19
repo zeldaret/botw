@@ -41,4 +41,4 @@
 [submodule "lib/curl"]
 	path = lib/curl
 	url = https://github.com/german77/curl.git
-    branch = SMO-customCode2
+    branch = botw
