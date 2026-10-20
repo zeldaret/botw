@@ -10,6 +10,7 @@
 namespace ksys::phys {
 
 class RigidBody;
+struct RigidBodyInstanceParam;
 class SystemGroupHandler;
 class UserTag;
 
@@ -68,9 +69,21 @@ public:
     bool hasNoRigidBodyWithFlag8(bool require_motion_flag_1_to_be_unset);
     void requestSuspendGravity(u8 type);
 
-private:
+protected:
     sead::SafeString mName;
     sead::PtrArray<RigidBody> mRigidBodies;
+};
+
+/// Provides the per-body parameters that a RigidBodySet subclass needs to create its bodies.
+class RigidBodySetParamAccessor {
+public:
+    virtual int getNumRigidBodies() const = 0;
+    virtual RigidBody* createRigidBody(int idx, sead::Heap* heap) const = 0;
+    virtual void makeInstanceParam(int idx, RigidBodyInstanceParam* param) const = 0;
+    virtual float getVolume(int idx) const = 0;
+
+protected:
+    ~RigidBodySetParamAccessor() = default;
 };
 
 }  // namespace ksys::phys
