@@ -38,6 +38,7 @@ add_definitions(-D MATCHING_HACK_NX_CLANG)
 
 add_link_options(-stdlib=libc++ -nostdlib)
 add_link_options(-fPIC -Wl,-Bsymbolic-functions -shared)
+add_link_options(-Wl,--hash-style=sysv)
 if (DEFINED UKING_LINKER)
     message(STATUS "Using custom linker: ${UKING_LINKER}")
     add_link_options(-fuse-ld=${UKING_LINKER})
