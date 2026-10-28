@@ -588,6 +588,8 @@ public:
     void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
     // Internal.
     void setFlag20() { mFlags.set(Flag::_20); }
+    // Internal.
+    void setNoCharStandingOn(bool set) { mFlags.change(Flag::NoCharStandingOn, set); }
 
     // Internal.
     void onCollisionAdded() {
