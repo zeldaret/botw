@@ -184,6 +184,11 @@ public:
 
     void onEventFlowEnd();
 
+    bool isTemperatureSet() const;
+    sead::Vector3f getPlayerPos() const { return mPlayerPos; }
+    int getTempTimer() const { return mTimer; }
+    int getTemp798() const { return _798; }
+
     // TODO: more functions
 
     bool isMainField() const { return mIsMainField && mStageType == StageType::OpenWorld; }
