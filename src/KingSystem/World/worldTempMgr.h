@@ -8,7 +8,6 @@
 namespace ksys::world {
 
 // Status TODO:
-// MISSING TempMgr::m8_null()
 // MISSING TempMgr::calcType2_()
 //
 // Non-matching TempMgr::TempMgr~()
@@ -32,11 +31,12 @@ protected:
     void calcType2_() override;
     void calc_() override;
     void init_(sead::Heap* heap) override;
+    void m8_null();
 
     float getStepValue() const;
 
     float _20;
-    VFRValue _24;
+    VFRValue mVFRTemperature;
     float mWeatherOffset;
     float mPlayerElevation;
     s32 _38;
@@ -54,10 +54,9 @@ protected:
     float mMoisture;
     float _74;
     float _78;
-    int _7c;    // UNSURE This might be a VFR value?
+    int _7c;
     float _80;  // UNSURE
     float _84;  // UNSURE
-
     float _88;
 };
 KSYS_CHECK_SIZE_NX150(TempMgr, 0x90);

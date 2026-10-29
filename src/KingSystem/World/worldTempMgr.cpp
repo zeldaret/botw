@@ -71,8 +71,8 @@ void TempMgr::reset() {
     _40 = 23.0f;
     _44 = 23.0f;
     _20 = 23.0f;
-    _24.value = 23.0f;
-    _24.prev_value = 23.0f;
+    mVFRTemperature.value = 23.0f;
+    mVFRTemperature.prev_value = 23.0f;
     mStepValue = 0.4f;
     mTempMax = 50.0f;
     mTempMin = -50.0f;
@@ -81,7 +81,7 @@ void TempMgr::reset() {
     mMoisture = 0.0f;
     _74 = 0.0f;
     _78 = 0.0f;
-    _7c = 0.0f;
+    _7c = 0;
     mWeatherOffset = 0.0f;
     mPlayerElevation = 0.0f;
     _60 = 0.0f;
@@ -122,12 +122,12 @@ float TempMgr::calcTemperature() {
 void TempMgr::calcType1_() {
     float temp = calcTemperature();
 
-    auto& v = _24;
+    auto& vfr = mVFRTemperature;
     float step = getStepValue();
 
-    v.chase(temp, step);
-    v.updateStats();
-    _20 = v.value;
+    mVFRTemperature.chase(temp, step);
+    mVFRTemperature.updateStats();
+    _20 = mVFRTemperature.value;
 
     _60 = 0.0f;
 
@@ -137,22 +137,26 @@ void TempMgr::calcType1_() {
     switch (Manager::instance()->getTemp798()) {
     case 1:
         _60 = 49.9f;
-        offset = calc_step(_24.value, mTempMax, 49.9f);
+        offset = calc_step(mVFRTemperature.value, mTempMax, 49.9f);
         break;
     case 2:
         _60 = -9.9f;
-        offset = calc_step(_24.value, mTempMin, -9.9f);
+        offset = calc_step(mVFRTemperature.value, mTempMin, -9.9f);
         break;
     default:
         break;
     }
 
     _40 = _44;
-    _20 = offset + v.value;
-    _3c = offset + v.value;
+    _20 = offset + vfr.value;
+    _3c = offset + vfr.value;
 }
 
 void TempMgr::init_(sead::Heap* heap) {}
+
+void TempMgr::m8_null() {
+    // Probably a debug function. Totally empty in exefs binary.
+}
 
 void TempMgr::calc_() {
     if (Manager::instance()->worldInfoIsLoaded()) {
