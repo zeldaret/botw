@@ -9,21 +9,11 @@ namespace ksys::world {
 
 // Status TODO:
 // MISSING TempMgr::m8_null()
-// MISSING TempMgr::calc2()
+// MISSING TempMgr::calcType2_()
 //
 // Non-matching TempMgr::TempMgr~()
-//
-// MATCHES TempMgr::getStepValue()
-// MATCHES TempMgr::getType()
-// MATCHES TempMgr::x()
-// MATCHES TempMgr::reset()
-// MATCHES TempMgr::TempMgr()
-// MATCHES TempMgr::calcRandomMoisture();
-// MATCHES TempMgr::calc_()
-// MATCHES TempMgr::calcTemperature();
-// MATCHES TempMgr::calc1()
-// MATCHES TempMgr::setInstantTemperature()
 class TempMgr : public Job {
+    SEAD_RTTI_OVERRIDE(TempMgr, Job)
 public:
     TempMgr();
     ~TempMgr() override;

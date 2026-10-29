@@ -154,7 +154,7 @@ void TempMgr::calcType1_() {
 
 void TempMgr::calc_() {
     if (Manager::instance()->worldInfoIsLoaded()) {
-        TempMgr::calcType1_();
+        TempMgr::calcType1_();  // Must be called as TempMgr::, to skip vtable lookup
         TempMgr::calcType2_();
     }
 
