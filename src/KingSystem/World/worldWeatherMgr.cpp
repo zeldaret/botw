@@ -37,6 +37,7 @@ WeatherType WeatherMgr::rollNewWeather(Climate climate) {
     return WeatherType::Bluesky;
 }
 
-
-WeatherType WeatherMgr::getWeather() const { return mWeather; }
+WeatherType WeatherMgr::getWeather() const {
+    return mWeather;
+}
 }  // namespace ksys::world
