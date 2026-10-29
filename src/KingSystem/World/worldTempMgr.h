@@ -9,8 +9,8 @@ namespace ksys::world {
 
 // Status TODO:
 // MISSING TempMgr::m8_null()
+// MISSING TempMgr::calc2()
 //
-// Non-matching TempMgr::calc2()
 // Non-matching TempMgr::TempMgr~()
 //
 // MATCHES TempMgr::getStepValue()
@@ -38,8 +38,8 @@ public:
 protected:
     JobType getType() const override { return JobType::Temp; }
     float calcTemperature();
-    void calc1();
-    void calc2();
+    void calcType1_() override;
+    void calcType2_() override;
     void calc_() override;
 
     float getStepValue() const;
@@ -63,9 +63,10 @@ protected:
     float mMoisture;
     float _74;
     float _78;
-    int _7c; // UNSURE This might be a VFR value?
-    float _80; // UNSURE
-    float _84; // UNSURE
+    int _7c;    // UNSURE This might be a VFR value?
+    float _80;  // UNSURE
+    float _84;  // UNSURE
+
     float _88;
 };
 KSYS_CHECK_SIZE_NX150(TempMgr, 0x90);

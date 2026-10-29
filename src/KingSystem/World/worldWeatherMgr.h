@@ -29,8 +29,10 @@ public:
     WeatherType rollNewWeather(Climate climate);
     bool x_0();
 
-    WeatherType getWeather() const; // Defined in cpp file, so that TempMgr matches 100%
-    WeatherType getWeather2() const { return mWeather2; } // Defined in h file, so that TempMgr matches 100%
+    WeatherType getWeather() const;  // Defined in cpp file, so that TempMgr matches 100%
+    WeatherType getWeather2() const {
+        return mWeather2;
+    }  // Defined in h file, so that TempMgr matches 100%
 
     u8 _20[0x24 - 0x20];
     float _24;

@@ -119,7 +119,7 @@ float TempMgr::calcTemperature() {
     return temperature;
 }
 
-void TempMgr::calc1() {
+void TempMgr::calcType1_() {
     float temp = calcTemperature();
 
     auto& v = _24;
@@ -154,8 +154,8 @@ void TempMgr::calc1() {
 
 void TempMgr::calc_() {
     if (Manager::instance()->worldInfoIsLoaded()) {
-        calc1();
-        calc2();
+        TempMgr::calcType1_();
+        TempMgr::calcType2_();
     }
 
     // If the player teleported, we want the temperature to change rapidly
@@ -166,43 +166,11 @@ void TempMgr::calc_() {
         mSpeedupTimer--;
 }
 
-
-void TempMgr::calc2() {
-    int hour = Manager::instance()->getTimeMgr()->getHour();
-    Climate climate = Manager::instance()->getCurrentClimate();
-
-    if (mCurrentClimate != climate) {
-        mMoisture = calcRandomMoisture();
-        mCurrentClimate = climate;
-    }
-
-    if (mCurrentHour != hour) {
-        mMoisture = calcRandomMoisture();
-        mCurrentHour = hour;
-    }
-
-    WeatherType weather = Manager::instance()->getWeatherMgr()->getWeather();
-    if (Manager::instance()->getWeatherMgr()->_24 < 0.9f) {
-        float moisture = sead::Mathf::clampMax(mMoisture, 100.0f);
-        if (_74 > 0.0f)
-            moisture += _78;
-    } else {
-        switch (weather) {
-        case WeatherType::Cloudy: case WeatherType::ThunderStorm:
-            break;
-        case WeatherType::Rain:
-
-            break;
-        case WeatherType::Snow:
-            break;
-        }
-    }
-}
-
 float TempMgr::getStepValue() const {
     float step = mStepValue;
 
-    // If the player teleported, the temperature was set etc., we want to take BIG steps towards the target
+    // If the player teleported, the temperature was set etc., we want to take BIG steps towards the
+    // target
     if (mSpeedupTimer != 0 || Manager::instance()->getTempTimer() != 0) {
         step = 100.0f;
     }
