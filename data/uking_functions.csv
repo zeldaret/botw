@@ -89934,7 +89934,7 @@ Address,Quality,Size,Name
 0x00000071010e5fc0,U,000004,wm::TempMgr::m8_null
 0x00000071010e5fc4,U,000204,wm::TempMgr::rtti1
 0x00000071010e6090,U,000092,wm::TempMgr::rtti2
-0x00000071010e60ec,U,000008,wm::TempMgr::getType
+0x00000071010e60ec,O,000008,_ZNK4ksys5world7TempMgr7getTypeEv
 0x00000071010e60f4,O,000228,_ZN4ksys5world7TimeMgrC1Ev
 0x00000071010e61d8,O,000036,_ZN4ksys5world7TimeMgr5init_EPN4sead4HeapE
 0x00000071010e61fc,O,000124,_ZN4ksys5world7TimeMgr19resetForStageUnloadEv

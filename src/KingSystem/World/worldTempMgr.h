@@ -15,8 +15,7 @@ namespace ksys::world {
 // Non-matching TempMgr::calc2()
 // Non-matching TempMgr::TempMgr~()
 //
-// ???? TempMgr::getType() - Should be matching, but it's not compiled into uking?
-//
+// MATCHES TempMgr::getType()
 // MATCHES TempMgr::x()
 // MATCHES TempMgr::loadInfo()
 // MATCHES TempMgr::TempMgr()
