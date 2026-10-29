@@ -8,7 +8,6 @@
 namespace ksys::world {
 
 // Status TODO:
-// MISSING TempMgr::reset()
 // MISSING TempMgr::m8_null()
 //
 // Non-matching TempMgr::calc2()
@@ -17,7 +16,7 @@ namespace ksys::world {
 // MATCHES TempMgr::getStepValue()
 // MATCHES TempMgr::getType()
 // MATCHES TempMgr::x()
-// MATCHES TempMgr::loadInfo()
+// MATCHES TempMgr::reset()
 // MATCHES TempMgr::TempMgr()
 // MATCHES TempMgr::calcRandomMoisture();
 // MATCHES TempMgr::calc_()
@@ -42,7 +41,6 @@ protected:
     void calc1();
     void calc2();
     void calc_() override;
-    void loadInfo();
 
     float getStepValue() const;
 

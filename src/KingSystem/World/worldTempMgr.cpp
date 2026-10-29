@@ -55,7 +55,7 @@ float calc_step(float value, float step, float target) {
 }
 
 TempMgr::TempMgr() {
-    loadInfo();
+    reset();
 }
 
 TempMgr::~TempMgr() = default;
@@ -65,7 +65,7 @@ void TempMgr::x() {
     _80 = 0.2f;
 }
 
-void TempMgr::loadInfo() {
+void TempMgr::reset() {
     _38 = 0;
     _3c = 23.0f;
     _40 = 23.0f;
