@@ -152,6 +152,8 @@ void TempMgr::calcType1_() {
     _3c = offset + v.value;
 }
 
+void TempMgr::init_(sead::Heap* heap) {}
+
 void TempMgr::calc_() {
     if (Manager::instance()->worldInfoIsLoaded()) {
         TempMgr::calcType1_();  // Must be called as TempMgr::, to skip vtable lookup

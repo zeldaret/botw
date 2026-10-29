@@ -31,6 +31,7 @@ protected:
     void calcType1_() override;
     void calcType2_() override;
     void calc_() override;
+    void init_(sead::Heap* heap) override;
 
     float getStepValue() const;
 

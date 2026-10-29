@@ -89922,7 +89922,7 @@ Address,Quality,Size,Name
 0x00000071010e56e4,O,000092,_ZN4ksys5world7TempMgr5resetEv
 0x00000071010e5740,W,000028,_ZN4ksys5world7TempMgrD0Ev
 0x00000071010e575c,U,000060,wm::TempMgr::dtorDelete
-0x00000071010e5798,U,000004,wm::TempMgr::init
+0x00000071010e5798,O,000004,_ZN4ksys5world7TempMgr5init_EPN4sead4HeapE
 0x00000071010e579c,O,000292,_ZN4ksys5world7TempMgr15calcTemperatureEv
 0x00000071010e58c0,O,000180,_ZN4ksys5world7TempMgr18calcRandomMoistureEv
 0x00000071010e5974,W,001124,_ZN4ksys5world7TempMgr10calcType2_Ev
