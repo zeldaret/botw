@@ -55,6 +55,12 @@ float calc_step(float value, float step, float target) {
 }
 
 TempMgr::TempMgr() {
+    loadInfo();
+}
+
+TempMgr::~TempMgr() = default;
+
+void TempMgr::loadInfo() {
     _38 = 0;
     _3c = 23.0f;
     _40 = 23.0f;
@@ -65,10 +71,18 @@ TempMgr::TempMgr() {
     mStepValue = 0.4f;
     mTempMax = 50.0f;
     mTempMin = -50.0f;
+    mCurrentHour = -1;
+    mCurrentClimate = Climate(-1);
+    mMoisture = 0.0f;
+    _74 = 0.0f;
+    _78 = 0.0f;
+    _7c = 0.0f;
     mWeatherOffset = 0.0f;
     mPlayerElevation = 0.0f;
     _60 = 0.0f;
     mSpeedupTimer = 0;
+    _80 = 0.2f;
+    _84 = 1.0f;
     _88 = 1.0f;
 }
 
