@@ -152,7 +152,7 @@ bool Manager::isRaining(const sead::Vector3f& pos) const {
 float Manager::calcTempDay(float height) const {
     float normal_temp = 23.0f;
 
-    if (isMainField() && worldInfoLoaded()) {
+    if (isMainField() && worldInfoHasBeenLoaded()) {
         height = sead::Mathf::clampMin(height, 0.0f);
 
         int a = -1;
@@ -194,7 +194,7 @@ float Manager::calcTempDay(float height) const {
 float Manager::calcTempNight(float height) const {
     float normal_temp = 23.0f;
 
-    if (isMainField() && worldInfoLoaded()) {
+    if (isMainField() && worldInfoHasBeenLoaded()) {
         height = sead::Mathf::clampMin(height, 0.0f);
 
         int a = -1;
@@ -234,13 +234,13 @@ float Manager::calcTempNight(float height) const {
 }
 
 float Manager::getMoistureMax() const {
-    if (!isMainField() || !worldInfoLoaded())
+    if (!isMainField() || !worldInfoHasBeenLoaded())
         return 0.0;
     return mWorldInfo.mClimates[int(mCurrentClimate)].MoistureMax.ref();
 }
 
 float Manager::getMoistureMin() const {
-    if (!isMainField() || !worldInfoLoaded())
+    if (!isMainField() || !worldInfoHasBeenLoaded())
         return 0.0;
     return mWorldInfo.mClimates[int(mCurrentClimate)].MoistureMin.ref();
 }
@@ -260,7 +260,7 @@ sead::Vector3f Manager::getWindDirection() const {
 
 float Manager::getWindSpeed() const {
     float value = 0.0;
-    if (isMainField() && worldInfoLoaded()) {
+    if (isMainField() && worldInfoHasBeenLoaded()) {
         value = mWorldInfo.mClimates[int(mCurrentClimate)].WindPower.ref();
         value *= mWorldInfo.mClimates[int(mCurrentClimate)].WindPowerMultiplier;
     }
@@ -270,7 +270,7 @@ float Manager::getWindSpeed() const {
 
 float Manager::getWindSpeed(const sead::Vector3f& pos) const {
     float value = 0.0;
-    if (isMainField() && worldInfoLoaded()) {
+    if (isMainField() && worldInfoHasBeenLoaded()) {
         value = mWorldInfo.mClimates[int(getClimate(pos))].WindPower.ref();
         value *= mWorldInfo.mClimates[int(getClimate(pos))].WindPowerMultiplier;
     }
@@ -294,7 +294,7 @@ sead::Vector3f Manager::getWindDirection(const sead::Vector3f& pos) const {
 }
 
 int Manager::getPaletteSetSelect() const {
-    if (!worldInfoLoaded() || mStageType != StageType::OpenWorld)
+    if (!worldInfoHasBeenLoaded() || mStageType != StageType::OpenWorld)
         return 0;
 
     const auto climate = mCurrentClimate;
@@ -306,7 +306,7 @@ int Manager::getPaletteSetSelect() const {
 }
 
 int Manager::getFogType() const {
-    if (!worldInfoLoaded() || mStageType != StageType::OpenWorld)
+    if (!worldInfoHasBeenLoaded() || mStageType != StageType::OpenWorld)
         return 0;
 
     const auto climate = mCurrentClimate;
@@ -322,7 +322,7 @@ bool Manager::isForbidComeback() const {
 }
 
 bool Manager::isForbidComeback(Climate climate) const {
-    if (!worldInfoLoaded() || !isMainField())
+    if (!worldInfoHasBeenLoaded() || !isMainField())
         return false;
     return mWorldInfo.mClimates[int(climate)].ForbidComeback.ref();
 }
@@ -423,7 +423,7 @@ void Manager::onStageInit(StageType stage_type, bool is_demo, bool is_main_field
     req.mRequester = "wiWorldMgr";
     if (mInfoRes) {
         auto* res = sead::DynamicCast<sead::DirectResource>(mInfoRes);
-        if (!worldInfoLoaded()) {
+        if (!worldInfoHasBeenLoaded()) {
             auto& climates = mWorldInfo.mClimates;
             for (int i = 0; i < climates.size(); ++i) {
                 climates[i].WeatherType.init(0, "WeatherType", "天候状態 0:晴 1:曇 2:雨 3:雪",
@@ -904,4 +904,7 @@ void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
     }
 }
 
+bool Manager::isTemperatureSet() const {
+    return mTempDirectTimer != 0 || mTempDirectDayTimer != 0 || mTempDirectNightTimer != 0;
+}
 }  // namespace ksys::world

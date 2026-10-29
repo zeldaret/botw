@@ -184,6 +184,11 @@ public:
 
     void onEventFlowEnd();
 
+    bool isTemperatureSet() const;
+    sead::Vector3f getPlayerPos() const { return mPlayerPos; }
+    int getTempTimer() const { return mTimer; }
+    int getTemp798() const { return _798; }
+
     // TODO: more functions
 
     bool isMainField() const { return mIsMainField && mStageType == StageType::OpenWorld; }
@@ -209,7 +214,10 @@ public:
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
 
-    bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
+    bool worldInfoHasBeenLoaded() const {
+        return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded;
+    }
+    bool worldInfoIsLoaded() const { return mWorldInfoLoadStatus == WorldInfoLoadStatus::Loaded; }
 
     u8 sub_71010F337C(const sead::Vector3f& pos);  // TODO implement this : 0x71010F337C - maybe has
                                                    // a different parameter type
