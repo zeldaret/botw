@@ -123,12 +123,7 @@ void TempMgr::calc1() {
     float temp = calcTemperature();
 
     auto& v = _24;
-    float step = mStepValue;
-
-    // If the player teleported, the temperature was set etc., we want to take BIG steps towards the target
-    if (mSpeedupTimer != 0 || Manager::instance()->getTempTimer() != 0) {
-        step = 100.0f;
-    }
+    float step = getStepValue();
 
     v.chase(temp, step);
     v.updateStats();
@@ -205,11 +200,14 @@ void TempMgr::calc2() {
 }
 
 float TempMgr::getStepValue() const {
-    if (mSpeedupTimer == 0 && Manager::instance()->getTempTimer() == 0) {
-        return mStepValue;
+    float step = mStepValue;
+
+    // If the player teleported, the temperature was set etc., we want to take BIG steps towards the target
+    if (mSpeedupTimer != 0 || Manager::instance()->getTempTimer() != 0) {
+        step = 100.0f;
     }
 
-    return 100.0f;
+    return step;
 }
 
 void TempMgr::setInstantTemperature() {

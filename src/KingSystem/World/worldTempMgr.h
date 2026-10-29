@@ -11,10 +11,10 @@ namespace ksys::world {
 // MISSING TempMgr::reset()
 // MISSING TempMgr::m8_null()
 //
-// Non-matching TempMgr::getStepValue()
 // Non-matching TempMgr::calc2()
 // Non-matching TempMgr::TempMgr~()
 //
+// MATCHES TempMgr::getStepValue()
 // MATCHES TempMgr::getType()
 // MATCHES TempMgr::x()
 // MATCHES TempMgr::loadInfo()
