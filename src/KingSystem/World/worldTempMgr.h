@@ -9,7 +9,6 @@ namespace ksys::world {
 
 // Status TODO:
 // MISSING TempMgr::reset()
-// MISSING TempMgr::x()
 // MISSING TempMgr::m8_null()
 //
 // Non-matching TempMgr::getStepValue()
@@ -18,6 +17,7 @@ namespace ksys::world {
 //
 // ???? TempMgr::getType() - Should be matching, but it's not compiled into uking?
 //
+// MATCHES TempMgr::x()
 // MATCHES TempMgr::loadInfo()
 // MATCHES TempMgr::TempMgr()
 // MATCHES TempMgr::calcRandomMoisture();
@@ -31,6 +31,7 @@ public:
     ~TempMgr() override;
 
     void reset();
+    void x();
 
     void setInstantTemperature();
 
@@ -65,7 +66,7 @@ protected:
     float mMoisture;
     float _74;
     float _78;
-    float _7c; // UNSURE This might be a VFR value?
+    int _7c; // UNSURE This might be a VFR value?
     float _80; // UNSURE
     float _84; // UNSURE
     float _88;

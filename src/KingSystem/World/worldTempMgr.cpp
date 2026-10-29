@@ -60,6 +60,11 @@ TempMgr::TempMgr() {
 
 TempMgr::~TempMgr() = default;
 
+void TempMgr::x() {
+    _7c = 2;
+    _80 = 0.2f;
+}
+
 void TempMgr::loadInfo() {
     _38 = 0;
     _3c = 23.0f;

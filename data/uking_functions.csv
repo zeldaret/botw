@@ -89930,7 +89930,7 @@ Address,Quality,Size,Name
 0x00000071010e5f00,W,000048,_ZNK4ksys5world7TempMgr12getStepValueEv
 0x00000071010e5f30,O,000112,_ZN4ksys5world7TempMgr5calc_Ev
 0x00000071010e5fa0,O,000012,_ZN4ksys5world7TempMgr21setInstantTemperatureEv
-0x00000071010e5fac,U,000020,wm::TempMgr::x
+0x00000071010e5fac,O,000020,_ZN4ksys5world7TempMgr1xEv
 0x00000071010e5fc0,U,000004,wm::TempMgr::m8_null
 0x00000071010e5fc4,U,000204,wm::TempMgr::rtti1
 0x00000071010e6090,U,000092,wm::TempMgr::rtti2
