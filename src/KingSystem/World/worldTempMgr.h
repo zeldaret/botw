@@ -55,8 +55,8 @@ protected:
     float _74;
     float _78;
     int _7c;
-    float _80;  // UNSURE
-    float _84;  // UNSURE
+    float _80;
+    float _84;
     float _88;
 };
 KSYS_CHECK_SIZE_NX150(TempMgr, 0x90);
