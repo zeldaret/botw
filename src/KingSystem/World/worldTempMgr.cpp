@@ -58,13 +58,6 @@ TempMgr::TempMgr() {
     reset();
 }
 
-TempMgr::~TempMgr() = default;
-
-void TempMgr::x() {
-    _7c = 2;
-    _80 = 0.2f;
-}
-
 void TempMgr::reset() {
     _38 = 0;
     _3c = 23.0f;
@@ -90,6 +83,10 @@ void TempMgr::reset() {
     _84 = 1.0f;
     _88 = 1.0f;
 }
+
+TempMgr::~TempMgr() = default;
+
+void TempMgr::init_(sead::Heap* heap) {}
 
 float TempMgr::calcTemperature() {
     mPlayerElevation = Manager::instance()->getPlayerPos().y;
@@ -117,6 +114,22 @@ float TempMgr::calcTemperature() {
 
     mWeatherOffset = 0.0f;
     return temperature;
+}
+
+float TempMgr::calcRandomMoisture() {
+    float random = sead::GlobalRandom::instance()->getF32();
+    int hour = Manager::instance()->getTimeMgr()->getHour();
+
+    float t = random;
+
+    // On average higher moisture between 5-9am if the fogtype isn't 1
+    if (Manager::instance()->getFogType() != 1 && hour >= 5 && hour <= 9) {
+        t = random * 0.5f + 0.5f;
+    }
+
+    float max = Manager::instance()->getMoistureMax();
+    float min = Manager::instance()->getMoistureMin();
+    return sead::lerp(min, max, t);
 }
 
 void TempMgr::calcType1_() {
@@ -151,10 +164,16 @@ void TempMgr::calcType1_() {
     _3c = offset + vfr.value;
 }
 
-void TempMgr::init_(sead::Heap* heap) {}
+float TempMgr::getStepValue() const {
+    float step = mStepValue;
 
-void TempMgr::m8_null() {
-    // Probably a debug function. Totally empty in exefs binary.
+    // If the player teleported, the temperature was set etc., we want to take BIG steps towards the
+    // target
+    if (mSpeedupTimer != 0 || Manager::instance()->getTempTimer() != 0) {
+        step = 100.0f;
+    }
+
+    return step;
 }
 
 void TempMgr::calc_() {
@@ -171,35 +190,16 @@ void TempMgr::calc_() {
         mSpeedupTimer--;
 }
 
-float TempMgr::getStepValue() const {
-    float step = mStepValue;
-
-    // If the player teleported, the temperature was set etc., we want to take BIG steps towards the
-    // target
-    if (mSpeedupTimer != 0 || Manager::instance()->getTempTimer() != 0) {
-        step = 100.0f;
-    }
-
-    return step;
-}
-
 void TempMgr::setInstantTemperature() {
     mSpeedupTimer = 8;
 }
 
-float TempMgr::calcRandomMoisture() {
-    float random = sead::GlobalRandom::instance()->getF32();
-    int hour = Manager::instance()->getTimeMgr()->getHour();
+void TempMgr::x() {
+    _7c = 2;
+    _80 = 0.2f;
+}
 
-    float t = random;
-
-    // On average higher moisture between 5-9am if the fogtype isn't 1
-    if (Manager::instance()->getFogType() != 1 && hour >= 5 && hour <= 9) {
-        t = random * 0.5f + 0.5f;
-    }
-
-    float max = Manager::instance()->getMoistureMax();
-    float min = Manager::instance()->getMoistureMin();
-    return sead::lerp(min, max, t);
+void TempMgr::m8_null() {
+    // Probably a debug function. Totally empty in exefs binary.
 }
 }  // namespace ksys::world

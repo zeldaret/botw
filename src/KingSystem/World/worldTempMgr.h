@@ -18,22 +18,21 @@ public:
     ~TempMgr() override;
 
     void reset();
-    void x();
-
     void setInstantTemperature();
-
-    static float calcRandomMoisture();
 
 protected:
     JobType getType() const override { return JobType::Temp; }
-    float calcTemperature();
     void calcType1_() override;
     void calcType2_() override;
     void calc_() override;
     void init_(sead::Heap* heap) override;
+
     void m8_null();
+    void x();
 
     float getStepValue() const;
+    float calcTemperature();
+    static float calcRandomMoisture();
 
 private:
     float mTemperature;
