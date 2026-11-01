@@ -2,8 +2,8 @@
 
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/World/worldDefines.h"
 #include "KingSystem/World/worldJob.h"
-#include "worldDefines.h"
 
 namespace ksys::world {
 
@@ -35,7 +35,8 @@ protected:
 
     float getStepValue() const;
 
-    float _20;
+private:
+    float mTemperature;
     VFRValue mVFRTemperature;
     float mWeatherOffset;
     float mPlayerElevation;
@@ -47,7 +48,7 @@ protected:
     float mStepValue;
     float mTempMax;
     float mTempMin;
-    float _60;
+    float mExtremeTemp;
     s32 mSpeedupTimer;
     int mCurrentHour;
     Climate mCurrentClimate;

@@ -187,7 +187,9 @@ public:
     bool isTemperatureSet() const;
     sead::Vector3f getPlayerPos() const { return mPlayerPos; }
     int getTempTimer() const { return mTimer; }
-    int getTemp798() const { return _798; }
+
+    enum class TemperatureExtreme : int { None = -1, Hot = 1, Cold = 2 };
+    TemperatureExtreme getTempExtreme() const { return mTempExtreme; }
 
     // TODO: more functions
 
@@ -288,7 +290,7 @@ private:
     int mManualWindTimer = 0;
     u32 mMapEdgeWindDirectionType = 0;
     int mWeatherTypeTimer = 0;
-    int _798 = -1;
+    TemperatureExtreme mTempExtreme = TemperatureExtreme::None;
     int _79c = 0;
     int mTempDirectTimer = 0;
     int mTempDirectDayTimer = 0;

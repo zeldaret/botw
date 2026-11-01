@@ -655,7 +655,7 @@ void Manager::onStageInit(StageType stage_type, bool is_demo, bool is_main_field
     mDirectionalLightVecA = {0, 1, 0};
     mDirectionalLightVecB = {0, 1, 0};
     mDirectionalLightTimer = 0;
-    _798 = -1;
+    mTempExtreme = TemperatureExtreme::None;
     _79c = 0;
 
     getTimeMgr()->reset();

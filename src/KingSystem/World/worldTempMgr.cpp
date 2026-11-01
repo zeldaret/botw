@@ -1,10 +1,10 @@
 #include "KingSystem/World/worldTempMgr.h"
 
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/World/worldDefines.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTimeMgr.h"
-#include "random/seadGlobalRandom.h"
 
 namespace ksys::world {
 float getWeatherTemperatureOffset(WeatherType weather) {
@@ -28,26 +28,26 @@ float getWeatherTemperatureOffset(WeatherType weather) {
     }
 }
 
-f32 blend_value(f32 a, f32 b, f32 t) {
+f32 blendValue(f32 a, f32 b, f32 t) {
     return a * t + b * (1.0f - t);
 }
 
-float calc_step(float value, float step, float target) {
-    if (target >= 0.0f) {
-        if (value + step <= target) {
-            return step;
+float calcExtremeOffset(float base, float maxOffset, float targetExtreme) {
+    if (targetExtreme >= 0.0f) {
+        if (base + maxOffset <= targetExtreme) {
+            return maxOffset;
         }
 
-        if (value < target) {
-            return target - value;
+        if (base < targetExtreme) {
+            return targetExtreme - base;
         }
     } else {
-        if (value + step >= target) {
-            return step;
+        if (base + maxOffset >= targetExtreme) {
+            return maxOffset;
         }
 
-        if (value > target) {
-            return target - value;
+        if (base > targetExtreme) {
+            return targetExtreme - base;
         }
     }
 
@@ -70,7 +70,7 @@ void TempMgr::reset() {
     _3c = 23.0f;
     _40 = 23.0f;
     _44 = 23.0f;
-    _20 = 23.0f;
+    mTemperature = 23.0f;
     mVFRTemperature.value = 23.0f;
     mVFRTemperature.prev_value = 23.0f;
     mStepValue = 0.4f;
@@ -84,7 +84,7 @@ void TempMgr::reset() {
     _7c = 0;
     mWeatherOffset = 0.0f;
     mPlayerElevation = 0.0f;
-    _60 = 0.0f;
+    mExtremeTemp = 0.0f;
     mSpeedupTimer = 0;
     _80 = 0.2f;
     _84 = 1.0f;
@@ -111,7 +111,7 @@ float TempMgr::calcTemperature() {
         float endTemp = getWeatherTemperatureOffset(weather2);
 
         // Blend between the weather types
-        mWeatherOffset = blend_value(startTemp, endTemp, currentWeatherRate);
+        mWeatherOffset = blendValue(startTemp, endTemp, currentWeatherRate);
         return temperature + mWeatherOffset;
     }
 
@@ -123,32 +123,31 @@ void TempMgr::calcType1_() {
     float temp = calcTemperature();
 
     auto& vfr = mVFRTemperature;
-    float step = getStepValue();
+    const float step = getStepValue();
 
     mVFRTemperature.chase(temp, step);
     mVFRTemperature.updateStats();
-    _20 = mVFRTemperature.value;
+    mTemperature = mVFRTemperature.value;
 
-    _60 = 0.0f;
+    mExtremeTemp = 0.0f;
 
     float offset = 0.0f;
 
-    // 49.9 and -9.9 are the hottest and coldest temperatures (in degrees C) at 0 elevation
-    switch (Manager::instance()->getTemp798()) {
-    case 1:
-        _60 = 49.9f;
-        offset = calc_step(mVFRTemperature.value, mTempMax, 49.9f);
+    switch (Manager::instance()->getTempExtreme()) {
+    case Manager::TemperatureExtreme::Hot:
+        mExtremeTemp = 49.9f;
+        offset = calcExtremeOffset(mVFRTemperature.value, mTempMax, 49.9f);
         break;
-    case 2:
-        _60 = -9.9f;
-        offset = calc_step(mVFRTemperature.value, mTempMin, -9.9f);
+    case Manager::TemperatureExtreme::Cold:
+        mExtremeTemp = -9.9f;
+        offset = calcExtremeOffset(mVFRTemperature.value, mTempMin, -9.9f);
         break;
     default:
         break;
     }
 
     _40 = _44;
-    _20 = offset + vfr.value;
+    mTemperature = offset + vfr.value;
     _3c = offset + vfr.value;
 }
 
@@ -160,7 +159,7 @@ void TempMgr::m8_null() {
 
 void TempMgr::calc_() {
     if (Manager::instance()->worldInfoIsLoaded()) {
-        TempMgr::calcType1_();  // Must be called as TempMgr::, to skip vtable lookup
+        TempMgr::calcType1_();  // Must be called as TempMgr:: to skip vtable lookup
         TempMgr::calcType2_();
     }
 
@@ -194,7 +193,7 @@ float TempMgr::calcRandomMoisture() {
 
     float t = random;
 
-    // On average higher fog between 5-9am if the fogtype isn't 1
+    // On average higher moisture between 5-9am if the fogtype isn't 1
     if (Manager::instance()->getFogType() != 1 && hour >= 5 && hour <= 9) {
         t = random * 0.5f + 0.5f;
     }
