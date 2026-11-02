@@ -188,7 +188,7 @@ public:
     sead::Vector3f getPlayerPos() const { return mPlayerPos; }
     int getTempTimer() const { return mTimer; }
 
-    enum class TemperatureExtreme : int { None = -1, Hot = 1, Cold = 2 };
+    enum class TemperatureExtreme { None = -1, Hot = 1, Cold = 2 };
     TemperatureExtreme getTempExtreme() const { return mTempExtreme; }
 
     // TODO: more functions

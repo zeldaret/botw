@@ -28,10 +28,6 @@ float getWeatherTemperatureOffset(WeatherType weather) {
     }
 }
 
-f32 blendValue(f32 a, f32 b, f32 t) {
-    return a * t + b * (1.0f - t);
-}
-
 float calcExtremeOffset(float base, float maxOffset, float targetExtreme) {
     if (targetExtreme >= 0.0f) {
         if (base + maxOffset <= targetExtreme) {
@@ -59,16 +55,16 @@ TempMgr::TempMgr() {
 }
 
 void TempMgr::reset() {
-    _38 = 0;
-    _3c = 23.0f;
+    mHumidity = 0.0f;
+    mTemperature = 23.0f;
     _40 = 23.0f;
     _44 = 23.0f;
-    mTemperature = 23.0f;
+    mTemperature2 = 23.0f;
     mVFRTemperature.value = 23.0f;
     mVFRTemperature.prev_value = 23.0f;
     mStepValue = 0.4f;
-    mTempMax = 50.0f;
-    mTempMin = -50.0f;
+    mTempAddValue = 50.0f;
+    mTempAddEnd = -50.0f;
     mCurrentHour = -1;
     mCurrentClimate = Climate(-1);
     mMoisture = 0.0f;
@@ -77,11 +73,11 @@ void TempMgr::reset() {
     _7c = 0;
     mWeatherOffset = 0.0f;
     mPlayerElevation = 0.0f;
-    mExtremeTemp = 0.0f;
+    mTempExtreme = 0.0f;
     mSpeedupTimer = 0;
     _80 = 0.2f;
-    _84 = 1.0f;
-    _88 = 1.0f;
+    mBloomThreshold = 1.0f;
+    mBloomIntensity = 1.0f;
 }
 
 TempMgr::~TempMgr() = default;
@@ -90,12 +86,12 @@ void TempMgr::init_(sead::Heap* heap) {}
 
 float TempMgr::calcTemperature() {
     mPlayerElevation = Manager::instance()->getPlayerPos().y;
-    float day = Manager::instance()->calcTempDay(mPlayerElevation);
-    float night = Manager::instance()->calcTempNight(mPlayerElevation);
+    float day_temp = Manager::instance()->calcTempDay(mPlayerElevation);
+    float night_temp = Manager::instance()->calcTempNight(mPlayerElevation);
 
     // Lerp between day and night temperature: 0.0 is day. 1.0 is night
     float current_day_time = Manager::instance()->getTimeMgr()->getTemperatureMultiplier();
-    float temperature = sead::lerp(day, night, current_day_time);
+    float temperature = sead::lerp(day_temp, night_temp, current_day_time);
 
     // If the temperature is set, we should just return it blindly
     // but if not, we calculate how weather affects the temperature
@@ -108,7 +104,7 @@ float TempMgr::calcTemperature() {
         float endTemp = getWeatherTemperatureOffset(weather2);
 
         // Blend between the weather types
-        mWeatherOffset = blendValue(startTemp, endTemp, currentWeatherRate);
+        mWeatherOffset = currentWeatherRate * startTemp + (1.0f - currentWeatherRate) * endTemp;
         return temperature + mWeatherOffset;
     }
 
@@ -140,28 +136,28 @@ void TempMgr::calcType1_() {
 
     mVFRTemperature.chase(temp, step);
     mVFRTemperature.updateStats();
-    mTemperature = mVFRTemperature.value;
+    mTemperature2 = mVFRTemperature.value;
 
-    mExtremeTemp = 0.0f;
+    mTempExtreme = 0.0f;
 
     float offset = 0.0f;
 
     switch (Manager::instance()->getTempExtreme()) {
     case Manager::TemperatureExtreme::Hot:
-        mExtremeTemp = 49.9f;
-        offset = calcExtremeOffset(mVFRTemperature.value, mTempMax, 49.9f);
+        mTempExtreme = 49.9f;
+        offset = calcExtremeOffset(mVFRTemperature.value, mTempAddValue, 49.9f);
         break;
     case Manager::TemperatureExtreme::Cold:
-        mExtremeTemp = -9.9f;
-        offset = calcExtremeOffset(mVFRTemperature.value, mTempMin, -9.9f);
+        mTempExtreme = -9.9f;
+        offset = calcExtremeOffset(mVFRTemperature.value, mTempAddEnd, -9.9f);
         break;
     default:
         break;
     }
 
     _40 = _44;
+    mTemperature2 = offset + vfr.value;
     mTemperature = offset + vfr.value;
-    _3c = offset + vfr.value;
 }
 
 float TempMgr::getStepValue() const {

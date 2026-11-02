@@ -6,11 +6,6 @@
 #include "KingSystem/World/worldJob.h"
 
 namespace ksys::world {
-
-// Status TODO:
-// MISSING TempMgr::calcType2_()
-//
-// Non-matching TempMgr::TempMgr~()
 class TempMgr : public Job {
     SEAD_RTTI_OVERRIDE(TempMgr, Job)
 public:
@@ -35,19 +30,19 @@ protected:
     static float calcRandomMoisture();
 
 private:
-    float mTemperature;
+    float mTemperature2;
     VFRValue mVFRTemperature;
     float mWeatherOffset;
     float mPlayerElevation;
-    s32 _38;
-    float _3c;
+    float mHumidity;
+    float mTemperature;
     float _40;
     float _44;
     VFRValue _48;
     float mStepValue;
-    float mTempMax;
-    float mTempMin;
-    float mExtremeTemp;
+    float mTempAddValue;
+    float mTempAddEnd;
+    float mTempExtreme;
     s32 mSpeedupTimer;
     int mCurrentHour;
     Climate mCurrentClimate;
@@ -56,8 +51,8 @@ private:
     float _78;
     int _7c;
     float _80;
-    float _84;
-    float _88;
+    float mBloomThreshold;
+    float mBloomIntensity;
 };
 KSYS_CHECK_SIZE_NX150(TempMgr, 0x90);
 
