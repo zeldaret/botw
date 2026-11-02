@@ -18,8 +18,7 @@ RigidBodySetFromResource::~RigidBodySetFromResource() {
     finalize();
 }
 
-// NON_MATCHING: the Havok rigid body pointer is loaded before getVolume is called instead of
-// after, which changes register allocation and stack layout (equivalent)
+// NON_MATCHING: hk_body is loaded before the allocation instead of after it (equivalent)
 bool RigidBodySetFromResource::init(const RigidBodySetParamAccessor& accessor, sead::Heap* heap) {
     // Copy the resource data and load it in place.
     mBufferSize = mResource->getRawSize();
@@ -40,8 +39,9 @@ bool RigidBodySetFromResource::init(const RigidBodySetParamAccessor& accessor, s
         accessor.makeInstanceParam(i, &param);
 
         const auto layer_type = getContactLayerType(param.contact_layer);
-        auto* body = new (heap) RigidBodyFromResource(accessor.getVolume(i), hk_bodies[i],
-                                                      layer_type, heap, RigidBody::Type::_2);
+        auto* hk_body = hk_bodies[i];
+        auto* body = new (heap) RigidBodyFromResource(accessor.getVolume(i), hk_body, layer_type,
+                                                      heap, RigidBody::Type::_2);
         mRigidBodies.pushBack(body);
         body->setUpdateRequestedFlag();
 
@@ -66,7 +66,7 @@ bool RigidBodySetFromResource::init(const RigidBodySetParamAccessor& accessor, s
         body->enableWaterCollision(!param.no_hit_water);
         body->setNoCharStandingOn(param.no_char_standing_on);
         body->setContactMask(param.contact_mask);
-        body->setEntityMotionFlag1(param.always_character_mass_scaling);
+        body->setAlwaysCharacterMassScaling(param.always_character_mass_scaling);
         body->processUpdateRequests();
     }
 

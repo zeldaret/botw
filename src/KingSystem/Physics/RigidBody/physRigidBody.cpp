@@ -1808,16 +1808,18 @@ hkpMotion* RigidBody::getMotion() const {
     return getHkBody()->getMotion();
 }
 
-void RigidBody::setEntityMotionFlag1(bool set) {
+void RigidBody::setAlwaysCharacterMassScaling(bool set) {
     if (!isEntity() || !mMotionAccessor)
         return;
-    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_1, set);
+    getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::AlwaysCharacterMassScaling,
+                                          set);
 }
 
-bool RigidBody::isEntityMotionFlag1On() const {
+bool RigidBody::isAlwaysCharacterMassScaling() const {
     if (!isEntity() || !mMotionAccessor)
         return false;
-    return getEntityMotionAccessor()->hasFlag(RigidBodyMotionEntity::Flag::_1);
+    return getEntityMotionAccessor()->hasFlag(
+        RigidBodyMotionEntity::Flag::AlwaysCharacterMassScaling);
 }
 
 void RigidBody::setEntityMotionFlag100(bool set) {

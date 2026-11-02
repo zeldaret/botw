@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace ksys::phys {
@@ -14,7 +15,14 @@ public:
     bool init(const RigidBodySetParamAccessor& accessor, sead::Heap* heap);
 
 private:
-    void destroyRigidBodies();
+    void destroyRigidBodies() {
+        for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
+            if (mRigidBodies[i]->isAddedToWorld())
+                mRigidBodies[i]->removeFromWorldImmediately();
+            delete mRigidBodies[i];
+        }
+        mRigidBodies.freeBuffer();
+    }
 };
 
 }  // namespace ksys::phys

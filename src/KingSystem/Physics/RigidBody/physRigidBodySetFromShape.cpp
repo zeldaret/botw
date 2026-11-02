@@ -1,5 +1,4 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodySetFromShape.h"
-#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::phys {
 
@@ -25,15 +24,6 @@ bool RigidBodySetFromShape::init(const RigidBodySetParamAccessor& accessor, sead
     }
 
     return true;
-}
-
-inline void RigidBodySetFromShape::destroyRigidBodies() {
-    for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
-        if (mRigidBodies[i]->isAddedToWorld())
-            mRigidBodies[i]->removeFromWorldImmediately();
-        delete mRigidBodies[i];
-    }
-    mRigidBodies.freeBuffer();
 }
 
 }  // namespace ksys::phys
