@@ -42,7 +42,7 @@ public:
 
     bool scaleWeapon(const sead::SafeString& weapon, WeaponModifier min_modifier,
                      const char** scaled_weapon, WeaponModifier* scaled_modifier,
-                     act::Actor* actor) const;
+                     const act::Actor* actor) const;
 
     bool scaleActor(const sead::SafeString& name, map::Object* obj, const char** scaled_weapon,
                     act::InstParamPack* pack, const sead::Vector3f& position) const;
@@ -50,6 +50,9 @@ public:
     void calculatePoints();
 
 private:
+    bool isScalingAllowed(const sead::Vector3f& position) const;
+    bool isScalingAllowed(const act::Actor& actor) const;
+
     f32 mPoints{};
     f32 mWeaponPoints{};
     f32 mEnemyPoints{};
