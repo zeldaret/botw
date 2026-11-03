@@ -18,7 +18,7 @@ class RigidBodyMotionEntity : public MotionAccessor {
     SEAD_RTTI_OVERRIDE(RigidBodyMotionEntity, MotionAccessor)
 public:
     enum class Flag {
-        _1 = 1 << 0,
+        AlwaysCharacterMassScaling = 1 << 0,
         _2 = 1 << 1,
         _4 = 1 << 2,
         _8 = 1 << 3,

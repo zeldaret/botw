@@ -72,6 +72,10 @@ target_sources(uking PRIVATE
     RigidBody/physRigidBodyResource.h
     RigidBody/physRigidBodySet.cpp
     RigidBody/physRigidBodySet.h
+    RigidBody/physRigidBodySetFromResource.cpp
+    RigidBody/physRigidBodySetFromResource.h
+    RigidBody/physRigidBodySetFromShape.cpp
+    RigidBody/physRigidBodySetFromShape.h
     RigidBody/physRigidBodySetParam.cpp
     RigidBody/physRigidBodySetParam.h
     RigidBody/physRigidBodySphere.cpp

@@ -18,7 +18,7 @@ static const char* getRigidBodyResourceName(const hkpRigidBody* hk_body) {
     return "RigidBodyFromResource";
 }
 
-RigidBodyFromResource::RigidBodyFromResource(float volume, hkpRigidBody* hk_body,
+RigidBodyFromResource::RigidBodyFromResource(hkpRigidBody* hk_body, float volume,
                                              ContactLayerType layer_type, sead::Heap* heap,
                                              RigidBody::Type type)
     : RigidBody(type, layer_type, hk_body, getRigidBodyResourceName(hk_body), heap, true),

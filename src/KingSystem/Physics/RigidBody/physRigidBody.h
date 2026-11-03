@@ -542,8 +542,8 @@ public:
     // 0x0000007100f96a4c
     void setRequestMgrContactCallbackEnabled(bool enabled);
 
-    void setEntityMotionFlag1(bool set);
-    bool isEntityMotionFlag1On() const;
+    void setAlwaysCharacterMassScaling(bool set);
+    bool isAlwaysCharacterMassScaling() const;
 
     void setEntityMotionFlag100(bool set);
     bool isEntityMotionFlag100On() const;
@@ -588,6 +588,8 @@ public:
     void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
     // Internal.
     void setFlag20() { mFlags.set(Flag::_20); }
+    // Internal.
+    void setNoCharStandingOn(bool set) { mFlags.change(Flag::NoCharStandingOn, set); }
 
     // Internal.
     void onCollisionAdded() {

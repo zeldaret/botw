@@ -322,7 +322,7 @@ RigidBodyT* RigidBodyFromShape::make(ShapeT* shape, bool set_flag_10,
     body->enableWaterCollision(!param.no_hit_water);
     body->mFlags.change(Flag::NoCharStandingOn, param.no_char_standing_on);
     body->setContactMask(param.contact_mask);
-    body->setEntityMotionFlag1(param.always_character_mass_scaling);
+    body->setAlwaysCharacterMassScaling(param.always_character_mass_scaling);
     body->processUpdateRequests(nullptr, nullptr);
 
     return static_cast<RigidBodyT*>(body);
