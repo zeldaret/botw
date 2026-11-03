@@ -7,7 +7,12 @@
 #include "KingSystem/World/worldTimeMgr.h"
 
 namespace ksys::world {
-float getWeatherTemperatureOffset(WeatherType weather) {
+// Result is equivalent to sead::lerp, but it uses another set of operations
+static f32 blendValue(f32 a, f32 b, f32 t) {
+    return a * t + b * (1.0f - t);
+}
+
+static float getWeatherTemperatureOffset(WeatherType weather) {
     switch (weather) {
     case WeatherType::Bluesky:
         return 0.0f;
@@ -28,7 +33,7 @@ float getWeatherTemperatureOffset(WeatherType weather) {
     }
 }
 
-float calcExtremeOffset(float base, float maxOffset, float targetExtreme) {
+static float calcExtremeOffset(float base, float maxOffset, float targetExtreme) {
     if (targetExtreme >= 0.0f) {
         if (base + maxOffset <= targetExtreme) {
             return maxOffset;
@@ -63,8 +68,8 @@ void TempMgr::reset() {
     mVFRTemperature.value = 23.0f;
     mVFRTemperature.prev_value = 23.0f;
     mStepValue = 0.4f;
-    mTempAddValue = 50.0f;
-    mTempAddEnd = -50.0f;
+    mTempMax = 50.0f;
+    mTempMin = -50.0f;
     mCurrentHour = -1;
     mCurrentClimate = Climate(-1);
     mMoisture = 0.0f;
@@ -99,12 +104,12 @@ float TempMgr::calcTemperature() {
         WeatherType weather = Manager::instance()->getWeatherMgr()->getWeather();
         WeatherType weather2 = Manager::instance()->getWeatherMgr()->getWeather2();
 
-        float currentWeatherRate = Manager::instance()->getWeatherMgr()->_24;
-        float startTemp = getWeatherTemperatureOffset(weather);
-        float endTemp = getWeatherTemperatureOffset(weather2);
+        float current_weather_rate = Manager::instance()->getWeatherMgr()->_24;
+        float start_temp = getWeatherTemperatureOffset(weather);
+        float end_temp = getWeatherTemperatureOffset(weather2);
 
         // Blend between the weather types
-        mWeatherOffset = currentWeatherRate * startTemp + (1.0f - currentWeatherRate) * endTemp;
+        mWeatherOffset = blendValue(start_temp, end_temp, current_weather_rate);
         return temperature + mWeatherOffset;
     }
 
@@ -119,7 +124,7 @@ float TempMgr::calcRandomMoisture() {
     float t = random;
 
     // On average higher moisture between 5-9am if the fogtype isn't 1
-    if (Manager::instance()->getFogType() != 1 && hour >= 5 && hour <= 9) {
+    if (Manager::instance()->getFogType() != FogType::_1 && hour >= 5 && hour <= 9) {
         t = random * 0.5f + 0.5f;
     }
 
@@ -145,11 +150,11 @@ void TempMgr::calcType1_() {
     switch (Manager::instance()->getTempExtreme()) {
     case Manager::TemperatureExtreme::Hot:
         mTempExtreme = 49.9f;
-        offset = calcExtremeOffset(mVFRTemperature.value, mTempAddValue, 49.9f);
+        offset = calcExtremeOffset(mVFRTemperature.value, mTempMax, 49.9f);
         break;
     case Manager::TemperatureExtreme::Cold:
         mTempExtreme = -9.9f;
-        offset = calcExtremeOffset(mVFRTemperature.value, mTempAddEnd, -9.9f);
+        offset = calcExtremeOffset(mVFRTemperature.value, mTempMin, -9.9f);
         break;
     default:
         break;

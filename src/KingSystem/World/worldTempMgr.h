@@ -40,8 +40,8 @@ private:
     float _44;
     VFRValue _48;
     float mStepValue;
-    float mTempAddValue;
-    float mTempAddEnd;
+    float mTempMax;
+    float mTempMin;
     float mTempExtreme;
     s32 mSpeedupTimer;
     int mCurrentHour;

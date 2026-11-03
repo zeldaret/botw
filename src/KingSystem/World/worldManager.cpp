@@ -305,16 +305,16 @@ int Manager::getPaletteSetSelect() const {
     return mWorldInfo.mClimates[int(climate)].PaletteSetSelect.ref();
 }
 
-int Manager::getFogType() const {
+FogType Manager::getFogType() const {
     if (!worldInfoHasBeenLoaded() || mStageType != StageType::OpenWorld)
-        return 0;
+        return FogType::_0;
 
     const auto climate = mCurrentClimate;
 
     if (isAocField())
-        return 0;
+        return FogType::_0;
 
-    return mWorldInfo.mClimates[int(climate)].FogType.ref();
+    return static_cast<FogType>(mWorldInfo.mClimates[int(climate)].FogType.ref());
 }
 
 bool Manager::isForbidComeback() const {

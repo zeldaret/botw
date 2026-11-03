@@ -127,7 +127,7 @@ public:
     int getIgnitedLevel(const sead::Vector3f& pos) const;
 
     int getPaletteSetSelect() const;
-    int getFogType() const;
+    FogType getFogType() const;
     bool isForbidComeback() const;
     bool isForbidComeback(Climate climate) const;
 

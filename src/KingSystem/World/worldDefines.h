@@ -72,4 +72,9 @@ enum class Climate {
 };
 constexpr u32 NumClimates = 20;
 
+enum class FogType {
+    _0,
+    _1,
+};
+
 }  // namespace ksys::world
