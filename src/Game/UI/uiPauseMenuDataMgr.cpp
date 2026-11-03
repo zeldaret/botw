@@ -1679,20 +1679,16 @@ int PauseMenuDataMgr::getRealArrowCount(const sead::SafeString& name) const {
     if (!mIsPouchForQuest)
         return getArrowCount(name);
 
-    s32 count;
-    s32 status = 2;
     for (u32 i = 0; i < u32(NumPouchItemsMax); ++i) {
         const char* item_name;
         ksys::gdt::getFlag_PorchItem(&item_name, s32(i));
-        if (sead::SafeString(item_name).isEmpty())
+        const sead::SafeString item_name_str{item_name};
+        if (item_name_str.isEmpty())
             break;
-        if (sead::SafeString(item_name) == name) {
-            count = ksys::gdt::getFlag_PorchItem_Value1(s32(i));
-            status = 1;
-            break;
-        }
+        if (item_name_str == name)
+            return ksys::gdt::getFlag_PorchItem_Value1(s32(i));
     }
-    return status == 2 ? 0 : count;
+    return 0;
 }
 
 void PauseMenuDataMgr::breakMasterSword() {
