@@ -69,7 +69,7 @@ void StaticCompoundRigidBodyGroup::init(const hkpPhysicsSystem& system, sead::Ma
             bool is_entity = sead::SafeString(hk_body->getName()).include("Entity");
             auto layer_type = is_entity ? ContactLayerType::Entity : ContactLayerType::Sensor;
 
-            auto* body = new (heap) RigidBodyFromResource(0.0, hk_body, layer_type, heap,
+            auto* body = new (heap) RigidBodyFromResource(hk_body, 0.0, layer_type, heap,
                                                           RigidBody::Type::StaticCompoundBody);
 
             RigidBodyInstanceParam param;

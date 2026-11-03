@@ -7,7 +7,7 @@ namespace ksys::phys {
 class RigidBodyFromResource : public RigidBody {
     SEAD_RTTI_OVERRIDE(RigidBodyFromResource, RigidBody)
 public:
-    RigidBodyFromResource(float volume, hkpRigidBody* hk_body, ContactLayerType layer_type,
+    RigidBodyFromResource(hkpRigidBody* hk_body, float volume, ContactLayerType layer_type,
                           sead::Heap* heap, Type type);
     ~RigidBodyFromResource() override;
 

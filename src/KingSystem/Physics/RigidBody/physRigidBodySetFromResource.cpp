@@ -18,7 +18,6 @@ RigidBodySetFromResource::~RigidBodySetFromResource() {
     finalize();
 }
 
-// NON_MATCHING: hk_body is loaded before the allocation instead of after it (equivalent)
 bool RigidBodySetFromResource::init(const RigidBodySetParamAccessor& accessor, sead::Heap* heap) {
     // Copy the resource data and load it in place.
     mBufferSize = mResource->getRawSize();
@@ -39,9 +38,8 @@ bool RigidBodySetFromResource::init(const RigidBodySetParamAccessor& accessor, s
         accessor.makeInstanceParam(i, &param);
 
         const auto layer_type = getContactLayerType(param.contact_layer);
-        auto* hk_body = hk_bodies[i];
-        auto* body = new (heap) RigidBodyFromResource(accessor.getVolume(i), hk_body, layer_type,
-                                                      heap, RigidBody::Type::_2);
+        auto* body = new (heap) RigidBodyFromResource(hk_bodies[i], accessor.getVolume(i),
+                                                      layer_type, heap, RigidBody::Type::_2);
         mRigidBodies.pushBack(body);
         body->setUpdateRequestedFlag();
 
