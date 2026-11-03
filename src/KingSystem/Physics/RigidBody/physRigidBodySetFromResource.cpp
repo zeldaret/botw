@@ -73,11 +73,11 @@ bool RigidBodySetFromResource::init(const RigidBodySetParamAccessor& accessor, s
     return true;
 }
 
-// NON_MATCHING: regalloc (the address of mRigidBodies is kept in a register)
 void RigidBodySetFromResource::finalize() {
-    for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
-        mRigidBodies[i]->removeFromWorldImmediately();
-        delete mRigidBodies[i];
+    auto& bodies = getRigidBodies();
+    for (int i = 0, n = bodies.size(); i < n; ++i) {
+        bodies[i]->removeFromWorldImmediately();
+        delete bodies[i];
     }
     mRigidBodies.freeBuffer();
 

@@ -4,12 +4,10 @@ namespace ksys::phys {
 
 RigidBodySetFromShape::RigidBodySetFromShape(const sead::SafeString& name) : RigidBodySet(name) {}
 
-// NON_MATCHING: regalloc (the address of mRigidBodies is kept in a register)
 RigidBodySetFromShape::~RigidBodySetFromShape() {
     destroyRigidBodies();
 }
 
-// NON_MATCHING: regalloc (the address of mRigidBodies is kept in a register)
 bool RigidBodySetFromShape::init(const RigidBodySetParamAccessor& accessor, sead::Heap* heap) {
     const int num_bodies = accessor.getNumRigidBodies();
     mRigidBodies.allocBuffer(num_bodies, heap);

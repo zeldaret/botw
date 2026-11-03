@@ -16,10 +16,11 @@ public:
 
 private:
     void destroyRigidBodies() {
-        for (int i = 0, n = mRigidBodies.size(); i < n; ++i) {
-            if (mRigidBodies[i]->isAddedToWorld())
-                mRigidBodies[i]->removeFromWorldImmediately();
-            delete mRigidBodies[i];
+        auto& bodies = getRigidBodies();
+        for (int i = 0, n = bodies.size(); i < n; ++i) {
+            if (bodies[i]->isAddedToWorld())
+                bodies[i]->removeFromWorldImmediately();
+            delete bodies[i];
         }
         mRigidBodies.freeBuffer();
     }
