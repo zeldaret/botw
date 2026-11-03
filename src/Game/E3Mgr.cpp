@@ -12,11 +12,11 @@
  * sub_71008A7094 - Requires RTTI from not decompiled classes
  */
 
-extern bool isStageSelectState();
-
 using PlacementMgr = ksys::map::PlacementMgr;
 
 namespace uking {
+
+bool isStageSelectState();
 
 SEAD_SINGLETON_DISPOSER_IMPL(E3Mgr)
 

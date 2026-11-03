@@ -27,7 +27,7 @@ class PlayerInfo : public PlayerInfoBase {
 public:
     ksys::act::BaseProcLink& getPlayerLink() { return mPlayerLink; }
     bool init();
-    void setAndAcquirePlayer(PlayerBase* player);  // requires PlayerOrEnemy and PlayerBase
+    void setAndAcquirePlayer(PlayerBase* player);  // requires CombatActor and PlayerBase
     void resetPlayer(PlayerBase* player);
     bool acquireHorse(ksys::act::BaseProc* horse);
     void setHorseLink(const ksys::act::BaseProcLink& horse_link);
@@ -54,7 +54,7 @@ public:
     f32 getStaminaMax() const;
     void updateStaminaMaxFromGameData();
     void setMaxStaminaForPlayerActor(f32 max_stamina);  // requires PlayerBase
-    f32 getMaxStaminaFromPlayerActor() const;           // requires PlayerBase
+    f32 getMaxStamina() const;                          // requires PlayerBase
     void recoverStamina();                              // requires PlayerBase
     void recoverCondition();                            // requires PlayerBase
 

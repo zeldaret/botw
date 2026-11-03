@@ -64,7 +64,7 @@ void ActorSpawnInfo::calcSpawnLocations() {
 }
 
 void AutoPlacement::setSpawnInfo(const sead::SafeString& name, s32 count) {
-    sub_710064CF60(false);
+    reset(false);
     ActorSpawnInfo* info = &mSpawnInfo[0];
     auto* flow = AutoPlacementFlowMgr::instance()->getFlow(name, mNearFlag == 0xff);
     if (flow != nullptr) {
@@ -84,7 +84,7 @@ void AutoPlacement::setSpawnInfo(const sead::SafeString& name, s32 count) {
 }
 
 void AutoPlacement::sub_710064DA54() {
-    sub_710064CF60(false);
+    reset(false);
     _8 = 2;
 }
 
