@@ -29,11 +29,17 @@ public:
     WeatherType rollNewWeather(Climate climate);
     bool x_0();
 
+    WeatherType getWeather() const;
+    WeatherType getWeather2() const { return mWeather2; }
+
     u8 _20[0x24 - 0x20];
     float _24;
-    // Unsure of the type / variable
-    u8 weather;
-    u8 _29;
+
+private:
+    WeatherType mWeather;   // 0x28
+    WeatherType mWeather2;  // 0x32
+
+public:
     WeatherType _2a[NumClimates * NumWeatherCycles * 6];
     u8 _193;
     ClimateWeathers mClimateWeathers[NumClimates];  // 0x194

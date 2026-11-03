@@ -127,7 +127,7 @@ public:
     int getIgnitedLevel(const sead::Vector3f& pos) const;
 
     int getPaletteSetSelect() const;
-    int getFogType() const;
+    FogType getFogType() const;
     bool isForbidComeback() const;
     bool isForbidComeback(Climate climate) const;
 
@@ -184,6 +184,13 @@ public:
 
     void onEventFlowEnd();
 
+    bool isTemperatureSet() const;
+    sead::Vector3f getPlayerPos() const { return mPlayerPos; }
+    int getTempTimer() const { return mTimer; }
+
+    enum class TemperatureExtreme { None = -1, Hot = 1, Cold = 2 };
+    TemperatureExtreme getTempExtreme() const { return mTempExtreme; }
+
     // TODO: more functions
 
     bool isMainField() const { return mIsMainField && mStageType == StageType::OpenWorld; }
@@ -209,7 +216,10 @@ public:
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
 
-    bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
+    bool worldInfoHasBeenLoaded() const {
+        return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded;
+    }
+    bool worldInfoIsLoaded() const { return mWorldInfoLoadStatus == WorldInfoLoadStatus::Loaded; }
 
     u8 sub_71010F337C(const sead::Vector3f& pos);  // TODO implement this : 0x71010F337C - maybe has
                                                    // a different parameter type
@@ -280,7 +290,7 @@ private:
     int mManualWindTimer = 0;
     u32 mMapEdgeWindDirectionType = 0;
     int mWeatherTypeTimer = 0;
-    int _798 = -1;
+    TemperatureExtreme mTempExtreme = TemperatureExtreme::None;
     int _79c = 0;
     int mTempDirectTimer = 0;
     int mTempDirectDayTimer = 0;

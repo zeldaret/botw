@@ -263,7 +263,7 @@ void TimeMgr::calc_() {
     }
 
     auto* wm = Manager::instance();
-    if (!wm->worldInfoLoaded())
+    if (!wm->worldInfoHasBeenLoaded())
         return;
 
     if (mNewTime >= 0.0 &&

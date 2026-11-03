@@ -36,7 +36,7 @@ EnvMgr::EnvPaletteStatic::EnvPaletteStatic() = default;
 void EnvMgr::initEnvAttribute(int idx) {
     auto& attr = mEnvAttributes[idx];
 
-    if (Manager::instance()->worldInfoLoaded())
+    if (Manager::instance()->worldInfoHasBeenLoaded())
         return;
 
     auto* obj = &attr.obj;
@@ -56,7 +56,7 @@ void EnvMgr::initEnvAttribute(int idx) {
 void EnvMgr::initEnvPalette(int idx) {
     auto& pal = mEnvPalettes[idx];
 
-    if (Manager::instance()->worldInfoLoaded())
+    if (Manager::instance()->worldInfoHasBeenLoaded())
         return;
 
     auto* obj = &pal.obj;
@@ -131,7 +131,7 @@ void EnvMgr::initEnvPalette(int idx) {
 void EnvMgr::initWeatherInfluence(int idx) {
     auto& entry = mWeatherInfluences[idx];
 
-    if (Manager::instance()->worldInfoLoaded())
+    if (Manager::instance()->worldInfoHasBeenLoaded())
         return;
 
     auto* obj = &entry.obj;
@@ -150,7 +150,7 @@ void EnvMgr::initWeatherInfluence(int idx) {
 void EnvMgr::initRemains(int idx) {
     auto& entry = mRemains[idx];
 
-    if (Manager::instance()->worldInfoLoaded())
+    if (Manager::instance()->worldInfoHasBeenLoaded())
         return;
 
     auto* obj = &entry.obj;
@@ -170,7 +170,7 @@ void EnvMgr::initRemains(int idx) {
 }
 
 void EnvMgr::initIndoorPalette() {
-    if (Manager::instance()->worldInfoLoaded())
+    if (Manager::instance()->worldInfoHasBeenLoaded())
         return;
 
     auto* obj = &mIndoorPalette.obj;
@@ -186,7 +186,7 @@ void EnvMgr::initIndoorPalette() {
 }
 
 void EnvMgr::initEnvPaletteStatic() {
-    if (Manager::instance()->worldInfoLoaded())
+    if (Manager::instance()->worldInfoHasBeenLoaded())
         return;
 
     auto* obj = &mEnvPaletteStatic.obj;
@@ -213,7 +213,7 @@ void EnvMgr::initEnvPaletteStatic() {
 }
 
 KSYS_ALWAYS_INLINE void EnvMgr::initDungeonFog() {
-    if (Manager::instance()->worldInfoLoaded())
+    if (Manager::instance()->worldInfoHasBeenLoaded())
         return;
 
     for (int i = 0; i < mCdanAddFog.size(); ++i) {
