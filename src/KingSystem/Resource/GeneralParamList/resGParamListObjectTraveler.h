@@ -7,13 +7,12 @@
 #define STR5_HELP(A, B, C, D, E) A##B##C##D##E
 #define STR5(a, b, c, d, e) STR5_HELP(a, b, c, d, e)
 
-#define ROUTE_POINT(PT)                                    \
-    PT(0, 1)   PT(1, 2)   PT(2, 3)   PT(3, 4)   PT(4, 5)   \
-    PT(5, 6)   PT(6, 7)   PT(7, 8)   PT(8, 9)   PT(9, 10)  \
-    PT(10, 11) PT(11, 12) PT(12, 13) PT(13, 14) PT(14, 15) \
-    PT(15, 16) PT(16, 17) PT(17, 18) PT(18, 19) PT(19, 20) \
-    PT(20, 21) PT(21, 22) PT(22, 23) PT(23, 24) PT(24, 25) \
-    PT(25, 26) PT(26, 27) PT(27, 28) PT(28, 29)
+#define ROUTE_POINT(PT)                                                                            \
+    PT(0, 1)                                                                                       \
+    PT(1, 2) PT(2, 3) PT(3, 4) PT(4, 5) PT(5, 6) PT(6, 7) PT(7, 8) PT(8, 9) PT(9, 10) PT(10, 11)   \
+        PT(11, 12) PT(12, 13) PT(13, 14) PT(14, 15) PT(15, 16) PT(16, 17) PT(17, 18) PT(18, 19)    \
+            PT(19, 20) PT(20, 21) PT(21, 22) PT(22, 23) PT(23, 24) PT(24, 25) PT(25, 26)           \
+                PT(26, 27) PT(27, 28) PT(28, 29)
 
 namespace ksys::res {
 
