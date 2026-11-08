@@ -61,4 +61,13 @@ GParamListObjectTraveler::RoutePoint::DirectionInfo::initParameters_(agl::utl::P
     mWaitAS.init("", KSYS_STR(prefix + Str("WaitAS")), "", obj);
 }
 
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    const float& STR5(GParamListObjectTraveler::getRoutePoint, FROM, to, TO, WaitFrame()) const {  \
+        return *mRoutePoints[FROM].mForward.mWaitFrame;                                            \
+    }                                                                                              \
+    const float& STR5(GParamListObjectTraveler::getRoutePoint, TO, to, FROM, WaitFrame()) const {  \
+        return *mRoutePoints[FROM].mBackward.mWaitFrame;                                           \
+    }
+ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
 }  // namespace ksys::res
