@@ -44,6 +44,7 @@ perf.data.old
 # Tooling
 /toolchain/clang-*
 tools/check
+tools/check-old
 tools/listsym
 tools/decompme
 
