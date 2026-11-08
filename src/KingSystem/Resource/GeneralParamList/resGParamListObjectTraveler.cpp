@@ -67,6 +67,38 @@ GParamListObjectTraveler::RoutePoint::DirectionInfo::initParameters_(agl::utl::P
     }                                                                                              \
     const float& STR5(GParamListObjectTraveler::getRoutePoint, TO, to, FROM, WaitFrame()) const {  \
         return *mRoutePoints[FROM].mBackward.mWaitFrame;                                           \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, FROM, to, TO, WaitAS())  \
+        const {                                                                                    \
+        return *mRoutePoints[FROM].mForward.mWaitAS;                                               \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, TO, to, FROM, WaitAS())  \
+        const {                                                                                    \
+        return *mRoutePoints[FROM].mBackward.mWaitAS;                                              \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, FROM, to, TO, MoveAS())  \
+        const {                                                                                    \
+        return *mRoutePoints[FROM].mForward.mMoveAS;                                               \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, TO, to, FROM, MoveAS())  \
+        const {                                                                                    \
+        return *mRoutePoints[FROM].mBackward.mMoveAS;                                              \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, FROM, to, TO,            \
+                                 EntryPoint()) const {                                             \
+        return *mRoutePoints[FROM].mForward.mEntryPoint;                                           \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, TO, to, FROM,            \
+                                 EntryPoint()) const {                                             \
+        return *mRoutePoints[FROM].mBackward.mEntryPoint;                                          \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, FROM, to, TO,            \
+                                 Schedule()) const {                                               \
+        return *mRoutePoints[FROM].mForward.mSchedule;                                             \
+    }                                                                                              \
+    const sead::SafeString& STR5(GParamListObjectTraveler::getRoutePoint, TO, to, FROM,            \
+                                 Schedule()) const {                                               \
+        return *mRoutePoints[FROM].mBackward.mSchedule;                                            \
     }
 ROUTE_POINT(ROUTE_POINT_FUNCTION)
 #undef ROUTE_POINT_FUNCTION

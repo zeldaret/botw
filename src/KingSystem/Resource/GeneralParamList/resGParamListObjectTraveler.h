@@ -72,7 +72,15 @@ public:
 
 #define ROUTE_POINT_FUNCTION_DECL(FROM, TO)                                                        \
     const float& STR5(getRoutePoint, FROM, to, TO, WaitFrame()) const;                             \
-    const float& STR5(getRoutePoint, TO, to, FROM, WaitFrame()) const;
+    const float& STR5(getRoutePoint, TO, to, FROM, WaitFrame()) const;                             \
+    const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, WaitAS()) const;                     \
+    const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, WaitAS()) const;                     \
+    const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, MoveAS()) const;                     \
+    const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, MoveAS()) const;                     \
+    const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, EntryPoint()) const;                 \
+    const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, EntryPoint()) const;                 \
+    const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, Schedule()) const;                   \
+    const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, Schedule()) const;
     ROUTE_POINT(ROUTE_POINT_FUNCTION_DECL)
 #undef ROUTE_POINT_FUNCTION_DECL
 
