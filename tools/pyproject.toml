@@ -7,4 +7,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-viking = { git = "https://github.com/Pistonight/viking-next", rev = "9bb1ac837ee1d712b9ba319117b4002a88f6f305" }
+viking = { git = "https://github.com/Pistonight/viking-next", rev = "21710579dc69389a578544cd81a8e8f474f2550f" }

@@ -120,9 +120,10 @@ def main():
     # - move tools/check to tools/check-old
     # - copy tools/check-next to tools/check
     # people can run tools/check-old to unblock if there is some issue with the new tool
-    tools_dir = setup.ROOT / "tools"
-    (tools_dir / "check").replace(tools_dir / "check-old")
-    shutil.copy2(tools_dir / "check-next", tools_dir / "check")
+    for tool_name in ["check", "listsym", "decompme"]:
+        tools_dir = setup.ROOT / "tools"
+        (tools_dir / tool_name).replace(tools_dir / f"{tool_name}-old")
+        shutil.copy2(tools_dir / f"{tool_name}-next", tools_dir / tool_name)
 
     prepare_executable(args.original_nso)
     setup.set_up_compiler("4.0.1")
