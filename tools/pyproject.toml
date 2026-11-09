@@ -1,0 +1,10 @@
+[project]
+name = "botw"
+version = "0.0.0"
+requires-python = ">=3.14"
+dependencies = [
+    "viking",
+]
+
+[tool.uv.sources]
+viking = { git = "https://github.com/Pistonight/viking-next", rev = "21710579dc69389a578544cd81a8e8f474f2550f" }

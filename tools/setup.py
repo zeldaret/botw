@@ -7,6 +7,7 @@ if __name__ == "__main__":
 import argparse
 import hashlib
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import urllib.request
@@ -97,7 +98,7 @@ def prepare_executable(original_nso: Optional[Path]):
 
 def create_build_dir():
     build_dir = setup.ROOT / "build"
-    if build_dir.is_dir():
+    if build_dir.is_dir() and (build_dir / "CMakeCache.txt").is_file():
         print(">>> build directory already exists: nothing to do")
         return
 
@@ -114,6 +115,16 @@ def main():
     args = parser.parse_args()
 
     setup.install_viking()
+
+    # install_viking hardcodes the output paths, as part of the migration, we will:
+    # - move tools/check to tools/check-old
+    # - copy tools/check-next to tools/check
+    # people can run tools/check-old to unblock if there is some issue with the new tool
+    for tool_name in ["check", "listsym", "decompme"]:
+        tools_dir = setup.ROOT / "tools"
+        (tools_dir / tool_name).replace(tools_dir / f"{tool_name}-old")
+        shutil.copy2(tools_dir / f"{tool_name}-next", tools_dir / tool_name)
+
     prepare_executable(args.original_nso)
     setup.set_up_compiler("4.0.1")
     create_build_dir()
