@@ -1,6 +1,8 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h"
 #include "KingSystem/Utils/FixedString.h"
 
+// FIXME: Figure out where these go based on link order
+
 namespace ksys::res {
 
 #define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
