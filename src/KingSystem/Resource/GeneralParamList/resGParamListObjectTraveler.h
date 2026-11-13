@@ -70,30 +70,6 @@ public:
     GParamListObjectTraveler();
     const char* getName() const override { return "Traveler"; }
 
-#define ROUTE_POINT_FUNCTION_DECL(FROM, TO)                                                        \
-    friend const float& STR5(getRoutePoint, FROM, to, TO,                                          \
-                             WaitFrame(const GParamListObjectTraveler& t));                        \
-    friend const float& STR5(getRoutePoint, TO, to, FROM,                                          \
-                             WaitFrame(const GParamListObjectTraveler& t));                        \
-    friend const sead::SafeString& STR5(getRoutePoint, FROM, to, TO,                               \
-                                        WaitAS(const GParamListObjectTraveler& t));                \
-    friend const sead::SafeString& STR5(getRoutePoint, TO, to, FROM,                               \
-                                        WaitAS(const GParamListObjectTraveler& t));                \
-    friend const sead::SafeString& STR5(getRoutePoint, FROM, to, TO,                               \
-                                        MoveAS(const GParamListObjectTraveler& t));                \
-    friend const sead::SafeString& STR5(getRoutePoint, TO, to, FROM,                               \
-                                        MoveAS(const GParamListObjectTraveler& t));                \
-    friend const sead::SafeString& STR5(getRoutePoint, FROM, to, TO,                               \
-                                        EntryPoint(const GParamListObjectTraveler& t));            \
-    friend const sead::SafeString& STR5(getRoutePoint, TO, to, FROM,                               \
-                                        EntryPoint(const GParamListObjectTraveler& t));            \
-    friend const sead::SafeString& STR5(getRoutePoint, FROM, to, TO,                               \
-                                        Schedule(const GParamListObjectTraveler& t));              \
-    friend const sead::SafeString& STR5(getRoutePoint, TO, to, FROM,                               \
-                                        Schedule(const GParamListObjectTraveler& t));
-    ROUTE_POINT(ROUTE_POINT_FUNCTION_DECL)
-#undef ROUTE_POINT_FUNCTION_DECL
-
     agl::utl::Parameter<sead::SafeString> mAppearGameDataName;
     agl::utl::Parameter<sead::SafeString> mDeleteGameDataName;
     agl::utl::Parameter<sead::SafeString> mRouteType;
@@ -112,6 +88,76 @@ public:
     };
     RoutePoints mRoutePoints;
     agl::utl::Parameter<sead::SafeString> mRoutePoint29Name;
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const float& STR5(getRoutePoint, FROM, to, TO, WaitFrame()) const {                    \
+        return *mRoutePoints[FROM].mForward.mWaitFrame;                                            \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const float& STR5(getRoutePoint, TO, to, FROM, WaitFrame()) const {                    \
+        return *mRoutePoints[FROM].mBackward.mWaitFrame;                                           \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, WaitAS()) const {            \
+        return *mRoutePoints[FROM].mForward.mWaitAS;                                               \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, WaitAS()) const {            \
+        return *mRoutePoints[FROM].mBackward.mWaitAS;                                              \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, MoveAS()) const {            \
+        return *mRoutePoints[FROM].mForward.mMoveAS;                                               \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, MoveAS()) const {            \
+        return *mRoutePoints[FROM].mBackward.mMoveAS;                                              \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, EntryPoint()) const {        \
+        return *mRoutePoints[FROM].mForward.mEntryPoint;                                           \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, EntryPoint()) const {        \
+        return *mRoutePoints[FROM].mBackward.mEntryPoint;                                          \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, FROM, to, TO, Schedule()) const {          \
+        return *mRoutePoints[FROM].mForward.mSchedule;                                             \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
+
+#define ROUTE_POINT_FUNCTION(FROM, TO)                                                             \
+    virtual const sead::SafeString& STR5(getRoutePoint, TO, to, FROM, Schedule()) const {          \
+        return *mRoutePoints[FROM].mBackward.mSchedule;                                            \
+    }
+    ROUTE_POINT(ROUTE_POINT_FUNCTION)
+#undef ROUTE_POINT_FUNCTION
 };
 KSYS_CHECK_SIZE_NX150(GParamListObjectTraveler, 0x3148);
 

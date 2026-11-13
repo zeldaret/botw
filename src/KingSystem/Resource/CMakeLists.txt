@@ -73,7 +73,6 @@ target_sources(uking PRIVATE
   GeneralParamList/resGParamListObjectSwarm.h
   GeneralParamList/resGParamListObjectSystem.h
   GeneralParamList/resGParamListObjectTraveler.cpp
-  GeneralParamList/resGParamListObjectTravelerFriends.cpp
   GeneralParamList/resGParamListObjectTraveler.h
   GeneralParamList/resGParamListObjectWeaponCommon.h
   GeneralParamList/resGParamListObjectWeaponOption.h
