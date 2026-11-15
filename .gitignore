@@ -41,8 +41,13 @@ perf.data
 perf.data.old
 .gdb_history
 
+# Cargo tracking info
+.crates.toml
+.crates2.json
+
 # Tooling
 /toolchain/clang-*
+/tools/bin
 tools/check
 tools/check-old
 tools/listsym
