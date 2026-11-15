@@ -6,6 +6,7 @@ file_list = "uking_functions.csv"
 data_symbols = ["data_symbols.csv"]
 build_target = "uking"
 toolchain_bin_paths = ["toolchain/bin"]
+nx_decomp_tools_binaries = "toolchain/nx-decomp-tools-binaries"
 
 [check_mismatch]
 check_unimplemented_references = false
