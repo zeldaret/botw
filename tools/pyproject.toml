@@ -3,8 +3,6 @@ name = "botw"
 version = "0.0.0"
 requires-python = ">=3.14"
 dependencies = [
-    "viking",
+    "nx-decomp-tools-viking @ git+https://github.com/Pistonight/viking-next@f08a17dda349afdbebd3526920f68edf9be32e88",
+    "toml>=0.10.2",
 ]
-
-[tool.uv.sources]
-viking = { git = "https://github.com/Pistonight/viking-next", rev = "21710579dc69389a578544cd81a8e8f474f2550f" }

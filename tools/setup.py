@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-
-from common.setup_venv import enter_venv
-if __name__ == "__main__":
-    enter_venv()
+#!/usr/bin/env -S uv run
 
 import argparse
 import hashlib
@@ -114,16 +110,36 @@ def main():
                         help="Path to the original NSO (1.5.0 or 1.9.0, compressed or not)", nargs="?")
     args = parser.parse_args()
 
-    setup.install_viking()
+    # If the new check/decompme/listsym tools misbehaves, you can unblock
+    # yourself by changing this to False and rerun tools/setup.py
+    NEW_TOOLS = True
+    if NEW_TOOLS:
+        # The installation method is temporary to get everyone using the new tools
+        # first. Later we will merge the repo and figure out prebuilt binary distrubitions
+        _ = subprocess.check_call([
+            "cargo", "install", "viking",
+            "--git", "https://github.com/Pistonight/viking-next",
+            "--rev", "f08a17dda349afdbebd3526920f68edf9be32e88",
+            "--features", "global-allocator,cmd-all",
+            "--root", str(setup.ROOT / "tools")
+        ])
+        script_template = """#!/usr/bin/env bash
+set -euo pipefail
 
-    # install_viking hardcodes the output paths, as part of the migration, we will:
-    # - move tools/check to tools/check-old
-    # - copy tools/check-next to tools/check
-    # people can run tools/check-old to unblock if there is some issue with the new tool
-    for tool_name in ["check", "listsym", "decompme"]:
-        tools_dir = setup.ROOT / "tools"
-        (tools_dir / tool_name).replace(tools_dir / f"{tool_name}-old")
-        shutil.copy2(tools_dir / f"{tool_name}-next", tools_dir / tool_name)
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+export UV_WORKING_DIR="$SCRIPT_DIR"
+export VIKING_PYTHON_COMMAND="uv run viking"
+export VIKING_CONFIG="$SCRIPT_DIR/config.viking-next.toml"
+exec bin/viking %s "$@"
+"""
+        for tool in ["check", "listsym", "decompme"]:
+            tool_path = setup.ROOT / "tools" / tool
+            tool_path.write_text(script_template % tool)
+            tool_path.chmod(0o755)
+    else:
+        setup.install_viking()
 
     prepare_executable(args.original_nso)
     setup.set_up_compiler("4.0.1")
