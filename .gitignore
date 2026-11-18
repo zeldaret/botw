@@ -48,6 +48,8 @@ perf.data.old
 # Tooling
 /toolchain/clang-*
 /tools/bin
+!/tools/uv.lock
+tools/viking
 tools/check
 tools/check-old
 tools/listsym

@@ -1,26 +1,28 @@
 #!/usr/bin/env -S uv run
+from pathlib import Path
+# todo: remove once everything switches off the old config.toml
+import os
+os.environ["VIKING_CONFIG"] = str(Path(__file__).parent / "config.viking-next.toml")
 
 import argparse
 import hashlib
-from pathlib import Path
-import shutil
 import subprocess
 import tempfile
 import urllib.request
-from typing import Optional
-from common import setup_common as setup
 
-
-TARGET_PATH = setup.get_target_path()
-TARGET_ELF_PATH = setup.get_target_elf_path()
+from viking import ui, core, setup
 
 
 def _download_downgrade_to_v150_patch(version: str, dest: Path):
-    print(f">>>> downloading patch for {version}...")
+    ui.step(f"downloading patch for {version}...")
     urllib.request.urlretrieve(f"https://s.botw.link/v150_downgrade/{version}_to_v150.patch", dest)
 
 
-def prepare_executable(original_nso: Optional[Path]):
+def prepare_executable(original_nso: Path | None):
+    config = core.get_config()
+    target_nso = config.repo.original_nso()
+    target_elf = config.repo.original_elf()
+
     COMPRESSED_V150_HASH = "898dc199301f7c419be5144bb5cb27e2fc346e22b27345ba3fb40c0060c2baf8"
     UNCOMPRESSED_V150_HASH = "d9fa308d0ee7c0ab081c66d987523385e1afe06f66731bbfa32628438521c106"
     COMPRESSED_V160_HASH = "15cfca7b89348956f85d945fade2e215a6af5991ed1071e181f97ca72f7ae20b"
@@ -31,15 +33,15 @@ def prepare_executable(original_nso: Optional[Path]):
     # The uncompressed v1.5.0 main NSO.
     TARGET_HASH = UNCOMPRESSED_V150_HASH
 
-    if TARGET_PATH.is_file() and hashlib.sha256(TARGET_PATH.read_bytes()).hexdigest() == TARGET_HASH and TARGET_ELF_PATH.is_file():
-        print(">>> NSO is already set up")
+    if target_nso.is_file() and hashlib.sha256(target_nso.read_bytes()).hexdigest() == TARGET_HASH and target_elf.is_file():
+        ui.step("NSO is already set up")
         return
 
     if original_nso is None:
-        setup.fail("please pass a path to the NSO (refer to the readme for more details)")
+        ui.bail("please pass a path to the NSO (refer to the readme for more details)")
 
     if not original_nso.is_file():
-        setup.fail(f"{original_nso} is not a file")
+        ui.bail(f"{original_nso} is not a file")
 
     nso_data = original_nso.read_bytes()
     nso_hash = hashlib.sha256(nso_data).hexdigest()
@@ -57,50 +59,52 @@ def prepare_executable(original_nso: Optional[Path]):
     for (expected_hash, is_compressed, version_str) in version_matrix:
         if nso_hash != expected_hash:
             continue
-        print(f">>> found {"compressed" if is_compressed else "uncompressed"} {version_str} NSO")
+        ui.step(f"found {"compressed" if is_compressed else "uncompressed"} {version_str} NSO")
 
         if version_str == "1.5.0":
-            if is_compressed:
-                setup._decompress_nso(original_nso, TARGET_PATH)
-            else:
-                TARGET_PATH.write_bytes(nso_data)
+            setup.convert_nso_to_elf(
+                original_nso,
+                elf_out_path=target_elf,
+                uncompressed_nso_out_path=target_nso
+            )
             break
 
         with tempfile.TemporaryDirectory() as tmpdir:
             patch_path = Path(tmpdir) / "patch"
             patch_version_str = "v" + version_str.replace(".","")
+            decompressed_nso_path = Path(tmpdir) / f"{patch_version_str}.nso"
             _download_downgrade_to_v150_patch(patch_version_str, patch_path)
             if is_compressed:
-                decompressed_nso_path = Path(tmpdir) / f"{patch_version_str}.nso"
-                setup._decompress_nso(original_nso, decompressed_nso_path)
+                # decompress -> patch -> elf
+                setup.convert_nso_to_elf(original_nso, uncompressed_nso_out_path=decompressed_nso_path, message="decompressing NSO...")
+                setup.apply_xdelta3_patch(decompressed_nso_path, patch_path, target_nso)
+                setup.convert_nso_to_elf(target_nso, elf_out_path=target_elf)
             else:
-                decompressed_nso_path = original_nso
-
-            setup._apply_xdelta3_patch(decompressed_nso_path, patch_path, TARGET_PATH)
+                # patch -> elf
+                setup.apply_xdelta3_patch(original_nso, patch_path, decompressed_nso_path)
+                setup.convert_nso_to_elf(decompressed_nso_path, elf_out_path=target_elf)
         break
     else:
-        setup.fail(f"unknown executable: {nso_hash}")
+        ui.bail(f"unknown executable: {nso_hash}")
 
-    if not TARGET_PATH.is_file():
-        setup.fail("internal error while preparing executable (missing NSO); please report")
-    if hashlib.sha256(TARGET_PATH.read_bytes()).hexdigest() != TARGET_HASH:
-        setup.fail("internal error while preparing executable (wrong NSO hash); please report")
-
-    setup._convert_nso_to_elf(TARGET_PATH)
-
-    if not TARGET_ELF_PATH.is_file():
-        setup.fail("internal error while preparing executable (missing ELF); please report")
+    if not target_nso.is_file():
+        ui.bail("internal error while preparing executable (missing NSO); please report")
+    if hashlib.sha256(target_nso.read_bytes()).hexdigest() != TARGET_HASH:
+        ui.bail("internal error while preparing executable (wrong NSO hash); please report")
+    if not target_elf.is_file():
+        ui.bail("internal error while preparing executable (missing ELF); please report")
 
 
 def create_build_dir():
-    build_dir = setup.ROOT / "build"
+    config = core.get_config()
+    build_dir = config.repo.build_path
     if build_dir.is_dir() and (build_dir / "CMakeCache.txt").is_file():
-        print(">>> build directory already exists: nothing to do")
+        ui.step("build directory already exists: nothing to do")
         return
 
     subprocess.check_call(
         "cmake -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_TOOLCHAIN_FILE=toolchain/ToolchainNX64.cmake -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -B build/".split(" "))
-    print(">>> created build directory")
+    ui.step("created build directory")
 
 
 def main():
@@ -109,40 +113,43 @@ def main():
     parser.add_argument("original_nso", type=Path,
                         help="Path to the original NSO (1.5.0 or 1.9.0, compressed or not)", nargs="?")
     args = parser.parse_args()
+    prepare_executable(args.original_nso)
 
+    config = core.get_config()
     # If the new check/decompme/listsym tools misbehaves, you can unblock
     # yourself by changing this to False and rerun tools/setup.py
     NEW_TOOLS = True
     if NEW_TOOLS:
-        # The installation method is temporary to get everyone using the new tools
-        # first. Later we will merge the repo and figure out prebuilt binary distrubitions
-        _ = subprocess.check_call([
-            "cargo", "install", "viking",
-            "--git", "https://github.com/Pistonight/viking-next",
-            "--rev", "f08a17dda349afdbebd3526920f68edf9be32e88",
-            "--features", "global-allocator,cmd-all",
-            "--root", str(setup.ROOT / "tools")
-        ])
+        tools_path = config.repo.root_path / "tools"
+        viking_bin_path = setup.rust_cli_install_pre_built(tools_path / "viking")
+
+        # todo: right now we still need to override the config path to
+        # config.viking-next.toml, since existing tools/scripts work with
+        # config.toml. Once everything is switched to viking-next,
+        # we can just hardlink the tools and use the default config location
+
+        # setup.rust_cli_create_hardlinks(viking_bin_path, [
+        #     (tools_path / tool) for tool in ["check", "listsym", "decompme"]
+        # ])
+
         script_template = """#!/usr/bin/env bash
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-export UV_WORKING_DIR="$SCRIPT_DIR"
-export VIKING_PYTHON_COMMAND="uv run viking"
 export VIKING_CONFIG="$SCRIPT_DIR/config.viking-next.toml"
-exec bin/viking %s "$@"
+exec ./viking %s "$@"
 """
         for tool in ["check", "listsym", "decompme"]:
-            tool_path = setup.ROOT / "tools" / tool
+            tool_path = tools_path / tool
             tool_path.write_text(script_template % tool)
             tool_path.chmod(0o755)
     else:
-        setup.install_viking()
+        from common import setup_common as setup_old
+        setup_old.install_viking()
 
-    prepare_executable(args.original_nso)
-    setup.set_up_compiler("4.0.1")
+    setup.setup_compiler("4.0.1")
     create_build_dir()
 
 
