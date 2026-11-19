@@ -60,4 +60,7 @@ target_link_libraries(uking PRIVATE xlink2)
 add_subdirectory(lib/hkStubs)
 target_link_libraries(uking PRIVATE hkStubs)
 
+add_subdirectory(lib/curl)
+target_link_libraries(uking PRIVATE $<LINK_LIBRARY:whole_archive,libcurl>)
+
 add_subdirectory(src)
