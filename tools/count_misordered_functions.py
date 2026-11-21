@@ -1,4 +1,8 @@
 #!/usr/bin/env -S uv run
+from pathlib import Path
+# todo: remove once everything switches off the old config.toml
+import os
+os.environ["VIKING_CONFIG"] = str(Path(__file__).parent / "config.viking-next.toml")
 
 import argparse
 import bisect
@@ -7,14 +11,12 @@ import subprocess
 import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Callable, NamedTuple, TypeVar
+from typing import Callable, NamedTuple, TypeVar, final
 
 from colorama import Fore, Style
+from viking import ui, core, fl
 
-from common.util import config, tools, utils
-
-ORIGINAL_BASE = 0x7100000000
+ORIGINAL_BASE = core.get_config().repo.address_base
 
 T = TypeVar("T")
 
@@ -42,6 +44,7 @@ class MatchedFunctions:
     library: int = 0
 
 
+@final
 @dataclass
 class Report:
     misordered_objects: list[str]
@@ -75,7 +78,7 @@ class Report:
 
 
 def get_function_symbols(paths: list[Path]) -> dict[str, list[Symbol]]:
-    objdump = tools.find_tool("llvm-objdump")
+    objdump = core.find_tool("llvm-objdump")
     symbols: dict[str, list[Symbol]] = defaultdict(list)
     for i in range(0, len(paths), 500):
         output = subprocess.run([objdump, "--syms", *paths[i:i + 500]], check=True, capture_output=True,
@@ -94,12 +97,13 @@ def get_function_symbols(paths: list[Path]) -> dict[str, list[Symbol]]:
 
 
 def get_link_objects(build_dir: Path) -> list[Path]:
-    link_step = f"build {config.get_build_target()}:"
+    config = core.get_config()
+    link_step = f"build {config.repo.build_target}:"
     for line in (build_dir / "build.ninja").read_text().splitlines():
         if line.startswith(link_step):
             inputs = line.split()[3:]
             return [build_dir / path for path in inputs[:inputs.index("||")] if path.endswith(".obj")]
-    utils.fail(f"link step not found in {build_dir / 'build.ninja'}")
+    ui.bail(f"link step not found in {build_dir / 'build.ninja'}")
 
 
 def get_object_name(path: Path, build_dir: Path) -> str:
@@ -111,11 +115,16 @@ def match_functions(decomp_elf: Path, build_dir: Path) -> MatchedFunctions:
     object_symbols = get_function_symbols(get_link_objects(build_dir))
 
     matched = MatchedFunctions()
-    for info in utils.get_functions():
-        if not info.decomp_name:
+    file_list = fl.load_file_list()
+
+    for info in file_list.info_list():
+        if info.status == fl.Status.NotDecompiled or info.status == fl.Status.Library:
             continue
-        in_binary = binary_symbols.get(info.decomp_name, [])
-        definitions = object_symbols.get(info.decomp_name, [])
+        decomp_name = info.name;
+        if not decomp_name:
+            continue
+        in_binary = binary_symbols.get(decomp_name, [])
+        definitions = object_symbols.get(decomp_name, [])
         if not in_binary:
             matched.not_in_binary += 1
         elif len(in_binary) == 1 and len(definitions) == 1:
@@ -126,7 +135,7 @@ def match_functions(decomp_elf: Path, build_dir: Path) -> MatchedFunctions:
                 matched.library += 1
                 continue
             matched.functions.append(
-                Function(info.addr, in_binary[0].address, info.decomp_name, obj, definitions[0].is_weak))
+                Function(info.offset, in_binary[0].address, decomp_name, obj, definitions[0].is_weak))
         elif all(definition.is_weak for definition in definitions):
             matched.shared_inline += 1
         else:
@@ -194,7 +203,7 @@ def colorize(line: str) -> str:
     address, obj, *name = line.split(" ", 2)
     text = f"{address} {Fore.CYAN}{obj}{Fore.RESET}"
     if name:
-        text += f" {utils.format_symbol_name(name[0])}"
+        text += f" {ui.format_symbol_name(name[0])}"
     return text
 
 
@@ -212,7 +221,7 @@ def print_comparison(baseline: Report, report: Report) -> bool:
         delta = len(new_lines) - len(old_lines)
         deltas.append(delta)
         color = Fore.RED if delta > 0 else Fore.GREEN if delta < 0 else ""
-        print(f"{Style.BRIGHT}{title}: {len(old_lines)} -> {len(new_lines)} "
+        print(f"{Style.BRIGHT}{title}: {len(old_lines)} -> {len(new_lines)} " +
               f"{color}({delta:+d}){Style.RESET_ALL}")
         for _, sign, line in changes:
             print(f"{sign}{Fore.RESET} {colorize(line)}")
@@ -234,7 +243,9 @@ def main() -> None:
                         help="compare against a file written by --save and fail if any misplacement count grew")
     args = parser.parse_args()
 
-    decomp_elf = config.get_decomp_elf().resolve()
+    config = core.get_config()
+
+    decomp_elf = config.repo.decomp_elf()
     matched = match_functions(decomp_elf, decomp_elf.parent)
 
     # A weak function's copy in the original came from whichever object the linker saw first, so
@@ -290,7 +301,7 @@ def main() -> None:
     print(f"{matched.library:>7d} skipped, library code{Style.RESET_ALL}")
     print(f"{len(main_runs):>7d} objects")
     print(f"{len(misordered_objects):>7d} {Fore.RED}misordered objects{Fore.RESET}")
-    print(f"{len(split_objects):>7d} {Fore.YELLOW}objects split in the original{Fore.RESET} "
+    print(f"{len(split_objects):>7d} {Fore.YELLOW}objects split in the original{Fore.RESET} " +
           f"({len(stray_functions)} stray functions)")
     print(f"{len(misordered_functions):>7d} {Fore.YELLOW}misordered functions within objects{Fore.RESET}")
 
@@ -298,7 +309,7 @@ def main() -> None:
         print()
         if print_comparison(Report.load(args.baseline), report):
             sys.stdout.flush()
-            utils.fail("this change makes the object or function order worse")
+            ui.bail("this change makes the object or function order worse")
 
 
 if __name__ == "__main__":
