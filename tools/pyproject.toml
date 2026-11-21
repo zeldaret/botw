@@ -3,7 +3,7 @@ name = "botw"
 version = "0.0.0"
 requires-python = ">=3.14"
 dependencies = [
-    "nx-decomp-tools-viking==0.1.4",
+    "nx-decomp-tools-viking==0.1.5",
     "asm-differ @ git+https://github.com/Pistonight/asm-differ@def8eb4b1a629c339de3eaa3c670bdd3f2a93312",
     "toml>=0.10.2", # can remove once old tools are removed
     "oead>=1.3.0",
@@ -13,7 +13,7 @@ dependencies = [
 
 [[tool.uv.index]]
 name = "viking"
-url = "https://pistonight.github.io/viking-next/wheels/"
+url = "https://open-ead.github.io/viking/wheels/"
 explicit = true
 
 [tool.uv.sources]
