@@ -149,7 +149,7 @@ exec ./viking %s "$@"
         from common import setup_common as setup_old
         setup_old.install_viking()
 
-    setup.setup_compiler("4.0.1")
+    setup.install_clang("4.0.1")
     create_build_dir()
 
 
