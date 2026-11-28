@@ -3,6 +3,8 @@ target_sources(uking PRIVATE
   uiFadeProgress.h
   uiPauseMenuDataMgr.cpp
   uiPauseMenuDataMgr.h
+  uiDurationTimer.cpp
+  uiDurationTimer.h
   uiUtils.cpp
   uiUtils.h
 )
