@@ -4,8 +4,10 @@
 
 namespace uking::ui {
 
-struct DurationTimerBase : public ksys::Timer {
+struct DurationTimerBase {
     DurationTimerBase() {}
+
+    ksys::Timer timer;
     f32 duration{0.0f};
 };
 
